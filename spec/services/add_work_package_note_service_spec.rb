@@ -49,9 +49,14 @@ describe AddWorkPackageNoteService, type: :model do
              new: mock_contract_instance)
     end
     let(:mock_contract_instance) do
-      mock_model(WorkPackages::CreateNoteContract)
+      double(WorkPackages::CreateNoteContract,
+             errors: contract_errors,
+             validate: valid_contract)
     end
     let(:valid_contract) { true }
+    let(:contract_errors) do
+      double('contract errors')
+    end
 
     let(:send_notifications) { false }
 
@@ -63,7 +68,6 @@ describe AddWorkPackageNoteService, type: :model do
 
       allow(instance).to receive(:contract_class).and_return(mock_contract)
       allow(work_package).to receive(:save_journals).and_return true
-      allow(mock_contract_instance).to receive(:validate).and_return valid_contract
     end
 
     subject { instance.call('blubs', send_notifications: send_notifications) }

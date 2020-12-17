@@ -95,7 +95,7 @@ describe ::API::V3::Activities::ActivityRepresenter do
       it_behaves_like 'API V3 formattable', 'comment' do
         let(:format) { 'markdown' }
         let(:raw) { journal.notes }
-        let(:html) { "<p>#{journal.notes}</p>" }
+        let(:html) { "<p class=\"op-uc-p\">#{journal.notes}</p>" }
       end
 
       context 'if having no change and notes' do
@@ -105,7 +105,7 @@ describe ::API::V3::Activities::ActivityRepresenter do
         it_behaves_like 'API V3 formattable', 'comment' do
           let(:format) { 'markdown' }
           let(:raw) { "_#{I18n.t(:'journals.changes_retracted')}_" }
-          let(:html) { "<p><em>#{I18n.t(:'journals.changes_retracted')}</em></p>" }
+          let(:html) { "<p class=\"op-uc-p\"><em>#{I18n.t(:'journals.changes_retracted')}</em></p>" }
         end
       end
     end

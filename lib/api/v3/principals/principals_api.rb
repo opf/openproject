@@ -43,7 +43,7 @@ module API
                            .includes(:preference)
 
               ::API::V3::Users::PaginatedUserCollectionRepresenter.new(principals,
-                                                                       api_v3_paths.principals,
+                                                                       self_link: api_v3_paths.principals,
                                                                        page: to_i_or_nil(params[:offset]),
                                                                        per_page: resolve_page_size(params[:pageSize]),
                                                                        current_user: current_user)

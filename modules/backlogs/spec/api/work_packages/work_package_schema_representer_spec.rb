@@ -45,7 +45,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:schema) do
     ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package)
   end
-  let(:representer) { described_class.create(schema, nil, current_user: current_user) }
+  let(:representer) { described_class.create(schema, self_link: nil, current_user: current_user) }
 
   before do
     login_as(current_user)

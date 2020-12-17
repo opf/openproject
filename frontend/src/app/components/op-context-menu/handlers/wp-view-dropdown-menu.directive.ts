@@ -64,7 +64,7 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
 
   private buildItems() {
     this.items = [];
-    
+
     if (this.wpDisplayRepresentationService.current !== wpDisplayCardRepresentation) {
       this.items.push(
         {
@@ -104,7 +104,7 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
           // List View with enabled Gantt
           linkText: this.I18n.t('js.views.timeline'),
           icon: 'icon-view-timeline',
-          onClick: (evt: any) => {
+          onClick: (evt:any) => {
             if (!this.wpTableTimeline.isVisible) {
               this.wpTableTimeline.toggle();
             }

@@ -38,9 +38,9 @@ describe CostQuery, type: :model, reporting_query_helper: true do
   def create_work_package_with_entry(entry_type, work_package_params={}, entry_params = {})
     work_package_params = {project: project}.merge!(work_package_params)
     work_package = FactoryBot.create(:work_package, work_package_params)
-    entry_params = {work_package: work_package,
-                    project: work_package_params[:project],
-                    user: user}.merge!(entry_params)
+    entry_params = { work_package: work_package,
+                     project: work_package_params[:project],
+                     user: user }.merge!(entry_params)
     FactoryBot.create(entry_type, entry_params)
     work_package
   end
@@ -79,18 +79,27 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         let!(:non_matching_entry) { FactoryBot.create(:cost_entry) }
         let!(:object) { send(object_name) }
         let!(:author) { FactoryBot.create(:user, member_in_project: project) }
-        let!(:work_package) { FactoryBot.create(:work_package, project: project,
-                                                 author: author) }
+        let!(:work_package) do
+          FactoryBot.create(:work_package,
+                            project: project,
+                            author: author)
+        end
         let!(:cost_type) { FactoryBot.create(:cost_type) }
-        let!(:cost_entry) { FactoryBot.create(:cost_entry, work_package: work_package,
-                                               user: user,
-                                               project: project,
-                                               cost_type: cost_type) }
+        let!(:cost_entry) do
+          FactoryBot.create(:cost_entry,
+                            work_package: work_package,
+                            user: user,
+                            project: project,
+                            cost_type: cost_type)
+        end
         let!(:activity) { FactoryBot.create(:time_entry_activity) }
-        let!(:time_entry) { FactoryBot.create(:time_entry, work_package: work_package,
-                                               user: user,
-                                               project: project,
-                                               activity: activity) }
+        let!(:time_entry) do
+          FactoryBot.create(:time_entry,
+                            work_package: work_package,
+                            user: user,
+                            project: project,
+                            activity: activity)
+        end
 
         it "should only return entries from the given #{filter.to_s}" do
           @query.filter field, value: object.id
@@ -125,18 +134,27 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     describe CostQuery::Filter::AuthorId do
       let!(:non_matching_entry) { FactoryBot.create(:cost_entry) }
       let!(:author) { FactoryBot.create(:user, member_in_project: project) }
-      let!(:work_package) { FactoryBot.create(:work_package, project: project,
-                                               author: author) }
+      let!(:work_package) do
+        FactoryBot.create(:work_package,
+                          project: project,
+                          author: author)
+      end
       let!(:cost_type) { FactoryBot.create(:cost_type) }
-      let!(:cost_entry) { FactoryBot.create(:cost_entry, work_package: work_package,
-                                             user: user,
-                                             project: project,
-                                             cost_type: cost_type) }
+      let!(:cost_entry) do
+        FactoryBot.create(:cost_entry,
+                          work_package: work_package,
+                          user: user,
+                          project: project,
+                          cost_type: cost_type)
+      end
       let!(:activity) { FactoryBot.create(:time_entry_activity) }
-      let!(:time_entry) { FactoryBot.create(:time_entry, work_package: work_package,
-                                             user: user,
-                                             project: project,
-                                             activity: activity) }
+      let!(:time_entry) do
+        FactoryBot.create(:time_entry,
+                          work_package: work_package,
+                          user: user,
+                          project: project,
+                          activity: activity)
+      end
 
       it "should only return entries from the given CostQuery::Filter::AuthorId" do
         @query.filter 'author_id', value: author.id
@@ -172,16 +190,16 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       expect(@query.result.count).to eq(Entry.all.select { |e| e.spent_on.cweek == TimeEntry.all.first.spent_on.cweek }.count)
     end
 
-    it "filters created_on" do
+    it "filters created_at" do
       @query.filter :created_on, operator: 't'
-      # we assume that some of our fixtures set created_on to Time.now
-      expect(@query.result.count).to eq(Entry.all.select { |e| e.created_on.to_date == Date.today }.count)
+      # we assume that some of our fixtures set created_at to Time.now
+      expect(@query.result.count).to eq(Entry.all.select { |e| e.created_at.to_date == Date.today }.count)
     end
 
-    it "filters updated_on" do
+    it "filters updated_at" do
       @query.filter :updated_on, value: Date.today.years_ago(20), operator: '>d'
       # we assume that our were updated in the last 20 years
-      expect(@query.result.count).to eq(Entry.all.select { |e| e.updated_on.to_date > Date.today.years_ago(20) }.count)
+      expect(@query.result.count).to eq(Entry.all.select { |e| e.updated_at.to_date > Date.today.years_ago(20) }.count)
     end
 
     it "filters user_id" do
@@ -271,7 +289,6 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         matching_work_package = create_work_package_with_time_entry(start_date: start_date)
         @query.filter :start_date, operator: '=d', value: start_date
         expect(@query.result.count).to eq(1)
-        #Entry.all.select { |e| e.work_package.start_date == WorkPackage.all(:order => "id ASC").first.start_date }.count
       end
 
       it "filters due date" do
@@ -279,7 +296,6 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         matching_work_package = create_work_package_with_time_entry(due_date: due_date)
         @query.filter :due_date, operator: '=d', value: due_date
         expect(@query.result.count).to eq(1)
-        #Entry.all.select { |e| e.work_package.due_date == WorkPackage.all(:order => "id ASC").first.due_date }.count
       end
 
       it "raises an error if operator is not supported" do
@@ -337,15 +353,15 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     describe CostQuery::Filter::CustomFieldEntries do
       let!(:custom_field) do
         cf = FactoryBot.create(:work_package_custom_field,
-                                name: 'My custom field')
+                               name: 'My custom field')
         clear_cache
         cf
       end
 
       let(:custom_field2) do
         FactoryBot.build(:work_package_custom_field, name: 'Database',
-                                                      field_format: "list",
-                                                      possible_values: ['value'])
+                                                     field_format: "list",
+                                                     possible_values: ['value'])
       end
 
       after(:all) do
@@ -422,19 +438,19 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
       def create_searchable_fields_and_values
         searchable_field = FactoryBot.create(:work_package_custom_field,
-                                              field_format: "text",
-                                              name: "Searchable Field")
+                                             field_format: "text",
+                                             name: "Searchable Field")
         2.times do
           work_package = create_work_package_with_entry(:cost_entry)
           FactoryBot.create(:work_package_custom_value,
-                             custom_field: searchable_field,
-                             customized: work_package,
-                             value: "125")
+                            custom_field: searchable_field,
+                            customized: work_package,
+                            value: "125")
         end
         work_package = create_work_package_with_entry(:cost_entry)
         FactoryBot.create(:custom_value,
-                           custom_field: searchable_field,
-                           value: "non-matching value")
+                          custom_field: searchable_field,
+                          value: "non-matching value")
         clear_cache
       end
 

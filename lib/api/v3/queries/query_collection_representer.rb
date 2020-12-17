@@ -34,9 +34,9 @@ module API
       class QueryCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
         element_decorator ::API::V3::Queries::QueryRepresenter
 
-        def initialize(models, self_link, current_user:)
+        def initialize(models, self_link:, current_user:)
           super(models.includes(::API::V3::Queries::QueryRepresenter.to_eager_load),
-                self_link,
+                self_link: self_link,
                 current_user: current_user)
         end
 

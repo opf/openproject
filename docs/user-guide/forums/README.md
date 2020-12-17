@@ -4,7 +4,7 @@ sidebar_navigation:
   priority: 820
 description: Create and manage a forum in OpenProject
 robots: index, follow
-keywords: forum
+keywords: forum, forums
 ---
 
 # Forums

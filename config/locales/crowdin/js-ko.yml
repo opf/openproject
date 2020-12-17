@@ -55,6 +55,8 @@ ko:
     button_duplicate: "복제"
     button_edit: "편집"
     button_filter: "필터"
+    button_collapse_all: "모두 축소"
+    button_expand_all: "모두 확장"
     button_advanced_filter: "고급 필터"
     button_list_view: "목록 보기"
     button_show_view: "전체화면 보기"
@@ -256,7 +258,6 @@ ko:
     general_text_yes: "예"
     general_text_No: "아니요"
     general_text_Yes: "예"
-    global_roles: 글로벌 역할
     hal:
       error:
         update_conflict_refresh: "리소스를 새로 고치고 최신 버전으로 업데이트하려면 여기를 클릭하세요."
@@ -270,13 +271,13 @@ ko:
           text_new_features: "새로운 기능 및 제품 업데이트에 대해 읽어보십시오."
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           standard:
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            current_new_feature_html: >
+              이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>WYSIWYG 편집기의 <b>개선된 스타일링</b> .</li> <li>편집 시 <b>@notifications에 대한 사용자 이름</b> 직접 표시.</li> <li><b>OpenID Connect 공급자</b>의 확장된 인증 프로필.</li> <li>Gantt 차트에서 단일 행으로 <b>집계된 프로젝트 마일스톤</b> 표시.</li> <li>작업 패키지 목록에서 <b>그룹에 대한 모든 버튼 축소</b>.</li> <li>wiki 페이지 등 브라우저 인쇄 기능을 통해 <b>인쇄 최적화</b>.</li> </ul>
+          bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              이 릴리스에는 다음과 같은 여러 가지 새로운 기능과 개선된 기능이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li><b>하향식 스케줄링</b>으로 모든 관련 프로젝트 작업을 정의할 수 있습니다. 부모의 시작 날짜와 완료 날짜는 자식에 의해 영향을 받지 않습니다.</li> <li><b>다기능 애자일 보드</b>를 사용하여 작업 분류 구조를 만들거나 하위 프로젝트 간에 작업을 배포 할 수 있습니다.</li> <li><b>프로젝트 템플릿</b>으로 새 프로젝트를 손쉽게 만들 수 있습니다.</li> <li>프로젝트 페이지 구성을 통해 더욱 효과적으로 <b>프로젝트 포트폴리오 관리를 할 수 있습니다.</b></li> </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-5
-            current_new_feature_html: >
-              이제 OpenProject 10.5는 BIM 모델에 대한 오픈 이슈 추적 표준인 <b>BIM Collaboration Format(BCF)</b>을 지원합니다.<br><br> <ul class="%{list_styling_class}"> <li>대화형 3D IFC 모델의 충돌, 요청, 질문 등 <b>BIM 이슈 관리</b> 및 생성을 손쉽게 하고 <b>프로젝트 팀과 공유</b>합니다.</li> <li>강력한 <a target="_blank" href="%{bcf_api_link}">BCF REST API</a>를 사용하여 원하는 BIM 소프트웨어와 OpenProject를 통합합니다.</li> <li>BCF XML 파일을 가져오고 내보냅니다.</li> </ul>
+              이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>WYSIWYG 편집기의 <b>개선된 스타일링</b> .</li> <li>편집 시 <b>@notifications에 대한 사용자 이름</b> 직접 표시.</li> <li><b>OpenID Connect 공급자</b>의 확장된 인증 프로필.</li> <li>Gantt 차트에서 단일 행으로 <b>집계된 프로젝트 마일스톤</b> 표시.</li> <li>작업 패키지 목록에서 <b>그룹에 대한 모든 버튼 축소</b>.</li> <li>wiki 페이지 등 브라우저 인쇄 기능을 통해 <b>인쇄 최적화</b>.</li> </ul>
     label_activate: "활성화"
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"
@@ -332,6 +333,7 @@ ko:
     label_filename: "파일"
     label_filesize: "크기"
     label_general: "일반"
+    label_global_roles: "글로벌 역할"
     label_greater_or_equal: ">="
     label_group: '그룹'
     label_group_by: "그룹화 기준"
@@ -361,7 +363,7 @@ ko:
     label_next: "다음"
     label_no_color: "색상 없음"
     label_no_data: "표시할 데이터가 없습니다."
-    label_no_due_date: "종료일이 지정되지 않음"
+    label_no_due_date: "no finish date"
     label_no_start_date: "시작일이 지정되지 않음"
     label_no_value: "값 없음"
     label_none: "없음"

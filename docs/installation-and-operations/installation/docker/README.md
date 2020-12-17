@@ -87,6 +87,11 @@ achieved with the `-d` flag:
 docker run -d -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:11
 ```
 
+**Note**: We've had reports of people being unable to start OpenProject this way
+because of an [issue regarding pseudo-TTY allocations](https://github.com/moby/moby/issues/31243#issuecomment-406825071)
+and permissions to write to `/dev/stdout`. If you run into this, a workaround
+seems to be to add `-t` to your run command, even if you run in detached mode. 
+
 ### Recommended usage
 
 The one-liner above is great to get started quickly, but if you want to run

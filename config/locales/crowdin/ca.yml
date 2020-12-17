@@ -202,7 +202,6 @@ ca:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
-      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -755,7 +754,6 @@ ca:
     content: "Contingut"
     color: "Color"
     created_at: "Creat el"
-    created_on: "Creat el"
     custom_options: "Valors possibles"
     custom_values: "Camps personalitzats"
     date: "Data"
@@ -1031,6 +1029,7 @@ ca:
   default_role_anonymous: "Anònim"
   default_role_developer: "Desenvolupador"
   default_role_project_admin: "Administrador del projecte"
+  default_role_project_creator: "Project creator"
   default_role_non_member: "No membre"
   default_role_reader: "Lector"
   default_role_member: "Membre"
@@ -1752,6 +1751,11 @@ ca:
     one: "1 projecte"
     other: "%{count} projectes"
   label_yesterday: "ahir"
+  label_role_type: "Tipus"
+  label_member_role: "Project Role"
+  label_global_role: "Global Role"
+  label_not_changeable: "(not changeable)"
+  label_global: "Global"
   auth_source:
     using_abstract_auth_source: "No podeu utilitzar una font d'autenticació abstracte."
     ldap_error: "Error LDAP: %{error_message}"

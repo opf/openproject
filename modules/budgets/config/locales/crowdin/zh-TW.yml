@@ -27,13 +27,11 @@ zh-TW:
         available: "Available"
         budget: "Planned"
         budget_ratio: "Spent (ratio)"
-        created_on: "建立於"
         description: "說明"
         spent: "花費"
         status: "狀態"
         subject: "主題"
         type: "Cost type"
-        updated_on: "更新於"
         labor_budget: "Planned labor costs"
         material_budget: "Planned unit costs"
       work_package:

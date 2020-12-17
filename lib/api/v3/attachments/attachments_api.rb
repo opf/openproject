@@ -73,15 +73,9 @@ module API
 
             delete &::API::V3::Utilities::Endpoints::Delete.new(model: Attachment).mount
 
-            namespace :content do
-              helpers ::API::Helpers::AttachmentRenderer
-
-              get do
-                # Cache that value at max 604799 seconds, which is the max
-                # allowed expiry time for AWS generated links
-                respond_with_attachment @attachment, cache_seconds: 604799
-              end
-            end
+            namespace :content, &::API::Helpers::AttachmentRenderer.content_endpoint(&-> {
+              @attachment
+            })
 
             namespace :uploaded do
               get do

@@ -67,7 +67,7 @@ module API
                    end
 
             representer.new(scope,
-                            link,
+                            self_link: link,
                             current_user: current_user)
           end
 

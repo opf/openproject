@@ -202,7 +202,6 @@ ar:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
-      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -771,7 +770,6 @@ ar:
     content: "المحتوى"
     color: "اللون"
     created_at: "تم الإنشاء في"
-    created_on: "تم الإنشاء في"
     custom_options: "القيم المحتملة"
     custom_values: "الحقول المخصصة"
     date: "التاريخ"
@@ -1095,6 +1093,7 @@ ar:
   default_role_anonymous: "مجهول"
   default_role_developer: "مطوِّر"
   default_role_project_admin: "مدير المشروع"
+  default_role_project_creator: "Project creator"
   default_role_non_member: "من غير الأعضاء"
   default_role_reader: "القارئ"
   default_role_member: "عضو"
@@ -1832,6 +1831,11 @@ ar:
     many: "%{count} projects"
     other: "%{count} projects"
   label_yesterday: "الأمس"
+  label_role_type: "النّوع"
+  label_member_role: "دور المشروع"
+  label_global_role: "الدور العالمي"
+  label_not_changeable: "(غير قابل للتغيير)"
+  label_global: "عالمي"
   auth_source:
     using_abstract_auth_source: "لا يمكن استخدام مصدر مصادقة الملخص."
     ldap_error: "خطأ LDAP: %{error_message}"

@@ -32,18 +32,18 @@ describe 'sticky messages', type: :feature do
   let(:forum) { FactoryBot.create(:forum) }
 
   let!(:message1) do
-    FactoryBot.create :message, forum: forum, created_on: Time.now - 1.minute do |message|
-      Message.where(id: message.id).update_all(updated_on: Time.now - 1.minute)
+    FactoryBot.create :message, forum: forum, created_at: Time.now - 1.minute do |message|
+      Message.where(id: message.id).update_all(updated_at: Time.now - 1.minute)
     end
   end
   let!(:message2) do
-    FactoryBot.create :message, forum: forum, created_on: Time.now - 2.minute do |message|
-      Message.where(id: message.id).update_all(updated_on: Time.now - 2.minute)
+    FactoryBot.create :message, forum: forum, created_at: Time.now - 2.minute do |message|
+      Message.where(id: message.id).update_all(updated_at: Time.now - 2.minute)
     end
   end
   let!(:message3) do
-    FactoryBot.create :message, forum: forum, created_on: Time.now - 3.minute do |message|
-      Message.where(id: message.id).update_all(updated_on: Time.now - 3.minute)
+    FactoryBot.create :message, forum: forum, created_at: Time.now - 3.minute do |message|
+      Message.where(id: message.id).update_all(updated_at: Time.now - 3.minute)
     end
   end
 

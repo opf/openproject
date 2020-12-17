@@ -100,7 +100,7 @@ module RbMasterBacklogsHelper
   def properties_link(backlog)
     back_path = backlogs_project_backlogs_path(@project)
 
-    version_path = edit_version_path(backlog.sprint, back_url: back_path)
+    version_path = edit_version_path(backlog.sprint, back_url: back_path, project_id: @project.id)
 
     link_to(I18n.t(:'backlogs.properties'), version_path)
   end

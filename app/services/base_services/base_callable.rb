@@ -43,7 +43,7 @@ module BaseServices
 
     protected
 
-    def perform(params)
+    def perform(params = {})
       raise NotImplementedError
     end
   end

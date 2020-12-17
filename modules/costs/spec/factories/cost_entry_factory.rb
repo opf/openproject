@@ -35,8 +35,6 @@ FactoryBot.define do
     spent_on { Date.today }
     units { 1 }
     comments { '' }
-    created_on { Time.now }
-    updated_on { Time.now }
 
     before(:create) do |ce|
       ce.work_package.project = ce.project

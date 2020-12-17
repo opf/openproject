@@ -27,13 +27,11 @@ sv:
         available: "Tillgängliga"
         budget: "Planerade"
         budget_ratio: "Spenderade (förhållande)"
-        created_on: "Skapat den"
         description: "Beskrivning"
         spent: "Spenderat"
         status: "Status"
         subject: "Ämne"
         type: "Kostnadstyp"
-        updated_on: "Uppdaterat den"
         labor_budget: "Planerade arbetskostnader"
         material_budget: "Planerade enhetskostnader"
       work_package:

@@ -72,7 +72,7 @@ module API
 
         attr_reader :attachment
 
-        def initialize(attachment, options = {})
+        def initialize(attachment, current_user:)
           super
 
           fog_hash = DirectFogUploader.direct_fog_hash attachment: attachment

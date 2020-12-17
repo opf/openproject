@@ -272,7 +272,7 @@ module OpenProject
           return if kind == 'dir' && revision.time.nil?
 
           Entry.new(
-            name: URI.unescape(name),
+            name: CGI.unescape(name),
             path: ((path.empty? ? '' : "#{path}/") + name),
             kind: kind,
             size: size.empty? ? nil : size.to_i,

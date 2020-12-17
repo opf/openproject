@@ -76,7 +76,7 @@ describe 'Wysiwyg embedded work package tables',
           modal.save
 
           # Find widget, click to show toolbar
-          macro = editable.find('.ck-widget.macro.-embedded-table')
+          macro = editable.find('.ck-widget.op-uc-placeholder')
           macro.click
 
           # Edit widget again

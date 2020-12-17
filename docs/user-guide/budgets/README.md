@@ -22,7 +22,7 @@ Then, you will assign work packages to a budgets. If you log time or costs to th
 | [Add planned labor costs](#add-planned-labor-costs)          | How to add planned labor costs to a budget?                  |
 | [Assign a work package to a budget](#assign-a-work-package-to-a-budget) | How to assign a work package to book time and costs to a project budget? |
 | [View details and update budget](#view-details-and-update-budget) | How to display the details, update, copy or delete a project budget? |
-| [Frequently asked questions (FAQ)](Frequently-asked-questions-(FAQ)) | What are frequent questions regarding budgets?               |
+| [Frequently asked questions (FAQ)](#frequently-asked-questions-(faq)) | What are frequent questions regarding budgets?               |
 
 ## Create a project budget
 

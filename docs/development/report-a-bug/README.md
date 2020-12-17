@@ -1,3 +1,10 @@
+---
+sidebar_navigation:
+  title: Report a bug
+description: How to submit a bug report for OpenProject
+robots: index, follow
+keywords: bug report, bug, error, not working
+---
 # Report a bug
 
 If you find a bug please create a bug report.
@@ -30,7 +37,7 @@ Example:
 
 ## Steps to reproduce the bug
 
-* The steps that led to the bug should be listed in the description in order to replicate the bug and determine the underlying problem.
+* The detailed steps that led to the bug should be listed in the description in order to replicate the bug and determine the underlying problem.
 
 Example:
 

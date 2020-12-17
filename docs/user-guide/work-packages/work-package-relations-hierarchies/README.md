@@ -26,12 +26,12 @@ Hierarchies are a hierarchical relation (parent-child-relationship) vs. relation
 
 Work package relations indicate that work packages address a similar topic or create status dependencies. To create a relationship between two work packages:
 
-1. Select a work package, click on the **Relations** tab to open the relations tab and click the *+ Create new relations* link.
+1. Select a work package, click on **Relations** to open the relations tab and click the *+ Create new relations* link.
 2. Select the type of relationship from the dropdown menu.
-3. Enter the ID of the work package, to which the relation should be created and choose an entry from the dropdown menu.
-4. Click the check mark.
+3. Enter the ID or name of the work package, to which the relation should be created and choose an entry from the dropdown menu.
+4. If necessary, press the Enter key
 
-![Add work package-Relations](Add-Relations-1024x507@2x.png)
+![add-work-package-relations](image-20201217124334984.png)
 
 You can select one of the following relations:
 

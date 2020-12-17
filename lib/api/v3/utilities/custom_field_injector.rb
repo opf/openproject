@@ -386,9 +386,9 @@ module API
             custom_field_class(custom_fields)
           end
 
-          def create(*args)
-            create_class(args.first, args.last[:current_user])
-              .new(*args)
+          def create(represented, **args)
+            create_class(represented, args[:current_user])
+              .new(represented, **args)
           end
 
           def custom_field_class(custom_fields)

@@ -27,13 +27,11 @@ fil:
         available: "Libre"
         budget: "Nakaplano"
         budget_ratio: "Nagasta(ratio)"
-        created_on: "Nilikha sa"
         description: "Deskripsyon"
         spent: "Nagasta"
         status: "Estado"
         subject: "Paksa"
         type: "Uri ng Gastos"
-        updated_on: "Naka-update sa"
         labor_budget: "Planned labor costs"
         material_budget: "Planned unit costs"
       work_package:

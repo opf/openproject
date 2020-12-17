@@ -308,7 +308,7 @@ describe 'new work package', js: true do
       create_work_package_globally(type_bug, project.name)
 
       date_field = wp_page.edit_field(:combinedDate)
-      date_field.expect_value("no start date - no end date")
+      date_field.expect_value("no start date - no finish date")
 
       click_on 'Cancel'
     end

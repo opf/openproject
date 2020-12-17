@@ -57,7 +57,7 @@ module API
 
             self_link = api_v3_paths.available_projects_on_create(params[:for_type])
             Projects::ProjectCollectionRepresenter.new(available_projects,
-                                                       self_link,
+                                                       self_link: self_link,
                                                        current_user: current_user)
           end
         end

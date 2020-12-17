@@ -287,8 +287,9 @@ describe 'API v3 Work package resource',
             # resolves links
             expect(subject['html'])
               .to have_selector("macro.macro--wp-quickinfo[data-id='#{other_wp.id}']")
-            # resolves macros
-            is_expected.to have_text('Table of contents')
+            # resolves macros, e.g. toc
+            expect(subject['html'])
+              .to have_selector('.op-uc-toc--list-item', text: "OpenProject Masterplan for 2015")
           end
         end
 
@@ -513,7 +514,7 @@ describe 'API v3 Work package resource',
         context 'with value' do
           let(:raw) { '**Some text** *describing* **something**...' }
           let(:html) do
-            '<p><strong>Some text</strong> <em>describing</em> <strong>something</strong>...</p>'
+            '<p class="op-uc-p"><strong>Some text</strong> <em>describing</em> <strong>something</strong>...</p>'
           end
           let(:params) { valid_params.merge(description: { raw: raw }) }
 

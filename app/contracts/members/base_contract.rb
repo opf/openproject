@@ -37,19 +37,46 @@ module Members
 
     validate :user_allowed_to_manage
     validate :roles_grantable
+    validate :project_set
+    validate :project_manageable
+
+    private
 
     def user_allowed_to_manage
-      if model.project && !user.allowed_to?(:manage_members, model.project)
-        errors.add :base, :error_unauthorized
-      end
+      errors.add :base, :error_unauthorized unless user_allowed_to_manage?
     end
 
     def roles_grantable
       unmarked_roles = model.member_roles.reject(&:marked_for_destruction?).map(&:role)
 
-      unless unmarked_roles.all? { |r| r.builtin == Role::NON_BUILTIN && r.class == Role }
-        errors.add(:roles, :ungrantable)
-      end
+      errors.add(:roles, :ungrantable) unless unmarked_roles.all? { |r| role_grantable?(r) }
+    end
+
+    def project_set
+      errors.add(:project, :blank) unless project_set_or_admin?
+    end
+
+    def project_manageable
+      errors.add(:project, :invalid) unless project_manageable_or_blank?
+    end
+
+    def role_grantable?(role)
+      role.builtin == Role::NON_BUILTIN &&
+        ((model.project && role.class == Role) || (!model.project && role.class == GlobalRole))
+    end
+
+    def user_allowed_to_manage?
+      user.allowed_to?(:manage_members,
+                       model.project,
+                       global: model.project.nil?)
+    end
+
+    def project_manageable_or_blank?
+      !model.project || user.allowed_to?(:manage_members, model.project)
+    end
+
+    def project_set_or_admin?
+      model.project || user.admin?
     end
   end
 end

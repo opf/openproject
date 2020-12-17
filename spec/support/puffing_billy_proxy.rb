@@ -33,7 +33,7 @@
 # This allows us to stub requests to external APIs to guarantee responses regardless of
 # their availability.
 #
-# In order to use the proxied server, you need to use `driver: headless_firefox_billy` in your examples
+# In order to use the proxied server, you need to use `driver: firefox_billy` in your examples
 #
 # See https://github.com/oesmith/puffing-billy for more information
 require 'billy/capybara/rspec'

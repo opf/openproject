@@ -31,7 +31,7 @@ shared_examples_for 'GET individual query' do
   let(:filter) { [] }
   let(:path) do
     if filter.any?
-      params = URI.encode(JSON.dump(filter))
+      params = CGI.escape(JSON.dump(filter))
       "#{base_path}?filters=#{params}"
     else
       base_path

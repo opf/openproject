@@ -27,13 +27,11 @@ el:
         available: "Διαθέσιμο"
         budget: "Προγραμματισμένο"
         budget_ratio: "Δαπανημένα (αναλογία)"
-        created_on: "Δημιουργήθηκε στις"
         description: "Περιγραφή"
         spent: "Δαπανήθηκε"
         status: "Κατάσταση"
         subject: "Θέμα"
         type: "Τύπος κόστους"
-        updated_on: "Τροποποιήθηκε"
         labor_budget: "Σχεδιασμένο κόστος εργασίας"
         material_budget: "Σχεδιασμένο κόστος μονάδας"
       work_package:

@@ -41,11 +41,7 @@ module OpenProject::TextFormatting::Filters::Macros
     def apply(macro, result:, context:)
       raise 'The HTML::Pipeline::TableOfContentsFilters needs to run before.' unless result[:toc]
 
-      macro.replace(heading + result[:toc])
-    end
-
-    def heading
-      "<h1>#{I18n.t(:label_table_of_contents)}</h1>"
+      macro.replace(result[:toc])
     end
   end
 end

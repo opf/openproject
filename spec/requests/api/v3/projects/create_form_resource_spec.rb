@@ -36,7 +36,9 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
 
   let(:current_user) do
     FactoryBot.create(:user).tap do |u|
-      u.global_roles << global_role
+      FactoryBot.create(:global_member,
+                        principal: u,
+                        roles: [global_role])
     end
   end
   let(:global_role) do
@@ -147,7 +149,7 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
           .to be_json_eql(
             {
               "format": "markdown",
-              "html": "<p>A magic dwells in each beginning.</p>",
+              "html": "<p class=\"op-uc-p\">A magic dwells in each beginning.</p>",
               "raw": "A magic dwells in each beginning."
             }.to_json
           ).at_path("_embedded/payload/statusExplanation")

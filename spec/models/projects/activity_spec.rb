@@ -132,12 +132,12 @@ describe Projects::Activity, type: :model do
     end
 
     it 'is the latest wiki_contents update' do
-      wiki_content.update_attribute(:updated_on, initial_time - 10.seconds)
-      wiki_content2.update_attribute(:updated_on, initial_time - 20.seconds)
+      wiki_content.update_attribute(:updated_at, initial_time - 10.seconds)
+      wiki_content2.update_attribute(:updated_at, initial_time - 20.seconds)
       wiki_content.reload
       wiki_content2.reload
 
-      expect(latest_activity).to eql wiki_content.updated_on
+      expect(latest_activity).to eql wiki_content.updated_at
     end
 
     it 'is the latest news update' do
@@ -159,30 +159,30 @@ describe Projects::Activity, type: :model do
     end
 
     it 'is the latest message update' do
-      message.update_attribute(:updated_on, initial_time - 10.seconds)
-      message2.update_attribute(:updated_on, initial_time - 20.seconds)
+      message.update_attribute(:updated_at, initial_time - 10.seconds)
+      message2.update_attribute(:updated_at, initial_time - 20.seconds)
       message.reload
       message2.reload
 
-      expect(latest_activity).to eql message.updated_on
+      expect(latest_activity).to eql message.updated_at
     end
 
     it 'is the latest time_entry update' do
       work_package.update_attribute(:updated_at, initial_time - 60.seconds)
-      time_entry.update_attribute(:updated_on, initial_time - 10.seconds)
-      time_entry2.update_attribute(:updated_on, initial_time - 20.seconds)
+      time_entry.update_attribute(:updated_at, initial_time - 10.seconds)
+      time_entry2.update_attribute(:updated_at, initial_time - 20.seconds)
       time_entry.reload
       time_entry2.reload
 
-      expect(latest_activity).to eql time_entry.updated_on
+      expect(latest_activity).to eql time_entry.updated_at
     end
 
     it 'takes the time stamp of the latest activity across models' do
       work_package.update_attribute(:updated_at, initial_time - 10.seconds)
-      wiki_content.update_attribute(:updated_on, initial_time - 20.seconds)
+      wiki_content.update_attribute(:updated_at, initial_time - 20.seconds)
       news.update_attribute(:updated_at, initial_time - 30.seconds)
       changeset.update_attribute(:committed_on, initial_time - 40.seconds)
-      message.update_attribute(:updated_on, initial_time - 50.seconds)
+      message.update_attribute(:updated_at, initial_time - 50.seconds)
 
       work_package.reload
       wiki_content.reload
@@ -199,7 +199,7 @@ describe Projects::Activity, type: :model do
 
       expect(latest_activity).to eql work_package.updated_at
 
-      work_package.update_attribute(:updated_at, message.updated_on - 10.seconds)
+      work_package.update_attribute(:updated_at, message.updated_at - 10.seconds)
 
       # Order:
       # wiki_content
@@ -208,9 +208,9 @@ describe Projects::Activity, type: :model do
       # message
       # work_package
 
-      expect(latest_activity).to eql wiki_content.updated_on
+      expect(latest_activity).to eql wiki_content.updated_at
 
-      wiki_content.update_attribute(:updated_on, work_package.updated_at - 10.seconds)
+      wiki_content.update_attribute(:updated_at, work_package.updated_at - 10.seconds)
 
       # Order:
       # news
@@ -221,7 +221,7 @@ describe Projects::Activity, type: :model do
 
       expect(latest_activity).to eql news.updated_at
 
-      news.update_attribute(:updated_at, wiki_content.updated_on - 10.seconds)
+      news.update_attribute(:updated_at, wiki_content.updated_at - 10.seconds)
 
       # Order:
       # changeset
@@ -241,7 +241,7 @@ describe Projects::Activity, type: :model do
       # news
       # changeset
 
-      expect(latest_activity).to eql message.updated_on
+      expect(latest_activity).to eql message.updated_at
     end
   end
 end

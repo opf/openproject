@@ -23,6 +23,7 @@ import {
   WorkPackageViewHandlerRegistry
 } from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
 import {WorkPackageFocusContext} from "core-components/wp-table/wp-table.component";
+import {GroupFoldTransformer} from "core-components/wp-fast-table/handlers/state/group-fold-transformer";
 
 type StateTransformers = {
   // noinspection JSUnusedLocalSymbols
@@ -65,6 +66,7 @@ export class TableHandlerRegistry extends WorkPackageViewHandlerRegistry<TableEv
     SelectionTransformer,
     RowsTransformer,
     ColumnsTransformer,
+    GroupFoldTransformer,
     TimelineTransformer,
     HierarchyTransformer,
     RelationsTransformer,

@@ -27,13 +27,11 @@ id:
         available: "Tersedia"
         budget: "Terencana"
         budget_ratio: "Spent (rasio)"
-        created_on: "Dibuat"
         description: "Deskripsi"
         spent: "Dihabiskan"
         status: "Status"
         subject: "Perihal"
         type: "Jenis biaya"
-        updated_on: "Diperbarui"
         labor_budget: "Rencana biaya tenaga"
         material_budget: "Rencana biaya unit"
       work_package:

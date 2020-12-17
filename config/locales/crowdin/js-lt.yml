@@ -55,6 +55,8 @@ lt:
     button_duplicate: "Dublikuoti"
     button_edit: "Redaguoti"
     button_filter: "Filtras"
+    button_collapse_all: "Sutraukti visus"
+    button_expand_all: "Išskleisti visus"
     button_advanced_filter: "Sudėtingesnis filtras"
     button_list_view: "Sąrašo rodinys"
     button_show_view: "Viso ekrano rodinys"
@@ -256,7 +258,6 @@ lt:
     general_text_yes: "taip"
     general_text_No: "Ne"
     general_text_Yes: "Taip"
-    global_roles: Globalios rolės
     hal:
       error:
         update_conflict_refresh: "Spauskite čia resurso atnaujinimui iki naujausios versijos."
@@ -270,13 +271,13 @@ lt:
           text_new_features: "Skaitykite apie naujas savybes ir produkto atnaujinimus."
           learn_about: "Sužinokite apie naujas galimybes"
           standard:
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+          bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              Šioje laidoje yra naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li><b>Planavimas iš viršaus į apačią</b> apibrėžia visas su projektu susijusias užduotis. Tėvinės užduoties pradžios ir pabaigos datų nebekeičia pakeitimai vaikinėse užduotyse.</li> <li><b>Universalios agile lentos</b> leidžia sukurti užduoties išdalinimo struktūrą arba paskirstyti užduotis į subprojektus.</li> <li><b>Projektų šablonai</b> lengvesniam naujų projektų kūrimui.</li> <li>Konfigūruojamas projektų puslapis, leidžiantis geresnį <b>projektų portfelio valdymą.</b></li> </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-5
-            current_new_feature_html: >
-              OpenProject 10.5 jau palaiko <b>BIM Collaboration Format (BCF)</b> – atvirą BIM modelių trūkumų valdymo standartą.<br><br> <ul class="%{list_styling_class}"> <li>Lengvai kurkite ir <b>valdykite BIM trūkumus</b> tokius kaip susikirtimai, užklausos ir klausimai interaktyviame 3D IFC modelyje ir <b>dalinkitės jais su projekto komanda.</b></li> <li>Integruokite OpenProject su jūsų pasirinkta BIM programine įranga naudodami galingą <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Importuokite ir eksportuokite BCF XML failus.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
     label_activate: "Aktyvuoti"
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"
@@ -332,6 +333,7 @@ lt:
     label_filename: "Byla"
     label_filesize: "Dydis"
     label_general: "Bendra"
+    label_global_roles: "Globalios rolės"
     label_greater_or_equal: ">="
     label_group: 'Grupė'
     label_group_by: "Grupuoti pagal"
@@ -361,7 +363,7 @@ lt:
     label_next: "Kitas"
     label_no_color: "Be spalvų"
     label_no_data: "Nėra rodytinų duomenų"
-    label_no_due_date: "nėra pabaigos datos"
+    label_no_due_date: "no finish date"
     label_no_start_date: "nėra pradžios datos"
     label_no_value: "Nenurodytas dydis"
     label_none: "joks"

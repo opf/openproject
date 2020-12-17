@@ -68,11 +68,11 @@ describe 'Todolists in CKEditor', js: true do
 
       # Select first and first nested item
       ckeditor.in_editor do |_container, editable|
-        first_item = editable.all('.todo-list li')[0]
+        first_item = editable.all('.op-uc-list li')[0]
         first_item.find('input[type=checkbox]', visible: :all).set true
 
         # First nested
-        first_nested_item = editable.all('.todo-list .todo-list li')[0]
+        first_nested_item = editable.all('.op-uc-list .op-uc-list li')[0]
         first_nested_item.find('input[type=checkbox]', visible: :all).set true
 
         sleep 0.5
@@ -83,36 +83,36 @@ describe 'Todolists in CKEditor', js: true do
       wp_page.expect_and_dismiss_notification message: 'Successful update.'
 
       within(field.display_element) do
-        expect(page).to have_selector('.task-list-item-checkbox', count: 5)
-        expect(page).to have_selector('.task-list-item-checkbox[checked]', count: 2)
+        expect(page).to have_selector('.op-uc-list--task-checkbox', count: 5)
+        expect(page).to have_selector('.op-uc-list--task-checkbox[checked]', count: 2)
 
-        expect(page).to have_selector('.task-list-item', text: 'Todo item 1')
-        expect(page).to have_selector('.task-list-item', text: 'Todo item 2')
-        expect(page).to have_selector('.task-list-item', text: 'Todo item 3')
+        expect(page).to have_selector('.op-uc-list--item', text: 'Todo item 1')
+        expect(page).to have_selector('.op-uc-list--item', text: 'Todo item 2')
+        expect(page).to have_selector('.op-uc-list--item', text: 'Todo item 3')
 
-        expect(page).to have_selector('.task-list .task-list .task-list-item', text: 'Nested item 1')
-        expect(page).to have_selector('.task-list .task-list .task-list-item', text: 'Nested item 2')
+        expect(page).to have_selector('.op-uc-list .op-uc-list .op-uc-list--item', text: 'Nested item 1')
+        expect(page).to have_selector('.op-uc-list .op-uc-list .op-uc-list--item', text: 'Nested item 2')
 
-        first_item = page.find('.task-list-item', text: 'Todo item 1')
-        expect(first_item).to have_selector('.task-list-item-checkbox[checked]')
-        first_nested_item = page.find('.task-list .task-list .task-list-item', text: 'Nested item 1')
-        expect(first_nested_item).to have_selector('.task-list-item-checkbox[checked]')
+        first_item = page.find('.op-uc-list--item', text: 'Todo item 1')
+        expect(first_item).to have_selector('.op-uc-list--task-checkbox[checked]')
+        first_nested_item = page.find('.op-uc-list .op-uc-list .op-uc-list--item', text: 'Nested item 1')
+        expect(first_nested_item).to have_selector('.op-uc-list--task-checkbox[checked]')
       end
 
       # Expect still the same when editing again
       field.activate!
       ckeditor.in_editor do |_container, editable|
-        expect(editable).to have_selector('.todo-list li', count: 5)
+        expect(editable).to have_selector('.op-uc-list li', count: 5)
 
-        first_item = editable.all('.todo-list li')[0].find('input[type=checkbox]', visible: :all)
+        first_item = editable.all('.op-uc-list li')[0].find('input[type=checkbox]', visible: :all)
         expect(first_item).to be_checked
 
         # First nested
-        first_nested_item = editable.all('.todo-list .todo-list li')[0].find('input[type=checkbox]', visible: :all)
+        first_nested_item = editable.all('.op-uc-list .op-uc-list li')[0].find('input[type=checkbox]', visible: :all)
         expect(first_nested_item).to be_checked
 
         # Check last item
-        last_item = editable.all('.todo-list li').last
+        last_item = editable.all('.op-uc-list li').last
         last_item.find('input[type=checkbox]', visible: :all).set true
 
         sleep 0.5
@@ -122,16 +122,16 @@ describe 'Todolists in CKEditor', js: true do
       wp_page.expect_and_dismiss_notification message: 'Successful update.'
 
       within(field.display_element) do
-        expect(page).to have_selector('.task-list-item-checkbox', count: 5)
-        expect(page).to have_selector('.task-list-item-checkbox[checked]', count: 3)
+        expect(page).to have_selector('.op-uc-list--task-checkbox', count: 5)
+        expect(page).to have_selector('.op-uc-list--task-checkbox[checked]', count: 3)
 
-        first_item = page.find('.task-list-item', text: 'Todo item 1')
-        expect(first_item).to have_selector('.task-list-item-checkbox[checked]')
-        first_nested_item = page.find('.task-list .task-list .task-list-item', text: 'Nested item 1')
-        expect(first_nested_item).to have_selector('.task-list-item-checkbox[checked]')
+        first_item = page.find('.op-uc-list--item', text: 'Todo item 1')
+        expect(first_item).to have_selector('.op-uc-list--task-checkbox[checked]')
+        first_nested_item = page.find('.op-uc-list .op-uc-list .op-uc-list--item', text: 'Nested item 1')
+        expect(first_nested_item).to have_selector('.op-uc-list--task-checkbox[checked]')
 
-        last_item = page.find('.task-list .task-list-item', text: 'Todo item 3')
-        expect(last_item).to have_selector('.task-list-item-checkbox[checked]')
+        last_item = page.find('.op-uc-list .op-uc-list--item', text: 'Todo item 3')
+        expect(last_item).to have_selector('.op-uc-list--task-checkbox[checked]')
       end
     end
   end
@@ -165,7 +165,7 @@ describe 'Todolists in CKEditor', js: true do
 
       # Update the link text, no idea how to do this differently
       ckeditor.in_editor do |_container, editable|
-        link = editable.find('.todo-list .todo-list a')
+        link = editable.find('.op-uc-list .op-uc-list a')
         link.set('This is a link')
 
         sleep 0.5
@@ -173,7 +173,7 @@ describe 'Todolists in CKEditor', js: true do
 
       # Select nested item
       ckeditor.in_editor do |_container, editable|
-        editable.find('.todo-list .todo-list input[type=checkbox]', visible: :all).set true
+        editable.find('.op-uc-list .op-uc-list input[type=checkbox]', visible: :all).set true
 
         sleep 0.5
       end
@@ -181,11 +181,11 @@ describe 'Todolists in CKEditor', js: true do
       wp_page.save!
       wp_page.expect_and_dismiss_notification message: 'Successful creation.'
 
-      expect(page).to have_selector('.task-list-item-checkbox', count: 3)
-      expect(page).to have_selector('.task-list-item-checkbox[checked]', count: 1)
+      expect(page).to have_selector('.op-uc-list--task-checkbox', count: 3)
+      expect(page).to have_selector('.op-uc-list--task-checkbox[checked]', count: 1)
 
-      expect(page).to have_selector('.task-list-item a[href="https://community.openproject.com/"]')
-      nested_link = page.find('.task-list-item .task-list-item a[href="https://community.openproject.com/nested"]')
+      expect(page).to have_selector('.op-uc-list--item a[href="https://community.openproject.com/"]')
+      nested_link = page.find('.op-uc-list--item .op-uc-list--item a[href="https://community.openproject.com/nested"]')
       expect(nested_link.text).to eq 'This is a link'
 
       description = WorkPackage.last.description
@@ -206,7 +206,7 @@ describe 'Todolists in CKEditor', js: true do
 
       # Select first item
       ckeditor.in_editor do |_container, editable|
-        first_item = editable.all('.todo-list li')[0]
+        first_item = editable.all('.op-uc-list li')[0]
         first_item.find('input[type=checkbox]', visible: :all).set true
 
         sleep 0.5
@@ -216,26 +216,26 @@ describe 'Todolists in CKEditor', js: true do
       wp_page.expect_and_dismiss_notification message: 'Successful creation.'
 
       within(field.display_element) do
-        expect(page).to have_selector('.task-list-item-checkbox', count: 2)
-        expect(page).to have_selector('.task-list-item-checkbox[checked]', count: 1)
+        expect(page).to have_selector('.op-uc-list--task-checkbox', count: 2)
+        expect(page).to have_selector('.op-uc-list--task-checkbox[checked]', count: 1)
 
-        expect(page).to have_selector('.task-list-item', text: 'Todo item 1')
-        expect(page).to have_selector('.task-list-item', text: 'Todo item 2')
+        expect(page).to have_selector('.op-uc-list--item', text: 'Todo item 1')
+        expect(page).to have_selector('.op-uc-list--item', text: 'Todo item 2')
 
-        first_item = page.find('.task-list-item', text: 'Todo item 1')
-        expect(first_item).to have_selector('.task-list-item-checkbox[checked]')
+        first_item = page.find('.op-uc-list--item', text: 'Todo item 1')
+        expect(first_item).to have_selector('.op-uc-list--task-checkbox[checked]')
       end
 
       # Expect still the same when editing again
       field.activate!
       ckeditor.in_editor do |_container, editable|
-        expect(editable).to have_selector('.todo-list li', count: 2)
+        expect(editable).to have_selector('.op-uc-list li', count: 2)
 
-        first_item = editable.all('.todo-list li')[0].find('input[type=checkbox]', visible: :all)
+        first_item = editable.all('.op-uc-list li')[0].find('input[type=checkbox]', visible: :all)
         expect(first_item).to be_checked
 
         # Check last item
-        last_item = editable.all('.todo-list li').last
+        last_item = editable.all('.op-uc-list li').last
         last_item.find('input[type=checkbox]', visible: :all).set true
 
         sleep 0.5
@@ -245,14 +245,14 @@ describe 'Todolists in CKEditor', js: true do
       wp_page.expect_and_dismiss_notification message: 'Successful update.'
 
       within(field.display_element) do
-        expect(page).to have_selector('.task-list-item-checkbox', count: 2)
-        expect(page).to have_selector('.task-list-item-checkbox[checked]', count: 2)
+        expect(page).to have_selector('.op-uc-list--task-checkbox', count: 2)
+        expect(page).to have_selector('.op-uc-list--task-checkbox[checked]', count: 2)
 
-        first_item = page.find('.task-list-item', text: 'Todo item 1')
-        expect(first_item).to have_selector('.task-list-item-checkbox[checked]')
+        first_item = page.find('.op-uc-list--item', text: 'Todo item 1')
+        expect(first_item).to have_selector('.op-uc-list--task-checkbox[checked]')
 
-        last_item = page.find('.task-list .task-list-item', text: 'Todo item 2')
-        expect(last_item).to have_selector('.task-list-item-checkbox[checked]')
+        last_item = page.find('.op-uc-list .op-uc-list--item', text: 'Todo item 2')
+        expect(last_item).to have_selector('.op-uc-list--task-checkbox[checked]')
       end
     end
   end

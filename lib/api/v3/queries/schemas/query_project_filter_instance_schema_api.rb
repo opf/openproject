@@ -42,7 +42,7 @@ module API
               filters = Query.new(project: @project).available_filters
 
               representer.new(filters,
-                              api_v3_paths.query_project_filter_instance_schemas(@project.id),
+                              self_link: api_v3_paths.query_project_filter_instance_schemas(@project.id),
                               current_user: current_user)
             end
           end

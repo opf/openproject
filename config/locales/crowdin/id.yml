@@ -202,7 +202,6 @@ id:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
-      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -750,7 +749,6 @@ id:
     content: "Konten"
     color: "Warna"
     created_at: "Dibuat"
-    created_on: "Dibuat"
     custom_options: "Nilai yang mungkin"
     custom_values: "Isian kustom"
     date: "Tanggal"
@@ -1014,6 +1012,7 @@ id:
   default_role_anonymous: "Anonimus"
   default_role_developer: "Pengembang"
   default_role_project_admin: "Project admin"
+  default_role_project_creator: "Pencipta proyek"
   default_role_non_member: "Non member"
   default_role_reader: "Pembaca"
   default_role_member: "Member"
@@ -1731,6 +1730,11 @@ id:
     zero: "no projects"
     other: "%{count} proyek"
   label_yesterday: "kemarin"
+  label_role_type: "Tipe"
+  label_member_role: "Peran proyek"
+  label_global_role: "Peran global"
+  label_not_changeable: "(tidak berubah)"
+  label_global: "Global"
   auth_source:
     using_abstract_auth_source: "Can't use an abstract authentication source."
     ldap_error: "LDAP-Error: %{error_message}"

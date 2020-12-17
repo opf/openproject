@@ -43,7 +43,7 @@ module API
 
           get do
             PriorityCollectionRepresenter.new(@priorities,
-                                              api_v3_paths.priorities,
+                                              self_link: api_v3_paths.priorities,
                                               current_user: current_user)
           end
 

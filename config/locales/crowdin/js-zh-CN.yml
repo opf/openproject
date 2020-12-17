@@ -55,6 +55,8 @@ zh-CN:
     button_duplicate: "复制"
     button_edit: "编辑"
     button_filter: "筛选器"
+    button_collapse_all: "全部折叠"
+    button_expand_all: "全部展开"
     button_advanced_filter: "高级筛选"
     button_list_view: "列表视图"
     button_show_view: "全屏视图"
@@ -256,7 +258,6 @@ zh-CN:
     general_text_yes: "是"
     general_text_No: "否"
     general_text_Yes: "是"
-    global_roles: 全局角色
     hal:
       error:
         update_conflict_refresh: "点击此处刷新资源并更新到最新版本。"
@@ -270,13 +271,13 @@ zh-CN:
           text_new_features: "了解新功能和产品更新。"
           learn_about: "详细了解新功能"
           standard:
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            current_new_feature_html: >
+              此版本包含多项新功能和改进：<br> <ul class="%{list_styling_class}"> <li><b>改进了 WYSIWYG 编辑器的样式</b>。</li> <li>编辑时可直接显示 <b>@notifications 用户名</b>。</li> <li>通过添加一个 <b>OpenID Connect 提供商</b>扩展了 身份验证配置文件。</li> <li>在甘特图中以单行显示项目<b>完整的里程碑</b>。</li> <li><b>收起工作包列表中各组的所有按钮</b>。</li> <li>通过浏览器打印功能<b>优化了打印</b>，例如 wiki 页面的打印。</li> </ul>
+          bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              此版本包含许多新功能和改进：<br> <ul class="%{list_styling_class}"> <li><b>自上而下的计划</b>，可定义所有涉及的项目任务。父项的开始和结束日期不受其子项的影响。</li> <li><b>多功能敏捷板</b>，允许您创建一个工作细分结构或在子项目之间分配任务。</li> <li><b>项目模板</b>，可轻松创建新项目。</li> <li>可配置项目页面，从而能够更好地<b>管理项目组合</b>。</li> </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-5
-            current_new_feature_html: >
-              OpenProject 10.5 现在支持 <b>BIM Collaboration Format (BCF)</b> - BIM 模型的开放式问题跟踪标准。<br><br> <ul> <ul class="%{list_styling_class}"> <li>轻松创建并<b>管理 BIM 问题</b>（如交互式 3D IFC 模型中的冲突、请求和问题），并<b>与项目团队共享</b>。</li> <li>使用强大的 <a target="_blank" href="%{bcf_api_link}">BCF REST API</a> 将 OpenProject 与您最喜欢的 BIM 软件集成。</li> <li>导入和导出 BCF XML 文件。</li> </ul>
+              此版本包含多项新功能和改进：<br> <ul class="%{list_styling_class}"> <li><b>改进了 WYSIWYG 编辑器的样式</b>。</li> <li>编辑时可直接显示 <b>@notifications 用户名</b>。</li> <li>通过添加一个 <b>OpenID Connect 提供商</b>扩展了 身份验证配置文件。</li> <li>在甘特图中以单行显示项目<b>完整的里程碑</b>。</li> <li><b>收起工作包列表中各组的所有按钮</b>。</li> <li>通过浏览器打印功能<b>优化了打印</b>，例如 wiki 页面的打印。</li> </ul>
     label_activate: "激活"
     label_add_column_after: "之后添加列"
     label_add_column_before: "在之前添加列"
@@ -332,6 +333,7 @@ zh-CN:
     label_filename: "文件"
     label_filesize: "大小"
     label_general: "通用"
+    label_global_roles: "全局角色"
     label_greater_or_equal: ">="
     label_group: '组'
     label_group_by: "分组依据"
@@ -361,7 +363,7 @@ zh-CN:
     label_next: "下一个"
     label_no_color: "无颜色"
     label_no_data: "没有要显示的数据"
-    label_no_due_date: "没有结束日期"
+    label_no_due_date: "no finish date"
     label_no_start_date: "没有开始日期"
     label_no_value: "无值"
     label_none: "无"

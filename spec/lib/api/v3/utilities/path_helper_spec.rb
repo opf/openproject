@@ -275,9 +275,9 @@ describe ::API::V3::Utilities::PathHelper do
     end
 
     describe '#query_column' do
-      subject { helper.query_column 'updated_on' }
+      subject { helper.query_column 'updated_at' }
 
-      it_behaves_like 'api v3 path', '/queries/columns/updated_on'
+      it_behaves_like 'api v3 path', '/queries/columns/updated_at'
     end
 
     describe '#query_group_by' do

@@ -199,7 +199,6 @@ ja:
       completed: "プロジェクト%{name} の削除が完了しました"
       completed_text: "プロジェクト '%{name}'を削除要求は完了しました。"
     index:
-      edit_columns: '列の編集'
       open_as_gantt: 'ガントビューとして開く'
       open_as_gantt_title: "このボタンを使用して、このページに表示されているプロジェクトのワークパッケージをフィルタリングするガントビューを生成します。"
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -746,7 +745,6 @@ ja:
     content: "内容"
     color: "色"
     created_at: "作成日時"
-    created_on: "作成日時"
     custom_options: "選択肢"
     custom_values: "カスタムフィールド"
     date: "日付"
@@ -1010,6 +1008,7 @@ ja:
   default_role_anonymous: "匿名ユーザ"
   default_role_developer: "開発者"
   default_role_project_admin: "プロジェクト管理者"
+  default_role_project_creator: "プロジェクトの作成者"
   default_role_non_member: "非メンバー"
   default_role_reader: "リーダー"
   default_role_member: "メンバー"
@@ -1727,6 +1726,11 @@ ja:
     zero: "プロジェクトがありません"
     other: "%{count}件プロジェクト"
   label_yesterday: "昨日"
+  label_role_type: "種別"
+  label_member_role: "プロジェクトの役割"
+  label_global_role: "グローバルロール"
+  label_not_changeable: "（変更不可）"
+  label_global: "全般"
   auth_source:
     using_abstract_auth_source: "概要認証元を使用できません。"
     ldap_error: "LDAPエラー: %{error_message}"
