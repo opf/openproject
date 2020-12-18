@@ -112,13 +112,13 @@ describe News, type: :model do
            with_settings: { notified_events: %w(news_added) } do
     it 'sends email notifications when created' do
       FactoryBot.create(:user,
-                         member_in_project: project,
-                         member_through_role: role)
+                        member_in_project: project,
+                        member_through_role: role)
       project.members.reload
 
-      FactoryBot.create(:news, project: project)
-
-      perform_enqueued_jobs
+      perform_enqueued_jobs do
+        FactoryBot.create(:news, project: project)
+      end
       expect(ActionMailer::Base.deliveries.size).to eq(1)
     end
   end
