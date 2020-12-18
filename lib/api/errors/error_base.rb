@@ -85,7 +85,7 @@ module API
         def convert_ar_to_api_errors(errors)
           api_errors = []
 
-          errors.keys.each do |attribute|
+          errors.attribute_names.each do |attribute|
             api_attribute_name = ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
 
             errors.symbols_and_messages_for(attribute).each do |symbol, message|
