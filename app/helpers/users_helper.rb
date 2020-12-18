@@ -137,4 +137,8 @@ module UsersHelper
   def user_mail_notification_options(user)
     user.valid_notification_options.map { |o| [I18n.t(o.last), o.first] }
   end
+
+  def user_name(user)
+    user ? user.name : I18n.t('user.deleted')
+  end
 end
