@@ -265,7 +265,7 @@ GEM
     afm (0.2.2)
     airbrake (11.0.1)
       airbrake-ruby (~> 5.1)
-    airbrake-ruby (5.1.1)
+    airbrake-ruby (5.2.0)
       rbtree3 (~> 0.5)
     ast (2.4.1)
     attr_required (1.0.1)
