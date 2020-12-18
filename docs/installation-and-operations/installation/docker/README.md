@@ -90,7 +90,7 @@ docker run -d -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:11
 **Note**: We've had reports of people being unable to start OpenProject this way
 because of an [issue regarding pseudo-TTY allocations](https://github.com/moby/moby/issues/31243#issuecomment-406825071)
 and permissions to write to `/dev/stdout`. If you run into this, a workaround
-seems to be to add `-t` to your run command, even if you run in detached mode. 
+seems to be to add `-t` to your run command, even if you run in detached mode.
 
 ### Recommended usage
 
@@ -286,10 +286,18 @@ end
 ```
 FROM openproject/community:11
 
+# If installing a local plugin (using `path:` in the `Gemfile.plugins` above),
+# you will have to copy the plugin code into the container here and use the
+# path inside of the container. Say for `/app/vendor/plugins/openproject-slack`:
+# COPY /path/to/my/local/openproject-slack /app/vendor/plugins/openproject-slack
+
 COPY Gemfile.plugins /app/
 
+# If the plugin uses any external NPM dependencies you have to install them here.
+# RUN npm add npm <package-name>*
+
 RUN bundle config unset deployment && bundle install && bundle config set deployment 'true'
-RUN bash docker/precompile-assets.sh
+RUN ./docker/prod/setup/postinstall.sh
 ```
 
 The file is based on the normal OpenProject docker image.
