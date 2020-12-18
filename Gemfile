@@ -83,7 +83,7 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 3.25.0'
+gem 'rouge', '~> 3.26.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 5.2.1'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -125,7 +125,7 @@ gem 'rack-attack', '~> 6.3.1'
 gem 'secure_headers', '~> 6.3.0'
 
 # Browser detection for incompatibility checks
-gem 'browser', '~> 5.1.0'
+gem 'browser', '~> 5.2.0'
 
 # Providing health checks
 gem 'okcomputer', '~> 1.18.1'
@@ -148,7 +148,7 @@ gem 'prawn-markup', '~> 0.3.0'
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.0.9'
 
-gem 'meta-tags', '~> 2.13.0'
+gem 'meta-tags', '~> 2.14.0'
 
 group :production do
   # we use dalli as standard memcache client
@@ -223,7 +223,7 @@ group :test do
   gem 'timecop', '~> 0.9.0'
 
   # Mock backend requests (for ruby tests)
-  gem 'webmock', '~> 3.10.0', require: false
+  gem 'webmock', '~> 3.11', require: false
 
   # Mock selenium requests through proxy (for feature tests)
   gem 'puffing-billy', '~> 2.4.0'
