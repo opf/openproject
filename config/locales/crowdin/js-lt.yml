@@ -273,11 +273,11 @@ lt:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-1-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              Ši laida turi įvairias naujas galimybes ir patobulinimus: <br> <ul class="%{list_styling_class}"> <li>WYSIWYG redaktoriuje <b>pagerintas stilius</b>.</li> <li>Redaguojant iš karto rodomas <b>vartotojo vardas @kreipiniuose</b>.</li> <li>Autentifikavimo profilis praplėstas <b>OpenID Connect tiekėju.</b></li> <li>Gantt diagramoje projekto <b>sujungti etapai</b> rodomi vienoje eilutėje.</li> <li><b>Suskleisti viską mygtukas grupėms</b> darbo paketų sąraše.</li> <li><b>Spausdinimo optimizavimai</b> pvz., wiki puslapiams, naudojant naršyklės spausdinimo funkciją.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              Ši laida turi įvairias naujas galimybes ir patobulinimus: <br> <ul class="%{list_styling_class}"> <li>WYSIWYG redaktoriuje <b>pagerintas stilius</b>.</li> <li>Redaguojant iš karto rodomas <b>vartotojo vardas @kreipiniuose</b>.</li> <li>Autentifikavimo profilis praplėstas <b>OpenID Connect tiekėju.</b></li> <li>Gantt diagramoje projekto <b>sujungti etapai</b> rodomi vienoje eilutėje.</li> <li><b>Suskleisti viską mygtukas grupėms</b> darbo paketų sąraše.</li> <li><b>Spausdinimo optimizavimai</b> pvz., wiki puslapiams, naudojant naršyklės spausdinimo funkciją.</li> </ul>
     label_activate: "Aktyvuoti"
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"
@@ -363,7 +363,7 @@ lt:
     label_next: "Kitas"
     label_no_color: "Be spalvų"
     label_no_data: "Nėra rodytinų duomenų"
-    label_no_due_date: "no finish date"
+    label_no_due_date: "be pabaigos datos"
     label_no_start_date: "nėra pradžios datos"
     label_no_value: "Nenurodytas dydis"
     label_none: "joks"
