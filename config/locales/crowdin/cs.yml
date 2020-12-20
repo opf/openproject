@@ -202,7 +202,6 @@ cs:
       completed: "Smazání projektu %{name} dokončeno"
       completed_text: "Požadavek na smazání projektu '%{name}' byl dokončen."
     index:
-      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -763,7 +762,6 @@ cs:
     content: "Obsah"
     color: "Barva"
     created_at: "Vytvořeno"
-    created_on: "Vytvořeno"
     custom_options: "Možné hodnoty"
     custom_values: "Vlastní pole"
     date: "Datum"
@@ -1063,6 +1061,7 @@ cs:
   default_role_anonymous: "Anonymní"
   default_role_developer: "Vývojář"
   default_role_project_admin: "Projekt admin"
+  default_role_project_creator: "Tvůrce projektu"
   default_role_non_member: "Není člen"
   default_role_reader: "Čtenář"
   default_role_member: "Člen"
@@ -1792,6 +1791,11 @@ cs:
     many: "%{count} projektů"
     other: "%{count} projektů"
   label_yesterday: "včera"
+  label_role_type: "Typ"
+  label_member_role: "Projektová role"
+  label_global_role: "Globální role"
+  label_not_changeable: "(neměnitelné)"
+  label_global: "Globální"
   auth_source:
     using_abstract_auth_source: "Nelze použít abstraktní zdroj ověřování."
     ldap_error: "Chyba LDAP: %{error_message}"

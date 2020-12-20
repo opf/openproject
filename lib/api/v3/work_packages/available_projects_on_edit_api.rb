@@ -46,7 +46,7 @@ module API
                                  .includes(Projects::ProjectCollectionRepresenter.to_eager_load)
             self_link = api_v3_paths.available_projects_on_edit(@work_package.id)
             Projects::ProjectCollectionRepresenter.new(available_projects,
-                                                       self_link,
+                                                       self_link: self_link,
                                                        current_user: current_user)
           end
         end

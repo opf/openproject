@@ -41,7 +41,7 @@ module API
                              property_name: property_name,
                              namespaces: expected_namespaces)
 
-            instance_exec(args, &lambda)
+            instance_exec(**args, &lambda)
           }
         end
       end

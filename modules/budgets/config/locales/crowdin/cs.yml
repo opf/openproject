@@ -27,13 +27,11 @@ cs:
         available: "Dostupné"
         budget: "Rozpočet"
         budget_ratio: "Stráveno (poměr)"
-        created_on: "Vytvořeno"
         description: "Popis"
         spent: "Strávený čas"
         status: "Stav"
         subject: "Předmět"
         type: "Typ nákladu"
-        updated_on: "Aktualizováno"
         labor_budget: "Plánované mzdové náklady"
         material_budget: "Plánované jednotkové náklady"
       work_package:

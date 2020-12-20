@@ -88,10 +88,8 @@ module API
                    datetime_formatter.format_duration_from_hours(represented.hours) if represented.hours
                  end
 
-        date_time_property :created_on,
-                           as: 'createdAt'
-        date_time_property :updated_on,
-                           as: 'updatedAt'
+        date_time_property :created_at
+        date_time_property :updated_at
 
         associated_resource :project
 

@@ -27,13 +27,11 @@ de:
         available: "Verfügbar"
         budget: "Geplant"
         budget_ratio: "Verbraucht (Prozent)"
-        created_on: "Erstellt"
         description: "Beschreibung"
         spent: "Verbraucht"
         status: "Status"
         subject: "Thema"
         type: "Kostentyp"
-        updated_on: "Aktualisiert am"
         labor_budget: "Geplante Personaleinzelkosten"
         material_budget: "Geplante Stückkosten"
       work_package:

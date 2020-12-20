@@ -27,13 +27,11 @@ vi:
         available: "Available"
         budget: "Planned"
         budget_ratio: "Spent (ratio)"
-        created_on: "Tạo ngày"
         description: "Mô tả"
         spent: "Spent"
         status: "Trạng thái"
         subject: "Chủ đề"
         type: "Cost type"
-        updated_on: "Được cập nhật vào lúc"
         labor_budget: "Planned labor costs"
         material_budget: "Planned unit costs"
       work_package:

@@ -148,12 +148,11 @@ describe WikiController, type: :controller do
   # because running whole suite is fine, but running only this test
   # results in failure
   it 'should update stale page should not raise an error' do
-    ::JournalVersion.create!(journable_type: 'WikiContent', journable_id: 2, version: 1)
-    journal = FactoryBot.create :wiki_content_journal,
-                                 journable_id: 2,
-                                 version: 1,
-                                 data: FactoryBot.build(:journal_wiki_content_journal,
-                                                         text: "h1. Another page\n\n\nthis is a link to ticket: #2")
+    FactoryBot.create :wiki_content_journal,
+                      journable_id: 2,
+                      version: 1,
+                      data: FactoryBot.build(:journal_wiki_content_journal,
+                                              text: "h1. Another page\n\n\nthis is a link to ticket: #2")
     session[:user_id] = 2
     c = Wiki.find(1).find_page('Another page').content
     c.text = 'Previous text'
@@ -354,7 +353,7 @@ describe WikiController, type: :controller do
     pages = assigns(:pages)
     refute_nil pages
     assert_equal wiki.pages.size, pages.size
-    assert_equal pages.first.content.updated_on, pages.first.updated_on
+    assert_equal pages.first.content.updated_at, pages.first.updated_at
 
     assert_select 'ul', attributes: { class: 'pages-hierarchy' },
                     child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/CookBook%20documentation' },

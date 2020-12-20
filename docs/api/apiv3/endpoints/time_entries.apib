@@ -33,7 +33,7 @@ Time entries are either linked to a work package or to a project. If they are li
 
 Depending on custom fields defined for time entries, additional properties might exist.
 
-## Time entry [/api/v3/time_entries/{id}]
+## View time entry [/api/v3/time_entries/{id}]
 
 + Model
     + Body
@@ -106,7 +106,7 @@ Depending on custom fields defined for time entries, additional properties might
 
 + Response 200 (application/hal+json)
 
-    [Time entry][]
+    [View time entry][]
 
 + Response 404 (application/hal+json)
 
@@ -122,6 +122,183 @@ Depending on custom fields defined for time entries, additional properties might
                 "message": "The requested resource could not be found."
             }
 
+## Create time entry [/api/v3/time_entries]
+
+## Create Time entry [POST]
+
+Creates a new time entry applying the attributes provided in the body. Please note that while there is a fixed set of attributes, custom fields can extend a time entries' attributes and are accepted by the endpoint.
+
++ Request Create time entry
+
+    + Body
+
+            {
+                "_links": {
+                  "project": {
+                    "href": "/api/v3/projects/34"
+                  },
+                  "activity": {
+                    "href": "/api/v3/time_entries/activities/18"
+                  },
+                  "workPackage": {
+                    "href": "/api/v3/work_packages/5"
+                  },
+                  "customField4": {
+                    "href": "/api/v3/users/5"
+                  },
+                  "customField51": {
+                    "href": "/api/v3/custom_options/11"
+                  }
+                },
+                "hours": 'PT5H',
+                "comment": {
+                    "raw": "Some comment"
+                },
+                "spentOn": "2017-07-28",
+                "customField1": {
+                  "raw": "some text custom field value"
+                },
+                "customField8": 5
+            }
+
++ Response 201
+
+    [View time entry][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** Log time
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Work package is invalid.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "workPackage"
+                    }
+                }
+            }
+
+## Update time entry [/api/v3/time_entries/{id}]
+
+## Update Time entry [PATCH]
+
+Updates the given time entry by applying the attributes provided in the body. Please note that while there is a fixed set of attributes, custom fields can extend a time entries' attributes and are accepted by the endpoint.
+
++ Parameters
+    + id (required, integer, `1`) ... Time entry id
+
++ Request Update time entry
+
+    + Body
+
+            {
+                "_links": {
+                  "activity": {
+                    "href": "/api/v3/time_entries/activities/18"
+                  },
+                  "workPackage": {
+                    "href": "/api/v3/work_packages/5"
+                  },
+                  "customField4": {
+                    "href": "/api/v3/users/5"
+                  },
+                  "customField51": {
+                    "href": "/api/v3/custom_options/11"
+                  }
+                },
+                "hours": "PT5H",
+                "comment": {
+                  "raw": "Some comment"
+                },
+                "spentOn": "2017-07-28",
+                "customField1": {
+                  "raw": "some text custom field value"
+                },
+                "customField8": 5
+            }
+
++ Response 200
+
+    [View time entry][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** Edit (own) time entries, depending on what time entry is being modified.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Work package is invalid.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "workPackage"
+                    }
+                }
+            }
+
+## Delete time entry [/api/v3/time_entries/{id}]
 
 ## Delete time entry [DELETE]
 
@@ -163,7 +340,7 @@ Permanently deletes the specified time entry.
             }
 
 
-## Time entries [/api/v3/time_entries{?offset,pageSize,filters,sortBy}]
+## List time entries [/api/v3/time_entries{?offset,pageSize,filters,sortBy}]
 
 + Model
     + Body
@@ -280,7 +457,7 @@ Permanently deletes the specified time entry.
               }
             }
 
-## List Time entries [GET]
+## List time entries [GET]
 
 Lists time entries. The time entries returned depend on the filters provided and also on the permission of the requesting user.
 
@@ -294,7 +471,8 @@ Lists time entries. The time entries returned depend on the filters provided and
       + id: Sort by primary key
       + hours: Sort by logged hours
       + spent_on: Sort by spent on date
-      + created_on: Sort by time entry creation datetime
+      + created_at: Sort by time entry creation datetime
+      + updated_at: Sort by the time the time entry was updated last
 
     + filters (optional, string, `[{ "work_package": { "operator": "=", "values": ["1", "2"] } }, { "project": { "operator": "=", "values": ["1"] } }]`) ... JSON specifying filter conditions.
     Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported filters are:
@@ -302,12 +480,13 @@ Lists time entries. The time entries returned depend on the filters provided and
       + project: Filter time entries by project
       + user: Filter time entries by users
       + spent_on: Filter time entries by spent on date
-      + created_on: Filter time entries by creation datetime
+      + created_at: Filter time entries by creation datetime
+      + updated_at: Filter time entries by the last time they where updated
       + activity: Filter time entries by time entry activity
 
 + Response 200 (application/hal+json)
 
-    [Time entries][]
+    [List time entries][]
 
 + Response 400 (application/hal+json)
 
@@ -335,180 +514,7 @@ Lists time entries. The time entries returned depend on the filters provided and
                 "message": "You are not authorized to view this resource."
             }
 
-## Create Time entry [POST]
-
-Creates a new time entry applying the attributes provided in the body. Please note that while there is a fixed set of attributes, custom fields can extend a time entries' attributes and are accepted by the endpoint.
-
-+ Parameters
-
-+ Request Create time entry
-
-    + Body
-
-            {
-                "_links": {
-                  "project": {
-                    "href": "/api/v3/projects/34"
-                  },
-                  "activity": {
-                    "href": "/api/v3/time_entries/activities/18"
-                  },
-                  "workPackage": {
-                    "href": "/api/v3/work_packages/5"
-                  },
-                  "customField4": {
-                    "href": "/api/v3/users/5"
-                  },
-                  "customField51": {
-                    "href": "/api/v3/custom_options/11"
-                  }
-                },
-                "hours": 'PT5H',
-                "comment": {
-                    "raw": "Some comment"
-                },
-                "spentOn": "2017-07-28",
-                "customField1": {
-                  "raw": "some text custom field value"
-                },
-                "customField8": 5
-            }
-
-+ Response 201
-
-    [Time entry][]
-
-+ Response 400 (application/hal+json)
-
-    Occurs when the client did not send a valid JSON object in the request body.
-
-    + Body
-
-            {
-                "_type": "Error",
-                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
-                "message": "The request body was not a single JSON object."
-            }
-
-+ Response 403 (application/hal+json)
-
-    Returned if the client does not have sufficient permissions.
-
-    **Required permission:** Log time
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
-                "message": "You are not authorized to access this resource."
-            }
-
-+ Response 422 (application/hal+json)
-
-    Returned if:
-
-    * a constraint for a property was violated (`PropertyConstraintViolation`)
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
-                "message": "Work package is invalid.",
-                "_embedded": {
-                    "details": {
-                        "attribute"=>"workPackage"
-                    }
-                }
-            }
-
-## Update Time entry [PATCH]
-
-Updates the given time entry by applying the attributes provided in the body. Please note that while there is a fixed set of attributes, custom fields can extend a time entries' attributes and are accepted by the endpoint.
-
-+ Parameters
-
-+ Request Update time entry
-
-    + Body
-
-            {
-                "_links": {
-                  "activity": {
-                    "href": "/api/v3/time_entries/activities/18"
-                  },
-                  "workPackage": {
-                    "href": "/api/v3/work_packages/5"
-                  },
-                  "customField4": {
-                    "href": "/api/v3/users/5"
-                  },
-                  "customField51": {
-                    "href": "/api/v3/custom_options/11"
-                  }
-                },
-                "hours": "PT5H",
-                "comment": {
-                  "raw": "Some comment"
-                },
-                "spentOn": "2017-07-28",
-                "customField1": {
-                  "raw": "some text custom field value"
-                },
-                "customField8": 5
-            }
-
-+ Response 200
-
-    [Time entry][]
-
-+ Response 400 (application/hal+json)
-
-    Occurs when the client did not send a valid JSON object in the request body.
-
-    + Body
-
-            {
-                "_type": "Error",
-                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
-                "message": "The request body was not a single JSON object."
-            }
-
-+ Response 403 (application/hal+json)
-
-    Returned if the client does not have sufficient permissions.
-
-    **Required permission:** Edit (own) time entries, depending on what time entry is being modified.
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
-                "message": "You are not authorized to access this resource."
-            }
-
-+ Response 422 (application/hal+json)
-
-    Returned if:
-
-    * a constraint for a property was violated (`PropertyConstraintViolation`)
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
-                "message": "Work package is invalid.",
-                "_embedded": {
-                    "details": {
-                        "attribute"=>"workPackage"
-                    }
-                }
-            }
-
-## Time entry schema [/api/v3/time_entries/schema]
+## View time entry schema [/api/v3/time_entries/schema]
 
 + Model
     + Body
@@ -609,7 +615,7 @@ Updates the given time entry by applying the attributes provided in the body. Pl
 
 + Response 200 (application/hal+json)
 
-    [Time entry schema][]
+    [View time entry schema][]
 
 + Response 403 (application/hal+json)
 
@@ -908,6 +914,9 @@ This endpoint returns a form allowing a guided update of existing time entries.
 For more details and all possible responses see the general specification of [Forms](/api/forms).
 
 ## Time entry update form [POST]
+
++ Parameters
+    + id (required, integer, `1`) ... time entries activity id
 
 + Request Create time entry form
 
@@ -1257,7 +1266,7 @@ None
 | default      | Flag to signal whether this activity is the default activity | Boolean  |                                                      | READ                 |                                                             |
 
 
-## Time entries activity [/api/v3/time_entries/activity/{id}]
+## View time entries activity [/api/v3/time_entries/activity/{id}]
 
 + Model
     + Body
@@ -1291,14 +1300,14 @@ None
                 }
             }
 
-## View time entries activity[GET]
+## View time entries activity [GET]
 
 + Parameters
     + id (required, integer, `1`) ... time entries activity id
 
 + Response 200 (application/hal+json)
 
-    [Time entries activity][]
+    [View time entries activity][]
 
 + Response 404 (application/hal+json)
 

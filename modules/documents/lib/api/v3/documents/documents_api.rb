@@ -40,7 +40,7 @@ module API
 
             if query.valid?
               DocumentCollectionRepresenter.new(query.results,
-                                                api_v3_paths.documents,
+                                                self_link: api_v3_paths.documents,
                                                 page: to_i_or_nil(params[:offset]),
                                                 per_page: resolve_page_size(params[:pageSize]),
                                                 current_user: current_user)

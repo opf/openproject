@@ -124,7 +124,7 @@ describe ::API::V3::Categories::CategoryRepresenter do
         end
 
         it 'changes when the category\'s assigned_to is updated' do
-          category.assigned_to.updated_on = Time.now + 20.seconds
+          category.assigned_to.updated_at = Time.now + 20.seconds
 
           expect(representer.json_cache_key)
             .not_to eql former_cache_key

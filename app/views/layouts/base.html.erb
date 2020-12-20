@@ -161,7 +161,7 @@ See docs/COPYRIGHT.rdoc for more details.
       </div>
     <% end %>
     <div class="content-overlay"></div>
-    <div id="content-wrapper" class="<%= initial_classes %>">
+    <main id="content-wrapper" class="<%= initial_classes %>">
       <% if show_decoration %>
         <div id="breadcrumb" class="<%= initial_classes %><%= show_breadcrumb ? ' -show' : '' %>">
           <%= you_are_here_info %>
@@ -185,7 +185,7 @@ See docs/COPYRIGHT.rdoc for more details.
         <% end %>
         <%= call_hook :view_layouts_base_content %>
       </div>
-    </div>
+    </main>
   </div>
   <div id="ajax-indicator" style="display:none;"><span><%= t(:label_loading) %></span></div>
 </div>

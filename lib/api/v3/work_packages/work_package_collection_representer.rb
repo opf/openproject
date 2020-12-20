@@ -35,7 +35,7 @@ module API
         element_decorator ::API::V3::WorkPackages::WorkPackageRepresenter
 
         def initialize(models,
-                       self_link,
+                       self_link:,
                        query: {},
                        project: nil,
                        groups:,
@@ -50,7 +50,7 @@ module API
           @embed_schemas = embed_schemas
 
           super(models,
-                self_link,
+                self_link: self_link,
                 query: query,
                 page: page,
                 per_page: per_page,
@@ -181,7 +181,7 @@ module API
           end
 
           Schema::WorkPackageSchemaCollectionRepresenter.new(schemas,
-                                                             schemas_path,
+                                                             self_link: schemas_path,
                                                              current_user: current_user)
         end
 

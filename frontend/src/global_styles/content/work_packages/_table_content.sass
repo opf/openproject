@@ -107,6 +107,7 @@ html:not(.-browser-mobile)
     width: 60px
     // Override the default td line-height
     line-height: initial !important
+    white-space: nowrap;
 
 // Show context menu button when hovering
 .wp-table--context-menu-td a
@@ -130,6 +131,10 @@ html:not(.-browser-mobile)
   display: inline-block
   vertical-align: middle
   width: 100%
+  
+  @media print
+    white-space: normal
+
   .wp-table--cell-td.-editing &
     display: block
     width: initial !important

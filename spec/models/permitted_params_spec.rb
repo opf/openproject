@@ -921,8 +921,8 @@ describe PermittedParams, type: :model do
       it_behaves_like 'forbids params'
     end
 
-    describe 'created_on' do
-      let(:hash) { { 'created_on' => 'blubs' } }
+    describe 'created_at' do
+      let(:hash) { { 'created_at' => 'blubs' } }
 
       it_behaves_like 'forbids params'
     end

@@ -55,6 +55,8 @@ es:
     button_duplicate: "Duplicar"
     button_edit: "Editar"
     button_filter: "Filtro"
+    button_collapse_all: "Colapsar todo"
+    button_expand_all: "Expandir todos"
     button_advanced_filter: "Filtro avanzado"
     button_list_view: "Vista de lista"
     button_show_view: "Vista de pantalla completa"
@@ -256,7 +258,6 @@ es:
     general_text_yes: "sí"
     general_text_No: "No"
     general_text_Yes: "Sí"
-    global_roles: Roles globales
     hal:
       error:
         update_conflict_refresh: "Haga clic aquí para actualizar el recurso y cambiar a la versión más reciente."
@@ -270,13 +271,13 @@ es:
           text_new_features: "Obtenga información sobre nuevas características y actualizaciones de productos."
           learn_about: "Más información sobre las nuevas características"
           standard:
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            current_new_feature_html: >
+              Esta versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li><b>Estilos mejorados</b> del editor WYSIWYG.</li> <li>Visualización directa del <b>nombre de usuario en las @notificaciones</b> al editar.</li> <li>Perfil de autenticación ampliado con un <b>proveedor de OpenID Connect</b>.</li> <li>Visualización de <b>hitos agregados</b> de proyectos en una única fila en diagramas de Gantt.</li> <li><b>Botón «Contraer todo» para grupos</b> en la lista de paquetes de trabajo.</li> <li><b>Optimización para impresión</b> (por ejemplo, páginas wiki) mediante la función de impresión del navegador.</li> </ul>
+          bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              La versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li><b>Programación descendente</b> para definir todas las tareas del proyecto. Los elementos secundarios no afectan a las fechas de inicio y finalización del elemento principal.</li> <li>Los <b>paneles ágiles y versátiles</b> permiten crear una estructura de desglose del trabajo o distribuir las tareas entre subproyectos.</li> <li><b>Plantillas de proyecto</b> para crear fácilmente nuevos proyectos.</li> <li>La configuración de la página de proyectos permite <b>gestionar mejor la cartera de proyectos</b>.</li> </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-5
-            current_new_feature_html: >
-              OpenProject 10.5 ahora es compatible con el <b>formato de colaboración BIM (BCF)</b>: el estándar de seguimiento de incidencias sin resolver para modelos BIM.<br><br> <ul class="%{list_styling_class}"> <li>Cree y gestione fácilmente <b>incidencias de BIM</b> (como conflictos, solicitudes y preguntas) en el modelo IFC 3D interactivo y <b>compártalas con el equipo del proyecto</b>.</li> <li>Integre OpenProject con su software de BIM favorito mediante la avanzada <a target="_blank" href="%{bcf_api_link}">API de REST de BCF</a>.</li> <li>Importe y exporte archivos XML de BCF.</li> </ul>
+              Esta versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li><b>Estilos mejorados</b> del editor WYSIWYG.</li> <li>Visualización directa del <b>nombre de usuario en las @notificaciones</b> al editar.</li> <li>Perfil de autenticación ampliado con un <b>proveedor de OpenID Connect</b>.</li> <li>Visualización de <b>hitos agregados</b> de proyectos en una única fila en diagramas de Gantt.</li> <li><b>Botón «Contraer todo» para grupos</b> en la lista de paquetes de trabajo.</li> <li><b>Optimización para impresión</b> (por ejemplo, páginas wiki) mediante la función de impresión del navegador.</li> </ul>
     label_activate: "Activar"
     label_add_column_after: "Añadir columna a la derecha"
     label_add_column_before: "Añadir columna a la izquierda"
@@ -332,6 +333,7 @@ es:
     label_filename: "Archivo"
     label_filesize: "Tamaño"
     label_general: "General"
+    label_global_roles: "Roles globales"
     label_greater_or_equal: ">="
     label_group: 'Grupo'
     label_group_by: "Agrupar por"
@@ -361,7 +363,7 @@ es:
     label_next: "Siguiente"
     label_no_color: "Sin color"
     label_no_data: "No hay datos disponibles"
-    label_no_due_date: "no hay fecha de finalización"
+    label_no_due_date: "no finish date"
     label_no_start_date: "sin fecha de inicio"
     label_no_value: "Sin valor"
     label_none: "ninguno"

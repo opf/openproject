@@ -87,7 +87,7 @@ class WikiController < ApplicationController
   # List of page, by last update
   def date_index
     load_pages_for_index
-    @pages_by_date = @pages.group_by { |p| p.updated_on.to_date }
+    @pages_by_date = @pages.group_by { |p| p.updated_at.to_date }
   end
 
   def new; end
@@ -424,7 +424,7 @@ class WikiController < ApplicationController
   end
 
   def load_pages_for_index
-    @pages = @wiki.pages.with_updated_on.order(Arel.sql('title')).includes(wiki: :project)
+    @pages = @wiki.pages.with_updated_at.order(Arel.sql('title')).includes(wiki: :project)
   end
 
   def default_breadcrumb

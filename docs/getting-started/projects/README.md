@@ -25,7 +25,7 @@ A project in OpenProject can be understood as a project as defined above. Also, 
 | [View all projects](#view-all-projects)                 | Get an overview about all your projects.                     |
 | [Advanced project settings](#advanced-project-settings) | Configure further advanced settings for your project.        |
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/q1jxzPNQTls" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Projects-Introduction.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ## Open an existing project
 
@@ -67,9 +67,9 @@ Also, you can click the green button **+ Project** directly on the system's home
 
 ![image-20200921122508132](image-20200921122508132.png)
 
-Now, you can get started working on your project.
+By default, creating a new project will set you as project admin, regardless of whether you copied a project, used a template or created a project from scratch. Now, you can get started working on your project.
 
-To configure further project information, see the [advanced settings](#TODO) section in the project admin guide.
+To configure further project information, see the documentation for [project settings](../../user-guide/projects/project-settings/project-information/). 
 
 ### View all projects
 

@@ -40,7 +40,8 @@ class Activities::WikiContentActivityProvider < Activities::BaseActivityProvider
   def event_query_projection
     [
       projection_statement(wikis_table, :project_id, 'project_id'),
-      projection_statement(wiki_pages_table, :title, 'wiki_title')
+      projection_statement(wiki_pages_table, :title, 'wiki_title'),
+      projection_statement(wiki_pages_table, :slug, 'wiki_slug')
     ]
   end
 
@@ -77,6 +78,6 @@ class Activities::WikiContentActivityProvider < Activities::BaseActivityProvider
   end
 
   def url_helper_parameter(event)
-    [event['project_id'], event['wiki_title'].to_url, { version: event['version'] }]
+    [event['project_id'], event['wiki_slug'], { version: event['version'] }]
   end
 end

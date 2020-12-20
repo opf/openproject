@@ -59,7 +59,6 @@
     },
 
     show_global_forms: function () {
-      $('#global_attributes').show();
       $('#global_permissions').show();
     },
 
@@ -69,7 +68,6 @@
     },
 
     hide_global_forms: function () {
-      $('#global_attributes').hide();
       $('#global_permissions').hide();
     },
 

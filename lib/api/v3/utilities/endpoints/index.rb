@@ -84,7 +84,7 @@ module API
           def render_paginated_success(results, params, self_path)
             render_representer
               .new(results,
-                   self_path,
+                   self_link: self_path,
                    page: to_i_or_nil(params[:offset]),
                    per_page: resolve_page_size(params[:pageSize]),
                    current_user: User.current)
@@ -93,7 +93,7 @@ module API
           def render_unpaginated_success(results, self_path)
             render_representer
               .new(results,
-                   self_path,
+                   self_link: self_path,
                    current_user: User.current)
           end
 

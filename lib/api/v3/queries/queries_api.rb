@@ -76,7 +76,7 @@ module API
               self_link = api_v3_paths.query_available_projects
 
               ::API::V3::Projects::ProjectCollectionRepresenter.new(available_projects,
-                                                                    self_link,
+                                                                    self_link: self_link,
                                                                     current_user: current_user)
             end
           end

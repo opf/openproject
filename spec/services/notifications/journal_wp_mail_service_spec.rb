@@ -194,6 +194,44 @@ describe Notifications::JournalWpMailService do
                         author: author,
                         type: project.types.first)
     end
+    let(:recipient) do
+      FactoryBot.create(:user,
+                        mail_notification: 'only_assigned',
+                        member_in_project: project,
+                        member_through_role: role,
+                        login: "johndoe")
+    end
+
+    shared_examples_for 'group mention' do
+      context 'group member is allowed to view the work package' do
+        context 'user wants to receive notifications' do
+          it_behaves_like 'sends mail'
+        end
+
+        context 'user disabled notifications' do
+          let(:recipient) { FactoryBot.create(:user, mail_notification: User::USER_MAIL_OPTION_NON.first) }
+
+          it_behaves_like 'sends no mail'
+        end
+      end
+
+      context 'group is not allowed to view the work package' do
+        let(:role) { FactoryBot.create(:role, permissions: []) }
+
+        it_behaves_like 'sends no mail'
+
+        context 'but group member is allowed individually' do
+          let(:recipient) do
+            FactoryBot.create(:user,
+                              mail_notification: 'only_assigned',
+                              member_in_project: project,
+                              member_with_permissions: [:view_work_packages])
+          end
+
+          it_behaves_like 'sends mail'
+        end
+      end
+    end
 
     shared_examples_for 'mentioned' do
       context 'for users' do
@@ -208,6 +246,7 @@ describe Notifications::JournalWpMailService do
             context "that is an email address" do
               let(:recipient) do
                 FactoryBot.create(:user,
+                                  mail_notification: 'only_assigned',
                                   member_in_project: project,
                                   member_through_role: role,
                                   login: "foo@bar.com")
@@ -219,6 +258,26 @@ describe Notifications::JournalWpMailService do
 
           context "The added text contains a user ID" do
             let(:note) { "Hello user##{recipient.id}" }
+
+            it_behaves_like 'sends mail'
+          end
+
+          context "The added text contains a user mention tag in one way" do
+            let(:note) do
+              <<~NOTE
+                Hello <mention class="mention" data-id="#{recipient.id}" data-type="user" data-text="@#{recipient.name}">@#{recipient.name}</mention>
+              NOTE
+            end
+
+            it_behaves_like 'sends mail'
+          end
+
+          context "The added text contains a user mention tag in the other way" do
+            let(:note) do
+              <<~NOTE
+                Hello <mention class="mention" data-type="user" data-id="#{recipient.id}" data-text="@#{recipient.name}">@#{recipient.name}</mention>
+              NOTE
+            end
 
             it_behaves_like 'sends mail'
           end
@@ -242,6 +301,7 @@ describe Notifications::JournalWpMailService do
         context "mentioned user is not allowed to view the work package" do
           let(:recipient) do
             FactoryBot.create(:user,
+                              mail_notification: 'only_assigned',
                               login: "foo@bar.com")
           end
           let(:note) do
@@ -252,8 +312,13 @@ describe Notifications::JournalWpMailService do
         end
       end
 
+      # TODO: test for group mention.
+      # Probably need to distinguish between user and group in mention tag
       context 'for groups' do
-        let(:recipient) { FactoryBot.create(:user) }
+        let(:recipient) do
+          FactoryBot.create(:user,
+                            mail_notification: 'only_assigned')
+        end
 
         let(:group) do
           FactoryBot.create(:group, members: recipient) do |group|
@@ -264,36 +329,32 @@ describe Notifications::JournalWpMailService do
           end
         end
 
-        let(:note) do
-          "Hello group##{group.id}"
+        context 'on a hash/id based mention' do
+          let(:note) do
+            "Hello group##{group.id}"
+          end
+
+          it_behaves_like 'group mention'
         end
 
-        context 'group member is allowed to view the work package' do
-          context 'user wants to receive notifications' do
-            it_behaves_like 'sends mail'
+        context 'on a tag based mention with the type after' do
+          let(:note) do
+            <<~NOTE
+              Hello <mention class="mention" data-id="#{group.id}" data-type="group" data-text="@#{group.name}">@#{group.name}</mention>
+            NOTE
           end
 
-          context 'user disabled notifications' do
-            let(:recipient) { FactoryBot.create(:user, mail_notification: User::USER_MAIL_OPTION_NON.first) }
-
-            it_behaves_like 'sends no mail'
-          end
+          it_behaves_like 'group mention'
         end
 
-        context 'group is not allowed to view the work package' do
-          let(:role) { FactoryBot.create(:role, permissions: []) }
-
-          it_behaves_like 'sends no mail'
-
-          context 'but group member is allowed individually' do
-            let(:recipient) do
-              FactoryBot.create(:user,
-                                member_in_project: project,
-                                member_with_permissions: [:view_work_packages])
-            end
-
-            it_behaves_like 'sends mail'
+        context 'on a tag based mention with the type before' do
+          let(:note) do
+            <<~NOTE
+              Hello <mention data-type="group" class="mention" data-id="#{group.id}" data-text="@#{group.name}">@#{group.name}</mention>
+            NOTE
           end
+
+          it_behaves_like 'group mention'
         end
       end
     end

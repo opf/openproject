@@ -41,7 +41,7 @@ class DocumentsController < ApplicationController
     @grouped =
       case @group_by
       when 'date'
-        documents.group_by {|d| d.updated_on.to_date }
+        documents.group_by {|d| d.updated_at.to_date }
       when 'title'
         documents.group_by {|d| d.title.first.upcase}
       when 'author'

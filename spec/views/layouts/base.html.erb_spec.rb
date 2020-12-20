@@ -158,7 +158,7 @@ describe 'layouts/base', type: :view do
       visit 'assets/favicon.ico'
       expect(page.status_code).to eq(200)
 
-      visit 'apple-touch-icon-120x120.png'
+      visit 'assets/apple-touch-icon-120x120.png'
       expect(page.status_code).to eq(200)
     end
   end

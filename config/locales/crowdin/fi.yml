@@ -202,7 +202,6 @@ fi:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
-      edit_columns: 'Edit columns'
       open_as_gantt: 'Avaa Gantt-näkymässä'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -755,7 +754,6 @@ fi:
     content: "Sisältö"
     color: "Väri"
     created_at: "Luotu"
-    created_on: "Luotu"
     custom_options: "Mahdolliset arvot"
     custom_values: "Mukautetut kentät"
     date: "Päivämäärä"
@@ -1031,6 +1029,7 @@ fi:
   default_role_anonymous: "Anonyymi"
   default_role_developer: "Kehittäjä"
   default_role_project_admin: "Projektin ylläpitäjä"
+  default_role_project_creator: "Projektin luoja"
   default_role_non_member: "Ei jäsen"
   default_role_reader: "Lukuoikeus"
   default_role_member: "Jäsen"
@@ -1752,6 +1751,11 @@ fi:
     one: "1 projekti"
     other: "%{count} projects"
   label_yesterday: "eilen"
+  label_role_type: "Tyyppi"
+  label_member_role: "Projektirooli"
+  label_global_role: "Yleinen rooli"
+  label_not_changeable: "(ei vaihdettavissa)"
+  label_global: "Yleinen"
   auth_source:
     using_abstract_auth_source: "Voi käyttää abstrakti autentikointi lähde."
     ldap_error: "LDAP-Error: %{error_message}"

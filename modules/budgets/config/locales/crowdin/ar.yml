@@ -27,13 +27,11 @@ ar:
         available: "متاح"
         budget: "مُخَطَّط"
         budget_ratio: "أنفق (النسبة)"
-        created_on: "تم الإنشاء في"
         description: "الوصف"
         spent: "أنفق"
         status: "الحالة"
         subject: "الموضوع"
         type: "أنواع التكلفة"
-        updated_on: "تم التحديث بتاريخ"
         labor_budget: "تكاليف العمل المخطط لها"
         material_budget: "تكاليف الوحدة المخطط لها"
       work_package:

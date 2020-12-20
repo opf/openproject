@@ -103,7 +103,7 @@ class EnterprisesController < ApplicationController
     if @trial_key
       gon.ee_trial_key = {
         value: @trial_key.value,
-        created: @trial_key.created_on
+        created: @trial_key.created_at
       }
     end
   end

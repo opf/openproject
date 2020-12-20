@@ -88,6 +88,10 @@ module Pages
 
       private
 
+      def notification_type
+        :rails
+      end
+
       def path
         settings_generic_project_path(project)
       end

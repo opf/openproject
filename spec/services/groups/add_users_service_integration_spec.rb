@@ -48,10 +48,9 @@ describe Groups::AddUsersService, 'integration', type: :model do
     let(:user2) { FactoryBot.create :user }
 
     let(:user_ids) { [user1.id, user2.id] }
-    subject { instance.call(user_ids) }
+    subject { instance.call(ids: user_ids) }
 
     context 'as an admin user' do
-      #using_shared_fixtures :admin
       let(:current_user) { admin }
 
       it 'adds the users to the group and project' do

@@ -114,7 +114,10 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
       it 'returns the mapped value' do
         objects = instance.value_objects
 
-        expect(objects.map(&:id)).to eql ['me', responsible.id, responsible2.id]
+        # The first value is guaranteed to be 'me'.
+        # There is no order on the other values.
+        expect(objects.map(&:id)[0]).to eql 'me'
+        expect(objects.map(&:id)[1..-1]).to match_array [responsible.id, responsible2.id]
       end
     end
 

@@ -37,12 +37,13 @@ Watch a short 3-minute introduction video to get started with OpenProject in 5 e
 4. Create a project plan
 5. Filter, group and create reports
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Fk4papnAzMw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://www.openproject.org/wp-content/uploads/2020/12/5-steps-to-get-started-with-OpenProject.mp4" type="video/mp4" controls="" style="width:100%"></video>
+
 ## OpenProject product demo video
 
 Watch a **comprehensive OpenProject product introduction** video to learn how to work with OpenProject using traditional and agile project management. 
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/ebc3lcSmncA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-product-demo-webinar-2.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 
 

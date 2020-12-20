@@ -55,6 +55,8 @@ de:
     button_duplicate: "Duplizieren"
     button_edit: "Bearbeiten"
     button_filter: "Filter"
+    button_collapse_all: "Alle zuklappen"
+    button_expand_all: "Alle ausklappen"
     button_advanced_filter: "Erweiterte Filter"
     button_list_view: "Listenansicht"
     button_show_view: "Vollbildansicht"
@@ -255,7 +257,6 @@ de:
     general_text_yes: "ja"
     general_text_No: "Nein"
     general_text_Yes: "Ja"
-    global_roles: Globale Rollen
     hal:
       error:
         update_conflict_refresh: "Klicken Sie hier, um die Ressource auf die neueste Version zu aktualisieren."
@@ -269,13 +270,13 @@ de:
           text_new_features: "Lesen Sie über neue Funktionen und Updates."
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           standard:
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            current_new_feature_html: >
+              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li><b>Verbessertes Styling</b>  des WYSIWYG-Editors.</li> <li>Direkte Anzeige von <b>Benutzernamen für @Benachrichtigungen</b> während der Bearbeitung.</li> <li>Erweitertes Authentifizierungsprofil mit einem <b>OpenID Connect Provider.</b></li> <li>Darstellung von Projekt-<b>Meilensteinen aggregiert</b> in einer Zeile im Gantt-Diagramm.</li> <li><b>Button zum Einklappen von Gruppen</b> in der Arbeitspaketliste.</li> <li><b>Optimierung für das Drucken,</b> z.B. von Wiki-Seiten, über die Druckfunktion des Browsers.</li> </ul>
+          bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li><b>Top-Down-Planung</b> um alle Projektaufgaben zu definieren. Dabei sind die Anfangs- und Enddaten eines Elternelements unabhängig von den Daten der Unteraufgaben.</li> <li><b>Vielseitige agile Boards</b> ermöglichen Ihnen die Erstellung eines Projektstrukturplans oder die Verteilung von Aufgaben auf Unterprojekte.</li> <li><b>Projektvorlagen</b> zur einfachen Erstellung neuer Projekte.</li> <li>Die Konfiguration der Projektseite ermöglicht ein besseres <b>Projektportfolio-Management.</b></li> </ul>
-          bim:
-            learn_about_link: "https://www.openproject.org/openproject-bim-10-5\n"
-            current_new_feature_html: >
-              OpenProject 10.5 unterstützt nun das <b>BIM Collaboration Format (BCF)</b> – den offenen Standard für Ticketverfolgung in BIM Modellen.<br><br> <ul class="%{list_styling_class}"> <li>Einfach <b>BIM Tickets anlegen und verwalten</b> wie z. B. Konflikte, Anfragen und Fragen im interaktiven 3D-IFC-Viewer und <b>teilen der Informationen mit dem Projektteam.</b></li> <li>Integrieren Sie OpenProject mit Ihrer bevorzugten BIM Software mit der leistungsstarken <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>BCF XML-Dateien importieren und exportieren.</li> </ul>
+              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li><b>Verbessertes Styling</b>  des WYSIWYG-Editors.</li> <li>Direkte Anzeige von <b>Benutzernamen für @Benachrichtigungen</b> während der Bearbeitung.</li> <li>Erweitertes Authentifizierungsprofil mit einem <b>OpenID Connect Provider.</b></li> <li>Darstellung von Projekt-<b>Meilensteinen aggregiert</b> in einer Zeile im Gantt-Diagramm.</li> <li><b>Button zum Einklappen von Gruppen</b> in der Arbeitspaketliste.</li> <li><b>Optimierung für das Drucken,</b> z.B. von Wiki-Seiten, über die Druckfunktion des Browsers.</li> </ul>
     label_activate: "Aktiviere"
     label_add_column_after: "Spalte danach hinzufügen"
     label_add_column_before: "Spalte davor hinzufügen"
@@ -331,6 +332,7 @@ de:
     label_filename: "Datei"
     label_filesize: "Größe"
     label_general: "Allgemein"
+    label_global_roles: "Globale Rollen"
     label_greater_or_equal: ">="
     label_group: 'Gruppe'
     label_group_by: "Gruppiere Ergebnisse"
@@ -360,7 +362,7 @@ de:
     label_next: "Weiter"
     label_no_color: "Keine Farbe"
     label_no_data: "Es sind keine Daten vorhanden"
-    label_no_due_date: "kein Abgabedatum"
+    label_no_due_date: "no finish date"
     label_no_start_date: "kein Startdatum"
     label_no_value: "Kein Wert"
     label_none: "keine"

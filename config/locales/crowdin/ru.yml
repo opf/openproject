@@ -201,7 +201,6 @@ ru:
       completed: "Удаление проекта %{name} завершено"
       completed_text: "Запрос на удаление проекта '%{name}' был завершен."
     index:
-      edit_columns: 'Изменить столбцы'
       open_as_gantt: 'Открыть в виде Gantt'
       open_as_gantt_title: "Используйте эту кнопку для создания представления Гантта, фильтрующего пакеты работ, видимых на этой странице."
       open_as_gantt_title_admin: "Вы можете изменить настройки вида (такие как выбранные типы пакетов работ) в администрировании в настройках проекта."
@@ -762,7 +761,6 @@ ru:
     content: "Содержание"
     color: "Цвет"
     created_at: "Создано"
-    created_on: "Создано"
     custom_options: "Возможные значения"
     custom_values: "Настраиваемые поля"
     date: "Дата"
@@ -1062,6 +1060,7 @@ ru:
   default_role_anonymous: "Анонимно"
   default_role_developer: "Разработчик"
   default_role_project_admin: "Администратор проекта"
+  default_role_project_creator: "Создатель проекта"
   default_role_non_member: "Не участник"
   default_role_reader: "Читатель"
   default_role_member: "Участник"
@@ -1791,6 +1790,11 @@ ru:
     many: "%{count} проектов"
     other: "%{count} проектов"
   label_yesterday: "вчера"
+  label_role_type: "Тип"
+  label_member_role: "Роль проекта"
+  label_global_role: "Глобальная роль"
+  label_not_changeable: "(неизменяемая)"
+  label_global: "Глобальная"
   auth_source:
     using_abstract_auth_source: "Нельзя использовать абстрактную аутентификацию."
     ldap_error: "LDAP-ошибка: %{error_message}"

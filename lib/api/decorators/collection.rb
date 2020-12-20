@@ -33,7 +33,7 @@ module API
     class Collection < ::API::Decorators::Single
       include API::Utilities::UrlHelper
 
-      def initialize(models, total, self_link, current_user:)
+      def initialize(models, total, self_link:, current_user:)
         @total = total
         @self_link = self_link
 

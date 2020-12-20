@@ -1,0 +1,18 @@
+#!/bin/sh
+
+set -e
+
+bundle exec rake db:migrate
+bundle exec rake i18n:js:export openproject:plugins:register_frontend assets:rebuild_manifest assets:clean
+cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
+
+echo ""
+echo ""
+echo "Ready for tests. Run"
+echo "  docker-compose exec backend-test bundle exec rspec"
+echo "to start the full suite, or "
+echo "  docker-compose exec backend-test bundle exec rspec $tests"
+echo "to run a subset"
+
+# Keep this container online
+while true; do sleep 1000; done;
