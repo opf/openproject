@@ -54,7 +54,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <% if saved_meeting_content_text_present?(content) -%>
     <div id="<%= content_type %>-text"
          style="<%= 'display: none' if show_meeting_content_editor?(content, content_type) %>"
-         class="wiki show-<%= content_type %>">
+         class="wiki show-<%= content_type %> op-uc-container">
       <%= format_text(content.text, :object => @meeting) %>
     </div>
   <% else -%>

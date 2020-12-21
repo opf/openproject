@@ -145,7 +145,7 @@ module API
 
         ::API::V3::WorkPackages::WorkPackageCollectionRepresenter.new(
           work_packages,
-          self_link(project),
+          self_link: self_link(project),
           project: project,
           query: resulting_params,
           page: resulting_params[:offset],

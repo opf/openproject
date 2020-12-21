@@ -58,7 +58,8 @@ export class WorkPackageCellLabels {
               public readonly leftHover:HTMLDivElement|null,
               public readonly right:HTMLDivElement,
               public readonly rightHover:HTMLDivElement|null,
-              public readonly farRight:HTMLDivElement) {
+              public readonly farRight:HTMLDivElement,
+              public readonly withAlternativeLabels?:boolean) {
   }
 
 }
@@ -138,12 +139,14 @@ export class WorkPackageTimelineCell {
     const wasRendered = this.wpElement !== null && body.contains(this.wpElement);
 
     // If already rendered with correct shape, ignore
-    if (wasRendered && (this.elementShape === renderer.type)) {
+    if (wasRendered && this.elementShape === renderer.type) {
       return Promise.resolve();
     }
 
     // Remove the element first if we're redrawing
-    this.clear();
+    if (!renderInfo.isDuplicatedCell) {
+      this.clear();
+    }
 
     // Render the given element
     this.wpElement = renderer.render(renderInfo);
@@ -185,6 +188,7 @@ export class WorkPackageTimelineCell {
 
   public refreshView(renderInfo:RenderInfo) {
     this.latestRenderInfo = renderInfo;
+
     const renderer = this.cellRenderer(renderInfo.workPackage);
 
     // Render initial element if necessary

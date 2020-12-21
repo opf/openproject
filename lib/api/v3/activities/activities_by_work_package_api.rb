@@ -39,7 +39,7 @@ module API
             @activities = get_aggregated_journals
             self_link = api_v3_paths.work_package_activities @work_package.id
             Activities::ActivityCollectionRepresenter.new(@activities,
-                                                          self_link,
+                                                          self_link: self_link,
                                                           current_user: current_user)
           end
 

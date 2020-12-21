@@ -41,7 +41,7 @@ module API
         self.to_eager_load = ::API::V3::Projects::ProjectRepresenter.to_eager_load
         self.checked_permissions = ::API::V3::Projects::ProjectRepresenter.checked_permissions
 
-        def initialize(models, self_link, current_user:)
+        def initialize(models, self_link:, current_user:)
           super
 
           @represented = ::API::V3::Projects::ProjectEagerLoadingWrapper.wrap(represented)

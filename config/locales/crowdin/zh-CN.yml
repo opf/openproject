@@ -198,7 +198,6 @@ zh-CN:
       completed: "项目 %{name} 删除完成"
       completed_text: "删除项目“%{name}”的请求已完成。"
     index:
-      edit_columns: '编辑列'
       open_as_gantt: '以甘特视图打开'
       open_as_gantt_title: "此按钮用于生成甘特视图，该视图可以过滤此页面上可见项目的工作包。"
       open_as_gantt_title_admin: "您可以在“项目设置”下的“管理”中修改视图设置（如选择的工作包类型）。"
@@ -746,7 +745,6 @@ zh-CN:
     content: "内容"
     color: "颜色"
     created_at: "创建"
-    created_on: "创建"
     custom_options: "可能的值"
     custom_values: "自定义字段"
     date: "日期"
@@ -1010,6 +1008,7 @@ zh-CN:
   default_role_anonymous: "匿名"
   default_role_developer: "开发者"
   default_role_project_admin: "项目管理员"
+  default_role_project_creator: "项目创建人"
   default_role_non_member: "非成员"
   default_role_reader: "只读"
   default_role_member: "成员"
@@ -1727,6 +1726,11 @@ zh-CN:
     zero: "没有项目"
     other: "%{count} 个项目"
   label_yesterday: "昨天"
+  label_role_type: "类型"
+  label_member_role: "项目角色"
+  label_global_role: "全局角色"
+  label_not_changeable: "（不变）"
+  label_global: "全局"
   auth_source:
     using_abstract_auth_source: "无法使用抽象的验证源。"
     ldap_error: "LDAP 错误：%{error_message}"

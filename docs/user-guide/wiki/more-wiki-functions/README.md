@@ -26,7 +26,7 @@ To open further configuration settings, navigate to a wiki page and click on the
 
 In the drop down menu, select the corresponding menu item.
 
-![wiki-settings](wiki-settings.png)
+![more-wiki-functions](image-20201217112513540.png)
 
 ### Lock a wiki page
 
@@ -34,13 +34,13 @@ To lock an existing wiki page and prevent others from editing the page, select t
 
 Select the item **Lock** in the drop down menu.
 
-![lock-wiki](lock-wiki.png)
+![lock-a-wiki-page](image-20201217112558981.png)
 
 The page is now locked and cannot be edited by any other user. 
 
 To unlock a wiki page and make it possible for users to edit it again, select the **Unlock** item under the **More** button on top of a wiki page.
 
-![unlock-wiki](unlock-wiki.png)
+![unlock-wiki-page](image-20201217112657860.png)
 
 It is now possible to edit the wiki page again.
 
@@ -54,7 +54,7 @@ Before the page will be deleted, you have to **re-confirm the deletion** once ag
 
 Please be aware that a deleted wiki page cannot easily be restored within the system.
 
-![delete-wiki](delete-wiki.png)
+![delete-wiki-page](image-20201217112756158.png)
 
 ## Show wiki page History
 
@@ -67,9 +67,7 @@ First, you will get an overview on author and date of the latest updates. Potent
 ![view-differences-wiki](1568213985327.png)
 
 <div class="alert alert-info" role="alert">
-**Note**: The more distance between two versions, the more difficult it becomes to compare them, since only the selected versions are compared (ignoring the changes that were made in the meantime). The most comprehensible information is thus provided by comparing two consecutive versions.
-
-</div>
+**Note**: The more distance between two versions, the more difficult it becomes to compare them, since only the selected versions are compared (ignoring the changes that were made in the meantime). The most comprehensible information is thus provided by comparing two consecutive versions.</div>
 
 ## Export a wiki page
 

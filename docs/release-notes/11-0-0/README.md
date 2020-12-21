@@ -289,7 +289,7 @@ There are lots and lots of new things we packed into 11.0 to tell you about.
 - Changed: Gantt chart: Make row's background translucent when hovered \[[#34028](https://community.openproject.com/wp/34028)\]
 - Changed: change icons for manual scheduling mode \[[#34058](https://community.openproject.com/wp/34058)\]
 - Changed: Improve board creation modal \[[#34070](https://community.openproject.com/wp/34070)\]
-- Changed: Hide derived(Start|Finish)Date from work package forms \[[#34122](https://community.openproject.com/wp/34122)\]
+- Changed: Hide derived (Start/Finish) Date from work package forms \[[#34122](https://community.openproject.com/wp/34122)\]
 - Changed: Extend search autocompleter with useful information \[[#34132](https://community.openproject.com/wp/34132)\]
 - Changed: [all projects overview] (Add option to) show status-text in expanded view. \[[#34191](https://community.openproject.com/wp/34191)\]
 - Changed: Map board subtasks columns when copying projects \[[#34238](https://community.openproject.com/wp/34238)\]

@@ -73,6 +73,11 @@ describe 'Upload attachment to forum message', js: true do
       click_on "Edit"
     end
 
+    find('.op-uc-figure').click
+    find('.ck-widget__type-around__button_after').click
+
+    editor.type_slowly("A spacer text")
+
     editor.drag_attachment image_fixture, 'Image uploaded the second time'
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)

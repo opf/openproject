@@ -50,24 +50,9 @@
 # It provides the hooks to apply different formatting to the details
 # of a specific journal.
 module JournalDeprecated
-  # Old timestamps. created_at is what t.timestamps creates in recent Rails journals
-  def created_on
-    created_at
-  end
-
-  # Old naming
-  def journalized
-    journaled
-  end
-
-  # Old naming
-  def journalized=(obj)
-    journaled = obj
-  end
-
   # Shortcut from more issue-specific journals
   def attachments
-    journalized.respond_to?(:attachments) ? journalized.attachments : nil
+    journaled.respond_to?(:attachments) ? journaled.attachments : nil
   end
 
   # deprecate created_on: "use #created_at"

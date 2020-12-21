@@ -26,9 +26,9 @@ The package will:
 
 The package is available for the following Linux distributions:
 
-| Distribution (**64 bits only**)             |
+| Distribution (64 bits only)                 |
 | ------------------------------------------- |
-| [Ubuntu 20.04 Focal](#ubuntu-2004)  |
+| [Ubuntu 20.04 Focal](#ubuntu-2004)          |
 | [Ubuntu 18.04 Bionic Beaver](#ubuntu-1804)  |
 | [Ubuntu 16.04 Xenial Xerus](#ubuntu-1604)   |
 | [Debian 10 Buster](#debian-10)              |
@@ -75,7 +75,7 @@ sudo apt-get install openproject
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/MTHZVQ_89-k?controls=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://www.openproject.org/wp-content/uploads/2020/12/openproject-installation-ubuntu.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ### Ubuntu 18.04
 

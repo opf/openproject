@@ -55,6 +55,8 @@ pt:
     button_duplicate: "Duplicar"
     button_edit: "Editar"
     button_filter: "Filtro"
+    button_collapse_all: "Recolher todos"
+    button_expand_all: "Expandir todos"
     button_advanced_filter: "Filtro avançado"
     button_list_view: "Lista"
     button_show_view: "Visualização em tela cheia"
@@ -255,7 +257,6 @@ pt:
     general_text_yes: "sim"
     general_text_No: "Não"
     general_text_Yes: "Sim"
-    global_roles: Papéis globais
     hal:
       error:
         update_conflict_refresh: "Clique aqui para atualizar para a versão mais recente."
@@ -269,13 +270,13 @@ pt:
           text_new_features: "Ler sobre os novos recursos e atualizações de produtos."
           learn_about: "Saiba mais sobre os novos recursos"
           standard:
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            current_new_feature_html: >
+              O lançamento contém vários recursos e melhorias novas: <br> <ul class="%{list_styling_class}"> <li><b>Um melhor estilo</b>  do editor WYSIWYG.</li> <li>Exibição direta do <b>nome do usuário para as @notificações</b> durante a edição.</li> <li>Perfil de autenticação prolongado com um <b>provedor OpenID Connect.</b></li> <li>Exibição de marcos de projeto <b> agregada</b> em uma única linha na tabela do Gantt.</li> <li><b>Recolhimento de todos os botões para grupos</b> na lista de pacotes de trabalho.</li> <li><b>Otimização para impressão,</b> ex.: páginas wiki, através da função imprimir do navegador.</li> </ul>
+          bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              A liberação possui vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li><b>Agendamento suspenso</b> para definir todas as tarefas de projeto envolvidas. As datas de início e término do pai não são afetadas por seu filho.</li> <li><b>Painéis versáteis e ágeis</b> permitem que você crie uma estrutura de divisão de trabalho ou para distribuir tarefas entre subprojetos.</li> <li><b>Modelos de projeto</b> para uma criação mais fácil de novos projetos.</li> <li>Configuração da página de projetos que permite uma melhor <b>gestão de portfólio de projeto.</b></li> </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-5
-            current_new_feature_html: >
-              O OpenProject 10.5 agora dá suporte ao <b>BIM Colaboration Format (BCF)</b> - o padrão de rastreio de casos abertos para modelos BIM.<br><br> <ul class="%{list_styling_class}"> <li>Crie e <b>gerencie com facilidade os problemas do BIM,</b> tais como conflitos, solicitações e perguntas no modelo interativo de IFC 3D e <b>compartilhe com a equipa do projeto.</b></li> <li>Integre o OpenProject em seu software BIM favorito através do poderoso <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Importe e exporte arquivos XML BCF.</li> </ul>
+              O lançamento contém vários recursos e melhorias novas: <br> <ul class="%{list_styling_class}"> <li><b>Um melhor estilo</b>  do editor WYSIWYG.</li> <li>Exibição direta do <b>nome do usuário para as @notificações</b> durante a edição.</li> <li>Perfil de autenticação prolongado com um <b>provedor OpenID Connect.</b></li> <li>Exibição de marcos de projeto <b> agregada</b> em uma única linha na tabela do Gantt.</li> <li><b>Recolhimento de todos os botões para grupos</b> na lista de pacotes de trabalho.</li> <li><b>Otimização para impressão,</b> ex.: páginas wiki, através da função imprimir do navegador.</li> </ul>
     label_activate: "Ativar"
     label_add_column_after: "Adicionar coluna depois"
     label_add_column_before: "Adicionar coluna antes"
@@ -331,6 +332,7 @@ pt:
     label_filename: "Arquivo"
     label_filesize: "Tamanho"
     label_general: "Geral"
+    label_global_roles: "Papéis globais"
     label_greater_or_equal: ">="
     label_group: 'Grupo'
     label_group_by: "Agrupar por"
@@ -360,7 +362,7 @@ pt:
     label_next: "Próxima"
     label_no_color: "Sem cor"
     label_no_data: "Sem dados para exibir"
-    label_no_due_date: "nenhuma data de término"
+    label_no_due_date: "no finish date"
     label_no_start_date: "nenhuma data de início"
     label_no_value: "Nenhum valor"
     label_none: "nenhum"

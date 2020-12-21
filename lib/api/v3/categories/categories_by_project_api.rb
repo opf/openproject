@@ -41,7 +41,8 @@ module API
           get do
             self_link = api_v3_paths.categories_by_project(@project.identifier)
 
-            CategoryCollectionRepresenter.new(@categories, self_link, current_user: current_user)
+            CategoryCollectionRepresenter
+              .new(@categories, self_link: self_link, current_user: current_user)
           end
         end
       end

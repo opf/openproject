@@ -37,11 +37,13 @@ module OpenProject::TextFormatting
 
         Sanitize::Config.merge(
           base,
-          elements: base[:elements] + %w[macro],
+          elements: base[:elements] + %w[macro mention],
 
-          # Whitelist class and data-* attributes on all macros
           attributes: base[:attributes].deep_merge(
+            # Whitelist class and data-* attributes on all macros
             'macro' => ['class', :data],
+            # mentions
+            'mention' => %w[data-type data-text data-id class],
             # add styles to tables
             'figure' => ['class', 'style'],
             'table' => ['style'],
@@ -67,7 +69,8 @@ module OpenProject::TextFormatting
 
       def transformers
         [
-          todo_list_transformer
+          todo_list_transformer,
+          code_block_transformer
         ]
       end
 
@@ -80,7 +83,10 @@ module OpenProject::TextFormatting
 
           next unless name == 'table'
 
-          table.css('label.todo-list__label').each do |label|
+          # Support both the old css ('todo-list__label') as well as the new one
+          # ('op-uc-list_task-list').
+          table.css('label.todo-list__label, .op-uc-list_task-list label').each do |label|
+            #table.css('.op-uc-list_task-list label').each do |label|
             checkbox = label.css('input[type=checkbox]').first
             li_node = label.ancestors.detect { |node| node.name == 'li' }
 
@@ -115,6 +121,22 @@ module OpenProject::TextFormatting
         }
       end
 
+      # Prevent nested pre + code.
+      # In such a case, the code is removed.
+      def code_block_transformer
+        lambda { |env|
+          name = env[:node_name]
+          code = env[:node]
+
+          next unless name == 'code'
+
+          parent = code.parent
+
+          if parent&.name == 'pre'
+            parent.children = code.children
+          end
+        }
+      end
     end
   end
 end

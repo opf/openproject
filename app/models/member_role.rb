@@ -28,7 +28,7 @@
 #++
 
 class MemberRole < ApplicationRecord
-  belongs_to :member
+  belongs_to :member, touch: true
   belongs_to :role
 
   after_create :add_role_to_group_users

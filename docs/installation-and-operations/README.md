@@ -1,6 +1,8 @@
 # Installation and Operations Guides
 
-This section concerns the installation and operation of OpenProject (Community and Enterprise on-premises editions).
+This section concerns the installation and operation of **OpenProject** (Community and Enterprise on-premises editions) for general project management.
+
+For installation of the **OpenProject BIM edition** for construction project management, choose OpenProject BIM in Step 1. Then, follow the standard installation steps as described in the guideline.
 
 ## Overview
 

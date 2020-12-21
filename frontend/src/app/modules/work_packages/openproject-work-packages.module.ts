@@ -95,6 +95,7 @@ import {FilterIntegerValueComponent} from 'core-components/filters/filter-intege
 import {FilterStringValueComponent} from 'core-components/filters/filter-string-value/filter-string-value.component';
 import {FilterToggledMultiselectValueComponent} from 'core-components/filters/filter-toggled-multiselect-value/filter-toggled-multiselect-value.component';
 import {WorkPackageDetailsViewButtonComponent} from 'core-components/wp-buttons/wp-details-view-button/wp-details-view-button.component';
+import {WorkPackageFoldToggleButtonComponent} from 'core-components/wp-buttons/wp-fold-toggle-button/wp-fold-toggle-button.component';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 import {WpTableConfigurationColumnsTab} from 'core-components/wp-table/configuration-modal/tabs/columns-tab.component';
 import {WpTableConfigurationDisplaySettingsTab} from 'core-components/wp-table/configuration-modal/tabs/display-settings-tab.component';
@@ -165,6 +166,7 @@ import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-
 import {BackButtonComponent} from "core-app/modules/common/back-routing/back-button.component";
 import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
 import {WorkPackagesTableComponent} from "core-components/wp-table/wp-table.component";
+import {WorkPackageGroupToggleDropdownMenuDirective} from "core-components/op-context-menu/handlers/wp-group-toggle-dropdown-menu.directive";
 
 @NgModule({
   imports: [
@@ -255,6 +257,9 @@ import {WorkPackagesTableComponent} from "core-components/wp-table/wp-table.comp
 
     WorkPackageTableSumsRowController,
 
+    // Fold/Unfold button on wp list
+    WorkPackageFoldToggleButtonComponent,
+
     // Filters
     QueryFiltersComponent,
     QueryFilterComponent,
@@ -279,6 +284,7 @@ import {WorkPackagesTableComponent} from "core-components/wp-table/wp-table.comp
     WorkPackageSingleContextMenuDirective,
     WorkPackageQuerySelectDropdownComponent,
     WorkPackageViewDropdownMenuDirective,
+    WorkPackageGroupToggleDropdownMenuDirective,
 
     // Timeline
     WorkPackageTimelineButtonComponent,

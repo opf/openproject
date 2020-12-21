@@ -72,6 +72,18 @@ en:
   label_units: "Units"
   label_week_reporting: "Week (Spent)"
   label_year_reporting: "Year (Spent)"
+  label_count: "Count"
+  label_filter: "Filter"
+  label_filter_add: "Add Filter"
+  label_filter_plural: "Filters"
+  label_group_by: "Group by"
+  label_group_by_add: "Add Group-by Attribute"
+  label_inactive: "«inactive»"
+  label_no: "No"
+  label_none: "(no data)"
+  label_report: "Report"
+  label_yes: "Yes"
+
   load_query_question: "Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?"
 
   permission_save_cost_reports: "Save public cost reports"
@@ -85,3 +97,8 @@ en:
 
   validation_failure_date: "is not a valid date"
   validation_failure_integer: "is not a valid integer"
+
+  reporting:
+    group_by:
+      selected_columns: "Selected columns"
+      selected_rows: "Selected rows"

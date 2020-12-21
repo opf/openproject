@@ -69,7 +69,7 @@ module WorkPackages
 
           service_call = WorkPackages::UpdateService
                          .new(user: user, model: work_package)
-                         .call(attributes.merge(send_notifications: params[:send_notification] == '1').symbolize_keys)
+                         .call(**attributes.merge(send_notifications: params[:send_notification] == '1').symbolize_keys)
 
           if service_call.success?
             saved << work_package.id

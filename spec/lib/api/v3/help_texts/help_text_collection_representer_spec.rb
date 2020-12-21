@@ -44,7 +44,7 @@ describe ::API::V3::HelpTexts::HelpTextCollectionRepresenter do
 
   let(:representer) do
     described_class.new(help_texts,
-                        self_link,
+                        self_link: self_link,
                         current_user: user)
   end
 

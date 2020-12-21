@@ -49,7 +49,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   let(:representer) do
     described_class.new(
       work_packages,
-      self_base_link,
+      self_link: self_base_link,
       query: query,
       project: project,
       groups: groups,

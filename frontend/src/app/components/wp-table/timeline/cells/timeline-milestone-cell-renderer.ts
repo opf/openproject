@@ -10,6 +10,7 @@ import {
   classNameFarRightLabel,
   classNameHideOnHover,
   classNameHoverStyle,
+  classNameLeftHoverLabel,
   classNameLeftLabel,
   classNameRightContainer,
   classNameRightHoverLabel,
@@ -207,14 +208,24 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     labelHoverRight.classList.add(classNameRightHoverLabel, classNameShowOnHover, classNameHoverStyle);
     element.appendChild(labelHoverRight);
 
-    const labels = new WorkPackageCellLabels(null, labelLeft, null, labelRight, labelHoverRight, labelFarRight);
+    // Create left hover label
+    const labelHoverLeft = document.createElement('div');
+    labelHoverLeft.classList.add(classNameLeftHoverLabel, classNameShowOnHover, classNameHoverStyle);
+    element.appendChild(labelHoverLeft);
+
+    const labels = new WorkPackageCellLabels(null, labelLeft, labelHoverLeft, labelRight, labelHoverRight, labelFarRight, renderInfo.withAlternativeLabels);
     this.updateLabels(false, labels, renderInfo.change);
 
     return labels;
   }
 
   protected renderHoverLabels(labels:WorkPackageCellLabels, change:WorkPackageChangeset) {
-    this.renderLabel(change, labels, 'rightHover', 'date');
+    if (labels.withAlternativeLabels) {
+      this.renderLabel(change, labels, 'leftHover', 'date');
+      this.renderLabel(change, labels, 'rightHover', 'subject');
+    } else {
+      this.renderLabel(change, labels, 'rightHover', 'date');
+    }
   }
 
   protected updateLabels(activeDragNDrop:boolean,
@@ -226,13 +237,17 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     if (!activeDragNDrop) {
       // normal display
 
-      // Show only one date field if left=start, right=dueDate
-      if (labelConfiguration.left === 'startDate' && labelConfiguration.right === 'dueDate') {
-        this.renderLabel(change, labels, 'left', null);
-        this.renderLabel(change, labels, 'right', 'date');
+      if (labels.withAlternativeLabels) {
+        this.renderLabel(change, labels, 'right', 'subject');
       } else {
-        this.renderLabel(change, labels, 'left', labelConfiguration.left);
-        this.renderLabel(change, labels, 'right', labelConfiguration.right);
+        // Show only one date field if left=start, right=dueDate
+        if (labelConfiguration.left === 'startDate' && labelConfiguration.right === 'dueDate') {
+          this.renderLabel(change, labels, 'left', null);
+          this.renderLabel(change, labels, 'right', 'date');
+        } else {
+          this.renderLabel(change, labels, 'left', labelConfiguration.left);
+          this.renderLabel(change, labels, 'right', labelConfiguration.right);
+        }
       }
 
       this.renderLabel(change, labels, 'farRight', labelConfiguration.farRight);

@@ -43,11 +43,11 @@ describe LdapGroups::SynchronizedGroup, type: :model do
         end
 
         it 'adds the user(s) to the internal group' do
-          expect(group.reload.users).to eq users
+          expect(group.reload.users).to match_array users
         end
 
         it 'adds the user(s) to the synchronized group' do
-          expect(synchronized_group.reload.users.map(&:user)).to eq users
+          expect(synchronized_group.reload.users.map(&:user)).to match_array users
         end
       end
 
@@ -90,7 +90,7 @@ describe LdapGroups::SynchronizedGroup, type: :model do
         end
 
         it 'does not, however, delete the actual users!' do
-          expect(User.find(users.map(&:id))).to eq users
+          expect(User.find(users.map(&:id))).to match_array users
         end
       end
 

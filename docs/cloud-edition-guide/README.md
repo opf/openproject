@@ -20,8 +20,8 @@ Welcome to the OpenProject **Enterprise cloud edition guide**.
 
 | Popular Topics                                               | Description                                                  |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
-| [Create a free trial](./create-trial-installation)           | Learn more how to create a free trial for the Enterprise cloud instance. |
-| [Sign in](./sign-in/)                                        | Sing in to your OpenProject Enterprise cloud edition.                   |
+| [Create a free trial](./create-trial-installation)           | Learn more about how to create a free trial for the Enterprise cloud instance. |
+| [Sign in](./sign-in/)                                        | Sign in to your OpenProject Enterprise cloud edition.                   |
 | [View payment history or download invoices](./invoices-and-billing-history) | How to see your payment history and download invoices?       |
 | [Upgrade, downgrade or cancel subscription](./manage-subscription/#update-existing-subscriptions) | How to upgrade your plan, downgrade or cancel your subscription for the Enterprise cloud edition? |
 | [Manage your subscription](./manage-subscription) | How to change billing address, add or edit credit card details? |
@@ -63,3 +63,8 @@ The protection of personal data is for OpenProject more than just a legal requir
 ### How can I export the documents loaded on OpenProject?
 
 Currently, there is unfortunately no option to export all the documents in OpenProject. We could manually export the entire database (including the attachments) for you. Due to the manual effort, we would however need to charge a service fee for this. Please contact sales@openproject.com.
+
+
+### Can I create a custom domain name instead of example.openproject.com?
+
+Yes, you can create your custom domain name. For this service we charge €100 once-off. Please add it in your booking process (will soon be available) or contact us via email (support@openproject.com).

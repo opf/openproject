@@ -27,13 +27,11 @@ pl:
         available: "Dostępne"
         budget: "Zaplanowany"
         budget_ratio: "Wydano (%)"
-        created_on: "Utworzone"
         description: "Opis"
         spent: "Wydatki"
         status: "Status"
         subject: "Temat"
         type: "Jednostki"
-        updated_on: "Aktualizacja"
         labor_budget: "Planowane koszty pracy"
         material_budget: "Planowane koszty jednostkowe"
       work_package:

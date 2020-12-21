@@ -111,7 +111,10 @@ describe Members::SetAttributesService, type: :model do
 
       context 'with a persisted record' do
         let(:member) do
-          FactoryBot.build_stubbed(:member, roles: [first_role, second_role])
+          FactoryBot.build_stubbed(:member, roles: [first_role, second_role]).tap do |m|
+            allow(m)
+              .to receive(:touch)
+          end
         end
 
         it 'adds the new role' do

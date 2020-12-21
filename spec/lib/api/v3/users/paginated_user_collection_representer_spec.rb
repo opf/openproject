@@ -38,9 +38,7 @@ describe ::API::V3::Users::PaginatedUserCollectionRepresenter do
 
   let(:users) do
     users = FactoryBot.build_stubbed_list(:user,
-                                          actual_count,
-                                          created_on: Time.now,
-                                          updated_on: Time.now)
+                                          actual_count)
     allow(users)
       .to receive(:per_page)
       .with(page_size)
@@ -56,7 +54,7 @@ describe ::API::V3::Users::PaginatedUserCollectionRepresenter do
 
   let(:representer) do
     described_class.new(users,
-                        '/api/v3/users',
+                        self_link: '/api/v3/users',
                         per_page: page_size,
                         page: page,
                         current_user: users.first)

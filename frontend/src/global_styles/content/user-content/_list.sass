@@ -1,0 +1,27 @@
+.op-uc-list
+  page-break-inside: avoid
+  margin-left: 2rem
+
+  &_task-list
+    list-style: none
+  &--task-checkbox
+    width: 1rem
+    height: 1rem
+    margin-left: -1.5rem
+    margin-right: 0.25rem
+    position: relative
+    top: 0.1rem
+
+
+  // The selectors below are needed because the CKEditor currently
+  // renders more nested tags than needed and its own classes
+  // TODO: Make these obsolete
+  &_task-list &--item 
+    > span,
+    > label
+      display: inline
+      font: inherit
+
+  &--item
+    @at-root .op-uc-container_editing #{&} input[type="checkbox"]
+      margin-top: -0.1rem

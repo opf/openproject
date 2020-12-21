@@ -55,6 +55,8 @@ el:
     button_duplicate: "Δημιουργία αντιγράφου"
     button_edit: "Επεξεργασία"
     button_filter: "Φίλτρο"
+    button_collapse_all: "Σύμπτυξη όλων"
+    button_expand_all: "Ανάπτυξη όλων"
     button_advanced_filter: "Προχωρημένο φίλτρο"
     button_list_view: "Προβολή λίστας"
     button_show_view: "Προβολή πλήρης οθόνης"
@@ -206,9 +208,9 @@ el:
           benefits:
             description: "Ποιά είναι τα οφέλη;"
             high_security: "Χαρακτηριστικά ασφαλείας"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
+            high_security_text: "Σύστημα ενιαίας πρόσβασης (SAML, OpenID Connect, CAS), έλεγχος ταυτότητας δύο παραγόντων και αυτόματος συγχρονισμός ομάδων LDAP."
             installation: "Υποστήριξη εγκατάστασης"
-            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
+            installation_text: "Οι έμπειροι μηχανικοί λογισμικού σας καθοδηγούν στην πλήρη διαδικασία εγκατάστασης και εγκατάστασης στη δική σας υποδομή."
             premium_features: "Premium λειτουργίες"
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "Επαγγελματική υποστήριξη"
@@ -255,7 +257,6 @@ el:
     general_text_yes: "ναι"
     general_text_No: "Όχι"
     general_text_Yes: "Ναι"
-    global_roles: Καθολικοί Ρόλοι
     hal:
       error:
         update_conflict_refresh: "Κάντε κλικ εδώ για να ανανεώσετε τον πόρο και να κάνετε ενημέρωση στην τελευταία έκδοση."
@@ -269,13 +270,13 @@ el:
           text_new_features: "Διαβάστε για τις νέες λειτουργίες και τις ενημερώσεις προϊόντων."
           learn_about: "Μάθετε περισσότερα για τις νέες λειτουργίες"
           standard:
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+          bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-5
-            current_new_feature_html: >
-              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul class="%{list_styling_class}"> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
     label_activate: "Ενεργοποίηση"
     label_add_column_after: "Προσθήκη στήλης μετά"
     label_add_column_before: "Προσθήκη στήλης πριν"
@@ -331,6 +332,7 @@ el:
     label_filename: "Aρχείο"
     label_filesize: "Μέγεθος"
     label_general: "Γενικά"
+    label_global_roles: "Καθολικοί Ρόλοι"
     label_greater_or_equal: ">="
     label_group: 'Ομάδα'
     label_group_by: "Ομαδοποίηση κατά"
@@ -360,7 +362,7 @@ el:
     label_next: "Επόμενο"
     label_no_color: "Χωρίς χρώμα"
     label_no_data: "Δεν υπάρχουν δεδομένα για εμφάνιση"
-    label_no_due_date: "δεν υπάρχει ημερομηνία λήξης"
+    label_no_due_date: "no finish date"
     label_no_start_date: "δεν υπάρχει ημερομηνία έναρξης"
     label_no_value: "Καμία τιμή"
     label_none: "κανένα"
@@ -841,7 +843,7 @@ el:
           automatic: 'Αυτόματα'
           manually: 'Χειροκίνητα'
           warning: 'Θα χάσετε την προηγούμενη ταξινόμηση όταν ενεργοποιήσετε την λειτουργία αυτόματης ταξινόμησης.'
-        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Χρησιμοποιήστε την παραπάνω είσοδο για να προσθέσετε στήλες στην προβολή του πίνακα σας. Μπορείτε να σύρετε και να αποθέσετε τις στήλες για να τις αναδιατάξετε."
         upsale:
           attribute_highlighting: 'Χρειάζεστε συγκεκριμένα πακέτα εργασίας για να ξεχωρίσετε από την μάζα;'
           relation_columns: 'Χρειάζεστε να βλέπετε συσχετίσεις στη λίστα πακέτων εργασίας;'

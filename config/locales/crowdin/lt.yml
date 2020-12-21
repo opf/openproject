@@ -198,7 +198,6 @@ lt:
       completed: "Projekto %{name} naikinimas baigtas"
       completed_text: "Prašymas naikinti projektą „%{name}“ buvo užbaigtas."
     index:
-      edit_columns: 'Redaguoti stulpelius'
       open_as_gantt: 'Atidaryti kaip Gantt diagramą'
       open_as_gantt_title: "Naudokite šį mygtuką visų šiame puslapyje matomų projektų darbo užduočių Gantt'o diagramai sugeneruoti."
       open_as_gantt_title_admin: "Galite pakeisti vaizdo parametrus (tokius kaip pasirinkti darbo užduočių tipai) administravimo dalyje prie projekto nustatymų."
@@ -758,7 +757,6 @@ lt:
     content: "Turinys"
     color: "Spalva"
     created_at: "Sukurta"
-    created_on: "Sukurta"
     custom_options: "Galimos reikšmės"
     custom_values: "Pritaikyti laukai"
     date: "Data"
@@ -1058,6 +1056,7 @@ lt:
   default_role_anonymous: "Anonimas"
   default_role_developer: "Kūrėjas"
   default_role_project_admin: "Projekto administratorius"
+  default_role_project_creator: "Projekto autorius"
   default_role_non_member: "Nėra narys"
   default_role_reader: "Skaitytojas"
   default_role_member: "Narys"
@@ -1787,6 +1786,11 @@ lt:
     many: "%{count} projektai (-as, -ų)"
     other: "%{count} projektai (-as, -ų)"
   label_yesterday: "vakar"
+  label_role_type: "Tipas"
+  label_member_role: "Projekto rolė"
+  label_global_role: "Globali rolė"
+  label_not_changeable: "(negalima pakeisti)"
+  label_global: "Globali"
   auth_source:
     using_abstract_auth_source: "Negalima naudoti abstraktaus autentifikavimo šaltinio."
     ldap_error: "LDAP-Klaida: %{error_message}"

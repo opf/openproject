@@ -54,9 +54,9 @@ You will be able to run failing tests locally in a similar fashion for all error
 
 
 
-**Errors in the legacy specs + cukes group**
+**Errors in the legacy specs**
 
-For the `legacy specs + cukes` job, please [see the section on running legacy tests](#legacy-tests).
+For the `legacy specs` job, please [see the section on running legacy specs](#legacy-specs).
 
 
 
@@ -239,11 +239,9 @@ You can run the specs with the following commands:
 
   
 
-## Legacy tests
+## Legacy specs
 
 **Note:** *We do not write new tests in this category. Tests are expected to be removed from these two groups whenever they break.*
-
-### Legacy specs
 
 The legacy specs use `minitest` and reside under `spec_legacy/` in the application root. No new tests are to be added here, but old ones removed whenever we refactor code.
 
@@ -252,18 +250,6 @@ To run all legacy specs, use this command:
 ```bash
 RAILS_ENV=test bundle exec rake spec -I spec_legacy spec_legacy/
 ```
-
-
-
-### Cucumber
-
-Cucumber tests are behavior driven tests written in almost plain english. They are incredibly slow and have been almost completely removed from OpenProject with the exception of the legacy backlog plugin. You will likely not need to run these locally. If you need to, run the following command:
-
-```bash
-RAILS_ENV=test sh ./script/ci/runner.sh plugins:cucumber 1 1
-```
-
-
 
 ## Parallel testing
 
@@ -357,3 +343,8 @@ at 127.0.0.1 on port 389.
 Setting up the test ldap server is beyond the scope of this documentation.
 The Apache DS project provides a simple LDAP implementation that should work
 good as a test server.
+
+## Running tests locally in Docker
+
+Most of the above applies to running tests locally, with some docker specific setup changes that are discussed [in the
+docker development documentation](../development-environment-docker).

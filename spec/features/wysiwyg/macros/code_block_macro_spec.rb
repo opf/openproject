@@ -30,7 +30,6 @@ require 'spec_helper'
 
 describe 'Wysiwyg code block macro',
          type: :feature,
-         driver: :firefox_headless_en,
          js: true do
   using_shared_fixtures :admin
   let(:user) { admin }
@@ -68,12 +67,12 @@ describe 'Wysiwyg code block macro',
           editor.set_markdown expected
 
           # Expect first macro saved to editor
-          expect(container).to have_selector('.op-ckeditor--code-block', text: snippet)
-          expect(container).to have_selector('.op-ckeditor--code-block-language', text: 'ruby')
+          expect(container).to have_selector('.op-uc-code-block', text: snippet)
+          expect(container).to have_selector('.op-uc-code-block--language', text: 'ruby')
 
           editor.set_markdown "#{expected}\n#{expected}"
-          expect(container).to have_selector('.op-ckeditor--code-block', text: snippet, count: 2)
-          expect(container).to have_selector('.op-ckeditor--code-block-language', text: 'ruby', count: 2)
+          expect(container).to have_selector('.op-uc-code-block', text: snippet, count: 2)
+          expect(container).to have_selector('.op-uc-code-block--language', text: 'ruby', count: 2)
         end
 
         click_on 'Save'
@@ -88,8 +87,8 @@ describe 'Wysiwyg code block macro',
         click_on 'Edit'
 
         editor.in_editor do |container,|
-          expect(container).to have_selector('.op-ckeditor--code-block', text: snippet, count: 2)
-          expect(container).to have_selector('.op-ckeditor--code-block-language', text: 'ruby', count: 2)
+          expect(container).to have_selector('.op-uc-code-block', text: snippet, count: 2)
+          expect(container).to have_selector('.op-uc-code-block--language', text: 'ruby', count: 2)
         end
       end
 
@@ -104,7 +103,7 @@ describe 'Wysiwyg code block macro',
           page.execute_script('arguments[0].CodeMirror.setValue(arguments[1]);', cm.native, 'asdf')
           find('.op-modal--submit-button').click
 
-          expect(container).to have_selector('.op-ckeditor--code-block', text: 'asdf')
+          expect(container).to have_selector('.op-uc-code-block', text: 'asdf')
 
           click_on 'Save'
           expect(page).to have_selector('.flash.notice')
@@ -115,7 +114,7 @@ describe 'Wysiwyg code block macro',
           click_on 'Edit'
 
           editor.in_editor do |container,|
-            expect(container).to have_selector('.op-ckeditor--code-block', text: 'asdf')
+            expect(container).to have_selector('.op-uc-code-block', text: 'asdf')
           end
 
           click_on 'Save'
@@ -146,8 +145,8 @@ describe 'Wysiwyg code block macro',
           find('.op-modal--submit-button').click
 
           # Expect macro saved to editor
-          expect(container).to have_selector('.op-ckeditor--code-block', text: snippet)
-          expect(container).to have_selector('.op-ckeditor--code-block-language', text: 'ruby')
+          expect(container).to have_selector('.op-uc-code-block', text: snippet)
+          expect(container).to have_selector('.op-uc-code-block--language', text: 'ruby')
         end
 
         # Save wiki page
@@ -168,14 +167,14 @@ describe 'Wysiwyg code block macro',
         click_on 'Edit'
 
         editor.in_editor do |container,|
-          expect(container).to have_selector('.op-ckeditor--code-block', text: snippet)
-          expect(container).to have_selector('.op-ckeditor--code-block-language', text: 'ruby')
+          expect(container).to have_selector('.op-uc-code-block', text: snippet)
+          expect(container).to have_selector('.op-uc-code-block--language', text: 'ruby')
 
-          widget = container.find('.op-ckeditor--code-block')
+          widget = container.find('.op-uc-code-block')
           page.driver.browser.action.double_click(widget.native).perform
           expect(page).to have_selector('.op-modal--macro-modal')
 
-          expect(page).to have_selector('.op-ckeditor--code-block-language', text: 'ruby')
+          expect(page).to have_selector('.op-uc-code-block--language', text: 'ruby')
           expect(page).to have_selector('.cm-keyword', text: 'def')
           expect(page).to have_selector('.cm-def', text: 'foobar')
         end

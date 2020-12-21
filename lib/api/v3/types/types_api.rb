@@ -41,7 +41,10 @@ module API
 
           get do
             types = Type.includes(:color).all
-            TypeCollectionRepresenter.new(types, api_v3_paths.types, current_user: current_user)
+            TypeCollectionRepresenter
+              .new(types,
+                   self_link: api_v3_paths.types,
+                   current_user: current_user)
           end
 
           route_param :id, type: Integer, desc: 'Type ID' do

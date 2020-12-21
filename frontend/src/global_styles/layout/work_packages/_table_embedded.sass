@@ -50,10 +50,16 @@ $table-timeline--compact-row-height: 28px
     overflow: auto
     @include styled-scroll-bar
 
+    @media print
+      overflow: hidden
+
   // Disable css containment since we have no inner elements
   .work-packages-tabletimeline--table-side,
   .work-packages-tabletimeline--timeline-side
     contain: initial !important
+    
+    @media print
+      max-width: 100%
 
   .work-package-table--container
     overflow: visible

@@ -46,7 +46,7 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clea
   let(:custom_field) { FactoryBot.build_stubbed(:list_wp_custom_field) }
   let(:instance) do
     described_class.new(filter,
-                        self_link,
+                        self_link: self_link,
                         current_user: user,
                         form_embedded: form_embedded)
   end

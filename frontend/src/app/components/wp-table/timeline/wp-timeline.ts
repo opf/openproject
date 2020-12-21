@@ -122,6 +122,8 @@ export interface RenderInfo {
   viewParams:TimelineViewParameters;
   workPackage:WorkPackageResource;
   change:WorkPackageChangeset;
+  isDuplicatedCell?:boolean;
+  withAlternativeLabels?:boolean;
 }
 
 /**

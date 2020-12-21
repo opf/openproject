@@ -41,7 +41,7 @@ module API
           get do
             types = @project.types
             TypeCollectionRepresenter.new(types,
-                                          api_v3_paths.types_by_project(@project.id),
+                                          self_link:api_v3_paths.types_by_project(@project.id),
                                           current_user: current_user)
           end
         end

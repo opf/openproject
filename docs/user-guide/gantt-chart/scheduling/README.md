@@ -12,11 +12,7 @@ keywords: gantt chart, automatic scheduling, manual scheduling, start date, fini
 # Automatic and manual scheduling mode
 
 <div class="glossary">
-To schedule work packages in the Gantt chart there is an **automatic scheduling mode (default)** and a **manual scheduling mode** (new in [release 11.0](../../../release-notes/11-0-0)). To add dependencies between work packages you can set them as predecessor or follower in the Gantt chart. The automatic and manual scheduling modes influence the work packages' behaviour when changing dates of other related work packages.
-
-
-
-</div>
+To schedule work packages in the Gantt chart there is an **automatic scheduling mode (default)** and a **manual scheduling mode** (new in [release 11.0](../../../release-notes/11-0-0)). To add dependencies between work packages you can set them as predecessor or follower in the Gantt chart. The automatic and manual scheduling modes influence the work packages' behaviour when changing dates of other related work packages.</div>
 
 | Topic                                                   | Content                                                      |
 | ------------------------------------------------------- | ------------------------------------------------------------ |
@@ -41,12 +37,11 @@ The manual scheduling mode is **mostly used when creating a top-down project pla
 
 Changing to the **manual scheduling mode makes sense if**
 
-- you want to set a parent work package's date independently from the dates of its children, or
+- you want to set a parent work package’s date independently from the dates of its children, or
 - you don't want a parent work package's dates being updated automatically when changing the children's dates, or
 - you don't want a follower's start date be automatically updated when you change the predecessor's finish date
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Me4cMULZKRM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
+<video src="https://www.openproject.org/wp-content/uploads/2020/09/OpenProject-Top-down-Scheduling.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 
 ## Changing mode

@@ -202,7 +202,6 @@ ko:
       completed: "프로젝트 %{name} 삭제가 완료되었습니다."
       completed_text: "프로젝트 '%{name}' 삭제 요청이 완료되었습니다."
     index:
-      edit_columns: '열 편집'
       open_as_gantt: 'Gantt 보기로 열기'
       open_as_gantt_title: "이 버튼을 사용하여 이 페이지에 표시되는 프로젝트에 대한 작업 패키지를 필터링하는 Gantt 보기를 생성하세요."
       open_as_gantt_title_admin: "프로젝트 설정의 관리에서 보기 설정(예: 선택한 작업 패키지 유형)을 수정할 수 있습니다."
@@ -750,7 +749,6 @@ ko:
     content: "내용"
     color: "색상"
     created_at: "작성일"
-    created_on: "작성일"
     custom_options: "가능한 값"
     custom_values: "사용자 정의 필드"
     date: "날짜"
@@ -1014,6 +1012,7 @@ ko:
   default_role_anonymous: "익명"
   default_role_developer: "개발자"
   default_role_project_admin: "프로젝트 관리자"
+  default_role_project_creator: "프로젝트 생성자"
   default_role_non_member: "멤버 없음"
   default_role_reader: "참관자"
   default_role_member: "멤버"
@@ -1731,6 +1730,11 @@ ko:
     zero: "프로젝트 없음"
     other: "1개 프로젝트\n%{count}개 프로젝트"
   label_yesterday: "어제"
+  label_role_type: "타입"
+  label_member_role: "프로젝트 역할"
+  label_global_role: "글로벌 역할"
+  label_not_changeable: "(변경할 수 없음)"
+  label_global: "글로벌"
   auth_source:
     using_abstract_auth_source: "추상 인증 소스를 사용할 수 없습니다."
     ldap_error: "LDAP 오류: %{error_message}"

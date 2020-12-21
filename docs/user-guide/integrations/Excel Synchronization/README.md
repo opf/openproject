@@ -14,19 +14,19 @@ keywords: Excel
 
 See how to set up the synchronization between OpenProject work packages and MS Excel.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/ZPK-l-e-lKI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Excel-synchronization-1.-download-and-upload.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ### Synchronize custom queries (views)
 
 See how to synchronize custom work package queries from OpenProject in MS Excel.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/86X334cg808" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Excel-Synchronization-2.-custom-queries.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ### Synchronize hierarchies
 
 See how to synchronize work package hierarchies in OpenProject with MS Excel.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/17yqO0uXE5k" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Excel-synchronization-3.-hierarchies.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 
 ## Step-by-step guide

@@ -38,9 +38,9 @@ module Groups
             contract_class: Groups::AddUsersContract
     end
 
-    def after_validate(user_ids, _call)
+    def after_validate(params, _call)
       ::Group.transaction do
-        add_to_user_and_projects(user_ids)
+        add_to_user_and_projects(params[:ids])
       end
     end
 
@@ -103,7 +103,7 @@ module Groups
           -- We need to return all members for the given group memberships
           -- even if they already exist as members (e.g., added individually) to ensure we add all roles
           -- to mark that we reset the created_at date since replacing the member
-          ON CONFLICT(project_id, user_id) DO UPDATE SET created_on = CURRENT_TIMESTAMP
+          ON CONFLICT(project_id, user_id) DO UPDATE SET updated_at = CURRENT_TIMESTAMP
           RETURNING id, user_id, project_id
         )
         -- copy the member roles of the group

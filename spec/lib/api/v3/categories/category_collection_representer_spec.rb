@@ -32,7 +32,7 @@ describe ::API::V3::Categories::CategoryCollectionRepresenter do
   let(:categories) { FactoryBot.build_list(:category, 3) }
   let(:representer) {
     described_class.new(categories,
-                        '/api/v3/projects/1/categories',
+                        self_link: '/api/v3/projects/1/categories',
                         current_user: double('current_user'))
   }
 

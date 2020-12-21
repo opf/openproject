@@ -70,7 +70,7 @@ module OpenProject::Bim::BcfXml
 
     def create_work_package
       attributes = work_package_attributes.merge(project: project)
-      call = WorkPackages::CreateService.new(user: user).call(attributes)
+      call = WorkPackages::CreateService.new(user: user).call(**attributes)
 
       force_overwrite(call.result) if call.success?
 
