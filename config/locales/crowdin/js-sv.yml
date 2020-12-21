@@ -55,6 +55,8 @@ sv:
     button_duplicate: "Duplicera"
     button_edit: "Redigera"
     button_filter: "Filter"
+    button_collapse_all: "Fäll ihop alla"
+    button_expand_all: "Expandera alla"
     button_advanced_filter: "Avancerat filter"
     button_list_view: "Listvy"
     button_show_view: "Helskärmsläge"
@@ -255,7 +257,6 @@ sv:
     general_text_yes: "ja"
     general_text_No: "Nej"
     general_text_Yes: "Ja"
-    global_roles: Globala roller
     hal:
       error:
         update_conflict_refresh: "Klicka här för att uppdatera resursen och uppdatera till den nyaste versionen."
@@ -269,13 +270,13 @@ sv:
           text_new_features: "Läs om nya funktioner och produktuppdateringar."
           learn_about: "Learn more about the new features"
           standard:
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            current_new_feature_html: >
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+          bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/openproject-bim-10-5
-            current_new_feature_html: >
-              OpenProject 10.5 now supports the <b>BIM Collaboration Format (BCF)</b> – the open issue tracking standard for BIM models.<br><br> <ul class="%{list_styling_class}"> <li>Easily create and <b>manage BIM issues</b> such as clashes, requests and questions in the interactive 3D IFC model and <b>share it with the project team.</b></li> <li>Integrate OpenProject with your favorite BIM software using the powerful <a target="_blank" href="%{bcf_api_link}">BCF REST API.</a></li> <li>Import and export BCF XML files.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
     label_activate: "Aktivera"
     label_add_column_after: "Lägg till kolumn efter"
     label_add_column_before: "Lägg till kolumn före"
@@ -331,6 +332,7 @@ sv:
     label_filename: "Fil"
     label_filesize: "Filstorlek"
     label_general: "Allmänt"
+    label_global_roles: "Globala roller"
     label_greater_or_equal: ">="
     label_group: 'Grupp'
     label_group_by: "Gruppera efter"
@@ -360,7 +362,7 @@ sv:
     label_next: "Nästa"
     label_no_color: "Ingen färg"
     label_no_data: "Ingen data att visa"
-    label_no_due_date: "inget slutdatum"
+    label_no_due_date: "no finish date"
     label_no_start_date: "inget startdatum"
     label_no_value: "Inget värde"
     label_none: "inga"

@@ -60,17 +60,13 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       .and_return(1)
   end
 
-  #include_context 'user with stubbed permissions'
-  #let(:project) { work_package.project }
   let(:user) do
-        FactoryBot.build_stubbed(:user) do |u|
-            allow(u)
-              .to receive(:allowed_to?)
-              .and_return(true)
-          end
-      end
-  #let(:project) { work_package.project }
-  #let(:permissions) { %i[view_budgets view_work_packages edit_work_packages assign_versions] }
+    FactoryBot.build_stubbed(:user) do |u|
+      allow(u)
+        .to receive(:allowed_to?)
+        .and_return(true)
+    end
+  end
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -81,7 +77,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       it_behaves_like 'API V3 formattable', 'description' do
         let(:format) { 'markdown' }
         let(:raw) { work_package.description }
-        let(:html) { '<p>' + work_package.description + '</p>' }
+        let(:html) { '<p class="op-uc-p">' + work_package.description + '</p>' }
       end
 
       describe 'lock version' do

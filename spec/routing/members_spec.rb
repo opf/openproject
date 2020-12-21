@@ -55,12 +55,4 @@ describe MembersController, type: :routing do
                                                       action: 'destroy',
                                                       id: '5234')
   }
-
-  it 'connects GET /projects/:project_id/members/paginate_users ' +
-     'to members#paginate_users' do
-    expect(get('/projects/1/members/paginate_users'))
-      .to route_to(controller: 'members',
-                   action: 'paginate_users',
-                   project_id: '1')
-  end
 end

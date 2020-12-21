@@ -120,7 +120,7 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
   }
 
   private get listMembersParams() {
-    let params:Apiv3ListParameters = { sortBy: [['created_on', 'desc']], pageSize: DISPLAYED_MEMBERS_LIMIT };
+    let params:Apiv3ListParameters = { sortBy: [['created_at', 'desc']], pageSize: DISPLAYED_MEMBERS_LIMIT };
 
     if (this.currentProject.id) {
       params['filters'] = [['project_id', '=', [this.currentProject.id]]];

@@ -192,7 +192,9 @@ class Budget < ApplicationRecord
     material_budget_item_attributes.each do |_index, attributes|
       correct_material_attributes!(attributes)
 
-      material_budget_items.build(attributes) if attributes[:units].to_f.positive?
+      if valid_material_budget_attributes?(attributes)
+        material_budget_items.build(attributes)
+      end
     end
   end
 
@@ -233,12 +235,14 @@ class Budget < ApplicationRecord
     return unless attributes
 
     attributes[:hours] = Rate.parse_number_string_to_number(attributes[:hours])
+    attributes[:amount] = Rate.parse_number_string(attributes[:amount])
   end
 
   def correct_material_attributes!(attributes)
     return unless attributes
 
     attributes[:units] = Rate.parse_number_string_to_number(attributes[:units])
+    attributes[:amount] = Rate.parse_number_string(attributes[:amount])
   end
 
   def update_budget_item_attributes(budget_item_attributes, type:)
@@ -251,7 +255,7 @@ class Budget < ApplicationRecord
       send("correct_#{type}_attributes!", attributes)
 
       if send("valid_#{type}_budget_attributes?", attributes)
-        budget_item.attributes = attributes.merge(amount: Rate.parse_number_string(attributes[:amount]))
+        budget_item.attributes = attributes
       else
         # This is surprising as it will delete right away compared to the
         # update of the attributes that requires a save afterwards to take effect.

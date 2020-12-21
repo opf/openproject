@@ -27,13 +27,11 @@ ru:
         available: "Доступно"
         budget: "Запланированно"
         budget_ratio: "Отработано (коэффициент)"
-        created_on: "Создано"
         description: "Описание"
         spent: "Потрачено"
         status: "Состояние"
         subject: "Тема"
         type: "Тип затрат"
-        updated_on: "Обновлено"
         labor_budget: "Запланированные трудозатраты"
         material_budget: "Запланированные затраты по количеству"
       work_package:

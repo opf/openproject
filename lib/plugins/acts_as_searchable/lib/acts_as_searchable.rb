@@ -37,8 +37,8 @@ module Redmine
         # Options:
         # * :columns - a column or an array of columns to search
         # * :project_key - project foreign key (default to project_id)
-        # * :date_column - name of the datetime column (default to created_on)
-        # * :sort_order - name of the column used to sort results (default to :date_column or created_on)
+        # * :date_column - name of the datetime column (default to created_at)
+        # * :order_column - name of the column used to sort results (default to :date_column or created_at)
         # * :permission - permission required to search the model (default to :view_"objects")
         def acts_as_searchable(options = {})
           return if included_modules.include?(Redmine::Acts::Searchable::InstanceMethods)
@@ -55,7 +55,7 @@ module Redmine
           searchable_options[:tsv_columns] ||= []
 
           searchable_options[:project_key] ||= "#{table_name}.project_id"
-          searchable_options[:date_column] ||= "#{table_name}.created_on"
+          searchable_options[:date_column] ||= "#{table_name}.created_at"
           searchable_options[:order_column] ||= searchable_options[:date_column]
 
           # Permission needed to search this model

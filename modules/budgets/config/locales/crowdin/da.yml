@@ -27,13 +27,11 @@ da:
         available: "Tillrådighed"
         budget: "Planlagte"
         budget_ratio: "Forbrugt (ratio)"
-        created_on: "Oprettet den"
         description: "Beskrivelse"
         spent: "Forbrugt"
         status: "Status"
         subject: "Emne"
         type: "Omkostningstype"
-        updated_on: "Opdateret den"
         labor_budget: "Planlagte lønomkostninger"
         material_budget: "Planlagte enhedsomkostninger"
       work_package:

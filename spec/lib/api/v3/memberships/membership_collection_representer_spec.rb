@@ -46,7 +46,7 @@ describe ::API::V3::Memberships::MembershipCollectionRepresenter do
   let(:current_user) { FactoryBot.build_stubbed(:user) }
   let(:representer) do
     described_class.new(members,
-                        self_base_link,
+                        self_link: self_base_link,
                         per_page: page_size,
                         page: page,
                         current_user: current_user)

@@ -2,9 +2,9 @@
 sidebar_navigation:
   title: Product Development
   priority: 100
-description: Learn about OpenProject's product development process
+description: Learn about OpenProject's product development process and the RICE score
 robots: index, follow
-keywords: product development, requirement process
+keywords: product development, requirement process, RICE score
 ---
 
 <h1>OpenProject Product Development Handbook</h1>
@@ -84,12 +84,12 @@ For internal or customer requirements requirements may directly be created, eval
 
 
 
-| Who is involved?  | Steps                                    | Output                                                   |
-| ----------------- | ---------------------------------------- | :------------------------------------------------------- |
-| - Product Manager | 1. Create mockup                         | Specified feature (status “Specified”) inProduct Backlog |
-| - Developer       | 2. Validate & add effort / cost estimate |                                                          |
-| - UX Researcher   | 3. Assign to next product version        |                                                          |
-| - Designer        |                                          |                                                          |
+| Who is involved?  | Steps                                    | Output                                                    |
+| ----------------- | ---------------------------------------- | :-------------------------------------------------------- |
+| - Product Manager | 1. Create mockup                         | Specified feature (status “Specified”) in Product Backlog |
+| - Developer       | 2. Validate & add effort / cost estimate |                                                           |
+| - UX Researcher   | 3. Assign to next product version        |                                                           |
+| - Designer        |                                          |                                                           |
 
 Based on the validated and prioritized features in the product backlog (status: “In specification”) the requirements with the highest RICE score are specified in more detail:
 
@@ -192,7 +192,7 @@ One of the main artifacts used in the evaluation phase is the Opportunity Canvas
 
 **1. Problem** 
 
-States the problem that the feature request is addressing.This includes the **Customer** information (the affected persona or persona segment that experiences the problem most acutely), a **Problem** description and a description of the customer **Pain**.
+States the problem that the feature request is addressing. This includes the **Customer** information (the affected persona or persona segment that experiences the problem most acutely), a **Problem** description and a description of the customer **Pain**.
 
 
 
@@ -275,7 +275,7 @@ Only in rare exceptions and under consultation of developers can additional feat
 
 | Who is involved?  | Steps                                  | Output                        |
 | ----------------- | -------------------------------------- | :---------------------------- |
-| - Tester          | 1. Test features                       | Tested stable product vresion |
+| - Tester          | 1. Test features                       | Tested stable product version |
 | - Product Manager | 2. Report bugs                         |                               |
 | - Developer       | 3. Deploy on community.openproject.com |                               |
 | - DevOps          |                                        |                               |

@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 describe 'wiki/new', type: :view do
-  let(:project) { stub_model(Project) }
-  let(:wiki)    { stub_model(Wiki) }
-  let(:page)    { stub_model(WikiPage, title: 'foo') }
-  let(:content) { stub_model(WikiContent) }
-  let(:user)    { stub_model(User) }
+  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:wiki)    { FactoryBot.build_stubbed(:wiki, project: project) }
+  let(:page)    { FactoryBot.build_stubbed(:wiki_page_with_content, wiki: wiki, title: 'foo') }
+  let(:content) { page.content }
+  let(:user)    { FactoryBot.build_stubbed(:user) }
 
   before do
     assign(:project, project)

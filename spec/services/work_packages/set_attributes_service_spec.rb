@@ -55,15 +55,15 @@ describe WorkPackages::SetAttributesService, type: :model do
            new: mock_contract_instance)
   end
   let(:mock_contract_instance) do
-    mock = mock_model(contract_class,
-                      assignable_statuses: statuses)
-    allow(mock)
-      .to receive(:validate)
-      .and_return contract_valid
-
-    mock
+    double(contract_class,
+           assignable_statuses: statuses,
+           errors: contract_errors,
+           validate: contract_valid)
   end
   let(:contract_valid) { true }
+  let(:contract_errors) do
+    double('contract_errors')
+  end
   let(:instance) do
     described_class.new(user: user,
                         model: work_package,

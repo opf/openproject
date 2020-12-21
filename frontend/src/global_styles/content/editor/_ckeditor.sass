@@ -90,7 +90,7 @@ ckeditor-augmented-textarea .op-ckeditor--wrapper
   .document-editor__toolbar
     position: sticky
     top: 0px
-    z-index: 1
+    z-index: 2
 
     // Adjust top offset to match if globally
     // scrolling (content-wrapper)
@@ -114,25 +114,10 @@ ckeditor-augmented-textarea .op-ckeditor--wrapper
       .-large-height &
         min-height: 250px
 
-// todolist override global label style
-label.todo-list__label
-  margin-bottom: 0
-  display: initial
-  font-size: initial
-  float: left
-  width: 0
-
-  > input
-    margin-top: 0
-
-// todolist list-style
-.ck-editor__editable .todo-list
-  margin-bottom: 0
-  li
-    list-style: none
-    word-break: break-word
-
 .ck-editor__editable[dir="rtl"]
   ol, ul
     margin-left: 0
     margin-right: 40px
+
+.ck tr .ck-editor__nested-editable 
+  border: 1px solid var(--ck-color-base-border)

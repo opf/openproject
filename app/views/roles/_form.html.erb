@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= render :partial => 'shared/global_roles_header' %>
+<%= render :partial => 'users/global_roles_header' %>
 
 <% roles ||= nil %>
 
@@ -49,12 +49,6 @@ See docs/COPYRIGHT.rdoc for more details.
     </div>
   <% end %>
 </div>
-
-<% if role.new_record? || role.is_a?(GlobalRole) %>
-  <div id="global_attributes" style="display:none">
-    <%= render partial: "global_attributes", locals: { f: f, role: role, roles: roles&.select {|r| r.is_a?(GlobalRole)} }%>
-  </div>
-<% end %>
 
 <% if role.new_record? || !role.is_a?(GlobalRole) %>
   <div id="member_attributes">

@@ -199,7 +199,6 @@ es:
       completed: "Borrado del proyecto %{name} completado"
       completed_text: "La petición para borrar el proyecto '%{name}' se ha completado."
     index:
-      edit_columns: 'Editar columnas'
       open_as_gantt: 'Abrir como diagrama de Gantt'
       open_as_gantt_title: "Use este botón para generar un diagrama de Gantt donde se filtren los paquetes de trabajo de los proyectos visibles en esta página."
       open_as_gantt_title_admin: "Puede modificar los ajustes de visualización (como los tipos de paquetes de trabajo seleccionados) en el apartado de administración de la configuración del proyecto."
@@ -534,7 +533,7 @@ es:
         invalid_url: 'no es una URL válida.'
         invalid_url_scheme: 'no es un protocolo admitido (permitidos: %{allowed_schemes}).'
         less_than_or_equal_to: "debe ser menor o igual a %{count}."
-        not_current_user: "is not the current user."
+        not_current_user: "no es el usuario actual."
         not_a_date: "no es una fecha válida."
         not_a_datetime: "no es una fecha/hora válida."
         not_a_number: "No es un número."
@@ -614,7 +613,7 @@ es:
         queries/filters/base:
           attributes:
             values:
-              inclusion: "filter has invalid values."
+              inclusion: "El filtro tiene valores inválidos."
               format: "%{message}"
         relation:
           typed_dag:
@@ -752,7 +751,6 @@ es:
     content: "Contenido"
     color: "Color"
     created_at: "Creado en"
-    created_on: "Creado en"
     custom_options: "Valores posibles"
     custom_values: "Campos Personalizados"
     date: "Fecha"
@@ -1028,6 +1026,7 @@ es:
   default_role_anonymous: "Anónimo"
   default_role_developer: "Desarrollador"
   default_role_project_admin: "Administrador de proyecto"
+  default_role_project_creator: "Creador del proyecto"
   default_role_non_member: "No miembro"
   default_role_reader: "Lector"
   default_role_member: "Miembro"
@@ -1749,6 +1748,11 @@ es:
     one: "1 proyecto"
     other: "%{count} projectos"
   label_yesterday: "ayer"
+  label_role_type: "Tipo"
+  label_member_role: "Rol de proyecto"
+  label_global_role: "Rol global"
+  label_not_changeable: "(no modificable)"
+  label_global: "Global"
   auth_source:
     using_abstract_auth_source: "No puede utilizar una fuente de autenticación abstracta."
     ldap_error: "Error de LDAP: %{error_message}"

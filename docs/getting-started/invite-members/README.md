@@ -26,6 +26,8 @@ In order to see a project and work in it, you have to be a member of a project. 
 | [Add existing members](#add-existing-members) | Add existing members to a project.              |
 | [Invite new members](#invite-new-members)      | Invite new members to a project in OpenProject. |
 
+<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Invite-and-Manage-Members.mp4" type="video/mp4" controls="" style="width:100%"></video>
+
 ## View members
 
 To view the list of **all project members and their roles** in the project, select Members in the project menu.

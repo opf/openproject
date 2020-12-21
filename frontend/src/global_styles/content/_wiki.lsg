@@ -34,22 +34,22 @@ Wiki-syntax is used for most textarea-fields within OpenProject. The users have 
 <div class="wiki">
   <h1>
     Headline H1
-    <a href="#Heading-H1" class="wiki-anchor">¶</a>
+    <a href="#Heading-H1" class="op-uc-link_permalink">¶</a>
   </h1>
 
   <h2>
     Headline H2
-    <a href="#Heading-H2" class="wiki-anchor">¶</a>
+    <a href="#Heading-H2" class="op-uc-link_permalink">¶</a>
   </h2>
 
   <h3>
     Headline H3
-    <a href="#Heading-H3" class="wiki-anchor">¶</a>
+    <a href="#Heading-H3" class="op-uc-link_permalink">¶</a>
   </h3>
 
   <h4>
     Headline H4
-    <a href="#Heading-H4" class="wiki-anchor">¶</a>
+    <a href="#Heading-H4" class="op-uc-link_permalink">¶</a>
   </h4>
 
   <h5>

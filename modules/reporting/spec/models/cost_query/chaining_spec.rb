@@ -180,7 +180,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       it "sets new top when prepending elements" do
         current = @chain
         10.times do
-          old, current = current, CostQuery::Chainable.new(current)
+          old, current = current, Report::Chainable.new(current)
           expect(old.top).to eq(current)
           expect(@chain.top).to eq(current)
         end

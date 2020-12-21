@@ -47,7 +47,7 @@ module API
 
             ::API::V3::Relations::RelationCollectionRepresenter.new(
               relations,
-              api_v3_paths.work_package_relations(@work_package.id),
+              self_link: api_v3_paths.work_package_relations(@work_package.id),
               current_user: current_user
             )
           end

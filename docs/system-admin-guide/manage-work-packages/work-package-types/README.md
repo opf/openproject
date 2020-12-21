@@ -61,6 +61,10 @@ In this case, all attributes in the blue area on the left are displayed under th
 
 ![work package form configuration](image-20200116150227458.png)
 
+Watch the following video to see how you can customize your work packages with custom fields and configure the work package forms:
+
+<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Forms-and-Custom-Fields-1.mp4" type="video/mp4" controls="" style="width:100%"></video>
+
 ## Add table of related work packages to a work package form
 
 Also, you can add a table of related work packages to your work package form. Click the green **+ Group** button and choose **Add table of related work package** from the drop-down list.

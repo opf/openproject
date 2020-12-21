@@ -27,13 +27,11 @@ it:
         available: "Disponibile"
         budget: "Pianificato"
         budget_ratio: "Trascorso (tasso)"
-        created_on: "Creato il"
         description: "Descrizione"
         spent: "Trascorso"
         status: "Stato"
         subject: "Soggetto"
         type: "Tipo di costo"
-        updated_on: "Aggiornato il"
         labor_budget: "Costo del lavoro pianificato"
         material_budget: "Costi pianificati per unità"
       work_package:

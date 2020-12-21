@@ -135,18 +135,6 @@ module WorkPackages
       @can = WorkPackagePolicy.new(user)
     end
 
-    def writable_attributes
-      ret = super
-
-      # If we're in a readonly status and did not move into that status right now
-      # only allow other status transitions. But also prevent that if the associated version is closed.
-      if model.readonly_status? && !model.status_id_change
-        ret &= %w(status status_id)
-      end
-
-      ret
-    end
-
     def assignable_statuses(include_default = false)
       # Do not allow skipping statuses without intermediately saving the work package.
       # We therefore take the original status of the work_package, while preserving all
@@ -208,7 +196,7 @@ module WorkPackages
     end
 
     def validate_assigned_to_exists
-      errors.add :assigned_to, :does_not_exist if model.assigned_to&.is_a?(Users::InexistentUser)
+      errors.add :assigned_to, :does_not_exist if model.assigned_to.is_a?(Users::InexistentUser)
     end
 
     def validate_type_exists
@@ -228,7 +216,7 @@ module WorkPackages
     end
 
     def validate_parent_exists
-      if model.parent&.is_a?(WorkPackage::InexistentWorkPackage)
+      if model.parent.is_a?(WorkPackage::InexistentWorkPackage)
 
         errors.add :parent, :does_not_exist
       end
@@ -264,7 +252,7 @@ module WorkPackages
     end
 
     def validate_priority_exists
-      errors.add :priority, :does_not_exist if model.priority&.is_a?(Priority::InexistentPriority)
+      errors.add :priority, :does_not_exist if model.priority.is_a?(Priority::InexistentPriority)
     end
 
     def validate_category
@@ -296,6 +284,16 @@ module WorkPackages
         errors.add attribute,
                    I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
                           property: I18n.t("attributes.#{attribute}"))
+      end
+    end
+
+    def reduce_by_writable_permissions(attributes)
+      # If we're in a readonly status and did not move into that status right now
+      # only allow other status transitions. But also prevent that if the associated version is closed.
+      if model.readonly_status? && !model.status_id_change
+        super & %w(status status_id)
+      else
+        super
       end
     end
 

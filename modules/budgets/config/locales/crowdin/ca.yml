@@ -27,13 +27,11 @@ ca:
         available: "Available"
         budget: "Planned"
         budget_ratio: "Spent (ratio)"
-        created_on: "Creat el"
         description: "Descripció"
         spent: "Spent"
         status: "Estat"
         subject: "Assumpte"
         type: "Cost type"
-        updated_on: "Actualitzat el"
         labor_budget: "Planned labor costs"
         material_budget: "Planned unit costs"
       work_package:

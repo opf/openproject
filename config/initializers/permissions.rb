@@ -32,8 +32,7 @@ require 'open_project/access_control'
 def edit_project_hash
   permissions = {
     projects: %i[edit update custom_fields],
-    project_settings: [:show],
-    members: [:paginate_users]
+    project_settings: [:show]
   }
 
   ProjectSettingsHelper.project_settings_tabs.each do |node|
@@ -54,9 +53,9 @@ OpenProject::AccessControl.map do |map|
                    public: true
 
     map.permission :add_project,
-                   { projects: %i[new create],
-                     members: [:paginate_users] },
-                   require: :loggedin
+                   { projects: %i[new create] },
+                   require: :loggedin,
+                   global: true
 
     map.permission :edit_project,
                    edit_project_hash,
@@ -91,8 +90,7 @@ OpenProject::AccessControl.map do |map|
 
     map.permission :copy_projects,
                    {
-                     copy_projects: %i[copy copy_project],
-                     members: [:paginate_users]
+                     copy_projects: %i[copy copy_project]
                    },
                    require: :member
   end

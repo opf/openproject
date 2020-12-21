@@ -40,7 +40,7 @@ module API
 
             get do
               representer.new(Query.new(project: @project),
-                              api_v3_paths.query_project_schema(@project.id),
+                              self_link: api_v3_paths.query_project_schema(@project.id),
                               current_user: current_user,
                               form_embedded: false)
             end

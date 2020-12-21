@@ -70,13 +70,10 @@ module Components
 
     ##
     # Create an image fixture with the optional caption
-    # Note: The caption will be added to all figures
     def drag_attachment(image_fixture, caption = 'Some caption')
       in_editor do |container, editable|
         sleep 0.5
-        refocus
         editable.base.send_keys(:enter, 'some text', :enter, :enter)
-        sleep 0.5
 
         images = editable.all('figure.image')
         attachments.drag_and_drop_file(editable, image_fixture)
@@ -84,33 +81,31 @@ module Components
         expect(page)
           .to have_selector('figure img[src^="/api/v3/attachments/"]', count: images.length + 1, wait: 10)
 
+
         expect(page).not_to have_selector('notification-upload-progress')
-        refocus
         sleep 0.5
+
+        # Get the image uploaded last. As there is no way to distinguish between
+        # two uploaded images, from the perspective of the user, we do it by getting
+        # the id of the attachment uploaded last.
+        last_id = Attachment.last.id
+        image = find("figure img[src^=\"/api/v3/attachments/#{last_id}\"]")
         # Besides testing caption functionality this also slows down clicking on the submit button
         # so that the image is properly embedded
-        editable.all('figure').each do |figure|
-          # Locate image within figure
-          # Click on image to show figcaption
-          figure.find('img')
+        figure = image.find(:xpath, '../..')
 
+        retry_block do
           # Click the figure
-          retry_block do
-            figure.click
-            sleep 1
+          figure.click
+          sleep(0.2)
+          # Locate figcaption to create comment
+          figcaption = figure.find('figcaption')
+          figcaption.click
+          sleep(0.2)
+          figcaption.send_keys(caption)
 
-            # Locate figcaption to create comment
-            figcaption = figure.find('figcaption')
-
-            # Insert the caption with JS to circumvent chrome error
-            script = <<-JS
-              arguments[0].textContent = '' + arguments[1]
-            JS
-            page.execute_script(script, figcaption.native, caption)
-
-            # Expect caption set
-            figure.find('figcaption', text: caption)
-          end
+          # Expect caption set
+          figure.find('figcaption', text: caption)
         end
       end
     end
@@ -155,6 +150,21 @@ module Components
 
     def click_autocomplete(text)
       page.find('.mention-list-item', text: text).click
+    end
+
+    def align_table_by_label(editor, table, label)
+      # Style first td in table
+      table
+        .find('.op-uc-table--row:first-of-type .op-uc-table--cell:first-of-type')
+        .click
+
+      # Click table toolbar
+      editor.click_hover_toolbar_button 'Table properties'
+
+      # Set alignment left
+      editor.click_hover_toolbar_button label
+
+      find('.ck-button-save').click
     end
   end
 end

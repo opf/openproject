@@ -83,7 +83,7 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 3.23.0'
+gem 'rouge', '~> 3.25.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 5.2.1'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -99,7 +99,7 @@ gem 'date_validator', '~> 0.10.0'
 gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage
-gem 'sys-filesystem', '~> 1.3.3', require: false
+gem 'sys-filesystem', '~> 1.4.0', require: false
 
 # Faster posix-compliant spawns for 8.0. conversions with pandoc
 gem 'posix-spawn', '~> 0.3.13', require: false
@@ -125,7 +125,7 @@ gem 'rack-attack', '~> 6.3.1'
 gem 'secure_headers', '~> 6.3.0'
 
 # Browser detection for incompatibility checks
-gem 'browser', '~> 4.2.0'
+gem 'browser', '~> 5.1.0'
 
 # Providing health checks
 gem 'okcomputer', '~> 1.18.1'
@@ -159,7 +159,7 @@ group :production do
   gem 'unicorn-worker-killer', require: false
 end
 
-gem 'i18n-js', '~> 3.7.0'
+gem 'i18n-js', '~> 3.8.0'
 gem 'rails-i18n', '~> 6.0.0'
 gem 'sprockets', '~> 3.7.0'
 
@@ -167,7 +167,7 @@ gem 'sprockets', '~> 3.7.0'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'puma', '~> 5.0.0' # used for development and optionally for production
+gem 'puma', '~> 5.1.0' # used for development and optionally for production
 
 gem 'nokogiri', '~> 1.10.8'
 
@@ -175,9 +175,9 @@ gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
 gem 'fog-aws'
 
-gem 'aws-sdk-core', '~> 3.105.0'
+gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.80.0'
+gem 'aws-sdk-s3', '~> 1.84'
 
 gem 'openproject-token', '~> 2.1.1'
 
@@ -198,14 +198,9 @@ group :test do
   # and other niceties
   gem 'test-prof', '~> 0.12.0'
 
-  gem 'cucumber', '~> 3.1.0'
-  gem 'cucumber-rails', '~> 1.8.0', require: false
   gem 'database_cleaner', '~> 1.8'
   gem 'rack_session_access'
-  gem 'rspec', '~> 3.9.0'
-  # TODO: replace stub_model and mock_model by calls to factory or simple double
-  # and remove this dependency
-  gem 'rspec-activemodel-mocks', '~> 1.1.0', git: 'https://github.com/rspec/rspec-activemodel-mocks'
+  gem 'rspec', '~> 3.10.0'
   # also add to development group, so "spec" rake task gets loaded
   gem 'rspec-rails', '~> 4.0.0', group: :development
 
@@ -219,7 +214,7 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.33.0'
+  gem 'capybara', '~> 3.34.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'selenium-webdriver', '~> 3.14'
   gem 'webdrivers', '~> 4.4.1'
@@ -228,7 +223,7 @@ group :test do
   gem 'timecop', '~> 0.9.0'
 
   # Mock backend requests (for ruby tests)
-  gem 'webmock', '~> 3.9.1', require: false
+  gem 'webmock', '~> 3.10.0', require: false
 
   # Mock selenium requests through proxy (for feature tests)
   gem 'puffing-billy', '~> 2.4.0'
@@ -242,11 +237,11 @@ group :test do
 end
 
 group :ldap do
-  gem 'net-ldap', '~> 0.16.0'
+  gem 'net-ldap', '~> 0.17.0'
 end
 
 group :development do
-  gem 'listen', '~> 3.2.1' # Use for event-based reloaders
+  gem 'listen', '~> 3.3.0' # Use for event-based reloaders
 
   gem 'faker'
   gem 'letter_opener'
@@ -279,20 +274,17 @@ group :development, :test do
   gem 'pry-stack_explorer', '~> 0.5.1'
 
   # Dangerfile scanner on travis and locally
-  gem 'danger', '~> 8.0.5'
+  gem 'danger', '~> 8.2.0'
 
   # Brakeman scanner
-  gem 'brakeman', '~> 4.9.0'
+  gem 'brakeman', '~> 4.10.0'
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.4.5', require: false
+gem 'bootsnap', '~> 1.5.0', require: false
 
 # API gems
-# Grape 1.4.0 has a bug which requires us to wait until 1.4.1 is released.
-# https://github.com/ruby-grape/grape/pull/2088
-# In 1.4.0, the Cache-Control will always be set to no-cache when sending a file.
-gem 'grape', '~> 1.3.0'
+gem 'grape', '~> 1.5.0'
 gem 'roar', '~> 1.1.0'
 
 # CORS for API
@@ -307,7 +299,7 @@ platforms :mri, :mingw, :x64_mingw do
   end
 
   # Support application loading when no database exists yet.
-  gem 'activerecord-nulldb-adapter', '~> 0.4.0'
+  gem 'activerecord-nulldb-adapter', '~> 0.5.0'
 
   # Have application level locks on the database to have a mutex shared between workers/hosts.
   # We e.g. employ this to safeguard the creation of journals.
@@ -318,7 +310,7 @@ gem 'openproject-translations',
   git: 'https://github.com/opf/openproject-translations.git',
   branch: 'dev'
 
-gem 'newrelic_rpm', '~> 6.9.0.363'
+gem 'newrelic_rpm'
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
 gemfiles = Dir.glob File.expand_path('../{Gemfile.plugins,Gemfile.modules,Gemfile.local,lib/plugins/*/Gemfile}',

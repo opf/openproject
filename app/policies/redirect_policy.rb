@@ -80,7 +80,7 @@ class RedirectPolicy
   # - Tries to parse it
   # - Escapes the redirect URL when requested so.
   def preprocess(requested)
-    url = URI.escape(CGI.unescape(requested.to_s))
+    url = URI::RFC2396_Parser.new.escape(CGI.unescape(requested.to_s))
     URI.parse(url)
   rescue URI::InvalidURIError => e
     Rails.logger.warn("Encountered invalid redirect URL '#{requested}': #{e.message}")
@@ -96,7 +96,7 @@ class RedirectPolicy
     if @return_escaped
       redirect_url.to_s
     else
-      URI.unescape(redirect_url.to_s)
+      CGI.unescape(redirect_url.to_s)
     end
   end
 

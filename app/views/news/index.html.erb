@@ -53,7 +53,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= link_to h(news.title), news_path(news) %>
       <%= "(#{t(:label_x_comments, count: news.comments_count)})" if news.comments_count > 0 %></h3>
     <p class="author additional-information"><%= authoring news.created_at, news.author %></p>
-    <div class="wiki">
+    <div class="wiki op-uc-container">
       <%= format_text(news.summary.present? ? news.summary : truncate(news.description, length: 150, escape: false), object: news) %>
     </div>
    </div>

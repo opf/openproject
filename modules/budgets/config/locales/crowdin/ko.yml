@@ -27,13 +27,11 @@ ko:
         available: "사용 가능"
         budget: "계획됨"
         budget_ratio: "소비(비율)"
-        created_on: "작성일"
         description: "설명"
         spent: "소비"
         status: "상태"
         subject: "제목"
         type: "비용 유형"
-        updated_on: "업데이트 날짜"
         labor_budget: "계획된 노동 비용"
         material_budget: "계획된 단위 비용"
       work_package:

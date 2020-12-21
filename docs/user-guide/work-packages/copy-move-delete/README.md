@@ -15,7 +15,7 @@ Open the work packages details view, click on the More functions (the three dots
 
 ![User-guide-copy-change-project-delete](User-guide-copy-change-project-delete.png)
 
-
+To copy, move or delete multiple work packages at once please refer to the documentation for [bulk edit](../edit-work-package/#bulk-edit-work-packages). 
 
 ## Copy a work package
 

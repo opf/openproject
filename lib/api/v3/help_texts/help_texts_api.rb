@@ -36,7 +36,7 @@ module API
         resources :help_texts do
           get do
             @entries = AttributeHelpText.visible(current_user)
-            HelpTextCollectionRepresenter.new(@entries, api_v3_paths.help_texts, current_user: current_user)
+            HelpTextCollectionRepresenter.new(@entries, self_link: api_v3_paths.help_texts, current_user: current_user)
           end
 
           route_param :id, type: Integer, desc: 'Help text ID' do

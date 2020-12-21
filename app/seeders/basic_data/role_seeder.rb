@@ -34,6 +34,10 @@ module BasicData
           Role.create!(attributes)
         end
 
+        global_roles.each do |attributes|
+          GlobalRole.create!(attributes)
+        end
+
         builtin_roles.each do |attributes|
           Role.find_by!(name: attributes[:name]).update(attributes)
         end
@@ -50,6 +54,10 @@ module BasicData
 
     def roles
       [project_admin, member, reader]
+    end
+
+    def global_roles
+      [project_creator]
     end
 
     def builtin_roles
@@ -173,6 +181,14 @@ module BasicData
           view_changesets
           view_wiki_pages
         ]
+      }
+    end
+
+    def project_creator
+      {
+        name: I18n.t(:default_role_project_creator),
+        position: 6,
+        permissions: [:add_project]
       }
     end
   end
