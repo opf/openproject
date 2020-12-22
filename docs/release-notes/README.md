@@ -24,6 +24,7 @@ Release date: 2020-12-17
 - Collapse all button for groups in the work packages list
 - Extended the authentication profile with an OpenID Connect provider
 - Improvements for printing, e.g. for wiki pages, via the browser print function
+- Signing Data Processing Agreement (DPA) documents in Enterprise cloud
 
 [Read more](11-1-0/)
 
