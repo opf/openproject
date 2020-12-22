@@ -238,7 +238,7 @@ Click on the **Modules** icon with the dots in the header navigation. These are 
 
 Select **Work packages** from the drop down menu. Now, you will see all work packages in the projects for which you have the required [permissions](../..//system-admin-guide/users-permissions/roles-permissions/).
 
-In this project overarching list, you can search, filter, group by, sort, highlight and save views the same way as in the [work package list](../../work-packages/work-package-table-configuration) in each project.
+In this project overarching list, you can search, filter, group by, sort, highlight and save views the same way as in the [work package list](../work-packages/work-package-table-configuration) in each project.
 
 You can group by projects by clicking in the header of the work package list next to PROJECT and select **Group by**. Collapsing the groups will allow you an **overview of the projects' aggregated milestones** as described [here](../../user-guide/work-packages/work-package-table-configuration/#aggregation-by-project).
 
