@@ -362,7 +362,7 @@ ru:
     label_next: "Следующие"
     label_no_color: "Нет цвета"
     label_no_data: "Нет данных для отображения"
-    label_no_due_date: "no finish date"
+    label_no_due_date: "нет даты окончания"
     label_no_start_date: "без даты начала"
     label_no_value: "Значение отсутствует"
     label_none: "Ничего"
