@@ -40,26 +40,28 @@
           </th>
         </tr>
       </thead>
+
       <tbody class="work-package--empty-tbody" *ngIf="!isEmbedded && query && results.count === 0">
-      <tr id="empty-row-notification">
-        <td [attr.colspan]="columns.length + 2">
-          <span>
-            <op-icon icon-classes="icon-info1 icon-context"></op-icon>
+        <tr id="empty-row-notification">
+          <td [attr.colspan]="columns.length + 2">
             <span>
-              <strong>{{text.noResults.title}}</strong>
-              {{text.noResults.description}}
+              <op-icon icon-classes="icon-info1 icon-context"></op-icon>
+              <span>
+                <strong>{{text.noResults.title}}</strong>
+                {{text.noResults.description}}
+              </span>
             </span>
-          </span>
-        </td>
-      </tr>
+          </td>
+        </tr>
       </tbody>
-      <tbody class="results-tbody work-package--results-tbody"></tbody>
+
+      <tbody class="results-tbody work-package--results-tbody">
+      </tbody>
 
       <tbody>
         <tr class="wp-table--sums-row wp-table--row"
             wpTableSumsRow
             [wpTableSumsRow-table]="workPackageTable">
-
         </tr>
       </tbody>
 
