@@ -127,6 +127,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
         ),
         map(result => {
           this.boardWidgets = result.allowedBoardWidgets;
+
           return result.board;
         })
       );
@@ -135,7 +136,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   getAllowedBoardWidgets(board:Board) {
     if (board.queries.length) {
       const queryRequests$ = board.queries.map(query => this.apiv3Service.queries
-        .find({filters: JSON.stringify(query.options.filters)} , query.options.queryId as string)
+        .find({filters: JSON.stringify(query.options.filters), pageSize: 0}, query.options.queryId as string)
         .pipe(
           map(() => query),
           catchError(error => {
