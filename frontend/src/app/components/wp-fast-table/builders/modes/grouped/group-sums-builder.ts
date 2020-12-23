@@ -44,6 +44,7 @@ export class GroupSumsBuilder extends SingleRowBuilder {
   private appendFirstLabel(div:HTMLElement) {
     const span = document.createElement('span');
     span.textContent = `${this.text.sum}`;
+    span.title = `${this.text.sum}`;
     div.prepend(span);
   }
 
