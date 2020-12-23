@@ -26,6 +26,10 @@ Release date: 2020-12-17
 
 - Improvements for printing, e.g. for wiki pages, via the browser print function
 
+#### Enterprise cloud:
+
+- Signing Data Processing Agreement (DPA) documents in Enterprise cloud
+
 [Read more](11-1-0/)
 
 ## 11.0.4
