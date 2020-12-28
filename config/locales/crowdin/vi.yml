@@ -172,7 +172,7 @@ vi:
     text_add_new_custom_field: >
       To add new custom fields to a project you first need to create them before you can add them to this project.
     is_enabled_globally: 'Is enabled globally'
-    enabled_in_project: 'Enabled in project'
+    enabled_in_project: 'Đã bật trong dự án'
     contained_in_type: 'Contained in type'
     confirm_destroy_option: "Xóa một tùy chọn sẽ xóa tất cả các sự kiện của nó (ví dụ như trong các gói công việc). Bạn có chắc bạn muốn xóa bỏ nó?"
     tab:
@@ -214,7 +214,7 @@ vi:
         no_results_title_text: Không có hoạt động nào hiện tại.
       forums:
         no_results_title_text: There are currently no forums for the project.
-        no_results_content_text: Create a new forum
+        no_results_content_text: Tạo diễn đàn mới
       categories:
         no_results_title_text: Hiện có không có nhóm gói công việc.
         no_results_content_text: Tạo ra một loại gói công việc mới
@@ -272,13 +272,13 @@ vi:
       no_results_title_text: There are currently no types.
       no_results_content_text: Create a new type
     edit:
-      settings: "Settings"
+      settings: "Cài đặt"
       form_configuration: "Mẫu cấu hình"
       projects: "Các dự án"
-      enabled_projects: "Enabled projects"
-      edit_query: "Edit table"
-      query_group_placeholder: "Give the table a name"
-      reset: "Reset to defaults"
+      enabled_projects: "Các dự án đã bật"
+      edit_query: "Chỉnh sửa bảng"
+      query_group_placeholder: "Đặt tên cho bảng"
+      reset: "Đặt lại về mặc định"
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
         in Gantt charts. It is therefore recommended to use a strong color.
@@ -317,7 +317,7 @@ vi:
           no_results_title_text: Không có phân loại.
         version:
           no_results_title_text: There are currently no versions available.
-  label_invitation: Invitation
+  label_invitation: Thư mời
   account:
     delete: "Xoá tài khoản"
     delete_confirmation: "Bạn có chắc chắn muốn xoá tài khoản chứ?"
@@ -369,7 +369,7 @@ vi:
         attr_mail: "Thuộc tính Email"
         base_dn: "DN căn bản"
         host: "Máy chủ"
-        onthefly: "Automatic user creation"
+        onthefly: "Tự động tạo người dùng"
         port: "Cổng"
       changeset:
         repository: "Repository"
@@ -385,7 +385,7 @@ vi:
         is_required: "Bắt buộc"
         max_length: "Chiều dài tối đa"
         min_length: "Chiều dài tối thiểu"
-        multi_value: "Allow multi-select"
+        multi_value: "Cho phép nhiều lựa chọn"
         possible_values: "Giá trị có thể"
         regexp: "Biểu thức chính quy"
         searchable: "Có thể tìm kiếm được"
@@ -395,7 +395,7 @@ vi:
       enterprise_token:
         starts_at: "Valid since"
         expires_at: "Expires at"
-        subscriber: "Subscriber"
+        subscriber: "Người đăng ký"
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Số người dùng hoạt động tối đa"
       grids/grid:
@@ -1328,7 +1328,7 @@ vi:
   label_delete_project: "Delete project"
   label_deleted: "đã xóa"
   label_deleted_custom_field: "(đã xóa các mục tùy chỉnh)"
-  label_deleted_custom_option: "(deleted option)"
+  label_deleted_custom_option: "(tùy chọn đã xóa)"
   label_descending: "Giảm dần"
   label_details: "Chi tiết"
   label_development_roadmap: "Development roadmap"
@@ -1346,7 +1346,7 @@ vi:
   label_duplicate: "duplicate"
   label_duplicates: "duplicates"
   label_edit: "Chỉnh sửa"
-  label_edit_x: "Edit: %{x}"
+  label_edit_x: "Chỉnh sửa: %{x}"
   label_enable_multi_select: "Bật/tắt đa lựa chọn"
   label_enabled_project_custom_fields: 'Enabled custom fields'
   label_enabled_project_modules: 'Enabled modules'
@@ -1601,7 +1601,7 @@ vi:
   label_search: "Search"
   label_send_information: "Send account information to the user"
   label_send_test_email: "Send a test email"
-  label_setting_plural: "Settings"
+  label_setting_plural: "Cài đặt"
   label_system_settings: "System settings"
   label_show_completed_versions: "Show completed versions"
   label_sort: "Sắp xếp"
@@ -1930,7 +1930,7 @@ vi:
   permission_manage_project_activities: "Manage project activities"
   permission_manage_public_queries: "Quản lý truy vấn công cộng"
   permission_manage_repository: "Manage repository"
-  permission_manage_subtasks: "Manage work package hierarchies"
+  permission_manage_subtasks: "Quản lý phân cấp gói công việc"
   permission_manage_versions: "Manage versions"
   permission_manage_wiki: "Manage wiki"
   permission_manage_wiki_menu: "Manage wiki menu"

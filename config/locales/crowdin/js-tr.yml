@@ -271,13 +271,13 @@ tr:
           text_new_features: "Yeni özellikler ve ürün güncellemeleri hakkında bilgi edinin."
           learn_about: "Yeni özellikler hakkında daha fazla bilgi edinin"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              Sürüm, çeşitli yeni özellikler ve iyileştirmeler içerir: <br> <ul class="%{list_styling_class}"> <li><b> WYSIWYG düzenleyicisinin </b> iyileştirilmiş stilleri </b>. </li> <li> Doğrudan görüntüleme <b> Düzenleme sırasında @ bildirimler için kullanıcı adı </b>. </li> <li> <b> OpenID Connect sağlayıcısı ile genişletilmiş kimlik doğrulama profili. </b> </li> <li> Projeyi görüntüle <b> kilometre taşları Gantt şemasında tek satırda toplandı </b>. </li> <li> Çalışma paketleri listesinde <b> gruplar için tüm düğmesi </b>. </li> <li> <b> Optimizasyon yazdırma, </b> ör. wiki sayfaları, tarayıcı yazdırma işlevi aracılığıyla. </li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              Sürüm, çeşitli yeni özellikler ve iyileştirmeler içerir: <br> <ul class="%{list_styling_class}"> <li><b> WYSIWYG düzenleyicisinin </b> iyileştirilmiş stilleri </b>. </li> <li> Doğrudan görüntüleme <b> Düzenleme sırasında @ bildirimler için kullanıcı adı </b>. </li> <li> <b> OpenID Connect sağlayıcısı ile genişletilmiş kimlik doğrulama profili. </b> </li> <li> Projeyi görüntüle <b> kilometre taşları Gantt şemasında tek satırda toplandı </b>. </li> <li> Çalışma paketleri listesinde <b> gruplar için tüm düğmesi </b>. </li> <li> <b> Optimizasyon yazdırma, </b> ör. wiki sayfaları, tarayıcı yazdırma işlevi aracılığıyla. </li> </ul>
     label_activate: "Etkinleştir"
     label_add_column_after: "Sonrasına sütun ekle"
     label_add_column_before: "Öncesine sütun ekle"
@@ -363,7 +363,7 @@ tr:
     label_next: "Sonraki"
     label_no_color: "Renk yok"
     label_no_data: "Görüntülenecek veri yok"
-    label_no_due_date: "no finish date"
+    label_no_due_date: "bitiş tarihi yok"
     label_no_start_date: "başlangıç tarihi yok"
     label_no_value: "Değer yok"
     label_none: "hiçbiri"

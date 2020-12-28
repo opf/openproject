@@ -69,7 +69,7 @@ vi:
     button_show_list: "Show list view"
     button_quote: "Trích dẫn"
     button_save: "Lưu"
-    button_settings: "Settings"
+    button_settings: "Cài đặt"
     button_uncheck_all: "Bỏ chọn tất cả"
     button_update: "Cập Nhật"
     button_export-pdf: "Tải PDF"
@@ -169,7 +169,7 @@ vi:
         add_table: "Add table of related work packages"
         edit_query: 'Edit query'
         new_group: 'Nhóm mới'
-        reset_to_defaults: 'Reset to defaults'
+        reset_to_defaults: 'Đặt lại về mặc định'
       enterprise:
         trial:
           confirmation: "Confirmation of email address"
@@ -184,7 +184,7 @@ vi:
             label_last_name: "Họ"
             label_email: "Thư điện tử"
             label_domain: "Domain"
-            label_subscriber: "Subscriber"
+            label_subscriber: "Người đăng ký"
             label_maximum_users: "Số người dùng hoạt động tối đa"
             label_starts_at: "Starts at"
             label_expires_at: "Expires at"
@@ -522,7 +522,7 @@ vi:
       edit:
         form_configuration: "Cấu hình biểu mẫu"
         projects: "Các dự án"
-        settings: "Settings"
+        settings: "Cài đặt"
     time_entry:
       project: 'Dự án'
       work_package: 'Work Package'
