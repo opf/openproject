@@ -2,7 +2,7 @@
 vi:
   permission_show_board_views: "Xem bảng"
   permission_manage_board_views: "Quản lý bảng"
-  project_module_board_view: "Boards"
+  project_module_board_view: "Bảng"
   boards:
-    label_board: "Board"
-    label_boards: "Boards"
+    label_board: "Bảng"
+    label_boards: "Bảng"

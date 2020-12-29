@@ -23,4 +23,4 @@ vi:
   js:
     work_packages:
       properties:
-        costObject: "Budget"
+        costObject: "Ngân sách"
