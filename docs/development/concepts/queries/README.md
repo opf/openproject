@@ -116,7 +116,7 @@ Due to the public nature of the OpenProject community, you can check out the fol
 
 It returns a saved query for the OpenProject 11.0 release, with a type filter `type is not [Idea, Phase, Release]` , a version filter `version = 11.0.0` and a "show all subprojects" filter with `subProject = all` . It is sorted by `type ascending`.
 
-The resulting work packages will differ based on the visibility of the work packagges and your permissions in the projects. For more information, check out [the concept on permissions](#TODO:permissions).
+The resulting work packages will differ based on the visibility of the work packagges and your permissions in the projects. For more information, check out [the concept on permissions](../permissions).
 
 
 
