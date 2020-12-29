@@ -18,7 +18,7 @@ vi:
       other: ''
     bcf_xml:
       xml_file: 'Tệp BCF XML'
-      import_title: 'Import'
+      import_title: 'Nhập'
       export: 'Xuất'
       import_update_comment: '(Cập nhật từ file BCF)'
       import_failed: 'Không thể nhập file BCF: %{error}'

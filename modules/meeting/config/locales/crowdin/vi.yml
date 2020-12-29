@@ -54,7 +54,7 @@ vi:
   label_meeting_agenda: "Các ý chính"
   label_meeting_minutes: "Phút"
   label_meeting_close: "Đóng"
-  label_meeting_open: "Open"
+  label_meeting_open: "Mở"
   label_meeting_agenda_close: "Close the agenda to begin the Minutes"
   label_meeting_date_time: "Ngày/Giờ"
   label_meeting_diff: "Diff"

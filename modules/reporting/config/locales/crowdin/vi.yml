@@ -56,7 +56,7 @@ vi:
   label_rows: "Rows"
   label_saving: "Saving ..."
   label_spent_on_reporting: "Date (Spent)"
-  label_sum: "Sum"
+  label_sum: "Tổng"
   label_units: "Units"
   label_week_reporting: "Week (Spent)"
   label_year_reporting: "Year (Spent)"
