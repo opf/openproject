@@ -1722,10 +1722,10 @@ vi:
   label_workflow_summary: "Tóm tắt"
   label_x_closed_work_packages_abbr:
     zero: "0 đóng"
-    other: ""
+    other: "%{count} đóng"
   label_x_comments:
     zero: "Không có bình luận"
-    other: ""
+    other: "%{count} bình luận"
   label_x_open_work_packages_abbr:
     zero: "0 mở"
     other: ""
