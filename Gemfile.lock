@@ -454,7 +454,7 @@ GEM
     faraday-http-cache (2.2.0)
       faraday (>= 0.8)
     faraday-net_http (1.0.0)
-    fastimage (2.2.0)
+    fastimage (2.2.1)
     ffi (1.13.1)
     flamegraph (0.9.5)
     fog-aws (3.7.0)
