@@ -41,7 +41,6 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageFilterContainerComponent} from "core-components/filters/filter-container/filter-container.directive";
 import {OpModalService} from 'core-app/components/op-modals/op-modal.service';
 import {InviteUserModal} from 'core-app/components/modals/invite-user/invite-user.modal';
-import {InviteUserModal} from 'core-app/components/modals/invite-user/invite-user.modal';
 
 export interface DynamicComponentDefinition {
   component:ComponentType<any>;
@@ -265,8 +264,9 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   openInviteUserModal() {
     const inviteModal = this.opModalService.show(this.inviteModal, 'global');
+    debugger;
     inviteModal.closingEvent.subscribe((modal:any) => {
-      console.log(modal);
+      debugger;
     });
   }
 

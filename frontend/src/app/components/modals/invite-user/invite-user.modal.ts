@@ -10,7 +10,7 @@ import {Observable} from 'rxjs';
 @Component({
   templateUrl: './invite-user.modal.html',
   styleUrls: ['./invite-user.modal.sass'],
-  changeDetection: ChangeDetectionStrategy.onPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InviteUserModal extends OpModalComponent implements OnInit {
   /* Close on escape? */
