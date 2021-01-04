@@ -40,6 +40,14 @@ class TestAccessibleClickDirective {
   }
 }
 
+@Component({
+  template: `<div (accessibleClick)="onClick()" [accessibleClickSkipModifiers]="true">Click me</div>`
+})
+class TestAccessibleClickDirectiveSkippedModifiers {
+  public onClick() {
+  }
+}
+
 describe('accessibleByKeyboard component', () => {
 
   beforeEach((() => {
@@ -48,7 +56,8 @@ describe('accessibleByKeyboard component', () => {
     TestBed.configureTestingModule({
       declarations: [
         AccessibleClickDirective,
-        TestAccessibleClickDirective
+        TestAccessibleClickDirective,
+        TestAccessibleClickDirectiveSkippedModifiers
       ]
     }).compileComponents();
   }));
@@ -67,14 +76,31 @@ describe('accessibleByKeyboard component', () => {
       fixture.detectChanges();
 
       // Trigger click
-      const eventBase = { preventDefault: () => undefined, stopPropagation: () => undefined };
-      element.triggerEventHandler('click', _.assign({type: 'click' }, eventBase));
-      element.triggerEventHandler('keydown', _.assign({type: 'keydown', which: 13}, eventBase));
-      element.triggerEventHandler('keydown', _.assign({type: 'keydown', which: 32}, eventBase));
+      element.triggerEventHandler('click', new MouseEvent('click', { ctrlKey: true }));
+      element.triggerEventHandler('click', new MouseEvent('click', { ctrlKey: false }));
+      element.triggerEventHandler('keydown',new KeyboardEvent('keydown', { key: ' ' }));
 
       tick();
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(3);
+    }));
+
+    it('allows to disable click handling with modifiers', fakeAsync(() => {
+      fixture = TestBed.createComponent(TestAccessibleClickDirectiveSkippedModifiers);
+      app = fixture.debugElement.componentInstance;
+      element = fixture.debugElement.query(By.css('div'));
+
+      const spy = spyOn(app, 'onClick');
+      fixture.detectChanges();
+
+      // Trigger click
+      element.triggerEventHandler('click', new MouseEvent('click', { ctrlKey: true }));
+      element.triggerEventHandler('click', new MouseEvent('click', { ctrlKey: false }));
+      element.triggerEventHandler('keydown',new KeyboardEvent('keydown', { key: ' ' }));
+
+      tick();
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalledTimes(2);
     }));
   });
 });
