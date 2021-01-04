@@ -856,7 +856,7 @@ GEM
       activesupport (>= 3)
       attr_required (>= 0.0.5)
       httpclient (>= 2.4)
-    sys-filesystem (1.4.0)
+    sys-filesystem (1.4.1)
       ffi (~> 1.1)
     table_print (1.5.7)
     temple (0.8.2)
