@@ -851,7 +851,7 @@ GEM
     stackprof (0.2.16)
     stringex (2.8.5)
     structured_warnings (0.4.0)
-    svg-graph (2.2.0)
+    svg-graph (2.2.1)
     swd (1.2.0)
       activesupport (>= 3)
       attr_required (>= 0.0.5)
