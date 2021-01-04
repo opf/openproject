@@ -26,6 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
+import * as moment from "moment";
 import flatpickr from "flatpickr";
 import {Instance} from "flatpickr/dist/types/instance";
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
@@ -54,6 +55,9 @@ export class DatePicker {
 
     const mergedOptions = _.extend({}, options, {
       weekNumbers: true,
+      getWeek(dateObj:Date) {
+        return moment(dateObj).week();
+      },
       dateFormat: this.datepickerFormat,
       defaultDate: this.date,
       locale: {
