@@ -17,6 +17,9 @@
 
       <ul class="toolbar-items hide-when-print"
           *ngIf="showToolbar">
+        <li>
+          <button (click)="openInviteUserModal()">Invite User</button>
+        </li>
 
         <ng-container *ngFor="let definition of toolbarButtonComponents">
           <li class="toolbar-item"
