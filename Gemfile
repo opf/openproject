@@ -169,7 +169,7 @@ gem 'unicorn'
 
 gem 'puma', '~> 5.1.0' # used for development and optionally for production
 
-gem 'nokogiri', '~> 1.10.8'
+gem 'nokogiri', '~> 1.11.0'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
