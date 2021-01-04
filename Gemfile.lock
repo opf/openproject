@@ -521,7 +521,7 @@ GEM
     ipaddress (0.8.3)
     iso8601 (0.13.0)
     jmespath (1.4.0)
-    json (2.3.1)
+    json (2.5.1)
     json-jwt (1.13.0)
       activesupport (>= 4.2)
       aes_key_wrap
