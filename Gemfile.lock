@@ -540,7 +540,7 @@ GEM
       addressable (~> 2.7)
     letter_opener (1.7.0)
       launchy (~> 2.2)
-    listen (3.3.3)
+    listen (3.4.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     livingstyleguide (2.1.0)
@@ -978,7 +978,7 @@ DEPENDENCIES
   ladle
   launchy (~> 2.5.0)
   letter_opener
-  listen (~> 3.3.0)
+  listen (~> 3.4.0)
   livingstyleguide (~> 2.1.0)
   lograge (~> 0.11.0)
   meta-tags (~> 2.14.0)
