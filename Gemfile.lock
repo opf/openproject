@@ -375,7 +375,7 @@ GEM
     date_validator (0.10.0)
       activemodel (>= 3)
       activesupport (>= 3)
-    debug_inspector (0.0.3)
+    debug_inspector (1.0.0)
     deckar01-task_list (2.3.1)
       html-pipeline
     declarative (0.0.20)
