@@ -574,7 +574,7 @@ GEM
     mimemagic (0.3.5)
     mini_magick (4.11.0)
     mini_mime (1.0.2)
-    mini_portile2 (2.4.0)
+    mini_portile2 (2.5.0)
     minisyntax (0.2.5)
     minitest (5.14.2)
     mixlib-shellout (2.1.0)
@@ -591,8 +591,9 @@ GEM
     newrelic_rpm (6.14.0)
     nio4r (2.5.4)
     no_proxy_fix (0.1.2)
-    nokogiri (1.10.10)
-      mini_portile2 (~> 2.4.0)
+    nokogiri (1.11.0)
+      mini_portile2 (~> 2.5.0)
+      racc (~> 1.4)
     nokogumbo (2.0.4)
       nokogiri (~> 1.8, >= 1.8.4)
     octokit (4.19.0)
@@ -670,6 +671,7 @@ GEM
       multi_json
     puma (5.1.1)
       nio4r (~> 2.0)
+    racc (1.5.2)
     rack (2.2.3)
     rack-accept (0.4.5)
       rack (>= 0.4)
@@ -984,7 +986,7 @@ DEPENDENCIES
   my_page!
   net-ldap (~> 0.17.0)
   newrelic_rpm
-  nokogiri (~> 1.10.8)
+  nokogiri (~> 1.11.0)
   oj (~> 3.10.2)
   okcomputer (~> 1.18.1)
   omniauth!
