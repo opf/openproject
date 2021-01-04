@@ -804,7 +804,7 @@ GEM
       i18n
     ruby-ole (1.2.12.2)
     ruby-prof (1.4.2)
-    ruby-progressbar (1.10.1)
+    ruby-progressbar (1.11.0)
     ruby-rc4 (0.1.5)
     ruby-saml (1.11.0)
       nokogiri (>= 1.5.10)
@@ -1050,7 +1050,7 @@ DEPENDENCIES
   rubocop
   ruby-duration (~> 3.2.0)
   ruby-prof
-  ruby-progressbar (~> 1.10.0)
+  ruby-progressbar (~> 1.11.0)
   rubytree (~> 1.0.0)
   sanitize (~> 5.2.1)
   sassc-rails
