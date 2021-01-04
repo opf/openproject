@@ -39,6 +39,9 @@ import {ComponentType} from "@angular/cdk/overlay";
 import {Ng2StateDeclaration} from "@uirouter/angular";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageFilterContainerComponent} from "core-components/filters/filter-container/filter-container.directive";
+import {OpModalService} from 'core-app/components/op-modals/op-modal.service';
+import {InviteUserModal} from 'core-app/components/modals/invite-user/invite-user.modal';
+import {InviteUserModal} from 'core-app/components/modals/invite-user/invite-user.modal';
 
 export interface DynamicComponentDefinition {
   component:ComponentType<any>;
@@ -68,6 +71,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   @InjectField() I18n!:I18nService;
   @InjectField() titleService:OpTitleService;
   @InjectField() queryParamListener:QueryParamListenerService;
+  @InjectField() opModalService:OpModalService;
 
   text:{ [key:string]:string } = {
     'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
@@ -254,6 +258,15 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
     return promise.then((loadedQuery:QueryResource) => {
       this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
+    });
+  }
+
+  protected inviteModal = InviteUserModal;
+
+  openInviteUserModal() {
+    const inviteModal = this.opModalService.show(this.inviteModal, 'global');
+    inviteModal.closingEvent.subscribe((modal:any) => {
+      console.log(modal);
     });
   }
 
