@@ -103,7 +103,7 @@ describe 'Query selection', type: :feature do
     it 'updates the page upon query switching', js: true do
       wp_page.expect_title query.name, editable: false
 
-      find('.wp-query-menu--item-link', text: query2.name).click
+      find('.collapsible-menu--item-link', text: query2.name).click
     end
   end
 end

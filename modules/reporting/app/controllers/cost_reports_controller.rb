@@ -48,8 +48,6 @@ class CostReportsController < ApplicationController
   helper_method :cost_types
   helper_method :cost_type
   helper_method :unit_id
-  helper_method :public_queries
-  helper_method :private_queries
 
   attr_accessor :report_engine
   helper_method :current_user
@@ -95,7 +93,7 @@ class CostReportsController < ApplicationController
     end
   end
 
-  current_menu_item :index do |controller|
+  current_menu_item [:index, :show] do |controller|
     controller.menu_item_to_highlight_on_index
   end
 
@@ -385,29 +383,6 @@ class CostReportsController < ApplicationController
 
     else
       false
-    end
-  end
-
-  def public_queries
-    if @project
-      CostQuery.where(['is_public = ? AND (project_id IS NULL OR project_id = ?)', true, @project])
-               .order(Arel.sql('name ASC'))
-    else
-      CostQuery.where(['is_public = ? AND project_id IS NULL', true])
-               .order(Arel.sql('name ASC'))
-    end
-  end
-
-  def private_queries
-    if @project
-      CostQuery.where(['user_id = ? AND is_public = ? AND (project_id IS NULL OR project_id = ?)',
-                       current_user,
-                       false,
-                       @project])
-               .order(Arel.sql('name ASC'))
-    else
-      CostQuery.where(['user_id = ? AND is_public = ? AND project_id IS NULL', current_user, false])
-               .order(Arel.sql('name ASC'))
     end
   end
 

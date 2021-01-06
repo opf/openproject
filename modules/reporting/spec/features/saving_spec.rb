@@ -20,8 +20,10 @@ describe 'Cost report saving', type: :feature, js: true do
 
     report_page.save as: 'Testreport'
 
-    expect(page).to have_selector('#ur_caption', text: 'Testreport')
-    expect(page).to have_selector('#private_sidebar_report_list', text: 'Testreport')
+    # Check if the category is displayed
+    expect(page).to have_selector('#private_sidebar_report_category', text: I18n.t(:label_private_report_plural).upcase)
+    # Check if the new report is displayed
+    expect(page).to have_selector('.tree-menu--title', text: 'Testreport')
 
     report_page.expect_column_element 'Work package'
     report_page.expect_row_element 'Project'
@@ -35,8 +37,10 @@ describe 'Cost report saving', type: :feature, js: true do
 
     report_page.save as: 'Public report', public: true
 
-    expect(page).to have_selector('#ur_caption', text: 'Public report')
-    expect(page).to have_selector('#public_sidebar_report_list', text: 'Public report')
+    # Check if the category is displayed
+    expect(page).to have_selector('#public_sidebar_report_category', text: I18n.t(:label_public_report_plural).upcase)
+    # Check if the new report is displayed
+    expect(page).to have_selector('.tree-menu--title', text: 'Public report')
 
     report_page.expect_column_element 'Work package'
     report_page.expect_row_element 'Project'

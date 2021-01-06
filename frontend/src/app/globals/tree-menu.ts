@@ -31,12 +31,15 @@
 
   $(function() {
     // set selected page for menu tree if provided.
-    $('[data-selected-page].tree-menu--container').each(function(_i:number, tree:HTMLElement) {
+    $('[data-selected-page]').closest('.tree-menu--container').each(function(_i:number, tree:HTMLElement) {
       let selectedPage = $(tree).data('selected-page');
+
       if (selectedPage) {
-       let selected = $('[slug=' + selectedPage + ']', tree);
+       let selected = $('[slug="' + selectedPage + '"]', tree);
        selected.toggleClass('-selected', true);
-       selected[0].scrollIntoView();
+       if (selected.length > 1) {
+         selected[0].scrollIntoView();
+       }
       }
     });
 

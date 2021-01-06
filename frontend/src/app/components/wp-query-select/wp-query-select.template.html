@@ -1,19 +1,19 @@
-<div id="querySelectDropdown" class="wp-query-menu--container">
-  <div class="wp-query-menu--search-container">
-    <div class="wp-query-menu--search-bar">
+<div id="querySelectDropdown" class="collapsible-menu--container">
+  <div class="collapsible-menu--search-container">
+    <div class="collapsible-menu--search-bar">
       <label for="query-title-filter"
              class="hidden-for-sighted"
              [textContent]="text.label" ></label>
       <input #wpQueryMenuSearchInput
              type="text"
-             class="wp-query-menu--search-input ui-autocomplete--input ellipsis"
+             class="collapsible-menu--search-input ui-autocomplete--input ellipsis"
              name="query-title-filter"
              id="query-title-filter"
              [attr.placeholder]="text.search" />
-      <i class="icon-search wp-query-menu--search-icon"></i>
+      <i class="icon-search collapsible-menu--search-icon"></i>
     </div>
-    <div #queryResultsContainer class="wp-query-menu--results-container">
-      <p class="wp-query-menu--no-results-container"
+    <div #queryResultsContainer class="collapsible-menu--results-container">
+      <p class="collapsible-menu--no-results-container"
          [hidden]="!noResults || loading"
          [textContent]="text.no_results"></p>
       <div class="loading-indicator -compact" *ngIf="loading">
