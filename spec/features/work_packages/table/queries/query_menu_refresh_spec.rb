@@ -60,7 +60,7 @@ describe 'Refreshing query menu item', js: true do
     expect(url).not_to match(/query_props=.+/)
 
     # Locate query and refresh
-    query_item = page.find(".wp-query-menu--item", text: last_query.name)
+    query_item = page.find(".collapsible-menu--item", text: last_query.name)
     query_item.click
 
     wp_table.expect_work_package_listed work_package, other_work_package

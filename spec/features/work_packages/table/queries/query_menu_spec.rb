@@ -43,8 +43,8 @@ describe 'Query menu item', js: true do
     let(:wp_table) { ::Pages::WorkPackagesTable.new }
     it 'should show the query menu (Regression #30082)' do
       wp_table.visit!
-      expect(page).to have_selector('.wp-query-menu--container')
-      expect(page).to have_selector('.wp-query-menu--item', wait: 20, minimum: 1)
+      expect(page).to have_selector('.collapsible-menu--container')
+      expect(page).to have_selector('.collapsible-menu--item', wait: 20, minimum: 1)
     end
   end
 

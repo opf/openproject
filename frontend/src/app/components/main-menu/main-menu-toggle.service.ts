@@ -117,7 +117,7 @@ export class MainMenuToggleService {
   public closeMenu():void {
     this.setWidth(0);
     window.OpenProject.guardedLocalStorage(this.localStorageStateKey, 'true');
-    jQuery('.wp-query-menu--search-input').blur();
+    jQuery('.collapsible-menu--search-input').blur();
   }
 
   public closeWhenOnMobile():void {

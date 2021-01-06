@@ -58,8 +58,8 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= "<br />#{t(:information_restricted_depending_on_permission)}".html_safe unless User.current.admin?%>
 </p>
 
-<% content_for :sidebar do %>
-  <% [:private, :public].each do |type| %>
-    <%= render :partial => "report_category", :locals => { :report_type => type } %>
-  <% end %>
-<% end -%>
+<% if @project.blank? %>
+  <% content_for :sidebar do %>
+    <%= render :partial => "report_menu" %>
+  <% end -%>
+<% end %>

@@ -27,13 +27,19 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% queries ||= respond_to?(:"#{report_type}_queries") ? send(:"#{report_type}_queries") : [] %>
-<ul id='<%= "#{report_type}_sidebar_report_list" %>'
-    class="report_list list"
-    data-update-url="<%= url_for(:action => :display_report_list, :report_type => report_type) %>">
+<% queries = report_type == :public ? CostQuery.public(@project) : CostQuery.private(@project, current_user) %>
+<% if queries.any? %>
   <% queries.each do |query| -%>
-    <li>
-      <%= link_to(h(query.name), :controller => 'cost_reports', :action => 'show', :id => query.id) %>
-    </li>
+    <ul class="pages-hierarchy -with-hierarchy">
+      <li class="tree-menu--item ui-menu-item collapsible-menu--item" slug="<%= query.name %>">
+        <%= link_to(h(query.name),
+                    {:controller => '/cost_reports', :action => 'show', :id => query.id},
+                     :class => 'tree-menu--title ellipsis') %>
+      </li>
+    </ul>
   <% end -%>
-</ul>
+<% else %>
+  <ul class="pages-hierarchy -with-hierarchy">
+    <li class="collapsible-menu--placeholder"><%= t(:"label_no_reports") %></li>
+  </ul>
+<% end -%>

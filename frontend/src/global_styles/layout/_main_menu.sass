@@ -55,8 +55,8 @@ $menu-item-line-height: 30px
     .menu_root.closed,
     .menu_root > li.open,
     wp-query-select,
-    .wp-query-menu--container,
-    .wp-query-menu--search-container,
+    .collapsible-menu--container,
+    .collapsible-menu--search-container,
     .main-menu--children > li.partial:only-child
       height: 100%
 
@@ -294,10 +294,11 @@ a.main-menu--parent-node
     margin-top: 0
 
   a, a:link
-    color: var(--main-menu-sidebar-link-color)
-    display: inline
-    position: static
-    text-decoration: underline
+    &:not(.collapsible-menu--item-link):not(.collapsible-menu--category-icon)
+      color: var(--main-menu-sidebar-link-color)
+      display: inline
+      position: static
+      text-decoration: underline
 
   a:hover
     text-decoration: underline
