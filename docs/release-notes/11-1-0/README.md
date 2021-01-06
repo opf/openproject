@@ -40,11 +40,13 @@ In the work package list it is possible to group by any attribute,  e.g. assigne
 
 ## Signing Data Processing Agreement (DPA) documents in Enterprise cloud
 
-For EU customers it is required by the GDPR to sign a data processing agreement (also called data processing addendum) before using our [Cloud Edition](https://start.openproject.com/). Until now, we processed these contracts manually. Users had to print  the document, enter their information and send it to us. We then had to  sign it too, and send it back to the customer.
+For EU customers it is required by the GDPR to sign a data processing agreement (sometimes called data processing addendum) before using our Cloud edition. Until now, we processed these contracts manually. Users had to print the document, enter their information and send it to us. We then had to sign it too, and send it back to the customer.
 
-Luckily, we now automated this process in order to  reduce manual effort on both sides. This way, it is even easier to  comply with GDPR. With -> Administration -> GDPR you can now  online review and sign your DPA document with us.
+Luckily, we now automated this process in order to reduce manual effort on both sides. This way, it is even easier to comply with GDPR. Within -> Administration -> GDPR you can now online review and sign your DPA document with us.
 
-![GDPR-OpenProject](GDPR-OpenProject.png)
+![DPA-OpenProject](DPA-OpenProject.png)
+
+
 
 ## Various improvements and bug fixes
 

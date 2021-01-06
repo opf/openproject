@@ -362,7 +362,7 @@ de:
     label_next: "Weiter"
     label_no_color: "Keine Farbe"
     label_no_data: "Es sind keine Daten vorhanden"
-    label_no_due_date: "no finish date"
+    label_no_due_date: "kein Endtermin"
     label_no_start_date: "kein Startdatum"
     label_no_value: "Kein Wert"
     label_none: "keine"

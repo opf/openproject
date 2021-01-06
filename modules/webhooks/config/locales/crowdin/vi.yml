@@ -5,7 +5,7 @@ vi:
         url: 'Payload URL'
         secret: 'Chữ ký bí mật'
         events: 'Sự kiện'
-        projects: 'Enabled projects'
+        projects: 'Các dự án đã bật'
       webhooks/log:
         event_name: 'Tên sự kiện'
         url: 'Payload URL'
@@ -48,7 +48,7 @@ vi:
         events:
           title: 'Enabled events'
         project_ids:
-          title: 'Enabled projects'
+          title: 'Các dự án đã bật'
           description: 'Select for which projects this webhook should be executed for.'
           all: 'All projects'
           selected: 'Selected projects only'
