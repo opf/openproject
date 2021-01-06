@@ -310,7 +310,7 @@ gem 'openproject-translations',
   git: 'https://github.com/opf/openproject-translations.git',
   branch: 'dev'
 
-gem 'newrelic_rpm'
+gem 'newrelic_rpm', require: ENV.has_key?('NEW_RELIC_LICENSE_KEY')
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
 gemfiles = Dir.glob File.expand_path('../{Gemfile.plugins,Gemfile.modules,Gemfile.local,lib/plugins/*/Gemfile}',
