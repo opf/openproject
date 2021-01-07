@@ -1993,11 +1993,11 @@
       }
     },
     "@fullcalendar/angular": {
-      "version": "5.3.1",
-      "resolved": "https://registry.npmjs.org/@fullcalendar/angular/-/angular-5.3.1.tgz",
-      "integrity": "sha512-CwNF00GBkNG+uMAs+EyiKf8paMqD8vQ6bLOGr9aqvOt305ls6kL3c0E5iDofGvBPr5+q6W5jPAvBVJBKNGXD0w==",
+      "version": "5.5.0",
+      "resolved": "https://registry.npmjs.org/@fullcalendar/angular/-/angular-5.5.0.tgz",
+      "integrity": "sha512-e1KZTzMjB4/rcCMKmQl7DzQN4cmBOk34KZ2kdrX7cAq6B4yOUUt3A0PMrohU4JKdlLw/XsQL1O4TrPyOoWfMjw==",
       "requires": {
-        "@fullcalendar/core": "~5.3.1",
+        "@fullcalendar/core": "~5.5.0",
         "fast-deep-equal": "^3.1.1",
         "tslib": "^2.0.0"
       },
@@ -2010,49 +2010,85 @@
       }
     },
     "@fullcalendar/common": {
-      "version": "5.3.1",
-      "resolved": "https://registry.npmjs.org/@fullcalendar/common/-/common-5.3.1.tgz",
-      "integrity": "sha512-2PREEpiFQSDN5MNdoD/OkpJ+d7FPtN2TwTJMsuq3fTjmj3nM+utrxBmUr9a2F6WWW1X+xGU5nHQA52vhqIiQOQ==",
+      "version": "5.5.0",
+      "resolved": "https://registry.npmjs.org/@fullcalendar/common/-/common-5.5.0.tgz",
+      "integrity": "sha512-xHsHRI2xnC4vDPdRaOkt03SGIEsmlcSTI6RVInI2PQKi3n4otgM4ej3WL4B010uT4IzrBlUvNm8HHEo/o3g8Ug==",
       "requires": {
-        "tslib": "^2.0.0"
+        "ical.js": "^1.4.0",
+        "tslib": "^2.0.3"
+      },
+      "dependencies": {
+        "tslib": {
+          "version": "2.1.0",
+          "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.1.0.tgz",
+          "integrity": "sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A=="
+        }
       }
     },
     "@fullcalendar/core": {
-      "version": "5.3.1",
-      "resolved": "https://registry.npmjs.org/@fullcalendar/core/-/core-5.3.1.tgz",
-      "integrity": "sha512-CqcpMimyuTf4DI+s1Se9bjVQMa2PDGtTBj8CYaCf8nSu+Wc6/RoimhIiA5bDTyg4KQFqXFT8ojt1avC05ZBvgg==",
+      "version": "5.5.0",
+      "resolved": "https://registry.npmjs.org/@fullcalendar/core/-/core-5.5.0.tgz",
+      "integrity": "sha512-NHyrH6AP1zRRCWsK0NuY/bZFQes1UaGB2pukMv86A0Yq1BI7Y7m9u/yH7D0/ZCaNkCLVxrSlIwAOtMQxPPITdg==",
       "requires": {
-        "@fullcalendar/common": "~5.3.1",
+        "@fullcalendar/common": "~5.5.0",
         "preact": "^10.0.5",
-        "tslib": "^2.0.0"
+        "tslib": "^2.0.3"
+      },
+      "dependencies": {
+        "tslib": {
+          "version": "2.1.0",
+          "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.1.0.tgz",
+          "integrity": "sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A=="
+        }
       }
     },
     "@fullcalendar/daygrid": {
-      "version": "5.3.1",
-      "resolved": "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-5.3.1.tgz",
-      "integrity": "sha512-KRHN/WDwAMJP/GWv3s2ZdDj1pkbCsTm1pdQIC8zsAhuQ5rMNzoCEzDJejL119ztB15Tf1NlVIGoqd8eOeTHS+g==",
+      "version": "5.5.0",
+      "resolved": "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-5.5.0.tgz",
+      "integrity": "sha512-O/59C3ihElLsPnkjlD1xUgAf3v7WEARXVO+wZfASKtK14Ccux2MA9mWUA1+80m9q8on7SYL36ORhrea7GKy/qQ==",
       "requires": {
-        "@fullcalendar/common": "~5.3.1",
-        "tslib": "^2.0.0"
+        "@fullcalendar/common": "~5.5.0",
+        "tslib": "^2.0.3"
+      },
+      "dependencies": {
+        "tslib": {
+          "version": "2.1.0",
+          "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.1.0.tgz",
+          "integrity": "sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A=="
+        }
       }
     },
     "@fullcalendar/interaction": {
-      "version": "5.3.1",
-      "resolved": "https://registry.npmjs.org/@fullcalendar/interaction/-/interaction-5.3.1.tgz",
-      "integrity": "sha512-S1QAIazLQ7yBlUFyQbXzvXj36u39/G6H0qI2bUuQ4lY5VlUMGkiKZqb8oDHz1wE9/keuBL5CX2K/WTDGJ19Mng==",
+      "version": "5.5.0",
+      "resolved": "https://registry.npmjs.org/@fullcalendar/interaction/-/interaction-5.5.0.tgz",
+      "integrity": "sha512-LKc4VeESBkBkrI/sAtV++f4qUleYyt7STBrnuc5Mpojv7jg5x5XZ1rfOarLwRbEYSvbo6CwccDrsaLTbC1Qk2A==",
       "requires": {
-        "@fullcalendar/common": "~5.3.1",
-        "tslib": "^2.0.0"
+        "@fullcalendar/common": "~5.5.0",
+        "tslib": "^2.0.3"
+      },
+      "dependencies": {
+        "tslib": {
+          "version": "2.1.0",
+          "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.1.0.tgz",
+          "integrity": "sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A=="
+        }
       }
     },
     "@fullcalendar/timegrid": {
-      "version": "5.3.1",
-      "resolved": "https://registry.npmjs.org/@fullcalendar/timegrid/-/timegrid-5.3.1.tgz",
-      "integrity": "sha512-ahyJC/kybGip5pTLC4cpsEdnhDZb3Hg0F7LTD/VVK4GxzplDiI0ZaWACC4O22zmp1+7a40NUMIV0HLO3D5SV4A==",
+      "version": "5.5.0",
+      "resolved": "https://registry.npmjs.org/@fullcalendar/timegrid/-/timegrid-5.5.0.tgz",
+      "integrity": "sha512-Y4k3/ux031pL7WQWJnvJbGcOua+zg1BGn08xeycgBICNqVMIhKm++uCnLzCvHGDV4Gp7oRjNAw/nJw4M1kMoXg==",
       "requires": {
-        "@fullcalendar/common": "~5.3.1",
-        "@fullcalendar/daygrid": "~5.3.1",
-        "tslib": "^2.0.0"
+        "@fullcalendar/common": "~5.5.0",
+        "@fullcalendar/daygrid": "~5.5.0",
+        "tslib": "^2.0.3"
+      },
+      "dependencies": {
+        "tslib": {
+          "version": "2.1.0",
+          "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.1.0.tgz",
+          "integrity": "sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A=="
+        }
       }
     },
     "@istanbuljs/schema": {
@@ -7152,6 +7188,11 @@
         "ms": "^2.0.0"
       }
     },
+    "ical.js": {
+      "version": "1.4.0",
+      "resolved": "https://registry.npmjs.org/ical.js/-/ical.js-1.4.0.tgz",
+      "integrity": "sha512-ltHZuOFNNjcyEYbzDgjemS7LWIFh2vydJeznxQHUh3dnarbxqOYsWONYteBVAq1MEOHnwXFGN2eskZReHclnrA=="
+    },
     "iconv-lite": {
       "version": "0.4.24",
       "resolved": "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.4.24.tgz",
@@ -11244,9 +11285,9 @@
       "integrity": "sha512-LmeoohTpp/K4UiyQCwuGWlONxXamGzCMtFxLq4W1nZVGIQLYvMCJx3yAF9qyyuFpflABI9yVdtJAqbihOsCsJQ=="
     },
     "preact": {
-      "version": "10.5.5",
-      "resolved": "https://registry.npmjs.org/preact/-/preact-10.5.5.tgz",
-      "integrity": "sha512-5ONLNH1SXMzzbQoExZX4TELemNt+TEDb622xXFNfZngjjM9qtrzseJt+EfiUu4TZ6EJ95X5sE1ES4yqHFSIdhg=="
+      "version": "10.5.9",
+      "resolved": "https://registry.npmjs.org/preact/-/preact-10.5.9.tgz",
+      "integrity": "sha512-X4m+4VMVINl/JFQKALOCwa3p8vhMAhBvle0hJ/W44w/WWfNb2TA7RNicDV3K2dNVs57f61GviEnVLiwN+fxiIg=="
     },
     "process": {
       "version": "0.11.10",
