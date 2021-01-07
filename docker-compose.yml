@@ -34,25 +34,6 @@ x-op-frontend-build: &frontend-build
     DEV_GID: $DEV_GID
 
 services:
-  db:
-    image: postgres:10
-    <<: *restart_policy
-    stop_grace_period: "3s"
-    volumes:
-      - "pgdata:/var/lib/postgresql/data"
-    environment:
-      POSTGRES_USER: ${DB_USERNAME:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
-      POSTGRES_DB: ${DB_DATABASE:-openproject}
-    networks:
-      - network
-
-  cache:
-    image: memcached
-    <<: *restart_policy
-    networks:
-      - network
-
   backend:
     build:
       <<: *build
@@ -95,6 +76,25 @@ services:
       - network
     depends_on:
       - backend
+
+  db:
+    image: postgres:10
+    <<: *restart_policy
+    stop_grace_period: "3s"
+    volumes:
+      - "pgdata:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_DATABASE:-openproject}
+    networks:
+      - network
+
+  cache:
+    image: memcached
+    <<: *restart_policy
+    networks:
+      - network
 
 ######### Testing stuff below ############
 
