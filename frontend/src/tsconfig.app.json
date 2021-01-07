@@ -10,6 +10,7 @@
     "polyfills.ts"
   ],
   "include": [
+    "src/**/*.ts",
     "**/*.d.ts",
     "app/modules/augmenting/dynamic-scripts/*.ts"
   ]
