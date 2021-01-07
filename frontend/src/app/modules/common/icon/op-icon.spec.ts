@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {async, ComponentFixture, TestBed} from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import {OpIcon} from "core-app/modules/common/icon/op-icon";
 import {By} from "@angular/platform-browser";
 import {DebugElement} from "@angular/core";
@@ -36,7 +36,7 @@ describe('opIcon Directive', function() {
   let fixture:ComponentFixture<OpIcon>;
   let element:DebugElement;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
       declarations: [
