@@ -1,0 +1,13 @@
+diff --git a/lib/redmine/imap.rb b/lib/redmine/imap.rb
+index cca2e75f3f..d525cff6da 100644
+--- a/lib/redmine/imap.rb
++++ b/lib/redmine/imap.rb
+@@ -50,7 +50,7 @@ module Redmine
+         host = imap_options[:host] || '127.0.0.1'
+         port = imap_options[:port] || '143'
+         ssl = ssl_option(imap_options)
+-        imap = Net::IMAP.new(host, port, ssl)
++        imap = Net::IMAP.new(host, port, ssl, nil, false)
+ 
+         imap.login(imap_options[:username], imap_options[:password]) unless imap_options[:username].nil?
+ 

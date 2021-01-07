@@ -1,0 +1,38 @@
+diff --git a/app/views/layouts/project_mailer.html.erb b/app/views/layouts/project_mailer.html.erb
+index 521a1ebdfa..13a092d53d 100644
+--- a/app/views/layouts/project_mailer.html.erb
++++ b/app/views/layouts/project_mailer.html.erb
+@@ -35,8 +35,8 @@ See docs/COPYRIGHT.rdoc for more details.
+       }
+ 
+       body {
+-        font-family: Verdana, sans-serif;
+-        font-size: 0.8em;
++        font-family: Calibri, Verdana, sans-serif;
++        font-size: 1.05em;
+         color: #484848;
+         background: #FFFFFF;
+       }
+@@ -61,8 +61,13 @@ See docs/COPYRIGHT.rdoc for more details.
+         border: 0;
+       }
+       .footer {
++        color: #808080;
++        background: #FFFFFF;
++      }
++      .header {
+         font-size: 0.8em;
+-        font-style: italic;
++        color: #C4C4C4;
++        background: #FFFFFF;
+       }
+     </style>
+   </head>
+@@ -71,7 +76,6 @@ See docs/COPYRIGHT.rdoc for more details.
+   <%= call_hook(:view_layouts_mailer_html_before_content, self.assigns) %>
+   <%= yield %>
+   <%= call_hook(:view_layouts_mailer_html_after_content, self.assigns) %>
+-  <hr />
+   <span class="footer"><%= OpenProject::TextFormatting::Renderer.format_text(Setting.localized_emails_footer) %></span>
+   </body>
+ </html>

@@ -1,0 +1,14 @@
+diff --git a/app/views/user_mailer/work_package_added.html.erb b/app/views/user_mailer/work_package_added.html.erb
+index 8bf002ddb7..86c03d3f7e 100644
+--- a/app/views/user_mailer/work_package_added.html.erb
++++ b/app/views/user_mailer/work_package_added.html.erb
+@@ -27,7 +27,6 @@ See docs/COPYRIGHT.rdoc for more details.
+ 
+ ++#%>
+ 
+-<%= t(:text_work_package_added, id: "##{@issue.id}", author: @issue.author) %>
++<span class="header"><%= t(:text_work_package_added, id: "##{@issue.id}", author: @issue.author) %></span>
+ <%= format_text(@journal.notes, only_path: false, object: @issue, project: @issue.project) %>
+-<hr />
+-<%= render partial: 'issue_details', locals: { issue: @issue } %>
++<%#-- <hr /> ++#%> <%#= render partial: 'issue_details', locals: { issue: @issue } %>

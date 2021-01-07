@@ -1,0 +1,23 @@
+diff --git a/app/models/mail_handler.rb b/app/models/mail_handler.rb
+index c2ca738061..2dcc8594bf 100644
+--- a/app/models/mail_handler.rb
++++ b/app/models/mail_handler.rb
+@@ -128,15 +128,15 @@ class MailHandler < ActionMailer::Base
+ 
+   private
+ 
+-  MESSAGE_ID_RE = %r{^<?openproject\.([a-z0-9_]+)\-(\d+)\.\d+@}
++  MESSAGE_ID_RE = %r{^<?openproject\.([a-z0-9_]+)\-(\d+)\-(\d+)\.\d+@}
+   ISSUE_REPLY_SUBJECT_RE = %r{.+? - .+ #(\d+):}
+   MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]*msg(\d+)\]}
+ 
+   def dispatch
+-    headers = [email.in_reply_to, email.references].flatten.compact
++    headers = [email.references, email.in_reply_to].flatten.compact
+     if headers.detect { |h| h.to_s =~ MESSAGE_ID_RE }
+       klass = $1
+-      object_id = $2.to_i
++      object_id = $3.to_i
+       method_name = "receive_#{klass}_reply"
+       if self.class.private_instance_methods.map(&:to_s).include?(method_name)
+         send method_name, object_id
