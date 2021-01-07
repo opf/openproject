@@ -82,8 +82,14 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
             return handler.deactivate(false);
           }
 
+          this.resource = change.projectedResource;
           this.change = change;
           this.schema = change.schema.ofProperty(this.name);
+
+          // Get the mapped schema name, as this is not always the attribute
+          // e.g., startDate in table for milestone => date attribute
+          this.name = change.schema.mappedName(this.handler.fieldName);
+
           this.initialize();
           this.cdRef.markForCheck();
         });
@@ -113,12 +119,6 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
     return this.resource[this.name];
   }
 
-  public get name() {
-    // Get the mapped schema name, as this is not always the attribute
-    // e.g., startDate in table for milestone => date attribute
-    return this.change.schema.mappedName(this.handler.fieldName);
-  }
-
   public set value(value:any) {
     this.resource[this.name] = this.parseValue(value);
   }
@@ -129,10 +129,6 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
     }
 
     return '';
-  }
-
-  public get resource() {
-    return this.change.projectedResource;
   }
 
   /**

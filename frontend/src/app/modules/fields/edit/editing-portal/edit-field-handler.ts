@@ -35,13 +35,13 @@ export abstract class EditFieldHandler extends UntilDestroyedMixin {
    * Whether the handler belongs to a larger edit mode form
    * e.g., WP-create
    */
-  inEditMode:boolean;
+  abstract get inEditMode():boolean;
 
   /** Whether the field is currently active */
-  active:boolean;
+  abstract get active():boolean;
 
   /** Whether the field is being saved */
-  inFlight:boolean;
+  abstract get inFlight():boolean;
 
   /**
    * Return a unique ID for this edit field
@@ -66,7 +66,9 @@ export abstract class EditFieldHandler extends UntilDestroyedMixin {
   /**
    * Error messages on the field, if any.
    */
-  errorMessageOnLabel?:string;
+  public errorMessageOnLabel():string|undefined {
+    return undefined;
+  }
 
   /**
    * On destroy observable

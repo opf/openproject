@@ -11,7 +11,7 @@ export const contextColumnIcon = 'wp-table-context-menu-icon';
 
 export abstract class OpTableAction {
 
-  @InjectField() I18n:I18nService;
+  @InjectField() I18n!:I18nService;
 
   constructor(readonly injector:Injector,
               readonly workPackage:WorkPackageResource) {

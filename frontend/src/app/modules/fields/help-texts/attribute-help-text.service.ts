@@ -77,7 +77,7 @@ export class AttributeHelpTextsService {
       .toPromise()
       .then(() => {
         const value = this.helpTexts.getValueOr([]);
-        return _.find(value, element => element.id.toString() === id);
+        return _.find(value, element => element.id?.toString() === id);
       });
   }
 

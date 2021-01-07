@@ -67,7 +67,7 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   public selectableTitleIdentifier = selectableTitleIdentifier;
 
   @InjectField() protected readonly elementRef:ElementRef;
-  @InjectField() protected readonly I18n:I18nService;
+  @InjectField() I18n!:I18nService;
 
   public text = {
     click_to_edit: this.I18n.t('js.work_packages.query.click_to_edit_query_name'),

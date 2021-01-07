@@ -28,7 +28,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   @InjectField() displayFieldService:DisplayFieldService;
   @InjectField() schemaCache:SchemaCacheService;
   @InjectField() halEditing:HalResourceEditingService;
-  @InjectField() I18n:I18nService;
+  @InjectField() I18n!:I18nService;
 
   /** We cache the previously used fields to avoid reinitialization */
   private fieldCache:{ [key:string]:DisplayField } = {};

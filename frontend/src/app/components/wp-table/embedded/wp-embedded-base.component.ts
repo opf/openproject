@@ -29,7 +29,7 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
 
   @InjectField() apiV3Service:APIV3Service;
   @InjectField() querySpace:IsolatedQuerySpace;
-  @InjectField() I18n:I18nService;
+  @InjectField() I18n!:I18nService;
   @InjectField() urlParamsHelper:UrlParamsHelperService;
   @InjectField() loadingIndicatorService:LoadingIndicatorService;
   @InjectField() wpStatesInitialization:WorkPackageStatesInitializationService;

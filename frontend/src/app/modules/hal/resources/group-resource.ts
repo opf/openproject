@@ -29,5 +29,4 @@
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 export class GroupResource extends HalResource {
-  public name:string;
 }

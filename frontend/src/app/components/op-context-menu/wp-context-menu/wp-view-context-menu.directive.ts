@@ -20,12 +20,12 @@ import {splitViewRoute} from "core-app/modules/work_packages/routing/split-view-
 
 export class WorkPackageViewContextMenu extends OpContextMenuHandler {
 
-  @InjectField() protected states:States;
+  @InjectField() protected states!:States;
   @InjectField() protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService;
   @InjectField() protected opModalService:OpModalService;
-  @InjectField() protected $state:StateService;
+  @InjectField() protected $state!:StateService;
   @InjectField() protected wpTableSelection:WorkPackageViewSelectionService;
-  @InjectField() protected WorkPackageContextMenuHelper:WorkPackageContextMenuHelperService;
+  @InjectField() protected WorkPackageContextMenuHelper!:WorkPackageContextMenuHelperService;
   @InjectField() protected timeEntryCreateService:TimeEntryCreateService;
 
   protected workPackage = this.states.workPackages.get(this.workPackageId).value!;

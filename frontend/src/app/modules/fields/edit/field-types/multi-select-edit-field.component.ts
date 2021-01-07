@@ -40,7 +40,7 @@ import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 })
 export class MultiSelectEditFieldComponent extends EditFieldComponent implements OnInit {
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
-  @InjectField() I18n:I18nService;
+  @InjectField() I18n!:I18nService;
 
   public availableOptions:any[] = [];
   public valueOptions:ValueOption[];

@@ -45,7 +45,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   // Injections
   @InjectField() FocusHelper:FocusHelperService;
   @InjectField() ConfigurationService:ConfigurationService;
-  @InjectField() I18n:I18nService;
+  @InjectField() I18n!:I18nService;
 
   // Subject to fire when user demanded activation
   public $onUserActivate = new Subject<void>();
@@ -66,6 +66,9 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
     if (withErrors !== undefined) {
       this.setErrors(withErrors);
     }
+
+    this.fieldName = `wp-${this.resource.id}-inline-edit--field-${this.fieldName}`;
+    this.fieldLabel = this.schema.name || this.fieldName;
   }
 
   /**
@@ -211,21 +214,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
     return this.form.change.projectedResource.project;
   }
 
-  /**
-   * Return a unique ID for this edit field
-   */
-  public get htmlId() {
-    return `wp-${this.resource.id}-inline-edit--field-${this.fieldName}`;
-  }
-
-  /**
-   * Return the field label
-   */
-  public get fieldLabel() {
-    return this.schema.name || this.fieldName;
-  }
-
-  public get errorMessageOnLabel() {
+  public errorMessageOnLabel() {
     if (!this.isErrorenous) {
       return '';
     } else {

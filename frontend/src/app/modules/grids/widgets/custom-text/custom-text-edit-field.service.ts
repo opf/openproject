@@ -12,13 +12,11 @@ import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 @Injectable()
 export class CustomTextEditFieldService extends EditFieldHandler {
   public fieldName = 'text';
-  public inEdit = false;
-  public inEditMode = false;
-  public inFlight = false;
 
   public valueChanged$:BehaviorSubject<string>;
 
   public changeset:ResourceChangeset;
+  private inEdit:boolean;
 
   constructor(protected elementRef:ElementRef,
               protected injector:Injector,
@@ -26,8 +24,6 @@ export class CustomTextEditFieldService extends EditFieldHandler {
               protected schemaCache:SchemaCacheService) {
     super();
   }
-
-  errorMessageOnLabel:string;
 
   onFocusOut():void {
     // interface
@@ -92,10 +88,6 @@ export class CustomTextEditFieldService extends EditFieldHandler {
     this.deactivate();
   }
 
-  public get active() {
-    return this.inEdit;
-  }
-
   public activate(withText?:string) {
     this.inEdit = true;
   }
@@ -103,6 +95,18 @@ export class CustomTextEditFieldService extends EditFieldHandler {
   deactivate():void {
     this.changeset.clear();
     this.inEdit = false;
+  }
+
+  get inEditMode(): boolean {
+    return this.inEdit;
+  }
+
+  get active(): boolean {
+    return this.inEdit;
+  }
+
+  get inFlight(): boolean {
+    return this.changeset.inFlight;
   }
 
   focus():void {
