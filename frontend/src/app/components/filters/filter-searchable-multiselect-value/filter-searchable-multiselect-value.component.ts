@@ -5,9 +5,9 @@ import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Ev
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
-import {NgSelectComponent} from "@ng-select/ng-select";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {HalResourceSortingService} from 'core-app/modules/hal/services/hal-resource-sorting.service';
+import {NgSelectComponent} from '@ng-select/ng-select';
+import {APIV3Service} from 'core-app/modules/apiv3/api-v3.service';
 import { DebouncedRequestSwitchmap, errorNotificationHandler } from 'core-app/helpers/rxjs/debounced-input-switchmap';
 import { ValueOption } from 'core-app/modules/fields/edit/field-types/select-edit-field.component';
 import { Observable } from 'rxjs';
