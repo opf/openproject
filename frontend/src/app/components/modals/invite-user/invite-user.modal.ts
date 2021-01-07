@@ -20,7 +20,7 @@ export class InviteUserModal extends OpModalComponent implements OnInit {
   public closeOnOutsideClick = true;
 
   public text = {
-    title: this.I18n.t('js.label_export'),
+    title: this.I18n.t('js.invite_user_modal.title'),
     closePopup: this.I18n.t('js.close_popup_title'),
     exportPreparing: this.I18n.t('js.label_export_preparing')
   };
