@@ -68,14 +68,14 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   @ViewChild('ngSelectInstance', { static: true }) ngSelectInstance:NgSelectComponent;
 
-   constructor(readonly halResourceService:HalResourceService,
-                readonly halSorting:HalResourceSortingService,
-                readonly apiV3Service:APIV3Service,
-                readonly cdRef:ChangeDetectorRef,
-                readonly I18n:I18nService,
-                protected currentProject:CurrentProjectService,
-                readonly halNotification:HalResourceNotificationService) {
-                  super();
+  constructor(readonly halResourceService:HalResourceService,
+              readonly halSorting:HalResourceSortingService,
+              readonly apiV3Service:APIV3Service,
+              readonly cdRef:ChangeDetectorRef,
+              readonly I18n:I18nService,
+              protected currentProject:CurrentProjectService,
+              readonly halNotification:HalResourceNotificationService) {
+                super();
   }
 
   ngOnInit() {
