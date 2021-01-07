@@ -12,6 +12,13 @@ Stay up to date and get an overview of the new features included in the releases
 <!--- New release notes are generated below. Do not remove comment. -->
 <!--- RELEASE MARKER -->
 
+## 11.1.1
+
+Release date: 2021-01-06
+
+[Release Notes](11-1-1/)
+
+
 ## 11.1.0
 
 Release date: 2020-12-17
@@ -19,11 +26,19 @@ Release date: 2020-12-17
 #### Community features:
 
 - Improved styling of the WYSIWYG text editor
+
 - Direct display of user name for @notifications
+
 - Display project milestones aggregated for projects in a single row in Gantt chart
+
 - Collapse all button for groups in the work packages list
-- Extended the authentication profile with an OpenID Connect provider
+- Extended authentication profile with an OpenID Connect provider
+
 - Improvements for printing, e.g. for wiki pages, via the browser print function
+
+#### Enterprise cloud:
+
+- Signing Data Processing Agreement (DPA) documents in Enterprise cloud
 
 [Read more](11-1-0/)
 

@@ -35,18 +35,18 @@ vi:
       active: "Kích hoạt %{label} %{name}"
     close_popup_title: "Đóng"
     close_filter_title: "Đóng bộ lọc"
-    close_form_title: "Close form"
+    close_form_title: "Đóng biểu mẫu"
     button_add_watcher: "Thêm người theo dõi"
     button_add: "Thêm"
     button_back: "Quay lại"
     button_back_to_list_view: "Quay lại danh sách"
     button_cancel: "Hủy"
     button_close: "Đóng"
-    button_change_project: "Change project"
+    button_change_project: "Đổi dự án"
     button_check_all: "Đánh dấu tất cả"
-    button_configure-form: "Configure form"
+    button_configure-form: "Cấu hình biểu mẫu"
     button_confirm: "Xác nhận"
-    button_continue: "Continue"
+    button_continue: "Tiếp tục"
     button_copy: "Sao chép"
     button_custom-fields: "Tùy chỉnh mục"
     button_delete: "Xoá"
@@ -65,47 +65,47 @@ vi:
     button_open_details: "Mở thông tin chi tiết xem"
     button_close_details: "Đóng xem chi tiết"
     button_open_fullscreen: "Mở chế độ toàn màn hình"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
+    button_show_cards: "Hiển thị duới dạng thẻ"
+    button_show_list: "Hiển thị dưới dạng danh sách"
     button_quote: "Trích dẫn"
     button_save: "Lưu"
-    button_settings: "Settings"
+    button_settings: "Cài đặt"
     button_uncheck_all: "Bỏ chọn tất cả"
     button_update: "Cập Nhật"
     button_export-pdf: "Tải PDF"
     button_export-atom: "Tải về Atom"
     calendar:
       title: 'Lịch'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      too_many: 'Tổng cộng có %{count} công việc, nhưng chỉ %{max} có thể được hiển thị.'
     card:
-      add_new: 'Add new card'
+      add_new: 'Thêm thẻ mới'
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: 'Entire card by'
-      remove_from_list: 'Remove card from list'
+        inline: 'Đánh dấu nội tuyến:'
+        entire_card_by: 'Toàn bộ thẻ của'
+      remove_from_list: 'Xóa thẻ khỏi danh sách'
     caption_rate_history: "Rate history"
     clipboard:
       browser_error: "Trình duyệt không hỗ trợ copy vào clipboard. Vui lòng copy văn bản đã chọn theo cách thủ công."
       copied_successful: "Sao chép thành công vào clipboard!"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      type: 'Kiểu đồ thị'
+      axis_criteria: 'Tiêu chí trục'
+      modal_title: 'Bảng cấu hình công việc'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
-        radar: 'Radar'
-        polar_area: 'Polar area'
+        line: 'Dòng'
+        horizontal_bar: 'Cột ngang'
+        bar: 'Thanh'
+        pie: 'Biểu đồ tròn'
+        doughnut: 'Bánh vòng'
+        radar: 'Ra đa'
+        polar_area: 'Vùng cực'
       tabs:
         graph_settings: 'Tổng quan'
         dataset: 'Dataset %{number}'
       errors:
         could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
     description_available_columns: "Cột có sẵn"
-    description_current_position: "You are here: "
+    description_current_position: "Bạn đang ở đây:"
     description_select_work_package: "Chọn work package #%{id}"
     description_selected_columns: "Các cột được lựa chọn"
     description_subwork_package: "Con của work package #%{id}"
@@ -163,13 +163,13 @@ vi:
     admin:
       type_form:
         custom_field: 'Tùy chỉnh mục'
-        inactive: 'Inactive'
+        inactive: 'Không hoạt động'
         drag_to_activate: "Drag fields from here to activate them"
         add_group: "Thêm 1 nhóm thuộc tính"
         add_table: "Add table of related work packages"
-        edit_query: 'Edit query'
+        edit_query: 'Chỉnh sửa truy vấn'
         new_group: 'Nhóm mới'
-        reset_to_defaults: 'Reset to defaults'
+        reset_to_defaults: 'Đặt lại về mặc định'
       enterprise:
         trial:
           confirmation: "Confirmation of email address"
@@ -184,10 +184,10 @@ vi:
             label_last_name: "Họ"
             label_email: "Thư điện tử"
             label_domain: "Domain"
-            label_subscriber: "Subscriber"
+            label_subscriber: "Người đăng ký"
             label_maximum_users: "Số người dùng hoạt động tối đa"
             label_starts_at: "Starts at"
-            label_expires_at: "Expires at"
+            label_expires_at: "Hết hạn lúc"
             receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
             taken_domain: There can only be one active trial per domain.
             taken_email: Each user can only create one trial.
@@ -213,7 +213,7 @@ vi:
             installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
             premium_features: "Premium features"
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
-            professional_support: "Professional support"
+            professional_support: "Hỗ trợ chuyên nghiệp"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Bắt đầu dùng thử miễn phí"
           button_book_now: "Đặt chỗ ngay"
@@ -227,7 +227,7 @@ vi:
     custom_actions:
       date:
         specific: 'lúc'
-        current_date: 'Current date'
+        current_date: 'Ngày hiện tại'
     error:
       internal: "Lỗi nội bộ đã xảy ra."
       cannot_save_changes_with_message: "Không thể lưu thay đổi của bạn do lỗi sau: %{error}"
@@ -240,7 +240,7 @@ vi:
       description:
         text_open_filter: "Mở bộ lọc này với 'ALT' và phím mũi tên."
         text_close_filter: "Để nhập thôi ô đang kích hoạt nội dung Vd ấn enter. Nếu không muốn lọc lựa chọn mục rỗng đầu tiên."
-      noneElement: "(none)"
+      noneElement: "(trống)"
       time_zone_converted:
         two_values: "%{from} - %{to} in your local time."
         only_start: "From %{from} in your local time."
@@ -295,10 +295,10 @@ vi:
     label_ascending: "Tăng dần"
     label_author: "Tác giả: %{user}"
     label_avatar: "Hình đại diện"
-    label_between: "between"
-    label_board: "Board"
+    label_between: "giữa"
+    label_board: "Bảng"
     label_board_locked: "Đã khóa"
-    label_board_plural: "Boards"
+    label_board_plural: "Bảng"
     label_board_sticky: "Chú ý"
     label_create: "Tạo mới"
     label_create_work_package: "Create new work package"
@@ -322,7 +322,7 @@ vi:
     label_created_on: "tạo ngày"
     label_edit_comment: "Chỉnh sửa chú thích này"
     label_edit_status: "Trạng thái chỉnh sửa của nhóm công việc"
-    label_equals: "is"
+    label_equals: "là"
     label_expand: "Mở rộng"
     label_expanded: "đã mở rộng"
     label_expand_all: "Mở rộng tất cả"
@@ -345,7 +345,7 @@ vi:
     label_in_more_than: "nhiều hơn"
     label_incoming_emails: "Các thư đến"
     label_information_plural: "Thông tin"
-    label_import: "Import"
+    label_import: "Nhập"
     label_latest_activity: "Hoạt động mới nhất"
     label_last_updated_on: "Cập nhật lần cuối lúc"
     label_learn_more_link: "Learn more"
@@ -364,7 +364,7 @@ vi:
     label_no_data: "Không có dữ liệu để hiển thị"
     label_no_due_date: "no finish date"
     label_no_start_date: "không có ngày bắt đầu"
-    label_no_value: "No value"
+    label_no_value: "Không có giá trị"
     label_none: "không"
     label_not_contains: "không chứa"
     label_not_equals: "không là"
@@ -385,7 +385,7 @@ vi:
     label_remove_columns: "Loại bỏ cột được chọn"
     label_remove_row: "Xóa hàng"
     label_report: "Báo cáo"
-    label_repository_plural: "Repositories"
+    label_repository_plural: "Kho lưu trữ"
     label_save_as: "Lưu thành"
     label_select_watcher: "Chọn một người theo dõi..."
     label_selected_filter_list: "Các bộ lọc đã chọn: %s"
@@ -393,14 +393,14 @@ vi:
     label_show_in_menu: "Hiển thị chế độ xem trong menu"
     label_sort_by: "Sort by"
     label_sorted_by: "sắp xếp theo"
-    label_sort_higher: "Move up"
+    label_sort_higher: "Chuyển lên"
     label_sort_lower: "Dịch xuống"
     label_sorting: "Sắp xếp"
     label_spent_time: "Thời gian"
     label_star_query: "Ưa thích"
     label_press_enter_to_save: "Nhấn enter để lưu."
     label_public_query: "Công cộng"
-    label_sum: "Sum"
+    label_sum: "Tổng"
     label_sum_for: "Tổng cho"
     label_subject: "Chủ đề"
     label_this_week: "tuần này"
@@ -522,7 +522,7 @@ vi:
       edit:
         form_configuration: "Cấu hình biểu mẫu"
         projects: "Các dự án"
-        settings: "Settings"
+        settings: "Cài đặt"
     time_entry:
       project: 'Dự án'
       work_package: 'Work Package'
@@ -609,7 +609,7 @@ vi:
     text_attachment_destroy_confirmation: "Bạn có chắc bạn muốn xóa tập tin đính kèm?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt chart'
+      gantt_chart: 'Biểu đồ Gantt'
       labels:
         title: 'Cấu hình nhãn'
         bar: 'Bar labels'
@@ -623,7 +623,7 @@ vi:
       button_deactivate: 'Ân biểu đồ sự kiện'
       cancel: Hủy
       change: "Change in planning"
-      due_date: "Finish date"
+      due_date: "Ngày hoàn thành"
       empty: "(empty)"
       error: "Lỗi đã xảy ra."
       errors:
@@ -633,7 +633,7 @@ vi:
         report_timeout: "The timeline could not be loaded in a reasonable amount of time."
       filter:
         grouping_other: "Khác"
-        noneSelection: "(none)"
+        noneSelection: "(trống)"
       name: "Tên"
       outline: "Reset Outline"
       outlines:
@@ -653,8 +653,8 @@ vi:
       selection_mode:
         notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
+        in: "Phóng to"
+        out: "Thu nhỏ"
         auto: "Auto zoom"
         days: "Days"
         weeks: "Weeks"
@@ -750,7 +750,7 @@ vi:
         createdAt: "Tạo ngày"
         description: "Mô tả"
         date: "Ngày"
-        dueDate: "Finish date"
+        dueDate: "Ngày hoàn thành"
         estimatedTime: "Thời gian dự kiến"
         spentTime: "Thời gian"
         category: "Thể loại"
@@ -863,16 +863,16 @@ vi:
     toolbar:
       settings:
         configure_view: "Định cấu hình chế độ xem..."
-        columns: "Columns ..."
-        sort_by: "Sort by ..."
-        group_by: "Group by ..."
-        display_sums: "Display sums"
-        display_hierarchy: "Display hierarchy"
-        hide_hierarchy: "Hide hierarchy"
-        hide_sums: "Hide sums"
+        columns: "Cột..."
+        sort_by: "Sắp xếp theo..."
+        group_by: "Nhóm theo..."
+        display_sums: "Hiển thị tổng"
+        display_hierarchy: "Hiển thị phân cấp"
+        hide_hierarchy: "Ẩn phân cấp"
+        hide_sums: "Ẩn tổng"
         save: "Lưu"
-        save_as: "Save as ..."
-        export: "Export ..."
+        save_as: "Lưu duới dạng..."
+        export: "Xuất..."
         visibility_settings: "Cài đặt hiển thị..."
         page_settings: "Đổi tên chế độ hiển thị..."
         delete: "Xoá"
@@ -884,16 +884,16 @@ vi:
     modals:
       label_settings: "Đổi tên trang"
       label_name: "Tên"
-      label_delete_page: "Delete current page"
+      label_delete_page: "Xóa trang hiện tại"
       button_apply: "Áp dụng"
       button_save: "Lưu"
       button_submit: "Gửi"
       button_cancel: "Hủy"
       form_submit:
-        title: 'Confirm to continue'
-        text: 'Are you sure you want to perform this action?'
+        title: 'Xác nhận để tiếp tục'
+        text: 'Bạn có thực sự muốn thực hiện thao tác này?'
       destroy_work_package:
-        title: "Confirm deletion of %{label}"
+        title: "Xác nhận xóa %{label}"
         text: "Are you sure you want to delete the following %{label} ?"
         has_children: "The work package has %{childUnits}:"
         confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
@@ -901,49 +901,49 @@ vi:
       destroy_time_entry:
         title: "Confirm deletion of time entry"
         text: "Are you sure you want to delete the following time entry?"
-    notice_no_results_to_display: "No visible results to display."
+    notice_no_results_to_display: "Không có kết quả để hiển thị."
     notice_successful_create: "Successful creation."
     notice_successful_delete: "Successful deletion."
     notice_successful_update: "Successful update."
     notice_bad_request: "Bad Request."
     relations:
-      empty: No relation exists
+      empty: Không tồn tại mối quan hệ
       remove: Loại bỏ các mối quan hệ
     inplace:
-      button_edit: "%{attribute}: Edit"
-      button_save: "%{attribute}: Save"
-      button_cancel: "%{attribute}: Cancel"
+      button_edit: "%{attribute}: Sửa"
+      button_save: "%{attribute}: Lưu"
+      button_cancel: "%{attribute}: Hủy"
       button_save_all: "Lưu"
       button_cancel_all: "Hủy"
       link_formatting_help: "Định dạng văn bản trợ giúp"
       btn_preview_enable: "Xem trước"
-      btn_preview_disable: "Disable preview"
-      null_value_label: "No value"
+      btn_preview_disable: "Tắt xem trước"
+      null_value_label: "Không có giá trị"
       clear_value_label: "-"
       errors:
-        required: '%{field} cannot be empty'
-        number: '%{field} is not a valid number'
+        required: '%{field} không thể để trống'
+        number: '%{field} không phải là số hợp lệ'
         maxlength: '%{field} không thể chứa hơn %{maxLength} digit(s)'
         minlength: '%{field} không thể chứa ít hơn %{minLength} digit(s)'
         messages_on_field: 'Mục này không hợp lệ: %{messages}'
-    error_could_not_resolve_version_name: "Couldn't resolve version name"
-    error_could_not_resolve_user_name: "Couldn't resolve user name"
+    error_could_not_resolve_version_name: "Không thể phân giải tên phiên bản"
+    error_could_not_resolve_user_name: "Không thể phân giải tên người dùng"
     error_attachment_upload: "Tập tin tải lên thất bại.%{error}"
     error_attachment_upload_permission: "Bạn không có quyền tải lên tập tin vào tài nguyên này."
     units:
       workPackage:
-        other: "work packages"
+        other: "công việc"
       child_work_packages:
         other: "%{count} tác phẩm gói phần mềm trẻ em"
       hour:
-        zero: "0 h"
-        other: "%{count} h"
+        zero: "0 giờ"
+        other: "%{count} giờ"
     zen_mode:
-      button_activate: 'Activate zen mode'
-      button_deactivate: 'Deactivate zen mode'
+      button_activate: 'Kích hoạt chế độ zen'
+      button_deactivate: 'Tắt chế độ zen'
     global_search:
       all_projects: "Cho tất cả các dự án"
-      search: "Search"
+      search: "Tìm kiếm"
       close_search: "Đóng tìm kiếm"
       current_project: "Trong dự án này"
       current_project_and_all_descendants: "Trong dự án này + các dự án con"
@@ -952,6 +952,6 @@ vi:
         project_and_subprojects: "và tất cả các dự án con"
         search_for: "Tìm kiếm"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: 'Thẻ'
+      list: 'Bảng'
       timeline: 'Biểu đồ sự kiện'
