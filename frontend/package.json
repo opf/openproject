@@ -114,7 +114,6 @@
     "ng2-charts": "^2.3.1",
     "ng2-dragula": "^2.1.1",
     "ngtemplate-loader": "^2.0.1",
-    "node-sass": "^4.14.1",
     "observable-array": "0.0.4",
     "reactivestates": "2.0.1",
     "reflect-metadata": "^0.1.13",
