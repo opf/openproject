@@ -45,7 +45,7 @@ sl:
         main-menu-bg-hover-background: "Glavni meni ob nastavitvi kazalca"
         main-menu-font-color: "Pisava glavnega menija"
         main-menu-selected-font-color: "Pisava glavnega menija, ko je izbrana"
-        main-menu-hover-font-color: "Pisava glavnega menija, ko smo na vsebini z miško"
+        main-menu-hover-font-color: "Pisava glavnega menija, ko z miško lebdimo nad vsebino"
         main-menu-border-color: "Meja glavnega menija"
       custom_colors: "Barve po meri"
       customize: "Prilagodite namestitev OpenProject z lastnim logotipom. Opomba: Ta logotip bo javno dostopen."
@@ -282,7 +282,7 @@ sl:
     overview:
       no_results_title_text: Za to različico trenutno ni opravil
   wiki:
-    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
+    page_not_editable_index: Ta stran (še) ne obstaja. Preusmerjeni ste bili na kazalo vseh wiki strani.
     no_results_title_text: Trenutno ni wiki strani
     index:
       no_results_content_text: Dodaj novo stran
@@ -421,7 +421,7 @@ sl:
         types: "Tipi"
         versions: "Verzije"
         work_packages: "zahtevki"
-        templated: 'Template project'
+        templated: 'Vzorčni projekt'
       projects/status:
         code: 'Stanje'
         explanation: 'Opis stanja'
@@ -519,7 +519,7 @@ sl:
         cant_link_a_work_package_with_a_descendant: "Zahtevek ne more biti povezan s svojo podnalogo"
         circular_dependency: "Ta povezava bi ustvarila krožno odvisnost."
         confirmation: "se ne ujema %{attribute}"
-        could_not_be_copied: "%{dependency} could not be (fully) copied."
+        could_not_be_copied: "%{dependency} ni bilo mogoče (v celoti) kopirati."
         does_not_exist: "ne obstaja"
         error_unauthorized: "morda ni mogoče dostopati."
         error_readonly: "poskušano je bilo napisati, vendar ni mogoče pisati."
@@ -616,7 +616,7 @@ sl:
         queries/filters/base:
           attributes:
             values:
-              inclusion: "filter has invalid values."
+              inclusion: "filter ima neveljavne vrednosti."
               format: "%{message}"
         relation:
           typed_dag:
@@ -765,8 +765,8 @@ sl:
     date: "Datum"
     default_columns: "Privzeti stolpci"
     description: "Opis"
-    derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
+    derived_due_date: "Končni datum"
+    derived_estimated_time: "Predvideni čas"
     derived_start_date: "Derived start date"
     display_sums: "Prikaži vsote"
     due_date: "Končni datum"
@@ -1825,14 +1825,14 @@ sl:
   mail_body_lost_password: "Za spremembo glesla kliknite na naslednjo povezavo:"
   mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
-  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_user: "Dragi %{name},"
   mail_body_register_links_html: |
     Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
     and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
     If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
-  mail_body_register_closing: "Your OpenProject team"
-  mail_body_register_ending: "Stay connected! Kind regards,"
+  mail_body_register_closing: "Tvoja OpenProject ekipa"
+  mail_body_register_ending: "Ostanite povezani! Lep pozdrav,"
   mail_body_reminder: "%{count} delovni paketi, ki so vam dodeljeni bodo zapadli v naslednjih dneh: %{days}"
   mail_body_group_reminder: "%{count} delovni paketi, ki so dodeljeni skupini \"%{group}\" bodo zapadli v naslednjih %{days} dneh:"
   mail_body_wiki_content_added: "%{author} je dodal '%{id}' stran wiki."
@@ -2027,9 +2027,9 @@ sl:
     template:
       copying: >
         Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
+      use_template: 'Uporabi predlogo'
+      make_template: 'Nastavi za predlogo'
+      remove_from_templates: 'Odstrani iz predlog'
     archive:
       are_you_sure: "Ali ste prepričani, da želite arhivirati projekt '% {name}'?"
       archived: "Arhiviran"
@@ -2155,10 +2155,10 @@ sl:
     warnings:
       cannot_annotate: "Te datoteke ni mogoče opomniti."
   scheduling:
-    activated: 'activated'
-    deactivated: 'deactivated'
+    activated: 'aktivirano'
+    deactivated: 'deaktivirano'
   search_input_placeholder: "Iskanje..."
-  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_enabled: "Omogoči CORS"
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
@@ -2206,7 +2206,7 @@ sl:
   setting_emails_header: "Glava e-pošte"
   setting_email_login: "Uporabite e-pošto kot prijavo"
   setting_enabled_scm: "Omogočen SCM"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "Vidno na seznamu projektov"
   setting_feeds_enabled: "Omogoči vire"
   setting_feeds_limit: "Omejitev vsebine vira"
   setting_file_max_size_displayed: "Največja velikost besedilnih datotek, prikazanih v vrstici"
@@ -2278,7 +2278,7 @@ sl:
     session: "Seja"
     brute_force_prevention: "Avtomatično blokiranje uporabnika"
     projects:
-      section_new_projects: "Settings for new projects"
+      section_new_projects: "Nastavitve za nove projekte"
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Privzete nastavitve"
