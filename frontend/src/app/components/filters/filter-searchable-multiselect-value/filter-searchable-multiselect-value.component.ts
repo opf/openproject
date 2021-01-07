@@ -21,8 +21,6 @@ import { APIv3UserPaths } from 'core-app/modules/apiv3/endpoints/users/apiv3-use
 import { APIV3WorkPackagePaths } from 'core-app/modules/apiv3/endpoints/work_packages/api-v3-work-package-paths';
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 import { UntilDestroyedMixin } from 'core-app/helpers/angular/until-destroyed.mixin';
-import { any } from '@uirouter/core';
-
 export interface FilterConditions {name:string; operator:FilterOperator; values:unknown[]|boolean; }
 
 @Component({
@@ -32,7 +30,7 @@ export interface FilterConditions {name:string; operator:FilterOperator; values:
 })
 
 
-export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
+export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public shouldFocus:boolean = false;
   @Input() public filter:QueryFilterInstanceResource;
   @Input() public filterConditions?:FilterConditions[];
@@ -71,18 +69,13 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
   @ViewChild('ngSelectInstance', { static: true }) ngSelectInstance:NgSelectComponent;
 
    constructor(readonly halResourceService:HalResourceService,
-              readonly halSorting:HalResourceSortingService,
-              readonly apiV3Service:APIV3Service,
-              readonly cdRef:ChangeDetectorRef,
-              readonly I18n:I18nService,
-              protected currentProject:CurrentProjectService,
-              readonly halNotification:HalResourceNotificationService) {
-              super();
-  }
-  ngAfterViewInit():void {
-    if (this.ngSelectInstance && this.shouldFocus) {
-      this.ngSelectInstance.focus();
-    }
+                readonly halSorting:HalResourceSortingService,
+                readonly apiV3Service:APIV3Service,
+                readonly cdRef:ChangeDetectorRef,
+                readonly I18n:I18nService,
+                protected currentProject:CurrentProjectService,
+                readonly halNotification:HalResourceNotificationService) {
+                  super();
   }
 
   ngOnInit() {
@@ -104,9 +97,9 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
   }
 
   public loadAvailable(matching:string):Observable<HalResource[]> {
-    let filters:ApiV3FilterBuilder = this.createFilters(this.filterConditions ?? [], matching);
+    const filters:ApiV3FilterBuilder = this.createFilters(this.filterConditions ?? [], matching);
 
-    let filteredData = (this.apiV3Service[this.filterResource] as
+    const filteredData = (this.apiV3Service[this.filterResource] as
       APIv3ResourceCollection<UserResource|WorkPackageResource, APIv3UserPaths|APIV3WorkPackagePaths>)
       .filtered(filters).get()
       .pipe(map(collection => collection.elements));
@@ -115,9 +108,9 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
   }
 
   protected createFilters(filterConditions:FilterConditions[], matching:string) {
-    let filters = new ApiV3FilterBuilder();
+    const filters = new ApiV3FilterBuilder();
 
-    for (let condition of filterConditions) {
+    for (const condition of filterConditions) {
       filters.add(condition.name, condition.operator, condition.values);
     }
     if (matching) {
@@ -127,11 +120,7 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
   }
 
   public setValues(val:any) {
-    if (val.length > 0) {
-    this.filter.values = (Array.isArray(val) ? val : [val]); }
-    else {
-      this.filter.values = [] as HalResource[];
-    }
+    this.filter.values = val.length > 0 ? (Array.isArray(val) ? val : [val]) : [] as HalResource[];
     this.filterChanged.emit(this.filter);
     this.requests.input$.next('');
     this.cdRef.detectChanges();
