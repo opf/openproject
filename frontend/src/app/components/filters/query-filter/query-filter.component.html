@@ -34,20 +34,9 @@
     (filterChanged)="onFilterUpdated($event)"
     [shouldFocus]="shouldFocus"
     [filter]="filter"></filter-boolean-value>
-
-  </div>
-  
-  <div class="advanced-filters--filter-value" *ngIf="filter.name==='Parent'">
-    <filter-searchable-multiselect-value
-      (filterChanged)="onFilterUpdated($event)"
-      [shouldFocus]="shouldFocus"
-      [filterConditions]="parentFilter.filters"
-      [filterResource]="parentFilter.resource"
-      [filterSearchKey]="parentFilter.searchKey"
-      [filter]="filter"></filter-searchable-multiselect-value>
   </div>
   <!-- Values -->
-  <ng-container *ngIf="showValuesInput && valueType && filter.name!=='Parent'">
+  <ng-container *ngIf="showValuesInput && valueType">
     <div class="advanced-filters--filter-value" [ngSwitch]="valueType">
       <filter-integer-value *ngSwitchCase="'[1]Integer'"
                             (filterChanged)="onFilterUpdated($event)"
@@ -84,6 +73,13 @@
                            [shouldFocus]="shouldFocus"
                            [filter]="filter"></filter-string-value>
 
+      <filter-searchable-multiselect-value *ngSwitchCase="'[]WorkPackage'"
+                           (filterChanged)="onFilterUpdated($event)"
+                           [shouldFocus]="shouldFocus"
+                           [filterConditions]="parentFilter.filters"
+                           [filterResource]="parentFilter.resource"
+                           [filterSearchKey]="parentFilter.searchKey"
+                           [filter]="filter"></filter-searchable-multiselect-value>
 
       <filter-toggled-multiselect-value *ngSwitchDefault
                                         (filterChanged)="onFilterUpdated($event)"
