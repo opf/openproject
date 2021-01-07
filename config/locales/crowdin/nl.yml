@@ -202,7 +202,6 @@ nl:
       completed: "Verwijderen van project %{name} is gelukt"
       completed_text: "Het verzoek om het verwijderen van project '%{name}' is voltooid."
     index:
-      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -755,7 +754,6 @@ nl:
     content: "Inhoud"
     color: "Kleur"
     created_at: "Gemaakt op"
-    created_on: "Gemaakt op"
     custom_options: "Mogelijke waarden"
     custom_values: "Aangepaste velden"
     date: "Datum"
@@ -1031,6 +1029,7 @@ nl:
   default_role_anonymous: "Anoniem"
   default_role_developer: "Ontwikkelaar"
   default_role_project_admin: "Project admin"
+  default_role_project_creator: "Project creator"
   default_role_non_member: "Derde"
   default_role_reader: "Lezer"
   default_role_member: "Deelnemer"
@@ -1198,6 +1197,8 @@ nl:
       blog: "OpenProject blog"
       forums: "Gemeenschapsforum"
       newsletter: "Beveiligingswaarschuwingen / nieuwsbrief"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
   links:
@@ -1735,21 +1736,26 @@ nl:
   label_workflow_summary: "Samenvatting"
   label_x_closed_work_packages_abbr:
     zero: "0 closed"
-    one: "1 gesloten"
-    other: "%{count} gesloten"
+    one: ""
+    other: ""
   label_x_comments:
     zero: "no comments"
-    one: "%{count} reactie"
-    other: "%{count} reacties"
+    one: ""
+    other: ""
   label_x_open_work_packages_abbr:
     zero: "0 open"
-    one: "1 open"
-    other: "%{count} open"
+    one: ""
+    other: ""
   label_x_projects:
     zero: "no projects"
-    one: "1 project"
-    other: "%{count} projecten"
+    one: ""
+    other: ""
   label_yesterday: "gisteren"
+  label_role_type: "Type"
+  label_member_role: "Project functie"
+  label_global_role: "Globale functie"
+  label_not_changeable: "(niet wijzigbaar)"
+  label_global: "Globaal"
   auth_source:
     using_abstract_auth_source: "Kan geen abstracte authenticatiebron gebruiken."
     ldap_error: "LDAP-fout: %{error_message}"

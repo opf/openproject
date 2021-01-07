@@ -35,6 +35,8 @@ class ::Type < ApplicationRecord
   include ::Type::Attributes
   include ::Type::AttributeGroups
 
+  include ::Scopes::Scoped
+
   before_destroy :check_integrity
 
   has_many :work_packages
@@ -63,6 +65,8 @@ class ::Type < ApplicationRecord
             length: { maximum: 255 }
 
   validates_inclusion_of :is_default, :is_milestone, in: [true, false]
+
+  scope_classes Types::Scopes::Milestone
 
   default_scope { order('position ASC') }
 

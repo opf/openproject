@@ -27,13 +27,11 @@ hu:
         available: "Elérhető"
         budget: "Tervezet"
         budget_ratio: "Elköltött (arány)"
-        created_on: "Létrehozva"
         description: "Leírás"
         spent: "Elköltve"
         status: "Állapot"
         subject: "Tárgy"
         type: "Költségtípus"
-        updated_on: "Frissítve"
         labor_budget: "Tervezett munkaerő-költségek"
         material_budget: "Tervezett egység költség"
       work_package:

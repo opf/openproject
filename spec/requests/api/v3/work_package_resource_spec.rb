@@ -287,8 +287,9 @@ describe 'API v3 Work package resource',
             # resolves links
             expect(subject['html'])
               .to have_selector("macro.macro--wp-quickinfo[data-id='#{other_wp.id}']")
-            # resolves macros
-            is_expected.to have_text('Table of contents')
+            # resolves macros, e.g. toc
+            expect(subject['html'])
+              .to have_selector('.op-uc-toc--list-item', text: "OpenProject Masterplan for 2015")
           end
         end
 
@@ -308,6 +309,35 @@ describe 'API v3 Work package resource',
             is_expected
               .to be_json_eql((Date.today + 5.days).to_json)
               .at_path('derivedDueDate')
+          end
+        end
+
+        describe 'relations' do
+          let(:directly_related_wp) do
+            FactoryBot.create(:work_package, project_id: project.id)
+          end
+          let(:transitively_related_wp) do
+            FactoryBot.create(:work_package, project_id: project.id)
+          end
+
+          let(:work_package) do
+            FactoryBot.create(:work_package,
+                              project_id: project.id,
+                              description: 'lorem ipsum').tap do |wp|
+
+              FactoryBot.create(:relation, relates: 1, from: wp, to: directly_related_wp)
+              FactoryBot.create(:relation, relates: 1, from: directly_related_wp, to: transitively_related_wp)
+            end
+          end
+
+          it 'embeds all direct relations' do
+            expect(subject)
+              .to be_json_eql(1.to_json)
+              .at_path('_embedded/relations/total')
+
+            expect(subject)
+              .to be_json_eql(api_v3_paths.work_package(directly_related_wp.id).to_json)
+              .at_path('_embedded/relations/_embedded/elements/0/_links/to/href')
           end
         end
       end
@@ -484,7 +514,7 @@ describe 'API v3 Work package resource',
         context 'with value' do
           let(:raw) { '**Some text** *describing* **something**...' }
           let(:html) do
-            '<p><strong>Some text</strong> <em>describing</em> <strong>something</strong>...</p>'
+            '<p class="op-uc-p"><strong>Some text</strong> <em>describing</em> <strong>something</strong>...</p>'
           end
           let(:params) { valid_params.merge(description: { raw: raw }) }
 

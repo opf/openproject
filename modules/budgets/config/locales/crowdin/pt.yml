@@ -27,13 +27,11 @@ pt:
         available: "Disponível"
         budget: "Planejado"
         budget_ratio: "Gasto (taxa)"
-        created_on: "Criado em"
         description: "Descrição"
         spent: "Gasto"
         status: "Status"
         subject: "Assunto"
         type: "Tipo de custo"
-        updated_on: "Atualizado em"
         labor_budget: "Custos planejados de trabalho"
         material_budget: "Custos unitários planejados"
       work_package:

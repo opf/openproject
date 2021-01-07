@@ -17,27 +17,40 @@ installed.
 OpenProject with Docker can be launched in two ways:
 
 1. Multiple containers (recommended), each with a single process inside, using a Compose file. Allows to easily choose which services you want to run, and simplifies scaling and monitoring aspects.
+
 2. One container with all the processes inside. Easy but not recommended for production. This is the legacy behaviour.
 
 ## One container per process (recommended)
 
 ### Quick Start
 
-First, you must clone the OpenProject repository:
+First, you must clone the [openproject-deploy](https://github.com/opf/openproject-deploy/tree/stable/11/compose) repository:
 
 ```bash
-git clone --depth=1 --branch=stable/11 https://github.com/opf/openproject
+git clone https://github.com/opf/openproject-deploy --depth=1 --branch=stable/11 openproject
 ```
 
-Then, go into the OpenProject folder and you can launch all the services required by OpenProject with docker-compose:
+Then, go into the compose folder:
+
+```bash
+cd openproject/compose
+```
+
+Make sure you are using the latest version of the Docker images:
+
+```bash
+docker-compose pull
+```
+
+Launch the containers:
 
 ```bash
 docker-compose up -d
 ```
 
-After some time, you will be able to access OpenProject on http://localhost:8080. The default username and password is login: `admin`, and password: `admin`.
+After a while, OpenProject should be up and running on <http://localhost:8080>. The default username and password is login: `admin`, and password: `admin`.
 
-Note that the official `docker-compose.yml` file present in the repository can be adjusted to your convenience. For instance you could mount specific configuration files, override environment variables, or switch off services you don't need. Please refer to the official docker-compose documentation for more details.
+Note that the `docker-compose.yml` file present in the repository can be adjusted to your convenience. For instance you could mount specific configuration files, override environment variables, or switch off services you don't need. Please refer to the official [Docker Compose documentation](https://docs.docker.com/compose/extends/) for more details.
 
 You can stop the Compose stack by running:
 
@@ -73,6 +86,11 @@ achieved with the `-d` flag:
 ```bash
 docker run -d -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:11
 ```
+
+**Note**: We've had reports of people being unable to start OpenProject this way
+because of an [issue regarding pseudo-TTY allocations](https://github.com/moby/moby/issues/31243#issuecomment-406825071)
+and permissions to write to `/dev/stdout`. If you run into this, a workaround
+seems to be to add `-t` to your run command, even if you run in detached mode.
 
 ### Recommended usage
 
@@ -268,10 +286,18 @@ end
 ```
 FROM openproject/community:11
 
+# If installing a local plugin (using `path:` in the `Gemfile.plugins` above),
+# you will have to copy the plugin code into the container here and use the
+# path inside of the container. Say for `/app/vendor/plugins/openproject-slack`:
+# COPY /path/to/my/local/openproject-slack /app/vendor/plugins/openproject-slack
+
 COPY Gemfile.plugins /app/
 
+# If the plugin uses any external NPM dependencies you have to install them here.
+# RUN npm add npm <package-name>*
+
 RUN bundle config unset deployment && bundle install && bundle config set deployment 'true'
-RUN bash docker/precompile-assets.sh
+RUN ./docker/prod/setup/postinstall.sh
 ```
 
 The file is based on the normal OpenProject docker image.

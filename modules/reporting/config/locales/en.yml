@@ -81,6 +81,7 @@ en:
   label_inactive: "«inactive»"
   label_no: "No"
   label_none: "(no data)"
+  label_no_reports: "There are no cost reports yet."
   label_report: "Report"
   label_yes: "Yes"
 

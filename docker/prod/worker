@@ -1,0 +1,10 @@
+#!/bin/bash -e
+
+if [ "$1" = "--seed" ]; then
+	shift
+	$APP_PATH/docker/prod/seeder "$@"
+fi
+
+$APP_PATH/docker/prod/migration_status # abort if there are pending migrations
+
+exec bundle exec rake jobs:work

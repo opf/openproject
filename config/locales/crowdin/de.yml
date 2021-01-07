@@ -33,13 +33,13 @@ de:
       colors:
         alternative-color: "Alternativ"
         content-link-color: "Link-Schriftfarbe"
-        primary-color: "Primär"
-        primary-color-dark: "Primär (dunkel)"
+        primary-color: "Primärfarbe"
+        primary-color-dark: "Primärfarbe (dunkel)"
         header-bg-color: "Hintergrund der Kopfzeile"
         header-item-bg-hover-color: "Hintergrund der Kopfzeile bei Hover"
         header-item-font-color: "Textfarbe der Kopfzeile"
         header-item-font-hover-color: "Textfarbe der Kopfzeile bei Hover"
-        header-border-bottom-color: "Header border"
+        header-border-bottom-color: "Rahmenfarbe der Kopfzeile"
         main-menu-bg-color: "Hintergrundfarbe des Hauptmenüs"
         main-menu-bg-selected-background: "Hintergrundfarbe des Hauptmenüs bei Auswahl"
         main-menu-bg-hover-background: "Hintergrundfarbe des Hauptmenüs bei Hover"
@@ -52,7 +52,7 @@ de:
       enterprise_notice: "Als ein besonderes Dankeschön für Ihre finanzielle Unterstützung in der Entwicklung von OpenProject ist diese Funktionalität nur in Verknüpfung mit einem Enterprise-Edition Abonnement verfügbar."
       manage_colors: "Farbauswahloptionen bearbeiten"
       instructions:
-        alternative-color: "Starken Akzentfarbe, wird normalerweise für die wichtigste Schaltfläche auf dem Bildschirm verwendet."
+        alternative-color: "Starke Akzentfarbe, wird normalerweise für die wichtigste Schaltfläche auf dem Bildschirm verwendet."
         content-link-color: "Schriftfarbe der meisten Links."
         primary-color: "Hauptfarbe."
         primary-color-dark: "In der Regel wird eine dunklere Version der Hauptfarbe für Hover-Effekte verwendet."
@@ -96,13 +96,13 @@ de:
     technical_warning_html: |
       Dieses LDAP-Formular erfordert technische Kenntnisse ihres LDAP-/Active Directory Setups.
       <br/>
-      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Bitte besuchen Sie unsere Dokumentation für detaillierte Anweisungen</a>.
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Bitte rufen Sie für eine detaillierte Anleitung unsere Dokumentation auf</a>.
     attribute_texts:
       name: Beliebiger Name der LDAP-Verbindung
-      host: LDAP Hostname oder IP-Adresse
-      login_map: Der Attributschlüssel in LDAP, der benutzt wird, um die eindeutige Benutzeranmeldung zu identifizieren. Normalerweise wird dies `uid` oder `samAccountName` sein.
+      host: LDAP-Hostname oder IP-Adresse
+      login_map: Der Attributschlüssel in LDAP, der benutzt wird, um die eindeutige Benutzeranmeldung zu identifizieren. Normalerweise ist das `uid` oder `samAccountName`.
       generic_map: Der Attributschlüssel in LDAP, der dem OpenProject `%{attribute}` Attribut zugeordnet ist
-      admin_map_html: "Optional: Der Attributenschlüssel in LDAP der, <strong>falls vorhanden</strong>, den OpenProject Nutzer als einen Administrator makiert. \nIm Zweifel leer lassen."
+      admin_map_html: "Optional: Der Attributschlüssel in LDAP der, <strong>falls vorhanden</strong>, den OpenProject-Nutzer als einen Administrator markiert. \nIm Zweifel leer lassen."
       system_user_dn_html: |
         Geben Sie den DN des Systembenutzers ein, der für schreibgeschützten Zugriff verwendet wird.
         <br/>
@@ -126,7 +126,7 @@ de:
     connection_encryption: 'Verbindungsverschlüsselung'
     system_account: 'Systemkonto'
     system_account_legend: |
-      OpenProject benötigt lesenden Zugriff über ein LDAP Systemkonto, um Benutzer und Gruppen in Ihrem LDAP-Baum zu suchen.
+      OpenProject benötigt lesenden Zugriff über ein LDAP-Systemkonto, um Benutzer und Gruppen in Ihrem LDAP-Baum zu suchen.
       Bitte geben Sie die Anmeldedaten für den Systembenutzer im folgenden Abschnitt an.
     ldap_details: 'LDAP-Details'
     user_settings: 'Zuordnen von Attributen'
@@ -199,7 +199,6 @@ de:
       completed: "Löschen des Projekts %{name} abgeschlossen"
       completed_text: "Die Anfrage zum Löschen des Projekts '%{name}' wurde abgeschlossen."
     index:
-      edit_columns: 'Spalten bearbeiten'
       open_as_gantt: 'Als Gantt-Ansicht öffnen'
       open_as_gantt_title: "Eine Gantt-Ansicht für Arbeitspakete aus den auf dieser Seite sichtbaren Projekten erzeugen."
       open_as_gantt_title_admin: "Sie können die Einstellungen der erzeugten Ansicht (wie zum Beispiel die ausgewählten Arbeitspakettypen) in der Administration unter den Projekteinstellungen ändern."
@@ -532,7 +531,7 @@ de:
         invalid_url: 'ist keine gültige URL.'
         invalid_url_scheme: 'ist kein unterstütztes Protokoll (erlaubt: %{allowed_schemes}).'
         less_than_or_equal_to: "muss kleiner oder gleich %{count} sein."
-        not_current_user: "is not the current user."
+        not_current_user: "ist nicht der aktuelle Benutzer."
         not_a_date: "ist kein gültiges Datum."
         not_a_datetime: "ist kein gültiges Datum."
         not_a_number: "ist keine Zahl."
@@ -750,7 +749,6 @@ de:
     content: "Inhalt"
     color: "Farbe"
     created_at: "Erstellt"
-    created_on: "Erstellt"
     custom_options: "Mögliche Werte"
     custom_values: "Benutzerdefinierte Felder"
     date: "Datum"
@@ -1026,6 +1024,7 @@ de:
   default_role_anonymous: "Anonym"
   default_role_developer: "Entwickler"
   default_role_project_admin: "Projekt-Admin"
+  default_role_project_creator: "Projektersteller"
   default_role_non_member: "Nichtmitglied"
   default_role_reader: "Leser"
   default_role_member: "Mitglied"
@@ -1193,6 +1192,8 @@ de:
       blog: "OpenProject Blog"
       forums: "Community Forum"
       newsletter: "Sicherheitswarnungen / Newsletter"
+  image_conversion:
+    imagemagick: 'ImageMagick'
   journals:
     changes_retracted: "Die Änderungen wurden zurückgezogen."
   links:
@@ -1368,7 +1369,7 @@ de:
   label_enterprise_active_users: "%{current}/%{limit} gebuchte aktive Nutzer"
   label_enterprise_edition: "Enterprise-Edition"
   label_environment: "Umgebung"
-  label_estimates_and_time: "Schätzungen & Zeit"
+  label_estimates_and_time: "Schätzungen & Zeiten"
   label_equals: "ist"
   label_everywhere: "überall"
   label_example: "Beispiel"
@@ -1730,21 +1731,26 @@ de:
   label_workflow_summary: "Zusammenfassung"
   label_x_closed_work_packages_abbr:
     zero: "keine geschlossen"
-    one: "1 geschlossen"
-    other: "%{count} geschlossen"
+    one: ""
+    other: ""
   label_x_comments:
     zero: "Keine Kommentare"
-    one: "1 Kommentar"
-    other: "%{count} Kommentare"
+    one: ""
+    other: ""
   label_x_open_work_packages_abbr:
     zero: "Keine offenen"
-    one: "1 offen"
-    other: "%{count} offen"
+    one: ""
+    other: ""
   label_x_projects:
     zero: "Keine Projekte"
-    one: "1 Projekt"
-    other: "%{count} Projekte"
+    one: ""
+    other: ""
   label_yesterday: "gestern"
+  label_role_type: "Typ"
+  label_member_role: "Projekt Rolle"
+  label_global_role: "Globale Rolle"
+  label_not_changeable: "(nicht veränderbar)"
+  label_global: "Global"
   auth_source:
     using_abstract_auth_source: "Abstrakte Authentifizierungsquellen können nicht verwendet werden."
     ldap_error: "LDAP-Fehler: %{error_message}"

@@ -51,6 +51,7 @@
     "@ng-select/ng-option-highlight": "0.0.5",
     "@ng-select/ng-select": "^4.0.4",
     "@sentry/browser": "^5.13.0",
+    "@types/resize-observer-browser": "^0.1.4",
     "@types/assertion-error": "^1.1.0",
     "@types/chart.js": "^2.9.20",
     "@types/codemirror": "0.0.87",
@@ -134,16 +135,13 @@
     "analyze": "ng build --prod --stats-json && webpack-bundle-analyzer -p 9999 ../public/assets/frontend/stats.json",
     "prebuild": "./scripts/link_plugin_placeholder.js",
     "build": "node --max_old_space_size=2048 ./node_modules/@angular/cli/bin/ng build --prod --named-chunks --extract-css --source-map",
+    "build-watch": "node --max_old_space_size=2048 ./node_modules/@angular/cli/bin/ng build --watch --named-chunks --extract-css",
     "preserve": "./scripts/link_plugin_placeholder.js",
     "serve": "node --max_old_space_size=8096 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --public-host http://localhost:4200",
+    "serve-test": "node --max_old_space_size=8096 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --disable-host-check --public-host http://frontend-test:4200",
     "pretest": "./scripts/link_plugin_placeholder.js",
     "test": "ng test --watch=false",
     "tslint_typechecks": "./node_modules/.bin/tslint -p . -c tslint_typechecks.json",
     "generate-typings": "tsc -d -p src/tsconfig.app.json"
-  },
-  "browserslist": [
-    "last 2 Chrome versions",
-    "last 2 Safari versions",
-    "last 2 Firefox versions"
-  ]
+  }
 }

@@ -54,10 +54,10 @@ describe 'Wysiwyg tables',
           container.find('.ck-insert-table-dropdown-grid-box:nth-of-type(12)').click
 
           # Edit table
-          tds = editable.all('.table.ck-widget td')
-          values = %w(h1 h&2 c1 c&2)
+          tds = editable.all('.op-uc-table .op-uc-table--cell')
           expect(tds.length).to eq(4)
 
+          values = %w(h1 h&2 c1 c&2)
           tds.each_with_index do |td, i|
             td.click
             td.send_keys values[i]
@@ -86,7 +86,7 @@ describe 'Wysiwyg tables',
           container.find('.ck-insert-table-dropdown-grid-box:nth-of-type(12)').click
 
           # Edit table
-          tds = editable.all('.table.ck-widget td')
+          tds = editable.all('.op-uc-table .op-uc-table--cell')
           values = %w(h1 h2 a)
           expect(tds.length).to eq(4)
 
@@ -147,10 +147,10 @@ describe 'Wysiwyg tables',
           container.find('.ck-insert-table-dropdown-grid-box:nth-of-type(12)').click
 
           # Edit table
-          tds = editable.all('.table.ck-widget td')
-          values = %w(h1 h2 a)
+          tds = editable.all('.op-uc-table .op-uc-table--cell')
           expect(tds.length).to eq(4)
 
+          values = %w(h1 h2 a)
           tds.take(3).each_with_index do |td, i|
             td.click
             td.send_keys values[i]
@@ -176,10 +176,6 @@ describe 'Wysiwyg tables',
           expect(editable).to have_selector('td[style*="background-color:#123456"]')
           expect(editable).to have_selector('td[style*="text-align:center"]')
           expect(editable).to have_selector('td[style*="vertical-align:top"]')
-
-          # Expect word-break not to be set to cell that does not have width
-          value2 = page.evaluate_script('getComputedStyle(arguments[0]).wordBreak', editable.all('.table.ck-widget td').first)
-          expect(value2).to eq('normal')
         end
 
         # Save wiki page
@@ -200,7 +196,7 @@ describe 'Wysiwyg tables',
           expect(editable).to have_selector('td[style*="background-color:#123456"]')
 
           # Change table styles
-          tds = editable.all('.table.ck-widget td')
+          tds = editable.all('.op-uc-table .op-uc-table--cell')
           tds.first.click
           editor.click_hover_toolbar_button 'Table properties'
 
@@ -276,10 +272,10 @@ describe 'Wysiwyg tables',
           container.find('.ck-insert-table-dropdown-grid-box:nth-of-type(12)').click
 
           # Edit table
-          tds = editable.all('.table.ck-widget td')
-          values = %w(h1 h2 a)
+          tds = editable.all('.op-uc-table .op-uc-table--cell')
           expect(tds.length).to eq(4)
 
+          values = %w(h1 h2 a)
           tds.take(3).each_with_index do |td, i|
             td.click
             td.send_keys values[i]
@@ -298,14 +294,6 @@ describe 'Wysiwyg tables',
 
           expect(editable).to have_selector('td[style*="width:250px"]')
 
-          # Expect break-all to be applied to this input
-          value = page.evaluate_script('getComputedStyle(arguments[0]).wordBreak', editable.all('.table.ck-widget td')[0])
-          expect(value).to eq('break-all')
-
-          # Expect not to be set to cell that does not have width
-          value2 = page.evaluate_script('getComputedStyle(arguments[0]).wordBreak', editable.all('.table.ck-widget td')[1])
-          expect(value2).to eq('normal')
-
         end
 
         # Save wiki page
@@ -315,9 +303,6 @@ describe 'Wysiwyg tables',
 
         within('#content') do
           expect(page).to have_selector('td[style*="width:250px"]')
-          # Expect not to be set to cell that does not have width
-          value2 = page.evaluate_script('getComputedStyle(arguments[0]).wordBreak', page.find('td[style*="width:250px"]'))
-          expect(value2).to eq('break-all')
         end
 
         # Edit again
@@ -325,14 +310,6 @@ describe 'Wysiwyg tables',
 
         editor.in_editor do |container, editable|
           expect(editable).to have_selector('td[style*="width:250px"]')
-
-          # Expect break-all to be applied to this input
-          value = page.evaluate_script('getComputedStyle(arguments[0]).wordBreak', editable.all('.table.ck-widget td')[0])
-          expect(value).to eq('break-all')
-
-          # Expect not to be set to cell that does not have width
-          value2 = page.evaluate_script('getComputedStyle(arguments[0]).wordBreak', editable.all('.table.ck-widget td')[1])
-          expect(value2).to eq('normal')
         end
       end
     end
@@ -341,8 +318,8 @@ describe 'Wysiwyg tables',
       let(:wiki_page) {
         page = FactoryBot.build :wiki_page_with_content,
                                 title: 'Wiki page with titles'
-        page.content.text = <<~EOS
-        
+        page.content.text = <<~MARKDOWN
+
           ## This is markdown!
 
           <table>
@@ -363,7 +340,7 @@ describe 'Wysiwyg tables',
               </tr>
             </tbody>
           </table>
-        EOS
+        MARKDOWN
 
         page
       }

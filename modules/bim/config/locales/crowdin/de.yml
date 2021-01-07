@@ -15,8 +15,8 @@ de:
       file_invalid: "BCF-Datei ungültig"
     x_bcf_issues:
       zero: 'Keine BCF-Fälle'
-      one: 'Ein BCF-Fall'
-      other: '%{count} BCF-Fälle'
+      one: ''
+      other: ''
     bcf_xml:
       xml_file: 'BCF-XML Datei'
       import_title: 'Import'

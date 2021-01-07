@@ -84,11 +84,12 @@ class BudgetsController < ApplicationController
 
   def copy
     source = Budget.find(params[:id].to_i)
-    @budget = Budget.new
 
-    if source
-      @budget.copy_from(source)
-    end
+    @budget = if source
+                Budget.new_copy(source)
+              else
+                Budget.new
+              end
 
     @budget.fixed_date ||= Date.today
 

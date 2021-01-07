@@ -38,6 +38,6 @@ class Impediments::UpdateService
     WorkPackages::UpdateService
       .new(user: user,
            model: impediment)
-      .call(attributes)
+      .call(**attributes)
   end
 end

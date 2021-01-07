@@ -55,6 +55,8 @@ ru:
     button_duplicate: "Дублировать"
     button_edit: "Правка"
     button_filter: "Фильтр"
+    button_collapse_all: "Свернуть все"
+    button_expand_all: "Развернуть все"
     button_advanced_filter: "Расширенный фильтр"
     button_list_view: "Представление списком"
     button_show_view: "Полноэкранный просмотр"
@@ -255,7 +257,6 @@ ru:
     general_text_yes: "Да"
     general_text_No: "Нет"
     general_text_Yes: "да"
-    global_roles: Глобальная роль
     hal:
       error:
         update_conflict_refresh: "Нажмите здесь, чтобы обновить ресурс до последней версии."
@@ -269,13 +270,13 @@ ru:
           text_new_features: "Читайте о новых возможностях и обновлениях продуктов."
           learn_about: "Подробнее о новых функциях"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
             current_new_feature_html: >
-              Релиз содержит различные новые особенности и улучшения: <br> <ul class="%{list_styling_class}"> <li><b>Планирование сверху-вниз</b> для определения всех связанных с проектом задач. Даты начала и окончания родительского процесса не зависят от его дочерних элементов.</li> <li><b>Универсальные agile-доски</b> позволяют создавать структуру разбивки работ или распределять задачи между подпроектами.</li> <li><b>Шаблоны проектов</b> для легкого создания новых проектов.</li> <li>Конфигурация страницы проектов позволяет улучшить <b>управление портфелем проектов.</b></li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              Релиз содержит различные новые особенности и улучшения: <br> <ul class="%{list_styling_class}"> <li><b>Планирование сверху-вниз</b> для определения всех связанных с проектом задач. Даты начала и окончания родительского процесса не зависят от его дочерних элементов.</li> <li><b>Универсальные agile-доски</b> позволяют создавать структуру разбивки работ или распределять задачи между подпроектами.</li> <li><b>Шаблоны проектов</b> для легкого создания новых проектов.</li> <li>Конфигурация страницы проектов позволяет улучшить <b>управление портфелем проектов.</b></li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
     label_activate: "Активировать"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"
@@ -331,6 +332,7 @@ ru:
     label_filename: "Файл"
     label_filesize: "Размер"
     label_general: "Общие"
+    label_global_roles: "Глобальная роль"
     label_greater_or_equal: ">="
     label_group: 'Группа'
     label_group_by: "Группировать по"
@@ -360,7 +362,7 @@ ru:
     label_next: "Следующие"
     label_no_color: "Нет цвета"
     label_no_data: "Нет данных для отображения"
-    label_no_due_date: "без даты окончания"
+    label_no_due_date: "нет даты окончания"
     label_no_start_date: "без даты начала"
     label_no_value: "Значение отсутствует"
     label_none: "Ничего"
@@ -941,10 +943,10 @@ ru:
         other: "пакет работ с %{count} дочерними"
       hour:
         zero: "0 ч"
-        one: "1 ч."
-        few: "%{count} ч."
-        many: "%{count} ч."
-        other: "%{count} ч."
+        one: ""
+        few: ""
+        many: ""
+        other: ""
     zen_mode:
       button_activate: 'Включить дзен-режим'
       button_deactivate: 'Отключить дзен-режим'

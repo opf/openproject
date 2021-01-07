@@ -48,7 +48,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:embedded) { false }
   let(:representer) do
     described_class.create(schema,
-                           nil,
+                           self_link: nil,
                            form_embedded: embedded,
                            current_user: current_user)
   end

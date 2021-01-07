@@ -58,6 +58,33 @@ class CostQuery < ApplicationRecord
     end
   end
 
+  def self.public(project)
+    if project
+      CostQuery.where(['is_public = ? AND (project_id IS NULL OR project_id = ?)', true, project])
+        .order(Arel.sql('name ASC'))
+    else
+      CostQuery.where(['is_public = ? AND project_id IS NULL', true])
+        .order(Arel.sql('name ASC'))
+    end
+  end
+
+  def self.private(project, user)
+    if project
+      CostQuery.where(['user_id = ? AND is_public = ? AND (project_id IS NULL OR project_id = ?)',
+                       user,
+                       false,
+                       project])
+        .order(Arel.sql('name ASC'))
+    else
+      CostQuery.where(['user_id = ? AND is_public = ? AND project_id IS NULL', user, false])
+        .order(Arel.sql('name ASC'))
+    end
+  end
+
+  def self.exists_in?(project, user)
+    public(project).or(private(project, user)).exists?
+  end
+
   def serialize
     # have to take the reverse group_bys to retain the original order when deserializing
     self.serialized = { filters: (filters.map(&:serialize).reject(&:nil?).sort { |a, b| a.first <=> b.first }),

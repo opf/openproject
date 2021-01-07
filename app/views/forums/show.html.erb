@@ -97,9 +97,9 @@ See docs/COPYRIGHT.rdoc for more details.
               </div>
             </div>
           </th>
-          <%= sort_header_tag("created_on", caption: Message.human_attribute_name(:created_on)) %>
+          <%= sort_header_tag("created_on", caption: Message.human_attribute_name(:created_at)) %>
           <%= sort_header_tag("replies", caption: t(:label_reply_plural)) %>
-          <%= sort_header_tag("updated_on", caption: t(:label_message_last)) %>
+          <%= sort_header_tag("updated_at", caption: t(:label_message_last)) %>
         </tr>
         </thead>
         <tbody>
@@ -119,13 +119,13 @@ See docs/COPYRIGHT.rdoc for more details.
                 <%= link_to message.author.name, user_path(message.author) %>
               <% end %>
             </td>
-            <td class="created_on">
-              <%= format_time message.created_on %>
+            <td class="created_at">
+              <%= format_time message.created_at %>
             </td>
             <td class="replies"><%= message.replies_count %></td>
             <td class="last_message">
               <% if message.last_reply %>
-                <%= authoring message.last_reply.created_on, message.last_reply.author %><br/>
+                <%= authoring message.last_reply.created_at, message.last_reply.author %><br/>
                 <br/>
                 <%= link_to_message message.last_reply, no_root: true %>
               <% end %>

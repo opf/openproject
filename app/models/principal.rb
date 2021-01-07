@@ -47,7 +47,7 @@ class Principal < ApplicationRecord
   has_many :members, foreign_key: 'user_id', dependent: :destroy
   has_many :memberships, -> {
     includes(:project, :roles)
-      .where(projects: { active: true })
+      .where(["projects.active = ? OR project_id IS NULL", true])
       .order(Arel.sql('projects.name ASC'))
     # haven't been able to produce the order using hashes
   },
@@ -105,7 +105,7 @@ class Principal < ApplicationRecord
   end
 
   def self.order_by_name
-    order(User::USER_FORMATS_STRUCTURE[Setting.user_format].map(&:to_s))
+    order(User::USER_FORMATS_STRUCTURE[Setting.user_format].map { |format| "#{Principal.table_name}.#{format}" })
   end
 
   def self.me

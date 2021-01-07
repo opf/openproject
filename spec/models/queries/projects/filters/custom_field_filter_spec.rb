@@ -35,7 +35,6 @@ describe Queries::Projects::Filters::CustomFieldFilter, type: :model do
     described_class.create!(name: cf_accessor, operator: '=', context: query)
   end
   let(:instance_key) { nil }
-  let(:name) { field.name }
 
   shared_let(:list_project_custom_field) { FactoryBot.create(:list_project_custom_field) }
   let(:bool_project_custom_field) { FactoryBot.build_stubbed(:bool_project_custom_field) }

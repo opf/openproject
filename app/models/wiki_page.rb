@@ -39,12 +39,12 @@ class WikiPage < ApplicationRecord
   acts_as_url :title,
               url_attribute: :slug,
               scope: :wiki_id, # Unique slugs per WIKI
-              sync_url: true # Keep slug updated on #rename
+              sync_url: true, # Keep slug updated on #rename
+              adapter: OpenProject::ActsAsUrl::Adapter::OpActiveRecord # use a custom adapter able to handle edge cases
 
   acts_as_watchable
   acts_as_event title: Proc.new { |o| "#{Wiki.model_name.human}: #{o.title}" },
                 description: :text,
-                datetime: :created_on,
                 url: Proc.new { |o| { controller: '/wiki', action: 'show', project_id: o.wiki.project, id: o.title } }
 
   acts_as_searchable columns: ["#{WikiPage.table_name}.title", "#{WikiContent.table_name}.text"],
@@ -65,8 +65,8 @@ class WikiPage < ApplicationRecord
   before_destroy :remove_redirects
 
   # eager load information about last updates, without loading text
-  scope :with_updated_on, -> {
-    select("#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_on")
+  scope :with_updated_at, -> {
+    select("#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_at")
       .joins("LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id")
   }
 
@@ -82,12 +82,8 @@ class WikiPage < ApplicationRecord
 
   after_destroy :delete_wiki_menu_item
 
-  def slug
-    read_attribute(:slug).presence || title.try(:to_url)
-  end
-
   def delete_wiki_menu_item
-    menu_item.destroy if menu_item
+    menu_item&.destroy
     # ensure there is a menu item for the wiki
     wiki.create_menu_item_for_start_page if MenuItems::WikiMenuItem.main_items(wiki).empty?
   end
@@ -137,7 +133,7 @@ class WikiPage < ApplicationRecord
 
     unless journal.nil? || content.version == journal.version
       content_version = WikiContent.new journal.data.attributes.except('id', 'journal_id')
-      content_version.updated_on = journal.created_at
+      content_version.updated_at = journal.created_at
       content_version.journals = content.journals.select { |j| j.version <= version.to_i }
 
       content_version
@@ -164,22 +160,22 @@ class WikiPage < ApplicationRecord
   end
 
   def text
-    content.text if content
+    content&.text
   end
 
-  def updated_on
-    unless @updated_on
-      if time = read_attribute(:updated_on)
-        # content updated_on was eager loaded with the page
+  def updated_at
+    unless @updated_at
+      if (time = read_attribute(:updated_at))
+        # content updated_at was eager loaded with the page
         unless time.is_a? Time
           time = Time.zone.parse(time) rescue nil
         end
-        @updated_on = time
+        @updated_at = time
       else
-        @updated_on = content && content.updated_on
+        @updated_at = content&.updated_at
       end
     end
-    @updated_on
+    @updated_at
   end
 
   # Returns true if usr is allowed to edit the page, otherwise false
@@ -192,7 +188,7 @@ class WikiPage < ApplicationRecord
   end
 
   def parent_title
-    @parent_title || (parent && parent.title)
+    @parent_title || (parent&.title)
   end
 
   def parent_title=(t)

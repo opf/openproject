@@ -15,10 +15,10 @@ cs:
       file_invalid: "Neplatný soubor BCF"
     x_bcf_issues:
       zero: 'No BCF issues'
-      one: 'Jeden problém s BCFF'
-      few: '%{count} Problémy s BCF'
-      many: '%{count} Problémy s BCF'
-      other: '%{count} Problémy s BCF'
+      one: ''
+      few: ''
+      many: ''
+      other: ''
     bcf_xml:
       xml_file: 'BCF XML soubor'
       import_title: 'Importovat'

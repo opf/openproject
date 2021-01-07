@@ -199,7 +199,6 @@ it:
       completed: "Eliminazione del progetto %{name} completata"
       completed_text: "La richiesta di cancellare il progetto '%{name}' è stata completata."
     index:
-      edit_columns: 'Modifica colonne'
       open_as_gantt: 'Apri come vista Gantt'
       open_as_gantt_title: "Usa questo pulsante per generare una vista Gantt che filtra le macro-attività per i progetti visibili in questa pagina."
       open_as_gantt_title_admin: "È possibile modificare le impostazioni di visualizzazione (come i tipi di macro-attività selezionati) nell'amministrazione nelle impostazioni del progetto."
@@ -533,7 +532,7 @@ it:
         invalid_url: 'non è un URL valido.'
         invalid_url_scheme: 'non è un protocollo supportato (ammessi: %{allowed_schemes}).'
         less_than_or_equal_to: "deve essere inferiore o uguale a %{count}."
-        not_current_user: "is not the current user."
+        not_current_user: "non è l'utente attuale."
         not_a_date: "non è una data valida."
         not_a_datetime: "non è un'orario valido."
         not_a_number: "non è un numero."
@@ -751,7 +750,6 @@ it:
     content: "Contenuto"
     color: "Colore"
     created_at: "Creato il"
-    created_on: "Creato il"
     custom_options: "Valori possibili"
     custom_values: "Campo personalizzato"
     date: "Data"
@@ -1027,6 +1025,7 @@ it:
   default_role_anonymous: "Anonimo"
   default_role_developer: "Sviluppatore"
   default_role_project_admin: "Amministratore di progetto"
+  default_role_project_creator: "Creatore del progetto"
   default_role_non_member: "Non membro"
   default_role_reader: "Osservatore"
   default_role_member: "Membro"
@@ -1194,6 +1193,8 @@ it:
       blog: "Blog di OpenProject"
       forums: "Forum della Comunità"
       newsletter: "Avvisi di sicurezza / Notizie"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Le modifiche sono state annullate."
   links:
@@ -1731,21 +1732,26 @@ it:
   label_workflow_summary: "Sommario"
   label_x_closed_work_packages_abbr:
     zero: "0 chiusi"
-    one: "1 chiuso"
-    other: "%{count} chiusi"
+    one: ""
+    other: ""
   label_x_comments:
     zero: "nessun commento"
-    one: "1 commento"
-    other: "%{count} commenti"
+    one: ""
+    other: ""
   label_x_open_work_packages_abbr:
     zero: "0 aperti"
-    one: "1 aperto"
-    other: "%{count} aperti"
+    one: ""
+    other: ""
   label_x_projects:
     zero: "nessun progetto"
-    one: "1 progetto"
-    other: "%{count} progetti"
+    one: ""
+    other: ""
   label_yesterday: "ieri"
+  label_role_type: "Tipo"
+  label_member_role: "Ruolo di progetto"
+  label_global_role: "Ruolo globale"
+  label_not_changeable: "(non modificabile)"
+  label_global: "Globale"
   auth_source:
     using_abstract_auth_source: "Non è possibile utilizzare una fonte di autenticazione astratta."
     ldap_error: "Errore LDAP: %{error_message}"

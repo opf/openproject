@@ -201,7 +201,6 @@ hu:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
-      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -752,7 +751,6 @@ hu:
     content: "Tartalom"
     color: "Szín"
     created_at: "Létrehozva"
-    created_on: "Létrehozva"
     custom_options: "Lehetséges értékek"
     custom_values: "Választható mezők"
     date: "dátum"
@@ -1028,6 +1026,7 @@ hu:
   default_role_anonymous: "Anonymous"
   default_role_developer: "Fejlesztő"
   default_role_project_admin: "Projekt admin"
+  default_role_project_creator: "Projekt létrehozója"
   default_role_non_member: "Nem tag"
   default_role_reader: "Olvasó"
   default_role_member: "Tag"
@@ -1195,6 +1194,8 @@ hu:
       blog: "OpenProject blog"
       forums: "Közösségi fórum"
       newsletter: "Biztonsági figyelmeztetések / hírlevél"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
   links:
@@ -1732,21 +1733,26 @@ hu:
   label_workflow_summary: "Összegzés"
   label_x_closed_work_packages_abbr:
     zero: "0 lezárt"
-    one: "1 zárva"
-    other: "%{count} zárva"
+    one: ""
+    other: ""
   label_x_comments:
     zero: "nincsenek hozzászólások"
-    one: "1 komment"
-    other: "%{count} komment"
+    one: ""
+    other: ""
   label_x_open_work_packages_abbr:
     zero: "0 nyitott"
-    one: "1 nyitott"
-    other: "%{count} nyitott"
+    one: ""
+    other: ""
   label_x_projects:
     zero: "nincsenek projektek"
-    one: "1 projekt"
-    other: "%{count} projekt"
+    one: ""
+    other: ""
   label_yesterday: "tegnap"
+  label_role_type: "Típus"
+  label_member_role: "Projekt szerep"
+  label_global_role: "Globális szerep"
+  label_not_changeable: "(nem módosítható)"
+  label_global: "Globális"
   auth_source:
     using_abstract_auth_source: "Nem használható egy absztrakt hitelesítési forrás."
     ldap_error: "LDAP-hiba: %{error_message}"

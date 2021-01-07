@@ -63,11 +63,13 @@ module Bim::Bcf
 
         ::WorkPackages::UpdateService
           .new(user: user, model: work_package)
-          .call(params)
+          .call(**params)
       end
 
       def create_work_package(params)
-        ::WorkPackages::CreateService.new(user: user).call(params)
+        ::WorkPackages::CreateService
+          .new(user: user)
+          .call(**params)
       end
 
       def work_package_id_from_links(links)

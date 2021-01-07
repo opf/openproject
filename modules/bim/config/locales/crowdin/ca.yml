@@ -15,8 +15,8 @@ ca:
       file_invalid: "BCF file invalid"
     x_bcf_issues:
       zero: 'Sense problemes BCF'
-      one: 'One BCF issue'
-      other: '%{count} BCF issues'
+      one: ''
+      other: ''
     bcf_xml:
       xml_file: 'BCF XML File'
       import_title: 'Import'

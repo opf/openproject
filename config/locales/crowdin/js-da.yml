@@ -55,6 +55,8 @@ da:
     button_duplicate: "Lav dublet"
     button_edit: "Rediger"
     button_filter: "Filter"
+    button_collapse_all: "Fold alle sammen"
+    button_expand_all: "Fold alle ud"
     button_advanced_filter: "Avanceret filter"
     button_list_view: "Listevisning"
     button_show_view: "Fuldskærmsvisning"
@@ -255,7 +257,6 @@ da:
     general_text_yes: "ja"
     general_text_No: "Nej"
     general_text_Yes: "Ja"
-    global_roles: Global Roles
     hal:
       error:
         update_conflict_refresh: "Klik her for at opdatere til den nyeste version."
@@ -269,13 +270,13 @@ da:
           text_new_features: "Read about new features and product updates."
           learn_about: "Learn more about the new features"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
     label_activate: "Aktivér"
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
@@ -331,6 +332,7 @@ da:
     label_filename: "Fil"
     label_filesize: "Størrelse"
     label_general: "Generelle"
+    label_global_roles: "Global Roles"
     label_greater_or_equal: ">="
     label_group: 'Gruppe'
     label_group_by: "Gruppér efter"
@@ -360,7 +362,7 @@ da:
     label_next: "Næste"
     label_no_color: "Ingen farve"
     label_no_data: "Ingen data at vise"
-    label_no_due_date: "ingen slutdato"
+    label_no_due_date: "no finish date"
     label_no_start_date: "ingen startdato"
     label_no_value: "Ingen værdi tildelt"
     label_none: "ingen"
@@ -937,8 +939,8 @@ da:
         other: "%{count} work package children"
       hour:
         zero: "0 h"
-        one: "1 h"
-        other: "%{count} h"
+        one: ""
+        other: ""
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'

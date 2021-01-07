@@ -27,13 +27,11 @@ ro:
         available: "Available"
         budget: "Planned"
         budget_ratio: "Spent (ratio)"
-        created_on: "Creat pe"
         description: "Descriere"
         spent: "Spent"
         status: "Stare"
         subject: "Subiect"
         type: "Cost type"
-        updated_on: "Actualizat pe"
         labor_budget: "Planned labor costs"
         material_budget: "Planned unit costs"
       work_package:

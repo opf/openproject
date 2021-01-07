@@ -198,7 +198,6 @@ pl:
       completed: "Usunięcie projektu %{name} zostało wykonane"
       completed_text: "Żądanie usunięcia projektu „%{name}” zostało wykonane."
     index:
-      edit_columns: 'Edytuj kolumny'
       open_as_gantt: 'Otwórz jako widok wykresu Gantta'
       open_as_gantt_title: "Użyj tego przycisku, aby wygenerować widok wykresu Gantta, który filtruje pakiety robocze projektów widocznych na tej stronie."
       open_as_gantt_title_admin: "Możesz modyfikować ustawienia widoku (takie jak wybrane typy pakietów roboczych) w obszarze administracji w ustawieniach projektu."
@@ -535,7 +534,7 @@ pl:
         invalid_url: 'nie jest poprawnym adresem URL.'
         invalid_url_scheme: 'nie jest obsługiwanym protokołem (dozwolone: %{allowed_schemes}).'
         less_than_or_equal_to: "musi być mniejsze niż lub równe %{count}."
-        not_current_user: "is not the current user."
+        not_current_user: "nie jest bieżącym użytkownikiem."
         not_a_date: "nie jest poprawną datą."
         not_a_datetime: "nie jest poprawną datą i czasem."
         not_a_number: "nie jest liczbą."
@@ -615,7 +614,7 @@ pl:
         queries/filters/base:
           attributes:
             values:
-              inclusion: "filter has invalid values."
+              inclusion: "filtr ma nieważne wartości."
               format: "%{message}"
         relation:
           typed_dag:
@@ -759,7 +758,6 @@ pl:
     content: "Zawartość"
     color: "Kolor"
     created_at: "Utworzone"
-    created_on: "Utworzone"
     custom_options: "Możliwe wartości"
     custom_values: "Pola niestandardowe"
     date: "Data"
@@ -1059,6 +1057,7 @@ pl:
   default_role_anonymous: "Anonimowy"
   default_role_developer: "Deweloper"
   default_role_project_admin: "Administrator projektu"
+  default_role_project_creator: "Twórca projektu"
   default_role_non_member: "nie jest członkiem"
   default_role_reader: "Czytnik"
   default_role_member: "Członek"
@@ -1226,6 +1225,8 @@ pl:
       blog: "Blog OpenProject"
       forums: "Forum społeczności"
       newsletter: "Powiadomienia bezpieczeństwa / Newsletter"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Zmiany zostały wycofane."
   links:
@@ -1763,29 +1764,34 @@ pl:
   label_workflow_summary: "Podsumowanie"
   label_x_closed_work_packages_abbr:
     zero: "0 zamknięty"
-    one: "1 zamknięty"
-    few: "%{count} zamknięte"
-    many: "%{count} zamknięte"
-    other: "%{count} zamknięte"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_x_comments:
     zero: "brak komentarzy"
-    one: "1 komentarz"
-    few: "%{count} komentarzy"
-    many: "%{count} komentarzy"
-    other: "%{count} komentarzy"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_x_open_work_packages_abbr:
     zero: "0 otwarty"
-    one: "1 otwarty"
-    few: "Otwarte: %{count}"
-    many: "Otwarte: %{count}"
-    other: "Otwarte: %{count}"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_x_projects:
     zero: "brak projektów"
-    one: "%{count} projekt"
-    few: "%{count} projekty"
-    many: "%{count} projekty"
-    other: "%{count} projekty"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_yesterday: "wczoraj"
+  label_role_type: "Typ"
+  label_member_role: "Rola projektu"
+  label_global_role: "Globalna rola"
+  label_not_changeable: "(niezmienialne)"
+  label_global: "Globalna"
   auth_source:
     using_abstract_auth_source: "Nie można użyć fikcyjnego źródła uwierzytelniania."
     ldap_error: "Błąd LDAP: %{error_message}"

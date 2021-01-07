@@ -4,13 +4,54 @@
 
 # Release Notes
 
-We never stop improving OpenProject. Every year there are several major stable releases offering new OpenProject features.
+We never stop improving OpenProject. Every year there are several stable releases offering new OpenProject features.
 
 Stay up to date and get an overview of the new features included in the releases.
 
 
 <!--- New release notes are generated below. Do not remove comment. -->
 <!--- RELEASE MARKER -->
+
+## 11.1.0
+
+Release date: 2020-12-17
+
+#### Community features:
+
+- Improved styling of the WYSIWYG text editor
+- Direct display of user name for @notifications
+- Display project milestones aggregated for projects in a single row in Gantt chart
+- Collapse all button for groups in the work packages list
+- Extended authentication profile with an OpenID Connect provider
+
+- Improvements for printing, e.g. for wiki pages, via the browser print function
+
+#### Enterprise cloud:
+
+- Signing Data Processing Agreement (DPA) documents in Enterprise cloud
+
+[Read more](11-1-0/)
+
+## 11.0.4
+
+Release date: 2020-12-03
+
+[Release Notes](11-0-4/)
+
+
+## 11.0.3
+
+Release date: 2020-11-16
+
+[Release Notes](11-0-3/)
+
+
+## 11.0.2
+
+Release date: 2020-11-06
+
+[Release Notes](11-0-2/)
+
 
 ## 11.0.1
 

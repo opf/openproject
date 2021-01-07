@@ -1,7 +1,7 @@
 module Users
   class TableCell < ::TableCell
     options :current_user # adds this option to those of the base class
-    columns :login, :firstname, :lastname, :mail, :admin, :created_on, :last_login_on
+    columns :login, :firstname, :lastname, :mail, :admin, :created_at, :last_login_on
 
     def initial_sort
       [:id, :asc]
@@ -22,7 +22,7 @@ module Users
     end
 
     def desc_by_default
-      [:admin, :created_on, :last_login_on]
+      [:admin, :created_at, :last_login_on]
     end
   end
 end

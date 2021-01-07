@@ -34,7 +34,7 @@ gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.0.2'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 6.0.3.2'
+gem 'rails', '~> 6.1.0'
 gem 'responders', '~> 3.0'
 
 gem 'rdoc', '>= 2.4.2'
@@ -54,7 +54,7 @@ gem 'friendly_id', '~> 5.4.0'
 
 gem 'acts_as_list', '~> 1.0.1'
 gem 'acts_as_tree', '~> 2.9.0'
-gem 'awesome_nested_set', '~> 3.2.0'
+gem 'awesome_nested_set', '~> 3.3.0'
 gem 'rubytree', '~> 1.0.0'
 gem 'typed_dag', '~> 2.0.2'
 
@@ -83,7 +83,7 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 3.24.0'
+gem 'rouge', '~> 3.26.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 5.2.1'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -99,7 +99,7 @@ gem 'date_validator', '~> 0.10.0'
 gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage
-gem 'sys-filesystem', '~> 1.3.3', require: false
+gem 'sys-filesystem', '~> 1.4.0', require: false
 
 # Faster posix-compliant spawns for 8.0. conversions with pandoc
 gem 'posix-spawn', '~> 0.3.13', require: false
@@ -110,8 +110,8 @@ gem 'multi_json', '~> 1.15.0'
 gem 'oj', '~> 3.10.2'
 
 gem 'daemons'
-gem 'delayed_job_active_record', '~> 4.1.4'
-gem 'delayed_cron_job', '~> 0.7.2'
+gem 'delayed_job_active_record', '~> 4.1.5'
+gem 'delayed_cron_job', '~> 0.7.4'
 
 gem 'rack-protection', '~> 2.1.0'
 
@@ -125,7 +125,7 @@ gem 'rack-attack', '~> 6.3.1'
 gem 'secure_headers', '~> 6.3.0'
 
 # Browser detection for incompatibility checks
-gem 'browser', '~> 5.1.0'
+gem 'browser', '~> 5.2.0'
 
 # Providing health checks
 gem 'okcomputer', '~> 1.18.1'
@@ -148,7 +148,7 @@ gem 'prawn-markup', '~> 0.3.0'
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.0.9'
 
-gem 'meta-tags', '~> 2.13.0'
+gem 'meta-tags', '~> 2.14.0'
 
 group :production do
   # we use dalli as standard memcache client
@@ -167,9 +167,9 @@ gem 'sprockets', '~> 3.7.0'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'puma', '~> 5.0.0' # used for development and optionally for production
+gem 'puma', '~> 5.1.0' # used for development and optionally for production
 
-gem 'nokogiri', '~> 1.10.8'
+gem 'nokogiri', '~> 1.11.0'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
@@ -177,7 +177,7 @@ gem 'fog-aws'
 
 gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.80'
+gem 'aws-sdk-s3', '~> 1.87'
 
 gem 'openproject-token', '~> 2.1.1'
 
@@ -185,7 +185,9 @@ gem 'plaintext', '~> 0.3.2'
 
 gem 'rest-client', '~> 2.0'
 
-gem 'ruby-progressbar', '~> 1.10.0', require: false
+gem 'ruby-progressbar', '~> 1.11.0', require: false
+
+gem 'mini_magick', '~> 4.11.0', require: false
 
 group :test do
   gem 'launchy', '~> 2.5.0'
@@ -196,14 +198,9 @@ group :test do
   # and other niceties
   gem 'test-prof', '~> 0.12.0'
 
-  gem 'cucumber', '~> 3.1.0'
-  gem 'cucumber-rails', '~> 1.8.0', require: false
   gem 'database_cleaner', '~> 1.8'
   gem 'rack_session_access'
   gem 'rspec', '~> 3.10.0'
-  # TODO: replace stub_model and mock_model by calls to factory or simple double
-  # and remove this dependency
-  gem 'rspec-activemodel-mocks', '~> 1.1.0', git: 'https://github.com/rspec/rspec-activemodel-mocks'
   # also add to development group, so "spec" rake task gets loaded
   gem 'rspec-rails', '~> 4.0.0', group: :development
 
@@ -217,7 +214,7 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.33.0'
+  gem 'capybara', '~> 3.34.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'selenium-webdriver', '~> 3.14'
   gem 'webdrivers', '~> 4.4.1'
@@ -226,7 +223,7 @@ group :test do
   gem 'timecop', '~> 0.9.0'
 
   # Mock backend requests (for ruby tests)
-  gem 'webmock', '~> 3.9.1', require: false
+  gem 'webmock', '~> 3.11', require: false
 
   # Mock selenium requests through proxy (for feature tests)
   gem 'puffing-billy', '~> 2.4.0'
@@ -236,16 +233,15 @@ group :test do
   gem 'json_spec', '~> 1.1.4'
   gem 'shoulda-matchers', '~> 4.4', require: nil
 
-  # For unknown reasons, parallel_tests 3.3 fails on travis.
-  gem 'parallel_tests', '~> 3.1', '< 3.3.0'
+  gem 'parallel_tests', '~> 3.1'
 end
 
 group :ldap do
-  gem 'net-ldap', '~> 0.16.0'
+  gem 'net-ldap', '~> 0.17.0'
 end
 
 group :development do
-  gem 'listen', '~> 3.2.1' # Use for event-based reloaders
+  gem 'listen', '~> 3.4.0' # Use for event-based reloaders
 
   gem 'faker'
   gem 'letter_opener'
@@ -314,7 +310,7 @@ gem 'openproject-translations',
   git: 'https://github.com/opf/openproject-translations.git',
   branch: 'dev'
 
-gem 'newrelic_rpm'
+gem 'newrelic_rpm', require: ENV.has_key?('NEW_RELIC_LICENSE_KEY')
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
 gemfiles = Dir.glob File.expand_path('../{Gemfile.plugins,Gemfile.modules,Gemfile.local,lib/plugins/*/Gemfile}',

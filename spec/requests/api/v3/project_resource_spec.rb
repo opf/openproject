@@ -303,7 +303,9 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
   describe '#post /projects' do
     let(:current_user) do
       FactoryBot.create(:user).tap do |u|
-        u.global_roles << global_role
+        FactoryBot.create(:global_member,
+                          principal: u,
+                          roles: [global_role])
       end
     end
     let(:global_role) do
@@ -361,7 +363,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
           .to be_json_eql(
             {
               "format": "markdown",
-              "html": "<p>Some explanation.</p>",
+              "html": "<p class=\"op-uc-p\">Some explanation.</p>",
               "raw": "Some explanation."
             }.to_json
           )
@@ -567,7 +569,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
           .to be_json_eql(
             {
               "format": "markdown",
-              "html": "<p>Some explanation.</p>",
+              "html": "<p class=\"op-uc-p\">Some explanation.</p>",
               "raw": "Some explanation."
             }.to_json
           )
@@ -594,7 +596,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
           .to be_json_eql(
             {
               "format": "markdown",
-              "html": "<p>Some explanation.</p>",
+              "html": "<p class=\"op-uc-p\">Some explanation.</p>",
               "raw": "Some explanation."
             }.to_json
           )

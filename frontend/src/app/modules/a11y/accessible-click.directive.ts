@@ -27,20 +27,20 @@
 //++
 
 import {Directive, EventEmitter, HostListener, Input, Output} from '@angular/core';
-import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
+import {LinkHandling} from 'core-app/modules/common/link-handling/link-handling';
 
 @Directive({
   selector: '[accessibleClick]',
 })
 export class AccessibleClickDirective {
   @Input('accessibleClickStopEvent') stopEventPropagation:boolean = true;
-  @Output('accessibleClick') onClick = new EventEmitter<JQuery.TriggeredEvent>();
+  @Input('accessibleClickSkipModifiers') skipEventModifiers:boolean = false;
+  @Output('accessibleClick') onClick = new EventEmitter<MouseEvent|KeyboardEvent>();
 
   @HostListener('click', ['$event'])
   @HostListener('keydown', ['$event'])
-  public handleClick(event:JQuery.TriggeredEvent) {
-    if (event.type === 'click' || event.which === keyCodes.ENTER || event.which === keyCodes.SPACE) {
-
+  public handleClick(event:MouseEvent|KeyboardEvent) {
+    if (this.isMatchingEvent(event) && !this.skipOnModifier(event)) {
       if (this.stopEventPropagation) {
         event.preventDefault();
         event.stopPropagation();
@@ -48,5 +48,26 @@ export class AccessibleClickDirective {
 
       this.onClick.emit(event);
     }
+  }
+
+  /**
+   * Whether the given event is handled by this directive
+   * @param event
+   * @private
+   */
+  private isMatchingEvent(event:MouseEvent|KeyboardEvent) {
+    return event.type === 'click' ||
+      (event instanceof KeyboardEvent && (event.key === 'Enter' || event.key === ' '));
+  }
+
+  /**
+   * Whether to skip the click event with modifiers pressed
+   * according to the input being set.
+   *
+   * @param event
+   * @private
+   */
+  private skipOnModifier(event:MouseEvent|KeyboardEvent) {
+    return this.skipEventModifiers && event instanceof MouseEvent && LinkHandling.isClickedWithModifier(event);
   }
 }

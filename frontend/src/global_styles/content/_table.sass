@@ -150,8 +150,9 @@ table.generic-table
     tr:not(.-no-highlighting)
       border-bottom: 1px solid var(--table-row-border-color)
 
-    td:not(.-no-ellipsis)
-      @include text-shortener
+    @media screeen
+      td:not(.-no-ellipsis)
+        @include text-shortener
 
     td
       max-width: 300px
@@ -185,8 +186,9 @@ table.generic-table
       // as a result, td.-max will aways have at least a width of max-width, but it can
       // become even wider.
       &.-max
-        width: 100%
-        max-width: 500px
+        @media screen
+          width: 100%
+          max-width: 500px
 
       // The avatar image is not taken into the width calculation of the table cell by the browser.
          That is why we add the space manually.

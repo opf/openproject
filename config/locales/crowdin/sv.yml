@@ -63,16 +63,16 @@ sv:
         main-menu-bg-color: "Bakgrundsfärg på den vänstra sidomenyn."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
+      upgrade_to_ee: "Uppgradera till Enterprise Edition"
       add_token: "Ladda upp en Enterprise Edition support-nyckel"
       replace_token: "Ersätta din nuvarande support-nyckel"
       order: "Beställ Enterprise Edition"
       paste: "Klistra in din Enterprise Edition support-nyckel"
       required_for_feature: "Denna funktion är endast tillgänglig med en aktiv Enterprise Edition support-nyckel."
       enterprise_link: "För mer information, klicka här."
-      start_trial: 'Start free trial'
-      book_now: 'Book now'
-      get_quote: 'Get a quote'
+      start_trial: 'Starta fri provperiod'
+      book_now: 'Boka nu'
+      get_quote: 'Få en offert'
   announcements:
     show_until: Visa fram till
     is_active: visas för tillfället
@@ -202,7 +202,6 @@ sv:
       completed: "Borttagning av projekt %{name} slutfört"
       completed_text: "Begäran om att ta bort projekt '%{name}' har slutförts."
     index:
-      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -754,7 +753,6 @@ sv:
     content: "Innehåll"
     color: "Färg"
     created_at: "Skapat den"
-    created_on: "Skapat den"
     custom_options: "Möjliga värden"
     custom_values: "Anpassade fält"
     date: "Datum"
@@ -1030,6 +1028,7 @@ sv:
   default_role_anonymous: "Anonym"
   default_role_developer: "Utvecklare"
   default_role_project_admin: "Projektadministratör"
+  default_role_project_creator: "Projektskapare"
   default_role_non_member: "Icke medlem"
   default_role_reader: "Läsare"
   default_role_member: "Medlem"
@@ -1197,11 +1196,13 @@ sv:
       blog: "OpenProject blogg"
       forums: "Community forum"
       newsletter: "Säkerhetsnotifieringar / Nyhetsbrev"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
-    changes_retracted: "The changes were retracted."
+    changes_retracted: "Förändringarna drogs tillbaka."
   links:
     configuration_guide: 'Konfigurationsguide'
-    get_in_touch: "You have questions? Get in touch with us."
+    get_in_touch: "Har du frågor? Ta kontakt med oss."
   instructions_after_registration: "Du kan logga in så snart ditt konto har aktiverats genom att klicka på %{signin}."
   instructions_after_logout: "Du kan logga in igen genom att klicka på %{signin}."
   instructions_after_error: "Du kan försöka logga in igen genom att klicka på %{signin}. Om felet kvarstår, be din systemadministratör om hjälp."
@@ -1734,21 +1735,26 @@ sv:
   label_workflow_summary: "Sammanfattning"
   label_x_closed_work_packages_abbr:
     zero: "0 closed"
-    one: "en stängd"
-    other: "%{count} stängda"
+    one: ""
+    other: ""
   label_x_comments:
     zero: "no comments"
-    one: "En kommentar"
-    other: "%{count} kommentarer"
+    one: ""
+    other: ""
   label_x_open_work_packages_abbr:
     zero: "0 open"
-    one: "en öppen"
-    other: "%{count} öppnade"
+    one: ""
+    other: ""
   label_x_projects:
     zero: "no projects"
-    one: "Ett projekt"
-    other: "%{count} projekt"
+    one: ""
+    other: ""
   label_yesterday: "igår"
+  label_role_type: "Typ"
+  label_member_role: "Projektroll"
+  label_global_role: "Globalroll"
+  label_not_changeable: "(kan inte ändras)"
+  label_global: "Global"
   auth_source:
     using_abstract_auth_source: "Kan inte använda en abstrakt autentiseringskälla."
     ldap_error: "LDAP-fel: %{error_message}"
@@ -2563,7 +2569,7 @@ sv:
       mail_self_notified: "Jag vill bli meddelad om ändringar som jag själv gör"
     status_user_and_brute_force: "%{user} och %{brute_force}"
     status_change: "Statusändring"
-    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
+    text_change_disabled_for_provider_login: "Namnet är satt av din inloggningsleverantör och kan därför inte ändras."
     unlock: "Lås upp"
     unlock_and_reset_failed_logins: "Lås upp och nollställ misslyckade inloggningsförsök"
   version_status_closed: "stängt"

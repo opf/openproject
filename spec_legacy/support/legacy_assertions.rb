@@ -82,47 +82,12 @@ module LegacyAssertionsAndHelpers
     file
   end
 
-  def save_and_open_page
-    body = response.body
-
-    body.gsub!('/assets', '../../public/assets')
-
-    FileUtils.mkdir_p(Rails.root.join('tmp/pages'))
-
-    page_path = Rails.root.join("tmp/pages/#{SecureRandom.hex(16)}.html").to_s
-    File.open(page_path, 'w') do |f| f.write(body) end
-
-    Launchy.open(page_path)
-
-    begin
-      binding.pry
-    rescue NoMethodError
-      debugger
-    end
-
-    FileUtils.rm(page_path)
-  end
-
-  # Use a temporary directory for attachment related tests
-  def set_tmp_attachments_directory
-    attachments_path = Rails.root.join('tmp/test/attachments')
-    FileUtils.mkdir_p(attachments_path)
-    Attachment.storage_path = attachments_path.to_s
-  end
-
   def with_settings(options, &_block)
     saved_settings = options.keys.inject({}) { |h, k| h[k] = Setting[k].dup; h }
     options.each do |k, v| Setting[k] = v end
     yield
   ensure
     saved_settings.each { |k, v| Setting[k] = v }
-  end
-
-  def change_user_password(login, new_password)
-    user = User.find_by_login(login)
-    user.password = new_password
-    user.password_confirmation = new_password
-    user.save!
   end
 
   # Shoulda macros
@@ -139,15 +104,6 @@ module LegacyAssertionsAndHelpers
   def should_render_404
     should respond_with :not_found
     should render_template 'common/error'
-  end
-
-  def should_create_a_new_user(&block)
-    # it "create a new user" do
-    user = instance_eval &block
-    assert user
-    assert_kind_of User, user
-    assert !user.new_record?
-    # end
   end
 
   def should_respond_with_content_type(content_type)

@@ -47,7 +47,13 @@ export class APIv3BoardPath extends CachableAPIV3Resource<Board> {
       .id(this.id)
       .get()
       .pipe(
-        map(grid => new Board(grid))
+        map(grid => {
+          const newBoard = new Board(grid);
+
+          newBoard.sortWidgets();
+
+          return newBoard;
+        })
       );
   }
 

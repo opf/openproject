@@ -46,7 +46,7 @@ module Components
       end
 
       def autocompleter_results_selector
-        '.wp-query-menu--results-container'
+        '.collapsible-menu--results-container'
       end
 
       def autocompleter_selector

@@ -44,7 +44,7 @@ describe WikiPage, type: :model do
     let(:project) { model_instance.project }
   end
 
-  describe '#create' do
+  describe '#slug' do
     context 'when another project with same title exists' do
       let(:project2) { FactoryBot.create(:project) }
       let(:wiki2) { project2.wiki }
@@ -56,6 +56,14 @@ describe WikiPage, type: :model do
         expect(pages.count).to eq(2)
         expect(pages.first.slug).to eq('asdf')
         expect(pages.last.slug).to eq('asdf')
+      end
+    end
+
+    context 'when only having a . for the title' do
+      let(:wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki, title: '.') }
+
+      it 'creates a non empty slug' do
+        expect(wiki_page.slug).to eq('dot')
       end
     end
   end

@@ -31,12 +31,12 @@
 class Notifications::JournalNotificationService
   class << self
     def call(journal, send_mails)
-      enqueue_work_package_notification(journal, send_mails) if supported?(journal)
+      enqueue_notification(journal, send_mails) if supported?(journal)
     end
 
     private
 
-    def enqueue_work_package_notification(journal, send_mails)
+    def enqueue_notification(journal, send_mails)
       NotifyJournalCompletedJob
         .set(wait_until: delivery_time)
         .perform_later(journal.id, send_mails)

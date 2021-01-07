@@ -198,7 +198,6 @@ lt:
       completed: "Projekto %{name} naikinimas baigtas"
       completed_text: "Prašymas naikinti projektą „%{name}“ buvo užbaigtas."
     index:
-      edit_columns: 'Redaguoti stulpelius'
       open_as_gantt: 'Atidaryti kaip Gantt diagramą'
       open_as_gantt_title: "Naudokite šį mygtuką visų šiame puslapyje matomų projektų darbo užduočių Gantt'o diagramai sugeneruoti."
       open_as_gantt_title_admin: "Galite pakeisti vaizdo parametrus (tokius kaip pasirinkti darbo užduočių tipai) administravimo dalyje prie projekto nustatymų."
@@ -534,7 +533,7 @@ lt:
         invalid_url: 'nėra tinkamas URL.'
         invalid_url_scheme: 'nėra palaikomos protokolas (leidžiamas: %{allowed_schemes}).'
         less_than_or_equal_to: "turi būti mažesnis arba lygus %{count}."
-        not_current_user: "is not the current user."
+        not_current_user: "nėra dabartinis vartotojas"
         not_a_date: "nėra tinkama data."
         not_a_datetime: "nėra tinkama data ir laikas."
         not_a_number: "nėra skaičius."
@@ -758,7 +757,6 @@ lt:
     content: "Turinys"
     color: "Spalva"
     created_at: "Sukurta"
-    created_on: "Sukurta"
     custom_options: "Galimos reikšmės"
     custom_values: "Pritaikyti laukai"
     date: "Data"
@@ -1058,6 +1056,7 @@ lt:
   default_role_anonymous: "Anonimas"
   default_role_developer: "Kūrėjas"
   default_role_project_admin: "Projekto administratorius"
+  default_role_project_creator: "Projekto autorius"
   default_role_non_member: "Nėra narys"
   default_role_reader: "Skaitytojas"
   default_role_member: "Narys"
@@ -1225,6 +1224,8 @@ lt:
       blog: "OpenProject blogas"
       forums: "Bendruomenės forumas"
       newsletter: "Saugos įspėjimai / Naujienos"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Pakeitimai buvo atšaukti."
   links:
@@ -1762,29 +1763,34 @@ lt:
   label_workflow_summary: "Santrauka"
   label_x_closed_work_packages_abbr:
     zero: "0 uždarytų"
-    one: "1 uždarytas"
-    few: "%{count} uždaryti (-as, -ų)"
-    many: "%{count} uždaryti (-as, -ų)"
-    other: "%{count} uždaryti (-as, -ų)"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_x_comments:
     zero: "nėra komentarų"
-    one: "1 komentatas"
-    few: "%{count} komentarai (-as, -ų)"
-    many: "%{count} komentarai (-as, -ų)"
-    other: "%{count} komentarai (-as, -ų)"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_x_open_work_packages_abbr:
     zero: "0 atvirų"
-    one: "1 atidarytas"
-    few: "%{count} atidaryti (-as, -ų)"
-    many: "%{count} atidaryti (-as, -ų)"
-    other: "%{count} atidaryti (-as, -ų)"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_x_projects:
     zero: "nėra projektų"
-    one: "1 projektas"
-    few: "%{count} projektai (-as, -ų)"
-    many: "%{count} projektai (-as, -ų)"
-    other: "%{count} projektai (-as, -ų)"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_yesterday: "vakar"
+  label_role_type: "Tipas"
+  label_member_role: "Projekto rolė"
+  label_global_role: "Globali rolė"
+  label_not_changeable: "(negalima pakeisti)"
+  label_global: "Globali"
   auth_source:
     using_abstract_auth_source: "Negalima naudoti abstraktaus autentifikavimo šaltinio."
     ldap_error: "LDAP-Klaida: %{error_message}"

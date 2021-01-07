@@ -55,6 +55,8 @@ lt:
     button_duplicate: "Dublikuoti"
     button_edit: "Redaguoti"
     button_filter: "Filtras"
+    button_collapse_all: "Sutraukti visus"
+    button_expand_all: "Išskleisti visus"
     button_advanced_filter: "Sudėtingesnis filtras"
     button_list_view: "Sąrašo rodinys"
     button_show_view: "Viso ekrano rodinys"
@@ -256,7 +258,6 @@ lt:
     general_text_yes: "taip"
     general_text_No: "Ne"
     general_text_Yes: "Taip"
-    global_roles: Globalios rolės
     hal:
       error:
         update_conflict_refresh: "Spauskite čia resurso atnaujinimui iki naujausios versijos."
@@ -270,13 +271,13 @@ lt:
           text_new_features: "Skaitykite apie naujas savybes ir produkto atnaujinimus."
           learn_about: "Sužinokite apie naujas galimybes"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
             current_new_feature_html: >
-              Šioje laidoje yra naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li><b>Planavimas iš viršaus į apačią</b> apibrėžia visas su projektu susijusias užduotis. Tėvinės užduoties pradžios ir pabaigos datų nebekeičia pakeitimai vaikinėse užduotyse.</li> <li><b>Universalios agile lentos</b> leidžia sukurti užduoties išdalinimo struktūrą arba paskirstyti užduotis į subprojektus.</li> <li><b>Projektų šablonai</b> lengvesniam naujų projektų kūrimui.</li> <li>Konfigūruojamas projektų puslapis, leidžiantis geresnį <b>projektų portfelio valdymą.</b></li> </ul>
+              Ši laida turi įvairias naujas galimybes ir patobulinimus: <br> <ul class="%{list_styling_class}"> <li>WYSIWYG redaktoriuje <b>pagerintas stilius</b>.</li> <li>Redaguojant iš karto rodomas <b>vartotojo vardas @kreipiniuose</b>.</li> <li>Autentifikavimo profilis praplėstas <b>OpenID Connect tiekėju.</b></li> <li>Gantt diagramoje projekto <b>sujungti etapai</b> rodomi vienoje eilutėje.</li> <li><b>Suskleisti viską mygtukas grupėms</b> darbo paketų sąraše.</li> <li><b>Spausdinimo optimizavimai</b> pvz., wiki puslapiams, naudojant naršyklės spausdinimo funkciją.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              Šioje laidoje yra naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li><b>Planavimas iš viršaus į apačią</b> apibrėžia visas su projektu susijusias užduotis. Tėvinės užduoties pradžios ir pabaigos datų nebekeičia pakeitimai vaikinėse užduotyse.</li> <li><b>Universalios agile lentos</b> leidžia sukurti užduoties išdalinimo struktūrą arba paskirstyti užduotis į subprojektus.</li> <li><b>Projektų šablonai</b> lengvesniam naujų projektų kūrimui.</li> <li>Konfigūruojamas projektų puslapis, leidžiantis geresnį <b>projektų portfelio valdymą.</b></li> </ul>
+              Ši laida turi įvairias naujas galimybes ir patobulinimus: <br> <ul class="%{list_styling_class}"> <li>WYSIWYG redaktoriuje <b>pagerintas stilius</b>.</li> <li>Redaguojant iš karto rodomas <b>vartotojo vardas @kreipiniuose</b>.</li> <li>Autentifikavimo profilis praplėstas <b>OpenID Connect tiekėju.</b></li> <li>Gantt diagramoje projekto <b>sujungti etapai</b> rodomi vienoje eilutėje.</li> <li><b>Suskleisti viską mygtukas grupėms</b> darbo paketų sąraše.</li> <li><b>Spausdinimo optimizavimai</b> pvz., wiki puslapiams, naudojant naršyklės spausdinimo funkciją.</li> </ul>
     label_activate: "Aktyvuoti"
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"
@@ -332,6 +333,7 @@ lt:
     label_filename: "Byla"
     label_filesize: "Dydis"
     label_general: "Bendra"
+    label_global_roles: "Globalios rolės"
     label_greater_or_equal: ">="
     label_group: 'Grupė'
     label_group_by: "Grupuoti pagal"
@@ -361,7 +363,7 @@ lt:
     label_next: "Kitas"
     label_no_color: "Be spalvų"
     label_no_data: "Nėra rodytinų duomenų"
-    label_no_due_date: "nėra pabaigos datos"
+    label_no_due_date: "be pabaigos datos"
     label_no_start_date: "nėra pradžios datos"
     label_no_value: "Nenurodytas dydis"
     label_none: "joks"
@@ -942,10 +944,10 @@ lt:
         other: "%{count} darbų paketo vaikai"
       hour:
         zero: "0 h"
-        one: "1 val"
-        few: "%{count} val"
-        many: "%{count} val"
-        other: "%{count} val"
+        one: ""
+        few: ""
+        many: ""
+        other: ""
     zen_mode:
       button_activate: 'Įjungti Zen režimą'
       button_deactivate: 'Išjungti Zen režimą'

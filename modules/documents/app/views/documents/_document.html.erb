@@ -28,8 +28,8 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <h4 class="document-category-elements--header"><%= link_to h(document.title), :controller => '/documents', :action => 'show', :id => document %></h4>
-<p class="document-category-elements--date"><em><%= format_time(document.updated_on) %></em></p>
+<p class="document-category-elements--date"><em><%= format_time(document.updated_at) %></em></p>
 
-<div class="wiki">
+<div class="wiki op-uc-container">
 	<%= format_text(truncate_lines(document.description)) %>
 </div>

@@ -1,6 +1,8 @@
 # Installation and Operations Guides
 
-This section concerns the installation and operation of OpenProject (Community and Enterprise editions).
+This section concerns the installation and operation of **OpenProject** (Community and Enterprise on-premises editions) for general project management.
+
+For installation of the **OpenProject BIM edition** for construction project management, choose OpenProject BIM in Step 1. Then, follow the standard installation steps as described in the guideline.
 
 ## Overview
 
@@ -20,4 +22,4 @@ A [manual installation](installation/manual) option is also documented, but due 
 
 ### Are there extra fees to pay, in terms of installing the OpenProject software?
 
-The Community and [Enterprise Edition](https://www.openproject.org/enterprise-edition/) are on premise solutions and thus need installation from your side while the [Cloud Edition](https://www.openproject.org/hosting/) is hosted by us. The Community Edition is for free and we ask you to do the installation yourself. Of course we support you with a clear and easy [installation guide](https://www.openproject.org/download-and-installation/). If you would like us to install the Enterprise Edition for you, we are charging a fee of €150 for this once-off service. You can add the installation support during your Enterprise Edition booking process.
+The Community and [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/) are on-premises solutions and thus need installation from your side while the [Enterprise cloud edition](https://www.openproject.org/hosting/) is hosted by us. The Community edition is for free and we ask you to do the installation yourself. Of course we support you with a clear and easy [installation guide](https://www.openproject.org/download-and-installation/). If you would like us to install the Enterprise on-premises edition for you, we are charging a fee of €150 for this once-off service. You can add the installation support during your Enterprise on-premises edition booking process.

@@ -54,4 +54,8 @@ FactoryBot.define do
       member.principal ||= options.user || FactoryBot.build_stubbed(:user)
     end
   end
+
+  factory :global_member, parent: :member do
+    project { nil }
+  end
 end

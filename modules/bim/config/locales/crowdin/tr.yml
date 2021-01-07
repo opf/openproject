@@ -15,8 +15,8 @@ tr:
       file_invalid: "BCF dosyası geçersiz"
     x_bcf_issues:
       zero: 'BCF sorunu yok'
-      one: 'Bir BCF sorunu'
-      other: '%{count} BCF sorunu'
+      one: ''
+      other: ''
     bcf_xml:
       xml_file: 'BCF XML Dosyası'
       import_title: 'İçeri Aktar'

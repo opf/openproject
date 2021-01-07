@@ -55,6 +55,8 @@ ca:
     button_duplicate: "Duplicar"
     button_edit: "Editar"
     button_filter: "Filtre"
+    button_collapse_all: "Replega-ho tot"
+    button_expand_all: "Expandeix tot"
     button_advanced_filter: "Filtres avançats"
     button_list_view: "Vista de llista"
     button_show_view: "Vista de pantalla completa"
@@ -256,7 +258,6 @@ ca:
     general_text_yes: "sí"
     general_text_No: "No"
     general_text_Yes: "Sí"
-    global_roles: Global Roles
     hal:
       error:
         update_conflict_refresh: "Cliqui aquí per refrescar la font i actualitzar a la última versió."
@@ -270,13 +271,13 @@ ca:
           text_new_features: "Llegeixi sobre les noves característiques i actualitzacions del producte. "
           learn_about: "Aprengui més sobre les noves característiques"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
     label_activate: "Activar"
     label_add_column_after: "Afegir columna desprès"
     label_add_column_before: "Afegir columna abans"
@@ -332,6 +333,7 @@ ca:
     label_filename: "Fitxer"
     label_filesize: "Mida"
     label_general: "General"
+    label_global_roles: "Global Roles"
     label_greater_or_equal: ">="
     label_group: 'Grup'
     label_group_by: "Agrupa per"
@@ -361,7 +363,7 @@ ca:
     label_next: "Següent"
     label_no_color: "Sense color"
     label_no_data: "No hi ha dades per mostrar"
-    label_no_due_date: "no hi ha data de finalització"
+    label_no_due_date: "no finish date"
     label_no_start_date: "no hi ha data d'inici"
     label_no_value: "Cap valor"
     label_none: "cap"
@@ -938,8 +940,8 @@ ca:
         other: "%{count} work package children"
       hour:
         zero: "0 h"
-        one: "1 h"
-        other: "%{count} h"
+        one: ""
+        other: ""
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'

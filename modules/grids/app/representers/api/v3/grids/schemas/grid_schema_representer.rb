@@ -33,9 +33,9 @@ module API
     module Grids
       module Schemas
         class GridSchemaRepresenter < ::API::Decorators::SchemaRepresenter
-          def initialize(represented, self_link = nil, current_user: nil, form_embedded: false)
+          def initialize(represented, self_link: nil, current_user: nil, form_embedded: false)
             super(represented,
-                  self_link,
+                  self_link: self_link,
                   current_user: current_user,
                   form_embedded: form_embedded)
           end

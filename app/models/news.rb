@@ -31,7 +31,7 @@ class News < ApplicationRecord
   belongs_to :project
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
   has_many :comments, -> {
-    order('created_on')
+    order(:created_at)
   }, as: :commented, dependent: :delete_all
 
   validates_presence_of :title
@@ -40,8 +40,7 @@ class News < ApplicationRecord
 
   acts_as_journalized
 
-  acts_as_event url: Proc.new { |o| { controller: '/news', action: 'show', id: o.id } },
-                datetime: :created_at
+  acts_as_event url: Proc.new { |o| { controller: '/news', action: 'show', id: o.id } }
 
   acts_as_searchable columns: ["#{table_name}.title", "#{table_name}.summary", "#{table_name}.description"],
                      include: :project,

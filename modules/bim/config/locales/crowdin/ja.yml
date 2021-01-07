@@ -15,7 +15,7 @@ ja:
       file_invalid: "BCFファイルが無効"
     x_bcf_issues:
       zero: 'BCF チケットがありません'
-      other: '%{count} BCFチケット'
+      other: ''
     bcf_xml:
       xml_file: 'BCF XML ファイル'
       import_title: 'インポート'

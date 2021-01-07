@@ -55,6 +55,8 @@ de:
     button_duplicate: "Duplizieren"
     button_edit: "Bearbeiten"
     button_filter: "Filter"
+    button_collapse_all: "Alle zuklappen"
+    button_expand_all: "Alle ausklappen"
     button_advanced_filter: "Erweiterte Filter"
     button_list_view: "Listenansicht"
     button_show_view: "Vollbildansicht"
@@ -255,7 +257,6 @@ de:
     general_text_yes: "ja"
     general_text_No: "Nein"
     general_text_Yes: "Ja"
-    global_roles: Globale Rollen
     hal:
       error:
         update_conflict_refresh: "Klicken Sie hier, um die Ressource auf die neueste Version zu aktualisieren."
@@ -269,13 +270,13 @@ de:
           text_new_features: "Lesen Sie über neue Funktionen und Updates."
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
             current_new_feature_html: >
-              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li><b>Top-Down-Planung</b> um alle Projektaufgaben zu definieren. Dabei sind die Anfangs- und Enddaten eines Elternelements unabhängig von den Daten der Unteraufgaben.</li> <li><b>Vielseitige agile Boards</b> ermöglichen Ihnen die Erstellung eines Projektstrukturplans oder die Verteilung von Aufgaben auf Unterprojekte.</li> <li><b>Projektvorlagen</b> zur einfachen Erstellung neuer Projekte.</li> <li>Konfiguration der Projektseite ermöglicht ein besseres <b>Projektportfolio-Management.</b></li> </ul>
+              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li><b>Verbessertes Styling</b>  des WYSIWYG-Editors.</li> <li>Direkte Anzeige von <b>Benutzernamen für @Benachrichtigungen</b> während der Bearbeitung.</li> <li>Erweitertes Authentifizierungsprofil mit einem <b>OpenID Connect Provider.</b></li> <li>Darstellung von Projekt-<b>Meilensteinen aggregiert</b> in einer Zeile im Gantt-Diagramm.</li> <li><b>Button zum Einklappen von Gruppen</b> in der Arbeitspaketliste.</li> <li><b>Optimierung für das Drucken,</b> z.B. von Wiki-Seiten, über die Druckfunktion des Browsers.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li><b>Top-Down-Planung</b> um alle Projektaufgaben zu definieren. Dabei sind die Anfangs- und Enddaten eines Elternelements unabhängig von den Daten der Unteraufgaben.</li> <li><b>Vielseitige agile Boards</b> ermöglichen Ihnen die Erstellung eines Projektstrukturplans oder die Verteilung von Aufgaben auf Unterprojekte.</li> <li><b>Projektvorlagen</b> zur einfachen Erstellung neuer Projekte.</li> <li>Konfiguration der Projektseite ermöglicht ein besseres <b>Projektportfolio-Management.</b></li> </ul>
+              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li><b>Verbessertes Styling</b>  des WYSIWYG-Editors.</li> <li>Direkte Anzeige von <b>Benutzernamen für @Benachrichtigungen</b> während der Bearbeitung.</li> <li>Erweitertes Authentifizierungsprofil mit einem <b>OpenID Connect Provider.</b></li> <li>Darstellung von Projekt-<b>Meilensteinen aggregiert</b> in einer Zeile im Gantt-Diagramm.</li> <li><b>Button zum Einklappen von Gruppen</b> in der Arbeitspaketliste.</li> <li><b>Optimierung für das Drucken,</b> z.B. von Wiki-Seiten, über die Druckfunktion des Browsers.</li> </ul>
     label_activate: "Aktiviere"
     label_add_column_after: "Spalte danach hinzufügen"
     label_add_column_before: "Spalte davor hinzufügen"
@@ -331,6 +332,7 @@ de:
     label_filename: "Datei"
     label_filesize: "Größe"
     label_general: "Allgemein"
+    label_global_roles: "Globale Rollen"
     label_greater_or_equal: ">="
     label_group: 'Gruppe'
     label_group_by: "Gruppiere Ergebnisse"
@@ -360,7 +362,7 @@ de:
     label_next: "Weiter"
     label_no_color: "Keine Farbe"
     label_no_data: "Es sind keine Daten vorhanden"
-    label_no_due_date: "kein Abgabedatum"
+    label_no_due_date: "kein Endtermin"
     label_no_start_date: "kein Startdatum"
     label_no_value: "Kein Wert"
     label_none: "keine"
@@ -477,7 +479,7 @@ de:
           drag: 'Ziehen Sie Ihre Karten in eine Liste, um diese zu sortieren oder weisen Sie diese einer anderen Liste zu. Ein Doppelklick auf eine Karte öffnet die Detailansicht.'
         wp:
           toggler: "Hier sind die <b>Arbeitspakete</b>, die Ihnen eine detailliertere Sicht auf die Arbeit in Ihrem Projekt geben."
-          list: 'Dies ist die Liste der wichtigen <b>Arbeitspakete</b> in Ihrem Projekt, z.B. Aufgaben, Funktionen, Meilensteine, Fehler, und Vieles mehr. <br> Sie können neue Arbeitspakete direkt in der Liste anlegen und bearbeiten. Ein Doppelklick auf die Zeile öffnet die Detailansicht.'
+          list: 'Dies ist die Liste der wichtigen <b>Arbeitspakete</b> in Ihrem Projekt, z.B. Aufgaben, Funktionen, Meilensteine, Fehler, und Vieles mehr. <br> Sie können neue Arbeitspakete direkt in der Liste anlegen und bearbeiten. Ein Doppelklick auf eine Zeile öffnet die Detailansicht.'
           full_view: 'In der <b>Arbeitspaket-Detailansicht</b> finden Sie alle wichtigen Informationen, wie Beschreibung, Status und Priorität, Aktivitäten, Abhängigkeiten oder Kommentare.'
           back_button: 'Mit dem Pfeil kommen Sie zurück in die Listenansicht.'
           create_button: 'Mit <b>Anlegen</b> Können Sie neue Arbeitspakete Ihrem Projekt hinzufügen.'
@@ -740,7 +742,7 @@ de:
       property_groups:
         details: "Details"
         people: "Personen"
-        estimatesAndTime: "Schätzungen & Zeit"
+        estimatesAndTime: "Schätzungen & Zeiten"
         other: "Andere"
       properties:
         assignee: "Zugewiesen an"
@@ -937,8 +939,8 @@ de:
         other: "%{count} untergeordnete Arbeitspakete"
       hour:
         zero: "0 h"
-        one: "%{count} h"
-        other: "%{count} h"
+        one: ""
+        other: ""
     zen_mode:
       button_activate: 'Zen-Modus aktivieren'
       button_deactivate: 'Zen-Modus deaktivieren'

@@ -202,7 +202,6 @@ ro:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
-      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -538,7 +537,7 @@ ro:
         invalid_url: 'nu este o adresa URL validă.'
         invalid_url_scheme: 'nu este un protocol permis (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "trebuie să fie mai mic sau egal cu %{count}."
-        not_current_user: "is not the current user."
+        not_current_user: "nu este utilizatorul curent."
         not_a_date: "is not a valid date."
         not_a_datetime: "is not a valid date time."
         not_a_number: "nu este un număr."
@@ -759,7 +758,6 @@ ro:
     content: "Conținut"
     color: "Culoare"
     created_at: "Creat pe"
-    created_on: "Creat pe"
     custom_options: "Valori posibile"
     custom_values: "Câmpuri personalizate"
     date: "Dată"
@@ -1047,6 +1045,7 @@ ro:
   default_role_anonymous: "Anonim"
   default_role_developer: "Programator"
   default_role_project_admin: "Admin proiect"
+  default_role_project_creator: "Project creator"
   default_role_non_member: "Non-membru"
   default_role_reader: "Cititor"
   default_role_member: "Membru"
@@ -1214,6 +1213,8 @@ ro:
       blog: "Blog-ul OpenProject"
       forums: "Forum comunitate"
       newsletter: "Security alerts / Newsletter"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
   links:
@@ -1751,25 +1752,30 @@ ro:
   label_workflow_summary: "Descriere"
   label_x_closed_work_packages_abbr:
     zero: "0 closed"
-    one: "unul închis"
-    few: "%{count} închise"
-    other: "%{count} închise"
+    one: ""
+    few: ""
+    other: ""
   label_x_comments:
     zero: "no comments"
-    one: "un comentariu"
-    few: "%{count} comentarii"
-    other: "%{count} comentarii"
+    one: ""
+    few: ""
+    other: ""
   label_x_open_work_packages_abbr:
     zero: "0 open"
-    one: "unul deschis"
-    few: "%{count} deschise"
-    other: "%{count} deschise"
+    one: ""
+    few: ""
+    other: ""
   label_x_projects:
     zero: "no projects"
-    one: "un proiect"
-    few: "%{count} proiecte"
-    other: "%{count} proiecte"
+    one: ""
+    few: ""
+    other: ""
   label_yesterday: "ieri"
+  label_role_type: "Tip"
+  label_member_role: "Project Role"
+  label_global_role: "Global Role"
+  label_not_changeable: "(not changeable)"
+  label_global: "Global"
   auth_source:
     using_abstract_auth_source: "Nu poate fi folosită o sursă de autentificare abstractă."
     ldap_error: "Eroare LDAP: %{error_message}"

@@ -44,7 +44,7 @@ describe News::CommentsController, type: :controller do
 
       expect(response).to redirect_to news_path(news)
 
-      latest_comment = news.comments.reorder(Arel.sql('created_on DESC')).first
+      latest_comment = news.comments.reorder(created_at: :desc).first
       expect(latest_comment).not_to be_nil
       expect(latest_comment.comments).to eq 'This is a test comment'
       expect(latest_comment.author).to eq user

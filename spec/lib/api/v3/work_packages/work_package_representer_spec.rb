@@ -133,7 +133,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it_behaves_like 'API V3 formattable', 'description' do
         let(:format) { 'markdown' }
         let(:raw) { work_package.description }
-        let(:html) { '<p>' + work_package.description + '</p>' }
+        let(:html) { '<p class="op-uc-p">' + work_package.description + '</p>' }
       end
 
       describe 'scheduleManually' do
@@ -1073,7 +1073,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         before do
           allow(work_package)
-            .to receive_message_chain(:visible_relations, :non_hierarchy, :includes)
+            .to receive_message_chain(:visible_relations, :direct, :non_hierarchy, :includes)
             .and_return([relation])
         end
 

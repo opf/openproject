@@ -201,7 +201,6 @@ sl:
       completed: "Projekt %{name} izbrisan"
       completed_text: "Zahteva za izbris projekta '%{name}' je zaključena."
     index:
-      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -761,7 +760,6 @@ sl:
     content: "Vsebina"
     color: "Barva"
     created_at: "Ustvarjeno dne"
-    created_on: "Ustvarjeno dne"
     custom_options: "Možne vrednosti"
     custom_values: "Polja po meri"
     date: "Datum"
@@ -1061,6 +1059,7 @@ sl:
   default_role_anonymous: "Anonimno"
   default_role_developer: "Razvijalec"
   default_role_project_admin: "Skrbnik projekta"
+  default_role_project_creator: "Avtor projekta"
   default_role_non_member: "Nečlan"
   default_role_reader: "Bralec"
   default_role_member: "Član"
@@ -1228,6 +1227,8 @@ sl:
       blog: "Blog OpenProject"
       forums: "Forum skupnosti"
       newsletter: "Varnostna opozorila / Glasilo"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Spremembe so bile umaknjene."
   links:
@@ -1765,29 +1766,34 @@ sl:
   label_workflow_summary: "Povzetek"
   label_x_closed_work_packages_abbr:
     zero: "0 zaprtih"
-    one: "1 zaprt"
-    two: "dva zaprta"
-    few: "več zaprtih"
-    other: "%{count} zaprtih"
+    one: ""
+    two: ""
+    few: ""
+    other: ""
   label_x_comments:
     zero: "Ni komentarjev"
-    one: "1 komentar"
-    two: "2 komentarja"
-    few: "Več komentarjev"
-    other: "% {count} komentarjev"
+    one: ""
+    two: ""
+    few: ""
+    other: ""
   label_x_open_work_packages_abbr:
     zero: "0 odprtih"
-    one: "1 odprt"
-    two: "2 odprta\n"
-    few: "Več odprtih"
-    other: "% {count} odprto"
+    one: ""
+    two: ""
+    few: ""
+    other: ""
   label_x_projects:
     zero: "Brez projektov"
-    one: "1 projekt"
-    two: "2 projekta"
-    few: "Več projektov"
-    other: "% {count} projektov"
+    one: ""
+    two: ""
+    few: ""
+    other: ""
   label_yesterday: "včeraj"
+  label_role_type: "Vrsta"
+  label_member_role: "Projektne vloge"
+  label_global_role: "Globalne vloge"
+  label_not_changeable: "(ne spremenljivo)"
+  label_global: "Globalno"
   auth_source:
     using_abstract_auth_source: "Ne morem uporabiti vira abstraktne avtentikacije."
     ldap_error: "LDAP-Napaka: %{error_message}"

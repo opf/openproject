@@ -43,7 +43,7 @@ describe SysController, type: :controller do
     it 'should projects with repository enabled' do
       get :projects
       assert_response :success
-      assert_equal 'application/xml', response.content_type
+      assert_equal 'application/xml; charset=utf-8', response.content_type
       assert_select 'projects', children: { count: Project.active.has_module(:repository).count }
     end
 

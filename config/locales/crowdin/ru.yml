@@ -201,7 +201,6 @@ ru:
       completed: "Удаление проекта %{name} завершено"
       completed_text: "Запрос на удаление проекта '%{name}' был завершен."
     index:
-      edit_columns: 'Изменить столбцы'
       open_as_gantt: 'Открыть в виде Gantt'
       open_as_gantt_title: "Используйте эту кнопку для создания представления Гантта, фильтрующего пакеты работ, видимых на этой странице."
       open_as_gantt_title_admin: "Вы можете изменить настройки вида (такие как выбранные типы пакетов работ) в администрировании в настройках проекта."
@@ -538,7 +537,7 @@ ru:
         invalid_url: 'не является допустимым URL-адресом.'
         invalid_url_scheme: 'не является поддерживаемым протоколом (разрешены следующие: %{allowed_schemes}).'
         less_than_or_equal_to: "должно быть меньше или равно %{count}."
-        not_current_user: "is not the current user."
+        not_current_user: "не является текущим пользователем."
         not_a_date: "не является допустимой датой."
         not_a_datetime: "дата и время не являются допустимыми."
         not_a_number: "не является числом."
@@ -762,7 +761,6 @@ ru:
     content: "Содержание"
     color: "Цвет"
     created_at: "Создано"
-    created_on: "Создано"
     custom_options: "Возможные значения"
     custom_values: "Настраиваемые поля"
     date: "Дата"
@@ -1062,6 +1060,7 @@ ru:
   default_role_anonymous: "Анонимно"
   default_role_developer: "Разработчик"
   default_role_project_admin: "Администратор проекта"
+  default_role_project_creator: "Создатель проекта"
   default_role_non_member: "Не участник"
   default_role_reader: "Читатель"
   default_role_member: "Участник"
@@ -1229,6 +1228,8 @@ ru:
       blog: "Openproject блог"
       forums: "Форум сообщества"
       newsletter: "Оповещения системы безопасности / Новости"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Изменения отменены."
   links:
@@ -1766,29 +1767,34 @@ ru:
   label_workflow_summary: "Сводка"
   label_x_closed_work_packages_abbr:
     zero: "0 закрытых"
-    one: "1 закрыто"
-    few: "%{count} закрыто"
-    many: "%{count} закрыто"
-    other: "%{count} закрыто"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_x_comments:
     zero: "нет комментариев"
-    one: "1 комментарий"
-    few: "%{count} комментариев"
-    many: "%{count} комментариев"
-    other: "%{count} комментариев"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_x_open_work_packages_abbr:
     zero: "0 открытых"
-    one: "1 открыт"
-    few: "%{count} открыто"
-    many: "%{count} открыто"
-    other: "%{count} открыто"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_x_projects:
     zero: "нет проектов"
-    one: "1 проект"
-    few: "%{count} проектов"
-    many: "%{count} проектов"
-    other: "%{count} проектов"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_yesterday: "вчера"
+  label_role_type: "Тип"
+  label_member_role: "Роль проекта"
+  label_global_role: "Глобальная роль"
+  label_not_changeable: "(неизменяемая)"
+  label_global: "Глобальная"
   auth_source:
     using_abstract_auth_source: "Нельзя использовать абстрактную аутентификацию."
     ldap_error: "LDAP-ошибка: %{error_message}"

@@ -48,4 +48,28 @@ describe OpenProject::AccessControl::Permission do
       end
     end
   end
+
+  describe '#global?' do
+    describe 'setting global permission' do
+      before { @permission = OpenProject::AccessControl::Permission.new(:perm, { cont: [:action] }, { global: true }) }
+
+      it { expect(@permission.global?).to be_truthy }
+    end
+
+    describe 'setting non global permission' do
+      before { @permission = OpenProject::AccessControl::Permission.new :perm, { cont: [:action] }, { global: false } }
+
+      it 'is false' do
+        expect(@permission.global?).to be_falsey
+      end
+    end
+
+    describe 'not specifying -> default' do
+      before { @permission = OpenProject::AccessControl::Permission.new :perm, { cont: [:action] }, {} }
+
+      it 'is false' do
+        expect(@permission.global?).to be_falsey
+      end
+    end
+  end
 end

@@ -43,7 +43,10 @@ module API
 
           get do
             path = api_v3_paths.projects_by_version @version.id
-            Projects::ProjectCollectionRepresenter.new(@projects, path, current_user: current_user)
+            Projects::ProjectCollectionRepresenter
+              .new(@projects,
+                   self_link: path,
+                   current_user: current_user)
           end
         end
       end

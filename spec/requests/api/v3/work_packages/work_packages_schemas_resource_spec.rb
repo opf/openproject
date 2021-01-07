@@ -153,7 +153,7 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
                                     type: type)
           self_link = api_v3_paths.work_package_schema(project.id, type.id)
           represented_schema = representer_class.create(schema,
-                                                        self_link,
+                                                        self_link: self_link,
                                                         current_user: current_user)
 
           expect(OpenProject::Cache.fetch(represented_schema.json_cache_key)).to_not be_nil

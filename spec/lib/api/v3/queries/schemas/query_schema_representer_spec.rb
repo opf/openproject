@@ -50,7 +50,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
     query
   end
 
-  let(:instance) { described_class.new(query, self_link, current_user: user, form_embedded: form_embedded) }
+  let(:instance) { described_class.new(query, self_link: self_link, current_user: user, form_embedded: form_embedded) }
   let(:user) do
     FactoryBot.build_stubbed(:user).tap do |user|
       allow(user)

@@ -55,6 +55,8 @@ sl:
     button_duplicate: "Podvoji"
     button_edit: "Uredi"
     button_filter: "Filtriraj"
+    button_collapse_all: "Strni vse"
+    button_expand_all: "Razširi vse"
     button_advanced_filter: "Napredni filter"
     button_list_view: "Prikaz seznama"
     button_show_view: "Celozaslonski pogled"
@@ -255,7 +257,6 @@ sl:
     general_text_yes: "da"
     general_text_No: "Ne"
     general_text_Yes: "Da"
-    global_roles: Globalna pravila
     hal:
       error:
         update_conflict_refresh: "Kliknite tukaj za osvežitev vira in posodobite na najnovejšo različico."
@@ -269,13 +270,13 @@ sl:
           text_new_features: "Preberite o novih funkcijah in posodobitvah izdelka."
           learn_about: "Preberite več o novostih"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
     label_activate: "Aktiviraj"
     label_add_column_after: "Dodaj stolpec za"
     label_add_column_before: "Dodaj stolpec pred"
@@ -331,6 +332,7 @@ sl:
     label_filename: "Datoteka"
     label_filesize: "Velikost"
     label_general: "Splošno"
+    label_global_roles: "Globalna pravila"
     label_greater_or_equal: ">="
     label_group: 'Skupina'
     label_group_by: "Razvrsti po"
@@ -360,7 +362,7 @@ sl:
     label_next: "Naprej"
     label_no_color: "Brez barve"
     label_no_data: "Ni podatkov za prikaz"
-    label_no_due_date: "Brez končnega datuma"
+    label_no_due_date: "no finish date"
     label_no_start_date: "Brez začetnega datuma"
     label_no_value: "Brez vrednosti"
     label_none: "Brez"
@@ -941,10 +943,10 @@ sl:
         other: "%{count} podrejeni delovni paketi"
       hour:
         zero: "0 ur"
-        one: "%{count} ura"
-        two: "%{count} uri"
-        few: "%{count} ur"
-        other: "%{count} ur"
+        one: ""
+        two: ""
+        few: ""
+        other: ""
     zen_mode:
       button_activate: 'Omogočite zen način'
       button_deactivate: 'Onemogočite zen način'

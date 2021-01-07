@@ -31,8 +31,10 @@
 require 'spec_helper'
 
 describe Projects::CopyService, 'integration', type: :model do
+  shared_let(:status_locked) { FactoryBot.create :status, is_readonly: true }
   shared_let(:source) { FactoryBot.create :project, enabled_module_names: %w[wiki work_package_tracking] }
   shared_let(:source_wp) { FactoryBot.create :work_package, project: source, subject: 'source wp' }
+  shared_let(:source_wp_locked) { FactoryBot.create :work_package, project: source, subject: 'source wp locked', status: status_locked }
   shared_let(:source_query) { FactoryBot.create :query, project: source, name: 'My query' }
   shared_let(:source_category) { FactoryBot.create :category, project: source, name: 'Stock management' }
   shared_let(:source_version) { FactoryBot.create :version, project: source, name: 'Version A' }
@@ -47,6 +49,7 @@ describe Projects::CopyService, 'integration', type: :model do
                       member_through_role: role)
   end
   let(:role) { FactoryBot.create :role, permissions: %i[copy_projects view_work_packages] }
+  shared_let(:new_project_role) { FactoryBot.create :role, permissions: %i[] }
   let(:instance) do
     described_class.new(source: source, user: current_user)
   end
@@ -56,6 +59,14 @@ describe Projects::CopyService, 'integration', type: :model do
   end
   let(:params) do
     { target_project_params: target_project_params, only: only_args }
+  end
+
+  before do
+    with_enterprise_token(:readonly_work_packages)
+
+    allow(Setting)
+      .to receive(:new_project_user_role_id)
+      .and_return(new_project_role.id.to_s)
   end
 
   describe 'call' do
@@ -83,7 +94,8 @@ describe Projects::CopyService, 'integration', type: :model do
 
       expect(project_copy.members.count).to eq 1
       expect(project_copy.categories.count).to eq 1
-      expect(project_copy.work_packages.count).to eq 1
+      # normal wp and locked wp
+      expect(project_copy.work_packages.count).to eq 2
       expect(project_copy.forums.count).to eq 1
       expect(project_copy.forums.first.messages.count).to eq 1
       expect(project_copy.wiki).to be_present
@@ -107,6 +119,14 @@ describe Projects::CopyService, 'integration', type: :model do
 
       # Default attributes
       expect(project_copy).to be_active
+
+      # Default role being assigned according to setting
+      #  merged with the role the user already had.
+      member = project_copy.members.first
+      expect(member.principal)
+        .to eql(current_user)
+      expect(member.roles)
+        .to match_array [role, new_project_role]
     end
 
     it 'will copy the work package with category' do
@@ -114,7 +134,7 @@ describe Projects::CopyService, 'integration', type: :model do
 
       expect(subject).to be_success
 
-      wp = project_copy.work_packages.first
+      wp = project_copy.work_packages.find_by(subject: source_wp.subject)
       expect(wp.category.name).to eq 'Stock management'
       # Category got copied
       expect(wp.category.id).not_to eq source_category.id
@@ -155,7 +175,7 @@ describe Projects::CopyService, 'integration', type: :model do
       it 'will update the version' do
         expect(subject).to be_success
 
-        wp = project_copy.work_packages.first
+        wp = project_copy.work_packages.find_by(subject: source_wp.subject)
         expect(wp.version.name).to eq 'Assigned Issues'
         expect(wp.version).to be_closed
         expect(wp.version.id).not_to eq assigned_version.id
@@ -206,7 +226,7 @@ describe Projects::CopyService, 'integration', type: :model do
 
       let(:only_args) { %w[work_packages] }
 
-      it 'should copy issue relations' do
+      it 'should the relations relations' do
         expect(subject).to be_success
 
         expect(source.work_packages.count).to eq(project_copy.work_packages.count)
@@ -315,17 +335,18 @@ describe Projects::CopyService, 'integration', type: :model do
           let(:only_args) { %i[work_packages work_package_attachments] }
           it 'copies them' do
             expect(subject).to be_success
-            expect(project_copy.work_packages.count).to eq(2)
+            expect(project_copy.work_packages.count).to eq(3)
 
             wp = project_copy.work_packages.find_by(subject: work_package.subject)
             expect(wp.attachments.count).to eq(1)
+            expect(wp.attachments.first.author).to eql(current_user)
           end
         end
 
         context 'when not requested' do
           it 'ignores them' do
             expect(subject).to be_success
-            expect(project_copy.work_packages.count).to eq(2)
+            expect(project_copy.work_packages.count).to eq(3)
 
             wp = project_copy.work_packages.find_by(subject: work_package.subject)
             expect(wp.attachments.count).to eq(0)
@@ -351,7 +372,7 @@ describe Projects::CopyService, 'integration', type: :model do
 
         it 'copies the query and order' do
           expect(subject).to be_success
-          expect(project_copy.work_packages.count).to eq(4)
+          expect(project_copy.work_packages.count).to eq(5)
           expect(project_copy.queries.count).to eq(2)
 
           manual_query = project_copy.queries.find_by name: 'Manual query'
@@ -374,8 +395,8 @@ describe Projects::CopyService, 'integration', type: :model do
 
           it 'copies the query and order' do
             expect(subject).to be_success
-            # Only 3 out of the 4 work packages got copied this time
-            expect(project_copy.work_packages.count).to eq(3)
+            # Only 4 out of the 5 work packages got copied this time
+            expect(project_copy.work_packages.count).to eq(4)
             expect(project_copy.queries.count).to eq(2)
 
             manual_query = project_copy.queries.find_by name: 'Manual query'

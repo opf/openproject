@@ -28,10 +28,10 @@ cs:
     plugins:
       no_results_title_text: V současné době nejsou k dispozici žádné pluginy.
     custom_styles:
-      color_theme: "Color theme"
+      color_theme: "Barevné téma"
       color_theme_custom: "Vlastní"
       colors:
-        alternative-color: "Alternative"
+        alternative-color: "Alternativa"
         content-link-color: "Link font"
         primary-color: "Primární"
         primary-color-dark: "Primární (tmavé)"
@@ -39,20 +39,20 @@ cs:
         header-item-bg-hover-color: "Pozadí záhlaví při přejetí myší"
         header-item-font-color: "Písmo záhlaví"
         header-item-font-hover-color: "Písmo záhlaví při přejetí myší"
-        header-border-bottom-color: "Header border"
-        main-menu-bg-color: "Main menu background"
-        main-menu-bg-selected-background: "Main menu when selected"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
+        header-border-bottom-color: "Okraj záhlaví"
+        main-menu-bg-color: "Pozadí hlavního menu"
+        main-menu-bg-selected-background: "Hlavní menu při výběru"
+        main-menu-bg-hover-background: "Hlavní menu při přejetí myší"
+        main-menu-font-color: "Písmo hlavního menu"
+        main-menu-selected-font-color: "Písmo hlavního menu při výběru"
+        main-menu-hover-font-color: "Písmo hlavního menu při přejetí myší"
+        main-menu-border-color: "Okraj hlavního menu"
       custom_colors: "Vlastní barvy"
       customize: "Přizpůsobte si svou OpenProject instalaci vlastním logem. Poznámka: Logo bude veřejně přístupné."
       enterprise_notice: "Jako zvláštní 'Děkujeme!' za jejich finanční příspěvky na vývoj OpenProjektu, je tato malá funkce dostupná pouze pro podporu Enterprise Edition."
       manage_colors: "Upravit možnosti výběru barvy"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        alternative-color: "Silná barva zvýraznění, obvykle používaná pro nejdůležitější tlačítko na obrazovce."
         content-link-color: "Barva písma většiny odkazů."
         primary-color: "Hlavní barva."
         primary-color-dark: "Obvykle tmavší verze hlavní barvy použité pro efekt vznášení."
@@ -61,7 +61,7 @@ cs:
         header-item-font-hover-color: "Barva pozadí klikacích položek záhlaví při najetí myší."
         header-border-bottom-color: "Tenký řádek pod záhlavím. Ponechte toto pole prázdné, pokud nechcete žádný řádek."
         main-menu-bg-color: "Barva pozadí levého menu."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Změna motivu přepíše váš vlastní styl. Vzhled pak bude ztracen. Jste si jisti, že chcete pokračovat?
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Nahrát podpůrný token Enterprise Edition"
@@ -94,13 +94,13 @@ cs:
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
-      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
+      Tento LDAP formulář vyžaduje technické znalosti nastavení LDAP / Active Directory.
       <br/>
-      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Prosím navštivte naši dokumentaci pro podrobné pokyny</a>.
     attribute_texts:
       name: Arbitrary name of the LDAP connection
-      host: LDAP host name or IP address
-      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
+      host: LDAP název hostitele nebo IP adresa
+      login_map: Atribut klíč v LDAP, který se používá k identifikaci jedinečného přihlášení uživatele. Obvykle se jedná o `uid` nebo `samAccountName`.
       generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
       admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
       system_user_dn_html: |
@@ -126,12 +126,12 @@ cs:
         If you enable group synchronization for this LDAP connection, users will also be automatically created
         in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Šifrování připojení'
-    system_account: 'System account'
+    system_account: 'Systémový účet'
     system_account_legend: |
-      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
-      Please specify the bind credentials for that system user in the following section.
+      OpenProject vyžaduje přístup pouze pro čtení prostřednictvím systémového účtu pro vyhledávání uživatelů a skupin ve stromu LDAP.
+      Zadejte prosím přístupové údaje pro tohoto systémového uživatele v následující sekci.
     ldap_details: 'Podrobnosti LDAP'
-    user_settings: 'Attribute mapping'
+    user_settings: 'Mapování atributů'
     user_settings_legend: |
       The following fields are related to how users are created in OpenProject from LDAP entries and
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
@@ -202,7 +202,6 @@ cs:
       completed: "Smazání projektu %{name} dokončeno"
       completed_text: "Požadavek na smazání projektu '%{name}' byl dokončen."
     index:
-      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -539,7 +538,7 @@ cs:
         invalid_url: 'není platná adresa URL.'
         invalid_url_scheme: 'není podporovaný protokol (povoleny: %{allowed_schemes}).'
         less_than_or_equal_to: "musí být menší než nebo rovno %{count}."
-        not_current_user: "is not the current user."
+        not_current_user: "není aktuální uživatel."
         not_a_date: "není platné datum."
         not_a_datetime: "není platný čas."
         not_a_number: "není číslo."
@@ -763,7 +762,6 @@ cs:
     content: "Obsah"
     color: "Barva"
     created_at: "Vytvořeno"
-    created_on: "Vytvořeno"
     custom_options: "Možné hodnoty"
     custom_values: "Vlastní pole"
     date: "Datum"
@@ -1063,6 +1061,7 @@ cs:
   default_role_anonymous: "Anonymní"
   default_role_developer: "Vývojář"
   default_role_project_admin: "Projekt admin"
+  default_role_project_creator: "Tvůrce projektu"
   default_role_non_member: "Není člen"
   default_role_reader: "Čtenář"
   default_role_member: "Člen"
@@ -1118,7 +1117,7 @@ cs:
   enumeration_work_package_priorities: "Priority pracovního balíčku"
   enumeration_reported_project_statuses: "Nahlášený stav projektu"
   error_auth_source_sso_failed: "Jednotné přihlášení (SSO) pro uživatele '%{value}' selhalo"
-  error_can_not_archive_project: "This project cannot be archived: %{errors}"
+  error_can_not_archive_project: "Tento projekt nelze archivovat: %{errors}"
   error_can_not_delete_entry: "Nelze odstranit položku"
   error_can_not_delete_custom_field: "Nelze odstranit vlastní pole"
   error_can_not_delete_type: "Tento typ obsahuje pracovní balíčky a nedá sa odstrániť."
@@ -1127,7 +1126,7 @@ cs:
   error_can_not_remove_role: "Tato role je používána a nelze ji odstranit."
   error_can_not_reopen_work_package_on_closed_version: "Pracovní balíček v uzavřené verzi nemůže být znovu otevřen"
   error_can_not_find_all_resources: "Nelze najít všechny související zdroje k tomuto požadavku."
-  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
+  error_can_not_unarchive_project: "Tento projekt nemůže být odarchivován: %{errors}"
   error_check_user_and_role: "Vyberte uživatele a roli."
   error_code: "Chyba %{code}"
   error_cookie_missing: 'OpenProject cookie chybí. Ujistěte se, že jsou soubory cookie povoleny, protože aplikace nebude správně fungovat.'
@@ -1187,7 +1186,7 @@ cs:
       pdf_with_descriptions_and_attachments: "PDF s popisky a přílohami"
       pdf_with_attachments: "PDF s přílohami"
     image:
-      omitted: "Image not exported."
+      omitted: "Obrázek nebyl exportován."
   extraction:
     available:
       pdftotext: "Pdftotext k dispozici (volitelné)"
@@ -1230,6 +1229,8 @@ cs:
       blog: "OpenProject blog"
       forums: "Komunitní fórum"
       newsletter: "Bezpečnostní upozornění / newsletter"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
   links:
@@ -1766,30 +1767,35 @@ cs:
   label_workflow_plural: "Pracovní vrstvy"
   label_workflow_summary: "Souhrn"
   label_x_closed_work_packages_abbr:
-    zero: "0 closed"
-    one: "1 uzavřen"
-    few: "%{count} uzavřeny"
-    many: "%{count} uzavřeny"
-    other: "%{count} uzavřeny"
+    zero: "0 uzavřeno"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_x_comments:
-    zero: "no comments"
-    one: "1 komentář"
-    few: "%{count} komentářů"
-    many: "%{count} komentářů"
-    other: "%{count} komentářů"
+    zero: "žádné komentáře"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_x_open_work_packages_abbr:
-    zero: "0 open"
-    one: "1 otevřený"
-    few: "%{count} otevřených"
-    many: "%{count} otevřených"
-    other: "%{count} otevřených"
+    zero: "0 otevřených"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_x_projects:
-    zero: "no projects"
-    one: "1 projekt"
-    few: "%{count} projektů"
-    many: "%{count} projektů"
-    other: "%{count} projektů"
+    zero: "Žádné projekty"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_yesterday: "včera"
+  label_role_type: "Typ"
+  label_member_role: "Projektová role"
+  label_global_role: "Globální role"
+  label_not_changeable: "(neměnitelné)"
+  label_global: "Globální"
   auth_source:
     using_abstract_auth_source: "Nelze použít abstraktní zdroj ověřování."
     ldap_error: "Chyba LDAP: %{error_message}"
@@ -1830,14 +1836,14 @@ cs:
   mail_body_register_closing: "Your OpenProject team"
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} pracovních balíčků, které máte přiřazeny, mají termín během následujících %{days} dnů:"
-  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
+  mail_body_group_reminder: "%{count} pracovních balíčků, které jsou přiřazeny ke skupině \"%{group}\", má termín splatnosti během následujících %{days} dnů:"
   mail_body_wiki_content_added: "Wiki stránka '%{id}' byla přidána uživatelem %{author}."
   mail_body_wiki_content_updated: "Wiki stránka '%{id}' byla aktualizována uživatelem %{author}."
   mail_subject_account_activation_request: "Žádost o aktivaci účtu %{value}"
   mail_subject_lost_password: "Vaše heslo %{value}"
   mail_subject_register: "Aktivace vašeho účtu %{value}"
   mail_subject_reminder: "%{count} pracovních balíčků s termínem do dalších %{days} dnů"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
+  mail_subject_group_reminder: "Pro skupinu \"%{group}\" %{count} pracovních balíčků splatných během následujících %{days} dnů"
   mail_subject_wiki_content_added: "'%{id}' wiki stránka byla přidána"
   mail_subject_wiki_content_updated: "'%{id}' wiki stránka byla aktualizována"
   mail_user_activation_limit_reached:

@@ -43,17 +43,20 @@ module OpenProject::TextFormatting::Formats::Markdown
     end
 
     def filters
-      [
-        :markdown,
-        :sanitization,
-        ::TaskList::Filter,
-        :table_of_contents,
-        :macro,
-        :pattern_matcher,
-        :syntax_highlight,
-        :attachment,
-        :relative_link,
-        :autolink
+      %i[
+        markdown
+        sanitization
+        task_list
+        table_of_contents
+        macro
+        mention
+        pattern_matcher
+        syntax_highlight
+        attachment
+        relative_link
+        figure_wrapped
+        bem_css
+        autolink
       ]
     end
 

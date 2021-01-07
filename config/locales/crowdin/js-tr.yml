@@ -55,6 +55,8 @@ tr:
     button_duplicate: "Çoğalt"
     button_edit: "Düzenle"
     button_filter: "Filtre"
+    button_collapse_all: "Tümünü daralt"
+    button_expand_all: "Tümünü genişlet"
     button_advanced_filter: "Gelişmiş filtre"
     button_list_view: "Liste görünümü"
     button_show_view: "Tam Ekran görünümü"
@@ -256,7 +258,6 @@ tr:
     general_text_yes: "evet"
     general_text_No: "Hayır"
     general_text_Yes: "Evet"
-    global_roles: Küresel rolleri
     hal:
       error:
         update_conflict_refresh: "Kaynağı yenilemek ve en yeni sürüme güncellemek için burayı tıklayın."
@@ -272,11 +273,11 @@ tr:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              Sürüm, çeşitli yeni özellikler ve iyileştirmeler içerir:  <br> <ul class="%{list_styling_class}"> <li><b> İlgili tüm proje görevlerini tanımlamak için <b> yukarıdan aşağıya planlama </b>. Ebeveynin başlangıç ve bitiş tarihleri, çocuklarından etkilenmez. </li> <li> <b> Çok yönlü çevik panolar </b>, bir iş kırılım yapısı oluşturmanıza veya görevleri alt projeler arasında dağıtmanıza olanak tanır. </li> <li> Yeni projelerin kolayca oluşturulması için <b> proje şablonları </b>. </li> <li> Daha iyi <b> proje portföy yönetimi </b> sağlayan projeler sayfasının yapılandırılması. </li> </ ul>
+              Sürüm, çeşitli yeni özellikler ve iyileştirmeler içerir: <br> <ul class="%{list_styling_class}"> <li><b> WYSIWYG düzenleyicisinin </b> iyileştirilmiş stilleri </b>. </li> <li> Doğrudan görüntüleme <b> Düzenleme sırasında @ bildirimler için kullanıcı adı </b>. </li> <li> <b> OpenID Connect sağlayıcısı ile genişletilmiş kimlik doğrulama profili. </b> </li> <li> Projeyi görüntüle <b> kilometre taşları Gantt şemasında tek satırda toplandı </b>. </li> <li> Çalışma paketleri listesinde <b> gruplar için tüm düğmesi </b>. </li> <li> <b> Optimizasyon yazdırma, </b> ör. wiki sayfaları, tarayıcı yazdırma işlevi aracılığıyla. </li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              Sürüm, çeşitli yeni özellikler ve iyileştirmeler içerir:  <br> <ul class="%{list_styling_class}"> <li><b> İlgili tüm proje görevlerini tanımlamak için <b> yukarıdan aşağıya planlama </b>. Ebeveynin başlangıç ve bitiş tarihleri, çocuklarından etkilenmez. </li> <li> <b> Çok yönlü çevik panolar </b>, bir iş kırılım yapısı oluşturmanıza veya görevleri alt projeler arasında dağıtmanıza olanak tanır. </li> <li> Yeni projelerin kolayca oluşturulması için <b> proje şablonları </b>. </li> <li> Daha iyi <b> proje portföy yönetimi </b> sağlayan projeler sayfasının yapılandırılması. </li> </ ul>
+              Sürüm, çeşitli yeni özellikler ve iyileştirmeler içerir: <br> <ul class="%{list_styling_class}"> <li><b> WYSIWYG düzenleyicisinin </b> iyileştirilmiş stilleri </b>. </li> <li> Doğrudan görüntüleme <b> Düzenleme sırasında @ bildirimler için kullanıcı adı </b>. </li> <li> <b> OpenID Connect sağlayıcısı ile genişletilmiş kimlik doğrulama profili. </b> </li> <li> Projeyi görüntüle <b> kilometre taşları Gantt şemasında tek satırda toplandı </b>. </li> <li> Çalışma paketleri listesinde <b> gruplar için tüm düğmesi </b>. </li> <li> <b> Optimizasyon yazdırma, </b> ör. wiki sayfaları, tarayıcı yazdırma işlevi aracılığıyla. </li> </ul>
     label_activate: "Etkinleştir"
     label_add_column_after: "Sonrasına sütun ekle"
     label_add_column_before: "Öncesine sütun ekle"
@@ -332,6 +333,7 @@ tr:
     label_filename: "Dosya"
     label_filesize: "Boyutu"
     label_general: "Genel"
+    label_global_roles: "Küresel rolleri"
     label_greater_or_equal: ">="
     label_group: 'Grup'
     label_group_by: "Grupla"
@@ -938,8 +940,8 @@ tr:
         other: "%{count} alt iş paketi"
       hour:
         zero: "0 s"
-        one: "%{count} 1 saat"
-        other: "%{count} 1 saat"
+        one: ""
+        other: ""
     zen_mode:
       button_activate: 'Zen modunu etkinleştir'
       button_deactivate: 'Zen modunu devre dışı bırak'

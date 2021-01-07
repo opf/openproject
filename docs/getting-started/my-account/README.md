@@ -4,19 +4,19 @@ sidebar_navigation:
   priority: 400
 description: Learn how to configure account settings.
 robots: index, follow
-keywords: my account, account settings
+keywords: my account, account settings, change language, Deutsch
 ---
 
 # My Account
 
 Change your personal settings in My Account. Here you can adapt, e.g. the language, edit notifications, or add an avatar.
 
-| Feature                                                      | Documentation for                                            |
+| Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Open My Account settings](#open-my-account-settings)        | How to open your personal settings in OpenProject?           |
 | [Change password](#change-password)                          | How to change my password?                                   |
 | [Edit your user information](#edit-your-user-information)    | How to change the name or email address in OpenProject?      |
-| [Profile settings: change your language, time zone or display of comments](#profile-settings:-change-your-language,-time-zone-or-display-of-comments) | How to change the language, time zone or display of comments in OpenProject? |
+| [Profile settings: change your language, time zone or display of comments](#profile-settings) | How to change the language, time zone or display of comments in OpenProject? |
 | [Two-factor authentication](#two-factor-authentication-premium-feature) | How to set up a two-factor authentication?                   |
 | [Email notifications](#email-notifications)                  | How to change email notifications sent by OpenProject?       |
 | [Set an Avatar](#set-an-avatar)                              | How to set an Avatar in OpenProject and change the profile picture? |
@@ -70,11 +70,11 @@ Here you can choose between multiple languages.
 
 ![select a language](1572882728878.png)
 
-OpenProject is translated to more than 30 languages. If you do not see your preferred language in the My account settings, the language needs to be activated by your system administrator in the [system's settings](../../system-admin-guide/).
+OpenProject is translated to more than 30 languages, like German, Chinese, French, Italian, Korean, Latvian, Lithuanian, Polish, Portuguese, Russian, Spanish, Turkish and many more. If you do not see your preferred language in the My account settings, the language needs to be activated by your system administrator in the [system's settings](../../system-admin-guide/).
 
-Press the blue **Save** button will save your changes.
+Pressing the blue **Save** button will save your changes.
 
-If you want to help us to add further languages, you can contribute to the CrowdIn translations project [here](https://crowdin.com/project/openproject).
+If you want to help us to add further languages or to add the translations in your language, you can contribute to the CrowdIn translations project [here](https://crowdin.com/project/openproject).
 
 ### Change your time zone
 
@@ -82,13 +82,13 @@ You can choose a Time zone in which you work and how the comments and changes wi
 
 ![time zone](1572882881007.png)
 
-Press the blue **Save** button will save your changes.
+Pressing the blue **Save** button will save your changes.
 
 ### Change the order to display comments
 
 You can select the order of the comments (for example of the comments for a work package which appear in the Activity tab). You can select the **chronological** or **reverse chronological order** to display the comments.
 
-If you choose reverse chronological order you will have the latest comment on top in the Activity list.
+If you choose reverse chronological order the latest comment will appear on top in the Activity list.
 
 ![display comments](1572883259523.png)
 
@@ -100,11 +100,9 @@ In order to activate the two-factor authentication for your OpenProject installa
 
 ![Two-factor authentication](1571992032476.png)
 
-In order to register a new device for two-factor authentication, lick the green button to add **new 2FA device**.
+In order to register a new device for two-factor authentication, lick the green button to add a **new 2FA device**.
 
-You can either use your mobile phone number to receive the second factor via SMS.
-
-Or you can register to use an app-based authenticator, such as Google Authenticator or Authy.
+You can either use your mobile phone number to receive the second factor via SMS. Or you can register to use an app-based authenticator, such as Google Authenticator or Authy.
 
 ![add new 2fa device](1572876883531.png)
 

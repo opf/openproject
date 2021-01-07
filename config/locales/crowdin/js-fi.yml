@@ -55,6 +55,8 @@ fi:
     button_duplicate: "Luo kopio"
     button_edit: "Muokkaa"
     button_filter: "Suodata"
+    button_collapse_all: "Tiivistä kaikki"
+    button_expand_all: "Laajenna kaikki"
     button_advanced_filter: "Edistynyt suodatin"
     button_list_view: "Luettelonäkymä"
     button_show_view: "Koko näytön tila"
@@ -256,7 +258,6 @@ fi:
     general_text_yes: "kyllä"
     general_text_No: "Ei"
     general_text_Yes: "Kyllä"
-    global_roles: Yleiset roolit
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -270,13 +271,13 @@ fi:
           text_new_features: "Tietoa uusista ominaisuuksista ja tuotepäivityksistä."
           learn_about: "Lisätietoja uusista ominaisuuksista"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
     label_activate: "Aktivoi"
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
@@ -332,6 +333,7 @@ fi:
     label_filename: "Tiedosto"
     label_filesize: "Koko"
     label_general: "Yleinen"
+    label_global_roles: "Yleiset roolit"
     label_greater_or_equal: ">="
     label_group: 'Ryhmä'
     label_group_by: "Ryhmittely"
@@ -361,7 +363,7 @@ fi:
     label_next: "Seuraava"
     label_no_color: "No color"
     label_no_data: "Ei tietoja"
-    label_no_due_date: "ei päättymispäivää"
+    label_no_due_date: "no finish date"
     label_no_start_date: "ei aloituspäivää"
     label_no_value: "Ei arvoa"
     label_none: "ei mitään"
@@ -938,8 +940,8 @@ fi:
         other: "%{count} work package children"
       hour:
         zero: "0 h"
-        one: "1 h"
-        other: "%{count} h"
+        one: ""
+        other: ""
     zen_mode:
       button_activate: 'Koko näyttö'
       button_deactivate: 'Sulje koko näyttö'

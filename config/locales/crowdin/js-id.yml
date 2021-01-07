@@ -55,6 +55,8 @@ id:
     button_duplicate: "Duplikasi"
     button_edit: "Edit"
     button_filter: "Filter"
+    button_collapse_all: "Tutup semua"
+    button_expand_all: "Buka semua"
     button_advanced_filter: "Advanced filter"
     button_list_view: "Tampilan tabel"
     button_show_view: "Tampilan layar penuh"
@@ -256,7 +258,6 @@ id:
     general_text_yes: "yes"
     general_text_No: "No"
     general_text_Yes: "Yes"
-    global_roles: Peran global
     hal:
       error:
         update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
@@ -270,13 +271,13 @@ id:
           text_new_features: "Read about new features and product updates."
           learn_about: "Learn more about the new features"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-1-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Top-down scheduling</b> to define all project tasks involved. The start and finish dates of the parent are unaffected by its children.</li> <li><b>Versatile agile boards</b> allow you to create a work breakdown structure or to distribute tasks between subprojects.</li> <li><b>Project templates</b> for easy creation of new projects.</li> <li>Configuration of the projects page enabling better <b>project portfolio management.</b></li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
     label_activate: "Aktifkan"
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
@@ -332,6 +333,7 @@ id:
     label_filename: "File"
     label_filesize: "Size"
     label_general: "Umum"
+    label_global_roles: "Peran global"
     label_greater_or_equal: ">="
     label_group: 'Grup'
     label_group_by: "Pengelompokan"
@@ -361,7 +363,7 @@ id:
     label_next: "Lanjut"
     label_no_color: "No color"
     label_no_data: "Tidak ada data untuk ditampilkan"
-    label_no_due_date: "tidak ada tanggal berakhir"
+    label_no_due_date: "no finish date"
     label_no_start_date: "tidak ada tanggal mulai"
     label_no_value: "Kosongkan"
     label_none: "kosong"
@@ -936,7 +938,7 @@ id:
         other: "Paket kerja %{count} turunan"
       hour:
         zero: "0 h"
-        other: "%{count} h"
+        other: ""
     zen_mode:
       button_activate: 'Mengaktifkan modus zen'
       button_deactivate: 'Menonaktifkan modus zen'

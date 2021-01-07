@@ -27,13 +27,11 @@ lt:
         available: "Laisvas"
         budget: "Suplanuotas"
         budget_ratio: "Panaudotas (santykis)"
-        created_on: "Sukurta"
         description: "Aprašymas"
         spent: "Praleista"
         status: "Būsena"
         subject: "Tema"
         type: "Kaštų tipas"
-        updated_on: "Atnaujinta"
         labor_budget: "Suplanuoti darbo kaštai"
         material_budget: "Suplanuoti vienetų kaštai"
       work_package:

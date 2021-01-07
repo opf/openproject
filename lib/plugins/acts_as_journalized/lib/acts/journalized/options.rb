@@ -97,7 +97,8 @@ module Acts::Journalized
       # association created by aaj
       def has_many_journals_options
         aaj_options
-          .slice(*ActiveRecord::Associations::Builder::HasMany.send(:valid_options, {}))
+          .slice(*ActiveRecord::Associations::Builder::HasMany
+                    .send(:valid_options, { as: :irrelevant }))
       end
 
       def options_with_defaults(options)
@@ -105,6 +106,7 @@ module Acts::Journalized
           class_name: Journal.name,
           dependent: :destroy,
           foreign_key: :journable_id,
+          timestamp: :updated_at,
           as: :journable
         }.merge(options.symbolize_keys)
       end

@@ -1,3 +1,4 @@
+require 'socket'
 require 'capybara/rspec'
 require 'capybara-screenshot'
 require 'capybara-screenshot/rspec'
@@ -6,7 +7,18 @@ require 'action_dispatch'
 
 RSpec.configure do |config|
   Capybara.default_max_wait_time = 4
-  Capybara.javascript_driver = :chrome_headless_en
+  Capybara.javascript_driver = :chrome_en
+
+  port = ENV.fetch('CAPYBARA_SERVER_PORT', '0').to_i
+  if port > 0
+    Capybara.server_port = port
+  end
+  Capybara.always_include_port = true
+
+  ip_address = Socket.ip_address_list.find { |ai| ai.ipv4? && !ai.ipv4_loopback? }.ip_address
+  hostname = ENV['CAPYBARA_DYNAMIC_HOSTNAME'].present? ? ip_address : ENV.fetch('CAPYBARA_APP_HOSTNAME', 'localhost')
+  Capybara.server_host = '0.0.0.0'
+  Capybara.app_host = "http://#{hostname}"
 end
 
 ##

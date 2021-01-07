@@ -202,7 +202,6 @@ sk:
       completed: "Odstránenie projektu %{name} dokončené"
       completed_text: "Požiadavka na odstránenie projektu '%{name}' bola ukončená."
     index:
-      edit_columns: 'Edit columns'
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
@@ -763,7 +762,6 @@ sk:
     content: "Obsah"
     color: "Farba"
     created_at: "Vytvorené"
-    created_on: "Vytvorené"
     custom_options: "Možné hodnoty"
     custom_values: "Vlastné polia"
     date: "Dátum"
@@ -1063,6 +1061,7 @@ sk:
   default_role_anonymous: "Anonymný"
   default_role_developer: "Vývojár"
   default_role_project_admin: "Projekt admin"
+  default_role_project_creator: "Projekt vytvoril"
   default_role_non_member: "Nie člen"
   default_role_reader: "Čitateľ"
   default_role_member: "Člen"
@@ -1230,6 +1229,8 @@ sk:
       blog: "OpenProject blog"
       forums: "Komunitné fórum"
       newsletter: "Bezpečnostné upozornenia / Newsletter"
+  image_conversion:
+    imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
   links:
@@ -1767,29 +1768,34 @@ sk:
   label_workflow_summary: "Zhrnutie"
   label_x_closed_work_packages_abbr:
     zero: "0 closed"
-    one: "1 uzatvorený"
-    few: "%{count} uzatvorených"
-    many: "%{count} uzatvorených"
-    other: "%{count} uzatvorených"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_x_comments:
     zero: "no comments"
-    one: "1 komentár"
-    few: "%{count} komentárov"
-    many: "%{count} komentárov"
-    other: "%{count} komentárov"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_x_open_work_packages_abbr:
     zero: "0 open"
-    one: "1 otvorený"
-    few: "%{count} otvorených"
-    many: "%{count} otvorených"
-    other: "%{count} otvorených"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_x_projects:
     zero: "no projects"
-    one: "1 projekt"
-    few: "%{count} projektov"
-    many: "%{count} projektov"
-    other: "%{count} projektov"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_yesterday: "včera"
+  label_role_type: "Typ"
+  label_member_role: "Rola projektu"
+  label_global_role: "Globálna rola"
+  label_not_changeable: "(nemodifikovateľná)"
+  label_global: "Globálna"
   auth_source:
     using_abstract_auth_source: "Nie je možné použiť abstraktný zdroj overovania."
     ldap_error: "LDAP-Chyba: %{error_message}"

@@ -26,7 +26,7 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 
 describe Member, type: :model do
   before do
@@ -66,30 +66,6 @@ describe Member, type: :model do
     @member.role_ids = [@role.id, FactoryBot.create(:role).id]
     assert @member.save
     assert_equal 2, @member.reload.roles.size
-  end
-
-  it 'should validate' do
-    members = []
-    user_id = FactoryBot.create(:user).id
-    2.times do
-      members << Member.new.tap do |m|
-        m.attributes = { project_id: @project.id,
-                               user_id: user_id,
-                               role_ids: [@role.id] }
-      end
-    end
-
-    assert members.first.save
-    # same user can't have more than one membership for a project
-    assert !members.last.save
-
-    member = Member.new.tap do |m|
-      m.attributes = { project_id: @project,
-                             user_id: FactoryBot.create(:user).id,
-                             role_ids: [] }
-    end
-    # must have one role at least
-    assert !member.save
   end
 
   it 'should destroy' do

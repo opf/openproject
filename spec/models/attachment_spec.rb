@@ -241,7 +241,7 @@ describe Attachment, type: :model do
 
     shared_examples "it has a temporary download link" do
       let(:url_options) { {} }
-      let(:query) { attachment.external_url(url_options).to_s.split("?").last }
+      let(:query) { attachment.external_url(**url_options).to_s.split("?").last }
 
       it "should have a default expiry time" do
         expect(query).to include "X-Amz-Expires="

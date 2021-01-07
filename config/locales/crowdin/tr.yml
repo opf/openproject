@@ -202,7 +202,6 @@ tr:
       completed: " %{name}  projesinin silinmesi tamamlandı"
       completed_text: "'%{name}' projesini silme isteği tamamlandı."
     index:
-      edit_columns: 'Sütunları düzenleyin'
       open_as_gantt: 'Gantt görünümü olarak aç'
       open_as_gantt_title: "Bu sayfada görünen projeler için iş paketlerini filtreleyen bir Gantt görünümü oluşturmak için bu düğmeyi kullanın."
       open_as_gantt_title_admin: "Proje ayarları altında yönetimde görünüm ayarlarını (seçilen iş paketi türleri gibi) değiştirebilirsiniz."
@@ -537,7 +536,7 @@ tr:
         invalid_url: 'geçerli bir adres değil.'
         invalid_url_scheme: 'bu protokol desteklenmiyor (izin: %{allowed_schemes}).'
         less_than_or_equal_to: "%{count} 'ten küçük veya bu değere eşit olmalıdır."
-        not_current_user: "is not the current user."
+        not_current_user: "mevcut kullanıcı değil."
         not_a_date: "geçerli bir tarih değil."
         not_a_datetime: "geçerli bir zaman değil."
         not_a_number: "bir sayı değil."
@@ -617,7 +616,7 @@ tr:
         queries/filters/base:
           attributes:
             values:
-              inclusion: "filter has invalid values."
+              inclusion: "filtrede geçersiz değerler var."
               format: "%{message}"
         relation:
           typed_dag:
@@ -755,7 +754,6 @@ tr:
     content: "İçerik"
     color: "Renk"
     created_at: "Oluşturma tarihi"
-    created_on: "Oluşturma tarihi"
     custom_options: "Olası değerler"
     custom_values: "Özel alanlar"
     date: "Tarih"
@@ -1031,6 +1029,7 @@ tr:
   default_role_anonymous: "Anonim"
   default_role_developer: "Geliştirici"
   default_role_project_admin: "Proje yöneticisi"
+  default_role_project_creator: "Proje yaratıcısı"
   default_role_non_member: "Üye Değil"
   default_role_reader: "Okuyucu"
   default_role_member: "Üye"
@@ -1198,6 +1197,8 @@ tr:
       blog: "OpenProject blog"
       forums: "Topluluk forumu"
       newsletter: "Güvenlik uyarıları / haber bülteni"
+  image_conversion:
+    imagemagick: 'Resim büyüsü'
   journals:
     changes_retracted: "Değişiklikler geri çekildi."
   links:
@@ -1735,21 +1736,26 @@ tr:
   label_workflow_summary: "Özet"
   label_x_closed_work_packages_abbr:
     zero: "0 kapalı"
-    one: "1 kapatıldı"
-    other: "%{count} kapatıldı"
+    one: ""
+    other: ""
   label_x_comments:
     zero: "yorum yok"
-    one: "1 yorum"
-    other: "%{count} yorum"
+    one: ""
+    other: ""
   label_x_open_work_packages_abbr:
     zero: "0 açık"
-    one: "1 açık"
-    other: "%{count} açık"
+    one: ""
+    other: ""
   label_x_projects:
     zero: "proje yok"
-    one: "1 proje"
-    other: "%{count} proje"
+    one: ""
+    other: ""
   label_yesterday: "dün"
+  label_role_type: "Tür"
+  label_member_role: "Proje rolü"
+  label_global_role: "Küresel rolü"
+  label_not_changeable: "(değiştirilemez)"
+  label_global: "Küresel"
   auth_source:
     using_abstract_auth_source: "Özet kimlik doğrulama kaynağı kullanılamıyor."
     ldap_error: "LDAP-Hatası: %{error_message}"
@@ -2302,8 +2308,8 @@ tr:
   text_work_package_category_destroy_question: "Bu kategoriye bazı iş paketleri ( %{count}) atanmıştır. Ne yapmak istiyorsun?"
   text_work_package_category_reassign_to: "İş paketlerini bu kategoriye yeniden ata"
   text_work_package_updated: "%{id} iş paketi %{author} tarafından güncellendi."
-  text_work_package_watcher_added: "%{id} tarafından %{watcher_changer}. Work paketine izleyici olarak eklendi"
-  text_work_package_watcher_removed: "%{id} tarafından %{watcher_changer}. Work paketi saatlerinden çıkarıldınız"
+  text_work_package_watcher_added: "%{id} iş paketine %{watcher_changer} tarafından izleyici olarak eklendiniz."
+  text_work_package_watcher_removed: "%{id} iş paketinden, %{watcher_changer} tarafından izleyicilikten çıkarıldınız."
   text_work_packages_destroy_confirmation: "Seçilen çalışma paket(ler) ini silmek istediğinizden emin misiniz?"
   text_work_packages_ref_in_commit_messages: "İş paketlerini taahhüt mesajlarında referans ve sabitleme"
   text_journal_added: "%{value} %{label} eklendi"
