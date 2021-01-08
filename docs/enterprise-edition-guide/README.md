@@ -39,8 +39,24 @@ The Enterprise on-premises edition is an upgrade of the self-hosted Community ed
 Yes, you can upgrade your existing OpenProject Community edition to the Enterprise on-premises edition. You can then continue to use the same data as before but also use the premium features. When you purchase the Enterprise on-premises edition, you receive an Enterprise on-premises edition license. You can use this license to upgrade your Community edition.
 To upgrade your Community installation, navigate to your system -> Administration -> Enterprise Edition. Here, you can simply click the green Start free trial button. You can then trial the Enterprise on-premises edition 14 days for free before booking. If you like the premium features and want to continue, you can easily book the Enterprise on-premises version via the Enterprise Edition menu in the Administration. Find more information [here](https://www.openproject.org/enterprise-edition-upgrade-test-free/).
 
-
 ### Do you have a reseller program for OpenProject?
 
 We provide a [reseller program](https://www.openproject.org/reseller-program/) exclusively for OpenProject Enterprise on-premises (currently not for the Enterprise cloud) and offer a 25% discount on the regular prices as a part of this. Once you purchased the first Enterprise on-premises license for a client, you receive an Enterprise on-premises license for 25 users free of charge for your internal use. Please refer to the link above for more information and the conditions regarding this offer.
 Please [let us know](mailto:sales@openproject.com) if you have a particular customer request that we can send you a quote for. 
+
+### I can't login via SSO to update my EE token. What do I do?
+
+Until this issue is fixed you can set the token manually via the console. Copy the new token and then do the following.
+
+```
+sudo openproject run console
+```
+
+Once in the console update the token like this:
+
+```
+EnterpriseToken.first.update encoded_token: "..."
+```
+
+Where `...` is the token you have copied earlier.
+After that you can quit the console by entering `exit`.
