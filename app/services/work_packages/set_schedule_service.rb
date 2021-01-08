@@ -123,7 +123,7 @@ class WorkPackages::SetScheduleService
 
     if delta.zero? && min_start_date
       reschedule_to_date(scheduled, min_start_date)
-    elsif !scheduled.start_date
+    elsif !scheduled.start_date && min_start_date
       schedule_on_missing_dates(scheduled, min_start_date)
     elsif !delta.zero?
       reschedule_by_delta(scheduled, delta, min_start_date)
