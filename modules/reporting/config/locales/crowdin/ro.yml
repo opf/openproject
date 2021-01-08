@@ -69,6 +69,7 @@ ro:
   label_inactive: "«inactive»"
   label_no: "Nu"
   label_none: "(no data)"
+  label_no_reports: "There are no cost reports yet."
   label_report: "Raportare"
   label_yes: "Da"
   load_query_question: "Raportul va avea %{size} de celule şi e posibil ca generarea să dureze un timp. Sunteți sigur că doriți generarea?"

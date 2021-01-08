@@ -69,6 +69,7 @@ pt:
   label_inactive: "«inativo»"
   label_no: "Não"
   label_none: "(sem dados)"
+  label_no_reports: "There are no cost reports yet."
   label_report: "Relatório"
   label_yes: "Sim"
   load_query_question: "Relatório terá %{size} células da tabela e pode levar algum tempo para processar. Você ainda quer tentar processá-lo?"

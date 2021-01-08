@@ -69,6 +69,7 @@ pl:
   label_inactive: "«nieaktywne»"
   label_no: "Nie"
   label_none: "(brak danych)"
+  label_no_reports: "There are no cost reports yet."
   label_report: "Raport"
   label_yes: "Tak"
   load_query_question: "Raport będzie zawierał %{size} komórek tabeli. Eksport może zająć trochę czasu. Czy nadal chcesz wygenerować raport?"

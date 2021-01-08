@@ -69,6 +69,7 @@ de:
   label_inactive: "«nicht aktiviert»"
   label_no: "Nein"
   label_none: "(Keine Angabe)"
+  label_no_reports: "There are no cost reports yet."
   label_report: "Report"
   label_yes: "Ja"
   load_query_question: "Der Report wird %{size} Tabellen-Zellen haben, was sehr rechenintensiv sein kann. Wollen Sie dennoch versuchen, den Report durch zu führen?"

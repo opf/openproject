@@ -69,6 +69,7 @@ hu:
   label_inactive: "«inaktív»"
   label_no: "Nem"
   label_none: "(nincs adat)"
+  label_no_reports: "There are no cost reports yet."
   label_report: "Jelentés"
   label_yes: "Igen"
   load_query_question: "A jelentés %{size} cellát fog tartalmazni, így eltarthat egy ideig az elkészítése. Továbbra is el szeretné készíteni?"
