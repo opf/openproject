@@ -69,6 +69,7 @@ zh-TW:
   label_inactive: "«不活動»"
   label_no: "否"
   label_none: "(沒有資料)"
+  label_no_reports: "There are no cost reports yet."
   label_report: "報表"
   label_yes: "是"
   load_query_question: "報告含有 %{size} 個儲存格，將要花一些時間呈現。你仍然想要嘗試顯示它嗎？"

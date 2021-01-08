@@ -69,6 +69,7 @@ ca:
   label_inactive: "«inactiu»"
   label_no: "No"
   label_none: "(no hi ha dades)"
+  label_no_reports: "There are no cost reports yet."
   label_report: "Informe"
   label_yes: "Sí"
   load_query_question: "L'informe tindrà %{size} de cel·les i pot trigar algun temps per generar-se. Encara voleu intentar la generació?"

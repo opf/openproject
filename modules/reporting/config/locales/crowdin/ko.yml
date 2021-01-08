@@ -69,6 +69,7 @@ ko:
   label_inactive: "«비활성»"
   label_no: "아니요"
   label_none: "(데이터 없음)"
+  label_no_reports: "There are no cost reports yet."
   label_report: "보고서"
   label_yes: "예"
   load_query_question: "보고서에는 %{size}개 테이블 셀이 있고 렌더링하는 데 시간이 걸릴 수 있습니다. 렌더링하시겠습니까?"

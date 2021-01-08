@@ -69,6 +69,7 @@ ar:
   label_inactive: "<<غير فعّال>>"
   label_no: "لا"
   label_none: "(لا توجد بيانات)"
+  label_no_reports: "There are no cost reports yet."
   label_report: "تقرير"
   label_yes: "نعم"
   load_query_question: "سيكون للتقرير %{size} من خلايا الجدول، وقد يستغرق بعض الوقت للتقديم. هل ما زلت تريد المحاولة لتقديمه؟"
