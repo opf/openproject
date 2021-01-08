@@ -31,16 +31,33 @@ import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class HighlightableDisplayField extends DisplayField {
-
   /** Optionally test if we can inject highlighting service */
   @InjectField(WorkPackageViewHighlightingService, null) viewHighlighting:WorkPackageViewHighlightingService;
+
+  get isMilestone():boolean {
+    return this.resource?.type?.id  === '2';
+  }
+
+  // DisplayFieldRenderer.attributeName returns the 'date' name for the
+  // 'dueDate' field because it is its schema.mappedName. In the
+  // query.highlightedAttributes (used to decide if a field is highlighted)
+  // the attribute has the name 'dueDate', so we need to change it back to get
+  // it highlighted.
+  get highlightName () {
+    if (this.isMilestone && this.name === 'date') {
+      return 'dueDate';
+    } else {
+      return this.name;
+    }
+  }
 
   public get shouldHighlight() {
     if (this.context.options.colorize === false) {
       return false;
     }
 
-    const shouldHighlight = !!this.viewHighlighting && this.viewHighlighting.shouldHighlightInline(this.name);
+    const shouldHighlight = !!this.viewHighlighting && this.viewHighlighting.shouldHighlightInline(this.highlightName);
+
     return this.context.container !== 'table' || shouldHighlight;
   }
 }
