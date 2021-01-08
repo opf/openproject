@@ -67,7 +67,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
       this.setErrors(withErrors);
     }
 
-    this.fieldName = `wp-${this.resource.id}-inline-edit--field-${this.fieldName}`;
+    this.htmlId = `wp-${this.resource.id}-inline-edit--field-${this.fieldName}`;
     this.fieldLabel = this.schema.name || this.fieldName;
   }
 
@@ -85,10 +85,6 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
 
   public get inFlight() {
     return this.form.change.inFlight;
-  }
-
-  public get active() {
-    return true;
   }
 
   public focus(setClickOffset?:number) {

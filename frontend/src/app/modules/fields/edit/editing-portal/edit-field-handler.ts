@@ -37,9 +37,6 @@ export abstract class EditFieldHandler extends UntilDestroyedMixin {
    */
   abstract get inEditMode():boolean;
 
-  /** Whether the field is currently active */
-  abstract get active():boolean;
-
   /** Whether the field is being saved */
   abstract get inFlight():boolean;
 
