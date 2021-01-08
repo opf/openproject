@@ -31,7 +31,6 @@ export interface FilterConditions {name:string; operator:FilterOperator; values:
 
 
 export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMixin implements OnInit {
-  @Input() public shouldFocus:boolean = false;
   @Input() public filter:QueryFilterInstanceResource;
   @Input() public filterConditions?:FilterConditions[];
   @Input() public filterResource:'work_packages' | 'users';
