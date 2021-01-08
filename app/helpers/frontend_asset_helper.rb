@@ -51,11 +51,7 @@ module FrontendAssetHelper
         concat javascript_include_tag variable_asset_path(file)
       end
 
-      if FrontendAssetHelper.assets_proxied?
-        concat javascript_include_tag variable_asset_path("styles.js")
-      else
-        concat stylesheet_link_tag variable_asset_path("styles.css"), media: :all
-      end
+      concat stylesheet_link_tag variable_asset_path("styles.css"), media: :all
     end
   end
 
