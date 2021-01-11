@@ -31,6 +31,11 @@ require 'active_job'
 class ApplicationJob < ::ActiveJob::Base
   include ::JobStatus::ApplicationJobWithStatus
 
+  ##
+  # By default, do not log the arguments of a background job
+  # to avoid leaking sensitive information to logs
+  self.log_arguments = false
+
   around_perform do |_job, block|
     reload_mailer_configuration!
     with_clean_request_store { block.call }
