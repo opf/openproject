@@ -27,7 +27,7 @@
 //++
 
 import {Injector} from '@angular/core';
-import {async, TestBed} from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {HalLink, HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
@@ -47,7 +47,7 @@ describe('HalResource', () => {
   class OtherResource extends HalResource {
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
       imports: [

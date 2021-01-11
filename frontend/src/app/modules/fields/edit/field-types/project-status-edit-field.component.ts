@@ -39,7 +39,7 @@ import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 })
 export class ProjectStatusEditFieldComponent extends EditFieldComponent implements OnInit {
   @ViewChild(NgSelectComponent, {static: true}) public ngSelectComponent:NgSelectComponent;
-  @InjectField() I18n:I18nService;
+  @InjectField() I18n!:I18nService;
 
   private _availableStatusCodes:string[] = ['not set', 'off track', 'at risk', 'on track'];
   public currentStatusCode:string = 'not set';

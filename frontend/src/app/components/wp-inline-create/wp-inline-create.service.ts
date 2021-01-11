@@ -37,7 +37,7 @@ import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 @Injectable()
 export class WorkPackageInlineCreateService implements OnDestroy {
 
-  @InjectField() protected readonly I18n:I18nService;
+  @InjectField() I18n!:I18nService;
   @InjectField() protected readonly authorisationService:AuthorisationService;
 
   constructor(readonly injector:Injector) {

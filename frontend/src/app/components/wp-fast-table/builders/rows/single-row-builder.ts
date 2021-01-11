@@ -27,7 +27,7 @@ export class SingleRowBuilder {
   // Injections
   @InjectField() wpTableSelection:WorkPackageViewSelectionService;
   @InjectField() wpTableColumns:WorkPackageViewColumnsService;
-  @InjectField() I18n:I18nService;
+  @InjectField() I18n!:I18nService;
 
   // Cell builder instance
   protected cellBuilder = new CellBuilder(this.injector);

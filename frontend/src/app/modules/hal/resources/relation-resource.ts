@@ -73,7 +73,6 @@ export class RelationResource extends HalResource {
 
   // Properties
   public description:string|null;
-  public name:string;
   public type:any;
   public reverseType:string;
 

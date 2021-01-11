@@ -38,7 +38,6 @@ export interface GridResourceLinks {
 
 export class GridBaseResource extends HalResource {
   public widgets:GridWidgetResource[];
-  public name:string;
   public options:{[key:string]:unknown};
   public rowCount:number;
   public columnCount:number;

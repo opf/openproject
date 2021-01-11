@@ -76,9 +76,7 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
     return super.getLoadedActionValue(query);
   }
 
-  public get localizedName() {
-    return this.I18n.t('js.work_packages.properties.assignee');
-  }
+  localizedName = this.I18n.t('js.work_packages.properties.assignee');
 
   public headerComponent() {
     return AssigneeBoardHeaderComponent;

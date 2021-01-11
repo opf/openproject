@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {async, TestBed} from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {Injector} from '@angular/core';
@@ -63,7 +63,7 @@ describe('WorkPackage', () => {
     workPackage = halResourceService.createHalResourceOfType('WorkPackage', { ...source });
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
       imports: [
