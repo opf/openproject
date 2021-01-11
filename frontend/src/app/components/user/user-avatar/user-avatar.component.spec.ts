@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {UserAvatarComponent} from "core-components/user/user-avatar/user-avatar.component";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
@@ -38,7 +38,7 @@ describe('UserAvatar component test', () => {
   let element:HTMLElement;
   let user:any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
 
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
@@ -58,7 +58,7 @@ describe('UserAvatar component test', () => {
   }));
 
   describe('Regular initials', () => {
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       user = {
         id: 1,
         name: 'First Last',
@@ -77,7 +77,7 @@ describe('UserAvatar component test', () => {
   });
 
   describe('Emoji initials', () => {
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       user = {
         id: 1,
         name: "️\uFE0F Foo Bar",

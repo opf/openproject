@@ -40,7 +40,6 @@ import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
   selector: 'version-autocompleter'
 })
 export class VersionAutocompleterComponent extends CreateAutocompleterComponent implements AfterViewInit {
-  @Input() public openDirectly:boolean = false;
   @Output() public onCreate = new EventEmitter<VersionResource>();
 
   constructor(readonly I18n:I18nService,

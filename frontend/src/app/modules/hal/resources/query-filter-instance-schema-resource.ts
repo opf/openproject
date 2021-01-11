@@ -51,10 +51,7 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
   public filter:SchemaAttributeObject<QueryFilterResource>;
   public dependency:SchemaDependencyResource;
   public values:SchemaAttributeObject|null;
-
-  public get _type() {
-    return 'QueryFilterInstanceSchema';
-  }
+  public type = 'QueryFilterInstanceSchema';
 
   public get availableOperators():HalResource[] | CollectionResource {
     return this.operator.allowedValues;

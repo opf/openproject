@@ -40,7 +40,7 @@ export class DisplayField<T extends HalResource = HalResource> extends Field {
   public mode:string | null = null;
   public activeChange:ResourceChangeset<T>|null = null;
 
-  @InjectField() I18n:I18nService;
+  @InjectField() I18n!:I18nService;
 
   constructor(public name:string, public context:DisplayFieldContext) {
     super();

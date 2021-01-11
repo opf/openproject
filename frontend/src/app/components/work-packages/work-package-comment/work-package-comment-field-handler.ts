@@ -32,11 +32,6 @@ export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler im
    */
   public abstract handleUserSubmit():Promise<any>;
 
-  /**
-   * Required HTML id for the edit field
-   */
-  public abstract get htmlId():string;
-
   public abstract get workPackage():WorkPackageResource;
 
   public reset(withText:string = '') {

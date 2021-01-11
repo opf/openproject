@@ -59,7 +59,7 @@ export type DateKeys = 'date'|'start'|'end';
   encapsulation: ViewEncapsulation.None
 })
 export class DatePickerModal extends OpModalComponent implements AfterViewInit {
-  @InjectField() I18n:I18nService;
+  @InjectField() I18n!:I18nService;
   @InjectField() timezoneService:TimezoneService;
   @InjectField() halEditing:HalResourceEditingService;
   @InjectField() datepickerHelper:DatePickerModalHelper;

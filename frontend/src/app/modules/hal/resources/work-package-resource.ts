@@ -122,7 +122,7 @@ export class WorkPackageBaseResource extends HalResource {
   public activities:CollectionResource;
   public attachments:AttachmentCollectionResource;
 
-  @InjectField() I18n:I18nService;
+  @InjectField() I18n!:I18nService;
   @InjectField() states:States;
   @InjectField() wpActivity:WorkPackagesActivityService;
   @InjectField() apiV3Service:APIV3Service;

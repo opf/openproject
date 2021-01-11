@@ -89,8 +89,6 @@
           "options": {
             "browserTarget": "OpenProject:build",
             "proxyConfig": "cli_to_rails_proxy.js",
-            "deployUrl": "/assets/frontend/",
-            "aot": true
           },
           "configurations": {
             "production": {

@@ -46,7 +46,6 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
 import {splitViewRoute} from "core-app/modules/work_packages/routing/split-view-routes.helper";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {HalSource, HalSourceLinks} from "core-app/modules/hal/resources/hal-resource";
-import {HalLinkSource} from "core-app/modules/hal/hal-link/hal-link";
 
 @Directive()
 export class WorkPackageCreateComponent extends UntilDestroyedMixin implements OnInit {

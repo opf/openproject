@@ -29,7 +29,7 @@
 import {HttpClientModule} from '@angular/common/http';
 
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {async, inject, TestBed} from '@angular/core/testing';
+import { inject, TestBed, waitForAsync } from '@angular/core/testing';
 import {States} from 'core-components/states.service';
 import {PaginationInstance} from 'core-components/table-pagination/pagination-instance';
 import {IPaginationOptions, PaginationService} from 'core-components/table-pagination/pagination-service';
@@ -70,7 +70,7 @@ function pageString(element:JQuery) {
 
 describe('wpTablePagination Directive', () => {
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     window.OpenProject = new OpenProject();
 
     // noinspection JSIgnoredPromiseFromCall

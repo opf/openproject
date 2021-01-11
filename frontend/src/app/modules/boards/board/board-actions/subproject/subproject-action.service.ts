@@ -24,9 +24,7 @@ export class BoardSubprojectActionService extends CachedBoardActionService {
 
   image = ImageHelpers.imagePath('board_creation_modal/subproject.svg');
 
-  get localizedName() {
-    return this.I18n.t('js.work_packages.properties.subproject');
-  }
+  localizedName = this.I18n.t('js.work_packages.properties.subproject');
 
   headerComponent() {
     return SubprojectBoardHeaderComponent;

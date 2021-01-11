@@ -98,6 +98,8 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   public ngOnInit() {
     super.ngOnInit();
 
+
+    this.htmlId = `user_activity_edit_field_${this.activityNo}`;
     this.updateCommentText();
     this.isComment = this.activity._type === 'Activity::Comment';
     this.isBcfComment = this.activity._type === 'Activity::BcfComment';
@@ -214,10 +216,6 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
       })
       .join('');
     return this.userName + ' wrote:\n' + quoted;
-  }
-
-  public get htmlId() {
-    return `user_activity_edit_field_${this.activityNo}`;
   }
 
   deactivate(focus:boolean):void {

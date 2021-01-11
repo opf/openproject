@@ -28,7 +28,7 @@
 
 /*jshint expr: true*/
 
-import {async, TestBed} from "@angular/core/testing";
+import { TestBed, waitForAsync } from "@angular/core/testing";
 import {States} from "core-components/states.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
@@ -62,7 +62,7 @@ describe('WorkPackageViewIndentation service', function () {
     };
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     parentServiceSpy = jasmine.createSpyObj(
       'WorkPackageRelationHierarchyService',
       ['changeParent']

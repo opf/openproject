@@ -31,7 +31,7 @@
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {GlobalSearchService} from "core-app/modules/global_search/services/global-search.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {async, TestBed} from "@angular/core/testing";
+import { TestBed, waitForAsync } from "@angular/core/testing";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {States} from "core-components/states.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
@@ -41,7 +41,7 @@ describe('Global search service', function() {
   let CurrentProject:CurrentProjectService;
   let CurrentProjectSpy;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
       providers: [

@@ -33,8 +33,8 @@ import {IdDisplayField} from "core-app/modules/fields/display/field-types/id-dis
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 export class WorkPackageIdDisplayField extends IdDisplayField {
-  @InjectField() $state:StateService;
-  @InjectField() keepTab:KeepTabService;
+  @InjectField() $state!:StateService;
+  @InjectField() keepTab!:KeepTabService;
   
   private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.$state, this.keepTab);
 

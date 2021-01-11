@@ -39,8 +39,8 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
     none: this.I18n.t('js.filter.noneElement')
   };
 
-  @InjectField() $state:StateService;
-  @InjectField() keepTab:KeepTabService;
+  @InjectField() $state!:StateService;
+  @InjectField() keepTab!:KeepTabService;
 
   private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.$state, this.keepTab);
 

@@ -9,9 +9,10 @@
     "main.ts",
     "polyfills.ts",
     "app/init-globals.ts",
-    "app/init-vendors"
+    "app/init-vendors.ts"
   ],
   "include": [
+    "src/**/*.ts",
     "**/*.d.ts",
     "app/modules/augmenting/dynamic-scripts/*.ts"
   ]
