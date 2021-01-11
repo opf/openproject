@@ -1,21 +1,20 @@
+---
 sidebar_navigation:
   title: Sign in and registration
   priority: 990
 description: Sign in and registration in OpenProject.
 robots: index, follow
-keywords: sing in, login, registration
+keywords: sign in, login, registration
+---
 
 # Sign in and registration
 
 Here you will get an overview how to sign in and register to an existing OpenProject installation.
 
 <div class="alert alert-info" role="alert">
+**Note**: If you do not have an OpenProject installation yet, please visit our site: [create an OpenProject trial installation](../../cloud-edition-guide/#create-an-openproject-trial-installation).</div>
 
-**Note**: If you do not have an OpenProject installation yet, please visit our site: [create an OpenProject trial installation](../../cloud-edition-guide/#create-an-openproject-trial-installation).
-
-</div>
-
-| Feature                                                      | Documentation for                                            |
+| Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Sign in with an existing account](#sign-in-with-an-existing-account) | Sign in with an existing account to an OpenProject installation. |
 | [Sign in with Google](#sign-in-with-google)                  | Find out how to sign in with a Google account.               |
