@@ -34,17 +34,14 @@ export class HighlightableDisplayField extends DisplayField {
   /** Optionally test if we can inject highlighting service */
   @InjectField(WorkPackageViewHighlightingService, null) viewHighlighting:WorkPackageViewHighlightingService;
 
-  get isMilestone():boolean {
-    return this.resource?.type?.id  === '2';
-  }
 
   // DisplayFieldRenderer.attributeName returns the 'date' name for the
-  // 'dueDate' field because it is its schema.mappedName. In the
-  // query.highlightedAttributes (used to decide if a field is highlighted)
-  // the attribute has the name 'dueDate', so we need to change it back to get
-  // it highlighted.
+  // 'dueDate' field because it is its schema.mappedName (that allows to display
+  // the correct input type). In the query.highlightedAttributes (used to decide
+  // if a field is highlighted) the attribute has the name 'dueDate', so we need
+  // to return the original name to get it highlighted.
   get highlightName () {
-    if (this.isMilestone && this.name === 'date') {
+    if (this.name === 'date') {
       return 'dueDate';
     } else {
       return this.name;
