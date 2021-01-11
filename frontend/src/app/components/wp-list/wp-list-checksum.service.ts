@@ -39,8 +39,9 @@ export class WorkPackagesListChecksumService {
   }
 
   public id:string|null;
-  public checksum:string|null;
-  public visibleChecksum:string|null;
+  public checksum:Object|null;
+  public visibleChecksum:Object|null;
+  public onlyPaginationChanges:boolean = false;
 
   public updateIfDifferent(query:QueryResource,
                            pagination:WorkPackageViewPagination):Promise<unknown> {
@@ -96,13 +97,15 @@ export class WorkPackagesListChecksumService {
     }
   }
 
-  private set(id:string|null, checksum:string|null) {
+  private set(id:string|null, checksum:Object|null) {
+    this.onlyPaginationChanges = this.isSameUnpaged(checksum, this.checksum);
     this.id = id;
     this.checksum = checksum;
   }
 
   public clear() {
     this.id = null;
+    this.onlyPaginationChanges = false;
     this.checksum = null;
     this.visibleChecksum = null;
   }
@@ -115,16 +118,16 @@ export class WorkPackagesListChecksumService {
     return this.id !== otherId;
   }
 
-  private isChecksumDifferent(otherChecksum:string) {
-    return this.checksum && otherChecksum !== this.checksum;
+  private isChecksumDifferent(otherChecksum:Object) {
+    return this.checksum && !_.isEqual(this.checksum, otherChecksum);
   }
 
-  private isOutdated(otherId:string|null, otherChecksum:string|null) {
+  private isOutdated(otherId:string|null, otherChecksum:Object|null) {
     const hasCurrentQueryID = !!this.id;
     const hasCurrentChecksum = !!this.checksum;
     const idChanged = (this.id !== otherId);
 
-    const checksumChanged = (otherChecksum !== this.checksum);
+    const checksumChanged = !_.isEqual(this.checksum, otherChecksum);
     const visibleChecksumChanged = (this.checksum && !otherChecksum && this.visibleChecksum);
 
     return (
@@ -141,16 +144,41 @@ export class WorkPackagesListChecksumService {
     );
   }
 
-  private getNewChecksum(query:QueryResource, pagination:WorkPackageViewPagination) {
-    return this.UrlParamsHelper.encodeQueryJsonParams(query, _.pick(pagination, ['page', 'perPage']));
+  private getNewChecksum(query:QueryResource, pagination:WorkPackageViewPagination|null):Object {
+    return this.UrlParamsHelper.queryJsonParams(query, _.pick(pagination, ['page', 'perPage']));
   }
 
-  private maintainUrlQueryState(id:string|null, checksum:string|null):TransitionPromise {
+  /**
+   * Determine whether two checksums only differ in their pagination properties.
+   *
+   * @param checksum Checksum object
+   * @param other Checksum object
+   * @returns whether they match without their pagination properties
+   *
+   * @private
+   */
+  private isSameUnpaged(checksum:Object|null, other:Object|null):boolean {
+    if (!(checksum && other)) {
+      return false;
+    }
+
+    return _.isEqual(
+      this.unpagedChecksum(checksum),
+      this.unpagedChecksum(other)
+    )
+  }
+
+  private unpagedChecksum(checksum:Object):Object {
+    return _.omit(checksum, 'pa', 'pp');
+  }
+
+  private maintainUrlQueryState(id:string|null, checksum:Object|null):TransitionPromise {
     this.visibleChecksum = checksum;
+    let checksumParam = checksum ? JSON.stringify(checksum) : null;
 
     return this.$state.go(
       '.',
-      { query_props: checksum, query_id: id },
+      { query_props: checksumParam, query_id: id },
       { custom: { notify: false } }
     );
   }

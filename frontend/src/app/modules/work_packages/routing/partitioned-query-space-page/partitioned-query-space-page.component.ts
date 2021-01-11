@@ -119,7 +119,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
       const params = transition.params('to');
       const toState = transition.to();
-      this.showToolbarSaveButton = !!params.query_props;
+      this.showToolbarSaveButton = this.shouldShowSaveButton(params);
       this.setPartition(toState);
       this.cdRef.detectChanges();
     });
@@ -152,6 +152,16 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     ).subscribe((query) => {
       this.onQueryUpdated(query);
     });
+  }
+
+  /**
+   * Should we show the save button after the route changed?
+   *
+   * @param params The current router props
+   * @protected
+   */
+  protected shouldShowSaveButton(params:{ [p:string]:any }) {
+    return !!params.query_props;
   }
 
   /**

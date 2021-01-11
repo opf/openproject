@@ -111,6 +111,10 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     }
   }
 
+  protected shouldShowSaveButton(params:{ [p:string]:any }):boolean {
+    return super.shouldShowSaveButton(params) && !!this.currentQuery && !this.wpListChecksumService.onlyPaginationChanges;
+  }
+
   protected shouldUpdateHtmlTitle():boolean {
     return this.$state.current.name === 'work-packages.partitioned.list';
   }

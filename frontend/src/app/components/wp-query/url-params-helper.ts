@@ -64,6 +64,11 @@ export class UrlParamsHelperService {
   }
 
   public encodeQueryJsonParams(query:QueryResource, additional:any = {}) {
+    let paramsData = this.queryJsonParams(query, additional);
+    return JSON.stringify(paramsData);
+  }
+
+  public queryJsonParams(query:QueryResource, additional:any = {}) {
     let paramsData:any = {};
 
     paramsData = this.encodeColumns(paramsData, query);
@@ -79,7 +84,7 @@ export class UrlParamsHelperService {
     paramsData.pp = additional.perPage;
     paramsData.dr = query.displayRepresentation;
 
-    return JSON.stringify(paramsData);
+    return paramsData;
   }
 
   private encodeColumns(paramsData:any, query:QueryResource) {
