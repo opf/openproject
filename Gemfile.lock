@@ -864,7 +864,7 @@ GEM
       ffi (~> 1.1)
     table_print (1.5.7)
     temple (0.8.2)
-    terminal-table (1.8.0)
+    terminal-table (1.6.0)
     test-prof (0.12.2)
     thor (1.0.1)
     tilt (2.0.10)
