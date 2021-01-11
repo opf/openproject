@@ -39,9 +39,11 @@ To remove members from a project, [select the project](../projects/#select-a-pro
 
 ## Roles and permissions
 
-Members will have different roles with different permissions in a project. To find out how to [configure roles and permissions](../../system-admin-guide/#roles-permissions).
+Members will have different roles with different permissions in a project. To find out how to configure roles and permissions click [here](../../system-admin-guide/#roles-permissions).
 
-<div class="glossary">A **role** is defined as a set of permissions defined by a unique name. Project members are assigned to a project by specifying a user's or group's name and the role(s) the user should assume in the project.</div>
+<div class="glossary">A **role** is defined as a set of permissions defined by a unique name. Project members are assigned to a project by specifying a user's or group's name and the role(s) the user should assume in the project.
+</div>
+
 ## Groups
 
 Members can be added to groups. A group can be added to a project. With this, all members will be have the corresponding role in this project. Find out how to [create and manage groups](../../system-admin-guide/#groups) in OpenProject.
@@ -50,6 +52,6 @@ Members can be added to groups. A group can be added to a project. With this, al
 
 ### How can I increase or decrease the number of users in OpenProject?
 
-For the Community Edition you can have as many users as you need for free. If you are using the OpenProject Enterprise Edition, please write an email to sales@openproject.com.
+For the Community Edition you can have as many users as you need for free. If you are using the OpenProject Enterprise Edition, please write an email to sales @ openproject.com.
 
 If you are using the OpenProject Cloud Edition, you can easily upgrade or downgrade the number of users by selection -> Administration -> Billing -> Manage subscription and choose the new amount of users which you need in  your system.

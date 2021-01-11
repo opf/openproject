@@ -4,7 +4,7 @@ sidebar_navigation:
   priority: 800
 description: Invite team members to OpenProject.
 robots: index, follow
-keywords: invite members
+keywords: invite members, add users
 ---
 
 # Invite members
@@ -16,11 +16,9 @@ In order to see a project and work in it, you have to be a member of a project. 
 </div>
 
 <div class="alert alert-info" role="alert">
-**Note**: If you are not a member of a project, you do not see the project in the Project selection nor in the project list.
+**Note**: If you are not a member of a project, you do not see the project in the Project selection nor in the project list.</div>
 
-</div>
-
-| Feature                                       | Documentation for                               |
+| Topic                                         | Content                                         |
 | --------------------------------------------- | ----------------------------------------------- |
 | [View members](#view-members)                 | View the list of members in your project.       |
 | [Add existing members](#add-existing-members) | Add existing members to a project.              |
