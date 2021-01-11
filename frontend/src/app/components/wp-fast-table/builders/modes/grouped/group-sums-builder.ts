@@ -14,7 +14,7 @@ export class GroupSumsBuilder extends SingleRowBuilder {
   @InjectField() readonly schemaCache:SchemaCacheService;
   @InjectField() readonly displayFieldService:DisplayFieldService;
 
-  private text = {
+  public text = {
     sum: this.I18n.t('js.label_sum')
   };
 
@@ -44,6 +44,7 @@ export class GroupSumsBuilder extends SingleRowBuilder {
   private appendFirstLabel(div:HTMLElement) {
     const span = document.createElement('span');
     span.textContent = `${this.text.sum}`;
+    span.title = `${this.text.sum}`;
     div.prepend(span);
   }
 
