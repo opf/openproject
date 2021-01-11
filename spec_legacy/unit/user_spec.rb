@@ -217,7 +217,7 @@ describe User, type: :model do
       context 'with failed connection to the LDAP server' do
         it 'should return nil' do
           @auth_source = LdapAuthSource.find(1)
-          allow_any_instance_of(AuthSource).to receive(:initialize_ldap_con).and_raise(Net::LDAP::LdapError, 'Cannot connect')
+          allow_any_instance_of(AuthSource).to receive(:initialize_ldap_con).and_raise(Net::LDAP::Error, 'Cannot connect')
 
           assert_equal nil, User.try_to_login('edavis', 'wrong')
         end
