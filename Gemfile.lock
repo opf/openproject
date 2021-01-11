@@ -865,7 +865,6 @@ GEM
     table_print (1.5.7)
     temple (0.8.2)
     terminal-table (1.8.0)
-      unicode-display_width (~> 1.1, >= 1.1.1)
     test-prof (0.12.2)
     thor (1.0.1)
     tilt (2.0.10)
@@ -881,7 +880,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.7)
-    unicode-display_width (1.7.0)
+    unicode-display_width (2.0.0)
     unicorn (5.8.0)
       kgio (~> 2.6)
       raindrops (~> 0.7)
