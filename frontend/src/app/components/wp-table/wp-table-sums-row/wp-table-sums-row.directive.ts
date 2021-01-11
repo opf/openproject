@@ -66,7 +66,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
               readonly I18n:I18nService) {
 
     this.text = {
-      sum: I18n.t('js.label_sum')
+      sum: I18n.t('js.label_total_sum')
     };
   }
 
@@ -105,6 +105,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
 
   private render(columns:QueryColumn[], resource:WorkPackageCollectionResource, schema:SchemaResource) {
     this.groupSumsBuilder = new GroupSumsBuilder(this.injector, this.workPackageTable);
+    this.groupSumsBuilder.text = this.text;
     this.groupSumsBuilder.renderColumns(resource.totalSums!, this.elementRef.nativeElement);
   }
 }

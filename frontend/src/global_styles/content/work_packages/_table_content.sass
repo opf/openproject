@@ -55,9 +55,15 @@
     .wp-table--cell-td
       display: none !important
 
+  &.wp-table--sums-row:empty
+    height: 0
+
 .wp-table--sum-container
   font-weight: bold
   padding: 3px 6px
+
+  &.__internal-sorthandle
+    white-space: nowrap
 
 .work-package-table--container table.generic-table tbody td
   padding-left: 0
