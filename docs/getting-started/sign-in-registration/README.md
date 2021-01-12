@@ -12,7 +12,11 @@ keywords: sign in, login, registration
 Here you will get an overview how to sign in and register to an existing OpenProject installation.
 
 <div class="alert alert-info" role="alert">
-**Note**: If you do not have an OpenProject installation yet, please visit our site: [create an OpenProject trial installation](../../cloud-edition-guide/#create-an-openproject-trial-installation).</div>
+**Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../cloud-edition-guide/#create-an-openproject-trial-installation).
+</div>
+
+
+
 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
