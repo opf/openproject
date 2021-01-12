@@ -2,24 +2,20 @@
 sidebar_navigation:
   title: My Page
   priority: 300
-description: My Page in OpenProject.
+description: My Page in OpenProject - your personal dashboard
 robots: index, follow
-keywords: my page
+keywords: my page, personal overview page, dashboard
 ---
 
 # My Page
 
 The My Page is your **personal dashboard** with important overarching project information, such as work package reports, news, spent time, or a calendar. It can be configured to your specific needs.
 
-| Feature                                                      | Documentation for                                  |
-| ------------------------------------------------------------ | -------------------------------------------------- |
-| [My Page introduction](#my-page-introduction)                | What is My Page and what can I do with it?         |
-| [Configure the My Page](#configure-the-my-page)              | How to configure My Page?                          |
-| [Add widgets](#add-widgets)                                  | How to add widgets to My Page?                     |
-| [My spent time widget](#my-spent-time-widget)                | How to track spent time?                           |
-| [Change position of the widgets](#change-position-of-the-widgets) | How to change the position of a widget on My Page? |
-| [Change the size of a widget](#change-the-size-of-a-widget)  | How to change the size of a widget?                |
-| [Remove a widget](#remove-widget)                            | How to delete a widget on My Page?                 |
+| Topic                                           | Content                                    |
+| ----------------------------------------------- | ------------------------------------------ |
+| [My Page introduction](#my-page-introduction)   | What is My Page and what can I do with it? |
+| [Configure the My Page](#configure-the-my-page) | How to add and edit widgets on My Page?    |
+| [My spent time widget](#my-spent-time-widget)   | How to track spent time on My Page?        |
 
 ## My Page introduction
 
@@ -53,15 +49,6 @@ Once you have chosen the place where to add the new widget on My Page, you can c
 
 For a **detailed explanation of the widgets**, visit the section in the [project overview](../../user-guide/project-overview/#available-project-overview-widgets).
 
-## My spent time widget
-
-To track spent time, [add the **My spent time** widget](#add-widget) in the My Page.
-
-You can directly create new time entries by clicking on the day, change the date with drag and drop, edit or remove time entries.
-
-Watch the short video to see how to activate the spent time widget, add spent time, edit spent time (e.g. change the date or work packages or change the time booked) and delete spent time.
-
-![my-spent-time-widget](my-spent-time-widget.gif)
 
 ### Change position of the widgets
 
@@ -97,3 +84,13 @@ You can configure the work package table (e.g. filter, group, highlight, sort) a
 To delete a widget from the dashboard, click on the three dots in the upper right corner of the widget and select **Remove widget**.
 
 ![my-page-remove-widget](my-page-remove-widget.png)
+
+## My spent time widget
+
+To track spent time, [add the **My spent time** widget](#add-widget) in the My Page.
+
+You can directly create new time entries by clicking on the day, change the date with drag and drop, edit or remove time entries.
+
+Watch the short video to see how to activate the spent time widget, add spent time, edit spent time (e.g. change the date or work packages or change the time booked) and delete spent time.
+
+![my-spent-time-widget](my-spent-time-widget.gif)
