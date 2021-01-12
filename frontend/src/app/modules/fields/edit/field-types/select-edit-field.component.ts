@@ -130,6 +130,10 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     this.value = option;
   }
 
+  public get showAddNewButton ():boolean {
+    return this.schema.type === 'User';
+  }
+
   private setValues(availableValues:HalResource[]) {
     this.availableOptions = this.sortValues(availableValues);
     this.addEmptyOption();
