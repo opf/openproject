@@ -14,9 +14,10 @@ In order to see a project and work in it, you have to be a member of a project. 
 <div class="glossary">
 **Member** is defined as a project member in a project. Project members are added in the members tab in the project settings.
 </div>
-
 <div class="alert alert-info" role="alert">
-**Note**: If you are not a member of a project, you do not see the project in the Project selection nor in the project list.</div>
+**Note**: If you are not a member of a project, you do not see the project in the Project selection nor in the project list.
+</div>
+
 
 | Topic                                         | Content                                         |
 | --------------------------------------------- | ----------------------------------------------- |
