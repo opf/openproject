@@ -107,7 +107,8 @@ data will be stored across container restarts, and start the container with
 those directories mounted:
 
 ```bash
-sudo mkdir -p /var/lib/openproject/{pgdata,assets}
+# You can also create the two directories in the user-level directory of the host machine in case of "Operation not permitted" error that macOS Docker user may encounter.
+sudo mkdir -p /var/lib/openproject/{pgdata,assets} 
 
 docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
