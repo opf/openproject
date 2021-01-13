@@ -402,6 +402,7 @@ hu:
     label_public_query: "Nyilvános"
     label_sum: "Össz."
     label_sum_for: "Összeg"
+    label_total_sum: "Total sum"
     label_subject: "Tárgy"
     label_this_week: "ezen a héten"
     label_today: "Today"

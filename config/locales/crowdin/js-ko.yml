@@ -403,6 +403,7 @@ ko:
     label_public_query: "공용"
     label_sum: "합계"
     label_sum_for: "합계 "
+    label_total_sum: "Total sum"
     label_subject: "제목"
     label_this_week: "이번 주"
     label_today: "오늘"

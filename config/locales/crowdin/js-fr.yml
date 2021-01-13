@@ -403,6 +403,7 @@ fr:
     label_public_query: "Public"
     label_sum: "Total"
     label_sum_for: "Somme pour"
+    label_total_sum: "Total sum"
     label_subject: "Sujet"
     label_this_week: "cette semaine"
     label_today: "Aujourd'hui"

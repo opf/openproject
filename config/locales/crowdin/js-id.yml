@@ -403,6 +403,7 @@ id:
     label_public_query: "Publik"
     label_sum: "Total"
     label_sum_for: "Jumlah"
+    label_total_sum: "Total sum"
     label_subject: "Perihal"
     label_this_week: "minggu ini"
     label_today: "Today"

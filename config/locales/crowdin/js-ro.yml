@@ -402,6 +402,7 @@ ro:
     label_public_query: "Public"
     label_sum: "Sumă"
     label_sum_for: "Suma pentru"
+    label_total_sum: "Total sum"
     label_subject: "Subiect"
     label_this_week: "săptămâna curentă"
     label_today: "Today"
