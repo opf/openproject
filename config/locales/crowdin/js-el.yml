@@ -402,6 +402,7 @@ el:
     label_public_query: "Δημόσιο"
     label_sum: "Άθροισμα"
     label_sum_for: "Άθροισμα του"
+    label_total_sum: "Total sum"
     label_subject: "Θέμα"
     label_this_week: "αυτή την εβδομάδα"
     label_today: "Today"

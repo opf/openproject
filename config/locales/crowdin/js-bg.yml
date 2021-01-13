@@ -403,6 +403,7 @@ bg:
     label_public_query: "Публичен"
     label_sum: "Sum"
     label_sum_for: "Сума за"
+    label_total_sum: "Total sum"
     label_subject: "Заглавие"
     label_this_week: "тази седмица"
     label_today: "Днес"

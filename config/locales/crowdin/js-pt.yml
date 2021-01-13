@@ -402,6 +402,7 @@ pt:
     label_public_query: "Público"
     label_sum: "Soma"
     label_sum_for: "Soma para"
+    label_total_sum: "Total sum"
     label_subject: "Assunto"
     label_this_week: "esta semana"
     label_today: "Hoje"

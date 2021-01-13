@@ -403,6 +403,7 @@ zh-CN:
     label_public_query: "公开"
     label_sum: "总计"
     label_sum_for: "总和"
+    label_total_sum: "Total sum"
     label_subject: "主题"
     label_this_week: "这一周"
     label_today: "今天"

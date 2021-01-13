@@ -403,6 +403,7 @@ nl:
     label_public_query: "Publiek"
     label_sum: "Som"
     label_sum_for: "Som voor"
+    label_total_sum: "Total sum"
     label_subject: "Onderwerp"
     label_this_week: "deze week"
     label_today: "Today"

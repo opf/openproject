@@ -402,6 +402,7 @@ sv:
     label_public_query: "Offentlig"
     label_sum: "Summa"
     label_sum_for: "Summa för"
+    label_total_sum: "Total sum"
     label_subject: "Ämne"
     label_this_week: "denna vecka"
     label_today: "Today"
