@@ -1,13 +1,13 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -32,7 +32,7 @@ namespace :copyright do
     case format
     when :ruby, :rb
       short_copyright_line('#', options)
-    when :js, :sass
+    when :js, :sass, :ts
       short_copyright_line('//', options)
     when :css
       short_copyright_surrounding('/*', '*/', options)
@@ -90,8 +90,8 @@ namespace :copyright do
     case format
     when :ruby, :rb
       /\A(?<shebang>#![^\n]+\n)?(?<additional>.*)?#--\s*copyright.*?\+\+/m
-    when :js, :css, :sass
-      /\A(?<shebang>#![^\n]+\n)?(?<additional>.*)?\/\/--\s*copyright.*?\/\/\+\+/m
+    when :js, :css, :sass, :ts
+      /\A(?<shebang>#![^\n]+\n)?(?<additional>.*)?\/\/\s*--\s*copyright.*?\/\/\s*\+\+/m
     when :erb
       /\A(?<shebang>#![^\n]+\n)?(?<additional>.*)?<%#--\s*copyright.*?\+\+#%>/m
     when :rdoc
@@ -245,6 +245,11 @@ namespace :copyright do
   desc 'Update the copyright on .text.erb source files'
   task :update_text_erb, :arg1 do |_task, args|
     rewrite_copyright('text.erb', [], :erb, args[:arg1])
+  end
+
+  desc 'Update the copyright on .ts source files'
+  task :update_typescript, :arg1 do |_task, args|
+    rewrite_copyright('ts', [], :ts, args[:arg1])
   end
 
   desc 'Update the copyright on all source files'
