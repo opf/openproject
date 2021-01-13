@@ -16,8 +16,6 @@ Here you will get an overview how to sign in and register to an existing OpenPro
 </div>
 
 
-
-
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Sign in with an existing account](#sign-in-with-an-existing-account) | Sign in with an existing account to an OpenProject installation. |
@@ -109,14 +107,23 @@ You are then asked to enter you email address with which you have registered to 
 You will then receive an email with a link to reset your password.
 
 <div class="alert alert-info" role="alert">
-
 **Note**: If you have [signed-in with a Google account](#sign-in-with-a-google-account), your are not able to reset your password at this point.
-
 </div>
 
 ## Frequently asked questions (FAQ)
 
-### Is it possible to use multiple languages in OpenProject?
+### I cannot log in, I do not know my password. What can I do?
 
-Yes, it is possible to use OpenProject in multiple languages. We support English, German, French and a number of additional languages. Each user can select their own preferred language by signing into OpenProject, clicking on the user avatar on the upper right side and selecting "My account" from the dropdown menu.
-You can then select "Settings" from the side menu on the left side and [change the language](../my-account/#change-your-language).
+As a first step please try to [reset your password](#reset-your-password). Please look in your spam folder, too, if you didn't receive an email.
+
+If that doesn't help please contact your admin for login related topics. He/she can [set a new password for you](../../system-admin-guide/users-permissions/users/#manage-user-settings).
+
+If you don't know the URL of your OpenProject Enterprise cloud, you can find it on this website: https://www.openproject.org/request-organization/ on the basis of your email address.
+
+### I cannot log in. Resetting my password seems to have no effect. What do I do?
+
+Look in your spam folder for the email. 
+
+Ask your system admin to set a new password for you.
+
+If you are the system administrator of an on-premises installation (Enterprise on-premises or Community Edition) please have a look at [this FAQ](../../installation-and-operations/operation/faq/#i-lost-access-to-my-admin-account-how-do-i-reset-my-password).

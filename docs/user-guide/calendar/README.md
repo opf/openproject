@@ -11,7 +11,7 @@ keywords: calendar
 
 The calendar shows all of the project’s work packages in calendar form. 
 
-| Feature                                                      | Documentation for                                     |
+| Topic                                                        | Content                                               |
 | ------------------------------------------------------------ | ----------------------------------------------------- |
 | [Calendar overview](#calendar-overview)                      | How to use the calendar in OpenProject.               |
 | [Filters in calendar](#filters-in-calendar)                  | How to filter in the calendar view.                   |
@@ -88,3 +88,7 @@ It is currently not possible to export or sync the calendar. You can however [ex
 ### Are holidays considered in the calendar?
 
 Currently, the calendar does not consider weekends or holidays as non-working days, i.e. the end date for a task could e.g. be set on a Sunday. This is important for businesses that are working on weekends or holidays. Please note that we are currntly working on a feature for holidays and weekends that can be adjusted as needed. 
+
+### Is there a limit for the number of work packages displayed in the calendar?
+
+The limit is 100 and can't be changed at the moment. Fin the respective feature request [here](https://community.openproject.com/projects/openproject/work_packages/35062/activity).

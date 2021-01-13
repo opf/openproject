@@ -4,7 +4,7 @@ sidebar_navigation:
   priority: 4
 ---
 
-# Frequently asked questions - FAQ
+# Frequently asked questions for Operation - FAQ
 
 ## I lost access to my admin account, how do I reset my password?
 

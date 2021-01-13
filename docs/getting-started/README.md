@@ -4,7 +4,7 @@ sidebar_navigation:
   priority: 999
 description: OpenProject getting started guide.
 robots: index, follow
-keywords: getting started guide
+keywords: getting started guide, tutorial
 ---
 
 # Getting started guide
@@ -15,7 +15,7 @@ Here you will learn about the **first steps with OpenProject**. If you need more
 
 ## Overview
 
-| Popular Topics                                          | Description                                                  |
+| Topic                                                   | Content                                                      |
 | ------------------------------------------------------- | :----------------------------------------------------------- |
 | [Introduction to OpenProject](openproject-introduction) | Get an introduction about project management with OpenProject. |
 | [Sign in and registration](sign-in-registration)        | Find out how you can register and sign in to OpenProject.    |
@@ -63,3 +63,22 @@ We offer the premium functions of OpenProject (incl. boards) for two different O
 
 If you want to run OpenProject on your own server the OpenProject Enterprise on-premises edition is the right option.
 Have you already installed the [OpenProject Community edition](https://www.openproject.org/download-and-installation/)? If yes, you can request a trial license for the OpenProject Enterprise on-premises edition by clicking on the button ["Free trial license"](https://www.openproject.org/de/enterprise-edition/) and test the Enterprise on-premises edition for 14 days for free.
+
+### Is there an organizational chart in OpenProject?
+
+There's no such feature. However, you can use the wiki to add information regarding your departments and employees. Furthermore, you can upload existing org charts as image or e.g. PDF to the wiki or the documents module. 
+
+In many companies it makes sense to structure your project tree according to your departments (i.e. one parent project for each department with projects for each topic or client underneath).
+
+### Can I set up an entity-relationship diagram in OpenProject?
+
+No, currently we do not have an entity-relationship diagram for OpenProject.
+
+### What are the system requirements?
+
+Apart from using OpenProject in the cloud (OpenProject Enterprise cloud) OpenProject can be installed in two different ways: The packaged installation of OpenProject is the recommended way to install and maintain OpenProject using DEB or RPM packages. There's also a Docker based installation option. The system requirements can be found [here](../installation-and-operations/system-requirements).
+
+### Is it possible to use multiple languages in OpenProject?
+
+Yes, it is possible to use OpenProject in multiple languages. We support English, German, French and a number of additional languages. Each user can select their own preferred language by signing into OpenProject, clicking on the user avatar on the upper right side and selecting "My account" from the dropdown menu.
+You can then select "Settings" from the side menu on the left side and [change the language](../my-account/#change-your-language).

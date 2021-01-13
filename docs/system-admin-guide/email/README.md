@@ -12,7 +12,14 @@ Configure **email settings** in OpenProject, i.e. Email notifications and incomi
 
 Navigate to -> *Administration* -> *Emails*.
 
-# Email notifications settings
+| Topic                                                | Content                                        |
+| ---------------------------------------------------- | ---------------------------------------------- |
+| [Email notifications](#email-notifications-settings) | How to configure outgoing email notifications? |
+| [Incoming emails](#incoming-emails-settings)         | How to configure settings for inbound emails?  |
+| [FAQ](frequently-asked-questions---faq)              | Frequently asked questions.                    |
+
+
+## Email notifications settings
 
 To adapt email notification settings, go to Email and choose *Email notifications*.
 
@@ -24,7 +31,7 @@ To adapt email notification settings, go to Email and choose *Email notification
 
 ![System-admin-guide-emails](System-admin-guide-emails.png)
 
-## Configure email header and email footer
+### Configure email header and email footer
 
 Configure your notification email header and footer which will be sent out for email notifications from the system.
 
@@ -47,3 +54,12 @@ To adapt incoming email settings, go to *Email* -> *Incoming Email*. Here you ca
 ![System-admin-guide-incoming-email](System-admin-guide-incoming-email.png)
 
 **To set up incoming email**, please visit our [Operations guide](../../installation-and-operations/configuration/incoming-emails/).
+
+
+
+
+## Frequently asked questions - FAQ
+
+### Can I get a notification when a deadline approaches?
+
+Not at the moment. This is a well-known feature requirement and we are currently working on the specification for this with our dev team. It's already on our roadmap and it will be developed in one of the upcoming releases. 

@@ -28,6 +28,7 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [Delete a project](#delete-a-project)                        | How to delete a project?                                     |
 | [View all projects](#view-all-projects)                      | Get an overview of all your projects in the projects overview list. |
 | [Project overarching reports](#project-overarching-reports)  | How to create project overarching reports across multiple projects? |
+| [FAQ](frequently-asked-questions---faq)                      | Frequently asked questions.                                  |
 
 <video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Projects-Introduction.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
@@ -79,8 +80,6 @@ OpenProject, for example, uses the projects to structure the different modules/p
 
 <div class="alert alert-info" role="alert">
 **Please note**: You have to be a [member](../members/#add-members) of a project in order to see the project and to work in a project.
-
-
 </div>
 
 ## Project Settings
@@ -246,3 +245,15 @@ You can group by projects by clicking in the header of the work package list nex
 
 
 
+## Frequently asked questions - FAQ
+
+### How can I get an overview over multiple projects at the same time?
+
+There are several possibilities:
+
+1. To see only the projects without their work packages go to the Projects overview ("View all projects")
+2. To see all work packages go to the work package module and set the filter "Subproject". Alternatively you can click on *Modules ->Work packages* in the upper right hand corner.
+3. Go to the Project overview of a project with subprojects, add the widget "Work package table" and set the filter mentioned above. Find more information on this topic [here](../user-guide/project-overview/#add-a-widget-to-the-project-overview). Additionally you could add the column "Progress".
+4. Add the widget "Work package table" to your My Page and set the filter mentioned above. Find more information on this topic [here](../../getting-started/my-page/#configure-the-my-page). Additionally you could add the column "Progress".
+
+We will introduce further similar functions in the course of implementing multi-project management, this is planned for the next few years. 

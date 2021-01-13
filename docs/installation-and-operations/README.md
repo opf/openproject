@@ -6,7 +6,7 @@ For installation of the **OpenProject BIM edition** for construction project man
 
 ## Overview
 
-| Main Topics | Description |
+| Main Topics | Content |
 | ----------- | :---------- |
 | [System requirements](system-requirements) | Learn the minimum configuration required to run OpenProject |
 | [Installation](installation/) | How to install OpenProject |
@@ -23,3 +23,8 @@ A [manual installation](installation/manual) option is also documented, but due 
 ### Are there extra fees to pay, in terms of installing the OpenProject software?
 
 The Community and [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/) are on-premises solutions and thus need installation from your side while the [Enterprise cloud edition](https://www.openproject.org/hosting/) is hosted by us. The Community edition is for free and we ask you to do the installation yourself. Of course we support you with a clear and easy [installation guide](https://www.openproject.org/download-and-installation/). If you would like us to install the Enterprise on-premises edition for you, we are charging a fee of €150 for this once-off service. You can add the installation support during your Enterprise on-premises edition booking process.
+
+### OpenProject says it's the newest version, although I know there's been a major release (e.g. 11.0). What's the problem? Why can't I upgrade?
+
+Please note the steps that have been outlined in the blue box at the top [here](./operation/upgrading). It's important to change the branch for this.
+We implemented this to prevent users from upgrading to a major release (which could be not backwards compatible) by mistake.
