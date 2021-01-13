@@ -289,20 +289,25 @@ module OpenProject
       def configure_cache(application_config)
         return unless override_cache_config? application_config
 
-        # rails defaults to :file_store, use :dalli when :memcaches is configured in configuration.yml
+        # rails defaults to :file_store, use :mem_cache_store when :memcache is configured in configuration.yml
+        # Also use :mem_cache_store for when :dalli_store is configured
         cache_store = @config['rails_cache_store'].try(:to_sym)
-        if cache_store == :memcache
+
+        case cache_store
+        when :memcache, :dalli_store
           cache_config = [:mem_cache_store]
           cache_config << @config['cache_memcache_server'] \
             if @config['cache_memcache_server']
         # default to :file_store
-        elsif cache_store.nil? || cache_store == :file_store
+        when NilClass, :file_store
           cache_config = [:file_store, Rails.root.join('tmp/cache')]
         else
           cache_config = [cache_store]
         end
+
         parameters = cache_parameters(@config)
         cache_config << parameters if parameters.size > 0
+
         application_config.cache_store = cache_config
       end
 
