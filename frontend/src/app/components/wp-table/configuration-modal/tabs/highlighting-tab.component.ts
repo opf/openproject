@@ -112,9 +112,8 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
 
   private setSelectedValues() {
     const currentValues = this.wpTableHighlight.current.selectedAttributes;
-    if (currentValues === undefined) {
-      this.selectedAttributes = this.availableInlineHighlightedAttributes;
-    } else {
+
+    if (currentValues) {
       this.selectedAttributes = currentValues;
     }
   }
