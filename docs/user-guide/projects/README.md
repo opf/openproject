@@ -257,3 +257,8 @@ There are several possibilities:
 4. Add the widget "Work package table" to your My Page and set the filter mentioned above. Find more information on this topic [here](../../getting-started/my-page/#configure-the-my-page). Additionally you could add the column "Progress".
 
 We will introduce further similar functions in the course of implementing multi-project management, this is planned for the next few years. 
+
+### We have different departments in our company and need projects by departments. Can I use sub-projects for the departments?
+
+Yes, that is in most cases the best solution.
+

@@ -4,7 +4,7 @@ sidebar_navigation:
   priority: 870
 description: Find out about work packages in OpenProject
 robots: index, follow
-keywords: work packages
+keywords: work packages, tickets
 ---
 
 # Work packages
@@ -53,6 +53,10 @@ First, navigate to the work package table. Highlight all work packages (in the h
 Select **Bulk copy** in order to copy all selected work packages including their relations.
 
 ![image-20200331132513748](image-20200331132513748.png)
+
+### Can I set multiple parents for one work package?
+
+No, this is not possible. 
 
 ### Is it possible to adapt or rename the status list?
 
