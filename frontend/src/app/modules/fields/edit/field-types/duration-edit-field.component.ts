@@ -51,7 +51,6 @@ export class DurationEditFieldComponent extends EditFieldComponent {
   @InjectField() TimezoneService:TimezoneService;
 
   public parser(value:any, input:any) {
-    if (isNaN(value)) { return value; }
     // Managing decimal separators in a multi-language app is a complex topic:
     // https://www.ctrl.blog/entry/html5-input-number-localization.html
     // Depending on the locale of the OS, the browser or the app itself,
@@ -66,8 +65,6 @@ export class DurationEditFieldComponent extends EditFieldComponent {
     // valid separators (e.g: introducing 1. would set 1 as a value).
     if (value == null && !input.validity.valid) {
       value = this.value || 0;
-    } else {
-      value = parseFloat(value);
     }
 
     return moment.duration(value, 'hours');
