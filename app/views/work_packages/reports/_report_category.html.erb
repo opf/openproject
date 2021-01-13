@@ -36,6 +36,6 @@ See docs/COPYRIGHT.rdoc for more details.
                 title: t(:text_analyze, subject: WorkPackage.human_attribute_name(report.report_type)),
                 class: 'no-decoration-on-hover') %></span>
   </div>
-  <%= render partial: 'report', locals: { report: report } %>
-  <br />
 </div>
+
+<%= render partial: 'report', locals: { report: report } %>
