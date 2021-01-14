@@ -8,11 +8,11 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {Observable} from 'rxjs';
 
 @Component({
-  templateUrl: './invite-user.modal.html',
-  styleUrls: ['./invite-user.modal.sass'],
+  templateUrl: './invite-user.component.html',
+  styleUrls: ['./invite-user.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InviteUserModal extends OpModalComponent implements OnInit {
+export class InviteUserModalComponent extends OpModalComponent implements OnInit {
   /* Close on escape? */
   public closeOnEscape = true;
 
@@ -24,6 +24,13 @@ export class InviteUserModal extends OpModalComponent implements OnInit {
     closePopup: this.I18n.t('js.close_popup_title'),
     exportPreparing: this.I18n.t('js.label_export_preparing')
   };
+
+  public type:string|null = null;
+  public project = null;
+  public user = null;
+  public role = null;
+  public message = '';
+  public step = 'project';
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly I18n:I18nService,
