@@ -1,0 +1,213 @@
+diff --git a/app/mailers/user_mailer.rb b/app/mailers/user_mailer.rb
+index 63b09712be..c9dd1e39e6 100644
+--- a/app/mailers/user_mailer.rb
++++ b/app/mailers/user_mailer.rb
+@@ -324,7 +324,8 @@ class UserMailer < BaseMailer
+   private
+ 
+   def subject_for_work_package(wp)
+-    "#{wp.project.name} - #{wp.status.name} #{wp.type.name} ##{wp.id}: #{wp.subject}"
++  #  "#{wp.project.name} - #{wp.status.name} #{wp.type.name} ##{wp.id}: #{wp.subject}"
++    "#{wp.project.name} - #{wp.status.name} #{wp.type.name}: #{wp.subject}"
+   end
+ 
+   # like #mail, but contains special author based filters
+diff --git a/app/models/mail_handler.rb b/app/models/mail_handler.rb
+index c2ca738061..2dcc8594bf 100644
+--- a/app/models/mail_handler.rb
++++ b/app/models/mail_handler.rb
+@@ -128,15 +128,15 @@ class MailHandler < ActionMailer::Base
+ 
+   private
+ 
+-  MESSAGE_ID_RE = %r{^<?openproject\.([a-z0-9_]+)\-(\d+)\.\d+@}
++  MESSAGE_ID_RE = %r{^<?openproject\.([a-z0-9_]+)\-(\d+)\-(\d+)\.\d+@}
+   ISSUE_REPLY_SUBJECT_RE = %r{.+? - .+ #(\d+):}
+   MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]*msg(\d+)\]}
+ 
+   def dispatch
+-    headers = [email.in_reply_to, email.references].flatten.compact
++    headers = [email.references, email.in_reply_to].flatten.compact
+     if headers.detect { |h| h.to_s =~ MESSAGE_ID_RE }
+       klass = $1
+-      object_id = $2.to_i
++      object_id = $3.to_i
+       method_name = "receive_#{klass}_reply"
+       if self.class.private_instance_methods.map(&:to_s).include?(method_name)
+         send method_name, object_id
+diff --git a/app/views/layouts/project_mailer.html.erb b/app/views/layouts/project_mailer.html.erb
+index 521a1ebdfa..13a092d53d 100644
+--- a/app/views/layouts/project_mailer.html.erb
++++ b/app/views/layouts/project_mailer.html.erb
+@@ -35,8 +35,8 @@ See docs/COPYRIGHT.rdoc for more details.
+       }
+ 
+       body {
+-        font-family: Verdana, sans-serif;
+-        font-size: 0.8em;
++        font-family: Calibri, Verdana, sans-serif;
++        font-size: 1.05em;
+         color: #484848;
+         background: #FFFFFF;
+       }
+@@ -61,8 +61,13 @@ See docs/COPYRIGHT.rdoc for more details.
+         border: 0;
+       }
+       .footer {
++        color: #808080;
++        background: #FFFFFF;
++      }
++      .header {
+         font-size: 0.8em;
+-        font-style: italic;
++        color: #C4C4C4;
++        background: #FFFFFF;
+       }
+     </style>
+   </head>
+@@ -71,7 +76,6 @@ See docs/COPYRIGHT.rdoc for more details.
+   <%= call_hook(:view_layouts_mailer_html_before_content, self.assigns) %>
+   <%= yield %>
+   <%= call_hook(:view_layouts_mailer_html_after_content, self.assigns) %>
+-  <hr />
+   <span class="footer"><%= OpenProject::TextFormatting::Renderer.format_text(Setting.localized_emails_footer) %></span>
+   </body>
+ </html>
+diff --git a/app/views/layouts/user_mailer.html.erb b/app/views/layouts/user_mailer.html.erb
+index d196d35312..c82310ddf0 100644
+--- a/app/views/layouts/user_mailer.html.erb
++++ b/app/views/layouts/user_mailer.html.erb
+@@ -35,8 +35,8 @@ See docs/COPYRIGHT.rdoc for more details.
+       }
+ 
+       body {
+-        font-family: Verdana, sans-serif;
+-        font-size: 0.8em;
++        font-family: Calibri, Verdana, sans-serif;
++        font-size: 1.05em;
+         color: #484848;
+         background: #FFFFFF;
+       }
+@@ -68,8 +68,13 @@ See docs/COPYRIGHT.rdoc for more details.
+         padding-left: 0.6em;
+       }
+       .footer {
++        color: #808080;
++        background: #FFFFFF;
++      }
++      .header {
+         font-size: 0.8em;
+-        font-style: italic;
++        color: #C4C4C4;
++        background: #FFFFFF;
+       }
+       a.user-mention:before {
+         content: '@';
+@@ -82,7 +87,6 @@ See docs/COPYRIGHT.rdoc for more details.
+       <%= call_hook(:view_layouts_mailer_html_before_content, self.assigns) %>
+       <%= yield %>
+       <%= call_hook(:view_layouts_mailer_html_after_content, self.assigns) %>
+-      <hr />
+       <span class="footer"><%= OpenProject::TextFormatting::Renderer.format_text(Setting.localized_emails_footer) %></span>
+   </body>
+ </html>
+diff --git a/app/views/user_mailer/_issue_details.html.erb b/app/views/user_mailer/_issue_details.html.erb
+index 7b840ec6cf..858d01af0e 100644
+--- a/app/views/user_mailer/_issue_details.html.erb
++++ b/app/views/user_mailer/_issue_details.html.erb
+@@ -30,23 +30,46 @@ See docs/COPYRIGHT.rdoc for more details.
+ <h1><%= link_to issue.to_s, work_package_url(issue) %></h1>
+ 
+ <ul>
++  <% if issue.author != "" %>
+   <li><%= WorkPackage.human_attribute_name(:author)        %>: <%= issue.author        %></li>
++  <% end %>
++  <% if issue.status != "" %>
+   <li><%= WorkPackage.human_attribute_name(:status)        %>: <%= issue.status        %></li>
++  <% end %>
++  <% if issue.priority != "" %>
+   <li><%= WorkPackage.human_attribute_name(:priority)      %>: <%= issue.priority      %></li>
++  <% end %>
++  <% if issue.assigned_to != "" %>
+   <li><%= WorkPackage.human_attribute_name(:assigned_to)   %>: <%= issue.assigned_to   %></li>
++  <% end %>
++  <% if issue.responsible != "" %>
+   <li><%= WorkPackage.human_attribute_name(:responsible)   %>: <%= issue.responsible   %></li>
++  <% end %>
++  <% if issue.category != "" %>
+   <li><%= WorkPackage.human_attribute_name(:category)      %>: <%= issue.category      %></li>
++  <% end %>
++  <% if issue.version != "" %>
+   <li><%= WorkPackage.human_attribute_name(:version) %>: <%= issue.version %></li>
++  <% end %>
++  <% if issue.start_date != "" %>
+   <li><%= WorkPackage.human_attribute_name(:start_date)    %>: <%= issue.start_date    %></li>
++  <% end %>
++  <% if issue.due_date != "" %>
+   <li><%= WorkPackage.human_attribute_name(:due_date)      %>: <%= issue.due_date      %></li>
++  <% end %>
++  <% if issue.estimated_hours != "" %>
+   <li><%= WorkPackage.human_attribute_name(:estimated_hours)%>: <%= issue.estimated_hours %></li>
+-
++  <% end %>
+   <% if Setting.work_package_done_ratio != 'disabled' %>
+-    <li><%= WorkPackage.human_attribute_name(:done_ratio)    %>: <%= issue.done_ratio    %></li>
++    <% if issue.done_ratio != "" %>
++      <li><%= WorkPackage.human_attribute_name(:done_ratio)    %>: <%= issue.done_ratio    %></li>
++    <% end %>
+   <% end %>
+ 
+   <% issue.custom_field_values.each do |value| %>
+-    <li><%= value.custom_field.name %>: <%= show_value(value) %></li>
++    <% if show_value(value) != "" %>
++      <li><%= value.custom_field.name %>: <%= show_value(value) %></li>
++    <% end %>
+   <% end %>
+ </ul>
+ 
+diff --git a/app/views/user_mailer/work_package_added.html.erb b/app/views/user_mailer/work_package_added.html.erb
+index 8bf002ddb7..86c03d3f7e 100644
+--- a/app/views/user_mailer/work_package_added.html.erb
++++ b/app/views/user_mailer/work_package_added.html.erb
+@@ -27,7 +27,6 @@ See docs/COPYRIGHT.rdoc for more details.
+ 
+ ++#%>
+ 
+-<%= t(:text_work_package_added, id: "##{@issue.id}", author: @issue.author) %>
++<span class="header"><%= t(:text_work_package_added, id: "##{@issue.id}", author: @issue.author) %></span>
+ <%= format_text(@journal.notes, only_path: false, object: @issue, project: @issue.project) %>
+-<hr />
+-<%= render partial: 'issue_details', locals: { issue: @issue } %>
++<%#-- <hr /> ++#%> <%#= render partial: 'issue_details', locals: { issue: @issue } %>
+diff --git a/app/views/user_mailer/work_package_updated.html.erb b/app/views/user_mailer/work_package_updated.html.erb
+index 27ebca2900..57a6c8c62e 100644
+--- a/app/views/user_mailer/work_package_updated.html.erb
++++ b/app/views/user_mailer/work_package_updated.html.erb
+@@ -26,12 +26,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ See docs/COPYRIGHT.rdoc for more details.
+ 
+ ++#%>
+-<%= t(:text_work_package_updated, id: "##{@issue.id}", author: @journal.user) %>
++<span class="header"><%= t(:text_work_package_updated, id: "##{@issue.id}", author: @journal.user) %></span>
+ <ul>
+   <% @journal.details.each do |detail| %>
+     <li><%= @journal.render_detail(detail, only_path: false) %></li>
+   <% end %>
+ </ul>
+ <%= format_text(@journal.notes, only_path: false, object: @issue, project: @issue.project) %>
+-<hr />
+-<%= render partial: 'issue_details', locals: { issue: @issue } %>
++<%#-- <hr /> ++#%> <%#= render partial: 'issue_details', locals: { issue: @issue } %>
+diff --git a/lib/redmine/imap.rb b/lib/redmine/imap.rb
+index cca2e75f3f..d525cff6da 100644
+--- a/lib/redmine/imap.rb
++++ b/lib/redmine/imap.rb
+@@ -50,7 +50,7 @@ module Redmine
+         host = imap_options[:host] || '127.0.0.1'
+         port = imap_options[:port] || '143'
+         ssl = ssl_option(imap_options)
+-        imap = Net::IMAP.new(host, port, ssl)
++        imap = Net::IMAP.new(host, port, ssl, nil, false)
+ 
+         imap.login(imap_options[:username], imap_options[:password]) unless imap_options[:username].nil?
+ 

@@ -1,0 +1,19 @@
+diff --git a/app/views/user_mailer/work_package_updated.html.erb b/app/views/user_mailer/work_package_updated.html.erb
+index 27ebca2900..57a6c8c62e 100644
+--- a/app/views/user_mailer/work_package_updated.html.erb
++++ b/app/views/user_mailer/work_package_updated.html.erb
+@@ -26,12 +26,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ See docs/COPYRIGHT.rdoc for more details.
+ 
+ ++#%>
+-<%= t(:text_work_package_updated, id: "##{@issue.id}", author: @journal.user) %>
++<span class="header"><%= t(:text_work_package_updated, id: "##{@issue.id}", author: @journal.user) %></span>
+ <ul>
+   <% @journal.details.each do |detail| %>
+     <li><%= @journal.render_detail(detail, only_path: false) %></li>
+   <% end %>
+ </ul>
+ <%= format_text(@journal.notes, only_path: false, object: @issue, project: @issue.project) %>
+-<hr />
+-<%= render partial: 'issue_details', locals: { issue: @issue } %>
++<%#-- <hr /> ++#%> <%#= render partial: 'issue_details', locals: { issue: @issue } %>

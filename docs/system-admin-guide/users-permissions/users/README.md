@@ -16,15 +16,14 @@ The users list provides an overview of all users in OpenProject. You can create 
 </div>
 
 
-| Feature                                                      | Documentation for                                            |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [User list](#user-list)                                      | Manage all users in OpenProject.                             |
-| [Lock users](#lock-users)                                    | Block a user permanently in the system.                      |
-| [Filter users](#filter-users)                                | Filter users in the list.                                    |
-| [Invite new users](#invite-new-users)                        | Add new users to your OpenProject and invite them via email. |
-| [Send user invitation via email](#resend-user-invitation-via-email) | Send user invitation via email.                              |
-| [Manage user settings](#manage-user-settings)                | Manage user settings, e.g. language, projects, groups, global roles, rate history, avatar, two-factor authentication. |
-| [Delete users](#delete-users)                                | Delete a user from the system.                               |
+| Topic                                         | Content                                                      |
+| --------------------------------------------- | ------------------------------------------------------------ |
+| [User list](#user-list)                       | Manage all users in OpenProject.                             |
+| [Lock users](#lock-users)                     | Block a user permanently in the system.                      |
+| [Filter users](#filter-users)                 | Filter users in the list.                                    |
+| [Invite new users](#invite-new-users)         | Add new users to your OpenProject and invite them via email. Resend and delete user invitations. |
+| [Manage user settings](#manage-user-settings) | Manage user settings, e.g. language, projects, groups, global roles, rate history, avatar, two-factor authentication. |
+| [Delete users](#delete-users)                 | Delete a user from the system.                               |
 
 ## User list
 
@@ -71,13 +70,17 @@ Click the blue **Create** button in order to invite the new user via email.
 
 The **Create and continue** button will bring you to the form to add another new user.
 
-## Resend user invitation via email
+### Resend user invitation via email
 
 If a user did not receive the email invitation, you can send the invitation to the user again if needed. In the user list, click on the user name to whom you want to resend the email with the invitation link to the system.
 
 In the top right, click the **Send invitation** button in order to send the email once again.
 
 ![Sys-admin-resend-invitation](Sys-admin-resend-invitation.png)
+
+### Delete user invitations
+To invalidate or revoke a user's invitation click on the user name and then on **Delete** in the upper right corner. This will prevent the invited user from logging in. 
+Please note: This only works for users who haven't logged in yet. If the user is already active this will delete his/her whole profile and account. Deleting users can't be easily revoked.
 
 ## View user profile
 
