@@ -30,11 +30,12 @@ export interface FilterConditions {name:string; operator:FilterOperator; values:
 })
 
 
-export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMixin implements OnInit {
+export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
   @Input() public filter:QueryFilterInstanceResource;
   @Input() public filterConditions?:FilterConditions[];
   @Input() public filterResource:'work_packages' | 'users';
   @Input() public filterSearchKey?:string;
+  @Input() public shouldFocus:boolean = false;
   @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
 
   private _isEmpty:boolean;
@@ -81,6 +82,12 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
     this.initialization();
   // Request an empty value to load warning early on
     this.requests.input$.next('');
+  }
+
+  ngAfterViewInit():void {
+    if (this.ngSelectInstance && this.shouldFocus) {
+      this.ngSelectInstance.focus();
+    }
   }
 
   initialization() {
