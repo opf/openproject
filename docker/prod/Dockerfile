@@ -1,8 +1,3 @@
-FROM ruby:2.7.1-buster AS pgloader
-RUN apt-get update -qq && apt-get install -y libsqlite3-dev make curl gawk freetds-dev libzip-dev
-COPY docker/prod/mysql-to-postgres/bin/build /tmp/build-pgloader
-RUN /tmp/build-pgloader && rm /tmp/build-pgloader
-
 FROM ruby:2.7.1-buster
 MAINTAINER operations@openproject.com
 
@@ -11,6 +6,8 @@ ARG PLATFORM=on-prem
 # Use OAuth token in case private gems need to be fetched
 ARG GITHUB_OAUTH_TOKEN
 ARG DEBIAN_FRONTEND=noninteractive
+
+ARG PGLOADER_BINARY_DOWNLOAD_URL=https://openproject-docker-public.s3-eu-west-1.amazonaws.com/pgloader/bin/pgloader-ccl
 
 ENV NODE_VERSION="12.18.3"
 ENV BUNDLER_VERSION="2.1.4"
@@ -36,7 +33,7 @@ ENV ATTACHMENTS_STORAGE_PATH=$APP_DATA_PATH/files
 # Set a default key base, ensure to provide a secure value in production environments!
 ENV SECRET_KEY_BASE=OVERWRITE_ME
 
-COPY --from=pgloader /usr/local/bin/pgloader-ccl /usr/local/bin/
+RUN curl ${PGLOADER_BINARY_DOWNLOAD_URL} > /usr/local/bin/pgloader-ccl && chmod +x /usr/local/bin/pgloader-ccl
 
 WORKDIR $APP_PATH
 

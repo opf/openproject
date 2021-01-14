@@ -9,6 +9,8 @@ release_date: 2020-12-17
 
 # OpenProject 11.1.0
 
+Release date: 2020-12-17
+
 We released [OpenProject 11.1.0](https://community.openproject.com/versions/1424).
 This new release will bring many new features and bug fixes that will improve classical as well as agile project management. 
 
@@ -35,6 +37,16 @@ With OpenProject 11.1 users are now able to **aggregate milestones for projects 
 In the work package list it is possible to group by any attribute,  e.g. assignee, status, priority or type. Now, once grouped by an  attribute, you will have a **collapse all button on top of the work packages list** to close and open all attributes within a group at once.
 
 ![Collapse-all-button](Collapse-all-button.png)
+
+## Signing Data Processing Agreement (DPA) documents in Enterprise cloud
+
+For EU customers it is required by the GDPR to sign a data processing agreement (sometimes called data processing addendum) before using our Cloud edition. Until now, we processed these contracts manually. Users had to print the document, enter their information and send it to us. We then had to sign it too, and send it back to the customer.
+
+Luckily, we now automated this process in order to reduce manual effort on both sides. This way, it is even easier to comply with GDPR. Within -> Administration -> GDPR you can now online review and sign your DPA document with us.
+
+![DPA-OpenProject](DPA-OpenProject.png)
+
+
 
 ## Various improvements and bug fixes
 

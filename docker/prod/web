@@ -15,6 +15,8 @@ fi
 if [ "$MIGRATE" = "true" ]; then
 	echo "Migrating database..."
 	bundle exec rake db:migrate
+else
+	$APP_PATH/docker/prod/migration_status # abort if there are pending migrations
 fi
 
 # see `config/puma.rb` for configuration

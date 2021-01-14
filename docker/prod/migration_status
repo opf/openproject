@@ -1,0 +1,4 @@
+#!/bin/bash -e
+
+echo "Checking migration status..."
+bundle exec rails runner 'ActiveRecord::Migration.check_pending!'

@@ -164,7 +164,7 @@ vi:
   label_expiration_hint: "%{date} or on logout"
   label_actions: 'Hành động'
   label_confirmed: 'Đã xác nhận'
-  button_continue: 'Continue'
+  button_continue: 'Tiếp tục'
   button_make_default: 'Mark as default'
   label_unverified_phone: "Cell phone not yet verified"
   notice_phone_number_format: "Please enter the number in the following format: +XX XXXXXXXX."
