@@ -77,7 +77,7 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
   @InjectField() wpListChecksumService:WorkPackagesListChecksumService;
   @InjectField() loadingIndicatorService:LoadingIndicatorService;
   @InjectField() $transitions:TransitionService;
-  @InjectField() I18n:I18nService;
+  @InjectField() I18n!:I18nService;
   @InjectField() wpStaticQueries:WorkPackageStaticQueriesService;
   @InjectField() wpStatesInitialization:WorkPackageStatesInitializationService;
   @InjectField() cdRef:ChangeDetectorRef;

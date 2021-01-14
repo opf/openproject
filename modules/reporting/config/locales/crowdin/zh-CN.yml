@@ -69,6 +69,7 @@ zh-CN:
   label_inactive: "«不活动»"
   label_no: "否"
   label_none: "（无数据）"
+  label_no_reports: "目前还没有成本报告。"
   label_report: "报告"
   label_yes: "是"
   load_query_question: "报告有 %{size} 个表格单元格，可能需要一些时间渲染。您仍然想要尝试渲染它吗？"

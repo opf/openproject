@@ -48,7 +48,7 @@ export const activeFieldClassName = 'inline-edit--field';
 
 export class TableEditForm extends EditForm<WorkPackageResource> {
   @InjectField() public wpTableColumns:WorkPackageViewColumnsService;
-  @InjectField() public apiV3Service:APIV3Service;
+  @InjectField() public apiV3Service!:APIV3Service;
   @InjectField() public states:States;
   @InjectField() public FocusHelper:FocusHelperService;
   @InjectField() public editingPortalService:EditingPortalService;

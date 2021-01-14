@@ -33,7 +33,7 @@ sl:
       click_to_remove_list: "Kliknite za izbris seznama"
       board_type:
         text: 'Vrsta table'
-        free: 'basic'
+        free: 'osnovno'
         select_board_type: 'Please choose the type of board you need.'
         free_text: >
           Start from scratch with a blank board. Manually add cards and columns to this board.
@@ -55,15 +55,15 @@ sl:
           assignee: Pooblaščenec
           status: Stanje
           version: različica
-          subproject: subproject
-          subtasks: parent-child
+          subproject: Podprojekt
+          subtasks: starš-otrok
         board_type_title:
           assignee: Prenosnik
           status: Stanje
           version: Različica
           subproject: Podprojekt
-          subtasks: Parent-Child
-          basic: Basic
+          subtasks: Starš-Otrok
+          basic: Osnoven
         select_attribute: "Atributi opravil"
       add_list_modal:
         labels:

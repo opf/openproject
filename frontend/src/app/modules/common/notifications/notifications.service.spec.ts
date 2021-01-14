@@ -27,7 +27,7 @@
 // ++
 
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
-import {async, TestBed} from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
@@ -35,7 +35,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 describe('NotificationsService', function () {
   var notificationsService:NotificationsService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
       imports: [

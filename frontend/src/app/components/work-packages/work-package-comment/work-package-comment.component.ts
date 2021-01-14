@@ -75,6 +75,8 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
   public canAddComment:boolean;
   public showAbove:boolean;
 
+  public htmlId = 'wp-comment-field';
+
   constructor(protected elementRef:ElementRef,
               protected injector:Injector,
               protected commentService:CommentService,
@@ -115,10 +117,6 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
 
     event.preventDefault();
     return false;
-  }
-
-  public get htmlId() {
-    return 'wp-comment-field';
   }
 
   public activate(withText?:string) {

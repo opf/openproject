@@ -29,5 +29,4 @@
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 
 export class QueryGroupByResource extends HalResource {
-  public id:string;
 }

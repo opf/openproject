@@ -69,6 +69,7 @@ da:
   label_inactive: "«inaktiv»"
   label_no: "Nej"
   label_none: "(ingen data)"
+  label_no_reports: "There are no cost reports yet."
   label_report: "Rapport"
   label_yes: "Ja"
   load_query_question: "Rapporten vil indeholde %{size} celler og kan tage nogen tid at danne. Fortsæt alligevel?"

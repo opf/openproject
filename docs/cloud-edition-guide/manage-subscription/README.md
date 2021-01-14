@@ -2,14 +2,14 @@
 sidebar_navigation:
   title: Manage subscription
   priority: 970
-description: View the invoices and payment history.
+description: Manage and change all subscription-related topics of your Enterprise cloud.
 robots: index, follow
-keywords: manage subscription
+keywords: subscription, address, payment method, invoices
 ---
 
 # Manage your OpenProject Enterprise cloud subscription
 
-If you want to make changes to your subscription (Up- or downgrade, cancel), navigate to -> *Administration* -> *Billing* within your system's Administration.
+If you want to make changes to your subscription (Up- or downgrade, cancel, change your address or payment method), navigate to -> *Administration* -> *Billing* within your system's Administration.
 
 Click the green **Manage button**.
 
@@ -17,14 +17,11 @@ Click the green **Manage button**.
 
 In the overlay window, you can choose between several topics:
 
-| Popular Topics                                               | Description                                            |
-| ------------------------------------------------------------ | :----------------------------------------------------- |
-| [Upgrade, downgrade or cancel](#update-existing-subscriptions) | How to upgrade, downgrade or cancel a subscription?    |
-| Edit Account information                                     | How to edit account information?                       |
-| Edit Billing Addresses                                       | How to edit the billing addresses?                     |
-| Edit or add payment methods                                  | How to edit or add the payment method?                 |
-|                                                              |                                                        |
-| [View billing history and dowload invoices](../invoices-and-billing-history) | How to view the billing history and download invoices? |
+- dfd[Upgrade, downgrade or cancel](#update-existing-subscriptions)
+- Edit Account information
+- Edit Billing Addresses
+- Edit or add payment methods
+- [View billing history and dowload invoices](../invoices-and-billing-history)
 
 ## Update existing subscriptions
 

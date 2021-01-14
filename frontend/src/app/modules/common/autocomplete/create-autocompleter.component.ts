@@ -108,7 +108,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
     // https://github.com/ng-select/ng-select/issues/1259
     setTimeout(() => {
       const component = this.ngSelectComponent as any;
-      if (component && component.dropdownPanel) {
+      if (this.appendTo && component && component.dropdownPanel) {
         component.dropdownPanel._updatePosition();
       }
     }, 25);

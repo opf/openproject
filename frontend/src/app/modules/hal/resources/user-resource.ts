@@ -35,7 +35,6 @@ export class UserResource extends HalResource {
   public login:string;
   public firstName:string;
   public lastName:string;
-  public name:string;
   public email:string;
   public avatar:string;
   public status:string;

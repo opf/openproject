@@ -46,7 +46,7 @@ import {catchError, subscribeOn} from "rxjs/operators";
 export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   @InjectField() states:States;
-  @InjectField() I18n:I18nService;
+  @InjectField() I18n!:I18nService;
   @InjectField() keepTab:KeepTabService;
   @InjectField() PathHelper:PathHelperService;
   @InjectField() halEditing:HalResourceEditingService;

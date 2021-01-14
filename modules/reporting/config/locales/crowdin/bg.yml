@@ -69,6 +69,7 @@ bg:
   label_inactive: "«inactive»"
   label_no: "Не"
   label_none: "(no data)"
+  label_no_reports: "There are no cost reports yet."
   label_report: "Отчет"
   label_yes: "Да"
   load_query_question: "Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?"

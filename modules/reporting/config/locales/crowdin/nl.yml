@@ -69,6 +69,7 @@ nl:
   label_inactive: "«inactief»"
   label_no: "Nee"
   label_none: "(geen gegevens)"
+  label_no_reports: "There are no cost reports yet."
   label_report: "Rapport"
   label_yes: "Ja"
   load_query_question: "Het rapport bevat %{size} tabelcellen en kan enige tijd kosten om te renderen. Wilt u proberen het rapport toch uit te voeren?"

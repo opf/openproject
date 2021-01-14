@@ -17,7 +17,7 @@ Our support engineers are highly-trained to diagnose and resolve  issues in your
 - Dedicated senior support team
 - Consulting and training for proactive issue prevention
 
-## Support ticket
+## Support ticket (only for Premier Support and Corporate Support)
 
 You can create a support ticket on https://community.openproject.com/projects/openproject/. You first need to register on the OpenProject Community edition to create a support ticket.
 
@@ -28,3 +28,7 @@ Please write us an email to support@openproject.com to get help with your OpenPr
 ## Contact us
 
 If you have more questions, please [contact us](https://www.openproject.org/contact-us/).
+
+## Resources for Community Edition users
+
+As the Community Edition does not include support please use the [forums](https://community.openproject.com/projects/openproject/forums) to get help from other users. There are also some videos on the [OpenProject YouTube channel](https://www.youtube.com/c/OpenProjectCommunity) that might be helpful.

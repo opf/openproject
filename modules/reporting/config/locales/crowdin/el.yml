@@ -69,6 +69,7 @@ el:
   label_inactive: "«αδρανές»"
   label_no: "Όχι"
   label_none: "(δεν υπάρχουν δεδομένα)"
+  label_no_reports: "There are no cost reports yet."
   label_report: "Αναφορά"
   label_yes: "Ναι"
   load_query_question: "Η αναφορά θα έχει %{size} κελιά πίνακα και μπορεί να πάρει κάποιο χρόνο για να γίνει. Θέλετε ακόμα να δοκιμάσετε την απόδοση;"

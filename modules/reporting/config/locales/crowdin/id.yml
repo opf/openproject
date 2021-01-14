@@ -69,6 +69,7 @@ id:
   label_inactive: "«inactive»"
   label_no: "No"
   label_none: "(no data)"
+  label_no_reports: "There are no cost reports yet."
   label_report: "Laporan"
   label_yes: "Yes"
   load_query_question: "Proses laporan memiliki %{size} cell dan akan memakan waktu yang relatif lama. Apakah anda ingin melanjutkan?"

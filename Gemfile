@@ -271,7 +271,7 @@ group :development, :test do
   gem 'pry-byebug', '~> 3.9.0', platforms: [:mri]
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-rescue', '~> 1.5.2'
-  gem 'pry-stack_explorer', '~> 0.5.1'
+  gem 'pry-stack_explorer', '~> 0.6.0'
 
   # Dangerfile scanner on travis and locally
   gem 'danger', '~> 8.2.0'

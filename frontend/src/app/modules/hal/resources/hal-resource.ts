@@ -74,7 +74,7 @@ export class HalResource {
   public $halType:string;
 
   @InjectField() states:States;
-  @InjectField() I18n:I18nService;
+  @InjectField() I18n!:I18nService;
 
   /**
    * Constructs and initializes the HalResource. For this, the halResoureFactory is required.

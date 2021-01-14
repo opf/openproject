@@ -67,7 +67,8 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
               readonly cdRef:ChangeDetectorRef,
               readonly injector:Injector) {
     super();
-    this.schema = this.schema || this.change.schema.ofProperty(this.name);
+
+    this.updateFromChangeset(change);
 
     if (this.change.state) {
       this.change.state
@@ -82,8 +83,7 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
             return handler.deactivate(false);
           }
 
-          this.change = change;
-          this.schema = change.schema.ofProperty(this.name);
+          this.updateFromChangeset(change);
           this.initialize();
           this.cdRef.markForCheck();
         });
@@ -113,12 +113,6 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
     return this.resource[this.name];
   }
 
-  public get name() {
-    // Get the mapped schema name, as this is not always the attribute
-    // e.g., startDate in table for milestone => date attribute
-    return this.change.schema.mappedName(this.handler.fieldName);
-  }
-
   public set value(value:any) {
     this.resource[this.name] = this.parseValue(value);
   }
@@ -131,14 +125,23 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
     return '';
   }
 
-  public get resource() {
-    return this.change.projectedResource;
-  }
-
   /**
    * Initialize the field after constructor was called.
    */
   protected initialize() {
+  }
+
+  /**
+   * Update resource and properties from changeset
+   */
+  private updateFromChangeset(change:ResourceChangeset) {
+    this.change = change;
+    this.resource = this.change.projectedResource;
+    this.schema = this.change.schema.ofProperty(this.handler.fieldName) || this.schema;
+
+    // Get the mapped schema name, as this is not always the attribute
+    // e.g., startDate in table for milestone => date attribute
+    this.name = this.change.schema.mappedName(this.handler.fieldName);
   }
 
   /**

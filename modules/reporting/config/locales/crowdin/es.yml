@@ -69,6 +69,7 @@ es:
   label_inactive: "«inactivo»"
   label_no: "No"
   label_none: "(sin datos)"
+  label_no_reports: "There are no cost reports yet."
   label_report: "Informe"
   label_yes: "Sí"
   load_query_question: "El informe tendrá %{size} celdas de tabla y puede tardar algún tiempo en generarse. ¿Desea generarlo de todas formas?"

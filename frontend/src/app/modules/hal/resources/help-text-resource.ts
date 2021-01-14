@@ -31,8 +31,6 @@ import {CallableHalLink} from 'core-app/modules/hal/hal-link/hal-link';
 import {Attachable} from "core-app/modules/hal/resources/mixins/attachable-mixin";
 
 export class HelpTextBaseResource extends HalResource {
-
-  public id:string;
   public attribute:string;
   public attributeCaption:string;
   public scope:string;

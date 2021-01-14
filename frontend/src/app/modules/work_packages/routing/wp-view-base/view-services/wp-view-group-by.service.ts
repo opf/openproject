@@ -33,6 +33,7 @@ import {States} from 'core-components/states.service';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Injectable} from '@angular/core';
 import {QueryColumn} from "core-components/wp-query/query-column";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Injectable()
 export class WorkPackageViewGroupByService extends WorkPackageQueryStateService<QueryGroupByResource|null> {
@@ -46,7 +47,7 @@ export class WorkPackageViewGroupByService extends WorkPackageQueryStateService<
   }
 
   public hasChanged(query:QueryResource) {
-    const comparer = (groupBy:QueryColumn|null|undefined) => groupBy ? groupBy.href : null;
+    const comparer = (groupBy:QueryColumn|HalResource|null|undefined) => groupBy ? groupBy.href : null;
 
     return !_.isEqual(
       comparer(query.groupBy),

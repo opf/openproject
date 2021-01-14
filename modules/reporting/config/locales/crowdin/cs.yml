@@ -69,6 +69,7 @@ cs:
   label_inactive: "«inactive»"
   label_no: "Ne"
   label_none: "(žádná data)"
+  label_no_reports: "There are no cost reports yet."
   label_report: "Hlášení"
   label_yes: "Ano"
   load_query_question: "Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?"
