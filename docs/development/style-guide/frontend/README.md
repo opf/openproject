@@ -169,7 +169,7 @@ Angular also follows the unidirectional data flow pattern in the view to improve
 *   This is why unidirectional data flow is enforced in development mode (ExpressionChangedAfterItHasBeenCheckedError) and encouraged in the Components Architecture.
 
 #### What
-*   TODO: write these rules once the state management library has been chosen.
+*   Do use the chosen state management library by default.
 
 #### Why
 *   Stores concentrate the state management, allowing the different parts of the application to remain highly decoupled.
