@@ -1,21 +1,16 @@
-<div class="op-modal--portal ngdialog-theme-openproject">
-  <div
-    class="op-modal--modal-container confirm-dialog--modal loading-indicator--location"
-    data-indicator-name="modal"
-    tabindex="0"
-  >
-    <div class="op-modal--modal-header">
-      <a class="op-modal--modal-close-button">
-        <i
-            class="icon-close"
-            (click)="closeMe($event)"
-            [attr.title]="text.closePopup">
-        </i>
-      </a>
-      <h3 class="icon-context icon-attention" [textContent]="text.title"></h3>
-    </div>
-
-    <div class="ngdialog-body op-modal--modal-body">
-    </div>
-  </div>
+<div class="op-modal--portal">
+  <op-ium-project-selection
+    *ngIf="step === 'project-selection'"
+    class="op-modal--modal-container"
+    [project]="project"
+    [type]="type"
+    (save)="onProjectSelectionSave"
+  ></op-ium-project-selection>
+  <op-ium-user
+    *ngIf="step === 'user' && type === 'user'"
+    class="op-modal--modal-container"
+    [user]="principal"
+    (save)="onUserSave"
+    (back)="back"
+  ></op-ium-user>
 </div>

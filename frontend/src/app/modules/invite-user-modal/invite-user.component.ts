@@ -13,6 +13,16 @@ import {Observable} from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InviteUserModalComponent extends OpModalComponent implements OnInit {
+  private steps = [
+    'project-selection',
+    'username',
+    'role',
+    'message',
+    'summary',
+    'success',
+  ];
+  private stepIndex = 0;
+
   /* Close on escape? */
   public closeOnEscape = true;
 
@@ -27,10 +37,13 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
 
   public type:string|null = null;
   public project = null;
-  public user = null;
+  public principal = null;
   public role = null;
   public message = '';
-  public step = 'project';
+
+  public get step() {
+    return this.steps[this.stepIndex];
+  }
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly I18n:I18nService,
@@ -42,5 +55,13 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
 
   ngOnInit() {
     super.ngOnInit();
+  }
+
+  onProjectSelectionSave() {
+    console.log('select project');
+  }
+
+  back() {
+    this.stepIndex = Math.max(this.stepIndex - 1, 0);
   }
 }

@@ -1,0 +1,21 @@
+<form
+  name="inviteUserForm"
+  (submit)="submit"
+>
+  <div class="op-modal--modal-container">
+    <div class="op-modal--modal-header">
+      <button
+        class="op-modal--modal-close-button"
+        type="button"
+        (click)="closeMe($event)"
+        [attr.aria-label]="text.closePopup"
+      >
+        <span class="icon-close"></span>
+      </button>
+      <h3 class="icon-context icon-attention" [textContent]="text.title"></h3>
+    </div>
+
+    <div class="op-modal--modal-body">
+    </div>
+  </div>
+</form>

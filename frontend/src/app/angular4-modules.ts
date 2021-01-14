@@ -139,6 +139,8 @@ import {RevitAddInSettingsButtonService} from "core-app/modules/bim/revit_add_in
 
     // Augmenting Module
     OpenprojectAugmentingModule,
+
+    // Invite user modal
     OpenprojectInviteUserModalModule,
   ],
   providers: [
