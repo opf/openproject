@@ -13,10 +13,10 @@ This guide will introduce some concepts and give you a big picture of the develo
 
 Please choose an area that you would like to read about:
 
-| Topics                                               | Description                                                  |
+| Topic                                                | Content                                                      |
 | ---------------------------------------------------- | :----------------------------------------------------------- |
 | [Application architecture](application-architecture) | An introduction of the application architecture used at OpenProject. |
-| [State management](state-management)                 | How does the frontend hanble state and react to changes?     |
+| [State management](state-management)                 | How does the frontend handle state and react to changes?     |
 | [HAL resources](hal-resources)                       | What are HAL resources and how are they used in the frontend? |
 | [Permissions](permissions)                           | How are roles and permissions handled in OpenProject code ?  |
 | [Translations](translations)                         | How are translations used and built?                         |
