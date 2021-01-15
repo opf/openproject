@@ -32,8 +32,8 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
   queue_with_priority :high
 
   def perform(attachment_id)
-    attachment = Attachment.pending_direct_uploads.where(id: attachment_id).first
-    local_file = attachment && attachment.file.local_file
+    attachment = Attachment.pending_direct_uploads.find_by(id: attachment_id)
+    local_file = attachment&.file.local_file
 
     if local_file.nil?
       return Rails.logger.error("File for attachment #{attachment_id} was not uploaded.")
