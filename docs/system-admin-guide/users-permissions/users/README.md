@@ -49,9 +49,9 @@ If you are using the [OpenProject Cloud Edition](../../../cloud-edition-guide), 
 
 ## Filter users
 
-Especiall if you have a very long user list, it is essential to filter in this list.
+Especially if you have a very long user list, it is essential to filter in this list.
 
-At the top of the list, you can choose to filter for all, altive, or locked users. 
+At the top of the list, you can choose to filter for all, active, or locked users.
 You can then search for the name or email of a user. Click the blue **Apply** button to filter the list.
 
 ![filter users](image-20200115155456033.png)
@@ -79,7 +79,7 @@ In the top right, click the **Send invitation** button in order to send the emai
 ![Sys-admin-resend-invitation](Sys-admin-resend-invitation.png)
 
 ### Delete user invitations
-To invalidate or revoke a user's invitation click on the user name and then on **Delete** in the upper right corner. This will prevent the invited user from logging in. 
+To invalidate or revoke a user's invitation click on the user name and then on **Delete** in the upper right corner. This will prevent the invited user from logging in.
 Please note: This only works for users who haven't logged in yet. If the user is already active this will delete his/her whole profile and account. Deleting users can't be easily revoked.
 
 ## View user profile
@@ -140,7 +140,7 @@ In order to delete users from the system, open the [user list](#user-list).
 
 Click on the **user name** of the user which you want to delete.
 
-To delete a user permanently from the system, press the **Delete** button at the top right. 
+To delete a user permanently from the system, press the **Delete** button at the top right.
 
 ![Sys-admin-delete-user](Sys-admin-delete-user.png)
 

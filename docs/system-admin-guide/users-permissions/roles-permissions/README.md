@@ -10,7 +10,7 @@ keywords: manage roles, manage permissions
 
 A role is a set of permissions that can be assigned to any project  member. Multiple roles can be assigned to the same project member.
 
-In contrast to “normal” project roles, **Global roles** are project-overarching roles that can be assigend to a user and allow certain actions (for example, creating new projects).
+In contrast to "normal" project roles, **Global roles** are project-overarching roles that can be assigned to a user and allow certain actions (for example, creating new projects).
 
 Global roles can be added to a [user profile](../users/#view-user-profile).
 
@@ -32,7 +32,7 @@ You will then be able to specify the following:
 4. Copy the workflow from an existing role. In case you select a role  from the dropdown list, the respective workflows will be copied (i.e.  changing status for work packages)
 5. You can specify the permissions per OpenProject module and select the permissions which should apply for this role. You also have the possibility to check all or uncheck all at the right next to a module.
 
-Don’t forget to save the new role at the bottom of the page.
+Don't forget to save the new role at the bottom of the page.
 
 ![Sys-admin-create-new-role](Sys-admin-create-new-role.png)
 
@@ -40,4 +40,4 @@ Don’t forget to save the new role at the bottom of the page.
 
 To edit a role navigate to the roles overview list and click on the  role name (1). To remove an existing role click on the delete button next to a role in the list (2).
 
-![Sys-admin-edit-roles](Sys-admin-edit-roles.png)       
+![Sys-admin-edit-roles](Sys-admin-edit-roles.png)

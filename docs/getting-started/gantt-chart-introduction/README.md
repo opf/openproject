@@ -12,7 +12,7 @@ keywords: Gantt charts introduction
 In this document you will get a first introduction to the Gantt charts in OpenProject, i.e. to create and manage a project plan.
 
 <div class="glossary">
-**Gantt charts** in OpenProject are definded as a type of bar chart that shows all the tasks constituting a project. Tasks are listed vertically, with the horizontal axis marking time. The lengths of task bars are to scale with tasks’ durations.
+**Gantt charts** in OpenProject are defined as a type of bar chart that shows all the tasks constituting a project. Tasks are listed vertically, with the horizontal axis marking time. The lengths of task bars are to scale with tasks’ durations.
 </div>
 
 To find out more about the functionalities for Gantt charts, please visit our [user guide for Gantt charts](../../user-guide/#gantt-chart).
