@@ -53,6 +53,6 @@ If you want to prevent users from deleting their own accounts, it is recommended
 
 Data privacy and security is a priority in OpenProject. In order to comply with GDPR regulation, a consent form can be configured in OpenProject. When the option "Consent required" is checked, a user consent form is shown for users when they sign into OpenProject for the first time.
 
-By default, OpenProject's privacy and security policy is referenced in the consent form. If you have any additional information you would like your users to consent to, you can link it in the constent information text.
+By default, OpenProject's privacy and security policy is referenced in the consent form. If you have any additional information you would like your users to consent to, you can link it in the consent information text.
 
 Furthermore, you can provide the email address of a consent contact. This user can then be notified when a data change or data removal is required.
