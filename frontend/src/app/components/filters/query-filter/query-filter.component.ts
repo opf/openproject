@@ -34,6 +34,7 @@ import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import { CurrentProjectService } from 'core-app/components/projects/current-project.service';
 
 @Component({
   selector: '[query-filter]',
@@ -63,6 +64,7 @@ export class QueryFilterComponent implements OnInit {
   constructor(readonly wpTableFilters:WorkPackageViewFiltersService,
               readonly schemaCache:SchemaCacheService,
               readonly I18n:I18nService,
+              readonly currentProject:CurrentProjectService,
               readonly bannerService:BannersService) {
   }
 
@@ -71,6 +73,13 @@ export class QueryFilterComponent implements OnInit {
     this.showValuesInput = this.showValues(this.filter);
     this.filterChanged.emit(this.filter);
   }
+
+  public parentFilter = {
+    filters:[{name:'is_milestone', operator:'=', values:false},
+    {name:'project', operator:'=', values:[this.currentProject.id]}],
+    resource:'work_packages',
+    searchKey:'subjectOrId'
+    };
 
   public removeThisFilter() {
     this.deactivateFilter.emit(this.filter);

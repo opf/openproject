@@ -106,10 +106,6 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
     this.wpFiltersService.toggleVisibility();
   }
 
-  public isHiddenFilter(filter:QueryFilterResource) {
-    return _.includes(this.wpTableFilters.hidden, filter.id);
-  }
-
   public deactivateFilter(removedFilter:QueryFilterInstanceResource) {
     let index = this.filters.indexOf(removedFilter);
     _.remove(this.filters, f => f.id === removedFilter.id);
@@ -122,7 +118,7 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
 
   public get isSecondSpacerVisible():boolean {
     const hasSearch = !!_.find(this.filters, (f) => f.id === 'search');
-    const hasAvailableFilter = !!_.find(this.filters, (f) => f.id !== 'search' && this.isFilterAvailable(f.id));
+    const hasAvailableFilter = !!this.filters.find((f) => f.id !== 'search' && this.isFilterAvailable(f));
 
     return hasSearch && hasAvailableFilter;
   }
@@ -151,8 +147,9 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
     return this.filters[index];
   }
 
-  public isFilterAvailable(id:string):boolean {
-    return (this.wpTableFilters.availableFilters.some(filter => filter.id === id));
+  public isFilterAvailable(filter:QueryFilterResource):boolean {
+    return (this.wpTableFilters.availableFilters.some(availableFilter => availableFilter.id === filter.id) &&
+     !(this.wpTableFilters.hidden.includes(filter.id) || filter.isTemplated()));
   }
 
   public onOpen() {
