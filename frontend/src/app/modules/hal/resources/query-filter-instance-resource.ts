@@ -91,4 +91,13 @@ export class QueryFilterInstanceResource extends HalResource {
   public findOperator(operatorSymbol:string):QueryOperatorResource|undefined {
     return _.find(this.schemaCache.of(this).availableOperators, (operator:QueryOperatorResource) => operator.id === operatorSymbol) as QueryOperatorResource|undefined;
   }
+
+  public isTemplated() {
+    let flag = false;
+    (this.values as any[]).find((value:any) => {
+      const href:string = value?.href || value || '';
+      flag = href.includes('{id}');
+    });
+    return flag;
+  }
 }

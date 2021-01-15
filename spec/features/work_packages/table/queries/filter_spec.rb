@@ -510,4 +510,28 @@ describe 'filter work packages', js: true do
       filters.expect_filter_order('Version', [version2.name, version1.name])
     end
   end
+
+  describe 'add parent WP filter' do
+  let(:wp_parent) { FactoryBot.create :work_package, project: project, subject: 'project' }
+  let(:wp_child1) { FactoryBot.create :work_package, project: project, subject: 'child 1', parent: wp_parent }
+  let(:wp_child2) { FactoryBot.create :work_package, project: project, subject: 'child 2', parent: wp_parent }
+  let(:wp_default) { FactoryBot.create :work_package, project: project, subject: 'default' }
+
+  it do
+    wp_parent
+    wp_child1
+    wp_child2
+    wp_default
+    wp_table.visit!
+    loading_indicator_saveguard
+    filters.expect_loaded
+    filters.open
+    filters.add_filter_by 'Parent', 'is', [wp_parent.subject]
+    loading_indicator_saveguard
+    
+    # It should show the children of the selected parent
+    wp_table.expect_work_package_listed wp_child1, wp_child2
+    wp_table.ensure_work_package_not_listed! wp_default
+  end
+end
 end
