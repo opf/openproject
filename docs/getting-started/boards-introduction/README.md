@@ -41,7 +41,7 @@ You can create as many flexible boards as you want with both lists and cards on 
 
 To manage your work in an agile board, open the Boards module in the project menu.
 
-1. Choose a board from the list where you want to work on. Open it by double clicking on the board's titel.
+1. Choose a board from the list where you want to work on. Open it by double clicking on the board's title.
 2. You can prioritize cards within a list via drag and drop.
 3. You can add a card to a new list in the same way.
 4. You can edit the details of a card by **double click**ing on the card.

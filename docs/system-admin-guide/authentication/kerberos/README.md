@@ -27,7 +27,7 @@ Assuming you have Kerberos set up with a realm, you need to create a Kerberos se
 
 
 
-Create the service principal (e.g, using `kadmin`) and a keytab for OpenProject used for Apache with the following commands:
+Create the service principal (e.g. using `kadmin`) and a keytab for OpenProject used for Apache with the following commands:
 
 
 
@@ -69,19 +69,19 @@ We are going to create a new file `/etc/openproject/addons/apache2/includes/vhos
     # The Basic Auth dialog name shown to the user
     # change this freely
     AuthName "EXAMPLE.COM realm login"
-    
+
     # The realm used for Kerberos, you will want to
     # change this to your actual domain
     KrbAuthRealm EXAMPLE.COM
-    
+
     # Path to the Keytab generated in the previous step
     Krb5Keytab /etc/openproject/openproject.keytab
-    
+
     # After authentication, Apache will set a header
     # "X-Authenticated-User" to the logged in username
     # appended with a configurable secret value
     RequestHeader set X-Authenticated-User expr=%{REMOTE_USER}:MyPassword
-    
+
     # Apache directive to ensure a user is authenticated
     Require valid-user
   </Location>
@@ -168,7 +168,7 @@ Once the configuration is completed, restart your OpenProject and Apache2 server
 
 From there on, you will be forced to the Kerberos login flow whenever accessing OpenProject. For existing users that will be found by their login attribute provided in the `X-Authenticated-User`, they will be automatically logged in.
 
-For non-existing users, if you have an LDAP configured with automatic user registration activated (check out our [LDAP authentication guide](https://docs.openproject.org/system-admin-guide/authentication/ldap-authentication/) for that), users will be created automatically with the attributes retrived from the LDAP.
+For non-existing users, if you have an LDAP configured with automatic user registration activated (check out our [LDAP authentication guide](https://docs.openproject.org/system-admin-guide/authentication/ldap-authentication/) for that), users will be created automatically with the attributes retrieved from the LDAP.
 
 
 
