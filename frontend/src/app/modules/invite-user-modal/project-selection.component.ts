@@ -7,6 +7,12 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
   styleUrls: ['./project-selection.component.sass'],
 })
 export class InviteProjectSelectionComponent implements OnInit {
+  public text = {
+    title: this.I18n.t('js.invite_user_modal.title'),
+    closePopup: this.I18n.t('js.close_popup_title'),
+    exportPreparing: this.I18n.t('js.label_export_preparing')
+  };
+
   constructor(readonly I18n:I18nService,
               readonly elementRef:ElementRef) {}
 
