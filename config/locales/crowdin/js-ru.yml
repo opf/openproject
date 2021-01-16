@@ -272,11 +272,11 @@ ru:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-1-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li><b>Улучшенные стили</b>  WYSIWYG редактора.</li> <li>Прямое отображение <b>имени пользователя для @notifications</b> при редактировании.</li> <li>Профиль расширенной аутентификации с <b>провайдером OpenID Connect.</b></li> <li>Проект Отображения <b>этапов агрегировал</b> в одной строке на диаграмме Гантта.</li> <li><b>Свернуть всю кнопку для групп</b> в списке пакетов работ.</li> <li><b>Оптимизация для печати,</b> например вики-страницы, с помощью функции печати браузера.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li><b>Улучшенные стили</b>  WYSIWYG редактора.</li> <li>Прямое отображение <b>имени пользователя для @notifications</b> при редактировании.</li> <li>Профиль расширенной аутентификации с <b>провайдером OpenID Connect.</b></li> <li>Проект Отображения <b>этапов агрегировал</b> в одной строке на диаграмме Гантта.</li> <li><b>Свернуть всю кнопку для групп</b> в списке пакетов работ.</li> <li><b>Оптимизация для печати,</b> например вики-страницы, с помощью функции печати браузера.</li> </ul>
     label_activate: "Активировать"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"
@@ -402,7 +402,7 @@ ru:
     label_public_query: "Общий"
     label_sum: "Сумма"
     label_sum_for: "Сумма для"
-    label_total_sum: "Total sum"
+    label_total_sum: "Общая сумма"
     label_subject: "Тема"
     label_this_week: "на этой неделе"
     label_today: "Сегодня"
