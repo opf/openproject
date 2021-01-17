@@ -403,7 +403,7 @@ tr:
     label_public_query: "Herkese Açık"
     label_sum: "Toplam"
     label_sum_for: "Toplam"
-    label_total_sum: "Total sum"
+    label_total_sum: "Toplam miktar"
     label_subject: "Konu"
     label_this_week: "bu hafta"
     label_today: "Bugün"
