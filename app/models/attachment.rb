@@ -267,12 +267,23 @@ class Attachment < ApplicationRecord
 
     # We need to do it like this because `file` is an uploader which expects a File (not a string)
     # to upload usually. But in this case the data has already been uploaded and we just point to it.
-    a[:file] = file_name
+    a[:file] = pending_direct_upload_filename(file_name)
 
     a.save!
     a.reload # necessary so that the fog file uploader path is correct
 
     a
+  end
+
+  class << self
+    private
+
+    # The name has to be in the same format as what Carrierwave will produce later on. If they are different,
+    # Carrierwave will alter the name (both local and remote) whenever the attachment is saved with the remote
+    # file loaded.
+    def pending_direct_upload_filename(file_name)
+      CarrierWave::SanitizedFile.new(nil).send(:sanitize, file_name)
+    end
   end
 
   def pending_direct_upload?

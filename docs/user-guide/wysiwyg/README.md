@@ -159,7 +159,9 @@ Examples:
 - **Linking to the subject of work package with subject "Project start"**: `workPackageValue:"Project start":subject`
 
 <div class="alert alert-info" role="alert">
-**Please note**: Referencing a work package by subject results in only looking for work packages with that given subject in the current project (if any). If you need to cross-reference work packages, use their ID to pinpoint the work package you want to reference.</div>
+**Please note**: Referencing a work package by subject results in only looking for work packages with that given subject in the current project (if any). If you need to cross-reference work packages, use their ID to pinpoint the work package you want to reference.
+</div>
+
 
 
 
