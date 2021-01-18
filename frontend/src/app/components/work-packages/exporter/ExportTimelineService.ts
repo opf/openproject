@@ -17,6 +17,8 @@ import {getHeaderHeight, getHeaderWidth, renderHeader} from './ExportTimelineHea
 import { config } from 'rxjs';
 import { WorkPackageRelationsService } from 'core-app/components/wp-relations/wp-relations.service';
 import {drawRelations} from './ExportTimelineRelationsRenderer';
+import { IsolatedQuerySpace } from 'core-app/modules/work_packages/query-space/isolated-query-space';
+import { GroupObject } from 'core-app/modules/hal/resources/wp-collection-resource';
 
 
 export type ExportTimelineConfig = {
@@ -32,6 +34,7 @@ export type ExportTimelineConfig = {
   smallLineColor: string,
   todayLineColor: string,
   relationLineColor: string,
+  groupBackgroundColor: string,
 
   // Header configuration
   headerLine1Height: number,
@@ -49,6 +52,7 @@ export class ExportTimelineService {
 
   @InjectField() public states:States;
   @InjectField() public halEditing:HalResourceEditingService;
+  @InjectField() private readonly querySpace:IsolatedQuerySpace;
 
   public cells:{ [classIdentifier:string]:WorkPackageTimelineCell } = {};
 
@@ -65,6 +69,7 @@ export class ExportTimelineService {
     smallLineColor: '#dddddd',
     todayLineColor: '#e74c3c',
     relationLineColor: '#3498db',
+    groupBackgroundColor: '#f8f8f8',
 
     headerLine1Height: 20,
     headerLine1FontStyle: 'bold',
@@ -109,12 +114,18 @@ export class ExportTimelineService {
     const currentlyActive:string[] = Object.keys(this.cells);
     const newCells:string[] = [];
     let row = 0;
+    const groups = mapGroupsByIdentifier(this.querySpace.groups.value || []);
 
     _.each(this.wpTimeline.workPackageIdOrder, (renderedRow:RenderedWorkPackage) => {
       const wpId = renderedRow.workPackageId;
 
       // Ignore extra rows not tied to a work package
       if (!wpId) {
+        let group = groups[renderedRow.classIdentifier];
+        if (group) {
+          doc = buildGroupHeaderInfo(doc, this.config, row, group);
+          row += 1;
+        }
         return;
       }
 
@@ -279,4 +290,36 @@ function buildTableInfo(doc:jsPDF, config:ExportTimelineConfig, row:number, rend
   });
 
   return doc;
+}
+
+function buildGroupHeaderInfo(doc:jsPDF, config:ExportTimelineConfig, row:number, group:GroupObject): jsPDF {
+  let h = config.lineHeight;
+  let start_y = getRowY(config, row);
+  var width = config.nameColumnSize;
+  doc.setFillColor(config.groupBackgroundColor);
+  doc.rect(0, start_y, width - 1, h, 'F');
+  doc.setDrawColor('#2c3e50');
+  doc.line(0, start_y, width, start_y);
+  doc.line(0, start_y + h, width, start_y + h);
+
+  doc.setFontSize(config.fontSize);
+  doc.text(`${group.value} (${group.count})`, 10, start_y + h / 2, {
+    baseline: 'middle',
+  });
+
+  return doc;
+}
+
+function mapGroupsByIdentifier(groups: GroupObject[]): Record<string, GroupObject> {
+  let map:Record<string, GroupObject> = {};
+
+  for (let group of groups) {
+    let id = 'group-'+ group.identifier;
+    if (map[id]) {
+      console.warn(`Group with identifier ${id} was already defined`);
+    }
+    map[id] = group;
+  }
+
+  return map;
 }
