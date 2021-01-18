@@ -231,7 +231,7 @@ class Project < ApplicationRecord
   # Returns all projects the user is allowed to see.
   #
   # Employs the :view_project permission to perform the
-  # authorization check as the permissino is public, meaning it is granted
+  # authorization check as the permission is public, meaning it is granted
   # to everybody having at least one role in a project regardless of the
   # role's permissions.
   def self.visible_by(user = User.current)

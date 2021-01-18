@@ -133,7 +133,8 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   private setValues(availableValues:HalResource[]) {
     this.availableOptions = this.sortValues(availableValues);
     this.addEmptyOption();
-    this.valueOptions = this.availableOptions.map(el => this.mapAllowedValue(el));
+    this.valueOptions = this.availableOptions
+                            .map(el => this.mapAllowedValue(el));
   }
 
   protected loadValues(query?:string) {
