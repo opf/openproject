@@ -33,7 +33,10 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
 
   def perform(attachment_id)
     attachment = Attachment.pending_direct_uploads.find_by(id: attachment_id)
-    local_file = attachment&.file.local_file
+    # An attachment is guaranteed to have a file.
+    # But if the attachment is nil the expression attachment&.file will be nil and attachment&.file.local_file
+    # will throw a NoMethodError: undefined method local_file' for nil:NilClass`.
+    local_file = attachment && attachment.file.local_file
 
     if local_file.nil?
       return Rails.logger.error("File for attachment #{attachment_id} was not uploaded.")
