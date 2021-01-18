@@ -9,12 +9,10 @@ import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changes
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {WorkPackageTimelineTableController} from 'core-app/components/wp-table/timeline/container/wp-timeline-container.directive';
 import { WorkPackageTimelineCell } from 'core-app/components/wp-table/timeline/cells/wp-timeline-cell';
-import { calculatePositionValueForDayCountingPx, RenderInfo, TimelineViewParameters } from 'core-app/components/wp-table/timeline/wp-timeline';
+import { RenderInfo } from 'core-app/components/wp-table/timeline/wp-timeline';
 import * as moment from 'moment';
 import { TimelineZoomLevel } from 'core-app/modules/hal/resources/query-resource';
-import { Moment } from 'moment';
 import {getHeaderHeight, getHeaderWidth, renderHeader} from './ExportTimelineHeaderRenderer';
-import { config } from 'rxjs';
 import { WorkPackageRelationsService } from 'core-app/components/wp-relations/wp-relations.service';
 import {drawRelations} from './ExportTimelineRelationsRenderer';
 import { IsolatedQuerySpace } from 'core-app/modules/work_packages/query-space/isolated-query-space';
@@ -24,9 +22,12 @@ import { GroupObject } from 'core-app/modules/hal/resources/wp-collection-resour
 export type ExportTimelineConfig = {
   lineHeight: number,
   workHeight: number,
+  fitDateInterval: boolean,
+  fitDateIntervalMarginFactor: number,
   startDate: moment.Moment,
   endDate: moment.Moment,
   zoomLevel: TimelineZoomLevel,
+  pixelPerDay: number,
   fontSize: number,
   nameColumnSize: number,
   boldLineColor: string,
@@ -59,9 +60,12 @@ export class ExportTimelineService {
   public config: ExportTimelineConfig = {
     lineHeight: 20,
     workHeight: 10,
+    fitDateInterval: true,
+    fitDateIntervalMarginFactor: 0.1,
     startDate: moment({hour: 0, minute: 0, seconds: 0}),
     endDate: moment({hour: 0, minute: 0, seconds: 0}).add(1, 'day'),
     zoomLevel: 'days',
+    pixelPerDay: 1,
     fontSize: 12,
     nameColumnSize: 200,
     boldLineColor: '#333333',
@@ -89,8 +93,16 @@ export class ExportTimelineService {
   }
 
   public exportPdf() {
-    this.config.startDate = this.wpTimeline.viewParameters.dateDisplayStart;
-    this.config.endDate = this.wpTimeline.viewParameters.dateDisplayEnd;
+    if (this.config.fitDateInterval) {
+      this.fitStartAndEndDates();
+    } else {
+      this.config.startDate = this.wpTimeline.viewParameters.dateDisplayStart;
+      this.config.endDate = this.wpTimeline.viewParameters.dateDisplayEnd;
+    }
+    this.config.zoomLevel = this.wpTimeline.viewParameters.settings.zoomLevel;
+    this.config.pixelPerDay = this.wpTimeline.viewParameters.pixelPerDay;
+
+    console.log(this.config);
 
     let width = getHeaderWidth(this.wpTimeline.viewParameters, this.config) + this.config.nameColumnSize;
     let height = getHeaderHeight(this.config) + this.wpTimeline.workPackageIdOrder.length * this.config.lineHeight;
@@ -108,6 +120,50 @@ export class ExportTimelineService {
     doc = this.buildCells(doc);
 
     doc.save('Timeline.pdf');
+  }
+
+  private fitStartAndEndDates() {
+    let startDate = +Infinity;
+    let endDate = -Infinity;
+    _.each(this.wpTimeline.workPackageIdOrder, (workPackage:RenderedWorkPackage) => {
+      const wpId = workPackage.workPackageId;
+
+      if (!wpId) {
+        return;
+      }
+
+      const state = this.states.workPackages.get(wpId);
+      if (state.isPristine()) {
+        return;
+      }
+
+      let renderInfo = this.renderInfoFor(wpId);
+      let wpStartDate = startDate;
+      let wpEndDate = endDate;
+      if (isMilestone(renderInfo)) {
+        let wpStartDate = moment(renderInfo.change.projectedResource.date).valueOf();
+        wpEndDate = wpStartDate;
+      } else {
+        wpStartDate = moment(renderInfo.change.projectedResource.startDate).valueOf();
+        wpEndDate = moment(renderInfo.change.projectedResource.dueDate).valueOf();
+      }
+
+      if (_.isNaN(wpStartDate) && _.isNaN(wpEndDate)) {
+        return;
+      }
+
+      if (wpStartDate < startDate) {
+        startDate = wpStartDate;
+      }
+      if (wpEndDate > endDate) {
+        endDate = wpEndDate;
+      }
+    })
+
+    const margin = this.config.fitDateIntervalMarginFactor * (endDate - startDate);
+
+    this.config.startDate = moment(startDate - margin);
+    this.config.endDate = moment(endDate + margin);
   }
 
   private buildCells(doc: jsPDF): jsPDF {
@@ -157,7 +213,7 @@ export class ExportTimelineService {
       return doc;
     }
 
-    let {x, w} = computeXAndWidth(renderInfo, start, due);
+    let {x, w} = computeXAndWidth(this.config, start, due);
     let h = this.config.workHeight;
     let y = getRowY(this.config, row);
     y += (this.config.lineHeight - h) / 2;  // Vertically center workline
@@ -174,7 +230,7 @@ export class ExportTimelineService {
       const derivedStartDate = moment(wp.derivedStartDate);
       const derivedDueDate = moment(wp.derivedDueDate);
 
-      let {x, w} = computeXAndWidth(renderInfo, derivedStartDate, derivedDueDate);
+      let {x, w} = computeXAndWidth(this.config, derivedStartDate, derivedDueDate);
       x += this.config.nameColumnSize;
       y = getRowY(this.config, row + 1) - 2.5;
       doc.path([
@@ -197,7 +253,7 @@ export class ExportTimelineService {
       return doc;
     }
 
-    let {x, w} = computeXAndWidth(renderInfo, date, date);
+    let {x, w} = computeXAndWidth(this.config, date, date);
     let h = this.config.workHeight;
     let half_size = h / 2;
     let y = getRowY(this.config, row);
@@ -226,19 +282,18 @@ export class ExportTimelineService {
   }
 }
 
-export function computeXAndWidth(renderInfo:RenderInfo, start:moment.Moment, due:moment.Moment) {
-  const viewParams = renderInfo.viewParams;
+export function computeXAndWidth(config:ExportTimelineConfig, start:moment.Moment, due:moment.Moment) {
   // offset left
-  const offsetStart = start.diff(viewParams.dateDisplayStart, 'days');
-  const x = calculatePositionValueForDayCountingPx(viewParams, offsetStart);
+  const offsetStart = start.diff(config.startDate, 'days');
+  const x = config.pixelPerDay * offsetStart;
 
   // duration
   const duration = due.diff(start, 'days') + 1;
-  let w = calculatePositionValueForDayCountingPx(viewParams, duration);
+  let w = config.pixelPerDay * duration;
 
   // ensure minimum width
   if (!_.isNaN(start.valueOf()) || !_.isNaN(due.valueOf())) {
-    let minWidth = _.max([renderInfo.viewParams.pixelPerDay, 2]);
+    let minWidth = _.max([config.pixelPerDay, 2]);
     if (minWidth) {
       w = Math.max(w, minWidth);
     }

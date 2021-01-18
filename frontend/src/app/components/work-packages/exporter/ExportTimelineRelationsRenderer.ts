@@ -66,11 +66,11 @@ export function drawRelations(doc:jsPDF,
           // Get X values
           var dayLenght = calculatePositionValueForDayCountingPx(vp, 1);
           var [startDate, dueDate] = getStartAndDueDate(startCell.latestRenderInfo);
-          var {x, w} = computeXAndWidth(startCell.latestRenderInfo, startDate, dueDate);
+          var {x, w} = computeXAndWidth(config, startDate, dueDate);
           var startX = x + w + config.nameColumnSize;
           var startY = getRowY(config, idxFrom) + config.lineHeight / 2;
           var [startDate, dueDate] = getStartAndDueDate(endCell.latestRenderInfo);
-          var {x, w} = computeXAndWidth(endCell.latestRenderInfo, startDate, dueDate);
+          var {x, w} = computeXAndWidth(config, startDate, dueDate);
           var targetX = x + config.nameColumnSize;
           var targetY = getRowY(config, idxTo) + config.lineHeight / 2;
 
