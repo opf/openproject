@@ -78,10 +78,19 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
     # This remains a TODO.
     # But with the timestamp update in place as it is, at least the collapsing of aggregated journals
     # from days before with the newly uploaded attachment is prevented.
-    journable.touch
+    touch_journable(journable)
 
     Journals::CreateService
       .new(journable, attachment.author)
       .call
+  end
+
+  def touch_journable(journable)
+    # Not using touch here on purpose,
+    # as to avoid changing lock versions on the journables for this change
+    attributes = journable.send(:timestamp_attributes_for_update_in_model)
+
+    timestamps = attributes.index_with { Time.now }
+    journable.update_columns(timestamps) if timestamps.any?
   end
 end
