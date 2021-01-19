@@ -93,7 +93,7 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
       container.reload
 
       expect(container.lock_version)
-        .to eql 1
+        .to eql 0
     end
   end
 
