@@ -29,48 +29,37 @@
 // Reduced version of /frontend/src/app/components/wp-table/timeline/header/wp-timeline-header.directive.ts
 
 import * as moment from 'moment';
-import {
-  calculatePositionValueForDayCountingPx,
-  TimelineViewParameters
-} from 'core-app/components/wp-table/timeline/wp-timeline';
 import Moment = moment.Moment;
 import jsPDF from 'jspdf';
-import { ExportTimelineConfig } from './ExportTimelineService';
+import { ExportTimelineConfig } from './ExportTimelineConfig';
+import { calculatePositionValueForDayCountingPx, getHeaderHeight } from './utils/utils';
 
-export function getHeaderWidth(vp:TimelineViewParameters, config:ExportTimelineConfig):number {
-  let days_count = config.endDate.diff(config.startDate, 'days');
-  return calculatePositionValueForDayCountingPx(vp, days_count);
-}
 
-export function getHeaderHeight(config:ExportTimelineConfig) {
-  return config.headerLine1Height + config.headerLine2Height + config.headerLine3Height;
-}
-
-export function renderHeader(doc:jsPDF, vp:TimelineViewParameters, config:ExportTimelineConfig) {
+export function renderHeader(doc:jsPDF, config:ExportTimelineConfig) {
   switch (config.zoomLevel) {
     case 'days':
-      renderLabelsDays(doc, vp, config);
+      renderLabelsDays(doc, config);
       break;
     case 'weeks':
-      renderLabelsWeeks(doc, vp, config);
+      renderLabelsWeeks(doc, config);
       break;
     case 'months':
-      renderLabelsMonths(doc, vp, config);
+      renderLabelsMonths(doc, config);
       break;
     case 'quarters':
-      renderLabelsQuarters(doc, vp, config);
+      renderLabelsQuarters(doc, config);
       break;
     case 'years':
-      renderLabelsYears(doc, vp, config);
+      renderLabelsYears(doc, config);
       break;
   }
-  renderHeaderHLines(doc, vp, config);
-  renderTodayLine(doc, vp, config);
+  renderHeaderHLines(doc, config);
+  renderTodayLine(doc, config);
 }
 
-export function renderHeaderHLines(doc:jsPDF, vp:TimelineViewParameters, config:ExportTimelineConfig) {
+export function renderHeaderHLines(doc:jsPDF, config:ExportTimelineConfig) {
   let left = config.nameColumnSize;
-  let width = calculatePositionValueForDayCountingPx(vp, config.endDate.diff(config.startDate, 'days') + 1);
+  let width = calculatePositionValueForDayCountingPx(config, config.endDate.diff(config.startDate, 'days') + 1);
 
   doc.setDrawColor(config.normalLineColor);
 
@@ -84,9 +73,9 @@ export function renderHeaderHLines(doc:jsPDF, vp:TimelineViewParameters, config:
   })
 }
 
-export function renderTodayLine(doc:jsPDF, vp:TimelineViewParameters, config:ExportTimelineConfig) {
+export function renderTodayLine(doc:jsPDF, config:ExportTimelineConfig) {
   let left = config.nameColumnSize;
-  let width = calculatePositionValueForDayCountingPx(vp, moment({hour: 0, minute: 0, seconds: 0}).diff(config.startDate, 'days') + 1);
+  let width = calculatePositionValueForDayCountingPx(config, moment({hour: 0, minute: 0, seconds: 0}).diff(config.startDate, 'days') + 1);
   let y = config.headerLine1Height + config.headerLine2Height + config.headerLine3Height;
 
   doc.setDrawColor(config.todayLineColor);
@@ -95,8 +84,8 @@ export function renderTodayLine(doc:jsPDF, vp:TimelineViewParameters, config:Exp
   doc.setLineDashPattern([], 0);
 }
 
-export function renderLabelsDays(doc:jsPDF, vp:TimelineViewParameters, config:ExportTimelineConfig) {
-  renderTimeSlices(config, vp, 'month', config.startDate, config.endDate, (start, left, width) => {
+export function renderLabelsDays(doc:jsPDF, config:ExportTimelineConfig) {
+  renderTimeSlices(config, 'month', config.startDate, config.endDate, (start, left, width) => {
     let text = start.format('MMM YYYY');
     doc.setDrawColor(config.normalLineColor);
     doc.line(left, 0, left, config.headerLine1Height);
@@ -104,7 +93,7 @@ export function renderLabelsDays(doc:jsPDF, vp:TimelineViewParameters, config:Ex
     doc.text(text, left + width / 2, config.headerLine1Height / 2, {baseline: 'middle', align: 'center'});
   });
 
-  renderTimeSlices(config, vp, 'week', config.startDate, config.endDate, (start, left, width) => {
+  renderTimeSlices(config, 'week', config.startDate, config.endDate, (start, left, width) => {
     let text = start.format('ww');
     let y = config.headerLine1Height;
     doc.setDrawColor(config.normalLineColor);
@@ -113,7 +102,7 @@ export function renderLabelsDays(doc:jsPDF, vp:TimelineViewParameters, config:Ex
     doc.text(text, left + width / 2, y + config.headerLine2Height / 2, {baseline: 'middle', align: 'center'});
   });
 
-  renderTimeSlices(config, vp, 'day', config.startDate, config.endDate, (start, left, width) => {
+  renderTimeSlices(config, 'day', config.startDate, config.endDate, (start, left, width) => {
     let text = start.format('D');
     let y = config.headerLine1Height + config.headerLine2Height;
     doc.setDrawColor(config.normalLineColor);
@@ -131,8 +120,8 @@ export function renderLabelsDays(doc:jsPDF, vp:TimelineViewParameters, config:Ex
   });
 }
 
-export function renderLabelsWeeks(doc:jsPDF, vp:TimelineViewParameters, config:ExportTimelineConfig) {
-  renderTimeSlices(config, vp, 'month', config.startDate, config.endDate, (start, left, width) => {
+export function renderLabelsWeeks(doc:jsPDF, config:ExportTimelineConfig) {
+  renderTimeSlices(config, 'month', config.startDate, config.endDate, (start, left, width) => {
     let text = start.format('MMM YYYY');
     doc.setDrawColor(config.normalLineColor);
     doc.line(left, 0, left, config.headerLine1Height);
@@ -140,7 +129,7 @@ export function renderLabelsWeeks(doc:jsPDF, vp:TimelineViewParameters, config:E
     doc.text(text, left + width / 2, config.headerLine1Height / 2, {baseline: 'middle', align: 'center'});
   });
 
-  renderTimeSlices(config, vp, 'week', config.startDate, config.endDate, (start, left, width) => {
+  renderTimeSlices(config, 'week', config.startDate, config.endDate, (start, left, width) => {
     let text = start.format('ww');
     let y = config.headerLine1Height;
     doc.setDrawColor(config.normalLineColor);
@@ -154,7 +143,7 @@ export function renderLabelsWeeks(doc:jsPDF, vp:TimelineViewParameters, config:E
     doc.line(left, y, left, doc.internal.pageSize.height);
   });
 
-  renderTimeSlices(config, vp, 'day', config.startDate, config.endDate, (start, left, width) => {
+  renderTimeSlices(config, 'day', config.startDate, config.endDate, (start, left, width) => {
     let text = start.format('D');
     let y = config.headerLine1Height + config.headerLine2Height;
     doc.setDrawColor(config.normalLineColor);
@@ -169,8 +158,8 @@ export function renderLabelsWeeks(doc:jsPDF, vp:TimelineViewParameters, config:E
   });
 }
 
-export function renderLabelsMonths(doc:jsPDF, vp:TimelineViewParameters, config:ExportTimelineConfig) {
-  renderTimeSlices(config, vp, 'year', config.startDate, config.endDate, (start, left, width) => {
+export function renderLabelsMonths(doc:jsPDF, config:ExportTimelineConfig) {
+  renderTimeSlices(config, 'year', config.startDate, config.endDate, (start, left, width) => {
     let text = start.format('YYYY');
     doc.setDrawColor(config.normalLineColor);
     doc.line(left, 0, left, config.headerLine1Height);
@@ -178,7 +167,7 @@ export function renderLabelsMonths(doc:jsPDF, vp:TimelineViewParameters, config:
     doc.text(text, left + width / 2, config.headerLine1Height / 2, {baseline: 'middle', align: 'center'});
   });
 
-  renderTimeSlices(config, vp, 'month', config.startDate, config.endDate, (start, left, width) => {
+  renderTimeSlices(config, 'month', config.startDate, config.endDate, (start, left, width) => {
     let text = start.format('MMM');
     let y = config.headerLine1Height;
     doc.setDrawColor(config.normalLineColor);
@@ -192,7 +181,7 @@ export function renderLabelsMonths(doc:jsPDF, vp:TimelineViewParameters, config:
     doc.line(left, y, left, doc.internal.pageSize.height);
   });
 
-  renderTimeSlices(config, vp, 'week', config.startDate, config.endDate, (start, left, width) => {
+  renderTimeSlices(config, 'week', config.startDate, config.endDate, (start, left, width) => {
     let text = start.format('ww');
     let y = config.headerLine1Height + config.headerLine2Height;
     doc.setDrawColor(config.normalLineColor);
@@ -207,8 +196,8 @@ export function renderLabelsMonths(doc:jsPDF, vp:TimelineViewParameters, config:
   });
 }
 
-export function renderLabelsQuarters(doc:jsPDF, vp:TimelineViewParameters, config:ExportTimelineConfig) {
-  renderTimeSlices(config, vp, 'year', config.startDate, config.endDate, (start, left, width) => {
+export function renderLabelsQuarters(doc:jsPDF, config:ExportTimelineConfig) {
+  renderTimeSlices(config, 'year', config.startDate, config.endDate, (start, left, width) => {
     let text = start.format('YYYY');
     doc.setDrawColor(config.normalLineColor);
     doc.line(left, 0, left, config.headerLine1Height);
@@ -216,7 +205,7 @@ export function renderLabelsQuarters(doc:jsPDF, vp:TimelineViewParameters, confi
     doc.text(text, left + width / 2, config.headerLine1Height / 2, {baseline: 'middle', align: 'center'});
   });
 
-  renderTimeSlices(config, vp, 'quarter', config.startDate, config.endDate, (start, left, width) => {
+  renderTimeSlices(config, 'quarter', config.startDate, config.endDate, (start, left, width) => {
     let text = start.format('Q') ;
     let y = config.headerLine1Height;
     doc.setDrawColor(config.normalLineColor);
@@ -230,7 +219,7 @@ export function renderLabelsQuarters(doc:jsPDF, vp:TimelineViewParameters, confi
     doc.line(left, y, left, doc.internal.pageSize.height);
   });
 
-  renderTimeSlices(config, vp, 'month', config.startDate, config.endDate, (start, left, width) => {
+  renderTimeSlices(config, 'month', config.startDate, config.endDate, (start, left, width) => {
     let text = start.format('MMM');
     let y = config.headerLine1Height + config.headerLine2Height;
     doc.setDrawColor(config.normalLineColor);
@@ -245,8 +234,8 @@ export function renderLabelsQuarters(doc:jsPDF, vp:TimelineViewParameters, confi
   });
 }
 
-export function renderLabelsYears(doc:jsPDF, vp:TimelineViewParameters, config:ExportTimelineConfig) {
-  renderTimeSlices(config, vp, 'year', config.startDate, config.endDate, (start, left, width) => {
+export function renderLabelsYears(doc:jsPDF, config:ExportTimelineConfig) {
+  renderTimeSlices(config, 'year', config.startDate, config.endDate, (start, left, width) => {
     let text = start.format('YYYY');
     doc.setDrawColor(config.normalLineColor);
     doc.line(left, 0, left, config.headerLine1Height);
@@ -259,7 +248,7 @@ export function renderLabelsYears(doc:jsPDF, vp:TimelineViewParameters, config:E
     doc.line(left, y, left, doc.internal.pageSize.height);
   });
 
-  renderTimeSlices(config, vp, 'quarter', config.startDate, config.endDate, (start, left, width) => {
+  renderTimeSlices(config, 'quarter', config.startDate, config.endDate, (start, left, width) => {
     let text = start.format('Q');
     let y = config.headerLine1Height;
     doc.setDrawColor(config.normalLineColor);
@@ -268,7 +257,7 @@ export function renderLabelsYears(doc:jsPDF, vp:TimelineViewParameters, config:E
     doc.text(text, left + width / 2, y + config.headerLine2Height / 2, {baseline: 'middle', align: 'center'});
   });
 
-  renderTimeSlices(config, vp, 'month', config.startDate, config.endDate, (start, left, width) => {
+  renderTimeSlices(config, 'month', config.startDate, config.endDate, (start, left, width) => {
     let text = start.format('M');
     let y = config.headerLine1Height + config.headerLine2Height;
     doc.setDrawColor(config.normalLineColor);
@@ -284,7 +273,6 @@ export function renderLabelsYears(doc:jsPDF, vp:TimelineViewParameters, config:E
 }
 
 export function renderTimeSlices(config:ExportTimelineConfig,
-                          vp:TimelineViewParameters,
                           unit:moment.unitOfTime.DurationConstructor,
                           startView:Moment,
                           endView:Moment,
@@ -293,8 +281,8 @@ export function renderTimeSlices(config:ExportTimelineConfig,
   const cols = getTimeSlicesForHeader(unit, startView, endView);
 
   for (let [start, end] of cols) {
-    let left = calculatePositionValueForDayCountingPx(vp, start.diff(startView, 'days'));
-    let width = calculatePositionValueForDayCountingPx(vp, end.diff(start, 'days') + 1);
+    let left = calculatePositionValueForDayCountingPx(config, start.diff(startView, 'days'));
+    let width = calculatePositionValueForDayCountingPx(config, end.diff(start, 'days') + 1);
 
     left += config.nameColumnSize;
 

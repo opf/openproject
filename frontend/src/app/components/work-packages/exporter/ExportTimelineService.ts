@@ -11,43 +11,13 @@ import {WorkPackageTimelineTableController} from 'core-app/components/wp-table/t
 import { WorkPackageTimelineCell } from 'core-app/components/wp-table/timeline/cells/wp-timeline-cell';
 import { RenderInfo } from 'core-app/components/wp-table/timeline/wp-timeline';
 import * as moment from 'moment';
-import { TimelineZoomLevel } from 'core-app/modules/hal/resources/query-resource';
-import {getHeaderHeight, getHeaderWidth, renderHeader} from './ExportTimelineHeaderRenderer';
+import {renderHeader} from './ExportTimelineHeaderRenderer';
 import { WorkPackageRelationsService } from 'core-app/components/wp-relations/wp-relations.service';
 import {drawRelations} from './ExportTimelineRelationsRenderer';
 import { IsolatedQuerySpace } from 'core-app/modules/work_packages/query-space/isolated-query-space';
 import { GroupObject } from 'core-app/modules/hal/resources/wp-collection-resource';
-
-
-export type ExportTimelineConfig = {
-  lineHeight: number,
-  workHeight: number,
-  fitDateInterval: boolean,
-  fitDateIntervalMarginFactor: number,
-  startDate: moment.Moment,
-  endDate: moment.Moment,
-  zoomLevel: TimelineZoomLevel,
-  pixelPerDay: number,
-  fontSize: number,
-  nameColumnSize: number,
-  boldLineColor: string,
-  normalLineColor: string,
-  smallLineColor: string,
-  todayLineColor: string,
-  relationLineColor: string,
-  groupBackgroundColor: string,
-
-  // Header configuration
-  headerLine1Height: number,
-  headerLine1FontStyle: string,
-  headerLine1FontSize: number,
-  headerLine2Height: number,
-  headerLine2FontStyle: string,
-  headerLine2FontSize: number,
-  headerLine3Height: number,
-  headerLine3FontStyle: string,
-  headerLine3FontSize: number,
-}
+import { ExportTimelineConfig } from './ExportTimelineConfig';
+import { computeXAndWidth, getHeaderHeight, getHeaderWidth, getRowY, isMilestone } from './utils/utils';
 
 export class ExportTimelineService {
 
@@ -104,7 +74,7 @@ export class ExportTimelineService {
 
     console.log(this.config);
 
-    let width = getHeaderWidth(this.wpTimeline.viewParameters, this.config) + this.config.nameColumnSize;
+    let width = getHeaderWidth(this.config) + this.config.nameColumnSize;
     let height = getHeaderHeight(this.config) + this.wpTimeline.workPackageIdOrder.length * this.config.lineHeight;
   
     let doc = new jsPDF({
@@ -115,8 +85,8 @@ export class ExportTimelineService {
 
     doc.setFontSize(this.config.fontSize);
 
-    renderHeader(doc, this.wpTimeline.viewParameters, this.config);
-    drawRelations(doc, this.wpTimeline.viewParameters, this.wpRelations, this.wpTimeline, this.config);
+    renderHeader(doc, this.config);
+    drawRelations(doc, this.wpRelations, this.wpTimeline, this.config);
     doc = this.buildCells(doc);
 
     doc.save('Timeline.pdf');
@@ -282,29 +252,6 @@ export class ExportTimelineService {
   }
 }
 
-export function computeXAndWidth(config:ExportTimelineConfig, start:moment.Moment, due:moment.Moment) {
-  // offset left
-  const offsetStart = start.diff(config.startDate, 'days');
-  const x = config.pixelPerDay * offsetStart;
-
-  // duration
-  const duration = due.diff(start, 'days') + 1;
-  let w = config.pixelPerDay * duration;
-
-  // ensure minimum width
-  if (!_.isNaN(start.valueOf()) || !_.isNaN(due.valueOf())) {
-    let minWidth = _.max([config.pixelPerDay, 2]);
-    if (minWidth) {
-      w = Math.max(w, minWidth);
-    }
-  }
-
-  return {
-    x,
-    w,
-  }
-}
-
 const colors: Record<string, string> = {
   '1': '#1A67A3',
   '2': '#35C53F',
@@ -321,14 +268,6 @@ function computeColor(renderInfo:RenderInfo) {
   const id = type.id || '';
 
   return colors[id] || '#FFFFFF'
-}
-
-export function getRowY(config:ExportTimelineConfig, row:number): number {
-  return getHeaderHeight(config) + row * config.lineHeight;
-}
-
-export function isMilestone(renderInfo:RenderInfo) {
-  return !!renderInfo.change.projectedResource.date;
 }
 
 function buildTableInfo(doc:jsPDF, config:ExportTimelineConfig, row:number, renderInfo:RenderInfo): jsPDF {
