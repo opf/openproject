@@ -90,3 +90,7 @@ An invoice will be sent via email to the Billing email address.
 
 We offer two months of the Enterprise cloud edition for free if you choose an annual plan. If you decide for the two year plan, you get five months for free and if you commit to a five year plan, you get 15 months for free. 
 Please note: The free months will be included in the chosen length of your subscription period and won't be added on top.
+
+### Additional questions
+
+You can find additional questions and answers regarding pricing and booking at the bottom of our [pricing website](https://www.openproject.org/pricing/).

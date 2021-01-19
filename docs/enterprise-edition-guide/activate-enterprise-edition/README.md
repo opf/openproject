@@ -41,3 +41,5 @@ If you want to **order the Enterprise on-premises edition** click on the **+ Ord
 
 Once you purchased an Enterprise on-premises edition token or received a trial token you can [activate it by pasting the token in the designated area of the Enterprise Edition section](#activate-the-enterprise-edition).
 
+You can find pricing options and FAQ regarding pricing, booking and billing on our [pricing website](https://www.openproject.org/pricing/).
+
