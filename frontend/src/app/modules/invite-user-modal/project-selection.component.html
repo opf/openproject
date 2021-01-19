@@ -7,7 +7,7 @@
       <button
         class="op-modal--modal-close-button"
         type="button"
-        (click)="closeMe($event)"
+        (click)="close"
         [attr.aria-label]="text.closePopup"
       >
         <span class="icon-close"></span>
@@ -16,6 +16,18 @@
     </div>
 
     <div class="op-modal--modal-body">
+      <op-option-list
+        [(selected)]="type"
+        [options]="typeOptions"
+      ></op-option-list> 
+    </div>
+
+    <div class="op-modal--modal-footer">
+      <button
+        type="button"
+        (click)="back"
+      >Back</button>
+      <button>Next</button>
     </div>
   </div>
 </form>
