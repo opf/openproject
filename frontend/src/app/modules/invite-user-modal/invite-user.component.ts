@@ -29,12 +29,6 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   /* Close on outside click */
   public closeOnOutsideClick = true;
 
-  public text = {
-    title: this.I18n.t('js.invite_user_modal.title'),
-    closePopup: this.I18n.t('js.close_popup_title'),
-    exportPreparing: this.I18n.t('js.label_export_preparing')
-  };
-
   public type:string|null = null;
   public project = null;
   public principal = null;
@@ -46,7 +40,6 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   }
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
               readonly elementRef:ElementRef,
               readonly httpClient:HttpClient) {

@@ -16,7 +16,7 @@ import {OpenprojectCommonModule} from "core-app/modules/common/openproject-commo
     OpenprojectCommonModule,
     NgSelectModule
   ],
-  exports: [  ],
+  exports: [],
   declarations: [
     InviteUserModalComponent,
     InviteProjectSelectionComponent,

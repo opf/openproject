@@ -73,19 +73,19 @@ import {AddSectionDropdownComponent} from 'core-app/modules/common/hide-section/
 import {HideSectionLinkComponent} from 'core-app/modules/common/hide-section/hide-section-link/hide-section-link.component';
 import {RemoteFieldUpdaterComponent} from 'core-app/modules/common/remote-field-updater/remote-field-updater.component';
 import {AutofocusDirective} from 'core-app/modules/common/autofocus/autofocus.directive';
-import {ShowSectionDropdownComponent} from 'core-app/modules/common/hide-section/show-section-dropdown.component';
-import {IconTriggeredContextMenuComponent} from 'core-components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component';
-import {NgSelectModule} from '@ng-select/ng-select';
-import {NgOptionHighlightModule} from '@ng-select/ng-option-highlight';
-import {CurrentProjectService} from 'core-components/projects/current-project.service';
-import {CurrentUserService} from 'core-components/user/current-user.service';
-import {WorkPackageAutocompleterComponent} from 'core-app/modules/common/autocomplete/wp-autocompleter.component';
-import {TimeEntryWorkPackageAutocompleterComponent} from 'core-app/modules/common/autocomplete/te-work-package-autocompleter.component';
-import {DraggableAutocompleteComponent} from 'core-app/modules/common/draggable-autocomplete/draggable-autocomplete.component';
-import {DragulaModule} from 'ng2-dragula';
-import {SlideToggleComponent} from 'core-app/modules/common/slide-toggle/slide-toggle.component';
+import {ShowSectionDropdownComponent} from "core-app/modules/common/hide-section/show-section-dropdown.component";
+import {IconTriggeredContextMenuComponent} from "core-components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component";
+import {NgSelectModule} from "@ng-select/ng-select";
+import {NgOptionHighlightModule} from "@ng-select/ng-option-highlight";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {CurrentUserService} from "core-components/user/current-user.service";
+import {WorkPackageAutocompleterComponent} from "core-app/modules/common/autocomplete/wp-autocompleter.component";
+import {TimeEntryWorkPackageAutocompleterComponent} from "core-app/modules/common/autocomplete/te-work-package-autocompleter.component";
+import {DraggableAutocompleteComponent} from "core-app/modules/common/draggable-autocomplete/draggable-autocomplete.component";
+import {DragulaModule} from "ng2-dragula";
+import {SlideToggleComponent} from "core-app/modules/common/slide-toggle/slide-toggle.component";
+import {OpOptionListComponent} from "core-app/modules/common/option-list/option-list.component";
 import {DynamicBootstrapModule} from 'core-app/modules/common/dynamic-bootstrap/dynamic-bootstrap.module';
-import {PrincipalRendererService} from "core-app/modules/common/principal/principal-renderer.service";
 import {OpPrincipalComponent} from "core-app/modules/common/principal/op-principal.component";
 
 export function bootstrapModule(injector:Injector) {
@@ -155,6 +155,7 @@ export function bootstrapModule(injector:Injector) {
     OpDatePickerComponent,
     OpDateTimeComponent,
     OpIcon,
+    OpOptionListComponent,
     AutofocusDirective,
 
     FocusWithinDirective,
@@ -209,6 +210,7 @@ export function bootstrapModule(injector:Injector) {
     OpDatePickerComponent,
     OpDateTimeComponent,
     OpIcon,
+    OpOptionListComponent,
     AutofocusDirective,
 
     FocusWithinDirective,

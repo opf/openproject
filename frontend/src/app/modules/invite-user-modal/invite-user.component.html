@@ -5,6 +5,7 @@
     [project]="project"
     [type]="type"
     (save)="onProjectSelectionSave"
+    (close)="close"
   ></op-ium-project-selection>
   <op-ium-user
     *ngIf="step === 'user' && type === 'user'"
