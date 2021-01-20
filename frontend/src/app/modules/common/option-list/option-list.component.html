@@ -1,22 +1,19 @@
-<!-- This is an example structure -->
-<div class="op-option-list">
-  <label
-    *ngFor="let option of options"
-    class="op-option-list--item"
-    [ngClass]="option.value === selected ? 'op-option-list--item_selected' : ''"
-  >
-    <input
-      type="radio"
-      [attr.name]="name"
-      [value]="option.value"
-      [(ngModel)]="selectedInternal"
-    />
-    <div>
-      <p class="op-option-list--title">{{ option.title }}</p>
-      <p
-        *ngIf="option.description"
-        class="op-option-list--description"
-      >{{ option.description }}</p>
-    </div>
-  </label>
-</div>
+<label
+  *ngFor="let option of options"
+  [class]="{ 'op-option-list--item': true, 'op-option-list--item_selected': selected === option.value }"
+>
+  <input
+    type="radio"
+    [attr.name]="name"
+    [value]="option.value"
+    [(ngModel)]="selected"
+    class="op-option-list--input"
+  />
+  <div>
+    <p class="op-option-list--item-title">{{ option.title }}</p>
+    <p
+      *ngIf="option.description"
+      class="op-option-list--item-description"
+    >{{ option.description }}</p>
+  </div>
+</label>

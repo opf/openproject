@@ -3,8 +3,14 @@ import {
   Input,
   Output,
   EventEmitter,
+  HostBinding,
+  forwardRef,
 } from "@angular/core";
-import { ControlValueAccessor } from "@angular/forms";
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+  DefaultValueAccessor,
+} from "@angular/forms";
 
 export interface IOpOptionListOption<T> {
   value:T;
@@ -18,8 +24,15 @@ export type IOpOptionListValue<T> = T|null;
   // Style is imported globally
   templateUrl: './option-list.component.html',
   selector: 'op-option-list',
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => OpOptionListComponent),
+    multi: true,
+  }],
 })
 export class OpOptionListComponent<T> implements ControlValueAccessor {
+  @HostBinding('class.op-option-list') className = true;
+
   @Input() options:IOpOptionListOption<T>[] = [];
   @Input() name:string = `op-option-list-${+(new Date())}`;
   @Output() selectedChange = new EventEmitter<T>();
@@ -29,6 +42,7 @@ export class OpOptionListComponent<T> implements ControlValueAccessor {
     return this._selected;
   }
   set selected(data:IOpOptionListValue<T>) {
+    this._selected = data;
     this.onChange(data);
   }
   onChange = (_:IOpOptionListValue<T>) => {};
