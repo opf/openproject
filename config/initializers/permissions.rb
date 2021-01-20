@@ -43,6 +43,16 @@ end
 
 OpenProject::AccessControl.map do |map|
   map.project_module nil, order: 100 do
+    map.permission :add_project,
+                   { projects: %i[new create] },
+                   require: :loggedin,
+                   global: true
+
+    map.permission :add_user,
+                   { users: %i[new create edit update] },
+                   require: :loggedin,
+                   global: true
+
     map.permission :view_project,
                    { projects: [:show],
                      activities: [:index] },
@@ -51,11 +61,6 @@ OpenProject::AccessControl.map do |map|
     map.permission :search_project,
                    { search: :index },
                    public: true
-
-    map.permission :add_project,
-                   { projects: %i[new create] },
-                   require: :loggedin,
-                   global: true
 
     map.permission :edit_project,
                    edit_project_hash,
