@@ -60,8 +60,8 @@ No, this is not possible.
 
 ### Is it possible to adapt or rename the status list?
 
-Yes, this is absolutely possible. To do this, you would first have to [create new statuses](https://docs.openproject.org/system-admin-guide/manage-work-packages/work-package-status/).
-In the second step you can then [assign them to workflows](https://docs.openproject.org/system-admin-guide/manage-work-packages/work-package-workflows/).
+Yes, this is absolutely possible. To do this, you would first have to [create new statuses](../../system-admin-guide/manage-work-packages/work-package-status/).
+In the second step you can then [assign them to workflows](../../system-admin-guide/manage-work-packages/work-package-workflows/).
 
 ### We like for each department to have their own custom "status" with different value options in OpenProject. How do we do this?
 

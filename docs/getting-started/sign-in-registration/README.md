@@ -119,12 +119,12 @@ As a first step please try to [reset your password](#reset-your-password). Pleas
 
 If that doesn't help please contact your admin for login related topics. He/she can [set a new password for you](../../system-admin-guide/users-permissions/users/#manage-user-settings).
 
-If you don't know the URL of your OpenProject Enterprise cloud, you can find it on this website: https://www.openproject.org/request-organization/ on the basis of your email address.
+If you don't know the URL of your OpenProject Enterprise cloud, you can find it on [this website](https://www.openproject.org/request-organization) on the basis of your email address.
 
 ### I cannot log in. Resetting my password seems to have no effect. What do I do?
 
 Look in your spam folder for the email. 
 
-Ask your system admin to set a new password for you.
+Ask your system admin to [set a new password for you](../../system-admin-guide/users-permissions/users/#manage-user-settings).
 
 If you are the system administrator of an on-premises installation (Enterprise on-premises or Community Edition) please have a look at [this FAQ](../../installation-and-operations/operation/faq/#i-lost-access-to-my-admin-account-how-do-i-reset-my-password).

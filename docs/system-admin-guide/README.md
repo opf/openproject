@@ -50,4 +50,4 @@ Click on one of the categories in order to proceed with the configuration.
 
 ### How do I know if I have system admin permissions?
 
-If you can choose "Administration" when clicking on your avatar you have system admin permissions.
+If you can choose *Administration* when clicking on your avatar you have system admin permissions.

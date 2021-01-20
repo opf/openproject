@@ -156,4 +156,4 @@ Unfortunately, we don't have the critical path feature yet. We have a feature re
 
 ### When I am working in the Gantt chart, every change seems to take quite long. 
 
-We understand that the loading time when working in Gantt Chart is too long for you. The reason for this is that every single action is saved. So everything is fine with your installation. We have already taken up the point with us and already have first ideas for a technical solution. The respective The respective feature request can be found [here](https://community.openproject.com/projects/openproject/work_packages/34176/activity). 
+We understand that the loading time when working in Gantt Chart is too long for you. The reason for this is that every single action is saved. So everything is fine with your installation. We have already taken up the point with us and already have first ideas for a technical solution. The respective feature request can be found [here](https://community.openproject.com/projects/openproject/work_packages/34176/activity). 
