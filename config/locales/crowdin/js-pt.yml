@@ -362,7 +362,7 @@ pt:
     label_next: "Próxima"
     label_no_color: "Sem cor"
     label_no_data: "Sem dados para exibir"
-    label_no_due_date: "no finish date"
+    label_no_due_date: "sem data de conclusão"
     label_no_start_date: "nenhuma data de início"
     label_no_value: "Nenhum valor"
     label_none: "nenhum"
