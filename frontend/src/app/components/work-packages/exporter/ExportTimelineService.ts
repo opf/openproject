@@ -228,7 +228,7 @@ export class ExportTimelineService {
     const half_size = h / 2;
     let y = getRowY(this.config, row);
     y += (this.config.lineHeight - h) / 2;  // Vertically center milestone
-    let color = computeColor(renderInfo);
+    const color = computeColor(renderInfo);
 
     x += this.config.nameColumnSize;
 
@@ -307,7 +307,7 @@ function buildGroupHeaderInfo(doc:jsPDF, config:ExportTimelineConfig, row:number
 function mapGroupsByIdentifier(groups: GroupObject[]): Record<string, GroupObject> {
   const map:Record<string, GroupObject> = {};
 
-  for (let group of groups) {
+  for (const group of groups) {
     const id = 'group-'+ group.identifier;
     if (map[id]) {
       console.warn(`Group with identifier ${id} was already defined`);

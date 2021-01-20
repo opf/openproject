@@ -10,7 +10,7 @@ export function drawRelations(doc:jsPDF,
                               wpRelations:WorkPackageRelationsService,
                               workPackageTimelineTableController:WorkPackageTimelineTableController,
                               config:ExportTimelineConfig) {
-  let workPackageIdOrder = workPackageTimelineTableController.workPackageIdOrder;
+  const workPackageIdOrder = workPackageTimelineTableController.workPackageIdOrder;
 
   workPackageIdOrder.forEach(workPackage => {
     const wpId = workPackage.workPackageId;
@@ -68,11 +68,11 @@ export function drawRelations(doc:jsPDF,
           let [startDate, dueDate] = getStartAndDueDate(startCell.latestRenderInfo);
           let {x, w} = computeXAndWidth(config, startDate, dueDate);
           let startX = x + w + config.nameColumnSize;
-          let startY = getRowY(config, idxFrom) + config.lineHeight / 2;
+          const startY = getRowY(config, idxFrom) + config.lineHeight / 2;
           [startDate, dueDate] = getStartAndDueDate(endCell.latestRenderInfo);
           ({x, w} = computeXAndWidth(config, startDate, dueDate));
           let targetX = x + config.nameColumnSize;
-          let targetY = getRowY(config, idxTo) + config.lineHeight / 2;
+          const targetY = getRowY(config, idxTo) + config.lineHeight / 2;
 
           // Vertical direction
           const directionY:'toUp'|'toDown' = idxFrom < idxTo ? 'toDown' : 'toUp';

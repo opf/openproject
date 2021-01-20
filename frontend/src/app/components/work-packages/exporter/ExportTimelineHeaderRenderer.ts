@@ -206,7 +206,7 @@ export function renderLabelsQuarters(doc:jsPDF, config:ExportTimelineConfig) {
   });
 
   renderTimeSlices(config, 'quarter', config.startDate, config.endDate, (start, left, width) => {
-    let text = start.format('Q') ;
+    const text = start.format('Q') ;
     let y = config.headerLine1Height;
     doc.setDrawColor(config.normalLineColor);
     doc.line(left, y, left, y + config.headerLine2Height);
@@ -280,7 +280,7 @@ export function renderTimeSlices(config:ExportTimelineConfig,
 
   const cols = getTimeSlicesForHeader(unit, startView, endView);
 
-  for (let [start, end] of cols) {
+  for (const [start, end] of cols) {
     let left = calculatePositionValueForDayCountingPx(config, start.diff(startView, 'days'));
     const width = calculatePositionValueForDayCountingPx(config, end.diff(start, 'days') + 1);
 
