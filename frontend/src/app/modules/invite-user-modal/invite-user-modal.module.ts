@@ -3,9 +3,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {InviteUserModalComponent} from "./invite-user.component";
 import {InviteProjectSelectionComponent} from "./project-selection.component";
 import {InviteProjectSearchComponent} from "./project-search.component";
-import {InviteUserComponent} from "./user.component";
-import {InviteGroupComponent} from "./group.component";
-import {InvitePlaceholderComponent} from "./placeholder.component";
+import {InvitePrincipalComponent} from "./principal.component";
+import {InvitePrincipalSearchComponent} from "./principal-search.component";
 import {InviteRoleComponent} from "./role.component";
 import {InviteMessageComponent} from "./message.component";
 import {InviteSuccessComponent} from "./success.component";
@@ -24,9 +23,8 @@ import {OpenprojectCommonModule} from "core-app/modules/common/openproject-commo
     InviteUserModalComponent,
     InviteProjectSelectionComponent,
     InviteProjectSearchComponent,
-    InviteUserComponent,
-    InviteGroupComponent,
-    InvitePlaceholderComponent,
+    InvitePrincipalComponent,
+    InvitePrincipalSearchComponent,
     InviteRoleComponent,
     InviteMessageComponent,
     InviteSuccessComponent,

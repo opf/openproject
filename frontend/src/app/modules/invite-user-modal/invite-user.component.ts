@@ -7,21 +7,23 @@ import {HttpClient} from '@angular/common/http';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {Observable} from 'rxjs';
 
+enum Steps {
+  ProjectSelection,
+  Principal,
+  Role,
+  Message,
+  Summary,
+  Success,
+};
+
 @Component({
   templateUrl: './invite-user.component.html',
   styleUrls: ['./invite-user.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InviteUserModalComponent extends OpModalComponent implements OnInit {
-  private steps = [
-    'project-selection',
-    'username',
-    'role',
-    'message',
-    'summary',
-    'success',
-  ];
-  private stepIndex = 0;
+  public Steps = Steps;
+  public step = Steps.ProjectSelection;
 
   /* Close on escape? */
   public closeOnEscape = true;
@@ -35,10 +37,6 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   public role = null;
   public message = '';
 
-  public get step() {
-    return this.steps[this.stepIndex];
-  }
-
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly cdRef:ChangeDetectorRef,
               readonly elementRef:ElementRef,
@@ -50,13 +48,19 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
     super.ngOnInit();
   }
 
-  onProjectSelectionSave({ type, project }: { type: string, project: any }) {
+  onProjectSelectionSave({ type, project }:{ type:string, project:any }) {
     this.type = type;
     this.project = project;
-    this.stepIndex += 1;
+    this.goTo(Steps.Principal);
   }
 
-  back() {
-    this.stepIndex = Math.max(this.stepIndex - 1, 0);
+  onPrincipalSave({ principal }:{ principal:any }) {
+    this.principal = principal;
+    this.goTo(Steps.Role);
+  }
+
+  goTo(step:Steps) {
+    this.step = step;
+    console.log('Going to', this.step, step, Steps);
   }
 }
