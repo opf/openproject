@@ -101,6 +101,7 @@ class Project < ApplicationRecord
              includes(:principal)
                .references(:principals)
                .where("#{Principal.table_name}.type='Group' OR " +
+               "(#{Principal.table_name}.type='PlaceholderUser' OR " +
                "(#{Principal.table_name}.type='User' AND " +
                "(#{Principal.table_name}.status=#{Principal::STATUSES[:active]} OR " +
                "#{Principal.table_name}.status=#{Principal::STATUSES[:registered]} OR " +
@@ -230,7 +231,7 @@ class Project < ApplicationRecord
   # Returns all projects the user is allowed to see.
   #
   # Employs the :view_project permission to perform the
-  # authorization check as the permissino is public, meaning it is granted
+  # authorization check as the permission is public, meaning it is granted
   # to everybody having at least one role in a project regardless of the
   # role's permissions.
   def self.visible_by(user = User.current)
@@ -522,9 +523,9 @@ class Project < ApplicationRecord
 
   def self.possible_principles_condition
     condition = if Setting.work_package_group_assignment?
-                  ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group']
+                  ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group', 'PlaceholderUser']
                 else
-                  ["(#{Principal.table_name}.type=?)", 'User']
+                  ["(#{Principal.table_name}.type=?)", 'User', 'PlaceholderUser']
                 end
 
     condition[0] += " AND (#{User.table_name}.status=? OR #{User.table_name}.status=?) AND roles.assignable = ?"
