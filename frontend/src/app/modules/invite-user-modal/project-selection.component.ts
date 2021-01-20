@@ -65,8 +65,8 @@ export class InviteProjectSelectionComponent {
     debugger;
 
     this.save.emit({
-      project: this.projectAndTypeForm.get('project'),
-      type: this.projectAndTypeForm.get('type'),
+      project: this.projectAndTypeForm.get('project')?.value,
+      type: this.projectAndTypeForm.get('type')?.value,
     });
   }
 
