@@ -7,6 +7,8 @@ import {
 } from '@angular/core';
 import { 
   FormControl,
+  FormGroup,
+  Validators,
 } from '@angular/forms';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
@@ -40,14 +42,13 @@ export class InviteProjectSelectionComponent {
     },
   ];
 
-  public type:string = '';
-  @Input('type') set parentType(value:string) {
-    this.type = value;
-  }
-  public project:any = null;
-  @Input() set parentProject(value:any) {
-    this.project = value;
-  }
+  @Input('type') type:string;
+  @Input('project') project:null;
+
+  projectAndTypeForm = new FormGroup({
+    type: new FormControl('', [ Validators.required ]),
+    project: new FormControl(null, [ Validators.required ]),
+  });
 
   @Output('close') closeModal = new EventEmitter<void>();
   @Output() save = new EventEmitter<{project:any, type:string}>();
@@ -59,10 +60,13 @@ export class InviteProjectSelectionComponent {
     this.closeModal.emit();
   }
 
-  submit() {
+  onSubmit($e:Event) {
+    console.log(this.projectAndTypeForm);
+    debugger;
+
     this.save.emit({
-      project: this.project,
-      type: this.type,
+      project: this.projectAndTypeForm.get('project'),
+      type: this.projectAndTypeForm.get('type'),
     });
   }
 
