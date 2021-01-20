@@ -2,32 +2,54 @@
   [formGroup]="projectAndTypeForm"
   (ngSubmit)="onSubmit($event)"
 >
-  <div class="op-modal--modal-container">
-    <div class="op-modal--modal-header">
-      <button
-        class="op-modal--modal-close-button"
-        type="button"
-        (click)="close"
-        [attr.aria-label]="text.closePopup"
-      >
-        <span class="icon-close"></span>
-      </button>
-      <h3 class="icon-context icon-attention" [textContent]="text.title"></h3>
-    </div>
+  <div class="op-modal--modal-header">
+    <button
+      class="op-modal--modal-close-button"
+      type="button"
+      (click)="close"
+      [attr.aria-label]="text.closePopup"
+    >
+      <span class="icon-close"></span>
+    </button>
+    <h3 [textContent]="text.title"></h3>
+  </div>
 
-    <div class="op-modal--modal-body">
+  <div class="op-modal--modal-body">
+    <op-form-field
+      label="Project"
+      required
+      [formBinding]="projectControl"
+    >
+      <op-ium-project-search
+        [projectFormControl]="projectControl"
+        slot="input"
+      ></op-ium-project-search>
+      
+      <div
+        slot="errors"
+        class="op-form-field--error"
+        *ngIf="projectControl?.touched && projectControl?.invalid"
+      >
+        Please select which project the user will be a part of
+      </div>
+    </op-form-field>
+
+    <div class="op-form-field">
       <op-option-list
         [options]="typeOptions"
-        formControlName="type"
-      ></op-option-list> 
-    </div>
+        [formControl]="typeControl"
+      ></op-option-list>
 
-    <div class="op-modal--modal-footer">
-      <button
-        type="button"
-        (click)="back"
-      >Back</button>
-      <button>Next</button>
+      <div
+        *ngIf="typeControl?.touched && typeControl?.invalid"
+        class="op-form-field--errors"
+      >
+        <div class="op-form-field--error">Please select which what kind of assignable you want to invite or create</div>
+      </div>
     </div>
+  </div>
+
+  <div class="op-modal--modal-footer">
+    <button>Next</button>
   </div>
 </form>

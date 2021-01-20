@@ -1,4 +1,4 @@
-<div class="op-modal--portal">
+<div class="op-modal--portal op-ium-invite-user-modal">
   <op-ium-project-selection
     *ngIf="step === 'project-selection'"
     class="op-modal--modal-container"
@@ -7,6 +7,7 @@
     (save)="onProjectSelectionSave"
     (close)="close"
   ></op-ium-project-selection>
+
   <op-ium-user
     *ngIf="step === 'user' && type === 'user'"
     class="op-modal--modal-container"

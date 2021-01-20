@@ -30,7 +30,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   public closeOnOutsideClick = true;
 
   public type:string|null = null;
-  public project = null;
+  public project:any = null;
   public principal = null;
   public role = null;
   public message = '';
@@ -50,8 +50,10 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
     super.ngOnInit();
   }
 
-  onProjectSelectionSave() {
-    console.log('select project');
+  onProjectSelectionSave({ type, project }: { type: string, project: any }) {
+    this.type = type;
+    this.project = project;
+    this.stepIndex += 1;
   }
 
   back() {
