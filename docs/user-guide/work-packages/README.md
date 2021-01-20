@@ -41,11 +41,11 @@ Work packages can be displayed in a projects timeline, e.g. as a milestone or a 
 
 <video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Work-Packages.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
-## Frequently asked questions (FAQ)
+## Frequently asked questions - FAQ
 
-### How to copy work package hierarchies with their relations?
+### How can I copy work package hierarchies with their relations?
 
-You can create work package templates with hierarchies (parent and child work packages) and copy these templates, inkl. the relations.
+You can create work package templates with hierarchies (parent and child work packages) and copy these templates, including the relations.
 First, navigate to the work package table. Highlight all work packages (in the hierarchy) which you want to copy. **To highlight and edit several work packages at once, keep Ctrl pressed** and select the ones to be copied.
 
 **Press a RIGHT mouse click on the highlighted work packages**. This will open the in context menu to edit work packages.

@@ -71,7 +71,7 @@ It is not possible to add work packages from projects which are not in a project
 
 
 
-## Frequently asked questions (FAQ)
+## Frequently asked questions - FAQ
 
 ### What information can be displayed in the calendar?
 

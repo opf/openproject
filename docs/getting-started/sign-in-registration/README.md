@@ -24,6 +24,7 @@ Here you will get an overview how to sign in and register to an existing OpenPro
 | [Create a new account](#create-a-new-account)                | Create a new account for OpenProject.                        |
 | [Choose your language](#choose-your-language)                | How to select your language in OpenProject?                  |
 | [Reset your password](#reset-your-password)                  | If you forgot your password find out how to reset it.        |
+| [FAQ](frequently-asked-questions---faq)                      | Frequently asked questions.                                 |
 
 <video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Sign-in-and-Registration-2.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
@@ -110,7 +111,7 @@ You will then receive an email with a link to reset your password.
 **Note**: If you have [signed-in with a Google account](#sign-in-with-a-google-account), your are not able to reset your password at this point.
 </div>
 
-## Frequently asked questions (FAQ)
+## Frequently asked questions - FAQ
 
 ### I cannot log in, I do not know my password. What can I do?
 

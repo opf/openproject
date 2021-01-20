@@ -18,7 +18,7 @@ For production environments and when using a [supported distribution](system-req
 
 A [manual installation](installation/manual) option is also documented, but due to the large number of components involved and the rapid evolution of OpenProject, we cannot ensure that the procedure is either up-to-date or that it will correctly work on your machine. This mean if installation is NOT recommended.
 
-## Frequently asked questions (FAQ)
+## Frequently asked questions - FAQ
 
 ### Are there extra fees to pay, in terms of installing the OpenProject software?
 
