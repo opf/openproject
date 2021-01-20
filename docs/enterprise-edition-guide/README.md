@@ -39,6 +39,10 @@ The Enterprise on-premises edition is an upgrade of the self-hosted Community ed
 Yes, you can upgrade your existing OpenProject Community edition to the Enterprise on-premises edition. You can then continue to use the same data as before but also use the premium features. When you purchase the Enterprise on-premises edition, you receive an Enterprise on-premises edition license. You can use this license to upgrade your Community edition.
 To upgrade your Community installation, navigate to your system -> Administration -> Enterprise Edition. Here, you can simply click the green Start free trial button. You can then trial the Enterprise on-premises edition 14 days for free before booking. If you like the premium features and want to continue, you can easily book the Enterprise on-premises version via the Enterprise Edition menu in the Administration. Find more information [here](https://www.openproject.org/enterprise-edition-upgrade-test-free/).
 
+### How can I book additional users?
+
+Please use the link "Manage subscription" in the email you received confirming your subscription or contact sales@openproject.com. 
+
 ### Is it possible to only upgrade some users to the Enterprise Edition?
 
 This is not possible, as the Enterprise features affect the whole OpenProject instance and not the individual users.
@@ -46,6 +50,10 @@ This is not possible, as the Enterprise features affect the whole OpenProject in
 ### I didn't receive my license key / my Enterprise token
 
 The Enterprise token is sent to the email address used to create the subscription. If you can't find it in the spam folder and if you already paid for the subscription please contact support.
+
+### Can I use my own domain name?
+
+Yes, for Enterprise on-premises and for Community Edition you will have to choose your own domain name during [initial configuration](../installation-and-operations/installation/packaged/#initial-configuration) after installing OpenProject.
 
 ### How can I downgrade from Enterprise Edition to Community Edition?
 

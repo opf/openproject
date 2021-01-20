@@ -24,21 +24,24 @@ Welcome to the OpenProject **Enterprise cloud edition guide**.
 | [Sign in](./sign-in/)                                        | Sign in to your OpenProject Enterprise cloud edition.        |
 | [Create a quote](./create-quote-cloud)                       | How to create a quote within your Enterprise cloud instance? |
 | [View payment history or download invoices](./invoices-and-billing-history) | How to see your payment history and download invoices?       |
-| [Upgrade, downgrade or cancel subscription](./manage-subscription/#update-existing-subscriptions) | How to upgrade your plan, downgrade or cancel your subscription for the Enterprise cloud edition? |
+| [Upgrade, downgrade or cancel subscription](./manage-subscription) | How to upgrade your plan, downgrade or cancel your subscription for the Enterprise cloud edition? |
 | [Manage your subscription](./manage-subscription)            | How to change billing address, add or edit credit card details? |
 | [Backups](./backups)                                         | How do backups work in the cloud?                            |
-| [GDPR](./GDPR)                                               | Review and sign a Data Processing Agreement (DPA)            |
+| [GDPR and DPA](./GDPR)                                       | Review and sign a Data Processing Agreement (DPA)            |
 
 The OpenProject Enterprise cloud edition contains all OpenProject Community features plus the additional OpenProject premium features, as well as professional support.
 
 For the Enterprise cloud edition the OpenProject experts will take care of the installation as well as maintenance of your OpenProject installation, so you will be able to concentrate on your core business. We will perform regular backups of your Enterprise cloud edition. You will have the latest OpenProject release installed. Hence, you do not have to take care of updates or installation of security patches yourself.
 
-You will get a detailed feature comparison [here](https://www.openproject.org/pricing/#features).
+Please find a detailed feature comparison [here](https://www.openproject.org/pricing/#features).
 
 
 
 ## Frequently asked questions - FAQ
 
+### How can I book additional users for the Enterprise cloud?
+
+You can do this in your subscription. Please have a look at [this instruction](./manage-subscription/#upgrade-or-downgrade-subscription).
 
 ### Can I import my OpenProject community instance into my Enterprise cloud environment?
 
@@ -70,3 +73,7 @@ Currently, there is unfortunately no option to export all the documents in OpenP
 ### Can I create a custom domain name instead of example.openproject.com?
 
 Yes, you can create your custom domain name. For this service we charge €100 once-off. Please add it in your booking process (will soon be available) or contact us via email (support@openproject.com).
+
+### Is it possible to access the PostgreSQL tables (read-only) on a hosted OpenProject instance via ODBC or another protocol (e.g. to extract data for PowerBI)?
+
+Access to the database (including the PostgreSQL tables) is restricted for the Enterprise cloud edition due to technical and security reasons. Instead, you can use the OpenProject API to both read and write data (where supported): https://docs.openproject.org/api. If you require direct database access, you may want to take a look at the OpenProject Enterprise on-premises edition which you can run on your own server: https://www.openproject.org/enterprise-edition.

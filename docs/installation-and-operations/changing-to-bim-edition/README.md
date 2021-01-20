@@ -22,8 +22,7 @@ First, backup your data and update your installation to the latest OpenProject v
 
 ### Switching to BIM Edition
 
-Now that your OpenProject instance is up to date, you can _reconfigure_ it 
-to be a BIM Edition.
+Now that your OpenProject instance is up to date, you can _reconfigure_ it to be a BIM Edition.
 
 On the command line of your server run the following command. It will open a wizard that
 guides you through through the most important installation settings of your instance.
@@ -78,4 +77,23 @@ We recommend that each type has the following status options:
 OpenProject installations with a valid Enterprise Edition token can switch to the BIM 
 theme.
 
-Go to _-> Administration -> Design_ and from the _Themes_ drop down menu chose _OpenProject BIM_.
+Go to _-> Administration -> Design_ and from the _Themes_ drop down menu choose _OpenProject BIM_.
+
+## Frequently asked questions - FAQ
+
+### How can I select the BIM edition during installation?
+
+Please have a look at the [initial configuration instruction](../installation/packaged/#step-1-select-your-openproject-edition).
+
+### Can I use OpenProject BIM for free, too?
+
+Yes, (only) as part of the Community Edition you can use OpenProject BIM for free. Please have a look [here](#switching-to-bim-edition) to find out how to activate the BIM modules in your on-premises installation.
+
+### How can I find out more about OpenProject BIM edition?
+
+Please have a look at our [demo video](https://www.youtube.com/watch?v=ThA4_17yedg) and at our [website](https://www.openproject.org/bim-project-management/). You can start a free trial there, too.
+
+### Which IFC format are you using for conversion in the BIM module?
+
+IFC2x3 and IFC4. We accept those formats and convert them to some other format that is optimized for web.
+

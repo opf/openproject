@@ -44,4 +44,8 @@ A new window will open, where you will be able to specify the following:
 <div class="alert alert-info" role="alert">
 **Note**: A new status needs to be activated in the [work package workflows](../work-package-workflows) in order to appear in the status drop down of a work package.
 </div>
+## Frequently asked questions - FAQ
 
+### Why can I not see my new work package status in the workflow settings?
+
+Make sure to un-check the option "Only display statuses that are used by this type".

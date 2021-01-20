@@ -17,7 +17,7 @@ Click the green **Manage button**.
 
 In the overlay window, you can choose between several topics:
 
-- dfd[Upgrade, downgrade or cancel](#update-existing-subscriptions)
+- [Upgrade, downgrade or cancel](#update-existing-subscriptions)
 - Edit Account information
 - Edit Billing Addresses
 - Edit or add payment methods
@@ -33,7 +33,7 @@ Here you can either **Edit or Cancel the existing subscription**.
 
 ### Upgrade or downgrade subscription
 
-You can **upgrade an existing subscription** at any time. Open the [Manage subscription menu](#manage-your-subscription). Additional users will be billed on a prorated basis, this means you will only pay the amount of additional users until the end of the current subscription period.
+You can **upgrade an existing subscription** at any time. Open the [Manage subscription menu](#manage-your-subscription). Additional users will be billed on a prorated basis, this means you will only pay for the additional users for the rest of the current subscription period.
 
 You can **downgrade a subscription** to the end of a current subscription period. This means the downgrade becomes active with the next payment term.
 
