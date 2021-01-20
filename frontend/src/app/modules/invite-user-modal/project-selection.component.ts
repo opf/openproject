@@ -1,5 +1,6 @@
 import {
   Component,
+  OnInit,
   Input,
   EventEmitter,
   Output,
@@ -17,7 +18,13 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
   templateUrl: './project-selection.component.html',
   styleUrls: ['./project-selection.component.sass'],
 })
-export class InviteProjectSelectionComponent {
+export class InviteProjectSelectionComponent implements OnInit {
+  @Input('type') type:string = '';
+  @Input('project') project:any = null;
+
+  @Output('close') closeModal = new EventEmitter<void>();
+  @Output() save = new EventEmitter<{project:any, type:string}>();
+
   public text = {
     title: this.I18n.t('js.invite_user_modal.title'),
     closePopup: this.I18n.t('js.close_popup_title'),
@@ -42,9 +49,6 @@ export class InviteProjectSelectionComponent {
     },
   ];
 
-  @Input('type') type:string;
-  @Input('project') project:null;
-
   projectAndTypeForm = new FormGroup({
     type: new FormControl('', [ Validators.required ]),
     project: new FormControl(null, [ Validators.required ]),
@@ -53,24 +57,26 @@ export class InviteProjectSelectionComponent {
   get typeControl() { return this.projectAndTypeForm.get('type'); }
   get projectControl() { return this.projectAndTypeForm.get('project'); }
 
-  @Output('close') closeModal = new EventEmitter<void>();
-  @Output() save = new EventEmitter<{project:any, type:string}>();
-
   constructor(
     readonly I18n:I18nService,
     readonly elementRef:ElementRef,
   ) {}
 
+  ngOnInit() {
+    this.typeControl?.setValue(this.type);
+    this.projectControl?.setValue(this.project);
+  }
+
   onSubmit($e:Event) {
     $e.preventDefault();
-    this.projectAndTypeForm.markAllAsTouched();
     if (this.projectAndTypeForm.invalid) {
+      this.projectAndTypeForm.markAllAsTouched();
       return;
     }
 
     this.save.emit({
-      project: this.projectAndTypeForm.get('project')?.value,
-      type: this.projectAndTypeForm.get('type')?.value,
+      project: this.projectControl?.value,
+      type: this.typeControl?.value,
     });
   }
 

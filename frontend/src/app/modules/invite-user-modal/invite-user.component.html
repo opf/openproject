@@ -1,18 +1,20 @@
 <div class="op-modal--portal op-ium-invite-user-modal">
   <op-ium-project-selection
-    *ngIf="step === 'project-selection'"
+    *ngIf="step === Steps.ProjectSelection"
     class="op-modal--modal-container"
     [project]="project"
     [type]="type"
-    (save)="onProjectSelectionSave"
-    (close)="close"
+    (save)="onProjectSelectionSave($event)"
+    (close)="close()"
   ></op-ium-project-selection>
 
-  <op-ium-user
-    *ngIf="step === 'user' && type === 'user'"
+  <op-ium-principal
+    *ngIf="step === Steps.Principal"
     class="op-modal--modal-container"
-    [user]="principal"
-    (save)="onUserSave"
-    (back)="back"
-  ></op-ium-user>
+    [principal]="principal"
+    [type]="type"
+    (save)="onPrincipalSave($event)"
+    (back)="goTo(Steps.ProjectSelection)"
+    (close)="close()"
+  ></op-ium-principal>
 </div>
