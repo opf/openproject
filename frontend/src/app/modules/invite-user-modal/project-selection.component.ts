@@ -5,7 +5,7 @@ import {
   Output,
   ElementRef,
 } from '@angular/core';
-import { 
+import {
   FormControl,
   FormGroup,
   Validators,
@@ -50,20 +50,21 @@ export class InviteProjectSelectionComponent {
     project: new FormControl(null, [ Validators.required ]),
   });
 
+  get typeControl() { return this.projectAndTypeForm.get('type'); }
+  get projectControl() { return this.projectAndTypeForm.get('project'); }
+
   @Output('close') closeModal = new EventEmitter<void>();
   @Output() save = new EventEmitter<{project:any, type:string}>();
 
-  constructor(readonly I18n:I18nService,
-              readonly elementRef:ElementRef) {}
-
-  close() {
-    this.closeModal.emit();
-  }
+  constructor(
+    readonly I18n:I18nService,
+    readonly elementRef:ElementRef,
+  ) {}
 
   onSubmit($e:Event) {
     $e.preventDefault();
+    this.projectAndTypeForm.markAllAsTouched();
     if (this.projectAndTypeForm.invalid) {
-      console.log('Invalid form!');
       return;
     }
 
@@ -73,6 +74,7 @@ export class InviteProjectSelectionComponent {
     });
   }
 
-  back() {
+  close() {
+    this.closeModal.emit();
   }
 }

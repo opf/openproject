@@ -1,0 +1,13 @@
+<label class="op-form-field--label-wrap">
+  <div class="op-form-field--label">
+    {{ label }}
+    <span *ngIf="required" class="op-form-field--label-indicator">*</span>
+  </div>
+  <ng-content select="[slot=input]"></ng-content>
+</label>
+<div
+  class="op-form-field--errors"
+  *ngIf="isInvalid"
+>
+  <ng-content select="[slot=errors]"></ng-content>
+</div>

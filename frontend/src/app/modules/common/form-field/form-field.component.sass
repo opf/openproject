@@ -1,0 +1,28 @@
+.op-form-field
+  display: flex
+  flex-direction: column
+
+  &--label-wrap
+    display: flex
+    flex-direction: column
+    margin: 0
+
+  &--label
+    font-size: 14px
+    font-weight: bold
+    line-height: 1.2
+    margin-bottom: 0.5rem
+
+    &-indicator
+      color: var(--primary-color)
+
+  &_invalid &--label
+    color: var(--content-form-error-color)
+
+  &--errors
+    display: flex
+    flex-direction: column
+
+  &--error
+    color: var(--content-form-error-color)
+    margin-top: 1rem
