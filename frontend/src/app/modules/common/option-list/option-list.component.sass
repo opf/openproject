@@ -3,11 +3,17 @@
   flex-direction: column
   font-size: 1rem
 
+  // TODO: remove the [type] selector once globally overwriting styles are removed
+  &--input[type]
+    margin: 0
+    margin-right: 0.5rem
+
   &--item
-    padding: 1rem 0.75rem
+    padding: 1rem 1rem 0.5rem 0.75rem
     display: flex
     border: 1px solid #cbd5e0
     background: #f7fafc
+    border-radius: 4px
 
     &:not(:last-child)
       margin-bottom: 0.5rem
@@ -15,3 +21,16 @@
     &_selected
       border: 1px solid #90cdf4
       background: #ebf8ff
+
+    &-title,
+    &-description
+      margin: 0
+      margin-bottom: 0.5rem
+      line-height: 1.2
+
+    &-title
+      font-weight: bold
+      font-size: 14px
+      
+    &-description
+      font-size: 12px

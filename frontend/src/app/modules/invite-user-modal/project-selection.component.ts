@@ -61,8 +61,11 @@ export class InviteProjectSelectionComponent {
   }
 
   onSubmit($e:Event) {
-    console.log(this.projectAndTypeForm);
-    debugger;
+    $e.preventDefault();
+    if (this.projectAndTypeForm.invalid) {
+      console.log('Invalid form!');
+      return;
+    }
 
     this.save.emit({
       project: this.projectAndTypeForm.get('project')?.value,

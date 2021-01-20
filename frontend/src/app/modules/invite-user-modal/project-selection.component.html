@@ -1,6 +1,6 @@
 <form
   [formGroup]="projectAndTypeForm"
-  ngSubmit="onSubmit"
+  (ngSubmit)="onSubmit($event)"
 >
   <div class="op-modal--modal-container">
     <div class="op-modal--modal-header">
