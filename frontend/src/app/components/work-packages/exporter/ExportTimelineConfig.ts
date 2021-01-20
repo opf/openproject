@@ -1,5 +1,5 @@
-import { TimelineZoomLevel } from "core-app/modules/hal/resources/query-resource";
-import * as moment from "moment";
+import { TimelineZoomLevel } from 'core-app/modules/hal/resources/query-resource';
+import * as moment from 'moment';
 
 export type ExportTimelineConfig = {
   lineHeight: number,
@@ -29,4 +29,4 @@ export type ExportTimelineConfig = {
   headerLine3Height: number,
   headerLine3FontStyle: string,
   headerLine3FontSize: number,
-}
+};

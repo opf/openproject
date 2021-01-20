@@ -1,23 +1,20 @@
 import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit, SecurityContext, ViewChild} from '@angular/core';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
+import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {OpModalLocalsToken} from 'core-components/op-modals/op-modal.service';
 import {
   LoadingIndicatorService,
-  withDelayedLoadingIndicator
-} from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {JobStatusEnum, JobStatusInterface} from "core-app/modules/job-status/job-status.interface";
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
+import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import {JobStatusEnum, JobStatusInterface} from 'core-app/modules/job-status/job-status.interface';
+import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
+import {APIV3Service} from 'core-app/modules/apiv3/api-v3.service';
 import { TimelineZoomLevel } from 'core-app/modules/hal/resources/query-resource';
 import { ExportTimelineConfig } from './ExportTimelineConfig';
 import jsPDF from 'jspdf';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 import { HookService } from 'core-app/modules/plugins/hook-service';
-import { FormControl } from '@angular/forms';
-
 
 @Component({
   templateUrl: './export-timeline.modal.html',
@@ -83,7 +80,7 @@ export class ExportTimelineModal extends OpModalComponent implements OnInit {
     headerLine3Height: 25,
     headerLine3FontStyle: 'normal',
     headerLine3FontSize: 10,
-  }
+  };
 
   public pdfPreviewUrl: SafeResourceUrl;
 
@@ -113,13 +110,13 @@ export class ExportTimelineModal extends OpModalComponent implements OnInit {
       console.log('Updated pdf', doc);
       console.log(this.pdfPreviewUrl);
       this.doc = doc;
-    })
+    });
   }
 
   public savePdf() {
     this.hook.call('export-gantt', this.config, (doc: jsPDF) => {
       doc.save(this.filename);
-    })
+    });
   }
 
   public openPdf() {

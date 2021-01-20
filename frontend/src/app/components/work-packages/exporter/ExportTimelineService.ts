@@ -3,10 +3,10 @@ import {jsPDF} from 'jspdf';
 import {Injector} from '@angular/core';
 import {States} from '../../states.service';
 
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
-import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {HalResourceEditingService} from 'core-app/modules/fields/edit/services/hal-resource-editing.service';
+import {RenderedWorkPackage} from 'core-app/modules/work_packages/render-info/rendered-work-package.type';
+import {WorkPackageChangeset} from 'core-components/wp-edit/work-package-changeset';
+import {InjectField} from 'core-app/helpers/angular/inject-field.decorator';
 import {WorkPackageTimelineTableController} from 'core-app/components/wp-table/timeline/container/wp-timeline-container.directive';
 import { WorkPackageTimelineCell } from 'core-app/components/wp-table/timeline/cells/wp-timeline-cell';
 import { getPixelPerDayForZoomLevel, RenderInfo } from 'core-app/components/wp-table/timeline/wp-timeline';
@@ -67,7 +67,7 @@ export class ExportTimelineService {
   }
 
   public exportPdf(config: Partial<ExportTimelineConfig>, cb: (doc:jsPDF) => void) {
-    this.config = Object.assign({}, this.config, config);
+    this.config = {...this.config, ...config};
     if (this.config.fitDateInterval) {
       this.fitStartAndEndDates();
     } else {
@@ -76,9 +76,9 @@ export class ExportTimelineService {
     }
     this.config.pixelPerDay = getPixelPerDayForZoomLevel(this.config.zoomLevel);
 
-    let width = getHeaderWidth(this.config) + this.config.nameColumnSize;
-    let height = getHeaderHeight(this.config) + (this.querySpace.tableRendered.value || []).length * this.config.lineHeight;
-  
+    const width = getHeaderWidth(this.config) + this.config.nameColumnSize;
+    const height = getHeaderHeight(this.config) + (this.querySpace.tableRendered.value || []).length * this.config.lineHeight;
+
     let doc = new jsPDF({
       orientation: 'l',
       unit: 'px',
@@ -109,11 +109,11 @@ export class ExportTimelineService {
         return;
       }
 
-      let renderInfo = this.renderInfoFor(wpId);
+      const renderInfo = this.renderInfoFor(wpId);
       let wpStartDate = startDate;
       let wpEndDate = endDate;
       if (isMilestone(renderInfo)) {
-        let wpStartDate = moment(renderInfo.change.projectedResource.date).valueOf();
+        wpStartDate = moment(renderInfo.change.projectedResource.date).valueOf();
         wpEndDate = wpStartDate;
       } else {
         wpStartDate = moment(renderInfo.change.projectedResource.startDate).valueOf();
@@ -130,7 +130,7 @@ export class ExportTimelineService {
       if (wpEndDate > endDate) {
         endDate = wpEndDate;
       }
-    })
+    });
 
     const margin = this.config.fitDateIntervalMarginFactor * (endDate - startDate);
 
@@ -149,7 +149,7 @@ export class ExportTimelineService {
 
       // Ignore extra rows not tied to a work package
       if (!wpId) {
-        let group = groups[renderedRow.classIdentifier];
+        const group = groups[renderedRow.classIdentifier];
         if (group) {
           doc = buildGroupHeaderInfo(doc, this.config, row, group);
           row += 1;
@@ -161,14 +161,12 @@ export class ExportTimelineService {
       if (state.isPristine()) {
         return;
       }
-      
-      let renderInfo = this.renderInfoFor(wpId);
+
+      const renderInfo = this.renderInfoFor(wpId);
       buildTableInfo(doc, this.config, row, renderInfo);
-      if (isMilestone(renderInfo)) {
-        doc = this.buildMilestone(doc, row, renderInfo);
-      } else {
-        doc = this.buildCell(doc, row, renderInfo);
-      }
+      doc = isMilestone(renderInfo)
+        ? this.buildMilestone(doc, row, renderInfo)
+        : this.buildCell(doc, row, renderInfo);
 
       row += 1;
     });
@@ -178,18 +176,18 @@ export class ExportTimelineService {
 
   private buildCell(doc: jsPDF, row: number, renderInfo: RenderInfo): jsPDF {    
     const change = renderInfo.change;
-    let start = moment(change.projectedResource.startDate);
-    let due = moment(change.projectedResource.dueDate);
+    const start = moment(change.projectedResource.startDate);
+    const due = moment(change.projectedResource.dueDate);
 
     if (_.isNaN(start.valueOf()) && _.isNaN(due.valueOf())) {
       return doc;
     }
 
     let {x, w} = computeXAndWidth(this.config, start, due);
-    let h = this.config.workHeight;
+    const h = this.config.workHeight;
     let y = getRowY(this.config, row);
     y += (this.config.lineHeight - h) / 2;  // Vertically center workline
-    let color = computeColor(renderInfo);
+    const color = computeColor(renderInfo);
 
     x += this.config.nameColumnSize;
 
@@ -197,12 +195,12 @@ export class ExportTimelineService {
     doc.rect(x, y, w, h, 'F');
 
     // Display the children's duration clamp
-    let wp = renderInfo.workPackage;
+    const wp = renderInfo.workPackage;
     if (wp.derivedStartDate && wp.derivedDueDate) {
       const derivedStartDate = moment(wp.derivedStartDate);
       const derivedDueDate = moment(wp.derivedDueDate);
 
-      let {x, w} = computeXAndWidth(this.config, derivedStartDate, derivedDueDate);
+      ({x, w} = computeXAndWidth(this.config, derivedStartDate, derivedDueDate));
       x += this.config.nameColumnSize;
       y = getRowY(this.config, row + 1) - 2.5;
       doc.path([
@@ -219,15 +217,15 @@ export class ExportTimelineService {
 
   private buildMilestone(doc: jsPDF, row: number, renderInfo: RenderInfo): jsPDF {    
     const change = renderInfo.change;
-    let date = moment(change.projectedResource.date);
+    const date = moment(change.projectedResource.date);
 
     if (_.isNaN(date.valueOf())) {
       return doc;
     }
 
     let {x, w} = computeXAndWidth(this.config, date, date);
-    let h = this.config.workHeight;
-    let half_size = h / 2;
+    const h = this.config.workHeight;
+    const half_size = h / 2;
     let y = getRowY(this.config, row);
     y += (this.config.lineHeight - h) / 2;  // Vertically center milestone
     let color = computeColor(renderInfo);
@@ -262,20 +260,20 @@ const colors: Record<string, string> = {
   '5': '#845EF7',
   '6': '#00B0F0',
   '7': '#F03E3E',
-}
+};
 
 function computeColor(renderInfo:RenderInfo) {
-  let wp = renderInfo.workPackage;
-  let type = wp.type;
+  const wp = renderInfo.workPackage;
+  const type = wp.type;
   const id = type.id || '';
 
-  return colors[id] || '#FFFFFF'
+  return colors[id] || '#FFFFFF';
 }
 
 function buildTableInfo(doc:jsPDF, config:ExportTimelineConfig, row:number, renderInfo:RenderInfo): jsPDF {
-  let h = config.lineHeight;
-  let start_y = getRowY(config, row);
-  var width = config.nameColumnSize;
+  const h = config.lineHeight;
+  const start_y = getRowY(config, row);
+  const width = config.nameColumnSize;
   doc.setDrawColor('#2c3e50');
   doc.line(0, start_y, width, start_y);
   doc.line(0, start_y + h, width, start_y + h);
@@ -289,9 +287,9 @@ function buildTableInfo(doc:jsPDF, config:ExportTimelineConfig, row:number, rend
 }
 
 function buildGroupHeaderInfo(doc:jsPDF, config:ExportTimelineConfig, row:number, group:GroupObject): jsPDF {
-  let h = config.lineHeight;
-  let start_y = getRowY(config, row);
-  var width = config.nameColumnSize;
+  const h = config.lineHeight;
+  const start_y = getRowY(config, row);
+  const width = config.nameColumnSize;
   doc.setFillColor(config.groupBackgroundColor);
   doc.rect(0, start_y, width - 1, h, 'F');
   doc.setDrawColor('#2c3e50');
@@ -307,10 +305,10 @@ function buildGroupHeaderInfo(doc:jsPDF, config:ExportTimelineConfig, row:number
 }
 
 function mapGroupsByIdentifier(groups: GroupObject[]): Record<string, GroupObject> {
-  let map:Record<string, GroupObject> = {};
+  const map:Record<string, GroupObject> = {};
 
   for (let group of groups) {
-    let id = 'group-'+ group.identifier;
+    const id = 'group-'+ group.identifier;
     if (map[id]) {
       console.warn(`Group with identifier ${id} was already defined`);
     }

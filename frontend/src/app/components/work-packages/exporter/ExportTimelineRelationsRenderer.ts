@@ -64,15 +64,15 @@ export function drawRelations(doc:jsPDF,
           }
 
           // Get X values
-          var dayLenght = calculatePositionValueForDayCountingPx(config, 1);
-          var [startDate, dueDate] = getStartAndDueDate(startCell.latestRenderInfo);
-          var {x, w} = computeXAndWidth(config, startDate, dueDate);
-          var startX = x + w + config.nameColumnSize;
-          var startY = getRowY(config, idxFrom) + config.lineHeight / 2;
-          var [startDate, dueDate] = getStartAndDueDate(endCell.latestRenderInfo);
-          var {x, w} = computeXAndWidth(config, startDate, dueDate);
-          var targetX = x + config.nameColumnSize;
-          var targetY = getRowY(config, idxTo) + config.lineHeight / 2;
+          const dayLenght = calculatePositionValueForDayCountingPx(config, 1);
+          let [startDate, dueDate] = getStartAndDueDate(startCell.latestRenderInfo);
+          let {x, w} = computeXAndWidth(config, startDate, dueDate);
+          let startX = x + w + config.nameColumnSize;
+          let startY = getRowY(config, idxFrom) + config.lineHeight / 2;
+          [startDate, dueDate] = getStartAndDueDate(endCell.latestRenderInfo);
+          ({x, w} = computeXAndWidth(config, startDate, dueDate));
+          let targetX = x + config.nameColumnSize;
+          let targetY = getRowY(config, idxTo) + config.lineHeight / 2;
 
           // Vertical direction
           const directionY:'toUp'|'toDown' = idxFrom < idxTo ? 'toDown' : 'toUp';
@@ -81,7 +81,7 @@ export function drawRelations(doc:jsPDF,
           const directionX:'toLeft'|'beneath'|'toRight' =
             targetX > startX ? 'toRight' : targetX < startX ? 'toLeft' : 'beneath';
           
-          let halfDay = dayLenght / 2;
+          const halfDay = dayLenght / 2;
           if (directionX === 'toLeft') {
             startX += halfDay;
             targetX -= halfDay;
@@ -109,16 +109,16 @@ export function drawRelations(doc:jsPDF,
   });
 }
 
-function getStartAndDueDate(renderInfo:RenderInfo): Array<Moment> {
+function getStartAndDueDate(renderInfo:RenderInfo): Moment[] {
   if (isMilestone(renderInfo)) {
     return [
       moment(renderInfo.change.projectedResource.date),
       moment(renderInfo.change.projectedResource.date),
-    ]
+    ];
   } else {
     return [
       moment(renderInfo.change.projectedResource.startDate),
       moment(renderInfo.change.projectedResource.dueDate),
-    ]
+    ];
   }
 }

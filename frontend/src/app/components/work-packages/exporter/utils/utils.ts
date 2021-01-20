@@ -1,6 +1,6 @@
-import { RenderInfo } from "core-app/components/wp-table/timeline/wp-timeline";
-import * as moment from "moment";
-import { ExportTimelineConfig } from "../ExportTimelineConfig";
+import { RenderInfo } from 'core-app/components/wp-table/timeline/wp-timeline';
+import * as moment from 'moment';
+import { ExportTimelineConfig } from '../ExportTimelineConfig';
 
 export function calculatePositionValueForDayCountingPx(config:ExportTimelineConfig, days:number):number {
   return config.pixelPerDay * days;
@@ -17,7 +17,7 @@ export function computeXAndWidth(config:ExportTimelineConfig, start:moment.Momen
 
   // ensure minimum width
   if (!_.isNaN(start.valueOf()) || !_.isNaN(due.valueOf())) {
-    let minWidth = _.max([config.pixelPerDay, 2]);
+    const minWidth = _.max([config.pixelPerDay, 2]);
     if (minWidth) {
       w = Math.max(w, minWidth);
     }
@@ -26,14 +26,14 @@ export function computeXAndWidth(config:ExportTimelineConfig, start:moment.Momen
   return {
     x,
     w,
-  }
+  };
 }
 
 export function getHeaderHeight(config:ExportTimelineConfig) {
   return config.headerLine1Height + config.headerLine2Height + config.headerLine3Height;
 }
 export function getHeaderWidth(config:ExportTimelineConfig):number {
-  let days_count = config.endDate.diff(config.startDate, 'days');
+  const days_count = config.endDate.diff(config.startDate, 'days');
   return calculatePositionValueForDayCountingPx(config, days_count);
 }
 
