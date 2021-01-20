@@ -1,6 +1,6 @@
 import {jsPDF} from 'jspdf';
 
-import {Injectable, Injector} from '@angular/core';
+import {Injector} from '@angular/core';
 import {States} from '../../states.service';
 
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
@@ -9,7 +9,7 @@ import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changes
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {WorkPackageTimelineTableController} from 'core-app/components/wp-table/timeline/container/wp-timeline-container.directive';
 import { WorkPackageTimelineCell } from 'core-app/components/wp-table/timeline/cells/wp-timeline-cell';
-import { RenderInfo } from 'core-app/components/wp-table/timeline/wp-timeline';
+import { getPixelPerDayForZoomLevel, RenderInfo } from 'core-app/components/wp-table/timeline/wp-timeline';
 import * as moment from 'moment';
 import {renderHeader} from './ExportTimelineHeaderRenderer';
 import { WorkPackageRelationsService } from 'core-app/components/wp-relations/wp-relations.service';
@@ -18,12 +18,14 @@ import { IsolatedQuerySpace } from 'core-app/modules/work_packages/query-space/i
 import { GroupObject } from 'core-app/modules/hal/resources/wp-collection-resource';
 import { ExportTimelineConfig } from './ExportTimelineConfig';
 import { computeXAndWidth, getHeaderHeight, getHeaderWidth, getRowY, isMilestone } from './utils/utils';
+import { HookService } from 'core-app/modules/plugins/hook-service';
 
 export class ExportTimelineService {
 
   @InjectField() public states:States;
   @InjectField() public halEditing:HalResourceEditingService;
   @InjectField() private readonly querySpace:IsolatedQuerySpace;
+  @InjectField() private hook:HookService;
 
   public cells:{ [classIdentifier:string]:WorkPackageTimelineCell } = {};
 
@@ -60,22 +62,22 @@ export class ExportTimelineService {
               readonly wpTimeline:WorkPackageTimelineTableController,
               readonly wpRelations:WorkPackageRelationsService) {
 
+    this.exportPdf = this.exportPdf.bind(this);
+    this.hook.register('export-gantt', this.exportPdf);
   }
 
-  public exportPdf() {
+  public exportPdf(config: Partial<ExportTimelineConfig>, cb: (doc:jsPDF) => void) {
+    this.config = Object.assign({}, this.config, config);
     if (this.config.fitDateInterval) {
       this.fitStartAndEndDates();
     } else {
       this.config.startDate = this.wpTimeline.viewParameters.dateDisplayStart;
       this.config.endDate = this.wpTimeline.viewParameters.dateDisplayEnd;
     }
-    this.config.zoomLevel = this.wpTimeline.viewParameters.settings.zoomLevel;
-    this.config.pixelPerDay = this.wpTimeline.viewParameters.pixelPerDay;
-
-    console.log(this.config);
+    this.config.pixelPerDay = getPixelPerDayForZoomLevel(this.config.zoomLevel);
 
     let width = getHeaderWidth(this.config) + this.config.nameColumnSize;
-    let height = getHeaderHeight(this.config) + this.wpTimeline.workPackageIdOrder.length * this.config.lineHeight;
+    let height = getHeaderHeight(this.config) + (this.querySpace.tableRendered.value || []).length * this.config.lineHeight;
   
     let doc = new jsPDF({
       orientation: 'l',
@@ -89,13 +91,13 @@ export class ExportTimelineService {
     drawRelations(doc, this.wpRelations, this.wpTimeline, this.config);
     doc = this.buildCells(doc);
 
-    doc.save('Timeline.pdf');
+    cb(doc);
   }
 
   private fitStartAndEndDates() {
     let startDate = +Infinity;
     let endDate = -Infinity;
-    _.each(this.wpTimeline.workPackageIdOrder, (workPackage:RenderedWorkPackage) => {
+    _.each(this.querySpace.tableRendered.value, (workPackage:RenderedWorkPackage) => {
       const wpId = workPackage.workPackageId;
 
       if (!wpId) {
@@ -142,7 +144,7 @@ export class ExportTimelineService {
     let row = 0;
     const groups = mapGroupsByIdentifier(this.querySpace.groups.value || []);
 
-    _.each(this.wpTimeline.workPackageIdOrder, (renderedRow:RenderedWorkPackage) => {
+    _.each(this.querySpace.tableRendered.value, (renderedRow:RenderedWorkPackage) => {
       const wpId = renderedRow.workPackageId;
 
       // Ignore extra rows not tied to a work package

@@ -1,0 +1,45 @@
+<div class="op-modal--portal  export-timeline--modal -wide-fixed">
+  <div class="op-modal--modal-container"
+       tabindex="0">
+    <div class="op-modal--modal-header">
+      <h3 [textContent]="title"></h3>
+      <a class="op-modal--modal-close-button">
+        <i
+          class="icon-close"
+          (click)="closeMe($event)"
+          [attr.title]="text.closePopup">
+        </i>
+      </a>
+    </div>
+
+    <div class="export-timeline-container">
+      <div class="export-timeline-config">
+        <input class="form--input" [(ngModel)]="filename">
+        <select class="form--select"
+              [(ngModel)]="config.zoomLevel"
+              (change)="updatePreview()">
+          <option [textContent]="zooms[0].label" [ngValue]="zooms[0].level"></option>
+          <option [textContent]="zooms[1].label" [ngValue]="zooms[1].level"></option>
+          <option [textContent]="zooms[2].label" [ngValue]="zooms[2].level"></option>
+          <option [textContent]="zooms[3].label" [ngValue]="zooms[3].level"></option>
+          <option [textContent]="zooms[4].label" [ngValue]="zooms[4].level"></option>
+        </select>
+        <button class="button -alt-highlight save-timeline-pdf" (click)="savePdf()">
+          <op-icon icon-classes="button--icon icon-save" class="op-icon--wrapper" ng-reflect-icon-classes="button--icon icon-save">
+            <i aria-hidden="true" ng-reflect-ng-class="button--icon icon-save" title="" class="button--icon icon-save"></i>
+          </op-icon>
+          <span aria-hidden="true" class="button--text">{{text.btn_export}}</span>
+        </button>
+        <!--button class="button -alt-highlight open-timeline-pdf" (click)="openPdf()">
+          <op-icon icon-classes="button--icon icon-open" class="op-icon--wrapper" ng-reflect-icon-classes="button--icon icon-open">
+            <i aria-hidden="true" ng-reflect-ng-class="button--icon icon-open" title="" class="button--icon icon-open"></i>
+          </op-icon>
+          <span aria-hidden="true" class="button--text">Open</span>
+        </button-->
+      </div>
+      <div class="export-timeline-preview">
+        <!--iframe [src]="pdfPreviewUrl"></iframe-->
+      </div>
+    </div>
+  </div>
+</div>

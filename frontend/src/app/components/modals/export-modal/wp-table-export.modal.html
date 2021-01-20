@@ -22,6 +22,14 @@
           <span class="export-label" [textContent]="option.label"></span>
         </a>
       </li>
+      <li>
+        <div
+           (click)="ganttPdfExport($event)"
+           id="export-gantt-pdf">
+          <op-icon icon-classes="icon-export-gantt-pdf icon-big"></op-icon>
+          <span class="export-label" [textContent]="'Gantt PDF'"></span>
+        </div>
+      </li>
     </ul>
   </div>
 </div>

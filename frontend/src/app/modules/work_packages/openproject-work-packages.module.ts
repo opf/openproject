@@ -168,6 +168,7 @@ import {BackButtonComponent} from "core-app/modules/common/back-routing/back-but
 import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
 import {WorkPackagesTableComponent} from "core-components/wp-table/wp-table.component";
 import {WorkPackageGroupToggleDropdownMenuDirective} from "core-components/op-context-menu/handlers/wp-group-toggle-dropdown-menu.directive";
+import {ExportTimelineModal} from 'core-app/components/work-packages/exporter/export-timeline.modal';
 
 @NgModule({
   imports: [
@@ -362,6 +363,7 @@ import {WorkPackageGroupToggleDropdownMenuDirective} from "core-components/op-co
     SaveQueryModal,
     WpDestroyModal,
     DatePickerModal,
+    ExportTimelineModal,
 
     // CustomActions
     WpCustomActionComponent,

@@ -31,6 +31,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@an
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
 import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import { ExportTimelineService } from 'core-app/components/work-packages/exporter/ExportTimelineService';
 
 export interface TimelineButtonText extends ButtonControllerText {
   zoomOut:string;

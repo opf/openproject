@@ -13,6 +13,7 @@ import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator
 import {Observable} from 'rxjs';
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {JobStatusModal} from "core-app/modules/job-status/job-status-modal/job-status.modal";
+import {ExportTimelineModal} from 'core-app/components/work-packages/exporter/export-timeline.modal';
 
 interface ExportLink extends HalLink {
   identifier:string;
@@ -83,6 +84,11 @@ export class WpTableExportModal extends OpModalComponent implements OnInit {
   private triggerByLink(url:string, event:MouseEvent) {
     event.preventDefault();
     this.requestExport(url);
+  }
+
+  public ganttPdfExport(event:MouseEvent) {
+    event.preventDefault();
+    this.service.show(ExportTimelineModal, 'global');
   }
 
   /**
