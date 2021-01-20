@@ -1,0 +1,105 @@
+<div [formGroup]="form" class="form-container">
+  <h2>
+    {{this.text.invite}} {{form.get('user')?.value?.name || text.user}} {{this.text.to}} {{project}}
+  </h2>
+
+  <ng-container *ngFor="let step of steps; let index = index;">
+    <!--STEP TEMPLATE-->
+    <div class="step"
+         *ngIf="currentStepIndex === index">
+      <!--SELECT TEMPLATE-->
+      <ng-container *ngIf="step.type === 'select'">
+        <label for="label">{{step.label()}}</label>
+
+        <ng-select [formControlName]="step.formControlName"
+                   [typeahead]="input$"
+                   [items]="items$ | async"
+                   [virtualScroll]="true"
+                   required="true"
+                   [clearable]="true"
+                   [clearOnBackspace]="false"
+                   [clearSearchOnAdd]="false"
+                   [bindLabel]="step.bindLabel"
+                   #ngselect>
+          <!--SELECT OPTIONS TEMPLATES-->
+          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+            <div [ngOptionHighlight]="search" class="ng-option-label ellipsis">{{ item.name }}</div>
+          </ng-template>
+
+          <!--SELECT NOT FOUND TEMPLATE-->
+          <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
+            <div class="ng-option disabled" *ngIf="!inputIsEmail(ngSelectInput.value)">
+              {{this.text.noDataFoundFor}} "{{searchTerm}}"
+            </div>
+          </ng-template>
+
+          <!--SELECT INVITE BY EMAIL TEMPLATE-->
+          <ng-template ng-footer-tmp>
+            <div *ngIf="step.showInviteUserByEmail && inputIsEmail(ngSelectInput.value)">
+              <button class="button"
+                      (click)="setEmailUser(ngSelectInput.value)"
+                      [disabled]="!inputIsValidEmail(ngSelectInput.value)">
+                <op-icon icon-classes="icon-mail1"></op-icon>
+
+                {{this.text.invite}}: {{ngselect.searchInput.nativeElement?.value}}
+              </button>
+            </div>
+          </ng-template>
+        </ng-select>
+
+        <p class="description"
+           *ngIf="step.description">
+          {{step.description()}}
+        </p>
+      </ng-container>
+
+      <!--TEXTAREA TEMPLATE-->
+      <ng-container *ngIf="step.type === 'textarea'">
+        <label for="label">{{step.label()}}</label>
+
+        <textarea [formControlName]="step.formControlName"></textarea>
+
+        <p class="description"
+           *ngIf="step.description">
+          {{step.description()}}
+        </p>
+      </ng-container>
+
+      <!--SUMMARY TEMPLATE-->
+      <ng-container *ngIf="step.type === 'summary'">
+        <div *ngFor="let step of steps"
+             class="summary_field">
+          <ng-container *ngIf="step.formControlName">
+            <p>
+              <strong>{{step.summaryLabel}}</strong>
+            </p>
+
+            <p>{{form.get(step.formControlName).value?.name || form.get(step.formControlName).value}}</p>
+          </ng-container>
+        </div>
+      </ng-container>
+
+      <!--CONFIRMATION TEMPLATE-->
+      <ng-container *ngIf="step.type === 'confirmation'">
+        <p class="description"
+           *ngIf="step.description">
+          {{step.description()}}
+        </p>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <div class="buttons_container">
+    <button class="button"
+            (click)="previousStep()"
+            *ngIf="currentStep?.previousButtonText">
+      {{currentStep?.previousButtonText}}
+    </button>
+
+    <button class="button"
+            (click)="nextStep()"
+            *ngIf="currentStep?.nextButtonText">
+      {{currentStep?.nextButtonText}}
+    </button>
+  </div>
+</div>

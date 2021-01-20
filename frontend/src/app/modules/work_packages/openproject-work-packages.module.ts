@@ -168,6 +168,7 @@ import {BackButtonComponent} from "core-app/modules/common/back-routing/back-but
 import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
 import {WorkPackagesTableComponent} from "core-components/wp-table/wp-table.component";
 import {WorkPackageGroupToggleDropdownMenuDirective} from "core-components/op-context-menu/handlers/wp-group-toggle-dropdown-menu.directive";
+import {InviteUserWizardModule} from "core-components/invite-user-wizard/invite-user-wizard.module";
 
 @NgModule({
   imports: [
@@ -183,6 +184,9 @@ import {WorkPackageGroupToggleDropdownMenuDirective} from "core-components/op-co
     OpenprojectBcfModule,
 
     OpenprojectProjectsModule,
+
+    // Invite User Wizard
+    InviteUserWizardModule,
   ],
   providers: [
     // Notification service
@@ -377,8 +381,6 @@ import {WorkPackageGroupToggleDropdownMenuDirective} from "core-components/op-co
     WorkPackageCardViewComponent,
     WorkPackageSingleCardComponent,
     WorkPackageViewToggleButton,
-
-
   ],
   exports: [
     WorkPackagesTableComponent,

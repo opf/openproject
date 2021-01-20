@@ -27,8 +27,6 @@
 //++
 
 import {APIv3GettableResource, APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {Apiv3AvailableProjectsPaths} from "core-app/modules/apiv3/endpoints/projects/apiv3-available-projects-paths";
@@ -38,6 +36,7 @@ import {
 } from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
 import {Observable} from "rxjs";
 import {MembershipResource} from "core-app/modules/hal/resources/membership-resource";
+import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 
 export class Apiv3MembershipsPaths
   extends APIv3ResourceCollection<MembershipResource, APIv3GettableResource<MembershipResource>>
@@ -55,6 +54,20 @@ export class Apiv3MembershipsPaths
     return this
       .halResourceService
       .get<CollectionResource<MembershipResource>>(this.path + listParamsString(params));
+  }
+
+  /**
+   * Create a new membership
+   *
+   * @param payload Payload object of the HAL resource
+   */
+  // TODO: type this
+  public post(payload:Object):Observable<any> {
+    return this
+      .halResourceService
+      .post<QueryResource>(
+        this.apiRoot.memberships.path, payload
+      );
   }
 
 

@@ -1037,3 +1037,27 @@ en:
       card: 'Cards'
       list: 'Table'
       timeline: 'Gantt'
+
+    invite_user_modal:
+      user: 'user'
+      role: 'role'
+      next: 'Next'
+      back: 'Back'
+      name_or_email_label: 'Name or email address'
+      name_or_email_description: 'You can either search for an existing by name or email, or write an email address to invite a new user to your OpenProject instance.'
+      role_label: 'Role in'
+      role_description: 'This is the role that %{user} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. Learn more about roles and permissions'
+      message_label: 'Invitation message (optional)'
+      message_summary_label: 'Invitation message'
+      message_description: 'We will send an email to %{user}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
+      message_next_button: 'Review Invitation'
+      send_invitation: 'Send Invitation'
+      confirm_description: 'The user can now login to access the %{project} project. Meanwhile you can already plan with that user and assign work packages for instance.'
+      continue: 'Continue'
+      invite: 'Invite'
+      no_data_found_for: 'No data found for'
+      to: 'to'
+
+
+
+
