@@ -938,7 +938,7 @@ vi:
         other: "%{count} tác phẩm gói phần mềm trẻ em"
       hour:
         zero: "0 giờ"
-        other: "%{count} giờ"
+        other: ""
     zen_mode:
       button_activate: 'Kích hoạt chế độ zen'
       button_deactivate: 'Tắt chế độ zen'
