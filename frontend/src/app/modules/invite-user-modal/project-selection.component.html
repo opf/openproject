@@ -1,6 +1,6 @@
 <form
-  name="inviteUserForm"
-  (submit)="submit"
+  [formGroup]="projectAndTypeForm"
+  ngSubmit="onSubmit"
 >
   <div class="op-modal--modal-container">
     <div class="op-modal--modal-header">
@@ -17,8 +17,8 @@
 
     <div class="op-modal--modal-body">
       <op-option-list
-        [(selected)]="type"
         [options]="typeOptions"
+        formControlName="type"
       ></op-option-list> 
     </div>
 
