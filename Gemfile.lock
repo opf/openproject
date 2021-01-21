@@ -593,7 +593,7 @@ GEM
     nap (1.1.0)
     net-ldap (0.17.0)
     netrc (0.11.0)
-    newrelic_rpm (6.14.0)
+    newrelic_rpm (6.15.0)
     nio4r (2.5.4)
     no_proxy_fix (0.1.2)
     nokogiri (1.11.1)
