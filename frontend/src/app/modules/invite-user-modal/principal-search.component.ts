@@ -60,7 +60,6 @@ export class InvitePrincipalSearchComponent extends UntilDestroyedMixin {
       this.items$,
       this.input$,
     ).pipe(
-      tap(console.log),
       map(([elements, input]) => this.type === 'user' && input?.includes('@') && !elements.find((el:any) => el.email === input)),
     );
 
@@ -68,7 +67,6 @@ export class InvitePrincipalSearchComponent extends UntilDestroyedMixin {
       this.items$,
       this.input$,
     ).pipe(
-      tap(console.log),
       map(([elements, input]) => {
         if (!['placeholder', 'group'].includes(this.type)) {
           return false;
