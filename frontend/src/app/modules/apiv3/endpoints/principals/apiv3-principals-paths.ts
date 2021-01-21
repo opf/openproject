@@ -29,46 +29,29 @@
 import {APIv3GettableResource, APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {Apiv3AvailableProjectsPaths} from "core-app/modules/apiv3/endpoints/projects/apiv3-available-projects-paths";
 import {
   Apiv3ListParameters,
   Apiv3ListResourceInterface, listParamsString
 } from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
 import {Observable} from "rxjs";
-import {MembershipResource} from "core-app/modules/hal/resources/membership-resource";
+import {GroupResource} from "core-app/modules/hal/resources/group-resource";
+import {UserResource} from "core-app/modules/hal/resources/user-resource";
 
-export class Apiv3MembershipsPaths
-  extends APIv3ResourceCollection<MembershipResource, APIv3GettableResource<MembershipResource>>
-  implements Apiv3ListResourceInterface<MembershipResource> {
+export class Apiv3PrincipalsPaths
+  extends APIv3ResourceCollection<UserResource | GroupResource, APIv3GettableResource<UserResource | GroupResource>>
+  implements Apiv3ListResourceInterface<UserResource | GroupResource> {
   constructor(protected apiRoot:APIV3Service,
               protected basePath:string) {
-    super(apiRoot, basePath, 'memberships');
+    super(apiRoot, basePath, 'principals');
   }
 
   /**
-   * Load a list of membership entries with a given list parameter filter
+   * Load a list of principals entries with a given list parameter filter
    * @param params
    */
-  public list(params?:Apiv3ListParameters):Observable<CollectionResource<MembershipResource>> {
+  public list(params?:Apiv3ListParameters):Observable<CollectionResource<UserResource | GroupResource>> {
     return this
       .halResourceService
-      .get<CollectionResource<MembershipResource>>(this.path + listParamsString(params));
+      .get<CollectionResource<UserResource | GroupResource>>(this.path + listParamsString(params));
   }
-
-  /**
-   * Create a new membership
-   *
-   * @param payload Payload object of the HAL resource
-   */
-  public post(payload:Object):Observable<MembershipResource> {
-    return this
-      .halResourceService
-      .post<MembershipResource>(
-        this.apiRoot.memberships.path, payload
-      );
-  }
-
-
-  // /api/v3/memberships/available_projects
-  readonly available_projects = this.subResource('available_projects', Apiv3AvailableProjectsPaths);
 }

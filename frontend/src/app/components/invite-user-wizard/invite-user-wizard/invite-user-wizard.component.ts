@@ -1,18 +1,16 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {Observable, Subject} from "rxjs";
-import {debounceTime, distinctUntilChanged, filter, map, switchMap, tap} from "rxjs/operators";
+import {forkJoin, Observable, Subject} from "rxjs";
+import {debounceTime, distinctUntilChanged, filter, map, shareReplay, switchMap} from "rxjs/operators";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
-import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {RoleResource} from "core-app/modules/hal/resources/role-resource";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-
+import {UserResource} from "core-app/modules/hal/resources/user-resource";
+import {GroupResource} from "core-app/modules/hal/resources/group-resource";
 
 @Component({
   selector: 'op-invite-user-wizard',
@@ -60,7 +58,8 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
   steps:IUserWizardStep[];
   ngSelectInput:HTMLInputElement;
   input$ = new Subject<string | null>();
-  items$:Observable<HalResource[]>;
+  items$:Observable<any>;
+  principals$:Observable<IUserWizardData[]>;
 
   get currentStep() {
     return this.steps[this.currentStepIndex];
@@ -84,7 +83,9 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
   }
 
   ngOnInit():void {
+    // TODO: Remove hardcoded type form value
     this.form = this.formBuilder.group({
+      type: 'User',
       user: null,
       role: null,
       message: null,
@@ -142,7 +143,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
         debounceTime(200),
         filter(searchTerm => !!searchTerm),
         distinctUntilChanged(),
-        switchMap(searchTerm => this.currentStep.apiCallback!(searchTerm!) as Observable<HalResource[]>),
+        switchMap(searchTerm => this.currentStep.apiCallback!(searchTerm!)),
       );
   }
 
@@ -198,28 +199,56 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
       ]
     };
 
-    console.log('requestData', requestData);
-    this.apiV3Service.memberships.post(requestData).subscribe(r => console.log('r', r))
+    // TODO: Implement final response (toast?)
+    this.apiV3Service.memberships.post(requestData).subscribe(r => console.log('InviteUser response', r));
   }
 
-  usersCallback = (searchTerm:string):Observable<UserResource[]> => {
-    const filters = new ApiV3FilterBuilder();
-    filters.add('name', '~', [searchTerm]);
+  usersCallback = (searchTerm:string):Observable<IUserWizardData[]> => {
+    if (!this.principals$) {
+      const memberPrincipals$ = this.apiV3Service.principals.list({
+        filters: [
+          ['member', '=', [this.currentProjectService.id!]],
+          ['type', '=', [this.form.get('type')!.value]],
+        ]
+      });
+      const nonMemberPrincipals$ = this.apiV3Service.principals.list({
+        filters: [
+          ['status', '!', ['3']], ['member', '!', ['1']],
+          ['type', '=', [this.form.get('type')!.value]],
+        ]
+      });
 
-    return this.apiV3Service.users.filtered(filters).get().pipe(map(collection => collection.elements));
+      this.principals$ = forkJoin({memberPrincipals: memberPrincipals$, nonMemberPrincipals: nonMemberPrincipals$})
+        .pipe(
+          map(({memberPrincipals, nonMemberPrincipals}) => this.getAllPrincipalsData(memberPrincipals.elements, nonMemberPrincipals.elements)),
+          shareReplay(1),
+          this.untilDestroyed(),
+        );
+    }
+
+    return this.principals$
+                  .pipe(map(allPrincipals => allPrincipals.filter(principal => principal.name?.includes(searchTerm) || principal.email?.includes(searchTerm))));
   }
 
   rolesCallback = (searchTerm:string):Observable<RoleResource[]>  => {
-    const filters = new ApiV3FilterBuilder();
-    filters.add('unit', '=', ['project']);
-
-    // TODO: Add grantable filter?
     return this.apiV3Service
-                .roles
-                .filtered(filters)
-                .get()
-                .pipe(
-                  map((roles:CollectionResource) => roles.elements.filter(role => role.name.includes(searchTerm)))
-                );
+      .roles
+      .list({
+        filters: [
+          ['unit', '=', ['project']],
+        ]
+      })
+      .pipe(
+        map((roles:CollectionResource) => roles.elements.filter(role => role.name.includes(searchTerm)))
+      );
+  }
+
+  getAllPrincipalsData(memberPrincipals:UserResource | GroupResource[], nonMemberPrincipals:UserResource | GroupResource[]):IUserWizardData[] {
+    console.log('getAllPrincipalsData', memberPrincipals, nonMemberPrincipals);
+    const memberPrincipalsData = memberPrincipals.map(({name, id, email, _type}:IUserWizardData) => ({name, id, email, _type, member: true}));
+    const nonMemberPrincipalsData = nonMemberPrincipals.map(({name, id, email, _type}:IUserWizardData) => ({name, id, email, _type, member: false}));
+    const allPrincipals = [...memberPrincipalsData, ...nonMemberPrincipalsData];
+
+    return allPrincipals;
   }
 }

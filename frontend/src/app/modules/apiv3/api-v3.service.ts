@@ -51,6 +51,8 @@ import {Apiv3NewsPaths} from "core-app/modules/apiv3/endpoints/news/apiv3-news-p
 import {Apiv3HelpTextsPaths} from "core-app/modules/apiv3/endpoints/help_texts/apiv3-help-texts-paths";
 import {Apiv3ConfigurationPath} from "core-app/modules/apiv3/endpoints/configuration/apiv3-configuration-path";
 import {Apiv3BoardsPaths} from "core-app/modules/apiv3/virtual/apiv3-boards-paths";
+import {Apiv3PrincipalsPaths} from "core-app/modules/apiv3/endpoints/principals/apiv3-principals-paths";
+import {Apiv3RolesPaths} from "core-app/modules/apiv3/endpoints/roles/apiv3-roles-paths";
 
 @Injectable({ providedIn: 'root' })
 export class APIV3Service {
@@ -76,7 +78,7 @@ export class APIV3Service {
   public readonly statuses = this.apiV3CustomEndpoint(APIv3StatusesPaths);
 
   // /api/v3/roles
-  public readonly roles = this.apiV3CollectionEndpoint('roles');
+  public readonly roles = this.apiV3CustomEndpoint(Apiv3RolesPaths);
 
   // /api/v3/relations
   public readonly relations = this.apiV3CustomEndpoint(Apiv3RelationsPaths);
@@ -89,6 +91,9 @@ export class APIV3Service {
 
   // /api/v3/memberships
   public readonly memberships = this.apiV3CustomEndpoint(Apiv3MembershipsPaths);
+
+  // /api/v3/memberships
+  public readonly principals = this.apiV3CustomEndpoint(Apiv3PrincipalsPaths);
 
   // /api/v3/news
   public readonly news = this.apiV3CustomEndpoint(Apiv3NewsPaths);

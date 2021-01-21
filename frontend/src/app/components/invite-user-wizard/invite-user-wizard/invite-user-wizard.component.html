@@ -17,13 +17,20 @@
                    [virtualScroll]="true"
                    required="true"
                    [clearable]="true"
-                   [clearOnBackspace]="false"
+                   [clearOnBackspace]="true"
                    [clearSearchOnAdd]="false"
                    [bindLabel]="step.bindLabel"
+                   [multiple]="false"
                    #ngselect>
           <!--SELECT OPTIONS TEMPLATES-->
           <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-            <div [ngOptionHighlight]="search" class="ng-option-label ellipsis">{{ item.name }}</div>
+            <span [ngOptionHighlight]="search" class="ng-option-label ellipsis">
+              {{ item.name }}
+            </span>
+
+            <span *ngIf="inputIsEmail(ngSelectInput.value)">
+              ({{item.email}})
+            </span>
           </ng-template>
 
           <!--SELECT NOT FOUND TEMPLATE-->
@@ -35,7 +42,7 @@
 
           <!--SELECT INVITE BY EMAIL TEMPLATE-->
           <ng-template ng-footer-tmp>
-            <div *ngIf="step.showInviteUserByEmail && inputIsEmail(ngSelectInput.value)">
+            <div *ngIf="step.showInviteUserByEmail && inputIsEmail(ngSelectInput.value) && !(items$ | async)?.length">
               <button class="button"
                       (click)="setEmailUser(ngSelectInput.value)"
                       [disabled]="!inputIsValidEmail(ngSelectInput.value)">
