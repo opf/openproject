@@ -23,26 +23,26 @@
 
   <!--Invite a new user by email-->
   <ng-template ng-footer-tmp>
-    <div *ngIf="isEmailAndInvitable(ngSelectInput.value) | async">
-      <button class="button"
-              (click)="setEmailUser(ngSelectInput.value)"
-              [disabled]="!inputIsValidEmail(ngSelectInput.value)">
+    <div *ngIf="canInviteByEmail$ | async">
+      <button
+        class="button"
+        (click)="createNewFromInput()"
+      >
         <op-icon icon-classes="icon-mail1"></op-icon>
-
-        {{this.text.invite}}: {{ngselect.searchInput.nativeElement?.value}}
+        Invite new user: {{ $input | async }}
       </button>
     </div>
   </ng-template>
 
-  <!--Create a new placeholder by name-->
+  <!--Create a new group or placeholder by name-->
   <ng-template ng-footer-tmp>
-    <div *ngIf="type === 'placeholder' && isCreateablePlaceholder(ngSelectInput.value)">
-      <button class="button"
-              (click)="setEmailUser(ngSelectInput.value)"
-              [disabled]="!inputIsValidEmail(ngSelectInput.value)">
+    <div *ngIf="canCreateNewGroupOrPlaceholder$ | async">
+      <button
+        class="button"
+        (click)="createNewFromInput()"
+      >
         <op-icon icon-classes="icon-mail1"></op-icon>
-
-        {{this.text.invite}}: {{ngselect.searchInput.nativeElement?.value}}
+        Create new {{ type }}: {{ $input | async }}
       </button>
     </div>
   </ng-template>
