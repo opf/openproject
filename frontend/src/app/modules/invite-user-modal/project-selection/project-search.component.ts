@@ -17,7 +17,7 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
   selector: 'op-ium-project-search',
   templateUrl: './project-search.component.html',
 })
-export class InviteProjectSearchComponent extends UntilDestroyedMixin {
+export class ProjectSearchComponent extends UntilDestroyedMixin {
   @Input() projectFormControl:FormControl;
 
   public input$ = new Subject<string|null>();

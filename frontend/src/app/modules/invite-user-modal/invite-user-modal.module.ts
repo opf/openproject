@@ -1,14 +1,15 @@
 import {NgModule} from "@angular/core";
 import {ReactiveFormsModule} from "@angular/forms";
 import {InviteUserModalComponent} from "./invite-user.component";
-import {InviteProjectSelectionComponent} from "./project-selection.component";
-import {InviteProjectSearchComponent} from "./project-search.component";
-import {InvitePrincipalComponent} from "./principal.component";
-import {InvitePrincipalSearchComponent} from "./principal-search.component";
-import {InviteRoleComponent} from "./role.component";
-import {InviteMessageComponent} from "./message.component";
-import {InviteSuccessComponent} from "./success.component";
-import {InviteSummaryComponent} from "./summary.component";
+import {ProjectSelectionComponent} from "./project-selection/project-selection.component";
+import {ProjectSearchComponent} from "./project-selection/project-search.component";
+import {PrincipalComponent} from "./principal/principal.component";
+import {PrincipalSearchComponent} from "./principal/principal-search.component";
+import {RoleComponent} from "./role/role.component";
+import {RoleSearchComponent} from "./role/role-search.component";
+import {MessageComponent} from "./message/message.component";
+import {SuccessComponent} from "./success/success.component";
+import {SummaryComponent} from "./summary/summary.component";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 
@@ -21,14 +22,15 @@ import {OpenprojectCommonModule} from "core-app/modules/common/openproject-commo
   exports: [],
   declarations: [
     InviteUserModalComponent,
-    InviteProjectSelectionComponent,
-    InviteProjectSearchComponent,
-    InvitePrincipalComponent,
-    InvitePrincipalSearchComponent,
-    InviteRoleComponent,
-    InviteMessageComponent,
-    InviteSuccessComponent,
-    InviteSummaryComponent,
+    ProjectSelectionComponent,
+    ProjectSearchComponent,
+    PrincipalComponent,
+    PrincipalSearchComponent,
+    RoleComponent,
+    RoleSearchComponent,
+    MessageComponent,
+    SuccessComponent,
+    SummaryComponent,
   ]
 })
 export class OpenprojectInviteUserModalModule { }

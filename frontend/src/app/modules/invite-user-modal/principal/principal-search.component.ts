@@ -17,7 +17,7 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
   selector: 'op-ium-principal-search',
   templateUrl: './principal-search.component.html',
 })
-export class InvitePrincipalSearchComponent extends UntilDestroyedMixin {
+export class PrincipalSearchComponent extends UntilDestroyedMixin {
   @Input() principalControl:FormControl;
   @Input() type:string;
 
@@ -32,7 +32,7 @@ export class InvitePrincipalSearchComponent extends UntilDestroyedMixin {
     return {
       'user': this.apiV3Service.users,
       'group': this.apiV3Service.groups,
-      'placeholder': this.apiV3Service.placeholders,
+      // 'placeholder': this.apiV3Service.placeholders,
     }[this.type];
   }
 
