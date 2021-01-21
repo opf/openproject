@@ -196,7 +196,7 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem 'test-prof', '~> 0.12.0'
+  gem 'test-prof', '~> 1.0.0'
 
   gem 'database_cleaner', '~> 1.8'
   gem 'rack_session_access'
