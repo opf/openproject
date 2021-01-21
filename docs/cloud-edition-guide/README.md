@@ -1,8 +1,8 @@
 ---
 sidebar_navigation:
-  title: Cloud Edition
+  title: Enterprise Cloud Guide
   priority: 999
-description: OpenProject Cloud Edition guide.
+description: OpenProject Enterprise Cloud Edition guide.
 robots: index, follow
 keywords: Cloud Edition
 ---
@@ -18,10 +18,11 @@ Welcome to the OpenProject **Enterprise cloud edition guide**.
 
 ## Overview
 
-| Popular Topics                                               | Description                                                  |
+| Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [Create a free trial](./create-trial-installation)           | Learn more about how to create a free trial for the Enterprise cloud instance. |
 | [Sign in](./sign-in/)                                        | Sign in to your OpenProject Enterprise cloud edition.        |
+| [Create a quote](./create-quote-cloud)                       | How to create a quote within your Enterprise cloud instance? |
 | [View payment history or download invoices](./invoices-and-billing-history) | How to see your payment history and download invoices?       |
 | [Upgrade, downgrade or cancel subscription](./manage-subscription/#update-existing-subscriptions) | How to upgrade your plan, downgrade or cancel your subscription for the Enterprise cloud edition? |
 | [Manage your subscription](./manage-subscription)            | How to change billing address, add or edit credit card details? |

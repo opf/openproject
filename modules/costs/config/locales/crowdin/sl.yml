@@ -132,7 +132,7 @@ sl:
   permission_view_own_cost_entries: "Oglejte si lastne rezervirane stroške"
   permission_view_own_hourly_rate: "Oglejte si lastno urno postavko"
   permission_view_own_time_entries: "Oglejte si svoj porabljen čas"
-  project_module_costs: "Time and costs"
+  project_module_costs: "Čas in stroški"
   text_assign_time_and_cost_entries_to_project: "Projektu dodelite prijavljene ure in stroške"
   text_destroy_cost_entries_question: "%{cost_entries} so bili prijavljeni v delovnih paketih, ki jih boste izbrisali. Kaj želiš narediti ?"
   text_destroy_time_and_cost_entries: "Izbrišite prijavljene ure in stroške"

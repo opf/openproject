@@ -74,6 +74,7 @@ class UsersController < ApplicationController
   def show
     # show projects based on current user visibility
     @memberships = @user.memberships
+                        .where.not(project_id: nil)
                         .visible(current_user)
 
     events = Activities::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
