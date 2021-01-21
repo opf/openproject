@@ -61,6 +61,5 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
 
   goTo(step:Steps) {
     this.step = step;
-    console.log('Going to', this.step, step, Steps);
   }
 }

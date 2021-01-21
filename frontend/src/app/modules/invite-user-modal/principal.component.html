@@ -21,10 +21,48 @@
       [formBinding]="principalControl"
     >
       <op-ium-principal-search
+        *ngIf="!isNewPrincipal"
         [type]="type"
         [principalControl]="principalControl"
         slot="input"
+        (createNew)="createNewFromInput($event)"
       ></op-ium-principal-search>
+
+      <div
+        class="pill"
+        *ngIf="isNewPrincipal && type === 'user'"
+        slot="input"
+      >
+        Invite: {{ principalControl?.value }}
+        <button
+          class="op-link"
+          (click)="principalControl?.setValue(null)"
+        >Change e-mail-address or select an existing user</button>
+      </div>
+
+      <div
+        class="pill"
+        *ngIf="isNewPrincipal && type === 'placeholder'"
+        slot="input"
+      >
+        Create new placeholder: {{ principalControl?.value }}
+        <button
+          class="op-link"
+          (click)="principalControl?.setValue(null)"
+        >Change name or select an existing placeholder</button>
+      </div>
+
+      <div
+        class="pill"
+        *ngIf="isNewPrincipal && type === 'group'"
+        slot="input"
+      >
+        Create new group: {{ principalControl?.value }}
+        <button
+          class="op-link"
+          (click)="principalControl?.setValue(null)"
+        >Change name or select an existing group</button>
+      </div>
       
       <div
         slot="errors"

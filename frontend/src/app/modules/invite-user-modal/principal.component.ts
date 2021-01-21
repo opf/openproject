@@ -20,7 +20,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 })
 export class InvitePrincipalComponent implements OnInit {
   @Input() principal:any = null;
-  @Input() type:string;
+  @Input() type:string = '';
 
   @Output() save = new EventEmitter();
   @Output() close = new EventEmitter();
@@ -40,11 +40,20 @@ export class InvitePrincipalComponent implements OnInit {
     return this.principalForm.get('principal');
   }
 
+  get isNewPrincipal() {
+    console.log(this.principalControl?.value);
+    return typeof this.principalControl?.value === 'string';
+  }
+
   constructor(readonly I18n:I18nService,
               readonly elementRef:ElementRef) {}
 
   ngOnInit() {
     this.principalControl?.setValue(this.principal);
+  }
+
+  createNewFromInput(input:string) {
+    this.principalControl?.setValue(input);
   }
 
   onSubmit($e:Event) {
