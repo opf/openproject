@@ -61,7 +61,12 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
 
   onRoleSave({ role }:{ role:any }) {
     this.role = role;
-    this.goTo(Steps.Message);
+
+    if (this.type === 'placeholder') {
+      this.goTo(Steps.Summary);
+    } else {
+      this.goTo(Steps.Message);
+    }
   }
 
   goTo(step:Steps) {

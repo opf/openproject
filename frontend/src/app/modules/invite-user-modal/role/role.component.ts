@@ -24,6 +24,7 @@ export class RoleComponent implements OnInit {
   @Input('role') role:any = null;
 
   @Output('close') closeModal = new EventEmitter<void>();
+  @Output('back') back = new EventEmitter<void>();
   @Output() save = new EventEmitter<{project:any, type:string}>();
 
   public text = {
