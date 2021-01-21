@@ -1,0 +1,35 @@
+<form
+  [formGroup]="messageForm"
+  (ngSubmit)="onSubmit($event)"
+>
+  <div class="op-modal--modal-header">
+    <button
+      class="op-modal--modal-close-button"
+      type="button"
+      (click)="close.emit()"
+      [attr.aria-label]="text.closePopup"
+    >
+      <span class="icon-close"></span>
+    </button>
+    <h3 [textContent]="text.title"></h3>
+  </div>
+
+  <div class="op-modal--modal-body">
+    <op-form-field
+      label="Role in the project"
+      [formBinding]="messageControl"
+    >
+      <textarea
+        [formControl]="messageControl"
+      ></textarea>
+    </op-form-field>
+  </div>
+
+  <div class="op-modal--modal-footer">
+    <button
+      type="button"
+      (click)="back.emit()"
+    >Back</button>
+    <button>Next</button>
+  </div>
+</form>

@@ -24,6 +24,14 @@
         [roleControl]="roleControl"
         slot="input"
       ></op-ium-role-search>
+
+      <div
+        slot="errors"
+        class="op-form-field--error"
+        *ngIf="roleControl?.touched && roleControl?.invalid"
+      >
+        Please select a role
+      </div>
     </op-form-field>
   </div>
 

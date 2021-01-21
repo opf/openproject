@@ -28,4 +28,25 @@
     (back)="goTo(Steps.Principal)"
     (close)="close()"
   ></op-ium-role>
+
+  <op-ium-message
+    *ngIf="step === Steps.Message"
+    class="op-modal--modal-container"
+    [message]="message"
+    (save)="onMessageSave($event)"
+    (back)="goTo(Steps.Role)"
+    (close)="close()"
+  ></op-ium-message>
+
+  <op-ium-summary
+    *ngIf="step === Steps.Message"
+    class="op-modal--modal-container"
+    [project]="project"
+    [type]="type"
+    [role]="role"
+    [message]="message"
+    (save)="onSuccessfulSubmission($event)"
+    (back)="goTo(this.type === 'placeholder' ? Steps.Role : Steps.Message)"
+    (close)="close()"
+  ></op-ium-summary>
 </div>
