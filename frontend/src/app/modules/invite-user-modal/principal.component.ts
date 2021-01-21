@@ -41,7 +41,6 @@ export class InvitePrincipalComponent implements OnInit {
   }
 
   get isNewPrincipal() {
-    console.log(this.principalControl?.value);
     return typeof this.principalControl?.value === 'string';
   }
 
