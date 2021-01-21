@@ -57,16 +57,10 @@ class User < Principal
     USER_MAIL_OPTION_NON
   ].freeze
 
-  include ::Scopes::Groupable
+  include ::Associations::Groupable
 
   has_many :categories, foreign_key: 'assigned_to_id',
                         dependent: :nullify
-  has_many :assigned_issues, foreign_key: 'assigned_to_id',
-                             class_name: 'WorkPackage',
-                             dependent: :nullify
-  has_many :responsible_for_issues, foreign_key: 'responsible_id',
-                                    class_name: 'WorkPackage',
-                                    dependent: :nullify
   has_many :watches, class_name: 'Watcher',
                      dependent: :delete_all
   has_many :changesets, dependent: :nullify

@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -28,17 +28,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class PlaceholderUser < Principal
-  validates_presence_of(:name)
-  validates_uniqueness_of(:name)
-
-  include ::Associations::Groupable
-
-  def name=(new_name)
-    self.lastname = new_name
-  end
-
-  def to_s
-    lastname
+module Associations::Groupable
+  def self.included(base)
+    base.has_and_belongs_to_many :groups,
+                                 join_table: "#{base.table_name_prefix}group_users#{base.table_name_suffix}",
+                                 after_add: ->(user, group) { group.user_added(user) },
+                                 after_remove: ->(user, group) { group.user_removed(user) }
   end
 end

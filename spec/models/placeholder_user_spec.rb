@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,11 +26,35 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Scopes::Groupable
-  def self.included(base)
-    base.has_and_belongs_to_many :groups,
-                                 join_table: "#{base.table_name_prefix}group_users#{base.table_name_suffix}",
-                                 after_add: ->(user, group) { group.user_added(user) },
-                                 after_remove: ->(user, group) { group.user_removed(user) }
+require 'spec_helper'
+
+describe PlaceholderUser, type: :model do
+  let(:placeholder_user) { FactoryBot.build(:placeholder_user) }
+  let(:project) { FactoryBot.create(:project_with_types) }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+  let(:member) do
+    FactoryBot.build(:member, project: project,
+                              roles: [role],
+                              principal: placeholder_user)
+  end
+  let(:status) { FactoryBot.create(:status) }
+  let(:issue) do
+    FactoryBot.build(:work_package, type: project.types.first,
+                                    author: placeholder_user,
+                                    project: project,
+                                    status: status)
+  end
+
+  subject { placeholder_user }
+
+  describe '#name' do
+    it 'updates the name' do
+      subject.name = "Foo"
+      expect(subject.name).to eq("Foo")
+    end
+    it 'updates the lastname attribute' do
+      subject.name = "Foo"
+      expect(subject.lastname).to eq("Foo")
+    end
   end
 end

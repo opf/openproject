@@ -184,33 +184,6 @@ describe User, type: :model do
     end
   end
 
-  describe '#assigned_issues' do
-    before do
-      user.save!
-    end
-
-    describe 'WHEN the user has an issue assigned' do
-      before do
-        member.save!
-
-        issue.assigned_to = user
-        issue.save!
-      end
-
-      it { expect(user.assigned_issues).to eq([issue]) }
-    end
-
-    describe 'WHEN the user has no issue assigned' do
-      before do
-        member.save!
-
-        issue.save!
-      end
-
-      it { expect(user.assigned_issues).to eq([]) }
-    end
-  end
-
   describe '#authentication_provider' do
     before do
       user.identity_url = 'test_provider:veryuniqueid'
