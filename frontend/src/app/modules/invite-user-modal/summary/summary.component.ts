@@ -6,7 +6,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
   templateUrl: './summary.component.html',
   styleUrls: ['./summary.component.sass'],
 })
-export class InviteSummaryComponent implements OnInit {
+export class SummaryComponent implements OnInit {
   constructor(readonly I18n:I18nService,
               readonly elementRef:ElementRef) {}
 

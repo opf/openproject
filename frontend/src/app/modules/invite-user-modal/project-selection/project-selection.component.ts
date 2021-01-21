@@ -18,7 +18,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
   templateUrl: './project-selection.component.html',
   styleUrls: ['./project-selection.component.sass'],
 })
-export class InviteProjectSelectionComponent implements OnInit {
+export class ProjectSelectionComponent implements OnInit {
   @Input('type') type:string = '';
   @Input('project') project:any = null;
 

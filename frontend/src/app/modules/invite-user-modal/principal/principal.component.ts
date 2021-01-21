@@ -18,7 +18,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
   templateUrl: './principal.component.html',
   styleUrls: ['./principal.component.sass'],
 })
-export class InvitePrincipalComponent implements OnInit {
+export class PrincipalComponent implements OnInit {
   @Input() principal:any = null;
   @Input() type:string = '';
 

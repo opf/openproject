@@ -17,4 +17,15 @@
     (back)="goTo(Steps.ProjectSelection)"
     (close)="close()"
   ></op-ium-principal>
+
+  <op-ium-role
+    *ngIf="step === Steps.Role"
+    class="op-modal--modal-container"
+    [role]="role"
+    [principal]="principal"
+    [type]="type"
+    (save)="onRoleSave($event)"
+    (back)="goTo(Steps.Principal)"
+    (close)="close()"
+  ></op-ium-role>
 </div>
