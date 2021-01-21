@@ -35,7 +35,7 @@
 
           <!--SELECT NOT FOUND TEMPLATE-->
           <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
-            <div class="ng-option disabled" *ngIf="!inputIsEmail(ngSelectInput.value)">
+            <div class="ng-option ng-option-disabled" *ngIf="!inputIsEmail(ngSelectInput.value)">
               {{this.text.noDataFoundFor}} "{{searchTerm}}"
             </div>
           </ng-template>

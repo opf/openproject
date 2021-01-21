@@ -11,10 +11,10 @@ interface IUserWizardStep {
   showInviteUserByEmail?:boolean;
 }
 
-interface IUserWizardData {
+interface IUserWizardSelectData {
   name:string;
   id:string;
   email:string;
-  member?:boolean;
+  disabled:boolean;
   _type?:string;
 }

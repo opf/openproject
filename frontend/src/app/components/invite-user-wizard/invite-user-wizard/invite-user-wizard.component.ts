@@ -59,7 +59,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
   ngSelectInput:HTMLInputElement;
   input$ = new Subject<string | null>();
   items$:Observable<any>;
-  principals$:Observable<IUserWizardData[]>;
+  principals$:Observable<IUserWizardSelectData[]>;
 
   get currentStep() {
     return this.steps[this.currentStepIndex];
@@ -203,7 +203,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     this.apiV3Service.memberships.post(requestData).subscribe(r => console.log('InviteUser response', r));
   }
 
-  usersCallback = (searchTerm:string):Observable<IUserWizardData[]> => {
+  usersCallback = (searchTerm:string):Observable<IUserWizardSelectData[]> => {
     if (!this.principals$) {
       const memberPrincipals$ = this.apiV3Service.principals.list({
         filters: [
@@ -243,10 +243,9 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
       );
   }
 
-  getAllPrincipalsData(memberPrincipals:UserResource | GroupResource[], nonMemberPrincipals:UserResource | GroupResource[]):IUserWizardData[] {
-    console.log('getAllPrincipalsData', memberPrincipals, nonMemberPrincipals);
-    const memberPrincipalsData = memberPrincipals.map(({name, id, email, _type}:IUserWizardData) => ({name, id, email, _type, member: true}));
-    const nonMemberPrincipalsData = nonMemberPrincipals.map(({name, id, email, _type}:IUserWizardData) => ({name, id, email, _type, member: false}));
+  getAllPrincipalsData(memberPrincipals:UserResource | GroupResource[], nonMemberPrincipals:UserResource | GroupResource[]):IUserWizardSelectData[] {
+    const memberPrincipalsData = memberPrincipals.map(({name, id, email, _type}:IUserWizardSelectData) => ({name, id, email, _type, disabled: true}));
+    const nonMemberPrincipalsData = nonMemberPrincipals.map(({name, id, email, _type}:IUserWizardSelectData) => ({name, id, email, _type, disabled: false}));
     const allPrincipals = [...memberPrincipalsData, ...nonMemberPrincipalsData];
 
     return allPrincipals;
