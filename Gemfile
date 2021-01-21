@@ -231,7 +231,7 @@ group :test do
 
   gem 'equivalent-xml', '~> 0.6'
   gem 'json_spec', '~> 1.1.4'
-  gem 'shoulda-matchers', '~> 4.4', require: nil
+  gem 'shoulda-matchers', '~> 4.5', require: nil
 
   gem 'parallel_tests', '~> 3.1'
 end
