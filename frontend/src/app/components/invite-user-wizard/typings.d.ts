@@ -6,9 +6,10 @@ interface IUserWizardStep {
   formControlName?:string;
   apiCallback?:Function;
   description?:Function;
-  nextButtonText?:string;
-  previousButtonText?:string;
+  rightButtonText?:string;
+  leftButtonText?:string;
   showInviteUserByEmail?:boolean;
+  action?:Function;
 }
 
 interface IUserWizardSelectData {

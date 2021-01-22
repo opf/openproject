@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Observable, Subject} from "rxjs";
 import {debounceTime, distinctUntilChanged, filter, switchMap} from "rxjs/operators";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
@@ -25,8 +25,8 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     closePopup: this.I18n.t('js.close_popup_title'),
     exportPreparing: this.I18n.t('js.label_export_preparing'),
     user: this.I18n.t('js.invite_user_modal.user'),
-    nextButtonText: this.I18n.t('js.invite_user_modal.next'),
-    previousButtonText: this.I18n.t('js.invite_user_modal.back'),
+    rightButtonText: this.I18n.t('js.invite_user_modal.next'),
+    leftButtonText: this.I18n.t('js.invite_user_modal.back'),
     invite: this.I18n.t('js.invite_user_modal.invite'),
     to: this.I18n.t('js.invite_user_modal.to'),
     noDataFoundFor: this.I18n.t('js.invite_user_modal.no_data_found_for'),
@@ -44,14 +44,14 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
       label: this.I18n.t('js.invite_user_modal.message_label'),
       summaryLabel: this.I18n.t('js.invite_user_modal.message_summary_label'),
       description: () => this.I18n.t('js.invite_user_modal.message_description', {user: this.userToInvite}),
-      nextButtonText: this.I18n.t('js.invite_user_modal.message_next_button'),
+      rightButtonText: this.I18n.t('js.invite_user_modal.message_next_button'),
     },
     step3: {
-      nextButtonText: this.I18n.t('js.invite_user_modal.send_invitation'),
+      rightButtonText: this.I18n.t('js.invite_user_modal.send_invitation'),
     },
     step4: {
       description: () => this.I18n.t('js.invite_user_modal.confirm_description', {project: this.project}),
-      nextButtonText: this.I18n.t('js.invite_user_modal.continue'),
+      rightButtonText: this.I18n.t('js.invite_user_modal.continue'),
     }
   };
   steps:IUserWizardStep[];
@@ -84,10 +84,10 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
   ngOnInit():void {
     // TODO: Remove hardcoded type form value
     this.form = this.formBuilder.group({
-      type: 'User',
-      user: null,
-      role: null,
-      message: null,
+      type: ['User', Validators.required],
+      user: [null, Validators.required],
+      role: [null, Validators.required],
+      message: [null, Validators.required],
     });
     this.project = this.currentProjectService.name!;
     this.steps = [
@@ -99,8 +99,8 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
         formControlName: 'user',
         apiCallback: this.usersCallback,
         description: this.text.step0.description,
-        nextButtonText: this.text.nextButtonText,
-        previousButtonText: this.text.previousButtonText,
+        rightButtonText: this.text.rightButtonText,
+        leftButtonText: this.text.leftButtonText,
         showInviteUserByEmail: true,
       },
       {
@@ -111,8 +111,8 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
         formControlName: 'role',
         apiCallback: this.rolesCallback,
         description: this.text.step1.description,
-        nextButtonText: this.text.nextButtonText,
-        previousButtonText: this.text.previousButtonText,
+        rightButtonText: this.text.rightButtonText,
+        leftButtonText: this.text.leftButtonText,
       },
       {
         type: 'textarea',
@@ -120,17 +120,18 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
         summaryLabel: this.text.step2.summaryLabel,
         formControlName: 'message',
         description: this.text.step2.description,
-        nextButtonText: this.text.step2.nextButtonText,
-        previousButtonText: this.text.previousButtonText,
+        rightButtonText: this.text.step2.rightButtonText,
+        leftButtonText: this.text.leftButtonText,
       },
       {
         type: 'summary',
-        nextButtonText: this.text.step3.nextButtonText,
-        previousButtonText: this.text.previousButtonText,
+        rightButtonText: this.text.step3.rightButtonText,
+        leftButtonText: this.text.leftButtonText,
+        action: this.inviteUser,
       },
       {
         type: 'confirmation',
-        nextButtonText: this.text.step4.nextButtonText,
+        rightButtonText: this.text.step4.rightButtonText,
         description: this.text.step4.description,
       },
     ];
@@ -149,16 +150,20 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     this.ngSelectInput = this.ngselect.searchInput.nativeElement;
   }
 
+  previousStep() {
+    this.currentStepIndex && --this.currentStepIndex;
+  }
+
   nextStep() {
     if (this.currentStepIndex < this.steps.length - 1) {
       ++this.currentStepIndex;
-    } else {
-      this.inviteUser();
     }
   }
 
-  previousStep() {
-    this.currentStepIndex && --this.currentStepIndex;
+  shouldBeDisabled() {
+    const currentStep = this.steps[this.currentStepIndex];
+
+    return currentStep?.formControlName && this.form.get(currentStep.formControlName)!.invalid;
   }
 
   inputIsEmail(inputValue:string) {
@@ -178,7 +183,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     this.ngselect.close();
   }
 
-  inviteUser() {
+  inviteUser = () => {
     this.inviteUserWizardService
       .inviteUser(
         this.currentProjectService.id!,
@@ -186,7 +191,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
         this.form.get('role')!.value?.id
       )
       // TODO: Implement final response (show toast?)
-      .subscribe(r => console.log('InviteUser response', r));
+      .subscribe(() => this.nextStep());
   }
 
   usersCallback = (searchTerm:string):Observable<IUserWizardSelectData[]> => {
