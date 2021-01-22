@@ -6,7 +6,7 @@
     <button
       class="op-modal--modal-close-button"
       type="button"
-      (click)="close.emit()"
+      (click)="closeModal.emit()"
       [attr.aria-label]="text.closePopup"
     >
       <span class="icon-close"></span>
@@ -33,7 +33,7 @@
         *ngIf="isNewPrincipal && type === 'user'"
         slot="input"
       >
-        Invite: {{ principalControl?.value }}
+        Invite: {{ principalControl?.value.name }}
         <button
           class="op-link"
           (click)="principalControl?.setValue(null)"
@@ -42,10 +42,18 @@
 
       <div
         class="pill"
+        *ngIf="isMemberOfCurrentProject"
+        slot="help-text"
+      >
+        This {{ type }} is already a member of {{ project.name }}.
+      </div>
+
+      <div
+        class="pill"
         *ngIf="isNewPrincipal && type === 'placeholder'"
         slot="input"
       >
-        Create new placeholder: {{ principalControl?.value }}
+        Create new placeholder: {{ principalControl?.value.name }}
         <button
           class="op-link"
           (click)="principalControl?.setValue(null)"
@@ -57,7 +65,7 @@
         *ngIf="isNewPrincipal && type === 'group'"
         slot="input"
       >
-        Create new group: {{ principalControl?.value }}
+        Create new group: {{ principalControl?.value.name }}
         <button
           class="op-link"
           (click)="principalControl?.setValue(null)"

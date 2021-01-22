@@ -11,6 +11,7 @@
   <op-ium-principal
     *ngIf="step === Steps.Principal"
     class="op-modal--modal-container"
+    [project]="project"
     [principal]="principal"
     [type]="type"
     (save)="onPrincipalSave($event)"

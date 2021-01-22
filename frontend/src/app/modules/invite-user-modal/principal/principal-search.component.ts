@@ -28,17 +28,6 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin {
   public canInviteByEmail$:Observable<any>;
   public canCreateNewGroupOrPlaceholder$:Observable<any>;
 
-  private get api() {
-    switch (this.type) {
-      case 'user':
-        return this.apiV3Service.users;
-      case 'group':
-        return this.apiV3Service.groups;
-      default:
-        return this.apiV3Service.users;
-    }
-  }
-
   constructor(
     public I18n:I18nService,
     readonly elementRef:ElementRef,
@@ -55,7 +44,8 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin {
         switchMap((searchTerm:string) => {
           const filters = new ApiV3FilterBuilder();
           filters.add('name', '~', [searchTerm]);
-          return this.api.filtered(filters).get().pipe(map(collection => collection.elements));
+          filters.add('type', '=', [this.type.charAt(0).toUpperCase() + this.type.slice(1)]);
+          return this.apiV3Service.principals.filtered(filters).get().pipe(map(collection => collection.elements));
         }),
       );
 
@@ -86,5 +76,9 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin {
       .subscribe((input:string) => {
         this.createNew.emit(input);
       });
+  }
+
+  loadMemberships() {
+    this.principalControl.value?.memberships?.$load();
   }
 }
