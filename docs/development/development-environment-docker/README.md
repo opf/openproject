@@ -138,7 +138,7 @@ You can just reset these changes if you want to commit something or pull the lat
 
 ## Debugging
 
-It's common to just start a debugger whithin ruby code using `binding.pry`.
+It's common to just start a debugger within ruby code using `binding.pry`.
 This **does not work** with the application running as shown above.
 
 If you want to be able to do that, you can, however, simply run the following:

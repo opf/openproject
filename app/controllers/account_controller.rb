@@ -105,7 +105,7 @@ class AccountController < ApplicationController
       end
 
       unless user.change_password_allowed?
-        # user uses an external authentification
+        # user uses an external authentication
         Rails.logger.error "Password cannot be changed for user: #{mail}"
         return
       end

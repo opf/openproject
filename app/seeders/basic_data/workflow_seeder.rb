@@ -37,7 +37,7 @@ module BasicData
         #
         # This can happen when an existing database, having timelines planning elements,
         # gets migrated. During the migration, the existing planning elements are converted
-        # to work_packages. Because the existance of a standard type cannot be guaranteed
+        # to work_packages. Because the existence of a standard type cannot be guaranteed
         # during the migration, such work packages receive a type_id of nil.
         #
         # Because all work packages that do not have a type yet should always have had one

@@ -79,7 +79,7 @@ consent_info:
   serialized: true
   default:
     en: "## Consent\n\nYou need to agree to the [privacy and security policy](https://www.openproject.org/data-privacy-and-security/) of this OpenProject instance."
-# Indicates wether or not users need to consent to something such as privacy policy.
+# Indicates whether or not users need to consent to something such as privacy policy.
 consent_required:
   default: 0
   format: boolean

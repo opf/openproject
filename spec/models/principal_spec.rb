@@ -63,7 +63,7 @@ describe Principal, type: :model do
   describe 'active' do
     should_return_groups_and_users_if_active(:active_or_registered)
 
-    it 'should not return a registerd user' do
+    it 'should not return a registered user' do
       user.status = User::STATUSES[:registered]
 
       user.save!
@@ -75,7 +75,7 @@ describe Principal, type: :model do
   describe 'active_or_registered' do
     should_return_groups_and_users_if_active(:active_or_registered)
 
-    it 'should return a registerd user' do
+    it 'should return a registered user' do
       user.status = User::STATUSES[:registered]
 
       user.save!
@@ -98,7 +98,7 @@ describe Principal, type: :model do
 
     should_return_groups_and_users_if_active(:active_or_registered_like, search)
 
-    it 'should return a registerd user' do
+    it 'should return a registered user' do
       user.status = User::STATUSES[:registered]
 
       user.save!

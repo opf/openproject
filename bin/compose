@@ -14,9 +14,9 @@ if [ $# -eq 0 ]; then
   echo "Usage: bin/compose <command> [args*]"
   echo
   echo "Commands:"
-  echo "    setup - Has to be run once intially. Installs backend and frontend dependencies. "
-  echo "    start - Starts both backend and frontend in the background. Acccess via http://localhost:3000/ by default."
-  echo "    run   - Starts the frontend in the backround and backend in the foreground. Useful for debugging using pry."
+  echo "    setup - Has to be run once initially. Installs backend and frontend dependencies. "
+  echo "    start - Starts both backend and frontend in the background. Access via http://localhost:3000/ by default."
+  echo "    run   - Starts the frontend in the background and backend in the foreground. Useful for debugging using pry."
   echo "    *     - Everything else will be passed straight to \`docker-compose\`."
   echo
 

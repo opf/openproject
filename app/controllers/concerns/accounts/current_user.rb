@@ -113,7 +113,7 @@ module Accounts::CurrentUser
     end
 
     # Otherwise, if there is an omniauth direct login
-    # and we're not logging out globablly, ensure the
+    # and we're not logging out globally, ensure the
     # user does not get re-logged in
     if Setting.login_required? && omniauth_direct_login?
       flash.now[:notice] = I18n.t :notice_logged_out

@@ -67,7 +67,7 @@ feature 'user memberships through user page', type: :feature, js: true do
     user_page.remove_from_project!(project.name)
     user_page.expect_no_membership(project.name)
 
-    # Readd the user
+    # Re-add the user
     user_page.add_to_project! project.name, as: %w(Manager Developer)
 
     user_page.expect_project(project.name)

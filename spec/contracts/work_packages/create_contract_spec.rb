@@ -119,7 +119,7 @@ describe WorkPackages::CreateContract do
       work_package.project = project
     end
 
-    context 'if the user is set by the sytem and the user is the user the contract is evaluated for' do
+    context 'if the user is set by the system and the user is the user the contract is evaluated for' do
       subject(:contract) { described_class.new(work_package, user, options: { changed_by_system: ['author_id'] }) }
 
       it 'is valid' do

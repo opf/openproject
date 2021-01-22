@@ -191,7 +191,7 @@ describe VersionsController, type: :controller do
   end
 
   describe '#create' do
-    context 'with vaild attributes' do
+    context 'with valid attributes' do
       before do
         login_as(user)
         post :create, params: { project_id: project.id, version: { name: 'test_add_version' } }

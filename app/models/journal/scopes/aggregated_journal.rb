@@ -104,7 +104,7 @@ module Journal::Scopes
       # customizable_journals/attachable_journals) represent the complete state of the journable at the given time.
       #
       # e.g. a group of 5 sequential journals without notes, belonging to the same user and created within the configured
-      # time difference between one journal and its succcessor
+      # time difference between one journal and its successor
       #
       #   Version 9
       #   Version 8
@@ -119,7 +119,7 @@ module Journal::Scopes
       # that all journals of the same group that are after the notes journal are also returned.
       #
       # e.g. a group of 5 sequential journals with only one note, belonging to the same user and created within the configured
-      # time difference between one journal and its succcessor
+      # time difference between one journal and its successor
       #
       #   Version 9
       #   Version 8
@@ -136,7 +136,7 @@ module Journal::Scopes
       # after it up to and including the maximum journal version of the group.
 
       # e.g. a group of 5 sequential journals with only one note, belonging to the same user and created within the configured
-      # time difference between one journal and its succcessor
+      # time difference between one journal and its successor
       #
       #   Version 9
       #   Version 8 (note)

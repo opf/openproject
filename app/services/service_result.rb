@@ -107,7 +107,7 @@ class ServiceResult
   # Collect all present errors for the given result
   # and dependent results.
   #
-  # Returns a map of the service reuslt to the error object
+  # Returns a map of the service result to the error object
   def results_with_errors(include_self: true)
     results =
       if include_self

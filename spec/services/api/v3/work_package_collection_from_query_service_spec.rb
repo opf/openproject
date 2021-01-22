@@ -239,7 +239,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
         end
 
         context 'with query.display_sums? being true' do
-          it 'has a struct containg the sums and the available custom fields' do
+          it 'has a struct containing the sums and the available custom fields' do
             query.display_sums = true
 
             custom_fields = [FactoryBot.build_stubbed(:text_wp_custom_field),

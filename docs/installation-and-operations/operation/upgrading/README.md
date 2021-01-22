@@ -19,7 +19,7 @@ running the `openproject configure` command.
 
 <div class="alert alert-info" role="alert">
 
-Please note that the package-based installation uses different release channels for each MAJOR version of OpenProject. This means that if you want to switch from (e.g.) 9.x to 10.x, you will need to perform the steps described in the [installation section](../../installation/packaged) to update your package sources to point to the newer release channel. The rest of this section is only applicable if you want to upgrade a (e.g.) 10.x version to a 10.y vesion.
+Please note that the package-based installation uses different release channels for each MAJOR version of OpenProject. This means that if you want to switch from (e.g.) 9.x to 10.x, you will need to perform the steps described in the [installation section](../../installation/packaged) to update your package sources to point to the newer release channel. The rest of this section is only applicable if you want to upgrade a (e.g.) 10.x version to a 10.y version.
 
 </div>
 

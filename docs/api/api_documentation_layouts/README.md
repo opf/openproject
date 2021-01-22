@@ -37,7 +37,7 @@ _Status: under development_
 The documentation for APIv3 is written in the [API Blueprint Format](http://apiblueprint.org/).
 
 You can use [aglio](https://github.com/danielgtaylor/aglio) to generate HTML documentation.
-Aglio supports the use of templates to adjust the ouput to your own needs. OpenProject is
+Aglio supports the use of templates to adjust the output to your own needs. OpenProject is
 using the openproject.jade template file. To generate the documentation using the
 openproject.jade layout file  the following command:
 

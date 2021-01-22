@@ -168,7 +168,7 @@ The `EditForm` logically groups together multiple field elements very similar to
 
 
 
- It has multiple responsibilites:
+ It has multiple responsibilities:
 
 - receives registration of fields within the form
 - knows which fields are currently actively editing
@@ -195,7 +195,7 @@ To easily mount an edit field over a manually rendered `DisplayField` (such as f
 
 The `EditingPortalService` will render a `EditFormPortalComponent` with some HTML form wrapping for correct handling of submit events and labels. This portal will in turn render the actual `EditFieldComponent`. The service will wire up these components automatically.
 
-If you were to explictly render an edit field, this would look as follows. Note that again, this is handled by the `EditForm` automatically whenever the user activates an `EditableAttributeFieldComponent` field.
+If you were to explicitly render an edit field, this would look as follows. Note that again, this is handled by the `EditForm` automatically whenever the user activates an `EditableAttributeFieldComponent` field.
 
 ```typescript
 @Component({ selector: 'minimal-example', template: '' })
@@ -248,10 +248,10 @@ An example where this comes into play is the [`CustomText`](https://github.com/o
 - [`EditForm`](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/fields/edit/edit-form/edit-form.ts) base class
 - [`EditFormComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/fields/edit/edit-form/edit-form.component.ts#L28-L27) Angular `<edit-form>` component 
 - [`EditableAttributeFieldComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/fields/edit/field/editable-attribute-field.component.ts) Angular `<editable-attribute-field>` component for attributes within the edit form
-- [`DisplayField`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/fields/display) definitions containig all display fields and the service to instantiate them.
+- [`DisplayField`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/fields/display) definitions containing all display fields and the service to instantiate them.
 - [`DisplayFieldRenderer`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/fields/display/display-field-renderer.ts) to manually render display fields from JavaScript
 - [`DisplayFieldComponent`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/fields/display/display-field.component.ts) an Angular component to render display fields
-- [`EditFieldComponent`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/fields/edit/field-types) definitions containig all display fields and the service to instantiate them
+- [`EditFieldComponent`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/fields/edit/field-types) definitions containing all display fields and the service to instantiate them
 - [`EditingPortalService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/fields/edit/editing-portal/editing-portal-service.ts) service to create an edit field with event handling in code
 - [`WorkPackageFullViewComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/work_packages/routing/wp-full-view/wp-full-view.html) Work package full view template that uses the `edit-form` attribute to create a form for the work package full view (as seen in the Gif above)
 - [`ProjectDetailsComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/grids/widgets/project-details/project-details.component.html) Exemplary widget template that uses the form for project attributes

@@ -18,7 +18,7 @@ A query defines how work packages can be filtered and displayed. Clients can def
 | self                   | This query                                                                                                                        | Query                 | not null                                    | READ                 |
 | user                   | The user that owns this query                                                                                                     | User                  | not null                                    | READ                 |
 | project                | The project on which this query operates                                                                                          | Project               |                                             | READ                 |
-| columns                | Ordered list of QueryColumns. The columns, when maped to WorkPackage properties determine which WorkPackage properties to display | []QueryColumn         |                                             | READ                 |
+| columns                | Ordered list of QueryColumns. The columns, when mapped to WorkPackage properties determine which WorkPackage properties to display | []QueryColumn        |                                             | READ                 |
 | highlightedAttributes  | **Only with valid Enterprise Token available:** List of QueryColumns that should get highlighted when `highlightingMode` is set to `inline`.                                      | []QueryColumn         |                                             | READ                 |
 | sortBy                 | Ordered list of QuerySortBys. Indicates the WorkPackage property the results will be ordered by as well as the direction          | []QuerySortBy         |                                             | READ                 |
 | groupBy                | The WorkPackage property results of this query are grouped by                                                                     | String                |                                             | READ                 |
@@ -260,7 +260,7 @@ If the values are nonprimitive (e.g. User, Project), they will be listed as obje
 
 ## View query [GET]
 
-Retreive an individual query as identified by the id parameter. Then end point accepts a number of parameters that can be used to override the resources' persisted parameters.
+Retrieve an individual query as identified by the id parameter. Then end point accepts a number of parameters that can be used to override the resources' persisted parameters.
 
 + Parameters
     + id (required, integer, `1`) ... Query id
@@ -2172,7 +2172,7 @@ As of now, no actions are defined.
 
 ## View Query Column [GET]
 
-Retreive an individual QueryColumn as identified by the `id` parameter.
+Retrieve an individual QueryColumn as identified by the `id` parameter.
 
 + Parameters
     + id (required, string, `priority`) ... QueryColumn id
@@ -2248,7 +2248,7 @@ As of now, no actions are defined.
 
 ## View Query Filter [GET]
 
-Retreive an individual QueryFilter as identified by the id parameter.
+Retrieve an individual QueryFilter as identified by the id parameter.
 
 + Parameters
     + id (required, string, `status`) ... QueryFilter identifier.
@@ -2326,7 +2326,7 @@ As of now, no actions are defined.
 
 ## View Query Operator [GET]
 
-Retreive an individual QueryOperator as identified by the `id` parameter.
+Retrieve an individual QueryOperator as identified by the `id` parameter.
 
 + Parameters
     + id (required, string, `!`) ... QueryOperator id
@@ -2414,7 +2414,7 @@ As of now, no actions are defined.
 
 ## View Query Sort By [GET]
 
-Retreive an individual QuerySortBy as identified by the id parameter.
+Retrieve an individual QuerySortBy as identified by the id parameter.
 
 + Parameters
     + id (required, string, `status-asc`) ... QuerySortBy identifier. The identifier is a combination of the column identifier and the direction.
@@ -2451,7 +2451,7 @@ Retreive an individual QuerySortBy as identified by the id parameter.
 
 ## Group Query Filter Instance Schema
 
-A QueryFilterInstanceSchema is a Schema specifically for describing QueryFilterInstances. Because the behaviour of FilterInstances, with regards to the `values` property, differs from one another depending on the choosen Filter, the QueryFilterInstanceSchema explicitly lists the dependencies in its `_dependencies` property. As the property causing the difference is the selected Filter, that property is linked. Apart from that, a QueryFilterInstanceSchema has the same structure a Schema does.
+A QueryFilterInstanceSchema is a Schema specifically for describing QueryFilterInstances. Because the behaviour of FilterInstances, with regards to the `values` property, differs from one another depending on the chosen Filter, the QueryFilterInstanceSchema explicitly lists the dependencies in its `_dependencies` property. As the property causing the difference is the selected Filter, that property is linked. Apart from that, a QueryFilterInstanceSchema has the same structure a Schema does.
 
 ## Linked Properties
 
@@ -2531,7 +2531,7 @@ A QueryFilterInstanceSchema is a Schema specifically for describing QueryFilterI
 
 ## View Query Filter Instance Schema [GET]
 
-Retreive an individual QueryFilterInstanceSchema as identified by the id parameter.
+Retrieve an individual QueryFilterInstanceSchema as identified by the id parameter.
 
 + Parameters
     + identifier (required, string, `author`) ... QueryFilterInstanceSchema identifier. The identifier is the filter identifier.

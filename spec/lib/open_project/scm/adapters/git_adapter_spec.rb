@@ -497,7 +497,7 @@ describe OpenProject::SCM::Adapters::Git do
             cloned = "Author: Oliver Günther <mail@oliverguenther.de>"
 
             # The strings returned by capture_out have escaped UTF-8 characters depending on
-            # wether we are working on a cloned or bare repository. I don't know why.
+            # whether we are working on a cloned or bare repository. I don't know why.
             # It doesn't make a difference further down the road, though. So just check both.
             expect(diff[1] == bare || diff[1] == cloned).to eq true
           end

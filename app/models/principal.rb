@@ -143,7 +143,7 @@ class Principal < ApplicationRecord
   ##
   # Allows the API and other sources to determine locking actions
   # on represented collections of children of Principals.
-  # Must be overriden by User
+  # Must be overridden by User
   def lockable?
     false
   end
@@ -151,7 +151,7 @@ class Principal < ApplicationRecord
   ##
   # Allows the API and other sources to determine unlocking actions
   # on represented collections of children of Principals.
-  # Must be overriden by User
+  # Must be overridden by User
   def activatable?
     false
   end
