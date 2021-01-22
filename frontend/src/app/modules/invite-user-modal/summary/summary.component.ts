@@ -1,15 +1,10 @@
 import {
   Component,
-  OnInit,
   Input,
   EventEmitter,
   Output,
   ElementRef,
 } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-} from '@angular/forms';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
@@ -17,9 +12,10 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
   templateUrl: './summary.component.html',
   styleUrls: ['./summary.component.sass'],
 })
-export class SummaryComponent implements OnInit {
+export class SummaryComponent {
   @Input('type') type:string = '';
   @Input('project') project:any = null;
+  @Input('role') role:any = null;
   @Input('principal') principal:any = null;
   @Input('message') message:string = '';
 

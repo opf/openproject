@@ -7,6 +7,7 @@
   [clearOnBackspace]="false"
   [clearSearchOnAdd]="false"
   bindLabel="name"
+  (change)="loadMemberships()"
   #ngselect
 >
   <!--Selectable option-->

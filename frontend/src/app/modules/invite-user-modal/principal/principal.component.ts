@@ -20,10 +20,11 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 })
 export class PrincipalComponent implements OnInit {
   @Input() principal:any = null;
+  @Input() project:any = null;
   @Input() type:string = '';
 
   @Output() save = new EventEmitter();
-  @Output() close = new EventEmitter();
+  @Output('close') closeModal = new EventEmitter();
   @Output() back = new EventEmitter();
 
   public text = {
@@ -44,6 +45,10 @@ export class PrincipalComponent implements OnInit {
     return typeof this.principalControl?.value === 'string';
   }
 
+  get isMemberOfCurrentProject() {
+    return !!this.principalControl?.value?.memberships?.elements?.find((mem) => mem.project.id === this.project.id);
+  }
+
   constructor(readonly I18n:I18nService,
               readonly elementRef:ElementRef) {}
 
@@ -57,6 +62,7 @@ export class PrincipalComponent implements OnInit {
 
   onSubmit($e:Event) {
     $e.preventDefault();
+
     if (this.principalForm.invalid) {
       this.principalForm.markAllAsTouched();
       return;
