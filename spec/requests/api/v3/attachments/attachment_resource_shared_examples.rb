@@ -42,8 +42,8 @@ shared_examples 'it supports direct uploads' do
   end
 
   describe 'POST /prepare', with_settings: { attachment_max_size: 512 } do
-    let(:request_parts) { { metadata: metadata, file: file } }
-    let(:metadata) { { fileName: 'cat.png', fileSize: file.size }.to_json }
+    let(:request_parts) { { metadata: metadata.to_json, file: file } }
+    let(:metadata) { { fileName: 'cat.png', fileSize: file.size, contentType: 'image/png' } }
     let(:file) { mock_uploaded_file(name: 'original-filename.txt') }
 
     def request!
@@ -68,7 +68,7 @@ shared_examples 'it supports direct uploads' do
       end
 
       context 'with no filesize metadata' do
-        let(:metadata) { { fileName: 'cat.png' }.to_json }
+        let(:metadata) { { fileName: 'cat.png' } }
 
         it 'should respond with 422 due to missing file size metadata' do
           expect(subject.status).to eq(422)
@@ -125,8 +125,20 @@ shared_examples 'it supports direct uploads' do
                   "success_action_status"
                 )
 
+                expect(fields["Content-Type"]).to eq metadata[:contentType]
+
                 expect(fields["key"]).to end_with "cat.png"
               end
+
+              it 'should also include the content type and the necessary policy in the form fields' do
+                fields = link["form_fields"]
+
+                expect(fields).to include("policy", "Content-Type")
+                expect(fields["Content-Type"]).to eq metadata[:contentType]
+
+                policy = Base64.decode64 fields["policy"]
+
+                expect(policy).to include '["starts-with","$Content-Type",""]'
               end
             end
           end
@@ -134,6 +146,7 @@ shared_examples 'it supports direct uploads' do
       end
     end
   end
+end
 
 shared_examples 'an APIv3 attachment resource', type: :request, content_type: :json do |include_by_container = true|
   include Rack::Test::Methods
