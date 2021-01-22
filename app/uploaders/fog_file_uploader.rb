@@ -58,6 +58,16 @@ class FogFileUploader < CarrierWave::Uploader::Base
   end
 
   ##
+  # This is necessary for carrierwave to set the Content-Type in the S3 metadata for instance.
+  def fog_attributes
+    content_type = model.content_type
+
+    return super if content_type.blank?
+
+    super.merge "Content-Type": content_type
+  end
+
+  ##
   # Generates a download URL for this file.
   #
   # @param options [Hash] Options hash.
