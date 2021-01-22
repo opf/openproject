@@ -3,11 +3,13 @@
     {{ label }}
     <span *ngIf="required" class="op-form-field--label-indicator">*</span>
   </div>
-  <div class="op-form-field--introdution">
-    <ng-content select="[slot=introduction]"></ng-content>
+  <div class="op-form-field--description">
+    <ng-content select="[slot=description]"></ng-content>
   </div>
-  <ng-content select="[slot=input]"></ng-content>
-  <div class="op-form-field--help">
+  <div class="op-form-field--input">
+    <ng-content select="[slot=input]"></ng-content>
+  </div>
+  <div class="op-form-field--help-text">
     <ng-content select="[slot=help-text]"></ng-content>
   </div>
 </label>

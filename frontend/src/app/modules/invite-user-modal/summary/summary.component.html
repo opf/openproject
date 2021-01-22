@@ -1,0 +1,45 @@
+<form
+  name="sendUserInviteForm"
+  (submit)="onSubmit()"
+  class="op-ium-summary"
+>
+  <div class="op-modal--modal-header">
+    <button
+      class="op-modal--modal-close-button"
+      type="button"
+      (click)="closeModal.emit()"
+      [attr.aria-label]="text.closePopup"
+    >
+      <span class="icon-close"></span>
+    </button>
+    <h3 [textContent]="text.title"></h3>
+  </div>
+
+  <div class="op-modal--modal-body">
+    <op-form-field label="Project">
+      <p slot="input">{{ project.name }}</p>
+    </op-form-field>
+    <div class="op-ium-summary__row">
+      <op-form-field label="User">
+        <p slot="input">{{ principal.name }}</p>
+      </op-form-field>
+      <op-form-field label="Role">
+        <p slot="input">{{ role.name }}</p>
+      </op-form-field>
+    </div>
+    <op-form-field
+      label="Invite Message"
+      *ngIf="type !== 'placeholder'"
+    >
+      <p slot="input">{{ message }}</p>
+    </op-form-field>
+  </div>
+
+  <div class="op-modal--modal-footer">
+    <button
+      type="button"
+      (click)="back.emit()"
+    >Back</button>
+    <button>Send invitation</button>
+  </div>
+</form>

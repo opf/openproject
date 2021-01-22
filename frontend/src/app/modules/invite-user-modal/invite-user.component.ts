@@ -69,6 +69,11 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
     }
   }
 
+  onMessageSave({ message }:{ message:string }) {
+    this.message = message;
+    this.goTo(Steps.Summary);
+  }
+
   goTo(step:Steps) {
     this.step = step;
   }
