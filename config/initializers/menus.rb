@@ -76,7 +76,8 @@ Redmine::MenuManager.map :account_menu do |menu|
             if: Proc.new { User.current.logged? }
   menu.push :administration,
             { controller: '/admin', action: 'index' },
-            if: Proc.new { User.current.admin? }
+            # TODO: Extract into contract
+            if: Proc.new { User.current.admin? || User.current.allowed_to_globally?(:add_user) }
   menu.push :logout,
             :signout_path,
             if: Proc.new { User.current.logged? }
@@ -124,75 +125,88 @@ end
 
 Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :admin_overview,
-            { controller: '/admin' },
+            { controller: '/admin', action: :index },
             caption: :label_overview,
             icon: 'icon2 icon-home',
             first: true
 
   menu.push :users_and_permissions,
             { controller: '/users' },
+            if: Proc.new { User.current.allowed_to?(:add_user, nil, global: true) },
             caption: :label_user_and_permission,
             icon: 'icon2 icon-group'
 
   menu.push :user_settings,
             { controller: '/users_settings' },
+            if: Proc.new { User.current.admin? },
             caption: :label_setting_plural,
             parent: :users_and_permissions
 
   menu.push :users,
             { controller: '/users' },
+            if: Proc.new { User.current.admin? },
             caption: :label_user_plural,
             parent: :users_and_permissions
 
   menu.push :groups,
             { controller: '/groups' },
+            if: Proc.new { User.current.admin? },
             caption: :label_group_plural,
             parent: :users_and_permissions
 
   menu.push :roles,
             { controller: '/roles' },
+            if: Proc.new { User.current.admin? },
             caption: :label_role_and_permissions,
             parent: :users_and_permissions
 
   menu.push :user_avatars,
             { controller: '/settings', action: 'plugin', id: :openproject_avatars },
+            if: Proc.new { User.current.admin? },
             caption: :label_avatar_plural,
             parent: :users_and_permissions
 
   menu.push :admin_work_packages,
             { controller: '/work_packages/settings' },
+            if: Proc.new { User.current.admin? },
             caption: :label_work_package_plural,
             icon: 'icon2 icon-view-timeline'
 
   menu.push :work_packages_setting,
             { controller: '/work_packages/settings' },
+            if: Proc.new { User.current.admin? },
             caption: :label_setting_plural,
             parent: :admin_work_packages
 
   menu.push :types,
             { controller: '/types' },
+            if: Proc.new { User.current.admin? },
             caption: :label_type_plural,
             parent: :admin_work_packages
 
   menu.push :statuses,
             { controller: '/statuses' },
+            if: Proc.new { User.current.admin? },
             caption: :label_status,
             parent: :admin_work_packages,
             html: { class: 'statuses' }
 
   menu.push :workflows,
             { controller: '/workflows', action: 'edit' },
+            if: Proc.new { User.current.admin? },
             caption: Proc.new { Workflow.model_name.human },
             parent: :admin_work_packages
 
   menu.push :custom_fields,
             { controller: '/custom_fields' },
+            if: Proc.new { User.current.admin? },
             caption: :label_custom_field_plural,
             icon: 'icon2 icon-custom-fields',
             html: { class: 'custom_fields' }
 
   menu.push :custom_actions,
             { controller: '/custom_actions' },
+            if: Proc.new { User.current.admin? },
             caption: :'custom_actions.plural',
             parent: :admin_work_packages
 
@@ -201,15 +215,17 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :'attribute_help_texts.label_plural',
             icon: 'icon2 icon-help2',
             if: Proc.new {
-              EnterpriseToken.allows_to?(:attribute_help_texts)
+              User.current.admin? && EnterpriseToken.allows_to?(:attribute_help_texts)
             }
 
   menu.push :enumerations,
             { controller: '/enumerations' },
+            if: Proc.new { User.current.admin? },
             icon: 'icon2 icon-enumerations'
 
   menu.push :settings,
             { controller: '/settings/general', action: 'show' },
+            if: Proc.new { User.current.admin? },
             caption: :label_system_settings,
             icon: 'icon2 icon-settings2'
 
@@ -217,36 +233,43 @@ Redmine::MenuManager.map :admin_menu do |menu|
     menu.push :"settings_#{node[:name]}",
               node[:action],
               caption: node[:label],
+              if: Proc.new { User.current.admin? },
               parent: :settings
   end
 
   menu.push :email,
             { controller: '/admin/mail_notifications', action: 'show' },
+            if: Proc.new { User.current.admin? },
             caption: :'attributes.mail',
             icon: 'icon2 icon-mail1'
 
   menu.push :mail_notifications,
             { controller: '/admin/mail_notifications', action: 'show' },
+            if: Proc.new { User.current.admin? },
             caption: :'activerecord.attributes.user.mail_notification',
             parent: :email
 
   menu.push :incoming_mails,
             { controller: '/admin/incoming_mails', action: 'show' },
+            if: Proc.new { User.current.admin? },
             caption: :label_incoming_emails,
             parent: :email
 
   menu.push :authentication,
             { controller: '/authentication', action: 'authentication_settings' },
+            if: Proc.new { User.current.admin? },
             caption: :label_authentication,
             icon: 'icon2 icon-two-factor-authentication'
 
   menu.push :authentication_settings,
             { controller: '/authentication', action: 'authentication_settings' },
+            if: Proc.new { User.current.admin? },
             caption: :label_setting_plural,
             parent: :authentication
 
   menu.push :ldap_authentication,
             { controller: '/ldap_auth_sources', action: 'index' },
+            if: Proc.new { User.current.admin? },
             parent: :authentication,
             html: { class: 'server_authentication' },
             last: true,
@@ -254,33 +277,39 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :oauth_applications,
             { controller: '/oauth/applications', action: 'index' },
+            if: Proc.new { User.current.admin? },
             parent: :authentication,
             caption: :'oauth.application.plural',
             html: { class: 'oauth_applications' }
 
   menu.push :announcements,
             { controller: '/announcements', action: 'edit' },
+            if: Proc.new { User.current.admin? },
             caption: :label_announcement,
             icon: 'icon2 icon-news'
 
   menu.push :plugins,
             { controller: '/admin', action: 'plugins' },
+            if: Proc.new { User.current.admin? },
             last: true,
             icon: 'icon2 icon-plugins'
 
   menu.push :info,
             { controller: '/admin', action: 'info' },
+            if: Proc.new { User.current.admin? },
             caption: :label_information_plural,
             last: true,
             icon: 'icon2 icon-info1'
 
   menu.push :custom_style,
             { controller: '/custom_styles', action: 'show' },
+            if: Proc.new { User.current.admin? },
             caption: :label_custom_style,
             icon: 'icon2 icon-design'
 
   menu.push :colors,
             { controller: '/colors', action: 'index' },
+            if: Proc.new { User.current.admin? },
             caption: :'timelines.admin_menu.colors',
             icon: 'icon2 icon-status'
 
@@ -288,25 +317,29 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/enterprises', action: 'show' },
             caption: :label_enterprise_edition,
             icon: 'icon2 icon-headset',
-            if: proc { OpenProject::Configuration.ee_manager_visible? }
+            if: proc { User.current.admin? && OpenProject::Configuration.ee_manager_visible? }
 
   menu.push :admin_costs,
             { controller: '/settings', action: 'plugin', id: :costs },
+            if: Proc.new { User.current.admin? },
             caption: :project_module_costs,
             icon: 'icon2 icon-budget'
 
   menu.push :costs_setting,
             { controller: '/settings', action: 'plugin', id: :costs },
+            if: Proc.new { User.current.admin? },
             caption: :label_setting_plural,
             parent: :admin_costs
 
   menu.push :admin_backlogs,
             { controller: '/settings', action: 'plugin', id: :openproject_backlogs },
+            if: Proc.new { User.current.admin? },
             caption: :label_backlogs,
             icon: 'icon2 icon-backlogs'
 
   menu.push :backlogs_settings,
             { controller: '/settings', action: 'plugin', id: :openproject_backlogs },
+            if: Proc.new { User.current.admin? },
             caption: :label_setting_plural,
             parent: :admin_backlogs
 end

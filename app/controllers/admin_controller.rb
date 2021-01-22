@@ -31,7 +31,8 @@ require 'open3'
 class AdminController < ApplicationController
   layout 'admin'
 
-  before_action :require_admin
+  before_action :require_admin, except: %i[index]
+  before_action :authorize_global, only: %i[index]
 
   menu_item :plugins, only: [:plugins]
   menu_item :info, only: [:info]

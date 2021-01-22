@@ -49,7 +49,10 @@ OpenProject::AccessControl.map do |map|
                    global: true
 
     map.permission :add_user,
-                   { users: %i[new create edit update] },
+                   {
+                     users: %i[new create edit update],
+                     admin: %i[index]
+                   },
                    require: :loggedin,
                    global: true
 
