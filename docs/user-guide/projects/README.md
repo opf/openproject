@@ -232,11 +232,20 @@ The Gantt chart view can be configured in the [System Settings](../../system-adm
 
 ## Project overarching reports
 
-Often you need to see more than one project in your lists and want to create project overarching reports.
+Often you need to see information about more than one project at once and want to create project overarching reports.
 
 Click on the **Modules** icon with the dots in the header navigation. These are the project overarching modules in OpenProject.![overarching-modules](overarching-modules.png) 
 
-Select **Work packages** from the drop down menu. Now, you will see all work packages in the projects for which you have the required [permissions](../..//system-admin-guide/users-permissions/roles-permissions/).
+Here you will find
+
+- The [global projects list](#view-all-projects)
+- The global work packages list (see below)
+- The global news overview
+- The global time and costs module
+
+### Global work packages list
+
+Select **Work packages** from the drop down menu **Modules** in the upper right (nine squares). Now, you will see all work packages in the projects for which you have the required [permissions](../..//system-admin-guide/users-permissions/roles-permissions/).
 
 In this project overarching list, you can search, filter, group by, sort, highlight and save views the same way as in the [work package list](../work-packages/work-package-table-configuration) in each project.
 

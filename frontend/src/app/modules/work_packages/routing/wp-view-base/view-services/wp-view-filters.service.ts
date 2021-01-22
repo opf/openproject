@@ -44,7 +44,6 @@ import {mapTo, take} from "rxjs/operators";
 export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<QueryFilterInstanceResource[]> {
   public hidden:string[] = [
     'id',
-    'parent',
     'datesInterval',
     'precedes',
     'follows',

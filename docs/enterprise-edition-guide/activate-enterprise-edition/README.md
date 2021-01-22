@@ -18,26 +18,29 @@ In order to upgrade your OpenProject Community edition to the Enterprise on-prem
 
 Next, select **Enterprise Edition** from the menu items (3).
 
-![Enterprise-select-menu](Enterprise-select-menu.png)
+![enterprise-select-menu](image-20210120113056133.png)
+
+
 
 Do you already have an Enterprise on-premises token?
-Yes, then you can proceed entering your token as described below.
 
-No, then you need to [order your Enterprise on-premises token](#order-the-enterprise-on-premises-edition) or [request a trial token](../enterprise-trial) first.
+Yes: Then you can proceed entering your token as described below.
+
+No: Then you will need to [order your Enterprise on-premises token](#order-the-enterprise-on-premises-edition) or [request a trial token](../enterprise-trial) first.
 
 In the Enterprise on-premises edition section, copy and paste the full content of your Enterprise on-premises support token into the input field and press the blue **Save** button.
 
+![insert-enterprise-on-premises-token](activate-enterprise-on-premises-token.png)
+
 Your Enterprise on-premises edition is now active.
-
-![Insert Enterprise on-premises token](image-20200121132724767.png)
-
-
 
 ## Order the Enterprise on-premises edition
 
 If you want to **order the Enterprise on-premises edition** click on the **+ Order Enterprise Edition** button shown on the page. You can also [request a trial token](../enterprise-trial) to test the premium features included in the Enterprise on-premises edition.
 
-![image-20200120132950106](image-20200120132950106.png)
+![Order-Enterprise-on-premises](Upgrade-to-Enterprise-on-premises.png)
+
+
 
 Once you purchased an Enterprise on-premises edition token or received a trial token you can [activate it by pasting the token in the designated area of the Enterprise Edition section](#activate-the-enterprise-edition).
 

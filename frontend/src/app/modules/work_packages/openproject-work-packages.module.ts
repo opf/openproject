@@ -94,6 +94,7 @@ import {FilterDateTimesValueComponent} from 'core-components/filters/filter-date
 import {FilterIntegerValueComponent} from 'core-components/filters/filter-integer-value/filter-integer-value.component';
 import {FilterStringValueComponent} from 'core-components/filters/filter-string-value/filter-string-value.component';
 import {FilterToggledMultiselectValueComponent} from 'core-components/filters/filter-toggled-multiselect-value/filter-toggled-multiselect-value.component';
+import {FilterSearchableMultiselectValueComponent} from 'core-components/filters/filter-searchable-multiselect-value/filter-searchable-multiselect-value.component';
 import {WorkPackageDetailsViewButtonComponent} from 'core-components/wp-buttons/wp-details-view-button/wp-details-view-button.component';
 import {WorkPackageFoldToggleButtonComponent} from 'core-components/wp-buttons/wp-fold-toggle-button/wp-fold-toggle-button.component';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
@@ -271,6 +272,7 @@ import {WorkPackageGroupToggleDropdownMenuDirective} from "core-components/op-co
     FilterIntegerValueComponent,
     FilterStringValueComponent,
     FilterToggledMultiselectValueComponent,
+    FilterSearchableMultiselectValueComponent,
 
     WorkPackageFilterContainerComponent,
     WorkPackageFilterButtonComponent,
