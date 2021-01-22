@@ -42,6 +42,10 @@ class AdminController < ApplicationController
     @menu_nodes = Redmine::MenuManager.items(:admin_menu).children
     @menu_nodes.delete_if { |node| node.name === :admin_overview }
     @menu_nodes.delete_if { |node| node.condition && !node.condition.call }
+
+    if @menu_nodes.count == 1
+      redirect_to @menu_nodes.first.url
+    end
   end
 
   def projects
