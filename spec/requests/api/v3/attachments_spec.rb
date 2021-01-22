@@ -50,8 +50,8 @@ describe API::V3::Attachments::AttachmentsAPI, type: :request do
     let(:permissions) { [] }
 
     let(:request_path) { api_v3_paths.prepare_new_attachment_upload }
-    let(:request_parts) { { metadata: metadata, file: file } }
-    let(:metadata) { { fileName: 'cat.png' }.to_json }
+    let(:request_parts) { { metadata: metadata.to_json, file: file } }
+    let(:metadata) { { fileName: 'cat.png' } }
     let(:file) { mock_uploaded_file(name: 'original-filename.txt') }
 
     before do

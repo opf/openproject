@@ -127,13 +127,13 @@ shared_examples 'it supports direct uploads' do
 
                 expect(fields["key"]).to end_with "cat.png"
               end
+              end
             end
           end
         end
       end
     end
   end
-end
 
 shared_examples 'an APIv3 attachment resource', type: :request, content_type: :json do |include_by_container = true|
   include Rack::Test::Methods
@@ -214,8 +214,8 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
     let(:permissions) { Array(update_permission) }
 
     let(:request_path) { api_v3_paths.attachments }
-    let(:request_parts) { { metadata: metadata, file: file } }
-    let(:metadata) { { fileName: 'cat.png' }.to_json }
+    let(:request_parts) { { metadata: metadata.to_json, file: file } }
+    let(:metadata) { { fileName: 'cat.png' } }
     let(:file) { mock_uploaded_file(name: 'original-filename.txt') }
     let(:max_file_size) { 1 } # given in kiB
 
@@ -248,19 +248,19 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
     context 'file section is missing' do
       # rack-test won't send a multipart request without a file being present
       # however as long as we depend on correctly named sections this test should do just fine
-      let(:request_parts) { { metadata: metadata, wrongFileSection: file } }
+      let(:request_parts) { { metadata: metadata.to_json, wrongFileSection: file } }
 
       it_behaves_like 'invalid request body', I18n.t('api_v3.errors.multipart_body_error')
     end
 
     context 'metadata section is no valid JSON' do
-      let(:metadata) { '"fileName": "cat.png"' }
+      let(:request_parts) { { metadata: '"fileName": "cat.png"', file: file } }
 
       it_behaves_like 'parse error'
     end
 
     context 'metadata is missing the fileName' do
-      let(:metadata) { Hash.new.to_json }
+      let(:metadata) { Hash.new }
 
       it_behaves_like 'constraint violation' do
         let(:message) { "fileName #{I18n.t('activerecord.errors.messages.blank')}" }
@@ -496,8 +496,8 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
 
     describe '#post' do
       let(:request_path) { api_v3_paths.send "attachments_by_#{attachment_type}", container.id }
-      let(:request_parts) { { metadata: metadata, file: file } }
-      let(:metadata) { { fileName: 'cat.png' }.to_json }
+      let(:request_parts) { { metadata: metadata.to_json, file: file } }
+      let(:metadata) { { fileName: 'cat.png' } }
       let(:file) { mock_uploaded_file(name: 'original-filename.txt') }
       let(:max_file_size) { 1 } # given in kiB
 
@@ -527,19 +527,19 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
       context 'file section is missing' do
         # rack-test won't send a multipart request without a file being present
         # however as long as we depend on correctly named sections this test should do just fine
-        let(:request_parts) { { metadata: metadata, wrongFileSection: file } }
+        let(:request_parts) { { metadata: metadata.to_json, wrongFileSection: file } }
 
         it_behaves_like 'invalid request body', I18n.t('api_v3.errors.multipart_body_error')
       end
 
       context 'metadata section is no valid JSON' do
-        let(:metadata) { '"fileName": "cat.png"' }
+        let(:request_parts) { { metadata: '"fileName": "cat.png"', file: file } }
 
         it_behaves_like 'parse error'
       end
 
       context 'metadata is missing the fileName' do
-        let(:metadata) { Hash.new.to_json }
+        let(:metadata) { Hash.new }
 
         it_behaves_like 'constraint violation' do
           let(:message) { "fileName #{I18n.t('activerecord.errors.messages.blank')}" }
