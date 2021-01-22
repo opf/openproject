@@ -44,7 +44,7 @@
           <ng-template ng-footer-tmp>
             <div *ngIf="step.showInviteUserByEmail && inputIsEmail(ngSelectInput.value) && !(items$ | async)?.length">
               <button class="button"
-                      (click)="setEmailUser(ngSelectInput.value)"
+                      (click)="setUserEmail(ngSelectInput.value)"
                       [disabled]="!inputIsValidEmail(ngSelectInput.value)">
                 <op-icon icon-classes="icon-mail1"></op-icon>
 

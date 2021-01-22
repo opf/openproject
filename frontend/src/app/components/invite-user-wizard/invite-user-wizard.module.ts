@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { InviteUserWizardComponent } from './invite-user-wizard/invite-user-wizard.component';
+import { InviteUserWizardComponent } from './component/invite-user-wizard.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {NgOptionHighlightModule} from "@ng-select/ng-option-highlight";

@@ -3,8 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { InviteUserWizardComponent } from './invite-user-wizard.component';
 
 describe('InviteUserWizardComponent', () => {
-  let component: InviteUserWizardComponent;
-  let fixture: ComponentFixture<InviteUserWizardComponent>;
+  let component:InviteUserWizardComponent;
+  let fixture:ComponentFixture<InviteUserWizardComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

@@ -36,6 +36,7 @@ export const wpBaseSelector = 'work-packages-base';
   selector: wpBaseSelector,
   template: `
     <div class="work-packages-page--ui-view" wp-isolated-query-space>
+      <op-invite-user-wizard></op-invite-user-wizard>
       <ui-view></ui-view>
     </div>
   `,

@@ -1,21 +1,20 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {forkJoin, Observable, Subject} from "rxjs";
-import {debounceTime, distinctUntilChanged, filter, map, shareReplay, switchMap} from "rxjs/operators";
+import {Observable, Subject} from "rxjs";
+import {debounceTime, distinctUntilChanged, filter, switchMap} from "rxjs/operators";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {RoleResource} from "core-app/modules/hal/resources/role-resource";
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {UserResource} from "core-app/modules/hal/resources/user-resource";
-import {GroupResource} from "core-app/modules/hal/resources/group-resource";
+import {InviteUserWizardService} from "core-components/invite-user-wizard/service/invite-user-wizard.service";
 
 @Component({
   selector: 'op-invite-user-wizard',
   templateUrl: './invite-user-wizard.component.html',
-  styleUrls: ['./invite-user-wizard.component.scss']
+  styleUrls: ['./invite-user-wizard.component.scss'],
+  providers: [InviteUserWizardService]
 })
 export class InviteUserWizardComponent extends UntilDestroyedMixin implements OnInit {
   currentStepIndex = 0;
@@ -59,7 +58,6 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
   ngSelectInput:HTMLInputElement;
   input$ = new Subject<string | null>();
   items$:Observable<any>;
-  principals$:Observable<IUserWizardSelectData[]>;
 
   get currentStep() {
     return this.steps[this.currentStepIndex];
@@ -78,6 +76,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     private apiV3Service:APIV3Service,
     readonly I18n:I18nService,
     private currentProjectService:CurrentProjectService,
+    private inviteUserWizardService:InviteUserWizardService,
   ) {
     super();
   }
@@ -136,7 +135,6 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
       },
     ];
 
-    // TODO: Why do I need to as the typing here
     this.items$ = this.input$
       .pipe(
         this.untilDestroyed(),
@@ -173,7 +171,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     return re.test(String(inputValue).toLowerCase());
   }
 
-  setEmailUser(inputValue:string) {
+  setUserEmail(inputValue:string) {
     const user = {name: inputValue, isEmail: true};
 
     this.form.get('user')!.setValue(user);
@@ -181,73 +179,26 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
   }
 
   inviteUser() {
-    /* TODO: waiting for the API to:
-    * - handle 'message' property in invitations
-    * - handle 'email' invitations
-    */
-    const requestData = {
-      project: {
-        href: `/api/v3/projects/${this.currentProjectService.id}`
-      },
-      principal: {
-        href: `/api/v3/users/${this.form.get('user')!.value?.id}`,
-      },
-      roles: [
-        {
-          href: `/api/v3/roles/${this.form.get('role')!.value?.id}`,
-        }
-      ]
-    };
-
-    // TODO: Implement final response (toast?)
-    this.apiV3Service.memberships.post(requestData).subscribe(r => console.log('InviteUser response', r));
+    this.inviteUserWizardService
+      .inviteUser(
+        this.currentProjectService.id!,
+        this.form.get('user')!.value?.id,
+        this.form.get('role')!.value?.id
+      )
+      // TODO: Implement final response (show toast?)
+      .subscribe(r => console.log('InviteUser response', r));
   }
 
   usersCallback = (searchTerm:string):Observable<IUserWizardSelectData[]> => {
-    if (!this.principals$) {
-      const memberPrincipals$ = this.apiV3Service.principals.list({
-        filters: [
-          ['member', '=', [this.currentProjectService.id!]],
-          ['type', '=', [this.form.get('type')!.value]],
-        ]
-      });
-      const nonMemberPrincipals$ = this.apiV3Service.principals.list({
-        filters: [
-          ['status', '!', ['3']], ['member', '!', ['1']],
-          ['type', '=', [this.form.get('type')!.value]],
-        ]
-      });
-
-      this.principals$ = forkJoin({memberPrincipals: memberPrincipals$, nonMemberPrincipals: nonMemberPrincipals$})
-        .pipe(
-          map(({memberPrincipals, nonMemberPrincipals}) => this.getAllPrincipalsData(memberPrincipals.elements, nonMemberPrincipals.elements)),
-          shareReplay(1),
-          this.untilDestroyed(),
-        );
-    }
-
-    return this.principals$
-                  .pipe(map(allPrincipals => allPrincipals.filter(principal => principal.name?.includes(searchTerm) || principal.email?.includes(searchTerm))));
+    return this.inviteUserWizardService
+                  .getPrincipals(
+                    searchTerm,
+                    this.currentProjectService.id!,
+                    this.form.get('type')!.value,
+                  );
   }
 
   rolesCallback = (searchTerm:string):Observable<RoleResource[]>  => {
-    return this.apiV3Service
-      .roles
-      .list({
-        filters: [
-          ['unit', '=', ['project']],
-        ]
-      })
-      .pipe(
-        map((roles:CollectionResource) => roles.elements.filter(role => role.name.includes(searchTerm)))
-      );
-  }
-
-  getAllPrincipalsData(memberPrincipals:UserResource | GroupResource[], nonMemberPrincipals:UserResource | GroupResource[]):IUserWizardSelectData[] {
-    const memberPrincipalsData = memberPrincipals.map(({name, id, email, _type}:IUserWizardSelectData) => ({name, id, email, _type, disabled: true}));
-    const nonMemberPrincipalsData = nonMemberPrincipals.map(({name, id, email, _type}:IUserWizardSelectData) => ({name, id, email, _type, disabled: false}));
-    const allPrincipals = [...memberPrincipalsData, ...nonMemberPrincipalsData];
-
-    return allPrincipals;
+    return this.inviteUserWizardService.getRoles(searchTerm);
   }
 }
