@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,40 +28,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/users/user_representer'
-require 'users/create_user_service'
-
 module API
   module V3
     module Users
-      module CreateUser
-        extend Grape::API::Helpers
-        ##
-        # Call the user create service for the current request
-        # and return the service result API representation
-        def create_user(request_body, current_user)
-          payload = ::API::V3::Users::UserRepresenter.create(User.new, current_user: current_user)
-          new_user = payload.from_hash(request_body)
-
-          result = call_service(new_user, current_user)
-          represent_service_result(result, current_user)
-        end
-
-        private
-
-        def represent_service_result(result, current_user)
-          if result.success?
-            status 201
-            ::API::V3::Users::UserRepresenter.create(result.result, current_user: current_user)
-          else
-            fail ::API::Errors::ErrorBase.create_and_merge_errors(result.errors)
-          end
-        end
-
-        def call_service(new_user, current_user)
-          create_service = ::Users::CreateUserService.new(current_user: current_user)
-          create_service.call(new_user)
-        end
+      class UserPayloadRepresenter < UserRepresenter
+        include ::API::Utilities::PayloadRepresenter
       end
     end
   end

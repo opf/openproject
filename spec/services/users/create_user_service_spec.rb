@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Users::CreateUserService do
+describe Users::CreateService do
   let(:current_user) { FactoryBot.build_stubbed(:user) }
   let(:new_user) { FactoryBot.build_stubbed(:user) }
   let(:instance) { described_class.new(current_user: current_user) }

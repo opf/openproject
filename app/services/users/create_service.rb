@@ -31,7 +31,7 @@ require 'work_packages/create_contract'
 require 'concerns/user_invitation'
 
 module Users
-  class CreateUserService
+  class CreateService
     include Contracted
 
     attr_reader :current_user

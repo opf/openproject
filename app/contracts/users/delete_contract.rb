@@ -31,33 +31,34 @@
 require 'users/base_contract'
 
 module Users
-  class CreateContract < BaseContract
-    attribute :status do
-      unless model.active? || model.invited?
-        # New users may only have these two statuses
-        errors.add :status, :invalid_on_create
+  class DeleteContract < BaseContract
+    ##
+    # Checks if a given user may be deleted by another one.
+    #
+    # @param user [User] User to be deleted.
+    # @param actor [User] User who wants to delete the given user.
+    def self.deletion_allowed?(user, actor)
+      if actor == user
+        Setting.users_deletable_by_self?
+      else
+        actor.admin? && actor.active? && Setting.users_deletable_by_admins?
       end
     end
 
-    validate :user_allowed_to_add
-    validate :authentication_defined
+    validate :user_allowed_to_delete
 
     private
 
-    def authentication_defined
-      errors.add :password, :blank if model.active? && no_auth?
-    end
-
-    def no_auth?
-      model.password.blank? && model.auth_source_id.blank? && model.identity_url.blank?
-    end
-
     ##
-    # Users can only be created by Admins
-    def user_allowed_to_add
-      unless user.admin? || user.allowed_to_globally?(:add_user)
+    # Users can only be deleted by Admins
+    def user_allowed_to_delete
+      unless deletion_allowed?
         errors.add :base, :error_unauthorized
       end
+    end
+
+    def deletion_allowed?
+      self.class.deletion_allowed? model, user
     end
   end
 end

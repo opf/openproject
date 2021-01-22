@@ -38,7 +38,8 @@ module Users
     attribute :lastname
     attribute :name
     attribute :mail
-    attribute :admin
+    attribute :admin,
+              writeable: ->(*) { user.admin? && model.id != user.id }
     attribute :language
 
     attribute :auth_source_id
