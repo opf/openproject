@@ -32,20 +32,21 @@ class UsersController < ApplicationController
 
   helper_method :gon
 
-  before_action :require_admin, except: [:show, :deletion_info, :destroy]
-  before_action :find_user, only: [:show,
-                                   :edit,
-                                   :update,
-                                   :change_status_info,
-                                   :change_status,
-                                   :destroy,
-                                   :deletion_info,
-                                   :resend_invitation]
+  before_action :authorize_global, except: %i[show deletion_info destroy]
+
+  before_action :find_user, only: %i[show
+                                   edit
+                                   update
+                                   change_status_info
+                                   change_status
+                                   destroy
+                                   deletion_info
+                                   resend_invitation]
   # should also contain destroy but post data can not be redirected
   before_action :require_login, only: [:deletion_info]
   before_action :authorize_for_user, only: [:destroy]
-  before_action :check_if_deletion_allowed, only: [:deletion_info,
-                                                   :destroy]
+  before_action :check_if_deletion_allowed, only: %i[deletion_info
+                                                   destroy]
 
   # Password confirmation helpers and actions
   include PasswordConfirmation
