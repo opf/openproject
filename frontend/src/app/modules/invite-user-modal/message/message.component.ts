@@ -17,7 +17,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.sass'],
 })
-export class RoleComponent implements OnInit {
+export class MessageComponent implements OnInit {
   @Input('type') type:string = '';
   @Input('project') project:any = null;
   @Input('principal') principal:any = null;
@@ -56,9 +56,5 @@ export class RoleComponent implements OnInit {
     }
 
     this.save.emit({ message: this.messageForm?.value });
-  }
-
-  close() {
-    this.closeModal.emit();
   }
 }

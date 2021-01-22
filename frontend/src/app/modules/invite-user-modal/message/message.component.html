@@ -6,7 +6,7 @@
     <button
       class="op-modal--modal-close-button"
       type="button"
-      (click)="close.emit()"
+      (click)="closeModal.emit()"
       [attr.aria-label]="text.closePopup"
     >
       <span class="icon-close"></span>
@@ -16,11 +16,16 @@
 
   <div class="op-modal--modal-body">
     <op-form-field
-      label="Role in the project"
+      label="Invite Message"
       [formBinding]="messageControl"
     >
+      <p class="op-form-field--description" slot="description">
+        We will send an email to Max Mustermann, to which you can add a personal message here.  An explanation
+for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.
+      </p>
       <textarea
         [formControl]="messageControl"
+        slot="input"
       ></textarea>
     </op-form-field>
   </div>

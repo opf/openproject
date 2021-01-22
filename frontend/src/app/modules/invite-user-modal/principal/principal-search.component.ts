@@ -29,11 +29,14 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin {
   public canCreateNewGroupOrPlaceholder$:Observable<any>;
 
   private get api() {
-    return {
-      'user': this.apiV3Service.users,
-      'group': this.apiV3Service.groups,
-      // 'placeholder': this.apiV3Service.placeholders,
-    }[this.type];
+    switch (this.type) {
+      case 'user':
+        return this.apiV3Service.users;
+      case 'group':
+        return this.apiV3Service.groups;
+      default:
+        return this.apiV3Service.users;
+    }
   }
 
   constructor(

@@ -6,7 +6,7 @@
     <button
       class="op-modal--modal-close-button"
       type="button"
-      (click)="close.emit()"
+      (click)="closeModal.emit()"
       [attr.aria-label]="text.closePopup"
     >
       <span class="icon-close"></span>
@@ -20,6 +20,10 @@
       required
       [formBinding]="roleControl"
     >
+      <p class="op-form-field--description" slot="description">
+        This is the role that Max Mustermann will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see.
+        <a class="op-link" href="">Learn more about roles and permissions</a>
+      </p>
       <op-ium-role-search
         [roleControl]="roleControl"
         slot="input"

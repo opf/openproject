@@ -25,7 +25,7 @@ export class RoleComponent implements OnInit {
 
   @Output('close') closeModal = new EventEmitter<void>();
   @Output('back') back = new EventEmitter<void>();
-  @Output() save = new EventEmitter<{project:any, type:string}>();
+  @Output() save = new EventEmitter<{ role:any }>();
 
   public text = {
     title: this.I18n.t('js.invite_user_modal.title'),
@@ -56,9 +56,5 @@ export class RoleComponent implements OnInit {
     }
 
     this.save.emit({ role: this.roleForm?.value });
-  }
-
-  close() {
-    this.closeModal.emit();
   }
 }

@@ -44,10 +44,10 @@ export class APIv3RolesPaths extends APIv3ResourceCollection<RoleResource, APIv3
   /**
    * Perform a request to the HalResourceService with the current path
    */
-  public get():Observable<CollectionResource<StatusResource>> {
+  public get():Observable<CollectionResource<RoleResource>> {
     return this
       .halResourceService
-      .get<CollectionResource<StatusResource>>(this.path)
+      .get<CollectionResource<RoleResource>>(this.path)
       .pipe(
         tap(collection => {
           collection.elements.forEach((resource, id) => {
