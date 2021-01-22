@@ -31,7 +31,7 @@ class ::Type < ApplicationRecord
   extend Pagination::Model
 
   # Work Package attributes for this type
-  # and constraints to specifc attributes (by plugins).
+  # and constraints to specific attributes (by plugins).
   include ::Type::Attributes
   include ::Type::AttributeGroups
 

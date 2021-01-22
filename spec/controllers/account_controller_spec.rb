@@ -516,7 +516,7 @@ describe AccountController, type: :controller do
         post 'login', params: { username: admin.login, password: 'adminADMIN!' }
       end
 
-      it 'should redirect ot the login page' do
+      it 'should redirect to the login page' do
         expect(response).to redirect_to '/login'
       end
     end

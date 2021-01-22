@@ -643,7 +643,7 @@ JJ Abrams</textarea>
                                    failed_login_count: 45)
         end
 
-        it 'uses the human attibute name' do
+        it 'uses the human attribute name' do
           expected_label_like(User.human_attribute_name(:name))
         end
 

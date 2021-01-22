@@ -98,7 +98,7 @@ class UserPassword < ApplicationRecord
     self.hashed_password = derive_password!(plain_password)
   end
 
-  # Require the implementation to provide a secure comparisation
+  # Require the implementation to provide a secure comparison
   def hash_matches?(_plain)
     raise NotImplementedError, 'Must be overridden by subclass'
   end

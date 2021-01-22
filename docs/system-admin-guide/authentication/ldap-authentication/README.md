@@ -48,7 +48,7 @@ In the upper section, you have to specify the connection details of your LDAP se
 
 
 
-**Allowing untrusted certifcates for LDAP connections**
+**Allowing untrusted certificates for LDAP connections**
 
 If you use `start_tls` , certificate details and host names will be verified on connections as recommended for security. In case you use a custom untrusted certificate authority (CA) that your LDAP is connecting to, you can place this CA in your system's trusted CA store if possible. For some distributions, you will need to specify this CA manually to OpenProject.
 

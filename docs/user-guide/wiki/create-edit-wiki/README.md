@@ -52,7 +52,7 @@ To edit a wiki page, click the **Edit** button on the wiki page details on the t
 
 ![edit-wiki-page](edit-wiki-page.png)
 
-The text editor will be openend to make changes to the wiki page, as described above, how to [create a new wiki page](#create-a-new-wiki).
+The text editor will be opened to make changes to the wiki page, as described above, how to [create a new wiki page](#create-a-new-wiki).
 
 Do not forget to **Save** your changes after you finished editing the page.
 

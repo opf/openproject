@@ -21,7 +21,7 @@ SMTP_PASSWORD="password"
 SMTP_ENABLE_STARTTLS_AUTO="true"
 ```
 
-In case you want to use environment variables, but you have no easy way to set them on a specific systme, you can use the [dotenv](https://github.com/bkeepers/dotenv) gem. It automatically sets environment variables written to a .env file for a Rails application.
+In case you want to use environment variables, but you have no easy way to set them on a specific system, you can use the [dotenv](https://github.com/bkeepers/dotenv) gem. It automatically sets environment variables written to a .env file for a Rails application.
 
 
 

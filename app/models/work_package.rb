@@ -216,7 +216,7 @@ class WorkPackage < ApplicationRecord
   def visible_relations(user)
     # This duplicates chaining
     #  .relations.visible
-    # The duplication is made necessary to achive a performant sql query on MySQL.
+    # The duplication is made necessary to achieve a performant sql query on MySQL.
     # Chaining would result in
     #   WHERE (relations.from_id = [ID] OR relations.to_id = [ID])
     #   AND relations.from_id IN (SELECT [IDs OF VISIBLE WORK_PACKAGES])

@@ -146,7 +146,7 @@ describe 'Projects index page',
         expect(page).to have_text(public_project.name)
         expect(page).to have_text(project.name)
 
-        # Test visiblity of 'more' menu list items
+        # Test visibility of 'more' menu list items
         item = page.first('tbody tr .icon-show-more-horizontal', visible: :all)
         item.hover
         item.click
@@ -380,7 +380,7 @@ describe 'Projects index page',
         expect(page).to have_text("ARCHIVED #{parent_project.name}")
         expect(page).to have_text("ARCHIVED #{child_project.name}")
 
-        # Test visiblity of 'more' menu list items
+        # Test visibility of 'more' menu list items
         projects_page.activate_menu_of(parent_project) do |menu|
           expect(menu).to have_text('Unarchive')
           expect(menu).to have_text('Delete')
@@ -662,7 +662,7 @@ describe 'Projects index page',
 
         cf_filter = page.find("li[filter-name='cf_#{list_custom_field.id}']")
         within(cf_filter) do
-          # Query has two values for that filter, so it shoud show a 'multi select'.
+          # Query has two values for that filter, so it should show a 'multi select'.
           expect(cf_filter.find(:select, 'value')).to be_multiple
           expect(cf_filter)
             .to have_select('value',
@@ -769,7 +769,7 @@ describe 'Projects index page',
       page.find('tbody tr').hover
       expect(page).to have_selector('.icon-show-more-horizontal')
 
-      # Test visiblity of 'more' menu list items
+      # Test visibility of 'more' menu list items
       page.find('tbody tr .icon-show-more-horizontal').click
       menu = page.find('tbody tr .project-actions')
       expect(menu).to have_text('Copy')
@@ -787,7 +787,7 @@ describe 'Projects index page',
       page.find('tbody tr').hover
       expect(page).to have_selector('.icon-show-more-horizontal')
 
-      # Test visiblity of 'more' menu list items
+      # Test visibility of 'more' menu list items
       page.find('tbody tr .icon-show-more-horizontal').click
       menu = page.find('tbody tr .project-actions')
       expect(menu).to have_text('New subproject')

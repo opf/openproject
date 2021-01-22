@@ -347,7 +347,7 @@ class Project < ApplicationRecord
   end
 
   # Returns an array of all custom fields enabled for project issues
-  # (explictly associated custom fields and custom fields enabled for all projects)
+  # (explicitly associated custom fields and custom fields enabled for all projects)
   #
   # Supports the :include option.
   def all_work_package_custom_fields(options = {})

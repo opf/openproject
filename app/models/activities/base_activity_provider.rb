@@ -49,7 +49,7 @@ class Activities::BaseActivityProvider
 
   class_attribute :activity_provider_options
 
-  # Returns events of type event_type visible by user that occured between from and to
+  # Returns events of type event_type visible by user that occurred between from and to
   def self.find_events(event_type, user, from, to, options)
     raise "#{name} can not provide #{event_type} events." if activity_provider_options[:type] != event_type
 
