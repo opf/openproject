@@ -9,15 +9,15 @@ keywords: calendar
 
 # Calendar
 
-The calendar shows all of the project’s work packages in calendar form. 
+The calendar shows all of the project's work packages in calendar form.
 
 | Feature                                                      | Documentation for                                     |
 | ------------------------------------------------------------ | ----------------------------------------------------- |
 | [Calendar overview](#calendar-overview)                      | How to use the calendar in OpenProject.               |
 | [Filters in calendar](#filters-in-calendar)                  | How to filter in the calendar view.                   |
 | [Zen mode](#zen-mode)                                        | How to work distraction free in a calendar view.      |
-| [Project overarching calendar](#project-orverarching-calendar) | How to display more than one project in the calendar. |
-| [FAQ](#frequently-asked-questions-(faq))                     | Frequently asked questions                            |
+| [Project overarching calendar](#project-overarching-calendar) | How to display more than one project in the calendar. |
+| [FAQ](#frequently-asked-questions-faq)                       | Frequently asked questions                            |
 
 ## Calendar overview
 
@@ -79,7 +79,7 @@ The calendar automatically displays the start and end dates of work  packages in
 
 ### Where can I embed / activate the calendar?
 
-To use the calendar in a project, you need to [activate the “Calendar” module in the project settings](../projects/#activate-modules). Afterwards you can access the calendar in the project menu, as well as add it in the [project overview](#project-overview). You can also enable the calendar in your [“My page” view](#my-page).
+To use the calendar in a project, you need to [activate the "Calendar" module in the project settings](..//projects/project-settings/modules/#enable-modules-in-a-project). Afterwards you can access the calendar in the project menu, as well as add it in the [project overview](../project-overview/#add-a-widget-to-the-project-overview). You can also enable the calendar in your ["My page" view](../../getting-started/my-page/#add-widgets).
 
 ### Is there an option to export or sync the calendar?
 

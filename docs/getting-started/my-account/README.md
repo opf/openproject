@@ -32,7 +32,7 @@ Choose **My account**.
 
 ## Change password
 
-In order to reset your password, navigate to the My Account section and choose **Change passwor**d in the menu.
+In order to reset your password, navigate to the My Account section and choose **Change password** in the menu.
 
 Enter your current password.
 
@@ -58,7 +58,7 @@ Within the My account settings you can change the language of OpenProject, adapt
 
 Also, you can activate a **warning if you are leaving a work package with unsaved changes**.
 
-Additionally, you can activate to **auto-hide success notifications from the system. This (only) means that the green pop-up success notifications will be removed automatically after five seconds.
+Additionally, you can activate to **auto-hide success notifications** from the system. This (only) means that the green pop-up success notifications will be removed automatically after five seconds.
 
 ![my-account-settings](my-account-settings.png)
 
@@ -70,7 +70,7 @@ Here you can choose between multiple languages.
 
 ![select a language](1572882728878.png)
 
-OpenProject is translated to more than 30 languages, like German, Chinese, French, Italian, Korean, Latvian, Lithuanian, Polish, Portuguese, Russian, Spanish, Turkish and many more. If you do not see your preferred language in the My account settings, the language needs to be activated by your system administrator in the [system's settings](../../system-admin-guide/).
+OpenProject is translated to more than 30 languages, like German, Chinese, French, Italian, Korean, Latvian, Lithuanian, Polish, Portuguese, Russian, Spanish, Turkish and many more. If you do not see your preferred language in the My account settings, the language needs to be activated by your system administrator in the [system's settings](../../system-admin-guide/system-settings/display-settings).
 
 Pressing the blue **Save** button will save your changes.
 
@@ -150,7 +150,7 @@ The following options are available for the email notifications (ranging from re
 
 - **For any event on all my projects** - When selecting this option you receive an email for any action in the projects you are a member of (independent of whether or not you are involved in this action). This can be useful for managers who want to always stay up to date of all developments without having to log into OpenProject. This setting will typically lead to receiving a lot of emails.
 - **For any event on the selected projects only** - This option lets you choose the projects for which you receive all email updates. In addition, you receive email notifications from other projects about activities you watch or are involved in (e.g. when you are the author, assignee or responsible of a work package.). This is useful for project managers who need to be informed about any change in the project(s) they manage but who want to only receive email notifications from other projects if the activities directly affect them.
-- **Only for things I watch or I am involved in** - This is the default option for new users (unless configured differently in the [administration (email notification settings)](https://www.openproject.org/help/system-settings/email-notification-settings/)). Users with this setting receive emails for activities in which they are involved (e.g. if they watch an activity, are the author, assignee or responsible). This option is usually the best option since users only get email updates about activities in which they are involved therefore reducing the number of emails they receive.
+- **Only for things I watch or I am involved in** - This is the default option for new users (unless configured differently in the [administration (email notification settings)](../../system-admin-guide/email)). Users with this setting receive emails for activities in which they are involved (e.g. if they watch an activity, are the author, assignee or responsible). This option is usually the best option since users only get email updates about activities in which they are involved therefore reducing the number of emails they receive.
 - **Only for things I am assigned to** - With this email setting you only receive email updates of activities to which you are assigned (e.g. work packages). This is useful for users who want to only be notified via email if they are actively working on a task, not if they are responsible for or watching the activity.
 - **Only for things I am the owner of** - When you select this setting you only receive email updates for activities which you created (e.g. work packages, wiki pages). This makes sense if you are not actively involved in a project but want to only be notified if your activities are updated.
 - **No event** - With this setting you receive no emails at all. You need to log into OpenProject to verify the status of your tasks. Unless you check the status within OpenProject very frequently or are not actively involved in any project this setting is typically too restrictive.
@@ -179,7 +179,7 @@ Note: The optimum size to upload a new profile picture is 128 by 128 pixel. Larg
 
 You can delete your own account in **My account**.
 
-If you cannot see the entry **Delete account** in the **My account** side menu, make sure the option “Users allowed to delete their account” is [activated in the administration](../../system-admin-guide/users-permissions).
+If you cannot see the entry **Delete account** in the **My account** side menu, make sure the option "Users allowed to delete their account" is [activated in the administration](../../system-admin-guide/users-permissions/settings/#user-deletion).
 
 To delete your account, select **Delete account** from the side menu and enter your login to confirm the deletion.
 

@@ -22,7 +22,7 @@ You can adapt the following under settings:
 
 4. **Use current date as start date for new work packages**. This way the current date will always be set as a start date if your create new work packages. Also, if you copy projects, the new work packages will get the current date as start date.
 
-5. **Calculate the work package done ratio with** ... defines how the **Progress %** field is calculated for work packages. If you choose “disable”, the filed will not be shown. If you  select “Use the work package field”, the Progress % field can be manually set in 10% steps  directly in the work package  attribute. If you opt for „Use the work package status“, the Progress % field is chosen based on the [status of a work package](../work-package-status). In this case a % done value is assigned to every status (for example, “tested” is assigned 80%),  which is then adapted if the status changes.
+5. **Calculate the work package done ratio with** ... defines how the **Progress %** field is calculated for work packages. If you choose "disable", the field will not be shown. If you  select "Use the work package field", the Progress % field can be manually set in 10% steps  directly in the work package  attribute. If you opt for „Use the work package status", the Progress % field is chosen based on the [status of a work package](../work-package-status). In this case a % done value is assigned to every status (for example, "tested" is assigned 80%),  which is then adapted if the status changes.
 
 6. **Work package export limit**. This setting defines how many work packages you can export at the same time, for example in the the work package lists.
 
