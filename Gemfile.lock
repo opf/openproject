@@ -872,7 +872,7 @@ GEM
       rails (>= 5.0.4)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
-    tzinfo-data (1.2020.6)
+    tzinfo-data (1.2021.1)
       tzinfo (>= 1.0.0)
     uber (0.1.0)
     unf (0.1.4)
@@ -1071,7 +1071,7 @@ DEPENDENCIES
   test-prof (~> 1.0.0)
   timecop (~> 0.9.0)
   typed_dag (~> 2.0.2)
-  tzinfo-data (~> 1.2020.1)
+  tzinfo-data (~> 1.2021.1)
   unicorn
   unicorn-worker-killer
   warden (~> 1.2)
