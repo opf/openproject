@@ -14,10 +14,4 @@ We recommend to use the plugins as suggested in our deployement packages. You wi
 
 ![OpenProject plugins](image-20200124100220714.png)
 
-If you want to write your own plugin, please follow our [development guide](../../development/create-openproject-plugin). 
-
-## Frequently asked questions - FAQ
-
-### How can I use the Slack plugin?
-
-The slack plugin is deactivated per default in the Enterprise cloud. Please contact support to have it activated. For the Enterprise on-premises edition please have a look at [this instruction](../../user-guide/integrations/#slack).
+If you want to write your own plugin, please follow our respective [development guide](../../development/create-openproject-plugin). 

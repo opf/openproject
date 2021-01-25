@@ -54,12 +54,3 @@ To adapt incoming email settings, go to *Email* -> *Incoming Email*. Here you ca
 ![System-admin-guide-incoming-email](System-admin-guide-incoming-email.png)
 
 **To set up incoming email**, please visit our [Operations guide](../../installation-and-operations/configuration/incoming-emails/).
-
-
-
-
-## Frequently asked questions - FAQ
-
-### Can I get a notification when a deadline approaches?
-
-Not at the moment. This is a well-known feature requirement and we are currently working on the specification for this with our dev team. It's already on our roadmap and it will be developed in one of the upcoming releases. 

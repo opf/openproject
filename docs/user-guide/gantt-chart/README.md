@@ -20,7 +20,6 @@ keywords: gantt chart, timeline, project plan, gantchart
 | [Gantt chart configuration](#gantt-chart-configuration)      | How to configure the view of your Gantt chart, e.g. add labels? |
 | [Synchronize data between OpenProject and Excel](#synchronize-data-between-openproject-an-excel) | How to synchronize data from OpenProject to Excel?           |
 | [Gantt chart views](#gantt-chart-views)                      | How to zoom in and out and activate the Zen mode?            |
-| [FAQ](frequently-asked-questions---faq)                      | Frequently asked questions.                                  |
 
 
 <video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Project-Plan-and-Timelines-Gantt-charts.mp4" type="video/mp4" controls="" style="width:100%"></video>
@@ -147,13 +146,3 @@ Select the **auto zoom button** on top of the Gantt chart to have the best view 
 The zen mode gives you more space to focus on the tasks at hand. It's almost like activating the full screen view in your browser. To exit press the *Esc* key or click on the **zen mode** symbol again.
 
 ![image-20201007164653327](image-20201007164653327.png)
-
-## Frequently asked questions - FAQ
-
-### Is there a critical path feature?
-
-Unfortunately, we don't have the critical path feature yet. We have a feature request for it though and will check how to integrate it into our road map. A workaround could be to create predecessor-successor relations for only the work packages that are in the critical path. 
-
-### When I am working in the Gantt chart, every change seems to take quite long. 
-
-We understand that the loading time when working in Gantt Chart is too long for you. The reason for this is that every single action is saved. So everything is fine with your installation. We have already taken up the point with us and already have first ideas for a technical solution. The respective feature request can be found [here](https://community.openproject.com/projects/openproject/work_packages/34176/activity). 

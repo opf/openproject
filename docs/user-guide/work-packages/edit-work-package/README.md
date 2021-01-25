@@ -15,7 +15,6 @@ keywords: edit work packages
 | [Watchers](#watchers)                               | How to add or remove watchers from a work package? |
 | [Export work packages](#export-work-packages)       | How to export work packages?                       |
 | [Bulk edit work packages](#bulk-edit-work-packages) | How to edit several work packages as once?         |
-| [FAQ](frequently-asked-questions---faq)                      | Frequently asked questions.                                  |
 
 ## Update a work package
 
@@ -113,9 +112,3 @@ Then you have the possibility to:
 At the bottom of the page you can decide whether email updates regarding these changes should be sent or not. It makes sense not to tick the box for large updates to prevent users from getting flooded by emails.
 
 ![bulk-edit_email-updates](image-20201119163714831.png)
-
-
-## Frequently asked questions - FAQ
-### How can I add a table with child work packages to my work package?
-
-Please navigate to *Administration ->Work packages ->Types*, choose the respective work package type and navigate to form configuration. Then, use **+Group** to insert a work package table. Don't forget to press **Save**.

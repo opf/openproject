@@ -47,13 +47,3 @@ To activate it in the Enterprise cloud please [get in touch](https://www.openpro
 
 ## Timesheet
 Currently, there is no direct integration between OpenProject and Timesheet. If you are looking for a time tracking tool with a simple push of a button, consider the integration with [Toggl](../time-and-costs/time-tracking/toggl-integration/).
-
-## Frequently asked questions - FAQ
-
-### Is there an integration with Outlook?
-
-No, we don't have an outlook integration. Nevertheless, you can define incoming emails to OpenProject to get converted into tasks. Also, you can configure the email notifications sent by OpenProject to the project members. More information can be found [here](../../system-admin-guide/email/#email-settings).
-
-### Is there an integration with OneNote?
-
-No, there isn't.

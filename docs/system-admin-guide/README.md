@@ -43,11 +43,3 @@ Click on one of the categories in order to proceed with the configuration.
 | [GitHub Integration](github-integration)               | How to combine GitHub and OpenProject.                       |
 | [Enterprise on-premises](../enterprise-edition-guide/) | Upgrading your Community Edition to Enterprise on-premises and other administrative topics. |
 | [Enterprise cloud](../cloud-edition-guide/)            | Manage your OpenProject Enterprise cloud and other administrative topics. |
-
-
-
-## Frequently asked questions  - FAQ
-
-### How do I know if I have system admin permissions?
-
-If you can choose *Administration* when clicking on your avatar you have system admin permissions.
