@@ -37,9 +37,12 @@ module Users
     private
 
     ##
-    # Users can only be updated by Admins
+    # Users can only be updated when
+    # - the user is editing herself (TODO: attribute permissions)
+    # - the user has the global add_user CRU permission
+    # - the user is an admin
     def user_allowed_to_update
-      unless user.admin? || user.allowed_to_globally?(:add_user)
+      unless user == model || user.admin? || user.allowed_to_globally?(:add_user)
         errors.add :base, :error_unauthorized
       end
     end
