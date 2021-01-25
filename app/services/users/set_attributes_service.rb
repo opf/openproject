@@ -39,6 +39,13 @@ module Users
       super(params)
     end
 
+    def set_default_attributes(_params)
+      # Assign values other than mail to new_user when invited
+      if model.invited? && model.mail.present?
+        ::UserInvitation.assign_user_attributes model
+      end
+    end
+
     def set_preferences(user_preferences)
       model.pref.attributes = user_preferences if user_preferences
     end
