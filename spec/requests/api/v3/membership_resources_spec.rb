@@ -359,17 +359,19 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     let(:principal_path) { api_v3_paths.user(principal.id) }
     let(:body) do
       {
-        project: {
-          href: api_v3_paths.project(project.id)
-        },
-        principal: {
-          href: principal_path
-        },
-        roles: [
-          {
-            href: api_v3_paths.role(other_role.id)
-          }
-        ]
+        _links: {
+          project: {
+            href: api_v3_paths.project(project.id)
+          },
+          principal: {
+            href: principal_path
+          },
+          roles: [
+            {
+              href: api_v3_paths.role(other_role.id)
+            }
+          ]
+        }
       }.to_json
     end
 
@@ -428,17 +430,19 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
         let(:principal_path) { api_v3_paths.group(group.id) }
         let(:body) do
           {
-            project: {
-              href: api_v3_paths.project(project.id)
-            },
-            principal: {
-              href: principal_path
-            },
-            roles: [
-              {
-                href: api_v3_paths.role(other_role.id)
-              }
-            ]
+            _links: {
+              project: {
+                href: api_v3_paths.project(project.id)
+              },
+              principal: {
+                href: principal_path
+              },
+              roles: [
+                {
+                  href: api_v3_paths.role(other_role.id)
+                }
+              ]
+            }
           }.to_json
         end
       end
@@ -471,17 +475,19 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       let(:expected_role) { global_role }
       let(:body) do
         {
-          project: {
-            href: nil
-          },
-          principal: {
-            href: principal_path
-          },
-          roles: [
-            {
-              href: api_v3_paths.role(global_role.id)
-            }
-          ]
+          _links: {
+            project: {
+              href: nil
+            },
+            principal: {
+              href: principal_path
+            },
+            roles: [
+              {
+                href: api_v3_paths.role(global_role.id)
+              }
+            ]
+          }
         }.to_json
       end
       let(:project) { nil }
@@ -506,18 +512,20 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     context 'if providing an already taken user' do
       let(:body) do
         {
-          project: {
-            href: api_v3_paths.project(project.id)
-          },
-          principal: {
-            # invalid as the current_user is already member
-            href: api_v3_paths.user(current_user.id)
-          },
-          roles: [
-            {
-              href: api_v3_paths.role(other_role.id)
-            }
-          ]
+          _links: {
+            project: {
+              href: api_v3_paths.project(project.id)
+            },
+            principal: {
+              # invalid as the current_user is already member
+              href: api_v3_paths.user(current_user.id)
+            },
+            roles: [
+              {
+                href: api_v3_paths.role(other_role.id)
+              }
+            ]
+          }
         }.to_json
       end
 
@@ -533,18 +541,20 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     context 'if providing erroneous hrefs' do
       let(:body) do
         {
-          project: {
-            href: api_v3_paths.project(project.id)
-          },
-          principal: {
-            # role path instead of user
-            href: api_v3_paths.role(other_user.id)
-          },
-          roles: [
-            {
-              href: api_v3_paths.role(other_role.id)
-            }
-          ]
+          _links: {
+            project: {
+              href: api_v3_paths.project(project.id)
+            },
+            principal: {
+              # role path instead of user
+              href: api_v3_paths.role(other_user.id)
+            },
+            roles: [
+              {
+                href: api_v3_paths.role(other_role.id)
+              }
+            ]
+          }
         }.to_json
       end
 
@@ -563,13 +573,15 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     context 'if providing no roles' do
       let(:body) do
         {
-          project: {
-            href: api_v3_paths.project(project.id)
-          },
-          principal: {
-            href: principal_path
-          },
-          roles: []
+          _links: {
+            project: {
+              href: api_v3_paths.project(project.id)
+            },
+            principal: {
+              href: principal_path
+            },
+            roles: []
+          }
         }.to_json
       end
 
