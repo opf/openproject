@@ -114,8 +114,7 @@ class FogFileUploader < CarrierWave::Uploader::Base
 
   def set_expires_at!(url_options, options:)
     if options[:expires_in].present?
-      # AWS allows at max < 604800 expires time
-      expires = [options[:expires_in], 604799].min
+      expires = [options[:expires_in], OpenProject::Configuration.fog_download_url_expires_in].min
       url_options[:expire_at] = ::Fog::Time.now + expires
     end
 

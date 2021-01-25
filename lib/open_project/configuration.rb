@@ -50,6 +50,7 @@ module OpenProject
       # which will be uploaded directly to the cloud storage rather than via OpenProject's
       # server process.
       'direct_uploads'          => true,
+      'fog_download_url_expires_in' => 21600, # 6h by default as 6 hours is max in S3 when using IAM roles
       'show_community_links' => true,
       'log_level' => 'info',
       'scm_git_command'         => nil,
