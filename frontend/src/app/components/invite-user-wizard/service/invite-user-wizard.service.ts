@@ -19,7 +19,7 @@ export class InviteUserWizardService extends UntilDestroyedMixin {
     private pathHelperService:PathHelperService,
   ) {
     super();
-    console.log('usersPath', this.pathHelperService.usersPath(), this.pathHelperService.projectPath('hola'))
+    console.log('usersPath', this.pathHelperService, this.pathHelperService.api.v3.apiV3Base, this.pathHelperService.appBasePath, this.pathHelperService.usersPath(), this.pathHelperService.projectPath('hola'))
   }
 
   inviteUser(projectId:string, userId:string, roleId:string) {
@@ -27,16 +27,20 @@ export class InviteUserWizardService extends UntilDestroyedMixin {
     * - handle 'message' property in invitations
     * - handle 'email' invitations
     */
+    const apiBasePath = this.pathHelperService.api.v3.apiV3Base;
+    const projectPath = this.pathHelperService.projectPath(projectId);
+    const userPath = this.pathHelperService.userPath(userId);
+    const rolePath = this.pathHelperService.rolePath(roleId);
     const requestData = {
       project: {
-        href: `/api/v3/projects/${projectId}`
+        href: `${apiBasePath}${projectPath}`
       },
       principal: {
-        href: `/api/v3/users/${userId}`,
+        href: `${apiBasePath}${userPath}`,
       },
       roles: [
         {
-          href: `/api/v3/roles/${roleId}`,
+          href: `${apiBasePath}${rolePath}`,
         }
       ]
     };
@@ -53,7 +57,7 @@ export class InviteUserWizardService extends UntilDestroyedMixin {
         ]
       })
       .pipe(
-        map((roles:CollectionResource) => roles.elements.filter(role => role.name.includes(searchTerm)))
+        map((roles:CollectionResource) => roles.elements.filter(role => role.name?.toLowerCase().includes(searchTerm.toLowerCase())))
       );
   }
 
@@ -81,7 +85,8 @@ export class InviteUserWizardService extends UntilDestroyedMixin {
     }
 
     return this.principals$
-      .pipe(map(allPrincipals => allPrincipals.filter(principal => principal.name?.includes(searchTerm) || principal.email?.includes(searchTerm))));
+      .pipe(map(allPrincipals => allPrincipals.filter(principal => principal.name?.toLowerCase()?.includes(searchTerm.toLowerCase()) ||
+                                                                                    principal.email?.toLowerCase().includes(searchTerm.toLowerCase()))));
   }
 
   getAllPrincipalsData(memberPrincipals:UserResource | GroupResource[], nonMemberPrincipals:UserResource | GroupResource[]):IUserWizardSelectData[] {
