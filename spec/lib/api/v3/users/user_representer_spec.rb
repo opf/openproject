@@ -191,11 +191,23 @@ describe ::API::V3::Users::UserRepresenter do
             expect(subject).to have_json_path('_links/unlock/href')
           end
         end
+
+        context 'when deletion is allowed' do
+          before do
+            allow(Users::DeleteContract).to receive(:deletion_allowed?)
+                                             .with(user, current_user)
+                                             .and_return(true)
+          end
+
+          it 'should link to delete' do
+            expect(subject).to have_json_path('_links/delete/href')
+          end
+        end
       end
 
       context 'when deletion is allowed' do
         before do
-          allow(Users::DeleteService).to receive(:deletion_allowed?)
+          allow(Users::DeleteContract).to receive(:deletion_allowed?)
             .with(user, current_user)
             .and_return(true)
         end
@@ -207,7 +219,7 @@ describe ::API::V3::Users::UserRepresenter do
 
       context 'when deletion is not allowed' do
         before do
-          allow(Users::DeleteService).to receive(:deletion_allowed?)
+          allow(Users::DeleteContract).to receive(:deletion_allowed?)
             .with(user, current_user)
             .and_return(false)
         end

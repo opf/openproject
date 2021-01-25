@@ -81,7 +81,7 @@ class UsersController < ApplicationController
     events = Activities::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
     @events_by_day = events.group_by { |e| e.event_datetime.to_date }
 
-    if !User.current.admin? &&
+    if !current_user.allowed_to_globally?(:add_user) &&
        (!(@user.active? ||
        @user.registered?) ||
        (@user != User.current && @memberships.empty? && events.empty?))
@@ -308,7 +308,7 @@ class UsersController < ApplicationController
   end
 
   def check_if_deletion_allowed
-    render_404 unless Users::DeleteService.deletion_allowed? @user, User.current
+    render_404 unless Users::DeleteContract.deletion_allowed? @user, User.current
   end
 
   def my_or_admin_layout
