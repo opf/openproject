@@ -6,6 +6,10 @@ interface IUserWizardStep {
   formControlName?:string;
   apiCallback?:Function;
   description?:Function;
+  link?:{
+    text:string;
+    href:string;
+  };
   rightButtonText?:string;
   leftButtonText?:string;
   showInviteUserByEmail?:boolean;

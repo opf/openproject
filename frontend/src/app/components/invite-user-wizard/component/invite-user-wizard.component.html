@@ -58,6 +58,12 @@
         <p class="description"
            *ngIf="step.description">
           {{step.description()}}
+
+          <a *ngIf="step.link"
+            [href]="step.link.href"
+            target="_blank">
+            {{step.link.text}}
+          </a>
         </p>
       </ng-container>
 

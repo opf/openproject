@@ -38,6 +38,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     step1: {
       label: this.I18n.t('js.invite_user_modal.role_label'),
       summaryLabel: this.I18n.t('js.invite_user_modal.role'),
+      link: this.I18n.t('js.invite_user_modal.learn_more_about_users_permissions'),
       description: () => this.I18n.t('js.invite_user_modal.role_description', {user: this.userToInvite}),
     },
     step2: {
@@ -117,6 +118,10 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
         formControlName: 'role',
         apiCallback: this.rolesCallback,
         description: this.text.step1.description,
+        link: {
+          text: this.text.step1.link,
+          href: 'https://docs.openproject.org/system-admin-guide/users-permissions/',
+        },
         rightButtonText: this.text.rightButtonText,
         leftButtonText: this.text.leftButtonText,
       },
