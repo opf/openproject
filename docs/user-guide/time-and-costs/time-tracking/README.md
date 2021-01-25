@@ -24,7 +24,6 @@ Users can book their time or units spent on an activity within a project directl
 | [Delete time entries](#delete-time-entires)                  | How to delete time entries logged to a work package?         |
 | [Spent time widget on the My Page](#spent-time-widget-on-the-my-page) | How to easily track and display spent time in the spent time widget on the MyPage? |
 | [Track time with Toggl](./toggl-integration)                 | How to track spent time with Toggl integration?              |
-| [FAQ](frequently-asked-questions---faq)                      | Frequently asked questions.                                  |
 
 ## Logging time in the work package view
 
@@ -88,9 +87,5 @@ See more information about the My spent time widget on the [MyPage](../../../get
 
 ![spent time widget](image-20200211160311662.png)
 
-## Frequently asked questions - FAQ
 
-### Is there a way to prevent logging hours for Phases (or other work package types)? 
-
-It is not possible to prevent time logging on phases or restrict it to certain work package types. You could deactivate the fields "Estimated time" and "Spent time" for type Phase (using the [work package form configuration](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration)) but it would still be possible to log time on the Phases.
 

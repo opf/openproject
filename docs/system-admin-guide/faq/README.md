@@ -16,3 +16,13 @@ If you can choose *Administration* when clicking on your avatar you have system 
 ## How can I use the Slack plugin?
 
 The slack plugin is deactivated per default in the Enterprise cloud. Please contact support to have it activated. For the Enterprise on-premises edition please have a look at [this instruction](../../user-guide/integrations/#slack).
+
+## Is there a limit to how many values can be added to a work package custom field of the type list?
+
+A hard limit does not exist. Nevertheless, there are factors that can represent a restriction in usability: 
+
+- Performance: So far, the allowed field values are all entered into the work package form retrieved before processing a work package. It is only a guess, but  no problems should arise when rendering in the frontend (displaying in the select field), as an autocompleter is already used here. The performance on the administration page of the user-defined field, where the possible values are maintained, could also be a factor. 
+- On the same administration page, editing could be difficult from a UI point of view. Especially if the user wants to sort. For example, there is currently no way to sort the values automatically. If 4000 values have to be entered and sorted, it could be a lengthy process.
+
+## [FAQ for work package settings](../manage-work-packages/faq)
+

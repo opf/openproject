@@ -54,7 +54,3 @@ Access to the database (including the PostgreSQL tables) is restricted for the E
 ## How can I increase the number of users in the OpenProject Enterprise cloud edition?
 
 Please note that the minimum number of users is 5. You can always increase the number of users. The number of users can be increased in steps of 5 (e.g. you could start with 5 users and then increase the number of users to 10 users). Find out [here](../manage-subscription) how to change the number of users in your system administration. A reduction in the number of users would take effect at the beginning of the next subscription period.
-
-## Can I run OpenProject as a single user?
-
-Our minimum plan for the Enterprise cloud edition and Enterprise on-premises edition is five users. Our pricing scheme covers three subscription options: Community ($0), Enterprise cloud (€4.95/member/month or approximately $5.60/member/month), and Enterprise on-premises (€5.95/member/month or approximately $6.73/member/month). We recommend to start the [Community version](https://www.openproject.org/download-and-installation/) free of charge if the five user minimum is an issue for you.

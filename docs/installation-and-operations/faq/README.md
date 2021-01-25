@@ -56,3 +56,7 @@ Please follow these steps:
 ## Are there extra fees to pay, in terms of installing the OpenProject software?
 
 The Community Edition and [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/) are on-premises solutions and thus need installation from your side while the [Enterprise cloud edition](https://www.openproject.org/hosting/) is hosted by us. The Community edition is for free and we ask you to do the installation yourself. Of course we support you with a clear and easy [installation guide](https://www.openproject.org/download-and-installation/). If you would like us to install the Enterprise on-premises edition for you, we are charging a fee of €150 (excluding VAT) for this once-off service. You can add the installation support during your [Enterprise on-premises edition booking process](../../enterprise-edition-guide/activate-enterprise-edition/#order-the-enterprise-on-premises-edition).
+
+## How can I select the BIM edition during installation?
+
+Please have a look at the [initial configuration instruction](../installation/packaged/#step-1-select-your-openproject-edition).

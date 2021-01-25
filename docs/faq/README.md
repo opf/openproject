@@ -35,7 +35,9 @@ Have you already installed the [OpenProject Community edition](https://www.openp
 
 ### What are the system requirements?
 
-Apart from using OpenProject in the cloud (OpenProject Enterprise cloud) OpenProject can be installed in two different ways: The packaged installation of OpenProject is the recommended way to install and maintain OpenProject using DEB or RPM packages. There's also a Docker based installation option. The system requirements can be found [here](../installation-and-operations/system-requirements).
+The system requirements can be found [here](../installation-and-operations/system-requirements).
+
+Apart from using OpenProject in the cloud (OpenProject Enterprise cloud) OpenProject can be installed in two different ways: The packaged installation of OpenProject is the recommended way to install and maintain OpenProject using DEB or RPM packages. There's also a Docker based installation option. 
 
 ### How can I learn more about OpenProject and how to use it?
 
@@ -98,3 +100,16 @@ In many companies it makes sense to structure your project tree according to you
 
 No, currently we do not have an entity-relationship diagram for OpenProject.
 
+## FAQ regarding OpenProject BIM edition
+
+### How can I find out more about OpenProject BIM edition?
+
+Please have a look at our [demo video](https://www.youtube.com/watch?v=ThA4_17yedg) and at our [website](https://www.openproject.org/bim-project-management/). You can start a free trial there, too.
+
+### Which IFC format are you using for conversion in the BIM module?
+
+IFC2x3 and IFC4. We accept those formats and convert them to some other format that is optimized for web.
+
+### Is there a way to use OpenProject BIM for free, too?
+
+Yes, (only) as part of the Community Edition you can use OpenProject BIM for free. Please have a look [here](../installation-and-operations/changing-to-bim-edition/) to find out how to activate the BIM modules in your on-premises installation.
