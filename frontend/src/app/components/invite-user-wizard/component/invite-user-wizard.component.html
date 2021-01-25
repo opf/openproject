@@ -63,10 +63,13 @@
 
       <!--TEXTAREA TEMPLATE-->
       <ng-container *ngIf="step.type === 'textarea'">
-        <label [for]="step.formControlName">{{step.label()}}</label>
+        <label [for]="step.formControlName">
+          {{step.label()}}
+        </label>
 
         <textarea [formControlName]="step.formControlName"
-                  [id]="step.formControlName">
+                  [id]="step.formControlName"
+                  #textarea>
         </textarea>
 
         <p class="description"
@@ -108,7 +111,7 @@
     </button>
 
     <button class="button"
-            (click)="currentStep?.action ? currentStep?.action() : nextStep()"
+            (click)="nextStep(currentStep)"
             *ngIf="currentStep?.rightButtonText"
             [disabled]="shouldBeDisabled(currentStep)">
       {{currentStep?.rightButtonText}}

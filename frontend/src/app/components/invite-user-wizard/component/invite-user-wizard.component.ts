@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, NgZone, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Observable, Subject} from "rxjs";
 import {debounceTime, distinctUntilChanged, filter, switchMap} from "rxjs/operators";
@@ -69,7 +69,12 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     return user && user.name;
   }
 
-  @ViewChild('ngselect') ngselect:NgSelectComponent;
+  @ViewChild('ngselect') select:NgSelectComponent;
+  @ViewChild('textarea') textarea:ElementRef;
+
+  @HostListener('document:keydown.enter', ['$event']) onKeydownHandler(event:KeyboardEvent) {
+    this.nextStep(this.currentStep);
+  }
 
   constructor(
     private formBuilder:FormBuilder,
@@ -77,6 +82,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     readonly I18n:I18nService,
     private currentProjectService:CurrentProjectService,
     private inviteUserWizardService:InviteUserWizardService,
+    private ngZone:NgZone,
   ) {
     super();
   }
@@ -133,6 +139,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
         type: 'confirmation',
         rightButtonText: this.text.step4.rightButtonText,
         description: this.text.step4.description,
+        action: this.finalAction,
       },
     ];
 
@@ -140,24 +147,47 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
       .pipe(
         this.untilDestroyed(),
         debounceTime(200),
-        filter(searchTerm => !!searchTerm),
         distinctUntilChanged(),
         switchMap(searchTerm => this.currentStep.apiCallback!(searchTerm!)),
       );
   }
 
   ngAfterViewInit() {
-    this.ngSelectInput = this.ngselect.searchInput.nativeElement;
+    this.ngSelectInput = this.select.searchInput.nativeElement;
   }
 
   previousStep() {
     this.currentStepIndex && --this.currentStepIndex;
   }
 
-  nextStep() {
+  nextStep(currentStep:IUserWizardStep) {
+    if (currentStep.formControlName && this.form.get(currentStep.formControlName!)!.invalid) {
+      return;
+    }
+
+    if (currentStep.action) {
+      currentStep.action();
+    }
+
     if (this.currentStepIndex < this.steps.length - 1) {
       ++this.currentStepIndex;
+
+      if (this.currentStep.formControlName) {
+        this.focusStepInput(this.currentStep);
+      }
     }
+  }
+
+  focusStepInput(currentStep:IUserWizardStep) {
+    this.ngZone.runOutsideAngular(() => {
+      setTimeout(() => {
+        if (currentStep.type === 'select') {
+          this.select.focus();
+        } else if (currentStep.type === 'textarea') {
+          this.textarea.nativeElement.focus();
+        }
+      });
+    });
   }
 
   shouldBeDisabled(currentStep:IUserWizardStep) {
@@ -178,7 +208,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     const user = {name: inputValue, isEmail: true};
 
     this.form.get('user')!.setValue(user);
-    this.ngselect.close();
+    this.select.close();
   }
 
   inviteUser = () => {
@@ -189,7 +219,12 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
         this.form.get('role')!.value?.id
       )
       // TODO: Implement final response (show toast?)
-      .subscribe(() => this.nextStep());
+      .subscribe(() => this.nextStep(this.currentStep));
+  }
+
+  finalAction = () => {
+    // TODO:  Implement final action (close dialog and set value to the input?)
+    console.log('Final action');
   }
 
   usersCallback = (searchTerm:string):Observable<IUserWizardSelectData[]> => {
