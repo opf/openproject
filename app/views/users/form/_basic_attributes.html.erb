@@ -1,9 +1,11 @@
+<% unless @user.new_record? %>
 <div class="form--field -required">
   <%= f.text_field :login,
                    required: true,
                    size: 25,
                    container_class: '-middle' %>
 </div>
+<% end %>
 
 <div class="form--field -required">
   <%= f.text_field :firstname,
