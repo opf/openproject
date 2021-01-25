@@ -93,4 +93,4 @@ Please note: The free months will be included in the chosen length of your subsc
 
 ### Additional questions
 
-You can find additional questions and answers regarding pricing and booking at the bottom of our [pricing website](https://www.openproject.org/pricing/).
+You can find additional questions and answers regarding pricing and booking at the bottom of our [pricing website](https://www.openproject.org/pricing/#FAQ).

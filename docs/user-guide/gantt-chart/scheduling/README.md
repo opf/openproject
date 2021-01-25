@@ -1,10 +1,10 @@
 ---
 sidebar_navigation:
-  title: Automatic and Manual Scheduling
+  title: Automatic and manual Scheduling
   priority: 999
 description: Use manual or automatic scheduling mode in OpenProject
 robots: index, follow
-keywords: gantt chart, automatic scheduling, manual scheduling, start date, finish date, relations
+keywords: Gantt chart, automatic scheduling, manual scheduling, start date, finish date, relations
 
 
 ---
