@@ -66,6 +66,31 @@ describe 'user deletion: ', type: :feature, js: true do
     end
   end
 
+  context 'user with global add role' do
+    let!(:user) { FactoryBot.create :user }
+    let!(:global_add_user_role) { FactoryBot.create :global_role, name: 'Add user', permissions: %i[add_user] }
+    let(:current_user) do
+      user = FactoryBot.create(:user)
+
+      FactoryBot.create(:global_member,
+                        principal: user,
+                        roles: [global_add_user_role])
+
+      user
+    end
+
+    it 'can not delete even if settings allow it', js: true do
+      Setting.users_deletable_by_admins = 1
+      visit edit_user_path(user)
+
+      expect(page).to have_content "#{user.firstname} #{user.lastname}"
+      expect(page).to_not have_content 'Delete account'
+
+      visit deletion_info_user_path(user)
+      expect(page).to have_text 'Error 404'
+    end
+  end
+
   context 'admin user' do
     let!(:user) { FactoryBot.create :user }
     let(:user_password) { 'admin! * 4' }
