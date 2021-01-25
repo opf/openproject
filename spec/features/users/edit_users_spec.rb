@@ -83,4 +83,31 @@ describe 'edit users', type: :feature, js: true do
       expect(user_password).to be_visible
     end
   end
+
+  context 'as global user' do
+    using_shared_fixtures :global_add_user
+    let(:current_user) { global_add_user }
+
+    it 'can too edit the user' do
+      visit edit_user_path(user)
+
+      expect(page).to have_no_selector 'select#user_auth_source_id'
+      expect(page).to have_no_selector 'input#user_password'
+
+      expect(page).to have_selector '#user_login'
+      expect(page).to have_selector '#user_firstname'
+      expect(page).to have_selector '#user_lastname'
+      expect(page).to have_selector '#user_mail'
+
+      fill_in 'user[firstname]', with: 'NewName', fill_options: { clear: :backspace }
+
+      click_on 'Save'
+
+      expect(page).to have_selector('.flash.notice', text: 'Successful update.')
+
+      user.reload
+
+      expect(user.firstname).to eq 'NewName'
+    end
+  end
 end
