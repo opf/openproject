@@ -1,7 +1,7 @@
 import {Component, ElementRef, HostListener, NgZone, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Observable, Subject} from "rxjs";
-import {debounceTime, distinctUntilChanged, filter, switchMap} from "rxjs/operators";
+import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
@@ -57,9 +57,12 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     }
   };
   steps:IUserWizardStep[];
-  ngSelectInput:HTMLInputElement;
   input$ = new Subject<string | null>();
   items$:Observable<any>;
+
+  get ngSelectInput():HTMLInputElement {
+    return this.ngSelect.searchInput.nativeElement;
+  }
 
   get currentStep() {
     return this.steps[this.currentStepIndex];
@@ -71,7 +74,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     return user && user.name;
   }
 
-  @ViewChild('ngselect') select:NgSelectComponent;
+  @ViewChild('ngselect') ngSelect:NgSelectComponent;
   @ViewChild('textarea') textarea:ElementRef;
 
   @HostListener('document:keydown.enter', ['$event']) onKeydownHandler(event:KeyboardEvent) {
@@ -158,10 +161,6 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
       );
   }
 
-  ngAfterViewInit() {
-    this.ngSelectInput = this.select.searchInput.nativeElement;
-  }
-
   previousStep() {
     this.currentStepIndex && --this.currentStepIndex;
   }
@@ -188,7 +187,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         if (currentStep.type === 'select') {
-          this.select.focus();
+          this.ngSelect.focus();
         } else if (currentStep.type === 'textarea') {
           this.textarea.nativeElement.focus();
         }
@@ -214,7 +213,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     const user = {name: inputValue, email: inputValue, isEmail: true};
 
     this.form.get('user')!.setValue(user);
-    this.select.close();
+    this.ngSelect.close();
   }
 
   inviteUser = () => {

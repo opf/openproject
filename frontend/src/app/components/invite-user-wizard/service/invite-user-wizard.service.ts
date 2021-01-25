@@ -19,7 +19,6 @@ export class InviteUserWizardService extends UntilDestroyedMixin {
     private pathHelperService:PathHelperService,
   ) {
     super();
-    console.log('usersPath', this.pathHelperService, this.pathHelperService.api.v3.apiV3Base, this.pathHelperService.appBasePath, this.pathHelperService.usersPath(), this.pathHelperService.projectPath('hola'))
   }
 
   inviteUser(projectId:string, userId:string, roleId:string) {
@@ -85,8 +84,8 @@ export class InviteUserWizardService extends UntilDestroyedMixin {
     }
 
     return this.principals$
-      .pipe(map(allPrincipals => allPrincipals.filter(principal => principal.name?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
-                                                                                    principal.email?.toLowerCase().includes(searchTerm?.toLowerCase()))));
+      .pipe(map(allPrincipals => allPrincipals.filter(principal => principal.name?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+                                                                   principal.email?.toLowerCase().includes(searchTerm?.toLowerCase()))));
   }
 
   getAllPrincipalsData(memberPrincipals:UserResource | GroupResource[], nonMemberPrincipals:UserResource | GroupResource[]):IUserWizardSelectData[] {
