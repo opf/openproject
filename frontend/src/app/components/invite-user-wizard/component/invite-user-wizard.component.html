@@ -1,6 +1,6 @@
 <div [formGroup]="form" class="form-container">
   <h2>
-    {{this.text.invite}} {{form.get('user')?.value?.name || text.user}} {{this.text.to}} {{project}}
+    {{text.invite}} {{form.get('user')?.value?.name || text.user}} {{text.to}} {{project}}
   </h2>
 
   <ng-container *ngFor="let step of steps; let index = index;">
@@ -9,7 +9,7 @@
          *ngIf="currentStepIndex === index">
       <!--SELECT TEMPLATE-->
       <ng-container *ngIf="step.type === 'select'">
-        <label for="label">{{step.label()}}</label>
+        <label [for]="step.formControlName">{{step.label()}}</label>
 
         <ng-select [formControlName]="step.formControlName"
                    [typeahead]="input$"
@@ -21,6 +21,7 @@
                    [clearSearchOnAdd]="false"
                    [bindLabel]="step.bindLabel"
                    [multiple]="false"
+                   [id]="step.formControlName"
                    #ngselect>
           <!--SELECT OPTIONS TEMPLATES-->
           <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
@@ -36,7 +37,7 @@
           <!--SELECT NOT FOUND TEMPLATE-->
           <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
             <div class="ng-option ng-option-disabled" *ngIf="!inputIsEmail(ngSelectInput.value)">
-              {{this.text.noDataFoundFor}} "{{searchTerm}}"
+              {{text.noDataFoundFor}} "{{searchTerm}}"
             </div>
           </ng-template>
 
@@ -48,7 +49,7 @@
                       [disabled]="!inputIsValidEmail(ngSelectInput.value)">
                 <op-icon icon-classes="icon-mail1"></op-icon>
 
-                {{this.text.invite}}: {{ngselect.searchInput.nativeElement?.value}}
+                {{text.invite}}: {{ngSelectInput.value}}
               </button>
             </div>
           </ng-template>
@@ -62,9 +63,11 @@
 
       <!--TEXTAREA TEMPLATE-->
       <ng-container *ngIf="step.type === 'textarea'">
-        <label for="label">{{step.label()}}</label>
+        <label [for]="step.formControlName">{{step.label()}}</label>
 
-        <textarea [formControlName]="step.formControlName"></textarea>
+        <textarea [formControlName]="step.formControlName"
+                  [id]="step.formControlName">
+        </textarea>
 
         <p class="description"
            *ngIf="step.description">
