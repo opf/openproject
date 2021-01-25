@@ -54,9 +54,41 @@ Here are resources to get to know OpenProject:
 
 Our minimum plan for the Enterprise cloud edition and Enterprise on-premises edition is five users. Our pricing scheme covers three subscription options: Community Edition ($0), Enterprise cloud (€4.95/member/month or approximately $5.60/member/month), and Enterprise on-premises (€5.95/member/month or approximately $6.73/member/month). We recommend to start the [Community version](https://www.openproject.org/download-and-installation/) free of charge if the five user minimum is an issue for you.
 
+### Can I have both users with the Enterprise cloud and others with the Enterprise on-premises Edition?
+
+This is only possible if you book two different plans for OpenProject. The users won't be able to work together directly. We strongly recommend using either Enterprise cloud *or* Enterprise on-premises, if you want to collaborate with all colleagues.
+
+### How are users in OpenProject counted? How many licenses do I need for Enterprise on-premises or Enterprise cloud?
+
+All users working in OpenProject Enterprise cloud/on-premises need a license in order to access OpenProject. Regarding payments, we only count the active (not blocked) users. Users who were only invited but didn't accept the invite do not count, either.
+
+### Is there an architecture diagram for OpenProject?
+
+A (very rough) diagram can be found on https://www.openproject.org/hosting/.
+
+### How many projects can I manage in OpenProject at once?
+
+The number of projects is always unlimited. 
+For the paid versions Enterprise or Cloud Edition, the price differs according to the number of users. 
+However, if you're still using an old OpenProject subscription there may be limits to the number of projects. In this case please contact us.
+
+## How to ... in OpenProject?
+
+Most of this kind of questions will be answered in the respective sections for each topic (see links above). However, there may be some FAQ that do not really fit elsewhere:
+
+### How can I reverse changes?
+
+This is not possible per se, there's no Ctrl+Z option or anything similar. 
+
+Please use these resources to find out about the latest changes and re-do them manually: The [work package activity](../getting-started/work-packages-introduction/#activity-of-work-packages), the [history of the wiki page](../user-guide/wiki/more-wiki-functions/#show-wiki-page-history) or the [Activities module](../user-guide/activity).
+
 ### How can I change the day my week starts with, etc.?
 
 You can do this as a system administrator in the [System settings](../system-admin-guide/system-settings/display-settings/#time-and-date-formatting).
+
+### How can I receive the OpenProject newsletter?
+
+Please go to https://www.openproject.org/newsletter/ and submit your data to receive our newsletter. Another option would be to agree to receive the newsletter when creating your account.
 
 ## FAQ regarding features
 
@@ -76,10 +108,6 @@ Yes, please use the free [Excel synchronization](../user-guide/integrations/exce
 ### Do you have OpenProject guest accounts?
 
 Currently, all users working in the OpenProject Enterprise editions need a license in order to access OpenProject. Regarding payments we only count the active (not blocked) users.
-
-### Can I have both users with the Enterprise cloud and others with the Enterprise on-premises Edition?
-
-This is only possible if you book two different plans for OpenProject. The users won't be able to work together directly. We strongly recommend using either Enterprise cloud *or* Enterprise on-premises, if you want to collaborate with all colleagues.
 
 ### Can I get a notification when a deadline approaches?
 

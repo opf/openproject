@@ -54,3 +54,5 @@ To adapt incoming email settings, go to *Email* -> *Incoming Email*. Here you ca
 ![System-admin-guide-incoming-email](System-admin-guide-incoming-email.png)
 
 **To set up incoming email**, please visit our [Operations guide](../../installation-and-operations/configuration/incoming-emails/).
+
+For frequently asked questions regarding the incoming emails feature please have a look at the respective [FAQ section](./faq).

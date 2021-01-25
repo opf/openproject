@@ -24,5 +24,19 @@ A hard limit does not exist. Nevertheless, there are factors that can represent 
 - Performance: So far, the allowed field values are all entered into the work package form retrieved before processing a work package. It is only a guess, but  no problems should arise when rendering in the frontend (displaying in the select field), as an autocompleter is already used here. The performance on the administration page of the user-defined field, where the possible values are maintained, could also be a factor. 
 - On the same administration page, editing could be difficult from a UI point of view. Especially if the user wants to sort. For example, there is currently no way to sort the values automatically. If 4000 values have to be entered and sorted, it could be a lengthy process.
 
+## Is it possible to only allow authentication via SSO (not via user name / password)?
+
+Yes, for Enterprise on-premises and Community Edition there is a [configuration option](../installation-and-operations/configuration/#disable-password-login) to disable the password login.
+
+## How do I set up OAuth / Google authentication in the Enterprise cloud?
+
+The authentication via Google is already activated in the Enterprise cloud. Users who are invited to OpenProject, should be able to choose authentication via Google. There should be a Google button under the normal user name / password when you try to login. 
+
+
+
 ## [FAQ for work package settings](../manage-work-packages/faq)
+
+
+
+## [FAQ for incoming emails](../email/faq)
 

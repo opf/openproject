@@ -37,6 +37,12 @@ The OpenProject Enterprise cloud environment is hosted on a logically isolated v
 
 The protection of personal data is for OpenProject more than just a legal requirement. We are highly committed to data security and privacy. We are a company based in Berlin, the European Union, and the awareness and importance for data security and privacy actions have always been a major topic for us. OpenProject complies with GDPR and we handle our customer’s data with care. Get more detailed information [here](https://www.openproject.org/gdpr-compliance/).
 
+## Is the Enterprise cloud certified?
+
+The data center (AWS) we use for Enterprise Cloud Edition is ISO27001 certified.
+
+For more information please visit https://www.openproject.org/legal/data-processing-agreement/technical-and-organizational-data-security-measures.
+
 
 ## How can I export the documents loaded on OpenProject?
 

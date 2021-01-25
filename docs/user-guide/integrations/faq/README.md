@@ -16,3 +16,9 @@ No, we don't have an outlook integration. Nevertheless, you can define incoming 
 ## Is there an integration with OneNote?
 
 No, there isn't.
+
+## Is there a Slack integration?
+
+Yes, there's a Slack plugin. Please note that the Slack plugin is not officially supported by OpenProject. For Enterprise on-premises please find the OpenProject Slack Plugin and its documentation [here](https://github.com/opf/openproject-slack#openproject-slack-plugin). You can also look at [Slack's respective website](https://api.slack.com/messaging/webhooks) for information.
+
+For Enterprise cloud please contact support to have it activated in your instance.
