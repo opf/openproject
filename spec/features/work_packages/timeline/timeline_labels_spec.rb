@@ -117,7 +117,7 @@ RSpec.feature 'Work package timeline labels',
                                right: 'Type',
                                farRight: 'Status'
 
-    # Check overriden labels
+    # Check overridden labels
     row = wp_timeline.timeline_row work_package.id
     row.expect_labels left: user.name,
                       right: type.name.upcase,
@@ -166,7 +166,7 @@ RSpec.feature 'Work package timeline labels',
                                right: 'Finish date',
                                farRight: 'Subject'
 
-    # Check overriden labels
+    # Check overridden labels
     row = wp_timeline.timeline_row work_package.id
     row.expect_labels left: today,
                       right: tomorrow,

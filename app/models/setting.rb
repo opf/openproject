@@ -114,7 +114,7 @@ class Setting < ApplicationRecord
           self[:#{name}] = value
         else
           logger.warn "Trying to save a setting named '#{name}' while there is no 'setting' table yet. This setting will not be saved!"
-          nil # when runnung too early, there is no settings table. do nothing
+          nil # when running too early, there is no settings table. do nothing
         end
       end
     END_SRC

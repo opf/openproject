@@ -41,7 +41,7 @@ The basic overview of how to contribute code to OpenProject is as follows.
 1. [Fork the OpenProject repository](#fork-openproject) and create a local development branch
 2. Develop your change. Please see the sections on [development concepts](../concepts/) for further information on development topics.
 3. [Create a pull request](#create-a-pull-request) on our repository.  Please see and review [code style and review](../code-review-guidelines) for guidelines on how to submit a pull request and requirements for getting your changes merged.
-4. We will evalute your pull review and changes.
+4. We will evaluate your pull review and changes.
 
 
 
@@ -68,7 +68,7 @@ Add the original OpenProject repository as a remote, so you can fetch changes:
 git remote add upstream git@github.com:opf/openproject
 ```
 
-Upate your local git branch to the core branch
+Update your local git branch to the core branch
 
 ```
 git pull upstream/dev

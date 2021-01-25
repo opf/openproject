@@ -111,7 +111,7 @@ module UserInvitation
   # Creates a placeholder name for the user based on their email address.
   # For the unlikely case that the local or domain part of the email address
   # are longer than 30 characters they will be trimmed to 27 characters and an
-  # elipsis will be appended.
+  # ellipsis will be appended.
   def placeholder_name(email)
     first, last = email.split('@').map { |name| trim_name(name) }
 

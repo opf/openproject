@@ -28,7 +28,7 @@
 
 ##
 # Using test-prof's before_all block to safely wrap shared data in a transaction,
-# shared_let acts similary to +let(:foo) { value }+ but initialized the value only once
+# shared_let acts similarly to +let(:foo) { value }+ but initialized the value only once
 # Changes _within_ an example will be rolled back by database cleaner,
 # and the creation is rolled back in an after_all hook.
 #

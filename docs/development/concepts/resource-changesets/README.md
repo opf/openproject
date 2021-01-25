@@ -44,7 +44,7 @@ The `ResourceChangeset` class is a temporarily created class whose lifetime is d
 The changeset maintains references to
 
  *  - The source HAL resource (a pristine, unchanged version) such as a work package
- *  - The actual `Changeset` object of changes (bascially a map of `attribute -> values` of changes)
+ *  - The actual `Changeset` object of changes (basically a map of `attribute -> values` of changes)
  *  - The `FormResource` for the resource (due to temporary changes such as switching types or projects in work packages)
  
 
@@ -56,7 +56,7 @@ The ResourceChangeset is possibly subclassed for specific HAL resource types. Fo
 
 ### HalResourceEditingService
 
-In order to *create*, *remove* or *saving* changesets for a specific resource, the `HalResourceEditingService` is provided at various hierarchies of the applicaiton. The service maintains a store of available resource changesets, whose states and changes can be observed with an RXJS observable.
+In order to *create*, *remove* or *saving* changesets for a specific resource, the `HalResourceEditingService` is provided at various hierarchies of the application. The service maintains a store of available resource changesets, whose states and changes can be observed with an RXJS observable.
 
 The main entry point for editing changesets is `HalResourceEditingService#changeFor`, which will either continue editing an existing changeset, or create a new one for the given class.
 

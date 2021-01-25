@@ -86,7 +86,7 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
       it 'should display one type' do
         # There seems to be an issue with how the
         # select is accessed after the async form loading
-        # Thus we explitly find it here to allow some wait
+        # Thus we explicitly find it here to allow some wait
         # even though it is available in let
         scm_vendor = find(scm_vendor_input_css)
         expect(scm_vendor.value).to eq(vendor)

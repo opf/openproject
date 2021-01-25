@@ -44,7 +44,7 @@ if defined?(Bundler)
   #
   # require 'open_project/plugins'
   #
-  # to ensure the code to be loaded. So we provide a compaibility
+  # to ensure the code to be loaded. So we provide a compatibility
   # layer here. One might remove this later.
   $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
   require 'open_project/plugins'

@@ -87,4 +87,4 @@ It is currently not possible to export or sync the calendar. You can however [ex
 
 ### Are holidays considered in the calendar?
 
-Currently, the calendar does not consider weekends or holidays as non-working days, i.e. the end date for a task could e.g. be set on a Sunday. This is important for businesses that are working on weekends or holidays. Please note that we are currently working on a feature for holidays and weekends that can be adjusted as needed.
+Currently, the calendar does not consider weekends or holidays as non-working days, i.e. the end date for a task could e.g. be set on a Sunday. This is important for businesses that are working on weekends or holidays. Please note that we are currently working on a feature for holidays and weekends that can be adjusted as needed. 

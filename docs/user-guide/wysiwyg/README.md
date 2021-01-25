@@ -18,7 +18,7 @@ Starting with version 8.0.0, OpenProject features a quasi-WYSIWYG editor, powere
 
 | Topic                                                        | Content                                                  |
 | ------------------------------------------------------------ | -------------------------------------------------------- |
-| [Basic formating](#basic-formatting)                         | Basic formatting elements in the WYSIWYG editor          |
+| [Basic formatting](#basic-formatting)                        | Basic formatting elements in the WYSIWYG editor          |
 | [Image handling](#image-handling)                            | How to add images in the WYSIWYG editor?                 |
 | [Macros](#macros)                                            | Available macros in the WYSIWYG editor                   |
 | [Links to OpenProject resources](#links-to-openproject-resources) | How to link to resources like wikis, projects, meetings? |

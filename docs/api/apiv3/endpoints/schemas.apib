@@ -28,7 +28,7 @@ The `_dependencies` property contains the list of dependencies that exist betwee
 | Property             | Description                                                    | Conditions                                           |
 | :--------------:     | -------------------------------------------------------------- | ---------------------------------------------        |
 | allowedValues        | List of resources that are assignable by the current user.     | Will not exist if `allowedValuesSchemas` is present. |
-| allowedValuesSchemas | Link to schemas furhter describing the property.               | Will not exist if `allowedValues` is present.        |
+| allowedValuesSchemas | Link to schemas further describing the property.               | Will not exist if `allowedValues` is present.        |
 
 The `allowedValues` can either contain a list of canonical links or just a single link to a collection resource.
 This is an optimization to allow efficient handling of both small resource lists (that can be enumerated inline) and large
@@ -128,7 +128,7 @@ The following excerpt examplifies the objects that can be found as a value of th
 
 Given the example above, the client has to add the property `loremIpsum` to the schema if the depending property is `1`, `2` or `3`. If it is `4` the property does not exist. The property will not be writable if the value is `3`. The values allowed to be set differ between having `1` or `2` selected for the depending property.
 
-Because of the limitation of JSON objects, all keys will be strings, even when the depending value is actually someting different (e.g. Integer, Date). This is also true for resources in which case the url of the resource is used as the key.
+Because of the limitation of JSON objects, all keys will be strings, even when the depending value is actually something different (e.g. Integer, Date). This is also true for resources in which case the url of the resource is used as the key.
 
 ## Example Schema [/api/v3/example/schema]
 
