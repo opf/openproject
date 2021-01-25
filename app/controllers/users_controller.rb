@@ -263,7 +263,7 @@ class UsersController < ApplicationController
     # true if the user deletes him/herself
     self_delete = (@user == User.current)
 
-    Users::DeleteService.new(@user, User.current).call
+    Users::DeleteService.new(model: @user, user: User.current).call
 
     flash[:notice] = I18n.t('account.deleted')
 
