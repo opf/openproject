@@ -11,14 +11,7 @@
       <%= I18n.t('user.authentication_settings_disabled_due_to_external_authentication') %>
     </div>
   <% else %>
-    <% unless @auth_sources.empty? || OpenProject::Configuration.disable_password_login? %>
-      <div class="form--field">
-        <%= f.select :auth_source_id,
-                     ([[t(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }),
-                     label: :'activerecord.attributes.user.auth_source',
-                     container_class: '-middle' %>
-      </div>
-    <% end %>
+    <%= render partial: 'users/form/auth_source', locals: { f: f } %>
     <% if !OpenProject::Configuration.disable_password_login? %>
       <%
         pw_style =
