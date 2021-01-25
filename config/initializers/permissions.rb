@@ -50,7 +50,7 @@ OpenProject::AccessControl.map do |map|
 
     map.permission :add_user,
                    {
-                     users: %i[index new create edit update],
+                     users: %i[index show new create edit update],
                      admin: %i[index]
                    },
                    require: :loggedin,
