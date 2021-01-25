@@ -93,8 +93,8 @@ class PermittedParams
 
   def custom_action
     whitelisted = params
-                  .require(:custom_action)
-                  .permit(*self.class.permitted_attributes[:custom_action])
+      .require(:custom_action)
+      .permit(*self.class.permitted_attributes[:custom_action])
 
     whitelisted.merge(params[:custom_action].slice(:actions, :conditions).permit!)
   end
@@ -156,8 +156,8 @@ class PermittedParams
     # Here we try to circumvent this
     p = params.require(:query).permit(*self.class.permitted_attributes[:query])
     p[:sort_criteria] = params
-                        .require(:query)
-                        .permit(sort_criteria: { '0' => [], '1' => [], '2' => [] })
+      .require(:query)
+      .permit(sort_criteria: { '0' => [], '1' => [], '2' => [] })
     p[:sort_criteria].delete :sort_criteria
     p
   end
@@ -190,8 +190,8 @@ class PermittedParams
 
   def user_register_via_omniauth
     permitted_params = params
-                       .require(:user)
-                       .permit(:login, :firstname, :lastname, :mail, :language)
+      .require(:user)
+      .permit(:login, :firstname, :lastname, :mail, :language)
     permitted_params = permitted_params.merge(custom_field_values(:user))
 
     permitted_params
@@ -213,7 +213,7 @@ class PermittedParams
 
       permitted_params
     else
-      params.require(:user).permit
+      user
     end
   end
 
@@ -258,9 +258,9 @@ class PermittedParams
   end
 
   def pref
-    params.require(:pref).permit(:hide_mail, :time_zone, :theme,
-                                 :comments_sorting, :warn_on_leaving_unsaved,
-                                 :auto_hide_popups)
+    params.fetch(:pref, {}).permit(:hide_mail, :time_zone, :theme,
+                                   :comments_sorting, :warn_on_leaving_unsaved,
+                                   :auto_hide_popups)
   end
 
   def project
@@ -518,8 +518,8 @@ class PermittedParams
           Proc.new do |args|
             # avoid costly allowed_to? if the param is not there at all
             if args[:params]['work_package'] &&
-               args[:params]['work_package'].has_key?('watcher_user_ids') &&
-               args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
+              args[:params]['work_package'].has_key?('watcher_user_ids') &&
+              args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
 
               { watcher_user_ids: [] }
             end

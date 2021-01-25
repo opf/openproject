@@ -48,6 +48,9 @@ module Users
     attribute :identity_url,
               writeable: ->(*) { user.admin? }
 
+    attribute :force_password_change,
+              writeable: ->(*) { user.admin? }
+
     attribute :password,
               writeable: ->(*) { user.admin? || model.id == user.id }
 

@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= error_messages_for 'user' %>
+<%= error_messages_for_contract @user, @errors %>
 
 <% content_for :header_tags do %>
   <meta name="required_script" content="admin_users" />

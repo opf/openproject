@@ -128,32 +128,14 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user.attributes = permitted_params.user_create_as_admin(@user.uses_external_authentication?,
-                                                             @user.change_password_allowed?)
+    update_params = build_user_update_params
+    call = ::Users::UpdateService.new(model: @user, user: current_user).call(update_params)
 
-    if @user.change_password_allowed?
-      if params[:user][:assign_random_password]
-        @user.random_password!
-      elsif set_password? params
-        @user.password = params[:user][:password]
-        @user.password_confirmation = params[:user][:password_confirmation]
-      end
-    end
-
-    pref_params = if params[:pref].present?
-                    permitted_params.pref
-                  else
-                    {}
-                  end
-
-    if @user.save
+    if call.success?
       update_email_service = UpdateUserEmailSettingsService.new(@user)
-      update_email_service.call(mail_notification: pref_params.delete(:mail_notification),
+      update_email_service.call(mail_notification: update_params[:pref]&.delete(:mail_notification),
                                 self_notified: params[:self_notified] == '1',
                                 notified_project_ids: params[:notified_project_ids])
-
-      @user.pref.attributes = pref_params
-      @user.pref.save
 
       if !@user.password.blank? && @user.change_password_allowed?
         send_information = params[:send_information]
@@ -185,6 +167,8 @@ class UsersController < ApplicationController
       @auth_sources = AuthSource.all
       @membership ||= Member.new
       # Clear password input
+      @user = call.result
+      @errors = call.errors
       @user.password = @user.password_confirmation = nil
 
       respond_to do |format|
@@ -337,5 +321,31 @@ class UsersController < ApplicationController
 
   def show_local_breadcrumb
     current_user.admin?
+  end
+
+  def build_user_update_params
+    pref_params = permitted_params.pref.to_h
+    update_params = permitted_params
+      .user_create_as_admin(@user.uses_external_authentication?, @user.change_password_allowed?)
+      .to_h
+      .merge(pref: pref_params)
+
+    return update_params unless @user.change_password_allowed?
+
+    if params[:user][:assign_random_password]
+      password = OpenProject::Passwords::Generator.random_password
+      update_params.merge!(
+        password: password,
+        password_confirmation: password,
+        force_password_change: true
+      )
+    elsif set_password? params
+      update_params.merge!(
+        password: params[:user][:password],
+        password_confirmation: params[:user][:password_confirmation]
+      )
+    end
+
+    update_params
   end
 end
