@@ -160,9 +160,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     }
   }
 
-  shouldBeDisabled() {
-    const currentStep = this.steps[this.currentStepIndex];
-
+  shouldBeDisabled(currentStep:IUserWizardStep) {
     return currentStep?.formControlName && this.form.get(currentStep.formControlName)!.invalid;
   }
 

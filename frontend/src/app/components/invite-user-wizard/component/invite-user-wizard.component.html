@@ -107,7 +107,7 @@
     <button class="button"
             (click)="currentStep?.action ? currentStep?.action() : nextStep()"
             *ngIf="currentStep?.rightButtonText"
-            [disabled]="shouldBeDisabled()">
+            [disabled]="shouldBeDisabled(currentStep)">
       {{currentStep?.rightButtonText}}
     </button>
   </div>
