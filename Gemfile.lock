@@ -271,7 +271,7 @@ GEM
       airbrake-ruby (~> 5.1)
     airbrake-ruby (5.2.0)
       rbtree3 (~> 0.5)
-    ast (2.4.1)
+    ast (2.4.2)
     attr_required (1.0.1)
     auto_strip_attributes (2.6.0)
       activerecord (>= 4.0)
