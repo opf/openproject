@@ -42,17 +42,34 @@ module Users
               writeable: ->(*) { user.admin? && model.id != user.id }
     attribute :language
 
-    attribute :auth_source_id
-    attribute :identity_url
-    attribute :password
+    attribute :auth_source_id,
+              writeable: ->(*) { user.admin? }
+
+    attribute :identity_url,
+              writeable: ->(*) { user.admin? }
+
+    attribute :password,
+              writeable: ->(*) { user.admin? || model.id == user.id }
 
     def self.model
       User
     end
 
     validate :existing_auth_source
+    validate :password_writable
 
     private
+
+    ##
+    # User#password is not an ActiveModel property,
+    # but just an accessor, so we need to identify it being written there.
+    # It is only present when freshly written
+    def password_writable
+      # Only admins or the user themselves can set the password
+      return if user.admin? || user.id == model.id
+
+      errors.add :password, :error_readonly if model.password.present?
+    end
 
     def existing_auth_source
       if auth_source_id && AuthSource.find_by_unique(auth_source_id).nil?
