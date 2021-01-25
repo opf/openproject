@@ -57,7 +57,7 @@ export class InviteUserWizardService extends UntilDestroyedMixin {
         ]
       })
       .pipe(
-        map((roles:CollectionResource) => roles.elements.filter(role => role.name?.toLowerCase().includes(searchTerm.toLowerCase())))
+        map((roles:CollectionResource) => roles.elements.filter(role => role.name?.toLowerCase().includes(searchTerm?.toLowerCase())))
       );
   }
 
@@ -85,8 +85,8 @@ export class InviteUserWizardService extends UntilDestroyedMixin {
     }
 
     return this.principals$
-      .pipe(map(allPrincipals => allPrincipals.filter(principal => principal.name?.toLowerCase()?.includes(searchTerm.toLowerCase()) ||
-                                                                                    principal.email?.toLowerCase().includes(searchTerm.toLowerCase()))));
+      .pipe(map(allPrincipals => allPrincipals.filter(principal => principal.name?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
+                                                                                    principal.email?.toLowerCase().includes(searchTerm?.toLowerCase()))));
   }
 
   getAllPrincipalsData(memberPrincipals:UserResource | GroupResource[], nonMemberPrincipals:UserResource | GroupResource[]):IUserWizardSelectData[] {

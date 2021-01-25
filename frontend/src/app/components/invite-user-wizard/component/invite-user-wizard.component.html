@@ -32,6 +32,10 @@
             <span *ngIf="inputIsEmail(ngSelectInput.value)">
               ({{item.email}})
             </span>
+
+            <span *ngIf="item.disabled">
+              ({{text.alreadyMemberMessage}} {{project}})
+            </span>
           </ng-template>
 
           <!--SELECT NOT FOUND TEMPLATE-->

@@ -1058,6 +1058,7 @@ en:
       invite: 'Invite'
       no_data_found_for: 'No data found for'
       to: 'to'
+      already_member_message: 'Already a member of project'
 
 
 

@@ -30,6 +30,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     invite: this.I18n.t('js.invite_user_modal.invite'),
     to: this.I18n.t('js.invite_user_modal.to'),
     noDataFoundFor: this.I18n.t('js.invite_user_modal.no_data_found_for'),
+    alreadyMemberMessage: this.I18n.t('js.invite_user_modal.already_member_message'),
     step0: {
       label: this.I18n.t('js.invite_user_modal.name_or_email_label'),
       summaryLabel: this.I18n.t('js.invite_user_modal.user'),
@@ -210,7 +211,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
   }
 
   setUserEmail(inputValue:string) {
-    const user = {name: inputValue, isEmail: true};
+    const user = {name: inputValue, email: inputValue, isEmail: true};
 
     this.form.get('user')!.setValue(user);
     this.select.close();
