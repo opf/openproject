@@ -34,12 +34,11 @@ module Users
     protected
 
     def before_perform(params)
-      super(params).tap do |result|
-        call_hook :service_update_user_before_save,
-                  params: params,
-                  result: result,
-                  user: model
-      end
+      call_hook :service_update_user_before_save,
+                params: params,
+                user: model
+
+      super(params)
     end
 
     def persist(service_result)

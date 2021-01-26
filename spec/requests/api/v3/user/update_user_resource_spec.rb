@@ -73,20 +73,6 @@ describe ::API::V3::Users::UsersAPI, type: :request do
       it_behaves_like 'successful update', mail: 'foo@example.org', language: 'de'
     end
 
-    describe 'password update' do
-      let(:password) { 'my!new!password123' }
-      let(:parameters) { { password: password } }
-
-      it 'updates the users password correctly' do
-        send_request
-        expect(last_response.status).to eq(200)
-
-        updated_user = User.find(user.id)
-        matches = updated_user.check_password?(password)
-        expect(matches).to eq(true)
-      end
-    end
-
     describe 'attribute collision' do
       let(:parameters) { { email: 'foo@example.org' } }
       let(:collision) { FactoryBot.create(:user, mail: 'foo@example.org') }
@@ -115,6 +101,20 @@ describe ::API::V3::Users::UsersAPI, type: :request do
 
     it_behaves_like 'update flow'
 
+    describe 'password update' do
+      let(:password) { 'my!new!password123' }
+      let(:parameters) { { password: password } }
+
+      it 'updates the users password correctly' do
+        send_request
+        expect(last_response.status).to eq(200)
+
+        updated_user = User.find(user.id)
+        matches = updated_user.check_password?(password)
+        expect(matches).to eq(true)
+      end
+    end
+
     describe 'unknown user' do
       let(:parameters) { { email: 'foo@example.org' } }
       let(:path) { api_v3_paths.user(666) }
@@ -128,17 +128,28 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   end
 
   describe 'user with global add_user permission' do
-    let(:current_user) { FactoryBot.build(:user) }
-    let(:global_add_user_role) { FactoryBot.create :global_role, name: 'Add user', permissions: %i[add_user] }
-
-    let!(:user) { FactoryBot.create :user }
-    let!(:global_member) do
-      FactoryBot.create(:global_member,
-                        principal: current_user,
-                        roles: [global_add_user_role])
-    end
+    using_shared_fixtures :global_add_user
+    let(:current_user) { global_add_user }
 
     it_behaves_like 'update flow'
+
+    describe 'password update' do
+      let(:password) { 'my!new!password123' }
+      let(:parameters) { { password: password } }
+
+      it 'rejects the users password update' do
+        send_request
+        expect(last_response.status).to eq(422)
+
+        expect(last_response.body)
+          .to be_json_eql('password'.to_json)
+                .at_path('_embedded/details/attribute')
+
+        expect(last_response.body)
+          .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyIsReadOnly'.to_json)
+                .at_path('errorIdentifier')
+      end
+    end
   end
 
   describe 'unauthorized user' do

@@ -152,7 +152,7 @@ class MyController < ApplicationController
   end
 
   def write_settings
-    user_params = permitted_params.user.merge(pref: permitted_params.pref)
+    user_params = permitted_params.my_account_settings
 
     result = Users::UpdateService
              .new(user: current_user, model: current_user)
