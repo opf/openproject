@@ -86,7 +86,7 @@ zh-CN:
     caption_rate_history: "费率历史记录"
     clipboard:
       browser_error: "您的浏览器不支持复制到剪贴板，请手动复制选定的文本。"
-      copied_successful: "成功复制到剪贴板!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: '图表类型'
       axis_criteria: '轴条件'

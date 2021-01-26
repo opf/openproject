@@ -86,7 +86,7 @@ hu:
     caption_rate_history: "Díj előzmények"
     clipboard:
       browser_error: "A böngésző nem támogatja a vágólapra másolást. Kérjük, másolja a kijelölt szöveget manuálisan."
-      copied_successful: "A vágólapra másolás sikeres!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Diagram típus'
       axis_criteria: 'Tengely kritérium'

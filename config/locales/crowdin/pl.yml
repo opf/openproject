@@ -78,7 +78,7 @@ pl:
     is_active: obecnie wyświetlane
     is_inactive: obecnie nie są wyświetlane
   attribute_help_texts:
-    note_public: 'Każdy tekst i obrazy, które dodasz do tego pola, będą publicznie widoczne dla wszystkich zalogowanych użytkowników!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'W tym widoku możesz utworzyć własny widok tekstów pomocy dla atrybutów. Gdy zostaną zdefiniowane, będą widoczna po kliknięciu w ikonę pomocy danego atrybutu.'
     label_plural: 'Teksty pomocy atrybutów'
     show_preview: 'Podgląd tekstu'
@@ -191,7 +191,7 @@ pl:
       Określ listę nazw, które mają być ignorowane podczas przetwarzania załączników do poczty przychodzącej (np. sygnatur lub ikon). W każdym wierszu prowadź jedną nazwę pliku.
   projects:
     delete:
-      scheduled: "Usunięcie zostało zaplanowane i jest wykonywane w tle. Otrzymasz powiadomienie o wyniku."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Nie można usunąc projektu: %{errors}"
       failed: "Usunięcie projektu %{name} nie powiodło się"
       failed_text: "Żądanie usunięcia projektu %{name} nie powiodło się. Projekt pozostał zarchiwizowany."
@@ -1158,7 +1158,7 @@ pl:
   error_menu_item_not_saved: Nie można zapisać elementu menu
   error_wiki_root_menu_item_conflict: >
     Nie można zmienić nazwy "%{old_name}" na "%{new_name}", ze względu na konflikt w istniejącym elemencie menu "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Wystąpił błąd podczas autoryzacji zewnętrznej. Proszę spróbować ponownie."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Atrybuty, których nie można wyróżnić: %{attributes}"
   events:
     project: 'Projekt edytowany'
@@ -2146,7 +2146,7 @@ pl:
       username: "Użytkownik repozytorium"
     truncated: "Niestety, musieliśmy obciąć ten katalog do %{limit} plików. %{truncated} wpisów pominięto na liście."
     named_repository: "%{vendor_name} repozytorium"
-    update_settings_successful: "Ustawienia zostały zapisane."
+    update_settings_successful: "The settings have been successfully saved."
     url: "Adres URL do repozytorium"
     warnings:
       cannot_annotate: "Ten plik nie może być odnotowany."

@@ -86,7 +86,7 @@ ro:
     caption_rate_history: "Rate history"
     clipboard:
       browser_error: "Browser-ul nu acceptă copierea în ecranul tampon. Vă rugăm să copiaţi textul selectat manual."
-      copied_successful: "Copiere în ecranul tampon reușită!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Chart type'
       axis_criteria: 'Axis criteria'

@@ -86,7 +86,7 @@ vi:
     caption_rate_history: "Rate history"
     clipboard:
       browser_error: "Trình duyệt không hỗ trợ copy vào clipboard. Vui lòng copy văn bản đã chọn theo cách thủ công."
-      copied_successful: "Sao chép thành công vào clipboard!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Kiểu đồ thị'
       axis_criteria: 'Tiêu chí trục'

@@ -86,7 +86,7 @@ fil:
     caption_rate_history: "Rate history"
     clipboard:
       browser_error: "Ang iyong browser ay hindi suporta ang pagkokopya sa clipboard. Mangayaring kopyahin ng manu-mano ang napiling teksto."
-      copied_successful: "Matagumpay na kinopya sa clipboard!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Chart type'
       axis_criteria: 'Axis criteria'

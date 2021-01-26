@@ -86,7 +86,7 @@ ar:
     caption_rate_history: "تاريخ السعر"
     clipboard:
       browser_error: "لا يدعم المتصفح الخاص بك النسخ إلى الحافظة, من فضلك انسخ النص المختار يدوياً."
-      copied_successful: "تم النسخ بنجاح إلى الحافظة!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Chart type'
       axis_criteria: 'Axis criteria'

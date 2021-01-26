@@ -78,7 +78,7 @@ sk:
     is_active: aktuálne zobrazené
     is_inactive: v súčasnosti nie je zobrazené
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'V tomto zobrazení môžete vytvoriť vlastné texty pomoci pre zobrazenie atribútov. Po definovaní môžete tieto texty prezerať kliknutím na ikonu pomoci zobrazenú k príslušným atribútom.'
     label_plural: 'Texty nápovedy atribútu'
     show_preview: 'Ukázať náhľad'
@@ -195,7 +195,7 @@ sk:
       Zadajte zoznam názvov, ktoré chcete ignorovať pri spracovávaní príloh prichádzajúcich e-mailov (napr. podpisy alebo ikony). Zadajte jeden názov súboru na riadok.
   projects:
     delete:
-      scheduled: "Vymazanie bolo naplánované a uskutočňuje sa na pozadí. O výsledku budete informovaný."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Projekt nie je možné odstrániť: %{errors}"
       failed: "Odstránenie projektu %{name} zlyhalo"
       failed_text: "Požiadavka na odstránenie projektu %{name} zlyhala. Projekt zostal archivovaný."
@@ -1162,7 +1162,7 @@ sk:
   error_menu_item_not_saved: Položku sa nepodarilo uložiť
   error_wiki_root_menu_item_conflict: >
     Nie je možné premenovať "%{old_name}" na "%{new_name}" kvôli konfliktu vo výslednej položke menu s existujúcou položkou menu "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Vyskytla sa chyba počas externej autentifikácie. Prosím skúste to znova."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Atribút(y), ktoré nie je možné zvýrazniť: %{attributes}"
   events:
     project: 'Projekt upravený'
@@ -2152,7 +2152,7 @@ sk:
       username: "Užívateľské meno úložiska"
     truncated: "Je nám ľúto, museli sme tento adresár skrátiť na %{limit} súborov. Počet položiek %{truncated} bolo zo zoznamu vynechaných."
     named_repository: "%{vendor_name} úložiska"
-    update_settings_successful: "Nastavenia boli úspešne uložené."
+    update_settings_successful: "The settings have been successfully saved."
     url: "URL úložiska"
     warnings:
       cannot_annotate: "Tento súbor nie je možné komentovať."
@@ -2674,7 +2674,7 @@ sk:
       code_403: "Nemáte oprávnenie na prístup k tomuto prostriedku."
       code_404: "Požadovaný prostriedok sa nenašiel."
       code_409: "Nepodarilo sa aktualizovať zdroj kvôli konfliktným úpravám."
-      code_500: "Nastala vnútorná chyba."
+      code_500: "Vyskytla sa vnútorná chyba."
       expected:
         date: "RRRR-MM-DD (len dátumu ISO 8601)"
         duration: "ISO 8601 trvanie"

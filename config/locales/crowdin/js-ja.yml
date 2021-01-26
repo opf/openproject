@@ -87,7 +87,7 @@ ja:
     caption_rate_history: "進捗履歴"
     clipboard:
       browser_error: "お使いのブラウザーでは、クリップボードへのコピーをサポートしていません。手動で選択したテキストをコピーしてください。"
-      copied_successful: "正常にクリップボードにコピーしました!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'グラフの種類'
       axis_criteria: '座標条件'

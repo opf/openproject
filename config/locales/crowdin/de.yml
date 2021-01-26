@@ -78,7 +78,7 @@ de:
     is_active: derzeit angezeigt
     is_inactive: derzeit nicht angezeigt
   attribute_help_texts:
-    note_public: 'Diesem Feld hinzugefügten Texte und Bilder sind öffentlich für alle angemeldeten Benutzer sichtbar!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'In dieser Ansicht können Sie benutzerdefinierte Hilfe-Texte für Attribute definieren. Für Attribute mit hinterlegtem Text können diese über ein kleines Hilfe-Icon neben dem Attribut angezeigt werden.'
     label_plural: 'Hilfe-Texte für Attribute'
     show_preview: 'Vorschau des Hilfe-Textes'
@@ -192,7 +192,7 @@ de:
       Geben Sie eine Liste von Dateinamen an, die beim Verarbeiten von Anhängen für eingehende Mails (z.B. Signaturen oder Symbole) ignoriert werden sollen. Geben Sie einen Dateinamen pro Zeile ein.
   projects:
     delete:
-      scheduled: "Löschung wurde geplant und wird im Hintergrund ausgeführt. Sie werden über das Ergebnis informiert."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Projekt kann nicht gelöscht werden: %{errors}"
       failed: "Löschen des Projekts %{name} ist fehlgeschlagen"
       failed_text: "Die Anfrage zum Löschen des Projekts %{name} ist fehlgeschlagen. Das Projekt wurde archiviert."
@@ -1125,7 +1125,7 @@ de:
   error_menu_item_not_saved: Menüpunkt konnte nicht aktualisiert werden.
   error_wiki_root_menu_item_conflict: >
     Kann "%{old_name}" nicht in "%{new_name}" umbenennen, weil es mit dem bestehenden Menüeintrag "%{existing_caption}" (%{existing_identifier}) kollidiert.
-  error_external_authentication_failed: "Die externe Authentifizierung ist fehlgeschlagen. Bitte versuchen Sie es erneut."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Nicht hervorhebbare Attribut(e): %{attributes}"
   events:
     project: 'Projekt bearbeitet'
@@ -2106,7 +2106,7 @@ de:
       username: "Projektarchiv-Nutzername"
     truncated: "Dieses Projektarchiv musste limitiert werden auf %{limit} Dateien. %{truncated} Einträge wurden von der Liste weggelassen."
     named_repository: "%{vendor_name} Projektarchiv"
-    update_settings_successful: "Die Einstellungen wurden erfolgreich gespeichert."
+    update_settings_successful: "The settings have been successfully saved."
     url: "URL zum Projektarchiv"
     warnings:
       cannot_annotate: "Diese Datei kann nicht kommentiert werden."

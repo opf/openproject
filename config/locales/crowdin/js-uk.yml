@@ -86,7 +86,7 @@ uk:
     caption_rate_history: "Історія рейтингу"
     clipboard:
       browser_error: "Ваш браузер не підтримує копіювання до буфера обміну. Потрібно скопіювати виділений текст вручну."
-      copied_successful: "Успішно скопійовано до буфера обміну!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Тип графіка'
       axis_criteria: 'Умови осі'

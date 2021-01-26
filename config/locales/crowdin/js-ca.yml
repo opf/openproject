@@ -86,7 +86,7 @@ ca:
     caption_rate_history: "Rate history"
     clipboard:
       browser_error: "El seu navegador no suporta copiar al porta-retalls. Si us plau, copieu el text seleccionat manualment."
-      copied_successful: "S'ha copiat correctament al porta-retalls!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Tipus de gràfica'
       axis_criteria: 'Criteri d''eix'

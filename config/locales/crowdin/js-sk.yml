@@ -86,7 +86,7 @@ sk:
     caption_rate_history: "Hodinová sadzba - História"
     clipboard:
       browser_error: "Váš prehliadač nepodporuje kopírovanie do schránky. Manuálne skopírujte vybratý text."
-      copied_successful: "Úspešne skopírované do schránky!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Chart type'
       axis_criteria: 'Axis criteria'

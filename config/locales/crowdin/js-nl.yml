@@ -86,7 +86,7 @@ nl:
     caption_rate_history: "Rate history"
     clipboard:
       browser_error: "Uw browser ondersteunt kopiëren naar het klembord niet. Kopieer de geselecteerde tekst handmatig."
-      copied_successful: "Met succes gekopieerd naar het klembord!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Chart type'
       axis_criteria: 'Axis criteria'

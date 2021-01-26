@@ -86,7 +86,7 @@ sl:
     caption_rate_history: "Zgodovina tečaja"
     clipboard:
       browser_error: "Vaš brskalnik ne podpira kopiranja v odložišče. Kopirajte izbrano besedilo ročno."
-      copied_successful: "Uspešno kopirano v odložišče!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Vrsta grafikona'
       axis_criteria: 'Merila osi'

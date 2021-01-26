@@ -86,7 +86,7 @@ lt:
     caption_rate_history: "Koeficiento istorija"
     clipboard:
       browser_error: "Jūsų naršyklė nepalaiko kopijavimo į iškarpinę. Prašome pažymėtą tekstą nukopijuoti rankiniu būdu."
-      copied_successful: "Sėkmingai nukopijuota į iškarpinę!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Grafiko tipas'
       axis_criteria: 'Ašies kriterijus'

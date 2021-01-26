@@ -78,7 +78,7 @@
     is_active: vises nå
     is_inactive: vises ikke
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
     label_plural: 'Attribute help texts'
     show_preview: 'Preview text'
@@ -195,7 +195,7 @@
       Angi en liste over navn som skal ignoreres når vedlegg for innkommende meldinger (f.eks. signaturer eller ikoner). Angi ett filnavn per linje.
   projects:
     delete:
-      scheduled: "Sletting er planlagt og blir utført i bakgrunnen. Du vil bli varslet om resultatet."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Prosjektet kan ikke slettes: %{errors}"
       failed: "Sletting av prosjektet %{name} mislyktes"
       failed_text: "Forespørselen om å slette prosjektet %{name} mislyktes. Prosjektet ble satt som arkivert."
@@ -1130,7 +1130,7 @@
   error_menu_item_not_saved: Menyelementet kunne ikke lagres
   error_wiki_root_menu_item_conflict: >
     Can't rename "%{old_name}" to "%{new_name}" due to a conflict in the resulting menu item with the existing menu item "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Det oppstod en feil i forbindelse med ekstern autentisering. Vennligst forsøk igjen."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
     project: 'Prosjektet er redigert'
@@ -2111,7 +2111,7 @@
       username: "Repository username"
     truncated: "Sorry, we had to truncate this directory to %{limit} files. %{truncated} entries were omitted from the list."
     named_repository: "%{vendor_name} repository"
-    update_settings_successful: "The settings have been sucessfully saved."
+    update_settings_successful: "The settings have been successfully saved."
     url: "URL to repository"
     warnings:
       cannot_annotate: "This file cannot be annotated."
@@ -2628,7 +2628,7 @@
       code_403: "Du har ikke tilgang til denne ressursen."
       code_404: "Finner ikke den forespurte ressursen."
       code_409: "Could not update the resource because of conflicting modifications."
-      code_500: "An internal error has occured."
+      code_500: "An internal error has occurred."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
         duration: "ISO 8601 duration"

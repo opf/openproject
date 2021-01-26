@@ -78,7 +78,7 @@ sv:
     is_active: visas för tillfället
     is_inactive: visas ej för tillfället
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'I den här vyn kan du skapa anpassade hjälptexter för attributvyn. När den är definierad kan dessa texter visas genom att klicka på hjälpikonen bredvid dess tillhörande attribut.'
     label_plural: 'Hjälptexter för attribut'
     show_preview: 'Förhandsgranska text'
@@ -195,7 +195,7 @@ sv:
       Specificera en lista med namn att ignorera när bilagor för inkommande e-post bearbetas (t. ex. signaturer och ikoner). Ange ett filnamn per rad.
   projects:
     delete:
-      scheduled: "Radering har schemalagts och utförs i bakgrunden. Du kommer bli notifierad om resultatet."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Projektet kan inte tas bort: %{errors}"
       failed: "Borttagning av projekt %{name} misslyckades"
       failed_text: "Begäran om att ta bort projekt %{name} misslyckades. Projektet lämnades arkiverat."
@@ -1129,7 +1129,7 @@ sv:
   error_menu_item_not_saved: Menyobjektet kunde inte sparas
   error_wiki_root_menu_item_conflict: >
     Kan inte ändra från "%{old_name}" till "%{new_name}" på grund av en konflikt med det befintliga menyalternativet "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Ett fel uppstod under extern autentisering. Försök igen."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribut(en) kan inte markeras: %{attributes}"
   events:
     project: 'Projektet redigerades'
@@ -2108,7 +2108,7 @@ sv:
       username: "Användarnamn för arkiv"
     truncated: "Tyvärr behövde katalogen minskas till %{limit} filer. %{truncated} filer utelämnades från listan."
     named_repository: "%{vendor_name} databas"
-    update_settings_successful: "Inställningarna har sparats."
+    update_settings_successful: "The settings have been successfully saved."
     url: "URL till arkiv"
     warnings:
       cannot_annotate: "Den här filen kan inte kommenteras."

@@ -86,7 +86,7 @@ ko:
     caption_rate_history: "요금 기록"
     clipboard:
       browser_error: "브라우저를 클립보드에 복사를 지원 하지 않습니다. 텍스트를 타이핑하여 복사하십시오."
-      copied_successful: "클립보드에 성공적으로 복사됨"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: '차트 유형'
       axis_criteria: '축 기준'

@@ -86,7 +86,7 @@ ru:
     caption_rate_history: "История тарифов"
     clipboard:
       browser_error: "Ваш браузер не поддерживает копирование в буфер обмена. Пожалуйста, скопируйте выделенный текст вручную."
-      copied_successful: "Успешно скопировано в буфер обмена!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Тип диаграммы'
       axis_criteria: 'Критерии оси'

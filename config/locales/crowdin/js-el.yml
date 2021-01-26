@@ -86,7 +86,7 @@ el:
     caption_rate_history: "Ιστορικό αμοιβής"
     clipboard:
       browser_error: "Ο περιηγητής σας δεν υποστηρίζει αντιγραφή από το clipboard. Παρακαλούμε αντιγράψτε το επιλεγμένο κείμενο χειροκίνητα."
-      copied_successful: "Επιτυχής αντιγραφή στο πρόχειρο!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Τύπος διαγράμματος'
       axis_criteria: 'Κριτήρια άξονα'
