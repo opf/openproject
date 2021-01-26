@@ -52,7 +52,7 @@ class LdapAuthSource < AuthSource
       Rails.logger.debug { "Authentication successful for '#{login}'" }
       return attrs.except(:dn)
     end
-  rescue  Net::LDAP::LdapError => error
+  rescue Net::LDAP::Error => error
     raise 'LdapError: ' + error.message
   end
 
@@ -64,7 +64,7 @@ class LdapAuthSource < AuthSource
       Rails.logger.debug { "Lookup successful for '#{login}'" }
       return attrs.except(:dn)
     end
-  rescue  Net::LDAP::LdapError => error
+  rescue Net::LDAP::Error => error
     raise 'LdapError: ' + error.message
   end
 
@@ -78,7 +78,7 @@ class LdapAuthSource < AuthSource
     unless authenticate_dn(account, account_password)
       raise I18n.t('auth_source.ldap_error', error_message: I18n.t('auth_source.ldap_auth_failed'))
     end
-  rescue  Net::LDAP::LdapError => text
+  rescue Net::LDAP::Error => text
     raise I18n.t('auth_source.ldap_error', error_message: text.to_s)
   end
 
@@ -128,7 +128,7 @@ class LdapAuthSource < AuthSource
                 port: port,
                 force_no_page: true,
                 encryption: ldap_encryption
-              }
+    }
     options.merge!(auth: { method: :simple, username: ldap_user, password: ldap_password }) unless ldap_user.blank? && ldap_password.blank?
     Net::LDAP.new options
   end

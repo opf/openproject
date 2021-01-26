@@ -107,7 +107,7 @@ data will be stored across container restarts, and start the container with
 those directories mounted:
 
 ```bash
-sudo mkdir -p /var/lib/openproject/{pgdata,assets}
+sudo mkdir -p /var/lib/openproject/{pgdata,assets} 
 
 docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
@@ -116,6 +116,8 @@ docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
 ```
 
 **Note**: Make sure to replace `secret` with a random string. One way to generate one is to run `head /dev/urandom | tr -dc A-Za-z0-9 | head -c 32 ; echo ''` if you are on Linux.
+
+**Note**: MacOS users might encounter an "Operation not permitted" error on the mounted directories. The fix for this is to create the two directories in a user-owned directory of the host machine.
 
 Since we named the container, you can now stop it by running:
 
