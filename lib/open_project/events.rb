@@ -37,6 +37,7 @@ module OpenProject
   # @note Does not include all events but it should!
   # @see OpenProject::Notifications
   module Events
+    JOURNAL_CREATED = 'journal_created'.freeze
     AGGREGATED_WORK_PACKAGE_JOURNAL_READY = "aggregated_work_package_journal_ready".freeze
     AGGREGATED_WIKI_JOURNAL_READY = "aggregated_wiki_journal_ready".freeze
     NEW_TIME_ENTRY_CREATED = "new_time_entry_created".freeze
@@ -44,5 +45,8 @@ module OpenProject
     PROJECT_CREATED = "project_created".freeze
     PROJECT_UPDATED = "project_updated".freeze
     PROJECT_RENAMED = "project_renamed".freeze
+
+    WATCHER_ADDED = 'watcher_added'.freeze
+    WATCHER_REMOVED = 'watcher_removed'.freeze
   end
 end
