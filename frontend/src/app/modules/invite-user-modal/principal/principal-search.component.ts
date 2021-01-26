@@ -44,6 +44,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin {
         switchMap((searchTerm:string) => {
           const filters = new ApiV3FilterBuilder();
           filters.add('name', '~', [searchTerm]);
+          filters.add('status', '!', [3]);
           filters.add('type', '=', [this.type.charAt(0).toUpperCase() + this.type.slice(1)]);
           return this.apiV3Service.principals.filtered(filters).get().pipe(map(collection => collection.elements));
         }),

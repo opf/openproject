@@ -46,7 +46,7 @@ export class PrincipalComponent implements OnInit {
   }
 
   get isMemberOfCurrentProject() {
-    return !!this.principalControl?.value?.memberships?.elements?.find((mem) => mem.project.id === this.project.id);
+    return !!this.principalControl?.value?.memberships?.elements?.find((mem:any) => mem.project.id === this.project.id);
   }
 
   constructor(readonly I18n:I18nService,
