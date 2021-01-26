@@ -129,11 +129,12 @@ class UsersController < ApplicationController
 
   def update
     update_params = build_user_update_params
+    mail_notification = update_params.delete(:mail_notification)
     call = ::Users::UpdateService.new(model: @user, user: current_user).call(update_params)
 
     if call.success?
       update_email_service = UpdateUserEmailSettingsService.new(@user)
-      update_email_service.call(mail_notification: update_params[:pref]&.delete(:mail_notification),
+      update_email_service.call(mail_notification: mail_notification,
                                 self_notified: params[:self_notified] == '1',
                                 notified_project_ids: params[:notified_project_ids])
 
