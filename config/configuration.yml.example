@@ -143,7 +143,7 @@
 #       - plugins
 #       - info
 #
-# Also there is a posibility to specify which routes are forbidden,
+# Also there is a possibility to specify which routes are forbidden,
 # they should be listed as an array in yml format more information
 # regarding yml format you can find here:
 # http://symfony.com/doc/current/components/yaml/yaml_format.html
@@ -177,7 +177,7 @@ default:
   smtp_password: "my_openproject_password"
 
   # Prefix to the url-path. This path is then prepended to all
-  # the routes and is used to correclty identify the path to the assets.
+  # the routes and is used to correctly identify the path to the assets.
   # Defaults to having no prefix.
   # Examples:
   # For OpenProject to be reachable as

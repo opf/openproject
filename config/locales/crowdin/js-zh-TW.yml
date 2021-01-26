@@ -86,7 +86,7 @@ zh-TW:
     caption_rate_history: "Rate history"
     clipboard:
       browser_error: "您的瀏覽器不支援複製到剪貼簿。請手動複製選取的文字。"
-      copied_successful: "成功複製到剪貼簿上!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: '圖表類型'
       axis_criteria: 'Axis criteria'

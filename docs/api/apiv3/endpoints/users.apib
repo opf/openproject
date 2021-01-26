@@ -14,7 +14,7 @@
 |:-----------:|--------------------------------------------------------------                                                                                                        | -------------     | --------------------- | -------------------- | -----------------------------------------                     |
 | self        | This user                                                                                                                                                            | User              | not null              | READ                 |                                                               |
 | auth_source | Link to the user's auth source (endpoint not yet implemented)                                                                                                        | AuthSource        |                       | READ / WRITE         | **Permission**: Administrator                                 |
-| members     | Link ot collection of all the user's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions. | MemberCollection  |                       | READ                 | **Permission**: view members or manage members in any project |
+| members     | Link to collection of all the user's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions. | MemberCollection  |                       | READ                 | **Permission**: view members or manage members in any project |
 
 ## Local Properties
 | Property     | Description                                               | Type     | Constraints                                          | Supported operations | Condition                                                                           |
@@ -36,7 +36,7 @@
 
 The `status` of a user can be one of:
 
-* `active` - the user can log in with the account right aways
+* `active` - the user can log in with the account right away
 * `invited` - the user is invited and is pending registration
 
 If the user's `status` is set to `active` during creation a means of authentication

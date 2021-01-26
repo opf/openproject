@@ -22,7 +22,7 @@ You can configure the following options for webhooks:
 
 1. Choose a **name** identifying the webhook.
 2. **Payload URL** defines the endpoint, called when the webhook is triggered.
-3. Freely choose an additonal **description** to further identify the intent of the respective webhook.
+3. Freely choose an additional **description** to further identify the intent of the respective webhook.
 4. By defining a **Signature secret** you guarantee that the sender of the payload request is actually OpenProject. The client will then check this signature secret.
 5. **Enable** if **the webhook** should be active.
 6. **Set the events** for which the webhook should be activate, i.e. webhook for updating or creating projects or work packages, or for creating time entries.

@@ -64,7 +64,7 @@ The OAuth2 based authentication requires an administrator to set up but offers s
 
 OpenProject supports two OAuth flows: "Authorization code" and "Client credentials". In OpenProject terms, the main difference is whether a client wants to impersonate different users or wants to always access OpenProject with the same user account. An example for the former would be an application for logging time. Via the "Authorization code" flow, the logged time would be booked in the name of each user separately. The user would be the user creating the logged time. If the calling user is less important or if that user can always be the same, the "Client credentials" flow is sufficient.
 
-Before the client can authenticate, an administrator sets up the OAuth application within the OpenProject instance. Go to the Administration and select "OAuth applictions" within the "Authentication" menu.
+Before the client can authenticate, an administrator sets up the OAuth application within the OpenProject instance. Go to the Administration and select "OAuth applications" within the "Authentication" menu.
 
 ![OAuth2 index](./oauth2-index.png)
 

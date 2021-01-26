@@ -78,7 +78,7 @@ nl:
     is_active: momenteel getoond
     is_inactive: momenteel niet getoond
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'In deze weergave kunt u aangepaste helpteksten voor kenmerken weergave. Wanneer gedefinieerd, worden deze teksten door te klikken op het help-pictogram naast het behoren kenmerk weergegeven.'
     label_plural: 'Kenmerk help-teksten'
     show_preview: 'Voorbeeld Tekst'
@@ -195,7 +195,7 @@ nl:
       Geef een lijst van namen op om te negeren bij het verwerken van bijlagen voor inkomende mails (bijv. handtekeningen of iconen). Voer één bestandsnaam per regel in.
   projects:
     delete:
-      scheduled: "Het verwijderen staat gepland en wordt uigevoerd in de achtergrond. U wordt op de hoogte gehouden van het resultaat."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Project kan niet worden verwijderd: %{errors}"
       failed: "Verwijderen van project %{name} is mislukt"
       failed_text: "Het verzoek om het project %{name} verwijderen is mislukt. Het project is gearchiveerd gebleven."
@@ -1130,7 +1130,7 @@ nl:
   error_menu_item_not_saved: Menu-item kan niet worden opgeslagen
   error_wiki_root_menu_item_conflict: >
     Kan "%{old_name}" niet naar "%{new_name}" hernoemen vanwege een conflict in het resulterende menu-item met het bestaande menu-item. "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Er heeft zich een fout voorgedaan bij de externe authenticatie. Probeer het opnieuw."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) niet markeerbaar: %{attributes}"
   events:
     project: 'Project bewerkt'
@@ -2110,7 +2110,7 @@ nl:
       username: "Repository-gebruikersnaam"
     truncated: "Onze excuses, we hebben de map beperkt tot %{limit} bestanden. De %{truncated} bestanden zijn verwijderd uit de lijst."
     named_repository: "%{vendor_name} repository"
-    update_settings_successful: "De instellingen zijn opgeslagen."
+    update_settings_successful: "The settings have been successfully saved."
     url: "URL van de repository"
     warnings:
       cannot_annotate: "Dit bestand kan niet geannoteerd worden."

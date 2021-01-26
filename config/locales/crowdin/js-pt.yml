@@ -86,7 +86,7 @@ pt:
     caption_rate_history: "Taxa histórica"
     clipboard:
       browser_error: "Seu navegador não suporta copiar para a área de transferência. Por favor, copie o texto selecionado manualmente."
-      copied_successful: "Copiado com sucesso para área de transferência!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Tipo de gráfico'
       axis_criteria: 'Critérios do eixo'

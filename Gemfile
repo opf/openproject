@@ -64,7 +64,7 @@ gem 'addressable', '~> 2.7.0'
 gem "auto_strip_attributes", "~> 2.5"
 
 # Provide timezone info for TZInfo used by AR
-gem 'tzinfo-data', '~> 1.2020.1'
+gem 'tzinfo-data', '~> 1.2021.1'
 
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
@@ -107,7 +107,7 @@ gem 'posix-spawn', '~> 0.3.13', require: false
 gem 'bcrypt', '~> 3.1.6'
 
 gem 'multi_json', '~> 1.15.0'
-gem 'oj', '~> 3.10.2'
+gem 'oj', '~> 3.11.0'
 
 gem 'daemons'
 gem 'delayed_job_active_record', '~> 4.1.5'
@@ -119,13 +119,13 @@ gem 'rack-protection', '~> 2.1.0'
 # It allows whitelisting, blacklisting, throttling, and tracking based
 # on arbitrary properties of the request.
 # https://github.com/kickstarter/rack-attack
-gem 'rack-attack', '~> 6.3.1'
+gem 'rack-attack', '~> 6.4.0'
 
 # CSP headers
 gem 'secure_headers', '~> 6.3.0'
 
 # Browser detection for incompatibility checks
-gem 'browser', '~> 5.2.0'
+gem 'browser', '~> 5.3.0'
 
 # Providing health checks
 gem 'okcomputer', '~> 1.18.1'
@@ -196,7 +196,7 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem 'test-prof', '~> 0.12.0'
+  gem 'test-prof', '~> 1.0.0'
 
   gem 'database_cleaner', '~> 1.8'
   gem 'rack_session_access'
@@ -217,7 +217,7 @@ group :test do
   gem 'capybara', '~> 3.34.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'selenium-webdriver', '~> 3.14'
-  gem 'webdrivers', '~> 4.4.1'
+  gem 'webdrivers', '~> 4.5.0'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
@@ -231,7 +231,7 @@ group :test do
 
   gem 'equivalent-xml', '~> 0.6'
   gem 'json_spec', '~> 1.1.4'
-  gem 'shoulda-matchers', '~> 4.4', require: nil
+  gem 'shoulda-matchers', '~> 4.5', require: nil
 
   gem 'parallel_tests', '~> 3.1'
 end
@@ -299,7 +299,7 @@ platforms :mri, :mingw, :x64_mingw do
   end
 
   # Support application loading when no database exists yet.
-  gem 'activerecord-nulldb-adapter', '~> 0.5.0'
+  gem 'activerecord-nulldb-adapter', '~> 0.7.0'
 
   # Have application level locks on the database to have a mutex shared between workers/hosts.
   # We e.g. employ this to safeguard the creation of journals.

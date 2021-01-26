@@ -78,7 +78,7 @@ hr:
     is_active: trenutno prikazani
     is_inactive: trenutno nije prikazano
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
     label_plural: 'Attribute help texts'
     show_preview: 'Preview text'
@@ -195,7 +195,7 @@ hr:
       Specify a list of names to ignore when processing attachments for incoming mails (e.g., signatures or icons). Enter one filename per line.
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is perfomed in the background. You will be notified of the result."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Project cannot be deleted: %{errors}"
       failed: "Deletion of project %{name} has failed"
       failed_text: "The request to delete project %{name} has failed. The project was left archived."
@@ -1146,7 +1146,7 @@ hr:
   error_menu_item_not_saved: Nije moguće spremiti element izbornika
   error_wiki_root_menu_item_conflict: >
     Can't rename "%{old_name}" to "%{new_name}" due to a conflict in the resulting menu item with the existing menu item "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Došlo je do greške tijekom izvođenja vanjske autentifikacije. Molim vas pokušajte opet."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
     project: 'Projekt je uređivan'
@@ -2132,7 +2132,7 @@ hr:
       username: "Korisničko ime repozitorija"
     truncated: "Sorry, we had to truncate this directory to %{limit} files. %{truncated} entries were omitted from the list."
     named_repository: "%{vendor_name} repozitorij"
-    update_settings_successful: "Postavke su uspješno spremljene."
+    update_settings_successful: "The settings have been successfully saved."
     url: "URL na repozitorij"
     warnings:
       cannot_annotate: "Ovu datoteka ne može biti zabilježena."
@@ -2651,7 +2651,7 @@ hr:
       code_403: "Niste autorizirani za pristup ovom resursu."
       code_404: "The requested resource could not be found."
       code_409: "Could not update the resource because of conflicting modifications."
-      code_500: "Dogodila se interna pogreška."
+      code_500: "Dogodila se interna greška."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
         duration: "ISO 8601 duration"

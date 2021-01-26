@@ -89,7 +89,7 @@ en:
     is_inactive: currently not displayed
 
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
     label_plural: 'Attribute help texts'
     show_preview: 'Preview text'
@@ -222,7 +222,7 @@ en:
 
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is perfomed in the background. You will be notified of the result."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Project cannot be deleted: %{errors}"
       failed: "Deletion of project %{name} has failed"
       failed_text: "The request to delete project %{name} has failed. The project was left archived."
@@ -1163,7 +1163,7 @@ en:
     Can't rename "%{old_name}" to "%{new_name}" due to a conflict in the resulting menu item
     with the existing menu item "%{existing_caption}" (%{existing_identifier}).
 
-  error_external_authentication_failed: "An error occured during external authentication. Please try again."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
 
   events:
@@ -2178,7 +2178,7 @@ en:
       username: "Repository username"
     truncated: "Sorry, we had to truncate this directory to %{limit} files. %{truncated} entries were omitted from the list."
     named_repository: "%{vendor_name} repository"
-    update_settings_successful: "The settings have been sucessfully saved."
+    update_settings_successful: "The settings have been successfully saved."
     url: "URL to repository"
     warnings:
       cannot_annotate: "This file cannot be annotated."
@@ -2758,7 +2758,7 @@ en:
       code_403: "You are not authorized to access this resource."
       code_404: "The requested resource could not be found."
       code_409: "Could not update the resource because of conflicting modifications."
-      code_500: "An internal error has occured."
+      code_500: "An internal error has occurred."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
         duration: "ISO 8601 duration"

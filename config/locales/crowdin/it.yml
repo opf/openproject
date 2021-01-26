@@ -78,7 +78,7 @@ it:
     is_active: attualmente visualizzato
     is_inactive: attualmente non visualizzato
   attribute_help_texts:
-    note_public: 'Qualsiasi testo o immagine che aggiungi a questo campo sarà pubblicamente visibile a tutti gli utenti registrati!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'In questa vista, puoi creare testi guida personalizzati per la visualizzazione degli attributi. Quando definiti, questi testi possono essere visualizzati facendo clic sull''icona guida accanto all''attributo relativo.'
     label_plural: 'Testi guida degli attributi'
     show_preview: 'Anteprima testo'
@@ -192,7 +192,7 @@ it:
       Specifica un elenco di nomi da ignorare durante l'elaborazione di allegati per posta in arrivo (ad esempio firme o icone). Immettere un nome file per riga.
   projects:
     delete:
-      scheduled: "L'eliminazione è stata programmata e verrà eseguita in background. Verrai avvisato del risultato."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Il progetto non può essere eliminato: %{errors}"
       failed: "Eliminazione del progetto %{name} non riuscita"
       failed_text: "La richiesta di eliminare il progetto %{name} non è riuscita. Il progetto è stato archiviato."
@@ -1126,7 +1126,7 @@ it:
   error_menu_item_not_saved: La voce di menu non può essere salvata
   error_wiki_root_menu_item_conflict: >
     Impossibile rinominare "%{old_name}" a "%{new_name}" a causa di un conflitto nella voce di menu risultante con la voce di menu esistente "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Si è verificato un errore durante l'autenticazione esterna. Per favore riprova."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attributo/i non sottolineabile/i: %{attributes}"
   events:
     project: 'Progetto modificato'
@@ -2107,7 +2107,7 @@ it:
       username: "Nome utente di accesso all'archivio"
     truncated: "Ci dispiace, abbiamo dovuto troncare questa directory a %{limit} file. %{truncated} elementi sono stati omessi dall'elenco."
     named_repository: "archivio di progetto %{vendor_name}"
-    update_settings_successful: "Le impostazioni sono state salvate con successo."
+    update_settings_successful: "The settings have been successfully saved."
     url: "URL all'archivio"
     warnings:
       cannot_annotate: "Questo file non può essere annotato."

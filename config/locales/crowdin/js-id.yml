@@ -86,7 +86,7 @@ id:
     caption_rate_history: "Histori rate"
     clipboard:
       browser_error: "Browser Anda tidak mendukung menyalin ke clipboard. Harap menyalin teks yang dipilih secara manual."
-      copied_successful: "Berhasil disalin ke clipboard!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Chart type'
       axis_criteria: 'Axis criteria'

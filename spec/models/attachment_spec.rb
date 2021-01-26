@@ -314,7 +314,7 @@ describe Attachment, type: :model do
         end
       end
 
-      context 'with expiry time exeeding maximum' do
+      context 'with expiry time exceeding maximum' do
         let(:url_options) { { expires_in: 1.year } }
 
         it "uses the allowed max" do

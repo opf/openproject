@@ -90,7 +90,7 @@ describe PaginationHelper, type: :helper do
       expect(pagination).not_to have_selector('a', text: Regexp.new("^#{current_page}$"))
     end
 
-    it 'should have an element for the curren page' do
+    it 'should have an element for the current page' do
       expect(pagination).to have_selector('.pagination--item.-current',
                                           text: Regexp.new("^#{current_page}$"))
     end

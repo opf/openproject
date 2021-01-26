@@ -86,7 +86,7 @@ sv:
     caption_rate_history: "Historiska timpriser"
     clipboard:
       browser_error: "Din webbläsare stöder inte kopiera till Urklipp. Vänligen kopiera den markerade texten manuellt."
-      copied_successful: "Kopierad till Urklipp!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Typ av diagram'
       axis_criteria: 'Axelkriterier'

@@ -60,7 +60,7 @@ describe OpenProject::Reminders::DueIssuesReminder do
           FactoryBot.create(:work_package, due_date: Date.tomorrow, assigned_to: group, subject: 'some group issue')
         end
 
-        it 'notifies the user once for WPs assigend to him and another for those assigned to the group' do
+        it 'notifies the user once for WPs assigned to him and another for those assigned to the group' do
           expect(subject.notify_count).to be >= 2
           expect(ActionMailer::Base.deliveries.count).to be >= 2
 

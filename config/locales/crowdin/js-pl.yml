@@ -86,7 +86,7 @@ pl:
     caption_rate_history: "Historia stawek"
     clipboard:
       browser_error: "Twoja przeglądarka nie obsługuje kopiowania do schowka. Skopiuj tekst ręcznie."
-      copied_successful: "Skopiowano do schowka!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Typ wykresu'
       axis_criteria: 'Kryteria osi'

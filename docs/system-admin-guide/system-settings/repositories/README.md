@@ -38,7 +38,7 @@ Show checkout instructions for Subversion and GIT.
 ## Referencing and fixing work packages in commit messages
 
 1. **Define referencing keywords** for work packages in commit messages.  Used to reference keywords used to link revisions to work packages.
-2. Define **fixing keywords for work packages** in commit messages. Fixing keywords allow status or progress changes using certain keywords in commit messages, e.g. changing a work pacakge to closed and set to 100%.
+2. Define **fixing keywords for work packages** in commit messages. Fixing keywords allow status or progress changes using certain keywords in commit messages, e.g. changing a work package to closed and set to 100%.
 3. Define which **status will be applied** to a work package if a fixing word is used in a commit message.
 4. Define which **percentage of done is applied** to a work package if a fixing word is used in a commit message for that work package.
 5. **Enable time logging**. Activating this option enables [logging time to a work package ](../../../user-guide/time-and-costs/time-tracking/)via commit message.

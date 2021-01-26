@@ -78,7 +78,7 @@ es:
     is_active: mostrado actualmente
     is_inactive: no mostrado actualmente
   attribute_help_texts:
-    note_public: '¡Cualquier texto e imágenes que añadas a este campo es visible públicamente para todos los usuarios conectados!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'En esta vista, puede crear textos de ayuda personalizados para la vista de atributos. Después de definir estos textos, se pueden mostrar al hacer clic en el icono de ayuda junto al atributo al que pertenezcan.'
     label_plural: 'Textos de ayuda para atributos'
     show_preview: 'Vista previa del texto'
@@ -192,7 +192,7 @@ es:
       Especifica una lista de nombres a ignorar al procesar archivos adjuntos de emails entrantes (por ejemplo, firmas o iconos). Introduce un nombre de archivo por línea.
   projects:
     delete:
-      scheduled: "El borrado ha sido programado y será ejecutado en segundo plano. Se te notificará del resultado."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "El proyecto no puede ser eliminado: %{errors}"
       failed: "El borrado del proyecto %{name} ha fallado"
       failed_text: "La petición de borrado del proyecto %{name} ha fallado. El proyecto ha sido archivado."
@@ -1127,7 +1127,7 @@ es:
   error_menu_item_not_saved: Elemento de menú no podría ser guardado
   error_wiki_root_menu_item_conflict: >
     No se puede renombrar "%{old_name}" a "%{new_name}" debido a un conflicto en el elemento de menú resultante con el elemento de menú existente "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Se ha producido un error durante la autenticación externa. Por favor inténtelo nuevamente."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Atributos que no pueden resaltarse: %{attributes}"
   events:
     project: 'Proyecto editado'
@@ -2108,7 +2108,7 @@ es:
       username: "Nombre de usuario del repositorio"
     truncated: "Lo sentimos, pero hemos tenido que truncar este directorio hasta %{limit} archivos. %{truncated} entradas de la lista han sido omitidas."
     named_repository: "Repositorio de %{vendor_name}"
-    update_settings_successful: "Los ajustes se han guardado correctamente."
+    update_settings_successful: "The settings have been successfully saved."
     url: "URL al repositorio"
     warnings:
       cannot_annotate: "No se pueden realizar notas sobre este fichero."

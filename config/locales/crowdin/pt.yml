@@ -78,7 +78,7 @@ pt:
     is_active: atualmente exibido
     is_inactive: não exibido atualmente
   attribute_help_texts:
-    note_public: 'Qualquer texto e imagens que você adicionar a este campo ficará publicamente visível para todos os usuários autenticados!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'Neste modo de exibição, você pode criar textos de ajuda personalizada para a exibição de atributos. Quando definido, estes textos podem ser mostrados, clicando no ícone de ajuda ao lado de seu atributo relacionado.'
     label_plural: 'Textos de ajuda do atributo'
     show_preview: 'Pré-visualização de texto'
@@ -194,7 +194,7 @@ pt:
       Especifique uma lista de nomes para ignorar quando processar anexos para mensagens recebidas (por exemplo, assinaturas ou ícones). Digite um nome de arquivo por linha.
   projects:
     delete:
-      scheduled: "Exclusão foi agendada e será realizada em segundo plano. Você será notificado do resultado."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Projeto não pode ser excluído: %{errors}"
       failed: "Exclusão do projeto %{name} falhou"
       failed_text: "A solicitação para excluir o projeto %{name} falhou. O projeto foi arquivado."
@@ -1128,7 +1128,7 @@ pt:
   error_menu_item_not_saved: Item de menu não pôde ser salvo
   error_wiki_root_menu_item_conflict: >
     Não é possível renomear de"%{old_name}" para "%{new_name}" devido a um conflito no item de menu resultante com o item de menu existente "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Ocorreu um erro durante a autenticação externa. Por favor, tente novamente."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Atributo(s) não destacado(s): %{attributes}"
   events:
     project: 'Projeto editado'
@@ -2108,7 +2108,7 @@ pt:
       username: "Nome de usuário do repositório"
     truncated: "Pedimos desculpa, mas tivemos que truncar este diretório em %{limit} arquivos. %{truncated} entradas foram omitidas da lista."
     named_repository: "repositório %{vendor_name}"
-    update_settings_successful: "Configurações atualizadas com sucesso."
+    update_settings_successful: "The settings have been successfully saved."
     url: "URL para repositório"
     warnings:
       cannot_annotate: "Este arquivo não pode ser anotado."

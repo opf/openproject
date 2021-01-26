@@ -86,7 +86,7 @@ bg:
     caption_rate_history: "Оценете историята"
     clipboard:
       browser_error: "Вашият браузър не поддържа копиране в клипборд. Моля копирайте избрания текст ръчно."
-      copied_successful: "Копирането в клипборд е успешно!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Тип на диаграмата'
       axis_criteria: 'Критерии за ос'

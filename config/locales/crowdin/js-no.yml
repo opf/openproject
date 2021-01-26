@@ -86,7 +86,7 @@
     caption_rate_history: "Rate history"
     clipboard:
       browser_error: "Nettleseren støtter ikke kopiering til utklippstavle. Kopier den merkede teksten manuelt."
-      copied_successful: "Kopiert til utklippstavlen!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Chart type'
       axis_criteria: 'Axis criteria'

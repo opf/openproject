@@ -41,7 +41,7 @@ Their purpose is explained below.
 
 ### Payload
 
-The payload contains an edited version of the resource that will be modified when commiting the form.
+The payload contains an edited version of the resource that will be modified when committing the form.
 This representation contains all writable properties of the resource and reflects all changes that the latest call to **validate** included,
 thereby acting as a preview for the changes.
 
@@ -50,7 +50,7 @@ indicates that a commit of this payload would fail.
 
 It might happen that setting one property affects the allowed values for another property. Thus by changing a property A
 the current value of another property B might become invalid. If the client did not yet touch the value of B, the payload will
-contain a default value for that property. Nevertheless the client will also receive an apropriate validation error for value B.
+contain a default value for that property. Nevertheless the client will also receive an appropriate validation error for value B.
 
 The content of this element *can* be used as a template for the request body of a call to **validate** or **commit**.
 
@@ -69,7 +69,7 @@ As this makes the embedded schema very dynamic, it is not included as a static l
 ### Validation Errors
 
 Like a [schema](#schema) the validation errors build a dictionary where the key is a property name.
-Each value is an error object that indicates the error that occured validating the corresponding property.
+Each value is an error object that indicates the error that occurred validating the corresponding property.
 There are only key value pairs for properties that failed validation, the element is empty if all validations succeeded.
 
 However note that even in the case of validation errors, the response you receive from the form endpoint will be an HTTP 200.

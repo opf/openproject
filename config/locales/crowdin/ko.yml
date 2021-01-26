@@ -78,7 +78,7 @@ ko:
     is_active: 현재 표시됨
     is_inactive: 현재 표시 안 됨
   attribute_help_texts:
-    note_public: '이 필드에 추가하는 모든 텍스트와 이미지는 로그인한 모든 사용자에게 공개됩니다!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: '이 보기에서 특성 보기에 대한 사용자 지정 도움말 텍스트를 작성할 수 있습니다. 이 텍스트를 정의하면 속하는 특성 옆에 있는 도움말 아이콘을 클릭하여 표시할 수 있습니다.'
     label_plural: '특성 도움말 텍스트'
     show_preview: '미리 보기 텍스트'
@@ -195,7 +195,7 @@ ko:
       받는 메일의 첨부 파일을 처리할 때 무시할 이름 목록을 지정하십시오(예: 서명 또는 아이콘). 라인 하나에 파일 이름 하나를 입력하십시오.
   projects:
     delete:
-      scheduled: "삭제가 예약되었으며 백그라운드에서 수행됩니다. 결과 알림이 제공될 것입니다."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "프로젝트를 삭제할 수 없습니다: %{errors}"
       failed: "프로젝트 %{name} 삭제가 실패했습니다."
       failed_text: "프로젝트 %{name} 삭제 요청이 실패했습니다. 프로젝트가 보관되었습니다."
@@ -1113,7 +1113,7 @@ ko:
   error_menu_item_not_saved: 메뉴 항목을 저장할 수 없습니다.
   error_wiki_root_menu_item_conflict: >
     결과 메뉴 항목에서 기존 메뉴 항목 "%{existing_caption}" (%{existing_identifier})과(와)의 충돌로 인해 "%{old_name}"을(를) "%{new_name}"(으)로 이름을 바꿀 수 없습니다.
-  error_external_authentication_failed: "외부 인증 중에 오류가 발생했습니다. 다시 시도하세요."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "강조 표시되지 않는 특성: %{attributes}"
   events:
     project: '프로젝트 편집됨'
@@ -2087,7 +2087,7 @@ ko:
       username: "리포지토리 사용자 이름"
     truncated: "죄송하지만, 이 디렉터리를 %{limit}개 파일로 잘라야 했습니다. %{truncated}개 항목이 목록에서 생략되었습니다."
     named_repository: "%{vendor_name} 리포지토리"
-    update_settings_successful: "설정이 저장되었습니다."
+    update_settings_successful: "The settings have been successfully saved."
     url: "리포지토리의 URL"
     warnings:
       cannot_annotate: "이 파일에는 주석을 지정할 수 없습니다."
@@ -2602,7 +2602,7 @@ ko:
       code_403: "접근 권한이 없습니다."
       code_404: "요청한 리소스를 찾을 수 없습니다."
       code_409: "수정 사항이 출동하여 리소스를 업데이트할 수 없습니다."
-      code_500: "내부 오류가 발생했습니다."
+      code_500: "내부 오류가 발생하였습니다."
       expected:
         date: "YYYY-MM-DD(ISO 8601 날짜만)"
         duration: "ISO 8601 기간"

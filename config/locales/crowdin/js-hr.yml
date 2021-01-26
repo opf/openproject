@@ -86,7 +86,7 @@ hr:
     caption_rate_history: "Povijest satnica"
     clipboard:
       browser_error: "Vaš izbornik ne podržava kopiranje u međuspremnik. Molim vas manualno kopirajte odabrani tekst."
-      copied_successful: "Uspješno kopirano u međuspremnik!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Chart type'
       axis_criteria: 'Axis criteria'

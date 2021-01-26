@@ -122,7 +122,7 @@ The resulting work packages will differ based on the visibility of the work pack
 
 ## Frontend usage
 
-As the singular Query JSON object encompasses a large amount of different concerns, the frontend splits this resource up into quite a substantial amout of services for isolating the individual behaviors.
+As the singular Query JSON object encompasses a large amount of different concerns, the frontend splits this resource up into quite a substantial amount of services for isolating the individual behaviors.
 
 This guide will not go into too much detail on the actual components using these services, as they will be subject to change and detailed in another guide.
 
@@ -152,7 +152,7 @@ These states are being initialized in the [`WorkPackagesInitializationService`](
 - `WorkPackageViewColumnsService` for adding, moving, or removing columns and getting available columns for selection
 - `WorkPackageViewSortByService` for getting and updating the sort criteria object of the query
 - `WorkPackageViewGroupByService` for getting and updating the grouping property of the query
-- `WorkPackageViewTimelineService` for identifying and modfying whether the timeline is visible in the table, and what settings it has
+- `WorkPackageViewTimelineService` for identifying and modifying whether the timeline is visible in the table, and what settings it has
 - `WorkPackageViewHierarchiesService` for manipulating the visible hierarchies in the table and temporarily storing what hierarchies are being shown or collapsed.
 
 There are additional services for handling pagination and other parts of the query that can be controlled individually.
@@ -178,5 +178,5 @@ The `WorkPackagesListService` can also update and save existing queries passed t
 
 `PartionedQuerySpaceComponent` instances will be instantiated by the router and listen to URL params to load the corresponding query object. The most prominent example of such a page is the work packages module such as https://community.openproject.com/work_packages.
 
-The partioning comes from showing a work package table (or cards view) on one side, and a details view of a single work package on another side, splitting the page in two. The width of the split areas can be customized by the user through a drag-handle.
+The partitioning comes from showing a work package table (or cards view) on one side, and a details view of a single work package on another side, splitting the page in two. The width of the split areas can be customized by the user through a drag-handle.
 

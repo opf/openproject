@@ -19,8 +19,8 @@ To adapt email notification settings, go to Email and choose *Email notification
 1. **Emission email address**. This email Address will be shown as the sender for the email notifications sent by OpenProject (for example,  when a work package is changed).
 2. Activate **blind carbon copy recipients** (bcc).
 3. Define if the email should be formatted in **plain text** (no HTML).
-4. Select the default notification options. The default notifcation can be adapted in the [user profile](../../../getting-started/my-account/#email-notifications).
-5. Select for which **actions email notification should be sent**. You have the possibilty to check all or uncheck all at the top right.
+4. Select the default notification options. The default notification can be adapted in the [user profile](../../../getting-started/my-account/#email-notifications).
+5. Select for which **actions email notification should be sent**. You have the possibility to check all or uncheck all at the top right.
 
 ![System-admin-guide-emails](System-admin-guide-emails.png)
 

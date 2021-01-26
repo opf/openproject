@@ -78,7 +78,7 @@ zh-TW:
     is_active: 當前已顯示
     is_inactive: 當前未顯示
   attribute_help_texts:
-    note_public: '登入使用者將看到本欄位所有文字和圖片'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: '在此頁面，你可以替屬性頁面建立自訂說明文字。當建立完成後，這些文字在點擊相關屬性旁的求助圖示時顯示。'
     label_plural: '屬性說明文字'
     show_preview: '預覽文字'
@@ -195,7 +195,7 @@ zh-TW:
       請列出從郵箱下載文檔時需要忽視的的名稱（比如：簽名或頭像）。請把檔案名稱分別列入每個各一行。
   projects:
     delete:
-      scheduled: "刪除已經排程並且會在背景執行。你將會收到結果通知。"
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "專案無法刪除: %{errors}"
       failed: "專案 %{name} 的刪除失敗"
       failed_text: "刪除專案 %{name} 的請求失敗。該專案已封存。"
@@ -1114,7 +1114,7 @@ zh-TW:
   error_menu_item_not_saved: 選單項目無法保存
   error_wiki_root_menu_item_conflict: >
     無法將 "%{old_name}" 重命名為 "%{new_name}", 因為結果功能表項目中的衝突與現有功能表項目 "%{existing_caption}" (%{existing_identifier}) 衝突。
-  error_external_authentication_failed: "外部身份驗證錯誤。請再次一次。"
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "無法凸顯的屬性: %{attributes}"
   events:
     project: '專案已編輯'
@@ -2089,7 +2089,7 @@ zh-TW:
       username: "版本庫使用者名稱"
     truncated: "抱歉，我們必須限制這個資料夾至 %{limit} 個檔案。%{truncated} 個項目在清單中被省略了。"
     named_repository: "%{vendor_name} 版本庫"
-    update_settings_successful: "設定已經成功地儲存"
+    update_settings_successful: "The settings have been successfully saved."
     url: "版本庫的 URL"
     warnings:
       cannot_annotate: "這個檔案無法註釋"
@@ -2604,7 +2604,7 @@ zh-TW:
       code_403: "You are not authorized to access this resource.\n您未被授權使用這個資源。"
       code_404: "找不到請求的資源。"
       code_409: "由於修改衝突, 無法更新資源。"
-      code_500: "發生內部錯誤"
+      code_500: "發生內部錯誤。"
       expected:
         date: "YYYY-MM-DD (僅適用於 ISO 8601 日期)"
         duration: "ISO 8601 持續時間"

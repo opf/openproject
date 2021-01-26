@@ -158,7 +158,7 @@ For more advanced configuration, please have a look at the [Advanced configurati
 
 ### Apache Reverse Proxy Setup
 
-Often there will be an existing web server through which you want to make OpenProject acccessible.
+Often there will be an existing web server through which you want to make OpenProject accessible.
 There are two ways to run OpenProject. We'll cover each configuration in a separate of the following sections.
 
 For both configurations the following Apache mods are required:
@@ -418,7 +418,7 @@ x-op-app: &app
   <<: *restart_policy
   environment:
     # ...
-    # ADD THIS FOR S3 attachments substituting the respecive credentials:
+    # ADD THIS FOR S3 attachments substituting the respective credentials:
     - "OPENPROJECT_ATTACHMENTS__STORAGE=fog"
     - "OPENPROJECT_FOG_DIRECTORY="<bucket-name>"
     - "OPENPROJECT_FOG_CREDENTIALS_PROVIDER=AWS"

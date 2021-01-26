@@ -78,7 +78,7 @@ fil:
     is_active: kasalukuyang naka-displey
     is_inactive: kasulukuyang hindi naka-displey
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'Sa tanawin na ito, pwede kang makalikha ng custom na tulong na mga teksto para sa mga katangian na tanawin. Kung mabigyan ng kahulugan, ang mga tekstong ito ay pwedeng makita sa pamamagitan ng pagpipindot ng icon na tulong kasunod sa pag-aari na katangian.'
     label_plural: 'Katangiang tulong na mga teksto'
     show_preview: 'Preview na teksto'
@@ -195,7 +195,7 @@ fil:
       Specify a list of names to ignore when processing attachments for incoming mails (e.g., signatures or icons). Enter one filename per line.
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is perfomed in the background. You will be notified of the result."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Project cannot be deleted: %{errors}"
       failed: "Deletion of project %{name} has failed"
       failed_text: "The request to delete project %{name} has failed. The project was left archived."
@@ -1130,7 +1130,7 @@ fil:
   error_menu_item_not_saved: Aytem ng pagpipilian ay hindi pwede i-save
   error_wiki_root_menu_item_conflict: >
     Hindi mapalitan ng pangalan ang "%{old_name}" sa "%{new_name}" dahil sa kasalungatan sa resulta ng pagpipiliang aytem sa umiiral na pagpipiliang aytem "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Isang error ang naganap habang nag-external authentication. Mangyaring subukan ulit."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
     project: 'Naka-edit ang proyekto'
@@ -2109,7 +2109,7 @@ fil:
       username: "Username ng Repository"
     truncated: "Paumanhin, kailangan namin i-truncate ang direktoryong ito sa %{limit} mga file. Ang mga %{truncated} entry ay tinanggal na mula sa listahan."
     named_repository: "%{vendor_name} repositoryo"
-    update_settings_successful: "Ang mga setting ay matagumpay na na-save."
+    update_settings_successful: "The settings have been successfully saved."
     url: "URL sa repositoryo"
     warnings:
       cannot_annotate: "Ang file na ito ay hindi naka-annotate."

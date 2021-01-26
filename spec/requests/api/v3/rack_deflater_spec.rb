@@ -34,7 +34,7 @@ describe Rack::Deflater, type: :request do
   let(:text) { 'text' }
 
   it 'produces an identical eTag whether content is deflated or not' do
-    # Using the api_v3_paths.configuaration because of the endpoint's simplicity.
+    # Using the api_v3_paths.configuration because of the endpoint's simplicity.
     # It could be any endpoint really.
     get api_v3_paths.configuration
 

@@ -86,7 +86,7 @@ da:
     caption_rate_history: "Satshistorik"
     clipboard:
       browser_error: "Din browser understøtter ikke kopiering til Udklipsholder. Kopiér venligst den markerede tekst manuelt."
-      copied_successful: "Kopieret til Udklipsholder!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Chart type'
       axis_criteria: 'Axis criteria'

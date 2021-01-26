@@ -101,7 +101,7 @@ en:
 
     clipboard:
       browser_error: "Your browser doesn't support copying to clipboard. Please copy the selected text manually."
-      copied_successful: "Sucessfully copied to clipboard!"
+      copied_successful: "Successfully copied to clipboard!"
 
     chart:
       type: 'Chart type'

@@ -78,7 +78,7 @@ fr:
     is_active: actuellement affiché
     is_inactive: actuellement non affiché
   attribute_help_texts:
-    note_public: 'Tous les textes et images que vous ajoutez à ce champ sont visibles publiquement pour tous les utilisateurs connectés !'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'Dans cette vue, vous pouvez créer des textes d’aide personnalisés pour l''affichage des attributs. Lorsqu''ils sont définis, ces textes peuvent être affichés en cliquant sur l’icône d’aide à côté de l''attribut correspondant.'
     label_plural: 'Attribut d’aide de texte'
     show_preview: 'Texte d’aperçu'
@@ -195,7 +195,7 @@ fr:
       Spécifiez une liste de noms à ignorer lors du traitement des pièces jointes aux messages entrants (par exemple, signatures ou icônes). Entrez un nom de fichier par ligne.
   projects:
     delete:
-      scheduled: "La suppression a été planifiée et est exécutée en arrière-plan. Vous serez informé du résultat."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Le projet ne peut pas être supprimé : %{errors}"
       failed: "La suppression du projet %{name} a échoué"
       failed_text: "La demande de suppression du projet %{name} a échoué. Le projet a été archivé."
@@ -1129,7 +1129,7 @@ fr:
   error_menu_item_not_saved: L'élément de menu n'a pas pu être sauvegardé
   error_wiki_root_menu_item_conflict: >
     Impossible de renommer "%{old_name}" en "%{new_name}" en raison d’un conflit dans l’élément de menu résultant avec l’élément de menu existant "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Une erreur s'est produite lors de l'authentification externe. Veuillez essayer de nouveau."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribut(s) ne pouvant pas être mis en surbrillance: %{attributes}"
   events:
     project: 'Projet édité'
@@ -2110,7 +2110,7 @@ fr:
       username: "Nom d'utilisateur du dépôt"
     truncated: "Désolés, nous avons été obligés de tronquer ce répertoire pour les fichiers %{limit}. %{truncated} entrées ont été omises de la liste."
     named_repository: "dépôt %{vendor_name}"
-    update_settings_successful: "Les paramètres ont bien été enregistrés."
+    update_settings_successful: "The settings have been successfully saved."
     url: "URL du dépôt"
     warnings:
       cannot_annotate: "Ce fichier ne peut pas être annoté."

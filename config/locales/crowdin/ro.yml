@@ -78,7 +78,7 @@ ro:
     is_active: afișat acum
     is_inactive: neafișat acum
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
     label_plural: 'Attribute help texts'
     show_preview: 'Preview text'
@@ -195,7 +195,7 @@ ro:
       Specify a list of names to ignore when processing attachments for incoming mails (e.g., signatures or icons). Enter one filename per line.
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is perfomed in the background. You will be notified of the result."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Project cannot be deleted: %{errors}"
       failed: "Deletion of project %{name} has failed"
       failed_text: "The request to delete project %{name} has failed. The project was left archived."
@@ -1146,7 +1146,7 @@ ro:
   error_menu_item_not_saved: Meniul nu a putut fi salvat
   error_wiki_root_menu_item_conflict: >
     Nu se poate redenumi %{old_name} în %{new_name} datorită unui conflict între noul meniu și meniul deja existent "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "A apărut o eroare în timpul autentificării externe. Încercați din nou."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
     project: 'Proiect editat'
@@ -2131,7 +2131,7 @@ ro:
       username: "Utilizatorul repo"
     truncated: "Ne pare rău, am fost nevoiți să fragmentăm acest director în %{limit} fișiere. Intrările %{truncated} au fost omise din listă."
     named_repository: "Repo %{vendor_name}"
-    update_settings_successful: "Setările au fost salvate cu succes."
+    update_settings_successful: "The settings have been successfully saved."
     url: "Adresa URL a repo-ului"
     warnings:
       cannot_annotate: "Acest fișier nu poate fi adnotat."

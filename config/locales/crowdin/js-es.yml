@@ -86,7 +86,7 @@ es:
     caption_rate_history: "Historial de tasa"
     clipboard:
       browser_error: "Su navegador no soporta copiar al portapapeles. Por favor, copie el texto seleccionado manualmente."
-      copied_successful: "¡Copiado correctamente en el portapapeles!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Tipo de gráfico'
       axis_criteria: 'Criterios de eje'

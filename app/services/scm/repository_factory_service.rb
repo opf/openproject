@@ -56,7 +56,7 @@ class SCM::RepositoryFactoryService
   end
 
   ##
-  # Build a temporary repository used only for determining availabe settings and types
+  # Build a temporary repository used only for determining available settings and types
   # of that particular vendor.
   #
   # @return [Boolean] true iff the repository was built

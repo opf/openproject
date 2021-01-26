@@ -78,7 +78,7 @@ sl:
     is_active: Trenutno prikazano
     is_inactive: trenutno ni prikazano
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'V tem pogledu lahko ustvarite besedila pomoči po meri za pogled atributov. Ko je definirano, lahko ta besedila prikažemo s klikom ikone pomoči poleg pripadajočega atributa.'
     label_plural: 'Tekst pomoči atributa'
     show_preview: 'Predogled besedila'
@@ -194,7 +194,7 @@ sl:
       Določite seznam imen, ki jih ne upoštevate pri obdelavi prilog za dohodne pošte (npr. podpise ali ikone). Vnesite eno ime datoteke v vrstico.
   projects:
     delete:
-      scheduled: "Brisanje je načrtovano in se izvaja v ozadju. O rezultatu boste obveščeni."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Projekta ni mogoče izbrisati: %{errors}"
       failed: "Projekt %{name} ni uspel"
       failed_text: "Zahteva za izbris projekta %{name} ni uspela. Projekt je ostal arhiviran."
@@ -1160,7 +1160,7 @@ sl:
   error_menu_item_not_saved: Datoteke ni mogoče shraniti
   error_wiki_root_menu_item_conflict: >
     Ne moremo preimenovati "% {old_name}" v "% {new_name}" zaradi konflikta v nastalem elementu menija z obstoječo postavko menija "% {existing_caption}" (% {existing_identifier}).
-  error_external_authentication_failed: "Med zunanjo overitvijo je prišlo do napake. Prosim poskusite ponovno."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Atribut(i) niso označljivi: %{attributes}"
   events:
     project: 'Projekt urejen'
@@ -2150,7 +2150,7 @@ sl:
       username: "Uporbniški ime odlagališča"
     truncated: "Žal smo morali ta imenik prerezati v %{limit} datotek. %{truncated} vnosi so bili s seznama izpuščeni."
     named_repository: "%{vendor_name} odlagališče"
-    update_settings_successful: "Nastavitve so bile uspešno shranjene."
+    update_settings_successful: "The settings have been successfully saved."
     url: "Pot do shrambe"
     warnings:
       cannot_annotate: "Te datoteke ni mogoče opomniti."

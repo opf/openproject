@@ -86,7 +86,7 @@ de:
     caption_rate_history: "Stundensatz-Historie"
     clipboard:
       browser_error: "Ihr Browser unterstützt das Kopieren in die Zwischenablage nicht nativ. Bitte selektieren und kopieren Sie den Text händisch."
-      copied_successful: "Erfolgreich in die Zwischenablage kopiert!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Art des Diagramms'
       axis_criteria: 'Achsen-Kriterien'

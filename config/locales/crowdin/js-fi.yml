@@ -86,7 +86,7 @@ fi:
     caption_rate_history: "Tuntihinnan historia"
     clipboard:
       browser_error: "Selaimesi ei tue kopiointia leikepöydälle. Kopioi valittu teksti manuaalisesti."
-      copied_successful: "Onnistuneesti kopioitu leikepöydälle!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Kaaviotyyppi'
       axis_criteria: 'Lisää kriteeri'

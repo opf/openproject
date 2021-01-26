@@ -51,7 +51,7 @@ end
 
 ##
 # Helper method injected into rspec to load fixtures into self
-# Include one or mulitple shared fixture(s)
+# Include one or multiple shared fixture(s)
 def using_shared_fixtures(*keys)
   keys.each do |key|
     include_context ::SharedFixture.context_name(key)

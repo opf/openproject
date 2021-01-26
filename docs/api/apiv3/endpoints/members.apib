@@ -113,20 +113,22 @@ You can use the form and schema to be retrieve the valid attribute values and by
     + Body
 
             {
-              "project": {
-                "href": "/api/v3/projects/1"
-              },
-              "principal": {
-                "href": "/api/v3/users/5"
-              },
-              "roles": [
-                {
-                  "href": "/api/v3/roles/5"
-                },
-                {
-                  "href": "/api/v3/roles/8"
+                "_links": {
+                    "project": {
+                      "href": "/api/v3/projects/1"
+                    },
+                    "principal": {
+                      "href": "/api/v3/users/5"
+                    },
+                    "roles": [
+                      {
+                        "href": "/api/v3/roles/5"
+                      },
+                      {
+                        "href": "/api/v3/roles/8"
+                      }
+                    ]
                 }
-              ]
             }
 
 + Response 201

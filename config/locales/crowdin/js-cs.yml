@@ -86,7 +86,7 @@ cs:
     caption_rate_history: "Historie kurzů"
     clipboard:
       browser_error: "Váš prohlížeč nepodporuje, kopírování do schránky. Ručně zkopírujte vybraný text."
-      copied_successful: "Úspešně zkopírováno do schránky!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Typ grafu'
       axis_criteria: 'Kritéria osy'

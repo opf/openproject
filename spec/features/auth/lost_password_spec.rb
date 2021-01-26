@@ -51,7 +51,7 @@ describe 'Lost password', type: :feature do
     perform_enqueued_jobs
     expect(ActionMailer::Base.deliveries.size).to eql 1
 
-    # mimick the user clicking on the link in the mail
+    # mimic the user clicking on the link in the mail
     token = Token::Recovery.first
     visit account_lost_password_path(token: token.value)
 

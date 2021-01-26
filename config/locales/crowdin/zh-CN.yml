@@ -78,7 +78,7 @@ zh-CN:
     is_active: 当前已显示
     is_inactive: 当前未显示
   attribute_help_texts:
-    note_public: '您添加到此字段的任何文本和图像对所有登录的用户都是公开可见的！'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: '在此视图中, 您可以为属性视图创建自定义帮助文本。定义后, 可以通过单击属性旁边的帮助图标来显示帮助文本。'
     label_plural: '属性帮助文本'
     show_preview: '预览文本'
@@ -191,7 +191,7 @@ zh-CN:
       指定在处理收到的邮件的附件（例如，签名或图标）时要忽略的名称列表。每行输入一个文件名。
   projects:
     delete:
-      scheduled: "删除已经安排，并在后台执行。您将收到结果通知。"
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "项目不能删除: %{errors}"
       failed: "项目 %{name} 删除失败"
       failed_text: "删除项目 %{name} 的请求已失败。该项目仍位于存档中。"
@@ -1109,7 +1109,7 @@ zh-CN:
   error_menu_item_not_saved: 不能保存菜单项
   error_wiki_root_menu_item_conflict: >
     无法将 "%{old_name}" 重命名为 "%{new_name}"，因为结果菜单项与现有菜单项 "%{existing_caption}" (%{existing_identifier}) 存在冲突。
-  error_external_authentication_failed: "在外部身份验证期间出错。请再试一次。"
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "未突出显示的属性：%{attributes}"
   events:
     project: '编辑项目'
@@ -2081,7 +2081,7 @@ zh-CN:
       username: "版本库用户名"
     truncated: "很抱歉，我们不得不将此目录截断为 %{limit} 个文件。列表中已省略 %{truncated} 个条目。"
     named_repository: "%{vendor_name} 存储库"
-    update_settings_successful: "设置已成功保存。"
+    update_settings_successful: "The settings have been successfully saved."
     url: "版本的 URL"
     warnings:
       cannot_annotate: "此文件不能进行注释。"

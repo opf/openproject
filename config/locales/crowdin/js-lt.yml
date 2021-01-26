@@ -86,7 +86,7 @@ lt:
     caption_rate_history: "Koeficiento istorija"
     clipboard:
       browser_error: "Jūsų naršyklė nepalaiko kopijavimo į iškarpinę. Prašome pažymėtą tekstą nukopijuoti rankiniu būdu."
-      copied_successful: "Sėkmingai nukopijuota į iškarpinę!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Grafiko tipas'
       axis_criteria: 'Ašies kriterijus'
@@ -403,7 +403,7 @@ lt:
     label_public_query: "Viešas"
     label_sum: "Suma"
     label_sum_for: "Suma"
-    label_total_sum: "Total sum"
+    label_total_sum: "Bendra suma"
     label_subject: "Tema"
     label_this_week: "ši savaitė"
     label_today: "Šiandien"

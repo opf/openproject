@@ -86,7 +86,7 @@ it:
     caption_rate_history: "Cronologia tariffe"
     clipboard:
       browser_error: "Il tuo browser non supporta la copia negli appunti. Copia il testo selezionato manualmente."
-      copied_successful: "Copia negli appunti completata con successo!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Tipo di grafico'
       axis_criteria: 'Criteri dell''asse'

@@ -78,7 +78,7 @@ ja:
     is_active: 現在表示されています
     is_inactive: 現在表示されていません
   attribute_help_texts:
-    note_public: 'このフィールドに追加したテキストと画像は全てのログインユーザーに公開されます！'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'このビューは、属性表示のカスタム ヘルプ テキストを作成できます。定義すると、このテキストはその属性の横にあるヘルプ アイコンをクリックして表示できます。'
     label_plural: '属性のヘルプ テキスト'
     show_preview: 'テキストをプレビュー'
@@ -192,7 +192,7 @@ ja:
       受信メールの添付ファイルを処理するとき、無視する名前の一覧を指定します (例えば、署名またはアイコン)。1 行につき 1 つのファイル名を入力してください。
   projects:
     delete:
-      scheduled: "削除は予定されており、バックグラウンドで実行されます。 結果が通知されます。"
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "プロジェクトを削除できません: %{errors}"
       failed: "プロジェクト%{name} の削除に失敗しました"
       failed_text: "プロジェクト%{name} の削除要求が失敗しました。 プロジェクトはアーカイブされたままです。"
@@ -1109,7 +1109,7 @@ ja:
   error_menu_item_not_saved: メニュー項目を保存できませんでした。
   error_wiki_root_menu_item_conflict: >
     結果のメニュー項目が既存のメニュー項目 "%{existing_caption}" (%{existing_identifier}) と競合するため、"%{old_name}" の名前を "%{new_name}" に変更できません。
-  error_external_authentication_failed: "外部認証中にエラーが発生しました。もう一度やり直してください。"
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "強調表示されない属性: %{attributes}"
   events:
     project: 'プロジェクトが編集されました。'
@@ -2085,7 +2085,7 @@ ja:
       username: "リポジトリのユーザ名"
     truncated: "申し訳ありません。 このディレクトリを %{limit} ファイルに切り捨てる必要がありました。%{truncated} エントリがリストから除外されました。"
     named_repository: "%{vendor_name} リポジトリ"
-    update_settings_successful: "設定が保存されました。"
+    update_settings_successful: "The settings have been successfully saved."
     url: "リポジトリの URL"
     warnings:
       cannot_annotate: "このファイルに注釈を付けることはできません。"

@@ -314,7 +314,7 @@ The wizard will show you multiple additional steps in this case to enter the hos
 
 ### Skip (not recommended)
 
-The wizard will not try to connect to any database. You will have to specify a database manually thorugh the `DATABASE_URL` environment variable. If you choose skip and did not set a `DATABASE_URL`, the configuration process will fail.
+The wizard will not try to connect to any database. You will have to specify a database manually through the `DATABASE_URL` environment variable. If you choose skip and did not set a `DATABASE_URL`, the configuration process will fail.
 
 You can set this `DATABASE_URL` parameter yourself to a PostgreSQL database URL.
 
@@ -387,7 +387,7 @@ If you have a separate server that is terminating SSL and only forwarding/proxyi
 
 ### Skip (not recommended)
 
-The installer will not set up an external web server for accessing. You will need to either install and set up a web server such as Apache2 or Nginx to function as the web server forwarding to our internal server listeing at `localhost:6000` by proxying.
+The installer will not set up an external web server for accessing. You will need to either install and set up a web server such as Apache2 or Nginx to function as the web server forwarding to our internal server listening at `localhost:6000` by proxying.
 
 Only choose this option if you have a local Apache2 installed that the OpenProject package may not control, or need to use a different web server such as Nginx. Please note that not all functionality (especially regarding Repositories) are supported on Nginx. 
 

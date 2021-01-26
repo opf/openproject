@@ -408,7 +408,7 @@ describe Projects::CopyService, 'integration', type: :model do
 
             expect(copied_order).to eq(original_order)
 
-            # Expect reference to the origianl work package
+            # Expect reference to the original work package
             referenced = query.ordered_work_packages.detect { |ow| ow.work_package == work_package2 }
             expect(referenced).to be_present
           end
