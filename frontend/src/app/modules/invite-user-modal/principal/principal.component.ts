@@ -23,8 +23,8 @@ export class PrincipalComponent implements OnInit {
   @Input() project:any = null;
   @Input() type:string = '';
 
+  @Output('close') close = new EventEmitter<void>();
   @Output() save = new EventEmitter();
-  @Output('close') closeModal = new EventEmitter();
   @Output() back = new EventEmitter();
 
   public text = {

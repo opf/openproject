@@ -2,17 +2,7 @@
   [formGroup]="projectAndTypeForm"
   (ngSubmit)="onSubmit($event)"
 >
-  <div class="op-modal--modal-header">
-    <button
-      class="op-modal--modal-close-button"
-      type="button"
-      (click)="close"
-      [attr.aria-label]="text.closePopup"
-    >
-      <span class="icon-close"></span>
-    </button>
-    <h3 [textContent]="text.title"></h3>
-  </div>
+  <op-ium-modal-heading (close)="close.emit()">{{ text.title }}</op-ium-modal-heading>
 
   <div class="op-modal--modal-body">
     <op-form-field

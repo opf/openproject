@@ -19,7 +19,7 @@ export class SummaryComponent {
   @Input('principal') principal:any = null;
   @Input('message') message:string = '';
 
-  @Output('close') closeModal = new EventEmitter<void>();
+  @Output('close') close = new EventEmitter<void>();
   @Output('back') back = new EventEmitter<void>();
   @Output() save = new EventEmitter();
 
