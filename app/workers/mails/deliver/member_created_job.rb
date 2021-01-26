@@ -1,5 +1,4 @@
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,44 +27,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class DeliverNotificationJob < ApplicationJob
-  queue_with_priority :notification
+class Mails::Deliver::MemberCreatedJob < DeliverNotificationJob
+  attr_accessor :sender_id,
+                :receiver_id,
+                :role_ids,
+                :project_id
 
-  def perform(recipient_id, sender_id)
-    @recipient_id = recipient_id
-    @sender_id = sender_id
+  def perform(sender_id, recipient_id, role_ids, project_id)
+    self.role_ids = role_ids
+    self.project_id = project_id
 
-    # nothing to do if recipient was deleted in the meantime
-    return unless recipient
-
-    mail = User.execute_as(recipient) { build_mail }
-
-    mail&.deliver_now
+    super(recipient_id, sender_id)
   end
 
-  private
 
-  # To be implemented by subclasses.
-  # Actual recipient and sender User objects are passed (always non-nil).
-  # Returns a Mail::Message, or nil if no message should be sent.
-  def render_mail(recipient:, sender:)
-    raise 'SubclassResponsibility'
-  end
-
-  def build_mail
-    render_mail(recipient: recipient, sender: sender)
-  rescue StandardError => e
-    Rails.logger.error "#{self.class.name}: Unexpected error rendering a mail: #{e}"
-    # not raising, to avoid re-schedule of DelayedJob; don't expect render errors to fix themselves
-    # by retrying
-    nil
-  end
-
-  def recipient
-    @recipient ||= User.find_by(id: @recipient_id)
-  end
-
-  def sender
-    @sender ||= User.find_by(id: @sender_id) || DeletedUser.first
-  end
 end

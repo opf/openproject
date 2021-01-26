@@ -40,7 +40,10 @@ describe Members::CreateService, type: :model do
     described_class.new(user: user,
                         contract_class: contract_class)
   end
-  let(:call_attributes) { { name: 'Some name', identifier: 'Some identifier' } }
+  let(:principal) { FactoryBot.build_stubbed(:user) }
+  let(:roles) { [FactoryBot.build_stubbed(:role)] }
+  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:call_attributes) { { principal: principal, roles: roles, project: project } }
   let(:set_attributes_success) do
     true
   end
@@ -53,7 +56,10 @@ describe Members::CreateService, type: :model do
                       errors: set_attributes_errors
   end
   let!(:created_member) do
-    member = FactoryBot.build_stubbed(:member)
+    member = FactoryBot.build_stubbed(:member,
+                                      principal: principal,
+                                      roles: roles,
+                                      project: project)
 
     allow(Member)
       .to receive(:new)
@@ -70,15 +76,19 @@ describe Members::CreateService, type: :model do
 
     allow(Members::SetAttributesService)
       .to receive(:new)
-            .with(user: user,
-                  model: created_member,
-                  contract_class: contract_class,
-                  contract_options: {})
-            .and_return(service)
+      .with(user: user,
+            model: created_member,
+            contract_class: contract_class,
+            contract_options: {})
+      .and_return(service)
 
     allow(service)
       .to receive(:call)
       .and_return(set_attributes_result)
+  end
+  let!(:allow_notification_call) do
+    allow(OpenProject::Notifications)
+      .to receive(:send)
   end
 
   describe 'call' do
@@ -106,6 +116,15 @@ describe Members::CreateService, type: :model do
         .to eql created_member
     end
 
+    it 'sends a notification' do
+      expect(OpenProject::Notifications)
+        .to receive(:send)
+        .with(OpenProject::Events::MEMBER_CREATED,
+              member: created_member)
+
+      subject
+    end
+
     context 'if the SetAttributeService is unsuccessful' do
       let(:set_attributes_success) { false }
 
@@ -130,6 +149,13 @@ describe Members::CreateService, type: :model do
 
         expect(subject.errors).to eql set_attributes_errors
       end
+
+      it 'sends no notification' do
+        expect(OpenProject::Notifications)
+          .not_to receive(:send)
+
+        subject
+      end
     end
 
     context 'when the member is invalid' do
@@ -143,6 +169,13 @@ describe Members::CreateService, type: :model do
         subject
 
         expect(subject.errors).to eql created_member.errors
+      end
+
+      it 'sends no notification' do
+        expect(OpenProject::Notifications)
+          .not_to receive(:send)
+
+        subject
       end
     end
   end

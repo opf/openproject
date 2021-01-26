@@ -1,0 +1,6 @@
+<%= raw(I18n.t(:'mail_member_added_project.body.added_by', project: h(@project.name), user: h(User.current.name))) %>
+
+<%= I18n.t(:'mail_member_added_project.body.roles') %>
+<% @roles.each do |role| %>
+  * <%= h(role.name) %>
+<% end %>

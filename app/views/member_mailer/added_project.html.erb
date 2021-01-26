@@ -1,0 +1,10 @@
+<%=raw I18n.t(:'mail_member_added_project.body.added_by', project: @project.name, user: User.current.name) %>
+
+<%= I18n.t(:'mail_member_added_project.body.roles') %>
+<ul>
+  <% @roles.each do |role| %>
+    <li>
+      <%= role.name %>
+    </li>
+  <% end %>
+</ul>

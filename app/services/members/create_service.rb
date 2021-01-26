@@ -28,4 +28,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Members::CreateService < ::BaseServices::Create; end
+class Members::CreateService < ::BaseServices::Create
+  def after_perform(service_call)
+    OpenProject::Notifications.send(OpenProject::Events::MEMBER_CREATED,
+                                    member: service_call.result)
+
+    service_call
+  end
+end

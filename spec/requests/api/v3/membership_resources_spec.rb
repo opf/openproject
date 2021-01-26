@@ -379,7 +379,9 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       own_member
       login_as current_user
 
-      post path, body
+      perform_enqueued_jobs do
+        post path, body
+      end
     end
 
     shared_examples_for 'successful member creation' do
@@ -419,42 +421,33 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       end
     end
 
-    context 'for a user' do
-      it_behaves_like 'successful member creation'
-    end
+    shared_examples_for 'sends mails' do
+      let(:expected_receivers) { defined?(receivers) ? receivers : [principal] }
 
-    context 'for a group' do
-      it_behaves_like 'successful member creation' do
-        let(:group) { FactoryBot.create(:group) }
-        let(:principal) { group }
-        let(:principal_path) { api_v3_paths.group(group.id) }
-        let(:body) do
-          {
-            _links: {
-              project: {
-                href: api_v3_paths.project(project.id)
-              },
-              principal: {
-                href: principal_path
-              },
-              roles: [
-                {
-                  href: api_v3_paths.role(other_role.id)
-                }
-              ]
-            }
-          }.to_json
-        end
+      it 'sends a mail to the added user' do
+        expect(ActionMailer::Base.deliveries.size)
+          .to eql expected_receivers.length
+
+        expect(ActionMailer::Base.deliveries.map(&:to).flatten)
+          .to match_array expected_receivers.map(&:mail)
       end
     end
 
-    context 'for a placeholder user' do
-      it_behaves_like 'successful member creation' do
-        let(:placeholder_user) { FactoryBot.create(:placeholder_user) }
-        let(:principal) { placeholder_user }
-        let(:principal_path) { api_v3_paths.placeholder_user(placeholder_user.id) }
-        let(:body) do
-          {
+    context 'for a user' do
+      it_behaves_like 'successful member creation'
+      it_behaves_like 'sends mails'
+    end
+
+    context 'for a group' do
+      let(:group) do
+        FactoryBot.create(:group, members: users)
+      end
+      let(:principal) { group }
+      let(:users) { [FactoryBot.create(:user), FactoryBot.create(:user)] }
+      let(:principal_path) { api_v3_paths.group(group.id) }
+      let(:body) do
+        {
+          _links: {
             project: {
               href: api_v3_paths.project(project.id)
             },
@@ -466,8 +459,47 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
                 href: api_v3_paths.role(other_role.id)
               }
             ]
-          }.to_json
+          }
+        }.to_json
+      end
+
+      it_behaves_like 'successful member creation'
+      it_behaves_like 'sends mails' do
+        let(:receivers) { users }
+      end
+
+      it 'creates the memberships for the group members' do
+        users.each do |user|
+          expect(Member.find_by(user_id: user.id, project: project))
+            .to be_present
         end
+      end
+    end
+
+    context 'for a placeholder user' do
+      let(:placeholder_user) { FactoryBot.create(:placeholder_user) }
+      let(:principal) { placeholder_user }
+      let(:principal_path) { api_v3_paths.placeholder_user(placeholder_user.id) }
+      let(:body) do
+        {
+          project: {
+            href: api_v3_paths.project(project.id)
+          },
+          principal: {
+            href: principal_path
+          },
+          roles: [
+            {
+              href: api_v3_paths.role(other_role.id)
+            }
+          ]
+        }.to_json
+      end
+
+      it_behaves_like 'successful member creation'
+
+      it_behaves_like 'sends mails' do
+        let(:receivers) { [] }
       end
     end
 
@@ -496,6 +528,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
         let(:current_user) { admin }
 
         it_behaves_like 'successful member creation'
+        it_behaves_like 'sends mails'
       end
 
       context 'as a non admin' do
