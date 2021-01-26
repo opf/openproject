@@ -29,14 +29,12 @@
 #++
 
 class PlaceholderUser < Principal
+  alias_attribute(:name, :lastname)
+
   validates_presence_of(:name)
   validates_uniqueness_of(:name)
 
   include ::Associations::Groupable
-
-  def name=(new_name)
-    self.lastname = new_name
-  end
 
   def to_s
     lastname

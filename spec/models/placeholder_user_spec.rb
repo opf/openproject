@@ -56,5 +56,14 @@ describe PlaceholderUser, type: :model do
       subject.name = "Foo"
       expect(subject.lastname).to eq("Foo")
     end
+
+    it { is_expected.to validate_presence_of :name }
+    it { is_expected.to validate_uniqueness_of :name }
+  end
+
+  describe "#to_s" do
+    it 'returns the lastname' do
+      expect(subject.to_s).to eq(subject.lastname)
+    end
   end
 end
