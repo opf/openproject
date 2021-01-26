@@ -35,8 +35,6 @@ module Users
 
     private
 
-    alias_method :new_user, :model
-
     def persist(call)
       new_user = call.result
 

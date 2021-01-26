@@ -31,7 +31,15 @@ require 'spec_helper'
 describe Users::CreateService do
   let(:current_user) { FactoryBot.build_stubbed(:user) }
   let(:new_user) { FactoryBot.build_stubbed(:user) }
-  let(:instance) { described_class.new(current_user: current_user) }
+  let(:instance) { described_class.new(user: current_user) }
+  let(:params) do
+    {
+      firstname: 'Bob',
+      lastname: 'Bobby',
+      login: 'bob1',
+      mail: 'bob@example.com'
+    }
+  end
 
   describe '.contract' do
     it 'uses the CreateContract contract' do
@@ -41,16 +49,17 @@ describe Users::CreateService do
 
   describe '.new' do
     it 'takes a user which is available as a getter' do
-      expect(instance.current_user).to eql current_user
+      expect(instance.user).to eql current_user
     end
   end
 
   describe '#call' do
-    subject { instance.call(new_user) }
+    subject { instance.call(params) }
     let(:validates) { true }
     let(:saves) { true }
 
     before do
+      allow(instance).to receive(:instance).and_return(new_user)
       allow(new_user).to receive(:save).and_return(saves)
       allow_any_instance_of(Users::CreateContract).to receive(:validate).and_return(validates)
     end
