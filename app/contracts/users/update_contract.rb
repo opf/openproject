@@ -38,7 +38,7 @@ module Users
 
     ##
     # Users can only be updated when
-    # - the user is editing herself (TODO: attribute permissions)
+    # - the user is editing herself
     # - the user has the global add_user CRU permission
     # - the user is an admin
     def user_allowed_to_update

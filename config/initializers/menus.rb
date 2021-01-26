@@ -76,7 +76,6 @@ Redmine::MenuManager.map :account_menu do |menu|
             if: Proc.new { User.current.logged? }
   menu.push :administration,
             { controller: '/admin', action: 'index' },
-            # TODO: Extract into contract
             if: Proc.new { User.current.admin? || User.current.allowed_to_globally?(:add_user) }
   menu.push :logout,
             :signout_path,
