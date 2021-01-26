@@ -363,7 +363,7 @@ zh-CN:
     label_next: "下一个"
     label_no_color: "无颜色"
     label_no_data: "没有要显示的数据"
-    label_no_due_date: "no finish date"
+    label_no_due_date: "没有完成日期"
     label_no_start_date: "没有开始日期"
     label_no_value: "无值"
     label_none: "无"

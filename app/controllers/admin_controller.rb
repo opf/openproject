@@ -126,6 +126,8 @@ class AdminController < ApplicationController
 
   def image_conversion_libs_available?
     Open3.capture2e('convert', '-version').first.include?('ImageMagick')
+  rescue
+    false
   end
 
   def file_storage_checks

@@ -223,7 +223,7 @@ describe WorkPackages::SetScheduleService do
         end
       end
 
-      context 'when the follower has no start date (which should not happen)' do
+      context 'when the follower has no start date' do
         let(:follower1_start_date) { nil }
 
         it_behaves_like 'reschedules' do
@@ -393,6 +393,18 @@ describe WorkPackages::SetScheduleService do
         end
         let(:unchanged) do
           [following_work_package1]
+        end
+      end
+
+      context 'when the follower has no start date but a due date' do
+        let(:follower1_start_date) { nil }
+        let(:follower1_due_date) { Date.today + 15.days }
+
+        it_behaves_like 'reschedules' do
+          # Nothing should be rescheduled
+          let(:expected) do
+            {}
+          end
         end
       end
     end

@@ -40,17 +40,17 @@ describe Attachment, type: :model do
   let(:attachment) do
     FactoryBot.build(
       :attachment,
-      author:       author,
-      container:    container,
+      author: author,
+      container: container,
       content_type: nil, # so that it is detected
-      file:         file
+      file: file
     )
   end
   let(:stubbed_attachment) do
     FactoryBot.build_stubbed(
       :attachment,
-      author:       stubbed_author,
-      container:    container
+      author: stubbed_author,
+      container: container
     )
   end
 
@@ -203,6 +203,64 @@ describe Attachment, type: :model do
 
       expect(a1.diskfile.path)
         .not_to eql a2.diskfile.path
+    end
+  end
+
+  describe '.create_pending_direct_upload' do
+    let(:file_size) { 6 }
+    let(:file_name) { 'document.png' }
+    let(:content_type) { "application/octet-stream" }
+
+    subject do
+      described_class.create_pending_direct_upload(file_name: file_name,
+                                                   author: author,
+                                                   container: container,
+                                                   content_type: content_type,
+                                                   file_size: file_size)
+    end
+
+    it 'returns the attachment' do
+      expect(subject)
+        .to be_a(Attachment)
+    end
+
+    it 'sets the content_type' do
+      expect(subject.content_type)
+        .to eql content_type
+    end
+
+    it 'sets the file_size' do
+      expect(subject.filesize)
+        .to eql file_size
+    end
+
+    it 'sets the file for carrierwave' do
+      expect(subject.file.file.path)
+        .to end_with "attachment/file/#{subject.id}/#{file_name}"
+    end
+
+    it 'sets the author' do
+      expect(subject.author)
+        .to eql author
+    end
+
+    it 'sets the digest to empty string' do
+      expect(subject.digest)
+        .to eql ""
+    end
+
+    it 'sets the download count to -1' do
+      expect(subject.downloads)
+        .to eql -1
+    end
+
+    context 'with a special character in the filename' do
+      let(:file_name) { "document=number 5.png" }
+
+      it 'sets the file for carrierwave' do
+        expect(subject.file.file.path)
+          .to end_with "attachment/file/#{subject.id}/document_number_5.png"
+      end
     end
   end
 

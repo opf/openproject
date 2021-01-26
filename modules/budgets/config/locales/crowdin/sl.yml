@@ -60,7 +60,7 @@ sl:
   label_budget_plural: "Proračun"
   label_budget_id: "Proračun #%{id}"
   label_deliverable: "Proračun"
-  label_example_placeholder: 'e.g., %{decimal}'
+  label_example_placeholder: 'npr., %{decimal}'
   label_view_all_budgets: "Oglejte si vse proračune"
   label_yes: "Da"
   notice_budget_conflict: "Delovni paketi morajo biti pd istega projekta."
