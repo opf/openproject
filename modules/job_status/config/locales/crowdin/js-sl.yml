@@ -1,17 +1,17 @@
 sl:
   js:
     job_status:
-      download_starts: 'The download should start automatically.'
-      click_to_download: 'Or click here to download.'
+      download_starts: 'Prenos naj bi se začel samodejno. '
+      click_to_download: 'Ali kliknite tu za prenos.'
       title: 'Background job status'
-      redirect: 'You are being redirected.'
-      redirect_link: 'Please click here to continue.'
+      redirect: 'Preusmerjamo vas.'
+      redirect_link: 'Za nadaljevanje, prosimo kliknite tu. '
       redirect_errors: 'Due to these errors, you will not be redirected automatically.'
       errors: 'Some errors have occurred'
       generic_messages:
         not_found: 'This job could not be found.'
         in_queue: 'The job has been queued and will be processed shortly.'
-        in_process: 'The job is currently being processed.'
+        in_process: 'Opravilo je v obdelavi.'
         error: 'The job has failed to complete.'
         cancelled: 'The job has been cancelled due to an error.'
-        success: 'The job completed successfully.'
+        success: 'Opravilo uspešno zaključeno.'

@@ -14,6 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      - name: Prepare docker files
+        run: |
+          cp ./docker/prod/Dockerfile ./Dockerfile
       - name: Build & Push
         id: build_and_push
         uses: elgohr/Publish-Docker-Github-Action@master
@@ -26,5 +29,5 @@ jobs:
       - name: Test
         run: |
           docker run -d -p 8080:80 -e SUPERVISORD_LOG_LEVEL=debug -e SECRET_KEY_BASE=secret ${{ steps.build_and_push.outputs.digest }}
-          sleep 5
+          sleep 15
           wget -O- --retry-connrefused http://localhost:8080/api/v3

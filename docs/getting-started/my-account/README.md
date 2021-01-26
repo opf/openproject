@@ -58,7 +58,7 @@ Within the My account settings you can change the language of OpenProject, adapt
 
 Also, you can activate a **warning if you are leaving a work package with unsaved changes**.
 
-Additionally, you can activate to **auto-hide success notifcations** from the system.
+Additionally, you can activate to **auto-hide success notifications from the system. This (only) means that the green pop-up success notifications will be removed automatically after five seconds.
 
 ![my-account-settings](my-account-settings.png)
 
