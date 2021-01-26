@@ -3,17 +3,7 @@
   (submit)="onSubmit($event)"
   class="op-ium-summary"
 >
-  <div class="op-modal--modal-header">
-    <button
-      class="op-modal--modal-close-button"
-      type="button"
-      (click)="closeModal.emit()"
-      [attr.aria-label]="text.closePopup"
-    >
-      <span class="icon-close"></span>
-    </button>
-    <h3 [textContent]="text.title"></h3>
-  </div>
+  <op-ium-modal-heading (close)="close.emit()">{{ text.title }}</op-ium-modal-heading>
 
   <div class="op-modal--modal-body">
     <op-form-field label="Project">

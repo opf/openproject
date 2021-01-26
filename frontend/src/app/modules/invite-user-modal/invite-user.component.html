@@ -43,6 +43,7 @@
     *ngIf="step === Steps.Summary"
     class="op-modal--modal-container"
     [project]="project"
+    [principal]="principal"
     [type]="type"
     [role]="role"
     [message]="message"
@@ -50,4 +51,10 @@
     (back)="goTo(this.type === 'placeholder' ? Steps.Role : Steps.Message)"
     (close)="close()"
   ></op-ium-summary>
+
+  <op-ium-success
+    *ngIf="step === Steps.Success"
+    class="op-modal--modal-container"
+    (close)="close()"
+  ></op-ium-success>
 </div>

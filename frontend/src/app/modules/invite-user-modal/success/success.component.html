@@ -1,0 +1,17 @@
+<div class="op-ium-success">
+  <op-ium-modal-heading (close)="close.emit()"></op-ium-modal-heading>
+
+  <div class="op-modal--modal-body">
+    <img src="" />
+
+    <h1 [textContent]="text.title"></h1>
+
+    <p [textContent]="text.title"></p>
+  </div>
+  <div class="op-modal--modal-body">
+    <button
+      (click)="close.emit()"
+      type="button"
+      >Close</button>
+  </div>
+</div>

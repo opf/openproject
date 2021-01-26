@@ -22,7 +22,7 @@ export class ProjectSelectionComponent implements OnInit {
   @Input('type') type:string = '';
   @Input('project') project:any = null;
 
-  @Output('close') closeModal = new EventEmitter<void>();
+  @Output('close') close = new EventEmitter<void>();
   @Output() save = new EventEmitter<{project:any, type:string}>();
 
   public text = {
@@ -78,9 +78,5 @@ export class ProjectSelectionComponent implements OnInit {
       project: this.projectControl?.value,
       type: this.typeControl?.value,
     });
-  }
-
-  close() {
-    this.closeModal.emit();
   }
 }
