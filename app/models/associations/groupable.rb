@@ -32,7 +32,6 @@ module Associations::Groupable
   def self.included(base)
     base.has_and_belongs_to_many :groups,
                                  join_table: "#{base.table_name_prefix}group_users#{base.table_name_suffix}",
-                                 after_add: ->(user, group) { group.user_added(user) },
                                  after_remove: ->(user, group) { group.user_removed(user) }
   end
 end
