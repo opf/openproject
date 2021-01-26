@@ -24,7 +24,7 @@ export class PrincipalComponent implements OnInit {
   @Input() type:string = '';
 
   @Output('close') close = new EventEmitter<void>();
-  @Output() save = new EventEmitter();
+  @Output() save = new EventEmitter<{ principal:any }>();
   @Output() back = new EventEmitter();
 
   public text = {
@@ -68,6 +68,6 @@ export class PrincipalComponent implements OnInit {
       return;
     }
 
-    this.save.emit(this.principalControl?.value);
+    this.save.emit({ principal: this.principalControl?.value });
   }
 }
