@@ -21,7 +21,7 @@ export class InviteUserWizardService extends UntilDestroyedMixin {
     super();
   }
 
-  inviteUser(projectId:string, userId:string, roleId:string) {
+  inviteUser(projectId:string, userId:string, roleId:string, message:string) {
     /* TODO: waiting for the API to:
     * - handle 'message' property in invitations
     * - handle 'email' invitations
@@ -88,6 +88,11 @@ export class InviteUserWizardService extends UntilDestroyedMixin {
                                                                    principal.email?.toLowerCase().includes(searchTerm?.toLowerCase()))));
   }
 
+  finalAction() {
+    // TODO:  Implement final action (close dialog and set value to the input?)
+    console.log('Final action');
+  }
+
   getAllPrincipalsData(memberPrincipals:UserResource | GroupResource[], nonMemberPrincipals:UserResource | GroupResource[]):IUserWizardSelectData[] {
     const memberPrincipalsData = memberPrincipals.map(({name, id, email, _type}:IUserWizardSelectData) => ({name, id, email, _type, disabled: true}));
     const nonMemberPrincipalsData = nonMemberPrincipals.map(({name, id, email, _type}:IUserWizardSelectData) => ({name, id, email, _type, disabled: false}));
@@ -95,5 +100,4 @@ export class InviteUserWizardService extends UntilDestroyedMixin {
 
     return allPrincipals;
   }
-
 }

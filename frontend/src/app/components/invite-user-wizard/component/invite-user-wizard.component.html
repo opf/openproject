@@ -5,7 +5,7 @@
 
   <ng-container *ngFor="let step of steps; let index = index;">
     <!--STEP TEMPLATE-->
-    <div class="step"
+    <div [ngClass]="['step', 'step' + '-' + step.type]"
          *ngIf="currentStepIndex === index">
       <!--SELECT TEMPLATE-->
       <ng-container *ngIf="step.type === 'select'">
@@ -91,13 +91,15 @@
       <!--SUMMARY TEMPLATE-->
       <ng-container *ngIf="step.type === 'summary'">
         <div *ngFor="let step of steps"
-             class="summary_field">
+             [ngClass]="['summary-field', 'summary-field' + '-' + step.formControlName]">
           <ng-container *ngIf="step.formControlName">
             <p>
               <strong>{{step.summaryLabel}}</strong>
             </p>
 
-            <p>{{form.get(step.formControlName).value?.name || form.get(step.formControlName).value}}</p>
+            <p>
+              {{form.get(step.formControlName).value?.name || form.get(step.formControlName).value}}
+            </p>
           </ng-container>
         </div>
       </ng-container>
@@ -112,15 +114,15 @@
     </div>
   </ng-container>
 
-  <div class="buttons_container">
-    <button class="button"
+  <div class="buttons-container">
+    <button class="button button-left"
             (click)="previousStep()"
             *ngIf="currentStep?.leftButtonText"
             [disabled]="!currentStepIndex">
       {{currentStep?.leftButtonText}}
     </button>
 
-    <button class="button"
+    <button class="button button-right"
             (click)="nextStep(currentStep)"
             *ngIf="currentStep?.rightButtonText"
             [disabled]="shouldBeDisabled(currentStep)">

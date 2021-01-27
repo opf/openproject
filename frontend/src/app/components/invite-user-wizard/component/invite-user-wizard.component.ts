@@ -2,7 +2,6 @@ import {Component, ElementRef, HostListener, NgZone, OnInit, ViewChild} from '@a
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Observable, Subject} from "rxjs";
 import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {RoleResource} from "core-app/modules/hal/resources/role-resource";
@@ -83,7 +82,6 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
 
   constructor(
     private formBuilder:FormBuilder,
-    private apiV3Service:APIV3Service,
     readonly I18n:I18nService,
     private currentProjectService:CurrentProjectService,
     private inviteUserWizardService:InviteUserWizardService,
@@ -221,15 +219,15 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
       .inviteUser(
         this.currentProjectService.id!,
         this.form.get('user')!.value?.id,
-        this.form.get('role')!.value?.id
+        this.form.get('role')!.value?.id,
+        this.form.get('message')!.value,
       )
       // TODO: Implement final response (show toast?)
-      .subscribe(() => this.nextStep(this.currentStep));
+      .subscribe();
   }
 
   finalAction = () => {
-    // TODO:  Implement final action (close dialog and set value to the input?)
-    console.log('Final action');
+    this.inviteUserWizardService.finalAction();
   }
 
   usersCallback = (searchTerm:string):Observable<IUserWizardSelectData[]> => {

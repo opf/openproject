@@ -4,7 +4,6 @@ import { InviteUserWizardComponent } from './component/invite-user-wizard.compon
 import {ReactiveFormsModule} from "@angular/forms";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {NgOptionHighlightModule} from "@ng-select/ng-option-highlight";
-import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 
 @NgModule({
   declarations: [InviteUserWizardComponent],
@@ -13,7 +12,6 @@ import {OpenprojectCommonModule} from "core-app/modules/common/openproject-commo
     ReactiveFormsModule,
     NgSelectModule,
     NgOptionHighlightModule,
-    OpenprojectCommonModule,
   ],
   exports: [InviteUserWizardComponent]
 })
