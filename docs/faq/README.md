@@ -86,6 +86,15 @@ Please use these resources to find out about the latest changes and re-do them m
 
 You can do this as a system administrator in the [System settings](../system-admin-guide/system-settings/display-settings/#time-and-date-formatting).
 
+### How can I create a PDF file with an individual and consolidated projects report?
+
+To create and print/export reports you can...
+
+- use the [global work packages list](../user-guide/projects/#global-work-packages-list): Filter for e.g. phases and milestones (which would make sense to use in your projects in this case). Then use the [export feature](../user-guide/work-packages/exporting/#exporting-work-packages). This will give you an overview over all projects' work packages (or all projects' milestones and phases, respectively).
+- use the [Wiki module](../user-guide/wiki) to document your project reports. The Wiki pages is optimized for being printed using your browser's print feature. You could even insert a work packages list there. If you want to use the Wiki we suggest setting it up in a (global) parent project.
+
+The projects overview is not optimized for export via PDF, yet. Nevertheless, you can try to use your browser's print feature.
+
 ### How can I receive the OpenProject newsletter?
 
 Please go to https://www.openproject.org/newsletter/ and submit your data to receive our newsletter. Another option would be to agree to receive the newsletter when creating your account.
@@ -105,7 +114,11 @@ There is no native iOS or Android app for OpenProject, but OpenProject is respon
 
 Yes, please use the free [Excel synchronization](../user-guide/integrations/excel synchronization) for this.
 
-### Do you have OpenProject guest accounts?
+### Are there plan/actual comparisons in OpenProject?
+
+You can use the [Budgets module](../user-guide/budgets/#budgets) for a plan/actual comparison.
+
+### Does OpenProject have guest accounts?
 
 Currently, all users working in the OpenProject Enterprise editions need a license in order to access OpenProject. Regarding payments we only count the active (not blocked) users.
 

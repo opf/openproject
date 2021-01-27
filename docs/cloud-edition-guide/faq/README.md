@@ -60,3 +60,7 @@ Access to the database (including the PostgreSQL tables) is restricted for the E
 ## How can I increase the number of users in the OpenProject Enterprise cloud edition?
 
 Please note that the minimum number of users is 5. You can always increase the number of users. The number of users can be increased in steps of 5 (e.g. you could start with 5 users and then increase the number of users to 10 users). Find out [here](../manage-subscription) how to change the number of users in your system administration. A reduction in the number of users would take effect at the beginning of the next subscription period.
+
+## How can I change my payment details (e.g. new credit card)?
+
+Please use [this instruction](../manage-subscription). 

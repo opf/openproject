@@ -41,6 +41,14 @@ The Enterprise token is sent to the email address used to create the subscriptio
 
 Yes, for Enterprise on-premises and for Community Edition you will have to choose your own domain name during [initial configuration](../../installation-and-operations/installation/packaged/#initial-configuration) after installing OpenProject.
 
+## How can I change my payment details (e.g. new credit card)?
+
+Please use the link "Manage subscription" in the first email you received from our system. Alternatively, please contact support via email.
+
+## Why is Enterprise cloud cheaper than Enterprise on-premises?
+
+Enterprise on-premises gives you full data sovereignty, the possibility to use self-developed plugins, connection to your LDAP and much more, while being more effort to develop and to handle for OpenProject. That's why the Enterprise cloud is lower-priced than the on-premises version. You can find a full feature comparison here: https://www.openproject.org/pricing/#compare
+
 ## How can I downgrade from Enterprise Edition to Community Edition?
 
 You don't have to do anything. Just don't renew your subscription. As soon as your subscription or your trial ends you will automatically be downgraded to the Community Edition. You can keep your data.

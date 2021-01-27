@@ -32,6 +32,12 @@ Yes, for Enterprise on-premises and Community Edition there is a [configuration 
 
 The authentication via Google is already activated in the Enterprise cloud. Users who are invited to OpenProject, should be able to choose authentication via Google. There should be a Google button under the normal user name / password when you try to login. 
 
+## Is it possible to set a custom field as "required" when it's already in use? What will hapen to the existing work packages for which the custom field is activated?
+
+Yes, this is possible. When you edit existing work packages for which the custom field is activated but not populated you will receive the warning "[name of custom field] can't be blank" and you will have to populate the custom field.
+
+
+
 
 
 ## [FAQ for work package settings](../manage-work-packages/faq)
