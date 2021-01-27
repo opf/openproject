@@ -135,7 +135,7 @@ describe WorkPackage, type: :model do
       time_entry
     end
 
-    describe 'w/o a cleanup beeing necessary' do
+    describe 'w/o a cleanup being necessary' do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required([work_package], user, action: 'reassign') }
 
       before do

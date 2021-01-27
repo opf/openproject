@@ -128,7 +128,7 @@ describe Story, type: :model do
                 WITH two stories
                 WITH one story per sprint
                 WITH querying for the two sprints
-                WITH one sprint beeing in another project" do
+                WITH one sprint being in another project" do
         before do
           story1
 
@@ -164,7 +164,7 @@ describe Story, type: :model do
 
       describe "WITH one sprint
                 WITH the sprint having two storys
-                WITH one beeing the child of the other" do
+                WITH one being the child of the other" do
         before(:each) do
           story1.parent_id = story2.id
 

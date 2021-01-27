@@ -214,7 +214,7 @@ describe Sprint, type: :model do
         @other_project = FactoryBot.create(:project)
       end
 
-      describe 'WITH the version beeing shared system wide' do
+      describe 'WITH the version being shared system wide' do
         before(:each) do
           @version = FactoryBot.create(:sprint, name: 'systemwide', project: @other_project, sharing: 'system')
         end
@@ -223,7 +223,7 @@ describe Sprint, type: :model do
         it { expect(Sprint.apply_to(project)[0]).to eql(@version) }
       end
 
-      describe 'WITH the version beeing shared from a parent project' do
+      describe 'WITH the version being shared from a parent project' do
         before(:each) do
           project.update(parent: @other_project)
           project.reload
@@ -234,7 +234,7 @@ describe Sprint, type: :model do
         it { expect(Sprint.apply_to(project)[0]).to eql(@version) }
       end
 
-      describe 'WITH the version beeing shared within the tree' do
+      describe 'WITH the version being shared within the tree' do
         before(:each) do
           @parent_project = FactoryBot.create(:project)
           @other_project.update(parent: @parent_project)
@@ -247,7 +247,7 @@ describe Sprint, type: :model do
         it { expect(Sprint.apply_to(project)[0]).to eql(@version) }
       end
 
-      describe 'WITH the version beeing shared within the tree' do
+      describe 'WITH the version being shared within the tree' do
         before(:each) do
           @descendant_project = FactoryBot.create(:project, parent: project)
           project.reload

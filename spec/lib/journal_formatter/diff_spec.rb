@@ -60,7 +60,7 @@ describe OpenProject::JournalFormatter::Diff do
   let(:full_url_link) { link_to(I18n.t(:label_details), full_url, class: 'description-details') }
 
   describe '#render' do
-    describe 'WITH the first value beeing nil, and the second a string' do
+    describe 'WITH the first value being nil, and the second a string' do
       let(:expected) {
         I18n.t(:text_journal_set_with_diff,
                label: "<strong>#{key.camelize}</strong>",
@@ -70,7 +70,7 @@ describe OpenProject::JournalFormatter::Diff do
       it { expect(instance.render(key, [nil, 'new value'])).to eq(expected) }
     end
 
-    describe 'WITH the first value beeing a string, and the second a string' do
+    describe 'WITH the first value being a string, and the second a string' do
       let(:expected) {
         I18n.t(:text_journal_changed_with_diff,
                label: "<strong>#{key.camelize}</strong>",
@@ -80,7 +80,7 @@ describe OpenProject::JournalFormatter::Diff do
       it { expect(instance.render(key, ['old value', 'new value'])).to eq(expected) }
     end
 
-    describe "WITH the first value beeing a string, and the second a string
+    describe "WITH the first value being a string, and the second a string
               WITH de as locale" do
       let(:expected) {
         I18n.t(:text_journal_changed_with_diff,
@@ -99,7 +99,7 @@ describe OpenProject::JournalFormatter::Diff do
       end
     end
 
-    describe 'WITH the first value beeing a string, and the second nil' do
+    describe 'WITH the first value being a string, and the second nil' do
       let(:expected) {
         I18n.t(:text_journal_deleted_with_diff,
                label: "<strong>#{key.camelize}</strong>",
@@ -109,7 +109,7 @@ describe OpenProject::JournalFormatter::Diff do
       it { expect(instance.render(key, ['old_value', nil])).to eq(expected) }
     end
 
-    describe "WITH the first value beeing nil, and the second a string
+    describe "WITH the first value being nil, and the second a string
               WITH specifying not to output html" do
       let(:expected) {
         I18n.t(:text_journal_set_with_diff,
@@ -120,7 +120,7 @@ describe OpenProject::JournalFormatter::Diff do
       it { expect(instance.render(key, [nil, 'new value'], no_html: true)).to eq(expected) }
     end
 
-    describe "WITH the first value beeing a string, and the second a string
+    describe "WITH the first value being a string, and the second a string
               WITH specifying not to output html" do
       let(:expected) {
         I18n.t(:text_journal_changed_with_diff,
@@ -131,7 +131,7 @@ describe OpenProject::JournalFormatter::Diff do
       it { expect(instance.render(key, ['old value', 'new value'], no_html: true)).to eq(expected) }
     end
 
-    describe "WITH the first value beeing a string, and the second a string
+    describe "WITH the first value being a string, and the second a string
               WITH specifying to output a full url" do
       let(:expected) {
         I18n.t(:text_journal_changed_with_diff,
@@ -142,7 +142,7 @@ describe OpenProject::JournalFormatter::Diff do
       it { expect(instance.render(key, ['old value', 'new value'], only_path: false)).to eq(expected) }
     end
 
-    describe 'WITH the first value beeing a string, and the second nil' do
+    describe 'WITH the first value being a string, and the second nil' do
       let(:expected) {
         I18n.t(:text_journal_deleted_with_diff,
                label: key.camelize,

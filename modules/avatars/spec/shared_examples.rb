@@ -29,7 +29,7 @@ shared_examples_for "an action requiring login" do
     allow(User).to receive(:current).and_return(current)
   end
 
-  describe "without beeing logged in" do
+  describe "without being logged in" do
     before do
       allow(User).to receive(:current).and_return AnonymousUser.first
 
@@ -39,7 +39,7 @@ shared_examples_for "an action requiring login" do
     it { expect(response).to redirect_to signin_path(back_url: redirect_path) }
   end
 
-  describe "with beeing logged in" do
+  describe "with being logged in" do
     before do
       action
     end
@@ -55,7 +55,7 @@ shared_examples_for "an action requiring admin" do
     allow(User).to receive(:current).and_return(current)
   end
 
-  describe "without beeing logged in" do
+  describe "without being logged in" do
     before do
       allow(User).to receive(:current).and_return AnonymousUser.first
 
@@ -65,7 +65,7 @@ shared_examples_for "an action requiring admin" do
     it { expect(response).to redirect_to signin_path(back_url: redirect_path) }
   end
 
-  describe "with beeing logged in as a normal user" do
+  describe "with being logged in as a normal user" do
     before do
       allow(User).to receive(:current).and_return FactoryBot.create(:user)
 
@@ -75,7 +75,7 @@ shared_examples_for "an action requiring admin" do
     it { expect(response.response_code).to eq(403) }
   end
 
-  describe "with beeing logged in as admin" do
+  describe "with being logged in as admin" do
     before do
       action
     end

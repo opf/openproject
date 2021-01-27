@@ -165,7 +165,7 @@ describe Impediments::UpdateService, type: :model do
       it { expect(subject.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint, scope: [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
     end
 
-    describe 'WITH the story beeing non existent' do
+    describe 'WITH the story being non existent' do
       let(:blocks) { '0' }
 
       it_should_behave_like 'impediment update with unchanged blocking relationship'
