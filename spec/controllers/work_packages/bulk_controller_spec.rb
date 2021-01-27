@@ -645,7 +645,7 @@ describe WorkPackages::BulkController, type: :controller do
       expect(controller).to receive(:authorize)
     end
 
-    describe 'w/ the cleanup beeing successful' do
+    describe 'w/ the cleanup being successful' do
       before do
         expect(stub_work_package).to receive(:reload).and_return(stub_work_package)
 
@@ -671,7 +671,7 @@ describe WorkPackages::BulkController, type: :controller do
       end
     end
 
-    describe 'w/o the cleanup beeing successful' do
+    describe 'w/o the cleanup being successful' do
       before do
         expect(WorkPackage).to receive(:cleanup_associated_before_destructing_if_required).with([stub_work_package], user, params['to_do']).and_return false
 
