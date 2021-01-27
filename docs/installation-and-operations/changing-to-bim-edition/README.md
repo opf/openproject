@@ -19,6 +19,7 @@ when you activate the "BCF" module a project's settings.
 ### Backup and upgrade
 
 First, backup your data and update your installation to the latest OpenProject version as described in [Upgrading](../operation/upgrading).
+Make sure that you not only install the new package but also run `sudo openproject configure` as described before proceeding.
 
 ### Switching to BIM Edition
 
