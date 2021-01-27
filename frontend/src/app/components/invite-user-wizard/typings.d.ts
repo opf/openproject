@@ -10,8 +10,8 @@ interface IUserWizardStep {
     text:string;
     href:string;
   };
-  rightButtonText?:string;
-  leftButtonText?:string;
+  nextButtonText?:string;
+  previousButtonText?:string;
   showInviteUserByEmail?:boolean;
   action?:Function;
 }

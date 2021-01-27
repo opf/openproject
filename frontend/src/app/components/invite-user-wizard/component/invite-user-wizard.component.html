@@ -116,17 +116,17 @@
 
   <div class="buttons-container">
     <button class="button button-left"
-            (click)="previousStep()"
-            *ngIf="currentStep?.leftButtonText"
+            (click)="previousAction()"
+            *ngIf="currentStep?.previousButtonText"
             [disabled]="!currentStepIndex">
-      {{currentStep?.leftButtonText}}
+      {{currentStep?.previousButtonText}}
     </button>
 
     <button class="button button-right"
-            (click)="nextStep(currentStep)"
-            *ngIf="currentStep?.rightButtonText"
+            (click)="nextAction(currentStep)"
+            *ngIf="currentStep?.nextButtonText"
             [disabled]="shouldBeDisabled(currentStep)">
-      {{currentStep?.rightButtonText}}
+      {{currentStep?.nextButtonText}}
     </button>
   </div>
 </div>

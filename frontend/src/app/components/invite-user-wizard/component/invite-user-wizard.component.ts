@@ -19,13 +19,14 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
   currentStepIndex = 0;
   form:FormGroup;
   project:string;
+  steps:IUserWizardStep[];
   text = {
     title: this.I18n.t('js.invite_user_modal.title'),
     closePopup: this.I18n.t('js.close_popup_title'),
     exportPreparing: this.I18n.t('js.label_export_preparing'),
     user: this.I18n.t('js.invite_user_modal.user'),
-    rightButtonText: this.I18n.t('js.invite_user_modal.next'),
-    leftButtonText: this.I18n.t('js.invite_user_modal.back'),
+    nextButtonText: this.I18n.t('js.invite_user_modal.next'),
+    previousButtonText: this.I18n.t('js.invite_user_modal.back'),
     invite: this.I18n.t('js.invite_user_modal.invite'),
     to: this.I18n.t('js.invite_user_modal.to'),
     noDataFoundFor: this.I18n.t('js.invite_user_modal.no_data_found_for'),
@@ -45,17 +46,16 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
       label: this.I18n.t('js.invite_user_modal.message_label'),
       summaryLabel: this.I18n.t('js.invite_user_modal.message_summary_label'),
       description: () => this.I18n.t('js.invite_user_modal.message_description', {user: this.userToInvite}),
-      rightButtonText: this.I18n.t('js.invite_user_modal.message_next_button'),
+      nextButtonText: this.I18n.t('js.invite_user_modal.message_next_button'),
     },
     step3: {
-      rightButtonText: this.I18n.t('js.invite_user_modal.send_invitation'),
+      nextButtonText: this.I18n.t('js.invite_user_modal.send_invitation'),
     },
     step4: {
       description: () => this.I18n.t('js.invite_user_modal.confirm_description', {project: this.project}),
-      rightButtonText: this.I18n.t('js.invite_user_modal.continue'),
+      nextButtonText: this.I18n.t('js.invite_user_modal.continue'),
     }
   };
-  steps:IUserWizardStep[];
   input$ = new Subject<string | null>();
   items$:Observable<any>;
 
@@ -77,7 +77,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
   @ViewChild('textarea') textarea:ElementRef;
 
   @HostListener('document:keydown.enter', ['$event']) onKeydownHandler(event:KeyboardEvent) {
-    this.nextStep(this.currentStep);
+    this.nextAction(this.currentStep);
   }
 
   constructor(
@@ -108,8 +108,8 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
         formControlName: 'user',
         apiCallback: this.usersCallback,
         description: this.text.step0.description,
-        rightButtonText: this.text.rightButtonText,
-        leftButtonText: this.text.leftButtonText,
+        nextButtonText: this.text.nextButtonText,
+        previousButtonText: this.text.previousButtonText,
         showInviteUserByEmail: true,
       },
       {
@@ -124,8 +124,8 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
           text: this.text.step1.link,
           href: 'https://docs.openproject.org/system-admin-guide/users-permissions/',
         },
-        rightButtonText: this.text.rightButtonText,
-        leftButtonText: this.text.leftButtonText,
+        nextButtonText: this.text.nextButtonText,
+        previousButtonText: this.text.previousButtonText,
       },
       {
         type: 'textarea',
@@ -133,18 +133,18 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
         summaryLabel: this.text.step2.summaryLabel,
         formControlName: 'message',
         description: this.text.step2.description,
-        rightButtonText: this.text.step2.rightButtonText,
-        leftButtonText: this.text.leftButtonText,
+        nextButtonText: this.text.step2.nextButtonText,
+        previousButtonText: this.text.previousButtonText,
       },
       {
         type: 'summary',
-        rightButtonText: this.text.step3.rightButtonText,
-        leftButtonText: this.text.leftButtonText,
+        nextButtonText: this.text.step3.nextButtonText,
+        previousButtonText: this.text.previousButtonText,
         action: this.inviteUser,
       },
       {
         type: 'confirmation',
-        rightButtonText: this.text.step4.rightButtonText,
+        nextButtonText: this.text.step4.nextButtonText,
         description: this.text.step4.description,
         action: this.finalAction,
       },
@@ -159,19 +159,26 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
       );
   }
 
-  previousStep() {
+  previousAction() {
     this.currentStepIndex && --this.currentStepIndex;
   }
 
-  nextStep(currentStep:IUserWizardStep) {
+  nextAction(currentStep:IUserWizardStep) {
     if (currentStep.formControlName && this.form.get(currentStep.formControlName!)!.invalid) {
       return;
     }
 
     if (currentStep.action) {
-      currentStep.action();
+      // TODO: Handle error
+      currentStep.action().subscribe(() => {
+        this.goToNextStep();
+      });
+    } else {
+      this.goToNextStep();
     }
+  }
 
+  goToNextStep() {
     if (this.currentStepIndex < this.steps.length - 1) {
       ++this.currentStepIndex;
 
@@ -215,19 +222,18 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
   }
 
   inviteUser = () => {
-    this.inviteUserWizardService
-      .inviteUser(
-        this.currentProjectService.id!,
-        this.form.get('user')!.value?.id,
-        this.form.get('role')!.value?.id,
-        this.form.get('message')!.value,
-      )
-      // TODO: Implement final response (show toast?)
-      .subscribe();
+    return this.inviteUserWizardService
+                  .inviteUser(
+                    this.currentProjectService.id!,
+                    this.form.get('user')!.value?.id,
+                    this.form.get('role')!.value?.id,
+                    this.form.get('message')!.value,
+                  );
+                  // TODO: Implement final response (show toast?)
   }
 
   finalAction = () => {
-    this.inviteUserWizardService.finalAction();
+    return this.inviteUserWizardService.finalAction();
   }
 
   usersCallback = (searchTerm:string):Observable<IUserWizardSelectData[]> => {

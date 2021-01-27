@@ -106,6 +106,7 @@ fdescribe('InviteUserWizardComponent', () => {
     inviteUserWizardServiceSpy.getPrincipals.and.returnValue(of(users));
     inviteUserWizardServiceSpy.getRoles.and.returnValue(of(roles));
     inviteUserWizardServiceSpy.inviteUser.and.returnValue(of(true));
+    inviteUserWizardServiceSpy.finalAction.and.returnValue(of(true));
 
     // STEP 1: USER
       expect(nextButton.disabled).toBeTrue();
@@ -185,9 +186,10 @@ fdescribe('InviteUserWizardComponent', () => {
       // STEP 5:DONE
       stepContainer = hostElement.querySelector('.step-confirmation');
 
+      expect(stepContainer).toBeTruthy();
+
       nextButton.click();
 
-      expect(stepContainer).toBeTruthy();
       expect(inviteUserWizardServiceSpy.finalAction).toHaveBeenCalled();
   }));
 });
