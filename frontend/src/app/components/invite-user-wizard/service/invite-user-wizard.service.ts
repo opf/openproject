@@ -41,7 +41,8 @@ export class InviteUserWizardService extends UntilDestroyedMixin {
         {
           href: `${apiBasePath}${rolePath}`,
         }
-      ]
+      ],
+      message
     };
 
     return this.apiV3Service.memberships.post(requestData);
