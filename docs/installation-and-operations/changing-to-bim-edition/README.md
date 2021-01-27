@@ -6,13 +6,11 @@ sidebar_navigation:
 
 # Changing to BIM Edition
 
-An existing OpenProject on-premises (self hosted) installation can easily be switched to the BIM Edition.
-The BIM Edition extends the capabilities of a normal OpenProject installation with special features
-for the construction industry.
+An existing OpenProject on-premises (self hosted) installation can easily be switched to the BIM Edition. The BIM Edition extends the capabilities of a normal OpenProject installation with special features for the construction industry.
 
-Switching to the BIM Edition will not affect your existing data. Your team will be able to continue 
-working just as before. By switching to the BIM edition additional features will become available
-when you activate the "BCF" module a project's settings.
+Switching to the BIM Edition will not affect your existing data. Your team will be able to continue working just as before. By switching to the BIM edition additional features will become available  when you activate the "BCF" module in the [project's settings](../../user-guide/projects/project-settings/modules).
+
+To choose the BIM edition during installation use [this instruction](../installation/packaged/#step-1-select-your-openproject-edition).
 
 ## Instructions
 
