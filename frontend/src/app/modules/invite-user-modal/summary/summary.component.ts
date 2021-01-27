@@ -6,7 +6,7 @@ import {
   ElementRef,
 } from '@angular/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {APIV3Service} from "core-app/modules/api/api-v3.service";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'op-ium-summary',
@@ -24,16 +24,29 @@ export class SummaryComponent {
   @Output('back') back = new EventEmitter<void>();
   @Output() save = new EventEmitter();
 
-  public text = {
-    title: this.I18n.t('js.invite_user_modal.title'),
-    closePopup: this.I18n.t('js.close_popup_title'),
-    exportPreparing: this.I18n.t('js.label_export_preparing')
-  };
+  public get text() {
+    return {
+      title: this.I18n.t('js.invite_user_modal.title', {
+        type: this.type,
+        project: this.project,
+        principal: this.principal,
+      }),
+      projectLabel: this.I18n.t('js.invite_user_modal.forms.project.label'),
+      principalLabel: this.I18n.t('js.invite_user_modal.forms.principal.label'),
+      roleLabel: this.I18n.t('js.invite_user_modal.forms.role.label'),
+      messageLabel: this.I18n.t('js.invite_user_modal.forms.message.label'),
+      backButton: this.I18n.t('js.invite_user_modal.back_button'),
+      nextButton: this.I18n.t('js.invite_user_modal.summary.next_button', {
+        type: this.type,
+        principal: this.principal,
+      }),
+    };
+  }
 
   constructor(
     readonly I18n:I18nService,
     readonly elementRef:ElementRef,
-    readonly api: APIV3Service,
+    readonly api:APIV3Service,
   ) {}
 
   async invite() {
@@ -44,19 +57,22 @@ export class SummaryComponent {
 
       switch (this.type) {
         case 'user':
-          return this.api.users.create({
+          return this.api.users.post({
             email: this.principal.name,
             firstName: this.principal.email,
             status: 'invited',
           });
-        case 'group':
-          return this.api.groups.create({ name: this.principal.name });
+        //case 'group':
+        default:
+          return this.api.groups.post({ name: this.principal.name });
+        /*
         case 'placeholder':
-          return this.api.placeholders.create({ name: this.principal.name });
+          return this.api.placeholders.post({ name: this.principal.name });
+        */
       }
     })();
 
-    return this.api.memberships.create({
+    return this.api.memberships.post({
       principal,
       project: this.project,
       roles: [this.role],

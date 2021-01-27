@@ -54,8 +54,12 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
     this.goTo(Steps.Principal);
   }
 
-  onPrincipalSave({ principal }:{ principal:any }) {
+  onPrincipalSave({ principal, isAlreadyMember }:{ principal:any, isAlreadyMember:boolean }) {
     this.principal = principal;
+    if (isAlreadyMember) {
+      return this.closeWithPrincipal();
+    }
+
     this.goTo(Steps.Role);
   }
 
@@ -76,5 +80,9 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
 
   goTo(step:Steps) {
     this.step = step;
+  }
+
+  closeWithPrincipal() {
+    this.closeMe();
   }
 }
