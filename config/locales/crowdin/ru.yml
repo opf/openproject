@@ -78,7 +78,7 @@ ru:
     is_active: теперь отображается
     is_inactive: теперь не отображается
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
+    note_public: 'Любой текст и изображения, которые вы добавляете в это поле, видны всем аутентифицированным пользователям!'
     text_overview: 'В этом представлении можно создать пользовательскую текстовую справку для атрибутов представления. При ее наличии, она будет показана по клику по значку справки возле атрибута.'
     label_plural: 'Атрибут текстов справки'
     show_preview: 'Предпросмотр текста'
@@ -194,7 +194,7 @@ ru:
       Укажите список имен для игнорирования при обработке вложений для входящих почтовых сообщений (например, подписей или значков). Введите одно имя файла в строке.
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
+      scheduled: "Удаление было запланировано и исполнено в фоновом режиме. О результатах вы будете уведомлены."
       schedule_failed: "Проект удален быть не может: %{errors}"
       failed: "Удаление проекта %{name} не удалось"
       failed_text: "Запрос на удаление проекта %{name} не удался. Проект был оставлен в архиве."
@@ -1161,7 +1161,7 @@ ru:
   error_menu_item_not_saved: Пункт меню не может быть сохранен
   error_wiki_root_menu_item_conflict: >
     Невозможно переименовать "%{old_name}" в "%{new_name}" из-за конфликта между получающимся и существующим пунктами меню "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed: "Произошла ошибка во время внешней аутентификации. Пожалуйста, попробуйте еще раз."
   error_attribute_not_highlightable: "Атрибуты не выделяются: %{attributes}"
   events:
     project: 'Проект отредактирован'
@@ -2149,7 +2149,7 @@ ru:
       username: "Имя пользователя репозитория"
     truncated: "К сожалению, файлов в этой директории не может быть больше %{limit}, поэтому некоторые записи (%{truncated}) не вошли в список."
     named_repository: "%{vendor_name} репозиторий"
-    update_settings_successful: "The settings have been successfully saved."
+    update_settings_successful: "Настройки успешно сохранены."
     url: "URL репозитория"
     warnings:
       cannot_annotate: "Этот файл не может быть прокомментирован."
