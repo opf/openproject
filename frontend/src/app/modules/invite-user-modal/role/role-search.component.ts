@@ -23,6 +23,10 @@ export class RoleSearchComponent extends UntilDestroyedMixin implements OnInit {
   public roles$ = new Subject<any[]>();
   public items$:Observable<any[]>;
 
+  public text = {
+    noRolesFound: this.I18n.t('js.invite_user_modal.role_search.no_roles_found'),
+  };
+
   constructor(
     readonly I18n:I18nService,
     readonly elementRef:ElementRef,

@@ -5,7 +5,7 @@
     [project]="project"
     [type]="type"
     (save)="onProjectSelectionSave($event)"
-    (close)="close()"
+    (close)="closeMe()"
   ></op-ium-project-selection>
 
   <op-ium-principal
@@ -16,7 +16,7 @@
     [type]="type"
     (save)="onPrincipalSave($event)"
     (back)="goTo(Steps.ProjectSelection)"
-    (close)="close()"
+    (close)="closeMe()"
   ></op-ium-principal>
 
   <op-ium-role
@@ -27,7 +27,7 @@
     [type]="type"
     (save)="onRoleSave($event)"
     (back)="goTo(Steps.Principal)"
-    (close)="close()"
+    (close)="closeMe()"
   ></op-ium-role>
 
   <op-ium-message
@@ -36,7 +36,7 @@
     [message]="message"
     (save)="onMessageSave($event)"
     (back)="goTo(Steps.Role)"
-    (close)="close()"
+    (close)="closeMe()"
   ></op-ium-message>
 
   <op-ium-summary
@@ -49,12 +49,12 @@
     [message]="message"
     (save)="onSuccessfulSubmission($event)"
     (back)="goTo(this.type === 'placeholder' ? Steps.Role : Steps.Message)"
-    (close)="close()"
+    (close)="closeMe()"
   ></op-ium-summary>
 
   <op-ium-success
     *ngIf="step === Steps.Success"
     class="op-modal--modal-container"
-    (close)="close()"
+    (close)="closeMe()"
   ></op-ium-success>
 </div>

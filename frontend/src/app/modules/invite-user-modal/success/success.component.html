@@ -6,12 +6,12 @@
 
     <h1 [textContent]="text.title"></h1>
 
-    <p [textContent]="text.title"></p>
+    <p [textContent]="text.description"></p>
   </div>
   <div class="op-modal--modal-body">
     <button
       (click)="close.emit()"
       type="button"
-      >Close</button>
+    >{{ text.next_button }}</button>
   </div>
 </div>

@@ -57,12 +57,12 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin {
       map(([elements, input]) => this.type === 'user' && input?.includes('@') && !elements.find((el:any) => el.email === input)),
     );
 
-    this.canCreateNewGroupOrPlaceholder$ = combineLatest(
+    this.canCreateNewPlaceholder$ = combineLatest(
       this.items$,
       this.input$,
     ).pipe(
       map(([elements, input]) => {
-        if (!['placeholder', 'group'].includes(this.type)) {
+        if (this.type === 'placeholder') {
           return false;
         }
 

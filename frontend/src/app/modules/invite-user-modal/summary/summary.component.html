@@ -6,19 +6,19 @@
   <op-ium-modal-heading (close)="close.emit()">{{ text.title }}</op-ium-modal-heading>
 
   <div class="op-modal--modal-body">
-    <op-form-field label="Project">
+    <op-form-field [label]="text.projectLabel">
       <p slot="input">{{ project.name }}</p>
     </op-form-field>
     <div class="op-ium-summary__row">
-      <op-form-field label="User">
+      <op-form-field [label]="text.principalLabel">
         <p slot="input">{{ principal.name }}</p>
       </op-form-field>
-      <op-form-field label="Role">
+      <op-form-field [label]="text.roleLabel">
         <p slot="input">{{ role.name }}</p>
       </op-form-field>
     </div>
     <op-form-field
-      label="Invite Message"
+      [label]="text.messageLabel"
       *ngIf="type !== 'placeholder'"
     >
       <p slot="input">{{ message }}</p>
@@ -29,7 +29,7 @@
     <button
       type="button"
       (click)="back.emit()"
-    >Back</button>
-    <button>Send invitation</button>
+    >{{ text.backButton }}</button>
+    <button>{{ text.nextButton }}</button>
   </div>
 </form>

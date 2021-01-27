@@ -35,9 +35,9 @@
     </div>
   </ng-template>
 
-  <!--Create a new group or placeholder by name-->
+  <!--Create a new placeholder by name-->
   <ng-template ng-footer-tmp>
-    <div *ngIf="canCreateNewGroupOrPlaceholder$ | async">
+    <div *ngIf="canCreateNewPlaceholder$ | async">
       <button
         class="button"
         (click)="createNewFromInput()"
