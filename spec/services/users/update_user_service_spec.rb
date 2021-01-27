@@ -28,10 +28,10 @@
 
 require 'spec_helper'
 
-describe Users::UpdateUserService do
+describe Users::UpdateService do
   let(:current_user) { FactoryBot.build_stubbed(:admin) }
   let(:update_user) { FactoryBot.build_stubbed(:user) }
-  let(:instance) { described_class.new(user: update_user, current_user: current_user) }
+  let(:instance) { described_class.new(model: update_user, user: current_user) }
 
   describe '.contract' do
     it 'uses the UpdateContract contract' do
@@ -41,7 +41,7 @@ describe Users::UpdateUserService do
 
   describe '.new' do
     it 'takes a user which is available as a getter' do
-      expect(instance.current_user).to eql current_user
+      expect(instance.user).to eql current_user
     end
   end
 
@@ -88,6 +88,7 @@ describe Users::UpdateUserService do
 
     before do
       allow(update_user).to receive(:save).and_return(saves)
+      allow(update_user.pref).to receive(:save).and_return(saves)
       allow_any_instance_of(Users::UpdateContract).to receive(:validate).and_return(validates)
     end
 
