@@ -71,10 +71,10 @@ class CopyProjectsController < ApplicationController
     "copy_from_#{from}"
   end
 
-  def project_copy(nucleous, contract = Projects::CreateContract)
+  def project_copy(nucleus, contract = Projects::CreateContract)
     Projects::SetAttributesService
       .new(user: current_user,
-           model: nucleous,
+           model: nucleus,
            contract_class: contract)
       .call(params[:project] ? permitted_params.project : {})
   end

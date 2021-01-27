@@ -305,10 +305,10 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
     entries_area.remove
 
     # as the last widget has been removed, the add button is always displayed
-    nucleous_area = Components::Grids::GridArea.of(2, 2)
-    nucleous_area.expect_to_exist
+    nucleus_area = Components::Grids::GridArea.of(2, 2)
+    nucleus_area.expect_to_exist
 
-    within nucleous_area.area do
+    within nucleus_area.area do
       expect(page)
         .to have_selector(".grid--widget-add")
     end
