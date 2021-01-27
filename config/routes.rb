@@ -356,7 +356,7 @@ OpenProject::Application.routes.draw do
 
     resources :attribute_help_texts, only: %i(index new create edit update destroy)
 
-    resources :groups do
+    resources :groups, except: %i[show] do
       member do
         # this should be put into it's own resource
         match '/members' => 'groups#add_users', via: :post, as: 'members_of'
@@ -464,6 +464,9 @@ OpenProject::Application.routes.draw do
       get :deletion_info
     end
   end
+
+  # The show page of groups is public and thus moved out of the admin scope
+  resources :groups, only: %i[show], as: :show_group
 
   scope controller: 'users_settings' do
     get 'users_settings' => 'users_settings#index'
