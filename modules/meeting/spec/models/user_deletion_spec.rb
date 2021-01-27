@@ -193,7 +193,7 @@ describe User, '#destroy', type: :model do
   describe 'WHEN the user participated in a meeting' do
     before do
       participant
-      # user2 added to participants by beeing the author
+      # user2 added to participants by being the author
 
       user.destroy
       meeting.reload
