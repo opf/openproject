@@ -8,21 +8,24 @@
     <div [ngClass]="['step', 'step' + '-' + step.type]"
          *ngIf="currentStepIndex === index">
       <!--SELECT TEMPLATE-->
-      <ng-container *ngIf="step.type === 'select'">
-        <label [for]="step.formControlName">{{step.label()}}</label>
-
-        <ng-select [formControlName]="step.formControlName"
-                   [typeahead]="input$"
-                   [items]="items$ | async"
-                   [virtualScroll]="true"
-                   required="true"
-                   [clearable]="true"
-                   [clearOnBackspace]="true"
-                   [clearSearchOnAdd]="false"
-                   [bindLabel]="step.bindLabel"
-                   [multiple]="false"
-                   [id]="step.formControlName"
-                   #ngselect>
+      <op-form-field
+        *ngIf="step.type === 'select'"
+        [formControlName]="step.formControlName"
+        [label]="step.label()"
+        required
+      >
+        <ng-select
+          [typeahead]="input$"
+          [items]="items$ | async"
+          [virtualScroll]="true"
+          [clearable]="true"
+          [clearOnBackspace]="true"
+          [clearSearchOnAdd]="false"
+          [bindLabel]="step.bindLabel"
+          [multiple]="false"
+          slot="input"
+          #ngselect
+        >
           <!--SELECT OPTIONS TEMPLATES-->
           <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
             <span [ngOptionHighlight]="search" class="ng-option-label ellipsis">
@@ -59,8 +62,11 @@
           </ng-template>
         </ng-select>
 
-        <p class="description"
-           *ngIf="step.description">
+        <p
+          slot="help-text"
+          class="description"
+          *ngIf="step.description"
+        >
           {{step.description()}}
 
           <a *ngIf="step.link"
@@ -69,38 +75,43 @@
             {{step.link.text}}
           </a>
         </p>
-      </ng-container>
+      </op-form-field>
 
       <!--TEXTAREA TEMPLATE-->
       <ng-container *ngIf="step.type === 'textarea'">
-        <label [for]="step.formControlName">
-          {{step.label()}}
-        </label>
+        <op-form-field
+          [formBindingName]="step.formControlName"
+          [label]="step.label()"
+        >
+          <textarea
+            slot="input"
+            [formControlName]="step.formControlName"
+            [id]="step.formControlName"
+            #textarea
+          ></textarea>
 
-        <textarea [formControlName]="step.formControlName"
-                  [id]="step.formControlName"
-                  #textarea>
-        </textarea>
-
-        <p class="description"
-           *ngIf="step.description">
-          {{step.description()}}
-        </p>
+          <p
+            slot="help-text"
+            class="description"
+            *ngIf="step.description"
+          >
+            {{step.description()}}
+          </p>
+        </op-form-field>
       </ng-container>
 
       <!--SUMMARY TEMPLATE-->
       <ng-container *ngIf="step.type === 'summary'">
         <div *ngFor="let step of steps"
              [ngClass]="['summary-field', 'summary-field' + '-' + step.formControlName]">
-          <ng-container *ngIf="step.formControlName">
-            <p>
-              <strong>{{step.summaryLabel}}</strong>
-            </p>
-
-            <p>
+          <op-form-field
+            *ngIf="step.formControlName"
+            [label]="step.summaryLabel()"
+          >
+            <p slot="input">
               {{form.get(step.formControlName).value?.name || form.get(step.formControlName).value}}
             </p>
-          </ng-container>
+          </op-form-field>
         </div>
       </ng-container>
 
