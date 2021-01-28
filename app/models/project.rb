@@ -42,6 +42,7 @@ class Project < ApplicationRecord
   # reserved identifiers
   RESERVED_IDENTIFIERS = %w(new).freeze
 
+  # TODO: Is this association ever used? Groups are missing (and PlaceholderUsers).
   has_many :members, -> {
     includes(:principal, :roles)
       .where(
@@ -53,17 +54,16 @@ class Project < ApplicationRecord
       .references(:principal, :roles)
   }
 
-  has_many :possible_assignee_members, -> {
-    includes(:principal, :roles)
-      .where(Project.possible_principles_condition)
-      .references(:principals, :roles)
-  }, class_name: 'Member'
+  has_many :possible_assignee_members,
+           -> { assignable_principals },
+           class_name: 'Member'
+
   # Read only
   has_many :possible_assignees,
            ->(object) {
              # Have to reference members and roles again although
              # possible_assignee_members does already specify it to be able to use the
-             # Project.possible_principles_condition there
+             # assignable_principals there
              #
              # The .where(members_users: { project_id: object.id })
              # part is an optimization preventing to have all the members joined
@@ -74,17 +74,17 @@ class Project < ApplicationRecord
            },
            through: :possible_assignee_members,
            source: :principal
-  has_many :possible_responsible_members, -> {
-    includes(:principal, :roles)
-      .where(Project.possible_principles_condition)
-      .references(:principals, :roles)
-  }, class_name: 'Member'
+
+  has_many :possible_responsible_members,
+           -> { assignable_principals },
+           class_name: 'Member'
+
   # Read only
   has_many :possible_responsibles,
            ->(object) {
              # Have to reference members and roles again although
              # possible_responsible_members does already specify it to be able to use
-             # the Project.possible_principles_condition there
+             # assignable_principals there
              #
              # The .where(members_users: { project_id: object.id })
              # part is an optimization preventing to have all the members joined
@@ -519,17 +519,6 @@ class Project < ApplicationRecord
     @actions_allowed ||= allowed_permissions
                          .map { |permission| OpenProject::AccessControl.allowed_actions(permission) }
                          .flatten
-  end
-
-  def self.possible_principles_condition
-    condition = ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group', 'PlaceholderUser']
-
-    condition[0] += " AND (#{User.table_name}.status=? OR #{User.table_name}.status=?) AND roles.assignable = ?"
-    condition << Principal::STATUSES[:active]
-    condition << Principal::STATUSES[:invited]
-    condition << true
-
-    sanitize_sql_array condition
   end
 
   protected
