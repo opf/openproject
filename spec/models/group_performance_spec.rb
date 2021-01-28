@@ -98,9 +98,4 @@ describe Group, type: :model do
       end
     end
   end
-
-  describe '#groupname' do
-    it { is_expected.to validate_presence_of :groupname }
-    it { is_expected.to validate_uniqueness_of :groupname }
-  end
 end
