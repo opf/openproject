@@ -1,7 +1,7 @@
 interface IUserWizardStep {
   type:string;
   label?:Function;
-  summaryLabel?:string;
+  summaryLabel?:Function;
   bindLabel?:string;
   formControlName?:string;
   apiCallback?:Function;

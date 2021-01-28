@@ -2,25 +2,17 @@ import {
   Component,
   Input,
   HostBinding,
-  forwardRef,
+  ContentChild,
 } from "@angular/core";
 import {
-  ControlContainer,
-  NG_VALUE_ACCESSOR,
-  ControlValueAccessor,
+  FormControlName, FormControl, FormGroup,
 } from "@angular/forms";
 
 @Component({
   selector: 'op-form-field',
   templateUrl: './form-field.component.html',
-  // Style is imported globally
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => OpFormFieldComponent),
-    multi: true,
-  }],
 })
-export class OpFormFieldComponent implements ControlValueAccessor {
+export class OpFormFieldComponent {
   @HostBinding('class.op-form-field') className = true;
   @HostBinding('class.op-form-field_invalid') get errorClassName() {
     return this.isInvalid;
@@ -29,18 +21,15 @@ export class OpFormFieldComponent implements ControlValueAccessor {
   @Input() label:string = '';
   @Input() required:boolean = false;
 
-  constructor(readonly controlContainer:ControlContainer) {}
+  @ContentChild(FormControlName, { static: true }) formControlName:FormControlName;
+  @ContentChild(FormControl, { static: true }) formControl:FormControl;
+  @ContentChild(FormGroup, { static: true }) formGroup:FormGroup;
 
-  get formControl() {
-    return this.controlContainer.control;
+  get control() {
+    return this.formGroup || this.formControlName || this.formControl;
   }
 
   get isInvalid() {
-    console.log(this.formControl?.status, this.formControl?.value);
-    return this.formControl?.touched && this.formControl?.invalid;
+    return this.control?.touched && this.control?.invalid;
   }
-
-  writeValue() {}
-  registerOnChange() {}
-  registerOnTouched() {}
 }
