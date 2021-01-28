@@ -30,20 +30,6 @@ require 'spec_helper'
 
 describe PlaceholderUser, type: :model do
   let(:placeholder_user) { FactoryBot.build(:placeholder_user) }
-  let(:project) { FactoryBot.create(:project_with_types) }
-  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
-  let(:member) do
-    FactoryBot.build(:member, project: project,
-                              roles: [role],
-                              principal: placeholder_user)
-  end
-  let(:status) { FactoryBot.create(:status) }
-  let(:issue) do
-    FactoryBot.build(:work_package, type: project.types.first,
-                                    author: placeholder_user,
-                                    project: project,
-                                    status: status)
-  end
 
   subject { placeholder_user }
 

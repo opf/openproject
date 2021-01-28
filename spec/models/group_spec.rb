@@ -37,12 +37,12 @@ describe Group, type: :model do
   let(:watcher) { FactoryBot.create :user }
   let(:project) { FactoryBot.create(:project_with_types) }
   let(:status) { FactoryBot.create(:status) }
-  let(:package) {
+  let(:package) do
     FactoryBot.build(:work_package, type: project.types.first,
                      author: user,
                      project: project,
                      status: status)
-  }
+  end
 
   it 'should create' do
     g = Group.new(lastname: 'New group')
@@ -167,9 +167,9 @@ describe Group, type: :model do
       end
     end
   end
-  
+
   describe '#groupname' do
-    it { is_expected.to validate_presence_of :groupname }
-    it { is_expected.to validate_uniqueness_of :groupname }
+    it { expect(group).to validate_presence_of :groupname }
+    it { expect(group).to validate_uniqueness_of :groupname }
   end
 end
