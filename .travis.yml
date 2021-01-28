@@ -29,7 +29,7 @@
 language: ruby
 
 rvm:
-  - 2.7.1
+  - 2.7.2
 
 sudo: required
 dist: xenial
