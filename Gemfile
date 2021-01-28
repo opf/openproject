@@ -277,7 +277,7 @@ group :development, :test do
   gem 'danger', '~> 8.2.0'
 
   # Brakeman scanner
-  gem 'brakeman', '~> 4.10.0'
+  gem 'brakeman', '~> 5.0.0'
   gem 'danger-brakeman'
 end
 
