@@ -55,7 +55,7 @@ class Project < ApplicationRecord
   }
 
   has_many :possible_assignee_members,
-           -> { assignable_principals },
+           -> { assignable },
            class_name: 'Member'
 
   # Read only
@@ -76,7 +76,7 @@ class Project < ApplicationRecord
            source: :principal
 
   has_many :possible_responsible_members,
-           -> { assignable_principals },
+           -> { assignable },
            class_name: 'Member'
 
   # Read only
@@ -97,16 +97,7 @@ class Project < ApplicationRecord
            source: :principal
   has_many :memberships, class_name: 'Member'
   has_many :member_principals,
-           -> {
-             includes(:principal)
-               .references(:principals)
-               .where("#{Principal.table_name}.type='Group' OR " +
-               "#{Principal.table_name}.type='PlaceholderUser' OR " +
-               "(#{Principal.table_name}.type='User' AND " +
-               "(#{Principal.table_name}.status=#{Principal::STATUSES[:active]} OR " +
-               "#{Principal.table_name}.status=#{Principal::STATUSES[:registered]} OR " +
-               "#{Principal.table_name}.status=#{Principal::STATUSES[:invited]}))")
-           },
+           -> { not_locked },
            class_name: 'Member'
   has_many :users, through: :members, source: :principal
   has_many :principals, through: :member_principals, source: :principal

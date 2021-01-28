@@ -53,7 +53,8 @@ class Member < ApplicationRecord
   scope_classes Members::Scopes::Global,
                 Members::Scopes::Visible,
                 Members::Scopes::Of,
-                Members::Scopes::Assignable
+                Members::Scopes::Assignable,
+                Members::Scopes::NotLocked
 
   def name
     principal.name

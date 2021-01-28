@@ -28,16 +28,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Find all members that are whose principals are not locked and have an
-# assignable role.
+# Find all members that are whose principals are not locked.
 module Members::Scopes
-  class Assignable
+  class NotLocked
     def self.fetch
       Member
-        .not_locked
-        .includes(:roles)
-        .references(:roles)
-        .where(roles: { assignable: true })
+        .includes(:principal)
+        .references(:principals)
+        .merge(Principal.not_builtin_but_with_placeholder_users.active_or_registered)
     end
   end
 end
