@@ -167,7 +167,7 @@ gem 'sprockets', '~> 3.7.0'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'puma', '~> 5.1.0' # used for development and optionally for production
+gem 'puma', '~> 5.2.0' # used for development and optionally for production
 
 gem 'nokogiri', '~> 1.11.0'
 
@@ -214,7 +214,7 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.34.0'
+  gem 'capybara', '~> 3.35.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'selenium-webdriver', '~> 3.14'
   gem 'webdrivers', '~> 4.5.0'
@@ -277,11 +277,11 @@ group :development, :test do
   gem 'danger', '~> 8.2.0'
 
   # Brakeman scanner
-  gem 'brakeman', '~> 4.10.0'
+  gem 'brakeman', '~> 5.0.0'
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.5.0', require: false
+gem 'bootsnap', '~> 1.6.0', require: false
 
 # API gems
 gem 'grape', '~> 1.5.0'
