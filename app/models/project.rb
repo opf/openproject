@@ -522,11 +522,7 @@ class Project < ApplicationRecord
   end
 
   def self.possible_principles_condition
-    condition = if Setting.work_package_group_assignment?
-                  ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group', 'PlaceholderUser']
-                else
-                  ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'PlaceholderUser']
-                end
+    condition = ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group', 'PlaceholderUser']
 
     condition[0] += " AND (#{User.table_name}.status=? OR #{User.table_name}.status=?) AND roles.assignable = ?"
     condition << Principal::STATUSES[:active]

@@ -52,17 +52,14 @@ describe MailHandler, type: :model do
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
 
-  context 'with group assignment set',
-          with_settings: { work_package_group_assignment: 1 } do
-    it 'should add work package with group assignment' do
-      work_package = submit_email('ticket_on_given_project.eml') do |email|
-        email.gsub!('Assigned to: John Smith', 'Assigned to: B Team')
-      end
-      assert work_package.is_a?(WorkPackage)
-      assert !work_package.new_record?
-      work_package.reload
-      assert_equal Group.find(11), work_package.assigned_to
+  it 'should add work package with group assignment' do
+    work_package = submit_email('ticket_on_given_project.eml') do |email|
+      email.gsub!('Assigned to: John Smith', 'Assigned to: B Team')
     end
+    assert work_package.is_a?(WorkPackage)
+    assert !work_package.new_record?
+    work_package.reload
+    assert_equal Group.find(11), work_package.assigned_to
   end
 
   it 'should add work package with partial attributes override' do

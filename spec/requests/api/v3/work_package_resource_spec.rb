@@ -761,20 +761,14 @@ describe 'API v3 Work package resource',
 
         before { allow(User).to receive(:current).and_return current_user }
 
-        shared_context 'setup group membership' do |group_assignment|
+        shared_context 'setup group membership' do
           let(:group) { FactoryBot.create(:group) }
           let(:group_role) { FactoryBot.create(:role) }
-          let(:group_member) do
+          let!(:group_member) do
             FactoryBot.create(:member,
                               principal: group,
                               project: project,
                               roles: [group_role])
-          end
-
-          before do
-            allow(Setting).to receive(:work_package_group_assignment?).and_return(group_assignment)
-
-            group_member
           end
         end
 

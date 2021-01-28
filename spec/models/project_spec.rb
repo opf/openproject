@@ -135,30 +135,20 @@ describe Project, type: :model do
                         roles: [role])
     end
 
-    shared_examples_for 'respecting group assignment settings' do
-      context 'with group assignment' do
-        before { allow(Setting).to receive(:work_package_group_assignment?).and_return(true) }
-
-        it { is_expected.to match_array([user, group]) }
-      end
-
-      context 'w/o group assignment' do
-        before { allow(Setting).to receive(:work_package_group_assignment?).and_return(false) }
-
-        it { is_expected.to match_array([user]) }
-      end
+    shared_examples_for 'returning groups and users' do
+      it { is_expected.to match_array([user, group]) }
     end
 
     describe 'assignees' do
       subject { project.possible_assignees }
 
-      it_behaves_like 'respecting group assignment settings'
+      it_behaves_like 'returning groups and users'
     end
 
     describe 'responsibles' do
       subject { project.possible_responsibles }
 
-      it_behaves_like 'respecting group assignment settings'
+      it_behaves_like 'returning groups and users'
     end
   end
 

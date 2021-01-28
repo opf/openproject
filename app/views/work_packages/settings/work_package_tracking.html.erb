@@ -34,7 +34,6 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= styled_form_tag({action: 'edit'}) do %>
   <section class="form--section">
     <div class="form--field"><%= setting_check_box :cross_project_work_package_relations %></div>
-    <div class="form--field"><%= setting_check_box :work_package_group_assignment %></div>
     <div class="form--field"><%= setting_check_box :display_subprojects_work_packages %></div>
     <div class="form--field"><%= setting_check_box :work_package_startdate_is_adddate %></div>
     <div class="form--field"><%= setting_select :work_package_done_ratio, WorkPackage::DONE_RATIO_OPTIONS.collect {|i| [t("setting_work_package_done_ratio_#{i}"), i]}, container_class: '-middle' %></div>
