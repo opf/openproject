@@ -49,7 +49,7 @@ The body *must* be the raw content of the file.
 Note that a `filename` *must* be indicated in the `Content-Disposition` of this part, although it will be ignored.
 Instead the `fileName` inside the JSON of the metadata part will be used.
 
-+ Request (multipart/form-data)
++ Request (multipart/form-data; boundary=boundary-delimiter)
 
         --boundary-delimiter
         Content-Disposition: form-data; name="metadata"
@@ -332,7 +332,7 @@ See [the general specification for uploading attachments](#attachments-attachmen
 + Parameters
     + id (required, integer, `1`) ... ID of the post to receive the attachment
 
-+ Request (multipart/form-data)
++ Request (multipart/form-data; boundary=boundary-delimiter)
 
         --boundary-delimiter
         Content-Disposition: form-data; name="metadata"
@@ -613,7 +613,7 @@ See [the general specification for uploading attachments](#attachments-attachmen
 + Parameters
     + id (required, integer, `1`) ... ID of the wiki page to receive the attachment
 
-+ Request (multipart/form-data)
++ Request (multipart/form-data; boundary=boundary-delimiter)
 
         --boundary-delimiter
         Content-Disposition: form-data; name="metadata"
@@ -924,7 +924,7 @@ Instead the `fileName` inside the JSON of the metadata part will be used.
 + Parameters
     + id (required, integer, `1`) ... ID of the work package to receive the attachment
 
-+ Request (multipart/form-data)
++ Request (multipart/form-data; boundary=boundary-delimiter)
 
         --boundary-delimiter
         Content-Disposition: form-data; name="metadata"
