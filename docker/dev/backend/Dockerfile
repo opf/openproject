@@ -1,4 +1,4 @@
-FROM ruby:2.7.1-buster as develop
+FROM ruby:2.7.2-buster as develop
 MAINTAINER operations@openproject.com
 
 ARG DEV_UID=1000
