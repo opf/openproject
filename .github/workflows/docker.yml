@@ -12,6 +12,8 @@ jobs:
     # restrict this job to base repo for now
     if: github.repository == 'opf/openproject'
     runs-on: ubuntu-latest
+    env:
+      INPUT_BUILDOPTIONS: --pull
     steps:
       - uses: actions/checkout@master
       - name: Prepare docker files
