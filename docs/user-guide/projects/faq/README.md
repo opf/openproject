@@ -20,6 +20,11 @@ There are several possibilities:
 
 We will introduce further similar functions in the course of implementing multi-project management, this is planned for the next few years. 
 
+## What is the difference between creating a project from a template and copying the template project?
+
+Creating a project from a template and copying projects serve slightly different purposes: Project templates provide an easy way to create a new project while copying all the data (as far as supported) of the source project.
+Copying projects provides more flexibility: You can choose which data to copy from the source project. Please note that choosing not to copy certain project data may lead to errors (e.g. when work packages are assigned to users who are not copied along with the project).
+
 ### We have different departments in our company and need projects by departments. Can I use sub-projects for the departments?
 
 Yes, that is in most cases the best solution.

@@ -24,19 +24,26 @@ A hard limit does not exist. Nevertheless, there are factors that can represent 
 - Performance: So far, the allowed field values are all entered into the work package form retrieved before processing a work package. It is only a guess, but  no problems should arise when rendering in the frontend (displaying in the select field), as an autocompleter is already used here. The performance on the administration page of the user-defined field, where the possible values are maintained, could also be a factor. 
 - On the same administration page, editing could be difficult from a UI point of view. Especially if the user wants to sort. For example, there is currently no way to sort the values automatically. If 4000 values have to be entered and sorted, it could be a lengthy process.
 
-## Is it possible to only allow authentication via SSO (not via user name / password)?
+## Can I use a self-developed plugin in my Enterprise cloud?
 
-Yes, for Enterprise on-premises and Community Edition there is a [configuration option](../installation-and-operations/configuration/#disable-password-login) to disable the password login.
-
-## How do I set up OAuth / Google authentication in the Enterprise cloud?
-
-The authentication via Google is already activated in the Enterprise cloud. Users who are invited to OpenProject, should be able to choose authentication via Google. There should be a Google button under the normal user name / password when you try to login. 
+No, that's not possible, as all tenants (customers) use the same code on the shard. But you can do this in Enterprise on-premises.
 
 ## Is it possible to set a custom field as "required" when it's already in use? What will hapen to the existing work packages for which the custom field is activated?
 
 Yes, this is possible. When you edit existing work packages for which the custom field is activated but not populated you will receive the warning "[name of custom field] can't be blank" and you will have to populate the custom field.
 
+## I want to delete a user but it fails.
 
+If you are using the Enterprise cloud and the user you are trying to delete is the user that initially set up OpenProject, you will need to contact us to delete this project member. For other users please make sure the box "User accounts deletable by admins" in *Administration ->users & Permissions ->Settings* is checked.
+
+## We use LDAP. How do we release a license should someone leave our team and no longer need access?
+
+There are two possibilities:
+
+- You can block the user in the user list under "Administration". The LDAP sync does not change the status and the user does not count into the active users anymore.
+- The user can be released through an attribute in the LDAP or through an OpenProject LDAP group. Then the permission for this user can be removed in the LDAP and the user cannot use the LDAP authentication for OpenProject anymore. In this case the user still needs to be blocked or deleted in OpenProject.
+
+## [FAQ for authentication](../authentication/faq)
 
 
 

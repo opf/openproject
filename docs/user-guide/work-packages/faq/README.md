@@ -53,7 +53,6 @@ Please keep in mind that it may not be possible for a member of a different depa
 ## Is it possible to create a PDF export for the overview of the work packages with Gantt chart?
 
 The export is available via the browser print function (ideally Google Chrome).
-
 To print the Gantt chart please have a look at [these tips](../../gantt-chart/#how-to-print-a-gantt-chart).
 
 ## How can I add a table with child work packages to my work package?
@@ -90,3 +89,56 @@ A [feature request](../../../development/submit-feature-idea/) to change this ca
 
 It is most likely that you did not save the view of your work package list after sorting it. Make sure you save it (top right menu -> **Save as** or **Save**).
 
+## How can I track the progress of my work package?
+
+You can track the progress either manually by changing the progress bar in the work package details yourself. Or you can track it automatically by assigning the progress in % to the status of a work package. Please find the guide on how to do the automatic tracking (in bullet point 5) [here](../../../system-admin-guide/manage-work-packages/work-package-settings).
+
+## I cannot change the version of a parent work package or child work package. 
+
+The fastest way to resolve this issue is to deactivate the backlogs module in the project where your tasks are located. This should instantly resolve the issue that you cannot update the tasks anymore. 
+If you are actively working with the backlogs module in the project, you could then e.g. move the parent Epic from the parent project to the project where the tasks are located. 
+Alternatively, you could change the type "Task" to a different type (e.g. "User Story"). This should also resolve the issue. 
+For context: On the backlogs page you can switch to the "Task board". 
+The task board shows the work packages assigned to a sprint (e.g. Epic, User Story) as well as the associated tasks. The task board however can only display tasks located in the same project as the (parent) work package (Epic, User story). Therefore, to avoid showing limited data, tasks and their parent work packages must be located in the same project and have to be assigned to the same version.
+
+## When I change the work package type of an existing work package, all attributes that are not part of the new work package type will be removed. What will happen to their values? Will the values be displayed again when I switch back to the original type?
+
+The original values will be deleted when the work package type is changed. When the type is changed, the values of the attributes of the previous type, which the new type does not have, are deleted. This is also shown in the work package activity. If you change the back to the original/former type, the original attributes (which are configured for the work package type in the form configuration) are displayed again, but the original values are not assigned/restored. One should therefore be very careful when changing work package types (e.g. from Task to Milestone).
+
+## I receive the error message "subject can't be blank", what's wrong?
+
+One possible solution: If you receive this error message when trying to create a new work package: Please navigate to *Administration ->Work packages ->Status ->[status of the work package you were trying to change, e.g. "New"]* and un-check the box next to "Work package read-only". If this box was checked it could have caused these problems, as project attributes couldn't be changed.
+
+## What does the error message "Parent is invalid because the work package (...) is a backlog task and therefore cannot have a parent outside of the current project" mean?
+
+This message appears when the Backlogs module is activated and you try to set a work package belonging to project A as a child of another work package belonging to project B. 
+
+In the Backlogs module work packages can only have children of the same version and the same project. To avoid displaying different information in the backlog and in the boards view this restriction is in place. You can solve it by disabling the Backlogs module or by changing the project (and if necessary version) of the work package you'd like to move.
+
+## Which permissions are necessary to move a work package from one project to another?
+
+To move a work package from one project to another, the following requirements must be met:
+
+- The user must have access to both projects.
+- The user needs at least the following permissions in both projects:
+  - "Display work packages"
+  - "Move work packages"
+
+## Will work package custom fields of the type "long text" be shown in the export of a work packages list?
+
+As custom fields of the type "long text" cannot be added as a column, they cannot be exported via the page-wide export. However, individual work packages can be exported. This can be done either via the "PDF Download" or (better) via the browser print function. 
+
+## I have a parent work package with multiple children. In the work package list I don't see all of the children below the parent. Why? How can I change this?
+
+Please increase the number of displayed work packages per page [in the administraion](../../../system-admin-guide/system-settings/general-settings/#general-system-settings). Then the probability of this phenomenon happening is lower. 
+This is a known behavior of OpenProject, but not trivial to solve. There's already a feature request for this [here](https://community.openproject.com/projects/openproject/work_packages/34925/activity).
+
+## Can I sum up custom fields?
+
+Yes, you can display the sum of custom fields in the work packages list by checking the "Sum" option in [the work package display settings](../work-package-table-configuration/#how-to-switch-from-flat-list-to-hierarchy-mode).
+
+Calculating a sum across different attributes (e.g. Estimated time + added hours) is however not possible.
+
+## Why can I not log time in a work package?
+
+You need to activate the module "Time and costs" in the project settings, first.

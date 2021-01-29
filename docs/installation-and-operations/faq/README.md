@@ -27,6 +27,15 @@ You can either try the manual installation, or ask in the forum whether this cou
 
 We recommend the Linux packages [if you have a compatible distribution](../system-requirements/) and a separate machine for OpenProject, since it will allow for the easiest and most flexible setup. Use a docker-based image either for quickly spinning up an environment or if you have knowledge in setting up and maintaining docker-based installations.
 
+## Why is there no installation wizard for desktop as there is for other software?
+
+The Community Edition and Enterprise Edition of OpenProject are not a desktop application but a server application, typically for Linux servers. Therefore there's no typical user interface to install it. 
+If you want to install it on Windows or Mac you can use the Docker based installation. Please note that installing on Windows Desktop usually works but is not officially supported.
+The package based installation (for Linux) offers an installation wizard.
+If you already use Univention, you can use it to install OpenProject, too.
+
+Alternatively, you could use OpenProject [as cloud version](https://www.openproject.org/hosting/) to avoid installation. 
+
 ## What skills should I have for the installation?
 
 If you use the packaged installation, you should have a basic knowledge of Linux and the command-line terminal.
@@ -41,21 +50,24 @@ Ruby support on Windows is notoriously difficult, however you might be able to r
 
 Please follow these steps:
 
-1. Make a dump of your bitnami database to export your data. You can refer to the [Bitnami documentation][bitnami-mysql].
-1. Make a dump of files your might have uploaded. You can refer to the [Bitnami documentation][bitnami-backup] to perform a full dump.
+1. Make a dump of your Bitnami database to export your data. You can refer to the [Bitnami documentation](https://docs.bitnami.com/general/infrastructure/mysql/administration/backup-restore-mysql-mariadb/).
+1. Make a dump of files you might have uploaded. You can refer to the [Bitnami documentation](https://docs.bitnami.com/general/apps/openproject/) to perform a full dump.
 1. Copy both dumps to the server you want to install OpenProject on.
 1. Install OpenProject using the packaged installation.
 1. By default, this will allow you to install a PostgreSQL database, which we recommend. You can migrate your data from MySQL using https://pgloader.io
 1. Import the dump into your new database. You can get your configuration by running `sudo openproject config:get DATABASE_URL`
-1. Extract the bitnami backup, and copy your file assets into the relevant directory (e.g. in `/var/db/openproject/files` for uploaded files)
+1. Extract the Bitnami backup, and copy your file assets into the relevant directory (e.g. in `/var/db/openproject/files` for uploaded files)
 1. Restart OpenProject
 
-[bitnami-mysql]: https://docs.bitnami.com/installer/components/mysql/
-[bitnami-backup]: https://docs.bitnami.com/installer/apps/openproject/
+## How do I access my self hosted OpenProject version?
+
+You can access it using a browser. Please see our respective [documentation](../) for more information.
 
 ## Are there extra fees to pay, in terms of installing the OpenProject software?
 
-The Community Edition and [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/) are on-premises solutions and thus need installation from your side while the [Enterprise cloud edition](https://www.openproject.org/hosting/) is hosted by us. The Community edition is for free and we ask you to do the installation yourself. Of course we support you with a clear and easy [installation guide](https://www.openproject.org/download-and-installation/). If you would like us to install the Enterprise on-premises edition for you, we are charging a fee of €150 (excluding VAT) for this once-off service. You can add the installation support during your [Enterprise on-premises edition booking process](../../enterprise-edition-guide/activate-enterprise-edition/#order-the-enterprise-on-premises-edition).
+The Community Edition and [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/) are on-premises solutions and thus need installation from your side while the [Enterprise cloud edition](https://www.openproject.org/hosting/) is hosted by us. 
+The Community edition is for free and we ask you to do the installation yourself. Of course we support you with a clear and easy [installation guide](https://www.openproject.org/download-and-installation/). 
+If you would like us to install the **Enterprise on-premises edition** for you, we are charging a fee of €150 (excluding VAT) for this once-off service. You can add the installation support during your [Enterprise on-premises edition booking process](../../enterprise-edition-guide/activate-enterprise-edition/#order-the-enterprise-on-premises-edition).
 
 ## How can I select the BIM edition during installation?
 
