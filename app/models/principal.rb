@@ -84,6 +84,9 @@ class Principal < ApplicationRecord
     # removed before we release this code.
     where.not(type: [SystemUser.name, AnonymousUser.name, DeletedUser.name])
   }
+  OpenProject::Deprecation.deprecate_class_method self,
+                                                  :not_builtin_but_with_placeholder_users,
+                                                  :not_builtin
 
   scope :like, ->(q) {
     firstnamelastname = "((firstname || ' ') || lastname)"
