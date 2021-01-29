@@ -31,7 +31,7 @@ require 'spec_helper'
 describe 'edit users', type: :feature, js: true do
   using_shared_fixtures :admin
   let(:current_user) { admin }
-  let(:user) { FactoryBot.create :user }
+  let(:user) { FactoryBot.create :user, mail: 'foo@example.com' }
 
   let!(:auth_source) { FactoryBot.create :auth_source }
 
@@ -112,6 +112,14 @@ describe 'edit users', type: :feature, js: true do
       user.reload
 
       expect(user.firstname).to eq 'NewName'
+    end
+
+    it 'can reinvite the user' do
+      visit edit_user_path(user)
+
+      click_on 'Send invitation'
+
+      expect(page).to have_selector('.flash.notice', text: 'An invitation has been sent to foo@example.com')
     end
   end
 end
