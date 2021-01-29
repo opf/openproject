@@ -38,10 +38,10 @@ See docs/COPYRIGHT.rdoc for more details.
 
   <% if current_user.admin? %>
     <%= render partial: 'users/form/admin_flag', locals: { f: f } %>
-    <%= render partial: 'users/form/custom_fields', locals: { f: f } %>
-
-    <%= call_hook(:view_users_form, user: @user, form: f) %>
   <% end %>
+
+  <%= render partial: 'users/form/custom_fields', locals: { f: f } %>
+  <%= call_hook(:view_users_form, user: @user, form: f) %>
 </section>
 
 <% if current_user.admin? %>
