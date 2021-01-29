@@ -96,15 +96,16 @@ describe Users::CreateContract do
       end
     end
 
-    describe 'cannot set the auth_source' do
+    describe 'can set the auth_source' do
       let!(:auth_source) { FactoryBot.create :auth_source }
 
       before do
+        user.password = user.password_confirmation = nil
         user.auth_source = auth_source
       end
 
-      it 'is invalid' do
-        expect_valid(false, auth_source_id: %i(error_readonly))
+      it 'is valid' do
+        expect_valid(true)
       end
     end
 

@@ -232,7 +232,13 @@ describe ::API::V3::Users::UsersAPI, type: :request do
         }
       end
 
-      it_behaves_like 'property is not writable', 'authSource'
+      it 'creates the user with the given auth source id' do
+        send_request
+
+        user = User.find_by(login: parameters[:login])
+
+        expect(user.auth_source).to eq auth_source
+      end
     end
   end
 
