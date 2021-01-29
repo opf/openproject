@@ -49,10 +49,7 @@ module API
           end
 
           def authorize_user_cru_allowed
-            allowed_admin = current_user.admin? && (current_user.active? || current_user.is_a?(SystemUser))
-            allowed_user = current_user.active? && current_user.allowed_to_globally?(:add_user)
-
-            authorize_by_with_raise(allowed_admin || allowed_user)
+            authorize_by_with_raise(current_user.allowed_to_globally?(:add_user))
           end
         end
 

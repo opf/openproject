@@ -100,6 +100,17 @@ describe Authorization::UserAllowedService do
           instance.call(action, context)
         end
       end
+
+      context 'but the user not being active' do
+        before do
+          user.lock
+        end
+
+        it 'returns false', :aggregate_failures do
+          expect(instance.call(action, nil, global: true)).to be_success
+          expect(instance.call(action, nil, global: true).result).not_to be_truthy
+        end
+      end
     end
 
     context 'with the user having a nongranting role' do
@@ -287,11 +298,19 @@ describe Authorization::UserAllowedService do
             .and_return(true)
         end
 
-        it 'is true' do
-          expect(instance.call(action, nil, global: true).result).to be_truthy
+        context 'but the user not being active' do
+          before do
+            user.lock
+          end
+
+          it 'is unsuccessful', :aggregate_failures do
+            expect(instance.call(action, nil, global: true)).to be_success
+            expect(instance.call(action, nil, global: true).result).not_to be_truthy
+          end
         end
 
-        it 'is successful' do
+        it 'is successful', :aggregate_failures do
+          expect(instance.call(action, nil, global: true).result).to be_truthy
           expect(instance.call(action, nil, global: true)).to be_success
         end
       end
