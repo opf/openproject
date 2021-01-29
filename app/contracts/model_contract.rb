@@ -146,7 +146,7 @@ class ModelContract < Disposable::Twin
     writable_attributes.include?(attribute.to_s)
   end
 
-  def validate(*args)
+  def valid?(*args)
     super()
     readonly_attributes_unchanged
 
@@ -163,6 +163,8 @@ class ModelContract < Disposable::Twin
 
     errors.empty?
   end
+
+  alias_method :validate, :valid?
 
   # Methods required to get ActiveModel error messages working
   extend ActiveModel::Naming
