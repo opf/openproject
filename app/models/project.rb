@@ -42,6 +42,7 @@ class Project < ApplicationRecord
   # reserved identifiers
   RESERVED_IDENTIFIERS = %w(new).freeze
 
+  # TODO: Is this association ever used? Groups are missing (and PlaceholderUsers).
   has_many :members, -> {
     includes(:principal, :roles)
       .where(
@@ -53,17 +54,16 @@ class Project < ApplicationRecord
       .references(:principal, :roles)
   }
 
-  has_many :possible_assignee_members, -> {
-    includes(:principal, :roles)
-      .where(Project.possible_principles_condition)
-      .references(:principals, :roles)
-  }, class_name: 'Member'
+  has_many :possible_assignee_members,
+           -> { assignable },
+           class_name: 'Member'
+
   # Read only
   has_many :possible_assignees,
            ->(object) {
              # Have to reference members and roles again although
              # possible_assignee_members does already specify it to be able to use the
-             # Project.possible_principles_condition there
+             # assignable_principals there
              #
              # The .where(members_users: { project_id: object.id })
              # part is an optimization preventing to have all the members joined
@@ -74,17 +74,17 @@ class Project < ApplicationRecord
            },
            through: :possible_assignee_members,
            source: :principal
-  has_many :possible_responsible_members, -> {
-    includes(:principal, :roles)
-      .where(Project.possible_principles_condition)
-      .references(:principals, :roles)
-  }, class_name: 'Member'
+
+  has_many :possible_responsible_members,
+           -> { assignable },
+           class_name: 'Member'
+
   # Read only
   has_many :possible_responsibles,
            ->(object) {
              # Have to reference members and roles again although
              # possible_responsible_members does already specify it to be able to use
-             # the Project.possible_principles_condition there
+             # assignable_principals there
              #
              # The .where(members_users: { project_id: object.id })
              # part is an optimization preventing to have all the members joined
@@ -97,15 +97,7 @@ class Project < ApplicationRecord
            source: :principal
   has_many :memberships, class_name: 'Member'
   has_many :member_principals,
-           -> {
-             includes(:principal)
-               .references(:principals)
-               .where("#{Principal.table_name}.type='Group' OR " +
-               "(#{Principal.table_name}.type='User' AND " +
-               "(#{Principal.table_name}.status=#{Principal::STATUSES[:active]} OR " +
-               "#{Principal.table_name}.status=#{Principal::STATUSES[:registered]} OR " +
-               "#{Principal.table_name}.status=#{Principal::STATUSES[:invited]}))")
-           },
+           -> { not_locked },
            class_name: 'Member'
   has_many :users, through: :members, source: :principal
   has_many :principals, through: :member_principals, source: :principal
@@ -230,7 +222,7 @@ class Project < ApplicationRecord
   # Returns all projects the user is allowed to see.
   #
   # Employs the :view_project permission to perform the
-  # authorization check as the permissino is public, meaning it is granted
+  # authorization check as the permission is public, meaning it is granted
   # to everybody having at least one role in a project regardless of the
   # role's permissions.
   def self.visible_by(user = User.current)
@@ -518,21 +510,6 @@ class Project < ApplicationRecord
     @actions_allowed ||= allowed_permissions
                          .map { |permission| OpenProject::AccessControl.allowed_actions(permission) }
                          .flatten
-  end
-
-  def self.possible_principles_condition
-    condition = if Setting.work_package_group_assignment?
-                  ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group']
-                else
-                  ["(#{Principal.table_name}.type=?)", 'User']
-                end
-
-    condition[0] += " AND (#{User.table_name}.status=? OR #{User.table_name}.status=?) AND roles.assignable = ?"
-    condition << Principal::STATUSES[:active]
-    condition << Principal::STATUSES[:invited]
-    condition << true
-
-    sanitize_sql_array condition
   end
 
   protected

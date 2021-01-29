@@ -55,8 +55,7 @@ class Queries::WorkPackages::Filter::PrincipalLoader
     if project
       project.principals.sort
     else
-      user_or_principal = Setting.work_package_group_assignment? ? Principal : User
-      user_or_principal.active_or_registered.in_visible_project.sort
+      Principal.active_or_registered.in_visible_project.sort
     end
   end
 

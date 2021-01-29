@@ -761,20 +761,14 @@ describe 'API v3 Work package resource',
 
         before { allow(User).to receive(:current).and_return current_user }
 
-        shared_context 'setup group membership' do |group_assignment|
+        shared_context 'setup group membership' do
           let(:group) { FactoryBot.create(:group) }
           let(:group_role) { FactoryBot.create(:role) }
-          let(:group_member) do
+          let!(:group_member) do
             FactoryBot.create(:member,
                               principal: group,
                               project: project,
                               roles: [group_role])
-          end
-
-          before do
-            allow(Setting).to receive(:work_package_group_assignment?).and_return(group_assignment)
-
-            group_member
           end
         end
 
@@ -868,20 +862,6 @@ describe 'API v3 Work package resource',
                          property: property,
                          expected: "/api/v3/groups/:id' or '/api/v3/users/:id",
                          actual: user_href)
-                end
-              end
-            end
-
-            context 'group assignment disabled' do
-              let(:user_href) { api_v3_paths.user group.id }
-
-              include_context 'setup group membership', false
-              include_context 'patch request'
-
-              it_behaves_like 'constraint violation' do
-                let(:message) do
-                  I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
-                         property: WorkPackage.human_attribute_name(property))
                 end
               end
             end

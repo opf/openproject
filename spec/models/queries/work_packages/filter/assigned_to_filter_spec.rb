@@ -275,18 +275,6 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
 
           expect(instance).to be_available
         end
-
-        it 'is false if there is another group selectable but the setting is not favourable' do
-          allow(Setting)
-            .to receive(:work_package_group_assignment?)
-                  .and_return(false)
-
-          allow(principal_loader)
-            .to receive(:group_values)
-                  .and_return([[group_1.name, group_1.id.to_s]])
-
-          expect(instance).to_not be_available
-        end
       end
     end
 
@@ -314,16 +302,6 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
                              [user_1.name, user_1.id.to_s],
                              [group_1.name, group_1.id.to_s]])
         end
-
-        it 'returns the me value and only the available users if no group assignmit is allowed' do
-          allow(Setting)
-            .to receive(:work_package_group_assignment?)
-                  .and_return(false)
-
-          expect(instance.allowed_values)
-            .to match_array([[I18n.t(:label_me), 'me'],
-                             [user_1.name, user_1.id.to_s]])
-        end
       end
 
       context 'when not being logged in' do
@@ -333,15 +311,6 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
           expect(instance.allowed_values)
             .to match_array([[user_1.name, user_1.id.to_s],
                              [group_1.name, group_1.id.to_s]])
-        end
-
-        it 'returns the available users if no group assignmit is allowed' do
-          allow(Setting)
-            .to receive(:work_package_group_assignment?)
-                  .and_return(false)
-
-          expect(instance.allowed_values)
-            .to match_array([[user_1.name, user_1.id.to_s]])
         end
       end
     end

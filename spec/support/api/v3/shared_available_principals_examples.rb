@@ -81,23 +81,8 @@ shared_examples_for 'available principals' do |principals|
     describe 'groups' do
       let!(:users) { [group] }
 
-      context 'with work_package_group_assignment' do
-        before do
-          allow(Setting).to receive(:work_package_group_assignment?).and_return(true)
-        end
-
-        # current user and group
-        it_behaves_like "returns available #{principals}", 2, 2, 'Group'
-      end
-
-      context 'without work_package_group_assignment' do
-        before do
-          allow(Setting).to receive(:work_package_group_assignment?).and_return(false)
-        end
-
-        # Only the current user
-        it_behaves_like "returns available #{principals}", 1, 1, 'User'
-      end
+      # current user and group
+      it_behaves_like "returns available #{principals}", 2, 2, 'Group'
     end
   end
 

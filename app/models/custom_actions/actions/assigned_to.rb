@@ -97,10 +97,6 @@ class CustomActions::Actions::AssignedTo < CustomActions::Actions::Base
   end
 
   def principal_class
-    if Setting.work_package_group_assignment?
-      Principal
-    else
-      User
-    end
+    Principal
   end
 end

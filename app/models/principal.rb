@@ -73,8 +73,20 @@ class Principal < ApplicationRecord
   }
 
   scope :not_builtin, -> {
+    # TODO: Remove PlaceholderUser from this list. This is a temporary hack that ensures that Placeholders don't
+    # suddenly show up where they are are not supposed to show up. In case you want them to show up use the temporary
+    # scope :not_builtin_but_with_placeholder_users
+    where.not(type: [SystemUser.name, AnonymousUser.name, DeletedUser.name, PlaceholderUser.name])
+  }
+
+  scope :not_builtin_but_with_placeholder_users, -> {
+    # TODO: This is temporary precaution scope to circumvent the hack in the :not_builtin scope. Needs to be
+    # removed before we release this code.
     where.not(type: [SystemUser.name, AnonymousUser.name, DeletedUser.name])
   }
+  OpenProject::Deprecation.deprecate_class_method self,
+                                                  :not_builtin_but_with_placeholder_users,
+                                                  :not_builtin
 
   scope :like, ->(q) {
     firstnamelastname = "((firstname || ' ') || lastname)"
