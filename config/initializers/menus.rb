@@ -125,13 +125,20 @@ end
 Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :admin_overview,
             { controller: '/admin', action: :index },
+            if: Proc.new { User.current.admin? },
             caption: :label_overview,
             icon: 'icon2 icon-home',
             first: true
 
+  menu.push :users,
+            { controller: '/users' },
+            if: Proc.new { !User.current.admin? && User.current.allowed_to?(:add_user, nil, global: true) },
+            caption: :label_user_plural,
+            icon: 'icon2 icon-group'
+
   menu.push :users_and_permissions,
             { controller: '/users' },
-            if: Proc.new { User.current.allowed_to?(:add_user, nil, global: true) },
+            if: Proc.new { User.current.admin? },
             caption: :label_user_and_permission,
             icon: 'icon2 icon-group'
 

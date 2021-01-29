@@ -91,6 +91,10 @@ describe 'edit users', type: :feature, js: true do
     it 'can too edit the user' do
       visit edit_user_path(user)
 
+      expect(page).to have_no_selector('.admin-overview-menu-item', text: 'Overview')
+      expect(page).to have_no_selector('.users-and-permissions-menu-item', text: 'Users & Permissions')
+      expect(page).to have_selector('.users-menu-item.selected', text: 'Users')
+
       expect(page).to have_no_selector 'select#user_auth_source_id'
       expect(page).to have_no_selector 'input#user_password'
 
