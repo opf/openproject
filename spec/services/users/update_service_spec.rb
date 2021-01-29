@@ -33,7 +33,7 @@ describe Users::UpdateService do
   it_behaves_like 'BaseServices update service' do
     # The user service also tries to save the preferences
     before do
-      allow(created_object.pref).to receive(:save).and_return(true)
+      allow(model_instance.pref).to receive(:save).and_return(true)
     end
   end
 
