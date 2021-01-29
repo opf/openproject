@@ -865,20 +865,6 @@ describe 'API v3 Work package resource',
                 end
               end
             end
-
-            context 'group assignment disabled' do
-              let(:user_href) { api_v3_paths.user group.id }
-
-              include_context 'setup group membership', false
-              include_context 'patch request'
-
-              it_behaves_like 'constraint violation' do
-                let(:message) do
-                  I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
-                         property: WorkPackage.human_attribute_name(property))
-                end
-              end
-            end
           end
         end
 
