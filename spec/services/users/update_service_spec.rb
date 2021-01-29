@@ -27,25 +27,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 
 require 'spec_helper'
+require 'services/base_services/behaves_like_update_service'
 
 describe Users::UpdateService do
-  let(:current_user) { FactoryBot.build_stubbed(:admin) }
-  let(:update_user) { FactoryBot.build_stubbed(:user) }
-  let(:instance) { described_class.new(model: update_user, user: current_user) }
-
-  describe '.contract' do
-    it 'uses the UpdateContract contract' do
-      expect(instance.contract_class).to eql Users::UpdateContract
-    end
-  end
-
-  describe '.new' do
-    it 'takes a user which is available as a getter' do
-      expect(instance.user).to eql current_user
+  it_behaves_like 'BaseServices update service' do
+    # The user service also tries to save the preferences
+    before do
+      allow(created_object.pref).to receive(:save).and_return(true)
     end
   end
 
   describe 'updating attributes' do
+    let(:instance) { described_class.new(model: update_user, user: current_user) }
+    let(:current_user) { FactoryBot.build_stubbed(:admin) }
     let(:update_user) { FactoryBot.create(:user, mail: 'correct@example.org') }
     subject { instance.call(attributes: attributes) }
 
@@ -79,56 +73,45 @@ describe Users::UpdateService do
         end
       end
     end
-  end
 
-  describe '#call' do
-    subject { instance.call() }
-    let(:validates) { true }
-    let(:saves) { true }
+    describe 'updating prefs' do
+      let(:attributes) { {} }
 
-    before do
-      allow(update_user).to receive(:save).and_return(saves)
-      allow(update_user.pref).to receive(:save).and_return(saves)
-      allow_any_instance_of(Users::UpdateContract).to receive(:validate).and_return(validates)
-    end
-
-    context 'if contract validates and the user saves' do
-      it 'is successful' do
-        expect(subject).to be_success
+      before do
+        allow(update_user).to receive(:save).and_return(user_save_result)
       end
 
-      it 'has no errors' do
-        expect(subject.errors).to be_empty
+      context 'if the user was updated calls the prefs' do
+        let(:user_save_result) { true }
+
+        before do
+          expect(update_user.pref).to receive(:save).and_return(pref_save_result)
+        end
+
+        context 'and the prefs can be saved' do
+          let(:pref_save_result) { true }
+
+          it 'returns a successful call' do
+            expect(subject).to be_success
+          end
+        end
+
+        context 'and the prefs can not be saved' do
+          let(:pref_save_result) { false }
+
+          it 'returns an erroneous call' do
+            expect(subject).not_to be_success
+          end
+        end
       end
 
-      it 'returns the user as a result' do
-        result = subject.result
-        expect(result).to be_a User
-      end
-    end
+      context 'if the user was not saved' do
+        let(:user_save_result) { false }
 
-    context 'if contract does not validate' do
-      let(:validates) { false }
-
-      it 'is unsuccessful' do
-        expect(subject).to_not be_success
-      end
-    end
-
-    context 'if user does not save' do
-      let(:saves) { false }
-      let(:errors) { double('errors') }
-
-      it 'is unsuccessful' do
-        expect(subject).to_not be_success
-      end
-
-      it "returns the user's errors" do
-        allow(update_user)
-          .to receive(:errors)
-          .and_return errors
-
-        expect(subject.errors).to eql errors
+        it 'does not call #prefs.save' do
+          expect(update_user.pref).not_to receive(:save)
+          expect(subject).not_to be_success
+        end
       end
     end
   end
