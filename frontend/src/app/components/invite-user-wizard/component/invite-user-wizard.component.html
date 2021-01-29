@@ -79,9 +79,7 @@
 
       <!--TEXTAREA TEMPLATE-->
       <ng-container *ngIf="step.type === 'textarea'">
-        <op-form-field
-          [label]="step.label()"
-        >
+        <op-form-field [label]="step.label()">
           <textarea
             slot="input"
             [formControlName]="step.formControlName"

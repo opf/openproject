@@ -101,51 +101,99 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     this.project = this.currentProjectService.name!;
     this.steps = [
       {
-        type: 'select',
-        label: () => this.text.step0.label,
-        summaryLabel: this.text.step0.summaryLabel,
-        bindLabel: 'name',
-        formControlName: 'user',
-        apiCallback: this.usersCallback,
-        description: this.text.step0.description,
+        fields: [
+          {
+            type: 'select',
+            label: () => this.text.step0.label,
+            summaryLabel: this.text.step0.summaryLabel,
+            bindLabel: 'name',
+            formControlName: 'user',
+            apiCallback: this.usersCallback,
+            description: this.text.step0.description,
+          },
+        ],
         nextButtonText: this.text.nextButtonText,
         previousButtonText: this.text.previousButtonText,
         showInviteUserByEmail: true,
       },
       {
-        type: 'select',
-        label: () => `${this.text.step1.label} ${this.project}`,
-        summaryLabel: this.text.step1.summaryLabel,
-        bindLabel: 'name',
-        formControlName: 'role',
-        apiCallback: this.rolesCallback,
-        description: this.text.step1.description,
-        link: {
-          text: this.text.step1.link,
-          href: 'https://docs.openproject.org/system-admin-guide/users-permissions/',
-        },
+        fields: [
+          {
+            type: 'select',
+            label: () => this.text.step0.label,
+            summaryLabel: this.text.step0.summaryLabel,
+            bindLabel: 'name',
+            formControlName: 'user',
+            apiCallback: this.usersCallback,
+            description: this.text.step0.description,
+          },
+        ],
+        nextButtonText: this.text.nextButtonText,
+        previousButtonText: this.text.previousButtonText,
+        showInviteUserByEmail: true,
+      },
+      {
+        fields: [
+          {
+            type: 'select',
+            label: () => `${this.text.step1.label} ${this.project}`,
+            summaryLabel: this.text.step1.summaryLabel,
+            bindLabel: 'name',
+            formControlName: 'role',
+            apiCallback: this.rolesCallback,
+            description: this.text.step1.description,
+            link: {
+              text: this.text.step1.link,
+              href: 'https://docs.openproject.org/system-admin-guide/users-permissions/',
+            },
+          }
+        ],
         nextButtonText: this.text.nextButtonText,
         previousButtonText: this.text.previousButtonText,
       },
       {
-        type: 'textarea',
-        label: () => this.text.step2.label,
-        summaryLabel: this.text.step2.summaryLabel,
-        formControlName: 'message',
-        description: this.text.step2.description,
+        fields: [
+          {
+            type: 'textarea',
+            label: () => this.text.step2.label,
+            summaryLabel: this.text.step2.summaryLabel,
+            formControlName: 'message',
+            description: this.text.step2.description,
+          },
+        ],
         nextButtonText: this.text.step2.nextButtonText,
         previousButtonText: this.text.previousButtonText,
       },
       {
-        type: 'summary',
+        fields: [
+          {
+            type: 'summary',
+            label: () => this.text.step2.label,
+            formControlName: 'project',
+          },
+          {
+            type: 'summary',
+            label: () => this.text.step2.label,
+            formControlName: 'principal',
+          },
+          {
+            type: 'summary',
+            label: () => this.text.step2.label,
+            formControlName: 'project',
+          },
+        ],
+        action: this.inviteUser,
         nextButtonText: this.text.step3.nextButtonText,
         previousButtonText: this.text.previousButtonText,
-        action: this.inviteUser,
       },
       {
-        type: 'confirmation',
+        fields: [
+          {
+            type: 'confirmation',
+            description: this.text.step4.description,
+          },
+        ],
         nextButtonText: this.text.step4.nextButtonText,
-        description: this.text.step4.description,
         action: this.finalAction,
       },
     ];
