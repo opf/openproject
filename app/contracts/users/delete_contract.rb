@@ -31,7 +31,11 @@
 require 'users/base_contract'
 
 module Users
-  class DeleteContract < BaseContract
+  class DeleteContract < ::DeleteContract
+    delete_permission -> {
+      self.class.deletion_allowed?(model, user)
+    }
+
     ##
     # Checks if a given user may be deleted by another one.
     #
@@ -43,22 +47,6 @@ module Users
       else
         actor.admin? && actor.active? && Setting.users_deletable_by_admins?
       end
-    end
-
-    validate :user_allowed_to_delete
-
-    private
-
-    ##
-    # Users can only be deleted by Admins
-    def user_allowed_to_delete
-      unless deletion_allowed?
-        errors.add :base, :error_unauthorized
-      end
-    end
-
-    def deletion_allowed?
-      self.class.deletion_allowed? model, user
     end
   end
 end
