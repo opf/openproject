@@ -23,16 +23,18 @@ export class InviteUserWizardService extends UntilDestroyedMixin {
 
   getPrincipals(searchTerm:string, projectId:string, principalType:string):Observable<IUserWizardSelectData[]> {
     if (!this.principals$) {
+      const type = principalType.charAt(0).toUpperCase() + principalType.slice(1);
       const memberPrincipals$ = this.apiV3Service.principals.list({
         filters: [
           ['member', '=', [projectId]],
-          ['type', '=', [principalType]],
+          ['type', '=', [type]],
         ]
       });
       const nonMemberPrincipals$ = this.apiV3Service.principals.list({
         filters: [
-          ['status', '!', ['3']], ['member', '!', ['1']],
-          ['type', '=', [principalType]],
+          ['status', '!', ['3']],
+          ['member', '!', ['1']],
+          ['type', '=', [type]],
         ]
       });
 
@@ -48,6 +50,7 @@ export class InviteUserWizardService extends UntilDestroyedMixin {
       .pipe(map(allPrincipals => allPrincipals.filter(principal => principal.name?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
         principal.email?.toLowerCase().includes(searchTerm?.toLowerCase()))));
   }
+
   // TODO: Type this response
   getRoles(searchTerm:string):Observable<any> {
     return this.apiV3Service
@@ -55,11 +58,27 @@ export class InviteUserWizardService extends UntilDestroyedMixin {
       .list({
         filters: [
           ['unit', '=', ['project']],
+          ['grantable', '=', true],
         ]
       })
       .pipe(
         map((roles:CollectionResource) => roles.elements.filter(role => role.name?.toLowerCase().includes(searchTerm?.toLowerCase())))
       );
+  }
+
+  // TODO: Type this response
+  getProjects(searchTerm:string):Observable<any> {
+    if (!searchTerm) {
+      return of([[]]);
+    }
+    return this.apiV3Service
+      .projects
+      .list({
+        filters: [
+          ['name_and_identifier', '~', [searchTerm]],
+        ]
+      })
+      .pipe(map((projects:CollectionResource) => projects.elements));
   }
 
   // TODO: Type this response

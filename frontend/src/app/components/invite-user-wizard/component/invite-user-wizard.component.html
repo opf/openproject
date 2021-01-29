@@ -4,116 +4,113 @@
   </h2>
 
   <ng-container *ngFor="let step of steps; let index = index;">
-    <!--STEP TEMPLATE-->
-    <div [ngClass]="['step', 'step' + '-' + step.type]"
-         *ngIf="currentStepIndex === index">
-      <!--SELECT TEMPLATE-->
-      <op-form-field
-        *ngIf="step.type === 'select'"
-        [label]="step.label()"
-        required
-      >
-        <ng-select
-          [formControlName]="step.formControlName"
-          [typeahead]="input$"
-          [items]="items$ | async"
-          [virtualScroll]="true"
-          [clearable]="true"
-          [clearOnBackspace]="true"
-          [clearSearchOnAdd]="false"
-          [bindLabel]="step.bindLabel"
-          [multiple]="false"
-          slot="input"
-          #ngselect
+    <div
+      *ngIf="step === currentStep"
+      class="op-modal--modal-body"
+      #stepBody
+    >
+      <ng-container *ngFor="let field of step.fields; let fieldIndex = index;">
+        <!--SELECT TEMPLATE-->
+        <op-form-field
+          [label]="field.label ? field.label() : ''"
+          required
         >
-          <!--SELECT OPTIONS TEMPLATES-->
-          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-            <span [ngOptionHighlight]="search" class="ng-option-label ellipsis">
-              {{ item.name }}
-            </span>
+          <ng-select
+            *ngIf="field.type === 'select'"
+            [formControlName]="field.formControlName"
+            [typeahead]="input$"
+            [items]="items$ | async"
+            [virtualScroll]="true"
+            [clearable]="true"
+            [clearOnBackspace]="true"
+            [clearSearchOnAdd]="false"
+            [bindLabel]="field.bindLabel"
+            [multiple]="false"
+            slot="input"
+            #ngselect
+          >
+            <!--SELECT OPTIONS TEMPLATES-->
+            <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+              <span [ngOptionHighlight]="search" class="ng-option-label ellipsis">
+                {{ item.name }}
+              </span>
 
-            <span *ngIf="inputIsEmail(ngSelectInput.value)">
-              ({{item.email}})
-            </span>
+              <span *ngIf="inputIsEmail(ngSelectInput.value)">
+                ({{item.email}})
+              </span>
 
-            <span *ngIf="item.disabled">
-              ({{text.alreadyMemberMessage}} {{project}})
-            </span>
-          </ng-template>
+              <span *ngIf="item.disabled">
+                ({{text.alreadyMemberMessage}} {{project}})
+              </span>
+            </ng-template>
 
-          <!--SELECT NOT FOUND TEMPLATE-->
-          <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
-            <div class="ng-option ng-option-disabled" *ngIf="!inputIsEmail(ngSelectInput.value)">
-              {{text.noDataFoundFor}} "{{searchTerm}}"
-            </div>
-          </ng-template>
+            <!--SELECT NOT FOUND TEMPLATE-->
+            <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
+              <div class="ng-option ng-option-disabled" *ngIf="!inputIsEmail(ngSelectInput.value)">
+                {{text.noDataFoundFor}} "{{searchTerm}}"
+              </div>
+            </ng-template>
 
-          <!--SELECT INVITE BY EMAIL TEMPLATE-->
-          <ng-template ng-footer-tmp>
-            <div *ngIf="step.showInviteUserByEmail && inputIsEmail(ngSelectInput.value) && !(items$ | async)?.length">
-              <button class="button"
-                      (click)="setUserEmail(ngSelectInput.value)"
-                      [disabled]="!inputIsValidEmail(ngSelectInput.value)">
-                <op-icon icon-classes="icon-mail1"></op-icon>
+            <!--SELECT INVITE BY EMAIL TEMPLATE-->
+            <ng-template ng-footer-tmp>
+              <div *ngIf="step.showInviteUserByEmail && inputIsEmail(ngSelectInput.value) && !(items$ | async)?.length">
+                <button class="button"
+                        (click)="setUserEmail(ngSelectInput.value)"
+                        [disabled]="!inputIsValidEmail(ngSelectInput.value)">
+                  <op-icon icon-classes="icon-mail1"></op-icon>
 
-                {{text.invite}}: {{ngSelectInput.value}}
-              </button>
-            </div>
-          </ng-template>
-        </ng-select>
+                  {{text.invite}}: {{ngSelectInput.value}}
+                </button>
+              </div>
+            </ng-template>
+          </ng-select>
 
-        <p
-          slot="help-text"
-          class="description"
-          *ngIf="step.description"
-        >
-          {{step.description()}}
-
-          <a *ngIf="step.link"
-            [href]="step.link.href"
-            target="_blank">
-            {{step.link.text}}
-          </a>
-        </p>
-      </op-form-field>
-
-      <!--TEXTAREA TEMPLATE-->
-      <ng-container *ngIf="step.type === 'textarea'">
-        <op-form-field [label]="step.label()">
           <textarea
             slot="input"
-            [formControlName]="step.formControlName"
-            [id]="step.formControlName"
-            #textarea
+            *ngIf="field.type === 'textarea'"
+            [formControlName]="field.formControlName"
           ></textarea>
+
+          <op-option-list
+            slot="input"
+            *ngIf="field.type === 'option-list'"
+            [options]="field.options"
+            [formControlName]="field.formControlName"
+          ></op-option-list>
+
+          <p
+            slot="input"
+            *ngIf="field.type === 'summary'"
+          >
+            {{form.get(field.formControlName).value?.name || form.get(field.formControlName).value}}
+          </p>
 
           <p
             slot="help-text"
             class="description"
-            *ngIf="step.description"
+            *ngIf="field.description"
           >
-            {{step.description()}}
+            {{field.description()}}
+
+            <a *ngIf="field.link"
+              [href]="field.link.href"
+              target="_blank">
+              {{field.link.text}}
+            </a>
           </p>
+
+          <div
+            slot="errors"
+            class="op-form-field--error"
+            *ngIf="form.get(field.formControlName)?.touched && form.get(field.formControlName)?.invalid"
+          >
+            {{ field.invalidText }}
+          </div>
         </op-form-field>
       </ng-container>
 
-      <!--SUMMARY TEMPLATE-->
-      <ng-container *ngIf="step.type === 'summary'">
-        <div *ngFor="let step of steps"
-             [ngClass]="['summary-field', 'summary-field' + '-' + step.formControlName]">
-          <op-form-field
-            *ngIf="step.formControlName"
-            [label]="step.summaryLabel()"
-          >
-            <p slot="input">
-              {{form.get(step.formControlName).value?.name || form.get(step.formControlName).value}}
-            </p>
-          </op-form-field>
-        </div>
-      </ng-container>
-
       <!--CONFIRMATION TEMPLATE-->
-      <ng-container *ngIf="step.type === 'confirmation'">
+      <ng-container *ngIf="step.name === 'confirmation'">
         <p class="description"
            *ngIf="step.description">
           {{step.description()}}
@@ -125,15 +122,13 @@
   <div class="buttons-container">
     <button class="button button-left"
             (click)="previousAction()"
-            *ngIf="currentStep?.previousButtonText"
-            [disabled]="!currentStepIndex">
+            *ngIf="currentStepIndex === 0 || currentStep?.previousButtonText">
       {{currentStep?.previousButtonText}}
     </button>
 
     <button class="button button-right"
             (click)="nextAction(currentStep)"
-            *ngIf="currentStep?.nextButtonText"
-            [disabled]="shouldBeDisabled(currentStep)">
+            *ngIf="currentStep?.nextButtonText">
       {{currentStep?.nextButtonText}}
     </button>
   </div>

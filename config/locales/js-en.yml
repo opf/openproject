@@ -1043,16 +1043,34 @@ en:
       role: 'role'
       next: 'Next'
       back: 'Back'
-      name_or_email_label: 'Name or email address'
-      name_or_email_description: 'You can either search for an existing by name or email, or write an email address to invite a new user to your OpenProject instance.'
-      role_label: 'Role in'
-      role_description: 'This is the role that %{user} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see.'
-      learn_more_about_users_permissions: 'Learn more about roles and permissions.'
-      message_label: 'Invitation message (optional)'
-      message_summary_label: 'Invitation message'
-      message_description: 'We will send an email to %{user}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
-      message_next_button: 'Review Invitation'
-      send_invitation: 'Send Invitation'
+      project:
+        label: 'Project'
+        required: 'Please select a project'
+      type:
+        required: 'Please select the type of principal to be invited'
+        user: 
+          title: User
+          description: Permissions based on the assigned role in the selected project
+        group: 
+          title: Group
+          description: Permissions based on the assigned role in the selected project
+        placeholder: 
+          title: Placeholder
+          description: Has no access to the project and no emails are sent out
+      name_or_email:
+        label: 'Name or email address'
+        description: 'You can either search for an existing by name or email, or write an email address to invite a new user to your OpenProject instance.'
+      role:
+        label: 'Role in'
+        description: 'This is the role that %{user} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see.'
+        learn_more_about_users_permissions: 'Learn more about roles and permissions.'
+      message:
+        label: 'Invitation message (optional)'
+        summary_label: 'Invitation message'
+        description: 'We will send an email to %{user}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
+        next_button: 'Review Invitation'
+      summary:
+        next_button: 'Send Invitation'
       confirm_description: 'The user can now login to access the %{project} project. Meanwhile you can already plan with that user and assign work packages for instance.'
       continue: 'Continue'
       invite: 'Invite'

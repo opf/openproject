@@ -1,19 +1,25 @@
 interface IUserWizardStep {
+  name:string;
+  fields:IUserWizardStepField[];
+  nextButtonText?:string;
+  previousButtonText?:string;
+  showInviteUserByEmail?:boolean;
+  action?:Function;
+}
+
+interface IUserWizardStepField {
   type:string;
   label?:Function;
-  summaryLabel?:Function;
   bindLabel?:string;
   formControlName?:string;
+  options?:any[];
   apiCallback?:Function;
   description?:Function;
   link?:{
     text:string;
     href:string;
   };
-  nextButtonText?:string;
-  previousButtonText?:string;
-  showInviteUserByEmail?:boolean;
-  action?:Function;
+  invalidText?:string;
 }
 
 interface IUserWizardSelectData {

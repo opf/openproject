@@ -31,29 +31,47 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     to: this.I18n.t('js.invite_user_modal.to'),
     noDataFoundFor: this.I18n.t('js.invite_user_modal.no_data_found_for'),
     alreadyMemberMessage: this.I18n.t('js.invite_user_modal.already_member_message'),
-    step0: {
-      label: this.I18n.t('js.invite_user_modal.name_or_email_label'),
-      summaryLabel: this.I18n.t('js.invite_user_modal.user'),
-      description: () => this.I18n.t('js.invite_user_modal.name_or_email_description'),
+    project: {
+      label: this.I18n.t('js.invite_user_modal.project.label'),
+      required: this.I18n.t('js.invite_user_modal.project.required'),
     },
-    step1: {
-      label: this.I18n.t('js.invite_user_modal.role_label'),
-      summaryLabel: this.I18n.t('js.invite_user_modal.role'),
-      link: this.I18n.t('js.invite_user_modal.learn_more_about_users_permissions'),
-      description: () => this.I18n.t('js.invite_user_modal.role_description', {user: this.userToInvite}),
+    type: {
+      required: this.I18n.t('js.invite_user_modal.type.required'),
+      user: {
+        title: this.I18n.t('js.invite_user_modal.user.title'),
+        description: this.I18n.t('js.invite_user_modal.user.description'),
+      },
+      group: {
+        title: this.I18n.t('js.invite_user_modal.group.title'),
+        description: this.I18n.t('js.invite_user_modal.group.description'),
+      },
+      placeholder: {
+        title: this.I18n.t('js.invite_user_modal.placeholder.title'),
+        description: this.I18n.t('js.invite_user_modal.placeholder.description'),
+      },
     },
-    step2: {
-      label: this.I18n.t('js.invite_user_modal.message_label'),
-      summaryLabel: this.I18n.t('js.invite_user_modal.message_summary_label'),
-      description: () => this.I18n.t('js.invite_user_modal.message_description', {user: this.userToInvite}),
-      nextButtonText: this.I18n.t('js.invite_user_modal.message_next_button'),
+    name_or_email: {
+      label: this.I18n.t('js.invite_user_modal.name_or_email.label'),
+      description: () => this.I18n.t('js.invite_user_modal.name_or_email.description'),
+      required: this.I18n.t('js.invite_user_modal.name_or_email.required'),
     },
-    step3: {
-      nextButtonText: this.I18n.t('js.invite_user_modal.send_invitation'),
+    role: {
+      label: this.I18n.t('js.invite_user_modal.role.label'),
+      link: this.I18n.t('js.invite_user_modal.role.learn_more_about_users_permissions'),
+      description: () => this.I18n.t('js.invite_user_modal.role.description', {user: this.userToInvite}),
+      required: this.I18n.t('js.invite_user_modal.role.required'),
     },
-    step4: {
-      description: () => this.I18n.t('js.invite_user_modal.confirm_description', {project: this.project}),
-      nextButtonText: this.I18n.t('js.invite_user_modal.continue'),
+    message: {
+      label: this.I18n.t('js.invite_user_modal.message.label'),
+      description: () => this.I18n.t('js.invite_user_modal.message.description', {user: this.userToInvite}),
+      nextButtonText: this.I18n.t('js.invite_user_modal.message.next_button'),
+    },
+    summary: {
+      nextButtonText: this.I18n.t('js.invite_user_modal.summary.next_button'),
+    },
+    success: {
+      description: () => this.I18n.t('js.invite_user_modal.success.description', {project: this.project}),
+      nextButtonText: this.I18n.t('js.invite_user_modal.success.continue'),
     }
   };
   input$ = new Subject<string | null>();
@@ -73,8 +91,8 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     return user && user.name;
   }
 
+  @ViewChild('stepBody') stepBody:ElementRef;
   @ViewChild('ngselect') ngSelect:NgSelectComponent;
-  @ViewChild('textarea') textarea:ElementRef;
 
   @HostListener('document:keydown.enter', ['$event']) onKeydownHandler(event:KeyboardEvent) {
     this.nextAction(this.currentStep);
@@ -93,23 +111,47 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
   ngOnInit():void {
     // TODO: Remove hardcoded type form value
     this.form = this.formBuilder.group({
+      project: [null, Validators.required],
       type: ['User', Validators.required],
       user: [null, Validators.required],
       role: [null, Validators.required],
-      message: [null, Validators.required],
+      message: [''],
     });
     this.project = this.currentProjectService.name!;
     this.steps = [
       {
+        name: 'project-selection',
         fields: [
           {
             type: 'select',
-            label: () => this.text.step0.label,
-            summaryLabel: this.text.step0.summaryLabel,
+            label: () => this.text.project.label,
             bindLabel: 'name',
-            formControlName: 'user',
+            formControlName: 'project',
+            apiCallback: this.projectsCallback,
+            invalidText: this.text.project.required,
+          },
+          {
+            type: 'option-list',
+            formControlName: 'type',
             apiCallback: this.usersCallback,
-            description: this.text.step0.description,
+            invalidText: this.text.type.required,
+            options:[
+              {
+                value: 'user',
+                title: this.text.type.user.title,
+                description: this.text.type.user.description,
+              },
+              {
+                value: 'group',
+                title: this.text.type.group.title,
+                description: this.text.type.group.description,
+              },
+              {
+                value: 'placeholder',
+                title: this.text.type.placeholder.title,
+                description: this.text.type.placeholder.description,
+              },
+            ],
           },
         ],
         nextButtonText: this.text.nextButtonText,
@@ -117,15 +159,16 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
         showInviteUserByEmail: true,
       },
       {
+        name: 'user',
         fields: [
           {
             type: 'select',
-            label: () => this.text.step0.label,
-            summaryLabel: this.text.step0.summaryLabel,
+            label: () => this.text.name_or_email.label,
             bindLabel: 'name',
             formControlName: 'user',
             apiCallback: this.usersCallback,
-            description: this.text.step0.description,
+            description: this.text.name_or_email.description,
+            invalidText: this.text.name_or_email.required,
           },
         ],
         nextButtonText: this.text.nextButtonText,
@@ -133,17 +176,18 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
         showInviteUserByEmail: true,
       },
       {
+        name: 'role',
         fields: [
           {
             type: 'select',
-            label: () => `${this.text.step1.label} ${this.project}`,
-            summaryLabel: this.text.step1.summaryLabel,
+            label: () => `${this.text.role.label} ${this.project}`,
             bindLabel: 'name',
             formControlName: 'role',
             apiCallback: this.rolesCallback,
-            description: this.text.step1.description,
+            description: this.text.role.description,
+            invalidText: this.text.role.required,
             link: {
-              text: this.text.step1.link,
+              text: this.text.role.link,
               href: 'https://docs.openproject.org/system-admin-guide/users-permissions/',
             },
           }
@@ -152,48 +196,45 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
         previousButtonText: this.text.previousButtonText,
       },
       {
+        name: 'message',
         fields: [
           {
             type: 'textarea',
-            label: () => this.text.step2.label,
-            summaryLabel: this.text.step2.summaryLabel,
+            label: () => this.text.message.label,
             formControlName: 'message',
-            description: this.text.step2.description,
+            description: this.text.message.description,
           },
         ],
-        nextButtonText: this.text.step2.nextButtonText,
+        nextButtonText: this.text.message.nextButtonText,
         previousButtonText: this.text.previousButtonText,
       },
       {
+        name: 'summary',
         fields: [
           {
             type: 'summary',
-            label: () => this.text.step2.label,
+            label: () => this.text.project.label,
             formControlName: 'project',
           },
           {
             type: 'summary',
-            label: () => this.text.step2.label,
-            formControlName: 'principal',
+            label: () => this.text.name_or_email.label,
+            formControlName: 'user',
           },
           {
             type: 'summary',
-            label: () => this.text.step2.label,
-            formControlName: 'project',
+            label: () => this.text.message.label,
+            formControlName: 'message',
           },
         ],
         action: this.inviteUser,
-        nextButtonText: this.text.step3.nextButtonText,
+        nextButtonText: this.text.summary.nextButtonText,
         previousButtonText: this.text.previousButtonText,
       },
       {
-        fields: [
-          {
-            type: 'confirmation',
-            description: this.text.step4.description,
-          },
-        ],
-        nextButtonText: this.text.step4.nextButtonText,
+        name: 'success',
+        fields: [],
+        nextButtonText: this.text.success.nextButtonText,
         action: this.finalAction,
       },
     ];
@@ -203,7 +244,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
         this.untilDestroyed(),
         debounceTime(200),
         distinctUntilChanged(),
-        switchMap(searchTerm => this.currentStep.apiCallback!(searchTerm!)),
+        switchMap(searchTerm => this.currentStep.fields.find((f:IUserWizardStepField) => f.apiCallback)?.apiCallback!(searchTerm!)),
       );
   }
 
@@ -212,7 +253,10 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
   }
 
   nextAction(currentStep:IUserWizardStep) {
-    if (currentStep.formControlName && this.form.get(currentStep.formControlName!)!.invalid) {
+    if (this.isInvalidStep(currentStep)) {
+      currentStep.fields.forEach((field:IUserWizardStepField) => {
+        this.form.get(field?.formControlName || '')?.markAllAsTouched();
+      });
       return;
     }
 
@@ -230,26 +274,24 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     if (this.currentStepIndex < this.steps.length - 1) {
       ++this.currentStepIndex;
 
-      if (this.currentStep.formControlName) {
-        this.focusStepInput(this.currentStep);
-      }
+      this.focusStepInput();
     }
   }
 
-  focusStepInput(currentStep:IUserWizardStep) {
+  focusStepInput() {
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
-        if (currentStep.type === 'select') {
-          this.ngSelect.focus();
-        } else if (currentStep.type === 'textarea') {
-          this.textarea.nativeElement.focus();
-        }
+        this.stepBody.nativeElement?.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        )[0]?.focus();
       });
     });
   }
 
-  shouldBeDisabled(currentStep:IUserWizardStep) {
-    return currentStep?.formControlName && this.form.get(currentStep.formControlName)!.invalid;
+  isInvalidStep(step:IUserWizardStep) {
+    return step.fields.reduce((oneInvalid:boolean, field:IUserWizardStepField) => {
+      return oneInvalid || this.form.get(field.formControlName || '')?.invalid;
+    }, false);
   }
 
   inputIsEmail(inputValue:string) {
@@ -284,11 +326,15 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     return this.inviteUserWizardService.finalAction();
   }
 
+  projectsCallback = (searchTerm:string):Observable<IUserWizardSelectData[]> => {
+    return this.inviteUserWizardService.getProjects(searchTerm);
+  }
+
   usersCallback = (searchTerm:string):Observable<IUserWizardSelectData[]> => {
     return this.inviteUserWizardService
                   .getPrincipals(
                     searchTerm,
-                    this.currentProjectService.id!,
+                    this.form.get('project')!.value?.id!,
                     this.form.get('type')!.value,
                   );
   }
