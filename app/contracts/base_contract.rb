@@ -152,7 +152,14 @@ class BaseContract < Disposable::Twin
     errors.empty?
   end
 
-  alias_method :validate, :valid?
+  # Provide same interface with valid? and validate
+  # as with AM::Validations
+  #
+  # Do not use alias_method as this will not work when
+  # valid? is overridden in subclasses
+  def validate(*args)
+    valid?(*args)
+  end
 
   # Methods required to get ActiveModel error messages working
   extend ActiveModel::Naming
