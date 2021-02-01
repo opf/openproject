@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -28,16 +28,33 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class PlaceholderUser < Principal
-  alias_attribute(:name, :lastname)
+require 'spec_helper'
 
-  validates_presence_of(:name)
-  validates_uniqueness_of(:name)
-  validates_length_of :name, maximum: 256
+shared_examples_for 'placeholder user contract' do
+  let(:placeholder_user_name) { "Foo" }
+  let(:current_user) { FactoryBot.build_stubbed(:admin) }
 
-  include ::Associations::Groupable
+  def expect_valid(valid, symbols = {})
+    expect(contract.validate).to eq(valid)
 
-  def to_s
-    lastname
+    symbols.each do |key, arr|
+      expect(contract.errors.symbols_for(key)).to match_array arr
+    end
+  end
+
+  shared_examples 'is valid' do
+    it 'is valid' do
+      expect_valid(true)
+    end
+  end
+
+  it_behaves_like 'is valid'
+
+  describe 'validates name length' do
+    let(:placeholder_user_name) { 'X' * 257 }
+
+    it 'rejects names longer than 256 characters' do
+      expect_valid(false, base: %i(error_unauthorized))
+    end
   end
 end

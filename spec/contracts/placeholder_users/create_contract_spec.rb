@@ -1,14 +1,13 @@
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -28,16 +27,32 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class PlaceholderUser < Principal
-  alias_attribute(:name, :lastname)
+require 'spec_helper'
+require_relative './shared_contract_examples'
 
-  validates_presence_of(:name)
-  validates_uniqueness_of(:name)
-  validates_length_of :name, maximum: 256
+describe PlaceholderUsers::CreateContract do
+  it_behaves_like 'placeholder user contract' do
+    let(:placeholder_user) { PlaceholderUser.new(name: placeholder_user_name) }
 
-  include ::Associations::Groupable
-
-  def to_s
-    lastname
+    subject(:contract) do
+      described_class.new(placeholder_user, current_user)
+    end
   end
 end
+
+#   context 'when admin' do
+#     let(:current_user) { FactoryBot.build_stubbed(:admin) }
+#
+#     it_behaves_like 'is valid'
+#
+
+#   end
+#
+#   context 'when not admin' do
+#     let(:current_user) { FactoryBot.build_stubbed(:user) }
+#
+#     it 'is invalid' do
+#       expect_valid(false, base: %i(error_unauthorized))
+#     end
+#   end
+# end

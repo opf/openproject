@@ -1,6 +1,4 @@
-
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -29,32 +27,53 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'placeholder_users/base_contract'
+require 'spec_helper'
+require_relative './shared_contract_examples'
 
-module PlaceholderUser
-  class DeleteContract < BaseContract
-    ##
-    # Checks if a given user may be deleted by another one.
-    #
-    # @param actor [User] User who wants to delete the given placeholder user.
-    def self.deletion_allowed?(actor)
-      actor.admin? && actor.active?
+describe PlaceholderUsers::UpdateContract do
+  let(:placeholder_user) { FactoryBot.build_stubbed(:placeholder_user) }
+
+  subject(:contract) { described_class.new(placeholder_user, current_user) }
+
+  def expect_valid(valid, symbols = {})
+    expect(contract.validate).to eq(valid)
+
+    symbols.each do |key, arr|
+      expect(contract.errors.symbols_for(key)).to match_array arr
+    end
+  end
+
+  shared_examples 'is valid' do
+    it 'is valid' do
+      expect_valid(true)
+    end
+  end
+
+  context 'when admin' do
+    let(:current_user) { FactoryBot.build_stubbed(:admin) }
+
+    context 'when admin active' do
+      it_behaves_like 'is valid'
     end
 
-    validate :user_allowed_to_delete
+    context 'when admin not active' do
+      let(:current_user) { FactoryBot.build_stubbed(:admin) }
 
-    private
+      before do
+        allow(current_user).to receive(:active?).and_return(false)
+      end
 
-    ##
-    # PlaceholderUsers can only be deleted by Admins
-    def user_allowed_to_delete
-      unless deletion_allowed?
-        errors.add :base, :error_unauthorized
+      it 'is invalid' do
+        expect_valid(false, base: %i(error_unauthorized))
       end
     end
+  end
 
-    def deletion_allowed?
-      self.class.deletion_allowed? user
+  context 'when not admin' do
+    let(:current_user) { FactoryBot.build_stubbed(:user) }
+
+    it 'is invalid' do
+      expect_valid(false, base: %i(error_unauthorized))
     end
   end
 end
