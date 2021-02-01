@@ -47,8 +47,8 @@ class Project < ApplicationRecord
     includes(:principal, :roles)
       .where(
         "#{Principal.table_name}.type='User' AND (
-          #{User.table_name}.status=#{Principal::STATUSES[:active]} OR
-          #{User.table_name}.status=#{Principal::STATUSES[:invited]}
+          #{User.table_name}.status=#{Principal.statuses[:active]} OR
+          #{User.table_name}.status=#{Principal.statuses[:invited]}
         )"
       )
       .references(:principal, :roles)
@@ -204,7 +204,7 @@ class Project < ApplicationRecord
   end
 
   def possible_members(criteria, limit)
-    Principal.active_or_registered.like(criteria).not_in_project(self).limit(limit)
+    Principal.not_locked.like(criteria).not_in_project(self).limit(limit)
   end
 
   def add_member(user, roles)

@@ -333,7 +333,7 @@ describe UsersController, type: :controller do
 
   describe '#change_status_info' do
     let!(:registered_user) do
-      FactoryBot.create(:user, status: User::STATUSES[:registered])
+      FactoryBot.create(:user, status: User.statuses[:registered])
     end
 
     before do
@@ -386,7 +386,7 @@ describe UsersController, type: :controller do
            } do
     describe 'WHEN activating a registered user' do
       let!(:registered_user) do
-        FactoryBot.create(:user, status: User::STATUSES[:registered],
+        FactoryBot.create(:user, status: User.statuses[:registered],
                                   language: 'de')
       end
 
@@ -399,7 +399,7 @@ describe UsersController, type: :controller do
           post :change_status,
                params: {
                  id: registered_user.id,
-                 user: { status: User::STATUSES[:active] },
+                 user: { status: User.statuses[:active] },
                  activate: '1'
                }
         end

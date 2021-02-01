@@ -30,9 +30,9 @@
 
 class Principal < ApplicationRecord
   include ::Scopes::Scoped
+
   # Account statuses
-  # Code accessing the keys assumes they are ordered, which they are since Ruby 1.9
-  STATUSES = {
+  enum status: {
     active: 1,
     registered: 2,
     locked: 3,
@@ -62,10 +62,8 @@ class Principal < ApplicationRecord
                 Principals::Scopes::Human,
                 Principals::Scopes::Like
 
-  scope :active, -> { where(status: STATUSES[:active]) }
-
-  scope :active_or_registered, -> {
-    human.where(status: [STATUSES[:active], STATUSES[:registered], STATUSES[:invited]])
+  scope :not_locked, -> {
+    human.where.not(status: statuses[:locked])
   }
 
   scope :in_project, ->(project) {
@@ -83,11 +81,11 @@ class Principal < ApplicationRecord
   end
 
   def self.possible_members(criteria, limit)
-    Principal.active_or_registered.like(criteria).limit(limit)
+    not_locked.like(criteria).limit(limit)
   end
 
   def self.search_scope_without_project(project, query)
-    active_or_registered.like(query).not_in_project(project)
+    not_locked.like(query).not_in_project(project)
   end
 
   def self.order_by_name
@@ -112,13 +110,9 @@ class Principal < ApplicationRecord
     # User defines the status values and other classes like Principal
     # shouldn't know anything about them. Nevertheless, some functions
     # want to know the status for other Principals than User.
-    raise 'Principal has status other than active' unless status == STATUSES[:active]
+    raise 'Principal has status other than active' unless active?
 
     'active'
-  end
-
-  def active_or_registered?
-    [STATUSES[:active], STATUSES[:registered], STATUSES[:invited]].include?(status)
   end
 
   # Helper method to identify internal users

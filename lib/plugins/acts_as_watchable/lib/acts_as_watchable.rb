@@ -111,16 +111,16 @@ module Redmine
         def possible_watcher_users
           # In rails 6, for reasons I did not look into, a different sql is produced
           # when issuing
-          #   User.active_or_registered.allowed_members(self.class.acts_as_watchable_permission, project)
+          #   User.not_locked.allowed_members(self.class.acts_as_watchable_permission, project)
           # compared to
-          #   User.allowed_members(self.class.acts_as_watchable_permission, project).active_or_registered
+          #   User.allowed_members(self.class.acts_as_watchable_permission, project).not_locked
           scope = if project.public?
                     User.allowed(self.class.acts_as_watchable_permission, project)
                   else
                     User.allowed_members(self.class.acts_as_watchable_permission, project)
                   end
 
-          scope.active_or_registered
+          scope.not_locked
         end
 
         # Returns an array of users that are proposed as watchers

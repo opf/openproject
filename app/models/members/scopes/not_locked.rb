@@ -35,7 +35,7 @@ module Members::Scopes
       Member
         .includes(:principal)
         .references(:principals)
-        .merge(Principal.not_builtin.active_or_registered)
+        .merge(Principal.not_builtin.not_locked)
     end
   end
 end

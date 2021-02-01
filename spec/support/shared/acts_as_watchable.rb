@@ -54,7 +54,7 @@ MESSAGE
   end
   let(:locked_user_with_permission) do
     FactoryBot.create(:user,
-                       status: Principal::STATUSES[:locked],
+                       status: Principal.statuses[:locked],
                        member_in_project: project,
                        member_through_role: watcher_role)
   end

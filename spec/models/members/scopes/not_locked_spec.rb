@@ -38,25 +38,25 @@ describe Members::Scopes::NotLocked, type: :model do
     FactoryBot.create(:member,
                       project: project,
                       roles: [role],
-                      principal: FactoryBot.create(:user, status: Principal::STATUSES[:invited]))
+                      principal: FactoryBot.create(:user, status: Principal.statuses[:invited]))
   end
   let!(:registered_user_member) do
     FactoryBot.create(:member,
                       project: project,
                       roles: [role],
-                      principal: FactoryBot.create(:user, status: Principal::STATUSES[:registered]))
+                      principal: FactoryBot.create(:user, status: Principal.statuses[:registered]))
   end
   let!(:locked_user_member) do
     FactoryBot.create(:member,
                       project: project,
                       roles: [role],
-                      principal: FactoryBot.create(:user, status: Principal::STATUSES[:locked]))
+                      principal: FactoryBot.create(:user, status: Principal.statuses[:locked]))
   end
   let!(:active_user_member) do
     FactoryBot.create(:member,
                       project: project,
                       roles: [role],
-                      principal: FactoryBot.create(:user, status: Principal::STATUSES[:active]))
+                      principal: FactoryBot.create(:user, status: Principal.statuses[:active]))
   end
   let!(:group_member) do
     FactoryBot.create(:member,

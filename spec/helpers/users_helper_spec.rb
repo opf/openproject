@@ -33,7 +33,7 @@ describe UsersHelper, type: :helper do
 
   def build_user(status, blocked)
     user = FactoryBot.build(:user)
-    allow(user).to receive(:status).and_return(User::STATUSES[status])
+    allow(user).to receive(:status).and_return(User.statuses[status])
     allow(user).to receive(:failed_too_many_recent_login_attempts?).and_return(blocked)
     allow(user).to receive(:failed_login_count).and_return(3)
     user

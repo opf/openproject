@@ -21,7 +21,7 @@ module Users
         .merge(extra)
         .reject { |_, v| v.nil? } # remove nil counts to support dropping counts via extra
         .map do |k, v|
-          known_status = Principal::STATUSES.detect { |_, i| i == k }
+          known_status = Principal.statuses.detect { |_, i| i == k }
           if known_status
             [known_status.first, v]
           else

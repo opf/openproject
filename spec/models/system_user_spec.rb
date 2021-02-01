@@ -34,7 +34,7 @@ describe SystemUser, type: :model do
   describe '#grant_privileges' do
     before do
       expect(system_user.admin).to be_falsey
-      expect(system_user.status).to eq(User::STATUSES[:active])
+      expect(system_user.status).to eq(User.statuses[:active])
       system_user.grant_privileges
     end
 

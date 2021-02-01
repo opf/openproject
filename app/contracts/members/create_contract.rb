@@ -40,7 +40,7 @@ module Members
       return if principal.nil?
 
       # Only users have the `locked?` shorthand
-      if principal.builtin? || principal.status == Principal::STATUSES[:locked]
+      if principal.builtin? || principal.status == Principal.statuses[:locked]
         errors.add(:principal, :unassignable)
       end
     end

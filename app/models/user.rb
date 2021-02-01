@@ -56,6 +56,7 @@ class User < Principal
   ].freeze
 
   include ::Associations::Groupable
+  extend DeprecatedAlias
 
   has_many :categories, foreign_key: 'assigned_to_id',
                         dependent: :nullify
@@ -315,23 +316,12 @@ class User < Principal
   # Return user's authentication provider for display
   def authentication_provider
     return if identity_url.blank?
+
     identity_url.split(':', 2).first.titleize
   end
 
   def status_name
-    STATUSES.invert[status].to_s
-  end
-
-  def active?
-    status == STATUSES[:active]
-  end
-
-  def registered?
-    status == STATUSES[:registered]
-  end
-
-  def locked?
-    status == STATUSES[:locked]
+    self.class.statuses.invert[status].to_s
   end
 
   ##
@@ -344,40 +334,25 @@ class User < Principal
   alias_method :activatable?, :locked?
 
   def activate
-    self.status = STATUSES[:active]
+    self.status = self.class.statuses[:active]
   end
 
   def register
-    self.status = STATUSES[:registered]
+    self.status = self.class.statuses[:registered]
   end
 
   def invite
-    self.status = STATUSES[:invited]
+    self.status = self.class.statuses[:invited]
   end
 
   def lock
-    self.status = STATUSES[:locked]
+    self.status = self.class.statuses[:locked]
   end
 
-  def activate!
-    update_attribute(:status, STATUSES[:active])
-  end
-
-  def register!
-    update_attribute(:status, STATUSES[:registered])
-  end
-
-  def invite!
-    update_attribute(:status, STATUSES[:invited])
-  end
-
-  def invited?
-    status == STATUSES[:invited]
-  end
-
-  def lock!
-    update_attribute(:status, STATUSES[:locked])
-  end
+  deprecated_alias :activate!, :active!
+  deprecated_alias :register!, :registered!
+  deprecated_alias :invite!, :invited!
+  deprecated_alias :lock!, :locked!
 
   # Returns true if +clear_password+ is the correct user's password, otherwise false
   # If +update_legacy+ is set, will automatically save legacy passwords using the current
@@ -686,7 +661,7 @@ class User < Principal
           u.login = ''
           u.firstname = ''
           u.mail = ''
-          u.status = User::STATUSES[:active]
+          u.status = User.statuses[:active]
         end).save
         raise 'Unable to create the anonymous user.' if anonymous_user.new_record?
       end
@@ -704,7 +679,7 @@ class User < Principal
         login: "",
         mail: "",
         admin: false,
-        status: User::STATUSES[:active],
+        status: User.statuses[:active],
         first_login: false
       )
 

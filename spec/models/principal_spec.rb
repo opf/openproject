@@ -52,7 +52,7 @@ describe Principal, type: :model do
     end
 
     it 'should not return an inactive user' do
-      user.status = User::STATUSES[:locked]
+      user.status = User.statuses[:locked]
 
       user.save!
 
@@ -61,8 +61,10 @@ describe Principal, type: :model do
   end
 
   describe 'active' do
+    should_return_groups_and_users_if_active(:active)
+
     it 'should not return a registered user' do
-      user.status = User::STATUSES[:registered]
+      user.status = User.statuses[:registered]
 
       user.save!
 
@@ -70,15 +72,15 @@ describe Principal, type: :model do
     end
   end
 
-  describe 'active_or_registered' do
-    should_return_groups_and_users_if_active(:active_or_registered)
+  describe 'not_locked' do
+    should_return_groups_and_users_if_active(:not_locked)
 
     it 'should return a registered user' do
-      user.status = User::STATUSES[:registered]
+      user.status = User.statuses[:registered]
 
       user.save!
 
-      expect(Principal.active_or_registered.where(id: user.id)).to eq([user])
+      expect(Principal.not_locked.where(id: user.id)).to eq([user])
     end
   end
 end

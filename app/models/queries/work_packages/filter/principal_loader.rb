@@ -55,7 +55,7 @@ class Queries::WorkPackages::Filter::PrincipalLoader
     if project
       project.principals.sort
     else
-      Principal.active_or_registered.in_visible_project.sort
+      Principal.not_locked.in_visible_project.sort
     end
   end
 

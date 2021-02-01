@@ -76,8 +76,8 @@ class UserSearchService
       @status = :all
       # No scope change necessary
     else
-      @status = params[:status] ? params[:status].to_i : User::STATUSES[:active]
-      scope = scope.not_blocked if users_only && @status == User::STATUSES[:active]
+      @status = params[:status] ? params[:status].to_i : User.statuses[:active]
+      scope = scope.not_blocked if users_only && @status == User.statuses[:active]
       c << ['status = ?', @status]
     end
 

@@ -479,7 +479,7 @@ describe User, type: :model do
 
     context 'default admin account was disabled' do
       before do
-        default_admin.status = User::STATUSES[:locked]
+        default_admin.status = User.statuses[:locked]
         default_admin.save
       end
 
@@ -533,7 +533,7 @@ describe User, type: :model do
     end
 
     it 'is false for an inactive user' do
-      user.status = User::STATUSES[:locked]
+      user.status = User.statuses[:locked]
       user.mail_notification = 'all'
       expect(user.notify_about?({})).to be_falsey
     end

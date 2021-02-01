@@ -96,7 +96,7 @@ describe 'user self registration', type: :feature, js: true do
       expect(page)
         .to have_content('Your account was created and is now pending administrator approval.')
 
-      registered_user = User.find_by(status: Principal::STATUSES[:registered])
+      registered_user = User.find_by(status: Principal.statuses[:registered])
 
       # Trying unsuccessfully to login
       login_with 'heidi', 'test123=321test'

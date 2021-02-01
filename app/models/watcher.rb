@@ -50,7 +50,8 @@ class Watcher < ApplicationRecord
   def validate_active_user
     # TODO add informative error message
     return if user.blank?
-    errors.add :user_id, :invalid unless user.active_or_registered?
+
+    errors.add :user_id, :invalid if user.locked?
   end
 
   def validate_user_allowed_to_watch
