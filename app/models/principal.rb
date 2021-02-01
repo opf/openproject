@@ -59,7 +59,8 @@ class Principal < ApplicationRecord
 
   scope_classes Principals::Scopes::NotBuiltin,
                 Principals::Scopes::User,
-                Principals::Scopes::Human
+                Principals::Scopes::Human,
+                Principals::Scopes::Like
 
   scope :active, -> { where(status: STATUSES[:active]) }
 
@@ -73,20 +74,6 @@ class Principal < ApplicationRecord
 
   scope :not_in_project, ->(project) {
     where.not(id: Member.of(project).select(:user_id))
-  }
-
-  scope :like, ->(q) {
-    firstnamelastname = "((firstname || ' ') || lastname)"
-    lastnamefirstname = "((lastname || ' ') || firstname)"
-
-    s = "%#{q.to_s.downcase.strip.tr(',', '')}%"
-
-    where(['LOWER(login) LIKE :s OR ' +
-             "LOWER(#{firstnamelastname}) LIKE :s OR " +
-             "LOWER(#{lastnamefirstname}) LIKE :s OR " +
-             'LOWER(mail) LIKE :s',
-           { s: s }])
-      .order(:type, :login, :lastname, :firstname, :mail)
   }
 
   before_create :set_default_empty_values
