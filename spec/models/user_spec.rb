@@ -98,6 +98,34 @@ describe User, type: :model do
     end
   end
 
+  describe 'with long but allowed attributes' do
+    it 'is valid' do
+      user.firstname = 'a' * 256
+      user.lastname = 'b' * 256
+      user.mail = 'fo' + ('o' * 237) + '@mail.example.com'
+      expect(user).to be_valid
+      expect(user.save).to be_truthy
+    end
+  end
+
+
+  describe 'a user with and overly long firstname (> 256 chars)' do
+    it 'is invalid' do
+      user.firstname = 'a' * 257
+      expect(user).not_to be_valid
+      expect(user.save).to be_falsey
+    end
+  end
+
+  describe 'a user with and overly long lastname (> 256 chars)' do
+    it 'is invalid' do
+      user.lastname = 'a' * 257
+      expect(user).not_to be_valid
+      expect(user.save).to be_falsey
+    end
+  end
+
+
   describe 'login whitespace' do
     before do
       user.login = login

@@ -18,6 +18,7 @@ module LdapGroups
 
     validates_presence_of :dn
     validates_presence_of :group
+    validates_associated :group
     validates_presence_of :auth_source
 
     before_destroy :remove_all_members
