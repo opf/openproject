@@ -39,14 +39,6 @@ module API
         include API::Decorators::DateProperty
         include ::API::Caching::CachedRepresenter
 
-        def self.create(user, current_user:)
-          new(user, current_user: current_user)
-        end
-
-        def initialize(user, current_user:)
-          super(user, current_user: current_user)
-        end
-
         self_link
 
         link :memberships,

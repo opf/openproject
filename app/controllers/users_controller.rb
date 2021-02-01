@@ -32,20 +32,21 @@ class UsersController < ApplicationController
 
   helper_method :gon
 
-  before_action :require_admin, except: [:show, :deletion_info, :destroy]
-  before_action :find_user, only: [:show,
-                                   :edit,
-                                   :update,
-                                   :change_status_info,
-                                   :change_status,
-                                   :destroy,
-                                   :deletion_info,
-                                   :resend_invitation]
+  before_action :authorize_global, except: %i[show deletion_info destroy]
+
+  before_action :find_user, only: %i[show
+                                   edit
+                                   update
+                                   change_status_info
+                                   change_status
+                                   destroy
+                                   deletion_info
+                                   resend_invitation]
   # should also contain destroy but post data can not be redirected
   before_action :require_login, only: [:deletion_info]
   before_action :authorize_for_user, only: [:destroy]
-  before_action :check_if_deletion_allowed, only: [:deletion_info,
-                                                   :destroy]
+  before_action :check_if_deletion_allowed, only: %i[deletion_info
+                                                   destroy]
 
   # Password confirmation helpers and actions
   include PasswordConfirmation
@@ -80,7 +81,7 @@ class UsersController < ApplicationController
     events = Activities::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
     @events_by_day = events.group_by { |e| e.event_datetime.to_date }
 
-    if !User.current.admin? &&
+    if !current_user.allowed_to_globally?(:add_user) &&
        (!(@user.active? ||
        @user.registered?) ||
        (@user != User.current && @memberships.empty? && events.empty?))
@@ -127,32 +128,15 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user.attributes = permitted_params.user_create_as_admin(@user.uses_external_authentication?,
-                                                             @user.change_password_allowed?)
+    update_params = build_user_update_params
+    mail_notification = update_params.delete(:mail_notification)
+    call = ::Users::UpdateService.new(model: @user, user: current_user).call(update_params)
 
-    if @user.change_password_allowed?
-      if params[:user][:assign_random_password]
-        @user.random_password!
-      elsif set_password? params
-        @user.password = params[:user][:password]
-        @user.password_confirmation = params[:user][:password_confirmation]
-      end
-    end
-
-    pref_params = if params[:pref].present?
-                    permitted_params.pref
-                  else
-                    {}
-                  end
-
-    if @user.save
+    if call.success?
       update_email_service = UpdateUserEmailSettingsService.new(@user)
-      update_email_service.call(mail_notification: pref_params.delete(:mail_notification),
+      update_email_service.call(mail_notification: mail_notification,
                                 self_notified: params[:self_notified] == '1',
                                 notified_project_ids: params[:notified_project_ids])
-
-      @user.pref.attributes = pref_params
-      @user.pref.save
 
       if !@user.password.blank? && @user.change_password_allowed?
         send_information = params[:send_information]
@@ -184,6 +168,8 @@ class UsersController < ApplicationController
       @auth_sources = AuthSource.all
       @membership ||= Member.new
       # Clear password input
+      @user = call.result
+      @errors = call.errors
       @user.password = @user.password_confirmation = nil
 
       respond_to do |format|
@@ -262,7 +248,7 @@ class UsersController < ApplicationController
     # true if the user deletes him/herself
     self_delete = (@user == User.current)
 
-    Users::DeleteService.new(@user, User.current).call
+    Users::DeleteService.new(model: @user, user: User.current).call
 
     flash[:notice] = I18n.t('account.deleted')
 
@@ -307,7 +293,7 @@ class UsersController < ApplicationController
   end
 
   def check_if_deletion_allowed
-    render_404 unless Users::DeleteService.deletion_allowed? @user, User.current
+    render_404 unless Users::DeleteContract.deletion_allowed? @user, User.current
   end
 
   def my_or_admin_layout
@@ -336,5 +322,31 @@ class UsersController < ApplicationController
 
   def show_local_breadcrumb
     current_user.admin?
+  end
+
+  def build_user_update_params
+    pref_params = permitted_params.pref.to_h
+    update_params = permitted_params
+      .user_create_as_admin(@user.uses_external_authentication?, @user.change_password_allowed?)
+      .to_h
+      .merge(pref: pref_params)
+
+    return update_params unless @user.change_password_allowed?
+
+    if params[:user][:assign_random_password]
+      password = OpenProject::Passwords::Generator.random_password
+      update_params.merge!(
+        password: password,
+        password_confirmation: password,
+        force_password_change: true
+      )
+    elsif set_password? params
+      update_params.merge!(
+        password: params[:user][:password],
+        password_confirmation: params[:user][:password_confirmation]
+      )
+    end
+
+    update_params
   end
 end

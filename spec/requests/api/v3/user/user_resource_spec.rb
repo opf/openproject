@@ -40,6 +40,16 @@ describe 'API v3 User resource',
   let(:user) { FactoryBot.create(:user) }
   let(:admin) { FactoryBot.create(:admin) }
   let(:locked_admin) { FactoryBot.create :admin, status: Principal::STATUSES[:locked] }
+  let(:user_with_global_add_user) do
+    user = FactoryBot.create(:user, firstname: 'Global', lastname: 'User')
+    global_role = FactoryBot.create :global_role, name: 'Add user', permissions: %i[add_user]
+
+    FactoryBot.create(:global_member,
+                      principal: user,
+                      roles: [global_role])
+
+    user
+  end
 
   subject(:response) { last_response }
 
@@ -55,9 +65,7 @@ describe 'API v3 User resource',
       get get_path
     end
 
-    context 'admin user' do
-      let(:current_user) { admin }
-
+    shared_examples 'flow with permitted user' do
       it 'should respond with 200' do
         expect(subject.status).to eq(200)
       end
@@ -153,6 +161,18 @@ describe 'API v3 User resource',
           expect(subject.status).to eql(400)
         end
       end
+    end
+
+    context 'admin' do
+      let(:current_user) { admin }
+
+      it_behaves_like 'flow with permitted user'
+    end
+
+    context 'user with global add_user permission' do
+      let(:current_user) { user_with_global_add_user }
+
+      it_behaves_like 'flow with permitted user'
     end
 
     context 'locked admin' do
@@ -288,6 +308,12 @@ describe 'API v3 User resource',
 
     context 'as non-admin' do
       let(:current_user) { FactoryBot.create :user, admin: false }
+
+      it_behaves_like 'deletion is not allowed'
+    end
+
+    context 'as user with add_user permission' do
+      let(:current_user) { user_with_global_add_user }
 
       it_behaves_like 'deletion is not allowed'
     end

@@ -54,7 +54,7 @@ module OpenProject::Avatars
                   partial: 'avatars/users/avatar_tab',
                   path: ->(params) { tab_edit_user_path(params[:user], tab: :avatar) },
                   label: :label_avatar,
-                  only_if: ->(*) { ::OpenProject::Avatars::AvatarManager.avatars_enabled? }
+                  only_if: ->(*) { User.current.admin? && ::OpenProject::Avatars::AvatarManager.avatars_enabled? }
 
     initializer 'patch avatar helper' do
       # This is required to be an initializer,

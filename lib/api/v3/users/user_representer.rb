@@ -37,14 +37,6 @@ module API
         cached_representer key_parts: %i(auth_source),
                            dependencies: ->(*) { avatar_cache_dependencies }
 
-        def self.create(user, current_user:)
-          new(user, current_user: current_user)
-        end
-
-        def initialize(user, current_user:)
-          super(user, current_user: current_user)
-        end
-
         self_link
 
         link :showUser do
@@ -218,7 +210,7 @@ module API
         end
 
         def current_user_can_delete_represented?
-          current_user && ::Users::DeleteService.deletion_allowed?(represented, current_user)
+          current_user && ::Users::DeleteContract.deletion_allowed?(represented, current_user)
         end
 
         private

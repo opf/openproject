@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,31 +28,25 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+require 'users/base_contract'
+
 module Users
-  class UpdateUserService
-    include Contracted
+  class DeleteContract < ::DeleteContract
+    delete_permission -> {
+      self.class.deletion_allowed?(model, user)
+    }
 
-    attr_accessor :current_user, :user
-
-    def initialize(current_user:, user:)
-      self.current_user = current_user
-      self.user = user
-      self.contract_class = Users::UpdateContract
-    end
-
-    def call(attributes: {})
-      User.execute_as current_user do
-        set_attributes(attributes)
-
-        success, errors = validate_and_save(user, current_user)
-        ServiceResult.new(success: success, errors: errors, result: user)
+    ##
+    # Checks if a given user may be deleted by another one.
+    #
+    # @param user [User] User to be deleted.
+    # @param actor [User] User who wants to delete the given user.
+    def self.deletion_allowed?(user, actor)
+      if actor == user
+        Setting.users_deletable_by_self?
+      else
+        actor.admin? && actor.active? && Setting.users_deletable_by_admins?
       end
-    end
-
-    private
-
-    def set_attributes(attributes)
-      user.attributes = attributes
     end
   end
 end

@@ -70,8 +70,8 @@ describe MyController, type: :controller do
       it 'should show an error message' do
         assert_response :success
         assert_template 'password'
-        expect(user.errors.keys).to eq([:password_confirmation])
-        expect(user.errors.values.flatten.join('')).to include("doesn't match")
+        expect(user.errors.attribute_names).to eq([:password_confirmation])
+        expect(user.errors.map(&:message).flatten.join('')).to include("doesn't match")
       end
     end
 
@@ -156,21 +156,20 @@ describe MyController, type: :controller do
       before do
         as_logged_in_user user do
           user.pref.self_notified = false
+          user.pref.auto_hide_popups = true
 
-          patch :update_settings, params: { user: { language: 'en' } }
+          patch :update_settings, params: { user: { language: 'en' }, pref: { auto_hide_popups: 0 } }
         end
       end
 
-      it 'does not alter the email preferences' do
+      it 'updates the settings appropriately', :aggregate_failures do
+        expect(assigns(:user).language).to eq 'en'
         expect(assigns(:user).pref.self_notified?).to be_falsey
-      end
+        expect(assigns(:user).pref.auto_hide_popups?).to be_falsey
 
-      it 'redirects to settings' do
         expect(request.path).to eq(my_settings_path)
-      end
-
-      it 'has a successful flash' do
         expect(flash[:notice]).to eql I18n.t(:notice_account_updated)
+
       end
 
       context 'when user is invalid' do

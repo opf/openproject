@@ -31,7 +31,8 @@ require 'open3'
 class AdminController < ApplicationController
   layout 'admin'
 
-  before_action :require_admin
+  before_action :require_admin, except: %i[index]
+  before_action :authorize_global, only: %i[index]
 
   menu_item :plugins, only: [:plugins]
   menu_item :info, only: [:info]
@@ -41,6 +42,10 @@ class AdminController < ApplicationController
     @menu_nodes = Redmine::MenuManager.items(:admin_menu).children
     @menu_nodes.delete_if { |node| node.name === :admin_overview }
     @menu_nodes.delete_if { |node| node.condition && !node.condition.call }
+
+    if @menu_nodes.count == 1
+      redirect_to @menu_nodes.first.url
+    end
   end
 
   def projects

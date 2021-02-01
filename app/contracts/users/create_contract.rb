@@ -55,7 +55,7 @@ module Users
     ##
     # Users can only be created by Admins
     def user_allowed_to_add
-      unless user.admin?
+      unless user.admin? || user.allowed_to_globally?(:add_user)
         errors.add :base, :error_unauthorized
       end
     end
