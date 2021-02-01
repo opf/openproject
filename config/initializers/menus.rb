@@ -154,6 +154,11 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_user_plural,
             parent: :users_and_permissions
 
+  menu.push :placeholder_users,
+            { controller: '/placeholder_users' },
+            caption: :label_placeholder_user_plural,
+            parent: :users_and_permissions
+
   menu.push :groups,
             { controller: '/groups' },
             if: Proc.new { User.current.admin? },

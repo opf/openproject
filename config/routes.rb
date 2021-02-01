@@ -465,6 +465,12 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  resources :placeholder_users do
+    member do
+      match '/edit/:tab' => 'placeholder_users#edit', via: :get, as: 'tab_edit'
+    end
+  end
+
   # The show page of groups is public and thus moved out of the admin scope
   resources :groups, only: %i[show], as: :show_group
 
