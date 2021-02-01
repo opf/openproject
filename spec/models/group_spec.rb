@@ -49,6 +49,29 @@ describe Group, type: :model do
     expect(g.save).to eq true
   end
 
+  describe 'with long but allowed attributes' do
+    it 'is valid' do
+      group.groupname = 'a' * 256
+      expect(group).to be_valid
+      expect(group.save).to be_truthy
+    end
+  end
+
+  describe 'with a name too long' do
+    it 'is invalid' do
+      group.groupname = 'a' * 257
+      expect(group).not_to be_valid
+      expect(group.save).to be_falsey
+    end
+  end
+
+  describe 'a user with and overly long firstname (> 256 chars)' do
+    it 'is invalid' do
+      user.firstname = 'a' * 257
+      expect(user).not_to be_valid
+      expect(user.save).to be_falsey
+    end
+  end
 
   describe 'from legacy specs' do
     let!(:roles) { FactoryBot.create_list :role, 2 }
