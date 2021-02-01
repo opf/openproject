@@ -8,6 +8,11 @@ jobs:
     if: github.repository == 'opf/openproject'
     runs-on: [self-hosted,public]
     timeout-minutes: 30
+    env:
+      CI_CACHE_PATH: "/tmp/${{ github.sha }}/"
+      CI_JOBS: 16
+      CI_RETRY_COUNT: 3
+      LOCAL_DEV_CHECK: 1
     steps:
     - uses: actions/checkout@v2
     - name: cache
@@ -16,11 +21,6 @@ jobs:
         path: /tmp/${{ github.sha }}
         key: ${{ runner.os }}-core-tests
     - name: test
-      env:
-        CI_JOBS: 16
-        CI_CACHE_PATH: "/tmp/${{ github.sha }}/"
-        LOCAL_DEV_CHECK: 1
-        CI_RETRY_COUNT: 3
       run: |
         cp .env.example .env
         docker-compose -f docker-compose.ci.yml build ci
@@ -36,6 +36,11 @@ jobs:
     if: github.repository == 'opf/openproject'
     runs-on: [self-hosted,public]
     timeout-minutes: 200
+    env:
+      CI_JOBS: 16
+      CI_CACHE_PATH: "/tmp/${{ github.sha }}/"
+      LOCAL_DEV_CHECK: 1
+      CI_RETRY_COUNT: 3
     steps:
     - uses: actions/checkout@v2
     - name: cache
@@ -44,11 +49,6 @@ jobs:
         path: /tmp/${{ github.sha }}
         key: ${{ runner.os }}-core-tests
     - name: test
-      env:
-        CI_JOBS: 16
-        CI_CACHE_PATH: "/tmp/${{ github.sha }}/"
-        LOCAL_DEV_CHECK: 1
-        CI_RETRY_COUNT: 3
       run: |
         cp .env.example .env
         docker-compose -f docker-compose.ci.yml build ci
