@@ -28,4 +28,26 @@ shared_context 'ModelContract shared context' do
       expect_contract_invalid base: :error_unauthorized
     end
   end
+
+  shared_examples 'contract is valid for active admin users only' do
+    context 'when admin' do
+      let(:current_user) { FactoryBot.build_stubbed(:admin) }
+
+      context 'when admin active' do
+        it_behaves_like 'contract is valid'
+      end
+
+      context 'when admin not active' do
+        let(:current_user) { FactoryBot.build_stubbed(:admin, status: User::STATUSES[:locked]) }
+
+        it_behaves_like 'contract user is unauthorized'
+      end
+    end
+
+    context 'when not admin' do
+      let(:current_user) { FactoryBot.build_stubbed(:user) }
+
+      it_behaves_like 'contract user is unauthorized'
+    end
+  end
 end

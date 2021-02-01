@@ -41,5 +41,17 @@ module PlaceholderUsers
     def self.model
       PlaceholderUser
     end
+
+    validate :user_allowed_to_modify
+
+    protected
+
+    ##
+    # Placeholder users can only be updated by Admins
+    def user_allowed_to_modify
+      unless user.admin? && user.active?
+        errors.add :base, :error_unauthorized
+      end
+    end
   end
 end

@@ -32,16 +32,5 @@ require 'placeholder_users/base_contract'
 
 module PlaceholderUsers
   class CreateContract < BaseContract
-    validate :user_allowed_to_add
-
-    private
-
-    ##
-    # Users can only be created by Admins
-    def user_allowed_to_add
-      unless user.admin?
-        errors.add :base, :error_unauthorized
-      end
-    end
   end
 end

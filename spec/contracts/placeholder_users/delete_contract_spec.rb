@@ -36,23 +36,5 @@ describe PlaceholderUsers::DeleteContract do
   let(:placeholder_user) { FactoryBot.build_stubbed(:placeholder_user) }
   let(:contract) { described_class.new(placeholder_user, current_user) }
 
-  context 'when admin' do
-    let(:current_user) { FactoryBot.build_stubbed(:admin) }
-
-    context 'when admin active' do
-      it_behaves_like 'contract is valid'
-    end
-
-    context 'when admin not active' do
-      let(:current_user) { FactoryBot.build_stubbed(:admin, status: User::STATUSES[:locked]) }
-
-      it_behaves_like 'contract user is unauthorized'
-    end
-  end
-
-  context 'when not admin' do
-    let(:current_user) { FactoryBot.build_stubbed(:user) }
-
-    it_behaves_like 'contract user is unauthorized'
-  end
+  it_behaves_like 'contract is valid for active admin users only'
 end

@@ -41,13 +41,11 @@ module PlaceholderUsers
       actor.admin? && actor.active?
     end
 
-    validate :user_allowed_to_delete
-
-    private
+    protected
 
     ##
     # PlaceholderUsers can only be deleted by Admins
-    def user_allowed_to_delete
+    def user_allowed_to_modify
       unless deletion_allowed?
         errors.add :base, :error_unauthorized
       end

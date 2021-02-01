@@ -32,16 +32,5 @@ require 'placeholder_users/base_contract'
 
 module PlaceholderUsers
   class UpdateContract < BaseContract
-    validate :user_allowed_to_update
-
-    private
-
-    ##
-    # Placeholder users can only be updated by Admins
-    def user_allowed_to_update
-      unless user.admin?
-        errors.add :base, :error_unauthorized
-      end
-    end
   end
 end
