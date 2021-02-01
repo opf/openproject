@@ -2264,7 +2264,6 @@ pl:
   setting_welcome_text: "Tekst bloku powitalnego"
   setting_welcome_title: "Tytuł bloku powitalnego"
   setting_welcome_on_homescreen: "Wyświetl wiadomość powitalną na ekranie głównym"
-  setting_work_package_group_assignment: "Allow assignment to groups"
   setting_work_package_list_default_highlighting_mode: "Domyślny tryb wyróżniania"
   setting_work_package_list_default_highlighted_attributes: "Domyślnie wyróżniane atrybuty wyświetlane w treści"
   settings:

@@ -2223,7 +2223,6 @@ el:
   setting_welcome_text: "Μπλοκ κειμένου καλωσορίσματος"
   setting_welcome_title: "Μπλοκ τίτλου καλωσορίσματος"
   setting_welcome_on_homescreen: "Εμφάνιση μπλοκ καλωσορίσματος στην αρχική σελίδα"
-  setting_work_package_group_assignment: "Επιτρέψτε την ανάθεση σε ομάδες"
   setting_work_package_list_default_highlighting_mode: "Προεπιλεγμένη λειτουργία επισήμανσης"
   setting_work_package_list_default_highlighted_attributes: "Προεπιλεγμένα inline χαρακτηριστικά με επισήμανση"
   settings:

@@ -2268,7 +2268,6 @@ sl:
   setting_welcome_text: "Dobrodošli blok besedila"
   setting_welcome_title: "Dobrodošli blok naslov"
   setting_welcome_on_homescreen: "Prikažite blok dobrodošlice na osnovnem zaslonu"
-  setting_work_package_group_assignment: "Dovoli dodeljevanje skupinam"
   setting_work_package_list_default_highlighting_mode: "Privzeti način osvetlitve"
   setting_work_package_list_default_highlighted_attributes: "Privzeti atributi, označeni s črto"
   settings:

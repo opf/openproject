@@ -2264,7 +2264,6 @@ lt:
   setting_welcome_text: "Pasisveikinimo bloko tekstas"
   setting_welcome_title: "Pasisveikinimo bloko pavadinimas"
   setting_welcome_on_homescreen: "Rodyti pasisveikinimo bloką namų lange"
-  setting_work_package_group_assignment: "Leisti priskyrimus grupėms"
   setting_work_package_list_default_highlighting_mode: "Numatytasis paryškinimo būdas"
   setting_work_package_list_default_highlighted_attributes: "Atributai, kuriuos numatyta paryškinti"
   settings:

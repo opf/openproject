@@ -2250,7 +2250,6 @@ hr:
   setting_welcome_text: "Tekst dobrodošlice"
   setting_welcome_title: "Naslov dobrodošlice"
   setting_welcome_on_homescreen: "Prikaži tekst dobrodošlice na početnoj stranici"
-  setting_work_package_group_assignment: "Allow assignment to groups"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   settings:

@@ -2225,7 +2225,6 @@ it:
   setting_welcome_text: "Blocco di testo di benvenuto"
   setting_welcome_title: "Blocco di testo del titolo"
   setting_welcome_on_homescreen: "Mostra il blocco testo di benvenuto nella pagina home"
-  setting_work_package_group_assignment: "Consentire l'assegnazione ai gruppi"
   setting_work_package_list_default_highlighting_mode: "Modalità evidenziazione predefinita"
   setting_work_package_list_default_highlighted_attributes: "Attributi evidenziati in linea predefiniti"
   settings:

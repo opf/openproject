@@ -2271,7 +2271,6 @@ uk:
   setting_welcome_text: "Текст блоку привітання"
   setting_welcome_title: "Заголовок вітального блоку"
   setting_welcome_on_homescreen: "Відображати вітальний блок на робочому столі"
-  setting_work_package_group_assignment: "Дозволити віднесення до груп"
   setting_work_package_list_default_highlighting_mode: "Режим виділення за умовчанням"
   setting_work_package_list_default_highlighted_attributes: "Стандартні вбудовані виділені атрибути"
   settings:

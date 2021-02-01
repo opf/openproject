@@ -2226,7 +2226,6 @@ es:
   setting_welcome_text: "Bloque de texto de bienvenida"
   setting_welcome_title: "Título del bloque de bienvenida"
   setting_welcome_on_homescreen: "Mostrar bloque de bienvenida en la pagina de inicio"
-  setting_work_package_group_assignment: "Permite la asignación a grupos"
   setting_work_package_list_default_highlighting_mode: "Modo de resaltado predeterminado"
   setting_work_package_list_default_highlighted_attributes: "Atributos resaltados en línea predeterminados"
   settings:

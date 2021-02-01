@@ -2249,7 +2249,6 @@ ro:
   setting_welcome_text: "Text bloc \"bun venit\""
   setting_welcome_title: "Titlu bloc \"bun venit\""
   setting_welcome_on_homescreen: "Afişare bloc \"bun venit\" pe ecranul de start"
-  setting_work_package_group_assignment: "Atribuire la grupuri permisă"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   settings:

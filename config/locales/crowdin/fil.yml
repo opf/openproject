@@ -2227,7 +2227,6 @@ fil:
   setting_welcome_text: "Teskstong welcome block"
   setting_welcome_title: "Titulo ng welcome back"
   setting_welcome_on_homescreen: "I-display ang welcome block sa homescreen"
-  setting_work_package_group_assignment: "Pinayagan ang gawain sa mga grupo"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   settings:

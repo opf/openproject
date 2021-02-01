@@ -2199,7 +2199,6 @@ zh-CN:
   setting_welcome_text: "欢迎块文本"
   setting_welcome_title: "欢迎区块标题"
   setting_welcome_on_homescreen: "在主屏幕上显示欢迎信息"
-  setting_work_package_group_assignment: "允许分配到组"
   setting_work_package_list_default_highlighting_mode: "默认突出显示模式"
   setting_work_package_list_default_highlighted_attributes: "默认内联突出显示属性"
   settings:

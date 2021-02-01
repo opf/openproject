@@ -2270,7 +2270,6 @@ sk:
   setting_welcome_text: "Text pre uvítací blok"
   setting_welcome_title: "Názov uvítacieho bloku"
   setting_welcome_on_homescreen: "Zobraziť uvítací blok na úvodnej obrazovke"
-  setting_work_package_group_assignment: "Povoliť priradenie skupinám"
   setting_work_package_list_default_highlighting_mode: "Predvolený režim zvýraznenia"
   setting_work_package_list_default_highlighted_attributes: "Predvolené inline zvýraznené atribúty"
   settings:

@@ -2226,7 +2226,6 @@ sv:
   setting_welcome_text: "Textblock för välkomstmeddelande"
   setting_welcome_title: "Textblock för välkomsttitel"
   setting_welcome_on_homescreen: "Visa välkomstblocket på hemsidan"
-  setting_work_package_group_assignment: "Tillåt tilldelning till grupper"
   setting_work_package_list_default_highlighting_mode: "Standardläge för markering"
   setting_work_package_list_default_highlighted_attributes: "Standardattribut för inline-markering"
   settings:

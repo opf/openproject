@@ -2267,7 +2267,6 @@ ru:
   setting_welcome_text: "Текст приветствия"
   setting_welcome_title: "Заголовок приветствия"
   setting_welcome_on_homescreen: "Показывать приветствие на домашней странице"
-  setting_work_package_group_assignment: "Разрешить назначения группам"
   setting_work_package_list_default_highlighting_mode: "Способ выделения по умолчанию"
   setting_work_package_list_default_highlighted_attributes: "Выделенные встроенные атрибуты по умолчанию"
   settings:

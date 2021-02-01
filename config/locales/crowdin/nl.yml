@@ -2228,7 +2228,6 @@ nl:
   setting_welcome_text: "Welkom blok tekst"
   setting_welcome_title: "Welkom blok titel"
   setting_welcome_on_homescreen: "Toon het Welkom blok op thuisscherm"
-  setting_work_package_group_assignment: "Sta toewijzingen een groepen toe"
   setting_work_package_list_default_highlighting_mode: "Standaardmodus markeren"
   setting_work_package_list_default_highlighted_attributes: "Inline gemarkeerd standaardkenmerken"
   settings:

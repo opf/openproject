@@ -2227,7 +2227,6 @@ da:
   setting_welcome_text: "Velkomstblok-tekst"
   setting_welcome_title: "Velkomstblok-titel"
   setting_welcome_on_homescreen: "Vis velkomstblok på hjemmeskærm"
-  setting_work_package_group_assignment: "Tillad tilknytning til grupper"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   settings:

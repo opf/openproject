@@ -2226,7 +2226,6 @@ pt:
   setting_welcome_text: "Texto do bloco de boas-vindas"
   setting_welcome_title: "Título do bloco de boas-vindas"
   setting_welcome_on_homescreen: "Exibir bloco de boas-vindas na tela inicial"
-  setting_work_package_group_assignment: "Permitir a atribuição a grupos"
   setting_work_package_list_default_highlighting_mode: "Modo de destaque padrão"
   setting_work_package_list_default_highlighted_attributes: "Atributos embutidos com destaque padrão"
   settings:
