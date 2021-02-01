@@ -28,24 +28,23 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_contract_examples'
+require 'contracts/shared/model_contract_shared_context'
 
 describe PlaceholderUsers::UpdateContract do
-  let(:placeholder_user) { FactoryBot.build_stubbed(:placeholder_user) }
+  include_context 'ModelContract shared context'
 
-  subject(:contract) { described_class.new(placeholder_user, current_user) }
+  let(:placeholder_user) { FactoryBot.build_stubbed(:placeholder_user) }
+  let(:contract) { described_class.new(placeholder_user, current_user) }
 
   context 'when admin' do
     let(:current_user) { FactoryBot.build_stubbed(:admin) }
 
-    it_behaves_like 'is valid'
+    it_behaves_like 'contract is valid'
   end
 
   context 'when not admin' do
     let(:current_user) { FactoryBot.build_stubbed(:user) }
 
-    it 'is invalid' do
-      expect_valid(false, base: %i(error_unauthorized))
-    end
+    it_behaves_like 'contract user is unauthorized'
   end
 end

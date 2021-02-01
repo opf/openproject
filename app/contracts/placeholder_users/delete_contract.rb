@@ -31,7 +31,7 @@
 
 require 'placeholder_users/base_contract'
 
-module PlaceholderUser
+module PlaceholderUsers
   class DeleteContract < BaseContract
     ##
     # Checks if a given user may be deleted by another one.

@@ -28,52 +28,31 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_contract_examples'
+require 'contracts/shared/model_contract_shared_context'
 
-describe PlaceholderUsers::UpdateContract do
+describe PlaceholderUsers::DeleteContract do
+  include_context 'ModelContract shared context'
+
   let(:placeholder_user) { FactoryBot.build_stubbed(:placeholder_user) }
-
-  subject(:contract) { described_class.new(placeholder_user, current_user) }
-
-  def expect_valid(valid, symbols = {})
-    expect(contract.validate).to eq(valid)
-
-    symbols.each do |key, arr|
-      expect(contract.errors.symbols_for(key)).to match_array arr
-    end
-  end
-
-  shared_examples 'is valid' do
-    it 'is valid' do
-      expect_valid(true)
-    end
-  end
+  let(:contract) { described_class.new(placeholder_user, current_user) }
 
   context 'when admin' do
     let(:current_user) { FactoryBot.build_stubbed(:admin) }
 
     context 'when admin active' do
-      it_behaves_like 'is valid'
+      it_behaves_like 'contract is valid'
     end
 
     context 'when admin not active' do
-      let(:current_user) { FactoryBot.build_stubbed(:admin) }
+      let(:current_user) { FactoryBot.build_stubbed(:admin, status: User::STATUSES[:locked]) }
 
-      before do
-        allow(current_user).to receive(:active?).and_return(false)
-      end
-
-      it 'is invalid' do
-        expect_valid(false, base: %i(error_unauthorized))
-      end
+      it_behaves_like 'contract user is unauthorized'
     end
   end
 
   context 'when not admin' do
     let(:current_user) { FactoryBot.build_stubbed(:user) }
 
-    it 'is invalid' do
-      expect_valid(false, base: %i(error_unauthorized))
-    end
+    it_behaves_like 'contract user is unauthorized'
   end
 end
