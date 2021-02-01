@@ -14,7 +14,7 @@ module Users
     end
 
     def user_count_by_status(extra: {})
-      counts = User.not_builtin.group(:status).count.to_hash
+      counts = User.user.group(:status).count.to_hash
 
       counts
         .merge(symbolic_user_counts)
@@ -33,9 +33,9 @@ module Users
 
     def symbolic_user_counts
       {
-        blocked: User.not_builtin.blocked.count, # not_builtin to skip DeletedUser
-        all: User.not_builtin.count,
-        active: User.not_builtin.active.not_blocked.count # not_builtin to skip Anonymous and System users
+        blocked: User.user.blocked.count, # User.user scope to skip DeletedUser
+        all: User.user.count,
+        active: User.user.active.not_blocked.count # User.user to skip Anonymous and System users
       }
     end
   end

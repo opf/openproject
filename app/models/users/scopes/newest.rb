@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,12 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Users
-      class UserCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        include API::V3::Principals::NotBuiltinElements
-      end
+# Returns users sorted by their creation date. Inheriting classes are
+# excluded.
+module Users::Scopes
+  class Newest
+    def self.fetch
+      User.user.order(created_at: :desc)
     end
   end
 end

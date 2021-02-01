@@ -31,8 +31,6 @@
 require 'digest/sha1'
 
 class User < Principal
-  include ::Scopes::Scoped
-
   USER_FORMATS_STRUCTURE = {
     firstname_lastname: [:firstname, :lastname],
     firstname: [:firstname],
@@ -88,7 +86,8 @@ class User < Principal
   scope :blocked, -> { create_blocked_scope(self, true) }
   scope :not_blocked, -> { create_blocked_scope(self, false) }
 
-  scope_classes Users::Scopes::FindByLogin
+  scope_classes Users::Scopes::FindByLogin,
+                Users::Scopes::Newest
 
   def self.create_blocked_scope(scope, blocked)
     scope.where(blocked_condition(blocked))
@@ -159,8 +158,6 @@ class User < Principal
   }
 
   scope :admin, -> { where(admin: true) }
-
-  scope :newest, -> { not_builtin.order(created_at: :desc) }
 
   def self.unique_attribute
     :login

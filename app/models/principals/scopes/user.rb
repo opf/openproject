@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,12 +28,13 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Users
-      class UserCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        include API::V3::Principals::NotBuiltinElements
-      end
+# Only return Principals that are of type User
+module Principals::Scopes
+  class User
+    def self.fetch
+      # Have to use the User model here so that the scopes defined on User
+      # are also available after the scope is used.
+      ::User.where(type: [::User.name])
     end
   end
 end

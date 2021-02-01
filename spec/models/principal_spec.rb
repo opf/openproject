@@ -119,24 +119,6 @@ describe Principal, type: :model do
     end
   end
 
-  describe '.not_builtin' do
-    let!(:anonymous_user) { FactoryBot.create(:anonymous) }
-    let!(:system_user) { FactoryBot.create(:system) }
-    let!(:deleted_user) { FactoryBot.create(:deleted_user) }
-    let!(:group) { FactoryBot.create(:group) }
-    let!(:user) { FactoryBot.create(:user) }
-
-    subject { described_class.not_builtin }
-
-    it 'returns only actual users and groups', :aggregate_failures do
-      expect(subject).to include(user)
-      expect(subject).to include(group)
-      expect(subject).not_to include(anonymous_user)
-      expect(subject).not_to include(system_user)
-      expect(subject).not_to include(deleted_user)
-    end
-  end
-
   context '.like' do
     let!(:login) do
       FactoryBot.create(:principal, login: 'login')

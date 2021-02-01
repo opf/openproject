@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,12 +28,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Users
-      class UserCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        include API::V3::Principals::NotBuiltinElements
-      end
+# Only return Principals that are not built into the system so only return those that where
+# created by a human.
+# Excludes
+#   * DeletedUser
+#   * SystemUser
+#   * AnonymousUser
+module Principals::Scopes
+  class NotBuiltin
+    def self.fetch
+      Principal.where.not(type: [SystemUser.name,
+                                 AnonymousUser.name,
+                                 DeletedUser.name])
     end
   end
 end

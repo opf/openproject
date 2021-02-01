@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,12 +28,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Users
-      class UserCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        include API::V3::Principals::NotBuiltinElements
-      end
+require 'spec_helper'
+
+describe Users::Scopes::Newest, type: :model do
+  describe '.fetch' do
+    let!(:anonymous_user) { FactoryBot.create(:anonymous) }
+    let!(:system_user) { FactoryBot.create(:system) }
+    let!(:deleted_user) { FactoryBot.create(:deleted_user) }
+    let!(:group) { FactoryBot.create(:group) }
+    let!(:user1) { FactoryBot.create(:user) }
+    let!(:user2) { FactoryBot.create(:user) }
+    let!(:user3) { FactoryBot.create(:user) }
+    let!(:placeholder_user) { FactoryBot.create(:placeholder_user) }
+
+    subject { described_class.fetch }
+
+    it 'returns only actual users ordered by creation date desc' do
+      expect(subject.to_a)
+        .to eql [user3, user2, user1]
     end
   end
 end

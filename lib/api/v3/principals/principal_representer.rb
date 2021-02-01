@@ -80,8 +80,8 @@ module API
         end
 
         def current_user_allowed_to_see_members?
-          current_user.allowed_to?(:view_members, nil, global: true) ||
-            current_user.allowed_to?(:manage_members, nil, global: true)
+          current_user.allowed_to_globally?(:view_members) ||
+            current_user.allowed_to_globally?(:manage_members)
         end
       end
     end
