@@ -581,7 +581,7 @@ GEM
     minisyntax (0.2.5)
     minitest (5.14.3)
     mixlib-shellout (2.1.0)
-    msgpack (1.4.1)
+    msgpack (1.4.2)
     multi_json (1.15.0)
     multipart-post (2.1.1)
     mustermann (1.1.1)
