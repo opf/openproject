@@ -84,41 +84,6 @@ describe Principal, type: :model do
     end
   end
 
-  describe 'active_or_registered_like' do
-    def self.search
-      'blubs'
-    end
-
-    let(:search) { self.class.search }
-
-    before do
-      user.lastname = search
-      group.lastname = search
-    end
-
-    should_return_groups_and_users_if_active(:active_or_registered_like, search)
-
-    it 'should return a registered user' do
-      user.status = User::STATUSES[:registered]
-
-      user.save!
-
-      expect(Principal.active_or_registered_like(search).where(id: user.id)).to eq([user])
-    end
-
-    it 'should not return a user if the name does not match' do
-      user.save!
-
-      expect(Principal.active_or_registered_like(user.lastname + '123').to_a).not_to include(user)
-    end
-
-    it 'should return a group if the name does match partially' do
-      user.save!
-
-      expect(Principal.active_or_registered_like(user.lastname[0, -1]).to_a).to include(user)
-    end
-  end
-
   context '.like' do
     let!(:login) do
       FactoryBot.create(:principal, login: 'login')

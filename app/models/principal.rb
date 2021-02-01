@@ -67,8 +67,6 @@ class Principal < ApplicationRecord
     human.where(status: [STATUSES[:active], STATUSES[:registered], STATUSES[:invited]])
   }
 
-  scope :active_or_registered_like, ->(query) { active_or_registered.like(query) }
-
   scope :in_project, ->(project) {
     where(id: Member.of(project).select(:user_id))
   }
@@ -98,11 +96,11 @@ class Principal < ApplicationRecord
   end
 
   def self.possible_members(criteria, limit)
-    Principal.active_or_registered_like(criteria).limit(limit)
+    Principal.active_or_registered.like(criteria).limit(limit)
   end
 
   def self.search_scope_without_project(project, query)
-    active_or_registered_like(query).not_in_project(project)
+    active_or_registered.like(query).not_in_project(project)
   end
 
   def self.order_by_name
