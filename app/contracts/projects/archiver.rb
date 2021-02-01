@@ -28,12 +28,6 @@
 
 module Projects
   module Archiver
-    def validate_admin_only
-      unless user.admin?
-        errors.add :base, :error_unauthorized
-      end
-    end
-
     # Check that there is no wp of a non descendant project that is assigned
     # to one of the project or descendant versions
     def validate_no_foreign_wp_references

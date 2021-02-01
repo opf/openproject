@@ -28,9 +28,9 @@
 
 module Projects
   class ArchiveContract < ModelContract
+    include RequiresAdminGuard
     include Projects::Archiver
 
-    validate :validate_admin_only
     validate :validate_no_foreign_wp_references
 
     protected

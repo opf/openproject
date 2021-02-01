@@ -28,30 +28,18 @@
 #++
 
 require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
 describe Users::CreateContract do
+  include_context 'ModelContract shared context'
+
   let(:user) { FactoryBot.build_stubbed(:user) }
-
-  subject(:contract) { described_class.new(user, current_user) }
-
-  def expect_valid(valid, symbols = {})
-    expect(contract.validate).to eq(valid)
-
-    symbols.each do |key, arr|
-      expect(contract.errors.symbols_for(key)).to match_array arr
-    end
-  end
-
-  shared_examples 'is valid' do
-    it 'is valid' do
-      expect_valid(true)
-    end
-  end
+  let(:contract) { described_class.new(user, current_user) }
 
   context 'when admin' do
     let(:current_user) { FactoryBot.build_stubbed(:admin) }
 
-    it_behaves_like 'is valid'
+    it_behaves_like 'contract is valid'
 
     describe 'requires a password set when active' do
       before do
@@ -59,16 +47,14 @@ describe Users::CreateContract do
         user.activate
       end
 
-      it 'is invalid' do
-        expect_valid(false, password: %i(blank))
-      end
+      it_behaves_like 'contract is invalid', password: :blank
 
       context 'when password is set' do
         before do
           user.password = user.password_confirmation = 'password!password!'
         end
 
-        it_behaves_like 'is valid'
+        it_behaves_like 'contract is valid'
       end
     end
   end
@@ -92,7 +78,7 @@ describe Users::CreateContract do
         user.invite
       end
 
-      it_behaves_like 'is valid'
+      it_behaves_like 'contract is valid'
     end
 
     describe 'cannot set the password' do
@@ -100,9 +86,7 @@ describe Users::CreateContract do
         user.password = user.password_confirmation = 'password!password!'
       end
 
-      it 'is invalid' do
-        expect_valid(false, password: %i(error_readonly))
-      end
+      it_behaves_like 'contract is invalid', password: :error_readonly
     end
 
     describe 'cannot set the auth_source' do
@@ -112,9 +96,7 @@ describe Users::CreateContract do
         user.auth_source = auth_source
       end
 
-      it 'is invalid' do
-        expect_valid(false, auth_source_id: %i(error_readonly))
-      end
+      it_behaves_like 'contract is invalid', auth_source_id: :error_readonly
     end
 
     describe 'cannot set the identity url' do
@@ -122,17 +104,14 @@ describe Users::CreateContract do
         user.identity_url = 'saml:123412foo'
       end
 
-      it 'is invalid' do
-        expect_valid(false, identity_url: %i(error_readonly))
-      end
+      it_behaves_like 'contract is invalid', identity_url: :error_readonly
+
     end
   end
 
   context 'when unauthorized user' do
     let(:current_user) { FactoryBot.build_stubbed(:user) }
 
-    it 'is invalid' do
-      expect_valid(false, base: %i(error_unauthorized))
-    end
+    it_behaves_like 'contract user is unauthorized'
   end
 end

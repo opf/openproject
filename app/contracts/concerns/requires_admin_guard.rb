@@ -35,7 +35,7 @@ module RequiresAdminGuard
     validate :validate_admin_only
 
     def validate_admin_only
-      unless user.admin?
+      unless user.admin? && user.active?
         errors.add :base, :error_unauthorized
       end
     end
