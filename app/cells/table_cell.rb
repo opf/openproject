@@ -100,7 +100,9 @@ class TableCell < RailsCell
   # @param sort_clause [String] The SQL used as the sort clause.
   # @param _sort_columns [Array[Symbol]] Columns that are used to sort.
   def sort_collection(query, sort_clause, _sort_columns)
-    query.order sort_clause
+    query
+      .reorder(sort_clause)
+      .order(Arel.sql(initial_order))
   end
 
   def paginate_collection(query)
@@ -127,6 +129,10 @@ class TableCell < RailsCell
 
   def initial_sort
     [columns.first, :asc]
+  end
+
+  def initial_order
+    initial_sort.join(' ')
   end
 
   def paginated?
