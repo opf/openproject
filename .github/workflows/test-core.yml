@@ -27,7 +27,9 @@ jobs:
         docker-compose -f docker-compose.ci.yml run ci setup-tests run-units
     - name: cleanup
       if: ${{ always() }}
-      run: docker-compose -f docker-compose.ci.yml down --remove-orphans -t 10
+      run: |
+        docker-compose -f docker-compose.ci.yml down --remove-orphans -t 10
+        sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH
   features:
     needs: units
     name: Features
@@ -53,4 +55,6 @@ jobs:
         docker-compose -f docker-compose.ci.yml run ci setup-tests run-features
     - name: cleanup
       if: ${{ always() }}
-      run: docker-compose -f docker-compose.ci.yml down --remove-orphans -t 10
+      run: |
+        docker-compose -f docker-compose.ci.yml down --remove-orphans -t 10
+        sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH

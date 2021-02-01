@@ -69,6 +69,8 @@ fi
 
 if [ "$1" == "run-units" ]; then
 	shift
+	execute "cd frontend && npm run test"
+	execute "time bundle exec rake parallel:spec_legacy"
 	execute "time bundle exec rake parallel:units"
 fi
 
