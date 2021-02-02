@@ -17,6 +17,8 @@ ENV RAILS_ENV=test
 ENV NODE_VERSION="12.18.3"
 ENV BUNDLER_VERSION="2.1.4"
 ENV BUNDLE_WITHOUT="development:production:docker"
+# disable deprecations and other warnings in output
+ENV RUBYOPT="-W0"
 ENV DATABASE_URL=postgres://app:p4ssw0rd@127.0.0.1/app
 ENV CHROME_SOURCE_URL=https://dl.google.com/dl/linux/direct/google-chrome-stable_current_amd64.deb
 ENV JOBS=4
