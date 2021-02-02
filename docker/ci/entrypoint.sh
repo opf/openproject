@@ -54,6 +54,10 @@ if [ "$1" == "run-units" ]; then
 	execute "cd frontend && npm install && npm run test"
 	execute "time bundle exec rspec -I spec_legacy spec_legacy"
 	execute "time bundle exec rake parallel:units"
+	if [ ! $? -eq 0 ];
+		execute "cat tmp/spec_examples.txt | grep -Ev 'passed|unknown|pending'"
+		exit 1
+	fi
 fi
 
 if [ "$1" == "run-features" ]; then
@@ -62,6 +66,10 @@ if [ "$1" == "run-features" ]; then
 	execute "bundle exec rake assets:precompile assets:clean"
 	execute "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
 	execute "time bundle exec rake parallel:features"
+	if [ ! $? -eq 0 ];
+		execute "cat tmp/spec_examples.txt | grep -Ev 'passed|unknown|pending'"
+		exit 1
+	fi
 fi
 
 if [ ! -z "$1" ] ; then
