@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,46 +26,28 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filter::WorkPackageFilter
-  def allowed_values
-    @allowed_values ||= begin
-      project_values = []
-      Project.project_tree(visible_projects) do |p, level|
-        prefix = (level > 0 ? ('--' * level + ' ') : '')
-        project_values << ["#{prefix}#{p.name}", p.id.to_s]
-      end
+require 'spec_helper'
 
-      project_values
+describe Queries::WorkPackages::Filter::ProjectFilter, type: :model do
+  let(:query) { FactoryBot.build :query }
+  let(:instance) do
+    described_class.create!(name: 'project', context: query, operator: '=', values: [])
+  end
+
+  describe '#allowed_values' do
+    let!(:project) { FactoryBot.create :project }
+    let!(:archived_project) { FactoryBot.create :project, active: false }
+
+    let(:user) { FactoryBot.create(:user, member_in_projects: [project, archived_project], member_through_role: role) }
+    let(:role) { FactoryBot.create :role, permissions: %i(view_work_packages) }
+
+    before do
+      login_as user
     end
-  end
 
-  def available?
-    !project && visible_projects.exists?
-  end
-
-  def type
-    :list
-  end
-
-  def self.key
-    :project_id
-  end
-
-  def ar_object_filter?
-    true
-  end
-
-  def value_objects
-    available_projects = visible_projects.index_by(&:id)
-
-    values
-      .map { |project_id| available_projects[project_id.to_i] }
-      .compact
-  end
-
-  private
-
-  def visible_projects
-    @visible_projects ||= Project.visible.active
+    it 'does not include the archived project (Regression #36026)' do
+      expect(instance.allowed_values)
+        .to match_array [[project.name, project.id.to_s]]
+    end
   end
 end
