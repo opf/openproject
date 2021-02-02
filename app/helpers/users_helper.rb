@@ -52,7 +52,7 @@ module UsersHelper
   def full_user_status(user, include_num_failed_logins = false)
     user_status = ''
     unless user.active?
-      user_status = translate_user_status(user.status_name)
+      user_status = translate_user_status(user.status)
     end
     brute_force_status = ''
     if user.failed_too_many_recent_login_attempts?

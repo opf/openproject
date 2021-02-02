@@ -102,16 +102,6 @@ class Principal < ApplicationRecord
       .or(me)
   end
 
-  def status_name
-    # Only Users should have another status than active.
-    # User defines the status values and other classes like Principal
-    # shouldn't know anything about them. Nevertheless, some functions
-    # want to know the status for other Principals than User.
-    raise 'Principal has status other than active' unless active?
-
-    'active'
-  end
-
   # Helper method to identify internal users
   def builtin?
     false
