@@ -4,11 +4,6 @@ require 'socket'
 
 ::Webdrivers.logger.level = :DEBUG
 
-if ENV['CI']
-  ::Webdrivers::Geckodriver.update
-end
-
-
 def register_firefox(language, name: :"firefox_#{language}")
   require 'selenium/webdriver'
 
