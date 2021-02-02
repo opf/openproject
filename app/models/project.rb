@@ -42,59 +42,14 @@ class Project < ApplicationRecord
   # reserved identifiers
   RESERVED_IDENTIFIERS = %w(new).freeze
 
-  # TODO: Is this association ever used? Groups are missing (and PlaceholderUsers).
   has_many :members, -> {
+    # TODO: check whether this should
+    # remaint to be limited to User only
     includes(:principal, :roles)
-      .where(
-        "#{Principal.table_name}.type='User' AND (
-          #{User.table_name}.status=#{Principal.statuses[:active]} OR
-          #{User.table_name}.status=#{Principal.statuses[:invited]}
-        )"
-      )
+      .merge(Principal.not_locked.user)
       .references(:principal, :roles)
   }
 
-  has_many :possible_assignee_members,
-           -> { assignable },
-           class_name: 'Member'
-
-  # Read only
-  has_many :possible_assignees,
-           ->(object) {
-             # Have to reference members and roles again although
-             # possible_assignee_members does already specify it to be able to use the
-             # assignable_principals there
-             #
-             # The .where(members_users: { project_id: object.id })
-             # part is an optimization preventing to have all the members joined
-             includes(members: :roles)
-               .where(members_users: { project_id: object.id })
-               .references(:roles)
-               .merge(Principal.order_by_name)
-           },
-           through: :possible_assignee_members,
-           source: :principal
-
-  has_many :possible_responsible_members,
-           -> { assignable },
-           class_name: 'Member'
-
-  # Read only
-  has_many :possible_responsibles,
-           ->(object) {
-             # Have to reference members and roles again although
-             # possible_responsible_members does already specify it to be able to use
-             # assignable_principals there
-             #
-             # The .where(members_users: { project_id: object.id })
-             # part is an optimization preventing to have all the members joined
-             includes(members: :roles)
-               .where(members_users: { project_id: object.id })
-               .references(:roles)
-               .merge(Principal.order_by_name)
-           },
-           through: :possible_responsible_members,
-           source: :principal
   has_many :memberships, class_name: 'Member'
   has_many :member_principals,
            -> { not_locked },

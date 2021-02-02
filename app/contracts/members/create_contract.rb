@@ -45,7 +45,7 @@ module Members
     def principal_assignable
       return if principal.nil?
 
-      unless assignable_principals.where(id: principal.id).exists?
+      if principal.builtin? || principal.locked?
         errors.add(:principal, :unassignable)
       end
     end

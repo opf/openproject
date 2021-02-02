@@ -49,7 +49,7 @@ describe Queries::Users::Filters::StatusFilter, type: :model do
   describe '#scope' do
     include_context 'filter tests'
     let(:values) { %w[active invited] }
-    let(:model) { User }
+    let(:model) { User.user }
 
     context 'for "="' do
       let(:operator) { '=' }

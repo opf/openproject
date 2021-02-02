@@ -32,10 +32,14 @@ shared_examples_for 'available principals' do |principals|
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_through_role: role)
   end
   let(:other_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_through_role: role)
   end
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:project) { FactoryBot.create(:project) }
@@ -44,6 +48,11 @@ shared_examples_for 'available principals' do |principals|
     project.add_member! group, FactoryBot.create(:role)
     group
   end
+  let(:placeholder_user) do
+    FactoryBot.create(:placeholder_user,
+                      member_in_project: project,
+                      member_through_role: role)
+  end
   let(:permissions) { [:view_work_packages] }
 
   shared_context "request available #{principals}" do
@@ -51,7 +60,7 @@ shared_examples_for 'available principals' do |principals|
   end
 
   before do
-    allow(User).to receive(:current).and_return(current_user)
+    login_as(current_user)
   end
 
   describe 'response' do
@@ -83,6 +92,13 @@ shared_examples_for 'available principals' do |principals|
 
       # current user and group
       it_behaves_like "returns available #{principals}", 2, 2, 'Group'
+    end
+
+    describe 'placeholder users' do
+      let!(:users) { [placeholder_user] }
+
+      # current user and placeholder user
+      it_behaves_like "returns available #{principals}", 2, 2, 'PlaceholderUser'
     end
   end
 

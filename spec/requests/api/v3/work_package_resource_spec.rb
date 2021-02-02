@@ -759,7 +759,7 @@ describe 'API v3 Work package resource',
                             responsible: current_user)
         end
 
-        before { allow(User).to receive(:current).and_return current_user }
+        before { login_as current_user }
 
         shared_context 'setup group membership' do
           let(:group) { FactoryBot.create(:group) }
@@ -770,6 +770,12 @@ describe 'API v3 Work package resource',
                               project: project,
                               roles: [group_role])
           end
+        end
+
+        let(:placeholder_user) do
+          FactoryBot.create(:placeholder_user,
+                            member_in_project: project,
+                            member_through_role: role)
         end
 
         shared_examples_for 'handling people' do |property|
@@ -795,8 +801,9 @@ describe 'API v3 Work package resource',
               it { expect(response.status).to eq(200) }
 
               it {
-                expect(response.body).to be_json_eql(title)
-                                           .at_path("_links/#{property}/title")
+                expect(response.body)
+                  .to be_json_eql(title)
+                  .at_path("_links/#{property}/title")
               }
 
               it_behaves_like 'lock version updated'
@@ -820,6 +827,16 @@ describe 'API v3 Work package resource',
 
               it_behaves_like 'valid user assignment' do
                 let(:assigned_user) { group }
+              end
+            end
+
+            context 'placeholder user' do
+              let(:user_href) { api_v3_paths.placeholder_user placeholder_user.id }
+
+              include_context 'patch request'
+
+              it_behaves_like 'valid user assignment' do
+                let(:assigned_user) { placeholder_user }
               end
             end
           end
@@ -860,7 +877,7 @@ describe 'API v3 Work package resource',
                 let(:message) do
                   I18n.t('api_v3.errors.invalid_resource',
                          property: property,
-                         expected: "/api/v3/groups/:id' or '/api/v3/users/:id",
+                         expected: "/api/v3/groups/:id' or '/api/v3/users/:id' or '/api/v3/placeholder_users/:id",
                          actual: user_href)
                 end
               end

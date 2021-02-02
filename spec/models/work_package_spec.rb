@@ -156,34 +156,6 @@ describe WorkPackage, type: :model do
     it { is_expected.to eq(category.assigned_to) }
   end
 
-  describe '#assignable_assignees' do
-    let(:value) { double('value') }
-
-    before do
-      allow(stub_work_package.project).to receive(:possible_assignees).and_return(value)
-    end
-
-    subject { stub_work_package.assignable_assignees }
-
-    it 'calls project#possible_assignees and returns the value' do
-      is_expected.to eql(value)
-    end
-  end
-
-  describe '#assignable_responsibles' do
-    let(:value) { double('value') }
-
-    before do
-      allow(stub_work_package.project).to receive(:possible_responsibles).and_return(value)
-    end
-
-    subject { stub_work_package.assignable_responsibles }
-
-    it 'calls project#possible_responsibles and returns the value' do
-      is_expected.to eql(value)
-    end
-  end
-
   describe 'responsible' do
     let(:group) { FactoryBot.create(:group) }
 

@@ -208,8 +208,7 @@ class UsersController < ApplicationController
       @user.activate
     end
     # Was the account activated? (do it before User#save clears the change)
-    was_activated = (@user.status_change == [User.statuses[:registered],
-                                             User.statuses[:active]])
+    was_activated = (@user.status_change == %w[registered active])
 
     if params[:activate] && @user.missing_authentication_method?
       flash[:error] = I18n.t(:error_status_change_failed,

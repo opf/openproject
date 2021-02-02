@@ -87,11 +87,11 @@ class WorkPackages::BulkController < ApplicationController
   private
 
   def setup_edit
-    @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject { |memo, w| memo & w }
-    @custom_fields = @projects.map(&:all_work_package_custom_fields).inject { |memo, c| memo & c }
-    @assignables = @projects.map(&:possible_assignees).inject { |memo, a| memo & a }
-    @responsibles = @projects.map(&:possible_responsibles).inject { |memo, a| memo & a }
-    @types = @projects.map(&:types).inject { |memo, t| memo & t }
+    @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject(&:&)
+    @custom_fields = @projects.map(&:all_work_package_custom_fields).inject(&:&)
+    @assignables = possible_assignees
+    @responsibles = @assignables
+    @types = @projects.map(&:types).inject(&:&)
   end
 
   def destroy_work_packages(work_packages)
@@ -106,6 +106,17 @@ class WorkPackages::BulkController < ApplicationController
         # nothing to do, work package was already deleted (eg. by a parent)
       end
     end
+  end
+
+  def possible_assignees
+    scope = Principal
+            .where(id: Principal.possible_assignee(@projects[0]))
+
+    @projects[1..].each do |project|
+      scope = scope.or(Principal.where(id: Principal.possible_assignee(project)))
+    end
+
+    scope
   end
 
   def user

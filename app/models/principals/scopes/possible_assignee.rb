@@ -28,22 +28,25 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-
-describe Principals::Scopes::Human, type: :model, with_clean_fixture: true do
-  describe '.fetch' do
-    let!(:anonymous_user) { FactoryBot.create(:anonymous) }
-    let!(:system_user) { FactoryBot.create(:system) }
-    let!(:deleted_user) { FactoryBot.create(:deleted_user) }
-    let!(:group) { FactoryBot.create(:group) }
-    let!(:user) { FactoryBot.create(:user) }
-    let!(:placeholder_user) { FactoryBot.create(:placeholder_user) }
-
-    subject { described_class.fetch }
-
-    it 'returns only actual users and groups' do
-      expect(subject)
-        .to match_array [user, group]
+module Principals::Scopes
+  class PossibleAssignee
+    # Returns principals eligible to be assigned to a work package as:
+    # * assignee
+    # * responsible
+    # Those principals can be of class
+    # * User
+    # * PlaceholderUser
+    # * Group
+    # User instances need to be non locked (status).
+    # Only principals with a role marked as assignable in the project are returned.
+    # @project [Project] The project for which eligible candidates are to be searched
+    # @return [ActiveRecord::Relation] A scope of eligible candidates
+    def self.fetch(project)
+      Principal
+        .not_locked
+        .includes(:members)
+        .references(:members)
+        .merge(Member.assignable.of(project))
     end
   end
 end

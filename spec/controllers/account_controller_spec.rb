@@ -642,7 +642,7 @@ describe AccountController, type: :controller do
           it 'set the user status to active' do
             user = User.where(login: 'register').last
             expect(user).not_to be_nil
-            expect(user.status).to eq(User.statuses[:active])
+            expect(user).to be_active
           end
 
           it 'calls the user_registered callback' do

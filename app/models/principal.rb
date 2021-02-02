@@ -61,10 +61,11 @@ class Principal < ApplicationRecord
                 Principals::Scopes::User,
                 Principals::Scopes::Human,
                 Principals::Scopes::Like,
-                Principals::Scopes::PossibleMember
+                Principals::Scopes::PossibleMember,
+                Principals::Scopes::PossibleAssignee
 
   scope :not_locked, -> {
-    human.where.not(status: statuses[:locked])
+    not_builtin.where.not(status: statuses[:locked])
   }
 
   scope :in_project, ->(project) {
@@ -129,6 +130,19 @@ class Principal < ApplicationRecord
     else
       # groups after users
       other.class.name <=> self.class.name
+    end
+  end
+
+  class << self
+    # Hack to exclude the Users::InexistentUser
+    # from showing up on filters for type.
+    # The method is copied over from rails changed only
+    # by the #compact call.
+    def type_condition(table = arel_table)
+      sti_column = table[inheritance_column]
+      sti_names  = ([self] + descendants).map(&:sti_name).compact
+
+      predicate_builder.build(sti_column, sti_names)
     end
   end
 

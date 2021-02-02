@@ -34,10 +34,10 @@ describe 'GET /api/v3/users',
          type: :request do
   let!(:users) do
     [
-      FactoryBot.create(:admin, login: 'admin', status: Principal.statuses[:active]),
-      FactoryBot.create(:user, login: 'h.wurst', status: Principal.statuses[:active]),
-      FactoryBot.create(:user, login: 'h.heine', status: Principal.statuses[:locked]),
-      FactoryBot.create(:user, login: 'm.mario', status: Principal.statuses[:active])
+      FactoryBot.create(:admin, login: 'admin', status: :active),
+      FactoryBot.create(:user, login: 'h.wurst', status: :active),
+      FactoryBot.create(:user, login: 'h.heine', status: :locked),
+      FactoryBot.create(:user, login: 'm.mario', status: :active)
     ]
   end
 

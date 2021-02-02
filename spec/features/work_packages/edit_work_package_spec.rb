@@ -185,11 +185,11 @@ describe 'edit work package', js: true do
     wp_page.update_attributes assignee: placeholder_user.name,
                               responsible: placeholder_user.name
 
-    wp_page.expect_attributes assignee: manager.name,
+    wp_page.expect_attributes assignee: placeholder_user.name,
                               responsible: placeholder_user.name
 
     wp_page.expect_activity_message("Assignee set to #{placeholder_user.name}")
-    wp_page.expect_activity_message("Responsible set to #{placeholder_user.name}")
+    wp_page.expect_activity_message("Accountable set to #{placeholder_user.name}")
   end
 
   context 'switching to custom field with required CF' do
