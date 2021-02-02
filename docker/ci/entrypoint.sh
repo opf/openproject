@@ -45,8 +45,8 @@ if [ "$1" == "setup-tests" ]; then
 	done
 
 	execute "time bundle install -j$JOBS"
-	execute "TEST_ENV_NUMBER=0 time bundle exec rake db:create db:migrate webdrivers:chromedriver:update webdrivers:geckodriver:update"
-	execute "time bundle exec rake parallel:setup"
+	execute "TEST_ENV_NUMBER=0 time bundle exec rake db:create db:migrate db:schema:dump webdrivers:chromedriver:update webdrivers:geckodriver:update"
+	execute "time bundle exec rake parallel:create parallel:load_schema"
 fi
 
 if [ "$1" == "run-units" ]; then
