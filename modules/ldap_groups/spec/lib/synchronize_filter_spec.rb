@@ -16,7 +16,7 @@ describe OpenProject::LdapGroups::SynchronizeFilter, with_ee: %i[ldap_groups] do
   # two groups foo (aa729), bar(aa729, bb459, cc414)
   let(:auth_source) do
     FactoryBot.create :ldap_auth_source,
-                      port: '12389',
+      port: ParallelHelper.port_for_ldap,
                       account: 'uid=admin,ou=system',
                       account_password: 'secret',
                       base_dn: 'dc=example,dc=com',

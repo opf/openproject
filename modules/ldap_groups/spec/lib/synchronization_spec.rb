@@ -20,7 +20,7 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
   # two groups foo (aa729), bar(aa729, bb459, cc414)
   let(:auth_source) do
     FactoryBot.create :ldap_auth_source,
-                      port: '12389',
+                      port: ParallelHelper,
                       account: 'uid=admin,ou=system',
                       account_password: 'secret',
                       base_dn: 'ou=people,dc=example,dc=com',
