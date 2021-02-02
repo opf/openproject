@@ -35,28 +35,24 @@
 # As we do not write to the repository, we don't need this kind
 # of isolation.
 def with_filesystem_repository(vendor, command = nil, &block)
-  repo_dir = File.join(Rails.root, 'tmp', 'test', "#{vendor}_repository")
+  repo_dir = Dir.mktmpdir("#{vendor}_repository")
   fixture = File.join(Rails.root, "spec/fixtures/repositories/#{vendor}_repository.tar.gz")
 
-  before(:all) do
-    ['tar', command].compact.each do |cmd|
-      begin
-        # Avoid `which`, as it's not POSIX
-        Open3.capture2e(cmd, '--version')
-      rescue Errno::ENOENT
-        skip "#{cmd} was not found in PATH. Skipping local repository specs"
-      end
-    end
 
-    # Create repository
-    FileUtils.mkdir_p repo_dir
-    system "tar -xzf #{fixture} -C #{repo_dir}"
+  ['tar', command].compact.each do |cmd|
+    begin
+      # Avoid `which`, as it's not POSIX
+      Open3.capture2e(cmd, '--version')
+    rescue Errno::ENOENT
+      skip "#{cmd} was not found in PATH. Skipping local repository specs"
+    end
   end
 
   after(:all) do
     FileUtils.remove_dir repo_dir
   end
 
+  system "tar -xzf #{fixture} -C #{repo_dir}"
   block.call(repo_dir)
 end
 
