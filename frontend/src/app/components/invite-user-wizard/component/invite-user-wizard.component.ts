@@ -66,16 +66,16 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     type: {
       required: this.I18n.t('js.invite_user_modal.type.required'),
       user: {
-        title: this.I18n.t('js.invite_user_modal.user.title'),
-        description: this.I18n.t('js.invite_user_modal.user.description'),
+        title: this.I18n.t('js.invite_user_modal.type.user.title'),
+        description: this.I18n.t('js.invite_user_modal.type.user.description'),
       },
       group: {
-        title: this.I18n.t('js.invite_user_modal.group.title'),
-        description: this.I18n.t('js.invite_user_modal.group.description'),
+        title: this.I18n.t('js.invite_user_modal.type.group.title'),
+        description: this.I18n.t('js.invite_user_modal.type.group.description'),
       },
       placeholder: {
-        title: this.I18n.t('js.invite_user_modal.placeholder.title'),
-        description: this.I18n.t('js.invite_user_modal.placeholder.description'),
+        title: this.I18n.t('js.invite_user_modal.type.placeholder.title'),
+        description: this.I18n.t('js.invite_user_modal.type.placeholder.description'),
       },
     },
     principal: {
