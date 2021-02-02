@@ -96,8 +96,6 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
     it 'can add the widget and see the work packages of the filtered for types' do
       dashboard_page.add_widget(1, 1, :row, "Work packages table")
 
-      sleep(0.2)
-
       filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
 
       filter_area.expect_to_span(1, 1, 2, 3)

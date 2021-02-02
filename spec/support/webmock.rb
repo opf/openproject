@@ -42,7 +42,7 @@ RSpec.configure do |config|
       # We will exempt local connections from this block, since selenium etc.
       # uses localhost to communicate with the browser.
       # Leaving this off will randomly fail some specs with WebMock::NetConnectNotAllowedError
-      WebMock.disable_net_connect!(allow_localhost: true)
+      WebMock.disable_net_connect!(allow_localhost: true, allow: ["selenium-hub", Capybara.server_host])
       WebMock.enable!
       example.run
     ensure

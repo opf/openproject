@@ -144,7 +144,7 @@ describe 'Switching work package view',
       expect(url).not_to match(/query_props=.+/)
 
       # Since the query is unchanged, the WPs will be displayed as list on larger screens again
-      page.driver.browser.manage.window.resize_to(680, 1080)
+      page.driver.browser.manage.window.resize_to(700, 1080)
       page.driver.browser.navigate.refresh
       wp_table.expect_work_package_listed wp_1, wp_2
       wp_table.expect_work_package_order wp_1, wp_2

@@ -5,10 +5,12 @@ networks:
   testing:
 
 volumes:
+  downloads-test:
   pgdata:
   tmp:
   opdata:
   bundle:
+  npm:
   pgdata-test:
   tmp-test:
   fedata-test:
@@ -150,10 +152,13 @@ services:
       - "bundle:/usr/local/bundle"
       - "tmp-test:/home/dev/openproject/tmp"
 
+  # https://vitobotta.com/2019/09/04/rails-parallel-system-tests-selenium-docker/
   selenium-hub:
     image: selenium/hub:latest
     container_name: selenium-hub
     hostname: selenium-hub
+    environment:
+      GRID_MAX_SESSION: "${CI_JOBS:-4}"
     depends_on:
       - chrome
       - firefox
@@ -167,41 +172,52 @@ services:
     image: selenium/node-chrome-debug:latest
     volumes:
       - /dev/shm:/dev/shm
+      - "downloads-test:/home/seluser/Downloads"
     networks:
       - testing
     ports:
-      - 5900:5900
+      - "5900-5915:5900"
     environment:
       HUB_HOST: selenium-hub
       HUB_PORT: 4444
       SCREEN_WIDTH: 1920
       SCREEN_HEIGHT: 1080
+      # in case we want multiple sessions per container
+      NODE_MAX_INSTANCES: "${CI_JOBS:-4}"
+      NODE_MAX_SESSION: "${CI_JOBS:-4}"
 
   firefox:
     image: selenium/node-firefox-debug:latest
     volumes:
       - /dev/shm:/dev/shm
+      - "downloads-test:/home/seluser/Downloads"
     networks:
       - testing
     ports:
-      - 5901:5900
+      - "5916-5931:5900"
     environment:
       HUB_HOST: selenium-hub
       HUB_PORT: 4444
       SCREEN_WIDTH: 1920
       SCREEN_HEIGHT: 1080
+      # in case we want multiple sessions per container
+      NODE_MAX_INSTANCES: "${CI_JOBS:-4}"
+      NODE_MAX_SESSION: "${CI_JOBS:-4}"
 
   opera:
     image: selenium/node-opera-debug:latest
     volumes:
       - /dev/shm:/dev/shm
+      - "downloads-test:/home/seluser/Downloads"
     networks:
       - testing
     ports:
-      - 5902:5900
+      - "5932-5957:5900"
     environment:
       HUB_HOST: selenium-hub
       HUB_PORT: 4444
       SCREEN_WIDTH: 1920
       SCREEN_HEIGHT: 1080
-
+      # in case we want multiple sessions per container
+      NODE_MAX_INSTANCES: "${CI_JOBS:-4}"
+      NODE_MAX_SESSION: "${CI_JOBS:-4}"

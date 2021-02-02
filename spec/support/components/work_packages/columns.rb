@@ -67,14 +67,25 @@ module Components
         close_autocompleter
       end
 
-      def add(name, save_changes: true)
+      def add(name, save_changes: true, finicky: false)
         modal_open? or open_modal
 
         select_autocomplete column_autocompleter,
                             results_selector: '.ng-dropdown-panel-items',
                             query: name
 
-        apply if save_changes
+        if save_changes
+          apply
+          within ".work-package-table" do
+            # for some reason these columns (e.g. 'Overall costs') don't have a proper link
+            if finicky
+              SeleniumHubWaiter.wait
+              expect(page).to have_selector("a", text: /#{name}/i, visible: :all)
+            else
+              expect(page).to have_link(name)
+            end
+          end
+        end
       end
 
       def remove(name, save_changes: true)
@@ -117,6 +128,7 @@ module Components
       def apply
         @opened = false
 
+        # SeleniumHubWaiter.wait
         click_button('Apply')
       end
 

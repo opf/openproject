@@ -79,6 +79,7 @@ describe 'hourly rates on a member', type: :feature, js: true do
     expect_current_rate_in_members_table('0.00 EUR')
 
     click_link('0.00 EUR')
+    SeleniumHubWaiter.wait
 
     add_rate(date: Date.today, rate: 10)
 
@@ -86,6 +87,7 @@ describe 'hourly rates on a member', type: :feature, js: true do
 
     expect_current_rate_in_members_table('10.00 EUR')
 
+    SeleniumHubWaiter.wait
     click_link('10.00 EUR')
 
     add_rate(date: 3.days.ago, rate: 20)
@@ -94,6 +96,7 @@ describe 'hourly rates on a member', type: :feature, js: true do
 
     expect_current_rate_in_members_table('10.00 EUR')
 
+    SeleniumHubWaiter.wait
     click_link('10.00 EUR')
 
     change_rate_date(from: Date.today, to: 5.days.ago)

@@ -35,7 +35,9 @@ module Components
       def sort_via_header(name, selector: nil, descending: false)
         text = descending ? 'Sort descending' : 'Sort ascending'
 
+        SeleniumHubWaiter.wait
         open_table_column_context_menu(name, selector)
+        SeleniumHubWaiter.wait
 
         within_column_context_menu do
           click_link text
@@ -44,6 +46,7 @@ module Components
 
       def update_criteria(first, second=nil, third=nil)
         open_modal
+        SeleniumHubWaiter.wait
 
         [first, second, third]
           .compact
@@ -58,6 +61,7 @@ module Components
 
       def expect_criteria(first, second=nil, third=nil)
         open_modal
+        SeleniumHubWaiter.wait
 
         [first, second, third]
           .compact

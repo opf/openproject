@@ -26,6 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+require 'support/components/ng_select_autocomplete_helpers'
 require 'support/pages/page'
 
 module Pages
@@ -69,6 +70,7 @@ module Pages
     # @param as [String] The role as which the user should be added.
     def add_user!(user_name, as:)
       click_on 'Add member'
+      SeleniumHubWaiter.wait
 
       select_principal! user_name if user_name
       select_role! as if as

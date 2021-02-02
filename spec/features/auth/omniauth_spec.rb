@@ -71,6 +71,8 @@ describe 'Omniauth authentication', type: :feature do
     it 'should redirect to back url' do
       visit account_lost_password_path
       click_link("Omniauth Developer", match: :first, visible: :all)
+
+      SeleniumHubWaiter.wait
       fill_in('first_name', with: user.firstname)
       fill_in('last_name', with: user.lastname)
       fill_in('email', with: user.mail)
@@ -81,6 +83,8 @@ describe 'Omniauth authentication', type: :feature do
 
     it 'should sign in user' do
       visit '/auth/developer'
+
+      SeleniumHubWaiter.wait
       fill_in('first_name', with: user.firstname)
       fill_in('last_name', with: user.lastname)
       fill_in('email', with: user.mail)
@@ -97,6 +101,7 @@ describe 'Omniauth authentication', type: :feature do
         visit my_account_path
         # requires login, redirects to developer login which is why we see the login form now
 
+        SeleniumHubWaiter.wait
         fill_in('first_name', with: user.firstname)
         fill_in('last_name', with: user.lastname)
         fill_in('email', with: user.mail)
@@ -125,6 +130,7 @@ describe 'Omniauth authentication', type: :feature do
 
       click_on 'here'
 
+      SeleniumHubWaiter.wait
       fill_in('first_name', with: user.firstname)
       fill_in('last_name', with: user.lastname)
       fill_in('email', with: user.mail)
@@ -139,6 +145,7 @@ describe 'Omniauth authentication', type: :feature do
       visit '/'
       click_link("Omniauth Developer", :match => :first)
 
+      SeleniumHubWaiter.wait
       # login form developer strategy
       fill_in('first_name', with: user.firstname)
       # intentionally do not supply last_name
@@ -148,6 +155,7 @@ describe 'Omniauth authentication', type: :feature do
       expect(page).to have_content "Last name can't be blank"
       # on register form, we are prompted for a last name
       within('#content') do
+        SeleniumHubWaiter.wait
         fill_in('user_lastname', with: user.lastname)
         click_link_or_button 'Create'
       end
@@ -179,6 +187,7 @@ describe 'Omniauth authentication', type: :feature do
       visit account_lost_password_path
       click_link("Omniauth Developer", :match => :first)
 
+      SeleniumHubWaiter.wait
       # login form developer strategy
       fill_in('first_name', with: user.firstname)
       # intentionally do not supply last_name
@@ -187,6 +196,7 @@ describe 'Omniauth authentication', type: :feature do
 
       # on register form, we are prompted for a last name
       within('#content') do
+        SeleniumHubWaiter.wait
         fill_in('user_lastname', with: user.lastname)
         click_link_or_button 'Create'
       end
@@ -211,6 +221,7 @@ describe 'Omniauth authentication', type: :feature do
       it 'shows a note explaining that the account has to be activated' do
         visit login_path
 
+        SeleniumHubWaiter.wait
         # login form developer strategy
         fill_in 'first_name', with: 'Ifor'
         fill_in 'last_name',  with: 'McAlistar'
@@ -254,6 +265,11 @@ describe 'Omniauth authentication', type: :feature do
         # to a symbol will force omniauth to fail /auth/failure
         OmniAuth.config.test_mode = true
         OmniAuth.config.mock_auth[:developer] = :invalid_credentials
+        # seems like this default behaviour is removed when running the full
+        # test suite, so let's set it back when running this test
+        OmniAuth.config.on_failure = Proc.new { |env|
+          OmniAuth::FailureEndpoint.new(env).redirect_to_failure
+        }
         visit login_path
         expect(page).to have_content(I18n.t(:error_external_authentication_failed))
 

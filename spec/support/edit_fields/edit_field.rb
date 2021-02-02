@@ -65,7 +65,9 @@ class EditField
   def activate!(expect_open: true)
     retry_block do
       unless active?
+        SeleniumHubWaiter.wait
         scroll_to_and_click(display_element)
+        SeleniumHubWaiter.wait
       end
 
       if expect_open && !active?

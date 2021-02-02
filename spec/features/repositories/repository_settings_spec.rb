@@ -63,6 +63,7 @@ describe 'Repository Settings', type: :feature, js: true do
       expect(Repository.exists?(repository.id)).to be true
 
       if type == 'managed'
+        SeleniumHubWaiter.wait
         find('a.icon-delete', text: I18n.t(:button_delete)).click
 
         dangerzone = DangerZone.new(page)
@@ -70,16 +71,21 @@ describe 'Repository Settings', type: :feature, js: true do
         expect(page).to have_selector(dangerzone.container_selector)
         expect(dangerzone.disabled?).to be true
 
+        SeleniumHubWaiter.wait
         dangerzone.confirm_with('definitely not the correct value')
         expect(dangerzone.disabled?).to be true
 
+        SeleniumHubWaiter.wait
         dangerzone.confirm_with(project.identifier)
         expect(dangerzone.disabled?).to be false
 
+        SeleniumHubWaiter.wait
         dangerzone.danger_button.click
       else
+        SeleniumHubWaiter.wait
         find('a.icon-remove', text: I18n.t(:button_remove)).click
         expect(page).to have_selector('.notification-box.-warning')
+        SeleniumHubWaiter.wait
         find('a', text: I18n.t(:button_remove)).click
       end
 

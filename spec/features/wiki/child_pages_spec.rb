@@ -56,6 +56,7 @@ describe 'wiki child pages', type: :feature, js: true do
 
     click_on 'Wiki page'
 
+    SeleniumHubWaiter.wait
     fill_in 'content_page_title', with: child_page_name
 
     find('.ck-content').set('The child page\'s content')

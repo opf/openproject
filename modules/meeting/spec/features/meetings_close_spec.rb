@@ -57,12 +57,15 @@ describe 'Meetings close', type: :feature do
       click_link meeting.title
 
       # Go to minutes, expect uneditable
+      SeleniumHubWaiter.wait
       find('.tabrow a', text: 'MINUTES').click
 
       expect(page).to have_selector('.button', text: 'Close the agenda to begin the Minutes')
 
       # Close the meeting
+      SeleniumHubWaiter.wait
       find('.tabrow a', text: 'AGENDA').click
+      SeleniumHubWaiter.wait
       find('.button', text: 'Close').click
       page.accept_confirm
 
@@ -73,7 +76,9 @@ describe 'Meetings close', type: :feature do
       expect(page).to have_selector('#meeting_minutes-text', text: 'asdf')
 
       # Go back to agenda, expect we can open it again
+      SeleniumHubWaiter.wait
       find('.tabrow a', text: 'AGENDA').click
+      SeleniumHubWaiter.wait
       find('.button', text: 'Open').click
       page.accept_confirm
       expect(page).to have_selector('.button', text: 'Close')

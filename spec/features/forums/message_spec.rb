@@ -55,10 +55,12 @@ describe 'messages', type: :feature, js: true do
 
     create_page = index_page.click_create_message
 
+    SeleniumHubWaiter.wait
     create_page.set_subject 'The message is'
     create_page.click_save
 
     create_page.expect_notification(type: :error, message: 'Content can\'t be blank')
+    SeleniumHubWaiter.wait
     create_page.add_text 'There is no message here'
 
     show_page = create_page.click_save
