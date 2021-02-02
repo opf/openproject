@@ -9,7 +9,7 @@ RSpec.configure do |config|
   Capybara.default_max_wait_time = 4
   Capybara.javascript_driver = :chrome_en
 
-  port = ENV.fetch('CAPYBARA_SERVER_PORT', ENV.fetch('TEST_ENV_NUMBER', '1').to_i + 3000).to_i
+  port = ENV.fetch('CAPYBARA_SERVER_PORT', ParallelHelper.port_for_app).to_i
   if port > 0
     Capybara.server_port = port
   end
