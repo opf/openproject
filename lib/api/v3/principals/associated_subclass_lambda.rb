@@ -43,6 +43,8 @@ module API
                         :user
                       when Group
                         :group
+                      when PlaceholderUser
+                        :placeholder_user
                       when NilClass
                         # Fall back to user for unknown principal
                         # since we do not have a principal route.
