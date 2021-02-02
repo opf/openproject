@@ -1,7 +1,5 @@
 <div [formGroup]="form" class="form-container">
-  <h2>
-    {{text.invite}} {{form.get('user')?.value?.name || text.user}} {{text.to}} {{project}}
-  </h2>
+  <h2>{{title}}</h2>
 
   <ng-container *ngFor="let step of steps; let index = index;">
     <div
@@ -32,7 +30,7 @@
             <!--SELECT OPTIONS TEMPLATES-->
             <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
               <span [ngOptionHighlight]="search" class="ng-option-label ellipsis">
-                {{ item.name }}
+                {{item.name}}
               </span>
 
               <span *ngIf="inputIsEmail(ngSelectInput.value)">
@@ -40,14 +38,14 @@
               </span>
 
               <span *ngIf="item.disabled">
-                ({{text.alreadyMemberMessage}} {{project}})
+                ({{alreadyMemberMessage}})
               </span>
             </ng-template>
 
             <!--SELECT NOT FOUND TEMPLATE-->
             <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
               <div class="ng-option ng-option-disabled" *ngIf="!inputIsEmail(ngSelectInput.value)">
-                {{text.noDataFoundFor}} "{{searchTerm}}"
+                {{noDataFoundFor(searchTerm)}}
               </div>
             </ng-template>
 
@@ -89,15 +87,8 @@
             slot="help-text"
             class="description"
             *ngIf="field.description"
-          >
-            {{field.description()}}
-
-            <a *ngIf="field.link"
-              [href]="field.link.href"
-              target="_blank">
-              {{field.link.text}}
-            </a>
-          </p>
+            [innerHtml]="field.description()"
+          ></p>
 
           <div
             slot="errors"
@@ -122,7 +113,7 @@
   <div class="buttons-container">
     <button class="button button-left"
             (click)="previousAction()"
-            *ngIf="currentStepIndex === 0 || currentStep?.previousButtonText">
+            *ngIf="currentStepIndex !== 0 || currentStep?.previousButtonText">
       {{currentStep?.previousButtonText}}
     </button>
 

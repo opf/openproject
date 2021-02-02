@@ -18,22 +18,50 @@ import {InviteUserWizardService} from "core-components/invite-user-wizard/servic
 export class InviteUserWizardComponent extends UntilDestroyedMixin implements OnInit {
   currentStepIndex = 0;
   form:FormGroup;
-  project:string;
   steps:IUserWizardStep[];
+
+  get user() {
+    return this.form.get('user')?.value;
+  }
+  get project() {
+    return this.form.get('project')?.value;
+  }
+  get type() {
+    return this.form.get('type')?.value;
+  }
+
+  get title() {
+    if (!this.project || !this.type) {
+      return this.I18n.t('js.invite_user_modal.title.invite');
+    } else if (!this.user) {
+      return this.I18n.t('js.invite_user_modal.title.invite_to_project', {
+        project: this.project.name,
+        // TODO: this should become a nested translation when we have the possibility
+        type: this.I18n.t(`js.invite_user_modal.title.${this.type}`),
+      });
+    }
+    return this.I18n.t('js.invite_user_modal.title.invite_principal_to_project', {
+      project: this.project.name,
+      principal: this.user.name,
+    });
+  }
+
+  get alreadyMemberMessage() {
+    return this.I18n.t('js.invite_user_modal.already_member_message', { project: this.project?.name });
+  }
+
+  noDataFoundFor(searchTerm:string) {
+    return this.I18n.t('js.invite_user_modal.no_data_found_for', { searchTerm });
+  }
+
   text = {
-    title: this.I18n.t('js.invite_user_modal.title'),
     closePopup: this.I18n.t('js.close_popup_title'),
-    exportPreparing: this.I18n.t('js.label_export_preparing'),
     user: this.I18n.t('js.invite_user_modal.user'),
-    nextButtonText: this.I18n.t('js.invite_user_modal.next'),
     previousButtonText: this.I18n.t('js.invite_user_modal.back'),
-    invite: this.I18n.t('js.invite_user_modal.invite'),
-    to: this.I18n.t('js.invite_user_modal.to'),
-    noDataFoundFor: this.I18n.t('js.invite_user_modal.no_data_found_for'),
-    alreadyMemberMessage: this.I18n.t('js.invite_user_modal.already_member_message'),
     project: {
       label: this.I18n.t('js.invite_user_modal.project.label'),
       required: this.I18n.t('js.invite_user_modal.project.required'),
+      nextButtonText: this.I18n.t('js.invite_user_modal.project.next_button'),
     },
     type: {
       required: this.I18n.t('js.invite_user_modal.type.required'),
@@ -50,6 +78,9 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
         description: this.I18n.t('js.invite_user_modal.placeholder.description'),
       },
     },
+    principal: {
+      nextButtonText: this.I18n.t('js.invite_user_modal.principal.next_button'),
+    },
     name_or_email: {
       label: this.I18n.t('js.invite_user_modal.name_or_email.label'),
       description: () => this.I18n.t('js.invite_user_modal.name_or_email.description'),
@@ -57,9 +88,12 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     },
     role: {
       label: this.I18n.t('js.invite_user_modal.role.label'),
-      link: this.I18n.t('js.invite_user_modal.role.learn_more_about_users_permissions'),
-      description: () => this.I18n.t('js.invite_user_modal.role.description', {user: this.userToInvite}),
+      description: () => this.I18n.t('js.invite_user_modal.role.description', {
+        user: this.userToInvite,
+        href: 'https://docs.openproject.org/system-admin-guide/users-permissions/',
+      }),
       required: this.I18n.t('js.invite_user_modal.role.required'),
+      nextButtonText: this.I18n.t('js.invite_user_modal.role.next_button'),
     },
     message: {
       label: this.I18n.t('js.invite_user_modal.message.label'),
@@ -86,9 +120,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
   }
 
   get userToInvite () {
-    const user = this.form.get('user')!.value;
-
-    return user && user.name;
+    return !!this.user?.name;
   }
 
   @ViewChild('stepBody') stepBody:ElementRef;
@@ -112,12 +144,11 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
     // TODO: Remove hardcoded type form value
     this.form = this.formBuilder.group({
       project: [null, Validators.required],
-      type: ['User', Validators.required],
+      type: [null, Validators.required],
       user: [null, Validators.required],
       role: [null, Validators.required],
-      message: [''],
+      message: '',
     });
-    this.project = this.currentProjectService.name!;
     this.steps = [
       {
         name: 'project-selection',
@@ -154,8 +185,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
             ],
           },
         ],
-        nextButtonText: this.text.nextButtonText,
-        previousButtonText: this.text.previousButtonText,
+        nextButtonText: this.text.project.nextButtonText,
         showInviteUserByEmail: true,
       },
       {
@@ -171,7 +201,7 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
             invalidText: this.text.name_or_email.required,
           },
         ],
-        nextButtonText: this.text.nextButtonText,
+        nextButtonText: this.text.principal.nextButtonText,
         previousButtonText: this.text.previousButtonText,
         showInviteUserByEmail: true,
       },
@@ -186,13 +216,9 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
             apiCallback: this.rolesCallback,
             description: this.text.role.description,
             invalidText: this.text.role.required,
-            link: {
-              text: this.text.role.link,
-              href: 'https://docs.openproject.org/system-admin-guide/users-permissions/',
-            },
           }
         ],
-        nextButtonText: this.text.nextButtonText,
+        nextButtonText: this.text.role.nextButtonText,
         previousButtonText: this.text.previousButtonText,
       },
       {
@@ -254,8 +280,12 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
 
   nextAction(currentStep:IUserWizardStep) {
     if (this.isInvalidStep(currentStep)) {
+      console.log(currentStep.fields);
       currentStep.fields.forEach((field:IUserWizardStepField) => {
-        this.form.get(field?.formControlName || '')?.markAllAsTouched();
+        const formControl = this.form.get(field?.formControlName || '');
+        formControl?.markAllAsTouched();
+        formControl?.markAsTouched();
+        console.log(formControl.touched, formControl.value, formControl.valid);
       });
       return;
     }

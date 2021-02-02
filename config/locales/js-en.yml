@@ -1043,27 +1043,41 @@ en:
       role: 'role'
       next: 'Next'
       back: 'Back'
+      title:
+        invite: 'Invite user'
+        invite_to_project: 'Invite %{type} to %{project}'
+        user: 'user'
+        role: 'role'
+        placeholder: 'placeholder user'
+        invite_principal_to_project: 'Invite %{principal} to %{project}'
       project:
         label: 'Project'
         required: 'Please select a project'
+        next_button: 'Next'
       type:
         required: 'Please select the type of principal to be invited'
         user: 
-          title: User
-          description: Permissions based on the assigned role in the selected project
+          title: 'User'
+          description: 'Permissions based on the assigned role in the selected project'
         group: 
-          title: Group
-          description: Permissions based on the assigned role in the selected project
+          title: 'Group'
+          description: 'Permissions based on the assigned role in the selected project'
         placeholder: 
-          title: Placeholder
-          description: Has no access to the project and no emails are sent out
+          title: 'Placeholder'
+          description: 'Has no access to the project and no emails are sent out'
+      principal:
+        next_button: 'Next'
       name_or_email:
         label: 'Name or email address'
         description: 'You can either search for an existing by name or email, or write an email address to invite a new user to your OpenProject instance.'
       role:
         label: 'Role in'
-        description: 'This is the role that %{user} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see.'
-        learn_more_about_users_permissions: 'Learn more about roles and permissions.'
+        description: 'This is the role that %{user} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see.
+            <a
+              href="%{href}"
+              target="_blank">
+              learn more about roles and permissions.
+            </a>'
       message:
         label: 'Invitation message (optional)'
         summary_label: 'Invitation message'
@@ -1073,11 +1087,5 @@ en:
         next_button: 'Send Invitation'
       confirm_description: 'The user can now login to access the %{project} project. Meanwhile you can already plan with that user and assign work packages for instance.'
       continue: 'Continue'
-      invite: 'Invite'
-      no_data_found_for: 'No data found for'
-      to: 'to'
-      already_member_message: 'Already a member of project'
-
-
-
-
+      no_data_found_for: 'No data found for %{searchTerm}'
+      already_member_message: 'Already a member of %{project}'

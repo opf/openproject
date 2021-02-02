@@ -58,7 +58,7 @@ export class InviteUserWizardService extends UntilDestroyedMixin {
       .list({
         filters: [
           ['unit', '=', ['project']],
-          ['grantable', '=', true],
+          ['grantable', '=', ['true']],
         ]
       })
       .pipe(
