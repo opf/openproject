@@ -60,7 +60,8 @@ class Principal < ApplicationRecord
   scope_classes Principals::Scopes::NotBuiltin,
                 Principals::Scopes::User,
                 Principals::Scopes::Human,
-                Principals::Scopes::Like
+                Principals::Scopes::Like,
+                Principals::Scopes::PossibleMember
 
   scope :not_locked, -> {
     human.where.not(status: statuses[:locked])
@@ -78,10 +79,6 @@ class Principal < ApplicationRecord
 
   def name(_formatter = nil)
     to_s
-  end
-
-  def self.possible_members(criteria, limit)
-    not_locked.like(criteria).limit(limit)
   end
 
   def self.search_scope_without_project(project, query)

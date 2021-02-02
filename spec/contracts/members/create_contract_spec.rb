@@ -37,6 +37,29 @@ describe Members::CreateContract do
                  principal: member_principal)
     end
 
+    let!(:possible_member_scope) do
+      return if member_principal.nil?
+
+      scope = double('scope')
+
+      allow(Principal)
+        .to receive(:possible_member)
+        .with(member_project)
+        .and_return(scope)
+
+      allow(scope)
+        .to receive(:where)
+        .with(id: member_principal.id)
+        .and_return scope
+
+      allow(scope)
+        .to receive(:exists?)
+        .and_return possible_member
+
+      scope
+    end
+    let(:possible_member) { true }
+
     subject(:contract) { described_class.new(member, current_user) }
 
     describe '#validation' do
@@ -48,19 +71,20 @@ describe Members::CreateContract do
         end
       end
 
-      context 'if the principal is a builtin user' do
-        let(:member_principal) { FactoryBot.build_stubbed(:anonymous) }
+      context 'if the principal is not a possible member' do
+        let(:possible_member) { false }
 
         it 'is invalid' do
           expect_valid(false, principal: %i(unassignable))
         end
       end
+    end
 
-      context 'if the principal is a locked user' do
-        let(:member_principal) { FactoryBot.build_stubbed(:locked_user) }
-
-        it 'is invalid' do
-          expect_valid(false, principal: %i(unassignable))
+    context 'assignable_values' do
+      context '#assignable_principals' do
+        it 'returns the possible_members scope' do
+          expect(contract.assignable_principals)
+            .to eql(possible_member_scope)
         end
       end
     end

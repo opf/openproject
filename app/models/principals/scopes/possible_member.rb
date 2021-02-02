@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,28 +28,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Members
-  class CreateContract < BaseContract
-    include AssignableValuesContract
-
-    attribute :project
-    attribute :user_id
-    attribute :principal do
-      principal_assignable
-    end
-
-    def assignable_principals
-      Principal.possible_member(project)
-    end
-
-    private
-
-    def principal_assignable
-      return if principal.nil?
-
-      unless assignable_principals.where(id: principal.id).exists?
-        errors.add(:principal, :unassignable)
-      end
+module Principals::Scopes
+  class PossibleMember
+    # Returns principals eligible to become project members. Those principals can be of class
+    # * User
+    # * PlaceholderUser
+    # * Group
+    # User instances need to be non locked (status)
+    # Principals which already are project members are are returned.
+    # @project [Project] The project for which eligible candidates are to be searched
+    # @return [ActiveRecord::Relation] A scope of eligible candidates
+    def self.fetch(project)
+      Queries::Principals::PrincipalQuery
+        .new(user: ::User.current)
+        .where(:member, '!', [project.id])
+        .where(:status, '!', [Principal.statuses[:locked]])
+        .results
     end
   end
 end

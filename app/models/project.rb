@@ -203,10 +203,6 @@ class Project < ApplicationRecord
     visible.like(query)
   end
 
-  def possible_members(criteria, limit)
-    Principal.not_locked.like(criteria).not_in_project(self).limit(limit)
-  end
-
   def add_member(user, roles)
     members.build.tap do |m|
       m.principal = user

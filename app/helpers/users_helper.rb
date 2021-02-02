@@ -88,7 +88,7 @@ module UsersHelper
 
   # Create buttons to lock/unlock a user and reset failed logins
   def build_change_user_status_action(user)
-    status = user.status_name.to_sym
+    status = user.status.to_sym
     blocked = !!user.failed_too_many_recent_login_attempts?
 
     result = ''.html_safe

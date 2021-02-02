@@ -23,9 +23,9 @@ module Users
         .map do |k, v|
           known_status = Principal.statuses.detect { |_, i| i == k }
           if known_status
-            [known_status.first, v]
+            [known_status.first.to_sym, v]
           else
-            [k, v]
+            [k.to_sym, v]
           end
         end
         .to_h

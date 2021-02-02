@@ -320,10 +320,6 @@ class User < Principal
     identity_url.split(':', 2).first.titleize
   end
 
-  def status_name
-    self.class.statuses.invert[status].to_s
-  end
-
   ##
   # Allows the API and other sources to determine locking actions
   # on represented collections of children of Principals.

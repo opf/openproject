@@ -102,9 +102,7 @@ class MembersController < ApplicationController
   end
 
   def autocomplete_for_member
-    @principals = Principal
-                  .possible_members(params[:q], 100)
-                  .where.not(id: @project.principals)
+    @principals = possible_members(params[:q], 100)
 
     @email = suggest_invite_via_email? current_user,
                                        params[:q],
@@ -165,7 +163,14 @@ class MembersController < ApplicationController
   def set_roles_and_principles!
     @roles = Role.givable
     # Check if there is at least one principal that can be added to the project
-    @principals_available = @project.possible_members('', 1)
+    @principals_available = possible_members('', 1)
+  end
+
+  def possible_members(criteria, limit)
+    Principal
+      .possible_member(@project)
+      .like(criteria)
+      .limit(limit)
   end
 
   def index_members
