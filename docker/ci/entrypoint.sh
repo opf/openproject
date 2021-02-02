@@ -1,19 +1,9 @@
 #!/bin/bash
 set -e
 
-export RUBYOPT="-W0"
 export PGBIN="$(pg_config --bindir)"
-export JOBS=${JOBS:=$(nproc)}
-export RAILS_ENV=test
-export CI=true
-export OPENPROJECT_DISABLE_DEV_ASSET_PROXY=1
-export CAPYBARA_DYNAMIC_HOSTNAME=0
-export CAPYBARA_DOWNLOADED_FILE_DIR=${CAPYBARA_DOWNLOADED_FILE_DIR:="/tmp"}
-export DATABASE_URL=${DATABASE_URL:="postgres://app:p4ssw0rd@127.0.0.1/app"}
 # for parallel rspec
 export PARALLEL_TEST_PROCESSORS=$JOBS
-
-CHROME_SOURCE_URL=https://dl.google.com/dl/linux/direct/google-chrome-stable_current_amd64.deb
 
 # if from within docker
 if [ $(id -u) -eq 0 ]; then
@@ -40,14 +30,6 @@ execute() {
 	fi
 }
 
-if [ "$1" == "setup-system" ]; then
-	echo "Downloading and installing required browsers..."
-	shift
-	apt install -y imagemagick default-jre-headless postgresql libpq-dev sudo
-	wget --no-verbose -O /tmp/$(basename $CHROME_SOURCE_URL) $CHROME_SOURCE_URL && \
-	  sudo apt install -y /tmp/$(basename $CHROME_SOURCE_URL) && rm -f /tmp/$(basename $CHROME_SOURCE_URL)
-fi
-
 if [ "$1" == "setup-tests" ]; then
 	echo "Preparing environment for running tests..."
 	shift
@@ -71,11 +53,6 @@ if [ "$1" == "run-units" ]; then
 	shift
 	execute "cd frontend && npm install && npm run test"
 	execute "time bundle exec rspec -I spec_legacy spec_legacy"
-	execute "time bundle exec rake parallel:units"
-fi
-
-if [ "$1" == "run-units" ]; then
-	shift
 	execute "time bundle exec rake parallel:units"
 fi
 

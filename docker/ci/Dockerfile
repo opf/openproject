@@ -10,13 +10,16 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main" > /etc/a
 
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    postgresql-9.6 postgresql-client-9.6 time pandoc default-jre-headless firefox-esr
+    postgresql-9.6 postgresql-client-9.6 time pandoc imagemagick libpq-dev default-jre-headless firefox-esr
 
 ENV CI=true
 ENV RAILS_ENV=test
 ENV NODE_VERSION="12.18.3"
 ENV BUNDLER_VERSION="2.1.4"
 ENV BUNDLE_WITHOUT="development:production:docker"
+ENV OPENPROJECT_DISABLE_DEV_ASSET_PROXY=1
+ENV CAPYBARA_DYNAMIC_HOSTNAME=0
+ENV CAPYBARA_DOWNLOADED_FILE_DIR=/tmp
 # disable deprecations and other warnings in output
 ENV RUBYOPT="-W0"
 ENV DATABASE_URL=postgres://app:p4ssw0rd@127.0.0.1/app
