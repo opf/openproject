@@ -280,12 +280,10 @@ export class InviteUserWizardComponent extends UntilDestroyedMixin implements On
 
   nextAction(currentStep:IUserWizardStep) {
     if (this.isInvalidStep(currentStep)) {
-      console.log(currentStep.fields);
       currentStep.fields.forEach((field:IUserWizardStepField) => {
         const formControl = this.form.get(field?.formControlName || '');
         formControl?.markAllAsTouched();
         formControl?.markAsTouched();
-        console.log(formControl.touched, formControl.value, formControl.valid);
       });
       return;
     }

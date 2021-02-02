@@ -32,7 +32,6 @@ export class OpFormFieldComponent {
   }
 
   get isInvalid() {
-    console.log('check valid', this.control?.touched, this.control?.invalid);
     return this.control?.touched && this.control?.invalid;
   }
 }
