@@ -194,7 +194,7 @@ describe CustomField, type: :model do
       before do
         field.field_format = 'user'
         allow(project)
-          .to receive(:users)
+          .to receive(:principals)
           .and_return([user1, user2])
 
         allow(Principal)

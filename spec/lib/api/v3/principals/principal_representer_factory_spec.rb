@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,14 +26,36 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomValue::UserStrategy < CustomValue::ARObjectStrategy
-  private
+require 'spec_helper'
 
-  def ar_class
-    Principal
-  end
+describe ::API::V3::Principals::PrincipalRepresenterFactory do
+  let(:current_user) { FactoryBot.build_stubbed :user }
 
-  def ar_object(value)
-    Principal.find_by(id: value)
+  describe '.create' do
+    subject { described_class.create principal, current_user: current_user }
+
+    context 'with a user' do
+      let(:principal) { FactoryBot.build_stubbed :user }
+
+      it 'returns a user representer' do
+        expect(subject).to be_a ::API::V3::Users::UserRepresenter
+      end
+    end
+
+    context 'with a group' do
+      let(:principal) { FactoryBot.build_stubbed :group }
+
+      it 'returns a group representer' do
+        expect(subject).to be_a ::API::V3::Groups::GroupRepresenter
+      end
+    end
+
+    context 'with a placeholder user' do
+      let(:principal) { FactoryBot.build_stubbed :placeholder_user }
+
+      it 'returns a user representer' do
+        expect(subject).to be_a ::API::V3::PlaceholderUsers::PlaceholderUserRepresenter
+      end
+    end
   end
 end

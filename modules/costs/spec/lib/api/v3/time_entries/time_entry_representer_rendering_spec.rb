@@ -109,9 +109,11 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
         FactoryBot.build_stubbed(:time_entry_custom_field, field_format: 'user')
       end
       let(:custom_value) do
-        CustomValue.new(custom_field: custom_field,
-                        value: '1',
-                        customized: time_entry)
+        double('CustomValue',
+               custom_field: custom_field,
+               customized: time_entry,
+               value: '1',
+               typed_value: user)
       end
       let(:user) do
         FactoryBot.build_stubbed(:user)
