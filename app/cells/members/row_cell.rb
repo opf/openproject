@@ -1,5 +1,6 @@
 module Members
   class RowCell < ::RowCell
+    include AvatarHelper
     include UsersHelper
 
     property :principal
@@ -18,12 +19,17 @@ module Members
       "member #{group}".strip
     end
 
-    def lastname
-      link_to principal.lastname, user_path(principal) if user?
-    end
+    def name
+      icon = avatar principal, class: 'avatar-mini'
 
-    def firstname
-      link_to principal.firstname, user_path(principal) if user?
+      link =
+        if user?
+          link_to principal.name, user_path(principal)
+        else
+          h(principal.name)
+        end
+
+      icon + link
     end
 
     def mail
