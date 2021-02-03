@@ -683,9 +683,10 @@ class WorkPackage < ApplicationRecord
     related = [author]
 
     [responsible, assigned_to].each do |user|
-      if user.is_a?(Group)
+      case user
+      when Group
         related += user.users
-      else
+      when User
         related << user
       end
     end

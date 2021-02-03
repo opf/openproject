@@ -102,6 +102,25 @@ describe Notifications::JournalWpMailService do
 
   it_behaves_like 'sends mail'
 
+  context 'assignee is placeholder user' do
+    let(:recipient) { FactoryBot.create :placeholder_user }
+
+    it_behaves_like 'sends no mail'
+  end
+
+  context 'responsible is placeholder user' do
+    let(:recipient) { FactoryBot.create :placeholder_user }
+    let(:work_package) do
+      FactoryBot.create(:work_package,
+                        project: project,
+                        author: author,
+                        responsible: recipient,
+                        type: project.types.first)
+    end
+
+    it_behaves_like 'sends no mail'
+  end
+
   context 'notification for work_package_added disabled' do
     let(:notification_setting) { %w(work_package_updated work_package_note_added) }
 
