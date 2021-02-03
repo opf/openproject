@@ -136,4 +136,23 @@ describe 'Watcher tab', js: true, selenium: true do
       expect(page).to have_selector('.wp-tabs-count',  text: 1)
     end
   end
+
+  context 'with a placeholder user in the project' do
+    let!(:placeholder) { FactoryBot.create :placeholder_user, name: 'PLACEHOLDER' }
+    let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
+
+    before do
+      login_as(user)
+      wp_page.visit_tab! :watchers
+    end
+
+    it 'should not show the placeholder user as an option' do
+      autocomplete = find('.wp-watcher--autocomplete')
+      target_dropdown = search_autocomplete autocomplete,
+                                            query: ''
+
+      expect(target_dropdown).to have_selector(".ng-option", text: user.name)
+      expect(target_dropdown).to have_no_selector(".ng-option", text: placeholder.name)
+    end
+  end
 end
