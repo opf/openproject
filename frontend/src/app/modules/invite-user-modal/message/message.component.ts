@@ -28,9 +28,16 @@ export class MessageComponent implements OnInit {
   @Output() save = new EventEmitter<{message:string}>();
 
   public text = {
-    title: this.I18n.t('js.invite_user_modal.title'),
-    closePopup: this.I18n.t('js.close_popup_title'),
-    exportPreparing: this.I18n.t('js.label_export_preparing')
+    title: this.I18n.t('js.invite_user_modal.title.invite_principal_to_project', {
+      principal: this.principal?.name,
+      project: this.project?.name,
+    }),
+    label: this.I18n.t('js.invite_user_modal.message.label'),
+    description: this.I18n.t('js.invite_user_modal.message.description', {
+      principal: this.principal?.name,
+    }),
+    backButton: this.I18n.t('js.invite_user_modal.back'),
+    nextButton: this.I18n.t('js.invite_user_modal.message.next_button'),
   };
 
   messageForm = new FormGroup({

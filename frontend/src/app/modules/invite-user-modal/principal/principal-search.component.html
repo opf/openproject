@@ -7,20 +7,33 @@
   [clearOnBackspace]="false"
   [clearSearchOnAdd]="false"
   bindLabel="name"
-  (change)="loadMemberships()"
   #ngselect
 >
-  <!--Selectable option-->
   <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-    <div [ngOptionHighlight]="search" class="ng-option-label ellipsis">{{ item.name }}</div>
+    <!--Selectable option-->
+    <span
+      [ngOptionHighlight]="search"
+      class="ng-option-label ellipsis"
+    >
+      {{ item.name }}
+    </span>
+
+    <!-- Already a member of the project -->
+    <span
+      *ngIf="item.disabled"
+      class="ng-option disabled"
+    >
+      {{ text.alreadyAMember }}
+    </span>
   </ng-template>
 
   <!--Nothing found -->
   <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
     <div class="ng-option disabled">
-      No results found
+      {{ text.noResults[type] }}
     </div>
   </ng-template>
+
 
   <!--Invite a new user by email-->
   <ng-template ng-footer-tmp>
@@ -30,20 +43,20 @@
         (click)="createNewFromInput()"
       >
         <op-icon icon-classes="icon-mail1"></op-icon>
-        Invite new user: {{ $input | async }}
+        {{ text.inviteNewUser }}
       </button>
     </div>
   </ng-template>
 
   <!--Create a new placeholder by name-->
   <ng-template ng-footer-tmp>
-    <div *ngIf="canCreateNewPlaceholder$ | async">
+    <div *ngIf="canCreateNewGroupOrPlaceholder$ | async">
       <button
         class="button"
         (click)="createNewFromInput()"
       >
         <op-icon icon-classes="icon-mail1"></op-icon>
-        Create new {{ type }}: {{ $input | async }}
+        {{ text.createNew[type] }}
       </button>
     </div>
   </ng-template>

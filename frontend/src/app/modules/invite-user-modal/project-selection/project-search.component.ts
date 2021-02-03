@@ -20,6 +20,10 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
 export class ProjectSearchComponent extends UntilDestroyedMixin {
   @Input() projectFormControl:FormControl;
 
+  public text = {
+    noResultsFound: this.I18n.t('js.invite_user_modal.project.no_results'),
+  };
+
   public input$ = new Subject<string|null>();
   public items$:Observable<any>;
 
@@ -34,7 +38,6 @@ export class ProjectSearchComponent extends UntilDestroyedMixin {
       .pipe(
         this.untilDestroyed(),
         debounceTime(200),
-        filter((searchTerm:string) => !!searchTerm),
         distinctUntilChanged(),
         switchMap((searchTerm:string) => {
           const filters = new ApiV3FilterBuilder();

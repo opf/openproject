@@ -26,16 +26,19 @@ export class SummaryComponent {
 
   public get text() {
     return {
-      title: this.I18n.t('js.invite_user_modal.title', {
-        type: this.type,
-        project: this.project,
-        principal: this.principal,
+      title: this.I18n.t('js.invite_user_modal.title.invite_principal_to_project', {
+        principal: this.principal?.name,
+        project: this.project?.name,
       }),
-      projectLabel: this.I18n.t('js.invite_user_modal.forms.project.label'),
-      principalLabel: this.I18n.t('js.invite_user_modal.forms.principal.label'),
-      roleLabel: this.I18n.t('js.invite_user_modal.forms.role.label'),
-      messageLabel: this.I18n.t('js.invite_user_modal.forms.message.label'),
-      backButton: this.I18n.t('js.invite_user_modal.back_button'),
+      projectLabel: this.I18n.t('js.invite_user_modal.project.label'),
+      principalLabel: {
+        user: this.I18n.t('js.invite_user_modal.principal.label.name_or_email'),
+        placeholder: this.I18n.t('js.invite_user_modal.principal.label.name'),
+        group: this.I18n.t('js.invite_user_modal.principal.label.name'),
+      },
+      roleLabel: this.I18n.t('js.invite_user_modal.role.label'),
+      messageLabel: this.I18n.t('js.invite_user_modal.message.label'),
+      backButton: this.I18n.t('js.invite_user_modal.back'),
       nextButton: this.I18n.t('js.invite_user_modal.summary.next_button', {
         type: this.type,
         principal: this.principal,
