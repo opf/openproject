@@ -142,3 +142,11 @@ Calculating a sum across different attributes (e.g. Estimated time + added hours
 ## Why can I not log time in a work package?
 
 You need to activate the module "Time and costs" in the project settings, first.
+
+## How can I add additional fields to a work package (e.g. "Department")?
+
+You can create a custom field for this that you add to the work package form. Please follow [these instructions](../../../system-admin-guide/custom-fields/).
+
+## When I create a new work package it's always a "Task". How can I change the default work package type?
+
+Please navigate to *Administration ->Work packages ->Types*. The type that is at the top of the list is the default type. To change it, use the arrows on the right to move another work package type to the top of the list.

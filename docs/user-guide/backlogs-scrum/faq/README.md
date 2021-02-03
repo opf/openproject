@@ -22,3 +22,11 @@ This is not possible. "Work packages from sub-projects are not displayed in the 
 Please make sure that
 A) The respective version is assigned to a column in the backlog (see *Project settings ->Versions*).
 B) The work packages you want to display in the backlog are of a type that gets displayed in the backlog. If not: Either change the work package type or change the backlog setting (see *Administration ->Backlogs*).
+
+## When I try to move a work package to another column in the task board I receive an error message similar to "Backlog Plugin 500 Internal Server Error". What can I do?
+
+Please try these approaches:
+
+- check whether your role in the current project (e.g. "Member") has sufficient rights to move the the work package (e.g. from "new" to "in progress") in the [workflow settings](../../../system-admin-guide/manage-work-packages/work-package-workflows/)
+- remove unused story types in the administration
+- deactivate the Backlogs module in the project settings

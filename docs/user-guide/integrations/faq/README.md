@@ -22,3 +22,7 @@ No, there isn't.
 Yes, there's a Slack plugin. Please note that the Slack plugin is not officially supported by OpenProject. For Enterprise on-premises please find the OpenProject Slack Plugin and its documentation [here](https://github.com/opf/openproject-slack#openproject-slack-plugin). You can also look at [Slack's respective website](https://api.slack.com/messaging/webhooks) for information.
 
 For Enterprise cloud please contact support to have it activated in your instance.
+
+## Can I migrate or synchronize boards from e.g. MS Project to OpenProject?
+
+You can synchronize the work packages in your board using the [Excel synchronization](../Excel Synchronization). However, the boards themselves (the structure you built) can't be synced.

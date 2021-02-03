@@ -181,6 +181,18 @@ IFC2x3 and IFC4. We accept those formats and convert them to some other format t
 
 Yes, (only) as part of the Community Edition you can use OpenProject BIM for free. Please have a look [here](../installation-and-operations/changing-to-bim-edition/) to find out how to activate the BIM modules in your on-premises installation.
 
+### Can a BCF file created from other software e.g. BIMcollab, Solibri, etc. be opened in OpenProject?
+
+Yes, of course. That's why the module for this in OpenProject is called "BCF". You can import and export BCF XML files. Our goal is to have specialized tools like Solibri do model checks, but the coordination of the results, the issues, is done in OpenProject, because more people can get access to the BCF issues through OpenProject because our licenses are much cheaper. In addition, BCF issues imported into OpenProject behave just like other non-BCF work packages. For example, you can plan them in a Gantt chart on the timeline, or manage them agilely in boards. We support the current BCF XML format 2.1.
+Furthermore, we are planning a direct integration into Solibri. Then you don't need to export and import XML files anymore, but Solibri will read and write directly into OpenProject via an interface, the BCF-API. Before that, however, we will complete the integration in Autodesk Revit.
+(Status: February 2021)
+
+### Does clicking on a BCF-issue zoom you to the appropriate location in the model?
+
+Yes, the so-called camera position is stored in the BCF-issues, so that exactly the same camera position is assumed when you click on the BCF-issue. These are called viewpoints. If you have several models, e.g. architecture and technical building equipment, these must be activated (made visible) before you click on the BCF-issue. In the same way, BCF-elements of the model can be hidden or selected via the viewpoint.
+
+In our [introductory video](https://www.youtube.com/watch?v=ThA4_17yedg) to the OpenProject BIM Edition the basics are shown very well. In particular, the integration of BCF management into the rest of the project management of a construction project is the strength of OpenProject.
+
 ## Migration
 
 ### How can I migrate from Bitnami to OpenProject?

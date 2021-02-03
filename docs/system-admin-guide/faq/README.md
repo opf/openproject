@@ -28,7 +28,7 @@ A hard limit does not exist. Nevertheless, there are factors that can represent 
 
 No, that's not possible, as all tenants (customers) use the same code on the shard. But you can do this in Enterprise on-premises.
 
-## Is it possible to set a custom field as "required" when it's already in use? What will hapen to the existing work packages for which the custom field is activated?
+## Is it possible to set a custom field as "required" when it's already in use? What will happen to the existing work packages for which the custom field is activated?
 
 Yes, this is possible. When you edit existing work packages for which the custom field is activated but not populated you will receive the warning "[name of custom field] can't be blank" and you will have to populate the custom field.
 
@@ -42,6 +42,10 @@ There are two possibilities:
 
 - You can block the user in the user list under "Administration". The LDAP sync does not change the status and the user does not count into the active users anymore.
 - The user can be released through an attribute in the LDAP or through an OpenProject LDAP group. Then the permission for this user can be removed in the LDAP and the user cannot use the LDAP authentication for OpenProject anymore. In this case the user still needs to be blocked or deleted in OpenProject.
+
+## How can I access the log files or increase the log level?
+
+Please have a look at [these instructions](../../installation-and-operations/operation/monitoring).
 
 ## [FAQ for authentication](../authentication/faq)
 
