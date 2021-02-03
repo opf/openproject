@@ -26,9 +26,14 @@ export class ProjectSelectionComponent implements OnInit {
   @Output() save = new EventEmitter<{project:any, type:string}>();
 
   public text = {
-    title: this.I18n.t('js.invite_user_modal.title'),
-    closePopup: this.I18n.t('js.close_popup_title'),
-    exportPreparing: this.I18n.t('js.label_export_preparing')
+    title: this.I18n.t('js.invite_user_modal.title.invite'),
+    project: {
+      required: this.I18n.t('js.invite_user_modal.project.required'),
+    },
+    type: {
+      required: this.I18n.t('js.invite_user_modal.type.required'),
+    },
+    nextButton: this.I18n.t('js.invite_user_modal.project.next_button'),
   };
 
   public typeOptions = [

@@ -6,14 +6,14 @@
 
   <div class="op-modal--modal-body">
     <op-form-field
-      label="Invite Message"
+      [label]="text.label"
       [formBinding]="messageControl"
     >
       <p class="op-form-field--description" slot="description">
-        We will send an email to Max Mustermann, to which you can add a personal message here.  An explanation
-for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.
+        {{ text.description }}
       </p>
       <textarea
+        class="op-input"
         [formControl]="messageControl"
         slot="input"
       ></textarea>
@@ -24,7 +24,7 @@ for the invitation could be useful, or perhaps a bit of information regarding th
     <button
       type="button"
       (click)="back.emit()"
-    >Back</button>
-    <button>Next</button>
+    >{{ text.backButton }}</button>
+    <button>{{ text.nextButton }}</button>
   </div>
 </form>

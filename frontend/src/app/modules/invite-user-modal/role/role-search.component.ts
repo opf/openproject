@@ -39,7 +39,6 @@ export class RoleSearchComponent extends UntilDestroyedMixin implements OnInit {
         .pipe(
           this.untilDestroyed(),
           debounceTime(200),
-          filter((searchTerm:string) => !!searchTerm),
           map((input:string) => input.toLowerCase()),
           distinctUntilChanged(),
         ),

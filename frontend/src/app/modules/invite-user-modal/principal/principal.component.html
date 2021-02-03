@@ -2,17 +2,18 @@
   [formGroup]="principalForm"
   (ngSubmit)="onSubmit($event)"
 >
-  <op-ium-modal-heading (close)="close.emit()">{{ text.title }}</op-ium-modal-heading>
+  <op-ium-modal-heading (close)="close.emit()">{{ title() }}</op-ium-modal-heading>
 
   <div class="op-modal--modal-body">
     <op-form-field
-      [label]="type"
+      [label]="text.label[type]"
       required
       [formBinding]="principalControl"
     >
       <op-ium-principal-search
         *ngIf="!isNewPrincipal"
         [type]="type"
+        [project]="project"
         [principalControl]="principalControl"
         slot="input"
         (createNew)="createNewFromInput($event)"
@@ -23,19 +24,11 @@
         *ngIf="isNewPrincipal && type === 'user'"
         slot="input"
       >
-        Invite: {{ principalControl?.value.name }}
+        {{ text.inviteUser }}
         <button
           class="op-link"
           (click)="principalControl?.setValue(null)"
-        >Change e-mail-address or select an existing user</button>
-      </div>
-
-      <div
-        class="pill"
-        *ngIf="isMemberOfCurrentProject"
-        slot="help-text"
-      >
-        This {{ type }} is already a member of {{ project.name }}.
+          >{{ text.changeUserSelection }}</button>
       </div>
 
       <div
@@ -43,11 +36,11 @@
         *ngIf="isNewPrincipal && type === 'placeholder'"
         slot="input"
       >
-        Create new placeholder: {{ principalControl?.value.name }}
+        {{ text.createNew.placeholder }}
         <button
           class="op-link"
           (click)="principalControl?.setValue(null)"
-        >Change name or select an existing placeholder</button>
+        >{{ text.changePlaceholderSelection }}</button>
       </div>
 
       <div
@@ -55,11 +48,11 @@
         *ngIf="isNewPrincipal && type === 'group'"
         slot="input"
       >
-        Create new group: {{ principalControl?.value.name }}
+        {{ text.createNew.group }}
         <button
           class="op-link"
           (click)="principalControl?.setValue(null)"
-        >Change name or select an existing group</button>
+        >{{ text.changeGroupSelection }}</button>
       </div>
       
       <div
@@ -67,7 +60,7 @@
         class="op-form-field--error"
         *ngIf="principalControl?.touched && principalControl?.invalid"
       >
-        Please select a {{ type }}
+        {{ text.required[type] }}
       </div>
     </op-form-field>
   </div>
@@ -76,7 +69,7 @@
     <button
       type="button"
       (click)="back.emit()"
-    >Back</button>
-    <button>Next</button>
+      >{{ text.backButton }}</button>
+    <button>{{ text.nextButton }}</button>
   </div>
 </form>

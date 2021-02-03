@@ -27,10 +27,40 @@ export class PrincipalComponent implements OnInit {
   @Output() save = new EventEmitter<{ principal:any, isAlreadyMember:boolean }>();
   @Output() back = new EventEmitter();
 
+  title() {
+    return this.I18n.t('js.invite_user_modal.title.invite_to_project', {
+      type: this.I18n.t(`js.invite_user_modal.title.${this.type}`),
+      project: this.project.name,
+    });
+  }
+
   public text = {
-    title: this.I18n.t('js.invite_user_modal.title'),
-    closePopup: this.I18n.t('js.close_popup_title'),
-    exportPreparing: this.I18n.t('js.label_export_preparing')
+    label: {
+      user: this.I18n.t('js.invite_user_modal.principal.label.name_or_email'),
+      placeholder: this.I18n.t('js.invite_user_modal.principal.label.name'),
+      group: this.I18n.t('js.invite_user_modal.principal.required.label.name'),
+    },
+    inviteUser: this.I18n.t('js.invite_user_modal.principal.invite_user', {
+      email: this.principalControl?.value?.name,
+    }),
+    changeUserSelection: this.I18n.t('js.invite_user_modal.principal.change_user_selection'),
+    changePlaceholderSelection: this.I18n.t('js.invite_user_modal.principal.change_placeholder_selection'),
+    changeGroupSelection: this.I18n.t('js.invite_user_modal.principal.change_group_selection'),
+    createNew: {
+      placeholder: this.I18n.t('js.invite_user_modal.principal.create_new_placeholder', {
+        name: this.principalControl?.value?.name
+      }),
+      group: this.I18n.t('js.invite_user_modal.principal.create_new_group', {
+        name: this.principalControl?.value?.name
+      }),
+    },
+    required: {
+      user: this.I18n.t('js.invite_user_modal.principal.required.user'),
+      placeholder: this.I18n.t('js.invite_user_modal.principal.required.placeholder'),
+      group: this.I18n.t('js.invite_user_modal.principal.required.group'),
+    },
+    backButton: this.I18n.t('js.invite_user_modal.back'),
+    nextButton: this.I18n.t('js.invite_user_modal.principal.next_button'),
   };
 
   public principalForm = new FormGroup({

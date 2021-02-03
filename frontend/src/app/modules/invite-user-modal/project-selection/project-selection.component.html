@@ -20,7 +20,7 @@
         class="op-form-field--error"
         *ngIf="projectControl?.touched && projectControl?.invalid"
       >
-        Please select which project the user will be a part of
+        {{ text.project.required }}
       </div>
     </op-form-field>
 
@@ -34,12 +34,14 @@
         *ngIf="typeControl?.touched && typeControl?.invalid"
         class="op-form-field--errors"
       >
-        <div class="op-form-field--error">Please select which what kind of assignable you want to invite or create</div>
+        <div class="op-form-field--error">
+          {{ text.type.required }}
+        </div>
       </div>
     </div>
   </div>
 
   <div class="op-modal--modal-footer">
-    <button>Next</button>
+    <button>{{ text.nextButton }}</button>
   </div>
 </form>
