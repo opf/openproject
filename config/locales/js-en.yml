@@ -1077,10 +1077,11 @@ en:
         no_results_placeholder: 'No placeholders were found'
         change_placeholder_selection: 'Change name or select an existing placeholder'
         create_new_placeholder: 'Create new placeholder: %{name}'
-        no_results_placeholder: 'No groups were found'
 
+        no_results_group: 'No groups were found'
         create_new_group: 'Create new group: %{name}'
         change_group_selection: 'Change name or select an existing group'
+
         next_button: 'Next'
 
         required:
@@ -1090,21 +1091,27 @@ en:
 
       role:
         label: 'Role in %{project}'
-        description: 'This is the role that %{user} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see.
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see.
             <a
               href="%{href}"
               target="_blank">
               learn more about roles and permissions.
             </a>'
+        required: 'Please select a role'
         next_button: 'Next'
 
       message:
         label: 'Invitation message'
-        description: 'We will send an email to %{user}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
+        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
         next_button: 'Review Invitation'
 
       summary:
         next_button: 'Send Invitation'
 
-      confirm_description: 'The user can now login to access the %{project} project. Meanwhile you can already plan with that user and assign work packages for instance.'
-      continue: 'Continue'
+      success:
+        title: '%{principal} was invited!'
+        description: 
+          user: 'The user can now login to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+        next_button: 'Continue'

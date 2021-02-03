@@ -7,12 +7,11 @@ import {
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
-  selector: 'op-ium-modal-heading',
+  selector: 'op-modal-heading',
   templateUrl: './modal-heading.component.html',
-  styleUrls: ['./modal-heading.component.sass'],
 })
-export class ModalHeadingComponent {
-  @HostBinding('class.op-modal-heading--close-button') className = true;
+export class OpModalHeadingComponent {
+  @HostBinding('class.op-modal--heading') className = true;
   @Output('close') close = new EventEmitter<void>();
 
   public text = {

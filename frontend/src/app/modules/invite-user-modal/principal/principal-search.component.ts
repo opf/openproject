@@ -2,6 +2,7 @@ import {
   Component,
   Input,
   EventEmitter,
+  OnInit,
   Output,
   ElementRef,
 } from '@angular/core';
@@ -17,10 +18,10 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
   selector: 'op-ium-principal-search',
   templateUrl: './principal-search.component.html',
 })
-export class PrincipalSearchComponent extends UntilDestroyedMixin {
+export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnInit {
   @Input() principalControl:FormControl;
-  @Input() type:string;
-  @Input() project:any;
+  @Input() type:string = '';
+  @Input() project:any = null;
 
   @Output() createNew = new EventEmitter<string>();
 
@@ -32,7 +33,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin {
 
   public text = {
     alreadyAMember: this.I18n.t('js.invite_user_modal.principal.already_member_message', {
-      project: this.project.name,
+      project: this.project?.name,
     }),
     inviteNewUser: this.I18n.t('js.invite_user_modal.principal.invite_user', {
       user: this.input,
@@ -50,7 +51,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin {
       placeholder: this.I18n.t('js.invite_user_modal.principal.no_results_placeholder'),
       group: this.I18n.t('js.invite_user_modal.principal.no_results_group'),
     },
-  }
+  };
 
   constructor(
     public I18n:I18nService,
@@ -68,7 +69,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin {
         this.untilDestroyed(),
         debounceTime(200),
         distinctUntilChanged(),
-        switchMap(this.loadPrincipalData),
+        switchMap(this.loadPrincipalData.bind(this)),
       );
 
     this.canInviteByEmail$ = combineLatest(
@@ -78,7 +79,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin {
       map(([elements, input]) => this.type === 'user' && input?.includes('@') && !elements.find((el:any) => el.email === input)),
     );
 
-    this.canCreateNewPlaceholder$ = combineLatest(
+    this.canCreateNewGroupOrPlaceholder$ = combineLatest(
       this.items$,
       this.input$,
     ).pipe(
@@ -92,6 +93,12 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin {
     );
   }
 
+  ngOnInit() {
+    console.log('init');
+    // Make sure we have initial data
+    setTimeout(() => this.input$.next(''));
+  }
+
   createNewFromInput() {
     this.input$
       .pipe(first())
@@ -102,18 +109,21 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin {
 
   private loadPrincipalData(searchTerm:string) {
     const nonMemberFilter = new ApiV3FilterBuilder();
-    nonMemberFilter.add('name', '~', [searchTerm]);
+    if (searchTerm) {
+      nonMemberFilter.add('name', '~', [searchTerm]);
+    }
     nonMemberFilter.add('status', '!', [3]);
-    nonMemberFilter.add('type', '=', [this.type.charAt(0).toUpperCase() + this.type.slice(1)]);
-    nonMemberFilter.add('member', '!', [this.project.id]);
+    nonMemberFilter.add('type', '=', [this.type?.charAt(0).toUpperCase() + this.type?.slice(1)]);
+    nonMemberFilter.add('member', '!', [this.project?.id]);
     const memberFilter = new ApiV3FilterBuilder();
-    memberFilter.add('name', '~', [searchTerm]);
+    if (searchTerm) {
+      memberFilter.add('name', '~', [searchTerm]);
+    }
     memberFilter.add('status', '!', [3]);
-    memberFilter.add('type', '=', [this.type.charAt(0).toUpperCase() + this.type.slice(1)]);
-    nonMemberFilter.add('member', '=', [this.project.id]);
-    const members =this.apiV3Service.principals.filtered(memberFilter).get();
-    const nonMembers =this.apiV3Service.principals.filtered(nonMemberFilter).get();
-    .pipe(map(collection => collection.elements));
+    memberFilter.add('type', '=', [this.type?.charAt(0).toUpperCase() + this.type?.slice(1)]);
+    nonMemberFilter.add('member', '=', [this.project?.id]);
+    const members = this.apiV3Service.principals.filtered(memberFilter).get();
+    const nonMembers = this.apiV3Service.principals.filtered(nonMemberFilter).get();
 
     return forkJoin({
       members,
@@ -121,15 +131,15 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin {
     })
       .pipe(
         map(({ members, nonMembers }) => [
-          ...members.map((member:any) => ({
+          ...members.elements.map((member:any) => ({
             ...member,
             disabled: false,
           })),
-          ...nonMembers.map((nonMember:any) => ({
+          ...nonMembers.elements.map((nonMember:any) => ({
             ...nonMember,
             disabled: true,
-          }))
-        ),
+          })),
+        ]),
         shareReplay(1),
       );
 

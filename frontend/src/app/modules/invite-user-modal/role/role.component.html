@@ -2,18 +2,18 @@
   [formGroup]="roleForm"
   (ngSubmit)="onSubmit($event)"
 >
-  <op-ium-modal-heading (close)="close.emit()">{{ text.title }}</op-ium-modal-heading>
+  <op-modal-heading (close)="close.emit()">{{ text.title() }}</op-modal-heading>
 
   <div class="op-modal--modal-body">
     <op-form-field
-      label="{{ label }}"
+      [label]="text.label()"
       required
       [formBinding]="roleControl"
     >
       <p
         class="op-form-field--description"
         slot="description"
-        [innerHtml]="description"
+        [innerHtml]="text.description()"
       ></p>
       <op-ium-role-search
         [roleControl]="roleControl"
@@ -33,8 +33,9 @@
   <div class="op-modal--modal-footer">
     <button
       type="button"
+      class="button"
       (click)="back.emit()"
       >{{ text.backButton }}</button>
-    <button>{{ text.nextButton }}</button>
+    <button class="button">{{ text.nextButton }}</button>
   </div>
 </form>

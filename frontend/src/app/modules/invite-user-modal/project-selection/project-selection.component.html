@@ -2,7 +2,7 @@
   [formGroup]="projectAndTypeForm"
   (ngSubmit)="onSubmit($event)"
 >
-  <op-ium-modal-heading (close)="close.emit()">{{ text.title }}</op-ium-modal-heading>
+  <op-modal-heading (close)="close.emit()">{{ text.title }}</op-modal-heading>
 
   <div class="op-modal--modal-body">
     <op-form-field
@@ -42,6 +42,6 @@
   </div>
 
   <div class="op-modal--modal-footer">
-    <button>{{ text.nextButton }}</button>
+    <button class="button">{{ text.nextButton }}</button>
   </div>
 </form>

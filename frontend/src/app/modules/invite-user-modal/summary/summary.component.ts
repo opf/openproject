@@ -24,27 +24,25 @@ export class SummaryComponent {
   @Output('back') back = new EventEmitter<void>();
   @Output() save = new EventEmitter();
 
-  public get text() {
-    return {
-      title: this.I18n.t('js.invite_user_modal.title.invite_principal_to_project', {
-        principal: this.principal?.name,
-        project: this.project?.name,
-      }),
-      projectLabel: this.I18n.t('js.invite_user_modal.project.label'),
-      principalLabel: {
-        user: this.I18n.t('js.invite_user_modal.principal.label.name_or_email'),
-        placeholder: this.I18n.t('js.invite_user_modal.principal.label.name'),
-        group: this.I18n.t('js.invite_user_modal.principal.label.name'),
-      },
-      roleLabel: this.I18n.t('js.invite_user_modal.role.label'),
-      messageLabel: this.I18n.t('js.invite_user_modal.message.label'),
-      backButton: this.I18n.t('js.invite_user_modal.back'),
-      nextButton: this.I18n.t('js.invite_user_modal.summary.next_button', {
-        type: this.type,
-        principal: this.principal,
-      }),
-    };
-  }
+  public text = {
+    title: () => this.I18n.t('js.invite_user_modal.title.invite_principal_to_project', {
+      principal: this.principal?.name,
+      project: this.project?.name,
+    }),
+    projectLabel: this.I18n.t('js.invite_user_modal.project.label'),
+    principalLabel: {
+      user: this.I18n.t('js.invite_user_modal.principal.label.name_or_email'),
+      placeholder: this.I18n.t('js.invite_user_modal.principal.label.name'),
+      group: this.I18n.t('js.invite_user_modal.principal.label.name'),
+    },
+    roleLabel: this.I18n.t('js.invite_user_modal.role.label'),
+    messageLabel: this.I18n.t('js.invite_user_modal.message.label'),
+    backButton: this.I18n.t('js.invite_user_modal.back'),
+    nextButton: () => this.I18n.t('js.invite_user_modal.summary.next_button', {
+      type: this.type,
+      principal: this.principal,
+    }),
+  };
 
   constructor(
     readonly I18n:I18nService,
@@ -60,14 +58,18 @@ export class SummaryComponent {
 
       switch (this.type) {
         case 'user':
+          /*
           return this.api.users.post({
             email: this.principal.name,
             firstName: this.principal.email,
             status: 'invited',
           });
+          */
         //case 'group':
         default:
+        /*
           return this.api.groups.post({ name: this.principal.name });
+          */
         /*
         case 'placeholder':
           return this.api.placeholders.post({ name: this.principal.name });
@@ -75,11 +77,13 @@ export class SummaryComponent {
       }
     })();
 
+    /*
     return this.api.memberships.post({
       principal,
       project: this.project,
       roles: [this.role],
     });
+    */
   }
 
   async onSubmit($e:Event) {

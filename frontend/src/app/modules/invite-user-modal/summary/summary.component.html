@@ -3,7 +3,7 @@
   (submit)="onSubmit($event)"
   class="op-ium-summary"
 >
-  <op-ium-modal-heading (close)="close.emit()">{{ text.title }}</op-ium-modal-heading>
+  <op-modal-heading (close)="close.emit()">{{ text.title() }}</op-modal-heading>
 
   <div class="op-modal--modal-body">
     <op-form-field [label]="text.projectLabel">
@@ -30,6 +30,6 @@
       type="button"
       (click)="back.emit()"
     >{{ text.backButton }}</button>
-    <button>{{ text.nextButton }}</button>
+    <button>{{ text.nextButton() }}</button>
   </div>
 </form>

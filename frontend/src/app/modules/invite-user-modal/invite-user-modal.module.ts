@@ -1,7 +1,6 @@
 import {NgModule} from "@angular/core";
 import {ReactiveFormsModule} from "@angular/forms";
 import {InviteUserModalComponent} from "./invite-user.component";
-import {ModalHeadingComponent} from "./modal-heading.component";
 import {ProjectSelectionComponent} from "./project-selection/project-selection.component";
 import {ProjectSearchComponent} from "./project-selection/project-search.component";
 import {PrincipalComponent} from "./principal/principal.component";
@@ -23,7 +22,6 @@ import {OpenprojectCommonModule} from "core-app/modules/common/openproject-commo
   exports: [],
   declarations: [
     InviteUserModalComponent,
-    ModalHeadingComponent,
     ProjectSelectionComponent,
     ProjectSearchComponent,
     PrincipalComponent,
