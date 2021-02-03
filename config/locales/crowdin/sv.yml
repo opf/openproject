@@ -535,6 +535,7 @@ sv:
         invalid_url: 'är inte ett giltigt URL.'
         invalid_url_scheme: 'är inte ett tillåtet protokoll (tillåtna: %{allowed_schemes}).'
         less_than_or_equal_to: "måste vara mindre än eller lika med %{count}."
+        not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "är inte är ett giltigt datum."
         not_a_datetime: "är inte en giltig datumtid."

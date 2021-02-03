@@ -537,6 +537,7 @@ hr:
         invalid_url: 'nije valjani URL.'
         invalid_url_scheme: 'nije podržani protokol (dozvoljeno: %{allowed_schemes}).'
         less_than_or_equal_to: "mora biti manji od ili jednak %{count}."
+        not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "is not a valid date."
         not_a_datetime: "is not a valid date time."

@@ -537,6 +537,7 @@ ru:
         invalid_url: 'не является допустимым URL-адресом.'
         invalid_url_scheme: 'не является поддерживаемым протоколом (разрешены следующие: %{allowed_schemes}).'
         less_than_or_equal_to: "должно быть меньше или равно %{count}."
+        not_deletable: "cannot be deleted."
         not_current_user: "не является текущим пользователем."
         not_a_date: "не является допустимой датой."
         not_a_datetime: "дата и время не являются допустимыми."

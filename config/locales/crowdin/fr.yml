@@ -535,6 +535,7 @@ fr:
         invalid_url: 'n’est pas une URL valide.'
         invalid_url_scheme: 'n’est pas un protocole pris en charge (autorisés : %{allowed_schemes}).'
         less_than_or_equal_to: "doit être inférieur ou égal à %{count}."
+        not_deletable: "cannot be deleted."
         not_current_user: "n'est pas l'utilisateur actuel."
         not_a_date: "n'est pas une date valide."
         not_a_datetime: "n'est pas une heure valide."

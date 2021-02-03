@@ -534,6 +534,7 @@ ko:
         invalid_url: '은(는) 올바른 URL이 아닙니다.'
         invalid_url_scheme: '은(는) 지원되는 프로토콜(허용: %{allowed_schemes})이 아닙니다.'
         less_than_or_equal_to: "은(는) %{count} 보다 작거나 같아야 합니다"
+        not_deletable: "cannot be deleted."
         not_current_user: "은(는) 현재 유효한 사용자가 아닙니다."
         not_a_date: "은(는) 유효한 날짜가 아닙니다."
         not_a_datetime: "은(는) 유효한 날짜가 아닙니다."

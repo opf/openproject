@@ -536,6 +536,7 @@ fil:
         invalid_url: 'ay hindi balidong URL.'
         invalid_url_scheme: 'ay hindi suportado ng protocol (pinahintulutan: %{allowed_schemes}).'
         less_than_or_equal_to: "dapat ay hindi baba o katumbas sa %{count}."
+        not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "ay hindi balido ang petsa."
         not_a_datetime: "ay hindi balido ang petsa ng oras."

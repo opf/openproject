@@ -535,6 +535,7 @@ zh-TW:
         invalid_url: '不是有效的 URL。'
         invalid_url_scheme: '不是受支援的協定 (允許的協定: %{allowed_schemes})。'
         less_than_or_equal_to: "必須少於或者等於 %{count}。"
+        not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "不是有效的日期。"
         not_a_datetime: "不是有效的日期時間。"

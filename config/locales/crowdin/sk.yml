@@ -538,6 +538,7 @@ sk:
         invalid_url: 'nie je platnou URL adresou.'
         invalid_url_scheme: 'nie je podporovaný protokol (povolené: %{allowed_schemes}).'
         less_than_or_equal_to: "musí byť menšie alebo rovné ako %{count}."
+        not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "nie je platný dátum."
         not_a_datetime: "nie je platný dátum a čas."

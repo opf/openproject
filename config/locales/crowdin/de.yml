@@ -531,6 +531,7 @@ de:
         invalid_url: 'ist keine gültige URL.'
         invalid_url_scheme: 'ist kein unterstütztes Protokoll (erlaubt: %{allowed_schemes}).'
         less_than_or_equal_to: "muss kleiner oder gleich %{count} sein."
+        not_deletable: "cannot be deleted."
         not_current_user: "ist nicht der aktuelle Benutzer."
         not_a_date: "ist kein gültiges Datum."
         not_a_datetime: "ist kein gültiges Datum."

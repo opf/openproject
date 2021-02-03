@@ -530,6 +530,7 @@ zh-CN:
         invalid_url: '不是有效的 URL。'
         invalid_url_scheme: '不是受支持的协议（允许：%{allowed_schemes}）。'
         less_than_or_equal_to: "必须小于或等于 %{count}。"
+        not_deletable: "cannot be deleted."
         not_current_user: "不是当前用户。"
         not_a_date: "不是有效的日期。"
         not_a_datetime: "不是有效的日期时间。"

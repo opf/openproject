@@ -532,6 +532,7 @@ it:
         invalid_url: 'non è un URL valido.'
         invalid_url_scheme: 'non è un protocollo supportato (ammessi: %{allowed_schemes}).'
         less_than_or_equal_to: "deve essere inferiore o uguale a %{count}."
+        not_deletable: "cannot be deleted."
         not_current_user: "non è l'utente attuale."
         not_a_date: "non è una data valida."
         not_a_datetime: "non è un'orario valido."
