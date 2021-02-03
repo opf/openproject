@@ -9,7 +9,7 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class InviteUserWizardService extends UntilDestroyedMixin {
   principals$:Observable<IUserWizardSelectData[]>;
@@ -62,15 +62,15 @@ export class InviteUserWizardService extends UntilDestroyedMixin {
         ]
       })
       .pipe(
-        map((roles:CollectionResource) => roles.elements.filter(role => role.name?.toLowerCase().includes(searchTerm?.toLowerCase())))
+        map((roles:CollectionResource) => roles.elements.filter(role => searchTerm
+          ? role.name?.toLowerCase().includes(searchTerm?.toLowerCase())
+          : true
+        ))
       );
   }
 
   // TODO: Type this response
   getProjects(searchTerm:string):Observable<any> {
-    if (!searchTerm) {
-      return of([[]]);
-    }
     return this.apiV3Service
       .projects
       .list({
