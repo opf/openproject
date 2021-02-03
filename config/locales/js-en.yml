@@ -1047,7 +1047,7 @@ en:
         invite: 'Invite user'
         invite_to_project: 'Invite %{type} to %{project}'
         user: 'user'
-        role: 'role'
+        group: 'group'
         placeholder: 'placeholder user'
         invite_principal_to_project: 'Invite %{principal} to %{project}'
       project:
