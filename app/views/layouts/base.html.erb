@@ -43,7 +43,8 @@ See docs/COPYRIGHT.rdoc for more details.
     <meta name="current_project"
           data-project-name="<%= h @project.name %>"
           data-project-id="<%= @project.id %>"
-          data-project-identifier="<%= @project.identifier %>"/>
+          data-project-identifier="<%= @project.identifier %>"
+          data-project-view="<%= User.current.allowed_to?(:manage_public_queries,@project) %>"/>
   <% end %>
   <% unless User.current.anonymous? %>
     <meta name="current_user"

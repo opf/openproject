@@ -109,7 +109,9 @@ export class WorkPackageStaticQueriesService {
         }
       ]);
     }
-
+    if (!this.CurrentProject.viewManager) {
+      items= []
+    }
     return items;
   }
 

@@ -32,7 +32,7 @@ import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable({ providedIn: 'root' })
 export class CurrentProjectService {
-  private current:{ id:string, identifier:string, name:string };
+  private current:{ id:string, identifier:string, name:string,view:string};
 
   constructor(private PathHelper:PathHelperService,
               private apiV3Service:APIV3Service) {
@@ -71,7 +71,17 @@ export class CurrentProjectService {
     return this.getCurrent('identifier');
   }
 
-  private getCurrent(key:'id'|'identifier'|'name') {
+  public get viewManager(): boolean|null{
+    if (this.getCurrent('view') == 'true') {
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+
+  private getCurrent(key:'id'|'identifier'|'name'|'view') {
     if (this.current && this.current[key]) {
       return this.current[key].toString();
     }
@@ -88,7 +98,8 @@ export class CurrentProjectService {
       this.current = {
         id: element.dataset.projectId!,
         name: element.dataset.projectName!,
-        identifier: element.dataset.projectIdentifier!
+        identifier: element.dataset.projectIdentifier!,
+        view: element.dataset.projectView!
       };
     }
   }
