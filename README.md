@@ -21,19 +21,24 @@ More information and screenshots can be found on our [website](https://www.openp
 If you want to run an instance of OpenProject in production (or for evaluation), refer to our
 in-depth [installation guides](https://www.openproject.org/download-and-installation/).
 
-If you're a developer wanting to set-up a local environment for contributing to OpenProject or
-developing plugins, you should refer instead to our [Quick Start for Developers](https://www.openproject.org/development/setting-up-development-environment/).
-
 ## Reporting bugs
 
 You found a bug? Please report it to our [OpenProject community](https://community.openproject.com/projects/openproject). Thank you!
 
-## Contact
+## Contribute
 
 OpenProject is supported by its community members, both companies and individuals.
 
-Here you can find our [contact information](https://www.openproject.org/contact-us).
+We are always looking for new members to our community, so if you are interested in improving OpenProject we would be glad to welcome and support you getting into the code. There are guides as well, e.g. a [Quick Start for Developers](https://www.openproject.org/development/setting-up-development-environment/), but don't hesitate to simply [contact us](https://www.openproject.org/contact-us) if you have questions.
 
+Working on OpenProject comes with the satisfaction of working on a widely used open source application.
+
+Also, if you do not want to be limited to working on open source in your free time, OpenProject GmbH, the company contributing to the OpenProject development, [is hiring](https://www.openproject.org/career/).
+
+
+## Contact
+
+Here you can find our [contact information](https://www.openproject.org/contact-us).
 
 ## Security / responsible disclosure
 
