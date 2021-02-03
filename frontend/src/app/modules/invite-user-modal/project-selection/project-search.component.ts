@@ -1,8 +1,7 @@
 import {
   Component,
   Input,
-  EventEmitter,
-  Output,
+  OnInit,
   ElementRef,
 } from '@angular/core';
 import {FormControl} from "@angular/forms";
@@ -17,7 +16,7 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
   selector: 'op-ium-project-search',
   templateUrl: './project-search.component.html',
 })
-export class ProjectSearchComponent extends UntilDestroyedMixin {
+export class ProjectSearchComponent extends UntilDestroyedMixin implements OnInit {
   @Input() projectFormControl:FormControl;
 
   public text = {
@@ -37,13 +36,19 @@ export class ProjectSearchComponent extends UntilDestroyedMixin {
     this.items$ = this.input$
       .pipe(
         this.untilDestroyed(),
-        debounceTime(200),
-        distinctUntilChanged(),
+        debounceTime(100),
         switchMap((searchTerm:string) => {
           const filters = new ApiV3FilterBuilder();
-          filters.add('name_and_identifier', '~', [searchTerm]);
+          if (searchTerm) {
+            filters.add('name_and_identifier', '~', [searchTerm]);
+          }
           return this.apiV3Service.projects.filtered(filters).get().pipe(map(collection => collection.elements));
         }),
       );
+  }
+
+  ngOnInit() {
+    // Make sure we have initial data
+    setTimeout(() => this.input$.next(''));
   }
 }

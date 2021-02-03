@@ -1,6 +1,5 @@
 import {
   Component,
-  ElementRef,
   OnInit,
   Input,
   Output,
@@ -23,34 +22,31 @@ export class PrincipalComponent implements OnInit {
   @Input() project:any = null;
   @Input() type:string = '';
 
-  @Output('close') close = new EventEmitter<void>();
+  @Output() close = new EventEmitter<void>();
   @Output() save = new EventEmitter<{ principal:any, isAlreadyMember:boolean }>();
   @Output() back = new EventEmitter();
 
-  title() {
-    return this.I18n.t('js.invite_user_modal.title.invite_to_project', {
+  public text = {
+    title: () => this.I18n.t('js.invite_user_modal.title.invite_to_project', {
       type: this.I18n.t(`js.invite_user_modal.title.${this.type}`),
       project: this.project.name,
-    });
-  }
-
-  public text = {
+    }),
     label: {
       user: this.I18n.t('js.invite_user_modal.principal.label.name_or_email'),
       placeholder: this.I18n.t('js.invite_user_modal.principal.label.name'),
-      group: this.I18n.t('js.invite_user_modal.principal.required.label.name'),
+      group: this.I18n.t('js.invite_user_modal.principal.label.name'),
     },
-    inviteUser: this.I18n.t('js.invite_user_modal.principal.invite_user', {
+    inviteUser: () => this.I18n.t('js.invite_user_modal.principal.invite_user', {
       email: this.principalControl?.value?.name,
     }),
     changeUserSelection: this.I18n.t('js.invite_user_modal.principal.change_user_selection'),
     changePlaceholderSelection: this.I18n.t('js.invite_user_modal.principal.change_placeholder_selection'),
     changeGroupSelection: this.I18n.t('js.invite_user_modal.principal.change_group_selection'),
     createNew: {
-      placeholder: this.I18n.t('js.invite_user_modal.principal.create_new_placeholder', {
+      placeholder: () => this.I18n.t('js.invite_user_modal.principal.create_new_placeholder', {
         name: this.principalControl?.value?.name
       }),
-      group: this.I18n.t('js.invite_user_modal.principal.create_new_group', {
+      group: () => this.I18n.t('js.invite_user_modal.principal.create_new_group', {
         name: this.principalControl?.value?.name
       }),
     },
@@ -79,8 +75,7 @@ export class PrincipalComponent implements OnInit {
     return !!this.principalControl?.value?.memberships?.elements?.find((mem:any) => mem.project.id === this.project.id);
   }
 
-  constructor(readonly I18n:I18nService,
-              readonly elementRef:ElementRef) {}
+  constructor(readonly I18n:I18nService) {}
 
   ngOnInit() {
     this.principalControl?.setValue(this.principal);

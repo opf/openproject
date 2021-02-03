@@ -45,7 +45,7 @@ export class RoleSearchComponent extends UntilDestroyedMixin implements OnInit {
       this.roles$,
     ).pipe(
       tap(console.log),
-      map(([input, roles]:[string, any[]]) => roles.filter((role) => role.name.toLowerCase().indexOf(input) !== -1))
+      map(([input, roles]:[string, any[]]) => roles.filter((role) => !input || role.name.toLowerCase().indexOf(input) !== -1))
     );
   }
 
@@ -53,7 +53,8 @@ export class RoleSearchComponent extends UntilDestroyedMixin implements OnInit {
     const filters = new ApiV3FilterBuilder();
     filters.add('grantable', '=', true);
     filters.add('unit', '=', ['project']);
-    console.log('send out roles request');
     this.apiV3Service.roles.filtered(filters).get().subscribe(({ elements }) => this.roles$.next(elements));
+
+    setTimeout(() => this.input$.next(''));
   }
 }

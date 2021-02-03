@@ -4,7 +4,6 @@ import {
   Input,
   EventEmitter,
   Output,
-  ElementRef,
 } from '@angular/core';
 import {
   FormControl,
@@ -19,24 +18,26 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
   styleUrls: ['./role.component.sass'],
 })
 export class RoleComponent implements OnInit {
-  @Input('type') type:string = '';
-  @Input('project') project:any = null;
-  @Input('principal') principal:any = null;
-  @Input('role') role:any = null;
+  @Input() type:string = '';
+  @Input() project:any = null;
+  @Input() principal:any = null;
+  @Input() role:any = null;
 
-  @Output('close') close = new EventEmitter<void>();
-  @Output('back') back = new EventEmitter<void>();
+  @Output() close = new EventEmitter<void>();
+  @Output() back = new EventEmitter<void>();
   @Output() save = new EventEmitter<{ role:any }>();
 
   public text = {
-    title: this.I18n.t('js.invite_user_modal.title.invite_principal_to_project', {
+    title: () => this.I18n.t('js.invite_user_modal.title.invite_principal_to_project', {
       principal: this.principal?.name,
       project: this.project?.name,
     }),
-    label: this.I18n.t('js.invite_user_modal.role.label', {
-      project: this.project.name
+    label: () => this.I18n.t('js.invite_user_modal.role.label', {
+      project: this.project?.name,
     }),
-    description: this.I18n.t('js.invite_user_modal.role.description'),
+    description: () => this.I18n.t('js.invite_user_modal.role.description', {
+      principal: this.principal?.name,
+    }),
     required: this.I18n.t('js.invite_user_modal.role.required'),
     backButton: this.I18n.t('js.invite_user_modal.back'),
     nextButton: this.I18n.t('js.invite_user_modal.role.next_button'),
@@ -48,10 +49,7 @@ export class RoleComponent implements OnInit {
 
   get roleControl() { return this.roleForm.get('role'); }
 
-  constructor(
-    readonly I18n:I18nService,
-    readonly elementRef:ElementRef,
-  ) {}
+  constructor(readonly I18n:I18nService) {}
 
   ngOnInit() {
     this.roleControl?.setValue(this.role);
