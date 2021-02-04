@@ -109,14 +109,9 @@ class WorkPackages::BulkController < ApplicationController
   end
 
   def possible_assignees
-    scope = Principal
-            .where(id: Principal.possible_assignee(@projects[0]))
-
-    @projects[1..].each do |project|
-      scope = scope.or(Principal.where(id: Principal.possible_assignee(project)))
+    @projects.inject(Principal.all) do |scope, project|
+      scope.where(id: Principal.possible_assignee(project))
     end
-
-    scope
   end
 
   def user
