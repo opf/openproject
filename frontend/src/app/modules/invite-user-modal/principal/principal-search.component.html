@@ -12,20 +12,15 @@
 >
   <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
     <!--Selectable option-->
-    <span
+    <div
       [ngOptionHighlight]="search"
-      class="ng-option-label ellipsis"
-    >
-      {{ item.name }}
-    </span>
-
+      class="ng-option-label"
+    >{{ item.name }}</div>
     <!-- Already a member of the project -->
-    <span
+    <div
       *ngIf="item.disabled"
-      class="ng-option disabled"
-    >
-      {{ text.alreadyAMember }}
-    </span>
+      class="ng-option-label ellipsis"
+    >{{ text.alreadyAMember() }}</div>
   </ng-template>
 
   <!--Nothing found -->
@@ -44,7 +39,7 @@
         (click)="createNewFromInput()"
       >
         <op-icon icon-classes="icon-mail1"></op-icon>
-        {{ text.inviteNewUser }}
+        {{ text.inviteNewUser() }}
       </button>
     </div>
   </ng-template>
@@ -57,7 +52,7 @@
         (click)="createNewFromInput()"
       >
         <op-icon icon-classes="icon-mail1"></op-icon>
-        {{ text.createNew[type] }}
+        {{ text.createNew[type]() }}
       </button>
     </div>
   </ng-template>
