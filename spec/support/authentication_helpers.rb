@@ -29,6 +29,10 @@
 require 'rack_session_access/capybara'
 
 module AuthenticationHelpers
+  def self.included(base)
+    base.extend(ClassMethods)
+  end
+
   def login_as(user)
     if is_a? RSpec::Rails::FeatureExampleGroup
       # If we want to mock having finished the login process
@@ -54,6 +58,18 @@ module AuthenticationHelpers
 
   def logout
     visit signout_path
+  end
+
+  module ClassMethods
+    # Sets the current user.
+    # Will make the return value available in the specs as current_user (using a let block)
+    # and treat that user as the one currently being logged in
+    # @block [Proc] The user to log in.
+    def current_user(&block)
+      let(:current_user, &block)
+
+      before { login_as current_user }
+    end
   end
 end
 
