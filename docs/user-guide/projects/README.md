@@ -41,11 +41,13 @@ Find out in our Getting started guide how to [create a new project](../../gettin
 
 ## Create a subproject
 
-To create a subproject for an existing project, navigate to the [project settings](#project-settings) -> *Information* and click on the green **+ Subproject** button.
+To create a subproject for an existing project, navigate to [*Project settings*](#project-settings) -> *Information* and click on the green **+ Subproject** button.
 
-Follow the instructions to [create a new project](../../getting-started/projects/#create-a-new-project).
+Then follow the instructions to [create a new project](../../getting-started/projects/#create-a-new-project).
 
-![create-a-subproject](image-20200921153208651.png)
+![create-subproject](image-20210204165705788.png)
+
+
 
 ## Project structure
 
@@ -79,8 +81,6 @@ OpenProject, for example, uses the projects to structure the different modules/p
 
 <div class="alert alert-info" role="alert">
 **Please note**: You have to be a [member](../members/#add-members) of a project in order to see the project and to work in a project.
-
-
 </div>
 
 ## Project Settings
@@ -95,16 +95,15 @@ You can specify further advanced settings for your project. Navigate to your pro
 
 <div class="alert alert-info" role="alert">
 **Note**: The Identifier cannot be changed later after creating the project.
-
 </div>
 
 - You can set a project to **Public**. This means it can be accessed without signing in to OpenProject.
 
 - Click the blue **Create** button in order to save your new project. Or click the blue **Save** button to save your changes.
 
-![project settings](image-20200131100735316.png)
+![project-settings](image-20210204170357754.png)
 
-Find out more detailed information about the [Project settings](project-settings).
+Find out more detailed information about the Project settings [here](project-settings).
 
 ### Change the project hierarchy
 
@@ -112,7 +111,7 @@ To change the project's hierarchy, navigate to the [project settings](project-se
 
 Press the blue **Save** button to apply your changes.
 
-![User-guide-change-subproject](User-guide-change-subproject.png)
+![set-parent-project](image-20210204170603014.png)
 
 
 
@@ -121,7 +120,7 @@ Press the blue **Save** button to apply your changes.
 If you want to set a project to public, you can do so by ticking the box next to "Public" in the [project settings](project-settings) *->Information*.
 
 Setting a project to public will make it accessible to all people within your OpenProject instance. 
-(Should your instance be accessible without authentication [accessible without authentication](../../system-admin-guide/authentication/authentication-settings) this option will make the project visible to the general public outside your users, too)
+(Should your instance be [accessible without authentication](../../system-admin-guide/authentication/authentication-settings) this option will make the project visible to the general public outside your users, too)
 
 
 ### Create a project template
@@ -141,12 +140,9 @@ Navigate to the [project settings](project-settings) and click **Set as template
 <div class="alert alert-info" role="alert">
 **Please note**: The option to set a project as template or to remove it from templates is only available for Administrators.
 </div>
+![set-as-template](image-20210204170739796.png)
 
 
-
-
-
-![image-20200921120538872](image-20200921120538872.png)
 
 ### Use a project template
 
@@ -159,7 +155,9 @@ Another way for using a template project would be to [copy it](#copy-a-project).
 
 You can copy an existing project by navigating to the [project settings](project-settings) and clicking **Copy project** in the upper right of the project settings.
 
-![User-guide-copy-project](User-guide-copy-project.png)
+![copy-project](image-20210204170859459.png)
+
+
 
 Give the new project a name. Select which modules and settings you want to copy and whether or not you want to notify users via email during copying. 
 You can copy existing [boards](../agile-boards) (apart from the Subproject board) and the [Project overview](../project-overview/#project-overview) dashboards along with your project, too.
@@ -174,26 +172,30 @@ Then click the blue **Copy** button.
 
 ### Archive a project
 
-In order to archive a project, navigate to the [project settings](project-settings), and click the **Archive project** button. Then, the project cannot be selected from the project selection anymore. It is still available in the **View all projects** dashboard if you expand the filter and select the Archived projects.
+In order to archive a project, navigate to the [project settings](project-settings), and click the **Archive project** button.
 <div class="alert alert-info" role="alert">
 **Note**: This option is only available for Administrators.
 </div>
+![archive-project](image-20210204171059565.png)
 
-![User-guide-archive-project](User-guide-archive-project.png)
+ Then, the project cannot be selected from the project selection anymore. It is still available in the **View all projects** dashboard if you expand the filter and select the Archived projects.
+
+![view-archived-projects-in-projects-overview](image-20210204171251754.png)
 
 
-![archived-projects](1566219072615.png)
+
 
 ### Delete a project
 
-If you want to delete a project, navigate to the [project settings](project-settings). Click the button **Delete project** on the top right of the page. 
+If you want to delete a project, navigate to the [Project settings](project-settings). Click the button **Delete project** on the top right of the page. 
 
-![User-guide-delete-project](User-guide-delete-project.png)
+![delete-project](image-20210204171422693.png)
 
 Also, you can delete a project via the [projects overview](#view-all-projects).
 <div class="alert alert-info" role="alert">
-**Note**: This option is only available for Administrators.
+**Please note**: Deleting projects is only available for System administrators.
 </div>
+
 
 
 
@@ -209,15 +211,13 @@ With the horizontal **three dots** icons at the right of the list you can open *
 
 With the **arrow** you can display the **project description**.
 
-![projects-overview](image-20201005092427629.png)
+![projects-overview-view-all-projects](image-20210204171811255.png)
 
 You can choose the **columns displayed by default** in the [System Settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration. To access it quickly use the **vertical three dots** icon on the upper right.
 
-![configure-columns-for-view-all-projects](image-20201210234705031.png)
+![configure-projects-list](image-20210204172213314.png)
 
-
-
-To change the order of the displayed [custom fields](../../system-admin-guide/custom-fields) (columns) follow the instructions here: [Displaying a project custom field](/system-admin-guide/custom-fields/custom-fields-projects/#displaying-project-custom-fields) 
+To change the order of the displayed [custom fields](../../system-admin-guide/custom-fields) (columns) follow the instructions here: [Displaying a project custom field](../../system-admin-guide/custom-fields/custom-fields-projects/#displaying-project-custom-fields) 
 
 
 
