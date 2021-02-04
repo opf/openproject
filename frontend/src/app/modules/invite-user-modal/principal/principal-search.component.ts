@@ -32,17 +32,17 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   public canCreateNewGroupOrPlaceholder$:Observable<any>;
 
   public text = {
-    alreadyAMember: this.I18n.t('js.invite_user_modal.principal.already_member_message', {
+    alreadyAMember: () => this.I18n.t('js.invite_user_modal.principal.already_member_message', {
       project: this.project?.name,
     }),
-    inviteNewUser: this.I18n.t('js.invite_user_modal.principal.invite_user', {
-      user: this.input,
+    inviteNewUser: () => this.I18n.t('js.invite_user_modal.principal.invite_user', {
+      email: this.input,
     }),
     createNew: {
-      placeholder: this.I18n.t('js.invite_user_modal.principal.create_new_placeholder', {
+      placeholder: () => this.I18n.t('js.invite_user_modal.principal.create_new_placeholder', {
         name: this.input
       }),
-      group: this.I18n.t('js.invite_user_modal.principal.create_new_group', {
+      group: () => this.I18n.t('js.invite_user_modal.principal.create_new_group', {
         name: this.input
       }),
     },
