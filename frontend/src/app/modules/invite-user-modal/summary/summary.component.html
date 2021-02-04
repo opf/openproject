@@ -10,10 +10,10 @@
       <p slot="input">{{ project.name }}</p>
     </op-form-field>
     <div class="op-ium-summary__row">
-      <op-form-field [label]="text.principalLabel">
+      <op-form-field [label]="text.principalLabel[type]">
         <p slot="input">{{ principal.name }}</p>
       </op-form-field>
-      <op-form-field [label]="text.roleLabel">
+      <op-form-field [label]="text.roleLabel()">
         <p slot="input">{{ role.name }}</p>
       </op-form-field>
     </div>
@@ -21,7 +21,7 @@
       [label]="text.messageLabel"
       *ngIf="type !== 'placeholder'"
     >
-      <p slot="input">{{ message }}</p>
+      <p slot="input">{{ message | json }}</p>
     </op-form-field>
   </div>
 

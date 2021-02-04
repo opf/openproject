@@ -1,4 +1,12 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
@@ -25,6 +33,7 @@ export enum PrincipalType {
 @Component({
   templateUrl: './invite-user.component.html',
   styleUrls: ['./invite-user.component.sass'],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InviteUserModalComponent extends OpModalComponent implements OnInit {

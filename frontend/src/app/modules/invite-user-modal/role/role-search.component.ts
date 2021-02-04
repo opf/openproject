@@ -17,7 +17,7 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
   templateUrl: './role-search.component.html',
 })
 export class RoleSearchComponent extends UntilDestroyedMixin implements OnInit {
-  @Input() roleControl:FormControl;
+  @Input('opFormBinding') roleControl:FormControl;
 
   public input$ = new Subject<string|null>();
   public roles$ = new Subject<any[]>();

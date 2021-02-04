@@ -10,7 +10,7 @@
       required
     >
       <op-ium-project-search
-        [projectFormControl]="projectControl"
+        [opFormBinding]="projectControl"
         slot="input"
       ></op-ium-project-search>
       
@@ -26,7 +26,7 @@
     <div class="op-form-field">
       <op-option-list
         [options]="typeOptions"
-        [formControl]="typeControl"
+        formControlName="type"
       ></op-option-list>
 
       <div

@@ -19,7 +19,7 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
   templateUrl: './principal-search.component.html',
 })
 export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnInit {
-  @Input() principalControl:FormControl;
+  @Input('opFormBinding') principalControl:FormControl;
   @Input() type:string = '';
   @Input() project:any = null;
 

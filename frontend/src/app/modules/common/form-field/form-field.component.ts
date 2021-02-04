@@ -5,9 +5,7 @@ import {
   ContentChild,
 } from "@angular/core";
 import {
-  FormControlName,
-  FormControl,
-  FormGroup,
+  NgControl
 } from "@angular/forms";
 
 @Component({
@@ -23,13 +21,7 @@ export class OpFormFieldComponent {
   @Input() label:string = '';
   @Input() required:boolean = false;
 
-  @ContentChild(FormControlName) formControlName:FormControlName;
-  @ContentChild(FormControl) formControl:FormControl;
-  @ContentChild(FormGroup) formGroup:FormGroup;
-
-  get control() {
-    return this.formGroup || this.formControlName || this.formControl;
-  }
+  @ContentChild(NgControl) control:NgControl;
 
   get isInvalid() {
     return this.control?.touched && this.control?.invalid;

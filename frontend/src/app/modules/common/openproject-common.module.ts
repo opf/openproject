@@ -87,6 +87,7 @@ import {SlideToggleComponent} from "core-app/modules/common/slide-toggle/slide-t
 import {DynamicBootstrapModule} from 'core-app/modules/common/dynamic-bootstrap/dynamic-bootstrap.module';
 import {OpOptionListComponent} from "core-app/modules/common/option-list/option-list.component";
 import {OpFormFieldComponent} from "core-app/modules/common/form-field/form-field.component";
+import {OpFormBindingDirective} from "core-app/modules/common/form-field/form-binding.directive";
 import {OpPrincipalComponent} from "core-app/modules/common/principal/op-principal.component";
 import {OpModalHeadingComponent} from "./modal/modal-heading.component";
 
@@ -159,6 +160,7 @@ export function bootstrapModule(injector:Injector) {
     OpIcon,
     OpOptionListComponent,
     OpFormFieldComponent,
+    OpFormBindingDirective,
     OpModalHeadingComponent,
     AutofocusDirective,
 
@@ -216,6 +218,7 @@ export function bootstrapModule(injector:Injector) {
     OpIcon,
     OpOptionListComponent,
     OpFormFieldComponent,
+    OpFormBindingDirective,
     OpModalHeadingComponent,
     AutofocusDirective,
 

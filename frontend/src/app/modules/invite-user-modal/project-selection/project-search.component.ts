@@ -4,7 +4,7 @@ import {
   OnInit,
   ElementRef,
 } from '@angular/core';
-import {FormControl} from "@angular/forms";
+import {FormControl, NgControl} from "@angular/forms";
 import {Observable, Subject} from "rxjs";
 import {debounceTime, distinctUntilChanged, filter, map, switchMap, tap} from "rxjs/operators";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
@@ -17,7 +17,7 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
   templateUrl: './project-search.component.html',
 })
 export class ProjectSearchComponent extends UntilDestroyedMixin implements OnInit {
-  @Input() projectFormControl:FormControl;
+  @Input('opFormBinding') projectFormControl:FormControl;
 
   public text = {
     noResultsFound: this.I18n.t('js.invite_user_modal.project.no_results'),

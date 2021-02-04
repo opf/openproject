@@ -11,9 +11,9 @@
     >
       <op-ium-principal-search
         *ngIf="!isNewPrincipal"
+        [opFormBinding]="principalControl"
         [type]="type"
         [project]="project"
-        [principalControl]="principalControl"
         slot="input"
         (createNew)="createNewFromInput($event)"
       ></op-ium-principal-search>

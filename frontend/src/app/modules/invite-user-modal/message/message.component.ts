@@ -63,6 +63,6 @@ export class MessageComponent implements OnInit {
       return;
     }
 
-    this.save.emit({ message: this.messageForm?.value });
+    this.save.emit({ message: this.messageControl?.value });
   }
 }
