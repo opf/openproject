@@ -22,6 +22,7 @@ The **Gantt chart** in OpenProject displays the work packages in a timeline. You
 | [Gantt chart configuration](#gantt-chart-configuration)      | How to configure the view of your Gantt chart, e.g. add labels? |
 | [Synchronize data between OpenProject and Excel](#synchronize-data-between-openproject-and-excel) | How to synchronize data from OpenProject to Excel?           |
 | [Gantt chart views](#gantt-chart-views)                      | How to zoom in and out and activate the Zen mode?            |
+| [Aggregation by project](#aggregation-by-project)            | How to display an aggregated view of all milestones of multiple projects? |
 
 
 <video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Project-Plan-and-Timelines-Gantt-charts.mp4" type="video/mp4" controls="" style="width:100%"></video>
@@ -156,4 +157,27 @@ The zen mode gives you more space to focus on the tasks at hand. It's almost lik
 
 
 
+
+## Aggregation by project
+
+You can get a **quick overview of multiple projects** in the Gantt chart. To accomplish this navigate to the Work packages module of a project or the [project overarching work packages list](../projects/#project-overarching-reports).
+
+**Group the list** by project by using the [work packages table configuration](../work-packages/work-package-table-configuration/#flat-list-hierarchy-mode-and-group-by) (accessible in the upper right corner) or by clicking on the small triangle next to "Project" in the table header.
+ ![group-by-project](image-20201211020614221.png)
+
+**Display the Gantt chart** by clicking on the button in the upper right corner.
+![insert-gantt-chart-button](image-20201211020748715.png)
+
+Use the minus next to the project's name or the **collapse button** in the upper right corner to collapse some or all projects.
+
+![collapse-button](collapse-all-expand-all.png)
+
+This will give you an **aggregated view of the projects' milestones**.
+
+![aggregated-projects-milestones](image-20201211131511543.png)
+
+**Please note**: If you want to make use of this feature, it is necessary to add milestones for the most important dates to your projects. At the moment this feature is not available for other [work package types](../../getting-started/work-packages-introduction/#what-is-a-work-package). 
+Apart from the set filters the list of displayed projects depends on your [permissions](../../system-admin-guide/users-permissions/roles-permissions/). You can only see private projects that you are a member of and public projects.
+In some cases (many work packages per project) you will have to increase the objects per page in bottom right corner to display multiple projects. Change the available options in the [system settings](../../system-admin-guide/system-settings/general-settings/) if necessary.
+ ![image-20201211131803961](image-20201211131803961.png)
 
