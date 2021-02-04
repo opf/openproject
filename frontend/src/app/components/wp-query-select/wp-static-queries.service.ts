@@ -67,7 +67,7 @@ export class WorkPackageStaticQueriesService {
       {
         identifier: 'all_open',
         label: this.text.all_open,
-        query_props: null
+        query_props: '{"c":["id","subject","type","status","assignee","priority"],"tv":false,"hi":true,"g":"","t":"type:asc,subject:asc","f":[{"n":"status","o":"o","v":[]}],"pa":1,"pp":20}'
       },
       {
         identifier: 'latest_activity',
