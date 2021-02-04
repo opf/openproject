@@ -29,10 +29,12 @@
 #++
 
 module Types::Scopes
-  class Milestone
-    class << self
-      def fetch
-        Type.where(is_milestone: true)
+  module Milestone
+    extend ActiveSupport::Concern
+
+    class_methods do
+      def milestone
+        where(is_milestone: true)
       end
     end
   end

@@ -33,7 +33,7 @@ class Relation < ApplicationRecord
 
   include ::Scopes::Scoped
 
-  scope_classes Relations::Scopes::FollowsNonManualAncestors
+  scopes :follows_non_manual_ancestors
 
   scope :of_work_package,
         ->(work_package) { where('from_id = ? OR to_id = ?', work_package, work_package) }

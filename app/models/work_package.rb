@@ -117,10 +117,10 @@ class WorkPackage < ApplicationRecord
     where(author_id: author.id)
   }
 
-  scope_classes WorkPackages::Scopes::ForScheduling,
-                WorkPackages::Scopes::IncludeSpentTime,
-                WorkPackages::Scopes::IncludeDerivedDates,
-                WorkPackages::Scopes::LeftJoinSelfAndDescendants
+  scopes :for_scheduling,
+         :include_derived_dates,
+         :include_spent_time,
+         :left_join_self_and_descendants
 
   acts_as_watchable
 

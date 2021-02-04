@@ -31,7 +31,7 @@
 require 'spec_helper'
 
 describe Principals::Scopes::Like, type: :model, with_clean_fixture: true do
-  describe '.fetch' do
+  describe '.like' do
     let!(:login) do
       FactoryBot.create(:principal, login: 'login')
     end
@@ -58,22 +58,22 @@ describe Principals::Scopes::Like, type: :model, with_clean_fixture: true do
     end
 
     it 'finds by login' do
-      expect(described_class.fetch('login'))
+      expect(Principal.like('login'))
         .to match_array [login, login2]
     end
 
     it 'finds by firstname' do
-      expect(described_class.fetch('firstname'))
+      expect(Principal.like('firstname'))
         .to match_array [firstname, firstname2]
     end
 
     it 'finds by lastname' do
-      expect(described_class.fetch('lastname'))
+      expect(Principal.like('lastname'))
         .to match_array [lastname, lastname2]
     end
 
     it 'finds by mail' do
-      expect(described_class.fetch('mail'))
+      expect(Principal.like('mail'))
         .to match_array [mail, mail2]
     end
   end

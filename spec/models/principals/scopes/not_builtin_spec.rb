@@ -31,7 +31,7 @@
 require 'spec_helper'
 
 describe Principals::Scopes::NotBuiltin, type: :model, with_clean_fixture: true do
-  describe '.fetch' do
+  describe '.not_builtin' do
     let!(:anonymous_user) { FactoryBot.create(:anonymous) }
     let!(:system_user) { FactoryBot.create(:system) }
     let!(:deleted_user) { FactoryBot.create(:deleted_user) }
@@ -39,7 +39,7 @@ describe Principals::Scopes::NotBuiltin, type: :model, with_clean_fixture: true 
     let!(:user) { FactoryBot.create(:user) }
     let!(:placeholder_user) { FactoryBot.create(:placeholder_user) }
 
-    subject { described_class.fetch }
+    subject { Principal.not_builtin }
 
     it 'returns only actual users and groups' do
       expect(subject)

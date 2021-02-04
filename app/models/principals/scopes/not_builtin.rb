@@ -35,11 +35,15 @@
 #   * SystemUser
 #   * AnonymousUser
 module Principals::Scopes
-  class NotBuiltin
-    def self.fetch
-      Principal.where.not(type: [SystemUser.name,
-                                 AnonymousUser.name,
-                                 DeletedUser.name])
+  module NotBuiltin
+    extend ActiveSupport::Concern
+
+    class_methods do
+      def not_builtin
+        where.not(type: [SystemUser.name,
+                         AnonymousUser.name,
+                         DeletedUser.name])
+      end
     end
   end
 end

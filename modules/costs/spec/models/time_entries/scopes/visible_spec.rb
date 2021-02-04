@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe TimeEntry::Scopes::Visible, type: :model do
+describe TimeEntries::Scopes::Visible, type: :model do
   let(:project) { FactoryBot.create(:project) }
   let(:user) do
     FactoryBot.create(:user,
@@ -67,8 +67,8 @@ describe TimeEntry::Scopes::Visible, type: :model do
                       user: user)
   end
 
-  describe '.fetch' do
-    subject { described_class.fetch(user) }
+  describe '.visible' do
+    subject { TimeEntry.visible(user) }
 
     context 'for a user having the view_time_entries permission' do
       it 'retrieves all the time entries of projects the user has the permissions in' do

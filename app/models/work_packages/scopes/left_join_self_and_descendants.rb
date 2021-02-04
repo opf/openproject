@@ -28,10 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackages::Scopes::LeftJoinSelfAndDescendants
-  class << self
-    def fetch(user, work_package = nil)
-      WorkPackage.joins(join_descendants(user, work_package).join_sources)
+module WorkPackages::Scopes::LeftJoinSelfAndDescendants
+  extend ActiveSupport::Concern
+
+  class_methods do
+    def left_join_self_and_descendants(user, work_package = nil)
+      joins(join_descendants(user, work_package).join_sources)
     end
 
     private

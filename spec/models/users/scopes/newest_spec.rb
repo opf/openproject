@@ -31,7 +31,7 @@
 require 'spec_helper'
 
 describe Users::Scopes::Newest, type: :model, with_clean_fixture: true do
-  describe '.fetch' do
+  describe '.newest' do
     let!(:anonymous_user) { FactoryBot.create(:anonymous) }
     let!(:system_user) { FactoryBot.create(:system) }
     let!(:deleted_user) { FactoryBot.create(:deleted_user) }
@@ -41,7 +41,7 @@ describe Users::Scopes::Newest, type: :model, with_clean_fixture: true do
     let!(:user3) { FactoryBot.create(:user) }
     let!(:placeholder_user) { FactoryBot.create(:placeholder_user) }
 
-    subject { described_class.fetch }
+    subject { User.newest }
 
     it 'returns only actual users ordered by creation date desc' do
       expect(subject.to_a)
