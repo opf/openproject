@@ -68,13 +68,13 @@ Select the item to which you want to create a dependency. The precede and follow
 
 To find out about **how work packages behave**, when you move their predecessor or follower or change the date of a child work package please read our guide for the [Automatic and manual scheduling mode](scheduling).
 
-## Understanding the colours and lines in the Gantt chart
+## Understanding the colors and lines in the Gantt chart
 
 - A **blue line** connects two work packages, they are predecessor and follower.
 - The **vertical red dotted line** indicates today's date.
 - A **black clamp** indicates the duration from the start date of a work packages earliest starting child until the end date of a work packages latest ending child.
 - A **red clamp** indicates the same as the black clamp, with an important difference: The clamp turns red if the dates derived from the children are before or after the manually scheduled dates (of this parent work package).
-  The clambs are black in case the derived dates are within the set dates (of this parent).
+  The clamps are black in case the derived dates are within the set dates (of this parent).
 - A **diamond symbol** stands for a milestone.
 - A **bar** stands for work packages like phases and tasks.
 
@@ -135,19 +135,25 @@ Follow our [Step by step guide how to synchronize your Excel Sheet with OpenProj
 
 To zoom in and zoom out in the Gantt chart view, click on the button with the **+** and **- icon** on top of the chart.
 
-![Gantt-chart-zoom](Gantt-chart-zoom.png)
+![zoom-in-Gantt-chart](image-20210204173135173.png)
+
+
 
 ### Auto zoom
 
 Select the **auto zoom button** on top of the Gantt chart to have the best view of your Gantt chart.
 
-![Gantt-chart-autozoom](Gantt-chart-autozoom.png)
+![auto-zoom-Gantt](image-20210204173248266.png)
+
+
 
 ### Zen mode
 
 The zen mode gives you more space to focus on the tasks at hand. It's almost like activating the full screen view in your browser. To exit press the *Esc* key or click on the **zen mode** symbol again.
 
-![image-20201007164653327](image-20201007164653327.png)
+![zen-mode-Gantt-chart](image-20210204173420592.png)
+
+
 
 
 
