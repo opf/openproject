@@ -28,32 +28,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Principals
-      module GroupOrUserElements
-        extend ::ActiveSupport::Concern
+require 'spec_helper'
 
-        included do
-          collection :elements,
-                     getter: ->(*) {
-                       represented.map do |model|
-                         representer_class = case model
-                                             when User
-                                               ::API::V3::Users::UserRepresenter
-                                             when Group
-                                               ::API::V3::Groups::GroupRepresenter
-                                             else
-                                               raise "unsupported type"
-                                             end
+describe Principals::Scopes::Human, type: :model, with_clean_fixture: true do
+  describe '.fetch' do
+    let!(:anonymous_user) { FactoryBot.create(:anonymous) }
+    let!(:system_user) { FactoryBot.create(:system) }
+    let!(:deleted_user) { FactoryBot.create(:deleted_user) }
+    let!(:group) { FactoryBot.create(:group) }
+    let!(:user) { FactoryBot.create(:user) }
+    let!(:placeholder_user) { FactoryBot.create(:placeholder_user) }
 
-                         representer_class.new(model, current_user: current_user)
-                       end
-                     },
-                     exec_context: :decorator,
-                     embedded: true
-        end
-      end
+    subject { described_class.fetch }
+
+    it 'returns only actual users and groups' do
+      expect(subject)
+        .to match_array [user, group]
     end
   end
 end

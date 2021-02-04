@@ -54,7 +54,9 @@ describe 'Meetings deletion', type: :feature do
     it 'can delete own and other`s meetings' do
       visit meetings_path(project)
 
+      SeleniumHubWaiter.wait
       click_link meeting.title
+      SeleniumHubWaiter.wait
       click_link "Delete"
 
       page.accept_confirm
@@ -62,7 +64,9 @@ describe 'Meetings deletion', type: :feature do
       expect(page)
         .to have_current_path meetings_path(project)
 
+      SeleniumHubWaiter.wait
       click_link other_meeting.title
+      SeleniumHubWaiter.wait
       click_link "Delete"
 
       page.accept_confirm

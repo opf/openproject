@@ -31,14 +31,12 @@
 require 'digest/sha1'
 
 class User < Principal
-  include ::Scopes::Scoped
-
   USER_FORMATS_STRUCTURE = {
-    firstname_lastname:       [:firstname, :lastname],
-    firstname:                [:firstname],
-    lastname_firstname:       [:lastname, :firstname],
-    lastname_coma_firstname:  [:lastname, :firstname],
-    username:                 [:login]
+    firstname_lastname: [:firstname, :lastname],
+    firstname: [:firstname],
+    lastname_firstname: [:lastname, :firstname],
+    lastname_coma_firstname: [:lastname, :firstname],
+    username: [:login]
   }.freeze
 
   USER_MAIL_OPTION_ALL            = ['all', :label_user_mail_option_all].freeze
@@ -57,19 +55,11 @@ class User < Principal
     USER_MAIL_OPTION_NON
   ].freeze
 
-  has_and_belongs_to_many :groups,
-                          join_table:   "#{table_name_prefix}group_users#{table_name_suffix}",
-                          after_add:    ->(user, group) { group.user_added(user) },
-                          after_remove: ->(user, group) { group.user_removed(user) }
+  include ::Associations::Groupable
+  extend DeprecatedAlias
 
   has_many :categories, foreign_key: 'assigned_to_id',
                         dependent: :nullify
-  has_many :assigned_issues, foreign_key: 'assigned_to_id',
-                             class_name: 'WorkPackage',
-                             dependent: :nullify
-  has_many :responsible_for_issues, foreign_key: 'responsible_id',
-                                    class_name: 'WorkPackage',
-                                    dependent: :nullify
   has_many :watches, class_name: 'Watcher',
                      dependent: :delete_all
   has_many :changesets, dependent: :nullify
@@ -97,7 +87,8 @@ class User < Principal
   scope :blocked, -> { create_blocked_scope(self, true) }
   scope :not_blocked, -> { create_blocked_scope(self, false) }
 
-  scope_classes Users::Scopes::FindByLogin
+  scope_classes Users::Scopes::FindByLogin,
+                Users::Scopes::Newest
 
   def self.create_blocked_scope(scope, blocked)
     scope.where(blocked_condition(blocked))
@@ -129,9 +120,9 @@ class User < Principal
   # Login must contain letters, numbers, underscores only
   validates_format_of :login, with: /\A[a-z0-9_\-@\.+ ]*\z/i
   validates_length_of :login, maximum: 256
-  validates_length_of :firstname, :lastname, maximum: 30
+  validates_length_of :firstname, :lastname, maximum: 256
   validates_format_of :mail, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, allow_blank: true
-  validates_length_of :mail, maximum: 60, allow_nil: true
+  validates_length_of :mail, maximum: 256, allow_nil: true
   validates_confirmation_of :password, allow_nil: true
   validates_inclusion_of :mail_notification, in: MAIL_NOTIFICATION_OPTIONS.map(&:first), allow_blank: true
 
@@ -168,8 +159,6 @@ class User < Principal
   }
 
   scope :admin, -> { where(admin: true) }
-
-  scope :newest, -> { not_builtin.order(created_at: :desc) }
 
   def self.unique_attribute
     :login
@@ -327,23 +316,8 @@ class User < Principal
   # Return user's authentication provider for display
   def authentication_provider
     return if identity_url.blank?
+
     identity_url.split(':', 2).first.titleize
-  end
-
-  def status_name
-    STATUSES.invert[status].to_s
-  end
-
-  def active?
-    status == STATUSES[:active]
-  end
-
-  def registered?
-    status == STATUSES[:registered]
-  end
-
-  def locked?
-    status == STATUSES[:locked]
   end
 
   ##
@@ -356,40 +330,25 @@ class User < Principal
   alias_method :activatable?, :locked?
 
   def activate
-    self.status = STATUSES[:active]
+    self.status = self.class.statuses[:active]
   end
 
   def register
-    self.status = STATUSES[:registered]
+    self.status = self.class.statuses[:registered]
   end
 
   def invite
-    self.status = STATUSES[:invited]
+    self.status = self.class.statuses[:invited]
   end
 
   def lock
-    self.status = STATUSES[:locked]
+    self.status = self.class.statuses[:locked]
   end
 
-  def activate!
-    update_attribute(:status, STATUSES[:active])
-  end
-
-  def register!
-    update_attribute(:status, STATUSES[:registered])
-  end
-
-  def invite!
-    update_attribute(:status, STATUSES[:invited])
-  end
-
-  def invited?
-    status == STATUSES[:invited]
-  end
-
-  def lock!
-    update_attribute(:status, STATUSES[:locked])
-  end
+  deprecated_alias :activate!, :active!
+  deprecated_alias :register!, :registered!
+  deprecated_alias :invite!, :invited!
+  deprecated_alias :lock!, :locked!
 
   # Returns true if +clear_password+ is the correct user's password, otherwise false
   # If +update_legacy+ is set, will automatically save legacy passwords using the current
@@ -698,7 +657,7 @@ class User < Principal
           u.login = ''
           u.firstname = ''
           u.mail = ''
-          u.status = User::STATUSES[:active]
+          u.status = User.statuses[:active]
         end).save
         raise 'Unable to create the anonymous user.' if anonymous_user.new_record?
       end
@@ -716,7 +675,7 @@ class User < Principal
         login: "",
         mail: "",
         admin: false,
-        status: User::STATUSES[:active],
+        status: User.statuses[:active],
         first_login: false
       )
 

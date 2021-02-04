@@ -47,18 +47,17 @@ module API
               fail ::API::Errors::InvalidUserStatusTransition
             end
           end
+
+          def authorize_user_cru_allowed
+            authorize_by_with_raise(current_user.allowed_to_globally?(:add_user))
+          end
         end
 
         resources :users do
-          helpers ::API::V3::Users::CreateUser
-
-          post do
-            authorize_admin
-            create_user(request_body, current_user)
-          end
+          post &::API::V3::Utilities::Endpoints::Create.new(model: User).mount
 
           get do
-            authorize_admin
+            authorize_user_cru_allowed
 
             query = ParamsToQueryService.new(User, current_user).call(params)
 
@@ -78,8 +77,6 @@ module API
             requires :id, desc: 'User\'s id'
           end
           route_param :id  do
-            helpers ::API::V3::Users::UpdateUser
-
             after_validation do
               @user =
                 if params[:id] == 'me'
@@ -89,22 +86,9 @@ module API
                 end
             end
 
-            get do
-              UserRepresenter.new(@user, current_user: current_user)
-            end
-
-            patch do
-              authorize_admin
-              update_user(request_body, current_user)
-            end
-
-            delete do
-              if ::Users::DeleteService.new(@user, current_user).call
-                status 202
-              else
-                fail ::API::Errors::Unauthorized
-              end
-            end
+            get &::API::V3::Utilities::Endpoints::Show.new(model: User).mount
+            patch &::API::V3::Utilities::Endpoints::Update.new(model: User).mount
+            delete &::API::V3::Utilities::Endpoints::Delete.new(model: User, success_status: 202).mount
 
             namespace :lock do
               # Authenticate lock transitions

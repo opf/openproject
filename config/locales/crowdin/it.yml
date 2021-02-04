@@ -532,6 +532,7 @@ it:
         invalid_url: 'non è un URL valido.'
         invalid_url_scheme: 'non è un protocollo supportato (ammessi: %{allowed_schemes}).'
         less_than_or_equal_to: "deve essere inferiore o uguale a %{count}."
+        not_deletable: "cannot be deleted."
         not_current_user: "non è l'utente attuale."
         not_a_date: "non è una data valida."
         not_a_datetime: "non è un'orario valido."
@@ -2225,7 +2226,6 @@ it:
   setting_welcome_text: "Blocco di testo di benvenuto"
   setting_welcome_title: "Blocco di testo del titolo"
   setting_welcome_on_homescreen: "Mostra il blocco testo di benvenuto nella pagina home"
-  setting_work_package_group_assignment: "Consentire l'assegnazione ai gruppi"
   setting_work_package_list_default_highlighting_mode: "Modalità evidenziazione predefinita"
   setting_work_package_list_default_highlighted_attributes: "Attributi evidenziati in linea predefiniti"
   settings:

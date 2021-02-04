@@ -534,6 +534,7 @@ ko:
         invalid_url: '은(는) 올바른 URL이 아닙니다.'
         invalid_url_scheme: '은(는) 지원되는 프로토콜(허용: %{allowed_schemes})이 아닙니다.'
         less_than_or_equal_to: "은(는) %{count} 보다 작거나 같아야 합니다"
+        not_deletable: "cannot be deleted."
         not_current_user: "은(는) 현재 유효한 사용자가 아닙니다."
         not_a_date: "은(는) 유효한 날짜가 아닙니다."
         not_a_datetime: "은(는) 유효한 날짜가 아닙니다."
@@ -2205,7 +2206,6 @@ ko:
   setting_welcome_text: "환영 블록 텍스트"
   setting_welcome_title: "환영 블록 제목"
   setting_welcome_on_homescreen: "홈 화면에 환영 블록 표시"
-  setting_work_package_group_assignment: "그룹에 할당 허용"
   setting_work_package_list_default_highlighting_mode: "기본 강조 표시 모드"
   setting_work_package_list_default_highlighted_attributes: "기본 인라인 강조 표시 특성"
   settings:

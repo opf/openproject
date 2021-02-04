@@ -50,6 +50,7 @@ class Queries::Principals::Filters::MemberFilter < Queries::Principals::Filters:
       default_scope.where(members: { project_id: values })
     when '!'
       default_scope.where.not(members: { project_id: values })
+        .or(default_scope.where(members: { project_id: nil }))
     when '*'
       default_scope.where.not(members: { project_id: nil })
     when '!*'

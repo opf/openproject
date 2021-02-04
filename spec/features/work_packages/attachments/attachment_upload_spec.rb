@@ -18,7 +18,7 @@ describe 'Upload attachment to work package', js: true do
   let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
   let(:attachments) { ::Components::Attachments.new }
   let(:field) { TextEditorField.new wp_page, 'description' }
-  let(:image_fixture) { Rails.root.join('spec/fixtures/files/image.png') }
+  let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:editor) { Components::WysiwygEditor.new }
 
   before do
@@ -40,7 +40,7 @@ describe 'Upload attachment to work package', js: true do
 
         editor.expect_button 'Insert image'
 
-        editor.drag_attachment image_fixture, 'Some image caption'
+        editor.drag_attachment image_fixture.path, 'Some image caption'
 
         field.submit_by_click
 
@@ -97,7 +97,7 @@ describe 'Upload attachment to work package', js: true do
           subject.set_value 'My subject'
 
           target = find('.ck-content')
-          attachments.drag_and_drop_file(target, image_fixture)
+          attachments.drag_and_drop_file(target, image_fixture.path)
 
           sleep 2
           expect(page).not_to have_selector('notification-upload-progress')
@@ -144,7 +144,7 @@ describe 'Upload attachment to work package', js: true do
       # everywhere so if this works it should work everywhere else too.
       context 'with direct uploads', with_direct_uploads: true do
         before do
-          allow_any_instance_of(Attachment).to receive(:diskfile).and_return Struct.new(:path).new(image_fixture.to_s)
+          allow_any_instance_of(Attachment).to receive(:diskfile).and_return Struct.new(:path).new(image_fixture.path.to_s)
         end
 
         it_behaves_like 'it supports image uploads via drag & drop' do
@@ -170,13 +170,13 @@ describe 'Upload attachment to work package', js: true do
       ##
       # Attach file manually
       expect(page).to have_no_selector('.work-package--attachments--filename')
-      attachments.attach_file_on_input(image_fixture)
+      attachments.attach_file_on_input(image_fixture.path)
       expect(page).not_to have_selector('notification-upload-progress')
       expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', wait: 5)
 
       ##
       # and via drag & drop
-      attachments.drag_and_drop_file(container, Rails.root.join('spec/fixtures/files/image.png'))
+      attachments.drag_and_drop_file(container, image_fixture.path)
       expect(page).not_to have_selector('notification-upload-progress')
       expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', count: 2, wait: 5)
     end

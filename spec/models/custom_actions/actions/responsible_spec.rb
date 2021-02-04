@@ -32,37 +32,26 @@ describe CustomActions::Actions::Responsible, type: :model do
   let(:key) { :responsible }
   let(:type) { :associated_property }
   let(:allowed_values) do
-    users = [FactoryBot.build_stubbed(:user),
-             FactoryBot.build_stubbed(:user)]
+    principals = [FactoryBot.build_stubbed(:user),
+             FactoryBot.build_stubbed(:group)]
 
     allow(User)
-      .to receive_message_chain(:active_or_registered, :select, :order_by_name)
-            .and_return(users)
+      .to receive_message_chain(:not_locked, :select, :order_by_name)
+            .and_return(principals)
 
     [{ value: nil, label: '-' },
-     { value: users.first.id, label: users.first.name },
-     { value: users.last.id, label: users.last.name }]
+     { value: principals.first.id, label: principals.first.name },
+     { value: principals.last.id, label: principals.last.name }]
   end
 
   it_behaves_like 'base custom action'
   it_behaves_like 'associated custom action' do
     describe '#allowed_values' do
-      context 'group assignment disabled', with_settings: { work_package_group_assignment?: false } do
-        it 'is the list of all users' do
-          allowed_values
+      it 'is the list of all users and groups' do
+        allowed_values
 
-          expect(instance.allowed_values)
-            .to eql(allowed_values)
-        end
-      end
-
-      context 'group assignment enabled', with_settings: { work_package_group_assignment?: true } do
-        it 'is the list of all users' do
-          allowed_values
-
-          expect(instance.allowed_values)
-            .to eql(allowed_values)
-        end
+        expect(instance.allowed_values)
+          .to eql(allowed_values)
       end
     end
   end

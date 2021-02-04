@@ -68,6 +68,6 @@ class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filt
   private
 
   def visible_projects
-    @visible_projects ||= Project.visible
+    @visible_projects ||= Project.visible.active
   end
 end

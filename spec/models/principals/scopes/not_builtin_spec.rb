@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -25,54 +27,23 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-#
-# Kudos to https://forum.shakacode.com/t/how-to-test-file-downloads-with-capybara/347 from
-# where this code was adapted
 
-module DownloadedFile
-  PATH = Rails.root.join('tmp/test/downloads')
+require 'spec_helper'
 
-  extend self
+describe Principals::Scopes::NotBuiltin, type: :model, with_clean_fixture: true do
+  describe '.fetch' do
+    let!(:anonymous_user) { FactoryBot.create(:anonymous) }
+    let!(:system_user) { FactoryBot.create(:system) }
+    let!(:deleted_user) { FactoryBot.create(:deleted_user) }
+    let!(:group) { FactoryBot.create(:group) }
+    let!(:user) { FactoryBot.create(:user) }
+    let!(:placeholder_user) { FactoryBot.create(:placeholder_user) }
 
-  def downloads
-    Dir[PATH.join("*")]
-  end
+    subject { described_class.fetch }
 
-  def download
-    downloads.first
-  end
-
-  def download_content(ensure_content = true)
-    wait_for_download
-    wait_for_download_content if ensure_content
-    File.read(download)
-  end
-
-  def wait_for_download
-    Timeout.timeout(Capybara.default_max_wait_time) do
-      sleep 0.1 until downloaded?
+    it 'returns only actual users and groups' do
+      expect(subject)
+        .to match_array [user, group, placeholder_user]
     end
-  end
-
-  def wait_for_download_content
-    Timeout.timeout(Capybara.default_max_wait_time) do
-      sleep 0.1 until has_content?
-    end
-  end
-
-  def downloaded?
-    !downloading? && downloads.any?
-  end
-
-  def has_content?
-    !File.read(download).empty?
-  end
-
-  def downloading?
-    downloads.grep(/\.part$/).any?
-  end
-
-  def clear_downloads
-    FileUtils.rm_f(downloads)
   end
 end

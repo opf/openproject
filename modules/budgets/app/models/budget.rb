@@ -268,7 +268,7 @@ class Budget < ApplicationRecord
     attributes &&
       attributes[:hours].to_f.positive? &&
       attributes[:user_id].to_i.positive? &&
-      project.possible_assignees.map(&:id).include?(attributes[:user_id].to_i)
+      Principal.possible_assignee(project).where(id: attributes[:user_id].to_i).exists?
   end
 
   def valid_material_budget_attributes?(attributes)

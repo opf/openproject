@@ -48,9 +48,9 @@ class UserSearchService
 
   def scope
     if users_only
-      project.nil? ? User : project.users
+      project.nil? ? User : project.users.user
     else
-      project.nil? ? Principal : project.principals
+      project.nil? ? Principal : project.principals.human
     end
   end
 
@@ -61,22 +61,23 @@ class UserSearchService
   def ids_search(scope)
     ids = params[:ids].split(',')
 
-    scope.not_builtin.where(id: ids)
+    scope.where(id: ids)
   end
 
   def query_search(scope)
     scope = scope.in_group(params[:group_id].to_i) if params[:group_id].present?
     c = ARCondition.new
 
-    if params[:status] == 'blocked'
+    case params[:status]
+    when 'blocked'
       @status = :blocked
       scope = scope.blocked
-    elsif params[:status] == 'all'
+    when 'all'
       @status = :all
-      scope = scope.not_builtin
+      # No scope change necessary
     else
-      @status = params[:status] ? params[:status].to_i : User::STATUSES[:active]
-      scope = scope.not_blocked if users_only && @status == User::STATUSES[:active]
+      @status = params[:status] ? params[:status].to_i : User.statuses[:active]
+      scope = scope.not_blocked if users_only && @status == User.statuses[:active]
       c << ['status = ?', @status]
     end
 

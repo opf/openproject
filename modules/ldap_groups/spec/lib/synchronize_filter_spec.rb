@@ -4,7 +4,7 @@ require 'ladle'
 describe OpenProject::LdapGroups::SynchronizeFilter, with_ee: %i[ldap_groups] do
   before(:all) do
     ldif = Rails.root.join('spec/fixtures/ldap/users.ldif')
-    @ldap_server = Ladle::Server.new(quiet: false, port: '12389', domain: 'dc=example,dc=com', ldif: ldif).start
+    @ldap_server = Ladle::Server.new(quiet: false, port: ParallelHelper.port_for_ldap.to_s, domain: 'dc=example,dc=com', ldif: ldif).start
   end
 
   after(:all) do
@@ -16,7 +16,7 @@ describe OpenProject::LdapGroups::SynchronizeFilter, with_ee: %i[ldap_groups] do
   # two groups foo (aa729), bar(aa729, bb459, cc414)
   let(:auth_source) do
     FactoryBot.create :ldap_auth_source,
-                      port: '12389',
+                      port: ParallelHelper.port_for_ldap.to_s,
                       account: 'uid=admin,ou=system',
                       account_password: 'secret',
                       base_dn: 'dc=example,dc=com',

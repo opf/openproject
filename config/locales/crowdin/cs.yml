@@ -538,6 +538,7 @@ cs:
         invalid_url: 'není platná adresa URL.'
         invalid_url_scheme: 'není podporovaný protokol (povoleny: %{allowed_schemes}).'
         less_than_or_equal_to: "musí být menší než nebo rovno %{count}."
+        not_deletable: "cannot be deleted."
         not_current_user: "není aktuální uživatel."
         not_a_date: "není platné datum."
         not_a_datetime: "není platný čas."
@@ -2270,7 +2271,6 @@ cs:
   setting_welcome_text: "Text uvítacího bloku"
   setting_welcome_title: "Název uvítacího bloku"
   setting_welcome_on_homescreen: "Zobrazit uvítací blok na domovské obrazovce"
-  setting_work_package_group_assignment: "Povolit přiřazení do skupin"
   setting_work_package_list_default_highlighting_mode: "Výchozí režim zvýraznění"
   setting_work_package_list_default_highlighted_attributes: "Výchozí inline zvýrazněné atributy"
   settings:

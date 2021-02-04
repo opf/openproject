@@ -102,7 +102,7 @@ module DevelopmentData
         user.firstname = login.humanize
         user.lastname = 'DEV user'
         user.mail = "#{login}@example.net"
-        user.status = User::STATUSES[:active]
+        user.status = User.statuses[:active]
         user.language = I18n.locale
         user.force_password_change = false
       end

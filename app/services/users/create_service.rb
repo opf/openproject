@@ -31,70 +31,35 @@ require 'work_packages/create_contract'
 require 'concerns/user_invitation'
 
 module Users
-  class CreateUserService
-    include Contracted
-
-    attr_reader :current_user
-
-    def initialize(current_user:)
-      @current_user = current_user
-      self.contract_class = Users::CreateContract
-    end
-
-    def call(new_user)
-      User.execute_as current_user do
-        create(new_user)
-      end
-    end
+  class CreateService < ::BaseServices::Create
 
     private
 
-    def create(new_user)
-      return create_regular(new_user) unless new_user.invited?
+    def persist(call)
+      new_user = call.result
+
+      return super(call) unless new_user.invited?
 
       # As we're basing on the user's mail, this parameter is required
       # before we're able to validate the contract or user
-      if new_user.mail.blank?
-        contract = instantiate_contract(new_user, current_user)
-        contract.errors.add :mail, :blank
-        build_result(new_user, contract.errors)
-      else
-        create_invited(new_user)
+      return fail_with_missing_email(new_user) if new_user.mail.blank?
+
+      invite_user!(new_user)
+    end
+
+    def fail_with_missing_email(new_user)
+      ServiceResult.new(success: false, result: new_user).tap do |result|
+        result.errors.add :mail, :blank
       end
-    end
-
-    def build_result(result, errors)
-      success = result.is_a?(User) && errors.empty?
-      ServiceResult.new(success: success, errors: errors, result: result)
-    end
-
-    ##
-    # Create regular user
-    def create_regular(new_user)
-      result, errors = validate_and_save(new_user, current_user)
-      ServiceResult.new(success: result, errors: errors, result: new_user)
-    end
-
-    ##
-    # User creation flow for users that are invited.
-    # Re-uses UserInvitation and thus avoids +validate_and_save+
-    def create_invited(new_user)
-      # Assign values other than mail to new_user
-      ::UserInvitation.assign_user_attributes new_user
-
-      # Check contract validity before moving to UserInvitation
-      if !validate(new_user, current_user)
-        build_result(new_user, contract.errors)
-      end
-
-      invite_user! new_user
     end
 
     def invite_user!(new_user)
+
+
       invited = ::UserInvitation.invite_user! new_user
       new_user.errors.add :base, I18n.t(:error_can_not_invite_user) unless invited.is_a? User
 
-      build_result(invited, new_user.errors)
+      ServiceResult.new(success: new_user.errors.empty?, result: invited)
     end
   end
 end

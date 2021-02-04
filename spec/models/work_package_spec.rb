@@ -128,10 +128,6 @@ describe WorkPackage, type: :model do
       context 'group_assignment' do
         let(:group) { FactoryBot.create(:group) }
 
-        before do
-          allow(Setting).to receive(:work_package_group_assignment).and_return(true)
-        end
-
         subject do
           FactoryBot.create(:work_package,
                              assigned_to: group).assigned_to
@@ -160,34 +156,6 @@ describe WorkPackage, type: :model do
     it { is_expected.to eq(category.assigned_to) }
   end
 
-  describe '#assignable_assignees' do
-    let(:value) { double('value') }
-
-    before do
-      allow(stub_work_package.project).to receive(:possible_assignees).and_return(value)
-    end
-
-    subject { stub_work_package.assignable_assignees }
-
-    it 'calls project#possible_assignees and returns the value' do
-      is_expected.to eql(value)
-    end
-  end
-
-  describe '#assignable_responsibles' do
-    let(:value) { double('value') }
-
-    before do
-      allow(stub_work_package.project).to receive(:possible_responsibles).and_return(value)
-    end
-
-    subject { stub_work_package.assignable_responsibles }
-
-    it 'calls project#possible_responsibles and returns the value' do
-      is_expected.to eql(value)
-    end
-  end
-
   describe 'responsible' do
     let(:group) { FactoryBot.create(:group) }
 
@@ -199,9 +167,7 @@ describe WorkPackage, type: :model do
 
     subject { work_package.valid? }
 
-    context 'with assignable groups' do
-      before { allow(Setting).to receive(:work_package_group_assignment?).and_return(true) }
-
+    context 'with group assigned' do
       include_context 'assign group as responsible'
 
       it { is_expected.to be_truthy }

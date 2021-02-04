@@ -1,6 +1,7 @@
 module Components
   module NgSelectAutocompleteHelpers
     def search_autocomplete(element, query:, results_selector: nil)
+      SeleniumHubWaiter.wait
       # Open the element
       element.click
       # Insert the text to find

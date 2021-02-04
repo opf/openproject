@@ -33,13 +33,13 @@ require 'spec_helper'
 describe Queries::Users::Filters::AnyNameAttributeFilter, type: :model do
   include_context 'filter tests'
   let(:values) { ['A name'] }
-  let(:model) { User }
+  let(:model) { User.user }
   let(:filter_str) { instance.send :sql_concat_name }
 
   it_behaves_like 'basic query filter' do
     let(:class_key) { :any_name_attribute }
     let(:type) { :string }
-    let(:model) { User }
+    let(:model) { User.user }
 
     describe '#allowed_values' do
       it 'is nil' do

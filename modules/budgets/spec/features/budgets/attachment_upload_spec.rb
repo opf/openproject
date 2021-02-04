@@ -40,7 +40,7 @@ describe 'Upload attachment to budget', js: true do
   end
   let(:project) { FactoryBot.create(:project) }
   let(:attachments) { ::Components::Attachments.new }
-  let(:image_fixture) { Rails.root.join('spec/fixtures/files/image.png') }
+  let(:image_fixture) { ::UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:editor) { ::Components::WysiwygEditor.new }
 
   before do
@@ -57,7 +57,7 @@ describe 'Upload attachment to budget', js: true do
     fill_in "Subject", with: 'New budget'
 
     # adding an image
-    editor.drag_attachment image_fixture, 'Image uploaded on creation'
+    editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png')
 
@@ -71,7 +71,7 @@ describe 'Upload attachment to budget', js: true do
       click_on "Update"
     end
 
-    editor.drag_attachment image_fixture, 'Image uploaded the second time'
+    editor.drag_attachment image_fixture.path, 'Image uploaded the second time'
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
 

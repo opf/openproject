@@ -36,6 +36,11 @@ end
 # Helper to pass options to retriable while logging
 # failures
 def retry_block(args: {}, screenshot: false, &block)
+  if ENV["RSPEC_RETRY_RETRY_COUNT"] == "0"
+    block.call
+    return
+  end
+
   log_errors = Proc.new do |exception, try, elapsed_time, next_interval|
     $stderr.puts <<-EOS.strip_heredoc
     #{exception.class}: '#{exception.message}'

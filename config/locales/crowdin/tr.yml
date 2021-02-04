@@ -78,7 +78,7 @@ tr:
     is_active: şu an görüntüleniyor
     is_inactive: şu an görüntülenmiyor
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
+    note_public: 'Bu alana eklediğiniz herhangi bir metin ve resim, oturum açmış tüm kullanıcılar tarafından herkes tarafından görülebilir!'
     text_overview: 'Bu görünümde, öznitelikleri görünüm için özel yardım metinler oluşturabilirsiniz. Tanımladığınızda, bu metinler, aidiyet öznitelik yanındaki Yardım simgesini tıklayarak gösterilebilir.'
     label_plural: 'Öznitelik yardım metinleri'
     show_preview: 'Önizleme metni'
@@ -195,7 +195,7 @@ tr:
       Gelen postalar için ekleri işlerken yok sayılacak adların bir listesini belirtin (örneğin, imzalar veya simgeler). Her satıra bir dosya adı girin.
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
+      scheduled: "Silme planlandı ve arka planda gerçekleştirilir. Sonuçtan haberdar edileceksiniz."
       schedule_failed: "Proje silinemiyor: %{errors}"
       failed: "%{name} projesinin silinmesi başarısız oldu"
       failed_text: "%{name} projesini silme isteği başarısız oldu. Proje arşivlendi."
@@ -536,6 +536,7 @@ tr:
         invalid_url: 'geçerli bir adres değil.'
         invalid_url_scheme: 'bu protokol desteklenmiyor (izin: %{allowed_schemes}).'
         less_than_or_equal_to: "%{count} 'ten küçük veya bu değere eşit olmalıdır."
+        not_deletable: "kaldırılamadı."
         not_current_user: "mevcut kullanıcı değil."
         not_a_date: "geçerli bir tarih değil."
         not_a_datetime: "geçerli bir zaman değil."
@@ -1130,7 +1131,7 @@ tr:
   error_menu_item_not_saved: Menü öğesi kaydedilemez
   error_wiki_root_menu_item_conflict: >
     Var olan menü üyesi "%{existing_caption}" (%{existing_identifier}) ile çakıştığından, "%{old_name}" adı "%{new_name}" olarak değiştirilemiyor.
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed: "Harici kimlik doğrulama sırasında bir hata oluştu. Lütfen tekrar deneyin."
   error_attribute_not_highlightable: "Nitelikler vurgulanmıyor: %{attributes}"
   events:
     project: 'Proje düzenlendi'
@@ -2111,7 +2112,7 @@ tr:
       username: "Depo kullanıcı adı"
     truncated: "Üzgünüz, dosyaları %{limit} ile limitlemek zorunda kaldık. %{truncated} girdileri listeden göz ardı edildi."
     named_repository: "%{vendor_name} deposu"
-    update_settings_successful: "The settings have been successfully saved."
+    update_settings_successful: "Ayarlar başarıyla kaydedildi."
     url: "Depo URL'si"
     warnings:
       cannot_annotate: "Bu dosyaya açıklama yapılamaz."
@@ -2229,7 +2230,6 @@ tr:
   setting_welcome_text: "Hoş geldiniz blok metini"
   setting_welcome_title: "Hoş geldiniz blok başlığı"
   setting_welcome_on_homescreen: "Hoşgeldiniz bloğunu ana ekranda göster"
-  setting_work_package_group_assignment: "Gruplara iş atanmasına izin ver"
   setting_work_package_list_default_highlighting_mode: "Varsayılan vurgulama modu"
   setting_work_package_list_default_highlighted_attributes: "Varsayılan satır içi vurgulanan özellikler"
   settings:

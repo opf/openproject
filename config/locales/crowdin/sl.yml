@@ -536,6 +536,7 @@ sl:
         invalid_url: 'ni veljaven URL. '
         invalid_url_scheme: 'ni podprt protokol (dovoljeno:%{allowed_schemes}).'
         less_than_or_equal_to: "mora biti manjše ali enako %{count}. "
+        not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "ni veljaven datum"
         not_a_datetime: "ni veljaven datum."
@@ -2268,7 +2269,6 @@ sl:
   setting_welcome_text: "Dobrodošli blok besedila"
   setting_welcome_title: "Dobrodošli blok naslov"
   setting_welcome_on_homescreen: "Prikažite blok dobrodošlice na osnovnem zaslonu"
-  setting_work_package_group_assignment: "Dovoli dodeljevanje skupinam"
   setting_work_package_list_default_highlighting_mode: "Privzeti način osvetlitve"
   setting_work_package_list_default_highlighted_attributes: "Privzeti atributi, označeni s črto"
   settings:

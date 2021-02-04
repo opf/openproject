@@ -28,7 +28,7 @@
 #++
 
 class Queries::Users::Filters::UserFilter < Queries::Filters::Base
-  self.model = User
+  self.model = User.user
 
   def human_name
     User.human_attribute_name(name)

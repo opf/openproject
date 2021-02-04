@@ -45,7 +45,7 @@ module OpenProject::GithubIntegration
     #   pull_request: <details of the pull request>
     # We observed the following keys to appear. However they are not documented by github
     #   sender: <the github user who opened a pull request> (might not appear on closed,
-    #           synchronized, or reopened - we habven't checked)
+    #           synchronized, or reopened - we haven't checked)
     #   repository: <the repository in action>
     # }
     def self.pull_request(payload)

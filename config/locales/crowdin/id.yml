@@ -534,6 +534,7 @@ id:
         invalid_url: 'bukanlah URL yang Valid.'
         invalid_url_scheme: 'bukanlah sebuah protokol yang didukung (diperbolehkan: %{allowed_schemes}).'
         less_than_or_equal_to: "harus kurang dari atau sama dengan %{count}."
+        not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "bukan tanggal yang valid."
         not_a_datetime: "bukan tanggal waktu yang valid."
@@ -2205,7 +2206,6 @@ id:
   setting_welcome_text: "Welcome block text"
   setting_welcome_title: "Welcome block title"
   setting_welcome_on_homescreen: "Display welcome block on homescreen"
-  setting_work_package_group_assignment: "Mungkinkan penugasan ke Grup"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   settings:

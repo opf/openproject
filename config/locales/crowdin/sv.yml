@@ -535,6 +535,7 @@ sv:
         invalid_url: 'är inte ett giltigt URL.'
         invalid_url_scheme: 'är inte ett tillåtet protokoll (tillåtna: %{allowed_schemes}).'
         less_than_or_equal_to: "måste vara mindre än eller lika med %{count}."
+        not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "är inte är ett giltigt datum."
         not_a_datetime: "är inte en giltig datumtid."
@@ -2226,7 +2227,6 @@ sv:
   setting_welcome_text: "Textblock för välkomstmeddelande"
   setting_welcome_title: "Textblock för välkomsttitel"
   setting_welcome_on_homescreen: "Visa välkomstblocket på hemsidan"
-  setting_work_package_group_assignment: "Tillåt tilldelning till grupper"
   setting_work_package_list_default_highlighting_mode: "Standardläge för markering"
   setting_work_package_list_default_highlighted_attributes: "Standardattribut för inline-markering"
   settings:

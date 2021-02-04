@@ -27,6 +27,7 @@ module Components
 
         open_menu
 
+        SeleniumHubWaiter.wait
         find('a.menu-item', text: text).click
       end
 

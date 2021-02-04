@@ -32,8 +32,8 @@ class OnboardingController < ApplicationController
     @user = User.current
 
     result = Users::UpdateService
-             .new(current_user: @user)
-             .call(permitted_params, params)
+             .new(model: @user, user: @user)
+             .call(permitted_params.user.to_h)
 
     if result.success?
       flash[:notice] = I18n.t(:notice_account_updated)

@@ -32,7 +32,11 @@ See docs/COPYRIGHT.rdoc for more details.
   <% module_name = mod.blank? ? 'fieldset--global--' + Project.model_name.human.downcase.gsub(' ', '_') : global_prefix + l_or_humanize(mod, prefix: 'project_module_').downcase.gsub(' ', '_') %>
   <fieldset class="form--fieldset -collapsible" id="<%= module_name %>">
     <legend class="form--fieldset-legend">
-      <%= mod.blank? ? Project.model_name.human : l_or_humanize(mod, prefix: 'project_module_') %>
+      <% if mod.blank? %>
+        <%= showGlobalRole ? t(:label_global) : Project.model_name.human %>
+      <% else %>
+        <%= l_or_humanize(mod, prefix: 'project_module_') %>
+      <% end %>
     </legend>
     <div class="form--toolbar">
       <span class="form--toolbar-item">

@@ -28,4 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Users::InexistentUser < User; end
+class Users::InexistentUser < User
+  def self.sti_name
+    nil
+  end
+end

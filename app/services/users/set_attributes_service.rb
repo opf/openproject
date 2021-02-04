@@ -28,30 +28,26 @@
 #++
 
 module Users
-  class UpdateUserService
-    include Contracted
-
-    attr_accessor :current_user, :user
-
-    def initialize(current_user:, user:)
-      self.current_user = current_user
-      self.user = user
-      self.contract_class = Users::UpdateContract
-    end
-
-    def call(attributes: {})
-      User.execute_as current_user do
-        set_attributes(attributes)
-
-        success, errors = validate_and_save(user, current_user)
-        ServiceResult.new(success: success, errors: errors, result: user)
-      end
-    end
+  class SetAttributesService < ::BaseServices::SetAttributes
+    include ::HookHelper
 
     private
 
-    def set_attributes(attributes)
-      user.attributes = attributes
+    def set_attributes(params)
+      set_preferences params.delete(:pref)
+
+      super(params)
+    end
+
+    def set_default_attributes(_params)
+      # Assign values other than mail to new_user when invited
+      if model.invited? && model.mail.present?
+        ::UserInvitation.assign_user_attributes model
+      end
+    end
+
+    def set_preferences(user_preferences)
+      model.pref.attributes = user_preferences if user_preferences
     end
   end
 end

@@ -9,7 +9,7 @@ RSpec.configure do |config|
   Capybara.default_max_wait_time = 4
   Capybara.javascript_driver = :chrome_en
 
-  port = ENV.fetch('CAPYBARA_SERVER_PORT', '0').to_i
+  port = ENV.fetch('CAPYBARA_SERVER_PORT', ParallelHelper.port_for_app).to_i
   if port > 0
     Capybara.server_port = port
   end
@@ -17,7 +17,11 @@ RSpec.configure do |config|
 
   ip_address = Socket.ip_address_list.find { |ai| ai.ipv4? && !ai.ipv4_loopback? }.ip_address
   hostname = ENV['CAPYBARA_DYNAMIC_HOSTNAME'].present? ? ip_address : ENV.fetch('CAPYBARA_APP_HOSTNAME', 'localhost')
-  Capybara.server_host = '0.0.0.0'
+  if ENV['TRAVIS']
+    Capybara.server_host = "0.0.0.0"
+  else
+    Capybara.server_host = ip_address
+  end
   Capybara.app_host = "http://#{hostname}"
 end
 
@@ -28,7 +32,7 @@ end
 Capybara::Screenshot.prune_strategy = :keep_last_run
 
 # silence puma if we're using it
-Capybara.server = :puma, { Silent: true }
+Capybara.server = :puma, { Silent: false }
 
 # Set up S3 uploads if desired
 if ENV['OPENPROJECT_ENABLE_CAPYBARA_SCREENSHOT_S3_UPLOADS'] && ENV['AWS_ACCESS_KEY_ID']

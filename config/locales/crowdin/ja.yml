@@ -530,6 +530,7 @@ ja:
         invalid_url: 'は有効な URL ではありません。'
         invalid_url_scheme: 'はサポートされたプロトコルではありません (可能: %{allowed_schemes})。'
         less_than_or_equal_to: "は%{count}以下の値にしてください。"
+        not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "は有効な日付ではありません。"
         not_a_datetime: "は有効な日時ではありません。"
@@ -2203,7 +2204,6 @@ ja:
   setting_welcome_text: "ようこそブロックのテキスト"
   setting_welcome_title: "ようこそブロックのタイトル"
   setting_welcome_on_homescreen: "ホーム画面にようこそブロックを表示"
-  setting_work_package_group_assignment: "グループへの割り当てを許可する"
   setting_work_package_list_default_highlighting_mode: "デフォルトの強調表示モード"
   setting_work_package_list_default_highlighted_attributes: "デフォルトのインライン強調表示属性"
   settings:

@@ -254,16 +254,6 @@ class WorkPackage < ApplicationRecord
     time_entries.build(attributes)
   end
 
-  # Users/groups the work_package can be assigned to
-  def assignable_assignees
-    project.possible_assignees
-  end
-
-  # Users the work_package can be assigned to
-  def assignable_responsibles
-    project.possible_responsibles
-  end
-
   # Versions that the work_package can be assigned to
   # A work_package can be assigned to:
   #   * any open, shared version of the project the wp belongs to

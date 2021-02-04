@@ -3,10 +3,6 @@ require 'webdrivers/chromedriver'
 
 ::Webdrivers.logger.level = :DEBUG
 
-if ENV['CI']
-  ::Webdrivers::Chromedriver.update
-end
-
 def register_chrome(language, name: :"chrome_#{language}")
   Capybara.register_driver name do |app|
     options = Selenium::WebDriver::Chrome::Options.new
@@ -14,23 +10,28 @@ def register_chrome(language, name: :"chrome_#{language}")
     if ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_TESTING_NO_HEADLESS'])
       # Maximize the window however large the available space is
       options.add_argument('start-maximized')
+      # options.add_argument('window-size=1920,1080')
       # Open dev tools for quick access
-      options.add_argument('auto-open-devtools-for-tabs')
+      if ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_TESTING_AUTO_DEVTOOLS'])
+        options.add_argument('auto-open-devtools-for-tabs')
+      end
     else
       options.add_argument('window-size=1920,1080')
       options.add_argument('headless')
-      options.add_argument('disable-gpu')
     end
 
     options.add_argument('no-sandbox')
     options.add_argument('disable-gpu')
     options.add_argument('disable-popup-blocking')
     options.add_argument("lang=#{language}")
+    # This is REQUIRED for running in a docker container
+    # https://github.com/grosser/parallel_tests/issues/658
+    options.add_argument('disable-dev-shm-usage')
 
     options.add_preference(:download,
                            directory_upgrade: true,
                            prompt_for_download: false,
-                           default_directory: DownloadedFile::PATH.to_s)
+                           default_directory: DownloadList::SHARED_PATH.to_s)
 
     options.add_preference(:browser, set_download_behavior: { behavior: 'allow' })
 
@@ -44,13 +45,17 @@ def register_chrome(language, name: :"chrome_#{language}")
     client.read_timeout = 180
     client.open_timeout = 180
 
+    service = ::Selenium::WebDriver::Service.chrome(args: { verbose: true, log_path: '/tmp/chromedriver.log' })
+
     driver = Capybara::Selenium::Driver.new(
       app,
-      browser: ENV['SELENIUM_GRID_URL'] ? :remote : :chrome,
+      # browser: ENV['SELENIUM_GRID_URL'] ? :remote : :chrome,
+      browser: :chrome,
       url: ENV['SELENIUM_GRID_URL'],
       desired_capabilities: capabilities,
       http_client: client,
-      options: options
+      options: options,
+      service: service
     )
 
     if !ENV['SELENIUM_GRID_URL']
@@ -61,7 +66,7 @@ def register_chrome(language, name: :"chrome_#{language}")
       bridge.http.call :post,
                        "/session/#{bridge.session_id}/chromium/send_command",
                        cmd: 'Page.setDownloadBehavior',
-                       params: { behavior: 'allow', downloadPath: DownloadedFile::PATH.to_s }
+                       params: { behavior: 'allow', downloadPath: DownloadList::SHARED_PATH.to_s }
     end
 
     driver
@@ -76,10 +81,17 @@ register_chrome 'en'
 # Register german locale for custom field decimal test
 register_chrome 'de'
 
+Billy.configure do |c|
+  c.proxy_host = Capybara.server_host
+  if Capybara.server_port
+    c.proxy_port = Capybara.server_port + 1000
+  end
+end
+
 # Register mocking proxy driver
 register_chrome 'en', name: :chrome_billy do |options, capabilities|
   options.add_argument("proxy-server=#{Billy.proxy.host}:#{Billy.proxy.port}")
-  options.add_argument('proxy-bypass-list=127.0.0.1;localhost')
+  options.add_argument("proxy-bypass-list=127.0.0.1;localhost;#{Capybara.server_host}")
 
   capabilities[:acceptInsecureCerts] = true
 end
@@ -88,4 +100,3 @@ end
 register_chrome 'en', name: :chrome_revit_add_in do |options, capabilities|
   options.add_argument("user-agent='foo bar Revit'")
 end
-

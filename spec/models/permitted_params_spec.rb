@@ -523,8 +523,10 @@ describe PermittedParams, type: :model do
       context 'non-admin' do
         let(:hash) { Hash[admin_permissions.zip(admin_permissions)] }
 
-        it 'permits nothing' do
-          expect(subject).to eq({})
+        it 'permits default permissions' do
+          expect(subject.keys).to match_array(
+                                    %w[custom_fields firstname lastname language mail mail_notification]
+                                  )
         end
       end
 

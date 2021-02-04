@@ -86,11 +86,11 @@ module ApplicationHelper
 
   # returns a class name based on the user's status
   def user_status_class(user)
-    'status_' + user.status_name
+    'status_' + user.status
   end
 
   def user_status_i18n(user)
-    t "status_#{user.status_name}"
+    t "status_#{user.status}"
   end
 
   def delete_link(url, options = {})

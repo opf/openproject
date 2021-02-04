@@ -89,6 +89,7 @@ module Costs
       menu :admin_menu,
            :cost_types,
            { controller: '/cost_types', action: 'index' },
+           if: ->(*) { User.current.admin? },
            parent: :admin_costs,
            caption: :label_cost_type_plural
     end
@@ -104,6 +105,7 @@ module Costs
                   name: 'rates',
                   partial: 'users/rates',
                   path: ->(params) { tab_edit_user_path(params[:user], tab: :rates) },
+                  only_if: ->(*) { User.current.admin? },
                   label: :caption_rate_history
 
     add_api_path :cost_entry do |id|

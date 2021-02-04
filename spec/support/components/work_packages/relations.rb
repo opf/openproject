@@ -46,11 +46,13 @@ module Components
       end
 
       def click_relation(relatable)
+        SeleniumHubWaiter.wait
         page.find(".relation-row-#{relatable.id} .wp-relations--subject-field").click
       end
 
       def edit_relation_type(relatable, to_type:)
         row = find_row(relatable)
+        SeleniumHubWaiter.wait
         row.find('.relation-row--type').click
 
         expect(row).to have_selector('select.inline-edit--field')
@@ -65,6 +67,7 @@ module Components
           page.driver.browser.action.move_to(span.native).perform
 
           # Click the corresponding action button
+          SeleniumHubWaiter.wait
           row = find_row(relatable)
           case action
           when :delete
@@ -85,6 +88,7 @@ module Components
 
       def add_relation(type:, to:)
         # Open create form
+        SeleniumHubWaiter.wait
         find('#relation--add-relation').click
 
         # Select relation type
@@ -131,9 +135,11 @@ module Components
 
       def add_parent(query, work_package)
         # Open the parent edit
+        SeleniumHubWaiter.wait
         find('.wp-relation--parent-change').click
 
         # Enter the query and select the child
+        SeleniumHubWaiter.wait
         autocomplete = find(".wp-relations--autocomplete")
         select_autocomplete autocomplete,
                             query: query,
@@ -152,6 +158,7 @@ module Components
       end
 
       def remove_parent
+        SeleniumHubWaiter.wait
         find('.wp-relation--parent-remove').click
       end
 
@@ -167,6 +174,7 @@ module Components
       def openChildrenAutocompleter
         retry_block do
           next if page.has_selector?('.wp-relations--children .ng-input input')
+          SeleniumHubWaiter.wait
           find('.wp-inline-create--reference-link', text: I18n.t('js.relation_buttons.add_existing_child')).click
 
           # Security check to be sure that the autocompleter has finished loading
@@ -212,6 +220,7 @@ module Components
         page.within('.work-packages-embedded-view--container') do
           row = ".wp-row-#{work_package.id}-table"
 
+          SeleniumHubWaiter.wait
           find(row).hover
           find("#{row} .wp-table-action--unlink").click
         end

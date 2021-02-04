@@ -26,41 +26,30 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/users/user_representer'
-require 'users/create_user_service'
+require 'spec_helper'
 
-module API
-  module V3
-    module Users
-      module CreateUser
-        extend Grape::API::Helpers
-        ##
-        # Call the user create service for the current request
-        # and return the service result API representation
-        def create_user(request_body, current_user)
-          payload = ::API::V3::Users::UserRepresenter.create(User.new, current_user: current_user)
-          new_user = payload.from_hash(request_body)
+describe PlaceholderUser, type: :model do
+  let(:placeholder_user) { FactoryBot.build(:placeholder_user) }
 
-          result = call_service(new_user, current_user)
-          represent_service_result(result, current_user)
-        end
+  subject { placeholder_user }
 
-        private
+  describe '#name' do
+    it 'updates the name' do
+      subject.name = "Foo"
+      expect(subject.name).to eq("Foo")
+    end
+    it 'updates the lastname attribute' do
+      subject.name = "Foo"
+      expect(subject.lastname).to eq("Foo")
+    end
 
-        def represent_service_result(result, current_user)
-          if result.success?
-            status 201
-            ::API::V3::Users::UserRepresenter.create(result.result, current_user: current_user)
-          else
-            fail ::API::Errors::ErrorBase.create_and_merge_errors(result.errors)
-          end
-        end
+    it { is_expected.to validate_presence_of :name }
+    it { is_expected.to validate_uniqueness_of :name }
+  end
 
-        def call_service(new_user, current_user)
-          create_service = ::Users::CreateUserService.new(current_user: current_user)
-          create_service.call(new_user)
-        end
-      end
+  describe "#to_s" do
+    it 'returns the lastname' do
+      expect(subject.to_s).to eq(subject.lastname)
     end
   end
 end

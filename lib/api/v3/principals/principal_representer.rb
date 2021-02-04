@@ -39,14 +39,6 @@ module API
         include API::Decorators::DateProperty
         include ::API::Caching::CachedRepresenter
 
-        def self.create(user, current_user:)
-          new(user, current_user: current_user)
-        end
-
-        def initialize(user, current_user:)
-          super(user, current_user: current_user)
-        end
-
         self_link
 
         link :memberships,
@@ -88,8 +80,8 @@ module API
         end
 
         def current_user_allowed_to_see_members?
-          current_user.allowed_to?(:view_members, nil, global: true) ||
-            current_user.allowed_to?(:manage_members, nil, global: true)
+          current_user.allowed_to_globally?(:view_members) ||
+            current_user.allowed_to_globally?(:manage_members)
         end
       end
     end

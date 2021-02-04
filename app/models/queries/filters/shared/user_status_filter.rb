@@ -36,7 +36,7 @@ module Queries::Filters::Shared::UserStatusFilter
 
   module InstanceMethods
     def allowed_values
-      Principal::STATUSES.keys.map do |key|
+      Principal.statuses.keys.map do |key|
         [I18n.t(:"status_#{key}"), key]
       end
     end
@@ -46,7 +46,7 @@ module Queries::Filters::Shared::UserStatusFilter
     end
 
     def status_values
-      values.map { |value| Principal::STATUSES[value.to_sym] }
+      values.map { |value| Principal.statuses[value.to_sym] }
     end
 
     def where

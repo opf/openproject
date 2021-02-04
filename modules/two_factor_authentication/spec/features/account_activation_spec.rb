@@ -51,6 +51,7 @@ describe 'activating an invited account',
 
       expect(page).to have_selector('.flash.notice', text: 'Developer strategy generated the following one-time password:')
 
+      SeleniumHubWaiter.wait
       fill_in I18n.t(:field_otp), with: sms_token
       click_button I18n.t(:button_login)
 

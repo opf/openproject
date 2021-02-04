@@ -52,17 +52,14 @@ describe MailHandler, type: :model do
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
 
-  context 'with group assignment set',
-          with_settings: { work_package_group_assignment: 1 } do
-    it 'should add work package with group assignment' do
-      work_package = submit_email('ticket_on_given_project.eml') do |email|
-        email.gsub!('Assigned to: John Smith', 'Assigned to: B Team')
-      end
-      assert work_package.is_a?(WorkPackage)
-      assert !work_package.new_record?
-      work_package.reload
-      assert_equal Group.find(11), work_package.assigned_to
+  it 'should add work package with group assignment' do
+    work_package = submit_email('ticket_on_given_project.eml') do |email|
+      email.gsub!('Assigned to: John Smith', 'Assigned to: B Team')
     end
+    assert work_package.is_a?(WorkPackage)
+    assert !work_package.new_record?
+    work_package.reload
+    assert_equal Group.find(11), work_package.assigned_to
   end
 
   it 'should add work package with partial attributes override' do
@@ -386,11 +383,8 @@ describe MailHandler, type: :model do
       ['jsmith@example.net', 'John'] => ['jsmith@example.net', 'John', '-'],
       ['jsmith@example.net', 'John Smith'] => ['jsmith@example.net', 'John', 'Smith'],
       ['jsmith@example.net', 'John Paul Smith'] => ['jsmith@example.net', 'John', 'Paul Smith'],
-      # TODO: implement https://github.com/redmine/redmine/commit/a00f04886fac78e489bb030d20414ebdf10841e3
-      # ['jsmith@example.net', 'AVeryLongFirstnameThatExceedsTheMaximumLength Smith'] => ['jsmith@example.net', 'AVeryLongFirstnameThatExceedsT', 'Smith'],
-      # ['jsmith@example.net', 'John AVeryLongLastnameThatExceedsTheMaximumLength'] => ['jsmith@example.net', 'John', 'AVeryLongLastnameThatExceedsTh']
-      ['jsmith@example.net', 'AVeryLongFirstnameThatExceedsTheMaximumLength Smith'] => ['jsmith@example.net', '-', 'Smith'],
-      ['jsmith@example.net', 'John AVeryLongLastnameThatExceedsTheMaximumLength'] => ['jsmith@example.net', 'John', '-']
+      ['jsmith@example.net', 'AVeryLongFirstnameThatNoLongerExceedsTheMaximumLength Smith'] => ['jsmith@example.net', 'AVeryLongFirstnameThatNoLongerExceedsTheMaximumLength', 'Smith'],
+      ['jsmith@example.net', 'John AVeryLongLastnameThatNoLongerExceedsTheMaximumLength'] => ['jsmith@example.net', 'John', 'AVeryLongLastnameThatNoLongerExceedsTheMaximumLength']
     }
 
     to_test.each do |attrs, expected|

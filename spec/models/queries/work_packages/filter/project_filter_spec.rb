@@ -45,7 +45,7 @@ describe Queries::WorkPackages::Filter::ProjectFilter, type: :model do
 
         it 'is true if the user can see project' do
           allow(Project)
-            .to receive_message_chain(:visible, :exists?)
+            .to receive_message_chain(:visible, :active, :exists?)
             .and_return(true)
 
           expect(instance).to be_available
@@ -53,7 +53,7 @@ describe Queries::WorkPackages::Filter::ProjectFilter, type: :model do
 
         it 'is true if the user can not see project' do
           allow(Project)
-            .to receive_message_chain(:visible, :exists?)
+            .to receive_message_chain(:visible, :active, :exists?)
             .and_return(false)
 
           expect(instance).to_not be_available
@@ -71,7 +71,7 @@ describe Queries::WorkPackages::Filter::ProjectFilter, type: :model do
         visible_projects = [parent, child]
 
         allow(Project)
-          .to receive(:visible)
+          .to receive_message_chain(:visible, :active)
           .and_return(visible_projects)
 
         allow(Project)
@@ -99,7 +99,7 @@ describe Queries::WorkPackages::Filter::ProjectFilter, type: :model do
 
       before do
         allow(Project)
-          .to receive(:visible)
+          .to receive_message_chain(:visible, :active)
           .and_return([project, project2])
 
         instance.values = [project.id.to_s]

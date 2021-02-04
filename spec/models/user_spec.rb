@@ -45,22 +45,6 @@ describe User, type: :model do
                                     status: status)
   end
 
-  describe '.not_builtin' do
-    let!(:anonymous_user) { FactoryBot.create(:anonymous) }
-    let!(:system_user) { FactoryBot.create(:system) }
-    let!(:deleted_user) { FactoryBot.create(:deleted_user) }
-    let!(:user) { FactoryBot.create(:user) }
-
-    subject { described_class.not_builtin }
-
-    it 'returns only actual users', :aggregate_failures do
-      expect(subject).to include(user)
-      expect(subject).not_to include(anonymous_user)
-      expect(subject).not_to include(system_user)
-      expect(subject).not_to include(deleted_user)
-    end
-  end
-
   describe 'a user with a long login (<= 256 chars)' do
     let(:login) { 'a' * 256 }
     it 'is valid' do
@@ -97,6 +81,34 @@ describe User, type: :model do
       expect(user.save).to be_falsey
     end
   end
+
+  describe 'with long but allowed attributes' do
+    it 'is valid' do
+      user.firstname = 'a' * 256
+      user.lastname = 'b' * 256
+      user.mail = 'fo' + ('o' * 237) + '@mail.example.com'
+      expect(user).to be_valid
+      expect(user.save).to be_truthy
+    end
+  end
+
+
+  describe 'a user with and overly long firstname (> 256 chars)' do
+    it 'is invalid' do
+      user.firstname = 'a' * 257
+      expect(user).not_to be_valid
+      expect(user.save).to be_falsey
+    end
+  end
+
+  describe 'a user with and overly long lastname (> 256 chars)' do
+    it 'is invalid' do
+      user.lastname = 'a' * 257
+      expect(user).not_to be_valid
+      expect(user.save).to be_falsey
+    end
+  end
+
 
   describe 'login whitespace' do
     before do
@@ -181,33 +193,6 @@ describe User, type: :model do
       it 'may not be stored in the database' do
         expect(user.save).to be_falsey
       end
-    end
-  end
-
-  describe '#assigned_issues' do
-    before do
-      user.save!
-    end
-
-    describe 'WHEN the user has an issue assigned' do
-      before do
-        member.save!
-
-        issue.assigned_to = user
-        issue.save!
-      end
-
-      it { expect(user.assigned_issues).to eq([issue]) }
-    end
-
-    describe 'WHEN the user has no issue assigned' do
-      before do
-        member.save!
-
-        issue.save!
-      end
-
-      it { expect(user.assigned_issues).to eq([]) }
     end
   end
 
@@ -494,7 +479,7 @@ describe User, type: :model do
 
     context 'default admin account was disabled' do
       before do
-        default_admin.status = User::STATUSES[:locked]
+        default_admin.status = User.statuses[:locked]
         default_admin.save
       end
 
@@ -548,7 +533,7 @@ describe User, type: :model do
     end
 
     it 'is false for an inactive user' do
-      user.status = User::STATUSES[:locked]
+      user.status = User.statuses[:locked]
       user.mail_notification = 'all'
       expect(user.notify_about?({})).to be_falsey
     end

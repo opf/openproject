@@ -59,12 +59,12 @@ describe Watcher, type: :model, with_mail: false do
     end
 
     it 'is valid for an invited user' do
-      user.status = Principal::STATUSES[:invited]
+      user.status = Principal.statuses[:invited]
       expect(watcher).to be_valid
     end
 
     it 'is valid for a registered user' do
-      user.status = Principal::STATUSES[:registered]
+      user.status = Principal.statuses[:registered]
       expect(watcher).to be_valid
     end
   end

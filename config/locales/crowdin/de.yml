@@ -531,6 +531,7 @@ de:
         invalid_url: 'ist keine gültige URL.'
         invalid_url_scheme: 'ist kein unterstütztes Protokoll (erlaubt: %{allowed_schemes}).'
         less_than_or_equal_to: "muss kleiner oder gleich %{count} sein."
+        not_deletable: "cannot be deleted."
         not_current_user: "ist nicht der aktuelle Benutzer."
         not_a_date: "ist kein gültiges Datum."
         not_a_datetime: "ist kein gültiges Datum."
@@ -2224,7 +2225,6 @@ de:
   setting_welcome_text: "Text für Willkommens-Block"
   setting_welcome_title: "Titel des Willkommens-Block"
   setting_welcome_on_homescreen: "Willkommens-Block auf Startseite anzeigen"
-  setting_work_package_group_assignment: "Zuweisung zu Gruppen erlauben"
   setting_work_package_list_default_highlighting_mode: "Standard Hervorhebung"
   setting_work_package_list_default_highlighted_attributes: "Voreinstellung Inline Hervorherbung"
   settings:

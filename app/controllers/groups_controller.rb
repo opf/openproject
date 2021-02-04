@@ -33,92 +33,56 @@ class GroupsController < ApplicationController
 
   helper_method :gon
 
-  before_action :require_admin
+  before_action :require_admin, except: %i[show]
   before_action :find_group, only: %i[destroy show create_memberships destroy_membership
                                       edit_membership add_users]
 
-  # GET /groups
-  # GET /groups.xml
   def index
     @groups = Group.order(Arel.sql('lastname ASC'))
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  do render xml: @groups end
-    end
   end
 
-  # GET /groups/1
-  # GET /groups/1.xml
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  do render xml: @group end
-    end
+    @group_users = group_members
+    render layout: 'no_menu'
   end
 
-  # GET /groups/new
-  # GET /groups/new.xml
   def new
     @group = Group.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  do render xml: @group end
-    end
   end
 
-  # GET /groups/1/edit
   def edit
     @group = Group.includes(:members, :users).find(params[:id])
 
     set_filters_for_user_autocompleter
   end
 
-  # POST /groups
-  # POST /groups.xml
   def create
     @group = Group.new permitted_params.group
 
-    respond_to do |format|
-      if @group.save
-        flash[:notice] = I18n.t(:notice_successful_create)
-        format.html do redirect_to(groups_path) end
-        format.xml  do render xml: @group, status: :created, location: @group end
-      else
-        format.html do render action: 'new' end
-        format.xml  do render xml: @group.errors, status: :unprocessable_entity end
-      end
+    if @group.save
+      flash[:notice] = I18n.t(:notice_successful_create)
+      redirect_to(groups_path)
+    else
+      render action: :new
     end
   end
 
-  # PUT /groups/1
-  # PUT /groups/1.xml
   def update
     @group = Group.includes(:users).find(params[:id])
 
-    respond_to do |format|
-      if @group.update(permitted_params.group)
-        flash[:notice] = I18n.t(:notice_successful_update)
-        format.html do redirect_to(groups_path) end
-        format.xml  do head :ok end
-      else
-        format.html do render action: 'edit' end
-        format.xml  do render xml: @group.errors, status: :unprocessable_entity end
-      end
+    if @group.update(permitted_params.group)
+      flash[:notice] = I18n.t(:notice_successful_update)
+      redirect_to action: :index
+    else
+      render action: :edit
     end
   end
 
-  # DELETE /groups/1
-  # DELETE /groups/1.xml
   def destroy
     @group.destroy
 
-    respond_to do |format|
-      flash[:notice] = I18n.t(:notice_successful_delete)
-      format.html do redirect_to(groups_url) end
-      format.xml  do head :ok end
-    end
+    flash[:notice] = I18n.t(:notice_successful_delete)
+    redirect_to action: :index
   end
 
   def add_users
@@ -181,8 +145,21 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
   end
 
+  def group_members
+    if visible_group_members?
+      @group.users
+    else
+      User.none
+    end
+  end
+
+  def visible_group_members?
+    current_user.allowed_to_globally?(:manage_members) ||
+      Group.in_project(Project.allowed_to(current_user, :view_members)).exists?
+  end
+
   def default_breadcrumb
-    if action_name == 'index'
+    if action_name == 'index' || !current_user.admin?
       t('label_group_plural')
     else
       ActionController::Base.helpers.link_to(t('label_group_plural'), groups_path)

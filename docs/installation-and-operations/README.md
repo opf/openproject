@@ -1,28 +1,31 @@
 # Installation and Operations Guides
 
-This page summarises the options for getting OpenProject, some hosted and some on-premise. With this information you should be able to decide what is best for you.
+This page summarizes the options for getting OpenProject, some hosted and some on-premise. With this information you should be able to decide what option is best for you.
 
-## Editions
+### On-premises
 
-There are several editions and variations for getting and installing OpenProject:
+* **Community edition** - The free, no license, edition of OpenProject that you install on-premise. The additional features of the Enterprise edition are not included. See the "Installation" row of the table below.
+* **Enterprise on-premise edition** - Builds on top of the Community edition: additional features, professional support, hosted on-premise with optional installation support. See more [on the website](https://www.openproject.org/enterprise-edition/), where you can apply for a free trial, or [in the Documentation](../enterprise-edition-guide/).
 
-* **Enterprise cloud edition** - OpenProject with additional features, professional support and hosted in an EU Data Center. See more [on the website](https://www.openproject.org/hosting/), where you can apply for a free trial, or [in the Documentation](../cloud-edition-guide/).
+### Hosted
 
-* **Enterprise on-premise edition** - OpenProject with additional features, professional support, hosted on-premise with optional installation support. See more [on the website](https://www.openproject.org/enterprise-edition/), where you can apply for a free trial, or [in the Documentation](../enterprise-edition-guide/).
+* **Enterprise cloud edition** - Hosted by OpenProject in an EU Data Center, with additional features and professional support . See more [on the website](https://www.openproject.org/hosting/), where you can apply for a free trial, or [in the Documentation](../cloud-edition-guide/).
 
-* **Community edition** - The free, no licence, edition of OpenProject that you install on-premise. The additional features of the Enterprise edition are not included. See the "Installation" row of the table below.
+* **Univention App Center** - Download the free Community edition as a pre-installed virtual environment and upgrade to the Enterprise edition with premium features and support. See the [Documention for details.](installation/univention/)
 
-* **Univention App Center** - Download the Community edition as a pre-installed virtual environment. See the [Documention for details](installation/univention/)
 
-Compare the features of these versions [on the website](https://www.openproject.org/pricing/#compare). The Community edition can be upgraded to the Enterprise edition.
 
-All editions can be enhanced by adding [the BIM module](https://www.openproject.org/bim-project-management/), see how to [switch to that edition](changing-to-bim-edition) in the Documentation.
+All editions can be enhanced by adding **[the BIM module](https://www.openproject.org/bim-project-management/)**, including features for construction project management, i.e. 3D model viewer, BCF management. See how to [switch to that edition](changing-to-bim-edition) in the Documentation or how to start a [BIM cloud edition](https://start.openproject-edge.com/go/bim).
 
-* **Development** - OpenProject is open source; if you want to help with the code check the [development instructions](../development/) and install a [development environment](../development/#additional-resources)
+Compare the features of these versions [on the website](https://www.openproject.org/pricing/#compare). The Community edition can easily be upgraded to the Enterprise edition.
 
-Note: there are some minor options given in the "Other" row of the table below. These are not recommended but you may wish to try them.
+* **Development** - OpenProject is open source; if you want to help with the code, check the [development instructions](../development/) and install a [development environment.](../development/#additional-resources)
 
-## Overview
+<div class="alert alert-info" role="alert">
+**Note**: there are some minor options given in the "Other" row of the table below. These are not recommended but you may wish to try them.
+</div>
+
+## On-premises installation overview
 
 | Main Topics | Description |
 | ----------- | :---------- |

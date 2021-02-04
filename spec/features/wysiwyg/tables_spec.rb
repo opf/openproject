@@ -126,6 +126,7 @@ describe 'Wysiwyg tables',
           expect(page).to have_selector('td', text: 'a')
         end
 
+        SeleniumHubWaiter.wait
         # Edit again
         click_on 'Edit'
 
@@ -189,6 +190,7 @@ describe 'Wysiwyg tables',
           expect(page).to have_selector('td[style*="vertical-align:top"]')
         end
 
+        SeleniumHubWaiter.wait
         # Edit again
         click_on 'Edit'
 
@@ -305,6 +307,7 @@ describe 'Wysiwyg tables',
           expect(page).to have_selector('td[style*="width:250px"]')
         end
 
+        SeleniumHubWaiter.wait
         # Edit again
         click_on 'Edit'
 

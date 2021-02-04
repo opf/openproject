@@ -38,7 +38,7 @@ FactoryBot.define do
     mail_notification { OpenProject::VERSION::MAJOR > 0 ? 'all' : true }
 
     language { 'en' }
-    status { User::STATUSES[:active] }
+    status { User.statuses[:active] }
     admin { false }
     first_login { false if User.table_exists? and User.columns.map(&:name).include? 'first_login' }
 
@@ -60,11 +60,11 @@ FactoryBot.define do
       sequence(:mail) do |n| "bob#{n}.bobbit@bob.com" end
       password { 'adminADMIN!' }
       password_confirmation { 'adminADMIN!' }
-      status { User::STATUSES[:locked] }
+      status { User.statuses[:locked] }
     end
 
     factory :invited_user do
-      status { User::STATUSES[:invited] }
+      status { User.statuses[:invited] }
     end
   end
 

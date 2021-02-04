@@ -118,50 +118,6 @@ describe Project, type: :model do
     end
   end
 
-  describe 'available principles' do
-    let(:user) { FactoryBot.create(:user) }
-    let(:group) { FactoryBot.create(:group) }
-    let(:role) { FactoryBot.create(:role) }
-    let!(:user_member) do
-      FactoryBot.create(:member,
-                        principal: user,
-                        project: project,
-                        roles: [role])
-    end
-    let!(:group_member) do
-      FactoryBot.create(:member,
-                        principal: group,
-                        project: project,
-                        roles: [role])
-    end
-
-    shared_examples_for 'respecting group assignment settings' do
-      context 'with group assignment' do
-        before { allow(Setting).to receive(:work_package_group_assignment?).and_return(true) }
-
-        it { is_expected.to match_array([user, group]) }
-      end
-
-      context 'w/o group assignment' do
-        before { allow(Setting).to receive(:work_package_group_assignment?).and_return(false) }
-
-        it { is_expected.to match_array([user]) }
-      end
-    end
-
-    describe 'assignees' do
-      subject { project.possible_assignees }
-
-      it_behaves_like 'respecting group assignment settings'
-    end
-
-    describe 'responsibles' do
-      subject { project.possible_responsibles }
-
-      it_behaves_like 'respecting group assignment settings'
-    end
-  end
-
   describe 'status' do
     let(:status) { FactoryBot.build_stubbed(:project_status) }
     let(:stubbed_project) do

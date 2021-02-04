@@ -69,14 +69,15 @@ describe 'bcf export',
 
   before do
     login_as current_user
+    @download_list = DownloadList.new
   end
 
   after do
-    DownloadedFile::clear_downloads
+    DownloadList.clear
   end
 
   def export_into_bcf_extractor
-    ::DownloadedFile::clear_downloads
+    DownloadList.clear
     page.find('.export-bcf-button').click
 
     # Expect to get a response regarding queuing
@@ -84,17 +85,16 @@ describe 'bcf export',
                                  wait: 10
 
     perform_enqueued_jobs
-
-    # Wait for the file to download
-    ::DownloadedFile.wait_for_download
-    ::DownloadedFile.wait_for_download_content
+    expect(page).to have_text("completed successfully")
 
     # Close the modal
     page.find('.op-modal--modal-close-button').click
 
+    @download_list.refresh_from(page)
+
     # Check the downloaded file
     OpenProject::Bim::BcfXml::Importer.new(
-      ::DownloadedFile.download,
+      @download_list.latest_download,
       project,
       current_user: current_user
     ).extractor_list
@@ -111,6 +111,7 @@ describe 'bcf export',
     expect(extractor_list.length).to eq 1
     expect(extractor_list.first[:title]).to eq 'Open WP'
 
+    model_page.visit!
     # Change the query to show all statuses
     filters.open
     filters.remove_filter 'status'

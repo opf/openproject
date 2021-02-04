@@ -31,7 +31,8 @@ require 'spec_helper'
 require 'contracts/work_packages/shared_base_contract'
 
 describe WorkPackages::CreateContract do
-  let(:work_package) { WorkPackage.new }
+  let(:work_package) { WorkPackage.new project: work_package_project }
+  let(:work_package_project) { project }
   let(:project) { FactoryBot.build_stubbed(:project) }
   let(:user) { FactoryBot.build_stubbed(:user) }
 

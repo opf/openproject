@@ -35,11 +35,7 @@ describe Bim::Bcf::API::V2_1::ProjectExtensions::Representer, 'rendering' do
   let(:status) { FactoryBot.build_stubbed(:status) }
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:project) do
-    FactoryBot.build_stubbed(:project).tap do |p|
-      allow(p)
-        .to receive(:possible_assignees)
-        .and_return([user])
-    end
+    FactoryBot.build_stubbed(:project)
   end
   let(:work_package) { FactoryBot.build_stubbed(:stubbed_work_package, project: project) }
   let(:priority) { FactoryBot.build_stubbed(:priority) }
@@ -50,7 +46,8 @@ describe Bim::Bcf::API::V2_1::ProjectExtensions::Representer, 'rendering' do
            model: work_package,
            assignable_types: [type_task],
            assignable_priorities: [priority],
-           assignable_statuses: [status])
+           assignable_statuses: [status],
+           assignable_assignees: [user])
   end
   let(:instance) { described_class.new(contract) }
   let(:subject) { instance.to_json }

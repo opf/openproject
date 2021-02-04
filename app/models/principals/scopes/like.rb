@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,42 +28,26 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/users/user_representer'
-require 'users/update_user_service'
+# Returns principals whose
+# * login
+# * firstname
+# * lastname
+# matches the provided string
+module Principals::Scopes
+  class Like
+    def self.fetch(search_string)
+      firstnamelastname = "((firstname || ' ') || lastname)"
+      lastnamefirstname = "((lastname || ' ') || firstname)"
 
-module API
-  module V3
-    module Users
-      module UpdateUser
-        ##
-        # Call the user create service for the current request
-        # and return the service result API representation
-        def update_user(request_body, current_user)
-          payload = ::API::V3::Users::UserRepresenter.create(@user, current_user: current_user)
-          updated_user = payload.from_hash(request_body)
+      s = "%#{search_string.to_s.downcase.strip.tr(',', '')}%"
 
-          result = call_service(updated_user, current_user)
-          represent_service_result(result, current_user)
-        end
-
-        private
-
-        def represent_service_result(result, current_user)
-          if result.success?
-            ::API::V3::Users::UserRepresenter.create(result.result, current_user: current_user)
-          else
-            fail ::API::Errors::ErrorBase.create_and_merge_errors(result.errors)
-          end
-        end
-
-        def call_service(updated_user, current_user)
-          create_service = ::Users::UpdateUserService.new(
-            current_user: current_user,
-            user: updated_user
-          )
-          create_service.call
-        end
-      end
+      Principal
+        .where(['LOWER(login) LIKE :s OR ' +
+                "LOWER(#{firstnamelastname}) LIKE :s OR " +
+                "LOWER(#{lastnamefirstname}) LIKE :s OR " +
+                'LOWER(mail) LIKE :s',
+             { s: s }])
+        .order(:type, :login, :lastname, :firstname, :mail)
     end
   end
 end

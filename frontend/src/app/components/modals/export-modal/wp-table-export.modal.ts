@@ -8,7 +8,7 @@ import {HalLink} from "core-app/modules/hal/hal-link/hal-link";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import * as URI from 'urijs';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {Observable} from 'rxjs';
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
@@ -105,8 +105,21 @@ export class WpTableExportModal extends OpModalComponent implements OnInit {
     this.service.show(JobStatusModal, 'global', { jobId: jobId });
   }
 
-  private handleError(error:string) {
-    this.notifications.addError(error || this.I18n.t('js.error.internal'));
+  private handleError(error:HttpErrorResponse) {
+    // There was an error but the status code is actually a 200.
+    // If that is the case the response's content-type probably does not match
+    // the expected type (json).
+    // Currently this happens e.g. when exporting Atom which actually is not an export
+    // but rather a feed to follow.
+    if (error.status === 200 && error.url) {
+      window.open(error.url);
+    } else {
+      this.showError(error);
+    }
+  }
+
+  private showError(error:HttpErrorResponse) {
+    this.notifications.addError(error.message || this.I18n.t('js.error.internal'));
   }
 
   private addColumnsToHref(href:string) {

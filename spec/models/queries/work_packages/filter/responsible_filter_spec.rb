@@ -250,6 +250,7 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
 
     describe '#allowed_values' do
       let(:logged_in) { true }
+      let(:group) { FactoryBot.build_stubbed(:group) }
 
       before do
         allow(User)
@@ -259,23 +260,18 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
         allow(principal_loader)
           .to receive(:user_values)
           .and_return([[user_1.name, user_1.id.to_s]])
+
+        allow(principal_loader)
+          .to receive(:group_values)
+          .and_return([[group.name, group.id.to_s]])
       end
 
       context 'when being logged in' do
-        it 'returns the me value and the available users' do
+        it 'returns the me value, the available users, and groups' do
           expect(instance.allowed_values)
             .to match_array([[I18n.t(:label_me), 'me'],
-                             [user_1.name, user_1.id.to_s]])
-        end
-
-        it 'returns the me value and only the available users if no group assignmit is allowed' do
-          allow(Setting)
-            .to receive(:work_package_group_assignment?)
-            .and_return(false)
-
-          expect(instance.allowed_values)
-            .to match_array([[I18n.t(:label_me), 'me'],
-                             [user_1.name, user_1.id.to_s]])
+                             [user_1.name, user_1.id.to_s],
+                             [group.name, group.id.to_s]])
         end
       end
 
@@ -284,7 +280,8 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
 
         it 'returns the available users' do
           expect(instance.allowed_values)
-            .to match_array([[user_1.name, user_1.id.to_s]])
+            .to match_array([[user_1.name, user_1.id.to_s],
+                             [group.name, group.id.to_s]])
         end
       end
     end

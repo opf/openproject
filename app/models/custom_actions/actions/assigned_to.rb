@@ -53,7 +53,7 @@ class CustomActions::Actions::AssignedTo < CustomActions::Actions::Base
 
   def available_principles
     principal_class
-      .active_or_registered
+      .not_locked
       .select(:id, :firstname, :lastname, :type)
       .order_by_name
       .map { |u| [u.id, u.name] }
@@ -97,10 +97,6 @@ class CustomActions::Actions::AssignedTo < CustomActions::Actions::Base
   end
 
   def principal_class
-    if Setting.work_package_group_assignment?
-      Principal
-    else
-      User
-    end
+    Principal
   end
 end

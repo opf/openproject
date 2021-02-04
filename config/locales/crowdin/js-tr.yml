@@ -86,7 +86,7 @@ tr:
     caption_rate_history: "Hız tarihi"
     clipboard:
       browser_error: "Tarayıcınız panoya kopyalamayı desteklemiyor. Metni lütfen elle kopyalayınız."
-      copied_successful: "Successfully copied to clipboard!"
+      copied_successful: "Panoya başarıyla kopyalandı!"
     chart:
       type: 'Grafik tipi'
       axis_criteria: 'Eksen kriterleri'

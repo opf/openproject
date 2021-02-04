@@ -40,14 +40,17 @@ See docs/COPYRIGHT.rdoc for more details.
                   data: { confirm: t(:text_are_you_sure) },
                   class: 'button -danger',
                   method: :delete do %>
-          <%= op_icon('button--icon icon-delete') %>
-          <span class="button--text"><%= t(:button_delete) %></span>
+        <%= op_icon('button--icon icon-delete') %>
+        <span class="button--text"><%= t(:button_delete) %></span>
       <% end %>
     </li>
   <% end %>
-<% end  %>
-<ul>
-  <% @group.users.each do |user| %>
-    <li><%=h user %></li>
-  <% end %>
-</ul>
+<% end %>
+
+<% if @group_users.any? %>
+  <ul>
+    <% @group_users.each do |user| %>
+      <li><%= h user %></li>
+    <% end %>
+  </ul>
+<% end %>

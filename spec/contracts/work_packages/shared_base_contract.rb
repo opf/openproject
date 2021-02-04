@@ -29,7 +29,6 @@
 #++
 
 shared_examples_for 'work package contract' do
-  let(:project) { FactoryBot.build_stubbed(:project) }
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:other_user) { FactoryBot.build_stubbed(:user) }
   let(:policy) { double(WorkPackagePolicy, allowed?: true) }
@@ -48,6 +47,23 @@ shared_examples_for 'work package contract' do
       .and_return(policy)
   end
 
+  let(:possible_assignees) { [] }
+  let!(:assignable_assignees_scope) do
+    scope = double 'assignable assignees scope'
+
+    allow(Principal)
+      .to receive(:possible_assignee)
+      .with(work_package_project)
+      .and_return scope
+
+    allow(scope)
+      .to receive(:exists?) do |hash|
+      possible_assignees.map(&:id).include?(hash[:id])
+    end
+
+    scope
+  end
+
   shared_examples_for 'has no error on' do |property|
     it property do
       expect(validated_contract.errors[property]).to be_empty
@@ -55,37 +71,17 @@ shared_examples_for 'work package contract' do
   end
 
   describe 'assigned_to_id' do
-    let(:assignee_members) { double('assignee_members') }
-
     before do
-      allow(work_package)
-        .to receive(:project)
-        .and_return(project)
-
-      allow(project)
-        .to receive(:possible_assignee_members)
-        .and_return(assignee_members)
-
-      allow(assignee_members)
-        .to receive(:exists?)
-        .with(user_id: other_user.id)
-        .and_return true
-
-      work_package.assigned_to = other_user
+      work_package.assigned_to_id = other_user.id
     end
 
     context 'if the assigned user is a possible assignee' do
+      let(:possible_assignees) { [other_user] }
+
       it_behaves_like 'has no error on', :assigned_to
     end
 
     context 'if the assigned user is not a possible assignee' do
-      before do
-        allow(assignee_members)
-          .to receive(:exists?)
-          .with(user_id: other_user.id)
-          .and_return false
-      end
-
       it 'is not a valid assignee' do
         error = I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
                        property: I18n.t('attributes.assignee'))
@@ -94,48 +90,23 @@ shared_examples_for 'work package contract' do
     end
 
     context 'if the project is not set' do
-      before do
-        allow(work_package)
-          .to receive(:project)
-          .and_return(nil)
-      end
+      let(:work_package_project) { nil }
 
       it_behaves_like 'has no error on', :assigned_to
     end
   end
 
   describe 'responsible_id' do
-    let(:responsible_members) { double('responsible_members') }
-
     before do
-      allow(work_package)
-        .to receive(:project)
-        .and_return(project)
-
-      allow(project)
-        .to receive(:possible_responsible_members)
-        .and_return(responsible_members)
-
-      allow(responsible_members)
-        .to receive(:exists?)
-        .with(user_id: other_user.id)
-        .and_return true
-
-      work_package.responsible = other_user
+      work_package.responsible_id = other_user.id
     end
 
     context 'if the responsible user is a possible responsible' do
+      let(:possible_assignees) { [other_user] }
       it_behaves_like 'has no error on', :responsible
     end
 
     context 'if the assigned user is not a possible responsible' do
-      before do
-        allow(responsible_members)
-          .to receive(:exists?)
-          .with(user_id: other_user.id)
-          .and_return false
-      end
-
       it 'is not a valid responsible' do
         error = I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
                        property: I18n.t('attributes.responsible'))
@@ -144,13 +115,23 @@ shared_examples_for 'work package contract' do
     end
 
     context 'if the project is not set' do
-      before do
-        allow(work_package)
-          .to receive(:project)
-          .and_return(nil)
-      end
+      let(:work_package_project) { nil }
 
       it_behaves_like 'has no error on', :responsible
+    end
+  end
+
+  describe '#assignable_assignees' do
+    it 'returns the Principal`s possible_assignee scope' do
+      expect(subject.assignable_assignees)
+        .to eql assignable_assignees_scope
+    end
+  end
+
+  describe '#assignable_responsibles' do
+    it 'returns the Principal`s possible_assignee scope' do
+      expect(subject.assignable_responsibles)
+        .to eql assignable_assignees_scope
     end
   end
 end

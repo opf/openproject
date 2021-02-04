@@ -104,7 +104,7 @@ describe ForumsController, type: :controller do
         .and_return(forum)
     end
 
-    describe 'w/ the params beeing valid' do
+    describe 'w/ the params being valid' do
       before do
         expect(forum).to receive(:save).and_return(true)
 
@@ -125,7 +125,7 @@ describe ForumsController, type: :controller do
       end
     end
 
-    describe 'w/ the params beeing invalid' do
+    describe 'w/ the params being invalid' do
       before do
         expect(forum).to receive(:save).and_return(false)
 
@@ -207,7 +207,7 @@ describe ForumsController, type: :controller do
       expect(@controller).to receive(:authorize)
     end
 
-    describe 'w/ the params beeing valid' do
+    describe 'w/ the params being valid' do
       before do
         as_logged_in_user user do
           put :update, params: { id: forum.id,
@@ -233,7 +233,7 @@ describe ForumsController, type: :controller do
       end
     end
 
-    describe 'w/ the params beeing invalid' do
+    describe 'w/ the params being invalid' do
       before do
         as_logged_in_user user do
           post :update, params: { id: forum.id,

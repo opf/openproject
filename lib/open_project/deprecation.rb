@@ -29,13 +29,34 @@
 module OpenProject::Deprecation
   class << self
     def deprecator
-      @@deprecator||= ActiveSupport::Deprecation.new('in a future major upgrade', 'OpenProject')
+      @@deprecator ||= ActiveSupport::Deprecation
+          .new('in a future major upgrade', 'OpenProject')
+          .tap do |instance|
+
+        # Reuse the silenced state of the default deprecator
+        instance.silenced = ActiveSupport::Deprecation.silenced
+
+      end
     end
 
     ##
     # Deprecate the given method with a notice regarding future removal
-    def deprecate_method(mod, method)
-      deprecator.deprecate_methods(mod, method)
+    #
+    # @mod [Class] The module on which the method is to be replaced.
+    # @method [:symbol] The method to replace.
+    # @replacement [nil, :symbol, String] The replacement method.
+    def deprecate_method(mod, method, replacement = nil)
+      deprecator.deprecate_methods(mod, method => replacement)
+    end
+
+    ##
+    # Deprecate the given class method with a notice regarding future removal
+    #
+    # @mod [Class] The module on which the method is to be replaced.
+    # @method [:symbol] The method to replace.
+    # @replacement [nil, :symbol, String] The replacement method.
+    def deprecate_class_method(mod, method, replacement = nil)
+      deprecate_method(mod.singleton_class, method, replacement)
     end
 
     def replaced(old_method, new_method, called_from)

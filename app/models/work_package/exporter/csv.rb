@@ -118,7 +118,7 @@ class WorkPackage::Exporter::CSV < WorkPackage::Exporter::Base
       when Time
         format_time(value)
       when nil
-        # ruby 2.7.1 will return a frozen string for nil.to_s which will cause an error when e.g. trying to
+        # ruby >=2.7.1 will return a frozen string for nil.to_s which will cause an error when e.g. trying to
         # force an encoding
         ''
       else

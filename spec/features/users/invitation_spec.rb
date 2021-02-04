@@ -29,17 +29,14 @@
 require 'spec_helper'
 
 feature 'invitation spec', type: :feature, js: true do
-  using_shared_fixtures :admin
-  let(:current_user) { admin }
   let(:user) { FactoryBot.create :invited_user, mail: 'holly@openproject.com' }
 
   before do
     allow(User).to receive(:current).and_return current_user
-
-    visit edit_user_path(user)
   end
 
-  scenario 'admin resends the invitation' do
+  shared_examples 'resends the invitation' do
+    visit edit_user_path(user)
     click_on I18n.t(:label_send_invitation)
     expect(page).to have_text 'An invitation has been sent to holly@openproject.com.'
 
@@ -54,5 +51,15 @@ feature 'invitation spec', type: :feature, js: true do
     visit account_activate_path(token: Token::Invitation.last.value)
 
     expect(page).to have_selector('.op-modal--modal-header', text: 'Welcome to OpenProject')
+  end
+
+  context 'as admin' do
+    using_shared_fixtures :admin
+    let(:current_user) { admin }
+  end
+
+  context 'as global user' do
+    using_shared_fixtures :global_add_user
+    let(:current_user) { global_add_user }
   end
 end

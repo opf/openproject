@@ -64,16 +64,12 @@ describe 'Global role: Global role assignment', type: :feature, js: true do
         expect(page).to have_text 'global_role2'
       end
 
+      SeleniumHubWaiter.wait
       # And I select the available global role "global_role"
       check 'global_role2'
       # And I press "Add"
       click_on 'Add'
 
-      # Then I should see "global_role" within "#table_principal_roles"
-      page.within('#available_principal_roles') do
-        expect(page).to have_no_text 'global_role1'
-        expect(page).to have_no_text 'global_role2'
-      end
       # And I should not see "global_role" within "#available_principal_roles"
       # And I should see "There is currently nothing to display"
       page.within('#table_principal_roles') do
@@ -81,15 +77,22 @@ describe 'Global role: Global role assignment', type: :feature, js: true do
         expect(page).to have_text 'global_role2'
       end
 
+      # Then I should see "global_role" within "#table_principal_roles"
+      page.within('#available_principal_roles') do
+        expect(page).to have_no_text 'global_role1'
+        expect(page).to have_no_text 'global_role2'
+      end
+
       # And I delete the assigned role "global_role"
       page.within("#assigned_global_role_#{global_role1.id}") do
+        SeleniumHubWaiter.wait
         page.find('.buttons a.icon-delete').click
       end
 
       # Then I should see "global_role" within "#table_principal_roles"
       page.within('#available_principal_roles') do
-        expect(page).to have_text 'global_role1'
         expect(page).to have_no_text 'global_role2'
+        expect(page).to have_text 'global_role1'
       end
       # And I should not see "global_role" within "#available_principal_roles"
       # And I should see "There is currently nothing to display"

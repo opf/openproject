@@ -33,7 +33,6 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.user(user.id) }
-  let(:current_user) { FactoryBot.build(:admin) }
 
   let(:user) { FactoryBot.create(:user) }
   let(:parameters) { {} }
@@ -64,58 +63,92 @@ describe ::API::V3::Users::UsersAPI, type: :request do
     end
   end
 
-  describe 'empty request body' do
-    it_behaves_like 'successful update'
-  end
+  shared_examples 'update flow' do
+    describe 'empty request body' do
+      it_behaves_like 'successful update'
+    end
 
-  describe 'attribute change' do
-    let(:parameters) { { email: 'foo@example.org', language: 'de' } }
-    it_behaves_like 'successful update', mail: 'foo@example.org', language: 'de'
-  end
+    describe 'attribute change' do
+      let(:parameters) { { email: 'foo@example.org', language: 'de' } }
+      it_behaves_like 'successful update', mail: 'foo@example.org', language: 'de'
+    end
 
-  describe 'password update' do
-    let(:password) { 'my!new!password123' }
-    let(:parameters) { { password: password } }
+    describe 'attribute collision' do
+      let(:parameters) { { email: 'foo@example.org' } }
+      let(:collision) { FactoryBot.create(:user, mail: 'foo@example.org') }
+      before do
+        collision
+      end
 
-    it 'updates the users password correctly' do
-      send_request
-      expect(last_response.status).to eq(200)
+      it 'returns an erroneous response' do
+        send_request
 
-      updated_user = User.find(user.id)
-      matches = updated_user.check_password?(password)
-      expect(matches).to eq(true)
+        expect(last_response.status).to eq(422)
+
+        expect(last_response.body)
+          .to be_json_eql('email'.to_json)
+                .at_path('_embedded/details/attribute')
+
+        expect(last_response.body)
+          .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyConstraintViolation'.to_json)
+                .at_path('errorIdentifier')
+      end
     end
   end
 
-  describe 'attribute collision' do
-    let(:parameters) { { email: 'foo@example.org' } }
-    let(:collision) { FactoryBot.create(:user, mail: 'foo@example.org') }
-    before do
-      collision
+  describe 'admin user' do
+    let(:current_user) { FactoryBot.build(:admin) }
+
+    it_behaves_like 'update flow'
+
+    describe 'password update' do
+      let(:password) { 'my!new!password123' }
+      let(:parameters) { { password: password } }
+
+      it 'updates the users password correctly' do
+        send_request
+        expect(last_response.status).to eq(200)
+
+        updated_user = User.find(user.id)
+        matches = updated_user.check_password?(password)
+        expect(matches).to eq(true)
+      end
     end
 
-    it 'returns an erroneous response' do
-      send_request
+    describe 'unknown user' do
+      let(:parameters) { { email: 'foo@example.org' } }
+      let(:path) { api_v3_paths.user(666) }
 
-      expect(last_response.status).to eq(422)
-
-      expect(last_response.body)
-        .to be_json_eql('email'.to_json)
-        .at_path('_embedded/details/attribute')
-
-      expect(last_response.body)
-        .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyConstraintViolation'.to_json)
-        .at_path('errorIdentifier')
+      it 'responds with 404' do
+        send_request
+        expect(last_response.status).to eql(404)
+      end
     end
+
   end
 
-  describe 'unknown user' do
-    let(:parameters) { { email: 'foo@example.org' } }
-    let(:path) { api_v3_paths.user(666) }
+  describe 'user with global add_user permission' do
+    using_shared_fixtures :global_add_user
+    let(:current_user) { global_add_user }
 
-    it 'responds with 404' do
-      send_request
-      expect(last_response.status).to eql(404)
+    it_behaves_like 'update flow'
+
+    describe 'password update' do
+      let(:password) { 'my!new!password123' }
+      let(:parameters) { { password: password } }
+
+      it 'rejects the users password update' do
+        send_request
+        expect(last_response.status).to eq(422)
+
+        expect(last_response.body)
+          .to be_json_eql('password'.to_json)
+                .at_path('_embedded/details/attribute')
+
+        expect(last_response.body)
+          .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyIsReadOnly'.to_json)
+                .at_path('errorIdentifier')
+      end
     end
   end
 

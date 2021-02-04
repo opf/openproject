@@ -535,6 +535,7 @@ fr:
         invalid_url: 'n’est pas une URL valide.'
         invalid_url_scheme: 'n’est pas un protocole pris en charge (autorisés : %{allowed_schemes}).'
         less_than_or_equal_to: "doit être inférieur ou égal à %{count}."
+        not_deletable: "cannot be deleted."
         not_current_user: "n'est pas l'utilisateur actuel."
         not_a_date: "n'est pas une date valide."
         not_a_datetime: "n'est pas une heure valide."
@@ -2228,7 +2229,6 @@ fr:
   setting_welcome_text: "Bloc de texte de bienvenue"
   setting_welcome_title: "Bloc de titre de bienvenue"
   setting_welcome_on_homescreen: "Afficher le bloc de bienvenue sur l'écran d'accueil"
-  setting_work_package_group_assignment: "Autoriser l'assignation à des groupes"
   setting_work_package_list_default_highlighting_mode: "Mode de surbrillance par défaut"
   setting_work_package_list_default_highlighted_attributes: "Attributs en ligne mis en surbrillance par défaut"
   settings:
