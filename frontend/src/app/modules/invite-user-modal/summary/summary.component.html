@@ -5,7 +5,7 @@
 >
   <op-modal-heading (close)="close.emit()">{{ text.title() }}</op-modal-heading>
 
-  <div class="op-modal--modal-body">
+  <div class="op-modal--body">
     <op-form-field [label]="text.projectLabel">
       <p slot="input">{{ project.name }}</p>
     </op-form-field>
@@ -25,7 +25,7 @@
     </op-form-field>
   </div>
 
-  <div class="op-modal--modal-footer">
+  <div class="op-modal--footer">
     <button
       type="button"
       (click)="back.emit()"

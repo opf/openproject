@@ -4,12 +4,11 @@
 >
   <op-modal-heading (close)="close.emit()">{{ text.title() }}</op-modal-heading>
 
-  <div class="op-modal--modal-body">
+  <div class="op-modal--body">
     <op-form-field [label]="text.label">
-      <p
-        class="op-form-field--description"
-        slot="description"
-      >{{ text.description() }}</p>
+      <p class="op-form-field--description" slot="description">
+        {{ text.description() }}
+      </p>
       <textarea
         class="op-input"
         [formControl]="messageControl"
@@ -19,7 +18,7 @@
     </op-form-field>
   </div>
 
-  <div class="op-modal--modal-footer">
+  <div class="op-modal--footer">
     <button
       type="button"
       class="button"

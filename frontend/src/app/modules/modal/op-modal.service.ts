@@ -33,7 +33,7 @@ export class OpModalService {
               private injector:Injector) {
 
     const hostElement = this.portalHostElement = document.createElement('div');
-    hostElement.classList.add('op-modals--overlay');
+    hostElement.classList.add('op-modal-overlay');
     document.body.appendChild(hostElement);
 
     // Listen to keyups on window to close context menus
@@ -97,8 +97,6 @@ export class OpModalService {
       this.opening = false;
     }, 20);
 
-    jQuery('.op-modal--modal-container').focus();
-
     return this.active as T;
   }
 
@@ -120,7 +118,7 @@ export class OpModalService {
   }
 
   public get activeModal():JQuery {
-    return jQuery(this.portalHostElement).find('.op-modal--portal');
+    return jQuery(this.portalHostElement).find('.op-modal');
   }
 
   /**

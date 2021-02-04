@@ -139,7 +139,8 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     }
   }
 
-  save():void {
+  save($event:Event):void {
+    $event.preventDefault();
     if (!this.isSavable) {
       return;
     }

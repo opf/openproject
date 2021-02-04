@@ -1,18 +1,7 @@
-<div class="op-modal--portal ">
-  <div class="op-modal--modal-container wp-table--configuration-modal"
-       tabindex="0">
-    <div class="op-modal--modal-header">
-      <h3 [textContent]="text.title"></h3>
+<div class="op-modal wp-table--configuration-modal">
+  <op-modal-heading (close)="closeMe($event)">{{text.title}}</op-modal-heading>
 
-      <a class="op-modal--modal-close-button">
-        <i
-            class="icon-close"
-            (click)="closeMe($event)"
-            [attr.title]="text.closePopup">
-        </i>
-      </a>
-    </div>
-
+  <div class="op-modal--body">
     <ul *ngIf="exportOptions" class="export-options" [ngClass]="{'-hidden': isLoading}">
       <li *ngFor="let option of exportOptions">
         <a [attr.href]="option.url"
