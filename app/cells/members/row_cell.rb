@@ -26,7 +26,7 @@ module Members
         if user?
           link_to principal.name, user_path(principal)
         else
-          h(principal.name)
+          content_tag :span, principal.name
         end
 
       icon + link

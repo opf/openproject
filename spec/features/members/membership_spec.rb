@@ -76,20 +76,13 @@ feature 'Administrating memberships via the project settings', type: :feature, j
     let!(:existing_members) { [member1, member2, member3] }
 
     scenario 'sorting the page' do
-      members_page.sort_by 'last name'
-      members_page.expect_sorted_by 'last name'
-
-      expect(members_page.contents('lastname')).to eq ['', peter.lastname, hannibal.lastname]
+      members_page.expect_sorted_by 'name'
+      expect(members_page.contents('name')).to eq ['', peter.name, hannibal.name]
 
       SeleniumHubWaiter.wait
-      members_page.sort_by 'last name'
-      members_page.expect_sorted_by 'last name', desc: true
-      expect(members_page.contents('lastname')).to eq [hannibal.lastname, peter.lastname, '']
-
-      SeleniumHubWaiter.wait
-      members_page.sort_by 'first name'
-      members_page.expect_sorted_by 'first name'
-      expect(members_page.contents('firstname')).to eq ['', hannibal.firstname, peter.firstname]
+      members_page.sort_by 'name'
+      members_page.expect_sorted_by 'name', desc: true
+      expect(members_page.contents('name')).to eq [hannibal.name, peter.name, group.name]
 
       SeleniumHubWaiter.wait
       members_page.sort_by 'email'

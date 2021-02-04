@@ -5,7 +5,7 @@ module Members
     sortable_columns :name, :mail
 
     def initial_sort
-      [:name, :desc]
+      %i[name asc]
     end
 
     def headers
