@@ -6,6 +6,7 @@ import {
   ElementRef,
 } from '@angular/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {PrincipalType} from '../invite-user.component';
 
 @Component({
   selector: 'op-ium-success',
@@ -15,7 +16,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 export class SuccessComponent {
   @Input() principal:any = null;
   @Input() project:any = null;
-  @Input() type:string = '';
+  @Input() type:PrincipalType;
 
   @Output() close = new EventEmitter<void>();
 
