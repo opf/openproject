@@ -157,7 +157,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
     this.items = [
       {
         // Configuration modal
-        disabled: false,
+        disabled: this.authorisationService.cannot('query', 'updateImmediately'),
         linkText: this.I18n.t('js.toolbar.settings.configure_view'),
         icon: 'icon-settings',
         onClick: ($event:JQuery.TriggeredEvent) => {
@@ -169,6 +169,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
       },
       {
         // Insert columns
+        disabled: this.authorisationService.cannot('query', 'updateImmediately'),
         linkText: this.I18n.t('js.work_packages.query.insert_columns'),
         icon: 'icon-columns',
         class: 'hidden-for-mobile',
@@ -183,6 +184,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
       },
       {
         // Sort by
+        disabled: this.authorisationService.cannot('query', 'updateImmediately'),
         linkText: this.I18n.t('js.toolbar.settings.sort_by'),
         icon: 'icon-sort-by',
         onClick: () => {
@@ -196,6 +198,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
       },
       {
         // Group by
+        disabled: this.authorisationService.cannot('query', 'updateImmediately'),
         linkText: this.I18n.t('js.toolbar.settings.group_by'),
         icon: 'icon-group-by',
         class: 'hidden-for-mobile',
@@ -209,7 +212,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         }
       },
       {
-        // Rename query shortcut
+        // Rename query shortcut        
         disabled: !this.query.id || this.authorisationService.cannot('query', 'updateImmediately'),
         linkText: this.I18n.t('js.toolbar.settings.page_settings'),
         icon: 'icon-edit',

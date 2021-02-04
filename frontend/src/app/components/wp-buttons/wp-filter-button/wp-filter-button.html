@@ -1,4 +1,5 @@
 <button class="button"
+        *ngIf='isAuthorized'
         [attr.id]="buttonId"
         [attr.accesskey]="accessKey"
         [attr.title]="label"

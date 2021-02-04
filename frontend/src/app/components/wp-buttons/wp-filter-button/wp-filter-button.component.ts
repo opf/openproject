@@ -32,6 +32,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@an
 import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
+import { CurrentProjectService } from "app/components/projects/current-project.service";
 
 @Component({
   selector: 'wp-filter-button',
@@ -41,6 +42,7 @@ import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
 export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonComponent implements OnInit {
   public count:number;
   public initialized:boolean = false;
+  public isAuthorized:boolean = false;
 
   public buttonId:string = 'work-packages-filter-toggle-button';
   public iconClass:string = 'icon-filter';
@@ -48,12 +50,16 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
   constructor(readonly I18n:I18nService,
               protected cdRef:ChangeDetectorRef,
               protected wpFiltersService:WorkPackageFiltersService,
-              protected wpTableFilters:WorkPackageViewFiltersService) {
+              protected wpTableFilters:WorkPackageViewFiltersService,
+              protected current_project:CurrentProjectService) {
     super(I18n);
   }
 
   ngOnInit():void {
     this.setupObserver();
+    if (this.current_project.viewManager) {
+      this.isAuthorized = true;
+    }
   }
 
   public get labelKey():string {
