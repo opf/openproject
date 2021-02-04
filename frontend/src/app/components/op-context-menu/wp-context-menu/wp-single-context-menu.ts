@@ -10,7 +10,7 @@ import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-
 import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
 import {OpContextMenuItem} from 'core-components/op-context-menu/op-context-menu.types';
 import {PERMITTED_CONTEXT_MENU_ACTIONS} from 'core-components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
-import {OpModalService} from 'core-components/op-modals/op-modal.service';
+import {OpModalService} from 'core-app/modules/modal/modal.service';
 import {WorkPackageAuthorization} from 'core-components/work-packages/work-package-authorization.service';
 import {WorkPackageAction} from 'core-components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";

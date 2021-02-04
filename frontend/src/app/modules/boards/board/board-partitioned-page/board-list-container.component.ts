@@ -6,7 +6,7 @@ import {StateService} from "@uirouter/core";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
-import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {OpModalService} from "core-app/modules/modal/modal.service";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";

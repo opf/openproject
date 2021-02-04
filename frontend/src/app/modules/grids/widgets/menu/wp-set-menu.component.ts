@@ -28,9 +28,9 @@
 
 import { Injector, EventEmitter, Output, Directive } from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {OpModalService} from "core-app/modules/modal/modal.service";
+import {OpModalComponent} from "core-app/modules/modal/modal.component";
 import {GridRemoveWidgetService} from "core-app/modules/grids/grid/remove-widget.service";
-import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 import {ComponentType} from '@angular/cdk/portal';
 import {WidgetAbstractMenuComponent} from "core-app/modules/grids/widgets/menu/widget-abstract-menu.component";
 import {WpGraphConfigurationModalComponent} from "core-app/modules/work-package-graphs/configuration-modal/wp-graph-configuration.modal";

@@ -5,7 +5,7 @@ import {OpTableActionFactory} from 'core-components/wp-table/table-actions/table
 import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
 import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
 import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
-import {OpModalService} from 'core-components/op-modals/op-modal.service';
+import {OpModalService} from 'core-app/modules/modal/modal.service';
 import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedded/wp-embedded-base.component";
 import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
 import {distinctUntilChanged, map, take, withLatestFrom} from "rxjs/operators";

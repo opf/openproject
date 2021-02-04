@@ -30,10 +30,10 @@ import {Component, OnDestroy, OnInit} from "@angular/core";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
-import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {OpModalService} from "core-app/modules/modal/modal.service";
 import {take} from "rxjs/operators";
 import {DateEditFieldComponent} from "core-app/modules/fields/edit/field-types/date-edit-field.component";
-import {OpModalComponent} from "core-components/op-modals/op-modal.component";
+import {OpModalComponent} from "core-app/modules/modal/modal.component";
 
 @Component({
   template: `

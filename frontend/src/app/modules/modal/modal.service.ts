@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {ComponentPortal, ComponentType, DomPortalOutlet, PortalInjector} from '@angular/cdk/portal';
 import {TransitionService} from '@uirouter/core';
-import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
+import {OpModalComponent} from 'core-app/modules/modal/modal.component';
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
 

@@ -4,7 +4,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {Board} from "core-app/modules/boards/board/board";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {OpModalService} from "core-app/modules/modal/modal.service";
 import {NewBoardModalComponent} from "core-app/modules/boards/new-board-modal/new-board-modal.component";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";

@@ -29,8 +29,8 @@
 import {Component, Output, EventEmitter, Injector} from '@angular/core';
 import {WpGraphConfigurationModalComponent} from "core-app/modules/work-package-graphs/configuration-modal/wp-graph-configuration.modal";
 import {WidgetWpSetMenuComponent} from "core-app/modules/grids/widgets/menu/wp-set-menu.component";
-import {OpModalComponent} from "core-components/op-modals/op-modal.component";
-import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {OpModalService} from "core-app/modules/modal/modal.service";
+import {OpModalComponent} from "core-app/modules/modal/modal.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {GridRemoveWidgetService} from "core-app/modules/grids/grid/remove-widget.service";
 import {GridAreaService} from "core-app/modules/grids/grid/area.service";

@@ -28,7 +28,7 @@
 
 
 import {Injectable, Injector} from "@angular/core";
-import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {OpModalService} from "core-app/modules/modal/modal.service";
 import {WpPreviewModal} from "core-components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
 
 @Injectable({ providedIn: 'root' })

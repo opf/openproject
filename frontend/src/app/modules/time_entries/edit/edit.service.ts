@@ -1,5 +1,5 @@
 import {Injectable, Injector} from "@angular/core";
-import {OpModalService} from "app/components/op-modals/op-modal.service";
+import {OpModalService} from "core-app/modules/modal/modal.service";
 import {HalResourceService} from "app/modules/hal/services/hal-resource.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import { TimeEntryResource } from 'core-app/modules/hal/resources/time-entry-resource';

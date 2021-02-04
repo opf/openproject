@@ -10,8 +10,9 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
-import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
+import {OpModalLocalsMap} from 'core-app/modules/modal/modal.types';
+import {OpModalComponent} from 'core-app/modules/modal/modal.component';
+import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
 import {
   ActiveTabInterface,
   TabComponent,
@@ -19,7 +20,6 @@ import {
   TabPortalOutlet
 } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {BoardConfigurationService} from "core-app/modules/boards/board/configuration-modal/board-configuration.service";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {Board} from "core-app/modules/boards/board/board";

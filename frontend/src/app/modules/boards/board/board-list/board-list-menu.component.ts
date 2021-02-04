@@ -29,7 +29,7 @@
 import {Component, Output, EventEmitter, Input} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
-import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {OpModalService} from "core-app/modules/modal/modal.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {Board} from "core-app/modules/boards/board/board";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";

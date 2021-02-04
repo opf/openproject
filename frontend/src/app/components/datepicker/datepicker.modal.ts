@@ -37,11 +37,11 @@ import {
   Injector, ViewChild,
   ViewEncapsulation
 } from "@angular/core";
-import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
-import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
+import {OpModalComponent} from "core-app/modules/modal/modal.component";
+import {OpModalLocalsMap} from "core-app/modules/modal/modal.types";
+import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
 import {TimezoneService} from "core-components/datetime/timezone.service";
 import {DatePicker} from "core-app/modules/common/op-date-picker/datepicker";
 import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";

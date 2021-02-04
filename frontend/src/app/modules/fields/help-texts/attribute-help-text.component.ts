@@ -37,7 +37,7 @@ import {
   OnInit
 } from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {OpModalService} from 'core-components/op-modals/op-modal.service';
+import {OpModalService} from 'core-app/modules/modal/modal.service';
 import {AttributeHelpTextModal} from "core-app/modules/fields/help-texts/attribute-help-text.modal";
 
 export const attributeHelpTextSelector = 'attribute-help-text';

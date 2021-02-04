@@ -1,12 +1,12 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from '@angular/core';
-import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
+import {OpModalLocalsMap} from 'core-app/modules/modal/modal.types';
+import {OpModalComponent} from 'core-app/modules/modal/modal.component';
+import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
 import {WorkPackageViewColumnsService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
-import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
 import {HalLink} from "core-app/modules/hal/hal-link/hal-link";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import * as URI from 'urijs';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
