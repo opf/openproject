@@ -61,7 +61,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       before do
         allow(User)
           .to receive(:current)
-                .and_return(assignee)
+          .and_return(assignee)
       end
 
       it 'returns the work package' do
@@ -84,7 +84,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       before do
         allow(User)
           .to receive(:current)
-                .and_return(FactoryBot.create(:user))
+          .and_return(FactoryBot.create(:user))
       end
 
       it 'does not return the work package' do
@@ -106,7 +106,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
 
         allow(User)
           .to receive(:current)
-                .and_return(user)
+          .and_return(user)
       end
 
       it 'returns the mapped value' do
@@ -184,42 +184,34 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
     let(:type) { :list_optional }
     let(:class_key) { :assigned_to_id }
 
-    let(:user_1) { FactoryBot.build_stubbed(:user) }
-    let(:group_1) { FactoryBot.build_stubbed(:group) }
+    let(:user) { FactoryBot.build_stubbed(:user) }
+    let(:group) { FactoryBot.build_stubbed(:group) }
+    let(:placeholder_user) { FactoryBot.build_stubbed(:group) }
 
     let(:principal_loader) do
-      loader = double('principal_loader')
-      allow(loader)
-        .to receive(:user_values)
-              .and_return(user_values)
-      allow(loader)
-        .to receive(:group_values)
-              .and_return(group_values)
-
-      loader
+      double('principal_loader', principal_values: principal_values)
     end
-    let(:user_values) { [] }
-    let(:group_values) { [] }
+    let(:principal_values) { [] }
 
     describe '#valid_values!' do
-      let(:user_values) { [[user_1.name, user_1.id.to_s]] }
+      let(:principal_values) { [[user.name, user.id.to_s]] }
 
       before do
-        instance.values = [user_1.id.to_s, '99999']
+        instance.values = [user.id.to_s, '99999']
       end
 
       it 'remove the invalid value' do
         instance.valid_values!
 
-        expect(instance.values).to match_array [user_1.id.to_s]
+        expect(instance.values).to match_array [user.id.to_s]
       end
     end
 
     before do
       allow(Queries::WorkPackages::Filter::PrincipalLoader)
         .to receive(:new)
-              .with(project)
-              .and_return(principal_loader)
+        .with(project)
+        .and_return(principal_loader)
     end
 
     describe '#available?' do
@@ -228,52 +220,76 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       before do
         allow(User)
           .to receive_message_chain(:current, :logged?)
-                .and_return(logged_in)
+          .and_return(logged_in)
       end
 
       context 'when being logged in' do
-        it 'is true if no other user is available' do
-          expect(instance).to be_available
+        context 'if no value is available' do
+          let(:principal_values) { [] }
+
+          it 'is true' do
+            expect(instance).to be_available
+          end
         end
 
-        it 'is true if there is another user selectable' do
-          allow(principal_loader)
-            .to receive(:user_values)
-                  .and_return([user_1])
+        context 'if a user is available' do
+          let(:principal_values) { [[user.name, user.id.to_s]] }
 
-          expect(instance).to be_available
+          it 'is true' do
+            expect(instance).to be_available
+          end
         end
 
-        it 'is true if there is another group selectable' do
-          allow(principal_loader)
-            .to receive(:group_values)
-                  .and_return([[group_1.name, group_1.id.to_s]])
+        context 'if a placeholder user is available' do
+          let(:principal_values) { [[placeholder_user.name, placeholder_user.id.to_s]] }
 
-          expect(instance).to be_available
+          it 'is true' do
+            expect(instance).to be_available
+          end
+        end
+
+        context 'if another group selectable' do
+          let(:principal_values) { [[group.name, group.id.to_s]] }
+
+          it 'is true' do
+            expect(instance).to be_available
+          end
         end
       end
 
       context 'when not being logged in' do
         let(:logged_in) { false }
 
-        it 'is false if no other user is available' do
-          expect(instance).to_not be_available
+        context 'if no value is available' do
+          let(:principal_values) { [] }
+
+          it 'is false' do
+            expect(instance).not_to be_available
+          end
         end
 
-        it 'is true if there is another user selectable' do
-          allow(principal_loader)
-            .to receive(:user_values)
-                  .and_return([[user_1.name, user_1.id.to_s]])
+        context 'if a user is available' do
+          let(:principal_values) { [[user.name, user.id.to_s]] }
 
-          expect(instance).to be_available
+          it 'is true' do
+            expect(instance).to be_available
+          end
         end
 
-        it 'is true if there is another group selectable' do
-          allow(principal_loader)
-            .to receive(:group_values)
-                  .and_return([[group_1.name, group_1.id.to_s]])
+        context 'if a placeholder user is available' do
+          let(:principal_values) { [[placeholder_user.name, placeholder_user.id.to_s]] }
 
-          expect(instance).to be_available
+          it 'is true' do
+            expect(instance).to be_available
+          end
+        end
+
+        context 'if another group selectable' do
+          let(:principal_values) { [[group.name, group.id.to_s]] }
+
+          it 'is true' do
+            expect(instance).to be_available
+          end
         end
       end
     end
@@ -284,23 +300,19 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       before do
         allow(User)
           .to receive_message_chain(:current, :logged?)
-                .and_return(logged_in)
+          .and_return(logged_in)
 
         allow(principal_loader)
-          .to receive(:user_values)
-                .and_return([[user_1.name, user_1.id.to_s]])
-
-        allow(principal_loader)
-          .to receive(:group_values)
-                .and_return([[group_1.name, group_1.id.to_s]])
+          .to receive(:principal_values)
+          .and_return([[user.name, user.id.to_s], [group.name, group.id.to_s]])
       end
 
       context 'when being logged in' do
         it 'returns the me value and the available users and groups' do
           expect(instance.allowed_values)
             .to match_array([[I18n.t(:label_me), 'me'],
-                             [user_1.name, user_1.id.to_s],
-                             [group_1.name, group_1.id.to_s]])
+                             [user.name, user.id.to_s],
+                             [group.name, group.id.to_s]])
         end
       end
 
@@ -309,8 +321,8 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
 
         it 'returns the available users' do
           expect(instance.allowed_values)
-            .to match_array([[user_1.name, user_1.id.to_s],
-                             [group_1.name, group_1.id.to_s]])
+            .to match_array([[user.name, user.id.to_s],
+                             [group.name, group.id.to_s]])
         end
       end
     end

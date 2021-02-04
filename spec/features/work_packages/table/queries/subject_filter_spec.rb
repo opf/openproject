@@ -30,7 +30,6 @@ require 'spec_helper'
 
 describe 'Work package filtering by subject', js: true do
   let(:project) { FactoryBot.create :project, public: true }
-  let(:role) { FactoryBot.create :existing_role, permissions: [:view_work_packages] }
   let(:admin) { FactoryBot.create :admin }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
