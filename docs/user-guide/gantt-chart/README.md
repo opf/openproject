@@ -20,7 +20,6 @@ The **Gantt chart** in OpenProject displays the work packages in a timeline. You
 | [Relations in the Gantt chart](#relations-in-the-gantt-chart) | Create and display dependencies in the Gantt chart.          |
 | [Understanding the colors and lines in the Gantt chart](#understanding-the-colors-and-lines-in-the-gantt-chart) | What do the clamps, lines and symbols in the Gantt chart mean? |
 | [Gantt chart configuration](#gantt-chart-configuration)      | How to configure the view of your Gantt chart, e.g. add labels? |
-| [Synchronize data between OpenProject and Excel](#synchronize-data-between-openproject-and-excel) | How to synchronize data from OpenProject to Excel?           |
 | [Gantt chart views](#gantt-chart-views)                      | How to zoom in and out and activate the Zen mode?            |
 | [Aggregation by project](#aggregation-by-project)            | How to display an aggregated view of all milestones of multiple projects? |
 
@@ -124,11 +123,7 @@ Press the **Print** button.
 
 For other browsers, please simply follow the browser's printing instruction to optimize results.
 
-## Synchronize data between OpenProject and Excel
-
-You can synchronize your work package data between OpenProject and Excel (two-way synchronization). By extension you could import MS Project files - by saving them as Excel files and importing them into OpenProject. You can download a free Excel synchronization template to do this.
-
-Follow our [Step by step guide how to synchronize your Excel Sheet with OpenProject](../integrations/Excel Synchronization).
+To synchronize your work package data between OpenProject and Excel (two-way synchronization) please have a look at [this instruction](../integrations/Excel Synchronization).
 
 ## Gantt chart views
 
