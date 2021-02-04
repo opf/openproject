@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {PrincipalType} from '../invite-user.component';
 
 @Component({
   selector: 'op-ium-summary',
@@ -14,14 +15,14 @@ import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
   styleUrls: ['./summary.component.sass'],
 })
 export class SummaryComponent {
-  @Input('type') type:string = '';
-  @Input('project') project:any = null;
-  @Input('role') role:any = null;
-  @Input('principal') principal:any = null;
-  @Input('message') message:string = '';
+  @Input() type:PrincipalType;
+  @Input() project:any = null;
+  @Input() role:any = null;
+  @Input() principal:any = null;
+  @Input() message:string = '';
 
-  @Output('close') close = new EventEmitter<void>();
-  @Output('back') back = new EventEmitter<void>();
+  @Output() close = new EventEmitter<void>();
+  @Output() back = new EventEmitter<void>();
   @Output() save = new EventEmitter();
 
   public text = {
