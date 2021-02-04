@@ -14,7 +14,7 @@ keywords: work packages table configuration, work package list, columns, filter,
 | [Add or remove columns](#add-or-remove-columns-in-the-work-package-table) | How to add or remove columns in the work package table?      |
 | [Filter work packages](#filter-work-packages)                | How to filter in the work package list?                      |
 | [Sort the work package list](#sort-the-work-package-list)    | How to sort within the work package list?                    |
-| [Display settings](#flat-list,-hierarchy-mode-and-group-by)  | Get to know the flat list, the hierarchy mode and the group by feature. |
+| [Display settings](#flat-list-hierarchy-mode-and-group-by)   | Get to know the flat list, the hierarchy mode and the group by feature. |
 | [Attribute highlighting (Premium Feature)](#attribute-highlighting-premium-feature) | How to highlight certain attributes in the work package list? |
 | [Save work package views](#save-work-package-views)          | How to save a new work package view and how to change existing ones? |
 

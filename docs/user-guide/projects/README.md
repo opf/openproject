@@ -213,7 +213,7 @@ With the **arrow** you can display the **project description**.
 
 ![projects-overview-view-all-projects](image-20210204171811255.png)
 
-You can choose the **columns displayed by default** in the [System Settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration. To access it quickly use the **vertical three dots** icon on the upper right.
+You can choose the **columns displayed by default** in the [System settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration. To access it quickly use the **vertical three dots** icon on the upper right.
 
 ![configure-projects-list](image-20210204172213314.png)
 
@@ -222,7 +222,7 @@ To change the order of the displayed [custom fields](../../system-admin-guide/cu
 
 
 To **display the work packages** of all your projects **in a Gantt chart** click on the **Open as Gantt view** icon on the upper right. This is a shortcut to quickly get to the report described in the [chapter below](#project-overarching-reports). 
-The Gantt chart view can be configured in the [System Settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration.
+The Gantt chart view can be configured in the [System settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration.
 
 ![open-global-gantt-chart](image-20201007161248903.png)
 

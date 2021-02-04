@@ -16,8 +16,8 @@ OpenProject offers a basic GitHub integration. You will find more information ab
 
 ## Gitlab
 
-The GitLab integration to OpenProject is currently being developed and you can find all information [here](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/21933#note_309977508).
-We are prioritizing this topic at the moment and will update this guide with the latest developments.
+The GitLab integration to OpenProject is still in development and you can find all information [here](https://gitlab.com/gitlab-org/gitlab/-/issues/15847).
+
 
 ## Jira
 
@@ -38,7 +38,7 @@ If you would like to learn more about OpenProject's features vs Trello, please r
 
 ## Toggl
 
-We do offer an [integration](../time-and-costs/time-tracking/toggl-integration/) between OpenProject and the time tracking app Toggl. Find out more [here](../time-and-costs/time-tracking/toggl-integration/).
+We do offer an integration between OpenProject and the time tracking app Toggl. Find out more [here](../time-and-costs/time-tracking/toggl-integration/).
 
 ## Slack
 
