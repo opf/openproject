@@ -35,7 +35,9 @@ export class SummaryComponent {
       placeholder: this.I18n.t('js.invite_user_modal.principal.label.name'),
       group: this.I18n.t('js.invite_user_modal.principal.label.name'),
     },
-    roleLabel: this.I18n.t('js.invite_user_modal.role.label'),
+    roleLabel: () => this.I18n.t('js.invite_user_modal.role.label', {
+      project: this.project?.name,
+    }),
     messageLabel: this.I18n.t('js.invite_user_modal.message.label'),
     backButton: this.I18n.t('js.invite_user_modal.back'),
     nextButton: () => this.I18n.t('js.invite_user_modal.summary.next_button', {
