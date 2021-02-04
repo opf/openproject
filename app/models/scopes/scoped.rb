@@ -32,11 +32,9 @@ module Scopes::Scoped
   included do
     def self.scope_classes(*classes)
       classes.each do |klass|
-        scope = klass.name.demodulize.underscore
+        scope_name = klass.name.demodulize.underscore
 
-        define_singleton_method(scope) do |*args|
-          klass.fetch(*args)
-        end
+        scope(scope_name, klass.method(:fetch))
       end
     end
   end
