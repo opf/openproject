@@ -15,7 +15,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 export class SuccessComponent {
   @Input() principal:any = null;
   @Input() project:any = null;
-  @Input() type:string = null;
+  @Input() type:string = '';
 
   @Output() close = new EventEmitter<void>();
 

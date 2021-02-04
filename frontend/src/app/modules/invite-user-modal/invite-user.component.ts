@@ -39,8 +39,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
               readonly cdRef:ChangeDetectorRef,
-              readonly elementRef:ElementRef,
-              readonly httpClient:HttpClient) {
+              readonly elementRef:ElementRef) {
     super(locals, cdRef, elementRef);
   }
 
