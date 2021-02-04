@@ -14,7 +14,13 @@ enum Steps {
   Message,
   Summary,
   Success,
-};
+}
+
+export enum PrincipalType {
+  User = 'user',
+  Placeholder = 'placeholder',
+  Group = 'group',
+}
 
 @Component({
   templateUrl: './invite-user.component.html',
@@ -31,7 +37,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   /* Close on outside click */
   public closeOnOutsideClick = true;
 
-  public type:string|null = null;
+  public type:PrincipalType|null = null;
   public project:any = null;
   public principal = null;
   public role = null;
@@ -47,7 +53,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
     super.ngOnInit();
   }
 
-  onProjectSelectionSave({ type, project }:{ type:string, project:any }) {
+  onProjectSelectionSave({ type, project }:{ type:PrincipalType, project:any }) {
     this.type = type;
     this.project = project;
     this.goTo(Steps.Principal);

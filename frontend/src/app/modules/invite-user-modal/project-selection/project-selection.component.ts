@@ -12,6 +12,7 @@ import {
   Validators,
 } from '@angular/forms';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {PrincipalType} from '../invite-user.component';
 
 @Component({
   selector: 'op-ium-project-selection',
@@ -19,10 +20,10 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
   styleUrls: ['./project-selection.component.sass'],
 })
 export class ProjectSelectionComponent implements OnInit {
-  @Input('type') type:string = '';
-  @Input('project') project:any = null;
+  @Input() type:PrincipalType;
+  @Input() project:any = null;
 
-  @Output('close') close = new EventEmitter<void>();
+  @Output() close = new EventEmitter<void>();
   @Output() save = new EventEmitter<{project:any, type:string}>();
 
   public text = {
@@ -55,7 +56,7 @@ export class ProjectSelectionComponent implements OnInit {
   ];
 
   projectAndTypeForm = new FormGroup({
-    type: new FormControl('', [ Validators.required ]),
+    type: new FormControl(PrincipalType.User, [ Validators.required ]),
     project: new FormControl(null, [ Validators.required ]),
   });
 

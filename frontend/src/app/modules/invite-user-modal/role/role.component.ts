@@ -11,6 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {PrincipalType} from '../invite-user.component';
 
 @Component({
   selector: 'op-ium-role',
@@ -18,7 +19,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
   styleUrls: ['./role.component.sass'],
 })
 export class RoleComponent implements OnInit {
-  @Input() type:string = '';
+  @Input() type:PrincipalType;
   @Input() project:any = null;
   @Input() principal:any = null;
   @Input() role:any = null;

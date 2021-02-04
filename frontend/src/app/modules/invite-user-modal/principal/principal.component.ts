@@ -11,6 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {PrincipalType} from '../invite-user.component';
 
 @Component({
   selector: 'op-ium-principal',
@@ -20,7 +21,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 export class PrincipalComponent implements OnInit {
   @Input() principal:any = null;
   @Input() project:any = null;
-  @Input() type:string = '';
+  @Input() type:PrincipalType;
 
   @Output() close = new EventEmitter<void>();
   @Output() save = new EventEmitter<{ principal:any, isAlreadyMember:boolean }>();
