@@ -92,7 +92,7 @@ class Query < ApplicationRecord
   def set_default_sort
     return if sort_criteria.any?
 
-    self.sort_criteria = [['id', 'asc']]
+    self.sort_criteria = [['type', 'asc'],['subject','asc']]
   end
 
   def context
@@ -107,6 +107,7 @@ class Query < ApplicationRecord
     return unless filters.blank?
 
     add_filter('status_id', 'o', [''])
+    add_filter('assigned_to_id', '=', ['me'])
   end
 
   def validate_work_package_filters
