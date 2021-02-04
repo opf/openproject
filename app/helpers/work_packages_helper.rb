@@ -212,6 +212,12 @@ module WorkPackagesHelper
     route[:controller] == 'work_packages' && route[:action] == 'index' && route[:state]&.match?(/^\d+/)
   end
 
+  def last_work_package_note(work_package)
+    note_journals = work_package.journals.select(&:notes?)
+    return t(:text_no_notes) if note_journals.empty?
+    note_journals.last.notes
+  end
+
   private
 
   def truncated_work_package_description(work_package, lines = 3)
