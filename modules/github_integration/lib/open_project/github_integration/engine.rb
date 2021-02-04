@@ -37,7 +37,7 @@ module OpenProject::GithubIntegration
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-github_integration',
-             :author_url => 'https://openproject.com',
+             :author_url => 'https://www.openproject.org/',
              bundled: true
 
 
