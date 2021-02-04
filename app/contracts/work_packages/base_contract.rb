@@ -70,7 +70,7 @@ module WorkPackages
 
       validate_people_visible :assigned_to,
                               'assigned_to_id',
-                              model.project.possible_assignee_members
+                              assignable_assignees
     end
 
     attribute :responsible_id do
@@ -78,7 +78,7 @@ module WorkPackages
 
       validate_people_visible :responsible,
                               'responsible_id',
-                              model.project.possible_responsible_members
+                              assignable_responsibles
     end
 
     attribute :schedule_manually
@@ -177,6 +177,15 @@ module WorkPackages
     def assignable_budgets
       model.project&.budgets
     end
+
+    def assignable_assignees
+      if model.project
+        Principal.possible_assignee(model.project)
+      else
+        Principal.none
+      end
+    end
+    alias_method :assignable_responsibles, :assignable_assignees
 
     private
 
@@ -298,7 +307,7 @@ module WorkPackages
     end
 
     def principal_visible?(id, list)
-      list.exists?(user_id: id)
+      list.exists?(id: id)
     end
 
     def start_before_soonest_start?

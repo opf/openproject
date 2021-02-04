@@ -37,7 +37,7 @@ describe Queries::Members::Filters::StatusFilter, type: :model do
 
     describe '#allowed_values' do
       it 'is a list of the possible values' do
-        expected = Principal::STATUSES.keys.map do |key|
+        expected = Principal.statuses.keys.map do |key|
           [I18n.t(:"status_#{key}"), key]
         end
 

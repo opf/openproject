@@ -77,7 +77,7 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
 
     before do
       allow(Principal)
-        .to receive_message_chain(:active_or_registered, :in_visible_project)
+        .to receive_message_chain(:not_locked, :in_visible_project)
         .and_return(matching_principals)
     end
 

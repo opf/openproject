@@ -33,14 +33,17 @@ describe OpenProject::Enterprise, :with_clean_fixture do
   describe "#user_limit_reached?" do
     let(:user_limit) { 2 }
     let(:builtin_user_count) { 2 }
+    # create 3 built-in users, only 2 of which are active
+    # Also create a placeholder user which will not count against the limit
+    let!(:system_user) { User.system }
+    let!(:anonymous_user) { User.anonymous }
+    let!(:deleted_user) { DeletedUser.first } # locked, not active
+    let!(:placeholder_user) { FactoryBot.create(:placeholder_user) }
 
     before do
-      # create 3 built-in users, only 2 of which are active
-      User.system
-      User.anonymous
-      DeletedUser.first # locked, not active
-
-      allow(OpenProject::Enterprise).to receive(:user_limit).and_return(user_limit)
+      allow(OpenProject::Enterprise)
+        .to receive(:user_limit)
+        .and_return(user_limit)
     end
 
     context "with fewer active users than the limit allows" do

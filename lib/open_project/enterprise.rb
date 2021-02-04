@@ -46,7 +46,7 @@ module OpenProject
       end
 
       def active_user_count
-        User.not_builtin.active.count
+        User.human.active.count
       end
 
       ##
@@ -61,7 +61,7 @@ module OpenProject
       # While the active user limit has not been reached yet it would be reached
       # if all registered and invited users were to activate their accounts.
       def imminent_user_limit?
-        User.not_builtin.active_or_registered.count >= user_limit if user_limit
+        User.human.not_locked.count >= user_limit if user_limit
       end
 
       def fail_fast?

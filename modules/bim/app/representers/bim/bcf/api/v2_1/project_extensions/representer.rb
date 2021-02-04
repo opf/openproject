@@ -59,8 +59,7 @@ module Bim::Bcf::API::V2_1
     property :user_id_type,
              getter: ->(decorator:, **) {
                decorator.with_check(%i[manage_bcf view_members]) do
-                 # TODO: Move possible_assignees handling into wp base contract
-                 model.project.possible_assignees.pluck(:mail)
+                 assignable_assignees.pluck(:mail)
                end
              }
 

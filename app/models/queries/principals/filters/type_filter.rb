@@ -29,8 +29,8 @@
 
 class Queries::Principals::Filters::TypeFilter < Queries::Principals::Filters::PrincipalFilter
   def allowed_values
-    [[Group.to_s, Group.to_s],
-     [User.to_s, User.to_s]]
+    [User, Group, PlaceholderUser]
+      .map { |x| [x.to_s, x.to_s] }
   end
 
   def type

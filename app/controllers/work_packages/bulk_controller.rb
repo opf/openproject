@@ -35,7 +35,6 @@ class WorkPackages::BulkController < ApplicationController
   include CustomFieldsHelper
   include RelationsHelper
   include QueriesHelper
-  include IssuesHelper
 
   def edit
     setup_edit
@@ -57,20 +56,7 @@ class WorkPackages::BulkController < ApplicationController
   end
 
   def destroy
-    unless WorkPackage.cleanup_associated_before_destructing_if_required(@work_packages, current_user, params[:to_do])
-
-      respond_to do |format|
-        format.html do
-          render locals: { work_packages: @work_packages,
-                           associated: WorkPackage.associated_classes_to_address_before_destruction_of(@work_packages) }
-        end
-        format.json do
-          render json: { error_message: 'Clean up of associated objects required' }, status: 420
-        end
-      end
-
-    else
-
+    if WorkPackage.cleanup_associated_before_destructing_if_required(@work_packages, current_user, params[:to_do])
       destroy_work_packages(@work_packages)
 
       respond_to do |format|
@@ -81,30 +67,44 @@ class WorkPackages::BulkController < ApplicationController
           head :ok
         end
       end
+    else
+      respond_to do |format|
+        format.html do
+          render locals: { work_packages: @work_packages,
+                           associated: WorkPackage.associated_classes_to_address_before_destruction_of(@work_packages) }
+        end
+        format.json do
+          render json: { error_message: 'Clean up of associated objects required' }, status: 420
+        end
+      end
     end
   end
 
   private
 
   def setup_edit
-    @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject { |memo, w| memo & w }
-    @custom_fields = @projects.map(&:all_work_package_custom_fields).inject { |memo, c| memo & c }
-    @assignables = @projects.map(&:possible_assignees).inject { |memo, a| memo & a }
-    @responsibles = @projects.map(&:possible_responsibles).inject { |memo, a| memo & a }
-    @types = @projects.map(&:types).inject { |memo, t| memo & t }
+    @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject(&:&)
+    @custom_fields = @projects.map(&:all_work_package_custom_fields).inject(&:&)
+    @assignables = possible_assignees
+    @responsibles = @assignables
+    @types = @projects.map(&:types).inject(&:&)
   end
 
   def destroy_work_packages(work_packages)
     work_packages.each do |work_package|
-      begin
-        WorkPackages::DeleteService
-          .new(user: current_user,
-               model: work_package.reload)
-          .call
-      rescue ::ActiveRecord::RecordNotFound
-        # raised by #reload if work package no longer exists
-        # nothing to do, work package was already deleted (eg. by a parent)
-      end
+      WorkPackages::DeleteService
+        .new(user: current_user,
+             model: work_package.reload)
+        .call
+    rescue ::ActiveRecord::RecordNotFound
+      # raised by #reload if work package no longer exists
+      # nothing to do, work package was already deleted (eg. by a parent)
+    end
+  end
+
+  def possible_assignees
+    @projects.inject(Principal.all) do |scope, project|
+      scope.where(id: Principal.possible_assignee(project))
     end
   end
 

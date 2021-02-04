@@ -26,6 +26,11 @@ describe 'edit work package', js: true do
                       member_in_project: project,
                       member_through_role: manager_role
   end
+  let(:placeholder_user) do
+    FactoryBot.create :placeholder_user,
+                      member_in_project: project,
+                      member_through_role: manager_role
+  end
 
   let(:cf_all) do
     FactoryBot.create :work_package_custom_field, is_for_all: true, field_format: 'text'
@@ -174,6 +179,17 @@ describe 'edit work package', js: true do
 
     work_package.reload
     expect(work_package.assigned_to).to be_nil
+  end
+
+  it 'allows selecting placeholder users for assignee and responsible' do
+    wp_page.update_attributes assignee: placeholder_user.name,
+                              responsible: placeholder_user.name
+
+    wp_page.expect_attributes assignee: placeholder_user.name,
+                              responsible: placeholder_user.name
+
+    wp_page.expect_activity_message("Assignee set to #{placeholder_user.name}")
+    wp_page.expect_activity_message("Accountable set to #{placeholder_user.name}")
   end
 
   context 'switching to custom field with required CF' do

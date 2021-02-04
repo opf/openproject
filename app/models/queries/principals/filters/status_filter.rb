@@ -29,7 +29,7 @@
 
 class Queries::Principals::Filters::StatusFilter < Queries::Principals::Filters::PrincipalFilter
   def allowed_values
-    ::Principal::STATUSES.map do |key, value|
+    ::Principal.statuses.map do |key, value|
       [key, value]
     end
   end

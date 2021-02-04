@@ -8,7 +8,7 @@ module Users
     end
 
     def row_css_class
-      status = %w(anon active registered locked)[user.status]
+      status = user.status
       blocked = "blocked" if user.failed_too_many_recent_login_attempts?
 
       ["user", status, blocked].compact.join(" ")

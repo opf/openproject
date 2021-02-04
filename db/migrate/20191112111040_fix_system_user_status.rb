@@ -9,18 +9,18 @@ class FixSystemUserStatus < ActiveRecord::Migration[6.0]
     # wrong status (0) because we failed to update the on-the-fly
     # creation of the anonymous user with the correct status.
     active_users.each do |user|
-      user.update_all status: Principal::STATUSES[:active]
+      user.update_all status: Principal.statuses[:active]
     end
 
-    deleted_user.update_all status: Principal::STATUSES[:active]
+    deleted_user.update_all status: Principal.statuses[:active]
   end
 
   def down
     # reset system user to locked which would've been the state before this migration
-    system_user.update_all status: Principal::STATUSES[:locked]
+    system_user.update_all status: Principal.statuses[:locked]
 
     # reset deleted usr to active which he would've been after the previous migration
-    deleted_user.update_all status: Principal::STATUSES[:active]
+    deleted_user.update_all status: Principal.statuses[:active]
 
     # There is no need to update the anonymous user since it was supposed to be
     # active at this point already anyway. The previous migration then makes it

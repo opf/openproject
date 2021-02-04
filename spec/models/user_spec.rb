@@ -45,22 +45,6 @@ describe User, type: :model do
                                     status: status)
   end
 
-  describe '.not_builtin' do
-    let!(:anonymous_user) { FactoryBot.create(:anonymous) }
-    let!(:system_user) { FactoryBot.create(:system) }
-    let!(:deleted_user) { FactoryBot.create(:deleted_user) }
-    let!(:user) { FactoryBot.create(:user) }
-
-    subject { described_class.not_builtin }
-
-    it 'returns only actual users', :aggregate_failures do
-      expect(subject).to include(user)
-      expect(subject).not_to include(anonymous_user)
-      expect(subject).not_to include(system_user)
-      expect(subject).not_to include(deleted_user)
-    end
-  end
-
   describe 'a user with a long login (<= 256 chars)' do
     let(:login) { 'a' * 256 }
     it 'is valid' do
@@ -495,7 +479,7 @@ describe User, type: :model do
 
     context 'default admin account was disabled' do
       before do
-        default_admin.status = User::STATUSES[:locked]
+        default_admin.status = User.statuses[:locked]
         default_admin.save
       end
 
@@ -549,7 +533,7 @@ describe User, type: :model do
     end
 
     it 'is false for an inactive user' do
-      user.status = User::STATUSES[:locked]
+      user.status = User.statuses[:locked]
       user.mail_notification = 'all'
       expect(user.notify_about?({})).to be_falsey
     end

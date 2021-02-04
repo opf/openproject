@@ -32,8 +32,8 @@ describe 'index users', type: :feature do
   let!(:current_user) { FactoryBot.create :admin, created_at: 1.hour.ago }
   let!(:anonymous) { FactoryBot.create :anonymous }
   let!(:active_user) { FactoryBot.create :user, created_at: 1.minute.ago }
-  let!(:registered_user) { FactoryBot.create :user, status: User::STATUSES[:registered] }
-  let!(:invited_user) { FactoryBot.create :user, status: User::STATUSES[:invited] }
+  let!(:registered_user) { FactoryBot.create :user, status: User.statuses[:registered] }
+  let!(:invited_user) { FactoryBot.create :user, status: User.statuses[:invited] }
   let(:index_page) { Pages::Admin::Users::Index.new }
 
   before do

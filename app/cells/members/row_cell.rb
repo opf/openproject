@@ -1,5 +1,7 @@
 module Members
   class RowCell < ::RowCell
+    include UsersHelper
+
     property :principal
 
     def member
@@ -74,7 +76,7 @@ module Members
     end
 
     def status
-      I18n.t("status_#{model.principal.status_name}")
+      translate_user_status(model.principal.status)
     end
 
     def may_update?

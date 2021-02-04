@@ -57,7 +57,7 @@ module API
         resources :watchers do
           helpers do
             def watchers_collection
-              watchers = @work_package.watcher_users.active_or_registered
+              watchers = @work_package.watcher_users.merge(Principal.not_locked)
               self_link = api_v3_paths.work_package_watchers(@work_package.id)
               Users::UserCollectionRepresenter.new(watchers,
                                                    self_link: self_link,

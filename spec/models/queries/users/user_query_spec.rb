@@ -28,12 +28,12 @@
 
 require 'spec_helper'
 # prevents test failures where the system user
-# is mentioned in the User.not_builtin scope
+# is mentioned in the User.user scope
 require 'system_user'
 
 describe Queries::Users::UserQuery, type: :model do
   let(:instance) { described_class.new }
-  let(:base_scope) { User.not_builtin.order(id: :desc) }
+  let(:base_scope) { User.user.order(id: :desc) }
 
   context 'without a filter' do
     describe '#results' do
@@ -52,8 +52,9 @@ describe Queries::Users::UserQuery, type: :model do
       it 'is the same as handwriting the query' do
         expected = base_scope
                    .merge(User
-                   .where(["LOWER(CONCAT(users.firstname, CONCAT(' ', users.lastname))) LIKE ?",
-                           "%a user%"]))
+                          .user
+                          .where(["LOWER(CONCAT(users.firstname, CONCAT(' ', users.lastname))) LIKE ?",
+                                  "%a user%"]))
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end
@@ -78,7 +79,7 @@ describe Queries::Users::UserQuery, type: :model do
 
     describe '#results' do
       it 'is the same as handwriting the query' do
-        expected = base_scope.merge(User.where("users.status IN (1)"))
+        expected = base_scope.merge(User.user.where("users.status IN (1)"))
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end
@@ -115,6 +116,7 @@ describe Queries::Users::UserQuery, type: :model do
       it 'is the same as handwriting the query' do
         expected = base_scope
                      .merge(User
+                              .user
                               .where(["users.id IN (#{User.in_group([group_1.id.to_s]).select(:id).to_sql})"]))
 
         expect(instance.results.to_sql).to eql expected.to_sql
@@ -166,7 +168,7 @@ describe Queries::Users::UserQuery, type: :model do
 
     describe '#results' do
       it 'is the same as handwriting the query' do
-        expected = User.not_builtin.merge(User.order(id: :asc))
+        expected = User.user.merge(User.order(id: :asc))
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end
@@ -180,7 +182,7 @@ describe Queries::Users::UserQuery, type: :model do
 
     describe '#results' do
       it 'is the same as handwriting the query' do
-        expected = User.not_builtin.merge(User.order_by_name.reverse_order).order(id: :desc)
+        expected = User.user.merge(User.order_by_name.reverse_order).order(id: :desc)
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end
@@ -194,7 +196,7 @@ describe Queries::Users::UserQuery, type: :model do
 
     describe '#results' do
       it 'is the same as handwriting the query' do
-        expected = User.not_builtin.merge(User.joins(:groups).order("groups_users.lastname DESC")).order(id: :desc)
+        expected = User.user.merge(User.joins(:groups).order("groups_users.lastname DESC")).order(id: :desc)
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end

@@ -7,7 +7,7 @@ class DeletedUser < User
   end
 
   def self.first
-    super || create(type: to_s, status: STATUSES[:locked])
+    super || create(type: to_s, status: statuses[:locked])
   end
 
   # Overrides a few properties
