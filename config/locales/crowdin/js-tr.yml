@@ -940,8 +940,8 @@ tr:
         other: "%{count} alt iş paketi"
       hour:
         zero: "0 s"
-        one: "%{count} 1 saat"
-        other: "%{count} 1 saat"
+        one: "1 saat"
+        other: "%{count} saat"
     zen_mode:
       button_activate: 'Zen modunu etkinleştir'
       button_deactivate: 'Zen modunu devre dışı bırak'
