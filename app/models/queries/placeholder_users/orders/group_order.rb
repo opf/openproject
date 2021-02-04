@@ -27,6 +27,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Users::Orders::GroupOrder < Queries::IndividualPrincipals::Orders::GroupOrder
-  self.model = User
+class Queries::PlaceholderUsers::Orders::GroupOrder < Queries::IndividualPrincipals::Orders::GroupOrder
+  self.model = PlaceholderUser
 end

@@ -27,6 +27,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Users::Orders::GroupOrder < Queries::IndividualPrincipals::Orders::GroupOrder
-  self.model = User
+class Queries::PlaceholderUsers::Orders::DefaultOrder < Queries::BaseOrder
+  self.model = PlaceholderUser
+
+  def self.key
+    /\A(id|name)\z/
+  end
 end

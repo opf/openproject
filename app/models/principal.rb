@@ -102,6 +102,28 @@ class Principal < ApplicationRecord
       .order(:type, :login, :lastname, :firstname, :mail)
   }
 
+  scope :in_group, ->(group) {
+    within_group(group)
+  }
+
+  scope :not_in_group, ->(group) {
+    within_group(group, false)
+  }
+
+  scope :within_group, ->(group, positive = true) {
+    group_id = group.is_a?(Group) ? [group.id] : Array(group).map(&:to_i)
+
+    sql_condition = group_id.any? ? 'WHERE gu.group_id IN (?)' : ''
+    sql_not = positive ? '' : 'NOT'
+
+    sql_query = ["#{User.table_name}.id #{sql_not} IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu #{sql_condition})"]
+    if group_id.any?
+      sql_query.push group_id
+    end
+
+    where(sql_query)
+  }
+
   before_create :set_default_empty_values
 
   def name(_formatter = nil)

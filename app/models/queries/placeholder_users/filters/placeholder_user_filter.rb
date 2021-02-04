@@ -27,6 +27,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Users::Orders::GroupOrder < Queries::IndividualPrincipals::Orders::GroupOrder
-  self.model = User
+class Queries::PlaceholderUsers::Filters::PlaceholderUserFilter < Queries::Filters::Base
+  self.model = PlaceholderUser
+
+  def human_name
+    User.human_attribute_name(name)
+  end
 end

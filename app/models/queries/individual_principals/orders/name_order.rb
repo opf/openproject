@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,6 +28,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Users::Orders::GroupOrder < Queries::IndividualPrincipals::Orders::GroupOrder
-  self.model = User
+class Queries::IndividualPrincipals::Orders::NameOrder < Queries::BaseOrder
+  self.model = Principal
+
+  def self.key
+    :name
+  end
+
+  private
+
+  def order
+    ordered = self.model.order_by_name
+
+    if direction == :desc
+      ordered = ordered.reverse_order
+    end
+
+    ordered
+  end
 end

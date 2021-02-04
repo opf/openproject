@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -27,6 +28,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Users::Orders::GroupOrder < Queries::IndividualPrincipals::Orders::GroupOrder
-  self.model = User
+module PlaceholderUsers
+  class TableCell < ::TableCell
+    options :current_user # adds this option to those of the base class
+    columns :name, :created_at
+
+    def initial_sort
+      [:id, :asc]
+    end
+
+    def headers
+      columns.map do |name|
+        [name.to_s, header_options(name)]
+      end
+    end
+
+    def header_options(name)
+      options = { caption: PlaceholderUser.human_attribute_name(name) }
+
+      options[:default_order] = 'desc' if desc_by_default.include? name
+
+      options
+    end
+
+    def desc_by_default
+      [:created_at]
+    end
+  end
 end

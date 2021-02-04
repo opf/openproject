@@ -138,26 +138,6 @@ class User < Principal
   before_destroy :delete_associated_private_queries
   before_destroy :reassign_associated
 
-  scope :in_group, ->(group) {
-    within_group(group)
-  }
-  scope :not_in_group, ->(group) {
-    within_group(group, false)
-  }
-  scope :within_group, ->(group, positive = true) {
-    group_id = group.is_a?(Group) ? [group.id] : Array(group).map(&:to_i)
-
-    sql_condition = group_id.any? ? 'WHERE gu.group_id IN (?)' : ''
-    sql_not = positive ? '' : 'NOT'
-
-    sql_query = ["#{User.table_name}.id #{sql_not} IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu #{sql_condition})"]
-    if group_id.any?
-      sql_query.push group_id
-    end
-
-    where(sql_query)
-  }
-
   scope :admin, -> { where(admin: true) }
 
   scope :newest, -> { not_builtin.order(created_at: :desc) }

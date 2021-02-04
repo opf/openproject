@@ -28,22 +28,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Users::Orders::NameOrder < Queries::BaseOrder
+class Queries::Users::Orders::NameOrder < Queries::IndividualPrincipals::Orders::NameOrder
   self.model = User
-
-  def self.key
-    :name
-  end
-
-  private
-
-  def order
-    ordered = User.order_by_name
-
-    if direction == :desc
-      ordered = ordered.reverse_order
-    end
-
-    ordered
-  end
 end
