@@ -81,10 +81,12 @@ module API
           if query.manually_sorted?
             params[:query_id] = query.id
             params[:offset] = 1
-            params[:pageSize] = Setting.forced_single_page_size
+            # Force the setting value in all cases except when 0 is requested explictly. Fetching with pageSize = 0
+            # is done for performance reasons to simply get the query without the results.
+            params[:pageSize] = pageSizeParam(params) == 0 ? pageSizeParam(params) : Setting.forced_single_page_size
           else
             params[:offset] = to_i_or_nil(params[:offset])
-            params[:pageSize] = to_i_or_nil(params[:pageSize])
+            params[:pageSize] = pageSizeParam(params)
           end
         end
       end
@@ -159,6 +161,10 @@ module API
 
       def to_i_or_nil(value)
         value ? value.to_i : nil
+      end
+
+      def pageSizeParam(params)
+        to_i_or_nil(params[:pageSize])
       end
 
       def self_link(project)
