@@ -42,7 +42,8 @@ export interface CreateAutocompleterValueOption {
 
 @Component({
   templateUrl: './create-autocompleter.component.html',
-  selector: 'create-autocompleter'
+  selector: 'create-autocompleter',
+  styleUrls: ['./create-autocompleter.component.sass']
 })
 export class CreateAutocompleterComponent implements AfterViewInit {
   @Input() public availableValues:CreateAutocompleterValueOption[];
@@ -55,6 +56,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   @Input() public classes:string = '';
   @Input() public typeahead?:Subject<string>;
   @Input() public hideSelected:boolean = false;
+  @Input() public showAddNewButton:boolean;
 
   @Output() public onChange = new EventEmitter<HalResource>();
   @Output() public onKeydown = new EventEmitter<JQuery.TriggeredEvent>();

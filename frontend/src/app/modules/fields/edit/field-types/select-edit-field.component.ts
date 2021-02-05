@@ -37,6 +37,7 @@ import {from} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {PermissionsService} from "core-app/core/services/permissions/permissions.service";
 
 export interface ValueOption {
   name:string;
@@ -44,29 +45,18 @@ export interface ValueOption {
 }
 
 @Component({
-  templateUrl: './select-edit-field.component.html'
+  templateUrl: './select-edit-field.component.html',
 })
 export class SelectEditFieldComponent extends EditFieldComponent implements OnInit {
   @InjectField() selectAutocompleterRegister:SelectAutocompleterRegisterService;
   @InjectField() halNotification:HalResourceNotificationService;
   @InjectField() halSorting:HalResourceSortingService;
+  @InjectField() permissionsService:PermissionsService;
 
   public availableOptions:any[];
   public valueOptions:ValueOption[];
-  protected valuesLoaded = false;
-
   public text:{ [key:string]:string };
-
   public appendTo:any = null;
-  private hiddenOverflowContainer = '.__hidden_overflow_container';
-
-  /** Remember the values loading promise which changes as soon as the changeset is updated
-   * (e.g., project or type is changed).
-   */
-  private valuesLoadingPromise:Promise<unknown>;
-
-  protected _autocompleterComponent:CreateAutocompleterComponent;
-
   public referenceOutputs:{ [key:string]:Function } = {
     onCreate: (newElement:HalResource) => this.onCreate(newElement),
     onChange: (value:HalResource) => this.onChange(value),
@@ -75,27 +65,31 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     onClose: () => this.onClose(),
     onAfterViewInit: (component:CreateAutocompleterComponent) => this._autocompleterComponent = component
   };
-
-  protected initialize() {
-    this.text = {
-      requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
-      placeholder: this.I18n.t('js.placeholders.default')
-    };
-
-    this.valuesLoadingPromise = this.change.getForm().then(() => {
-      return this.initialValueLoading();
-    });
+  public get selectedOption() {
+    const href = this.value ? this.value.$href : null;
+    return _.find(this.valueOptions, o => o.$href === href)!;
   }
+  public set selectedOption(val:ValueOption) {
+    let option = _.find(this.availableOptions, o => o.$href === val.$href);
 
-  protected initialValueLoading() {
-    this.valuesLoaded = false;
-    return this.loadValues().toPromise();
-  }
+    // Special case 'null' value, which angular
+    // only understands in ng-options as an empty string.
+    if (option && option.$href === '') {
+      option.$href = null;
+    }
 
-  public autocompleterComponent() {
-    let type = this.schema.type;
-    return this.selectAutocompleterRegister.getAutocompleterOfAttribute(type) || CreateAutocompleterComponent;
+    this.value = option;
   }
+  public showAddNewButton:boolean;
+
+  protected valuesLoaded = false;
+  protected _autocompleterComponent:CreateAutocompleterComponent;
+
+  private hiddenOverflowContainer = '.__hidden_overflow_container';
+  /** Remember the values loading promise which changes as soon as the changeset is updated
+   * (e.g., project or type is changed).
+   */
+  private valuesLoadingPromise:Promise<unknown>;
 
   public ngOnInit() {
     super.ngOnInit();
@@ -111,23 +105,38 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
           this._autocompleterComponent.openDirectly = true;
         });
       });
+
   }
 
-  public get selectedOption() {
-    const href = this.value ? this.value.$href : null;
-    return _.find(this.valueOptions, o => o.$href === href)!;
+  protected initialize() {
+    this.text = {
+      requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
+      placeholder: this.I18n.t('js.placeholders.default')
+    };
+
+    this.valuesLoadingPromise = this.change.getForm().then(() => {
+      return this.initialValueLoading();
+    });
+
+    this.initializeShowAddButton();
   }
 
-  public set selectedOption(val:ValueOption) {
-    let option = _.find(this.availableOptions, o => o.$href === val.$href);
-
-    // Special case 'null' value, which angular
-    // only understands in ng-options as an empty string.
-    if (option && option.$href === '') {
-      option.$href = null;
+  initializeShowAddButton() {
+    if (this.schema.type === 'User') {
+      this.permissionsService
+            .canInviteUsersToProject()
+            .subscribe(canInviteUsersToProject => this.showAddNewButton = canInviteUsersToProject);
     }
+  }
 
-    this.value = option;
+  protected initialValueLoading() {
+    this.valuesLoaded = false;
+    return this.loadValues().toPromise();
+  }
+
+  public autocompleterComponent() {
+    let type = this.schema.type;
+    return this.selectAutocompleterRegister.getAutocompleterOfAttribute(type) || CreateAutocompleterComponent;
   }
 
   private setValues(availableValues:HalResource[]) {
