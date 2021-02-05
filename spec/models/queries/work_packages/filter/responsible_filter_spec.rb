@@ -192,10 +192,7 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
     let(:principal_loader) do
       loader = double('principal_loader')
       allow(loader)
-        .to receive(:user_values)
-        .and_return([])
-      allow(loader)
-        .to receive(:group_values)
+        .to receive(:principal_values)
         .and_return([])
 
       loader
@@ -224,8 +221,8 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
 
         it 'is true if there is another user selectable' do
           allow(principal_loader)
-            .to receive(:user_values)
-            .and_return([user_1])
+            .to receive(:principal_values)
+            .and_return([user_1.name, user_1.id.to_s])
 
           expect(instance).to be_available
         end
@@ -240,7 +237,7 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
 
         it 'is true if there is another user selectable' do
           allow(principal_loader)
-            .to receive(:user_values)
+            .to receive(:principal_values)
             .and_return([[user_1.name, user_1.id.to_s]])
 
           expect(instance).to be_available
@@ -258,12 +255,9 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
           .and_return(logged_in)
 
         allow(principal_loader)
-          .to receive(:user_values)
-          .and_return([[user_1.name, user_1.id.to_s]])
-
-        allow(principal_loader)
-          .to receive(:group_values)
-          .and_return([[group.name, group.id.to_s]])
+          .to receive(:principal_values)
+          .and_return([[user_1.name, user_1.id.to_s],
+                       [group.name, group.id.to_s]])
       end
 
       context 'when being logged in' do
