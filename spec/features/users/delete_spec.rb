@@ -107,11 +107,14 @@ describe 'user deletion: ', type: :feature, js: true do
       expect(page).to have_content "#{user.firstname} #{user.lastname}"
 
       click_on 'Delete'
+
+      SeleniumHubWaiter.wait
       fill_in 'login_verification', with: user.login
       click_on 'Delete'
 
       dialog.confirm_flow_with 'wrong', should_fail: true
       
+      SeleniumHubWaiter.wait
       fill_in 'login_verification', with: user.login
       click_on 'Delete'
 

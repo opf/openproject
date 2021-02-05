@@ -66,7 +66,7 @@ class ::Type < ApplicationRecord
 
   validates_inclusion_of :is_default, :is_milestone, in: [true, false]
 
-  scope_classes Types::Scopes::Milestone
+  scopes :milestone
 
   default_scope { order('position ASC') }
 

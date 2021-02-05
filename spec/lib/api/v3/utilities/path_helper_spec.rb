@@ -223,6 +223,11 @@ describe ::API::V3::Utilities::PathHelper do
     end
   end
 
+  describe 'placeholder_users path' do
+    it_behaves_like 'index', :placeholder_user
+    it_behaves_like 'show', :placeholder_user
+  end
+
   describe 'posts paths' do
     it_behaves_like 'index', :post
     it_behaves_like 'show', :post

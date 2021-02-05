@@ -29,7 +29,14 @@
 module OpenProject::Deprecation
   class << self
     def deprecator
-      @@deprecator||= ActiveSupport::Deprecation.new('in a future major upgrade', 'OpenProject')
+      @@deprecator ||= ActiveSupport::Deprecation
+          .new('in a future major upgrade', 'OpenProject')
+          .tap do |instance|
+
+        # Reuse the silenced state of the default deprecator
+        instance.silenced = ActiveSupport::Deprecation.silenced
+
+      end
     end
 
     ##

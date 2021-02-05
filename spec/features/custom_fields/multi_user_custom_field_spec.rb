@@ -26,7 +26,7 @@ describe "multi select custom values", js: true do
   # We include an invited member to check at the same time that invited users are properly
   # offered for user custom fields as they weren't before.
   let(:member_statuses) do
-    [User::STATUSES[:active], User::STATUSES[:active], User::STATUSES[:invited]]
+    [User.statuses[:active], User.statuses[:active], User.statuses[:invited]]
   end
 
   let(:members) do

@@ -35,6 +35,7 @@ module Pages
         expect(page)
           .to have_content(I18n.t('js.grid.add_widget'))
 
+        SeleniumHubWaiter.wait
         page.find('.grid--addable-widget', text: Regexp.new("^#{name}$")).click
       end
     end

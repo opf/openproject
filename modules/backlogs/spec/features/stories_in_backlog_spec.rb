@@ -180,10 +180,12 @@ describe 'Stories in backlog',
     backlogs_page
       .expect_velocity(sprint, 30)
 
+    SeleniumHubWaiter.wait
     # Creating a story
     backlogs_page
       .click_in_backlog_menu(sprint, 'New Story')
 
+    SeleniumHubWaiter.wait
     backlogs_page
       .edit_new_story(subject: 'New story',
                       story_points: 10)
@@ -206,6 +208,7 @@ describe 'Stories in backlog',
 
     # Editing in a sprint
 
+    SeleniumHubWaiter.wait
     backlogs_page
       .edit_story(sprint_story1,
                   subject: 'Altered story1',
@@ -223,11 +226,10 @@ describe 'Stories in backlog',
     backlogs_page
       .expect_velocity(sprint, 45)
 
+    SeleniumHubWaiter.wait
     # Moving a story to top
     backlogs_page
       .drag_in_sprint(sprint_story1, new_story)
-
-    sleep(0.5)
 
     backlogs_page
       .expect_stories_in_order(sprint, sprint_story1, new_story, sprint_story2)
@@ -249,10 +251,9 @@ describe 'Stories in backlog',
 
     # Moving a story to from the backlog to the sprint (3nd position)
 
+    SeleniumHubWaiter.wait
     backlogs_page
       .drag_in_sprint(backlog_story1, sprint_story2, before: false)
-
-    sleep(0.5)
 
     backlogs_page
       .expect_stories_in_order(sprint, new_story, sprint_story2, backlog_story1, sprint_story1)
@@ -271,6 +272,7 @@ describe 'Stories in backlog',
       .expect_status_options(backlog_story1,
                              [default_status, other_status])
 
+    SeleniumHubWaiter.wait
     backlogs_page
       .alter_attributes_in_edit_story_mode(backlog_story1,
                                            subject: 'Altered backlog story1',
@@ -291,6 +293,7 @@ describe 'Stories in backlog',
                         subject: 'Altered backlog story1',
                         status: other_status.name)
 
+    SeleniumHubWaiter.wait
     backlogs_page
       .enter_edit_story_mode(backlog_story1)
 
@@ -314,6 +317,7 @@ describe 'Stories in backlog',
                         type: other_story.name)
 
     # The pdf export is reachable via the menu
+    SeleniumHubWaiter.wait
     backlogs_page
       .click_in_backlog_menu(sprint, 'Export')
     # Will download something that is currently not speced

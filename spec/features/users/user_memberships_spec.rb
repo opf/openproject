@@ -46,9 +46,11 @@ feature 'user memberships through user page', type: :feature, js: true do
   end
 
   scenario 'handles role modification flow' do
+    SeleniumHubWaiter.wait
     user_page.add_to_project! project.name, as: 'Manager'
 
     member = admin.memberships.where(project_id: project.id).first
+    SeleniumHubWaiter.wait
     user_page.edit_roles!(member, %w(Manager Developer))
 
     # Modify roles
@@ -59,6 +61,7 @@ feature 'user memberships through user page', type: :feature, js: true do
 
     # Remove all roles
     user_page.expect_project(project.name)
+    SeleniumHubWaiter.wait
     user_page.edit_roles!(member, %w())
 
     expect(page).to have_selector('.flash.error', text: 'Roles need to be assigned.')
@@ -68,6 +71,7 @@ feature 'user memberships through user page', type: :feature, js: true do
     user_page.expect_no_membership(project.name)
 
     # Re-add the user
+    SeleniumHubWaiter.wait
     user_page.add_to_project! project.name, as: %w(Manager Developer)
 
     user_page.expect_project(project.name)
@@ -86,6 +90,7 @@ feature 'user memberships through user page', type: :feature, js: true do
       user_page.expect_no_membership(project.name)
 
       group_page.visit!
+      SeleniumHubWaiter.wait
       group_page.add_to_project! project.name, as: 'Manager'
       expect(page).to have_text 'Successful update'
 
@@ -98,6 +103,7 @@ feature 'user memberships through user page', type: :feature, js: true do
 
       # Remove all roles
       member = admin.memberships.where(project_id: project.id).first
+      SeleniumHubWaiter.wait
       user_page.edit_roles!(member, %w())
 
       # Keeps inherited role
@@ -105,6 +111,7 @@ feature 'user memberships through user page', type: :feature, js: true do
       user_page.expect_roles(project.name, %w(Manager))
 
       # Extend roles
+      SeleniumHubWaiter.wait
       user_page.edit_roles!(member, %w(Developer))
       user_page.expect_project(project.name)
       user_page.expect_roles(project.name, %w(Manager Developer))

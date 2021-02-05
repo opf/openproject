@@ -73,6 +73,7 @@ describe 'Meetings copy', type: :feature, js: true do
       expect(page)
         .to have_link 'Copy'
 
+      SeleniumHubWaiter.wait
       click_link 'Copy'
     end
 
@@ -87,6 +88,7 @@ describe 'Meetings copy', type: :feature, js: true do
     expect(page)
       .to have_field 'Time', with: "18:55"
 
+    SeleniumHubWaiter.wait
     click_button "Create"
 
     # Be on the new meeting's page with copied over attributes
@@ -115,12 +117,14 @@ describe 'Meetings copy', type: :feature, js: true do
       .to have_content "Attendees:"
 
     # Copies the agenda
+    SeleniumHubWaiter.wait
     click_link "Agenda"
 
     expect(page)
       .to have_content agenda_text
 
     # Adds an entry to the history
+    SeleniumHubWaiter.wait
     click_link "History"
 
     expect(page)

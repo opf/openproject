@@ -538,6 +538,7 @@ uk:
         invalid_url: 'не є дійсною URL-адресою.'
         invalid_url_scheme: 'не є підтримуваним протоколом (дозволено: %{allowed_schemes}).'
         less_than_or_equal_to: "має бути меншим або рівним %{count}"
+        not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "не є дійсною датою."
         not_a_datetime: "не є дійсним датою."

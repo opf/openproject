@@ -28,11 +28,13 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Find all members visible to the inquiring user
 module Members::Scopes
-  class Visible
-    class << self
-      def fetch(user)
+  module Visible
+    extend ActiveSupport::Concern
+
+    class_methods do
+      # Find all members visible to the inquiring user
+      def visible(user)
         if user.admin?
           visible_for_admins
         else

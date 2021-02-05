@@ -68,6 +68,7 @@ describe 'OAuth authorization code flow',
       forms
     end
 
+    SeleniumHubWaiter.wait
     # Authorize
     find('input.button[value="Authorize"]').click
 
@@ -105,6 +106,7 @@ describe 'OAuth authorization code flow',
 
     # Revoke the application
     within("#oauth-application-grant-#{app.id}") do
+      SeleniumHubWaiter.wait
       click_on 'Revoke'
     end
 

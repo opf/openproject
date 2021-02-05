@@ -117,10 +117,10 @@ class WorkPackage < ApplicationRecord
     where(author_id: author.id)
   }
 
-  scope_classes WorkPackages::Scopes::ForScheduling,
-                WorkPackages::Scopes::IncludeSpentTime,
-                WorkPackages::Scopes::IncludeDerivedDates,
-                WorkPackages::Scopes::LeftJoinSelfAndDescendants
+  scopes :for_scheduling,
+         :include_derived_dates,
+         :include_spent_time,
+         :left_join_self_and_descendants
 
   acts_as_watchable
 
@@ -252,16 +252,6 @@ class WorkPackage < ApplicationRecord
       work_package: self
     )
     time_entries.build(attributes)
-  end
-
-  # Users/groups the work_package can be assigned to
-  def assignable_assignees
-    project.possible_assignees
-  end
-
-  # Users the work_package can be assigned to
-  def assignable_responsibles
-    project.possible_responsibles
   end
 
   # Versions that the work_package can be assigned to
@@ -693,9 +683,10 @@ class WorkPackage < ApplicationRecord
     related = [author]
 
     [responsible, assigned_to].each do |user|
-      if user.is_a?(Group)
+      case user
+      when Group
         related += user.users
-      else
+      when User
         related << user
       end
     end

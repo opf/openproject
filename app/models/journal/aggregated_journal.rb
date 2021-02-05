@@ -50,7 +50,8 @@ class Journal::AggregatedJournal
 
     # Returns the aggregated journal that contains the specified (vanilla/pure) journal.
     def containing_journal(pure_journal)
-      raw = Journal::Scopes::AggregatedJournal.fetch(journable: pure_journal.journable)
+      raw = Journal
+            .aggregated_journal(journable: pure_journal.journable)
             .where("version >= ?", pure_journal.version)
             .first
 
@@ -63,9 +64,9 @@ class Journal::AggregatedJournal
     # The +until_version+ parameter can be used in conjunction with the +journable+ parameter
     # to see the aggregated journals as if no versions were known after the specified version.
     def aggregated_journals(journable: nil, sql: nil, until_version: nil, includes: [])
-      raw_journals = Journal::Scopes::AggregatedJournal
-        .fetch(journable: journable, sql: sql, until_version: until_version)
-        .order('version ASC')
+      raw_journals = Journal
+                     .aggregated_journal(journable: journable, sql: sql, until_version: until_version)
+                     .order('version ASC')
 
       aggregated_journals = map_to_aggregated_journals(raw_journals)
       preload_associations(journable, aggregated_journals, includes)
@@ -84,11 +85,8 @@ class Journal::AggregatedJournal
       # imaginary state in which the successor never existed
       # if this makes the predecessor disappear, the successor must have taken journals
       # from it (that now became part of the predecessor again).
-      !Journal::Scopes::AggregatedJournal
-        .fetch(
-          journable: successor.journable,
-          until_version: successor.version - 1
-        )
+      !Journal
+        .aggregated_journal(journable: successor.journable, until_version: successor.version - 1)
         .where(version: predecessor.version)
         .exists?
     end
@@ -224,7 +222,8 @@ class Journal::AggregatedJournal
 
   def predecessor
     unless defined? @predecessor
-      raw_journal = Journal::Scopes::AggregatedJournal.fetch(journable: journable)
+      raw_journal = Journal
+                    .aggregated_journal(journable: journable)
                     .where("version < ?", version)
                     .except(:order)
                     .order(version: :desc)
@@ -238,11 +237,12 @@ class Journal::AggregatedJournal
 
   def successor
     unless defined? @successor
-      raw_journal = Journal::Scopes::AggregatedJournal.fetch(journable: journable)
-                      .where("version > ?", version)
-                      .except(:order)
-                      .order(version: :asc)
-                      .first
+      raw_journal = Journal
+                    .aggregated_journal(journable: journable)
+                    .where("version > ?", version)
+                    .except(:order)
+                    .order(version: :asc)
+                    .first
 
       @successor = raw_journal ? Journal::AggregatedJournal.new(raw_journal) : nil
     end

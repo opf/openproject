@@ -39,7 +39,7 @@ describe 'API v3 User resource',
   let(:current_user) { FactoryBot.create(:user) }
   let(:user) { FactoryBot.create(:user) }
   let(:admin) { FactoryBot.create(:admin) }
-  let(:locked_admin) { FactoryBot.create :admin, status: Principal::STATUSES[:locked] }
+  let(:locked_admin) { FactoryBot.create :admin, status: Principal.statuses[:locked] }
   let(:user_with_global_add_user) do
     user = FactoryBot.create(:user, firstname: 'Global', lastname: 'User')
     global_role = FactoryBot.create :global_role, name: 'Add user', permissions: %i[add_user]
@@ -125,7 +125,7 @@ describe 'API v3 User resource',
 
       context 'on sorting' do
         let(:users_by_name_order) do
-          User.not_builtin.order_by_name.reverse_order
+          User.human.order_by_name.reverse_order
         end
 
         let(:get_path) do

@@ -22,8 +22,11 @@ describe 'Login by switching 2FA device', with_2fa_ee: true, type: :feature,
 
       expect(page).to have_selector('input#otp')
 
+      SeleniumHubWaiter.wait
       # Toggle device to TOTP
       find('#toggle_resend_form').click
+
+      SeleniumHubWaiter.wait
       find(".button--link[value='#{device2.redacted_identifier}']").click
 
       expect(page).to have_selector('input#otp')

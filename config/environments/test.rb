@@ -66,7 +66,12 @@ OpenProject::Application.configure do
   config.action_mailer.delivery_method = :test
 
   # Print deprecation notices to the stderr.
-  config.active_support.deprecation = :stderr
+  config.active_support.deprecation =
+    if ENV['CI']
+      :silence
+    else
+      :stderr
+    end
 
   # Disable asset digests
   config.assets.compile = true

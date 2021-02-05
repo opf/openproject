@@ -38,8 +38,9 @@ module CostlogHelper
   end
 
   def user_collection_for_select_options(_options = {})
-    users = @project.possible_assignees
-    users.map { |t| [t.name, t.id] }
+    Principal
+      .possible_assignee(@project)
+      .map { |t| [t.name, t.id] }
   end
 
   def extended_progress_bar(pcts, options = {})

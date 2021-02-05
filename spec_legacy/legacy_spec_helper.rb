@@ -52,6 +52,10 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.use_instantiated_fixtures  = false
 
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
   config.include LegacyAssertionsAndHelpers
   config.include ActiveSupport::Testing::Assertions
   config.include Shoulda::Context::Assertions

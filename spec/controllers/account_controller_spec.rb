@@ -642,7 +642,7 @@ describe AccountController, type: :controller do
           it 'set the user status to active' do
             user = User.where(login: 'register').last
             expect(user).not_to be_nil
-            expect(user.status).to eq(User::STATUSES[:active])
+            expect(user).to be_active
           end
 
           it 'calls the user_registered callback' do
@@ -955,13 +955,13 @@ describe AccountController, type: :controller do
     end
 
     context 'registered user' do
-      let(:status) { User::STATUSES[:registered] }
+      let(:status) { User.statuses[:registered] }
 
       it_behaves_like "activation is blocked due to user limit"
     end
 
     context 'invited user' do
-      let(:status) { User::STATUSES[:invited] }
+      let(:status) { User.statuses[:invited] }
 
       it_behaves_like "activation is blocked due to user limit"
     end

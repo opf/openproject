@@ -29,9 +29,10 @@
 #++
 
 class Principal < ApplicationRecord
+  include ::Scopes::Scoped
+
   # Account statuses
-  # Code accessing the keys assumes they are ordered, which they are since Ruby 1.9
-  STATUSES = {
+  enum status: {
     active: 1,
     registered: 2,
     locked: 3,
@@ -56,13 +57,16 @@ class Principal < ApplicationRecord
   has_many :projects, through: :memberships
   has_many :categories, foreign_key: 'assigned_to_id', dependent: :nullify
 
-  scope :active, -> { where(status: STATUSES[:active]) }
+  scopes :like,
+         :human,
+         :not_builtin,
+         :possible_assignee,
+         :possible_member,
+         :user
 
-  scope :active_or_registered, -> {
-    not_builtin.where(status: [STATUSES[:active], STATUSES[:registered], STATUSES[:invited]])
+  scope :not_locked, -> {
+    not_builtin.where.not(status: statuses[:locked])
   }
-
-  scope :active_or_registered_like, ->(query) { active_or_registered.like(query) }
 
   scope :in_project, ->(project) {
     where(id: Member.of(project).select(:user_id))
@@ -71,37 +75,7 @@ class Principal < ApplicationRecord
   scope :not_in_project, ->(project) {
     where.not(id: Member.of(project).select(:user_id))
   }
-
-  scope :not_builtin, -> {
-    # TODO: Remove PlaceholderUser from this list. This is a temporary hack that ensures that Placeholders don't
-    # suddenly show up where they are are not supposed to show up. In case you want them to show up use the temporary
-    # scope :not_builtin_but_with_placeholder_users
-    where.not(type: [SystemUser.name, AnonymousUser.name, DeletedUser.name, PlaceholderUser.name])
-  }
-
-  scope :not_builtin_but_with_placeholder_users, -> {
-    # TODO: This is temporary precaution scope to circumvent the hack in the :not_builtin scope. Needs to be
-    # removed before we release this code.
-    where.not(type: [SystemUser.name, AnonymousUser.name, DeletedUser.name])
-  }
-  OpenProject::Deprecation.deprecate_class_method self,
-                                                  :not_builtin_but_with_placeholder_users,
-                                                  :not_builtin
-
-  scope :like, ->(q) {
-    firstnamelastname = "((firstname || ' ') || lastname)"
-    lastnamefirstname = "((lastname || ' ') || firstname)"
-
-    s = "%#{q.to_s.downcase.strip.tr(',', '')}%"
-
-    where(['LOWER(login) LIKE :s OR ' +
-             "LOWER(#{firstnamelastname}) LIKE :s OR " +
-             "LOWER(#{lastnamefirstname}) LIKE :s OR " +
-             'LOWER(mail) LIKE :s',
-           { s: s }])
-      .order(:type, :login, :lastname, :firstname, :mail)
-  }
-
+  
   scope :in_group, ->(group) {
     within_group(group)
   }
@@ -130,12 +104,8 @@ class Principal < ApplicationRecord
     to_s
   end
 
-  def self.possible_members(criteria, limit)
-    Principal.active_or_registered_like(criteria).limit(limit)
-  end
-
   def self.search_scope_without_project(project, query)
-    active_or_registered_like(query).not_in_project(project)
+    not_locked.like(query).not_in_project(project)
   end
 
   def self.order_by_name
@@ -153,20 +123,6 @@ class Principal < ApplicationRecord
   def self.in_visible_project_or_me(user = User.current)
     in_visible_project(user)
       .or(me)
-  end
-
-  def status_name
-    # Only Users should have another status than active.
-    # User defines the status values and other classes like Principal
-    # shouldn't know anything about them. Nevertheless, some functions
-    # want to know the status for other Principals than User.
-    raise 'Principal has status other than active' unless status == STATUSES[:active]
-
-    'active'
-  end
-
-  def active_or_registered?
-    [STATUSES[:active], STATUSES[:registered], STATUSES[:invited]].include?(status)
   end
 
   # Helper method to identify internal users
@@ -196,6 +152,19 @@ class Principal < ApplicationRecord
     else
       # groups after users
       other.class.name <=> self.class.name
+    end
+  end
+
+  class << self
+    # Hack to exclude the Users::InexistentUser
+    # from showing up on filters for type.
+    # The method is copied over from rails changed only
+    # by the #compact call.
+    def type_condition(table = arel_table)
+      sti_column = table[inheritance_column]
+      sti_names  = ([self] + descendants).map(&:sti_name).compact
+
+      predicate_builder.build(sti_column, sti_names)
     end
   end
 

@@ -57,7 +57,7 @@ describe LdapAuthSource, type: :model do
   describe 'with live LDAP' do
     before(:all) do
       ldif = Rails.root.join('spec/fixtures/ldap/users.ldif')
-      @ldap_server = Ladle::Server.new(quiet: false, port: '12389', domain: 'dc=example,dc=com', ldif: ldif).start
+      @ldap_server = Ladle::Server.new(quiet: false, port: ParallelHelper.port_for_ldap.to_s, domain: 'dc=example,dc=com', ldif: ldif).start
     end
 
     after(:all) do
@@ -67,7 +67,7 @@ describe LdapAuthSource, type: :model do
     # Ldap has three users aa729, bb459, cc414
     let(:ldap) do
       FactoryBot.create :ldap_auth_source,
-                        port: '12389',
+        port: ParallelHelper.port_for_ldap.to_s,
                         account: 'uid=admin,ou=system',
                         account_password: 'secret',
                         base_dn: 'ou=people,dc=example,dc=com',

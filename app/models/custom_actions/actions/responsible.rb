@@ -31,7 +31,7 @@ class CustomActions::Actions::Responsible < CustomActions::Actions::Base
 
   def associated
     User
-      .active_or_registered
+      .not_locked
       .select(:id, :firstname, :lastname, :type)
       .order_by_name
       .map { |u| [u.id, u.name] }

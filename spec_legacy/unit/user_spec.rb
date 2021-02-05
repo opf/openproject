@@ -189,7 +189,7 @@ describe User, type: :model do
     user = User.try_to_login('jsmith', 'jsmith')
     assert_equal @jsmith, user
 
-    @jsmith.status = User::STATUSES[:locked]
+    @jsmith.status = User.statuses[:locked]
     assert @jsmith.save
 
     user = User.try_to_login('jsmith', 'jsmith')
@@ -285,7 +285,7 @@ describe User, type: :model do
     end
 
     it 'should return nil if the key is found for an inactive user' do
-      user = FactoryBot.create(:user, status: User::STATUSES[:locked])
+      user = FactoryBot.create(:user, status: User.statuses[:locked])
       token = FactoryBot.build(:api_token, user: user)
       user.api_token = token
       user.save
@@ -294,7 +294,7 @@ describe User, type: :model do
     end
 
     it 'should return the user if the key is found for an active user' do
-      user = FactoryBot.create(:user, status: User::STATUSES[:active])
+      user = FactoryBot.create(:user, status: User.statuses[:active])
       token = FactoryBot.build(:api_token, user: user)
       user.api_token = token
       user.save

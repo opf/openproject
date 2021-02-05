@@ -45,7 +45,7 @@ describe Users::RegisterUserService do
   describe '#register_invited_user' do
     it 'tries to activate that user regardless of settings' do
       with_all_registration_options do |_type|
-        user = User.new(status: Principal::STATUSES[:invited])
+        user = User.new(status: Principal.statuses[:invited])
         instance = described_class.new(user)
 
         expect(user).to receive(:activate)
@@ -62,7 +62,7 @@ describe Users::RegisterUserService do
   describe '#register_ldap_user' do
     it 'tries to activate that user regardless of settings' do
       with_all_registration_options do |_type|
-        user = User.new(status: Principal::STATUSES[:registered])
+        user = User.new(status: Principal.statuses[:registered])
         instance = described_class.new(user)
 
         allow(user).to receive(:auth_source_id).and_return 1234

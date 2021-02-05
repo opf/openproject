@@ -192,6 +192,37 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       end
     end
 
+    context 'with a placeholder_user' do
+      let(:placeholder_user) do
+        FactoryBot.create(:placeholder_user)
+      end
+      let(:placeholder_member) do
+        FactoryBot.create(:member,
+                          roles: [FactoryBot.create(:role)],
+                          project: project,
+                          principal: placeholder_user)
+      end
+      let(:members) { [own_member, placeholder_member] }
+
+      it 'returns that placeholder user membership together with the rest of them' do
+        expect(subject.body)
+          .to be_json_eql('Collection'.to_json)
+          .at_path('_type')
+
+        expect(subject.body)
+          .to be_json_eql('2')
+          .at_path('total')
+
+        expect(subject.body)
+          .to be_json_eql(own_member.id.to_json)
+          .at_path('_embedded/elements/0/id')
+
+        expect(subject.body)
+          .to be_json_eql(placeholder_member.id.to_json)
+          .at_path('_embedded/elements/1/id')
+      end
+    end
+
     context 'filtering by user name' do
       let(:filters) do
         [{ 'any_name_attribute' => {
@@ -415,6 +446,29 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       end
     end
 
+    context 'for a placeholder user' do
+      it_behaves_like 'successful member creation' do
+        let(:placeholder_user) { FactoryBot.create(:placeholder_user) }
+        let(:principal) { placeholder_user }
+        let(:principal_path) { api_v3_paths.placeholder_user(placeholder_user.id) }
+        let(:body) do
+          {
+            project: {
+              href: api_v3_paths.project(project.id)
+            },
+            principal: {
+              href: principal_path
+            },
+            roles: [
+              {
+                href: api_v3_paths.role(other_role.id)
+              }
+            ]
+          }.to_json
+        end
+      end
+    end
+
     context 'for a global membership' do
       let(:expected_role) { global_role }
       let(:body) do
@@ -500,7 +554,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
         expect(last_response.status).to eq(422)
 
         error_message = "For property 'user' a link like '/api/v3/groups/:id' or " +
-                        "'/api/v3/users/:id' is expected, but got '#{api_v3_paths.role(other_user.id)}'."
+                        "'/api/v3/users/:id' or '/api/v3/placeholder_users/:id' is expected, but got '#{api_v3_paths.role(other_user.id)}'."
 
         expect(last_response.body)
           .to be_json_eql(error_message.to_json)

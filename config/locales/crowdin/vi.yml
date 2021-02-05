@@ -537,6 +537,7 @@ vi:
         invalid_url: 'không phải là một URL hợp lệ.'
         invalid_url_scheme: 'không phải là giao thức được hỗ trợ  (được phép: %{allowed_schemes}).'
         less_than_or_equal_to: "phải nhỏ hơn hoặc bằng %{count}"
+        not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "không phải là ngày hợp lệ"
         not_a_datetime: "không phải là thời gian hợp lệ"

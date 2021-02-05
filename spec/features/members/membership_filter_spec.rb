@@ -34,21 +34,21 @@ feature 'group memberships through groups page', type: :feature, js: true do
 
   let!(:peter) do
     FactoryBot.create :user,
-                       firstname: 'Peter',
-                       lastname: 'Pan',
-                       mail: 'foo@example.org',
-                       member_in_project: project,
-                       member_through_role: role
+                      firstname: 'Peter',
+                      lastname: 'Pan',
+                      mail: 'foo@example.org',
+                      member_in_project: project,
+                      member_through_role: role
 
   end
 
   let!(:hannibal) do
     FactoryBot.create :user,
-                       firstname: 'Pan',
-                       lastname: 'Hannibal',
-                       mail: 'foo@example.com',
-                       member_in_project: project,
-                       member_through_role: role
+                      firstname: 'Pan',
+                      lastname: 'Hannibal',
+                      mail: 'foo@example.com',
+                      member_in_project: project,
+                      member_through_role: role
 
   end
   let(:role) { FactoryBot.create(:role, permissions: %i(add_work_packages)) }

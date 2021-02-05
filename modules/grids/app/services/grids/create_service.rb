@@ -33,17 +33,8 @@ class Grids::CreateService < ::BaseServices::Create
 
   protected
 
-  def set_attributes(attributes)
-    grid = new_grid(attributes.delete(:scope))
-
-    Grids::SetAttributesService
-      .new(user: user,
-           model: grid,
-           contract_class: contract_class)
-      .call(attributes)
-  end
-
-  def new_grid(scope)
+  def instance(attributes)
+    scope = attributes.delete(:scope)
     ::Grids::Factory.build(scope, user)
   end
 end

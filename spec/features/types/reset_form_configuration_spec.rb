@@ -63,12 +63,13 @@ describe 'Reset form configuration', type: :feature, js: true do
       form.save_changes
       expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
 
+      SeleniumHubWaiter.wait
       form.reset_button.click
       dialog.expect_open
       dialog.confirm
 
       # Wait for page reload
-      sleep 1
+      SeleniumHubWaiter.wait
 
       expect(page).to have_no_selector('.group-head', text: 'NEW GROUP')
       expect(page).to have_no_selector('.group-head', text: 'OTHER')

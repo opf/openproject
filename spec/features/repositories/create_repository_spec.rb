@@ -79,7 +79,9 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
   describe 'with submitted vendor form' do
     before do
       settings_page.visit_repository_settings
+      SeleniumHubWaiter.wait
       find("option[value='#{vendor}']").select_option
+      SeleniumHubWaiter.wait
     end
 
     shared_examples 'has only the type which is selected' do |type, vendor|

@@ -41,6 +41,11 @@ module Pages
           expect(rows.map(&:text)).to include(*users.map(&:login))
         end
 
+        def expect_order(*users)
+          rows = page.all 'td.username'
+          expect(rows.map(&:text)).to eq(users.map(&:login))
+        end
+
         def expect_non_listed
           expect(page)
             .to have_no_selector('tr.user')
