@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::PlaceholderUsers::Filters::GroupFilter < Queries::Users::Filters::PlaceholderUserFilter
+class Queries::PlaceholderUsers::Filters::GroupFilter < Queries::PlaceholderUsers::Filters::PlaceholderUserFilter
   self.model = PlaceholderUser
 
   def human_name
