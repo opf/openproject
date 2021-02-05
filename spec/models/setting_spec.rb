@@ -30,6 +30,10 @@
 require 'spec_helper'
 
 describe Setting, type: :model do
+  it "does nothing" do
+    expect(true).to eq(true)
+  end
+
   # OpenProject specific defaults that are set in settings.yml
   describe "OpenProject's default settings" do
     it 'has OpenProject as application title' do
