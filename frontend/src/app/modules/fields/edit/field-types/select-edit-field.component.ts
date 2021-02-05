@@ -38,7 +38,7 @@ import {map, tap} from 'rxjs/operators';
 import {HalResourceNotificationService} from 'core-app/modules/hal/services/hal-resource-notification.service';
 import {InjectField} from 'core-app/helpers/angular/inject-field.decorator';
 import {PermissionsService} from 'core-app/core/services/permissions/permissions.service';
-s
+
 export interface ValueOption {
   name:string;
   $href:string|null;
