@@ -26,19 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, OnInit} from "@angular/core";
-import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {EditFieldComponent} from "../edit-field.component";
-import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
-import {SelectAutocompleterRegisterService} from "app/modules/fields/edit/field-types/select-autocompleter-register.service";
+import {Component, OnInit} from '@angular/core';
+import {HalResourceSortingService} from 'core-app/modules/hal/services/hal-resource-sorting.service';
+import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {EditFieldComponent} from '../edit-field.component';
+import {CreateAutocompleterComponent} from 'core-app/modules/common/autocomplete/create-autocompleter.component';
+import {SelectAutocompleterRegisterService} from 'app/modules/fields/edit/field-types/select-autocompleter-register.service';
 import {from} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {PermissionsService} from "core-app/core/services/permissions/permissions.service";
-
+import {HalResourceNotificationService} from 'core-app/modules/hal/services/hal-resource-notification.service';
+import {InjectField} from 'core-app/helpers/angular/inject-field.decorator';
+import {PermissionsService} from 'core-app/core/services/permissions/permissions.service';
+s
 export interface ValueOption {
   name:string;
   $href:string|null;
