@@ -28,32 +28,46 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module TimeEntryActivity::Scopes
-  class ActiveInProject
-    class << self
-      def fetch(project)
-        being_active_in_project(project)
-          .or(being_not_inactive_in_project(project))
-      end
+require 'spec_helper'
 
-      private
+describe TimeEntries::Scopes::OfUserAndDay, type: :model do
+  let(:user) { FactoryBot.create(:user) }
+  let(:spent_on) { Date.today }
+  let!(:time_entry) do
+    FactoryBot.create(:time_entry,
+                      user: user,
+                      spent_on: spent_on)
+  end
+  let!(:other_time_entry) do
+    FactoryBot.create(:time_entry,
+                      user: user,
+                      spent_on: spent_on)
+  end
+  let!(:other_user_time_entry) do
+    FactoryBot.create(:time_entry,
+                      user: FactoryBot.create(:user),
+                      spent_on: spent_on)
+  end
+  let!(:other_date_time_entry) do
+    FactoryBot.create(:time_entry,
+                      user: user,
+                      spent_on: spent_on - 3.days)
+  end
 
-      # All activities, that have a specific setting for the project to be active.
-      # The global active state has no effect in that case.
-      def being_active_in_project(project)
-        TimeEntryActivity
-          .where(id: of_project(project).where(active: true))
-      end
+  describe '.of_user_and_day' do
+    subject { TimeEntry.of_user_and_day(user, spent_on) }
 
-      # All activities that are active and do not have a project specific setting stating
-      # the activity to be inactive. So there could either be no project specific setting (for that project) or
-      # a project specific setting that is active.
-      def being_not_inactive_in_project(project)
-        TimeEntryActivity.where(active: true).where.not(id: of_project(project).where(active: false))
-      end
+    it 'are all the time entries of the user on the date' do
+      is_expected
+        .to match_array([time_entry, other_time_entry])
+    end
 
-      def of_project(project)
-        TimeEntryActivitiesProject.where(project_id: project.id).select(:activity_id)
+    context 'if excluding a time entry' do
+      subject { TimeEntry.of_user_and_day(user, spent_on, excluding: other_time_entry) }
+
+      it 'does not include the time entry' do
+        is_expected
+          .to match_array([time_entry])
       end
     end
   end

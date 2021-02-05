@@ -28,16 +28,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Find all members that are whose principals are not locked and have an
-# assignable role.
 module Members::Scopes
-  class Assignable
-    def self.fetch
-      Member
-        .not_locked
-        .includes(:roles)
-        .references(:roles)
-        .where(roles: { assignable: true })
+  module Assignable
+    extend ActiveSupport::Concern
+
+    class_methods do
+      # Find all members that are whose principals are not locked and have an
+      # assignable role.
+      def assignable
+        not_locked
+          .includes(:roles)
+          .references(:roles)
+          .where(roles: { assignable: true })
+      end
     end
   end
 end

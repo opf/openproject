@@ -57,12 +57,12 @@ class Principal < ApplicationRecord
   has_many :projects, through: :memberships
   has_many :categories, foreign_key: 'assigned_to_id', dependent: :nullify
 
-  scope_classes Principals::Scopes::NotBuiltin,
-                Principals::Scopes::User,
-                Principals::Scopes::Human,
-                Principals::Scopes::Like,
-                Principals::Scopes::PossibleMember,
-                Principals::Scopes::PossibleAssignee
+  scopes :like,
+         :human,
+         :not_builtin,
+         :possible_assignee,
+         :possible_member,
+         :user
 
   scope :not_locked, -> {
     not_builtin.where.not(status: statuses[:locked])

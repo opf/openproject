@@ -1,4 +1,4 @@
-class TimeEntry
+module TimeEntries
   module TimeEntryScopes
     include ::CostScopes
 

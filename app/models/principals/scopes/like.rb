@@ -34,20 +34,23 @@
 # * lastname
 # matches the provided string
 module Principals::Scopes
-  class Like
-    def self.fetch(search_string)
-      firstnamelastname = "((firstname || ' ') || lastname)"
-      lastnamefirstname = "((lastname || ' ') || firstname)"
+  module Like
+    extend ActiveSupport::Concern
 
-      s = "%#{search_string.to_s.downcase.strip.tr(',', '')}%"
+    class_methods do
+      def like(query)
+        firstnamelastname = "((firstname || ' ') || lastname)"
+        lastnamefirstname = "((lastname || ' ') || firstname)"
 
-      Principal
-        .where(['LOWER(login) LIKE :s OR ' +
-                "LOWER(#{firstnamelastname}) LIKE :s OR " +
-                "LOWER(#{lastnamefirstname}) LIKE :s OR " +
-                'LOWER(mail) LIKE :s',
-             { s: s }])
-        .order(:type, :login, :lastname, :firstname, :mail)
+        s = "%#{query.to_s.downcase.strip.tr(',', '')}%"
+
+        where(['LOWER(login) LIKE :s OR ' +
+               "LOWER(#{firstnamelastname}) LIKE :s OR " +
+               "LOWER(#{lastnamefirstname}) LIKE :s OR " +
+               'LOWER(mail) LIKE :s',
+                  { s: s }])
+          .order(:type, :login, :lastname, :firstname, :mail)
+      end
     end
   end
 end

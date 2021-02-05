@@ -87,8 +87,8 @@ class User < Principal
   scope :blocked, -> { create_blocked_scope(self, true) }
   scope :not_blocked, -> { create_blocked_scope(self, false) }
 
-  scope_classes Users::Scopes::FindByLogin,
-                Users::Scopes::Newest
+  scopes :find_by_login,
+         :newest
 
   def self.create_blocked_scope(scope, blocked)
     scope.where(blocked_condition(blocked))

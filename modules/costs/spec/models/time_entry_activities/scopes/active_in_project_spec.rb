@@ -30,14 +30,14 @@
 
 require 'spec_helper'
 
-describe TimeEntryActivity::Scopes::ActiveInProject, type: :model do
+describe TimeEntryActivities::Scopes::ActiveInProject, type: :model do
   let!(:activity) { FactoryBot.create(:time_entry_activity) }
   let!(:other_activity) { FactoryBot.create(:time_entry_activity) }
   let(:project) { FactoryBot.create(:project) }
   let(:other_project) { FactoryBot.create(:project) }
 
-  describe '.fetch' do
-    subject { described_class.fetch(project) }
+  describe '.active_in_project' do
+    subject { TimeEntryActivity.active_in_project(project) }
 
     context 'without a project configuration' do
       context 'with the activity being active' do

@@ -134,8 +134,8 @@ class Project < ApplicationRecord
   scope :newest, -> { order(created_at: :desc) }
   scope :active, -> { where(active: true) }
 
-  scope_classes Projects::Scopes::ActivatedTimeActivity,
-                Projects::Scopes::VisibleWithActivatedTimeActivity
+  scopes :activated_time_activity,
+         :visible_with_activated_time_activity
 
   def visible?(user = User.current)
     active? and (public? or user.admin? or user.member_of?(self))

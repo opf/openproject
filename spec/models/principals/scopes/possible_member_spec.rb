@@ -56,8 +56,8 @@ describe Principals::Scopes::PossibleMember, type: :model, with_clean_fixture: t
                       member_through_role: role)
   end
 
-  describe '.fetch' do
-    subject { described_class.fetch(project) }
+  describe '.possible_member' do
+    subject { Principal.possible_member(project) }
 
     it 'returns non locked users, groups and placeholder users not part of the project yet' do
       is_expected

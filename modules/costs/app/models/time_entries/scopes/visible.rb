@@ -28,46 +28,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module TimeEntries::Scopes
+  module Visible
+    extend ActiveSupport::Concern
 
-describe TimeEntry::Scopes::OfUserAndDay, type: :model do
-  let(:user) { FactoryBot.create(:user) }
-  let(:spent_on) { Date.today }
-  let!(:time_entry) do
-    FactoryBot.create(:time_entry,
-                      user: user,
-                      spent_on: spent_on)
-  end
-  let!(:other_time_entry) do
-    FactoryBot.create(:time_entry,
-                      user: user,
-                      spent_on: spent_on)
-  end
-  let!(:other_user_time_entry) do
-    FactoryBot.create(:time_entry,
-                      user: FactoryBot.create(:user),
-                      spent_on: spent_on)
-  end
-  let!(:other_date_time_entry) do
-    FactoryBot.create(:time_entry,
-                      user: user,
-                      spent_on: spent_on - 3.days)
-  end
+    class_methods do
+      def visible(user = User.current)
+        all_scope = TimeEntry
+                    .where(project_id: Project.allowed_to(user, :view_time_entries))
 
-  describe '.fetch' do
-    subject { described_class.fetch(user, spent_on) }
+        own_scope = TimeEntry
+                    .where(project_id: Project.allowed_to(user, :view_own_time_entries))
+                    .where(user_id: user)
 
-    it 'are all the time entries of the user on the date' do
-      is_expected
-        .to match_array([time_entry, other_time_entry])
-    end
-
-    context 'if excluding a time entry' do
-      subject { described_class.fetch(user, spent_on, excluding: other_time_entry) }
-
-      it 'does not include the time entry' do
-        is_expected
-          .to match_array([time_entry])
+        all_scope.or(own_scope)
       end
     end
   end

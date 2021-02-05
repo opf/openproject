@@ -28,13 +28,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackages::Scopes::IncludeSpentTime
-  class << self
-    def fetch(user, work_package = nil)
+module WorkPackages::Scopes::IncludeSpentTime
+  extend ActiveSupport::Concern
+
+  class_methods do
+    def include_spent_time(user, work_package = nil)
       query = join_time_entries(user)
 
-      scope = WorkPackage
-              .left_join_self_and_descendants(user, work_package)
+      scope = left_join_self_and_descendants(user, work_package)
               .joins(query.join_sources)
               .group(:id)
               .select('SUM(time_entries.hours) AS hours')
@@ -63,7 +64,7 @@ class WorkPackages::Scopes::IncludeSpentTime
     end
 
     def wp_table
-      @wp_table ||= WorkPackage.arel_table
+      @wp_table ||= arel_table
     end
 
     def wp_descendants

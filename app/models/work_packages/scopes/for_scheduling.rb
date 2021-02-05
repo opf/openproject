@@ -30,8 +30,10 @@
 #
 
 module WorkPackages::Scopes
-  class ForScheduling
-    class << self
+  module ForScheduling
+    extend ActiveSupport::Concern
+
+    class_methods do
       # Fetches all work packages that need to be evaluated for eventual rescheduling after a related (i.e. follows/precedes
       # and hierarchy) work package is modified or created.
       #
@@ -74,8 +76,8 @@ module WorkPackages::Scopes
       #
       # @param work_packages WorkPackage[] A set of work packages for which the set of related work packages that might
       # be subject to reschedule is fetched.
-      def fetch(work_packages)
-        return WorkPackage.none if work_packages.empty?
+      def for_scheduling(work_packages)
+        return none if work_packages.empty?
 
         sql = <<~SQL
           WITH
@@ -88,8 +90,7 @@ module WorkPackages::Scopes
               NOT to_schedule.manually
         SQL
 
-        WorkPackage
-          .where("id IN (#{sql})")
+        where("id IN (#{sql})")
           .where.not(id: work_packages)
       end
 

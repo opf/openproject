@@ -28,17 +28,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module TimeEntry::Scopes
-  class Visible
-    def self.fetch(user = User.current)
-      all_scope = TimeEntry
-                  .where(project_id: Project.allowed_to(user, :view_time_entries))
+module TimeEntries::Scopes
+  module OfUserAndDay
+    extend ActiveSupport::Concern
 
-      own_scope = TimeEntry
-                  .where(project_id: Project.allowed_to(user, :view_own_time_entries))
-                  .where(user_id: user)
+    class_methods do
+      def of_user_and_day(user, date, excluding: nil)
+        scope = TimeEntry
+                  .where(spent_on: date,
+                         user: user)
 
-      all_scope.or(own_scope)
+        if excluding
+          scope = scope.where.not(id: excluding.id)
+        end
+
+        scope
+      end
+
     end
   end
 end
