@@ -1,12 +1,12 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2020 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
 
 OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2006-2017 Jean-Philippe Lang
 Copyright (C) 2010-2013 the ChiliProject Team
 
 This program is free software; you can redistribute it and/or
@@ -26,13 +26,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= breadcrumb_toolbar(@placeholder_user.new_record? ? t(:label_placeholder_user_new) : @placeholder_user.name) do %>
-  <% unless @placeholder_user.new_record? %>
-  <li class="toolbar-item">
-    <%= link_to placeholder_user_path(@placeholder_user), class: 'button' do %>
-      <%= op_icon('button--icon icon-user') %>
-      <span class="button--text"><%= t(:label_profile) %></span>
-    <% end %>
-  </li>
-  <% end %>
-<% end %>
+
+
+<% html_title(t(:label_administration), "#{t(:label_edit)} #{PlaceholderUser.model_name.human} #{h(@placeholder_user.name)}") -%>
+
+<% local_assigns[:additional_breadcrumb] = @placeholder_user.name %>
+<%= render partial: 'toolbar', locals: { new_user: false, :@placeholder_user => @placeholder_user } %>
+
+<%= render_extensible_tabs :placeholder_user, placeholder_user: @placeholder_user %>

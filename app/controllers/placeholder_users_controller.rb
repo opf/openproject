@@ -77,10 +77,11 @@ class PlaceholderUsersController < ApplicationController
   end
 
   def create
-    @placeholder_user = PlaceholderUser.new
-    @placeholder_user.attributes = permitted_params.placeholder_user
+    service = PlaceholderUsers::CreateService.new(user: User.current)
+    service_result = service.call(permitted_params.placeholder_user)
+    @placeholder_user = service_result.result
 
-    if @placeholder_user.save
+    if service_result.success?
       respond_to do |format|
         format.html do
           flash[:notice] = I18n.t(:notice_successful_create)
