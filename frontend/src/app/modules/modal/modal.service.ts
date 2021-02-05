@@ -87,7 +87,7 @@ export class OpModalService {
     const ref:ComponentRef<OpModalComponent> = this.bodyPortalHost.attach(portal) as ComponentRef<OpModalComponent>;
     const instance = ref.instance as T;
     this.active = instance;
-    this.portalHostElement.style.display = 'block';
+    this.portalHostElement.classList.add('op-modal-overlay_active');
 
     setTimeout(() => {
       // Focus on the first element
@@ -112,7 +112,7 @@ export class OpModalService {
     if (this.active && this.active.onClose()) {
       this.active.closingEvent.emit(this.active);
       this.bodyPortalHost.detach();
-      this.portalHostElement.style.display = 'none';
+      this.portalHostElement.classList.remove('op-modal-overlay_active');
       this.active = null;
     }
   }

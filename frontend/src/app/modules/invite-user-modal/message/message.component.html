@@ -2,7 +2,7 @@
   [formGroup]="messageForm"
   (ngSubmit)="onSubmit($event)"
 >
-  <op-modal-heading (close)="close.emit()">{{ text.title() }}</op-modal-heading>
+  <op-modal-header (close)="close.emit()">{{ text.title() }}</op-modal-header>
 
   <div class="op-modal--body">
     <op-form-field [label]="text.label">

@@ -1,17 +1,17 @@
 import {NgModule} from "@angular/core";
 import {OpModalService} from "./modal.service";
-import {OpModalHeadingComponent} from "./modal-heading.component";
+import {OpModalHeaderComponent} from "./modal-header.component";
 
 @NgModule({
   imports: [],
   exports: [
-    OpModalHeadingComponent,
+    OpModalHeaderComponent,
   ],
   providers: [
     OpModalService,
   ],
   declarations: [
-    OpModalHeadingComponent,
+    OpModalHeaderComponent,
   ]
 })
 export class OpenprojectModalModule { }

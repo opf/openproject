@@ -1,5 +1,5 @@
-<div class="op-modal wp-table--configuration-modal">
-  <op-modal-heading (close)="closeMe($event)">{{text.title}}</op-modal-heading>
+<div class="op-modal op-modal_wide wp-table--configuration-modal">
+  <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
 
   <div class="op-modal--body">
 
@@ -12,14 +12,15 @@
       <ul class="tabrow">
         <li *ngFor="let tab of availableTabs"
             [ngClass]="{ 'selected': currentTab && tab.name === currentTab.name, '-disabled': tab.disableBecause != null }">
-          <button
+          <a
             class="tab-show"
-            type="button"
+            role="button"
             [ngClass]="{ 'selected': currentTab && tab.name === currentTab.name }"
             [attr.title]="tab.disableBecause || tab.title"
             [textContent]="tab.title"
             (click)="switchTo(tab.name)"
-          ></button>
+            href
+          ></a>
       </ul>
     </div>
 
