@@ -43,6 +43,12 @@ describe 'Members widget on dashboard', type: :feature, js: true do
   let!(:no_view_member_user) do
     FactoryBot.create :user, lastname: "No_View", member_in_project: project, member_through_role: no_view_member_role
   end
+  let!(:placeholder_user) do
+    FactoryBot.create :placeholder_user,
+                      lastname: "Placeholder user",
+                      member_in_project: project,
+                      member_through_role: no_view_member_role
+  end
   let!(:invisible_user) do
     FactoryBot.create :user, lastname: "Invisible", member_in_project: other_project, member_through_role: role
   end
@@ -89,6 +95,8 @@ describe 'Members widget on dashboard', type: :feature, js: true do
         .to have_content no_view_member_role
       expect(page)
         .to have_content no_view_member_user.name
+      expect(page)
+        .to have_content placeholder_user.name
     end
   end
 

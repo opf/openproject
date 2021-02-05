@@ -103,15 +103,17 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
   end
   let(:existing_work_packages) { [] }
 
-  describe '.fetch' do
+  subject { }
+
+  describe '.for_scheduling' do
     it 'is a AR scope' do
-      expect(described_class.fetch([origin]))
+      expect(WorkPackage.for_scheduling([origin]))
         .to be_a ActiveRecord::Relation
     end
 
     context 'for an empty array' do
       it 'is empty' do
-        expect(described_class.fetch([]))
+        expect(WorkPackage.for_scheduling([]))
           .to be_empty
       end
     end
@@ -120,7 +122,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       let!(:existing_work_packages) { [predecessor] }
 
       it 'is empty' do
-        expect(described_class.fetch([origin]))
+        expect(WorkPackage.for_scheduling([origin]))
           .to be_empty
       end
     end
@@ -129,7 +131,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       let!(:existing_work_packages) { [parent] }
 
       it 'consists of the parent' do
-        expect(described_class.fetch([origin]))
+        expect(WorkPackage.for_scheduling([origin]))
           .to match_array([parent])
       end
     end
@@ -138,7 +140,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       let!(:existing_work_packages) { [successor] }
 
       it 'consists of the successor' do
-        expect(described_class.fetch([origin]))
+        expect(WorkPackage.for_scheduling([origin]))
           .to match_array([successor])
       end
     end
@@ -147,7 +149,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       let!(:existing_work_packages) { [blocker] }
 
       it 'is empty' do
-        expect(described_class.fetch([origin]))
+        expect(WorkPackage.for_scheduling([origin]))
           .to be_empty
       end
     end
@@ -156,7 +158,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       let!(:existing_work_packages) { [includer] }
 
       it 'is empty' do
-        expect(described_class.fetch([origin]))
+        expect(WorkPackage.for_scheduling([origin]))
           .to be_empty
       end
     end
@@ -166,7 +168,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
       context 'with all scheduled automatically' do
         it 'consists of the successor, its child and parent' do
-          expect(described_class.fetch([origin]))
+          expect(WorkPackage.for_scheduling([origin]))
             .to match_array([successor, successor_child, successor_parent])
         end
       end
@@ -177,7 +179,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
         end
 
         it 'is empty' do
-          expect(described_class.fetch([origin]))
+          expect(WorkPackage.for_scheduling([origin]))
             .to be_empty
         end
       end
@@ -188,7 +190,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
         end
 
         it 'consists of the successor and its child' do
-          expect(described_class.fetch([origin]))
+          expect(WorkPackage.for_scheduling([origin]))
             .to match_array([successor, successor_child])
         end
       end
@@ -199,7 +201,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
         end
 
         it 'is empty' do
-          expect(described_class.fetch([origin]))
+          expect(WorkPackage.for_scheduling([origin]))
             .to be_empty
         end
       end
@@ -214,7 +216,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
       context 'with all scheduled automatically' do
         it 'consists of the successor, its child and parent and the successor successor' do
-          expect(described_class.fetch([origin]))
+          expect(WorkPackage.for_scheduling([origin]))
             .to match_array([successor, successor_child, successor_parent, successor_successor])
         end
       end
@@ -225,7 +227,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
         end
 
         it 'consists of the successor, its child and successor successor' do
-          expect(described_class.fetch([origin]))
+          expect(WorkPackage.for_scheduling([origin]))
             .to match_array([successor, successor_child, successor_successor])
         end
       end
@@ -236,7 +238,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
         end
 
         it 'is empty' do
-          expect(described_class.fetch([origin]))
+          expect(WorkPackage.for_scheduling([origin]))
             .to be_empty
         end
       end
@@ -251,7 +253,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
       context 'with all scheduled automatically' do
         it 'consists of the successor, its child and parent' do
-          expect(described_class.fetch([origin]))
+          expect(WorkPackage.for_scheduling([origin]))
             .to match_array([successor, successor_parent])
         end
       end
@@ -262,7 +264,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
         end
 
         it 'is empty (hierarchy over relationships)' do
-          expect(described_class.fetch([origin]))
+          expect(WorkPackage.for_scheduling([origin]))
             .to be_empty
         end
       end
@@ -273,7 +275,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
         end
 
         it 'consists of the successor' do
-          expect(described_class.fetch([origin]))
+          expect(WorkPackage.for_scheduling([origin]))
             .to match_array([successor])
         end
       end
@@ -285,7 +287,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
         end
 
         it 'is empty' do
-          expect(described_class.fetch([origin]))
+          expect(WorkPackage.for_scheduling([origin]))
             .to be_empty
         end
       end
@@ -296,7 +298,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
       context 'with all scheduled automatically' do
         it 'consists of the successor, its child and the successor˚s successor' do
-          expect(described_class.fetch([origin]))
+          expect(WorkPackage.for_scheduling([origin]))
             .to match_array([successor, successor_child, successor_child2, successor_successor])
         end
       end
@@ -307,7 +309,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
         end
 
         it 'consists of the successor, its automatically scheduled child and the successor˚s successor' do
-          expect(described_class.fetch([origin]))
+          expect(WorkPackage.for_scheduling([origin]))
             .to match_array([successor_child, successor, successor_successor])
         end
       end
@@ -319,7 +321,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
         end
 
         it 'is empty' do
-          expect(described_class.fetch([origin]))
+          expect(WorkPackage.for_scheduling([origin]))
             .to be_empty
         end
       end
@@ -329,7 +331,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       let!(:existing_work_packages) { [parent, grandparent] }
 
       it 'consists of the parent, grandparent' do
-        expect(described_class.fetch([origin]))
+        expect(WorkPackage.for_scheduling([origin]))
           .to match_array([parent, grandparent])
       end
     end
@@ -338,7 +340,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       let!(:existing_work_packages) { [parent, parent_successor] }
 
       it 'consists of the parent, parent successor' do
-        expect(described_class.fetch([origin]))
+        expect(WorkPackage.for_scheduling([origin]))
           .to match_array([parent, parent_successor])
       end
     end
@@ -348,7 +350,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
       context 'with all scheduled automatically' do
         it 'consists of the parent, self and the whole parent successor hierarchy' do
-          expect(described_class.fetch([origin]))
+          expect(WorkPackage.for_scheduling([origin]))
             .to match_array([parent, parent_successor, parent_successor_parent, parent_successor_child])
         end
       end
@@ -359,7 +361,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
         end
 
         it 'consists of the parent' do
-          expect(described_class.fetch([origin]))
+          expect(WorkPackage.for_scheduling([origin]))
             .to match_array([parent])
         end
       end
@@ -370,7 +372,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
         end
 
         it 'is empty' do
-          expect(described_class.fetch([origin]))
+          expect(WorkPackage.for_scheduling([origin]))
             .to be_empty
         end
       end
@@ -381,7 +383,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
         end
 
         it 'contains the parent and self' do
-          expect(described_class.fetch([origin]))
+          expect(WorkPackage.for_scheduling([origin]))
             .to match_array([parent])
         end
       end
@@ -392,7 +394,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
       context 'with all scheduled automatically' do
         it 'consists of both successors' do
-          expect(described_class.fetch([origin]))
+          expect(WorkPackage.for_scheduling([origin]))
             .to match_array([successor, successor_successor])
         end
       end
@@ -403,7 +405,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
         end
 
         it 'is empty' do
-          expect(described_class.fetch([origin]))
+          expect(WorkPackage.for_scheduling([origin]))
             .to be_empty
         end
       end
@@ -414,7 +416,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
         end
 
         it 'contains the successor' do
-          expect(described_class.fetch([origin]))
+          expect(WorkPackage.for_scheduling([origin]))
             .to match_array([successor])
         end
       end

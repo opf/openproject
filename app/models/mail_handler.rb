@@ -481,9 +481,9 @@ class MailHandler < ActionMailer::Base
     end
   end
 
-  def find_assignee_from_keyword(keyword, issue)
+  def find_assignee_from_keyword(keyword, work_package)
     keyword = keyword.to_s.downcase
-    assignable = issue.assignable_assignees
+    assignable = Principal.possible_assignee(work_package.project)
     assignee = nil
     assignee ||= assignable.detect do |a|
       [a.mail.to_s.downcase, a.login.to_s.downcase].include?(keyword)

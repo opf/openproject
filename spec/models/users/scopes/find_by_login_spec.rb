@@ -37,8 +37,8 @@ describe Users::Scopes::FindByLogin, type: :model do
   let(:login) { 'Some string' }
   let(:search_login) { login }
 
-  describe '.fetch' do
-    subject { described_class.fetch(search_login) }
+  describe '.find_by_login' do
+    subject { User.find_by_login(search_login) }
 
     context 'with the exact same login' do
       it 'returns the user' do

@@ -138,8 +138,8 @@ module API
                  render_nil: true
 
         property :status,
-                 getter: ->(*) { status_name },
-                 setter: ->(fragment:, represented:, **) { represented.status = User::STATUSES[fragment.to_sym] },
+                 getter: ->(*) { status },
+                 setter: ->(fragment:, represented:, **) { represented.status = User.statuses[fragment.to_sym] },
                  render_nil: true,
                  cache_if: -> { current_user_is_admin_or_self }
 

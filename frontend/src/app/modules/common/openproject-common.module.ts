@@ -84,6 +84,10 @@ import {TimeEntryWorkPackageAutocompleterComponent} from "core-app/modules/commo
 import {DraggableAutocompleteComponent} from "core-app/modules/common/draggable-autocomplete/draggable-autocomplete.component";
 import {DragulaModule} from "ng2-dragula";
 import {SlideToggleComponent} from "core-app/modules/common/slide-toggle/slide-toggle.component";
+import {OpOptionListComponent} from "core-app/modules/common/option-list/option-list.component";
+import {OpFormFieldComponent} from "core-app/modules/common/form-field/form-field.component";
+import {OpFormBindingDirective} from "core-app/modules/common/form-field/form-binding.directive";
+import {OpModalHeadingComponent} from "./modal/modal-heading.component";
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
@@ -149,6 +153,10 @@ export function bootstrapModule(injector:Injector) {
     OpDatePickerComponent,
     OpDateTimeComponent,
     OpIcon,
+    OpOptionListComponent,
+    OpFormFieldComponent,
+    OpFormBindingDirective,
+    OpModalHeadingComponent,
     AutofocusDirective,
 
     FocusWithinDirective,
@@ -202,6 +210,10 @@ export function bootstrapModule(injector:Injector) {
     OpDatePickerComponent,
     OpDateTimeComponent,
     OpIcon,
+    OpOptionListComponent,
+    OpFormFieldComponent,
+    OpFormBindingDirective,
+    OpModalHeadingComponent,
     AutofocusDirective,
 
     FocusWithinDirective,

@@ -211,6 +211,9 @@ module API
             "#{newses}/#{id}"
           end
 
+          index :placeholder_user
+          show :placeholder_user
+
           index :post
           show :post
 

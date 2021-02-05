@@ -30,9 +30,13 @@
 
 # Find a user account by matching case-insensitive.
 module Users::Scopes
-  class FindByLogin
-    def self.fetch(login)
-      User.where(["LOWER(login) = ?", login.to_s.downcase]).first
+  module FindByLogin
+    extend ActiveSupport::Concern
+
+    class_methods do
+      def self.find_by_login(login)
+        where(["LOWER(login) = ?", login.to_s.downcase]).first
+      end
     end
   end
 end

@@ -1,0 +1,59 @@
+<ng-select
+  [formControl]="principalControl"
+  [typeahead]="input$"
+  [items]="items$ | async"
+  [virtualScroll]="true"
+  [clearable]="true"
+  [clearOnBackspace]="false"
+  [clearSearchOnAdd]="false"
+  bindLabel="name"
+  autofocus
+  #ngselect
+>
+  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+    <!--Selectable option-->
+    <div
+      [ngOptionHighlight]="search"
+      class="ng-option-label"
+    >{{ item.name }}</div>
+    <!-- Already a member of the project -->
+    <div
+      *ngIf="item.disabled"
+      class="ng-option-label ellipsis"
+    >{{ text.alreadyAMember() }}</div>
+  </ng-template>
+
+  <!--Nothing found -->
+  <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
+    <div class="ng-option disabled">
+      {{ text.noResults[type] }}
+    </div>
+  </ng-template>
+
+
+  <!--Invite a new user by email-->
+  <ng-template ng-footer-tmp>
+    <div *ngIf="canInviteByEmail$ | async">
+      <button
+        class="button"
+        (click)="createNewFromInput()"
+      >
+        <op-icon icon-classes="icon-mail1"></op-icon>
+        {{ text.inviteNewUser() }}
+      </button>
+    </div>
+  </ng-template>
+
+  <!--Create a new placeholder by name-->
+  <ng-template ng-footer-tmp>
+    <div *ngIf="canCreateNewGroupOrPlaceholder$ | async">
+      <button
+        class="button"
+        (click)="createNewFromInput()"
+      >
+        <op-icon icon-classes="icon-mail1"></op-icon>
+        {{ text.createNew[type]() }}
+      </button>
+    </div>
+  </ng-template>
+</ng-select>

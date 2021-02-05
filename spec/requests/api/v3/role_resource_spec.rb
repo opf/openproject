@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 roles resource', type: :request do
+describe 'API v3 roles resource', type: :request, with_clean_fixture: true do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 

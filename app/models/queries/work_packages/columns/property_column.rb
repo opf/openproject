@@ -97,7 +97,7 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     },
     version: {
       association: 'version',
-      sortable: [->(table_name = Version.table_name) { Versions::Scopes::OrderBySemverName.semver_sql(table_name) }, 'name'],
+      sortable: [->(table_name = Version.table_name) { Version.semver_sql(table_name) }, 'name'],
       default_order: 'ASC',
       null_handling: 'NULLS LAST',
       groupable: "#{WorkPackage.table_name}.version_id"

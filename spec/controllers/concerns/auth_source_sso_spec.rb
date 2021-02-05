@@ -111,7 +111,7 @@ describe MyController, type: :controller do
 
     context 'when the user is invited' do
       let!(:user) {
-        FactoryBot.create :user, login: login, status: Principal::STATUSES[:invited], auth_source_id: auth_source.id
+        FactoryBot.create :user, login: login, status: Principal.statuses[:invited], auth_source_id: auth_source.id
       }
 
       it "should log in given user and activate it" do

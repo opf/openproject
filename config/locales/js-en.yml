@@ -1037,3 +1037,81 @@ en:
       card: 'Cards'
       list: 'Table'
       timeline: 'Gantt'
+
+    invite_user_modal:
+      back: 'Back'
+      title:
+        invite: 'Invite user'
+        invite_to_project: 'Invite %{type} to %{project}'
+        user: 'user'
+        group: 'group'
+        placeholder: 'placeholder user'
+        invite_principal_to_project: 'Invite %{principal} to %{project}'
+      project:
+        label: 'Project'
+        required: 'Please select a project'
+        next_button: 'Next'
+        no_results: 'No projects were found'
+      type:
+        required: 'Please select the type of principal to be invited'
+        user: 
+          title: 'User'
+          description: 'Permissions based on the assigned role in the selected project'
+        group: 
+          title: 'Group'
+          description: 'Permissions based on the assigned role in the selected project'
+        placeholder: 
+          title: 'Placeholder'
+          description: 'Has no access to the project and no emails are sent out'
+
+      principal:
+        label:
+          name_or_email: 'Name or email address'
+          name: 'Name'
+
+        already_member_message: 'Already a member of %{project}'
+        no_results_user: 'No users were found'
+        invite_user: 'Invite: %{email}'
+        change_user_selection: 'Change e-mail-address or select an existing user'
+
+        no_results_placeholder: 'No placeholders were found'
+        change_placeholder_selection: 'Change name or select an existing placeholder'
+        create_new_placeholder: 'Create new placeholder: %{name}'
+
+        no_results_group: 'No groups were found'
+        create_new_group: 'Create new group: %{name}'
+        change_group_selection: 'Change name or select an existing group'
+
+        next_button: 'Next'
+
+        required:
+          user: 'Please select a user'
+          placeholder: 'Please select a placeholder'
+          group: 'Please select a group'
+
+      role:
+        label: 'Role in %{project}'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see.
+            <a
+              href="%{href}"
+              target="_blank">
+              learn more about roles and permissions.
+            </a>'
+        required: 'Please select a role'
+        next_button: 'Next'
+
+      message:
+        label: 'Invitation message'
+        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
+        next_button: 'Review Invitation'
+
+      summary:
+        next_button: 'Send Invitation'
+
+      success:
+        title: '%{principal} was invited!'
+        description: 
+          user: 'The user can now login to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+        next_button: 'Continue'

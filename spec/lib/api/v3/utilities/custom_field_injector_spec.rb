@@ -223,7 +223,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         let(:path) { cf_path }
         let(:href) do
           params = [{ status: { operator: '!',
-                                values: [Principal::STATUSES[:locked].to_s] } },
+                                values: [Principal.statuses[:locked].to_s] } },
                     { type: { operator: '=', values: ['User'] } },
                     { member: { operator: '=', values: [schema.project_id.to_s] } }]
 

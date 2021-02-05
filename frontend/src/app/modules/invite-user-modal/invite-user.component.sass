@@ -1,0 +1,21 @@
+// TODO: this will need to be cleaned up once better op-modal styles are available
+
+.op-ium-invite-user-modal
+  .op-modal--modal-container
+    min-height: 30rem
+    min-width: 30rem
+    max-height: 100vh
+    max-width: 100vw
+    display: flex
+    flex-direction: column
+
+    > * 
+      flex-grow: 1
+      display: flex
+      flex-direction: column
+
+  .op-modal--modal-body
+    flex-grow: 1
+
+  .op-form-field + .op-form-field
+    margin-top: 1rem

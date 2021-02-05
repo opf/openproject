@@ -15,14 +15,14 @@ RSpec.configure do |config|
   end
   Capybara.always_include_port = true
 
-  ip_address = Socket.ip_address_list.find { |ai| ai.ipv4? && !ai.ipv4_loopback? }.ip_address
-  hostname = ENV['CAPYBARA_DYNAMIC_HOSTNAME'].present? ? ip_address : ENV.fetch('CAPYBARA_APP_HOSTNAME', 'localhost')
-  if ENV['TRAVIS']
-    Capybara.server_host = "0.0.0.0"
-  else
+  if ENV['CAPYBARA_DYNAMIC_BIND_IP']
+    ip_address = Socket.ip_address_list.find { |ai| ai.ipv4? && !ai.ipv4_loopback? }.ip_address
+    hostname = ENV.fetch('CAPYBARA_APP_HOSTNAME', ip_address)
     Capybara.server_host = ip_address
+    Capybara.app_host = "http://#{hostname}"
+  else
+    Capybara.server_host = "0.0.0.0"
   end
-  Capybara.app_host = "http://#{hostname}"
 end
 
 ##

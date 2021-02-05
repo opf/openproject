@@ -31,7 +31,7 @@ require 'spec_helper'
 require 'contracts/work_packages/shared_base_contract'
 
 describe WorkPackages::UpdateContract do
-  let(:project) do
+  let(:work_package_project) do
     FactoryBot.build_stubbed(:project, public: false).tap do |p|
       allow(Project)
         .to receive(:find)
@@ -41,7 +41,7 @@ describe WorkPackages::UpdateContract do
   end
   let(:work_package) do
     FactoryBot.build_stubbed(:work_package,
-                             project: project,
+                             project: work_package_project,
                              type: type).tap do |wp|
       wp_scope = double('wp scope')
 
@@ -63,14 +63,17 @@ describe WorkPackages::UpdateContract do
   before do
     allow(user)
       .to receive(:allowed_to?) do |permission, context|
-        permissions.include?(permission) && context == project
+        permissions.include?(permission) && context == work_package_project
       end
   end
 
   subject(:contract) { described_class.new(work_package, user) }
 
   it_behaves_like 'work package contract' do
-    let(:work_package) { FactoryBot.build_stubbed(:work_package) }
+    let(:work_package) do
+      FactoryBot.build_stubbed(:work_package,
+                               project: work_package_project)
+    end
   end
 
   describe 'lock_version' do
@@ -162,7 +165,7 @@ describe WorkPackages::UpdateContract do
     before do
       allow(user)
         .to receive(:allowed_to?) do |permission, context|
-        permissions.include?(permission) && context == project ||
+        permissions.include?(permission) && context == work_package_project ||
           target_permissions.include?(permission) && context == target_project
       end
 
@@ -171,7 +174,7 @@ describe WorkPackages::UpdateContract do
         if work_package.project_id == target_project.id
           target_project
         else
-          project
+          work_package_project
         end
       end
 

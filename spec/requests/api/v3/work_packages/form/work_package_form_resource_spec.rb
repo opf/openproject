@@ -454,6 +454,18 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                     it_behaves_like 'valid user assignment'
                   end
+
+                  context 'existing placeholder_user' do
+                    let(:user_link) { api_v3_paths.placeholder_user placeholder_user.id }
+                    let(:role) { FactoryBot.create(:role) }
+                    let(:placeholder_user) do
+                      FactoryBot.create(:placeholder_user,
+                                        member_in_project: project,
+                                        member_through_role: role)
+                    end
+
+                    it_behaves_like 'valid user assignment'
+                  end
                 end
 
                 context "invalid #{property}" do
@@ -478,7 +490,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
                       let(:message) do
                         I18n.t('api_v3.errors.invalid_resource',
                                property: property,
-                               expected: "/api/v3/groups/:id' or '/api/v3/users/:id",
+                               expected: "/api/v3/groups/:id' or '/api/v3/users/:id' or '/api/v3/placeholder_users/:id",
                                actual: user_link)
                       end
                     end

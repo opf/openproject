@@ -28,14 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackages::Scopes::IncludeDerivedDates
-  attr_accessor :user,
-                :work_package
+module WorkPackages::Scopes::IncludeDerivedDates
+  extend ActiveSupport::Concern
 
-  class << self
-    def fetch
-      WorkPackage
-        .left_joins(:descendants)
+  class_methods do
+    def include_derived_dates
+      left_joins(:descendants)
         .select(*select_statement)
         .group(:id)
     end

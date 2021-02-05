@@ -32,11 +32,13 @@ describe UsersHelper, type: :helper do
   include UsersHelper
 
   def build_user(status, blocked)
-    user = FactoryBot.build(:user)
-    allow(user).to receive(:status).and_return(User::STATUSES[status])
-    allow(user).to receive(:failed_too_many_recent_login_attempts?).and_return(blocked)
-    allow(user).to receive(:failed_login_count).and_return(3)
-    user
+    FactoryBot.build_stubbed(:user,
+                             status: status,
+                             failed_login_count: 3).tap do |user|
+      allow(user)
+        .to receive(:failed_too_many_recent_login_attempts?)
+        .and_return(blocked)
+    end
   end
 
   describe 'full_user_status' do

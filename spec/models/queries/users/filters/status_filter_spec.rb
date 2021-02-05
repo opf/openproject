@@ -37,7 +37,7 @@ describe Queries::Users::Filters::StatusFilter, type: :model do
 
     describe '#allowed_values' do
       it 'is a list of the possible values' do
-        expected = Principal::STATUSES.keys.map do |key|
+        expected = Principal.statuses.keys.map do |key|
           [I18n.t(:"status_#{key}"), key]
         end
 
@@ -49,7 +49,7 @@ describe Queries::Users::Filters::StatusFilter, type: :model do
   describe '#scope' do
     include_context 'filter tests'
     let(:values) { %w[active invited] }
-    let(:model) { User }
+    let(:model) { User.user }
 
     context 'for "="' do
       let(:operator) { '=' }

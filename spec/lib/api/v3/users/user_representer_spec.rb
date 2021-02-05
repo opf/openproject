@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::API::V3::Users::UserRepresenter do
-  let(:status) { Principal::STATUSES[:active] }
+  let(:status) { Principal.statuses[:active] }
   let(:user) { FactoryBot.build_stubbed(:user, status: status) }
   let(:current_user) { FactoryBot.build_stubbed(:user) }
   let(:representer) { described_class.new(user, current_user: current_user) }
@@ -161,7 +161,7 @@ describe ::API::V3::Users::UserRepresenter do
         end
 
         context 'with a locked user' do
-          let(:status) { Principal::STATUSES[:locked] }
+          let(:status) { Principal.statuses[:locked] }
 
           it_behaves_like 'has no link' do
             let(:link) { 'showUser' }
@@ -232,8 +232,8 @@ describe ::API::V3::Users::UserRepresenter do
       describe 'memberships' do
         before do
           allow(current_user)
-            .to receive(:allowed_to?) do |action, _project, options|
-            permissions.include?(action) && options[:global]
+            .to receive(:allowed_to_globally?) do |action|
+            permissions.include?(action)
           end
         end
 

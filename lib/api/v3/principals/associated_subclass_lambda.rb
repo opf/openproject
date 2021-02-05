@@ -43,6 +43,8 @@ module API
                         :user
                       when Group
                         :group
+                      when PlaceholderUser
+                        :placeholder_user
                       when NilClass
                         # Fall back to user for unknown principal
                         # since we do not have a principal route.
@@ -65,28 +67,32 @@ module API
 
             instance = represented.send(name)
 
-            case instance
-            when User
-              ::API::V3::Users::UserRepresenter.new(represented.send(name), current_user: current_user)
-            when Group
-              ::API::V3::Groups::GroupRepresenter.new(represented.send(name), current_user: current_user)
-            when NilClass
-              nil
-            else
-              raise "undefined subclass for #{instance}"
-            end
+            representer = case instance
+                          when User
+                            ::API::V3::Users::UserRepresenter
+                          when Group
+                            ::API::V3::Groups::GroupRepresenter
+                          when PlaceholderUser
+                            ::API::V3::PlaceholderUsers::PlaceholderUserRepresenter
+                          when NilClass
+                            nil
+                          else
+                            raise "undefined subclass for #{instance}"
+                          end
+
+            representer&.new(represented.send(name), current_user: current_user)
           }
         end
 
-        def self.setter(name, property_name: name, namespaces: %i(groups users))
+        def self.setter(name, property_name: name, namespaces: %i(groups users placeholder_users))
           ->(fragment:, **) {
-            link = ::API::Decorators::LinkObject.new(represented,
-                                                     property_name: property_name,
-                                                     namespace: namespaces,
-                                                     getter: :"#{name}_id",
-                                                     setter: :"#{name}_id=")
-
-            link.from_hash(fragment)
+            ::API::Decorators::LinkObject
+              .new(represented,
+                   property_name: property_name,
+                   namespace: namespaces,
+                   getter: :"#{name}_id",
+                   setter: :"#{name}_id=")
+              .from_hash(fragment)
           }
         end
       end

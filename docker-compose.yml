@@ -34,25 +34,6 @@ x-op-frontend-build: &frontend-build
     DEV_GID: $DEV_GID
 
 services:
-  db:
-    image: postgres:10
-    <<: *restart_policy
-    stop_grace_period: "3s"
-    volumes:
-      - "pgdata:/var/lib/postgresql/data"
-    environment:
-      POSTGRES_USER: ${DB_USERNAME:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
-      POSTGRES_DB: ${DB_DATABASE:-openproject}
-    networks:
-      - network
-
-  cache:
-    image: memcached
-    <<: *restart_policy
-    networks:
-      - network
-
   backend:
     build:
       <<: *build
@@ -95,6 +76,25 @@ services:
       - network
     depends_on:
       - backend
+
+  db:
+    image: postgres:10
+    <<: *restart_policy
+    stop_grace_period: "3s"
+    volumes:
+      - "pgdata:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_DATABASE:-openproject}
+    networks:
+      - network
+
+  cache:
+    image: memcached
+    <<: *restart_policy
+    networks:
+      - network
 
 ######### Testing stuff below ############
 
@@ -141,7 +141,7 @@ services:
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
       SELENIUM_GRID_URL: http://selenium-hub:4444/wd/hub
       CAPYBARA_SERVER_PORT: 3000
-      CAPYBARA_DYNAMIC_HOSTNAME: 0
+      CAPYBARA_DYNAMIC_BIND_IP: 1
       CAPYBARA_APP_HOSTNAME: backend-test
       OPENPROJECT_DISABLE_DEV_ASSET_PROXY: 1
       OPENPROJECT_TESTING_NO_HEADLESS: "true"

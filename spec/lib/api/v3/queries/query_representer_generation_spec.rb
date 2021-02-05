@@ -34,7 +34,7 @@ describe ::API::V3::Queries::QueryRepresenter do
   let(:query) { FactoryBot.build_stubbed(:query, project: project) }
   let(:unpersisted_query) { FactoryBot.build(:query, project: project, user: other_user) }
   let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:user) { double('current_user', allowed_to?: true, admin: true, admin?: true, active?: true) }
+  let(:user) { double('current_user', allowed_to_globally?: true, allowed_to?: true, admin: true, admin?: true, active?: true) }
   let(:other_user) { FactoryBot.build_stubbed(:user) }
   let(:embed_links) { true }
   let(:representer) do

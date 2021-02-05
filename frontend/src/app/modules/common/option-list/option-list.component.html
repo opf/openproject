@@ -1,0 +1,19 @@
+<label
+  *ngFor="let option of options"
+  [class]="{ 'op-option-list--item': true, 'op-option-list--item_selected': selected === option.value }"
+>
+  <input
+    type="radio"
+    [attr.name]="name"
+    [value]="option.value"
+    [(ngModel)]="selected"
+    class="op-option-list--input"
+  />
+  <div>
+    <p class="op-option-list--item-title">{{ option.title }}</p>
+    <p
+      *ngIf="option.description"
+      class="op-option-list--item-description"
+    >{{ option.description }}</p>
+  </div>
+</label>

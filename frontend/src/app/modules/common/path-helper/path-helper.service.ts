@@ -228,6 +228,14 @@ export class PathHelperService {
     return `${this.usersPath()}/${id}`;
   }
 
+  public rolesPath() {
+    return `${this.staticBase}/roles`;
+  }
+
+  public rolePath(id:string|number) {
+    return `${this.rolesPath()}/${id}`;
+  }
+
   public versionsPath() {
     return `${this.staticBase}/versions`;
   }

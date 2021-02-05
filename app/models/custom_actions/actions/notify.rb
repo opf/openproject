@@ -62,7 +62,7 @@ class CustomActions::Actions::Notify < CustomActions::Actions::Base
 
   def principals
     Principal
-      .active_or_registered
+      .not_locked
       .select(:id, :firstname, :lastname, :type)
       .order_by_name
   end

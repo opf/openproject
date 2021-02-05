@@ -28,18 +28,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Returns all follows relationships of work package ancestors or work package unless
-# the ancestor or a work package between the ancestor and self is manually scheduled.
 module Relations::Scopes
-  class FollowsNonManualAncestors
-    class << self
-      def fetch(work_package)
-        ancestor_relations_non_manual = Relation
-                                          .hierarchy_or_reflexive
+  module FollowsNonManualAncestors
+    extend ActiveSupport::Concern
+
+    class_methods do
+      # Returns all follows relationships of work package ancestors or work package unless
+      # the ancestor or a work package between the ancestor and self is manually scheduled.
+      def follows_non_manual_ancestors(work_package)
+        ancestor_relations_non_manual = hierarchy_or_reflexive
                                           .where(to_id: work_package.id)
                                           .where.not(from_id: from_manual_ancestors(work_package).select(:from_id))
-        Relation
-          .where(from_id: ancestor_relations_non_manual.select(:from_id))
+
+        where(from_id: ancestor_relations_non_manual.select(:from_id))
           .follows
       end
 
@@ -48,8 +49,7 @@ module Relations::Scopes
       def from_manual_ancestors(work_package)
         manually_schedule_ancestors = work_package.ancestors.where(schedule_manually: true)
 
-        Relation
-          .hierarchy_or_reflexive
+        hierarchy_or_reflexive
           .where(to_id: manually_schedule_ancestors.select(:id))
       end
     end

@@ -34,7 +34,7 @@ describe SystemUser, type: :model do
   describe '#grant_privileges' do
     before do
       expect(system_user.admin).to be_falsey
-      expect(system_user.status).to eq(User::STATUSES[:active])
+      expect(system_user).to be_active
       system_user.grant_privileges
     end
 
@@ -61,15 +61,15 @@ describe SystemUser, type: :model do
     let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
     let(:member) {
       FactoryBot.build(:member, project: project,
-                                 roles: [role],
-                                 principal: user)
+                                roles: [role],
+                                principal: user)
     }
     let(:status) { FactoryBot.create(:status) }
     let(:issue) {
       FactoryBot.build(:work_package, type: project.types.first,
-                                       author: user,
-                                       project: project,
-                                       status: status)
+                                      author: user,
+                                      project: project,
+                                      status: status)
     }
 
     before do
