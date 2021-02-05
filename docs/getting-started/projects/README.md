@@ -20,7 +20,7 @@ A project in OpenProject can be understood as a project as defined above. Also, 
 
 | Topic                                                   | Content                                                      |
 | ------------------------------------------------------- | ------------------------------------------------------------ |
-| [Open project](#open-an-existing-project)               | Select and open an existing project.                         |
+| [Open a project](#open-an-existing-project)             | Select and open an existing project.                         |
 | [Create a new project](#create-a-new-project)           | Create a project from scratch or use existing project templates. |
 | [View all projects](#view-all-projects)                 | Get an overview about all your projects.                     |
 | [Advanced project settings](#advanced-project-settings) | Configure further advanced settings for your project.        |

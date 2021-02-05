@@ -7,7 +7,6 @@ sidebar_navigation:
 # Upgrading your OpenProject installation
 
 <div class="alert alert-warning" role="alert">
-
 **Note**: In the rest of this guide, we assume that you have taken the necessary steps to [backup](../backing-up) your OpenProject installation before upgrading.
 
 </div>
@@ -126,14 +125,9 @@ These following points are some known issues regarding the update to 9.0.
 
 ### MySQL is being deprecated
 
-OpenProject 9.0. is deprecating MySQL support. You can expect full MySQL
-support for the course of 9.0 releases, but we are likely going to be dropping
-MySQL completely in one of the following releases.
+OpenProject 9.0. is deprecating MySQL support. You can expect full MySQL support for the course of 9.0 releases, but we are likely going to be dropping MySQL completely in one of the following releases.
 
-For more information regarding motivation behind this and migration steps,
-please see https://www.openproject.org/deprecating-mysql-support/ In this post,
-you will find documentation for a mostly-automated migration script to
-PostgreSQL to help you get up and running with PostgreSQL.
+For more information regarding motivation behind this and migration steps, please see [https://www.openproject.org/deprecating-mysql-support](https://www.openproject.org/deprecating-mysql-support)/ In this post, you will find documentation for a mostly-automated migration script to PostgreSQL to help you get up and running with PostgreSQL.
 
 ### Package repository moved into opf/openproject
 

@@ -94,8 +94,9 @@ You can specify further advanced settings for your project. Navigate to your pro
 - You see the default project **Identifier**. The identifier will be shown in the URL. 
 
 <div class="alert alert-info" role="alert">
-**Note**: The Identifier cannot be changed later after creating the project.
+**Note**: Changing the project identifier while the project is already being worked on can have major effects and is therefore not recommended. For example, repositories may not be loaded correctly and deep links may no longer work (since the project URL changes when the project identifier is changed).
 </div>
+
 
 - You can set a project to **Public**. This means it can be accessed without signing in to OpenProject.
 
