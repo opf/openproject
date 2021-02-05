@@ -30,6 +30,8 @@ import {Injector, NgModule} from '@angular/core';
 import {DynamicModule} from 'ng-dynamic-component';
 import {HookService} from "core-app/modules/plugins/hook-service";
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
+import {OpenprojectModalModule} from "core-app/modules/modal/modal.module";
+import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-calendar.module";
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 import {DragDropModule} from '@angular/cdk/drag-drop';
@@ -39,7 +41,6 @@ import {WidgetTimeEntriesCurrentUserComponent} from "core-app/modules/grids/widg
 import {GridWidgetsService} from "core-app/modules/grids/widgets/widgets.service";
 import {GridComponent} from "core-app/modules/grids/grid/grid.component";
 import {AddGridWidgetModal} from "core-app/modules/grids/widgets/add/add.modal";
-import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-calendar.module";
 import {WidgetDocumentsComponent} from "core-app/modules/grids/widgets/documents/documents.component";
 import {WidgetNewsComponent} from "core-app/modules/grids/widgets/news/news.component";
 import {WidgetWpTableComponent} from "core-app/modules/grids/widgets/wp-table/wp-table.component";
@@ -74,6 +75,7 @@ import { TimeEntriesCurrentUserConfigurationModalComponent } from './widgets/tim
     DragDropModule,
 
     OpenprojectCommonModule,
+    OpenprojectModalModule,
     OpenprojectWorkPackagesModule,
     OpenprojectWorkPackageGraphsModule,
     OpenprojectCalendarModule,

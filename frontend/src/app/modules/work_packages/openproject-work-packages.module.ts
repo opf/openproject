@@ -26,15 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-common.module';
-import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
-import {OpenprojectFieldsModule} from 'core-app/modules/fields/openproject-fields.module';
 import {Injector, NgModule} from '@angular/core';
+import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-common.module';
+import {OpenprojectFieldsModule} from 'core-app/modules/fields/openproject-fields.module';
+import {OpenprojectModalModule} from 'core-app/modules/modal/modal.module';
+import {HookService} from 'core-app/modules/plugins/hook-service';
 import {
   GroupDescriptor,
   WorkPackageSingleViewComponent
 } from 'core-components/work-packages/wp-single-view/wp-single-view.component';
-import {HookService} from 'core-app/modules/plugins/hook-service';
+import {WorkPackageFormAttributeGroupComponent} from 'core-components/wp-form-group/wp-attribute-group.component';
 import {WorkPackageEmbeddedTableComponent} from 'core-components/wp-table/embedded/wp-embedded-table.component';
 import {WorkPackageEmbeddedTableEntryComponent} from 'core-components/wp-table/embedded/wp-embedded-table-entry.component';
 import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
@@ -183,6 +184,8 @@ import {WorkPackageGroupToggleDropdownMenuDirective} from "core-components/op-co
     OpenprojectBcfModule,
 
     OpenprojectProjectsModule,
+
+    OpenprojectModalModule,
   ],
   providers: [
     // Notification service

@@ -1,5 +1,6 @@
 import {NgModule} from "@angular/core";
 import {ReactiveFormsModule} from "@angular/forms";
+import {OpenprojectModalModule} from "core-app/modules/modal/modal.module";
 import {InviteUserModalComponent} from "./invite-user.component";
 import {ProjectSelectionComponent} from "./project-selection/project-selection.component";
 import {ProjectSearchComponent} from "./project-selection/project-search.component";
@@ -16,6 +17,7 @@ import {OpenprojectCommonModule} from "core-app/modules/common/openproject-commo
 @NgModule({
   imports: [
     OpenprojectCommonModule,
+    OpenprojectModalModule,
     NgSelectModule,
     ReactiveFormsModule,
   ],
