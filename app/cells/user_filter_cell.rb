@@ -5,7 +5,7 @@ class UserFilterCell < RailsCell
   options :groups, :status, :roles, :clear_url, :project
 
   class << self
-    def filter(params)
+    def query(params)
       q = base_query.new
 
       filter_project q, params[:project_id]
@@ -14,7 +14,11 @@ class UserFilterCell < RailsCell
       filter_group q, params[:group_id]
       filter_role q, params[:role_id]
 
-      q.results
+      q
+    end
+
+    def filter(params)
+      query(params).results
     end
 
     def filtered?(params)

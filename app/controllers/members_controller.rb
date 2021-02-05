@@ -123,7 +123,8 @@ class MembersController < ApplicationController
     {
       project: @project,
       available_roles: roles,
-      authorize_update: authorize_for('members', 'update')
+      authorize_update: authorize_for('members', 'update'),
+      is_filtered: Members::UserFilterCell.filtered?(params)
     }
   end
 
@@ -154,7 +155,6 @@ class MembersController < ApplicationController
   def set_index_data!
     set_roles_and_principles!
 
-    @is_filtered = Members::UserFilterCell.filtered? params
     @members = index_members
     @members_table_options = members_table_options @roles
     @members_filter_options = members_filter_options @roles
@@ -177,9 +177,7 @@ class MembersController < ApplicationController
     filters = params.slice(:name, :group_id, :role_id, :status)
     filters[:project_id] = @project.id.to_s
 
-    @members = Member
-               .where(id: Members::UserFilterCell.filter(filters))
-               .includes(:roles, :principal, :member_roles)
+    @members_query = Members::UserFilterCell.query(filters)
   end
 
   def new_members_from_params(member_params)

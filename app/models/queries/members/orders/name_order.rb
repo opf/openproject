@@ -28,23 +28,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Members
-  query = Queries::Members::MemberQuery
-  filter_ns = Queries::Members::Filters
+class Queries::Members::Orders::NameOrder < Queries::BaseOrder
+  self.model = Principal
 
-  Queries::Register.filter query, filter_ns::NameFilter
-  Queries::Register.filter query, filter_ns::AnyNameAttributeFilter
-  Queries::Register.filter query, filter_ns::ProjectFilter
-  Queries::Register.filter query, filter_ns::StatusFilter
-  Queries::Register.filter query, filter_ns::BlockedFilter
-  Queries::Register.filter query, filter_ns::GroupFilter
-  Queries::Register.filter query, filter_ns::RoleFilter
-  Queries::Register.filter query, filter_ns::PrincipalFilter
-  Queries::Register.filter query, filter_ns::CreatedAtFilter
-  Queries::Register.filter query, filter_ns::UpdatedAtFilter
+  def self.key
+    :name
+  end
 
-  order_ns = Queries::Members::Orders
+  private
 
-  Queries::Register.order query, order_ns::DefaultOrder
-  Queries::Register.order query, order_ns::NameOrder
+  def order
+    ordered = self.model.order_by_name
+
+    if direction == :desc
+      ordered = ordered.reverse_order
+    end
+
+    ordered
+  end
 end

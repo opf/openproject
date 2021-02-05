@@ -83,14 +83,22 @@ class TableCell < RailsCell
   def initialize_sorted_model
     sort_init *initial_sort.map(&:to_s)
     sort_update sortable_columns.map(&:to_s)
-    @model = sort_and_paginate_collection model
+    @model = paginate_collection apply_sort(model)
   end
 
-  def sort_and_paginate_collection(ar_collection)
-    return ar_collection unless ar_collection.is_a? ActiveRecord::QueryMethods
-
-    # sort_clause from SortHelper
-    paginate_collection sort_collection(ar_collection, sort_clause, sort_columns.map(&:to_sym))
+  def apply_sort(model)
+    case model
+    when ActiveRecord::QueryMethods
+      sort_collection(model, sort_clause)
+      model
+        .order sort_clause
+    when Queries::BaseQuery
+      model
+        .order(@sort_criteria.to_query_hash)
+        .results
+    else
+      raise ArgumentError, "Cannot sort the given model class #{model.class}"
+    end
   end
 
   ##
@@ -98,8 +106,7 @@ class TableCell < RailsCell
   #
   # @param query [ActiveRecord::QueryMethods] An active record collection.
   # @param sort_clause [String] The SQL used as the sort clause.
-  # @param _sort_columns [Array[Symbol]] Columns that are used to sort.
-  def sort_collection(query, sort_clause, _sort_columns)
+  def sort_collection(query, sort_clause)
     query
       .reorder(sort_clause)
       .order(Arel.sql(initial_order))

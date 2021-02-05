@@ -1,6 +1,6 @@
 module Members
   class TableCell < ::TableCell
-    options :authorize_update, :available_roles
+    options :authorize_update, :available_roles, :is_filtered
     columns :name, :mail, :roles, :groups, :status
     sortable_columns :name, :mail
 
@@ -27,6 +27,14 @@ module Members
 
     def join_users(query)
       query.joins(:principal).references(:principal)
+    end
+
+    def empty_row_message
+      if is_filtered
+        I18n.t :notice_no_principals_found
+      else
+        super
+      end
     end
   end
 end
