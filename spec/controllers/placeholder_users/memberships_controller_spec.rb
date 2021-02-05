@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,24 +26,38 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Users::MembershipsController < ApplicationController
-  include IndividualPrincipals::MembershipControllerMethods
-  layout 'admin'
+require 'spec_helper'
+require 'work_package'
 
-  before_action :require_admin
-  before_action :find_individual_principal
+describe PlaceholderUsers::MembershipsController, type: :controller do
+  using_shared_fixtures :admin
 
-  def find_individual_principal
-    @individual_principal = User.find(params[:user_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
+  let(:placeholder_user) { FactoryBot.create(:placeholder_user) }
+  let(:anonymous) { FactoryBot.create(:anonymous) }
 
-  def redirected_to_tab(membership)
-    if membership.project
-      'memberships'
-    else
-      'global_roles'
+  describe 'update memberships' do
+    let(:project) { FactoryBot.create(:project) }
+    let(:role) { FactoryBot.create(:role) }
+
+    it 'works' do
+      # i.e. it should successfully add a placeholder user to a project's members
+      as_logged_in_user admin do
+        post :create,
+             params: {
+               placeholder_user_id: placeholder_user.id,
+               membership: {
+                 project_id: project.id,
+                 role_ids: [role.id]
+               }
+             }
+      end
+
+      expect(response).to redirect_to(controller: '/placeholder_users', action: 'edit', id: placeholder_user.id, tab: 'memberships')
+
+      is_member = placeholder_user.reload.memberships.any? { |m|
+        m.project_id == project.id && m.role_ids.include?(role.id)
+      }
+      expect(is_member).to eql(true)
     end
   end
 end

@@ -54,21 +54,11 @@ class PlaceholderUsersController < ApplicationController
 
   def show
     # show projects based on current user visibility
-    @memberships = @user.memberships
+    @memberships = @placeholder_user.memberships
                         .visible(current_user)
 
-    events = Activities::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
-    @events_by_day = events.group_by { |e| e.event_datetime.to_date }
-
-    if !User.current.admin? &&
-      (!(@user.active? ||
-        @user.registered?) ||
-        (@user != User.current && @memberships.empty? && events.empty?))
-      render_404
-    else
-      respond_to do |format|
-        format.html { render layout: 'no_menu' }
-      end
+    respond_to do |format|
+      format.html { render layout: 'no_menu' }
     end
   end
 
@@ -99,6 +89,7 @@ class PlaceholderUsersController < ApplicationController
 
   def edit
     @membership ||= Member.new
+    @individual_principal = @placeholder_user
   end
 
   def update

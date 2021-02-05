@@ -1,12 +1,12 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2020 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
 
 OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2006-2017 Jean-Philippe Lang
 Copyright (C) 2010-2013 the ChiliProject Team
 
 This program is free software; you can redistribute it and/or
@@ -31,14 +31,14 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <div class="grid-block">
   <div class="grid-content">
-  <% if @user.memberships.any? %>
+  <% if @individual_principal.memberships.any? %>
     <div class="generic-table--container">
       <div class="generic-table--results-container">
         <table class="generic-table memberships">
           <colgroup>
             <col highlight-col>
             <col highlight-col>
-            <%= call_hook(:view_users_memberships_table_colgroup, user: @user )%>
+            <%= call_hook(:view_placeholder_users_memberships_table_colgroup, placeholder_user: @individual_principal)%>
             <col>
           </colgroup>
           <thead>
@@ -61,12 +61,12 @@ See docs/COPYRIGHT.rdoc for more details.
                   </div>
                 </div>
               </th>
-              <%= call_hook(:view_users_memberships_table_header, user: @user )%>
+              <%= call_hook(:view_users_memberships_table_header, placeholder_user: @individual_principal)%>
               <th><div class="generic-table--empty-header"></div></th>
             </tr>
           </thead>
           <tbody>
-            <% @user.memberships.where.not(project: nil).each do |membership| %>
+            <% @individual_principal.memberships.where.not(project: nil).each do |membership| %>
               <% next if membership.new_record? %>
                 <tr id="member-<%= membership.id %>" class="member">
                   <td class="project">
@@ -78,7 +78,7 @@ See docs/COPYRIGHT.rdoc for more details.
                       <%=h membership.roles.sort.collect(&:to_s).join(', ') %>
                     </span>
                     <%= labelled_tabular_form_for(:membership,
-                                                  url: user_membership_path(user_id: @user, id: membership),
+                                                  url: polymorphic_path([@individual_principal, :membership], id: membership),
                                                   html: { id: "member-#{membership.id}-roles-form",
                                                           class: "member-#{membership.id}--edit-toggle-item",
                                                           style: 'display:none;'},
@@ -98,20 +98,20 @@ See docs/COPYRIGHT.rdoc for more details.
                             </label>
                         <% end %>
                       </div>
-                      <p><%= submit_tag t(:button_change), class: 'user-memberships--edit-submit-button button -highlight -small' %>
+                      <p><%= submit_tag t(:button_change), class: 'memberships--edit-submit-button button -highlight -small' %>
                         <%= link_to_function t(:button_cancel),
                                              "jQuery('.member-#{membership.id}--edit-toggle-item').toggle();",
                   class: 'button -small' %></p>
                     <% end %>
                   </td>
-                  <%= call_hook(:view_users_memberships_table_row, user: @user, membership: membership, roles: roles, projects: projects )%>
+                  <%= call_hook(:view_placheholder_users_memberships_table_row, placeholder_user: @individual_principal, membership: membership, roles: roles, projects: projects )%>
                   <td class="buttons">
                     <%= link_to_function icon_wrapper('icon icon-edit', t(:button_edit)),
                                          "jQuery('.member-#{membership.id}--edit-toggle-item').toggle();",
-                                         class: "member-#{membership.id}--edit-toggle-item user-memberships--edit-button",
+                                         class: "member-#{membership.id}--edit-toggle-item memberships--edit-button",
                                          title: t(:button_edit) %>
                     <%= link_to(icon_wrapper('icon icon-remove', t(:button_remove)),
-                                user_membership_path(user_id: @user, id: membership),
+                                polymorphic_path([@individual_principal, :membership], id: membership),
                                 method: :delete,
                                 title: t(:button_remove)) if membership.deletable? %>
                   </td>
@@ -129,11 +129,11 @@ See docs/COPYRIGHT.rdoc for more details.
   <div class="grid-content">
     <% if projects.any? %>
       <%= labelled_tabular_form_for(:membership,
-                                    url: user_memberships_path(user_id: @user),
+                                    url: polymorphic_path([@individual_principal, :memberships]),
                                     html: {id: "new_project_membership"}) do %>
         <fieldset class="form--fieldset">
           <legend class="form--fieldset-legend"><%=t(:label_project_new)%></legend>
-          <%= styled_select_tag 'membership[project_id]', options_for_membership_project_select(@user, projects) %>
+          <%= styled_select_tag 'membership[project_id]', options_for_membership_project_select(@individual_principal, projects) %>
           <div class="form--field -vertical">
             <%= styled_label_tag nil, "#{t(:label_role_plural)}:" %>
             <div class="form--field-container -vertical">

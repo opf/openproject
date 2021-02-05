@@ -466,6 +466,8 @@ OpenProject::Application.routes.draw do
   end
 
   resources :placeholder_users do
+    resources :memberships, controller: 'placeholder_users/memberships', only: %i[update create destroy]
+
     member do
       match '/edit/:tab' => 'placeholder_users#edit', via: :get, as: 'tab_edit'
     end

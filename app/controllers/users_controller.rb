@@ -125,6 +125,7 @@ class UsersController < ApplicationController
   def edit
     @auth_sources = AuthSource.all
     @membership ||= Member.new
+    @individual_principal = @user
   end
 
   def update
