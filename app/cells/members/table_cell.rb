@@ -33,7 +33,7 @@ module Members
       if is_filtered
         I18n.t :notice_no_principals_found
       else
-        super
+        I18n.t :'members.index.no_results_title_text'
       end
     end
   end
