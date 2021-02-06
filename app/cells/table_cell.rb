@@ -90,8 +90,6 @@ class TableCell < RailsCell
     case model
     when ActiveRecord::QueryMethods
       sort_collection(model, sort_clause)
-      model
-        .order sort_clause
     when Queries::BaseQuery
       model
         .order(@sort_criteria.to_query_hash)

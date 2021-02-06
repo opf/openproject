@@ -87,7 +87,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
       SeleniumHubWaiter.wait
       members_page.sort_by 'email'
       members_page.expect_sorted_by 'email'
-      expect(members_page.contents('email')).to eq [group.name, hannibal.mail, peter.mail]
+      expect(members_page.contents('email')).to eq [hannibal.mail, peter.mail]
 
       # Cannot sort by group, roles or status
       expect(page).to have_no_selector('.generic-table--sort-header a', text: 'ROLES')

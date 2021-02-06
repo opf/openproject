@@ -47,4 +47,5 @@ module Queries::Members
 
   Queries::Register.order query, order_ns::DefaultOrder
   Queries::Register.order query, order_ns::NameOrder
+  Queries::Register.order query, order_ns::EmailOrder
 end

@@ -35,7 +35,7 @@ describe 'users/index', type: :view do
   before do
     User.system # create system user which is active but should not count towards limit
 
-    assign(:users, [admin, user])
+    assign(:users, User.where(id: [admin.id, user.id]))
     assign(:status, "all")
     assign(:groups, Group.all)
 

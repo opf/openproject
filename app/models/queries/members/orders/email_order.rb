@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,39 +28,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+class Queries::Members::Orders::EmailOrder < Queries::BaseOrder
+  self.model = Principal
 
-describe OpenProject::Meeting::DefaultData, with_clean_fixture: true do
-  let(:seeder) { BasicData::RoleSeeder.new }
-
-  let(:roles) { [member, reader] }
-  let(:member) { OpenProject::Meeting::DefaultData.member_role }
-  let(:reader) { OpenProject::Meeting::DefaultData.reader_role }
-
-  let(:member_permissions) { OpenProject::Meeting::DefaultData.member_permissions }
-  let(:reader_permissions) { OpenProject::Meeting::DefaultData.reader_permissions }
-
-  before do
-    allow(seeder).to receive(:builtin_roles).and_return([])
-
-    seeder.seed!
+  def self.key
+    :mail
   end
 
-  it 'adds permissions to the roles' do
-    expect(member.permissions).to include *member_permissions
-    expect(reader.permissions).to include *reader_permissions
-  end
+  private
 
-  it 'is not loaded again on existing data' do
-    roles.each do |role|
-      role.permissions = []
-      role.save!
+  def order
+    with_raise_on_invalid do
+      order_string = "NULLIF(mail, '')"
+      order_string += " DESC" if direction == :desc
+      order_string += " NULLS LAST"
+
+      model.order(Arel.sql(order_string))
     end
-
-    seeder.seed!
-    roles.each(&:reload)
-
-    expect(member.permissions).to be_empty
-    expect(reader.permissions).to be_empty
   end
 end
