@@ -533,7 +533,7 @@ lt:
         invalid_url: 'nėra tinkamas URL.'
         invalid_url_scheme: 'nėra palaikomos protokolas (leidžiamas: %{allowed_schemes}).'
         less_than_or_equal_to: "turi būti mažesnis arba lygus %{count}."
-        not_deletable: "cannot be deleted."
+        not_deletable: "negali būti pašalintas."
         not_current_user: "nėra dabartinis vartotojas"
         not_a_date: "nėra tinkama data."
         not_a_datetime: "nėra tinkama data ir laikas."
