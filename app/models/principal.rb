@@ -87,7 +87,13 @@ class Principal < ApplicationRecord
   end
 
   def self.order_by_name
-    order(User::USER_FORMATS_STRUCTURE[Setting.user_format].map { |format| "#{Principal.table_name}.#{format}" })
+    formats = User::USER_FORMATS_STRUCTURE[Setting.user_format]
+      .map do |format|
+      attr = "#{Principal.table_name}.#{format}"
+      Arel.sql("NULLIF(#{attr}, '') NULLS LAST")
+    end
+
+    order formats
   end
 
   def self.me

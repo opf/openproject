@@ -29,16 +29,20 @@
 #++
 
 class Queries::Members::Orders::NameOrder < Queries::BaseOrder
-  self.model = Principal
+  self.model = Member
 
   def self.key
     :name
   end
 
+  def joins
+    :principals
+  end
+
   private
 
   def order
-    ordered = self.model.order_by_name
+    ordered = Principal.order_by_name
 
     if direction == :desc
       ordered = ordered.reverse_order
