@@ -350,6 +350,8 @@ module API
           [
             { status: { operator: '!',
                        values: [Principal.statuses[:locked].to_s] } },
+            { type: { operator: '=',
+                        values: %w[User Group PlaceholderUser] } }
           ]
         end
 

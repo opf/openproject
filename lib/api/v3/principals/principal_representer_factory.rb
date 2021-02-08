@@ -37,13 +37,18 @@ module API
         # Create the appropriate subclass representer
         # for each principal entity
         def self.create(model, *args)
+          representer_class(model)
+            .create(model, *args)
+        end
+
+        def self.representer_class(model)
           case model.type
           when 'User'
-            ::API::V3::Users::UserRepresenter.new(model, *args)
+            ::API::V3::Users::UserRepresenter
           when 'Group'
-            ::API::V3::Groups::GroupRepresenter.new(model, *args)
+            ::API::V3::Groups::GroupRepresenter
           when 'PlaceholderUser'
-            ::API::V3::PlaceholderUsers::PlaceholderUserRepresenter.new(model, *args)
+            ::API::V3::PlaceholderUsers::PlaceholderUserRepresenter
           else
             raise ArgumentError, "Missing concrete principal representer for #{model}"
           end

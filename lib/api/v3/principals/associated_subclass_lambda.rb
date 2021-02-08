@@ -66,21 +66,10 @@ module API
             next unless embed_links
 
             instance = represented.send(name)
+            next if instance.nil?
 
-            representer = case instance
-                          when User
-                            ::API::V3::Users::UserRepresenter
-                          when Group
-                            ::API::V3::Groups::GroupRepresenter
-                          when PlaceholderUser
-                            ::API::V3::PlaceholderUsers::PlaceholderUserRepresenter
-                          when NilClass
-                            nil
-                          else
-                            raise "undefined subclass for #{instance}"
-                          end
-
-            representer&.new(represented.send(name), current_user: current_user)
+            ::API::V3::Principals::PrincipalRepresenterFactory
+              .create(represented.send(name), current_user: current_user)
           }
         end
 

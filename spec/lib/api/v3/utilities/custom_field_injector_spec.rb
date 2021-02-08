@@ -222,9 +222,11 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
       it_behaves_like 'links to allowed values via collection link' do
         let(:path) { cf_path }
         let(:href) do
-          params = [{ status: { operator: '!',
-                                values: [Principal.statuses[:locked].to_s] } },
-                    { member: { operator: '=', values: [schema.project_id.to_s] } }]
+          params = [
+            { status: { operator: '!', values: [Principal.statuses[:locked].to_s] } },
+            { type: { operator: '=', values: %w[User Group PlaceholderUser] } },
+            { member: { operator: '=', values: [schema.project_id.to_s] } }
+          ]
 
           query = CGI.escape(::JSON.dump(params))
 
