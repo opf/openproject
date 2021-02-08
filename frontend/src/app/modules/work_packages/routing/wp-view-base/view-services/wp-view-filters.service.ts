@@ -57,7 +57,8 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
     'requires',
     'required',
     'search',
-    'subjectOrId'
+    'subjectOrId',
+    'manualSort'
   ];
 
   /** Flag state to determine whether the filters are incomplete */
