@@ -7,6 +7,7 @@
 | addAttachment       | Attach a file to the WP                                                  | **Permission**: edit work package      |
 | addComment          | Post comment to WP                                                       | **Permission**: add work package notes |
 | addRelation         | Adds a relation to this work package.                                    | **Permission**: manage wp relations    |
+| additionalTabs      | List of additional accessible work package tabs. Extended by plugins.    | **Permission**: defined by plugins     |
 | addWatcher          | Add any user to WP watchers                                              | **Permission**: add watcher            |
 | customActions       | Collection of predefined changes that can be applied to the work package |                                        |
 | previewMarkup       | Post markup (in markdown) here to receive an HTML-rendered response      |                                        |
@@ -125,6 +126,10 @@ and [update](#work-packages-work-package-patch). The attachments the work packag
                     "addAttachment": {
                         "href": "/api/v3/work_packages/1528/attachments",
                         "method": "post"
+                    },
+                    "additionalTabs": {
+                        "href": "/work_packages/1528/additionalTabs/github",
+                        "title": "github"
                     },
                     "author": {
                         "href": "/api/v3/users/1",

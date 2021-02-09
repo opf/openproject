@@ -23,6 +23,7 @@ import {ExternalRelationQueryConfigurationService} from "core-components/wp-tabl
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
+import { Tab } from "core-app/components/wp-single-view-tabs/additional-tab/tab";
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
@@ -33,7 +34,8 @@ export class OpenProjectPluginContext {
   private _knownHookNames = [
     'workPackageTableContextMenu',
     'workPackageSingleContextMenu',
-    'workPackageNewInitialization'
+    'workPackageNewInitialization',
+    'workPackageAdditionalTabs'
   ];
 
   // Common services referencable by index
@@ -91,6 +93,10 @@ export class OpenProjectPluginContext {
    */
   public runInZone(cb:() => void) {
     this.zone.run(cb);
+  }
+
+  public registerAdditionalWorkPackageTab(tab: Tab) {
+    this.hooks.workPackageAdditionalTabs(() => tab)
   }
 
   /**
