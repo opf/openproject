@@ -50,7 +50,7 @@ module PlaceholderUsers
 
       link_to '',
               placeholder_user_path(placeholder_user),
-              data: { confirm: 'Are you sure?' },
+              data: { confirm: I18n.t(:text_are_you_sure) },
               class: 'icon icon-delete',
               method: :delete
     end
