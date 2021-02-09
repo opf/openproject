@@ -43,9 +43,7 @@ module API
 
           get do
             attachment = instance_exec(&block)
-            # Cache that value at max 604799 seconds, which is the max
-            # allowed expiry time for AWS generated links
-            respond_with_attachment attachment, cache_seconds: max_aws_cache_seconds
+            respond_with_attachment attachment, cache_seconds: fog_cache_seconds
           end
         }
       end
@@ -100,8 +98,11 @@ module API
         end
       end
 
-      def max_aws_cache_seconds
-        604799
+      def fog_cache_seconds
+        [
+          0,
+          OpenProject::Configuration.fog_download_url_expires_in.to_i - 10
+        ].max
       end
 
       def avatar_link_expires_in
