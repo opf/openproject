@@ -50,7 +50,7 @@ describe ::API::V3::Queries::Schemas::UserFilterDependencyRepresenter, clear_cac
         let(:path) { 'values' }
         let(:type) { '[]User' }
         let(:filter_query) do
-          [{ type: { operator: '=', values: ['User'] } },
+          [{ type: { operator: '=', values: %w[User Group PlaceholderUser] } },
            { status: { operator: '!', values: ['3'] } },
            { member: { operator: '=', values: [project.id.to_s] } }]
         end
@@ -73,7 +73,7 @@ describe ::API::V3::Queries::Schemas::UserFilterDependencyRepresenter, clear_cac
         context 'global' do
           let(:project) { nil }
           let(:filter_query) do
-            [{ type: { operator: '=', values: ['User'] } },
+            [{ type: { operator: '=', values: %w[User Group PlaceholderUser] } },
              { status: { operator: '!', values: ['3'] } }]
           end
 
