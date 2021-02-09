@@ -55,9 +55,9 @@ describe 'Subproject action board', type: :feature, js: true do
 
   before do
     with_enterprise_token :board_view
-    project
     subproject1
     subproject2
+    project.reload
     login_as(user)
   end
 
@@ -174,22 +174,30 @@ describe 'Subproject action board', type: :feature, js: true do
   context 'with permissions in only one subproject' do
     let(:user) do
       FactoryBot.create(:user,
-                        member_in_projects: [project, subproject1],
+                        # The membership in subproject2 gets removed later on
+                        member_in_projects: [project, subproject1, subproject2],
                         member_through_role: role)
     end
 
-    let(:board) do
-      User.execute_as FactoryBot.create(:admin) do
-        FactoryBot.create(:subproject_board,
-                          project: project,
-                          projects_columns: [subproject1, subproject2])
-      end
+    let!(:board) do
+      FactoryBot.create(:subproject_board,
+                        project: project,
+                        projects_columns: [subproject1, subproject2])
     end
 
     let(:board_page) { Pages::Board.new(board) }
 
+    before do
+      # The membership needs to first be present in order to create the board
+      # which is created as the current_user, in this case :user.
+      # After setup, we do not want to have the user to have the permissions within the project any more
+      # as this is the goal of the test.
+      Member.where(project: subproject2, principal: user).destroy_all
+    end
+
 
     it 'allows management of subproject work packages' do
+
       board_page.visit!
 
       # We will see an error for the two boards pages
