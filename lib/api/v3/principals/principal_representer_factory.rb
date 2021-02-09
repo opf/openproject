@@ -28,14 +28,32 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomValue::UserStrategy < CustomValue::ARObjectStrategy
-  private
+module API
+  module V3
+    module Principals
+      class PrincipalRepresenterFactory
 
-  def ar_class
-    Principal
-  end
+        ##
+        # Create the appropriate subclass representer
+        # for each principal entity
+        def self.create(model, *args)
+          representer_class(model)
+            .create(model, *args)
+        end
 
-  def ar_object(value)
-    Principal.find_by(id: value)
+        def self.representer_class(model)
+          case model.type
+          when 'User'
+            ::API::V3::Users::UserRepresenter
+          when 'Group'
+            ::API::V3::Groups::GroupRepresenter
+          when 'PlaceholderUser'
+            ::API::V3::PlaceholderUsers::PlaceholderUserRepresenter
+          else
+            raise ArgumentError, "Missing concrete principal representer for #{model}"
+          end
+        end
+      end
+    end
   end
 end

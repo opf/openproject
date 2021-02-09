@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Utilities::CustomFieldInjector do
+describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
   include API::V3::Utilities::PathHelper
 
   let(:cf_path) { "customField#{custom_field.id}" }
@@ -222,10 +222,11 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       it_behaves_like 'links to allowed values via collection link' do
         let(:path) { cf_path }
         let(:href) do
-          params = [{ status: { operator: '!',
-                                values: [Principal.statuses[:locked].to_s] } },
-                    { type: { operator: '=', values: ['User'] } },
-                    { member: { operator: '=', values: [schema.project_id.to_s] } }]
+          params = [
+            { status: { operator: '!', values: [Principal.statuses[:locked].to_s] } },
+            { type: { operator: '=', values: %w[User Group PlaceholderUser] } },
+            { member: { operator: '=', values: [schema.project_id.to_s] } }
+          ]
 
           query = CGI.escape(::JSON.dump(params))
 
@@ -272,20 +273,25 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     end
 
     context 'user custom field' do
-      let(:value) { FactoryBot.build(:user, id: 2) }
       let(:raw_value) { value.id.to_s }
       let(:typed_value) { value }
       let(:field_format) { 'user' }
 
-      it_behaves_like 'has a titled link' do
-        let(:link) { cf_path }
-        let(:href) { api_v3_paths.user 2 }
-        let(:title) { value.name }
-      end
+      %w[user group placeholder_user].each do |type|
+        describe "#{type} assignment" do
+          let(:value) { FactoryBot.build(type, id: 2) }
 
-      it 'has the user embedded' do
-        is_expected.to be_json_eql('User'.to_json).at_path("_embedded/#{cf_path}/_type")
-        is_expected.to be_json_eql(value.name.to_json).at_path("_embedded/#{cf_path}/name")
+          it_behaves_like 'has a titled link' do
+            let(:link) { cf_path }
+            let(:href) { api_v3_paths.send type, 2 }
+            let(:title) { value.name }
+          end
+
+          it 'has the user embedded' do
+            is_expected.to be_json_eql(type.classify.to_json).at_path("_embedded/#{cf_path}/_type")
+            is_expected.to be_json_eql(value.name.to_json).at_path("_embedded/#{cf_path}/name")
+          end
+        end
       end
 
       context 'value is nil' do
@@ -448,13 +454,18 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
     context 'reading' do
       let(:value) { '2' }
-      let(:typed_value) { FactoryBot.build_stubbed(:user) }
       let(:field_format) { 'user' }
 
-      it_behaves_like 'has a titled link' do
-        let(:link) { cf_path }
-        let(:href) { api_v3_paths.user 2 }
-        let(:title) { typed_value.name }
+      %w[user group placeholder_user].each do |type|
+        describe "#{type} reading" do
+          let(:typed_value) { FactoryBot.build(type, id: 2) }
+
+          it_behaves_like 'has a titled link' do
+            let(:link) { cf_path }
+            let(:href) { api_v3_paths.send type, 2 }
+            let(:title) { typed_value.name }
+          end
+        end
       end
 
       context 'value is nil' do
@@ -471,12 +482,15 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       let(:value) { nil }
       let(:field_format) { 'user' }
 
-      it 'accepts a valid link' do
-        json = { cf_path => { href: (api_v3_paths.user 2) } }.to_json
-        expected = ['2']
+      %w[user group placeholder_user].each do |type|
+        it "accepts a valid link of type #{type}" do
+          path = api_v3_paths.send type, 2
+          json = { cf_path => { href: path } }.to_json
+          expected = ['2']
 
-        expect(represented).to receive(:"custom_field_#{custom_field.id}=").with(expected)
-        modified_class.new(represented, current_user: nil).from_json(json)
+          expect(represented).to receive(:"custom_field_#{custom_field.id}=").with(expected)
+          modified_class.new(represented, current_user: nil).from_json(json)
+        end
       end
 
       it 'accepts an empty link' do
