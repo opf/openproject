@@ -180,9 +180,13 @@ describe Queries::Users::UserQuery, type: :model do
       instance.order(name: :desc)
     end
 
-    describe '#results' do
+    describe '#results', with_settings: { user_format: :firstname_lastname } do
       it 'is the same as handwriting the query' do
-        expected = User.user.merge(User.order_by_name.reverse_order).order(id: :desc)
+        expected = User
+            .user
+            .order(Arel.sql("NULLIF(users.firstname, '') DESC NULLS LAST"))
+            .order(Arel.sql("NULLIF(users.lastname, '') DESC NULLS LAST"))
+            .order(id: :desc)
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end

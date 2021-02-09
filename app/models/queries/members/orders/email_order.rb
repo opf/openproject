@@ -29,10 +29,14 @@
 #++
 
 class Queries::Members::Orders::EmailOrder < Queries::BaseOrder
-  self.model = Principal
+  self.model = Member
 
   def self.key
     :mail
+  end
+
+  def joins
+    :principal
   end
 
   private

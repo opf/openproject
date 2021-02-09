@@ -86,16 +86,6 @@ class Principal < ApplicationRecord
     not_locked.like(query).not_in_project(project)
   end
 
-  def self.order_by_name
-    formats = User::USER_FORMATS_STRUCTURE[Setting.user_format]
-      .map do |format|
-      attr = "#{Principal.table_name}.#{format}"
-      Arel.sql("NULLIF(#{attr}, '') NULLS LAST")
-    end
-
-    order formats
-  end
-
   def self.me
     where(id: User.current.id)
   end

@@ -128,8 +128,15 @@ module Pages
 
     ##
     # Get contents of all cells sorted
-    def contents(column)
-      all("td.#{column} a, td.#{column} span").map(&:text)
+    def contents(column, raw: false)
+      nodes =
+        if raw
+          all("td.#{column}")
+        else
+          all("td.#{column} a, td.#{column} span")
+        end
+
+      nodes.map(&:text)
     end
 
     def user_name_to_text(name)
