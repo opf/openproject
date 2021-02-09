@@ -134,7 +134,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   }
 
   getAllowedBoardWidgets(board:Board) {
-    if (board.queries.length) {
+    if (board.queries?.length) {
       const queryRequests$ = board.queries.map(query => this.apiv3Service.queries
         .find({filters: JSON.stringify(query.options.filters), pageSize: 0}, query.options.queryId as string)
         .pipe(
