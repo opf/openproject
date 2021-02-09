@@ -98,9 +98,12 @@ class PlaceholderUsersController < ApplicationController
   end
 
   def update
-    @placeholder_user.attributes = permitted_params.placeholder_user
+    service_result = PlaceholderUsers::UpdateService
+                       .new(user: User.current,
+                            model: @placeholder_user)
+                       .call(permitted_params.placeholder_user)
 
-    if @placeholder_user.save
+    if service_result.success?
       respond_to do |format|
         format.html do
           flash[:notice] = I18n.t(:notice_successful_update)
