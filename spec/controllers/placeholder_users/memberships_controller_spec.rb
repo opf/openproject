@@ -52,7 +52,10 @@ describe PlaceholderUsers::MembershipsController, type: :controller do
              }
       end
 
-      expect(response).to redirect_to(controller: '/placeholder_users', action: 'edit', id: placeholder_user.id, tab: 'memberships')
+      expect(response).to redirect_to(controller: '/placeholder_users',
+                                      action: 'edit',
+                                      id: placeholder_user.id,
+                                      tab: 'memberships')
 
       is_member = placeholder_user.reload.memberships.any? { |m|
         m.project_id == project.id && m.role_ids.include?(role.id)

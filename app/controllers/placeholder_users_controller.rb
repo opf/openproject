@@ -63,7 +63,12 @@ class PlaceholderUsersController < ApplicationController
   end
 
   def new
-    @placeholder_user = PlaceholderUser.new
+    @placeholder_user = PlaceholderUsers::SetAttributesService
+                          .new(user: User.current,
+                               model: PlaceholderUser.new,
+                               contract_class: EmptyContract)
+                          .call({})
+                          .result
   end
 
   def create

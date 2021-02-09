@@ -40,7 +40,7 @@ class PlaceholderUsers::MembershipsController < ApplicationController
     render_404
   end
 
-  def redirected_to_tab(membership)
+  def redirected_to_tab(_membership)
     'memberships'
   end
 end
