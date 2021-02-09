@@ -89,6 +89,8 @@ describe 'Subproject action board', type: :feature, js: true do
     end
   end
 
+
+
   context 'with permissions in all subprojects' do
     let(:user) do
       FactoryBot.create(:user,
@@ -166,9 +168,26 @@ describe 'Subproject action board', type: :feature, js: true do
 
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :project_id)
       expect(subjects).to match_array [['Task 1', subproject2.id]]
+    end
+  end
 
-      # Trying to access the same board as a different user
-      login_as only_parent_user
+  context 'with permissions in only one subproject' do
+    let(:user) do
+      FactoryBot.create(:user,
+                        member_in_projects: [project, subproject1],
+                        member_through_role: role)
+    end
+
+    let(:board) do
+      FactoryBot.create(:subproject_board,
+                        project: project,
+                        projects_columns: [project, subproject1, subproject2])
+    end
+
+    let(:board_page) { Pages::Board.new(board) }
+
+
+    it 'allows management of subproject work packages' do
       board_page.visit!
 
       # We will see an error for the two boards pages

@@ -64,4 +64,34 @@ FactoryBot.define do
       end
     end
   end
+
+  factory :subproject_board, class: Boards::Grid do
+    project
+    name { 'My board' }
+    row_count { 1 }
+    column_count { 4 }
+
+    transient do
+      projects_columns { [FactoryBot.create(:project)] }
+    end
+
+    callback(:after_build) do |board, evaluator| # this is also done after :create
+      evaluator.projects_columns.each do |project|
+
+        query = Query.new_default(name: "List #{project.name}", project: board.project).tap do |q|
+          q.sort_criteria = [[:manual_sorting, 'asc']]
+          q.add_filter('only_subproject_id', '=', project.id.to_s)
+          q.save!
+        end
+
+        board.widgets << FactoryBot.create(:grid_widget,
+                                           identifier: 'work_package_query',
+                                           start_row: 1,
+                                           end_row: 2,
+                                           start_column: 1,
+                                           end_column: 1,
+                                           options: { 'queryId' => query.id, "filters"=>[{"onlySubproject"=>{"operator"=>"=", "values"=>[project.id.to_s]}}]})
+      end
+    end
+  end
 end
