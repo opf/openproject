@@ -43,7 +43,7 @@ module API
 
           def filter_query
             params = [{ type: { operator: '=',
-                                values: ['User'] } },
+                                values: %w[User Group PlaceholderUser] } },
                       { status: { operator: '!',
                                   values: [Principal.statuses[:locked].to_s] } }]
 
