@@ -2,7 +2,7 @@ module Members
   class TableCell < ::TableCell
     options :authorize_update, :available_roles, :is_filtered
     columns :name, :mail, :roles, :groups, :status
-    sortable_columns :name, :mail
+    sortable_columns :name, :mail, :status
 
     def initial_sort
       %i[name asc]
