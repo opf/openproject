@@ -38,7 +38,7 @@ shared_context 'ModelContract shared context' do
       end
 
       context 'when admin not active' do
-        let(:current_user) { FactoryBot.build_stubbed(:admin, status: User::STATUSES[:locked]) }
+        let(:current_user) { FactoryBot.build_stubbed(:admin, status: User.statuses[:locked]) }
 
         it_behaves_like 'contract user is unauthorized'
       end
