@@ -30,15 +30,15 @@ require 'spec_helper'
 require 'work_package'
 
 describe UsersController, type: :controller do
-  using_shared_fixtures :admin, :anonymous
+  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:anonymous) { User.anonymous }
 
-  let(:user_password) {'bob!' * 4}
-  let(:user) do
-    FactoryBot.create(:user,
+  shared_let(:user_password) { 'bob!' * 4 }
+  shared_let(:user) do
+    FactoryBot.create :user,
                       login: 'bob',
                       password: user_password,
-                      password_confirmation: user_password,
-                       )
+                      password_confirmation: user_password
   end
 
   describe 'GET new' do
@@ -86,7 +86,7 @@ describe UsersController, type: :controller do
   describe 'GET deletion_info' do
     describe "WHEN the current user is the requested user
               WHEN the setting users_deletable_by_self is set to true" do
-      let(:params) { { 'id' => user.id.to_s } }
+      let(:params) { {'id' => user.id.to_s} }
 
       before do
         allow(Setting).to receive(:users_deletable_by_self?).and_return(true)
@@ -96,14 +96,18 @@ describe UsersController, type: :controller do
         end
       end
 
-      it do expect(response).to be_successful end
-      it do expect(assigns(:user)).to eq(user) end
+      it do
+        expect(response).to be_successful
+      end
+      it do
+        expect(assigns(:user)).to eq(user)
+      end
       it { expect(response).to render_template('deletion_info') }
     end
 
     describe "WHEN the current user is the requested user
               WHEN the setting users_deletable_by_self is set to false" do
-      let(:params) { { 'id' => user.id.to_s } }
+      let(:params) { {'id' => user.id.to_s} }
 
       before do
         allow(Setting).to receive(:users_deletable_by_self?).and_return(false)
@@ -117,7 +121,7 @@ describe UsersController, type: :controller do
     end
 
     describe 'WHEN the current user is the anonymous user' do
-      let(:params) { { 'id' => anonymous.id.to_s } }
+      let(:params) { {'id' => anonymous.id.to_s} }
 
       before do
         as_logged_in_user anonymous do
@@ -135,7 +139,7 @@ describe UsersController, type: :controller do
 
     describe "WHEN the current user is admin
               WHEN the setting users_deletable_by_admins is set to true" do
-      let(:params) { { 'id' => user.id.to_s } }
+      let(:params) { {'id' => user.id.to_s} }
 
       before do
         allow(Setting).to receive(:users_deletable_by_admins?).and_return(true)
@@ -145,14 +149,18 @@ describe UsersController, type: :controller do
         end
       end
 
-      it do expect(response).to be_successful end
-      it do expect(assigns(:user)).to eq(user) end
+      it do
+        expect(response).to be_successful
+      end
+      it do
+        expect(assigns(:user)).to eq(user)
+      end
       it { expect(response).to render_template('deletion_info') }
     end
 
     describe "WHEN the current user is admin
               WHEN the setting users_deletable_by_admins is set to false" do
-      let(:params) { { 'id' => user.id.to_s } }
+      let(:params) { {'id' => user.id.to_s} }
 
       before do
         allow(Setting).to receive(:users_deletable_by_admins?).and_return(false)
@@ -174,7 +182,7 @@ describe UsersController, type: :controller do
 
       before do
         as_logged_in_user normal_user do
-          post :resend_invitation, params: { id: invited_user.id }
+          post :resend_invitation, params: {id: invited_user.id}
         end
       end
 
@@ -189,7 +197,7 @@ describe UsersController, type: :controller do
 
         as_logged_in_user admin do
           perform_enqueued_jobs do
-            post :resend_invitation, params: { id: invited_user.id }
+            post :resend_invitation, params: {id: invited_user.id}
           end
         end
       end
@@ -209,7 +217,7 @@ describe UsersController, type: :controller do
   end
 
   describe 'POST destroy' do
-    let(:base_params) { { 'id' => user.id.to_s, back_url: my_account_path } }
+    let(:base_params) { {'id' => user.id.to_s, back_url: my_account_path} }
     context 'WHEN the password confirmation is missing' do
       before do
         disable_flash_sweep
@@ -220,13 +228,15 @@ describe UsersController, type: :controller do
         end
       end
 
-      it do expect(response).to redirect_to(controller: 'my', action: 'account') end
+      it do
+        expect(response).to redirect_to(controller: 'my', action: 'account')
+      end
       it { expect(flash[:error]).to eq(I18n.t(:notice_password_confirmation_failed)) }
     end
 
     context 'WHEN password confirmation is present' do
       let(:base_params) do
-        { 'id' => user.id.to_s, :'_password_confirmation' => user_password, back_url: my_account_path }
+        {'id' => user.id.to_s, :'_password_confirmation' => user_password, back_url: my_account_path}
       end
 
       describe "WHEN the current user is the requested one
@@ -240,7 +250,9 @@ describe UsersController, type: :controller do
           end
         end
 
-        it do expect(response).to redirect_to(controller: 'account', action: 'login') end
+        it do
+          expect(response).to redirect_to(controller: 'account', action: 'login')
+        end
         it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
       end
 
@@ -278,7 +290,7 @@ describe UsersController, type: :controller do
       describe "WHEN the current user is the admin
                 WHEN the given password does not match
                 WHEN the setting users_deletable_by_admins is set to true" do
-        using_shared_fixtures :admin
+        shared_let(:admin) { FactoryBot.create :admin }
 
         before do
           disable_flash_sweep
@@ -309,13 +321,15 @@ describe UsersController, type: :controller do
           end
         end
 
-        it do expect(response).to redirect_to(controller: 'users', action: 'index') end
+        it do
+          expect(response).to redirect_to(controller: 'users', action: 'index')
+        end
         it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
       end
 
       describe "WHEN the current user is the admin
                 WHEN the setting users_deletable_by_admins is set to false" do
-        using_shared_fixtures :admin
+        shared_let(:admin) { FactoryBot.create :admin }
 
         before do
           disable_flash_sweep
@@ -340,8 +354,8 @@ describe UsersController, type: :controller do
       as_logged_in_user admin do
         get :change_status_info,
             params: {
-              id: registered_user.id,
-              change_action: change_action
+                id: registered_user.id,
+                change_action: change_action
             }
       end
     end
@@ -381,13 +395,13 @@ describe UsersController, type: :controller do
 
   describe '#change_status',
            with_settings: {
-             available_languages: %i(en de),
-             bcc_recipients: 1
+               available_languages: %i(en de),
+               bcc_recipients: 1
            } do
     describe 'WHEN activating a registered user' do
       let!(:registered_user) do
         FactoryBot.create(:user, status: User.statuses[:registered],
-                                  language: 'de')
+                          language: 'de')
       end
 
       let(:user_limit_reached) { false }
@@ -398,9 +412,9 @@ describe UsersController, type: :controller do
         as_logged_in_user admin do
           post :change_status,
                params: {
-                 id: registered_user.id,
-                 user: { status: User.statuses[:active] },
-                 activate: '1'
+                   id: registered_user.id,
+                   user: {status: User.statuses[:active]},
+                   activate: '1'
                }
         end
       end
@@ -539,25 +553,25 @@ describe UsersController, type: :controller do
     context 'fields' do
       let(:user) do
         FactoryBot.create(:user, firstname: 'Firstname',
-                                 admin: true,
-                                 login: 'testlogin',
-                                 mail_notification: 'all',
-                                 force_password_change: false)
+                          admin: true,
+                          login: 'testlogin',
+                          mail_notification: 'all',
+                          force_password_change: false)
       end
       let(:params) do
         {
-          id: user.id,
-          user: {
-            admin: false,
-            firstname: 'Changed',
-            login: 'changedlogin',
-            mail_notification: 'only_assigned',
-            force_password_change: true
-          },
-          pref: {
-            hide_mail: '1',
-            comments_sorting: 'desc'
-          }
+            id: user.id,
+            user: {
+                admin: false,
+                firstname: 'Changed',
+                login: 'changedlogin',
+                mail_notification: 'only_assigned',
+                force_password_change: true
+            },
+            pref: {
+                hide_mail: '1',
+                comments_sorting: 'desc'
+            }
         }
       end
 
@@ -592,7 +606,7 @@ describe UsersController, type: :controller do
 
       before do
         as_logged_in_user(admin) do
-          put :update, params: { id: user.id, user: { force_password_change: 'true' } }
+          put :update, params: {id: user.id, user: {force_password_change: 'true'}}
         end
         user.reload
       end
@@ -610,9 +624,9 @@ describe UsersController, type: :controller do
         as_logged_in_user admin do
           put :update,
               params: {
-                id: user.id,
-                user: { auth_source_id: '', password: 'newpassPASS!',
-                        password_confirmation: 'newpassPASS!' }
+                  id: user.id,
+                  user: {auth_source_id: '', password: 'newpassPASS!',
+                         password_confirmation: 'newpassPASS!'}
               }
         end
 
@@ -630,8 +644,8 @@ describe UsersController, type: :controller do
         as_logged_in_user(admin) do
           put :update,
               params: {
-                id: user.id,
-                user: { password: 'changedpass!', password_confirmation: 'changedpass!' }
+                  id: user.id,
+                  user: {password: 'changedpass!', password_confirmation: 'changedpass!'}
               }
         end
 
@@ -644,13 +658,13 @@ describe UsersController, type: :controller do
     it 'should redirect to the login page' do
       post :create,
            params: {
-             user: {
-               login: 'psmith',
-               firstname: 'Paul',
-               lastname: 'Smith'
-             },
-             password: 'psmithPSMITH09',
-             password_confirmation: 'psmithPSMITH09'
+               user: {
+                   login: 'psmith',
+                   firstname: 'Paul',
+                   lastname: 'Smith'
+               },
+               password: 'psmithPSMITH09',
+               password_confirmation: 'psmithPSMITH09'
            }
       expect(response).to redirect_to '/login?back_url=http%3A%2F%2Ftest.host%2Fusers'
     end
@@ -660,7 +674,7 @@ describe UsersController, type: :controller do
     describe 'general' do
       before do
         as_logged_in_user user do
-          get :show, params: { id: user.id }
+          get :show, params: {id: user.id}
         end
       end
 
@@ -718,7 +732,7 @@ describe UsersController, type: :controller do
         allow(User).to receive(:current).and_return(user.reload)
         allow_any_instance_of(User).to receive(:reported_work_package_count).and_return(42)
 
-        get :show, params: { id: user.id }
+        get :show, params: {id: user.id}
       end
 
       it 'should include the number of reported work packages' do

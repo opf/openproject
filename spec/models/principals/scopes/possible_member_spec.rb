@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe Principals::Scopes::PossibleMember, type: :model, with_clean_fixture: true do
+describe Principals::Scopes::PossibleMember, type: :model do
   let(:project) { FactoryBot.create(:project) }
   let(:role) { FactoryBot.create(:role) }
   let!(:active_user) { FactoryBot.create(:user) }

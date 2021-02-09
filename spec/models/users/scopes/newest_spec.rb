@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe Users::Scopes::Newest, type: :model, with_clean_fixture: true do
+describe Users::Scopes::Newest, type: :model do
   describe '.newest' do
     let!(:anonymous_user) { FactoryBot.create(:anonymous) }
     let!(:system_user) { FactoryBot.create(:system) }

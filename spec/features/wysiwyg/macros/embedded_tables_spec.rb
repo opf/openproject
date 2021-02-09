@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'Wysiwyg embedded work package tables',
          type: :feature, js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:user) { admin }
   let(:type_task) { FactoryBot.create :type_task }
   let(:type_bug) { FactoryBot.create :type_bug }

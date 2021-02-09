@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe 'seeds', :with_clean_fixture do
+describe 'seeds' do
   context 'BIM edition', with_config: { edition: 'bim' } do
     it 'create the demo data' do
       expect { ::Bim::BasicDataSeeder.new.seed! }.not_to raise_error

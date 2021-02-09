@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'index users', type: :feature, with_clean_fixture: true do
+describe 'index users', type: :feature do
   shared_let(:current_user) { FactoryBot.create :admin, firstname: 'admin', lastname: 'admin', created_at: 1.hour.ago }
   let(:index_page) { Pages::Admin::Users::Index.new }
 
@@ -147,7 +147,7 @@ describe 'index users', type: :feature, with_clean_fixture: true do
     end
 
     context 'as global user' do
-      using_shared_fixtures :global_add_user
+      shared_let(:global_add_user) { FactoryBot.create :user, global_permission: :add_user }
       let(:current_user) { global_add_user }
 
       it 'can too visit the page' do

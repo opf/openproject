@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'create users', type: :feature, selenium: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:current_user) { admin }
   let!(:auth_source) { FactoryBot.create :dummy_auth_source }
   let(:new_user_page) { Pages::NewUser.new }
@@ -145,7 +145,7 @@ describe 'create users', type: :feature, selenium: true do
   end
 
   context 'as global user' do
-    using_shared_fixtures :global_add_user
+    shared_let(:global_add_user) { FactoryBot.create :user, global_permission: :add_user }
     let(:current_user) { global_add_user }
 
     context 'with internal authentication' do

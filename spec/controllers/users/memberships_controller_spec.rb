@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'work_package'
 
 describe Users::MembershipsController, type: :controller do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
 
   let(:user) { FactoryBot.create(:user) }
   let(:anonymous) { FactoryBot.create(:anonymous) }

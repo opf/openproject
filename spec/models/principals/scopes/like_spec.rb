@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe Principals::Scopes::Like, type: :model, with_clean_fixture: true do
+describe Principals::Scopes::Like, type: :model do
   describe '.like' do
     let!(:login) do
       FactoryBot.create(:principal, login: 'login')

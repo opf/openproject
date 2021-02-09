@@ -31,7 +31,7 @@ require 'spec_helper'
 describe 'Project templates', type: :feature, js: true do
   describe 'making project a template' do
     let(:project) { FactoryBot.create :project }
-    using_shared_fixtures :admin
+    shared_let(:admin) { FactoryBot.create :admin }
 
     before do
       login_as admin
