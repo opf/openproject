@@ -27,6 +27,7 @@
 //++
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {HookService} from 'core-app/modules/plugins/hook-service';
 import {StateService} from '@uirouter/core';
 import {Component, Injector, OnInit} from '@angular/core';
 import {WorkPackageViewSelectionService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service';
@@ -34,6 +35,7 @@ import {WorkPackageSingleViewBase} from "core-app/modules/work_packages/routing/
 import {of} from "rxjs";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { Tab } from 'core-app/components/wp-single-view-tabs/additional-tab/tab';
 
 @Component({
   templateUrl: './wp-full-view.html',
@@ -50,16 +52,26 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   public displayWatchButton:boolean;
   public watchers:any;
 
+  // additional tabs
+  private registeredAdditionalTabs:Tab[];
+
   stateName$ = of('work-packages.new');
 
   constructor(public injector:Injector,
               public wpTableSelection:WorkPackageViewSelectionService,
-              readonly $state:StateService) {
+              readonly $state:StateService,
+              readonly HookService:HookService) {
     super(injector, $state.params['workPackageId']);
+
+    this.registeredAdditionalTabs = this.HookService.call('workPackageAdditionalTabs');
   }
 
   ngOnInit():void {
     this.observeWorkPackage();
+  }
+
+  public additionalTabs():Tab[] {
+    return this.workPackage.additionalTabs(this.registeredAdditionalTabs);
   }
 
   protected initializeTexts() {

@@ -75,6 +75,7 @@ import {WorkPackageSplitViewToolbarComponent} from 'core-components/wp-details/w
 import {WorkPackageWatcherButtonComponent} from 'core-components/work-packages/wp-watcher-button/wp-watcher-button.component';
 import {WorkPackageSubjectComponent} from 'core-components/work-packages/wp-subject/wp-subject.component';
 import {WorkPackageRelationsTabComponent} from 'core-components/wp-single-view-tabs/relations-tab/relations-tab.component';
+import {WorkPackageAdditionalTabComponent} from 'core-app/components/wp-single-view-tabs/additional-tab/additional-tab.component';
 import {WorkPackageRelationsComponent} from 'core-components/wp-relations/wp-relations.component';
 import {WorkPackageRelationsGroupComponent} from 'core-components/wp-relations/wp-relations-group/wp-relations-group.component';
 import {WorkPackageRelationRowComponent} from 'core-components/wp-relations/wp-relation-row/wp-relation-row.component';
@@ -333,6 +334,9 @@ import {WorkPackageGroupToggleDropdownMenuDirective} from "core-components/op-co
     WorkPackageRelationsHierarchyComponent,
     WorkPackageRelationsAutocomplete,
     WorkPackageBreadcrumbParentComponent,
+
+    // Additional tabs
+    WorkPackageAdditionalTabComponent,
 
     // Split view
     WorkPackageDetailsViewButtonComponent,

@@ -143,6 +143,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
    * Recompute the current tab focus label
    */
   public updateFocusAnchorLabel(tabName:string):string {
+    // TODO: what to do there when tabName is "additionalTabs" where do i get the value which tab I have at hand? -> ask oliver
     const tabLabel = this.I18n.t('js.label_work_package_details_you_are_here', {
       tab: this.I18n.t('js.work_packages.tabs.' + tabName),
       type: this.workPackage.type.name,
