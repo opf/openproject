@@ -52,7 +52,7 @@ module Components
             .to have_content(I18n.t('js.button_log_time'))
         end
       else
-        expect(page).to have_no_selector '.op-modal--modal-container'
+        expect(page).to have_no_selector '.op-modal'
       end
     end
 
@@ -137,7 +137,7 @@ module Components
     end
 
     def modal_container
-      page.find('.op-modal--modal-container')
+      page.find('.op-modal')
     end
   end
 end

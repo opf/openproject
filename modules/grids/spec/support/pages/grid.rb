@@ -83,7 +83,7 @@ module Pages
       area.hover
       area.find('.grid--widget-add', visible: :all).click
 
-      within '.op-modal--portal' do
+      within '.op-modal' do
         yield
       end
     end
