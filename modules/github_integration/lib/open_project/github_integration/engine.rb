@@ -34,6 +34,16 @@ module OpenProject::GithubIntegration
   class Engine < ::Rails::Engine
     engine_name :openproject_github_integration
 
+    # TODO, see: modules/backlogs/lib/open_project/backlogs/engine.rb
+    # def self.settings
+    #   { default: { 'story_types'  => nil,
+    #                'task_type'    => nil,
+    #                'card_spec'    => nil
+    #   },
+    #     partial: 'shared/settings',
+    #     menu_item: :backlogs_settings }
+    # end
+
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-github_integration',
@@ -54,5 +64,18 @@ module OpenProject::GithubIntegration
                                              &NotificationHandlers.method(:issue_comment))
     end
 
+    initializer 'github.permissions' do
+      OpenProject::AccessControl.map do |map|
+        map.project_module(:github, {}) do |map|
+          map.permission(:show_github_content, {}, {})
+        end
+      end
+    end
+
+    extend_api_response(:v3, :work_packages, :work_package) do
+      require_relative 'patches/api/v3/additional_work_package_tabs'
+
+      prepend Patches::API::V3::AdditionalWorkPackageTabs
+    end
   end
 end
