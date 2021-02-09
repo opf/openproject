@@ -49,7 +49,7 @@ describe('NotificationsService', function () {
     })
       .compileComponents()
       .then(() => {
-        notificationsService = TestBed.get(NotificationsService);
+        notificationsService = TestBed.inject(NotificationsService);
       });
   }));
 

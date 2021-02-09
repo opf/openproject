@@ -1,0 +1,7 @@
+<pr-entry *ngFor="let pullRequest of pullRequests"
+          [pullRequest]="pullRequest">
+</pr-entry>
+
+<ng-container *ngIf="pullRequests.length === 0">
+  <p [innerHTML]="getEmptyText()"></p>
+</ng-container>

@@ -11,7 +11,7 @@ OpenProject is a hybrid application with most parts being Rails, along with some
 
 
 
-The  Angular frontend services and components can be tested with frontend specs. A good isolated example on how to set up an Angular TestBed to test components is `frontend/src/app/modules/a11y/accessible-by-keyboard.component.spec.ts`
+The Angular frontend services and components can be tested with frontend specs. A good isolated example on how to set up an Angular TestBed to test components is `frontend/src/app/modules/a11y/accessible-by-keyboard.component.spec.ts`
 
 
 

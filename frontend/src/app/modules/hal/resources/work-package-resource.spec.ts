@@ -91,8 +91,8 @@ describe('WorkPackage', () => {
     })
       .compileComponents()
       .then(() => {
-        halResourceService = TestBed.get(HalResourceService);
-        injector = TestBed.get(Injector);
+        halResourceService = TestBed.inject(HalResourceService);
+        injector = TestBed.inject(Injector);
         notificationsService = injector.get(NotificationsService);
         halResourceNotification = injector.get(HalResourceNotificationService);
 

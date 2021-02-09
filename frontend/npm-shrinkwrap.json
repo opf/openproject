@@ -55,6 +55,7 @@
         "chart.js": "2.9.3",
         "chartjs-plugin-datalabels": "^0.6.0",
         "codemirror": "^5.48.4",
+        "copy-text-to-clipboard": "^3.0.0",
         "core-js": "^3.2.1",
         "crossvent": "^1.5.4",
         "dom-autoscroller": "^2.2.8",
@@ -84,6 +85,7 @@
         "rxjs": "^6.6.6",
         "screenfull": "^4.2.1",
         "tablesorter": "^2.31.3",
+        "tickety-tick-formatter": "github:bitcrowd/tickety-tick-formatter",
         "typedjson": "^1.5.1",
         "typescript": "~4.1.2",
         "urijs": "^1.19.2",
@@ -6069,6 +6071,17 @@
         "node": ">=0.10.0"
       }
     },
+    "node_modules/copy-text-to-clipboard": {
+      "version": "3.0.1",
+      "resolved": "https://registry.npmjs.org/copy-text-to-clipboard/-/copy-text-to-clipboard-3.0.1.tgz",
+      "integrity": "sha512-rvVsHrpFcL4F2P8ihsoLdFHmd404+CMg71S756oRSeQgqk51U3kicGdnvfkrxva0xXH92SjGS62B0XIJsbh+9Q==",
+      "engines": {
+        "node": ">=12"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
     "node_modules/copy-webpack-plugin": {
       "version": "6.3.2",
       "resolved": "https://registry.npmjs.org/copy-webpack-plugin/-/copy-webpack-plugin-6.3.2.tgz",
@@ -11880,6 +11893,14 @@
         "node": ">=6"
       }
     },
+    "node_modules/min-indent": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/min-indent/-/min-indent-1.0.1.tgz",
+      "integrity": "sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==",
+      "engines": {
+        "node": ">=4"
+      }
+    },
     "node_modules/mini-css-extract-plugin": {
       "version": "1.3.5",
       "resolved": "https://registry.npmjs.org/mini-css-extract-plugin/-/mini-css-extract-plugin-1.3.5.tgz",
@@ -14132,6 +14153,17 @@
         "node": ">= 0.8.0"
       }
     },
+    "node_modules/prettier": {
+      "version": "2.2.1",
+      "resolved": "https://registry.npmjs.org/prettier/-/prettier-2.2.1.tgz",
+      "integrity": "sha512-PqyhM2yCjg/oKkFPtTGUojv7gnZAoG80ttl45O6x2Ug/rMJw4wcc9k6aaf2hibP7BGVCCM33gZoGjyvt9mm16Q==",
+      "bin": {
+        "prettier": "bin-prettier.js"
+      },
+      "engines": {
+        "node": ">=10.13.0"
+      }
+    },
     "node_modules/pretty-bytes": {
       "version": "5.6.0",
       "resolved": "https://registry.npmjs.org/pretty-bytes/-/pretty-bytes-5.6.0.tgz",
@@ -16174,6 +16206,14 @@
       "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.2.tgz",
       "integrity": "sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w=="
     },
+    "node_modules/speakingurl": {
+      "version": "14.0.1",
+      "resolved": "https://registry.npmjs.org/speakingurl/-/speakingurl-14.0.1.tgz",
+      "integrity": "sha512-1POYv7uv2gXoyGFpBCmpDVSNV74IfsWlDW216UPjbWufNf+bSU6GdbDsxdcxtfwb4xlI3yxzOTKClUosxARYrQ==",
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
     "node_modules/speed-measure-webpack-plugin": {
       "version": "1.4.2",
       "resolved": "https://registry.npmjs.org/speed-measure-webpack-plugin/-/speed-measure-webpack-plugin-1.4.2.tgz",
@@ -16468,6 +16508,17 @@
       "integrity": "sha1-u0P/VZim6wXYm1n80SnJgzE2Br8=",
       "engines": {
         "node": ">=0.10.0"
+      }
+    },
+    "node_modules/strip-indent": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/strip-indent/-/strip-indent-3.0.0.tgz",
+      "integrity": "sha512-laJTa3Jb+VQpaC6DseHhF7dXVqHTfJPCRDaEbid/drOhgitgYku/letMUqOXFoWV0zIIUbjpdH2t+tYj4bQMRQ==",
+      "dependencies": {
+        "min-indent": "^1.0.0"
+      },
+      "engines": {
+        "node": ">=8"
       }
     },
     "node_modules/strip-json-comments": {
@@ -17035,6 +17086,16 @@
       "version": "1.1.0",
       "resolved": "https://registry.npmjs.org/thunky/-/thunky-1.1.0.tgz",
       "integrity": "sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA=="
+    },
+    "node_modules/tickety-tick-formatter": {
+      "version": "1.0.0",
+      "resolved": "git+ssh://git@github.com/bitcrowd/tickety-tick-formatter.git#aa1895189e08689d340bf05d9e2855695a4dbb18",
+      "license": "MIT",
+      "dependencies": {
+        "prettier": "^2.2.1",
+        "speakingurl": "^14.0.1",
+        "strip-indent": "^3.0.0"
+      }
     },
     "node_modules/ticky": {
       "version": "1.0.1",
@@ -24255,6 +24316,11 @@
       "resolved": "https://registry.npmjs.org/copy-descriptor/-/copy-descriptor-0.1.1.tgz",
       "integrity": "sha1-Z29us8OZl8LuGsOpJP1hJHSPV40="
     },
+    "copy-text-to-clipboard": {
+      "version": "3.0.1",
+      "resolved": "https://registry.npmjs.org/copy-text-to-clipboard/-/copy-text-to-clipboard-3.0.1.tgz",
+      "integrity": "sha512-rvVsHrpFcL4F2P8ihsoLdFHmd404+CMg71S756oRSeQgqk51U3kicGdnvfkrxva0xXH92SjGS62B0XIJsbh+9Q=="
+    },
     "copy-webpack-plugin": {
       "version": "6.3.2",
       "resolved": "https://registry.npmjs.org/copy-webpack-plugin/-/copy-webpack-plugin-6.3.2.tgz",
@@ -28988,6 +29054,11 @@
       "resolved": "https://registry.npmjs.org/mimic-fn/-/mimic-fn-2.1.0.tgz",
       "integrity": "sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg=="
     },
+    "min-indent": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/min-indent/-/min-indent-1.0.1.tgz",
+      "integrity": "sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg=="
+    },
     "mini-css-extract-plugin": {
       "version": "1.3.5",
       "resolved": "https://registry.npmjs.org/mini-css-extract-plugin/-/mini-css-extract-plugin-1.3.5.tgz",
@@ -30851,6 +30922,11 @@
       "integrity": "sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==",
       "dev": true
     },
+    "prettier": {
+      "version": "2.2.1",
+      "resolved": "https://registry.npmjs.org/prettier/-/prettier-2.2.1.tgz",
+      "integrity": "sha512-PqyhM2yCjg/oKkFPtTGUojv7gnZAoG80ttl45O6x2Ug/rMJw4wcc9k6aaf2hibP7BGVCCM33gZoGjyvt9mm16Q=="
+    },
     "pretty-bytes": {
       "version": "5.6.0",
       "resolved": "https://registry.npmjs.org/pretty-bytes/-/pretty-bytes-5.6.0.tgz",
@@ -32564,6 +32640,11 @@
         }
       }
     },
+    "speakingurl": {
+      "version": "14.0.1",
+      "resolved": "https://registry.npmjs.org/speakingurl/-/speakingurl-14.0.1.tgz",
+      "integrity": "sha512-1POYv7uv2gXoyGFpBCmpDVSNV74IfsWlDW216UPjbWufNf+bSU6GdbDsxdcxtfwb4xlI3yxzOTKClUosxARYrQ=="
+    },
     "speed-measure-webpack-plugin": {
       "version": "1.4.2",
       "resolved": "https://registry.npmjs.org/speed-measure-webpack-plugin/-/speed-measure-webpack-plugin-1.4.2.tgz",
@@ -32806,6 +32887,14 @@
       "version": "1.0.0",
       "resolved": "https://registry.npmjs.org/strip-eof/-/strip-eof-1.0.0.tgz",
       "integrity": "sha1-u0P/VZim6wXYm1n80SnJgzE2Br8="
+    },
+    "strip-indent": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/strip-indent/-/strip-indent-3.0.0.tgz",
+      "integrity": "sha512-laJTa3Jb+VQpaC6DseHhF7dXVqHTfJPCRDaEbid/drOhgitgYku/letMUqOXFoWV0zIIUbjpdH2t+tYj4bQMRQ==",
+      "requires": {
+        "min-indent": "^1.0.0"
+      }
     },
     "strip-json-comments": {
       "version": "3.1.1",
@@ -33253,6 +33342,15 @@
       "version": "1.1.0",
       "resolved": "https://registry.npmjs.org/thunky/-/thunky-1.1.0.tgz",
       "integrity": "sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA=="
+    },
+    "tickety-tick-formatter": {
+      "version": "git+ssh://git@github.com/bitcrowd/tickety-tick-formatter.git#aa1895189e08689d340bf05d9e2855695a4dbb18",
+      "from": "tickety-tick-formatter@github:bitcrowd/tickety-tick-formatter",
+      "requires": {
+        "prettier": "^2.2.1",
+        "speakingurl": "^14.0.1",
+        "strip-indent": "^3.0.0"
+      }
     },
     "ticky": {
       "version": "1.0.1",

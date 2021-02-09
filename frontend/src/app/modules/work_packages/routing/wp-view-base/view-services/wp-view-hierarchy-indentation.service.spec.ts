@@ -84,10 +84,10 @@ describe('WorkPackageViewIndentation service', function () {
     })
       .compileComponents()
       .then(() => {
-        service = TestBed.get(WorkPackageViewHierarchyIdentationService);
-        querySpace = TestBed.get(IsolatedQuerySpace);
-        hierarchyServiceStub = TestBed.get(WorkPackageViewHierarchiesService);
-        states = TestBed.get(States);
+        service = TestBed.inject(WorkPackageViewHierarchyIdentationService);
+        querySpace = TestBed.inject(IsolatedQuerySpace);
+        hierarchyServiceStub = TestBed.inject(WorkPackageViewHierarchiesService);
+        states = TestBed.inject(States);
       });
   }));
 

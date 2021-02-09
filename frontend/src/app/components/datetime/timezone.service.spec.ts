@@ -59,7 +59,7 @@ describe('TimezoneService', function () {
       ]
     });
 
-    timezoneService = TestBed.get(TimezoneService);
+    timezoneService = TestBed.inject(TimezoneService);
   };
 
   describe('without time zone set', function () {

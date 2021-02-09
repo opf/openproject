@@ -53,11 +53,11 @@ describe('Global search service', function() {
         GlobalSearchService,
       ]
     })
-      .compileComponents()
-      .then(() => {
-        CurrentProject = TestBed.get(CurrentProjectService);
-        service = TestBed.get(GlobalSearchService);
-      });
+    .compileComponents()
+    .then(() => {
+      CurrentProject = TestBed.inject(CurrentProjectService);
+      service = TestBed.inject(GlobalSearchService);
+    });
   }));
 
   describe('outside a project', () => {
