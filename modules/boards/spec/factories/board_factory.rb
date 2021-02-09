@@ -80,7 +80,7 @@ FactoryBot.define do
 
         query = Query.new_default(name: "List #{project.name}", project: board.project).tap do |q|
           q.sort_criteria = [[:manual_sorting, 'asc']]
-          q.add_filter('only_subproject_id', '=', project.id.to_s)
+          q.add_filter('only_subproject_id', '=', [project.id.to_s])
           q.save!
         end
 

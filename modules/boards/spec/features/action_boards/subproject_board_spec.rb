@@ -179,9 +179,11 @@ describe 'Subproject action board', type: :feature, js: true do
     end
 
     let(:board) do
-      FactoryBot.create(:subproject_board,
-                        project: project,
-                        projects_columns: [subproject1, subproject2])
+      User.execute_as FactoryBot.create(:admin) do
+        FactoryBot.create(:subproject_board,
+                          project: project,
+                          projects_columns: [subproject1, subproject2])
+      end
     end
 
     let(:board_page) { Pages::Board.new(board) }
