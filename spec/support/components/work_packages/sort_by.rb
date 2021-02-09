@@ -99,13 +99,13 @@ module Components
       end
 
       def cancel_changes
-        page.within('.op-modal--modal-container') do
+        page.within('.op-modal') do
           click_on 'Cancel'
         end
       end
 
       def apply_changes
-        page.within('.op-modal--modal-container') do
+        page.within('.op-modal') do
           click_on 'Apply'
         end
       end
