@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 feature 'members pagination', type: :feature, js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
 
   let!(:bob)   { FactoryBot.create :user, firstname: 'Bob', lastname: 'Bobbit' }

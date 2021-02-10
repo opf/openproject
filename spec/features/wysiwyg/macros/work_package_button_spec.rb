@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'Wysiwyg work package button spec',
          type: :feature, js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:user) { admin }
 
   let!(:type) { FactoryBot.create :type, name: 'MyTaskName' }

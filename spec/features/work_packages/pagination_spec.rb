@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 RSpec.feature 'Work package pagination', js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
 
   let(:project) do
     FactoryBot.create(:project, name: 'project1', identifier: 'project1')

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 feature 'Administrating memberships via the project settings', type: :feature, js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:current_user) do
     FactoryBot.create(:user,
                       member_in_project: project,

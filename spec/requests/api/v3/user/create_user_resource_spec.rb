@@ -194,16 +194,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   end
 
   describe 'user with global user CRU permission' do
-    let!(:global_add_user_role) { FactoryBot.create :global_role, name: 'Add user', permissions: %i[add_user] }
-    let(:current_user) do
-      user = FactoryBot.create(:user)
-
-      FactoryBot.create(:global_member,
-                        principal: user,
-                        roles: [global_add_user_role])
-
-      user
-    end
+    shared_let(:current_user) { FactoryBot.create :user, global_permission: :add_user }
 
     it_behaves_like 'create user request flow'
 

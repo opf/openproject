@@ -101,7 +101,7 @@ describe AccountController, type: :controller do
   end
 
   context 'POST #login' do
-    using_shared_fixtures :admin
+    shared_let(:admin) { FactoryBot.create :admin }
 
     describe 'wrong password' do
       it 'redirects back to login' do
@@ -280,7 +280,7 @@ describe AccountController, type: :controller do
     end
 
     context 'GET #logout' do
-      using_shared_fixtures :admin
+      shared_let(:admin) { FactoryBot.create :admin }
 
       it 'calls reset_session' do
         expect(@controller).to receive(:reset_session).once

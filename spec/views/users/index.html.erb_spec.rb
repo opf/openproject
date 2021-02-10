@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'users/index', type: :view do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let!(:user) { FactoryBot.create :user, firstname: "Scarlet", lastname: "Scallywag" }
 
   before do

@@ -31,8 +31,7 @@ require 'rack/test'
 
 describe 'API v3 User resource',
          type: :request,
-         content_type: :json,
-         with_clean_fixture: true do
+         content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -41,14 +40,7 @@ describe 'API v3 User resource',
   let(:admin) { FactoryBot.create(:admin) }
   let(:locked_admin) { FactoryBot.create :admin, status: Principal.statuses[:locked] }
   let(:user_with_global_add_user) do
-    user = FactoryBot.create(:user, firstname: 'Global', lastname: 'User')
-    global_role = FactoryBot.create :global_role, name: 'Add user', permissions: %i[add_user]
-
-    FactoryBot.create(:global_member,
-                      principal: user,
-                      roles: [global_role])
-
-    user
+    FactoryBot.create :user, firstname: 'Global', lastname: 'User', global_permission: :add_user
   end
 
   subject(:response) { last_response }

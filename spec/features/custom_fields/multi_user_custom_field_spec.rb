@@ -2,7 +2,7 @@ require "spec_helper"
 require "support/pages/work_packages/abstract_work_package"
 
 describe "multi select custom values", js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:current_user) { admin }
 
   shared_let(:type) { FactoryBot.create :type }

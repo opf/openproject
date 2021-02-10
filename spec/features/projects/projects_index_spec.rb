@@ -33,7 +33,7 @@ describe 'Projects index page',
          clear_cache: true,
          js: true,
          with_settings: { login_required?: false } do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
 
   let!(:manager)   { FactoryBot.create :role, name: 'Manager' }
   let!(:developer) { FactoryBot.create :role, name: 'Developer' }

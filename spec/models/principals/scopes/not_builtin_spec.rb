@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe Principals::Scopes::NotBuiltin, type: :model, with_clean_fixture: true do
+describe Principals::Scopes::NotBuiltin, type: :model do
   describe '.not_builtin' do
     let!(:anonymous_user) { FactoryBot.create(:anonymous) }
     let!(:system_user) { FactoryBot.create(:system) }

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe WikiController, type: :controller do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
 
   describe 'actions' do
     before do

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'edit users', type: :feature, js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:current_user) { admin }
   let(:user) { FactoryBot.create :user, mail: 'foo@example.com' }
 
@@ -85,7 +85,7 @@ describe 'edit users', type: :feature, js: true do
   end
 
   context 'as global user' do
-    using_shared_fixtures :global_add_user
+    shared_let(:global_add_user) { FactoryBot.create :user, global_permission: :add_user }
     let(:current_user) { global_add_user }
 
     it 'can too edit the user' do

@@ -128,7 +128,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   end
 
   describe 'user with global add_user permission' do
-    using_shared_fixtures :global_add_user
+    shared_let(:global_add_user) { FactoryBot.create :user, global_permission: :add_user }
     let(:current_user) { global_add_user }
 
     it_behaves_like 'update flow'

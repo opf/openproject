@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe CustomFieldsController, type: :controller do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
 
   let(:custom_field) { FactoryBot.build_stubbed(:custom_field) }
 

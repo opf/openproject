@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe Principals::Scopes::PossibleAssignee, type: :model, with_clean_fixture: true do
+describe Principals::Scopes::PossibleAssignee, type: :model do
   let(:project) { FactoryBot.create(:project) }
   let(:other_project) { FactoryBot.create(:project) }
   let(:role_assignable) { true }
