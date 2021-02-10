@@ -38,7 +38,8 @@ See docs/COPYRIGHT.rdoc for more details.
           <colgroup>
             <col highlight-col>
             <col highlight-col>
-            <%= call_hook(:view_placeholder_users_memberships_table_colgroup, placeholder_user: @individual_principal)%>
+            <%= call_hook("view_#{@individual_principal.class.name.underscore.pluralize}_memberships_table_colgroup".to_sym,
+                          @individual_principal.class.name.underscore.to_sym => @individual_principal) %>
             <col>
           </colgroup>
           <thead>
@@ -61,7 +62,8 @@ See docs/COPYRIGHT.rdoc for more details.
                   </div>
                 </div>
               </th>
-              <%= call_hook(:view_users_memberships_table_header, placeholder_user: @individual_principal)%>
+              <%= call_hook("view_#{@individual_principal.class.name.underscore.pluralize}_memberships_table_header".to_sym,
+                            @individual_principal.class.name.underscore.to_sym => @individual_principal) %>
               <th><div class="generic-table--empty-header"></div></th>
             </tr>
           </thead>
@@ -104,7 +106,11 @@ See docs/COPYRIGHT.rdoc for more details.
                   class: 'button -small' %></p>
                     <% end %>
                   </td>
-                  <%= call_hook(:view_placheholder_users_memberships_table_row, placeholder_user: @individual_principal, membership: membership, roles: roles, projects: projects )%>
+                  <%= call_hook("view_#{@individual_principal.class.name.underscore.pluralize.to_sym}_memberships_table_row".to_sym,
+                                @individual_principal.class.name.underscore.to_sym => @individual_principal,
+                                membership: membership,
+                                roles: roles,
+                                projects: projects ) %>
                   <td class="buttons">
                     <%= link_to_function icon_wrapper('icon icon-edit', t(:button_edit)),
                                          "jQuery('.member-#{membership.id}--edit-toggle-item').toggle();",

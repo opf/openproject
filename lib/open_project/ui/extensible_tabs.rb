@@ -100,16 +100,8 @@ module OpenProject
               path: ->(params) { tab_edit_placeholder_user_path(params[:placeholder_user], tab: :memberships) },
               label: :label_project_plural
             }
-            # {
-            #   name: 'groups',
-            #   partial: 'placeholder_users/groups',
-            #   path: ->(params) { tab_edit_placeholder_user_path(params[:placeholder_user], tab: :groups) },
-            #   label: :label_group_plural,
-            #   if: ->(*) { Group.all.any? }
-            # }
           ]
         end
-
       end
     end
   end

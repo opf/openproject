@@ -28,8 +28,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'users/base_contract'
-
 module Users
   class DeleteContract < ::DeleteContract
     delete_permission -> {

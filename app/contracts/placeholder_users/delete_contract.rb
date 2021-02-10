@@ -29,10 +29,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'placeholder_users/base_contract'
-
 module PlaceholderUsers
-  class DeleteContract < BaseContract
+  class DeleteContract < ::DeleteContract
+    delete_permission -> {
+      self.class.deletion_allowed?(user)
+    }
+
     ##
     # Checks if a given user may be deleted by another one.
     #

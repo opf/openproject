@@ -28,8 +28,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'placeholder_users/base_contract'
-
 module PlaceholderUsers
   class CreateContract < BaseContract
   end

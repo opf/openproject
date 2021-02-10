@@ -28,8 +28,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'model_contract'
-
 module Users
   class BaseContract < ::ModelContract
     attribute :type

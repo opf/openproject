@@ -28,13 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'model_contract'
-
 module PlaceholderUsers
   class BaseContract < ::ModelContract
-    attribute :type
-    attribute :lastname,
-              writeable: ->(*) { user.admin? }
     attribute :name,
               writeable: ->(*) { user.admin? }
 

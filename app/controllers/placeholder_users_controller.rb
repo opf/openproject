@@ -34,11 +34,10 @@ class PlaceholderUsersController < ApplicationController
   helper_method :gon
 
   before_action :require_admin, except: [:show]
-  before_action :find_placeholder_user, only: [:show,
-                                               :edit,
-                                               :update,
-                                               :destroy,
-                                               :resend_invitation]
+  before_action :find_placeholder_user, only: %i[show
+                                                 edit
+                                                 update
+                                                 destroy]
   before_action :check_if_deletion_allowed, only: [:destroy]
 
   def index
@@ -122,7 +121,9 @@ class PlaceholderUsersController < ApplicationController
   end
 
   def destroy
-    Users::DeleteService.new(@placeholder_user, User.current).call
+    Users::DeleteService.new(user: User.current,
+                             model: @placeholder_user)
+                        .call
 
     flash[:notice] = I18n.t('account.deleted')
 
@@ -142,7 +143,7 @@ class PlaceholderUsersController < ApplicationController
   end
 
   def check_if_deletion_allowed
-    render_404 unless Users::DeleteService.deletion_allowed? @placeholder_user, User.current
+    render_404 unless PlaceholderUsers::DeleteService.deletion_allowed? @placeholder_user, User.current
   end
 
   protected
@@ -151,7 +152,8 @@ class PlaceholderUsersController < ApplicationController
     if action_name == 'index'
       t('label_placeholder_user_plural')
     else
-      ActionController::Base.helpers.link_to(t('label_placeholder_user_plural'), placeholder_users_path)
+      ActionController::Base.helpers.link_to(t('label_placeholder_user_plural'),
+                                             placeholder_users_path)
     end
   end
 
@@ -159,5 +161,3 @@ class PlaceholderUsersController < ApplicationController
     current_user.admin?
   end
 end
-
-

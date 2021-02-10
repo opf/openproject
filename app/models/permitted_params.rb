@@ -189,9 +189,7 @@ class PermittedParams
   end
 
   def placeholder_user
-    permitted_params = params.require(:placeholder_user).permit(*self.class.permitted_attributes[:placeholder_user])
-
-    permitted_params
+    params.require(:placeholder_user).permit(*self.class.permitted_attributes[:placeholder_user])
   end
 
   def my_account_settings
