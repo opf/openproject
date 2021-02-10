@@ -9,23 +9,23 @@ keywords: manage users, lock, unlock, invite, language
 
 # Manage users
 
-To manage users click on your avatar (top right corner) and select "Administration". Select "Users and Permissions", then select "Users". The list of current users is shown.
+The users list provides an overview of all users in OpenProject. You can create new users, make changes to existing user accounts, block or delete users from the system. The number of users for your subscription is thus not bound to names. For example, if you block a user you can add a new one without upgrading. To manage users click on your avatar (top right corner) and select *Administration*. Select *Users and Permissions -> Users*. The list of current users is shown.
 
 <div class="glossary">
 **User** is defined as a person (described by an identifier) who uses OpenProject. Users can become project members by assigning them a role and adding them via the project settings.
 </div>
 
-In the Community edition there is no limit to the number of users. In subscription editions the limit for users is given in your subscription.
+In the Community Edition there is no limit to the number of users. In Enterprise editions (cloud and on-premises) the user limit is based on your subscription.
 
 | Topic                                           | Content                                                      |
 | ----------------------------------------------- | ------------------------------------------------------------ |
 | [User list](#user-list)                         | Manage all users in OpenProject.                             |
 | [Filter users](#filter-users)                   | Filter users in the list.                                    |
 | [Lock and unlock users](#lock-and-unlock-users) | Block a user permanently in the system or unlock a user.     |
-| [Delete users](#delete-users)                   | Delete a user from the system.                               |
-| [Manage user settings](#manage-user-settings)   | Manage user details.                                         |
 | [Create users](#create-users)                   | Create new users.                                            |
+| [Manage user settings](#manage-user-settings)   | Manage user details.                                         |
 | [Authentication](#authentication)               | Set and use authentication methods.                          |
+| [Delete users](#delete-users)                   | Delete a user from the system.                               |
 
 ## User list
 
@@ -35,7 +35,7 @@ The User List is where users are managed. They can be added, edited or deleted f
 
 Column headers can be clicked to toggle sort direction. Arrows indicate sort order, up for ascending (a-z/0-9) and down for descending (z-a/9-0). Paging controls are shown at the bottom of the list.
 
-### Filter users
+## Filter users
 
 At the top of the user list is a filter box. Filter by Status or Name, then click the blue **Apply** button to filter the list. Click the **Clear** button to reset the filter fields and refresh the list.
 
