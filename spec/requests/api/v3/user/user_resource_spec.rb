@@ -117,7 +117,7 @@ describe 'API v3 User resource',
 
       context 'on sorting' do
         let(:users_by_name_order) do
-          User.human.order_by_name(desc: true)
+          User.human.ordered_by_name(desc: true)
         end
 
         let(:get_path) do

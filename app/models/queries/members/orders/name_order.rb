@@ -28,10 +28,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Members::Orders::NameOrder < Queries::Principals::Orders::NameOrder
+class Queries::Members::Orders::NameOrder < Queries::BaseOrder
   self.model = Member
+
+  def self.key
+    :name
+  end
 
   def joins
     :principal
+  end
+
+  protected
+
+  def order
+    model.merge Principal.ordered_by_name(desc: direction == :desc)
   end
 end

@@ -62,7 +62,8 @@ class Principal < ApplicationRecord
          :not_builtin,
          :possible_assignee,
          :possible_member,
-         :user
+         :user,
+         :ordered_by_name
 
   scope :not_locked, -> {
     not_builtin.where.not(status: statuses[:locked])
@@ -86,10 +87,6 @@ class Principal < ApplicationRecord
     not_locked.like(query).not_in_project(project)
   end
 
-  def self.order_by_name(desc: false)
-    OpenProject::Deprecation.warn "Use Queries::Principals with .order('name') instead"
-    order Queries::Principals::Orders::NameOrder.name_order_statements(desc)
-  end
 
   def self.me
     where(id: User.current.id)

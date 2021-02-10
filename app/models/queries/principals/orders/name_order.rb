@@ -35,22 +35,9 @@ class Queries::Principals::Orders::NameOrder < Queries::BaseOrder
     :name
   end
 
-  ##
-  # Returns the selected user format as an array
-  # of SQL strings, i.e. "NULLIF(firstname, '') ASC NULLS LAST"
-  def self.name_order_statements(desc = false)
-    User::USER_FORMATS_STRUCTURE[Setting.user_format]
-        .map do |format|
-      attr = "#{Principal.table_name}.#{format}"
-      direction = desc ? "DESC" : "ASC"
-
-      Arel.sql("NULLIF(#{attr}, '') #{direction} NULLS LAST")
-    end
-  end
-
   protected
 
   def order
-    model.order self.class.name_order_statements(direction == :desc)
+    model.ordered_by_name(desc: direction == :desc)
   end
 end
