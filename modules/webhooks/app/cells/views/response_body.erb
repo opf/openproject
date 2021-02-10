@@ -1,5 +1,5 @@
 <section data-augmented-model-wrapper>
-  <a class="modal-wrapper--activation-link" title="<%= log_entry.class.human_attribute_name('response_body') %>">
+  <a class="modal-delivery-element--activation-link" title="<%= log_entry.class.human_attribute_name('response_body') %>">
     <%= op_icon('icon-info1') %>
     <%= t(:button_show) %>
   </a>
@@ -18,8 +18,11 @@
           </pre>
         </div>
         <div class="modal--footer">
-          <button class="button dynamic-content-modal--close-button button"
-                  title="<%= t(:button_close) %>">
+          <button
+            class="button"
+            title="<%= t(:button_close) %>"
+            dynamic-content-modal-close-button
+          >
             <%= t(:button_close)%>
           </button>
         </div>

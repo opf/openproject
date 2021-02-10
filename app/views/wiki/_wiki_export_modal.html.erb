@@ -27,18 +27,22 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="modal-wrapper--content">
-  <div class="onboarding--top-menu op-modal--modal-header">
-    <h3><%= I18n.t('js.label_export') %></h3>
-
-    <a class="op-modal--modal-close-button dynamic-content-modal--close-button"
-       title="<%= t('js.close_popup_title') %>"
-       aria-label="<%= t('js.close_popup_title') %>">
+<div class="modal-delivery-element">
+  <div class="op-modal--header">
+    <h1 class="op-modal--title">
+      <%= I18n.t('js.label_export') %>
+    </h1>
+    <button
+      type="button"
+      class="op-modal--close-button"
+      title="<%= t('js.close_popup_title') %>"
+      aria-label="<%= t('js.close_popup_title') %>"
+    >
       <%= op_icon('icon-close') %>
-    </a>
+    </button>
   </div>
 
-  <div class="op-modal--modal-body">
+  <div class="op-modal--body">
     <ul class="export-options">
       <li>
         <%= link_to url_for(controller: '/activities',

@@ -60,9 +60,11 @@ export class DynamicContentModal extends OpModalComponent implements OnInit, OnD
       .append(this.locals.modalBody);
 
     // Register click listeners
+    // This registers both on the close button in the modal header, as well as on any
+    // other elements you have added the dynamic-content-modal--close-button class.
     jQuery(document.body)
       .on('click.opdynamicmodal',
-        '.dynamic-content-modal--close-button',
+        '.op-modal--close-button, [dynamic-content-modal-close-button]',
         (evt:JQuery.TriggeredEvent) => {
         this.closeMe(evt);
       });

@@ -1,3 +1,4 @@
+// TODO: Check out -danger-zone and modal-close-button patterns
 .op-modal
   display: flex
   flex-direction: column
@@ -22,6 +23,22 @@
     position: relative
     border-bottom: 1px solid #eee
 
+    &_highlight
+      background-color: var(--header-bg-color)
+      border-bottom-width: var(--header-border-bottom-width)
+      border-bottom-color: var(--header-border-bottom-color)
+
+      *
+        color: var(--header-item-font-color)
+
+    .op-icon
+      height: 100%
+      width: 3rem
+      padding: 0.45rem 0
+      display: flex
+      justify-content: center
+      align-items: center
+
   &--title
     font-size: 1.3rem 
     padding: 0
@@ -34,6 +51,7 @@
   &--close-button
     height: 100%
     width: 3rem
+    padding: 0.45rem 0
     display: flex
     justify-content: center
     align-items: center
@@ -41,6 +59,7 @@
     color: var(--body-font-color)
     background: transparent
     border: 0
+
     &:hover
       text-decoration: none
       color: var(--content-link-color)
