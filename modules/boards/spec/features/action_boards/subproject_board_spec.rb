@@ -186,6 +186,9 @@ describe 'Subproject action board', type: :feature, js: true do
     end
 
     let(:board_page) { Pages::Board.new(board) }
+    let!(:invisible_work_package) do
+      FactoryBot.create :work_package, project: subproject2, status: open_status
+    end
 
     before do
       # The membership needs to first be present in order to create the board
@@ -196,12 +199,17 @@ describe 'Subproject action board', type: :feature, js: true do
     end
 
 
-    it 'allows management of subproject work packages' do
-
+    it 'displays only the columns for the projects in which the current user has permission' do
       board_page.visit!
 
-      # We will see an error for the two boards pages
-      expect(page).to have_selector('.notification-box.-error', count: 2)
+      board_page.expect_card subproject1.name, work_package.subject
+
+      # No error is to be displayed as erroneous columns are filtered out
+      expect(page).not_to have_selector('.notification-box.-error')
+      board_page.expect_no_list(subproject2.name)
+
+      expect(page)
+        .to have_no_content invisible_work_package.subject
     end
   end
 end

@@ -78,7 +78,7 @@ FactoryBot.define do
     callback(:after_build) do |board, evaluator| # this is also done after :create
       evaluator.projects_columns.each do |project|
 
-        query = Query.new_default(name: "List #{project.name}", project: board.project).tap do |q|
+        query = Query.new_default(name: project.name, project: board.project, is_public: true).tap do |q|
           q.sort_criteria = [[:manual_sorting, 'asc']]
           q.add_filter('only_subproject_id', '=', [project.id.to_s])
           q.save!
