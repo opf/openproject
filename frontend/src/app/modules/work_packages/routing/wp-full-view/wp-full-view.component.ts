@@ -63,7 +63,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
               readonly HookService:HookService) {
     super(injector, $state.params['workPackageId']);
 
-    this.registeredAdditionalTabs = this.HookService.call('workPackageAdditionalTabs');
+    this.registeredAdditionalTabs = this.HookService.getAdditionalWorkPackageTabs();
   }
 
   ngOnInit():void {

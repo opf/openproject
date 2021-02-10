@@ -57,7 +57,7 @@ export class WorkPackageAdditionalTabComponent extends UntilDestroyedMixin imple
 
   findTab() {
     const additionalTabIdentifier = this.$transition.params('to').additionalTabIdentifier;
-    const registeredAdditionalTabs = this.HookService.call('workPackageAdditionalTabs');
+    const registeredAdditionalTabs = this.HookService.getAdditionalWorkPackageTabs();
     const additionalTabs = this.workPackage.additionalTabs(registeredAdditionalTabs);
     this.additionalTab = _.find(additionalTabs, ({identifier: id}) => id === additionalTabIdentifier);
   }

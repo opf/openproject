@@ -27,6 +27,7 @@
 //++
 
 import {Injectable} from "@angular/core";
+import { Tab } from "core-app/components/wp-single-view-tabs/additional-tab/tab";
 
 @Injectable()
 export class HookService {
@@ -58,5 +59,13 @@ export class HookService {
     }
 
     return results;
+  }
+
+  public registerAdditionalWorkPackageTab(tab: Tab) {
+    this.register('workPackageAdditionalTabs', () => tab);
+  }
+
+  public getAdditionalWorkPackageTabs(): Tab[] {
+    return(this.call('workPackageAdditionalTabs'));
   }
 }
