@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'index placeholder users', type: :feature do
-  let!(:current_user) { FactoryBot.create :admin, created_at: 1.hour.ago }
+  let!(:current_user) { FactoryBot.create :admin }
   let!(:anonymous) { FactoryBot.create :anonymous }
   let!(:placeholder_user_1) do
     FactoryBot.create(:placeholder_user,

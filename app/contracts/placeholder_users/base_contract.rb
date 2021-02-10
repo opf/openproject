@@ -32,6 +32,8 @@ module PlaceholderUsers
   class BaseContract < ::ModelContract
     attribute :name,
               writeable: ->(*) { user.admin? }
+    attribute :lastname,
+        writeable: ->(*) { user.admin? }
 
     def self.model
       PlaceholderUser

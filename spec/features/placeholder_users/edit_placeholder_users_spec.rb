@@ -34,7 +34,7 @@ describe 'edit placeholder users', type: :feature, js: true do
   let(:placeholder_user) { FactoryBot.create :placeholder_user, name: 'UX Developer' }
 
   before do
-    allow(User).to receive(:current).and_return current_user
+    login_as current_user
   end
 
   context 'as admin' do
