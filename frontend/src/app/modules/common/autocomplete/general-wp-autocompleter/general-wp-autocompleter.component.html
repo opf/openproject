@@ -1,0 +1,24 @@
+<div class="inline-label ng-select-container">
+
+  <ng-select #ngSelectInstance
+        [(ngModel)]="model"
+        [items]="availableOptions"
+        [ngClass]="classes"
+        [virtualScroll]="true"
+        [typeahead]="requests.input$"
+        [clearOnBackspace]="clearOnBackspace"
+        [clearSearchOnAdd]="clearSearchOnAdd"
+        [hideSelected]="hideSelected"
+        [appendTo]="appendTo"
+        [multiple]="multiple"
+        [loading]="isLoading"
+        [closeOnSelect]="closeOnSelect"
+
+        (change)="changed($event)"
+        (open)="opened()"
+        (close)="closed()"
+        bindLabel="name">
+
+             <ng-content></ng-content>
+  </ng-select>
+</div>

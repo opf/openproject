@@ -69,6 +69,7 @@ import {HomescreenNewFeaturesBlockComponent} from "core-components/homescreen/bl
 import {BoardVideoTeaserModalComponent} from "core-app/modules/boards/board/board-video-teaser-modal/board-video-teaser-modal.component";
 import {PersistentToggleComponent} from "core-app/modules/common/persistent-toggle/persistent-toggle.component";
 import {AutocompleteSelectDecorationComponent} from "core-app/modules/common/autocomplete/autocomplete-select-decoration.component";
+import {GeneralWorkPackageAutocompleterComponent} from "core-app/modules/common/autocomplete/general-wp-autocompleter/general-wp-autocompleter.component";
 import {AddSectionDropdownComponent} from "core-app/modules/common/hide-section/add-section-dropdown/add-section-dropdown.component";
 import {HideSectionLinkComponent} from "core-app/modules/common/hide-section/hide-section-link/hide-section-link.component";
 import {RemoteFieldUpdaterComponent} from 'core-app/modules/common/remote-field-updater/remote-field-updater.component';
@@ -264,6 +265,7 @@ export function bootstrapModule(injector:Injector) {
     WorkPackageAutocompleterComponent,
     TimeEntryWorkPackageAutocompleterComponent,
     DraggableAutocompleteComponent,
+    GeneralWorkPackageAutocompleterComponent,
 
     HomescreenNewFeaturesBlockComponent,
     BoardVideoTeaserModalComponent,
