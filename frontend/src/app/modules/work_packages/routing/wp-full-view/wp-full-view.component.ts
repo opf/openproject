@@ -60,10 +60,10 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   constructor(public injector:Injector,
               public wpTableSelection:WorkPackageViewSelectionService,
               readonly $state:StateService,
-              readonly HookService:HookService) {
+              readonly hooks:HookService) {
     super(injector, $state.params['workPackageId']);
 
-    this.registeredAdditionalTabs = this.HookService.getAdditionalWorkPackageTabs();
+    this.registeredAdditionalTabs = this.hooks.getAdditionalWorkPackageTabs();
   }
 
   ngOnInit():void {

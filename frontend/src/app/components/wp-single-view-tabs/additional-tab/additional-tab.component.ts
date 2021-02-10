@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -24,15 +24,15 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
 import {Transition} from '@uirouter/core';
 import {AfterViewInit, Component, ComponentFactoryResolver, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {HookService} from 'core-app/modules/plugins/hook-service';
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {UntilDestroyedMixin} from 'core-app/helpers/angular/until-destroyed.mixin';
+import {APIV3Service} from 'core-app/modules/apiv3/api-v3.service';
 import { TabComponent } from './tab.component';
 import { Tab } from './tab';
 
@@ -50,14 +50,14 @@ export class WorkPackageAdditionalTabComponent extends UntilDestroyedMixin imple
   public constructor(readonly I18n:I18nService,
                      readonly $transition:Transition,
                      readonly apiV3Service:APIV3Service,
-                     readonly HookService:HookService,
+                     readonly hooks:HookService,
                      private componentFactoryResolver: ComponentFactoryResolver) {
     super();
   }
 
   findTab() {
     const additionalTabIdentifier = this.$transition.params('to').additionalTabIdentifier;
-    const registeredAdditionalTabs = this.HookService.getAdditionalWorkPackageTabs();
+    const registeredAdditionalTabs = this.hooks.getAdditionalWorkPackageTabs();
     const additionalTabs = this.workPackage.additionalTabs(registeredAdditionalTabs);
     this.additionalTab = _.find(additionalTabs, ({identifier: id}) => id === additionalTabIdentifier);
   }
@@ -80,10 +80,10 @@ export class WorkPackageAdditionalTabComponent extends UntilDestroyedMixin imple
   }
 
   ngAfterViewInit() {
-    setTimeout(() => { // TODO: setTimeout is a crazy hack, but without it `additionalTabContent` is undefined. Don't know why, according to the internet it should work just fine. Could need help debugging this.
+    setTimeout(() => {
       if (this.additionalTab === undefined) {
         // Tab was not found - e.g. because the user typed a random tab-url or does not have view permissions for this tab.
-        return
+        return;
       }
 
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory<TabComponent>(this.additionalTab.component);
