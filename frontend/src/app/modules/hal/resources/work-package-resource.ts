@@ -46,7 +46,7 @@ import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/a
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import { Tab } from 'core-app/components/wp-single-view-tabs/additional-tab/tab';
+import { Tab } from 'core-app/components/wp-single-view-tabs/tab/tab';
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
