@@ -44,7 +44,7 @@ export class WorkPackageAdditionalTabComponent extends UntilDestroyedMixin imple
   @Input() public workPackageId?:string;
   @ViewChild('additionalTabContent', { read: ViewContainerRef }) additionalTabContent: ViewContainerRef;
 
-  public additionalTab:Tab|undefined;
+  public tab:Tab|undefined;
   public workPackage:WorkPackageResource;
 
   public constructor(readonly I18n:I18nService,
@@ -56,10 +56,10 @@ export class WorkPackageAdditionalTabComponent extends UntilDestroyedMixin imple
   }
 
   findTab() {
-    const additionalTabIdentifier = this.$transition.params('to').additionalTabIdentifier;
-    const registeredAdditionalTabs = this.hooks.getAdditionalWorkPackageTabs();
-    const additionalTabs = this.workPackage.additionalTabs(registeredAdditionalTabs);
-    this.additionalTab = _.find(additionalTabs, ({identifier: id}) => id === additionalTabIdentifier);
+    const tabIdentifier = this.$transition.params('to').tabIdentifier;
+    const registeredTabs = this.hooks.getWorkPackageTabs();
+    const tabs = this.workPackage.tabs(registeredTabs);
+    this.tab = _.find(tabs, ({identifier: id}) => id === tabIdentifier);
   }
 
   ngOnInit() {
@@ -81,12 +81,12 @@ export class WorkPackageAdditionalTabComponent extends UntilDestroyedMixin imple
 
   ngAfterViewInit() {
     setTimeout(() => {
-      if (this.additionalTab === undefined) {
+      if (this.tab === undefined) {
         // Tab was not found - e.g. because the user typed a random tab-url or does not have view permissions for this tab.
         return;
       }
 
-      const componentFactory = this.componentFactoryResolver.resolveComponentFactory<TabComponent>(this.additionalTab.component);
+      const componentFactory = this.componentFactoryResolver.resolveComponentFactory<TabComponent>(this.tab.component);
       this.additionalTabContent.clear();
       const componentRef = this.additionalTabContent.createComponent<TabComponent>(componentFactory);
       componentRef.instance.workPackage = this.workPackage;

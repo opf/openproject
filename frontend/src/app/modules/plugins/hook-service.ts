@@ -61,11 +61,11 @@ export class HookService {
     return results;
   }
 
-  public registerAdditionalWorkPackageTab(tab: Tab) {
-    this.register('workPackageAdditionalTabs', () => tab);
+  public registerWorkPackageTab(tab:Tab) {
+    this.register('workPackageTabs', () => tab);
   }
 
-  public getAdditionalWorkPackageTabs(): Tab[] {
-    return(this.call('workPackageAdditionalTabs'));
+  public getWorkPackageTabs():Tab[] {
+    return(this.call('workPackageTabs'));
   }
 }

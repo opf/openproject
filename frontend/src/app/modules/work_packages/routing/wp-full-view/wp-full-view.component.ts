@@ -35,7 +35,6 @@ import {WorkPackageSingleViewBase} from "core-app/modules/work_packages/routing/
 import {of} from "rxjs";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import { Tab } from 'core-app/components/wp-single-view-tabs/additional-tab/tab';
 
 @Component({
   templateUrl: './wp-full-view.html',
@@ -52,26 +51,16 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   public displayWatchButton:boolean;
   public watchers:any;
 
-  // additional tabs
-  private registeredAdditionalTabs:Tab[];
-
   stateName$ = of('work-packages.new');
 
   constructor(public injector:Injector,
               public wpTableSelection:WorkPackageViewSelectionService,
-              readonly $state:StateService,
-              readonly hooks:HookService) {
+              readonly $state:StateService) {
     super(injector, $state.params['workPackageId']);
-
-    this.registeredAdditionalTabs = this.hooks.getAdditionalWorkPackageTabs();
   }
 
   ngOnInit():void {
     this.observeWorkPackage();
-  }
-
-  public additionalTabs():Tab[] {
-    return this.workPackage.additionalTabs(this.registeredAdditionalTabs);
   }
 
   protected initializeTexts() {

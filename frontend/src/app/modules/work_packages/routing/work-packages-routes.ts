@@ -135,8 +135,8 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     }
   },
   {
-    name: 'work-packages.show.additionalTabs',
-    url: '/additionalTabs/:additionalTabIdentifier',
+    name: 'work-packages.show.tabs',
+    url: '/tabs/:tabIdentifier',
     component: WorkPackageAdditionalTabComponent,
     data: {
       parent: 'work-packages.show',

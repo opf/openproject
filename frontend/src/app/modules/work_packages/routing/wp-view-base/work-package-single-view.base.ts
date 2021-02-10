@@ -42,6 +42,8 @@ import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {catchError, subscribeOn} from "rxjs/operators";
+import { Tab } from 'core-app/components/wp-single-view-tabs/additional-tab/tab';
+import { HookService } from 'core-app/modules/plugins/hook-service';
 
 export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
@@ -56,6 +58,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   @InjectField() cdRef:ChangeDetectorRef;
   @InjectField() readonly titleService:OpTitleService;
   @InjectField() readonly apiV3Service:APIV3Service;
+  @InjectField() readonly hooks:HookService;
 
   // Static texts
   public text:any = {};
@@ -67,7 +70,8 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   public focusAnchorLabel:string;
   public showStaticPagePath:string;
 
-  constructor(public injector:Injector, protected workPackageId:string) {
+  constructor(public injector:Injector,
+              protected workPackageId:string) {
     super();
     this.initializeTexts();
   }
@@ -137,6 +141,10 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       .subscribe((tabs:any) => {
         this.updateFocusAnchorLabel(tabs.active);
       });
+  }
+
+  public tabs():Tab[] {
+    return this.workPackage.tabs(this.hooks.getWorkPackageTabs());
   }
 
   /**

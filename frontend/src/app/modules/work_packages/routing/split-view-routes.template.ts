@@ -34,6 +34,7 @@ import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-sp
 import {Ng2StateDeclaration} from "@uirouter/angular";
 import {ComponentType} from "@angular/cdk/overlay";
 import {WorkPackageCopySplitViewComponent} from "core-components/wp-copy/wp-copy-split-view.component";
+import { WorkPackageAdditionalTabComponent } from 'core-app/components/wp-single-view-tabs/additional-tab/additional-tab.component';
 
 /**
  * Return a set of routes for a split view mounted under the given base route,
@@ -118,6 +119,16 @@ export function makeSplitViewRoutes(baseRoute:string,
       name: routeName + '.details.watchers',
       url: '/watchers',
       component: WorkPackageWatchersTabComponent,
+      data: {
+        baseRoute: baseRoute,
+        menuItem: menuItemClass,
+        parent: routeName + '.details'
+      }
+    },
+    {
+      name: routeName + '.details.tabs',
+      url: '/tabs/:tabIdentifier',
+      component: WorkPackageAdditionalTabComponent,
       data: {
         baseRoute: baseRoute,
         menuItem: menuItemClass,

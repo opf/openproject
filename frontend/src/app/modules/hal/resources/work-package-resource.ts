@@ -183,9 +183,8 @@ export class WorkPackageBaseResource extends HalResource {
     return otherWorkPackage.parent?.$links.self.$link.href === this.$links.self.$link.href;
   }
 
-  public additionalTabs(registeredTabs: Tab[]):Tab[] {
-    const allowedTabs = _.map(this.additionalWorkPackageTabs, (halResource) => halResource.name);
-    return _.filter(registeredTabs, (tab) => _.includes(allowedTabs, tab.identifier));
+  public tabs(registeredTabs: Tab[]):Tab[] {
+    return _.filter(registeredTabs, (tab) => tab.displayable(this));
   }
 
   /**
