@@ -27,7 +27,7 @@ checks:
 plugins:
   rubocop:
     enabled: true
-    channel: rubocop-1-9
+    channel: rubocop-1-9-1
   # Codeclimate uses brakeman 4.3.1 which does not support rails 6
   # Check https://docs.codeclimate.com/docs/brakeman for updates.
   brakeman:
