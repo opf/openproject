@@ -33,7 +33,7 @@ class PlaceholderUsersController < ApplicationController
 
   helper_method :gon
 
-  before_action :require_admin, except: [:show, :deletion_info, :destroy]
+  before_action :require_admin, except: [:show]
   before_action :find_placeholder_user, only: [:show,
                                                :edit,
                                                :update,
