@@ -27,7 +27,6 @@
 //++
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {HookService} from 'core-app/modules/plugins/hook-service';
 import {StateService} from '@uirouter/core';
 import {Component, Injector, OnInit} from '@angular/core';
 import {WorkPackageViewSelectionService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service';
