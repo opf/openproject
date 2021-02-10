@@ -315,16 +315,6 @@ module API
           end
         end
 
-        links :additionalWorkPackageTabs,
-              uncacheable: true do
-          additional_work_package_tabs.map do |tab_identifier|
-            {
-              href: "#{work_package_path(id: represented.id)}/additionalTabs/#{tab_identifier}",
-              title: tab_identifier
-            }
-          end
-        end
-
         property :id,
                  render_nil: true
 
@@ -615,12 +605,6 @@ module API
 
         def load_complete_model(model)
           ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap_one(model, current_user)
-        end
-
-        # This method is a hook to be extended by plugins.
-        # See our github integration for an example.
-        def additional_work_package_tabs
-          []
         end
       end
     end

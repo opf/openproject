@@ -37,12 +37,12 @@ import { TabComponent } from './tab.component';
 import { Tab } from './tab';
 
 @Component({
-  templateUrl: './additional-tab.html',
-  selector: 'wp-additional-tab',
+  templateUrl: './tab-wrapper.html',
+  selector: 'wp-tab',
 })
-export class WorkPackageAdditionalTabComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
+export class WorkPackageTabComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
   @Input() public workPackageId?:string;
-  @ViewChild('additionalTabContent', { read: ViewContainerRef }) additionalTabContent: ViewContainerRef;
+  @ViewChild('tabContent', { read: ViewContainerRef }) tabContent: ViewContainerRef;
 
   public tab:Tab|undefined;
   public workPackage:WorkPackageResource;
@@ -87,8 +87,8 @@ export class WorkPackageAdditionalTabComponent extends UntilDestroyedMixin imple
       }
 
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory<TabComponent>(this.tab.component);
-      this.additionalTabContent.clear();
-      const componentRef = this.additionalTabContent.createComponent<TabComponent>(componentFactory);
+      this.tabContent.clear();
+      const componentRef = this.tabContent.createComponent<TabComponent>(componentFactory);
       componentRef.instance.workPackage = this.workPackage;
     }, 0);
   }
