@@ -59,7 +59,7 @@ FactoryBot.define do
       sequence(:login) do |n| "bob#{n}" end
       sequence(:mail) do |n| "bob#{n}.bobbit@bob.com" end
       password { 'adminADMIN!' }
-      password_confirmation { 'adminADMIN!' }
+      password_confirmation { 'adminADMIN!'}
       status { User.statuses[:locked] }
     end
 

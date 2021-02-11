@@ -1,5 +1,6 @@
 name: Core/Test
-on: [push, pull_request_target]
+on:
+  push:
 
 jobs:
   units:

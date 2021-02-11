@@ -6,7 +6,7 @@ require 'carrierwave/storage/fog'
 #
 # @todo Upgrade to CarrierWave 2.0.2 to make this patch obsolete.
 
-if Gem.loaded_specs["carrierwave"].version > Gem::Version.new('1.3.1')
+if Gem.loaded_specs["carrierwave"].version > Gem::Version.new('1.3.2')
   raise "Check if these patches of Carrierwave are still required"
 end
 

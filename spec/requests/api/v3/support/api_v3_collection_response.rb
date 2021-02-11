@@ -58,7 +58,7 @@ shared_examples_for 'API V3 collection response' do |total, count, type|
       expect(subject).to be_json_eql(total_number.to_json).at_path('total')
       expect(subject).to have_json_size(count_number).at_path('_embedded/elements')
 
-      if count_number > 0
+      if type && count_number > 0
         expect(subject).to be_json_eql(type.to_json).at_path('_embedded/elements/0/_type')
       end
     end

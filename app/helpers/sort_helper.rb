@@ -125,6 +125,11 @@ module SortHelper
         .compact
     end
 
+    def to_query_hash
+      criteria_with_direction
+        .to_h
+    end
+
     def map_each
       to_a.map { |criteria| yield criteria }
     end
@@ -188,7 +193,11 @@ module SortHelper
     end
 
     def to_json_param
-      JSON::dump(@criteria.map { |k, o| [k, o ? 'asc' : 'desc'] })
+      JSON::dump(criteria_with_direction)
+    end
+
+    def criteria_with_direction
+      @criteria.map { |k, o| [k, o ? :asc : :desc] }
     end
 
     def to_sort_param

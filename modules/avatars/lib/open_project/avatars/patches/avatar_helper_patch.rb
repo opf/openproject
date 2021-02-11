@@ -36,16 +36,18 @@ AvatarHelper.class_eval do
   module InstanceMethods
     # Returns the avatar image tag for the given +user+ if avatars are enabled
     # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
-    def avatar(user, options = {})
-      if local_avatar? user
-        local_avatar_image_tag user, options
+    def avatar(principal, options = {})
+      return build_default_avatar_image_tag(principal, options) unless principal.is_a?(User)
+
+      if local_avatar? principal
+        local_avatar_image_tag principal, options
       elsif avatar_manager.gravatar_enabled?
-        build_gravatar_image_tag user, options
+        build_gravatar_image_tag principal, options
       else
-        build_default_avatar_image_tag user, options
+        build_default_avatar_image_tag principal, options
       end
     rescue StandardError => e
-      Rails.logger.error "Failed to create avatar for #{user}: #{e}"
+      Rails.logger.error "Failed to create avatar for #{principal}: #{e}"
       ''.html_safe
     end
 

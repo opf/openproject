@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Authorization::UserAllowedQuery, :with_clean_fixture do
+describe Authorization::UserAllowedQuery do
   describe '.query' do
     let(:user) { member.principal }
     let(:anonymous) { FactoryBot.build(:anonymous) }

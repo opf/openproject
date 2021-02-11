@@ -60,16 +60,7 @@ describe Users::CreateContract do
   end
 
   context 'when global user' do
-    let!(:global_add_user_role) { FactoryBot.create :global_role, name: 'Add user', permissions: %i[add_user] }
-    let(:current_user) do
-      user = FactoryBot.create(:user)
-
-      FactoryBot.create(:global_member,
-                        principal: user,
-                        roles: [global_add_user_role])
-
-      user
-    end
+    shared_let(:current_user) { FactoryBot.create :user, global_permission: :add_user }
 
     describe 'can invite user' do
       before do
@@ -89,14 +80,17 @@ describe Users::CreateContract do
       it_behaves_like 'contract is invalid', password: :error_readonly
     end
 
-    describe 'cannot set the auth_source' do
+    describe 'can set the auth_source' do
       let!(:auth_source) { FactoryBot.create :auth_source }
 
       before do
+        user.password = user.password_confirmation = nil
         user.auth_source = auth_source
       end
 
-      it_behaves_like 'contract is invalid', auth_source_id: :error_readonly
+      it 'is valid' do
+        expect_valid(true)
+      end
     end
 
     describe 'cannot set the identity url' do

@@ -1,0 +1,12 @@
+<% if OpenProject::Configuration.disable_password_login? %>
+  <div id="no_password_info">
+    <div class="form--field">
+      <%= styled_label_tag nil, I18n.t(:warning) %>
+      <div class="form--field-container">
+        <%= I18n.t 'user.no_login' %>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <%= render partial: 'users/form/authentication/internal_password', locals: { f: f } %>
+<% end %>

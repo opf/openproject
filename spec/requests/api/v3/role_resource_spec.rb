@@ -29,17 +29,18 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 roles resource', type: :request, with_clean_fixture: true do
+describe 'API v3 roles resource', type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
     FactoryBot.create(:user,
                       member_in_project: project,
-                      member_with_permissions: permissions)
+                      member_through_role: role)
   end
   let(:role) do
-    FactoryBot.create(:role)
+    FactoryBot.create(:role,
+                      permissions: permissions)
   end
   let(:permissions) { %i[view_members manage_members] }
   let(:project) { FactoryBot.create(:project) }
@@ -53,6 +54,8 @@ describe 'API v3 roles resource', type: :request, with_clean_fixture: true do
 
     before do
       roles
+
+      login_as(current_user)
 
       get get_path
     end
@@ -107,6 +110,15 @@ describe 'API v3 roles resource', type: :request, with_clean_fixture: true do
         expect(subject.body)
           .to be_json_eql(role.id.to_json)
           .at_path('_embedded/elements/0/id')
+      end
+    end
+
+    context 'without the necessary permissions' do
+      let(:permissions) { [] }
+
+      it 'returns 403' do
+        expect(subject.status)
+          .to eql(403)
       end
     end
   end

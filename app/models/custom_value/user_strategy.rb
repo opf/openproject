@@ -32,10 +32,10 @@ class CustomValue::UserStrategy < CustomValue::ARObjectStrategy
   private
 
   def ar_class
-    User
+    Principal
   end
 
   def ar_object(value)
-    User.find_by(id: value)
+    Principal.find_by(id: value)
   end
 end

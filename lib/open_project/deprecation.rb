@@ -39,6 +39,8 @@ module OpenProject::Deprecation
       end
     end
 
+    delegate :warn, to: :deprecator
+
     ##
     # Deprecate the given method with a notice regarding future removal
     #

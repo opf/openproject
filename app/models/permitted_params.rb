@@ -181,8 +181,8 @@ class PermittedParams
     permitted_params.merge(params[:settings].to_unsafe_hash.slice(*all_valid_keys))
   end
 
-  def user
-    permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user])
+  def user(additional_params = [])
+    permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user] + additional_params)
     permitted_params = permitted_params.merge(custom_field_values(:user))
 
     permitted_params
@@ -208,21 +208,16 @@ class PermittedParams
   def user_create_as_admin(external_authentication,
                            change_password_allowed,
                            additional_params = [])
+
+    additional_params << :auth_source_id unless external_authentication
+
     if current_user.admin?
-      additional_params << :auth_source_id unless external_authentication
       additional_params << :force_password_change if change_password_allowed
-
-      allowed_params = self.class.permitted_attributes[:user] + \
-                       additional_params + \
-                       %i[admin login]
-
-      permitted_params = params.require(:user).permit(*allowed_params)
-      permitted_params = permitted_params.merge(custom_field_values(:user))
-
-      permitted_params
-    else
-      user
+      additional_params << :admin
+      additional_params << :login
     end
+
+    user additional_params
   end
 
   def type(args = {})

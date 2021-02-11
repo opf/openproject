@@ -41,7 +41,7 @@ module Users
     attribute :language
 
     attribute :auth_source_id,
-              writeable: ->(*) { user.admin? }
+              writeable: ->(*) { user.allowed_to_globally?(:add_user) }
 
     attribute :identity_url,
               writeable: ->(*) { user.admin? }

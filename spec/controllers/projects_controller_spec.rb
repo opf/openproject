@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ProjectsController, type: :controller do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:non_member) { FactoryBot.create :non_member }
 
   before do

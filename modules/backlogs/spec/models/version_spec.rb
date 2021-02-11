@@ -54,7 +54,7 @@ describe Version, type: :model do
 
     let(:version) { FactoryBot.create(:version, project_id: project.id, name: 'Version') }
 
-    using_shared_fixtures :admin
+    shared_let(:admin) { FactoryBot.create :admin }
 
     def move_to_project(work_package, project)
       service = WorkPackages::MoveService.new(work_package, admin)

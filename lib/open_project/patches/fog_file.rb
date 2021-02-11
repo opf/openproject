@@ -1,4 +1,4 @@
-if Gem.loaded_specs["carrierwave"].version > Gem::Version.new('1.3.1')
+if Gem.loaded_specs["carrierwave"].version > Gem::Version.new('1.3.2')
   raise "Check if these patches of Carrierwave are still required"
 end
 

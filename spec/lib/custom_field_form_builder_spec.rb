@@ -236,8 +236,8 @@ describe CustomFieldFormBuilder do
         resource.custom_field.field_format = 'user'
         resource.customized = project
         allow(project)
-          .to receive(:users)
-                .and_return([user1, user2])
+          .to(receive(:principals))
+          .and_return([user1, user2])
       end
 
       it_behaves_like 'wrapped in container', 'select-container' do

@@ -33,11 +33,16 @@ class IndividualPrincipalBaseFilterCell < RailsCell
   include ActionView::Helpers::FormOptionsHelper
 
   class << self
-    def filter(params)
+    def query(params)
       q = base_query.new
-      q = apply_filters(params, q)
 
-      q.results
+       apply_filters(params, q)
+
+      q
+    end
+
+    def filter(params)
+      query(params).results
     end
 
     def filtered?(params)

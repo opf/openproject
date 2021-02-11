@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 feature 'Administrating memberships via the project settings', type: :feature, js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:current_user) do
     FactoryBot.create(:user,
                       member_in_project: project,
@@ -37,8 +37,20 @@ feature 'Administrating memberships via the project settings', type: :feature, j
   end
   let!(:project) { FactoryBot.create :project }
 
-  let!(:peter)    { FactoryBot.create :user, firstname: 'Peter', lastname: 'Pan', mail: 'foo@example.org' }
-  let!(:hannibal) { FactoryBot.create :user, firstname: 'Hannibal', lastname: 'Smith', mail: 'boo@bar.org' }
+  let!(:peter) do
+    FactoryBot.create :user,
+                      status: User.statuses[:active],
+                      firstname: 'Peter',
+                      lastname: 'Pan',
+                      mail: 'foo@example.org'
+  end
+  let!(:hannibal) do
+    FactoryBot.create :user,
+                      status: User.statuses[:invited],
+                      firstname: 'Hannibal',
+                      lastname: 'Smith',
+                      mail: 'boo@bar.org'
+  end
   let!(:developer_placeholder) { FactoryBot.create :placeholder_user, name: 'Developer 1' }
   let!(:crash) do
     FactoryBot.create :user,
@@ -76,30 +88,32 @@ feature 'Administrating memberships via the project settings', type: :feature, j
     let!(:existing_members) { [member1, member2, member3] }
 
     scenario 'sorting the page' do
-      members_page.sort_by 'last name'
-      members_page.expect_sorted_by 'last name'
-
-      expect(members_page.contents('lastname')).to eq ['', peter.lastname, hannibal.lastname]
+      members_page.expect_sorted_by 'name'
+      expect(members_page.contents('name')).to eq [group.name, hannibal.name, peter.name]
 
       SeleniumHubWaiter.wait
-      members_page.sort_by 'last name'
-      members_page.expect_sorted_by 'last name', desc: true
-      expect(members_page.contents('lastname')).to eq [hannibal.lastname, peter.lastname, '']
-
-      SeleniumHubWaiter.wait
-      members_page.sort_by 'first name'
-      members_page.expect_sorted_by 'first name'
-      expect(members_page.contents('firstname')).to eq ['', hannibal.firstname, peter.firstname]
+      members_page.sort_by 'name'
+      members_page.expect_sorted_by 'name', desc: true
+      expect(members_page.contents('name')).to eq [peter.name, hannibal.name, group.name]
 
       SeleniumHubWaiter.wait
       members_page.sort_by 'email'
       members_page.expect_sorted_by 'email'
-      expect(members_page.contents('email')).to eq ['', hannibal.mail, peter.mail]
+      expect(members_page.contents('email')).to eq [hannibal.mail, peter.mail]
+
+      SeleniumHubWaiter.wait
+      members_page.sort_by 'status'
+      members_page.expect_sorted_by 'status'
+      expect(members_page.contents('status', raw: true)).to eq %w(active active invited)
+
+      SeleniumHubWaiter.wait
+      members_page.sort_by 'status'
+      members_page.expect_sorted_by 'status', desc: true
+      expect(members_page.contents('status', raw: true)).to eq %w(invited active active)
 
       # Cannot sort by group, roles or status
       expect(page).to have_no_selector('.generic-table--sort-header a', text: 'ROLES')
       expect(page).to have_no_selector('.generic-table--sort-header a', text: 'GROUP')
-      expect(page).to have_no_selector('.generic-table--sort-header a', text: 'STATUS')
     end
   end
 
@@ -121,7 +135,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
 
     SeleniumHubWaiter.wait
     members_page.remove_user! 'Hannibal Smith'
-    expect(page).to have_text 'Removed Hannibal Smith from project'
+    expect(page).to have_text 'Hannibal Smith has been removed from the project and deleted.'
     expect(page).to have_text 'There are currently no members part of this project.'
   end
 

@@ -37,7 +37,7 @@ describe GroupsController, type: :controller do
   end
 
   context 'as admin' do
-    using_shared_fixtures :admin
+    shared_let(:admin) { FactoryBot.create :admin }
     let(:current_user) { admin }
 
     it 'should index' do

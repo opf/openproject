@@ -31,7 +31,7 @@ require 'spec_helper'
 describe 'Expire old user sessions',
          with_config: { session_store: :active_record_store },
          type: :feature do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:admin_password) { 'adminADMIN!'}
 
   before do

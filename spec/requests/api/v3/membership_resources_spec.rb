@@ -109,11 +109,9 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     context 'as an admin' do
       let(:current_user) { admin }
 
-      it 'responds 200 OK' do
+      it 'returns a collection of memberships containing only the visible ones', :aggregate_failures do
         expect(subject.status).to eq(200)
-      end
 
-      it 'returns a collection of memberships containing only the visible ones' do
         expect(subject.body)
           .to be_json_eql('Collection'.to_json)
           .at_path('_type')

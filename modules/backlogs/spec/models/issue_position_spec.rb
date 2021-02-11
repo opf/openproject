@@ -254,7 +254,7 @@ describe WorkPackage, type: :model do
                            project_id: project_wo_backlogs.id,
                            name: 'Go-Live')
       }
-      using_shared_fixtures :admin
+      shared_let(:admin) { FactoryBot.create :admin }
 
       def move_to_project(work_package, project)
         service = WorkPackages::MoveService.new(work_package, admin)
