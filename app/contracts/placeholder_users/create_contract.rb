@@ -30,5 +30,16 @@
 
 module PlaceholderUsers
   class CreateContract < BaseContract
+    attribute :type
+
+    validate :type_is_placeholder_user
+
+    private
+
+    def type_is_placeholder_user
+      unless model.type == PlaceholderUser.name
+        errors.add(:type, 'Type and class mismatch')
+      end
+    end
   end
 end

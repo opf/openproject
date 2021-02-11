@@ -30,8 +30,6 @@
 
 module Users
   class BaseContract < ::ModelContract
-    attribute :type,
-              writable: ->(*) { model.new_record? }
     attribute :login
     attribute :firstname
     attribute :lastname

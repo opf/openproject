@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,37 +29,45 @@
 #++
 
 require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
-require_relative 'shared_contract_examples'
 
-describe PlaceholderUsers::CreateContract do
-  include_context 'ModelContract shared context'
+shared_examples_for 'placeholder user contract' do
+  let(:placeholder_user_name) { 'UX Designer' }
 
-  it_behaves_like 'placeholder user contract' do
-    let(:placeholder_user) { PlaceholderUser.new(name: placeholder_user_name) }
-    let(:contract) { described_class.new(placeholder_user, current_user) }
-    let(:current_user) { FactoryBot.build_stubbed(:admin) }
+  it_behaves_like 'contract is valid for active admin users only'
 
-    describe 'validates attributes' do
-      describe 'name' do
-        context 'is unique' do
-          before do
-            PlaceholderUser.create(name: placeholder_user_name)
-          end
+  context 'name' do
+    context 'is valid' do
+      it_behaves_like 'contract is valid'
+    end
 
-          it_behaves_like 'contract is invalid'
-        end
+    context 'is not too long' do
+      let(:placeholder_user) { PlaceholderUser.new(name: 'X' * 257) }
+
+      it_behaves_like 'contract is invalid'
+    end
+
+    context 'is not empty' do
+      let(:placeholder_user) { PlaceholderUser.new(name: '') }
+
+      it_behaves_like 'contract is invalid'
+    end
+
+    context 'is unique' do
+      before do
+        PlaceholderUser.create(name: placeholder_user_name)
       end
 
-      describe 'type' do
-        context 'type and class mismatch' do
-          before do
-            placeholder_user.type = User.name
-          end
+      it_behaves_like 'contract is invalid'
+    end
+  end
 
-          it_behaves_like 'contract is invalid'
-        end
+  describe 'type' do
+    context 'type and class mismatch' do
+      before do
+        placeholder_user.type = User.name
       end
+
+      it_behaves_like 'contract is invalid'
     end
   end
 end
