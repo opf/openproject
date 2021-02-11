@@ -1,13 +1,12 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -27,25 +26,28 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      module Schemas
-        class ProjectFilterDependencyRepresenter <
-          FilterDependencyRepresenter
+require 'spec_helper'
 
-          def href_callback
-            params = [active: { operator: '=', values: ['t'] }]
-            escaped = CGI.escape(::JSON.dump(params))
+describe Queries::WorkPackages::Filter::ProjectFilter, type: :model do
+  let(:query) { FactoryBot.build :query }
+  let(:instance) do
+    described_class.create!(name: 'project', context: query, operator: '=', values: [])
+  end
 
-            "#{api_v3_paths.projects}?filters=#{escaped}"
-          end
+  describe '#allowed_values' do
+    let!(:project) { FactoryBot.create :project }
+    let!(:archived_project) { FactoryBot.create :project, active: false }
 
-          def type
-            "[]Project"
-          end
-        end
-      end
+    let(:user) { FactoryBot.create(:user, member_in_projects: [project, archived_project], member_through_role: role) }
+    let(:role) { FactoryBot.create :role, permissions: %i(view_work_packages) }
+
+    before do
+      login_as user
+    end
+
+    it 'does not include the archived project (Regression #36026)' do
+      expect(instance.allowed_values)
+        .to match_array [[project.name, project.id.to_s]]
     end
   end
 end

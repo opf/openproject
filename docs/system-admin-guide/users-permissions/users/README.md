@@ -4,7 +4,7 @@ sidebar_navigation:
   priority: 990
 description: Manage users in OpenProject.
 robots: index, follow
-keywords: manage users
+keywords: manage users, lock, unlock, invite, language
 ---
 
 # Manage Users
@@ -16,14 +16,14 @@ The users list provides an overview of all users in OpenProject. You can create 
 </div>
 
 
-| Topic                                         | Content                                                      |
-| --------------------------------------------- | ------------------------------------------------------------ |
-| [User list](#user-list)                       | Manage all users in OpenProject.                             |
-| [Lock users](#lock-users)                     | Block a user permanently in the system.                      |
-| [Filter users](#filter-users)                 | Filter users in the list.                                    |
-| [Invite new users](#invite-new-users)         | Add new users to your OpenProject and invite them via email. Resend and delete user invitations. |
-| [Manage user settings](#manage-user-settings) | Manage user settings, e.g. language, projects, groups, global roles, rate history, avatar, two-factor authentication. |
-| [Delete users](#delete-users)                 | Delete a user from the system.                               |
+| Topic                                           | Content                                                      |
+| ----------------------------------------------- | ------------------------------------------------------------ |
+| [User list](#user-list)                         | Manage all users in OpenProject.                             |
+| [Lock and unlock users](#lock-and-unlock-users) | Block a user permanently in the system or unlock a user.     |
+| [Filter users](#filter-users)                   | Filter users in the list.                                    |
+| [Invite new users](#invite-new-users)           | Add new users to your OpenProject and invite them via email. Resend and delete user invitations. |
+| [Manage user settings](#manage-user-settings)   | Manage user settings, e.g. language, projects, groups, global roles, rate history, avatar, two-factor authentication. |
+| [Delete users](#delete-users)                   | Delete a user from the system.                               |
 
 ## User list
 
@@ -35,17 +35,20 @@ Also, you get the information when the user has been created, and when the user 
 
 ![user list](image-20200211141841492.png)
 
-## Lock users
+## Lock and unlock users
 
 If you want to **block users permanently** in the system, you can click the **Lock permanently** link next to a user.
 
-If you are using the [OpenProject Cloud Edition](../../../cloud-edition-guide), you will then have a new user available to add to the system within your booked plan.
+If you are using [Enterprise cloud](../../../cloud-edition-guide) or [Enterprise on-premises](../../../enterprise-edition-guide) you will then have a new user available to add to the system within your booked plan.
 
 <div class="alert alert-info" role="alert">
-**Note**: The previous activities from this locked users will still be displayed in the system.
+**Note**: The previous activities from these locked users will still be displayed in the system.
 </div>
 
 ![System-admin-guide_lock-users](System-admin-guide_lock-users.png)
+
+The way to unlock users is basically the same. Use the **Unlock** link at the right. 
+Here you can also **unlock users who have been locked temporarily due to multiple failed login attempts**. 
 
 ## Filter users
 

@@ -242,4 +242,31 @@ describe 'work package export', type: :feature do
       end
     end
   end
+
+  # Atom exports are not downloaded. In fact, it is not even a download but rather
+  # a feed one can follow.
+  context 'Atom export', js: true do
+    let(:export_type) { 'Atom' }
+    context 'with default filter' do
+      before do
+        work_packages_page.visit_index
+        filters.expect_filter_count 1
+        filters.open
+      end
+
+      it 'shows an xml with work packages' do
+        settings_menu.open_and_choose 'Export ...'
+
+        # The feed is opened in a new tab
+        new_window = window_opened_by { click_on export_type }
+
+        within_window new_window do
+          expect(page).to have_text(wp_1.description)
+          expect(page).to have_text(wp_2.description)
+          expect(page).to have_text(wp_3.description)
+          expect(page).to have_text(wp_4.description)
+        end
+      end
+    end
+  end
 end
