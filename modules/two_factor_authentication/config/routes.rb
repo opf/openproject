@@ -20,7 +20,7 @@ OpenProject::Application::routes.draw do
     end
   end
 
-  resources :users do
+  resources :users, only: [] do
     member do
       resources :two_factor_devices,
                 param: :device_id,
