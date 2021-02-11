@@ -230,11 +230,6 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   private updateCommentText() {
-    this.postedComment = this.activity.comment.html; // this.sanitization.bypassSecurityTrustHtml(this.activity.comment.html);
-
-    // Allow embeddable rendered content
-    // setTimeout(() => {
-    //   DynamicBootstrapper.bootstrapOptionalEmbeddable(this.appRef, this.elementRef.nativeElement);
-    // }, 100);
+    this.postedComment = this.activity.comment.html;
   }
 }
