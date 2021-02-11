@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,22 +28,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActions::Actions::Responsible < CustomActions::Actions::Base
-  include CustomActions::Actions::Strategies::Associated
-
-  def associated
-    User
-      .not_locked
-      .select(:id, :firstname, :lastname, :type)
-      .ordered_by_name
-      .map { |u| [u.id, u.name] }
-  end
-
-  def required?
-    false
-  end
+class Queries::Members::Orders::NameOrder < Queries::BaseOrder
+  self.model = Member
 
   def self.key
-    :responsible
+    :name
+  end
+
+  def joins
+    :principal
+  end
+
+  protected
+
+  def order
+    model.merge Principal.ordered_by_name(desc: direction == :desc)
   end
 end

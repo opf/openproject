@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,22 +28,45 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActions::Actions::Responsible < CustomActions::Actions::Base
-  include CustomActions::Actions::Strategies::Associated
+module Principals::Scopes
+  module OrderedByName
+    extend ActiveSupport::Concern
 
-  def associated
-    User
-      .not_locked
-      .select(:id, :firstname, :lastname, :type)
-      .ordered_by_name
-      .map { |u| [u.id, u.name] }
-  end
+    class_methods do
+      # Returns principals sorted by the name format defined by
+      # +Setting.name_format+
+      #
+      # @desc [Boolean] Whether the sortation should be reversed
+      # @return [ActiveRecord::Relation] A scope of sorted principals
+      def ordered_by_name(desc: false)
+        direction = desc ? 'DESC' : 'ASC'
 
-  def required?
-    false
-  end
+        order_case = Arel.sql <<~SQL
+          CASE
+          WHEN users.type = 'User' THEN LOWER(#{user_concat_sql})
+          WHEN users.type != 'User' THEN LOWER(users.lastname)
+          END #{direction}
+        SQL
 
-  def self.key
-    :responsible
+        order order_case
+      end
+
+      private
+
+      def user_concat_sql
+        case Setting.user_format
+        when :firstname_lastname
+          "concat_ws(' ', users.firstname, users.lastname)"
+        when :firstname
+          'users.firstname'
+        when :lastname_firstname, :lastname_coma_firstname
+          "concat_ws(' ', users.lastname, users.firstname)"
+        when :login
+          "users.login"
+        else
+          raise ArgumentError, "Invalid user format"
+        end
+      end
+    end
   end
 end
