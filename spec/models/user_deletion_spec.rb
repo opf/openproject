@@ -35,20 +35,20 @@ describe User, 'deletion', type: :model do
   let(:member) { project.members.first }
   let(:role) { member.roles.first }
   let(:status) { FactoryBot.create(:status) }
-  let(:issue) {
+  let(:issue) do
     FactoryBot.create(:work_package, type: project.types.first,
-                                      author: user,
-                                      project: project,
-                                      status: status,
-                                      assigned_to: user)
-  }
-  let(:issue2) {
+                                     author: user,
+                                     project: project,
+                                     status: status,
+                                     assigned_to: user)
+  end
+  let(:issue2) do
     FactoryBot.create(:work_package, type: project.types.first,
-                                      author: user2,
-                                      project: project,
-                                      status: status,
-                                      assigned_to: user2)
-  }
+                                     author: user2,
+                                     project: project,
+                                     status: status,
+                                     assigned_to: user2)
+  end
 
   let(:substitute_user) { DeletedUser.first }
 
@@ -179,25 +179,25 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has an issue created and assigned' do
-    let(:associated_instance) {
+    let(:associated_instance) do
       FactoryBot.build(:work_package, type: project.types.first,
-                                       project: project,
-                                       status: status)
-    }
+                                      project: project,
+                                      status: status)
+    end
     let(:associated_class) { WorkPackage }
-    let(:associations) { [:author, :assigned_to, :responsible] }
+    let(:associations) { %i[author assigned_to responsible] }
 
     it_should_behave_like 'created journalized associated object'
   end
 
   describe 'WHEN the user has an issue updated and assigned' do
-    let(:associated_instance) {
+    let(:associated_instance) do
       FactoryBot.build(:work_package, type: project.types.first,
-                                       project: project,
-                                       status: status)
-    }
+                                      project: project,
+                                      status: status)
+    end
     let(:associated_class) { WorkPackage }
-    let(:associations) { [:author, :assigned_to, :responsible] }
+    let(:associations) { %i[author assigned_to responsible] }
 
     before do
       allow(User).to receive(:current).and_return user2
@@ -286,12 +286,12 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has created a time entry' do
-    let(:associated_instance) {
+    let(:associated_instance) do
       FactoryBot.build(:time_entry, project: project,
-                                     work_package: issue,
-                                     hours: 2,
-                                     activity: FactoryBot.create(:time_entry_activity))
-    }
+                                    work_package: issue,
+                                    hours: 2,
+                                    activity: FactoryBot.create(:time_entry_activity))
+    end
     let(:associated_class) { TimeEntry }
     let(:associations) { [:user] }
 
@@ -299,12 +299,12 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has worked on time_entry' do
-    let(:associated_instance) {
+    let(:associated_instance) do
       FactoryBot.build(:time_entry, project: project,
-                                     work_package: issue,
-                                     hours: 2,
-                                     activity: FactoryBot.create(:time_entry_activity))
-    }
+                                    work_package: issue,
+                                    hours: 2,
+                                    activity: FactoryBot.create(:time_entry_activity))
+    end
     let(:associated_class) { TimeEntry }
     let(:associations) { [:user] }
 
@@ -314,10 +314,10 @@ describe User, 'deletion', type: :model do
   describe 'WHEN the user has commented' do
     let(:news) { FactoryBot.create(:news, author: user) }
 
-    let(:associated_instance) {
+    let(:associated_instance) do
       Comment.new(commented: news,
                   comments: 'lorem')
-    }
+    end
 
     let(:associated_class) { Comment }
     let(:associations) { [:author] }
@@ -342,10 +342,10 @@ describe User, 'deletion', type: :model do
 
   describe 'WHEN the user is watching something' do
     let(:watched) { FactoryBot.create(:work_package, project: project) }
-    let(:watch) {
+    let(:watch) do
       Watcher.new(user: user,
                   watchable: watched)
-    }
+    end
 
     before do
       watch.save!
@@ -357,9 +357,9 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has a token created' do
-    let(:token) {
+    let(:token) do
       Token::RSS.new(user: user, value: 'loremipsum')
-    }
+    end
 
     before do
       token.save!
@@ -395,8 +395,8 @@ describe User, 'deletion', type: :model do
     with_virtual_subversion_repository do
       let(:associated_instance) do
         FactoryBot.build(:changeset,
-                          repository_id: repository.id,
-                          committer: user.login)
+                         repository_id: repository.id,
+                         committer: user.login)
       end
 
       let(:associated_class) { Changeset }
@@ -410,8 +410,8 @@ describe User, 'deletion', type: :model do
     with_virtual_subversion_repository do
       let(:associated_instance) do
         FactoryBot.build(:changeset,
-                          repository_id: repository.id,
-                          committer: user2.login)
+                         repository_id: repository.id,
+                         committer: user2.login)
       end
     end
 
@@ -447,10 +447,10 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user is assigned an issue category' do
-    let(:category) {
+    let(:category) do
       FactoryBot.build(:category, assigned_to: user,
-                                   project: project)
-    }
+                                  project: project)
+    end
 
     before do
       category.save!

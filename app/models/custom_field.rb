@@ -188,7 +188,7 @@ class CustomField < ApplicationRecord
       when 'string', 'text', 'list'
         casted = value
       when 'date'
-        casted = begin; value.to_date; rescue; nil end
+        casted = begin; value.to_date; rescue StandardError; nil end
       when 'bool'
         casted = ActiveRecord::Type::Boolean.new.cast(value)
       when 'int'
@@ -202,11 +202,11 @@ class CustomField < ApplicationRecord
     casted
   end
 
-  def <=>(field)
+  def <=>(other)
     if type == 'WorkPackageCustomField'
-      name.downcase <=> field.name.downcase
+      name.downcase <=> other.name.downcase
     else
-      position <=> field.position
+      position <=> other.position
     end
   end
 
@@ -214,7 +214,7 @@ class CustomField < ApplicationRecord
     name =~ /\A(.+)CustomField\z/
     begin
       $1.constantize
-    rescue
+    rescue StandardError
       nil
     end
   end

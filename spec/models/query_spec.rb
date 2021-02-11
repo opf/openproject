@@ -651,7 +651,6 @@ describe Query, type: :model do
     end
   end
 
-
   describe 'project limiting filter' do
     def subproject_filter?(filter)
       filter.is_a?(Queries::WorkPackages::Filter::SubprojectFilter)

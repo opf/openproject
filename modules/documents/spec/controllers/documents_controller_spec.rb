@@ -29,28 +29,27 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe DocumentsController do
-
   render_views
 
-  let(:admin)           { FactoryBot.create(:admin)}
-  let(:project)         { FactoryBot.create(:project, name: "Test Project")}
-  let(:user)            { FactoryBot.create(:user)}
+  let(:admin)           { FactoryBot.create(:admin) }
+  let(:project)         { FactoryBot.create(:project, name: "Test Project") }
+  let(:user)            { FactoryBot.create(:user) }
   let(:role)            { FactoryBot.create(:role, permissions: [:view_documents]) }
 
-  let(:default_category){
+  let(:default_category)  do
     FactoryBot.create(:document_category, project: project, name: "Default Category")
-  }
+  end
 
-  let(:document) {
+  let(:document) do
     FactoryBot.create(:document, title: "Sample Document", project: project, category: default_category)
-  }
+  end
 
   before do
     allow(User).to receive(:current).and_return admin
   end
 
   describe "index" do
-    let(:long_description) {
+    let(:long_description) do
       <<-LOREM.strip_heredoc
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.\
         Ut egestas, mi vehicula varius varius, ipsum massa fermentum orci,\
@@ -65,11 +64,11 @@ describe DocumentsController do
 
         Praesent a nunc lorem, ac porttitor eros.
       LOREM
-    }
+    end
 
     before do
       document.update(description: long_description)
-      get :index,  params: { project_id: project.identifier }
+      get :index, params: { project_id: project.identifier }
     end
 
     it "should render the index-template successfully" do
@@ -87,12 +86,11 @@ describe DocumentsController do
       expect(response.body).to have_selector('.wiki p', visible: :all, text: (document.description.split("\n").first + '...'))
       expect(response.body).to have_selector('.wiki p', visible: :all, text: /EndOfLineHere.../)
     end
-
   end
 
   describe 'new' do
     before do
-      get :new,  params: { project_id: project.id }
+      get :new, params: { project_id: project.id }
     end
 
     it 'show the new document form' do
@@ -101,13 +99,11 @@ describe DocumentsController do
   end
 
   describe "create" do
-
-    let(:document_attributes) {
+    let(:document_attributes) do
       FactoryBot.attributes_for(:document, title: "New Document",
-                                            project_id: project.id,
-                                            category_id: default_category.id)
-    }
-
+                                           project_id: project.id,
+                                           category_id: default_category.id)
+    end
 
     before do
       ActionMailer::Base.deliveries.clear
@@ -118,11 +114,9 @@ describe DocumentsController do
       expect do
         post :create, params: { project_id: project.identifier,
                                 document: FactoryBot.attributes_for(:document, title: "New Document",
-                                                                                project_id: project.id,
-                                                                                category_id: default_category.id
-                                                                    ) }
-
-      end.to change{Document.count}.by 1
+                                                                               project_id: project.id,
+                                                                               category_id: default_category.id) }
+      end.to change { Document.count }.by 1
     end
 
     it "should create a new document with valid arguments" do
@@ -132,11 +126,10 @@ describe DocumentsController do
                project_id: project.identifier,
                document: document_attributes
              }
-      end.to change{Document.count}.by 1
+      end.to change { Document.count }.by 1
     end
 
     describe "with attachments" do
-
       before do
         notify_project = project
         FactoryBot.create(:member, project: notify_project, user: user, roles: [role])
@@ -144,10 +137,9 @@ describe DocumentsController do
         post :create,
              params: {
                project_id: notify_project.identifier,
-               document: FactoryBot.attributes_for(:document,  title: "New Document",
-                                                                project_id: notify_project.id,
-                                                                category_id: default_category.id
-                                                   ),
+               document: FactoryBot.attributes_for(:document, title: "New Document",
+                                                              project_id: notify_project.id,
+                                                              category_id: default_category.id),
                attachments: { '1' => { description: "sample file", file: file_attachment } }
              }
       end
@@ -174,7 +166,7 @@ describe DocumentsController do
   describe 'show' do
     before do
       document
-      get :show,  params: { id: document.id }
+      get :show, params: { id: document.id }
     end
 
     it "should delete the document and redirect back to documents-page of the project" do
@@ -206,12 +198,12 @@ describe DocumentsController do
     end
 
     it "should delete the document and redirect back to documents-page of the project" do
-      expect{
+      expect do
         delete :destroy, params: { id: document.id }
-      }.to change{Document.count}.by -1
+      end.to change { Document.count }.by -1
 
       expect(response).to redirect_to "/projects/#{project.identifier}/documents"
-      expect{Document.find(document.id)}.to raise_error ActiveRecord::RecordNotFound
+      expect { Document.find(document.id) }.to raise_error ActiveRecord::RecordNotFound
     end
   end
 

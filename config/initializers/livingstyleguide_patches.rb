@@ -45,4 +45,3 @@ if defined?(LivingStyleGuide)
 
   LivingStyleGuide::Document.prepend DocumentTemplatePatch
 end
-

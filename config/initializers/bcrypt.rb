@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -32,9 +33,9 @@ if OpenProject::Configuration.override_bcrypt_cost_factor?
   current = BCrypt::Engine.cost
 
   if cost_factor < 8
-    Rails.logger.warn {
+    Rails.logger.warn do
       "Ignoring BCrypt cost factor #{cost_factor}. Using default (#{current})."
-    }
+    end
   else
     BCrypt::Engine.cost = cost_factor
   end

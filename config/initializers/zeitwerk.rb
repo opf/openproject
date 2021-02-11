@@ -2,7 +2,7 @@ require Rails.root.join('config/constants/open_project/inflector')
 
 OpenProject::Inflector.rule do |_, abspath|
   if abspath.match?(/open_project\/version(\.rb)?\z/) ||
-    abspath.match?(/lib\/open_project\/\w+\/version(\.rb)?\z/)
+     abspath.match?(/lib\/open_project\/\w+\/version(\.rb)?\z/)
     "VERSION"
   end
 end
@@ -40,7 +40,7 @@ end
 # we simply return the general OpenProject namespace for such files.
 OpenProject::Inflector.rule do |_basename, abspath|
   if abspath =~ /openproject-\w+\/lib\/openproject-\w+.rb\z/ ||
-    abspath =~ /modules\/\w+\/lib\/openproject-\w+.rb\z/
+     abspath =~ /modules\/\w+\/lib\/openproject-\w+.rb\z/
     'OpenProject'
   end
 end

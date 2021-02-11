@@ -32,50 +32,50 @@ describe ProjectSettingsController, type: :routing do
   describe 'show' do
     it do
       expect(get('/projects/123/settings/generic')).to route_to(
-                                                      controller: 'project_settings/generic', action: 'show', id: '123'
-                                                    )
+        controller: 'project_settings/generic', action: 'show', id: '123'
+      )
     end
 
     it do
       expect(get('/projects/123/settings/modules')).to route_to(
-                                                         controller: 'project_settings/modules', action: 'show', id: '123'
-                                                       )
+        controller: 'project_settings/modules', action: 'show', id: '123'
+      )
     end
 
     it do
       expect(get('/projects/123/settings/custom_fields')).to route_to(
-                                                               controller: 'project_settings/custom_fields', action: 'show', id: '123'
-                                                             )
+        controller: 'project_settings/custom_fields', action: 'show', id: '123'
+      )
     end
 
     it do
       expect(get('/projects/123/settings/versions')).to route_to(
-                                                          controller: 'project_settings/versions', action: 'show', id: '123'
-                                                        )
+        controller: 'project_settings/versions', action: 'show', id: '123'
+      )
     end
 
     it do
       expect(get('/projects/123/settings/categories')).to route_to(
-                                                            controller: 'project_settings/categories', action: 'show', id: '123'
-                                                          )
+        controller: 'project_settings/categories', action: 'show', id: '123'
+      )
     end
 
     it do
       expect(get('/projects/123/settings/repository')).to route_to(
-                                                              controller: 'project_settings/repository', action: 'show', id: '123'
-                                                            )
+        controller: 'project_settings/repository', action: 'show', id: '123'
+      )
     end
 
     it do
       expect(get('/projects/123/settings/activities')).to route_to(
-                                                            controller: 'project_settings/activities', action: 'show', id: '123'
-                                                          )
+        controller: 'project_settings/activities', action: 'show', id: '123'
+      )
     end
 
     it do
       expect(get('/projects/123/settings/types')).to route_to(
-                                                       controller: 'project_settings/types', action: 'show', id: '123'
-                                                     )
+        controller: 'project_settings/types', action: 'show', id: '123'
+      )
     end
   end
 

@@ -34,6 +34,7 @@ module API
       class DateTimeFormatter
         def self.format_date(date, allow_nil: false)
           return nil if date.nil? && allow_nil
+
           date.to_date.iso8601
         end
 
@@ -72,6 +73,7 @@ module API
 
         def self.format_datetime(datetime, allow_nil: false)
           return nil if datetime.nil? && allow_nil
+
           datetime.to_datetime.utc.iso8601
         end
 

@@ -36,7 +36,7 @@ class Report::Operator
   def self.define_operators # :nodoc:
     # Defaults
     defaults do
-      def_delegators :'singleton_class', :forced?, :force!, :forced
+      def_delegators :singleton_class, :forced?, :force!, :forced
 
       def sql_operator
         name
@@ -115,10 +115,9 @@ class Report::Operator
 
     new '=', label: :label_equals do
       def modify(query, field, *values)
-        case
-        when values.size == 1 && values.first.nil?
+        if values.size == 1 && values.first.nil?
           query.where "#{field} IS NULL"
-        when values.compact.empty?
+        elsif values.compact.empty?
           query.where '1=0'
         else
           query.where "#{field} IN #{collection(*values)}"
@@ -187,6 +186,7 @@ class Report::Operator
     new '<d', label: :label_less_or_equal, validate: :dates do
       def modify(query, field, value)
         return query if value.to_s.empty?
+
         '<='.to_operator.modify query, field, quoted_date(value)
       end
     end
@@ -194,6 +194,7 @@ class Report::Operator
     new '>d', label: :label_greater_or_equal, validate: :dates do
       def modify(query, field, value)
         return query if value.to_s.empty?
+
         '>='.to_operator.modify query, field, quoted_date(value)
       end
     end
@@ -201,6 +202,7 @@ class Report::Operator
     new '<>d', label: :label_between, validate: :dates do
       def modify(query, field, from, to)
         return query if from.to_s.empty? || to.to_s.empty?
+
         query.where "#{field} BETWEEN '#{quoted_date from}' AND '#{quoted_date to}'"
         query
       end
@@ -209,6 +211,7 @@ class Report::Operator
     new '=d', label: :label_date_on, validate: :dates do
       def modify(query, field, value)
         return query if value.to_s.empty?
+
         '='.to_operator.modify query, field, quoted_date(value)
       end
     end
@@ -276,6 +279,7 @@ class Report::Operator
 
   def self.load
     return if @done
+
     @done = true
     define_operators
   end
@@ -358,6 +362,7 @@ class Report::Operator
     all = self.class.all
     alt = alt_name.to_s
     raise ArgumentError, "Can't alias operator with an existing one's name ( #{alt} )." if all.has_key?(alt)
+
     op = all[name].clone
     op.send(:rename_to, alt_name)
     op.singleton_class.send(:define_method, 'label') { alt_label }

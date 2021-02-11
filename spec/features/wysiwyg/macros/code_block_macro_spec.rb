@@ -36,21 +36,21 @@ describe 'Wysiwyg code block macro',
   let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { ::Components::WysiwygEditor.new }
 
-  let(:snippet) {
+  let(:snippet) do
     <<~RUBY
       def foobar
         'some ruby code'
       end
     RUBY
-  }
+  end
 
-  let(:expected) {
+  let(:expected) do
     <<~EXPECTED
       ```ruby
       #{snippet.strip}
       ```
     EXPECTED
-  }
+  end
 
   before do
     login_as(user)

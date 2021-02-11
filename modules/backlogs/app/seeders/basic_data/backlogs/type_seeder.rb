@@ -12,7 +12,7 @@ module BasicData
       #   hidden, default, visible
       def backlogs_visibility_table
         {
-          story_points:   [0, 0, 0, 1, 2, 2, 1],
+          story_points: [0, 0, 0, 1, 2, 2, 1],
           remaining_time: [1, 0, 0, 1, 1, 1, 1]
         }
       end

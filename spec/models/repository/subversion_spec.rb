@@ -63,7 +63,7 @@ describe Repository::Subversion, type: :model do
     end
 
     context 'with disabled types' do
-      let(:config) { { disabled_types: [:existing, :managed] } }
+      let(:config) { { disabled_types: %i[existing managed] } }
 
       it 'does not have any types' do
         expect(instance.class.available_types).to be_empty
@@ -89,7 +89,7 @@ describe Repository::Subversion, type: :model do
 
       it 'is no longer manageable' do
         expect(instance.class.available_types).to eq([:existing])
-        expect(instance.class.disabled_types).to eq([:managed, :unknowntype])
+        expect(instance.class.disabled_types).to eq(%i[managed unknowntype])
         expect(instance.manageable?).to be false
       end
     end
@@ -107,7 +107,7 @@ describe Repository::Subversion, type: :model do
 
       it 'is manageable' do
         expect(instance.manageable?).to be true
-        expect(instance.class.available_types).to eq([:existing, :managed])
+        expect(instance.class.available_types).to eq(%i[existing managed])
       end
 
       context 'with disabled managed typed' do
@@ -148,11 +148,10 @@ describe Repository::Subversion, type: :model do
   end
 
   describe 'with a remote repository' do
-    let(:instance) {
+    let(:instance) do
       FactoryBot.build(:repository_subversion,
-                        url: 'https://somewhere.example.org/svn/foo'
-                       )
-    }
+                       url: 'https://somewhere.example.org/svn/foo')
+    end
 
     it_behaves_like 'is not a countable repository' do
       let(:repository) { instance }
@@ -181,7 +180,7 @@ describe Repository::Subversion, type: :model do
         instance.fetch_changesets
 
         # Remove changesets with revision > 5
-        instance.changesets.each do |c| c.destroy if c.revision.to_i > 5 end
+        instance.changesets.each { |c| c.destroy if c.revision.to_i > 5 }
         instance.reload
         expect(instance.changesets.count).to eq(5)
 
@@ -278,8 +277,8 @@ describe Repository::Subversion, type: :model do
             assert_equal s1.encode('UTF-8'), s2
           end
           c = Changeset.new(repository: instance,
-                            comments:   s2,
-                            revision:   '123',
+                            comments: s2,
+                            revision: '123',
                             committed_on: Time.now)
           expect(c.save).to be true
           expect(c.comments).to eq(s2)

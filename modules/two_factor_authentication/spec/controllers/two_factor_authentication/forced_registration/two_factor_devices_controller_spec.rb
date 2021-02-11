@@ -134,7 +134,7 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
 
         describe 'and registered totp device' do
           let(:active_strategies) { [:totp] }
-          let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, active: false, default: false}
+          let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, active: false, default: false }
 
           it 'renders the confirmation page' do
             get :confirm, params: { device_id: device.id }
@@ -145,7 +145,7 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
         end
 
         describe 'with registered device' do
-          let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, active: false, default: false}
+          let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, active: false, default: false }
 
           it 'renders the confirmation page' do
             get :confirm, params: { device_id: device.id }
@@ -173,7 +173,7 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
 
         describe 'and registered totp device' do
           let(:active_strategies) { [:totp] }
-          let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, active: false, default: false}
+          let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, active: false, default: false }
 
           it 'renders a 400 on missing token' do
             post :confirm, params: { device_id: device.id }

@@ -125,8 +125,8 @@ class Enumeration < ApplicationRecord
     destroy_without_reassign
   end
 
-  def <=>(enumeration)
-    position <=> enumeration.position
+  def <=>(other)
+    position <=> other.position
   end
 
   def to_s; name end
@@ -144,8 +144,8 @@ class Enumeration < ApplicationRecord
   def self.same_custom_values?(new, previous)
     previous.custom_field_values.each do |custom_value|
       if new &&
-        new['custom_field_values'] &&
-        custom_value.value != new['custom_field_values'][custom_value.custom_field_id.to_s]
+         new['custom_field_values'] &&
+         custom_value.value != new['custom_field_values'][custom_value.custom_field_id.to_s]
         return false
       end
     end

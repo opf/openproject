@@ -42,6 +42,7 @@ module API
       include ::API::V3::Utilities::PathHelper
 
       attr_reader :current_user, :embed_links
+
       class_attribute :as_strategy
       self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 

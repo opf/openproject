@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -109,9 +110,7 @@ class PermittedParams
 
   def group
     permitted_params = params.require(:group).permit(*self.class.permitted_attributes[:group])
-    permitted_params = permitted_params.merge(custom_field_values(:group))
-
-    permitted_params
+    permitted_params.merge(custom_field_values(:group))
   end
 
   def group_membership
@@ -124,9 +123,7 @@ class PermittedParams
 
     permitted_params = params.require(:work_package).permit(*permitted)
 
-    permitted_params = permitted_params.merge(custom_field_values(:work_package))
-
-    permitted_params
+    permitted_params.merge(custom_field_values(:work_package))
   end
 
   def member
@@ -183,9 +180,7 @@ class PermittedParams
 
   def user(additional_params = [])
     permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user] + additional_params)
-    permitted_params = permitted_params.merge(custom_field_values(:user))
-
-    permitted_params
+    permitted_params.merge(custom_field_values(:user))
   end
 
   def my_account_settings
@@ -196,9 +191,7 @@ class PermittedParams
     permitted_params = params
       .require(:user)
       .permit(:login, :firstname, :lastname, :mail, :language)
-    permitted_params = permitted_params.merge(custom_field_values(:user))
-
-    permitted_params
+    permitted_params.merge(custom_field_values(:user))
   end
 
   def user_create_as_admin(external_authentication,
@@ -247,9 +240,7 @@ class PermittedParams
   def wiki_page
     permitted = permitted_attributes(:wiki_page)
 
-    permitted_params = params.require(:content).require(:page).permit(*permitted)
-
-    permitted_params
+    params.require(:content).require(:page).permit(*permitted)
   end
 
   def wiki_content
@@ -401,13 +392,13 @@ class PermittedParams
   def permitted_attributes(key, additions = {})
     merged_args = { params: params, current_user: current_user }.merge(additions)
 
-    self.class.permitted_attributes[key].map { |permission|
+    self.class.permitted_attributes[key].map do |permission|
       if permission.respond_to?(:call)
         permission.call(merged_args)
       else
         permission
       end
-    }.compact
+    end.compact
   end
 
   def self.permitted_attributes
@@ -467,7 +458,7 @@ class PermittedParams
           :multi_value,
           :content_right_to_left,
           { custom_options_attributes: %i(id value default_value position) },
-          type_ids: []
+          { type_ids: [] }
         ],
         enumeration: %i(
           active
@@ -481,18 +472,18 @@ class PermittedParams
         ],
         membership: [
           :project_id,
-          role_ids: []
+          { role_ids: [] }
         ],
         group_membership: [
           :membership_id,
-          membership: [
+          { membership: [
             :project_id,
-            role_ids: []
+            { role_ids: [] }
           ],
-          new_membership: [
-            :project_id,
-            role_ids: []
-          ]
+            new_membership: [
+              :project_id,
+              { role_ids: [] }
+            ] }
         ],
         member: [
           role_ids: []
@@ -517,25 +508,27 @@ class PermittedParams
           Proc.new do |args|
             # avoid costly allowed_to? if the param is not there at all
             if args[:params]['work_package'] &&
-              args[:params]['work_package'].has_key?('watcher_user_ids') &&
-              args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
+               args[:params]['work_package'].has_key?('watcher_user_ids') &&
+               args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
 
               { watcher_user_ids: [] }
             end
           end,
           # attributes unique to :new_work_package
           :journal_notes,
-          :lock_version],
+          :lock_version
+        ],
         oauth_application: [
           :name,
           :redirect_uri,
           :confidential,
           :client_credentials_user_id,
-          scopes: []
+          { scopes: [] }
         ],
         project_type: [
           :name,
-          type_ids: []],
+          { type_ids: [] }
+        ],
         query: %i(
           name
           display_sums
@@ -546,7 +539,8 @@ class PermittedParams
           :name,
           :assignable,
           :move_to,
-          permissions: []],
+          { permissions: [] }
+        ],
         search: %i(
           q
           offset
@@ -577,7 +571,7 @@ class PermittedParams
           :color_id,
           :default,
           :description,
-          project_ids: []
+          { project_ids: [] }
         ],
         user: %i(
           firstname

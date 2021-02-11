@@ -60,7 +60,7 @@ module OpenProject::Backlogs::Patches::UserPatch
 
     def write_backlogs_preference(attr, new_value)
       pref[:"backlogs_#{attr}"] = new_value
-      pref.save! unless self.new_record?
+      pref.save! unless new_record?
 
       new_value
     end
@@ -78,4 +78,4 @@ module OpenProject::Backlogs::Patches::UserPatch
   end
 end
 
-User.send(:include, OpenProject::Backlogs::Patches::UserPatch)
+User.include OpenProject::Backlogs::Patches::UserPatch

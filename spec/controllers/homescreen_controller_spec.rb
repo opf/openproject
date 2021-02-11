@@ -38,9 +38,9 @@ describe HomescreenController, type: :controller do
     get :index
   end
 
-  let(:all_blocks) {
+  let(:all_blocks) do
     %w(administration community my_account projects users)
-  }
+  end
 
   let(:show_welcome) { false }
 

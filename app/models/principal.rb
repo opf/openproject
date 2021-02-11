@@ -123,7 +123,7 @@ class Principal < ApplicationRecord
   end
 
   def <=>(other)
-    if self.class.name == other.class.name
+    if instance_of?(other.class)
       to_s.downcase <=> other.to_s.downcase
     else
       # groups after users

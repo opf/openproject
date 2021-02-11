@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -96,17 +97,17 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
 
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
                                                      { controller: 'work_packages', action: 'index' },
-
-                                                     children: Proc.new {|_p|
+                                                     children: Proc.new do |_p|
                                                        children = []
                                                        3.times do |time|
                                                          children << Redmine::MenuManager::MenuItem.new("test_child_#{time}",
-                                                                                                        { controller: 'work_packages', action: 'index' },
+                                                                                                        {
+                                                                                                          controller: 'work_packages', action: 'index'
+                                                                                                        },
                                                                                                         {})
                                                        end
                                                        children
-                                                     }
-                                                    )
+                                                     end)
     @response.body = render_menu_node(parent_node, Project.find(1))
 
     html_node = Nokogiri::HTML(@response.body)
@@ -125,27 +126,27 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
 
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
                                                      { controller: 'work_packages', action: 'index' },
-
-                                                     children: Proc.new {|_p|
+                                                     children: Proc.new do |_p|
                                                        children = []
                                                        3.times do |time|
-                                                         children << Redmine::MenuManager::MenuItem.new("test_child_#{time}", { controller: 'work_packages', action: 'index' }, {})
+                                                         children << Redmine::MenuManager::MenuItem.new("test_child_#{time}",
+                                                                                                        { controller: 'work_packages', action: 'index' }, {})
                                                        end
                                                        children
-                                                     }
-                                                    )
+                                                     end)
 
     parent_node << Redmine::MenuManager::MenuItem.new(:child_node,
                                                       { controller: 'work_packages', action: 'index' },
-
-                                                      children: Proc.new {|_p|
+                                                      children: Proc.new do |_p|
                                                         children = []
                                                         6.times do |time|
-                                                          children << Redmine::MenuManager::MenuItem.new("test_dynamic_child_#{time}", { controller: 'work_packages', action: 'index' }, {})
+                                                          children << Redmine::MenuManager::MenuItem.new(
+                                                            "test_dynamic_child_#{time}", { controller: 'work_packages',
+                                                                                            action: 'index' }, {}
+                                                          )
                                                         end
                                                         children
-                                                      }
-                                                     )
+                                                      end)
 
     @response.body = render_menu_node(parent_node, Project.find(1))
 
@@ -172,9 +173,10 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
   it 'should render menu node with children without an array' do
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
                                                      { controller: 'work_packages', action: 'index' },
-
-                                                     children: Proc.new { |_p| Redmine::MenuManager::MenuItem.new('test_child', { controller: 'work_packages', action: 'index' }, {}) },
-                                                    )
+                                                     children: Proc.new do |_p|
+                                                                 Redmine::MenuManager::MenuItem.new('test_child',
+                                                                                                    { controller: 'work_packages', action: 'index' }, {})
+                                                               end)
 
     assert_raises Redmine::MenuManager::MenuError, ':children must be an array of MenuItems' do
       @response.body = render_menu_node(parent_node, Project.find(1))
@@ -184,9 +186,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
   it 'should render menu node with incorrect children' do
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
                                                      { controller: 'work_packages', action: 'index' },
-
-                                                     children: Proc.new { |_p| ['a string'] }
-                                                    )
+                                                     children: Proc.new { |_p| ['a string'] })
 
     assert_raises Redmine::MenuManager::MenuError, ':children must be an array of MenuItems' do
       @response.body = render_menu_node(parent_node, Project.find(1))

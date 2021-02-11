@@ -36,12 +36,13 @@ describe HourlyRatesController do
 
   describe 'PUT update' do
     describe 'WHEN trying to update with an invalid rate value' do
-      let(:params) {
+      let(:params) do
         {
           id: user.id,
-          user: { 'existing_rate_attributes' => { "#{default_rate.id}" => { 'valid_from' => "#{default_rate.valid_from}", 'rate' => '2d5' } } }
+          user: { 'existing_rate_attributes' => { default_rate.id.to_s => { 'valid_from' => default_rate.valid_from.to_s,
+                                                                            'rate' => '2d5' } } }
         }
-      }
+      end
       before do
         as_logged_in_user admin do
           post :update, params: params

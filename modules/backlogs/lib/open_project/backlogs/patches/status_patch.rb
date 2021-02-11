@@ -42,4 +42,4 @@ module OpenProject::Backlogs::Patches::StatusPatch
   end
 end
 
-Status.send(:include, OpenProject::Backlogs::Patches::StatusPatch)
+Status.include OpenProject::Backlogs::Patches::StatusPatch

@@ -44,7 +44,7 @@ class Widget::Filters::MultiChoice < Widget::Filters::Base
         radio_button = tag :input, opts
         content_tag :label, radio_button + translate(label),
                     for: "#{filterName}_radio_option_#{i}",
-                    :'data-filter-name' => filter_class.underscore_name,
+                    'data-filter-name': filter_class.underscore_name,
                     class: "#{filterName}_radio_option filter_radio_option"
       end
       content_tag :div, choices.join.html_safe,

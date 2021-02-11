@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -67,7 +68,7 @@ namespace :scm do
       end
 
       unless Dir.exists?(managed)
-        $stderr.puts "WARNING: Managed repository path set to '#{managed}'," \
+        warn "WARNING: Managed repository path set to '#{managed}'," \
                      " but does not exist for SCM vendor #{vendor}!"
         next
       end
@@ -75,27 +76,27 @@ namespace :scm do
       missing = scan_repositories(managed)
 
       unless missing.empty?
-        puts <<-WARNING
-
--- SCM vendor #{vendor} --
-
-Found #{missing.length} repositories in #{managed}
-without an associated project.
-
-#{missing.map { |identifier| "> #{identifier}" }.join("\n")}
-
-When using managed repositories of the vendor #{vendor}, OpenProject will not create
-repositories whose associated project identifier is contained in the list above.
-
-To resolve these cases, you can either:
-
-1. Remove the affected repositories if they are only remnants of earlier projects
-
-2. Move them out of the OpenProject managed directory '#{managed}'
-
-3. Create an associated project and linking that repository
-   as existing through the Frontend.
-
+        puts <<~WARNING
+          #{'          '}
+                    -- SCM vendor #{vendor} --
+          #{'          '}
+                    Found #{missing.length} repositories in #{managed}
+                    without an associated project.
+          #{'          '}
+                    #{missing.map { |identifier| "> #{identifier}" }.join("\n")}
+          #{'          '}
+                    When using managed repositories of the vendor #{vendor}, OpenProject will not create
+                    repositories whose associated project identifier is contained in the list above.
+          #{'          '}
+                    To resolve these cases, you can either:
+          #{'          '}
+                    1. Remove the affected repositories if they are only remnants of earlier projects
+          #{'          '}
+                    2. Move them out of the OpenProject managed directory '#{managed}'
+          #{'          '}
+                    3. Create an associated project and linking that repository
+                       as existing through the Frontend.
+          #{'          '}
         WARNING
       end
     end
@@ -103,7 +104,6 @@ To resolve these cases, you can either:
 
   desc 'Setup a repository checkout base URL for the given vendor: rake scm:set_checkout_url[git=<url>, subversion=<url>]'
   task set_checkout_url: :environment do |_t, args|
-
     checkout_data = Setting.repository_checkout_data
     args.extras.each do |tuple|
       vendor, base_url = tuple.split('=')
@@ -120,8 +120,7 @@ To resolve these cases, you can either:
 
   namespace :migrate do
     desc 'Migrate existing repositories to managed for a given URL prefix'
-    task managed: :environment do |task, args|
-
+    task managed: :environment do |_task, args|
       urls = args.extras
       abort "Requires at least one URL prefix to identify existing repositories" if urls.length < 1
 

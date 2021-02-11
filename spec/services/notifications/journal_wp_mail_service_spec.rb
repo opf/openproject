@@ -69,7 +69,9 @@ describe Notifications::JournalWpMailService do
     work_package.journals.last
   end
   let(:send_mails) { true }
-  let(:notification_setting) { %w(work_package_added work_package_updated work_package_note_added status_updated work_package_priority_updated) }
+  let(:notification_setting) do
+    %w(work_package_added work_package_updated work_package_note_added status_updated work_package_priority_updated)
+  end
 
   def call
     described_class.call(journal, send_mails)

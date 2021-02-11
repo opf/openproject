@@ -88,11 +88,11 @@ describe WikiController, type: :controller do
   it 'should create page' do
     session[:user_id] = 2
     post :create, params: { project_id: 1,
-                           id: 'New page',
-                           content: { comments: 'Created the page',
-                                      text: "h1. New page\n\nThis is a new page",
-                                      page: { title: 'New page',
-                                              parent_id: '' } } }
+                            id: 'New page',
+                            content: { comments: 'Created the page',
+                                       text: "h1. New page\n\nThis is a new page",
+                                       page: { title: 'New page',
+                                               parent_id: '' } } }
     assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'new-page'
     page = wiki.find_page('New page')
     assert !page.new_record?
@@ -127,17 +127,17 @@ describe WikiController, type: :controller do
 
   it 'should history' do
     FactoryBot.create :wiki_content_journal,
-                       journable_id: 1,
-                       data: FactoryBot.build(:journal_wiki_content_journal,
-                                               text: 'h1. CookBook documentation')
+                      journable_id: 1,
+                      data: FactoryBot.build(:journal_wiki_content_journal,
+                                             text: 'h1. CookBook documentation')
     FactoryBot.create :wiki_content_journal,
-                       journable_id: 1,
-                       data: FactoryBot.build(:journal_wiki_content_journal,
-                                               text: "h1. CookBook documentation\n\n\nSome updated [[documentation]] here...")
+                      journable_id: 1,
+                      data: FactoryBot.build(:journal_wiki_content_journal,
+                                             text: "h1. CookBook documentation\n\n\nSome updated [[documentation]] here...")
     FactoryBot.create :wiki_content_journal,
-                       journable_id: 1,
-                       data: FactoryBot.build(:journal_wiki_content_journal,
-                                               text: "h1. CookBook documentation\nSome updated [[documentation]] here...")
+                      journable_id: 1,
+                      data: FactoryBot.build(:journal_wiki_content_journal,
+                                             text: "h1. CookBook documentation\nSome updated [[documentation]] here...")
 
     get :history, params: { project_id: 1, id: 'CookBook documentation' }
     assert_response :success
@@ -149,9 +149,9 @@ describe WikiController, type: :controller do
 
   it 'should history with one version' do
     FactoryBot.create :wiki_content_journal,
-                       journable_id: 2,
-                       data: FactoryBot.build(:journal_wiki_content_journal,
-                                               text: "h1. Another page\n\n\nthis is a link to ticket: #2")
+                      journable_id: 2,
+                      data: FactoryBot.build(:journal_wiki_content_journal,
+                                             text: "h1. Another page\n\n\nthis is a link to ticket: #2")
     get :history, params: { project_id: 1, id: 'Another page' }
     assert_response :success
     assert_template 'history'
@@ -162,32 +162,33 @@ describe WikiController, type: :controller do
 
   it 'should diff' do
     journal_from = FactoryBot.create :wiki_content_journal,
-                                      journable_id: 1,
-                                      data: FactoryBot.build(:journal_wiki_content_journal,
-                                                              text: 'h1. CookBook documentation')
+                                     journable_id: 1,
+                                     data: FactoryBot.build(:journal_wiki_content_journal,
+                                                            text: 'h1. CookBook documentation')
     journal_to = FactoryBot.create :wiki_content_journal,
-                                    journable_id: 1,
-                                    data: FactoryBot.build(:journal_wiki_content_journal,
-                                                            text: "h1. CookBook documentation\n\n\nSome updated [[documentation]] here...")
+                                   journable_id: 1,
+                                   data: FactoryBot.build(:journal_wiki_content_journal,
+                                                          text: "h1. CookBook documentation\n\n\nSome updated [[documentation]] here...")
 
-    get :diff, params: { project_id: 1, id: 'CookBook documentation', version: journal_to.version, version_from: journal_from.version }
+    get :diff,
+        params: { project_id: 1, id: 'CookBook documentation', version: journal_to.version, version_from: journal_from.version }
     assert_response :success
     assert_template 'diff'
     assert_select 'ins', attributes: { class: 'diffins' },
-               content: /updated/
+                         content: /updated/
   end
 
   it 'should annotate' do
     FactoryBot.create :wiki_content_journal,
-                       journable_id: 1,
-                       data: FactoryBot.build(:journal_wiki_content_journal,
-                                               text: 'h1. CookBook documentation')
+                      journable_id: 1,
+                      data: FactoryBot.build(:journal_wiki_content_journal,
+                                             text: 'h1. CookBook documentation')
     journal_to = FactoryBot.create :wiki_content_journal,
-                                    journable_id: 1,
-                                    data: FactoryBot.build(:journal_wiki_content_journal,
-                                                            text: "h1. CookBook documentation\n\n\nSome [[documentation]] here...")
+                                   journable_id: 1,
+                                   data: FactoryBot.build(:journal_wiki_content_journal,
+                                                          text: "h1. CookBook documentation\n\n\nSome [[documentation]] here...")
 
-    get :annotate, params: { project_id: 1, id:  'CookBook documentation', version: journal_to.version }
+    get :annotate, params: { project_id: 1, id: 'CookBook documentation', version: journal_to.version }
     assert_response :success
     assert_template 'annotate'
     # Line 1
@@ -291,14 +292,14 @@ describe WikiController, type: :controller do
     assert_equal pages.first.content.updated_at, pages.first.updated_at
 
     assert_select 'ul', attributes: { class: 'pages-hierarchy' },
-                    child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/CookBook%20documentation' },
-                                                 content: 'CookBook documentation' },
-                             child: { tag: 'ul',
-                                      child: { tag: 'li',
-                                               child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Page%20with%20an%20inline%20image' },
-                                                        content: 'Page with an inline image' } } } },
-                    child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Another%20page' },
-                                                 content: 'Another page' } }
+                        child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/CookBook%20documentation' },
+                                                     content: 'CookBook documentation' },
+                                 child: { tag: 'ul',
+                                          child: { tag: 'li',
+                                                   child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Page%20with%20an%20inline%20image' },
+                                                            content: 'Page with an inline image' } } } },
+                        child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Another%20page' },
+                                                     content: 'Another page' } }
   end
 
   it 'should index should include atom link' do

@@ -28,7 +28,6 @@
 
 module Constants
   class ARToAPIConversions
-
     # Conversions that are bidirectional:
     # * from the API to AR
     # * from AR to the API
@@ -52,7 +51,7 @@ module Constants
     # This can be used to still support renamed filters/sort_by, like for created/updatedOn.
     WELL_KNOWN_API_TO_AR_CONVERSIONS = {
       created_on: 'created_at',
-      updated_on: 'updated_at',
+      updated_on: 'updated_at'
     }.freeze
 
     class << self

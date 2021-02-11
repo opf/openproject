@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -78,7 +79,7 @@ class StatusesController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_delete)
     end
     redirect_to action: 'index'
-  rescue
+  rescue StandardError
     flash[:error] = I18n.t(:error_unable_delete_status)
     redirect_to action: 'index'
   end

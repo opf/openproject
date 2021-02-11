@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -42,35 +43,34 @@ namespace :ldap_groups do
       ldap_server = Ladle::Server.new(quiet: false, port: '12389', domain: 'dc=example,dc=com', ldif: ldif).start
 
       puts <<~EOS
-      
-      LDAP server ready at localhost:12389
-      Users Base dn: ou=people,dc=example,dc=com
-      Admin account: uid=admin,ou=system
-      Admin password: secret
-
-      --------------------------------------------------------
-
-      Attributes
-      Login: uid
-      First name: givenName
-      Last name: sn
-      Email: mail
-      memberOf: (Hard-coded, not virtual)
-
-      --------------------------------------------------------
-        
-      Users:
-      uid=aa729,ou=people,dc=example,dc=com (Password: smada)
-      uid=bb459,ou=people,dc=example,dc=com (Password: niwdlab)
-      uid=cc414,ou=people,dc=example,dc=com (Password: retneprac)
-
-      --------------------------------------------------------
-
-      Groups:
-      cn=foo,ou=groups,dc=example,dc=com (Members: aa729)
-      cn=bar,ou=groups,dc=example,dc=com (Members: aa729, bb459, cc414)
+                #{'        '}
+                        LDAP server ready at localhost:12389
+                        Users Base dn: ou=people,dc=example,dc=com
+                        Admin account: uid=admin,ou=system
+                        Admin password: secret
+        #{'        '}
+                        --------------------------------------------------------
+        #{'        '}
+                        Attributes
+                        Login: uid
+                        First name: givenName
+                        Last name: sn
+                        Email: mail
+                        memberOf: (Hard-coded, not virtual)
+        #{'        '}
+                        --------------------------------------------------------
+                #{'          '}
+                        Users:
+                        uid=aa729,ou=people,dc=example,dc=com (Password: smada)
+                        uid=bb459,ou=people,dc=example,dc=com (Password: niwdlab)
+                        uid=cc414,ou=people,dc=example,dc=com (Password: retneprac)
+        #{'        '}
+                        --------------------------------------------------------
+        #{'        '}
+                        Groups:
+                        cn=foo,ou=groups,dc=example,dc=com (Members: aa729)
+                        cn=bar,ou=groups,dc=example,dc=com (Members: aa729, bb459, cc414)
       EOS
-
 
       puts "Send CTRL+D to stop the server"
       require 'irb'; binding.irb

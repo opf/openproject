@@ -39,7 +39,7 @@ module Queries
       ]
     end
 
-    def initialize_copy(source, params)
+    def initialize_copy(source, _params)
       new_query = ::Query.new source.attributes.dup.except(*skipped_attributes)
       new_query.sort_criteria = source.sort_criteria if source.sort_criteria
       new_query.project = state.project || source.project

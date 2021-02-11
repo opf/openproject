@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -85,8 +86,8 @@ class SearchController < ApplicationController
     @pagination_next_date = @results[-1].event_datetime if offset && @results[-1]
 
     if @results.size > LIMIT
-      @pagination_previous_date = @results[-(LIMIT)].event_datetime
-      @results = @results[-(LIMIT), LIMIT]
+      @pagination_previous_date = @results[-LIMIT].event_datetime
+      @results = @results[-LIMIT, LIMIT]
     end
   end
 

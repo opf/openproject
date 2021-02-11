@@ -32,7 +32,7 @@ describe 'Session TTL',
          with_settings: { session_ttl_enabled?: true, session_ttl: '10' },
          type: :feature do
   shared_let(:admin) { FactoryBot.create :admin }
-  let(:admin_password) { 'adminADMIN!'}
+  let(:admin_password) { 'adminADMIN!' }
 
   let!(:work_package) { FactoryBot.create :work_package }
 

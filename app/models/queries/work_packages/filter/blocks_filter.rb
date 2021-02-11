@@ -32,7 +32,6 @@
 
 class Queries::WorkPackages::Filter::BlocksFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
-
   include ::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
 
   def relation_type

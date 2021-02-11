@@ -4,7 +4,8 @@ require 'ladle'
 describe OpenProject::LdapGroups::SynchronizeFilter, with_ee: %i[ldap_groups] do
   before(:all) do
     ldif = Rails.root.join('spec/fixtures/ldap/users.ldif')
-    @ldap_server = Ladle::Server.new(quiet: false, port: ParallelHelper.port_for_ldap.to_s, domain: 'dc=example,dc=com', ldif: ldif).start
+    @ldap_server = Ladle::Server.new(quiet: false, port: ParallelHelper.port_for_ldap.to_s, domain: 'dc=example,dc=com',
+                                     ldif: ldif).start
   end
 
   after(:all) do
@@ -30,8 +31,14 @@ describe OpenProject::LdapGroups::SynchronizeFilter, with_ee: %i[ldap_groups] do
   let(:group_foo) { FactoryBot.create :group, lastname: 'foo' }
   let(:group_bar) { FactoryBot.create :group, lastname: 'bar' }
 
-  let(:synced_foo) { FactoryBot.create :ldap_synchronized_group, dn: 'cn=foo,ou=groups,dc=example,dc=com', group: group_foo, auth_source: auth_source }
-  let(:synced_bar) { FactoryBot.create :ldap_synchronized_group, dn: 'cn=bar,ou=groups,dc=example,dc=com', group: group_bar, auth_source: auth_source }
+  let(:synced_foo) do
+    FactoryBot.create :ldap_synchronized_group, dn: 'cn=foo,ou=groups,dc=example,dc=com', group: group_foo,
+                                                auth_source: auth_source
+  end
+  let(:synced_bar) do
+    FactoryBot.create :ldap_synchronized_group, dn: 'cn=bar,ou=groups,dc=example,dc=com', group: group_bar,
+                                                auth_source: auth_source
+  end
 
   let(:filter_foo_bar) { FactoryBot.create :ldap_synchronized_filter, auth_source: auth_source }
 
@@ -45,7 +52,8 @@ describe OpenProject::LdapGroups::SynchronizeFilter, with_ee: %i[ldap_groups] do
 
       # Expect two synchronized groups added
       expect(filter_foo_bar.groups.count).to eq 2
-      expect(filter_foo_bar.groups.map(&:dn)).to match_array ['cn=foo,ou=groups,dc=example,dc=com', 'cn=bar,ou=groups,dc=example,dc=com']
+      expect(filter_foo_bar.groups.map(&:dn)).to match_array ['cn=foo,ou=groups,dc=example,dc=com',
+                                                              'cn=bar,ou=groups,dc=example,dc=com']
 
       # Expect two actual groups added
       op_foo_group = Group.find_by(lastname: 'foo')

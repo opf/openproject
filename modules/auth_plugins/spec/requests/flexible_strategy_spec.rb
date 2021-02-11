@@ -80,7 +80,7 @@ describe OmniAuth::FlexibleStrategy do
 
     it 'should match the registered providers' do
       [provider_a, provider_b].each do |pro|
-        code, _ = middleware.call env_for("http://www.example.com/auth/#{pro[:name]}/callback")
+        code, = middleware.call env_for("http://www.example.com/auth/#{pro[:name]}/callback")
 
         expect(code).to eq 'hit'
       end

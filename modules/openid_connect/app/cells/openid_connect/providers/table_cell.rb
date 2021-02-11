@@ -4,7 +4,7 @@ module OpenIDConnect
       columns :name
 
       def initial_sort
-        [:id, :asc]
+        %i[id asc]
       end
 
       def sortable?
@@ -17,7 +17,7 @@ module OpenIDConnect
 
       def headers
         [
-          ['name', caption: I18n.t('attributes.name')]
+          ['name', { caption: I18n.t('attributes.name') }]
         ]
       end
     end

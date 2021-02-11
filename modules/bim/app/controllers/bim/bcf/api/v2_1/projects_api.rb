@@ -40,7 +40,7 @@ module Bim::Bcf::API::V2_1
       end
 
       get &::Bim::Bcf::API::V2_1::Endpoints::Index.new(model: Project,
-                                                  scope: -> { visible_projects })
+                                                       scope: -> { visible_projects })
                                              .mount
 
       route_param :id, regexp: /\A(\d+)\z/ do

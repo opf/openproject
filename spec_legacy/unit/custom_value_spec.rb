@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -123,9 +124,9 @@ describe CustomValue, type: :model do
     user = FactoryBot.create :user
     custom_field = FactoryBot.create :user_custom_field, field_format: 'string'
     custom_value = FactoryBot.create :principal_custom_value,
-                                      custom_field: custom_field,
-                                      customized: user,
-                                      value: '01 23 45 67 89'
+                                     custom_field: custom_field,
+                                     customized: user,
+                                     value: '01 23 45 67 89'
     user.reload
 
     assert !user.custom_values.empty?

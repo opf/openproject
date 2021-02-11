@@ -52,7 +52,6 @@ describe ::Users::DeleteService, type: :model do
     end
   end
 
-
   context 'if deletion by admins allowed', with_settings: { users_deletable_by_admins: true } do
     context 'with admin user' do
       let(:actor) { FactoryBot.build_stubbed(:admin) }

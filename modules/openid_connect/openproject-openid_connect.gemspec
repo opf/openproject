@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir['{app,config,db,lib}/**/*'] + %w(CHANGELOG.md README.md)
 
-  s.add_dependency 'openproject-auth_plugins'
-  s.add_dependency 'omniauth-openid_connect-providers', '~> 0.1'
   s.add_dependency 'lobby_boy', '~> 0.1.3'
+  s.add_dependency 'omniauth-openid_connect-providers', '~> 0.1'
+  s.add_dependency 'openproject-auth_plugins'
 end

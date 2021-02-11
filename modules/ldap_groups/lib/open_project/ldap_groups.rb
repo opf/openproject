@@ -3,7 +3,6 @@ module OpenProject
     require "open_project/ldap_groups/engine"
 
     class << self
-
       def settings
         Setting.plugin_openproject_ldap_groups
       end

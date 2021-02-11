@@ -94,12 +94,12 @@ describe 'API v3 User resource',
 
       context 'on filtering for name' do
         let(:get_path) do
-          filter = [{'name' => {
+          filter = [{ 'name' => {
             'operator' => '~',
             'values' => [user.name]
-          }}]
+          } }]
 
-          "#{api_v3_paths.users}?#{{filters: filter.to_json}.to_query}"
+          "#{api_v3_paths.users}?#{{ filters: filter.to_json }.to_query}"
         end
 
         it 'contains the filtered user in the response' do
@@ -123,7 +123,7 @@ describe 'API v3 User resource',
         let(:get_path) do
           sort = [['name', 'desc']]
 
-          "#{api_v3_paths.users}?#{{sortBy: sort.to_json}.to_query}"
+          "#{api_v3_paths.users}?#{{ sortBy: sort.to_json }.to_query}"
         end
 
         it 'contains the first user as the first element' do
@@ -141,12 +141,12 @@ describe 'API v3 User resource',
 
       context 'on an invalid filter' do
         let(:get_path) do
-          filter = [{'name' => {
+          filter = [{ 'name' => {
             'operator' => 'a',
             'values' => [user.name]
-          }}]
+          } }]
 
-          "#{api_v3_paths.users}?#{{filters: filter.to_json}.to_query}"
+          "#{api_v3_paths.users}?#{{ filters: filter.to_json }.to_query}"
         end
 
         it 'returns an error' do

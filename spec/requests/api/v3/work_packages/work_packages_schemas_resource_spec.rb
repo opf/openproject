@@ -142,7 +142,7 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
         end
 
         it 'should set a weak ETag' do
-          expect(last_response.headers['ETag']).to match(/W\/\"\w+\"/)
+          expect(last_response.headers['ETag']).to match(/W\/"\w+"/)
         end
 
         it 'caches the response' do

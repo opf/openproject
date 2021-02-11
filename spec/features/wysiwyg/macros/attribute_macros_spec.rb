@@ -35,7 +35,7 @@ describe 'Wysiwyg attribute macros', type: :feature, js: true do
   let!(:work_package) { FactoryBot.create(:work_package, subject: "Foo Bar", project: project) }
   let(:editor) { ::Components::WysiwygEditor.new }
 
-  let(:markdown) {
+  let(:markdown) do
     <<~MD
       # My headline
 
@@ -62,7 +62,7 @@ describe 'Wysiwyg attribute macros', type: :feature, js: true do
         </tbody>
       </table>
     MD
-  }
+  end
 
   before do
     login_as(user)

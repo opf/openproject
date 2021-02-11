@@ -103,7 +103,6 @@ class ProjectsController < ApplicationController
            model: @altered_project)
       .call(permitted_params.project)
 
-
     if service_call.success?
       flash[:notice] = t(:notice_successful_update)
       redirect_to settings_generic_project_path(@altered_project)

@@ -38,7 +38,6 @@ OpenProject::Application.routes.draw do
         post :import, action: :perform_import, on: :collection
       end
 
-
       # IFC viewer frontend
       get 'bcf(/*state)', to: 'bim/ifc_models/ifc_viewer#show', as: :frontend
 

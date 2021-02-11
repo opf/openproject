@@ -42,7 +42,7 @@ module OpenProject::Reporting::Patches
 
           remove_custom_field_from_cost_report(reports, id)
           remove_custom_field_from_session(id)
-        rescue => e
+        rescue StandardError => e
           Rails.logger.error "Failed to remove custom_field #{id} from custom queries. " \
                              "#{e.class}: #{e.message}"
         ensure

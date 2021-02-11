@@ -37,10 +37,10 @@ describe 'Deleting time entries', type: :feature, js: true do
   end
   let(:role) do
     FactoryBot.create :role,
-                      permissions: [:view_work_packages,
-                                    :delete_work_packages,
-                                    :edit_cost_entries,
-                                    :view_cost_entries]
+                      permissions: %i[view_work_packages
+                                      delete_work_packages
+                                      edit_cost_entries
+                                      view_cost_entries]
   end
   let(:work_package) { FactoryBot.create :work_package }
   let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }

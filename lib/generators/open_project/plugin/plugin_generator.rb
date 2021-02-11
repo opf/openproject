@@ -29,7 +29,7 @@
 require 'rails/generators'
 
 class Generators::OpenProject::Plugin::PluginGenerator < Rails::Generators::Base
-  source_root File.expand_path('../templates', __FILE__)
+  source_root File.expand_path('templates', __dir__)
 
   argument :plugin_name, type: :string, default: 'openproject-new-plugin'
   argument :root_folder, type: :string, default: 'vendor/gems'

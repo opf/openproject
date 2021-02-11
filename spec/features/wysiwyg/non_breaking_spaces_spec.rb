@@ -31,7 +31,7 @@ require 'spec_helper'
 describe 'Wysiwyg &nbsp; behavior',
          type: :feature, js: true do
   shared_let(:admin) { FactoryBot.create :admin }
-  let(:user) { admin}
+  let(:user) { admin }
 
   let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { ::Components::WysiwygEditor.new }

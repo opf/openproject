@@ -77,7 +77,7 @@ describe 'work package export', type: :feature do
 
     begin
       perform_enqueued_jobs
-    rescue
+    rescue StandardError
       # nothing
     end
 

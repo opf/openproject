@@ -31,7 +31,6 @@ require 'spec_helper'
 describe 'Enterprise trial management',
          type: :feature,
          driver: :chrome_billy do
-
   let(:admin) { FactoryBot.create(:admin) }
 
   let(:trial_id) { '1b6486b4-5a30-4042-8714-99d7c8e6b637' }

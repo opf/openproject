@@ -90,7 +90,8 @@ describe ::API::V3::Queries::QueryRepresenter do
 
         context 'with params' do
           let(:representer) do
-            described_class.new(query, current_user: user, embed_links: embed_links, params: { "filters" => "something", "id" => "234" })
+            described_class.new(query, current_user: user, embed_links: embed_links,
+                                       params: { "filters" => "something", "id" => "234" })
           end
 
           it_behaves_like 'has a titled link' do
@@ -462,7 +463,7 @@ describe ::API::V3::Queries::QueryRepresenter do
       context 'with sort_by' do
         let(:query) do
           FactoryBot.build_stubbed(:query,
-                                    sort_criteria: [['subject', 'asc'], ['assigned_to', 'desc']])
+                                   sort_criteria: [['subject', 'asc'], ['assigned_to', 'desc']])
         end
 
         it 'has an array of sortBy' do
@@ -764,7 +765,7 @@ describe ::API::V3::Queries::QueryRepresenter do
       describe 'with sort criteria' do
         let(:query) do
           FactoryBot.build_stubbed(:query,
-                                    sort_criteria: [['subject', 'asc'], ['assigned_to', 'desc']])
+                                   sort_criteria: [['subject', 'asc'], ['assigned_to', 'desc']])
         end
 
         it 'has the sort criteria embedded' do

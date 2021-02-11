@@ -38,7 +38,6 @@ describe 'Work package filtering by user custom field', js: true do
       type.custom_fields << cf
       project.work_package_custom_fields << cf
     end
-
   end
   let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages save_queries]) }
   let(:other_user) do

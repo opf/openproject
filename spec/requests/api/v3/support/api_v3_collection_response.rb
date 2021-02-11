@@ -51,7 +51,6 @@ shared_examples_for 'API V3 collection response' do |total, count, type|
 
   it 'returns a collection successfully' do
     aggregate_failures do
-
       expect(last_response.status).to eql(200)
       expect(subject).to be_json_eql('Collection'.to_json).at_path('_type')
       expect(subject).to be_json_eql(count_number.to_json).at_path('count')

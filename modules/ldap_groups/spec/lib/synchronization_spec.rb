@@ -3,12 +3,13 @@ require 'ladle'
 
 describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
   let(:plugin_settings) do
-    {group_base: 'ou=groups,dc=example,dc=com', group_key: 'cn'}
+    { group_base: 'ou=groups,dc=example,dc=com', group_key: 'cn' }
   end
 
   before(:all) do
     ldif = Rails.root.join('spec/fixtures/ldap/users.ldif')
-    @ldap_server = Ladle::Server.new(quiet: false, port: ParallelHelper.port_for_ldap.to_s, domain: 'dc=example,dc=com', ldif: ldif).start
+    @ldap_server = Ladle::Server.new(quiet: false, port: ParallelHelper.port_for_ldap.to_s, domain: 'dc=example,dc=com',
+                                     ldif: ldif).start
   end
 
   after(:all) do
@@ -42,8 +43,14 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
   let(:group_foo) { FactoryBot.create :group, lastname: 'foo_internal' }
   let(:group_bar) { FactoryBot.create :group, lastname: 'bar' }
 
-  let(:synced_foo) { FactoryBot.create :ldap_synchronized_group, dn: 'cn=foo,ou=groups,dc=example,dc=com', group: group_foo, auth_source: auth_source }
-  let(:synced_bar) { FactoryBot.create :ldap_synchronized_group, dn: 'cn=bar,ou=groups,dc=example,dc=com', group: group_bar, auth_source: auth_source }
+  let(:synced_foo) do
+    FactoryBot.create :ldap_synchronized_group, dn: 'cn=foo,ou=groups,dc=example,dc=com', group: group_foo,
+                                                auth_source: auth_source
+  end
+  let(:synced_bar) do
+    FactoryBot.create :ldap_synchronized_group, dn: 'cn=bar,ou=groups,dc=example,dc=com', group: group_bar,
+                                                auth_source: auth_source
+  end
 
   subject do
     # Need the system user for admin permission
@@ -112,7 +119,6 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
           user_bb459
           user_cc414
         end
-
 
         describe 'synchronizes all memberships' do
           before do
@@ -259,8 +265,14 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
   end
 
   context 'with invalid base' do
-    let(:synced_foo) { FactoryBot.create :ldap_synchronized_group, dn: 'cn=foo,ou=invalid,dc=example,dc=com', group: group_foo, auth_source: auth_source }
-    let(:synced_bar) { FactoryBot.create :ldap_synchronized_group, dn: 'cn=bar,ou=invalid,dc=example,dc=com', group: group_bar, auth_source: auth_source }
+    let(:synced_foo) do
+      FactoryBot.create :ldap_synchronized_group, dn: 'cn=foo,ou=invalid,dc=example,dc=com', group: group_foo,
+                                                  auth_source: auth_source
+    end
+    let(:synced_bar) do
+      FactoryBot.create :ldap_synchronized_group, dn: 'cn=bar,ou=invalid,dc=example,dc=com', group: group_bar,
+                                                  auth_source: auth_source
+    end
 
     context 'when one synced group exists' do
       before do

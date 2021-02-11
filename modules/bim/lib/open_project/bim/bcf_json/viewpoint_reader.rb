@@ -16,7 +16,7 @@ module OpenProject::Bim
         viewpoint_hash
       end
 
-      def to_json
+      def to_json(*_args)
         viewpoint_hash.to_json
       end
 

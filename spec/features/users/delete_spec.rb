@@ -36,11 +36,11 @@ describe 'user deletion: ', type: :feature, js: true do
   end
 
   context 'regular user' do
-    let(:user_password) {'bob!' * 4}
+    let(:user_password) { 'bob!' * 4 }
     let(:current_user) do
       FactoryBot.create(:user,
-                         password: user_password,
-                         password_confirmation: user_password)
+                        password: user_password,
+                        password_confirmation: user_password)
     end
 
     it 'can delete their own account', js: true do
@@ -87,8 +87,8 @@ describe 'user deletion: ', type: :feature, js: true do
     let(:user_password) { 'admin! * 4' }
     let(:current_user) do
       FactoryBot.create(:admin,
-                         password: user_password,
-                         password_confirmation: user_password)
+                        password: user_password,
+                        password_confirmation: user_password)
     end
 
     it 'can delete other users if the setting permitts it', selenium: true do
@@ -104,7 +104,7 @@ describe 'user deletion: ', type: :feature, js: true do
       click_on 'Delete'
 
       dialog.confirm_flow_with 'wrong', should_fail: true
-      
+
       SeleniumHubWaiter.wait
       fill_in 'login_verification', with: user.login
       click_on 'Delete'
@@ -131,7 +131,7 @@ describe 'user deletion: ', type: :feature, js: true do
       find(:css, "#settings_users_deletable_by_admins").set(true)
       find(:css, "#settings_users_deletable_by_self").set(true)
 
-      click_on  'Save'
+      click_on 'Save'
 
       expect(Setting.users_deletable_by_admins?).to eq true
       expect(Setting.users_deletable_by_self?).to eq true

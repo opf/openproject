@@ -73,7 +73,6 @@ RSpec.feature 'Work package pagination', js: true do
         expect(page).to have_content(work_package_2.subject)
       end
     end
-
   end
 
   context 'with project scope' do

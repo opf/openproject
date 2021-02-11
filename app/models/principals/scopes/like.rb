@@ -48,7 +48,7 @@ module Principals::Scopes
                "LOWER(#{firstnamelastname}) LIKE :s OR " +
                "LOWER(#{lastnamefirstname}) LIKE :s OR " +
                'LOWER(mail) LIKE :s',
-                  { s: s }])
+               { s: s }])
           .order(:type, :login, :lastname, :firstname, :mail)
       end
     end

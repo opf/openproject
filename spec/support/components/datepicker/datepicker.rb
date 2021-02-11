@@ -28,12 +28,12 @@ module Components
         current_month = Date::MONTHNAMES.index(container.first('.cur-month').text)
 
         if current_month < month
-          while (current_month < month) do
+          while current_month < month
             container.find('.flatpickr-next-month').click
             current_month = Date::MONTHNAMES.index(container.first('.cur-month').text)
           end
         elsif current_month > month
-          while (current_month > month) do
+          while current_month > month
             container.find('.flatpickr-prev-month').click
             current_month = Date::MONTHNAMES.index(container.first('.cur-month').text)
           end
@@ -54,8 +54,8 @@ module Components
 
       container
         .first('.flatpickr-days .flatpickr-day:not(.nextMonthDay):not(.prevMonthDay)',
-              text: value,
-              exact_text: true)
+               text: value,
+               exact_text: true)
         .click
     end
 

@@ -38,8 +38,7 @@ describe Authentication::OmniauthAuthHashContract do
       info: { name: 'foo',
               email: 'foo@bar.com',
               first_name: 'foo',
-              last_name: 'bar'
-      }
+              last_name: 'bar' }
     )
   end
 
@@ -100,7 +99,7 @@ describe Authentication::OmniauthAuthHashContract do
   end
 
   describe '#validate_authorization_callback' do
-    let(:auth_double) { double('Authorization', approve?: authorized, message: message)}
+    let(:auth_double) { double('Authorization', approve?: authorized, message: message) }
 
     before do
       allow(OpenProject::OmniAuth::Authorization)

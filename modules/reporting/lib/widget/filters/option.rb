@@ -41,7 +41,7 @@ class Widget::Filters::Option < Widget::Filters::Base
       level = options[:level] # nesting_level is optional for values
       name = I18n.t(name) if name.is_a? Symbol
       name = name.empty? ? I18n.t(:label_none) : name
-      name_prefix = ((level && level > 0) ? (' ' * 2 * level + '> ') : '')
+      name_prefix = (level && level > 0 ? (' ' * 2 * level + '> ') : '')
       if options[:optgroup]
         tag :optgroup, label: I18n.t(:label_sector)
       else

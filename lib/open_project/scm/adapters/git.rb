@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -197,7 +198,7 @@ module OpenProject
         def checkout?
           parsed = URI.parse checkout_uri
           %w(file http https git).include? parsed.scheme
-        rescue => e
+        rescue StandardError => e
           false
         end
 
@@ -213,6 +214,7 @@ module OpenProject
 
         def branches
           return @branches if @branches
+
           @branches = []
           cmd_args = %w|branch --no-color|
           popen3(cmd_args) do |io|
@@ -225,6 +227,7 @@ module OpenProject
 
         def tags
           return @tags if @tags
+
           cmd_args = %w|tag|
           @tags = capture_git(cmd_args).lines.sort!.map(&:strip)
         end
@@ -232,6 +235,7 @@ module OpenProject
         def default_branch
           bras = branches
           return nil if bras.nil?
+
           bras.include?('master') ? 'master' : bras.first
         end
 
@@ -260,8 +264,8 @@ module OpenProject
             Entry.new(
               name: scm_encode('UTF-8', @path_encoding, name),
               path: path,
-              kind: (type == 'tree') ? 'dir' : 'file',
-              size: (type == 'tree') ? nil : size,
+              kind: type == 'tree' ? 'dir' : 'file',
+              size: type == 'tree' ? nil : size,
               lastrev: @flag_report_last_commit ? lastrev(path, identifier) : Revision.new
             )
           end
@@ -274,6 +278,7 @@ module OpenProject
 
         def lastrev(path, rev)
           return nil if path.nil?
+
           args = %w|log --no-color --encoding=UTF-8 --date=iso --pretty=fuller --no-merges -n 1|
           args << rev if rev
           args << '--' << path unless path.empty?
@@ -282,7 +287,7 @@ module OpenProject
             build_lastrev(lines)
           rescue NoMethodError
             logger.error("The revision '#{path}' has a wrong format")
-            return nil
+            nil
           end
         end
 
@@ -312,7 +317,7 @@ module OpenProject
             if line =~ /^commit ([0-9a-f]{40})$/
               key = 'commit'
               value = $1
-              if parsing_descr == 1 || parsing_descr == 2
+              if [1, 2].include?(parsing_descr)
                 parsing_descr = 0
                 revision = Revision.new(
                   identifier: changeset[:commit],
@@ -342,7 +347,7 @@ module OpenProject
             elsif (parsing_descr == 0) && line.chomp.to_s == ''
               parsing_descr = 1
               changeset[:description] = ''
-            elsif (parsing_descr == 1 || parsing_descr == 2) &&
+            elsif [1, 2, 1, 2, 1, 2].include?(parsing_descr) &&
                   (line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\t(.+)$/)
 
               parsing_descr = 2
@@ -350,7 +355,7 @@ module OpenProject
               filepath = $2
               p = scm_encode('UTF-8', @path_encoding, filepath)
               files << { action: fileaction, path: p }
-            elsif (parsing_descr == 1 || parsing_descr == 2) &&
+            elsif [1, 2, 1, 2, 1, 2, 1, 2, 1, 2].include?(parsing_descr) &&
                   (line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\d+\s+(\S+)\t(.+)$/)
 
               parsing_descr = 2
@@ -389,10 +394,10 @@ module OpenProject
           args = %w|log --no-color --encoding=UTF-8 --raw --date=iso --pretty=fuller|
           args << '--reverse' if options[:reverse]
           args << '--all' if options[:all]
-          args << '-n' << "#{options[:limit].to_i}" if options[:limit]
+          args << '-n' << options[:limit].to_i.to_s if options[:limit]
           from_to = ''
           from_to << "#{identifier_from}.." if identifier_from
-          from_to << "#{identifier_to}" if identifier_to
+          from_to << identifier_to.to_s if identifier_to
           args << from_to if from_to.present?
           args << "--since=#{options[:since].strftime('%Y-%m-%d %H:%M:%S')}" if options[:since]
           args << '--' << scm_encode(@path_encoding, 'UTF-8', path) if path && !path.empty?
@@ -438,7 +443,9 @@ module OpenProject
                 $1,
                 Revision.new(
                   identifier: identifier,
-                  author: authors_by_commit[identifier]))
+                  author: authors_by_commit[identifier]
+                )
+              )
               identifier = ''
             end
           end

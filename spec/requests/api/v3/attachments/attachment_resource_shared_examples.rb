@@ -61,7 +61,7 @@ shared_examples 'it supports direct uploads' do
         expect(subject.status).to eq(404)
       end
     end
-    
+
     context 'with remote AWS storage', with_direct_uploads: true do
       before do
         request!

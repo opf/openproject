@@ -37,8 +37,8 @@ describe 'API v3 Priority resource' do
   let(:project) { FactoryBot.create(:project, public: false) }
   let(:current_user) do
     FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_through_role: role)
+                      member_in_project: project,
+                      member_through_role: role)
   end
 
   let!(:priorities) { FactoryBot.create_list(:priority, 2) }

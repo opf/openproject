@@ -4,7 +4,7 @@ module Users
     columns :login, :firstname, :lastname, :mail, :admin, :created_at, :last_login_on
 
     def initial_sort
-      [:id, :asc]
+      %i[id asc]
     end
 
     def headers
@@ -22,7 +22,7 @@ module Users
     end
 
     def desc_by_default
-      [:admin, :created_at, :last_login_on]
+      %i[admin created_at last_login_on]
     end
   end
 end

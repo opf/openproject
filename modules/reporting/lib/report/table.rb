@@ -30,6 +30,7 @@
 
 class Report::Table
   attr_accessor :query
+
   include Report::QueryUtils
 
   def initialize(query)
@@ -76,15 +77,15 @@ class Report::Table
 
   def fields_for(type)
     @fields_for ||= begin
-                      child = query.chain
-                      fields = Hash.new { |h, k| h[k] = [] }
+      child = query.chain
+      fields = Hash.new { |h, k| h[k] = [] }
 
-                      until child.filter?
-                        fields[child.type].push(*child.group_fields)
-                        child = child.child
-                      end
-                      fields
-                    end
+      until child.filter?
+        fields[child.type].push(*child.group_fields)
+        child = child.child
+      end
+      fields
+    end
 
     @fields_for[type]
   end
@@ -112,7 +113,7 @@ class Report::Table
   def get_index(type)
     @indexes ||= begin
       indexes = Hash.new { |h, k| h[k] = Set.new }
-      query.each_direct_result { |result| [:row, :column].each { |t| indexes[t] << fields_from(result, t) } }
+      query.each_direct_result { |result| %i[row column].each { |t| indexes[t] << fields_from(result, t) } }
       indexes.keys.each { |k| indexes[k] = indexes[k].sort { |x, y| compare x, y } }
       indexes
     end

@@ -49,7 +49,7 @@ module JournalFormatter
     end
 
     def format_values(values, key, options)
-      field = key.to_s.gsub(/\_id\z/, '').to_sym
+      field = key.to_s.gsub(/_id\z/, '').to_sym
       klass = class_from_field(field)
 
       values.map do |value|

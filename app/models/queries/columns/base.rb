@@ -58,7 +58,7 @@ class Queries::Columns::Base
     end
   end
 
-  def sortable_join_statement(query)
+  def sortable_join_statement(_query)
     sortable_join
   end
 

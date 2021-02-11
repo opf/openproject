@@ -87,7 +87,10 @@ describe CopyProjectsController, type: :controller do
   end
 
   shared_examples_for 'successful copy' do
-    it { expect(flash[:notice]).to eq(I18n.t('copy_project.started', source_project_name: source_project.name, target_project_name: target_project_name)) }
+    it {
+      expect(flash[:notice]).to eq(I18n.t('copy_project.started', source_project_name: source_project.name,
+                                                                  target_project_name: target_project_name))
+    }
   end
 
   def copy_project(project)
@@ -136,7 +139,7 @@ describe CopyProjectsController, type: :controller do
       true
     end
 
-    let(:permission) { [:copy_projects, :add_project] }
+    let(:permission) { %i[copy_projects add_project] }
     let(:project) { FactoryBot.create(:project, public: false) }
 
     it_should_behave_like 'a controller action which needs project permissions'

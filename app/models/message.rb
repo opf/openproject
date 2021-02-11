@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -119,11 +120,13 @@ class Message < ApplicationRecord
   end
 
   def editable_by?(usr)
-    usr && usr.logged? && (usr.allowed_to?(:edit_messages, project) || (author == usr && usr.allowed_to?(:edit_own_messages, project)))
+    usr && usr.logged? && (usr.allowed_to?(:edit_messages,
+                                           project) || (author == usr && usr.allowed_to?(:edit_own_messages, project)))
   end
 
   def destroyable_by?(usr)
-    usr && usr.logged? && (usr.allowed_to?(:delete_messages, project) || (author == usr && usr.allowed_to?(:delete_own_messages, project)))
+    usr && usr.logged? && (usr.allowed_to?(:delete_messages,
+                                           project) || (author == usr && usr.allowed_to?(:delete_own_messages, project)))
   end
 
   private

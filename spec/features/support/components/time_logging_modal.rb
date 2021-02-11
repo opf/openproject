@@ -114,8 +114,6 @@ module Components
         'wp-new-inline-edit--field-spentOn'
       when 'work_package'
         'wp-new-inline-edit--field-workPackage'
-      else
-        nil
       end
     end
 
@@ -131,8 +129,6 @@ module Components
         comment_field
       when 'work_package'
         work_package_field
-      else
-        nil
       end
     end
 

@@ -72,7 +72,6 @@ module OpenProject::LdapGroups
     ##
     # Get the current members from the ldap group
     def get_members(ldap_con, group)
-
       # Get user login attribute and base dn which are private
       base_dn = ldap.base_dn
 

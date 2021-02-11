@@ -32,8 +32,8 @@ module Cost
       role = ::FactoryBot.create(:role, permissions: permissions)
 
       ::FactoryBot.create(:member, project: project,
-                                    principal: user,
-                                    roles: [role])
+                                   principal: user,
+                                   roles: [role])
       user.reload
     end
   end

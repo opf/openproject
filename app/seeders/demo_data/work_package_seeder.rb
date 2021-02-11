@@ -102,15 +102,15 @@ module DemoData
 
     def base_work_package_attributes(attributes)
       {
-        project:       project,
-        author:        user,
-        assigned_to:   find_principal(attributes[:assignee]),
-        subject:       attributes[:subject],
-        description:   attributes[:description],
-        status:        find_status(attributes),
-        type:          find_type(attributes),
-        priority:      find_priority(attributes) || IssuePriority.default,
-        parent:        WorkPackage.find_by(subject: attributes[:parent])
+        project: project,
+        author: user,
+        assigned_to: find_principal(attributes[:assignee]),
+        subject: attributes[:subject],
+        description: attributes[:description],
+        status: find_status(attributes),
+        type: find_type(attributes),
+        priority: find_priority(attributes) || IssuePriority.default,
+        parent: WorkPackage.find_by(subject: attributes[:parent])
       }
     end
 

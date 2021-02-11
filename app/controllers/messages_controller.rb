@@ -33,7 +33,7 @@ class MessagesController < ApplicationController
   default_search_scope :messages
   model_object Message, scope: Forum
   before_action :find_object_and_scope
-  before_action :authorize, except: [:edit, :update, :destroy]
+  before_action :authorize, except: %i[edit update destroy]
 
   include AttachmentsHelper
   include PaginationHelper

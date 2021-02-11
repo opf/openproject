@@ -228,7 +228,7 @@ class MembersController < ApplicationController
           # The invitation can pretty much only fail due to the user already
           # having been invited. So look them up if it does.
           user = UserInvitation.invite_new_user(email: id) ||
-            User.find_by_mail(id)
+                 User.find_by_mail(id)
 
           user.id if user
         end
@@ -243,17 +243,18 @@ class MembersController < ApplicationController
   end
 
   def each_comma_seperated(array, &block)
-    array.map { |e|
+    array.map do |e|
       if e.to_s.match /\d(,\d)*/
         block.call(e)
       else
         e
       end
-    }.flatten
+    end.flatten
   end
 
   def transform_array_of_comma_seperated_ids(array)
     return array unless array.present?
+
     each_comma_seperated(array) do |elem|
       elem.to_s.split(',')
     end

@@ -29,18 +29,18 @@
 require 'spec_helper'
 
 describe SysController, type: :controller do
-  let(:commit_role) {
+  let(:commit_role) do
     FactoryBot.create(:role, permissions: %i[commit_access browse_repository])
-  }
+  end
   let(:browse_role) { FactoryBot.create(:role, permissions: [:browse_repository]) }
   let(:guest_role) { FactoryBot.create(:role, permissions: []) }
   let(:valid_user_password) { 'Top Secret Password' }
-  let(:valid_user) {
+  let(:valid_user) do
     FactoryBot.create(:user,
                       login: 'johndoe',
                       password: valid_user_password,
                       password_confirmation: valid_user_password)
-  }
+  end
 
   let(:api_key) { '12345678' }
 
@@ -76,9 +76,9 @@ describe SysController, type: :controller do
               valid_user_password
             )
 
-          post 'repo_auth', params: {key: api_key,
-                                     repository: 'without-access',
-                                     method: 'GET'}
+          post 'repo_auth', params: { key: api_key,
+                                      repository: 'without-access',
+                                      method: 'GET' }
         end
 
         it 'should respond 403 not allowed' do
@@ -102,17 +102,17 @@ describe SysController, type: :controller do
         end
 
         it 'should respond 200 okay dokay for GET' do
-          post 'repo_auth', params: {key: api_key,
-                                     repository: project.identifier,
-                                     method: 'GET'}
+          post 'repo_auth', params: { key: api_key,
+                                      repository: project.identifier,
+                                      method: 'GET' }
 
           expect(response.code).to eq('200')
         end
 
         it 'should respond 403 not allowed for POST' do
-          post 'repo_auth', params: {key: api_key,
-                                     repository: project.identifier,
-                                     method: 'POST'}
+          post 'repo_auth', params: { key: api_key,
+                                      repository: project.identifier,
+                                      method: 'POST' }
 
           expect(response.code).to eq('403')
         end
@@ -133,17 +133,17 @@ describe SysController, type: :controller do
         end
 
         it 'should respond 200 okay dokay for GET' do
-          post 'repo_auth', params: {key: api_key,
-                                     repository: project.identifier,
-                                     method: 'GET'}
+          post 'repo_auth', params: { key: api_key,
+                                      repository: project.identifier,
+                                      method: 'GET' }
 
           expect(response.code).to eq('200')
         end
 
         it 'should respond 200 okay dokay for POST' do
-          post 'repo_auth', params: {key: api_key,
-                                     repository: project.identifier,
-                                     method: 'POST'}
+          post 'repo_auth', params: { key: api_key,
+                                      repository: project.identifier,
+                                      method: 'POST' }
 
           expect(response.code).to eq('200')
         end
@@ -161,9 +161,9 @@ describe SysController, type: :controller do
               valid_user_password + 'made invalid'
             )
 
-          post 'repo_auth', params: {key: api_key,
-                                     repository: project.identifier,
-                                     method: 'GET'}
+          post 'repo_auth', params: { key: api_key,
+                                      repository: project.identifier,
+                                      method: 'GET' }
         end
 
         it 'should respond 401 auth required' do
@@ -179,9 +179,9 @@ describe SysController, type: :controller do
               valid_user_password
             )
 
-          post 'repo_auth', params: {key: api_key,
-                                     repository: project.identifier,
-                                     method: 'GET'}
+          post 'repo_auth', params: { key: api_key,
+                                      repository: project.identifier,
+                                      method: 'GET' }
         end
 
         it 'should respond 403 not allowed' do
@@ -205,9 +205,9 @@ describe SysController, type: :controller do
               valid_user_password
             )
 
-          post 'repo_auth', params: {key: api_key,
-                                     repository: project.identifier,
-                                     method: 'GET'}
+          post 'repo_auth', params: { key: api_key,
+                                      repository: project.identifier,
+                                      method: 'GET' }
         end
 
         it 'should respond 200 OK' do
@@ -217,9 +217,9 @@ describe SysController, type: :controller do
 
       context 'for invalid credentials' do
         before(:each) do
-          post 'repo_auth', params: {key: api_key,
-                                     repository: 'any-repo',
-                                     method: 'GET'}
+          post 'repo_auth', params: { key: api_key,
+                                      repository: 'any-repo',
+                                      method: 'GET' }
         end
 
         it 'should respond 401 auth required' do
@@ -235,9 +235,9 @@ describe SysController, type: :controller do
               valid_user.login,
               valid_user_password
             )
-          post 'repo_auth', params: {key: 'not_the_api_key',
-                                     repository: 'any-repo',
-                                     method: 'GET'}
+          post 'repo_auth', params: { key: 'not_the_api_key',
+                                      repository: 'any-repo',
+                                      method: 'GET' }
 
           expect(response.code).to eq('403')
           expect(response.body)
@@ -251,9 +251,9 @@ describe SysController, type: :controller do
               'invalid'
             )
 
-          post 'repo_auth', params: {key: 'not_the_api_key',
-                                     repository: 'any-repo',
-                                     method: 'GET'}
+          post 'repo_auth', params: { key: 'not_the_api_key',
+                                      repository: 'any-repo',
+                                      method: 'GET' }
 
           expect(response.code).to eq('403')
           expect(response.body)
@@ -274,12 +274,12 @@ describe SysController, type: :controller do
               valid_user_password
             )
 
-          post 'repo_auth', params: {key: api_key,
-                                     repository: 'without-access',
-                                     method: 'GET',
-                                     git_smart_http: '1',
-                                     uri: '/git',
-                                     location: '/git'}
+          post 'repo_auth', params: { key: api_key,
+                                      repository: 'without-access',
+                                      method: 'GET',
+                                      git_smart_http: '1',
+                                      uri: '/git',
+                                      location: '/git' }
         end
 
         it 'should respond 403 not allowed' do
@@ -303,23 +303,23 @@ describe SysController, type: :controller do
         end
 
         it 'should respond 200 okay dokay for read-only access' do
-          post 'repo_auth', params: {key: api_key,
-                                     repository: project.identifier,
-                                     method: 'GET',
-                                     git_smart_http: '1',
-                                     uri: '/git',
-                                     location: '/git'}
+          post 'repo_auth', params: { key: api_key,
+                                      repository: project.identifier,
+                                      method: 'GET',
+                                      git_smart_http: '1',
+                                      uri: '/git',
+                                      location: '/git' }
 
           expect(response.code).to eq('200')
         end
 
         it 'should respond 403 not allowed for write (push)' do
-          post 'repo_auth', params: {key: api_key,
-                                     repository: project.identifier,
-                                     method: 'POST',
-                                     git_smart_http: '1',
-                                     uri: "/git/#{project.identifier}/git-receive-pack",
-                                     location: '/git'}
+          post 'repo_auth', params: { key: api_key,
+                                      repository: project.identifier,
+                                      method: 'POST',
+                                      git_smart_http: '1',
+                                      uri: "/git/#{project.identifier}/git-receive-pack",
+                                      location: '/git' }
 
           expect(response.code).to eq('403')
         end
@@ -341,23 +341,23 @@ describe SysController, type: :controller do
         end
 
         it 'should respond 200 okay dokay for GET' do
-          post 'repo_auth', params: {key: api_key,
-                                     repository: project.identifier,
-                                     method: 'GET',
-                                     git_smart_http: '1',
-                                     uri: '/git',
-                                     location: '/git'}
+          post 'repo_auth', params: { key: api_key,
+                                      repository: project.identifier,
+                                      method: 'GET',
+                                      git_smart_http: '1',
+                                      uri: '/git',
+                                      location: '/git' }
 
           expect(response.code).to eq('200')
         end
 
         it 'should respond 200 okay dokay for POST' do
-          post 'repo_auth', params: {key: api_key,
-                                     repository: project.identifier,
-                                     method: 'POST',
-                                     git_smart_http: '1',
-                                     uri: "/git/#{project.identifier}/git-receive-pack",
-                                     location: '/git'}
+          post 'repo_auth', params: { key: api_key,
+                                      repository: project.identifier,
+                                      method: 'POST',
+                                      git_smart_http: '1',
+                                      uri: "/git/#{project.identifier}/git-receive-pack",
+                                      location: '/git' }
 
           expect(response.code).to eq('200')
         end
@@ -376,12 +376,12 @@ describe SysController, type: :controller do
               valid_user_password + 'made invalid'
             )
 
-          post 'repo_auth', params: {key: api_key,
-                                     repository: project.identifier,
-                                     method: 'GET',
-                                     git_smart_http: '1',
-                                     uri: '/git',
-                                     location: '/git'}
+          post 'repo_auth', params: { key: api_key,
+                                      repository: project.identifier,
+                                      method: 'GET',
+                                      git_smart_http: '1',
+                                      uri: '/git',
+                                      location: '/git' }
         end
 
         it 'should respond 401 auth required' do
@@ -398,12 +398,12 @@ describe SysController, type: :controller do
               valid_user_password
             )
 
-          post 'repo_auth', params: {key: api_key,
-                                     repository: project.identifier,
-                                     method: 'GET',
-                                     git_smart_http: '1',
-                                     uri: '/git',
-                                     location: '/git'}
+          post 'repo_auth', params: { key: api_key,
+                                      repository: project.identifier,
+                                      method: 'GET',
+                                      git_smart_http: '1',
+                                      uri: '/git',
+                                      location: '/git' }
         end
 
         it 'should respond 403 not allowed' do
@@ -425,12 +425,12 @@ describe SysController, type: :controller do
               valid_user.login,
               valid_user_password
             )
-          post 'repo_auth', params: {key: api_key,
-                                     repository: project.identifier,
-                                     method: 'GET',
-                                     git_smart_http: '1',
-                                     uri: '/git',
-                                     location: '/git'}
+          post 'repo_auth', params: { key: api_key,
+                                      repository: project.identifier,
+                                      method: 'GET',
+                                      git_smart_http: '1',
+                                      uri: '/git',
+                                      location: '/git' }
         end
 
         it 'should respond 200 OK' do
@@ -440,12 +440,12 @@ describe SysController, type: :controller do
 
       context 'for invalid credentials' do
         before(:each) do
-          post 'repo_auth', params: {key: api_key,
-                                     repository: 'any-repo',
-                                     method: 'GET',
-                                     git_smart_http: '1',
-                                     uri: '/git',
-                                     location: '/git'}
+          post 'repo_auth', params: { key: api_key,
+                                      repository: 'any-repo',
+                                      method: 'GET',
+                                      git_smart_http: '1',
+                                      uri: '/git',
+                                      location: '/git' }
         end
 
         it 'should respond 401 auth required' do
@@ -462,12 +462,12 @@ describe SysController, type: :controller do
               valid_user_password
             )
 
-          post 'repo_auth', params: {key: 'not_the_api_key',
-                                     repository: 'any-repo',
-                                     method: 'GET',
-                                     git_smart_http: '1',
-                                     uri: '/git',
-                                     location: '/git'}
+          post 'repo_auth', params: { key: 'not_the_api_key',
+                                      repository: 'any-repo',
+                                      method: 'GET',
+                                      git_smart_http: '1',
+                                      uri: '/git',
+                                      location: '/git' }
 
           expect(response.code).to eq('403')
           expect(response.body)
@@ -481,12 +481,12 @@ describe SysController, type: :controller do
               'invalid'
             )
 
-          post 'repo_auth', params: {key: 'not_the_api_key',
-                                     repository: 'any-repo',
-                                     method: 'GET',
-                                     git_smart_http: '1',
-                                     uri: '/git',
-                                     location: '/git'}
+          post 'repo_auth', params: { key: 'not_the_api_key',
+                                      repository: 'any-repo',
+                                      method: 'GET',
+                                      git_smart_http: '1',
+                                      uri: '/git',
+                                      location: '/git' }
 
           expect(response.code).to eq('403')
           expect(response.body)
@@ -497,10 +497,10 @@ describe SysController, type: :controller do
   end
 
   describe '#cached_user_login' do
-    let(:cache_key) {
+    let(:cache_key) do
       OpenProject::RepositoryAuthentication::CACHE_PREFIX +
         Digest::SHA1.hexdigest("#{valid_user.login}#{valid_user_password}")
-    }
+    end
     let(:cache_expiry) { OpenProject::RepositoryAuthentication::CACHE_EXPIRES_AFTER }
 
     it 'should call user_login only once when called twice' do
@@ -546,9 +546,9 @@ describe SysController, type: :controller do
       let(:last_updated) { nil }
 
       def request_storage
-        get 'update_required_storage', params: {key: apikey,
-                                                id: id,
-                                                force: force}
+        get 'update_required_storage', params: { key: apikey,
+                                                 id: id,
+                                                 force: force }
       end
 
       context 'missing project' do
@@ -578,9 +578,9 @@ describe SysController, type: :controller do
       context 'stubbed repository' do
         let(:project) { FactoryBot.build_stubbed(:project) }
         let(:id) { project.id }
-        let(:repository) {
+        let(:repository) do
           FactoryBot.build_stubbed(:repository_subversion, url: url, root_url: url)
-        }
+        end
 
         before do
           allow(Project).to receive(:find).and_return(project)
@@ -619,9 +619,9 @@ describe SysController, type: :controller do
 
           let(:project) { FactoryBot.create(:project) }
           let(:id) { project.id }
-          let(:repository) {
+          let(:repository) do
             FactoryBot.create(:repository_subversion, project: project, url: url, root_url: url)
-          }
+          end
 
           before do
             allow(Project).to receive(:find).and_return(project)

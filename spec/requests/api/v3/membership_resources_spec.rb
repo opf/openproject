@@ -675,7 +675,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
         .to match_array [another_role]
 
       # Assigning a new role also updates the member
-      expect(other_member.updated_at > other_member_updated_at )
+      expect(other_member.updated_at > other_member_updated_at)
         .to be_truthy
     end
 

@@ -37,17 +37,23 @@ describe 'Subproject action board', type: :feature, js: true do
                       member_through_role: role)
   end
   let(:type) { FactoryBot.create(:type_standard) }
-  let(:project) { FactoryBot.create(:project, name: 'Parent', types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:subproject1) { FactoryBot.create(:project, parent: project, name: 'Child 1', types: [type], enabled_module_names: %i[work_package_tracking]) }
-  let(:subproject2) { FactoryBot.create(:project, parent: project, name: 'Child 2', types: [type], enabled_module_names: %i[work_package_tracking]) }
+  let(:project) do
+    FactoryBot.create(:project, name: 'Parent', types: [type], enabled_module_names: %i[work_package_tracking board_view])
+  end
+  let(:subproject1) do
+    FactoryBot.create(:project, parent: project, name: 'Child 1', types: [type], enabled_module_names: %i[work_package_tracking])
+  end
+  let(:subproject2) do
+    FactoryBot.create(:project, parent: project, name: 'Child 2', types: [type], enabled_module_names: %i[work_package_tracking])
+  end
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
-  let(:permissions) {
+  let(:permissions) do
     %i[show_board_views manage_board_views add_work_packages
        edit_work_packages view_work_packages manage_public_queries move_work_packages]
-  }
+  end
 
   let!(:priority) { FactoryBot.create :default_priority }
   let!(:open_status) { FactoryBot.create :default_status, name: 'Open' }
@@ -62,10 +68,10 @@ describe 'Subproject action board', type: :feature, js: true do
   end
 
   context 'without the move_work_packages permission' do
-    let(:permissions) {
+    let(:permissions) do
       %i[show_board_views manage_board_views add_work_packages
-       edit_work_packages view_work_packages manage_public_queries]
-    }
+         edit_work_packages view_work_packages manage_public_queries]
+    end
 
     let(:user) do
       FactoryBot.create(:user,

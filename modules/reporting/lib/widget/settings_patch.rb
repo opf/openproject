@@ -58,4 +58,4 @@ module Widget::SettingsPatch
   end
 end
 
-Widget::Settings.send(:include, Widget::SettingsPatch)
+Widget::Settings.include Widget::SettingsPatch

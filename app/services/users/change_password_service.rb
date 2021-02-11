@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -29,8 +30,7 @@
 
 module Users
   class ChangePasswordService
-    attr_accessor :current_user
-    attr_accessor :session
+    attr_accessor :current_user, :session
 
     def initialize(current_user:, session:)
       @current_user = current_user

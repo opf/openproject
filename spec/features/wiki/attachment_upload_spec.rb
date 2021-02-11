@@ -127,7 +127,7 @@ describe 'Upload attachment to wiki page', js: true do
     expect(page).to have_selector('#errorExplanation', text: "Title can't be blank.")
     expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png')
 
-    editor.in_editor do |container, editable|
+    editor.in_editor do |_container, editable|
       editable.send_keys 'hello there.'
     end
 

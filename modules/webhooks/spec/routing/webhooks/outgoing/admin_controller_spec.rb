@@ -39,20 +39,20 @@ describe 'Outgoing webhooks administration', type: :routing do
 
   it 'route to show' do
     expect(get('/admin/webhooks/1')).to route_to(controller: 'webhooks/outgoing/admin',
-                                                  action: 'show',
-                                                  webhook_id: '1')
+                                                 action: 'show',
+                                                 webhook_id: '1')
   end
 
   it 'route to edit' do
     expect(get('/admin/webhooks/1/edit')).to route_to(controller: 'webhooks/outgoing/admin',
-                                                                action: 'edit',
-                                                                webhook_id: '1')
+                                                      action: 'edit',
+                                                      webhook_id: '1')
   end
 
   it 'route to PUT update' do
     expect(put('/admin/webhooks/1')).to route_to(controller: 'webhooks/outgoing/admin',
-                                                              action: 'update',
-                                                              webhook_id: '1')
+                                                 action: 'update',
+                                                 webhook_id: '1')
   end
 
   it 'route to DELETE destroy' do

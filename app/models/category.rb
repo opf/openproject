@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -38,8 +39,8 @@ class Category < ApplicationRecord
 
   # validates that assignee is member of the issue category's project
   validates_each :assigned_to_id do |record, attr, value|
-    if value # allow nil
-      record.errors.add(attr, I18n.t(:error_must_be_project_member)) unless record.project.principals.map(&:id).include? value
+    if value && !(record.project.principals.map(&:id).include? value) # allow nil
+      record.errors.add(attr, I18n.t(:error_must_be_project_member))
     end
   end
 
@@ -54,8 +55,8 @@ class Category < ApplicationRecord
     destroy_without_reassign
   end
 
-  def <=>(category)
-    name <=> category.name
+  def <=>(other)
+    name <=> other.name
   end
 
   def to_s; name end

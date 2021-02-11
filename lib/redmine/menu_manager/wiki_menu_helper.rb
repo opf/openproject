@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -30,6 +31,7 @@
 module Redmine::MenuManager::WikiMenuHelper
   def build_wiki_menus(project)
     return unless project.enabled_module_names.include? 'wiki'
+
     project_wiki = project.wiki
 
     MenuItems::WikiMenuItem.main_items(project_wiki).each do |main_item|
@@ -50,7 +52,7 @@ module Redmine::MenuManager::WikiMenuHelper
               caption: main_item.title,
               after: :repository,
               icon: 'icon2 icon-wiki',
-              html:    { class: 'wiki-menu--main-item' }
+              html: { class: 'wiki-menu--main-item' }
 
     if project.wiki.pages.any?
       push_wiki_menu_partial(main_item, menu)
@@ -65,7 +67,7 @@ module Redmine::MenuManager::WikiMenuHelper
               { controller: '/wiki', action: 'show', id: child.slug },
               param: :project_id,
               caption: child.title,
-              html:    { class: 'wiki-menu--sub-item' },
+              html: { class: 'wiki-menu--sub-item' },
               parent: main_item.menu_identifier
   rescue ArgumentError => e
     Rails.logger.error "Failed to add wiki item #{child.slug} to wiki menu: #{e}. Deleting it."

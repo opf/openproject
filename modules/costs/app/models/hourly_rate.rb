@@ -27,7 +27,7 @@
 #++
 
 class HourlyRate < Rate
-  validates_uniqueness_of :valid_from, scope: [:user_id, :project_id]
+  validates_uniqueness_of :valid_from, scope: %i[user_id project_id]
   validates_presence_of :user_id, :project_id, :valid_from
   validate :change_of_user_only_on_first_creation
 
@@ -99,7 +99,7 @@ class HourlyRate < Rate
 
   def change_of_user_only_on_first_creation
     # Only allow change of project and user on first creation
-    return if self.new_record?
+    return if new_record?
 
     errors.add :project_id, :invalid if project_id_changed?
     errors.add :user_id, :invalid if user_id_changed?

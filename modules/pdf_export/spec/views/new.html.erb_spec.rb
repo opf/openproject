@@ -26,10 +26,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-
 require 'spec_helper'
 
-describe 'export_card_configurations/new', :type => :view do
+describe 'export_card_configurations/new', type: :view do
   let(:config) { FactoryBot.build(:export_card_configuration) }
 
   before do
@@ -45,5 +44,4 @@ describe 'export_card_configurations/new', :type => :view do
     expect(rendered).to have_css("select#export_card_configuration_orientation")
     expect(rendered).to have_css("textarea#export_card_configuration_rows")
   end
-
 end

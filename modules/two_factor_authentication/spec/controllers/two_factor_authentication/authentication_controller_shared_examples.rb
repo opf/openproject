@@ -18,7 +18,8 @@ end
 
 shared_examples '2FA forced registry' do
   it "should not log in user" do
-    expect(User.current).not_to eq(user) end
+    expect(User.current).not_to eq(user)
+  end
 
   it "should set authenticated user" do
     expect(session[:authenticated_user_force_2fa]).to be_truthy
@@ -106,7 +107,6 @@ shared_examples '2FA TOTP request success' do
 
   # Can post to login_otp with pending and token
   describe 'follow-up post of a login token' do
-
     before do
       # Assume the user is pending
       session[:authenticated_user_id] = user.id
@@ -152,7 +152,6 @@ shared_examples '2FA SMS request success' do
         allow(valid_token).to receive(:expired?).and_return(expired)
         post :confirm_otp, params: { otp: valid_token.value }
       end
-
 
       context 'when not expired' do
         let(:expired) { false }

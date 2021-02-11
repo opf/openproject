@@ -9,7 +9,8 @@ module Settings
     options container_class: "-wide"
     options include_blank: true
 
-    def name # name of setting and tag
+    # name of setting and tag
+    def name
       model
     end
 
@@ -48,7 +49,7 @@ module Settings
     ##
     # Returns time zone (label, value) tuples to be used for a select field.
     def time_zone_entries
-      time_zones.map { |tz| [tz.to_s, tz.name ] }
+      time_zones.map { |tz| [tz.to_s, tz.name] }
     end
   end
 end

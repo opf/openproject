@@ -148,7 +148,7 @@ describe User, '#destroy', type: :model do
     let(:associations) { [:author] }
     let(:associated_instance) do
       FactoryBot.build(:meeting_agenda, meeting: meeting,
-                                         text: 'lorem')
+                                        text: 'lorem')
     end
     let(:associated_class) { MeetingAgenda }
 
@@ -159,7 +159,7 @@ describe User, '#destroy', type: :model do
     let(:associations) { [:author] }
     let(:associated_instance) do
       FactoryBot.build(:meeting_agenda, meeting: meeting,
-                                         text: 'lorem')
+                                        text: 'lorem')
     end
     let(:associated_class) { MeetingAgenda }
 

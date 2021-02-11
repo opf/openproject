@@ -41,66 +41,66 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
   describe CostQuery::Result do
     def direct_results(quantity = 0)
-      (1..quantity).map {|i| CostQuery::Result.new real_costs:i.to_f, count:1 ,units:i.to_f}
+      (1..quantity).map { |i| CostQuery::Result.new real_costs: i.to_f, count: 1, units: i.to_f }
     end
 
-    def wrapped_result(source, quantity=1)
-      CostQuery::Result.new((1..quantity).map { |i| source})
+    def wrapped_result(source, quantity = 1)
+      CostQuery::Result.new((1..quantity).map { |_i| source })
     end
 
     it "should travel recursively depth-first" do
-      #build a tree of wrapped and direct results
+      # build a tree of wrapped and direct results
       w1 = wrapped_result((direct_results 5), 3)
       w2 = wrapped_result wrapped_result((direct_results 3), 2)
       w = wrapped_result [w1, w2]
       previous_depth = -1
       w.recursive_each_with_level do |level, result|
-        #depth first, so we should get deeper into the hole, until we find a direct_result
+        # depth first, so we should get deeper into the hole, until we find a direct_result
         expect(previous_depth).to eq(level - 1)
-        previous_depth=level
+        previous_depth = level
         break if result.is_a? CostQuery::Result::DirectResult
       end
     end
 
     it "should travel recursively width-first" do
-      #build a tree of wrapped and direct results
+      # build a tree of wrapped and direct results
       w1 = wrapped_result((direct_results 5), 3)
       w2 = wrapped_result wrapped_result((direct_results 3), 2)
       w = wrapped_result [w1, w2]
 
       previous_depth = -1
-      w.recursive_each_with_level 0, false do |level, result|
-        #width first, so we should get only deeper into the hole without ever coming up again
+      w.recursive_each_with_level 0, false do |level, _result|
+        # width first, so we should get only deeper into the hole without ever coming up again
         expect(previous_depth).to be <= level
-        previous_depth=level
+        previous_depth = level
       end
     end
 
     it "should travel to all results width-first" do
-      #build a tree of wrapped and direct results
+      # build a tree of wrapped and direct results
       w1 = wrapped_result((direct_results 5), 3)
       w2 = wrapped_result wrapped_result((direct_results 3), 2)
       w = wrapped_result [w1, w2]
 
       count = 0
-      w.recursive_each_with_level 0, false do |level, result|
-        #width first
+      w.recursive_each_with_level 0, false do |_level, result|
+        # width first
         count = count + 1 if result.is_a? CostQuery::Result::DirectResult
       end
       expect(w.count).to eq(count)
     end
 
     it "should travel to all results width-first" do
-      #build a tree of wrapped and direct results
+      # build a tree of wrapped and direct results
       w1 = wrapped_result((direct_results 5), 3)
       w2 = wrapped_result wrapped_result((direct_results 3), 2)
       w = wrapped_result [w1, w2]
 
       count = 0
-      w.recursive_each_with_level do |level, result|
-        #depth first
-          count = count + 1 if result.is_a? CostQuery::Result::DirectResult
-        end
+      w.recursive_each_with_level do |_level, result|
+        # depth first
+        count = count + 1 if result.is_a? CostQuery::Result::DirectResult
+      end
       expect(w.count).to eq(count)
     end
 
@@ -109,11 +109,11 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     end
 
     it "should compute units correctly" do
-      expect(@query.result.units).to eq(Entry.all.map { |e| e.units}.sum)
+      expect(@query.result.units).to eq(Entry.all.map { |e| e.units }.sum)
     end
 
     it "should compute real_costs correctly" do
-      expect(@query.result.real_costs).to eq(Entry.all.map { |e| e.overridden_costs || e.costs}.sum)
+      expect(@query.result.real_costs).to eq(Entry.all.map { |e| e.overridden_costs || e.costs }.sum)
     end
 
     it "should compute count for DirectResults" do
@@ -122,8 +122,8 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
     it "should compute units for DirectResults" do
       id_sorted = @query.result.values.sort_by { |r| r[:id] }
-      te_result = id_sorted.select { |r| r[:type]==TimeEntry.to_s }.first
-      ce_result = id_sorted.select { |r| r[:type]==CostEntry.to_s }.first
+      te_result = id_sorted.select { |r| r[:type] == TimeEntry.to_s }.first
+      ce_result = id_sorted.select { |r| r[:type] == CostEntry.to_s }.first
       expect(te_result.units.to_s).to eq("1.0")
       expect(ce_result.units.to_s).to eq("1.0")
     end
@@ -131,7 +131,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     it "should compute real_costs for DirectResults" do
       id_sorted = @query.result.values.sort_by { |r| r[:id] }
       [CostEntry].each do |type|
-        result = id_sorted.select { |r| r[:type]==type.to_s }.first
+        result = id_sorted.select { |r| r[:type] == type.to_s }.first
         first = type.all.first
         expect(result.real_costs).to eq(first.overridden_costs || first.costs)
       end
@@ -151,6 +151,5 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       @query.column :project_id
       expect(@query.result.first.first.type).to eq(:direct)
     end
-
   end
 end

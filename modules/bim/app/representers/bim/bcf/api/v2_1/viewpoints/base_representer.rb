@@ -36,7 +36,7 @@ module Bim::Bcf::API::V2_1
       @base_scope = base_scope
     end
 
-    def to_json
+    def to_json(*_args)
       row = scope.first
       raise ::ActiveRecord::RecordNotFound unless row
 

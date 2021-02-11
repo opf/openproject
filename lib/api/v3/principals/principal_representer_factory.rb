@@ -32,7 +32,6 @@ module API
   module V3
     module Principals
       class PrincipalRepresenterFactory
-
         ##
         # Create the appropriate subclass representer
         # for each principal entity

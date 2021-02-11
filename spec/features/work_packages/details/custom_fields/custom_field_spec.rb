@@ -101,8 +101,8 @@ describe 'custom field inplace editor', js: true do
                     message: I18n.t('js.notice_successful_update'),
                     field: field2
 
-      wp_page.expect_attributes :"customField#{custom_field1.id}" => 'bar',
-                                :"customField#{custom_field2.id}" => 'Y'
+      wp_page.expect_attributes "customField#{custom_field1.id}": 'bar',
+                                "customField#{custom_field2.id}": 'Y'
 
       field1.activate!
       expect(field1.input_element).to have_text 'bar'
@@ -116,8 +116,8 @@ describe 'custom field inplace editor', js: true do
                     message: I18n.t('js.notice_successful_update'),
                     field: field2
 
-      wp_page.expect_attributes :"customField#{custom_field1.id}" => 'bar',
-                                :"customField#{custom_field2.id}" => 'X'
+      wp_page.expect_attributes "customField#{custom_field1.id}": 'bar',
+                                "customField#{custom_field2.id}": 'X'
     end
   end
 

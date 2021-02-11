@@ -223,7 +223,7 @@ describe UserMailer, type: :mailer do
   end
 
   it 'should message posted message id' do
-    user    = FactoryBot.create(:user)
+    user = FactoryBot.create(:user)
     FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
     message = FactoryBot.create(:message)
     UserMailer.message_posted(user, message, user).deliver_now
@@ -238,7 +238,7 @@ describe UserMailer, type: :mailer do
   end
 
   it 'should reply posted message id' do
-    user    = FactoryBot.create(:user)
+    user = FactoryBot.create(:user)
     FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
     parent  = FactoryBot.create(:message)
     message = FactoryBot.create(:message, parent: parent)
@@ -249,7 +249,8 @@ describe UserMailer, type: :mailer do
     assert_match mail.references, UserMailer.generate_message_id(parent, user)
     assert_select_email do
       # link to the reply
-      assert_select 'a[href=?]', "#{Setting.protocol}://#{Setting.host_name}/topics/#{message.root.id}?r=#{message.id}#message-#{message.id}", text: message.subject
+      assert_select 'a[href=?]',
+                    "#{Setting.protocol}://#{Setting.host_name}/topics/#{message.root.id}?r=#{message.id}#message-#{message.id}", text: message.subject
     end
   end
 
@@ -357,7 +358,7 @@ describe UserMailer, type: :mailer do
 
   context 'layout',
           with_settings: {
-            available_languages: [:en, :de],
+            available_languages: %i[en de],
             emails_header: {
               "de" => 'deutscher header'
             }
@@ -386,30 +387,30 @@ describe UserMailer, type: :mailer do
     project.save
 
     related_issue = FactoryBot.create(:work_package,
-                                       subject: 'My related Ticket',
-                                       type: type,
-                                       project: project)
+                                      subject: 'My related Ticket',
+                                      type: type,
+                                      project: project)
 
     issue = FactoryBot.create(:work_package,
-                               subject: 'My awesome Ticket',
-                               type: type,
-                               project: project,
-                               description: 'nothing here yet')
+                              subject: 'My awesome Ticket',
+                              type: type,
+                              project: project,
+                              description: 'nothing here yet')
 
     # now change the issue, to get a nice journal
     issue.description = "This is related to issue ##{related_issue.id}\n"
 
     repository = FactoryBot.create(:repository_subversion,
-                                    project: project)
+                                   project: project)
 
     changeset = FactoryBot.create :changeset,
-                                   repository: repository,
-                                   comments: 'This commit fixes #1, #2 and references #1 and #3'
+                                  repository: repository,
+                                  comments: 'This commit fixes #1, #2 and references #1 and #3'
 
     issue.description += " A reference to a changeset r#{changeset.revision}\n" if changeset
 
     attachment = FactoryBot.build(:attachment,
-                                   author: issue.author)
+                                  author: issue.author)
 
     issue.attachments << attachment
 

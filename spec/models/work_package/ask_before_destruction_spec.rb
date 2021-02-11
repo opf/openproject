@@ -31,11 +31,11 @@ require 'spec_helper'
 describe WorkPackage, type: :model do
   let(:work_package) do
     FactoryBot.create(:work_package, project: project,
-                                      status: status)
+                                     status: status)
   end
   let(:work_package2) do
     FactoryBot.create(:work_package, project: project2,
-                                      status: status)
+                                     status: status)
   end
   let(:user) { FactoryBot.create(:user) }
 

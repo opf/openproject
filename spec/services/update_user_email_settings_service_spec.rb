@@ -86,9 +86,9 @@ describe UpdateUserEmailSettingsService, type: :model do
     it 'set the notified_project_ids on successful saving and mail_notifications is "selected"' do
       allow(user).to receive(:mail_notification).and_return 'selected'
 
-      expect(user).to receive(:notified_project_ids=).with([1,2,3])
+      expect(user).to receive(:notified_project_ids=).with([1, 2, 3])
 
-      service.call(notified_project_ids: [1,2,3])
+      service.call(notified_project_ids: [1, 2, 3])
     end
   end
 end
