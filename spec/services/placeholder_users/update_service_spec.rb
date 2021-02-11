@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,14 +29,8 @@
 #++
 
 require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
-require_relative 'shared_contract_examples'
+require 'services/base_services/behaves_like_update_service'
 
-describe PlaceholderUsers::CreateContract do
-  include_context 'ModelContract shared context'
-
-  it_behaves_like 'placeholder user contract' do
-    let(:placeholder_user) { PlaceholderUser.new(name: placeholder_user_name) }
-    let(:contract) { described_class.new(placeholder_user, current_user) }
-  end
+describe PlaceholderUsers::UpdateService, type: :model do
+  it_behaves_like 'BaseServices update service'
 end

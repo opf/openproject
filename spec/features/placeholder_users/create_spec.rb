@@ -29,15 +29,18 @@
 require 'spec_helper'
 
 describe 'create placeholder users', type: :feature, selenium: true do
-  let(:current_user) { FactoryBot.create :admin }
   let(:new_placeholder_user_page) { Pages::NewPlaceholderUser.new }
 
-  before do
-    allow(User).to receive(:current).and_return current_user
-  end
-
-  shared_examples_for 'successful placeholder user creation' do
+  shared_examples_for 'placeholders creation flow' do
     it 'creates the placeholder user' do
+      visit new_placeholder_user_path
+
+      new_placeholder_user_page.fill_in! name: 'UX Designer'
+
+      perform_enqueued_jobs do
+        new_placeholder_user_page.submit!
+      end
+
       expect(page).to have_selector('.flash', text: 'Successful creation.')
 
       new_placeholder_user = PlaceholderUser.order(Arel.sql('id DESC')).first
@@ -47,16 +50,23 @@ describe 'create placeholder users', type: :feature, selenium: true do
   end
 
   context 'as admin' do
-    before do
+    current_user { FactoryBot.create :admin }
+
+    it_behaves_like 'placeholders creation flow'
+  end
+
+  context 'as user with global permission' do
+    current_user { FactoryBot.create :user, global_permission: %i[add_placeholder_user] }
+
+    it_behaves_like 'placeholders creation flow'
+  end
+
+  context 'as user without global permission' do
+    current_user { FactoryBot.create :user }
+
+    it 'returns an error' do
       visit new_placeholder_user_path
-
-      new_placeholder_user_page.fill_in! name: 'UX Designer'
-
-      perform_enqueued_jobs do
-        new_placeholder_user_page.submit!
-      end
+      expect(page).to have_text 'You are not authorized to access this page.'
     end
-
-    it_behaves_like 'successful placeholder user creation'
   end
 end

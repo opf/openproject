@@ -29,49 +29,68 @@
 require 'spec_helper'
 
 feature 'placeholder user memberships through placeholder user page', type: :feature, js: true do
-  let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
-  let!(:project2) { FactoryBot.create :project, name: 'Project 2', identifier: 'project2' }
-  let(:admin) { FactoryBot.create :admin }
-  let(:placeholder_user) { FactoryBot.create :placeholder_user, name: 'UX Designer' }
+  shared_let(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
+  shared_let(:project2) { FactoryBot.create :project, name: 'Project 2', identifier: 'project2' }
+  shared_let(:placeholder_user) { FactoryBot.create :placeholder_user, name: 'UX Designer' }
 
-  let!(:manager)   { FactoryBot.create :role, name: 'Manager' }
-  let!(:developer) { FactoryBot.create :role, name: 'Developer' }
+  shared_let(:manager)   { FactoryBot.create :role, name: 'Manager' }
+  shared_let(:developer) { FactoryBot.create :role, name: 'Developer' }
 
   let(:placeholder_user_page) { Pages::Admin::IndividualPrincipals::Edit.new(placeholder_user) }
 
-  before do
-    login_as(admin)
+  shared_examples 'can work with placeholders' do
+    scenario 'handles role modification flow' do
+      placeholder_user_page.visit!
+      placeholder_user_page.open_projects_tab!
 
-    placeholder_user_page.visit!
-    placeholder_user_page.open_projects_tab!
+      placeholder_user_page.add_to_project! project.name, as: 'Manager'
+
+      member = placeholder_user.memberships.where(project_id: project.id).first
+      placeholder_user_page.edit_roles!(member, %w(Manager Developer))
+
+      # Modify roles
+      placeholder_user_page.expect_project(project.name)
+      placeholder_user_page.expect_roles(project.name, %w(Manager Developer))
+
+      placeholder_user_page.expect_no_membership(project2.name)
+
+      # Remove all roles
+      placeholder_user_page.expect_project(project.name)
+      placeholder_user_page.edit_roles!(member, %w())
+
+      expect(page).to have_selector('.flash.error', text: 'Roles need to be assigned.')
+
+      # Remove the user from the project
+      placeholder_user_page.remove_from_project!(project.name)
+      placeholder_user_page.expect_no_membership(project.name)
+
+      # Re-add the user
+      placeholder_user_page.add_to_project! project.name, as: %w(Manager Developer)
+
+      placeholder_user_page.expect_project(project.name)
+      placeholder_user_page.expect_roles(project.name, %w(Manager Developer))
+    end
   end
 
-  scenario 'handles role modification flow' do
-    placeholder_user_page.add_to_project! project.name, as: 'Manager'
+  context 'as admin' do
+    current_user { FactoryBot.create :admin }
 
-    member = placeholder_user.memberships.where(project_id: project.id).first
-    placeholder_user_page.edit_roles!(member, %w(Manager Developer))
+    it_behaves_like 'can work with placeholders'
+  end
 
-    # Modify roles
-    placeholder_user_page.expect_project(project.name)
-    placeholder_user_page.expect_roles(project.name, %w(Manager Developer))
+  context 'as user with global permission' do
+    current_user { FactoryBot.create :user, global_permission: %i[add_placeholder_user] }
 
-    placeholder_user_page.expect_no_membership(project2.name)
+    it_behaves_like 'can work with placeholders'
+  end
 
-    # Remove all roles
-    placeholder_user_page.expect_project(project.name)
-    placeholder_user_page.edit_roles!(member, %w())
+  context 'as user without global permission' do
+    current_user { FactoryBot.create :user }
 
-    expect(page).to have_selector('.flash.error', text: 'Roles need to be assigned.')
-
-    # Remove the user from the project
-    placeholder_user_page.remove_from_project!(project.name)
-    placeholder_user_page.expect_no_membership(project.name)
-
-    # Re-add the user
-    placeholder_user_page.add_to_project! project.name, as: %w(Manager Developer)
-
-    placeholder_user_page.expect_project(project.name)
-    placeholder_user_page.expect_roles(project.name, %w(Manager Developer))
+    it 'returns an error' do
+      placeholder_user_page.visit!
+      expect(page).to have_text 'You are not authorized to access this page.'
+      expect(page).to have_no_text placeholder_user.name
+    end
   end
 end

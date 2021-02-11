@@ -133,8 +133,14 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :users,
             { controller: '/users' },
-            if: Proc.new { !User.current.admin? && User.current.allowed_to?(:add_user, nil, global: true) },
+            if: Proc.new { !User.current.admin? && User.current.allowed_to_globally?(:add_user) },
             caption: :label_user_plural,
+            icon: 'icon2 icon-group'
+
+  menu.push :placeholder_users,
+            { controller: '/placeholder_users' },
+            if: Proc.new { !User.current.admin? && User.current.allowed_to_globally?(:add_placeholder_user) },
+            caption: :label_placeholder_user_plural,
             icon: 'icon2 icon-group'
 
   menu.push :users_and_permissions,
@@ -157,6 +163,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :placeholder_users,
             { controller: '/placeholder_users' },
+            if: Proc.new { User.current.admin? },
             caption: :label_placeholder_user_plural,
             parent: :users_and_permissions
 

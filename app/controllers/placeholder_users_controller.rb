@@ -33,7 +33,8 @@ class PlaceholderUsersController < ApplicationController
 
   helper_method :gon
 
-  before_action :require_admin, except: [:show]
+  before_action :authorize_global, except: %i[show]
+
   before_action :find_placeholder_user, only: %i[show
                                                  edit
                                                  update
@@ -53,7 +54,7 @@ class PlaceholderUsersController < ApplicationController
   def show
     # show projects based on current user visibility
     @memberships = @placeholder_user.memberships
-                        .visible(current_user)
+      .visible(current_user)
 
     respond_to do |format|
       format.html { render layout: 'no_menu' }
@@ -62,11 +63,11 @@ class PlaceholderUsersController < ApplicationController
 
   def new
     @placeholder_user = PlaceholderUsers::SetAttributesService
-                          .new(user: User.current,
-                               model: PlaceholderUser.new,
-                               contract_class: EmptyContract)
-                          .call({})
-                          .result
+      .new(user: User.current,
+           model: PlaceholderUser.new,
+           contract_class: EmptyContract)
+      .call({})
+      .result
   end
 
   def create
@@ -82,6 +83,7 @@ class PlaceholderUsersController < ApplicationController
         end
       end
     else
+      @errors = service_result.errors
       respond_to do |format|
         format.html do
           render action: :new
@@ -97,9 +99,9 @@ class PlaceholderUsersController < ApplicationController
 
   def update
     service_result = PlaceholderUsers::UpdateService
-                       .new(user: User.current,
-                            model: @placeholder_user)
-                       .call(permitted_params.placeholder_user)
+      .new(user: User.current,
+           model: @placeholder_user)
+      .call(permitted_params.placeholder_user)
 
     if service_result.success?
       respond_to do |format|
@@ -122,7 +124,7 @@ class PlaceholderUsersController < ApplicationController
   def destroy
     Users::DeleteService.new(user: User.current,
                              model: @placeholder_user)
-                        .call
+      .call
 
     flash[:notice] = I18n.t('account.deleted')
 

@@ -57,6 +57,15 @@ OpenProject::AccessControl.map do |map|
                    require: :loggedin,
                    global: true
 
+    map.permission :add_placeholder_user,
+                   {
+                     placeholder_users: %i[index show new create edit update],
+                     "placeholder_users/memberships": %i[create update destroy],
+                     admin: %i[index]
+                   },
+                   require: :loggedin,
+                   global: true
+
     map.permission :view_project,
                    { projects: [:show],
                      activities: [:index] },

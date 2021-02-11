@@ -33,7 +33,7 @@ describe ::PlaceholderUsers::DeleteService, type: :model do
     let(:input_user) { FactoryBot.build_stubbed(:user) }
     let(:project) { FactoryBot.build_stubbed(:project) }
 
-    let(:instance) { described_class.new(input_user, actor) }
+    let(:instance) { described_class.new(model: input_user, user: actor) }
 
     subject { instance.call }
 
