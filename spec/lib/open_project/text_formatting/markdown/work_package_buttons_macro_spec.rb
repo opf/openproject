@@ -32,7 +32,7 @@ require_relative './expected_markdown'
 describe OpenProject::TextFormatting,
          'work package button macro' do
   include_context 'expected markdown modules'
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
 
   let(:type) { FactoryBot.create :type, name: 'MyTaskName' }
   let(:project) { FactoryBot.create :valid_project, identifier: 'my-project', name: 'My project name', types: [type] }

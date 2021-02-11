@@ -44,7 +44,7 @@ module Pages
       end
 
       # only notice is used as opposed to notification-box
-      def expect_notification(type: :notice, message:)
+      def expect_notification(message:, type: :notice)
         expect(page).to have_selector(".flash.#{type}", text: message, wait: 10)
       end
 

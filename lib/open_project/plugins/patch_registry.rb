@@ -37,8 +37,6 @@ module OpenProject::Plugins
       end
     end
 
-    protected
-
     def self.patches
       @patches ||= Hash.new do |h, k|
         h[k] = []

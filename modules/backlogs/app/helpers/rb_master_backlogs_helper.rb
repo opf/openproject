@@ -35,9 +35,9 @@ module RbMasterBacklogsHelper
       [
         content_tag(:div, '', class: "menu-trigger icon-context icon-pulldown icon-small"),
         content_tag(:ul, class: 'items') do
-          backlog_menu_items_for(backlog).map { |item|
+          backlog_menu_items_for(backlog).map do |item|
             content_tag(:li, item, class: 'item')
-          }.join.html_safe
+          end.join.html_safe
         end
       ].join.html_safe
     end
@@ -51,7 +51,7 @@ module RbMasterBacklogsHelper
     end
 
     menu = []
-    [:new_story, :stories_tasks, :task_board, :burndown, :cards, :wiki, :configs, :properties].each do |key|
+    %i[new_story stories_tasks task_board burndown cards wiki configs properties].each do |key|
       menu << items[key] if items.keys.include?(key)
     end
 
@@ -108,7 +108,7 @@ module RbMasterBacklogsHelper
   def export_modal_link(backlog, options = {})
     path = backlogs_project_sprint_export_card_configurations_path(@project.id, backlog.sprint.id)
     html_id = "modal_work_package_#{SecureRandom.hex(10)}"
-    link_to(I18n.t(:label_backlogs_export_card_export), path, options.merge(id: html_id, :'data-modal' => ''))
+    link_to(I18n.t(:label_backlogs_export_card_export), path, options.merge(id: html_id, 'data-modal': ''))
   end
 
   def sprint_backlog_menu_items_for(backlog)
@@ -120,7 +120,6 @@ module RbMasterBacklogsHelper
                                    project_id: @project,
                                    sprint_id: backlog.sprint },
                                  class: 'show_task_board')
-
 
     if backlog.sprint.has_burndown?
       items[:burndown] = content_tag(:a,

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
+ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __dir__)
 
 # Load any local boot extras that is kept out of source control
 # (e.g., silencing of deprecations)
@@ -49,6 +50,6 @@ if env == 'production' && ENV['OPENPROJECT_PROD_DEPRECATIONS'] != 'true'
 end
 
 if env == 'development'
-  $stderr.puts "Starting with bootsnap."
+  warn "Starting with bootsnap."
   require 'bootsnap/setup' # Speed up boot time by caching expensive operations.
 end

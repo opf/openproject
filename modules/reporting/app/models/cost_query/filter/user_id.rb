@@ -47,8 +47,6 @@ class CostQuery::Filter::UserId < Report::Filter::Base
 
     if User.current.logged?
       User.current.id
-    else
-      nil
     end
   end
 

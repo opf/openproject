@@ -31,7 +31,6 @@
 module Sessions
   class BaseService
     class << self
-
       protected
 
       ##

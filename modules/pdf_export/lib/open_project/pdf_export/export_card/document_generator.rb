@@ -31,13 +31,7 @@ require 'prawn'
 module OpenProject::PDFExport::ExportCard
   require "open_project/pdf_export/export_card/model_display/work_package_display"
   class DocumentGenerator
-
-    attr_reader :config
-    attr_reader :work_packages
-    attr_reader :pdf
-    attr_reader :current_position
-    attr_reader :paper_width
-    attr_reader :paper_height
+    attr_reader :config, :work_packages, :pdf, :current_position, :paper_width, :paper_height
 
     def initialize(config, work_packages)
       patch_models
@@ -51,12 +45,13 @@ module OpenProject::PDFExport::ExportCard
       page_size = config.page_size or defaults[:page_size]
 
       @pdf = Prawn::Document.new(
-        :page_layout => page_layout,
-        :left_margin => 0,
-        :right_margin => 0,
-        :top_margin => 0,
-        :bottom_margin => 0,
-        :page_size => page_size)
+        page_layout: page_layout,
+        left_margin: 0,
+        right_margin: 0,
+        top_margin: 0,
+        bottom_margin: 0,
+        page_size: page_size
+      )
 
       view = ::WorkPackage::PDFExport::View.new(I18n.locale)
       view.register_fonts! @pdf
@@ -76,7 +71,7 @@ module OpenProject::PDFExport::ExportCard
       group_padding = 5
       text_padding = 5
       card_width = pdf.bounds.width - (card_padding * 2)
-      card_height = ((pdf.bounds.height - (card_padding * config.per_page )) / config.per_page) - (card_padding / config.per_page)
+      card_height = ((pdf.bounds.height - (card_padding * config.per_page)) / config.per_page) - (card_padding / config.per_page)
       card_y_offset = pdf.bounds.height - card_padding
 
       @work_packages.each_with_index do |wp, i|
@@ -106,7 +101,7 @@ module OpenProject::PDFExport::ExportCard
 
     def patch_models
       # Note: Can't seem to patch the models when initializing for reasons which I don't understand
-      WorkPackage.send(:include, OpenProject::PDFExport::ExportCard::ModelDisplay::WorkPackageDisplay)
+      WorkPackage.include OpenProject::PDFExport::ExportCard::ModelDisplay::WorkPackageDisplay
     end
   end
 end

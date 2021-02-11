@@ -36,11 +36,11 @@ module OpenProject::Bim::Patches::ActivitiesSharedHelpersPatch
       ::Journal::AggregatedJournal
         .aggregated_journals(journable: @work_package,
                              includes: %i[
-                                   customizable_journals
-                                   attachable_journals
-                                   data
-                                   bcf_comment
-                                 ])
+                               customizable_journals
+                               attachable_journals
+                               data
+                               bcf_comment
+                             ])
     end
   end
 end

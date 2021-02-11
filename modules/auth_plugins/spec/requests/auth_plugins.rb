@@ -30,7 +30,6 @@ require 'spec_helper'
 require 'open_project/auth_plugins'
 
 describe OpenProject::Plugins::AuthPlugin do
-
   class MockEngine
     extend OpenProject::Plugins::AuthPlugin
   end
@@ -86,12 +85,12 @@ describe OpenProject::Plugins::AuthPlugin do
     end
 
     it 'should register all strategies' do
-      expect(strategies.keys.to_a).to eq [:strategy_a, :strategy_b]
+      expect(strategies.keys.to_a).to eq %i[strategy_a strategy_b]
     end
 
     it 'should register register each strategy (i.e. middleware) only once' do
       expect(middlewares.size).to eq 2
-      expect(middlewares).to eq [:strategy_a, :strategy_b]
+      expect(middlewares).to eq %i[strategy_a strategy_b]
     end
 
     it 'should associate the correct providers with their respective strategies' do

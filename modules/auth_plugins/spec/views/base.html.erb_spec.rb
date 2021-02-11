@@ -56,4 +56,3 @@ describe 'layouts/base', type: :view do
     end
   end
 end
-

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -63,7 +64,7 @@ class Document < ApplicationRecord
   after_initialize :set_default_category
   after_create :notify_document_created
 
-  def visible?(user=User.current)
+  def visible?(user = User.current)
     !user.nil? && user.allowed_to?(:view_documents, project)
   end
 

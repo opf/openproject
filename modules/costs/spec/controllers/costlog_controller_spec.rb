@@ -31,29 +31,29 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 describe CostlogController, type: :controller do
   include Cost::PluginSpecHelper
   let (:project) { FactoryBot.create(:project_with_types) }
-  let (:work_package) {
+  let (:work_package) do
     FactoryBot.create(:work_package, project: project,
-                                      author: user,
-                                      type: project.types.first)
-  }
+                                     author: user,
+                                     type: project.types.first)
+  end
   let (:user) { FactoryBot.create(:user) }
   let (:user2) { FactoryBot.create(:user) }
-  let (:controller) { FactoryBot.build(:role, permissions: [:log_costs, :edit_cost_entries]) }
+  let (:controller) { FactoryBot.build(:role, permissions: %i[log_costs edit_cost_entries]) }
   let (:cost_type) { FactoryBot.build(:cost_type) }
-  let (:cost_entry) {
+  let (:cost_entry) do
     FactoryBot.build(:cost_entry, work_package: work_package,
-                                   project: project,
-                                   spent_on: Date.today,
-                                   overridden_costs: 400,
-                                   units: 100,
-                                   user: user,
-                                   comments: '')
-  }
+                                  project: project,
+                                  spent_on: Date.today,
+                                  overridden_costs: 400,
+                                  units: 100,
+                                  user: user,
+                                  comments: '')
+  end
   let(:work_package_status) { FactoryBot.create(:work_package_status, is_default: true) }
 
   def grant_current_user_permissions(user, permissions)
     member = FactoryBot.build(:member, project: project,
-                                        principal: user)
+                                       principal: user)
     member.roles << FactoryBot.build(:role, permissions: permissions)
     member.principal = user
     member.save!
@@ -235,8 +235,8 @@ describe CostlogController, type: :controller do
 
         cost_entry.project = FactoryBot.create(:project_with_types)
         cost_entry.work_package = FactoryBot.create(:work_package, project: cost_entry.project,
-                                                                    type: cost_entry.project.types.first,
-                                                                    author: user)
+                                                                   type: cost_entry.project.types.first,
+                                                                   author: user)
         cost_entry.save!
       end
 
@@ -258,7 +258,7 @@ describe CostlogController, type: :controller do
   end
 
   describe 'POST create' do
-    let (:params) {
+    let (:params) do
       { 'project_id' => project.id.to_s,
         'cost_entry' => { 'user_id' => user.id.to_s,
                           'work_package_id' => (work_package.present? ? work_package.id.to_s : ''),
@@ -267,7 +267,7 @@ describe CostlogController, type: :controller do
                           'comments' => 'lorem',
                           'spent_on' => date.to_s,
                           'overridden_costs' => overridden_costs.to_s } }
-    }
+    end
     let(:expected_project) { project }
     let(:expected_work_package) { work_package }
     let(:expected_user) { user }
@@ -438,11 +438,11 @@ describe CostlogController, type: :controller do
     describe "WHEN the user is allowed to create cost_entries
               WHEN the id of an work_package not included in the provided project is provided" do
       let(:project2) { FactoryBot.create(:project_with_types) }
-      let(:work_package2) {
+      let(:work_package2) do
         FactoryBot.create(:work_package, project: project2,
-                                          type: project2.types.first,
-                                          author: user)
-      }
+                                         type: project2.types.first,
+                                         author: user)
+      end
       let(:expected_work_package) { work_package2 }
 
       before do
@@ -488,7 +488,7 @@ describe CostlogController, type: :controller do
   end
 
   describe 'PUT update' do
-    let(:params) {
+    let(:params) do
       { 'id' => cost_entry.id.to_s,
         'cost_entry' => { 'comments' => 'lorem',
                           'work_package_id' => cost_entry.work_package.id.to_s,
@@ -496,7 +496,7 @@ describe CostlogController, type: :controller do
                           'spent_on' => cost_entry.spent_on.to_s,
                           'user_id' => cost_entry.user.id.to_s,
                           'cost_type_id' => cost_entry.cost_type.id.to_s } }
-    }
+    end
 
     before do
       cost_entry.save(validate: false)
@@ -548,11 +548,11 @@ describe CostlogController, type: :controller do
                 cost_type
                 overridden_costs
                 spent_on" do
-      let(:expected_work_package) {
+      let(:expected_work_package) do
         FactoryBot.create(:work_package, project: project,
-                                          type: project.types.first,
-                                          author: user)
-      }
+                                         type: project.types.first,
+                                         author: user)
+      end
       let(:expected_user) { FactoryBot.create(:user) }
       let(:expected_spent_on) { cost_entry.spent_on + 4.days }
       let(:expected_units) { cost_entry.units + 20 }
@@ -615,10 +615,10 @@ describe CostlogController, type: :controller do
               WHEN updating the work_package
               WHEN the new work_package isn't an work_package of the current project" do
       let(:project2) { FactoryBot.create(:project_with_types) }
-      let(:work_package2) {
+      let(:work_package2) do
         FactoryBot.create(:work_package, project: project2,
-                                          type: project2.types.first)
-      }
+                                         type: project2.types.first)
+      end
       let(:expected_work_package) { work_package2 }
 
       before do

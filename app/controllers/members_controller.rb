@@ -123,7 +123,8 @@ class MembersController < ApplicationController
     {
       project: @project,
       available_roles: roles,
-      authorize_update: authorize_for('members', 'update')
+      authorize_update: authorize_for('members', 'update'),
+      is_filtered: Members::UserFilterCell.filtered?(params)
     }
   end
 
@@ -154,7 +155,6 @@ class MembersController < ApplicationController
   def set_index_data!
     set_roles_and_principles!
 
-    @is_filtered = Members::UserFilterCell.filtered? params
     @members = index_members
     @members_table_options = members_table_options @roles
     @members_filter_options = members_filter_options @roles
@@ -177,9 +177,7 @@ class MembersController < ApplicationController
     filters = params.slice(:name, :group_id, :role_id, :status)
     filters[:project_id] = @project.id.to_s
 
-    @members = Member
-               .where(id: Members::UserFilterCell.filter(filters))
-               .includes(:roles, :principal, :member_roles)
+    @members_query = Members::UserFilterCell.query(filters)
   end
 
   def new_members_from_params(member_params)
@@ -230,7 +228,7 @@ class MembersController < ApplicationController
           # The invitation can pretty much only fail due to the user already
           # having been invited. So look them up if it does.
           user = UserInvitation.invite_new_user(email: id) ||
-            User.find_by_mail(id)
+                 User.find_by_mail(id)
 
           user.id if user
         end
@@ -245,17 +243,18 @@ class MembersController < ApplicationController
   end
 
   def each_comma_seperated(array, &block)
-    array.map { |e|
+    array.map do |e|
       if e.to_s.match /\d(,\d)*/
         block.call(e)
       else
         e
       end
-    }.flatten
+    end.flatten
   end
 
   def transform_array_of_comma_seperated_ids(array)
     return array unless array.present?
+
     each_comma_seperated(array) do |elem|
       elem.to_s.split(',')
     end

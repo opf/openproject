@@ -39,9 +39,9 @@ describe Group, type: :model do
   let(:status) { FactoryBot.create(:status) }
   let(:package) do
     FactoryBot.build(:work_package, type: project.types.first,
-                     author: user,
-                     project: project,
-                     status: status)
+                                    author: user,
+                                    project: project,
+                                    status: status)
   end
 
   it 'should create' do
@@ -79,7 +79,6 @@ describe Group, type: :model do
     let!(:member) { FactoryBot.create :member, project: project, principal: group, role_ids: role_ids }
     let!(:group) { FactoryBot.create(:group, members: user) }
 
-
     it 'should roles removed when removing group membership' do
       expect(user).to be_member_of project
       member.destroy
@@ -101,7 +100,7 @@ describe Group, type: :model do
       member = FactoryBot.build :member
       roles = FactoryBot.create_list :role, 2
       role_ids = roles.map(&:id)
-      member.attributes = {principal: group, role_ids: role_ids}
+      member.attributes = { principal: group, role_ids: role_ids }
       member.save!
 
       member.role_ids = [role_ids.first]
@@ -184,7 +183,6 @@ describe Group, type: :model do
        build_preference
        create_preference
        create_preference!}.each do |method|
-
       it "should not respond to #{method}" do
         expect(group).to_not respond_to method
       end

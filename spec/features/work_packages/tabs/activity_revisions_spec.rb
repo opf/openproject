@@ -93,14 +93,14 @@ describe 'Activity tab', js: true, selenium: true do
           end
 
         date_selector = ".work-package-details-activities-activity:nth-of-type(#{actual_index}) " +
-          '.activity-date'
+                        '.activity-date'
         # Do not use :long format to match the printed date without double spaces
         # on the first 9 days of the month
         expected_date = if activity.is_a?(Journal)
-          activity.created_at
-        else
-          activity.committed_on
-        end.to_date.strftime("%B %-d, %Y")
+                          activity.created_at
+                        else
+                          activity.committed_on
+                        end.to_date.strftime("%B %-d, %Y")
 
         expect(page).to have_selector(date_selector,
                                       text: expected_date)

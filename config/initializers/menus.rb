@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -370,7 +371,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-view-timeline',
             html: {
               id: 'main-menu-work-packages',
-              :'wp-query-menu' => 'wp-query-menu'
+              'wp-query-menu': 'wp-query-menu'
             }
 
   menu.push :work_packages_query_select,

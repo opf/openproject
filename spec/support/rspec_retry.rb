@@ -42,7 +42,7 @@ def retry_block(args: {}, screenshot: false, &block)
   end
 
   log_errors = Proc.new do |exception, try, elapsed_time, next_interval|
-    $stderr.puts <<-EOS.strip_heredoc
+    warn <<-EOS.strip_heredoc
     #{exception.class}: '#{exception.message}'
     #{try} tries in #{elapsed_time} seconds and #{next_interval} seconds until the next try.
     EOS
@@ -51,7 +51,7 @@ def retry_block(args: {}, screenshot: false, &block)
       begin
         Capybara::Screenshot.screenshot_and_save_page
       rescue StandardError => e
-        $stderr.puts "Failed to take screenshot in retry_block: #{e} #{e.message}"
+        warn "Failed to take screenshot in retry_block: #{e} #{e.message}"
       end
     end
   end

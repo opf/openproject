@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe WikiController, type: :controller do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
 
   describe 'actions' do
     before do
@@ -237,7 +237,7 @@ describe WikiController, type: :controller do
         end
       end
     end
-  end # describe 'actions'
+  end
 
   describe 'view related stuff' do
     render_views
@@ -472,7 +472,9 @@ describe WikiController, type: :controller do
                 # Expect to set back ref id
                 expect(flash[:_related_wiki_page_id]).to eq @page_with_content.id
 
-                assert_select "#content a[href='#{new_child_project_wiki_path(project_id: @project, id: @page_with_content.slug)}']", 'Wiki page'
+                path = new_child_project_wiki_path(project_id: @project, id: @page_with_content.slug)
+
+                assert_select "#content a[href='#{path}']", 'Wiki page'
               end
             end
 
@@ -512,7 +514,8 @@ describe WikiController, type: :controller do
 
               expect(response).to be_successful
 
-              assert_select ".toolbar-items a[href='#{new_child_project_wiki_path(project_id: @project, id: 'wiki')}']", 'Wiki page'
+              assert_select ".toolbar-items a[href='#{new_child_project_wiki_path(project_id: @project, id: 'wiki')}']", 
+'Wiki page'
             end
           end
 

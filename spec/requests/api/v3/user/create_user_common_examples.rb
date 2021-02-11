@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -79,12 +80,12 @@ shared_examples 'create user request flow' do
 
   describe 'invited status' do
     let(:status) { 'invited' }
-    let(:invitation_request) {
+    let(:invitation_request) do
       {
         status: status,
         email: 'foo@example.org'
       }
-    }
+    end
 
     describe 'invitation successful' do
       before do

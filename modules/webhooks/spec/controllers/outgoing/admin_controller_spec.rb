@@ -94,9 +94,9 @@ describe ::Webhooks::Outgoing::AdminController, type: :controller do
 
         expect(service)
           .to receive(:call)
-          .and_return(ServiceResult.new success: success)
+          .and_return(ServiceResult.new(success: success))
 
-        post :create, params: { webhook: webhook_params}
+        post :create, params: { webhook: webhook_params }
       end
 
       context 'when success' do
@@ -174,9 +174,9 @@ describe ::Webhooks::Outgoing::AdminController, type: :controller do
 
         expect(service)
           .to receive(:call)
-          .and_return(ServiceResult.new success: success)
+          .and_return(ServiceResult.new(success: success))
 
-        put :update, params: { webhook_id: '1234', webhook: webhook_params}
+        put :update, params: { webhook_id: '1234', webhook: webhook_params }
       end
 
       context 'when success' do

@@ -8,7 +8,7 @@ module AdditionalUrlHelpers
   end
 
   def add_params_to_uri(uri, args = {})
-    uri =  URI.parse uri
+    uri = URI.parse uri
     query = URI.decode_www_form String(uri.query)
 
     args.each do |k, v|

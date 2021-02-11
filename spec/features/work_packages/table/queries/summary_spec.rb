@@ -36,7 +36,7 @@ describe 'Work package query summary item', type: :feature, js: true do
   let(:wp_page) { ::Pages::WorkPackagesTable.new project }
   let(:current_user) do
     FactoryBot.create :user, member_in_project: project,
-                      member_through_role: role
+                             member_through_role: role
   end
 
   before do

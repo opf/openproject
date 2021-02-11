@@ -62,7 +62,8 @@ class Principal < ApplicationRecord
          :not_builtin,
          :possible_assignee,
          :possible_member,
-         :user
+         :user,
+         :ordered_by_name
 
   scope :not_locked, -> {
     not_builtin.where.not(status: statuses[:locked])
@@ -86,9 +87,6 @@ class Principal < ApplicationRecord
     not_locked.like(query).not_in_project(project)
   end
 
-  def self.order_by_name
-    order(User::USER_FORMATS_STRUCTURE[Setting.user_format].map { |format| "#{Principal.table_name}.#{format}" })
-  end
 
   def self.me
     where(id: User.current.id)
@@ -125,7 +123,7 @@ class Principal < ApplicationRecord
   end
 
   def <=>(other)
-    if self.class.name == other.class.name
+    if instance_of?(other.class)
       to_s.downcase <=> other.to_s.downcase
     else
       # groups after users

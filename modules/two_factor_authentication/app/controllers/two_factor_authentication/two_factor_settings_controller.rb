@@ -1,6 +1,5 @@
 module ::TwoFactorAuthentication
   class TwoFactorSettingsController < ApplicationController
-
     before_action :require_admin
     before_action :check_enabled
     before_action :check_ee

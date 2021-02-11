@@ -17,4 +17,3 @@ module LdapGroups
     end
   end
 end
-

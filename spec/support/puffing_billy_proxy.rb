@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -40,7 +41,6 @@ require 'billy/capybara/rspec'
 
 require 'table_print' # Add this dependency to your gemfile
 
-
 ##
 # Patch `puffing-billy`'s proxy so that it doesn't try to stop
 # eventmachine's reactor if it's not running.
@@ -48,9 +48,8 @@ require 'table_print' # Add this dependency to your gemfile
 module BillyProxyPatch
   def stop
     return unless EM.reactor_running?
-
   rescue Errno::ECONNRESET => e
-    STDERR.puts "Got error while shutting down Billy proxy"
+    warn "Got error while shutting down Billy proxy"
   end
 end
 

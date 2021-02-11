@@ -35,16 +35,15 @@ describe ::API::V3::Repositories::RevisionRepresenter do
 
   let(:project) { FactoryBot.build :project }
   let(:repository) { FactoryBot.build :repository_subversion, project: project }
-  let(:revision) {
+  let(:revision) do
     FactoryBot.build(:changeset,
-                      id: 42,
-                      revision: '1234',
-                      repository: repository,
-                      comments: commit_message,
-                      committer: 'foo bar <foo@example.org>',
-                      committed_on: DateTime.now,
-                      )
-  }
+                     id: 42,
+                     revision: '1234',
+                     repository: repository,
+                     comments: commit_message,
+                     committer: 'foo bar <foo@example.org>',
+                     committed_on: DateTime.now)
+  end
 
   let(:commit_message) { 'Some commit message' }
 
@@ -91,14 +90,14 @@ describe ::API::V3::Repositories::RevisionRepresenter do
     context 'with referencing commit message' do
       let(:work_package) { FactoryBot.build_stubbed(:work_package, project: project) }
       let(:commit_message) { "Totally references ##{work_package.id}" }
-      let(:html_reference) {
+      let(:html_reference) do
         id = work_package.id
 
         str = 'Totally references <a'
         str << " class=\"issue work_package preview-trigger\""
         str << " href=\"/work_packages/#{id}\">"
         str << "##{id}</a>"
-      }
+      end
 
       before do
         allow(User).to receive(:current).and_return(FactoryBot.build_stubbed(:admin))

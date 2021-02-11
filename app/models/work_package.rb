@@ -354,6 +354,7 @@ class WorkPackage < ApplicationRecord
   # Overrides attributes= so that type_id gets assigned first
   def attributes=(new_attributes)
     return if new_attributes.nil?
+
     new_type_id = new_attributes['type_id'] || new_attributes[:type_id]
     if new_type_id
       self.type_id = new_type_id
@@ -373,6 +374,7 @@ class WorkPackage < ApplicationRecord
   # Is the amount of work done less than it should for the finish date
   def behind_schedule?
     return false if start_date.nil? || due_date.nil?
+
     done_date = start_date + (duration * done_ratio / 100).floor
     done_date <= Date.today
   end

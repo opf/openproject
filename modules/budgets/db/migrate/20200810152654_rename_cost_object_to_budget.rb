@@ -3,7 +3,7 @@ class RenameCostObjectToBudget < ActiveRecord::Migration[6.0]
     if primary_key_index_name(:cost_objects) != 'cost_objects_pkey'
       warn "Found unexpected primary key name. Fixing primary key names..."
 
-      require "./db/migrate/20190502102512_ensure_postgres_index_names.rb"
+      require './db/migrate/20190502102512_ensure_postgres_index_names'
 
       EnsurePostgresIndexNames.new.up
     end

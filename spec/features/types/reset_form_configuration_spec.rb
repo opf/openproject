@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Reset form configuration', type: :feature, js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:type) { FactoryBot.create :type }
 
   let(:project) { FactoryBot.create :project, types: [type] }
@@ -77,10 +77,10 @@ describe 'Reset form configuration', type: :feature, js: true do
 
       expect(type.custom_field_ids).to be_empty
 
-      new_group = type.attribute_groups.detect { |g| g.key == 'New Group'}
+      new_group = type.attribute_groups.detect { |g| g.key == 'New Group' }
       expect(new_group).not_to be_present
 
-      other_group = type.attribute_groups.detect { |g| g.key == :other}
+      other_group = type.attribute_groups.detect { |g| g.key == :other }
       expect(other_group).not_to be_present
     end
   end

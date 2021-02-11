@@ -28,7 +28,8 @@
 
 require 'spec_helper'
 
-DEVELOPER_PERMISSIONS = [:view_messages, :delete_own_messages, :edit_own_messages, :add_project, :edit_project, :select_project_modules, :manage_members, :manage_versions, :manage_categories, :view_work_packages, :add_work_packages, :edit_work_packages, :manage_work_package_relations, :manage_subtasks, :add_work_package_notes, :move_work_packages, :delete_work_packages, :view_work_package_watchers, :add_work_package_watchers, :delete_work_package_watchers, :manage_public_queries, :save_queries, :view_gantt, :view_calendar, :log_time, :view_time_entries, :edit_time_entries, :delete_time_entries, :manage_news, :comment_news, :view_documents, :manage_documents, :view_wiki_pages, :export_wiki_pages, :view_wiki_edits, :edit_wiki_pages, :delete_wiki_pages_attachments, :protect_wiki_pages, :delete_wiki_pages, :rename_wiki_pages, :add_messages, :edit_messages, :delete_messages, :manage_forums, :view_files, :manage_files, :browse_repository, :manage_repository, :view_changesets, :manage_project_activities, :export_work_packages]
+DEVELOPER_PERMISSIONS = %i[view_messages delete_own_messages edit_own_messages add_project edit_project
+                           select_project_modules manage_members manage_versions manage_categories view_work_packages add_work_packages edit_work_packages manage_work_package_relations manage_subtasks add_work_package_notes move_work_packages delete_work_packages view_work_package_watchers add_work_package_watchers delete_work_package_watchers manage_public_queries save_queries view_gantt view_calendar log_time view_time_entries edit_time_entries delete_time_entries manage_news comment_news view_documents manage_documents view_wiki_pages export_wiki_pages view_wiki_edits edit_wiki_pages delete_wiki_pages_attachments protect_wiki_pages delete_wiki_pages rename_wiki_pages add_messages edit_messages delete_messages manage_forums view_files manage_files browse_repository manage_repository view_changesets manage_project_activities export_work_packages]
 
 describe MailHandler, type: :model do
   let(:anno_user) { User.anonymous }
@@ -76,7 +77,7 @@ describe MailHandler, type: :model do
                         member_in_project: project,
                         member_with_permissions: permissions)
     end
-    let(:submit_options) { {allow_override: 'version'} }
+    let(:submit_options) { { allow_override: 'version' } }
 
     subject do
       submit_email('wp_on_given_project_case_insensitive.eml', **submit_options)
@@ -254,7 +255,7 @@ describe MailHandler, type: :model do
         end
 
         include_context 'wp_on_given_project' do
-          let(:submit_options) { {issue: {type: default_type.name}} }
+          let(:submit_options) { { issue: { type: default_type.name } } }
         end
 
         it_behaves_like 'work package created'
@@ -270,7 +271,7 @@ describe MailHandler, type: :model do
           Role.non_member.update_attribute :permissions, [:add_work_packages]
           project.update_attribute :public, true
           expect do
-            work_package = submit_email('ticket_by_unknown_user.eml', issue: {project: 'onlinestore'}, unknown_user: 'create')
+            work_package = submit_email('ticket_by_unknown_user.eml', issue: { project: 'onlinestore' }, unknown_user: 'create')
             work_package_created(work_package)
             expect(work_package.author.active?).to be_truthy
             expect(work_package.author.mail).to eq('john.doe@somenet.foo')
@@ -323,14 +324,14 @@ describe MailHandler, type: :model do
         end
       end
 
-      context 'email from emission address', with_settings: {mail_from: 'openproject@example.net'} do
+      context 'email from emission address', with_settings: { mail_from: 'openproject@example.net' } do
         before do
           Role.non_member.add_permission!(:add_work_packages)
         end
 
         subject do
           submit_email('ticket_from_emission_address.eml',
-                       issue: {project: public_project.identifier},
+                       issue: { project: public_project.identifier },
                        unknown_user: 'create')
         end
 
@@ -394,7 +395,7 @@ describe MailHandler, type: :model do
         expect(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
 
         # Mail with two attachemnts, one of which is skipped by signature.asc filename match
-        submit_email 'update_ticket_with_attachment_and_sig.eml', issue: {project: 'onlinestore'}
+        submit_email 'update_ticket_with_attachment_and_sig.eml', issue: { project: 'onlinestore' }
 
         work_package.reload
 
@@ -415,7 +416,7 @@ describe MailHandler, type: :model do
           expect(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
 
           # Mail with two attachemnts, one of which is skipped by signature.asc filename match
-          submit_email 'update_ticket_with_attachment_and_sig.eml', issue: {project: 'onlinestore'}
+          submit_email 'update_ticket_with_attachment_and_sig.eml', issue: { project: 'onlinestore' }
 
           expect(work_package.attachments.length).to eq 2
         end
@@ -439,7 +440,7 @@ describe MailHandler, type: :model do
           let(:custom_field) { FactoryBot.create :text_wp_custom_field, name: "Notes" }
 
           before do
-            submit_email 'work_package_with_text_custom_field.eml', issue: {project: project.identifier}
+            submit_email 'work_package_with_text_custom_field.eml', issue: { project: project.identifier }
 
             work_package.reload
           end
@@ -455,7 +456,7 @@ describe MailHandler, type: :model do
           let(:custom_field) { FactoryBot.create :list_wp_custom_field, name: "Letters", possible_values: %w(A B C) }
 
           before do
-            submit_email 'work_package_with_list_custom_field.eml', issue: {project: project.identifier}
+            submit_email 'work_package_with_list_custom_field.eml', issue: { project: project.identifier }
 
             work_package.reload
           end
@@ -471,7 +472,7 @@ describe MailHandler, type: :model do
     end
 
     context 'truncate emails based on the Setting' do
-      context 'with no setting', with_settings: {mail_handler_body_delimiters: ''} do
+      context 'with no setting', with_settings: { mail_handler_body_delimiters: '' } do
         include_context 'wp_on_given_project'
 
         it_behaves_like 'work package created'
@@ -485,7 +486,7 @@ describe MailHandler, type: :model do
         end
       end
 
-      context 'with a single string', with_settings: {mail_handler_body_delimiters: '---'} do
+      context 'with a single string', with_settings: { mail_handler_body_delimiters: '---' } do
         include_context 'wp_on_given_project'
 
         it_behaves_like 'work package created'
@@ -506,7 +507,7 @@ describe MailHandler, type: :model do
       end
 
       context 'with a single quoted reply (e.g. reply to a OpenProject email notification)',
-              with_settings: {mail_handler_body_delimiters: '--- Reply above. Do not remove this line. ---'} do
+              with_settings: { mail_handler_body_delimiters: '--- Reply above. Do not remove this line. ---' } do
         include_context 'wp_update_with_quoted_reply_above'
 
         it_behaves_like 'journal created'
@@ -524,7 +525,7 @@ describe MailHandler, type: :model do
       end
 
       context 'with multiple quoted replies (e.g. reply to a reply of a Redmine email notification)',
-              with_settings: {mail_handler_body_delimiters: '--- Reply above. Do not remove this line. ---'} do
+              with_settings: { mail_handler_body_delimiters: '--- Reply above. Do not remove this line. ---' } do
         include_context 'wp_update_with_quoted_reply_above'
 
         it_behaves_like 'journal created'
@@ -542,7 +543,7 @@ describe MailHandler, type: :model do
       end
 
       context 'with multiple strings',
-              with_settings: {mail_handler_body_delimiters: "---\nBREAK"} do
+              with_settings: { mail_handler_body_delimiters: "---\nBREAK" } do
         include_context 'wp_on_given_project'
 
         it_behaves_like 'work package created'
@@ -575,7 +576,7 @@ describe MailHandler, type: :model do
         project.update_attribute :public, true
 
         work_package = submit_email 'ticket_with_category.eml',
-                                    issue: {project: 'onlinestore'},
+                                    issue: { project: 'onlinestore' },
                                     allow_override: ['category'],
                                     unknown_user: 'create'
         work_package_created(work_package)

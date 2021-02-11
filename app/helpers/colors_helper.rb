@@ -94,7 +94,7 @@ module ColorsHelper
 
       styles = color.color_styles
 
-      background_style = styles.map { |k,v| "#{k}:#{v} !important"}.join(';')
+      background_style = styles.map { |k, v| "#{k}:#{v} !important" }.join(';')
       border_color = color.bright? ? '#555555' : color.hexcode
 
       if name === 'type'

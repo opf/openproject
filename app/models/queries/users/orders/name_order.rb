@@ -28,22 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Users::Orders::NameOrder < Queries::BaseOrder
-  self.model = User
-
-  def self.key
-    :name
-  end
-
-  private
-
-  def order
-    ordered = User.order_by_name
-
-    if direction == :desc
-      ordered = ordered.reverse_order
-    end
-
-    ordered
-  end
+class Queries::Users::Orders::NameOrder < Queries::Principals::Orders::NameOrder
+  # .user is important here as it forces
+  # "AND users.type = 'User'" which otherwise gets lost for some reason
+  self.model = User.user
 end

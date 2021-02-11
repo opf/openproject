@@ -59,18 +59,18 @@ describe SystemUser, type: :model do
     let(:project) { FactoryBot.create(:project_with_types, public: false) }
     let(:user) { FactoryBot.build(:user) }
     let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
-    let(:member) {
+    let(:member) do
       FactoryBot.build(:member, project: project,
                                 roles: [role],
                                 principal: user)
-    }
+    end
     let(:status) { FactoryBot.create(:status) }
-    let(:issue) {
+    let(:issue) do
       FactoryBot.build(:work_package, type: project.types.first,
                                       author: user,
                                       project: project,
                                       status: status)
-    }
+    end
 
     before do
       issue.save!

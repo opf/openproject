@@ -35,11 +35,11 @@ module OpenProject::Backlogs::Patches::VersionsControllerPatch
       helper :version_settings
 
       # Find project explicitly on update and edit
-      skip_before_action :find_project_from_association, only: [:edit, :update]
-      skip_before_action :find_model_object, only: [:edit, :update]
-      prepend_before_action :find_project_and_version, only: [:edit, :update]
+      skip_before_action :find_project_from_association, only: %i[edit update]
+      skip_before_action :find_model_object, only: %i[edit update]
+      prepend_before_action :find_project_and_version, only: %i[edit update]
 
-      before_action :add_project_to_version_settings_attributes, only: [:update, :create]
+      before_action :add_project_to_version_settings_attributes, only: %i[update create]
 
       before_action :whitelist_update_params, only: :update
 
@@ -80,4 +80,4 @@ module OpenProject::Backlogs::Patches::VersionsControllerPatch
   end
 end
 
-VersionsController.send(:include, OpenProject::Backlogs::Patches::VersionsControllerPatch)
+VersionsController.include OpenProject::Backlogs::Patches::VersionsControllerPatch

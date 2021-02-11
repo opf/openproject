@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -30,7 +31,7 @@
 module Constants
   module ProjectActivity
     class << self
-      def register(on:, chain: [], attribute:)
+      def register(on:, attribute:, chain: [])
         @registered ||= []
 
         @registered << { on: on,

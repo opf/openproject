@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -45,7 +46,7 @@ module ::UserConsentHelper
   #                        `I18n.locale` is set for each request individually depending
   #                        among other things on the user's Accept-Language headers.
   # @return [String] Instructions in the respective language.
-  def user_consent_instructions(user, locale: I18n.locale)
+  def user_consent_instructions(_user, locale: I18n.locale)
     all = Setting.consent_info
 
     all.fetch(locale) { all.values.first }

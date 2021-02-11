@@ -16,9 +16,9 @@ git.modified_files
   # Check for missing onPush
   unless lines.grep(/changeDetection:\s+ChangeDetectionStrategy.OnPush/).length > 0
     warn(
-        "Please use `ChangeDetectionStrategy.OnPush` for this component",
-        file: path,
-        line: lines.index(component_line) || 0
-        )
+      "Please use `ChangeDetectionStrategy.OnPush` for this component",
+      file: path,
+      line: lines.index(component_line) || 0
+    )
   end
 end

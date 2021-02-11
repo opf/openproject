@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -32,7 +33,7 @@ class Queries::WorkPackages::Filter::EstimatedHoursFilter <
   def type
     :integer
   end
-  
+
   def where
     if operator == Queries::Operators::None.to_sym.to_s
       super + " OR #{WorkPackage.table_name}.estimated_hours=0"

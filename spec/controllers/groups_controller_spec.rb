@@ -37,7 +37,7 @@ describe GroupsController, type: :controller do
   end
 
   context 'as admin' do
-    using_shared_fixtures :admin
+    shared_let(:admin) { FactoryBot.create :admin }
     let(:current_user) { admin }
 
     it 'should index' do
@@ -177,9 +177,9 @@ describe GroupsController, type: :controller do
     end
 
     it 'should forbid create' do
-      expect {
+      expect do
         post :create, params: { group: { lastname: 'New group' } }
-      }.not_to change { Group.count }
+      end.not_to change { Group.count }
 
       expect(response).not_to be_successful
       expect(response.status).to eq 403

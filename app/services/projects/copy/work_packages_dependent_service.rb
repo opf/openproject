@@ -121,7 +121,6 @@ module Projects::Copy
         new_relation.to_id = new_wp_id
         new_relation.save
       end
-
     end
 
     def copy_work_package_attribute_overrides(source_work_package, parent_id, user_cf_ids)

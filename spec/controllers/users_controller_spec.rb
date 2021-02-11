@@ -30,15 +30,15 @@ require 'spec_helper'
 require 'work_package'
 
 describe UsersController, type: :controller do
-  using_shared_fixtures :admin, :anonymous
+  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:anonymous) { User.anonymous }
 
-  let(:user_password) {'bob!' * 4}
-  let(:user) do
-    FactoryBot.create(:user,
+  shared_let(:user_password) { 'bob!' * 4 }
+  shared_let(:user) do
+    FactoryBot.create :user,
                       login: 'bob',
                       password: user_password,
-                      password_confirmation: user_password,
-                       )
+                      password_confirmation: user_password
   end
 
   describe 'GET new' do
@@ -96,8 +96,12 @@ describe UsersController, type: :controller do
         end
       end
 
-      it do expect(response).to be_successful end
-      it do expect(assigns(:user)).to eq(user) end
+      it do
+        expect(response).to be_successful
+      end
+      it do
+        expect(assigns(:user)).to eq(user)
+      end
       it { expect(response).to render_template('deletion_info') }
     end
 
@@ -145,8 +149,12 @@ describe UsersController, type: :controller do
         end
       end
 
-      it do expect(response).to be_successful end
-      it do expect(assigns(:user)).to eq(user) end
+      it do
+        expect(response).to be_successful
+      end
+      it do
+        expect(assigns(:user)).to eq(user)
+      end
       it { expect(response).to render_template('deletion_info') }
     end
 
@@ -220,13 +228,15 @@ describe UsersController, type: :controller do
         end
       end
 
-      it do expect(response).to redirect_to(controller: 'my', action: 'account') end
+      it do
+        expect(response).to redirect_to(controller: 'my', action: 'account')
+      end
       it { expect(flash[:error]).to eq(I18n.t(:notice_password_confirmation_failed)) }
     end
 
     context 'WHEN password confirmation is present' do
       let(:base_params) do
-        { 'id' => user.id.to_s, :'_password_confirmation' => user_password, back_url: my_account_path }
+        { 'id' => user.id.to_s, :_password_confirmation => user_password, back_url: my_account_path }
       end
 
       describe "WHEN the current user is the requested one
@@ -240,13 +250,14 @@ describe UsersController, type: :controller do
           end
         end
 
-        it do expect(response).to redirect_to(controller: 'account', action: 'login') end
+        it do
+          expect(response).to redirect_to(controller: 'account', action: 'login')
+        end
         it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
       end
 
       describe "WHEN the current user is the requested one
                 WHEN the setting users_deletable_by_self is set to false" do
-
         before do
           disable_flash_sweep
           allow(Setting).to receive(:users_deletable_by_self?).and_return(false)
@@ -261,7 +272,6 @@ describe UsersController, type: :controller do
 
       describe "WHEN the current user is the anonymous user
                 EVEN when the setting login_required is set to false" do
-
         before do
           allow(@controller).to receive(:find_current_user).and_return(anonymous)
           allow(Setting).to receive(:login_required?).and_return(false)
@@ -278,7 +288,7 @@ describe UsersController, type: :controller do
       describe "WHEN the current user is the admin
                 WHEN the given password does not match
                 WHEN the setting users_deletable_by_admins is set to true" do
-        using_shared_fixtures :admin
+        shared_let(:admin) { FactoryBot.create :admin }
 
         before do
           disable_flash_sweep
@@ -299,23 +309,24 @@ describe UsersController, type: :controller do
       describe "WHEN the current user is the admin
                 WHEN the given password does match
                 WHEN the setting users_deletable_by_admins is set to true" do
-
         before do
           disable_flash_sweep
           allow(Setting).to receive(:users_deletable_by_admins?).and_return(true)
 
           as_logged_in_user admin do
-            post :destroy, params: base_params.merge(:'_password_confirmation' => 'adminADMIN!')
+            post :destroy, params: base_params.merge('_password_confirmation': 'adminADMIN!')
           end
         end
 
-        it do expect(response).to redirect_to(controller: 'users', action: 'index') end
+        it do
+          expect(response).to redirect_to(controller: 'users', action: 'index')
+        end
         it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
       end
 
       describe "WHEN the current user is the admin
                 WHEN the setting users_deletable_by_admins is set to false" do
-        using_shared_fixtures :admin
+        shared_let(:admin) { FactoryBot.create :admin }
 
         before do
           disable_flash_sweep
@@ -387,7 +398,7 @@ describe UsersController, type: :controller do
     describe 'WHEN activating a registered user' do
       let!(:registered_user) do
         FactoryBot.create(:user, status: User.statuses[:registered],
-                                  language: 'de')
+                                 language: 'de')
       end
 
       let(:user_limit_reached) { false }
@@ -453,7 +464,8 @@ describe UsersController, type: :controller do
 
       shared_examples_for 'index action with enabled session lifetime and inactivity exceeded' do
         it 'logs out the user and redirects with a warning that he has been locked out' do
-          expect(response.redirect_url).to eq(signin_url + '?back_url=' + CGI::escape(@controller.url_for(controller: 'users', action: 'index')))
+          expect(response.redirect_url).to eq(signin_url + '?back_url=' + CGI::escape(@controller.url_for(controller: 'users',
+                                                                                                          action: 'index')))
           expect(User.current).not_to eq(admin)
           expect(flash[:warning]).to eq(I18n.t(:notice_forced_logout, ttl_time: Setting.session_ttl))
         end

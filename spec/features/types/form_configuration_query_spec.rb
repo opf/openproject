@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'form query configuration', type: :feature, js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:type_bug) { FactoryBot.create :type_bug }
   let(:type_task) { FactoryBot.create :type_task }
 
@@ -96,7 +96,6 @@ describe 'form query configuration', type: :feature, js: true do
       # Save changed query
       form.save_changes
       expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
-
 
       # Visit wp_table
       wp_table.visit!

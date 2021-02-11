@@ -115,7 +115,7 @@ module Pages
     end
 
     def find_user(name)
-      find('tr', text: user_name_to_text(name))
+      find('tr', text: name)
     end
 
     def find_mail(mail)
@@ -123,13 +123,20 @@ module Pages
     end
 
     def find_group(name)
-      find('tr.group', text: user_name_to_text(name))
+      find('tr.group', text: name)
     end
 
     ##
     # Get contents of all cells sorted
-    def contents(column)
-      all("td.#{column}").map(&:text)
+    def contents(column, raw: false)
+      nodes =
+        if raw
+          all("td.#{column}")
+        else
+          all("td.#{column} a, td.#{column} span")
+        end
+
+      nodes.map(&:text)
     end
 
     def user_name_to_text(name)
@@ -227,7 +234,7 @@ module Pages
     end
 
     def go_to_page!(number)
-      find('.pagination a', text: number.to_s).click
+      find('.pagination--pages a', text: number.to_s).click
     end
   end
 end

@@ -37,8 +37,8 @@ describe 'API v3 Help texts resource' do
   let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
   let(:current_user) do
     FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_through_role: role)
+                      member_in_project: project,
+                      member_through_role: role)
   end
 
   let!(:help_texts) do

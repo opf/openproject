@@ -26,7 +26,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-#
 shared_context 'with non-member permissions from non_member_permissions' do
   around do |example|
     non_member = Role.non_member

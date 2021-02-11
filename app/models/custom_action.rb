@@ -119,7 +119,7 @@ class CustomAction < ApplicationRecord
 
   def persist_conditions
     available_conditions.map do |condition_class|
-      condition = conditions.detect { |c| c.class == condition_class }
+      condition = conditions.detect { |c| c.instance_of?(condition_class) }
 
       condition_class.setter(self, condition)
     end

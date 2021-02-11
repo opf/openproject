@@ -64,6 +64,6 @@ class CustomActions::Actions::Notify < CustomActions::Actions::Base
     Principal
       .not_locked
       .select(:id, :firstname, :lastname, :type)
-      .order_by_name
+      .ordered_by_name
   end
 end

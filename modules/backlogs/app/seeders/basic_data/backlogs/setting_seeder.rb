@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -68,7 +69,7 @@ module BasicData
         end
 
         def backlogs_type_names
-          [:default_type_feature, :default_type_epic, :default_type_user_story, :default_type_bug]
+          %i[default_type_feature default_type_epic default_type_user_story default_type_bug]
             .map { |code| I18n.t(code) }
         end
 

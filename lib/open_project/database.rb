@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -39,6 +40,7 @@ module OpenProject
     DB_VALUE_TRUE = 't'.freeze
 
     class InsufficientVersionError < StandardError; end
+
     class UnsupportedDatabaseError < StandardError; end
 
     # This method returns a hash which maps the identifier of the supported
@@ -139,7 +141,7 @@ module OpenProject
     # OpenProject::Database.postgresql?(my_connection)
     supported_adapters.keys.each do |adapter|
       (class << self; self; end).class_eval do
-        define_method(:"#{adapter.to_s}?") do |connection = self.connection|
+        define_method(:"#{adapter}?") do |connection = self.connection|
           send(:name, connection) == adapter
         end
       end
@@ -157,7 +159,7 @@ module OpenProject
     def self.version(raw = false)
       @version ||= ActiveRecord::Base.connection.select_value('SELECT version()')
 
-      raw ? @version : @version.match(/\APostgreSQL ([\d\.]+)/i)[1]
+      raw ? @version : @version.match(/\APostgreSQL ([\d.]+)/i)[1]
     end
 
     def self.numeric_version

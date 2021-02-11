@@ -35,13 +35,13 @@ describe TimeEntry, type: :model do
   let(:project2) { FactoryBot.create(:project_with_types, public: false) }
   let(:work_package) do
     FactoryBot.create(:work_package, project: project,
-                      type: project.types.first,
-                      author: user)
+                                     type: project.types.first,
+                                     author: user)
   end
   let(:work_package2) do
     FactoryBot.create(:work_package, project: project2,
-                      type: project2.types.first,
-                      author: user2)
+                                     type: project2.types.first,
+                                     author: user2)
   end
   let(:user) { FactoryBot.create(:user) }
   let(:user2) { FactoryBot.create(:user) }

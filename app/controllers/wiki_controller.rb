@@ -192,6 +192,7 @@ class WikiController < ApplicationController
   # rename a page
   def rename
     return render_403 unless editable?
+
     @page.redirect_existing_links = true
     # used to display the *original* title if some AR validation errors occur
     @original_title = @page.title
@@ -205,7 +206,8 @@ class WikiController < ApplicationController
           old_name: @page.title,
           new_name: attributes["title"],
           existing_caption: item.caption,
-          existing_identifier: item.name)
+          existing_identifier: item.name
+        )
 
         redirect_to_show
       elsif @page.update(attributes)
@@ -305,6 +307,7 @@ class WikiController < ApplicationController
         # Reassign children to another parent page
         reassign_to = @wiki.pages.find_by(id: params[:reassign_to_id].presence)
         return unless reassign_to
+
         @page.children.each do |child|
           child.update_attribute(:parent, reassign_to)
         end

@@ -33,7 +33,6 @@ module OpenProject::Avatars
                menu_item: :user_avatars
              },
              bundled: true do
-
       add_menu_item :my_menu, :avatar,
                     { controller: '/avatars/my_avatar', action: 'show' },
                     caption: ->(*) { I18n.t('avatars.label_avatar') },

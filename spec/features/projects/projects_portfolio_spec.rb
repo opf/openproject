@@ -33,7 +33,7 @@ describe 'Projects index page',
          with_ee: %i[custom_fields_in_projects_list],
          js: true,
          with_settings: { login_required?: false } do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
 
   let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
   let(:model_filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }

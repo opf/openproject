@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -34,7 +35,7 @@ module Bim
           'cyan-1', # low
           'blue-3', # normal
           'yellow-7', # high
-          'grape-5', # critical
+          'grape-5' # critical
         ]
 
         # When selecting for an array of values, implicit order is applied
@@ -44,7 +45,7 @@ module Bim
 
         [
           { name: I18n.t(:default_priority_low),                     color_id: colors[0], position: 1, is_default: true },
-          { name: I18n.t(:default_priority_normal),                  color_id: colors[1], position: 2, is_default: false  },
+          { name: I18n.t(:default_priority_normal),                  color_id: colors[1], position: 2, is_default: false },
           { name: I18n.t(:default_priority_high),                    color_id: colors[2], position: 3, is_default: false },
           { name: I18n.t('seeders.bim.default_priority_critical'),   color_id: colors[3], position: 4, is_default: false }
         ]

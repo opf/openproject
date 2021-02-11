@@ -33,7 +33,7 @@ describe 'version create', type: :feature, js: false do
     FactoryBot.create(:user,
                       member_in_project: project,
                       member_with_permissions: %i[manage_versions view_work_packages])
-    end
+  end
   let(:project) { FactoryBot.create(:project) }
   let(:new_version_name) { 'A new version name' }
 
@@ -51,7 +51,6 @@ describe 'version create', type: :feature, js: false do
       expect(page).to have_current_path(settings_versions_project_path(project))
       expect(page).to have_content new_version_name
     end
-
 
     it 'and redirect back to where you started' do
       visit project_roadmap_path(project)

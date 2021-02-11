@@ -35,7 +35,7 @@ describe "multi select custom values", clear_cache: true, js: true do
   let(:sort_by) { ::Components::WorkPackages::SortBy.new }
 
   let(:user) { FactoryBot.create :admin }
-  let(:cf_frontend) { "customField#{custom_field.id}"}
+  let(:cf_frontend) { "customField#{custom_field.id}" }
 
   context "with existing custom values" do
     let(:work_package_options) { %w[ham pineapple onions] }

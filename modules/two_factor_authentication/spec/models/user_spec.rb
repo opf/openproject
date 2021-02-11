@@ -9,11 +9,11 @@ module OpenProject::TwoFactorAuthentication::Patches
         @password = @user.password
         @user.auth_source_id = auth_source_id
         @user.save!
-        allow_any_instance_of(User).to receive_messages(:allowed_to? => true, :active? => true)
+        allow_any_instance_of(User).to receive_messages(allowed_to?: true, active?: true)
       end
 
       def create_user_with_auth_source
-        auth_source = AuthSource.new :name => "test"
+        auth_source = AuthSource.new name: "test"
         create_user auth_source.id
       end
 
@@ -25,7 +25,7 @@ module OpenProject::TwoFactorAuthentication::Patches
         login_with @username, @password + "INVALID"
       end
 
-      def login_with login, password
+      def login_with(login, password)
         User.try_to_login(login, password)
       end
 

@@ -37,7 +37,6 @@ describe 'rendering the login buttons for all providers' do
     ]
   end
 
-
   before do
     allow(OpenProject::Plugins::AuthPlugin).to receive(:providers).and_return(providers)
 

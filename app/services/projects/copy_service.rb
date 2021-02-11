@@ -109,14 +109,16 @@ module Projects
     end
 
     def cleanup_target_project_params(_source, _target, target_project_params)
-      if (parent_id = target_project_params[:parent_id]) && (parent = Project.find_by(id: parent_id))
-        target_project_params.delete(:parent_id) unless user.allowed_to?(:add_subprojects, parent)
+      if (parent_id = target_project_params[:parent_id]) && (parent = Project.find_by(id: parent_id)) && !user.allowed_to?(
+        :add_subprojects, parent
+      )
+        target_project_params.delete(:parent_id)
       end
     end
 
-    def cleanup_target_project_attributes(source, target, target_project_params)
-      if target.parent
-        target.parent = nil unless user.allowed_to?(:add_subprojects, target.parent)
+    def cleanup_target_project_attributes(_source, target, _target_project_params)
+      if target.parent && !user.allowed_to?(:add_subprojects, target.parent)
+        target.parent = nil
       end
     end
 

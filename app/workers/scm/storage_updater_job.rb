@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -40,7 +41,7 @@ class SCM::StorageUpdaterJob < ApplicationJob
 
     repository.update!(
       required_storage_bytes: bytes,
-      storage_updated_at: Time.now,
+      storage_updated_at: Time.now
     )
   end
 

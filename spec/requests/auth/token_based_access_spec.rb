@@ -48,7 +48,7 @@ describe 'Token based access', type: :rails_request, with_settings: { login_requ
     # access is possible with a token
     get "/work_packages/#{work_package.id}.atom?key=#{rss_key}"
     expect(response.body)
-      .to include("<title>OpenProject - #{work_package.to_s}</title>")
+      .to include("<title>OpenProject - #{work_package}</title>")
 
     # but for the next request, the user is not logged in
     get "/work_packages/#{work_package.id}"

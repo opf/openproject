@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -48,6 +49,7 @@ module OpenProject
           tabs[key] = [] if tabs[key].nil?
 
           raise ArgumentError.new "Invalid entry for tab #{key}" unless entry[:name] && entry[:partial]
+
           tabs[key] << entry
         end
 

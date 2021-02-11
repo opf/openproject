@@ -146,7 +146,7 @@ class BaseContract < Disposable::Twin
     writable_attributes.include?(attribute.to_s)
   end
 
-  def valid?(*args)
+  def valid?(*_args)
     super()
 
     errors.empty?

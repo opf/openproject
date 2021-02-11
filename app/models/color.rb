@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -30,9 +31,9 @@
 class Color < ApplicationRecord
   self.table_name = 'colors'
 
-  has_many :planning_element_types, class_name:  'Type',
+  has_many :planning_element_types, class_name: 'Type',
                                     foreign_key: 'color_id',
-                                    dependent:   :nullify
+                                    dependent: :nullify
 
   before_validation :normalize_hexcode
 
@@ -83,7 +84,7 @@ class Color < ApplicationRecord
   # Same as in frontend color-contrast.functions.ts
   def brightness_yiq
     r, g, b = rgb_colors
-    ((r * 299) + (g * 587) + (b * 114)) / 1000;
+    ((r * 299) + (g * 587) + (b * 114)) / 1000
   end
 
   ##

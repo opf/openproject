@@ -134,7 +134,7 @@ describe "PATCH /api/v3/queries/:id", type: :request do
 
       expect(query.group_by_column.name).to eq :assigned_to
       expect(query.sort_criteria).to eq [["id", "desc"], ["assigned_to", "asc"]]
-      expect(query.columns.map(&:name)).to eq [:id, :subject, :status, :assigned_to]
+      expect(query.columns.map(&:name)).to eq %i[id subject status assigned_to]
       expect(query.project).to eq project
       expect(query.is_public).to eq true
       expect(query.display_sums).to eq false

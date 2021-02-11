@@ -44,10 +44,14 @@ module Bim
         colors = color_names.collect { |name| colors_by_name[name].id }
 
         [
-          { name: I18n.t(:default_status_new),              color_id: colors[0],  is_closed: false, is_default: true,  position: 1 },
-          { name: I18n.t(:default_status_in_progress),      color_id: colors[1],  is_closed: false, is_default: false, position: 2 },
-          { name: I18n.t('seeders.bim.default_status_resolved'),         color_id: colors[2], is_closed: false, is_default: false, position: 3 },
-          { name: I18n.t(:default_status_closed),           color_id: colors[3], is_closed: true, is_default: false, position: 4 },
+          { name: I18n.t(:default_status_new),              color_id: colors[0],  is_closed: false, is_default: true,
+            position: 1 },
+          { name: I18n.t(:default_status_in_progress),      color_id: colors[1],  is_closed: false, is_default: false,
+            position: 2 },
+          { name: I18n.t('seeders.bim.default_status_resolved'), color_id: colors[2], is_closed: false,
+            is_default: false, position: 3 },
+          { name: I18n.t(:default_status_closed), color_id: colors[3], is_closed: true, is_default: false,
+            position: 4 }
         ]
       end
     end

@@ -30,6 +30,7 @@
 
 class CustomActions::Conditions::Base
   attr_reader :values
+
   prepend CustomActions::ValuesToInteger
   include CustomActions::ValidateAllowedValue
 

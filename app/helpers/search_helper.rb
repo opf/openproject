@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -30,6 +31,7 @@
 module SearchHelper
   def highlight_tokens(text, tokens)
     return text unless text && tokens && !tokens.empty?
+
     re_tokens = tokens.map { |t| Regexp.escape(t) }
     regexp = Regexp.new "(#{re_tokens.join('|')})", Regexp::IGNORECASE
     result = ''
@@ -80,7 +82,7 @@ module SearchHelper
 
   def with_notes_anchor(event, tokens)
     if has_tokens? last_journal(event).try(:notes), tokens
-      event.event_url.merge anchor: notes_anchor(last_journal event)
+      event.event_url.merge anchor: notes_anchor(last_journal(event))
     else
       event.event_url
     end

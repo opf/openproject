@@ -32,7 +32,7 @@ describe 'Work package filtering by responsible', js: true do
   let(:project) { FactoryBot.create :project }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
-  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages, :save_queries]) }
+  let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages save_queries]) }
   let(:other_user) do
     FactoryBot.create :user,
                       firstname: 'Other',

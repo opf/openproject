@@ -65,8 +65,8 @@ describe Queries::UpdateService do
       before do
         # violating the validations
         violating_menu_item = FactoryBot.build(:query_menu_item,
-                                                name: menu_item.name,
-                                                navigatable_id: menu_item.navigatable_id)
+                                               name: menu_item.name,
+                                               navigatable_id: menu_item.navigatable_id)
 
         violating_menu_item.save(validate: false)
 

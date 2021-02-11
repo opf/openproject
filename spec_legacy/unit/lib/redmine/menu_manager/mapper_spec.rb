@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -29,7 +30,6 @@
 require 'legacy_spec_helper'
 
 describe Redmine::MenuManager::Mapper do
-
   it 'should push onto root' do
     menu_mapper = Redmine::MenuManager::Mapper.new(:test_menu, {})
     menu_mapper.push :test_overview, { controller: 'projects', action: 'show' }, {}
@@ -175,12 +175,12 @@ describe Redmine::MenuManager::Mapper do
       menu.push :help, OpenProject::Static::Links.help_link, last: true
     end
 
-    expect {
+    expect do
       Redmine::MenuManager.map :test_menu do |menu|
         menu.delete(:administration)
         menu.delete(:help)
         menu.push :test_overview, { controller: 'projects', action: 'show' }, {}
       end
-    }.not_to raise_error
+    end.not_to raise_error
   end
 end

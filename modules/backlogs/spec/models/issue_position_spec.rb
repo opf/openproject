@@ -32,17 +32,17 @@ describe WorkPackage, type: :model do
   describe 'Story positions' do
     def build_work_package(options)
       FactoryBot.build(:work_package, options.reverse_merge(version_id: sprint_1.id,
-                                                             priority_id:      priority.id,
-                                                             project_id:       project.id,
-                                                             status_id:        status.id,
-                                                             type_id:       story_type.id))
+                                                            priority_id: priority.id,
+                                                            project_id: project.id,
+                                                            status_id: status.id,
+                                                            type_id: story_type.id))
     end
 
     def create_work_package(options)
       build_work_package(options).tap(&:save!)
     end
 
-    let(:status)   { FactoryBot.create(:status)    }
+    let(:status)   { FactoryBot.create(:status) }
     let(:priority) { FactoryBot.create(:priority_normal) }
     let(:project)  { FactoryBot.create(:project)         }
 
@@ -64,15 +64,15 @@ describe WorkPackage, type: :model do
     let(:work_package_b) { create_work_package(subject: 'WorkPackage b', version_id: sprint_2.id) }
     let(:work_package_c) { create_work_package(subject: 'WorkPackage c', version_id: sprint_2.id) }
 
-    let(:feedback_1)  {
+    let(:feedback_1) do
       create_work_package(subject: 'Feedback 1', version_id: sprint_1.id,
                           type_id: other_type.id)
-    }
+    end
 
-    let(:task_1)  {
+    let(:task_1) do
       create_work_package(subject: 'Task 1', version_id: sprint_1.id,
                           type_id: task_type.id)
-    }
+    end
 
     before do
       # We had problems while writing these specs, that some elements kept
@@ -88,7 +88,8 @@ describe WorkPackage, type: :model do
 
       # Enable and configure backlogs
       project.enabled_module_names = project.enabled_module_names + ['backlogs']
-      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [story_type.id, epic_type.id], 'task_type'   => task_type.id })
+      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [story_type.id, epic_type.id],
+                                                                           'task_type' => task_type.id })
 
       # Otherwise the type id's from the previous test are still active
       WorkPackage.instance_variable_set(:@backlogs_types, nil)
@@ -120,7 +121,8 @@ describe WorkPackage, type: :model do
       it 'does not reorder the existing work_packages' do
         new_work_package = create_work_package(subject: 'Newest WorkPackage', version_id: sprint_1.id)
 
-        expect([work_package_1, work_package_2, work_package_3, work_package_4, work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4, 5])
+        expect([work_package_1, work_package_2, work_package_3, work_package_4,
+                work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4, 5])
       end
     end
 
@@ -129,7 +131,8 @@ describe WorkPackage, type: :model do
         work_package_2.version = sprint_2
         work_package_2.save!
 
-        expect(sprint_1.work_packages.order(Arel.sql('id'))).to eq([work_package_1, work_package_3, work_package_4, work_package_5])
+        expect(sprint_1.work_packages.order(Arel.sql('id'))).to eq([work_package_1, work_package_3, work_package_4,
+                                                                    work_package_5])
         expect(sprint_1.work_packages.order(Arel.sql('id')).each(&:reload).map(&:position)).to eq([1, 2, 3, 4])
       end
     end
@@ -146,7 +149,8 @@ describe WorkPackage, type: :model do
         work_package_a.version = sprint_1
         work_package_a.save!
 
-        expect([work_package_1, work_package_2, work_package_3, work_package_4, work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4, 5])
+        expect([work_package_1, work_package_2, work_package_3, work_package_4,
+                work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4, 5])
       end
     end
 
@@ -154,7 +158,8 @@ describe WorkPackage, type: :model do
       it 'reorders the existing work_packages' do
         work_package_3.destroy
 
-        expect([work_package_1, work_package_2, work_package_4, work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4])
+        expect([work_package_1, work_package_2, work_package_4,
+                work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4])
       end
     end
 
@@ -164,7 +169,8 @@ describe WorkPackage, type: :model do
           work_package_3.type = epic_type
           work_package_3.save!
 
-          expect([work_package_1, work_package_2, work_package_3, work_package_4, work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4, 5])
+          expect([work_package_1, work_package_2, work_package_3, work_package_4,
+                  work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4, 5])
         end
       end
 
@@ -180,7 +186,8 @@ describe WorkPackage, type: :model do
           work_package_3.type = other_type
           work_package_3.save!
 
-          expect([work_package_1, work_package_2, work_package_4, work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4])
+          expect([work_package_1, work_package_2, work_package_4,
+                  work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4])
         end
       end
 
@@ -196,7 +203,8 @@ describe WorkPackage, type: :model do
           work_package_3.type = task_type
           work_package_3.save!
 
-          expect([work_package_1, work_package_2, work_package_4, work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4])
+          expect([work_package_1, work_package_2, work_package_4,
+                  work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4])
         end
       end
 
@@ -212,7 +220,8 @@ describe WorkPackage, type: :model do
           task_1.type = story_type
           task_1.save!
 
-          expect([work_package_1, work_package_2, work_package_3, work_package_4, work_package_5, task_1].each(&:reload).map(&:position)).to eq([1, 2, 3, 4, 5, 6])
+          expect([work_package_1, work_package_2, work_package_3, work_package_4, work_package_5,
+                  task_1].each(&:reload).map(&:position)).to eq([1, 2, 3, 4, 5, 6])
         end
       end
 
@@ -228,7 +237,8 @@ describe WorkPackage, type: :model do
           feedback_1.type = story_type
           feedback_1.save!
 
-          expect([work_package_1, work_package_2, work_package_3, work_package_4, work_package_5, feedback_1].each(&:reload).map(&:position)).to eq([1, 2, 3, 4, 5, 6])
+          expect([work_package_1, work_package_2, work_package_3, work_package_4, work_package_5,
+                  feedback_1].each(&:reload).map(&:position)).to eq([1, 2, 3, 4, 5, 6])
         end
       end
     end
@@ -242,19 +252,19 @@ describe WorkPackage, type: :model do
       let(:project_wo_backlogs) { FactoryBot.create(:project) }
       let(:sub_project_wo_backlogs) { FactoryBot.create(:project) }
 
-      let(:shared_sprint)   {
+      let(:shared_sprint) do
         FactoryBot.create(:version,
-                           project_id: project.id,
-                           name: 'Shared Sprint',
-                           sharing: 'descendants')
-      }
+                          project_id: project.id,
+                          name: 'Shared Sprint',
+                          sharing: 'descendants')
+      end
 
-      let(:version_go_live) {
+      let(:version_go_live) do
         FactoryBot.create(:version,
-                           project_id: project_wo_backlogs.id,
-                           name: 'Go-Live')
-      }
-      using_shared_fixtures :admin
+                          project_id: project_wo_backlogs.id,
+                          name: 'Go-Live')
+      end
+      shared_let(:admin) { FactoryBot.create :admin }
 
       def move_to_project(work_package, project)
         service = WorkPackages::MoveService.new(work_package, admin)
@@ -277,11 +287,11 @@ describe WorkPackage, type: :model do
 
       describe '- Moving an work_package from a project without backlogs to a backlogs_enabled project' do
         describe 'if the version may not be kept' do
-          let(:work_package_i) {
+          let(:work_package_i) do
             create_work_package(subject: 'WorkPackage I',
                                 version_id: version_go_live.id,
                                 project_id: project_wo_backlogs.id)
-          }
+          end
           before do
             work_package_i
           end
@@ -304,11 +314,11 @@ describe WorkPackage, type: :model do
         end
 
         describe 'if the version may be kept' do
-          let(:work_package_i) {
+          let(:work_package_i) do
             create_work_package(subject: 'WorkPackage I',
                                 version_id: shared_sprint.id,
                                 project_id: sub_project_wo_backlogs.id)
-          }
+          end
 
           before do
             work_package_i
@@ -355,23 +365,24 @@ describe WorkPackage, type: :model do
 
             expect(result).to be_truthy
 
-            expect([work_package_1, work_package_2, work_package_4, work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4])
+            expect([work_package_1, work_package_2, work_package_4,
+                    work_package_5].each(&:reload).map(&:position)).to eq([1, 2, 3, 4])
           end
         end
 
         describe 'if the version may be kept' do
-          let(:work_package_i)   {
+          let(:work_package_i)   do
             create_work_package(subject: 'WorkPackage I',
                                 version_id: shared_sprint.id)
-          }
-          let(:work_package_ii)  {
+          end
+          let(:work_package_ii) do
             create_work_package(subject: 'WorkPackage II',
                                 version_id: shared_sprint.id)
-          }
-          let(:work_package_iii) {
+          end
+          let(:work_package_iii) do
             create_work_package(subject: 'WorkPackage III',
                                 version_id: shared_sprint.id)
-          }
+          end
 
           before do
             work_package_i.move_to_bottom

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -74,16 +75,7 @@ describe Users::CreateContract do
   end
 
   context 'when global user' do
-    let!(:global_add_user_role) { FactoryBot.create :global_role, name: 'Add user', permissions: %i[add_user] }
-    let(:current_user) do
-      user = FactoryBot.create(:user)
-
-      FactoryBot.create(:global_member,
-                        principal: user,
-                        roles: [global_add_user_role])
-
-      user
-    end
+    shared_let(:current_user) { FactoryBot.create :user, global_permission: :add_user }
 
     describe 'can invite user' do
       before do
@@ -105,15 +97,16 @@ describe Users::CreateContract do
       end
     end
 
-    describe 'cannot set the auth_source' do
+    describe 'can set the auth_source' do
       let!(:auth_source) { FactoryBot.create :auth_source }
 
       before do
+        user.password = user.password_confirmation = nil
         user.auth_source = auth_source
       end
 
-      it 'is invalid' do
-        expect_valid(false, auth_source_id: %i(error_readonly))
+      it 'is valid' do
+        expect_valid(true)
       end
     end
 

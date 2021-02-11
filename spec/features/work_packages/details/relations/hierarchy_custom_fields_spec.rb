@@ -36,10 +36,11 @@ describe 'creating a child directly after the wp itself was created', js: true d
   let!(:status) { FactoryBot.create(:status, is_default: true) }
   let!(:priority) { FactoryBot.create(:priority, is_default: true) }
   let(:type) { FactoryBot.create(:type, custom_fields: [custom_field]) }
-  let(:custom_field) { FactoryBot.create :work_package_custom_field,
-                                         field_format: 'int',
-                                         is_for_all: true
-  }
+  let(:custom_field) do
+    FactoryBot.create :work_package_custom_field,
+                      field_format: 'int',
+                      is_for_all: true
+  end
   let(:relations_tab) { find('.tabrow li', text: 'RELATIONS') }
 
   before do

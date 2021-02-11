@@ -33,13 +33,13 @@ class HourlyRatesController < ApplicationController
   helper :hourly_rates
   include HourlyRatesHelper
 
-  before_action :find_user, only: [:show, :edit, :update, :set_rate]
+  before_action :find_user, only: %i[show edit update set_rate]
 
-  before_action :find_optional_project, only: [:show, :edit, :update]
+  before_action :find_optional_project, only: %i[show edit update]
   before_action :find_project, only: [:set_rate]
 
   # #show, #edit have their own authorization
-  before_action :authorize, except: [:show, :edit, :update]
+  before_action :authorize, except: %i[show edit update]
 
   # TODO: this should be an index
   def show
@@ -140,7 +140,8 @@ class HourlyRatesController < ApplicationController
     if rate.save
       if request.xhr?
         render :update do |page|
-          page.replace_html "rate_for_#{@user.id}", link_to(number_to_currency(rate.rate), action: 'edit', id: @user, project_id: @project)
+          page.replace_html "rate_for_#{@user.id}",
+                            link_to(number_to_currency(rate.rate), action: 'edit', id: @user, project_id: @project)
         end
       else
         flash[:notice] = t(:notice_successful_update)

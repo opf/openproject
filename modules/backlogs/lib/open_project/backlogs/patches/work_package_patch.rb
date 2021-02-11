@@ -41,10 +41,10 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     register_on_journal_formatter(:decimal, 'story_points')
     register_on_journal_formatter(:decimal, 'position')
 
-    validates_numericality_of :story_points, only_integer:             true,
-                                             allow_nil:                true,
+    validates_numericality_of :story_points, only_integer: true,
+                                             allow_nil: true,
                                              greater_than_or_equal_to: 0,
-                                             less_than:                10_000,
+                                             less_than: 10_000,
                                              if: lambda { backlogs_enabled? }
 
     validates_numericality_of :remaining_hours, only_integer: false,
@@ -102,10 +102,9 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     end
 
     def types
-      case
-      when is_story?
+      if is_story?
         Story.types
-      when is_task?
+      elsif is_task?
         Task.types
       else
         []
@@ -113,26 +112,29 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     end
 
     def story
-      if self.is_story?
+      if is_story?
         return Story.find(id)
-      elsif self.is_task?
+      elsif is_task?
         # Make sure to get the closest ancestor that is a Story, i.e. the one with the highest lft
         # otherwise, the highest parent that is a Story is returned
         story_work_package = ancestors.find_by(type_id: Story.types).order(Arel.sql('lft DESC'))
         return Story.find(story_work_package.id) if story_work_package
       end
+
       nil
     end
 
     def blocks
       # return work_packages that I block that aren't closed
       return [] if closed?
+
       blocks_relations.includes(:to).merge(WorkPackage.with_status_open).map(&:to)
     end
 
     def blockers
       # return work_packages that block me
       return [] if closed?
+
       blocked_by_relations.includes(:from).merge(WorkPackage.with_status_open).map(&:from)
     end
 
@@ -155,4 +157,4 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
   end
 end
 
-WorkPackage.send(:include, OpenProject::Backlogs::Patches::WorkPackagePatch)
+WorkPackage.include OpenProject::Backlogs::Patches::WorkPackagePatch

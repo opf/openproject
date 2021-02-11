@@ -36,8 +36,8 @@ describe ::API::V3::Relations::RelationCollectionRepresenter do
   let(:relations) do
     (1..3).map do
       FactoryBot.build_stubbed(:relation,
-                                from: work_package,
-                                to: FactoryBot.build_stubbed(:work_package))
+                               from: work_package,
+                               to: FactoryBot.build_stubbed(:work_package))
     end
   end
 

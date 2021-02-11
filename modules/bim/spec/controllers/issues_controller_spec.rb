@@ -134,8 +134,8 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
       let(:filename) { 'MaximumInformation.bcf' }
       let(:file) do
         Rack::Test::UploadedFile.new(
-            File.join(Rails.root, "modules/bim/spec/fixtures/files/#{filename}"),
-            'application/octet-stream'
+          File.join(Rails.root, "modules/bim/spec/fixtures/files/#{filename}"),
+          'application/octet-stream'
         )
       end
 
@@ -152,7 +152,6 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
       it_behaves_like "check permissions"
     end
   end
-
 
   describe '#perform_import' do
     let(:action) do

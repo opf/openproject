@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,7 +29,7 @@
 #++
 Rails.application.config.middleware.insert_after Rails::Rack::Logger, Rack::Cors do
   allow do
-    origins { |source, env| ::API::V3::CORS.allowed?(source) }
+    origins { |source, _env| ::API::V3::CORS.allowed?(source) }
     resource '/api/v3*',
              headers: :any,
              methods: :any,

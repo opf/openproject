@@ -27,7 +27,7 @@
 #++
 
 module Entry
-  [TimeEntry, CostEntry].each do |e| e.send :include, self end
+  [TimeEntry, CostEntry].each { |e| e.send :include, self }
 
   class Delegator < ApplicationRecord
     self.abstract_class = true
@@ -65,9 +65,9 @@ module Entry
 
       def find_last(options)            find_one :find_last,     options end
 
-      def find_every(options)           find_many :find_every,    options end
+      def find_every(options)           find_many :find_every, options end
 
-      def find_from_ids(_args, options)  find_many :find_from_ids, options end
+      def find_from_ids(_args, options) find_many :find_from_ids, options end
 
       def find_one(*args)
         TimeEntry.send(*args) || CostEntry.send(*args)

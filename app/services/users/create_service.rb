@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -32,7 +33,6 @@ require 'concerns/user_invitation'
 
 module Users
   class CreateService < ::BaseServices::Create
-
     private
 
     def persist(call)
@@ -54,8 +54,6 @@ module Users
     end
 
     def invite_user!(new_user)
-
-
       invited = ::UserInvitation.invite_user! new_user
       new_user.errors.add :base, I18n.t(:error_can_not_invite_user) unless invited.is_a? User
 

@@ -65,10 +65,10 @@ describe Burndown, type: :model do
     allow(User).to receive(:current).and_return(user)
 
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
-                                                                         'wiki_template'         => '',
-                                                                         'card_spec'             => 'Sattleford VM-5040',
-                                                                         'story_types'           => [type_feature.id.to_s],
-                                                                         'task_type'             => type_task.id.to_s })
+                                                                         'wiki_template' => '',
+                                                                         'card_spec' => 'Sattleford VM-5040',
+                                                                         'story_types' => [type_feature.id.to_s],
+                                                                         'task_type' => type_task.id.to_s })
 
     project.save!
 
@@ -85,7 +85,7 @@ describe Burndown, type: :model do
     describe 'WITH the today date fixed to April 4th, 2011 and having a 10 (working days) sprint' do
       before(:each) do
         allow(Time).to receive(:now).and_return(Time.utc(2011, 'apr', 4, 20, 15, 1))
-        allow(Date).to receive(:today).and_return(Date.civil(2011, 04, 04))
+        allow(Date).to receive(:today).and_return(Date.civil(2011, 0o4, 0o4))
       end
 
       describe 'WITH having a version in the future' do
@@ -110,13 +110,13 @@ describe Burndown, type: :model do
         describe 'WITH 1 story assigned to the sprint' do
           before(:each) do
             @story = FactoryBot.build(:story, subject: 'Story 1',
-                                               project: project,
-                                               version: version,
-                                               type: type_feature,
-                                               status: issue_open,
-                                               priority: issue_priority,
-                                               created_at: Date.today - 20.days,
-                                               updated_at: Date.today - 20.days)
+                                              project: project,
+                                              version: version,
+                                              type: type_feature,
+                                              status: issue_open,
+                                              priority: issue_priority,
+                                              created_at: Date.today - 20.days,
+                                              updated_at: Date.today - 20.days)
           end
 
           describe 'WITH the story having story_point defined on creation' do
@@ -162,13 +162,13 @@ describe Burndown, type: :model do
 
             (0..9).each do |i|
               @stories[i] = FactoryBot.create(:story, subject: "Story #{i}",
-                                                       project: project,
-                                                       version: version,
-                                                       type: type_feature,
-                                                       status: issue_open,
-                                                       priority: issue_priority,
-                                                       created_at: Date.today - (20 - i).days,
-                                                       updated_at: Date.today - (20 - i).days)
+                                                      project: project,
+                                                      version: version,
+                                                      type: type_feature,
+                                                      status: issue_open,
+                                                      priority: issue_priority,
+                                                      created_at: Date.today - (20 - i).days,
+                                                      updated_at: Date.today - (20 - i).days)
               @stories[i].last_journal.update_attribute(:created_at, @stories[i].created_at)
             end
           end

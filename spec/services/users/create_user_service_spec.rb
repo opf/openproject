@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -47,7 +48,7 @@ describe Users::CreateService do
         it 'will call not call UserInvitation' do
           expect(::UserInvitation).not_to receive(:invite_user!)
           expect(subject).not_to be_success
-          expect(subject.errors.details[:mail]).to eq [{error: :blank}]
+          expect(subject.errors.details[:mail]).to eq [{ error: :blank }]
         end
       end
     end

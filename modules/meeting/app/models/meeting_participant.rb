@@ -45,8 +45,8 @@ class MeetingParticipant < ApplicationRecord
     user.present? ? user.mail : mail
   end
 
-  def <=>(participant)
-    to_s.downcase <=> participant.to_s.downcase
+  def <=>(other)
+    to_s.downcase <=> other.to_s.downcase
   end
 
   alias :to_s :name

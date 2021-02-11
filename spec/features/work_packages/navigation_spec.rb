@@ -97,7 +97,6 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     project_work_packages.expect_work_package_listed(work_package)
     project_html_title.expect_first_segment 'All open'
 
-
     # Visit query with project wp
     project_work_packages.visit_query query
     project_work_packages.expect_work_package_listed(work_package)
@@ -154,7 +153,6 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     page404.expect_and_dismiss_notification type: :error, message: I18n.t('api_v3.errors.code_404')
   end
 
-
   # Regression #29994
   scenario 'access the work package views directly from a non-angular view' do
     visit project_path(project)
@@ -203,7 +201,7 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
 
     # Click on All open
     find('.collapsible-menu--item-link', text: 'All open').click
-   
+
     if OpenProject::Configuration.bim?
       wp_display.expect_state 'Cards'
     else

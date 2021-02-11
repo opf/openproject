@@ -68,7 +68,7 @@ describe ::API::V3::Attachments::AttachmentMetadataRepresenter do
   end
 
   describe 'parsing' do
-    let(:parsed_hash) {
+    let(:parsed_hash) do
       {
         'fileName' => 'the parsed name',
         'description' => { 'raw' => 'the parsed description' },
@@ -76,7 +76,7 @@ describe ::API::V3::Attachments::AttachmentMetadataRepresenter do
         'fileSize' => 43,
         'digest' => '0x00'
       }
-    }
+    end
 
     subject { metadata }
 

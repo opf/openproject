@@ -96,10 +96,10 @@ module OpenProject::TextFormatting::Matchers
       # Passes on all remaining params.
       def named_route(name, **args)
         route = if context[:only_path]
-          :"#{name}_path"
-        else
-          :"#{name}_url"
-        end
+                  :"#{name}_path"
+                else
+                  :"#{name}_url"
+                end
 
         public_send(route, **args)
       end

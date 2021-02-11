@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -52,8 +53,10 @@ namespace :copyright do
   def copyright_file(options = {})
     path = 'docs/COPYRIGHT_short.rdoc'
     if options[:path]
-      path = File.join(options[:path], 'docs/COPYRIGHT_short.rdoc') if File.exists?(File.join(options[:path], 'docs/COPYRIGHT_short.rdoc'))
-      path = File.join(options[:path], 'docs/COPYRIGHT_short.md')   if File.exists?(File.join(options[:path], 'docs/COPYRIGHT_short.md'))
+      path = File.join(options[:path], 'docs/COPYRIGHT_short.rdoc') if File.exists?(File.join(options[:path],
+                                                                                              'docs/COPYRIGHT_short.rdoc'))
+      path = File.join(options[:path], 'docs/COPYRIGHT_short.md')   if File.exists?(File.join(options[:path],
+                                                                                              'docs/COPYRIGHT_short.md'))
     end
     path
   end
@@ -65,9 +68,9 @@ namespace :copyright do
   end
 
   def short_copyright_line(sign, options = {})
-    short_copyright = File.readlines(copyright_file(options)).collect { |line|
+    short_copyright = File.readlines(copyright_file(options)).collect do |line|
       "#{sign} #{line}".rstrip
-    }.join("\n")
+    end.join("\n")
 
     "#{sign}-- copyright\n#{short_copyright}\n#{sign}++"
   end
@@ -113,6 +116,7 @@ namespace :copyright do
     excluded = exluded_paths.concat(additional_excludes)
 
     raise 'Path not found' unless Dir.exists?(path)
+
     file_list.each do |file_name|
       # Skip 3rd party code
       next if excluded.any? { |e| file_name.include?(e) }
@@ -133,9 +137,9 @@ namespace :copyright do
   desc 'Update special files, which do not have an ending'
   task :update_special_files, :arg1 do |_task, args|
     # ruby-like files
-    file_list = %w{Gemfile Rakefile config.ru .travis.yml .gitignore}.map { |f|
+    file_list = %w{Gemfile Rakefile config.ru .travis.yml .gitignore}.map do |f|
       File.absolute_path f
-    }
+    end
     rewrite_copyright('rb', [], :rb, args[:arg1], file_list: file_list)
   end
 

@@ -41,7 +41,6 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
       allow(query)
         .to receive(:manually_sorted?)
         .and_return(query_manually_sorted)
-
     end
   end
   let(:query_manually_sorted) { false }
@@ -86,7 +85,6 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
                :per_page,
                :embed_schemas,
                :current_user) do
-
       def initialize(work_packages,
                      self_link:,
                      query:,
@@ -117,7 +115,6 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
                :query,
                :sums,
                :current_user) do
-
       def initialize(group,
                      count,
                      query:,

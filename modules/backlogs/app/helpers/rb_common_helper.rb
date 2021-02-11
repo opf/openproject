@@ -164,6 +164,7 @@ module RbCommonHelper
 
   def date_string_with_milliseconds(d, add = 0)
     return '' if d.blank?
+
     d.strftime('%B %d, %Y %H:%M:%S') + '.' + (d.to_f % 1 + add).to_s.split('.')[1]
   end
 
@@ -228,7 +229,7 @@ module RbCommonHelper
   end
 
   def all_workflows
-    @all_workflows ||= Workflow.includes([:new_status, :old_status])
+    @all_workflows ||= Workflow.includes(%i[new_status old_status])
                        .where(role_id: User.current.roles_for_project(@project).map(&:id),
                               type_id: story_types.map(&:id))
   end

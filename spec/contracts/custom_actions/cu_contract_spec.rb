@@ -95,7 +95,7 @@ describe CustomActions::CuContract do
       allow(status_action)
         .to receive(:allowed_values)
         .and_return([{ value: nil, label: '-' },
-                     { value: 1, label: 'some status'}])
+                     { value: 1, label: 'some status' }])
 
       action.actions = [status_action]
 
@@ -128,7 +128,7 @@ describe CustomActions::CuContract do
       allow(status_condition)
         .to receive(:allowed_values)
         .and_return([{ value: nil, label: '-' },
-                     { value: 1, label: 'some status'}])
+                     { value: 1, label: 'some status' }])
 
       action.conditions = [status_condition]
 

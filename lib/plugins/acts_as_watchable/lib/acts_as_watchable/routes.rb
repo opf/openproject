@@ -39,16 +39,14 @@ module OpenProject
             /\d+/.match(params[:object_id])
         end
 
-        private
-
         def self.watched?(object)
-          self.watchable_object? object
+          watchable_object? object
         end
 
         def self.watchable_object?(object)
           klass = object.to_s.classify.constantize
           klass.included_modules.include? Redmine::Acts::Watchable
-        rescue
+        rescue StandardError
           false
         end
       end

@@ -2,7 +2,6 @@ require_dependency 'enumerations/row_cell'
 
 module Enumerations
   class TableCell < ::TableCell
-
     def initial_sort
       %i[id asc]
     end
@@ -42,13 +41,13 @@ module Enumerations
 
     def headers
       [
-        ['name', caption: Enumeration.human_attribute_name(:name)],
-        ['is_default', caption: Enumeration.human_attribute_name(:is_default)],
-        ['is_default', caption: Enumeration.human_attribute_name(:active)],
-        ['sort', caption: I18n.t(:label_sort)]
+        ['name', { caption: Enumeration.human_attribute_name(:name) }],
+        ['is_default', { caption: Enumeration.human_attribute_name(:is_default) }],
+        ['is_default', { caption: Enumeration.human_attribute_name(:active) }],
+        ['sort', { caption: I18n.t(:label_sort) }]
       ].tap do |default|
         if with_colors
-          default.insert 3, ['color', caption: Enumeration.human_attribute_name(:color)]
+          default.insert 3, ['color', { caption: Enumeration.human_attribute_name(:color) }]
         end
       end
     end

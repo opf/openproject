@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -290,7 +291,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
   end
 
   describe '#post' do
-    let(:permissions) { [:add_work_packages, :view_project] }
+    let(:permissions) { %i[add_work_packages view_project] }
     let(:status) { FactoryBot.build(:status, is_default: true) }
     let(:priority) { FactoryBot.build(:priority, is_default: true) }
     let(:parameters) do
@@ -314,7 +315,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
     end
 
     context 'notifications' do
-      let(:permissions) { [:add_work_packages, :view_project, :view_work_packages] }
+      let(:permissions) { %i[add_work_packages view_project view_work_packages] }
 
       it 'sends a mail by default' do
         expect(DeliverWorkPackageNotificationJob).to have_been_enqueued
