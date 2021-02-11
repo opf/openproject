@@ -33,9 +33,10 @@ require 'contracts/shared/model_contract_shared_context'
 describe PlaceholderUsers::CreateContract do
   include_context 'ModelContract shared context'
 
-  let(:placeholder_user) { PlaceholderUser.new }
+  let(:placeholder_user) { PlaceholderUser.new(name: 'UX Developer') }
   let(:contract) { described_class.new(placeholder_user, current_user) }
 
   it_behaves_like 'contract is valid for active admin users only'
+
 end
 
