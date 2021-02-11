@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::PlaceholderUser::DeleteService, type: :model do
+describe ::PlaceholderUsers::DeleteService, type: :model do
   let(:input_user) { FactoryBot.build_stubbed(:user) }
   let(:project) { FactoryBot.build_stubbed(:project) }
 
