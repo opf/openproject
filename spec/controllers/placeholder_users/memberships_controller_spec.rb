@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'work_package'
 
 describe PlaceholderUsers::MembershipsController, type: :controller do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
 
   let(:placeholder_user) { FactoryBot.create(:placeholder_user) }
   let(:anonymous) { FactoryBot.create(:anonymous) }

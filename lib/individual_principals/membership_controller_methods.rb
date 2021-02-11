@@ -37,7 +37,10 @@ module IndividualPrincipals
         flash[:error] = result.errors.full_messages.join("\n")
       end
 
-      redirect_to edit_polymorphic_path(@individual_principal, tab: redirected_to_tab(@membership))
+      redirect_to controller: "/#{@individual_principal.class.name.underscore.pluralize}",
+                  action: 'edit',
+                  id: @individual_principal,
+                  tab: redirected_to_tab(@membership)
     end
   end
 end
