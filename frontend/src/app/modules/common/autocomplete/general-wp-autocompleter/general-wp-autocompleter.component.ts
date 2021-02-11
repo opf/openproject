@@ -8,7 +8,6 @@ import {HalResourceSortingService} from 'core-app/modules/hal/services/hal-resou
 import {NgSelectComponent} from '@ng-select/ng-select';
 import {APIV3Service} from 'core-app/modules/apiv3/api-v3.service';
 import { DebouncedRequestSwitchmap, errorNotificationHandler } from 'core-app/helpers/rxjs/debounced-input-switchmap';
-import { ValueOption } from 'core-app/modules/fields/edit/field-types/select-edit-field.component';
 import { Observable } from 'rxjs';
 import { HalResourceNotificationService } from 'core-app/modules/hal/services/hal-resource-notification.service';
 import { CurrentProjectService } from 'core-app/components/projects/current-project.service';
@@ -33,21 +32,39 @@ export interface Conditions {name:string; operator:FilterOperator; values:unknow
 export class GeneralWorkPackageAutocompleterComponent extends UntilDestroyedMixin implements OnInit {
 
   @Input() public conditions?:Conditions[];
-  @Input() public model:any;
   @Input() public resource:'work_packages' | 'users';
+  @Input() public model?:any;
+  @Input() public searchFn?:any;
+
+  @Input() public defaultOpen?:boolean = false;
+  @Input() public addTag?:boolean = false;
+  @Input() public virtualScroll?:boolean = false;
+  @Input() public required?:boolean = false;
+  @Input() public clearable?:boolean = true;
+  @Input() public clearOnBackspace?:boolean = true;
+  @Input() public hideSelected?:boolean = false;
+  @Input() public clearSearchOnAdd?:boolean = true;
+  @Input() public multiple?:boolean = false;
+  @Input() public closeOnSelect?:boolean = false;
+  @Input() public openOnEnter?:boolean = false;
+  @Input() public appendTo?:string;
+  @Input() public disabled?:string;
+  @Input() public id?:string;
+  @Input() public bindLabel?:string;
+  @Input() public name?:string;
+  @Input() public placeholder?:string;
   @Input() public searchKey?:string;
-  @Input() public classes:string = '';
-  @Input() public defaultOpen:boolean = false;
-  @Input() public hideSelected:boolean = false;
-  @Input() public clearOnBackspace:boolean = false;
-  @Input() public clearSearchOnAdd:boolean = false;
-  @Input() public multiple:boolean = false;
-  @Input() public closeOnSelect:boolean = false;
-  @Input() public appendTo:string;
+  @Input() public classes?:string;
+
 
   @Output() public onOpen = new EventEmitter<any>();
   @Output() public onClose = new EventEmitter<any>();
   @Output() public onChange = new EventEmitter<any>();
+  @Output() public onFocus = new EventEmitter<any>();
+  @Output() public onBlur = new EventEmitter<any>();
+  @Output() public onSearch = new EventEmitter<any>();
+  @Output() public onKeydown = new EventEmitter<any>();
+  @Output() public onClear = new EventEmitter<any>();
 
   private _isEmpty:boolean;
   public _availableOptions:HalResource[] = [];
@@ -101,12 +118,12 @@ export class GeneralWorkPackageAutocompleterComponent extends UntilDestroyedMixi
 
   public loadAvailable(matching:string):Observable<HalResource[]> {
     const filters:ApiV3FilterBuilder = this.createFilters(this.conditions ?? [], matching);
-
+    this.isLoading = true;
     const filteredData = (this.apiV3Service[this.resource] as
       APIv3ResourceCollection<UserResource|WorkPackageResource, APIv3UserPaths|APIV3WorkPackagePaths>)
       .filtered(filters).get()
       .pipe(map(collection => collection.elements));
-
+      filteredData.subscribe(() => this.isLoading = false);
     return filteredData;
   }
 
@@ -131,7 +148,7 @@ export class GeneralWorkPackageAutocompleterComponent extends UntilDestroyedMixi
     }
   }
 
-  public opened() {
+  public opened(val:any) {
     if (this.defaultOpen) {
       this.repositionDropdown();
     }
@@ -140,11 +157,28 @@ export class GeneralWorkPackageAutocompleterComponent extends UntilDestroyedMixi
     }
   }
 
-  public closed() {
+  public closed(val:any) {
     this.onClose.emit();
   }
 
   public changed(val:any) {
     this.onChange.emit(val);
   }
+
+  public blured(val:any) {
+    this.onBlur.emit(val);
+  }
+
+  public focused(val:any) {
+    this.onFocus.emit(val);
+  }
+
+  public cleared(val:any) {
+    this.onClear.emit(val);
+  }
+
+  public keydown(val:any) {
+    this.onKeydown.emit(val);
+  }
+
 }

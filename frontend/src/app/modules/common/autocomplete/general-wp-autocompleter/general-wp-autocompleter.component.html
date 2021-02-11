@@ -12,12 +12,25 @@
         [appendTo]="appendTo"
         [multiple]="multiple"
         [loading]="isLoading"
+        [addTag]="addTag"
+        [virtualScroll]="virtualScroll"
+        [required]="required"
+        [clearable]="clearable"
         [closeOnSelect]="closeOnSelect"
+        [openOnEnter]="openOnEnter"
+        [disabled]="disabled"
+        [name]="name"
+        bindLabel="name"
+        [placeholder]="placeholder"
 
         (change)="changed($event)"
-        (open)="opened()"
-        (close)="closed()"
-        bindLabel="name">
+        (open)="opened($event)"
+        (close)="closed($event)"
+        (blur)="blured($event)"
+        (focus)="focused($event)"
+        (clear)="cleared($event)"
+        (keydown)="keydown($event)"
+        >
 
              <ng-content></ng-content>
   </ng-select>
