@@ -32,6 +32,7 @@ import {ConfigurationService} from 'core-app/modules/common/config/configuration
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {
+  ApplicationRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -46,6 +47,7 @@ import {WorkPackageCommentFieldHandler} from "core-components/work-packages/work
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
 
 @Component({
   selector: 'user-activity',
@@ -91,7 +93,8 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
               readonly apiV3Service:APIV3Service,
               readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService,
-              readonly ngZone:NgZone) {
+              readonly ngZone:NgZone,
+              protected appRef:ApplicationRef) {
     super(elementRef, injector);
   }
 
@@ -227,6 +230,11 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   private updateCommentText() {
-    this.postedComment = this.sanitization.bypassSecurityTrustHtml(this.activity.comment.html);
+    this.postedComment = this.activity.comment.html; // this.sanitization.bypassSecurityTrustHtml(this.activity.comment.html);
+
+    // Allow embeddable rendered content
+    // setTimeout(() => {
+    //   DynamicBootstrapper.bootstrapOptionalEmbeddable(this.appRef, this.elementRef.nativeElement);
+    // }, 100);
   }
 }

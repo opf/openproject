@@ -84,6 +84,7 @@ import {TimeEntryWorkPackageAutocompleterComponent} from "core-app/modules/commo
 import {DraggableAutocompleteComponent} from "core-app/modules/common/draggable-autocomplete/draggable-autocomplete.component";
 import {DragulaModule} from "ng2-dragula";
 import {SlideToggleComponent} from "core-app/modules/common/slide-toggle/slide-toggle.component";
+import {DynamicBootstrapModule} from "core-app/modules/common/dynamic-bootstrap/dynamic-bootstrap.module";
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
@@ -133,6 +134,8 @@ export function bootstrapModule(injector:Injector) {
       WorkPackageAutocompleterComponent,
       TimeEntryWorkPackageAutocompleterComponent,
       CreateAutocompleterComponent]),
+
+    DynamicBootstrapModule,
   ],
   exports: [
     // Re-export all commonly used
@@ -145,6 +148,7 @@ export function bootstrapModule(injector:Injector) {
     OpenprojectAccessibilityModule,
     NgSelectModule,
     NgOptionHighlightModule,
+    DynamicBootstrapModule,
 
     OpDatePickerComponent,
     OpDateTimeComponent,
