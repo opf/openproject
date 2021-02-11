@@ -77,7 +77,7 @@ describe 'Authentication Stages', type: :feature do
       end
 
       # this shouldn't influence the specs as it is active
-      OpenProject::Authentication::Stage.register :inactive, '/foo/bar', active: ->() { false }
+      OpenProject::Authentication::Stage.register :inactive, '/foo/bar', active: -> { false }
     end
 
     after do

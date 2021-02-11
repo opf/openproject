@@ -37,17 +37,17 @@ describe Projects::Activity, type: :model do
 
   let(:budget) do
     FactoryBot.create(:budget,
-                       project: project)
+                      project: project)
   end
 
   let(:budget2) do
     FactoryBot.create(:budget,
-                       project: project)
+                      project: project)
   end
 
   let(:work_package) do
     FactoryBot.create(:work_package,
-                       project: project)
+                      project: project)
   end
 
   def latest_activity

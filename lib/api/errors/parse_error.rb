@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -33,7 +34,7 @@ module API
       identifier InvalidRequestBody.identifier
       code 400
 
-      def initialize(message = nil, details: nil)
+      def initialize(_message = nil, details: nil)
         super I18n.t('api_v3.errors.invalid_json')
 
         if details
@@ -44,7 +45,7 @@ module API
       private
 
       def clean_parse_error(message)
-        message.gsub(/\s?\[parse.c\:\d+\]/, '')
+        message.gsub(/\s?\[parse.c:\d+\]/, '')
       end
     end
   end

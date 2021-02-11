@@ -33,15 +33,15 @@ require 'spec_helper'
 describe WorkPackage, 'custom_actions', type: :model do
   let(:work_package) do
     FactoryBot.build_stubbed(:stubbed_work_package,
-                              project: project)
+                             project: project)
   end
   let(:project) { FactoryBot.create(:project) }
   let(:status) { FactoryBot.create(:status) }
   let(:other_status) { FactoryBot.create(:status) }
   let(:user) do
     FactoryBot.create(:user,
-                       member_in_project: work_package.project,
-                       member_through_role: role)
+                      member_in_project: work_package.project,
+                      member_through_role: role)
   end
   let(:role) do
     FactoryBot.create(:role)

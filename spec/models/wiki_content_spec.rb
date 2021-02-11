@@ -66,15 +66,16 @@ describe WikiContent, type: :model do
   describe '#save (create)' do
     let(:content) { FactoryBot.build(:wiki_content, page: page) }
 
-    it 'sends mails to the wiki`s watchers and project all watchers', with_settings: { notified_events: ['wiki_content_added'] } do
+    it 'sends mails to the wiki`s watchers and project all watchers',
+       with_settings: { notified_events: ['wiki_content_added'] } do
       wiki_watcher
       project_watcher
 
-      expect {
+      expect do
         perform_enqueued_jobs do
           content.save!
         end
-      }
+      end
         .to change { ActionMailer::Base.deliveries.size }
         .by(2)
     end
@@ -89,11 +90,11 @@ describe WikiContent, type: :model do
 
       content.text = 'My new content'
 
-      expect {
+      expect do
         perform_enqueued_jobs do
           content.save!
         end
-      }
+      end
         .to change { ActionMailer::Base.deliveries.size }
         .by(3)
     end

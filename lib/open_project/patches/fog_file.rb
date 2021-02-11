@@ -16,4 +16,4 @@ module OpenProject::Patches::CarrierwaveSanitizedFile
   end
 end
 
-CarrierWave::SanitizedFile.send(:include, OpenProject::Patches::CarrierwaveSanitizedFile)
+CarrierWave::SanitizedFile.include OpenProject::Patches::CarrierwaveSanitizedFile

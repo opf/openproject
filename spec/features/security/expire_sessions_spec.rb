@@ -32,7 +32,7 @@ describe 'Expire old user sessions',
          with_config: { session_store: :active_record_store },
          type: :feature do
   shared_let(:admin) { FactoryBot.create :admin }
-  let(:admin_password) { 'adminADMIN!'}
+  let(:admin_password) { 'adminADMIN!' }
 
   before do
     login_with(admin.login, admin_password)

@@ -58,7 +58,7 @@ module WorkPackage::PDFExport::Attachments
 
     # Fit the image roughly in the center of each cell
     pdf.make_cell(image: resized_file_path, fit: [available_width, 125], position: :center)
-  rescue => e
+  rescue StandardError => e
     Rails.logger.error { "Failed to attach work package image to PDF: #{e} #{e.message}" }
     nil
   end

@@ -103,7 +103,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
   end
   let(:existing_work_packages) { [] }
 
-  subject { }
+  subject {}
 
   describe '.for_scheduling' do
     it 'is a AR scope' do

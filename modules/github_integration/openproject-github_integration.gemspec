@@ -1,4 +1,5 @@
 # encoding: UTF-8
+
 Gem::Specification.new do |s|
   s.name        = "openproject-github_integration"
   s.version     = '1.0.0'

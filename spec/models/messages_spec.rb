@@ -102,7 +102,7 @@ describe Message, type: :model do
       let!(:message) { FactoryBot.create :message, forum: forum1 }
 
       it 'should moving message should update counters' do
-        expect {
+        expect do
           forum1.reload
           expect(forum1.topics_count).to eq 1
           expect(forum1.messages_count).to eq 1
@@ -115,7 +115,7 @@ describe Message, type: :model do
           expect(forum2.reload.topics_count).to eq 1
           expect(forum1.messages_count).to eq 0
           expect(forum2.messages_count).to eq 1
-        }.not_to change { Message.count }
+        end.not_to change { Message.count }
       end
     end
 
@@ -133,7 +133,6 @@ describe Message, type: :model do
       message.sticky = '1'
       expect(message.sticky).to eq 1
     end
-
 
     describe 'with reply set' do
       let!(:reply) do

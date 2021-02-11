@@ -186,7 +186,6 @@ describe 'random password generation',
               password_min_length: 4
             },
             js: true do
-
       it 'enforces those rules' do
         # Change to valid password according to spec
         user_page.change_password(old_password, 'password')

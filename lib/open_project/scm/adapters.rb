@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -60,6 +61,7 @@ module OpenProject
 
       class Info
         attr_accessor :root_url, :lastrev
+
         def initialize(attributes = {})
           self.root_url = attributes[:root_url]
           self.lastrev = attributes[:lastrev]
@@ -68,8 +70,9 @@ module OpenProject
 
       class Entry
         attr_accessor :name, :path, :kind, :size, :lastrev
+
         def initialize(attributes = {})
-          [:name, :path, :kind, :size].each do |attr|
+          %i[name path kind size].each do |attr|
             send("#{attr}=", attributes[attr])
           end
 
@@ -88,13 +91,13 @@ module OpenProject
 
       class Revisions < Array
         def latest
-          sort { |x, y|
+          max do |x, y|
             if x.time.nil? or y.time.nil?
               0
             else
               x.time <=> y.time
             end
-          }.last
+          end
         end
       end
 
@@ -103,7 +106,7 @@ module OpenProject
         attr_writer :identifier
 
         def initialize(attributes = {})
-          [:identifier, :scmid, :author, :time, :paths, :revision, :branch].each do |attr|
+          %i[identifier scmid author time paths revision branch].each do |attr|
             send("#{attr}=", attributes[attr])
           end
 

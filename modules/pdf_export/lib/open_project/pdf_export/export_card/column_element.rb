@@ -38,11 +38,11 @@ module OpenProject::PDFExport::ExportCard
 
     def draw
       # Get value from model
-      if @work_package.respond_to?(@property_name)
-        value = extract_property
-      else
-        value = extract_custom_field
-      end
+      value = if @work_package.respond_to?(@property_name)
+                extract_property
+              else
+                extract_custom_field
+              end
 
       draw_value(value)
     end
@@ -65,7 +65,9 @@ module OpenProject::PDFExport::ExportCard
       value = ""
       available_languages.each do |locale|
         I18n.with_locale(locale) do
-          if (customs = @work_package.custom_field_values.select {|cf| cf.custom_field.name == @property_name} and customs.count > 0)
+          if customs = @work_package.custom_field_values.select do |cf|
+               cf.custom_field.name == @property_name
+             end and customs.count > 0
             value = customs.first.value
             @custom_field = customs.first.custom_field
           end
@@ -84,10 +86,10 @@ module OpenProject::PDFExport::ExportCard
       if @has_label
         custom_label = @config['custom_label']
         label_text = if custom_label
-                  "#{custom_label}"
-                else
-                  localised_property_name
-                end
+                       custom_label.to_s
+                     else
+                       localised_property_name
+                     end
         if @config['has_count'] && value.is_a?(Array)
           label_text = "#{label_text} (#{value.count})"
         end
@@ -102,13 +104,13 @@ module OpenProject::PDFExport::ExportCard
     def abbreviated_text(text, options)
       options = options.merge!({ document: @pdf })
       text_box = Prawn::Text::Box.new(text, options)
-      left_over = text_box.render(:dry_run => true)
+      left_over = text_box.render(dry_run: true)
 
       # Be sure to do length arithmetics on chars, not bytes!
       left_over = left_over.mb_chars
       text      = text.to_s.mb_chars
 
-      text = left_over.size > 0 ? text[0 ... -(left_over.size + 5)] + "[...]" : text
+      text = left_over.size > 0 ? text[0...-(left_over.size + 5)] + "[...]" : text
       text.to_s
     rescue Prawn::Errors::CannotFit
       ''
@@ -147,10 +149,9 @@ module OpenProject::PDFExport::ExportCard
       @has_label = @config['has_label']
       indented = @config['indented']
 
-
       # Flatten value to a display string
       display_value = value
-      display_value = display_value.map{|c| c.to_s }.join("\n") if display_value.is_a?(Array)
+      display_value = display_value.map { |c| c.to_s }.join("\n") if display_value.is_a?(Array)
       display_value = display_value.to_s if !display_value.is_a?(String)
 
       if @has_label && indented
@@ -159,57 +160,58 @@ module OpenProject::PDFExport::ExportCard
         # Label Textbox
         offset = [@orientation[:x_offset], @orientation[:height] - (@orientation[:text_padding] / 2)]
         box = @pdf.text_box(label_text(value),
-          {:height => @orientation[:height],
-           :width => @orientation[:width] * width_ratio,
-           :at => offset,
-           :style => :bold,
-           :overflow => overflow,
-           :size => font_size,
-           :min_font_size => min_font_size,
-           :align => :left})
+                            { height: @orientation[:height],
+                              width: @orientation[:width] * width_ratio,
+                              at: offset,
+                              style: :bold,
+                              overflow: overflow,
+                              size: font_size,
+                              min_font_size: min_font_size,
+                              align: :left })
 
         # Get abbraviated text
-        options = {:height => @orientation[:height],
-          :width => @orientation[:width] * (1 - width_ratio),
-          :at => offset,
-          :style => font_style,
-          :overflow => overflow,
-          :size => font_size,
-          :min_font_size => min_font_size,
-          :align => text_align}
+        options = { height: @orientation[:height],
+                    width: @orientation[:width] * (1 - width_ratio),
+                    at: offset,
+                    style: font_style,
+                    overflow: overflow,
+                    size: font_size,
+                    min_font_size: min_font_size,
+                    align: text_align }
         text = abbreviated_text(display_value, options)
-        offset = [@orientation[:x_offset] + (@orientation[:width] * width_ratio), @orientation[:height] - (@orientation[:text_padding] / 2)]
+        offset = [@orientation[:x_offset] + (@orientation[:width] * width_ratio),
+                  @orientation[:height] - (@orientation[:text_padding] / 2)]
 
         # Content Textbox
-        box = @pdf.text_box(text, {:height => @orientation[:height],
-          :width => @orientation[:width] * (1 - width_ratio),
-          :at => offset,
-          :style => font_style,
-          :overflow => overflow,
-          :size => font_size,
-          :min_font_size => min_font_size,
-          :align => text_align})
+        box = @pdf.text_box(text, { height: @orientation[:height],
+                                    width: @orientation[:width] * (1 - width_ratio),
+                                    at: offset,
+                                    style: font_style,
+                                    overflow: overflow,
+                                    size: font_size,
+                                    min_font_size: min_font_size,
+                                    align: text_align })
       else
-        options = {:height => @orientation[:height],
-          :width => @orientation[:width],
-          :at => offset,
-          :style => font_style,
-          :overflow => overflow,
-          :min_font_size => min_font_size,
-          :align => text_align}
+        options = { height: @orientation[:height],
+                    width: @orientation[:width],
+                    at: offset,
+                    style: font_style,
+                    overflow: overflow,
+                    min_font_size: min_font_size,
+                    align: text_align }
 
         text = abbreviated_text(display_value, options)
-        texts = [{ text: label_text(value), styles: [:bold], :size => font_size },  { text: text, :size => font_size }]
+        texts = [{ text: label_text(value), styles: [:bold], size: font_size }, { text: text, size: font_size }]
 
         # Label and Content Textbox
         offset = [@orientation[:x_offset], @orientation[:height] - (@orientation[:text_padding] / 2)]
-        box = @pdf.formatted_text_box(texts, {:height => @orientation[:height],
-          :width => @orientation[:width],
-          :at => offset,
-          :style => font_style,
-          :overflow => overflow,
-          :min_font_size => min_font_size,
-          :align => text_align})
+        box = @pdf.formatted_text_box(texts, { height: @orientation[:height],
+                                               width: @orientation[:width],
+                                               at: offset,
+                                               style: font_style,
+                                               overflow: overflow,
+                                               min_font_size: min_font_size,
+                                               align: text_align })
       end
     end
   end

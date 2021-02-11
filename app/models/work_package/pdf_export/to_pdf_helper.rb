@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,7 +29,7 @@
 #++
 
 module WorkPackage::PDFExport::ToPdfHelper
-  def get_pdf(language)
+  def get_pdf(_language)
     ::WorkPackage::PDFExport::View.new(current_language)
   end
 end

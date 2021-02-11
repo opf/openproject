@@ -44,6 +44,7 @@ class CostQuery::Filter::CostTypeId < Report::Filter::Base
   # Displayability is decided on the instance
   def display?
     return super if @display.nil?
+
     @display
   end
 

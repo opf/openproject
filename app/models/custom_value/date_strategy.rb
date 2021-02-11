@@ -39,7 +39,7 @@ class CustomValue::DateStrategy < CustomValue::FormatStrategy
 
   def formatted_value
     format_date(value.to_date)
-  rescue
+  rescue StandardError
     value.to_s
   end
 
@@ -49,7 +49,7 @@ class CustomValue::DateStrategy < CustomValue::FormatStrategy
     begin
       Date.iso8601(value)
       nil
-    rescue
+    rescue StandardError
       :not_a_date
     end
   end

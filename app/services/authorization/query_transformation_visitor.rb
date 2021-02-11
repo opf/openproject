@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# rubocop:disable MethodName
+# rubocop:disable Naming/MethodName
 
 class Authorization::QueryTransformationVisitor < Arel::Visitors::Visitor
   attr_accessor :transformations,

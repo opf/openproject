@@ -19,7 +19,6 @@ describe "multi select custom values", js: true do
     )
   end
 
-
   let(:wp_page) { Pages::FullWorkPackage.new work_package }
 
   let(:cf_edit_field) do
@@ -128,7 +127,6 @@ describe "multi select custom values", js: true do
                         member_through_role: role
     end
 
-
     context "with existing custom values" do
       let(:work_package) do
         wp = FactoryBot.build :work_package, project: project, type: type
@@ -140,7 +138,6 @@ describe "multi select custom values", js: true do
         wp.save
         wp
       end
-
 
       it "should be shown and allowed to be updated" do
         expect(page).to have_text custom_field.name

@@ -32,7 +32,7 @@ describe CopyProjectJob, type: :model do
   let(:project) { FactoryBot.create(:project, public: false) }
   let(:user) { FactoryBot.create(:user) }
   let(:role) { FactoryBot.create(:role, permissions: [:copy_projects]) }
-  let(:params) { {name: 'Copy', identifier: 'copy'} }
+  let(:params) { { name: 'Copy', identifier: 'copy' } }
   let(:maildouble) { double('Mail::Message', deliver: true) }
 
   before do
@@ -57,10 +57,9 @@ describe CopyProjectJob, type: :model do
       end
 
       copy_job.perform user_id: user_de.id,
-                  source_project_id: source_project.id,
-                  target_project_params: {},
-                  associations_to_copy: []
-
+                       source_project_id: source_project.id,
+                       target_project_params: {},
+                       associations_to_copy: []
     end
   end
 
@@ -88,8 +87,10 @@ describe CopyProjectJob, type: :model do
       CopyProjectJob.new(job_args).tap(&:perform_now)
     end
 
-    let(:params) { {name: 'Copy', identifier: 'copy', type_ids: [type.id], work_package_custom_field_ids: [custom_field.id]} }
-    let(:expected_error_message) { "#{WorkPackage.model_name.human} '#{work_package.type.name} ##{work_package.id}: #{work_package.subject}': #{custom_field.name} #{I18n.t('errors.messages.blank')}." }
+    let(:params) { { name: 'Copy', identifier: 'copy', type_ids: [type.id], work_package_custom_field_ids: [custom_field.id] } }
+    let(:expected_error_message) do
+      "#{WorkPackage.model_name.human} '#{work_package.type.name} ##{work_package.id}: #{work_package.subject}': #{custom_field.name} #{I18n.t('errors.messages.blank')}."
+    end
 
     before do
       source_project.work_package_custom_fields << custom_field
@@ -162,7 +163,7 @@ describe CopyProjectJob, type: :model do
       end
     end
 
-    let(:params) { {name: 'Copy', identifier: 'copy'} }
+    let(:params) { { name: 'Copy', identifier: 'copy' } }
 
     before do
       allow(User).to receive(:current).and_return(admin)

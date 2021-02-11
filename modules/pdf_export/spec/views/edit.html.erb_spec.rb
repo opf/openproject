@@ -26,10 +26,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-
 require 'spec_helper'
 
-describe 'export_card_configurations/edit', :type => :view do
+describe 'export_card_configurations/edit', type: :view do
   let(:config) { FactoryBot.build(:export_card_configuration) }
 
   before do

@@ -31,7 +31,7 @@ class MembersAllowNullOnProject < ActiveRecord::Migration[6.0]
     execute <<~SQL
       UPDATE
         members
-      SET 
+      SET#{' '}
         updated_at = created_on
     SQL
   end
@@ -66,7 +66,7 @@ class MembersAllowNullOnProject < ActiveRecord::Migration[6.0]
     execute <<~SQL
       INSERT INTO
         member_roles(member_id, role_id)
-      VALUES #{values.join(', ') }
+      VALUES #{values.join(', ')}
     SQL
   end
 

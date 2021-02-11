@@ -67,10 +67,7 @@ module API
           end
         end
 
-        attr_reader :form_url
-        attr_reader :form_fields
-
-        attr_reader :attachment
+        attr_reader :form_url, :form_fields, :attachment
 
         def initialize(attachment, current_user:)
           super

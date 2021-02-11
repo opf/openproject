@@ -46,7 +46,7 @@ class Widget::Filters::Date < Widget::Filters::Base
                                size: 10,
                                class: 'advanced-filters--text-field -augmented-datepicker',
                                id: "#{id_prefix}arg_1_val",
-                               :'data-type' => 'date'
+                               'data-type': 'date'
         label1 + text1
       end
 
@@ -55,11 +55,11 @@ class Widget::Filters::Date < Widget::Filters::Base
                          class: 'hidden-for-sighted'
 
       arg2 = content_tag :span, id: "#{id_prefix}arg_2", class: 'advanced-filters--filter-value2' do
-        text2 = text_field_tag "#{name}", @filter.values.second.to_s,
+        text2 = text_field_tag name.to_s, @filter.values.second.to_s,
                                size: 10,
                                class: 'advanced-filters--text-field -augmented-datepicker',
                                id: "#{id_prefix}arg_2_val",
-                               :'data-type' => 'date'
+                               'data-type': 'date'
         label2 + text2
       end
 

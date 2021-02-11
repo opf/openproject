@@ -97,7 +97,6 @@ describe 'form query configuration', type: :feature, js: true do
       form.save_changes
       expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
 
-
       # Visit wp_table
       wp_table.visit!
       wp_table.expect_work_package_listed work_package, related_task, related_bug

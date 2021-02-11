@@ -36,14 +36,11 @@ module API
 
         def initialize(models,
                        self_link:,
-                       query: {},
+                       groups:, total_sums:, current_user:, query: {},
                        project: nil,
-                       groups:,
-                       total_sums:,
                        page: nil,
                        per_page: nil,
-                       embed_schemas: false,
-                       current_user:)
+                       embed_schemas: false)
           @project = project
           @groups = groups
           @total_sums = total_sums

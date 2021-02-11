@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -45,9 +46,9 @@ class Authorization::QueryTransformationsOrder
   attr_accessor :array
 
   def transformation_partial_orders
-    map { |transformation|
+    map do |transformation|
       transformation.after + [transformation.name] + transformation.before
-    }
+    end
   end
 
   def merge_transformation_partial_orders(partial_orders)

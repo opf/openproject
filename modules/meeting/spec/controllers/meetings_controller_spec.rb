@@ -47,7 +47,7 @@ describe MeetingsController, type: :controller do
         allow(@ms).to receive(:from_tomorrow).and_return(@ms)
 
         allow(project).to receive(:meetings).and_return(@ms)
-        [:with_users_by_date, :page, :per_page].each do |meth|
+        %i[with_users_by_date page per_page].each do |meth|
           expect(@ms).to receive(meth).and_return(@ms)
         end
         @grouped = double('grouped')
@@ -55,7 +55,7 @@ describe MeetingsController, type: :controller do
       end
       describe 'html' do
         before(:each) do
-          get 'index',  params: { project_id: project.id }
+          get 'index', params: { project_id: project.id }
         end
         it { expect(response).to be_successful }
         it { expect(assigns(:meetings_by_start_year_month_date)).to eql @grouped }
@@ -97,7 +97,7 @@ describe MeetingsController, type: :controller do
       end
       describe 'html' do
         before(:each) do
-          get 'edit',  params: { id: @m.id }
+          get 'edit', params: { id: @m.id }
         end
         it { expect(response).to be_successful }
         it { expect(assigns(:meeting)).to eql @m }

@@ -141,9 +141,9 @@ describe WorkPackages::CopyService, 'integration', type: :model do
         let(:custom_field) do
           FactoryBot.create(
             :work_package_custom_field,
-            field_format:    'text',
-            is_required:     true,
-            is_for_all:      false
+            field_format: 'text',
+            is_required: true,
+            is_for_all: false
           )
         end
         let(:target_custom_fields) { [custom_field] }

@@ -67,16 +67,15 @@ feature 'invite user via email', type: :feature, js: true do
       # Should show the invited user on the default filter as well
       members_page.visit!
       expect(members_page).to have_user 'finkelstein @openproject.com'
-
     end
   end
 
   context 'with a registered user' do
     let!(:user) do
       FactoryBot.create :user, mail: 'hugo@openproject.com',
-                         login: 'hugo@openproject.com',
-                         firstname: 'Hugo',
-                         lastname: 'Hurried'
+                               login: 'hugo@openproject.com',
+                               firstname: 'Hugo',
+                               lastname: 'Hurried'
     end
 
     scenario 'user lookup by email' do

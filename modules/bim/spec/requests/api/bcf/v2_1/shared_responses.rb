@@ -57,7 +57,6 @@ shared_examples_for 'bcf api successful response' do
       expect_identical_without_time(subject, expected_body)
     end
 
-
     expect(subject.headers['Content-Type']).to eql 'application/json; charset=utf-8' unless defined?(no_content)
   end
 end

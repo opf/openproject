@@ -60,7 +60,7 @@ module Pages::Messages
       Message.last
     end
 
-    def quote(quoted_message: nil, subject: nil, content:)
+    def quote(content:, quoted_message: nil, subject: nil)
       if quoted_message
         within "#message-#{quoted_message.id} .contextual" do
           click_on 'Quote'

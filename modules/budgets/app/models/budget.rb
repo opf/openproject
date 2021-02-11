@@ -162,30 +162,30 @@ class Budget < ApplicationRecord
 
   def spent_material
     @spent_material ||= begin
-                          if cost_entries.blank?
-                            BigDecimal('0.0000')
-                          else
-                            cost_entries.visible_costs(User.current, project).sum("CASE
+      if cost_entries.blank?
+        BigDecimal('0.0000')
+      else
+        cost_entries.visible_costs(User.current, project).sum("CASE
           WHEN #{CostEntry.table_name}.overridden_costs IS NULL THEN
             #{CostEntry.table_name}.costs
           ELSE
             #{CostEntry.table_name}.overridden_costs END").to_d
-                          end
-                        end
+      end
+    end
   end
 
   def spent_labor
     @spent_labor ||= begin
-                       if time_entries.blank?
-                         BigDecimal('0.0000')
-                       else
-                         time_entries.visible_costs(User.current, project).sum("CASE
+      if time_entries.blank?
+        BigDecimal('0.0000')
+      else
+        time_entries.visible_costs(User.current, project).sum("CASE
           WHEN #{TimeEntry.table_name}.overridden_costs IS NULL THEN
             #{TimeEntry.table_name}.costs
           ELSE
             #{TimeEntry.table_name}.overridden_costs END").to_d
-                       end
-                     end
+      end
+    end
   end
 
   def new_material_budget_item_attributes=(material_budget_item_attributes)

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -35,7 +36,6 @@
 # creation and deletion of repositories BOTH on the database and filesystem.
 # Until then, a synchronous process is more failsafe.
 class SCM::DeleteRemoteRepositoryJob < SCM::RemoteRepositoryJob
-
   def perform(repository)
     super
     send_request(repository_request.merge(action: :delete))

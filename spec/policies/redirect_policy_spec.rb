@@ -34,14 +34,14 @@ describe RedirectPolicy, type: :controller do
   let(:return_escaped) { true }
   let(:default) { 'http://test.foo/default' }
 
-  let(:policy) {
+  let(:policy) do
     described_class.new(
       back_url,
       default: default,
       hostname: host,
       return_escaped: return_escaped
     )
-  }
+  end
   let(:subject) { policy.redirect_url }
 
   shared_examples 'redirects to default' do |url|

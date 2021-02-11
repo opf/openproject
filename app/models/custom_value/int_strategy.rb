@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -40,7 +41,7 @@ class CustomValue::IntStrategy < CustomValue::FormatStrategy
     begin
       Kernel.Integer(value)
       nil
-    rescue
+    rescue StandardError
       :not_an_integer
     end
   end

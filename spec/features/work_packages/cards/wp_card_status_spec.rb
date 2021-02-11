@@ -44,13 +44,13 @@ describe 'Update status from WP card', type: :feature, js: true do
 
   let(:type) { FactoryBot.create :type }
   let!(:project) { FactoryBot.create(:project, types: [type]) }
-  let!(:work_package) {
+  let!(:work_package) do
     FactoryBot.create(:work_package,
                       project: project,
                       type: type,
                       status: status1,
                       subject: 'Foobar')
-  }
+  end
 
   let!(:workflow) do
     FactoryBot.create :workflow,

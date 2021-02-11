@@ -98,7 +98,6 @@ describe 'Loggin (with brute force protection)', type: :feature do
 
   it 'does not block if brute force is disabled',
      with_settings: { brute_force_block_minutes: 5, brute_force_block_after_failed_logins: 0 } do
-
     login_with login, invalid_password
 
     expect(page)

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -154,8 +155,6 @@ module CustomField::OrderStatements
      LIMIT 1)
     SQL
   end
-
-  private
 
   def cv_sort_only_custom_field_condition_sql
     <<-SQL

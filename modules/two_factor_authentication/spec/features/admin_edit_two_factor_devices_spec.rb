@@ -1,18 +1,16 @@
 require_relative '../spec_helper'
 
 describe 'Admin 2FA management', with_2fa_ee: true, type: :feature,
-         with_config: {:'2fa' => {active_strategies: [:developer, :totp]}},
-         js: true do
+                                 with_config: { '2fa': { active_strategies: %i[developer totp] } },
+                                 js: true do
   let(:dialog) { ::Components::PasswordConfirmationDialog.new }
-  let(:user_password) {'admin!' * 4}
+  let(:user_password) { 'admin!' * 4 }
   let(:other_user) { FactoryBot.create :user, login: 'bob' }
   let(:admin) do
     FactoryBot.create(:admin,
-                       password: user_password,
-                       password_confirmation: user_password,
-    )
+                      password: user_password,
+                      password_confirmation: user_password)
   end
-
 
   before do
     login_as admin
@@ -33,7 +31,8 @@ describe 'Admin 2FA management', with_2fa_ee: true, type: :feature,
     visit edit_user_path(other_user, tab: :two_factor_authentication)
 
     # Visit empty index
-    expect(page).to have_selector('.generic-table--empty-row', text: I18n.t('two_factor_authentication.admin.no_devices_for_user'))
+    expect(page).to have_selector('.generic-table--empty-row',
+                                  text: I18n.t('two_factor_authentication.admin.no_devices_for_user'))
     expect(page).to have_selector('.on-off-status.-disabled')
 
     # Visit inline create
@@ -83,4 +82,3 @@ describe 'Admin 2FA management', with_2fa_ee: true, type: :feature,
     end
   end
 end
-

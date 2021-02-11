@@ -35,12 +35,12 @@ describe 'API v3 Work package resource' do
 
   let(:current_user) { FactoryBot.create(:admin) }
   let(:project) { FactoryBot.create(:project) }
-  let(:work_package) {
+  let(:work_package) do
     FactoryBot.create(:work_package,
-                       project: project,
-                       story_points: 8,
-                       remaining_hours: 5)
-  }
+                      project: project,
+                      story_points: 8,
+                      remaining_hours: 5)
+  end
   let(:wp_path) { "/api/v3/work_packages/#{work_package.id}" }
 
   before do
@@ -66,9 +66,9 @@ describe 'API v3 Work package resource' do
     end
 
     context 'backlogs deactivated' do
-      let(:project) {
+      let(:project) do
         FactoryBot.create(:project, disable_modules: 'backlogs')
-      }
+      end
 
       include_context 'query work package'
 

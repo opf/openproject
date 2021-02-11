@@ -107,7 +107,6 @@ describe 'create users', type: :feature, selenium: true do
                              login: 'bob',
                              auth_source: auth_source.name
 
-
       perform_enqueued_jobs do
         new_user_page.submit!
       end

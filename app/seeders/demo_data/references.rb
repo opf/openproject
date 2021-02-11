@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -41,9 +42,7 @@ module DemoData
     def with_references(str, project)
       res = link_work_packages str, project
       res = link_queries res, project
-      res = link_sprints res, project
-
-      res
+      link_sprints res, project
     end
 
     ##

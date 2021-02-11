@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -42,17 +43,18 @@ describe OpenProject::TextFormatting do
   end
 
   it 'should link urls and email addresses' do
-    raw = <<-DIFF
-This is a sample *text* with a link: http://www.redmine.org
-and an email address foo@example.net
-DIFF
+    raw = <<~DIFF
+      This is a sample *text* with a link: http://www.redmine.org
+      and an email address foo@example.net
+    DIFF
 
-    expected = <<-EXPECTED
-<p>This is a sample *text* with a link: <a href="http://www.redmine.org">http://www.redmine.org</a><br>
-and an email address <a href="mailto:foo@example.net">foo@example.net</a></p>
-EXPECTED
+    expected = <<~EXPECTED
+      <p>This is a sample *text* with a link: <a href="http://www.redmine.org">http://www.redmine.org</a><br>
+      and an email address <a href="mailto:foo@example.net">foo@example.net</a></p>
+    EXPECTED
 
-    assert_equal expected.gsub(%r{[\r\n\t]}, ''), OpenProject::TextFormatting::Formats::Plain::Formatter.new({}).to_html(raw).gsub(%r{[\r\n\t]}, '')
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''),
+                 OpenProject::TextFormatting::Formats::Plain::Formatter.new({}).to_html(raw).gsub(%r{[\r\n\t]}, '')
   end
 
   describe 'options' do

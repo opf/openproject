@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -40,12 +41,12 @@ describe OpenProject::TextFormatting::Formats::Markdown::PandocWrapper do
     context 'when wrap=preserve exists' do
       let(:usage_string) do
         <<~EOS
-                        --list-output-formats                           
-                        --list-highlight-languages                      
-                        --list-highlight-styles                         
-                        --wrap=auto|none|preserve
-  -v                    --version                                       
-  -h                    --help
+                                --list-output-formats#{'                           '}
+                                --list-highlight-languages#{'                      '}
+                                --list-highlight-styles#{'                         '}
+                                --wrap=auto|none|preserve
+          -v                    --version#{'                                       '}
+          -h                    --help
         EOS
       end
 
@@ -57,12 +58,12 @@ describe OpenProject::TextFormatting::Formats::Markdown::PandocWrapper do
     context 'when only no-wrap exists' do
       let(:usage_string) do
         <<~EOS
-                        --list-output-formats                           
-                        --list-highlight-languages                      
-                        --list-highlight-styles                         
-                        --no-wrap
-  -v                    --version                                       
-  -h                    --help
+                                --list-output-formats#{'                           '}
+                                --list-highlight-languages#{'                      '}
+                                --list-highlight-styles#{'                         '}
+                                --no-wrap
+          -v                    --version#{'                                       '}
+          -h                    --help
         EOS
       end
       it do
@@ -73,7 +74,9 @@ describe OpenProject::TextFormatting::Formats::Markdown::PandocWrapper do
     context 'when neither exists' do
       let(:usage_string) { 'wat?' }
       it do
-        expect { subject.wrap_mode }.to raise_error 'Your pandoc version has neither --no-wrap nor --wrap=preserve. Please install a recent version of pandoc.'
+        expect do
+          subject.wrap_mode
+        end.to raise_error 'Your pandoc version has neither --no-wrap nor --wrap=preserve. Please install a recent version of pandoc.'
       end
     end
   end

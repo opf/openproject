@@ -41,7 +41,7 @@ describe 'users/edit', type: :view do
   context 'authentication provider' do
     let(:user) do
       FactoryBot.build :user, id: 1, # id is required to create route to edit
-                               identity_url: 'test_provider:veryuniqueid'
+                              identity_url: 'test_provider:veryuniqueid'
     end
 
     before do

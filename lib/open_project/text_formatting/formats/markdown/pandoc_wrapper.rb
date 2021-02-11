@@ -108,12 +108,12 @@ module OpenProject::TextFormatting::Formats
 
           out = (child.out || '').force_encoding('UTF-8').truncate(100)
           err = (child.err || '').force_encoding('UTF-8')
-          raise <<-ERRORSTR
-            Pandoc failed  with code [#{code}] [Stopped=#{status.stopped?}]
-            #{signal_msg}
-    
-            #{out}
-            #{err}
+          raise <<~ERRORSTR
+                        Pandoc failed  with code [#{code}] [Stopped=#{status.stopped?}]
+                        #{signal_msg}
+            #{'    '}
+                        #{out}
+                        #{err}
           ERRORSTR
         end
 

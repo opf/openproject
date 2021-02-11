@@ -60,8 +60,8 @@ describe Projects::Scopes::ActivatedTimeActivity, type: :model do
 
     context 'with project specific overrides' do
       before do
-        TimeEntryActivitiesProject.insert( { activity_id: activity.id, project_id: project.id, active: true } )
-        TimeEntryActivitiesProject.insert( { activity_id: activity.id, project_id: other_project.id, active: false } )
+        TimeEntryActivitiesProject.insert({ activity_id: activity.id, project_id: project.id, active: true })
+        TimeEntryActivitiesProject.insert({ activity_id: activity.id, project_id: other_project.id, active: false })
       end
 
       context 'and being active' do

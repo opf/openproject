@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -41,8 +42,7 @@ module API
         super(WorkPackage.new)
       end
 
-      def subproject_id
-      end
+      def subproject_id; end
     end
   end
 end

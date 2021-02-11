@@ -41,7 +41,7 @@ describe ApplicationJob do
 
   describe 'resets request store' do
     it 'resets request store on each perform' do
-      job = JobMock.new(->() do
+      job = JobMock.new(-> do
         expect(RequestStore[:test_value]).to be_nil
         RequestStore[:test_value] = 42
       end)

@@ -118,7 +118,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     end
 
     it "does w (this week)" do
-      #somehow this test doesn't work on sundays
+      # somehow this test doesn't work on sundays
       n = query('projects', 'created_at', 'w').size
       day_in_this_week = Time.now.at_beginning_of_week + 1.day
       FactoryBot.create(:project, created_at: day_in_this_week)
@@ -184,7 +184,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       expect(query('projects', 'created_at', '<t-', 1).size).to eq(n + 1)
     end
 
-    #Our own operators
+    # Our own operators
     it "does =_child_projects" do
       expect(query('projects', 'id', '=_child_projects', project1.id).size).to eq(1)
       p_c1 = create_project parent: project1
@@ -240,7 +240,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
     # y/n seem are for filtering overridden costs
     it "does y" do
-      expect(query_on_entries('overridden_costs', 'y').size).to eq(Entry.all.select { |e| e.overridden_costs != nil }.count)
+      expect(query_on_entries('overridden_costs', 'y').size).to eq(Entry.all.select { |e| !e.overridden_costs.nil? }.count)
     end
 
     it "does n" do
@@ -248,7 +248,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     end
 
     it "does =d" do
-      #assuming that there aren't more than one project created at the same time
+      # assuming that there aren't more than one project created at the same time
       expect(query('projects', 'created_at', '=d', Project.order(Arel.sql('id ASC')).first.created_at).size).to eq(1)
     end
 
@@ -261,13 +261,13 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     end
 
     it "does >d" do
-      #assuming that all projects were created in the past
+      # assuming that all projects were created in the past
       expect(query('projects', 'created_at', '>d', Time.now).size).to eq(0)
     end
 
     describe 'arity' do
-      arities = {'t' => 0, 'w' => 0, '<>d' => 2, '>d' => 1}
-      arities.each do |o,a|
+      arities = { 't' => 0, 'w' => 0, '<>d' => 2, '>d' => 1 }
+      arities.each do |o, a|
         it("#{o} should take #{a} values") { expect(o.to_operator.arity).to eq(a) }
       end
     end

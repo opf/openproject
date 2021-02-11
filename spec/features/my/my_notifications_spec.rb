@@ -34,8 +34,8 @@ describe 'My notifications spec', type: :feature, js: true do
 
   let(:user) do
     FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_through_role: role)
+                      member_in_project: project,
+                      member_through_role: role)
   end
 
   before do
@@ -61,7 +61,6 @@ describe 'My notifications spec', type: :feature, js: true do
     user.reload
     expect(user.mail_notification).to eq(User::USER_MAIL_OPTION_SELECTED.first)
     expect(user.notified_projects_ids).to eq [project.id]
-
 
     select 'No events', from: 'Send email notifications'
     click_on 'Save'

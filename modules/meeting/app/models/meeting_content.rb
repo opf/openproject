@@ -50,7 +50,7 @@ class MeetingContent < ApplicationRecord
   )
 
   acts_as_journalized
-  acts_as_event type: Proc.new { |o| "#{o.class.to_s.underscore.dasherize}" },
+  acts_as_event type: Proc.new { |o| o.class.to_s.underscore.dasherize.to_s },
                 title: Proc.new { |o| "#{o.class.model_name.human}: #{o.meeting.title}" },
                 url: Proc.new { |o| { controller: '/meetings', action: 'show', id: o.meeting } }
 

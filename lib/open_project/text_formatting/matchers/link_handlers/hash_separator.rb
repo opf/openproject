@@ -31,7 +31,6 @@
 module OpenProject::TextFormatting::Matchers
   module LinkHandlers
     class HashSeparator < Base
-
       def self.allowed_prefixes
         %w(version message project user group document meeting)
       end

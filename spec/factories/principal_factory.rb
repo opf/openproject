@@ -47,7 +47,10 @@ FactoryBot.define do
       (projects = evaluator.member_in_projects || [])
       projects << evaluator.member_in_project if evaluator.member_in_project
       if !projects.empty?
-        role = evaluator.member_through_role || FactoryBot.build(:role, permissions: evaluator.member_with_permissions || [:view_work_packages, :edit_work_packages])
+        role = evaluator.member_through_role || FactoryBot.build(:role,
+                                                                 permissions: evaluator.member_with_permissions || %i[
+                                                                   view_work_packages edit_work_packages
+                                                                 ])
         projects.each do |project|
           project.add_member! principal, role if project
         end

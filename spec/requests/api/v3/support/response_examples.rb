@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 shared_examples_for 'error response' do |code, id, provided_message = nil|
-  let(:expected_message) {
+  let(:expected_message) do
     provided_message || message
-  }
+  end
 
   it 'has the expected status code' do
     expect(last_response.status).to eq(code)
@@ -52,7 +52,7 @@ shared_examples_for 'error response' do |code, id, provided_message = nil|
       it { expect(subject['message']).to include(expected_message) }
 
       it 'includes punctuation' do
-        expect(subject['message']).to match(/(\.|\?|\!)\z/)
+        expect(subject['message']).to match(/(\.|\?|!)\z/)
       end
     end
   end
@@ -210,8 +210,10 @@ shared_examples_for 'multiple errors of the same type with messages' do
   end
 
   before do
-    raise "Need to have 'message' defined to state\
-           which message is expected".squish unless defined?(message)
+    unless defined?(message)
+      raise "Need to have 'message' defined to state\
+             which message is expected".squish
+    end
   end
 
   it { expect(actual_messages).to match_array(Array(message)) }

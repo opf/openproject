@@ -32,7 +32,6 @@
 # Implements the deletion of a user.
 module Users
   class DeleteService < ::BaseServices::Delete
-
     ##
     # Deletes the given user if allowed.
     #

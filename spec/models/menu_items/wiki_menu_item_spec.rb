@@ -54,8 +54,8 @@ describe MenuItems::WikiMenuItem, type: :model do
     wikipage = FactoryBot.create(:wiki_page, title: 'Oldtitle')
 
     menu_item_1 = FactoryBot.create(:wiki_menu_item, navigatable_id: wikipage.wiki.id,
-                                                      title:    'Item 1',
-                                                      name:   wikipage.slug)
+                                                     title: 'Item 1',
+                                                     name: wikipage.slug)
 
     wikipage.title = 'Newtitle'
     wikipage.save!
@@ -68,7 +68,8 @@ describe MenuItems::WikiMenuItem, type: :model do
     wikipage = FactoryBot.create(:wiki_page, title: 'Parent Page')
 
     parent = FactoryBot.create(
-      :wiki_menu_item, navigatable_id: wikipage.wiki.id, title: 'Item 1', name: wikipage.slug)
+      :wiki_menu_item, navigatable_id: wikipage.wiki.id, title: 'Item 1', name: wikipage.slug
+    )
     child_1 = parent.children.create name: "child-1", title: "Child 1"
 
     child_2 = parent.children.build name: "child-1", title: "Child 2"
@@ -82,13 +83,13 @@ describe MenuItems::WikiMenuItem, type: :model do
       @project.reload
 
       @menu_item_1 = FactoryBot.create(:wiki_menu_item, wiki: @project.wiki,
-                                                         name:    'Item 1',
-                                                         title:   'Item 1')
+                                                        name: 'Item 1',
+                                                        title: 'Item 1')
 
       @menu_item_2 = FactoryBot.create(:wiki_menu_item, wiki: @project.wiki,
-                                                         name:    'Item 2',
-                                                         parent_id:    @menu_item_1.id,
-                                                         title:   'Item 2')
+                                                        name: 'Item 2',
+                                                        parent_id: @menu_item_1.id,
+                                                        title: 'Item 2')
     end
 
     it 'all children when deleting the parent' do

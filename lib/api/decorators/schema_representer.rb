@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -87,10 +88,9 @@ module API
         end
 
         def schema_with_allowed_link(property,
-                                     type: make_type(property),
+                                     href_callback:, type: make_type(property),
                                      name_source: property,
                                      as: camelize(property),
-                                     href_callback:,
                                      required: true,
                                      has_default: false,
                                      writable: default_writable_property(property),
@@ -116,14 +116,12 @@ module API
         end
 
         def schema_with_allowed_collection(property,
-                                           type: make_type(property),
+                                           value_representer:, link_factory:, type: make_type(property),
                                            name_source: property,
                                            as: camelize(property),
                                            values_callback: -> do
                                              represented.assignable_values(property, current_user)
                                            end,
-                                           value_representer:,
-                                           link_factory:,
                                            required: true,
                                            has_default: false,
                                            writable: default_writable_property(property),
@@ -243,7 +241,7 @@ module API
       end
 
       def self.representable_definitions
-        representable_config = self.representable_attrs
+        representable_config = representable_attrs
 
         # For reasons beyond me, Representable::Config contains the definitions
         #  * nested in [:definitions] in some envs, e.g. development

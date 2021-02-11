@@ -35,8 +35,8 @@ describe CostQuery, type: :model, reporting_query_helper: true do
   let!(:project) { FactoryBot.create(:project_with_types) }
   let!(:user) { FactoryBot.create(:user, member_in_project: project) }
 
-  def create_work_package_with_entry(entry_type, work_package_params={}, entry_params = {})
-    work_package_params = {project: project}.merge!(work_package_params)
+  def create_work_package_with_entry(entry_type, work_package_params = {}, entry_params = {})
+    work_package_params = { project: project }.merge!(work_package_params)
     work_package = FactoryBot.create(:work_package, work_package_params)
     entry_params = { work_package: work_package,
                      project: work_package_params[:project],
@@ -46,7 +46,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
   end
 
   describe CostQuery::Filter do
-    def create_work_package_with_time_entry(work_package_params={}, entry_params = {})
+    def create_work_package_with_time_entry(work_package_params = {}, entry_params = {})
       create_work_package_with_entry(:time_entry, work_package_params, entry_params)
     end
 
@@ -72,8 +72,8 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       [CostQuery::Filter::ProjectId,        'project',    "project_id",      2],
       [CostQuery::Filter::UserId,           'user',       "user_id",         2],
       [CostQuery::Filter::CostTypeId,       'cost_type',  "cost_type_id",    1],
-      [CostQuery::Filter::WorkPackageId,    'work_package',      "work_package_id", 2],
-      [CostQuery::Filter::ActivityId, 'activity',   "activity_id",     1],
+      [CostQuery::Filter::WorkPackageId,    'work_package', "work_package_id", 2],
+      [CostQuery::Filter::ActivityId, 'activity', "activity_id", 1]
     ].each do |filter, object_name, field, expected_count|
       describe filter do
         let!(:non_matching_entry) { FactoryBot.create(:cost_entry) }
@@ -101,7 +101,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
                             activity: activity)
         end
 
-        it "should only return entries from the given #{filter.to_s}" do
+        it "should only return entries from the given #{filter}" do
           @query.filter field, value: object.id
           @query.result.each do |result|
             expect(result[field].to_s).to eq(object.id.to_s)
@@ -206,15 +206,15 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       old_user = User.current
       # create non-matching entry
       anonymous = FactoryBot.create(:anonymous)
-      create_work_package_with_time_entry({}, {user: anonymous})
+      create_work_package_with_time_entry({}, { user: anonymous })
       # create matching entry
-      create_work_package_with_time_entry()
+      create_work_package_with_time_entry
       @query.filter :user_id, value: user.id, operator: '='
       expect(@query.result.count).to eq(1)
     end
 
     describe "work_package-based filters" do
-      def create_work_packages_and_time_entries(entry_count, work_package_params={}, entry_params={})
+      def create_work_packages_and_time_entries(entry_count, work_package_params = {}, entry_params = {})
         entry_count.times do
           create_work_package_with_entry(:cost_entry, work_package_params, entry_params)
         end
@@ -222,7 +222,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
       def create_matching_object_with_time_entries(factory, work_package_field, entry_count)
         object = FactoryBot.create(factory)
-        create_work_packages_and_time_entries(entry_count, {work_package_field => object})
+        create_work_packages_and_time_entries(entry_count, { work_package_field => object })
         object
       end
 
@@ -303,7 +303,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
     end
 
-    #filter for specific objects, which can't be null
+    # filter for specific objects, which can't be null
     [
       CostQuery::Filter::UserId,
       CostQuery::Filter::CostTypeId,
@@ -317,7 +317,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
     end
 
-    #filter for specific objects, which might be null
+    # filter for specific objects, which might be null
     [
       CostQuery::Filter::AssignedToId,
       CostQuery::Filter::CategoryId,
@@ -328,7 +328,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
     end
 
-    #filter for specific objects, which can only have the default operator
+    # filter for specific objects, which can only have the default operator
     [
       CostQuery::Filter::WorkPackageId
     ].each do |filter|
@@ -337,7 +337,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
     end
 
-    #filter for time/date
+    # filter for time/date
     [
       CostQuery::Filter::CreatedOn,
       CostQuery::Filter::UpdatedOn,
@@ -380,7 +380,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
       def update_work_package_custom_field(name, options)
         fld = WorkPackageCustomField.find_by(name: name)
-        options.each_pair {|k, v| fld.send(:"#{k}=", v) }
+        options.each_pair { |k, v| fld.send(:"#{k}=", v) }
         fld.save!
         clear_cache
       end
@@ -426,14 +426,14 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
       it "includes custom fields classes in CustomFieldEntries.all" do
         custom_field
-        expect(CostQuery::Filter::CustomFieldEntries.all).
-          to include(filter_class_name_string(custom_field).constantize)
+        expect(CostQuery::Filter::CustomFieldEntries.all)
+          .to include(filter_class_name_string(custom_field).constantize)
       end
 
       it "includes custom fields classes in Filter.all" do
         custom_field
-        expect(CostQuery::Filter.all).
-          to include(filter_class_name_string(custom_field).constantize)
+        expect(CostQuery::Filter.all)
+          .to include(filter_class_name_string(custom_field).constantize)
       end
 
       def create_searchable_fields_and_values

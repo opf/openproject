@@ -33,8 +33,7 @@ module Queries::Filters::Shared
     class Base < Queries::Filters::Base
       include Queries::Filters::Serializable
 
-      attr_reader :custom_field
-      attr_reader :custom_field_context
+      attr_reader :custom_field, :custom_field_context
 
       validate :custom_field_valid
 

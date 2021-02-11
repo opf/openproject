@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -39,7 +40,6 @@ describe SysController, type: :controller do
 
   describe 'when enabled',
            with_settings: { sys_api_enabled?: true } do
-
     it 'should projects with repository enabled' do
       get :projects
       assert_response :success

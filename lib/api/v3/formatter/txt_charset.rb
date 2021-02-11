@@ -40,7 +40,7 @@ module API::V3::Formatter
     # * Encoding.default_external if no charset provided
     def self.encoding(object, env)
       Encoding.find(charset(env))
-    rescue
+    rescue StandardError
       object.encoding
     end
     private_class_method :encoding

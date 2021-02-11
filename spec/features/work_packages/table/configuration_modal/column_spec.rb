@@ -46,7 +46,6 @@ describe 'Work Package table configuration modal columns spec', js: true do
   context 'When seeing the table' do
     it_behaves_like 'add and remove columns'
 
-
     context 'with three columns', driver: :firefox_de do
       let!(:query) do
         query = FactoryBot.build(:query, user: user, project: project)

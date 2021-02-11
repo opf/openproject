@@ -56,7 +56,7 @@ describe 'Wysiwyg linking',
 
       expect(wiki_page.content.text).to eq(
         "[http://example.org/link with spaces](http://example.org/link%20with%20spaces)"
-       )
+      )
 
       expect(page).to have_selector('a[href="http://example.org/link%20with%20spaces"]')
     end

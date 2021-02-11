@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -75,7 +76,7 @@ module OpenProject
         # Create map of asset chunk name to current hash
         manifest = {}
         OpenProject::Assets.current_assets.each do |filename|
-          md = filename.match /\A([^\.]+)\.(\w+)\.(\w+)\z/
+          md = filename.match /\A([^.]+)\.(\w+)\.(\w+)\z/
 
           # Non-hashed asset
           next if md.nil?

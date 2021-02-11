@@ -73,5 +73,5 @@ class Widget::ReportingWidget < ActionView::Base
   end
 end
 
-ActionView::Base.send(:include, Widget::ReportingWidget::RenderWidgetInstanceMethods)
-ActionController::Base.send(:include, Widget::ReportingWidget::RenderWidgetInstanceMethods)
+ActionView::Base.include Widget::ReportingWidget::RenderWidgetInstanceMethods
+ActionController::Base.include Widget::ReportingWidget::RenderWidgetInstanceMethods

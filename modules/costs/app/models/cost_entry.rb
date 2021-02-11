@@ -53,10 +53,8 @@ class CostEntry < ApplicationRecord
   include Entry::SplashedDates
 
   def after_initialize
-    if new_record? && cost_type.nil?
-      if default_cost_type = CostType.default
-        self.cost_type_id = default_cost_type.id
-      end
+    if new_record? && cost_type.nil? && default_cost_type = CostType.default
+      self.cost_type_id = default_cost_type.id
     end
   end
 

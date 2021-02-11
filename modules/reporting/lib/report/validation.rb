@@ -63,6 +63,7 @@ module Report::Validation
   def validate(*values)
     errors.clear
     return true if validations.empty?
+
     validations.all? do |validation|
       values.empty? ? true : send(validation, *values)
     end

@@ -32,29 +32,33 @@ describe 'Work Package cost fields', type: :feature, js: true do
   let(:type_task) { FactoryBot.create(:type_task) }
   let!(:status) { FactoryBot.create(:status, is_default: true) }
   let!(:priority) { FactoryBot.create(:priority, is_default: true) }
-  let!(:project) {
+  let!(:project) do
     FactoryBot.create(:project, types: [type_task])
-  }
-  let(:user) { FactoryBot.create :user,
-                                 member_in_project: project,
-                                 member_through_role: role }
-  let(:role) { FactoryBot.create :role, permissions: [:view_work_packages,
-                                                      :delete_work_packages,
-                                                      :log_costs,
-                                                      :view_cost_rates,
-                                                      :edit_cost_entries,
-                                                      :view_cost_entries] }
-  let!(:cost_type1) {
+  end
+  let(:user) do
+    FactoryBot.create :user,
+                      member_in_project: project,
+                      member_through_role: role
+  end
+  let(:role) do
+    FactoryBot.create :role, permissions: %i[view_work_packages
+                                             delete_work_packages
+                                             log_costs
+                                             view_cost_rates
+                                             edit_cost_entries
+                                             view_cost_entries]
+  end
+  let!(:cost_type1) do
     type = FactoryBot.create :cost_type, name: 'A', unit: 'A single', unit_plural: 'A plural'
     FactoryBot.create :cost_rate, cost_type: type, rate: 1.00
     type
-  }
+  end
 
-  let!(:cost_type2) {
+  let!(:cost_type2) do
     type = FactoryBot.create :cost_type, name: 'B', unit: 'B single', unit_plural: 'B plural'
     FactoryBot.create :cost_rate, cost_type: type, rate: 2.00
     type
-  }
+  end
 
   let!(:work_package) { FactoryBot.create :work_package, project: project, status: status, type: type_task }
   let(:full_view) { ::Pages::FullWorkPackage.new(work_package, project) }

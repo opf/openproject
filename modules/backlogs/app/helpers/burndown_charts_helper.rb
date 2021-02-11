@@ -36,7 +36,7 @@ module BurndownChartsHelper
 
     mvalue = mvalue + 1 if mvalue == 1 || ((max % 25) == 0)
 
-    labels << "[#{(mvalue) * 25}, '<span class=\"axislabel\">#{I18n.t('backlogs.points')}</span>']"
+    labels << "[#{mvalue * 25}, '<span class=\"axislabel\">#{I18n.t('backlogs.points')}</span>']"
 
     result = labels.join(', ')
 
@@ -48,12 +48,12 @@ module BurndownChartsHelper
     # Thus it is enough space between the entries.
     entries_displayed = (burndown.days.length / 14.0).ceil
     result = burndown.days.enum_for(:each_with_index).map do |d, i|
-      if ((i % entries_displayed) == 0)
+      if (i % entries_displayed) == 0
         "[#{i + 1}, '#{escape_javascript(::I18n.t('date.abbr_day_names')[d.wday % 7])} #{d.strftime('%d/%m')}']"
       end
     end.join(',').html_safe +
-      ", [#{burndown.days.length + 1},
-       '<span class=\"axislabel\">#{I18n.t('backlogs.date')}</span>']".html_safe
+             ", [#{burndown.days.length + 1},
+              '<span class=\"axislabel\">#{I18n.t('backlogs.date')}</span>']".html_safe
   end
 
   def dataseries(burndown)

@@ -35,7 +35,9 @@ class WorkPackageBoxesController < WorkPackagesController
     load_journals
     @changesets = @work_package.changesets.visible.all
     @changesets.reverse! if User.current.wants_comments_in_reverse_order?
-    @relations = @work_package.relations.select { |r| r.other_work_package(@work_package) && r.other_work_package(@work_package).visible? }
+    @relations = @work_package.relations.select do |r|
+      r.other_work_package(@work_package) && r.other_work_package(@work_package).visible?
+    end
     @allowed_statuses = WorkPackages::UpdateContract.new(work_package, User.current).assignable_statuses
     @edit_allowed = User.current.allowed_to?(:edit_work_packages, @project)
     @priorities = IssuePriority.all

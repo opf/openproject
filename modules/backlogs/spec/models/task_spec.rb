@@ -32,12 +32,12 @@ describe Task, type: :model do
   let(:task_type) { FactoryBot.create(:type) }
   let(:default_status) { FactoryBot.create(:default_status) }
   let(:project) { FactoryBot.create(:project) }
-  let(:task) {
+  let(:task) do
     FactoryBot.build(:task,
                      project: project,
                      status: default_status,
                      type: task_type)
-  }
+  end
 
   before(:each) do
     allow(Setting)

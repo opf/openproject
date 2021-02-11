@@ -54,7 +54,8 @@ module CostScopes
       .or(
         table[:project_id]
           .in(view_own_allowed.arel)
-          .and(table[:user_id].eq(user.id)))
+          .and(table[:user_id].eq(user.id))
+      )
   end
 
   def with_visible_rates_on(scope, user: User.current)

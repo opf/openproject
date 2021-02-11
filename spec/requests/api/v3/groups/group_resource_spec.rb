@@ -36,16 +36,16 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
   let(:project) { FactoryBot.create(:project) }
   let(:group) do
     FactoryBot.create(:group,
-                       member_in_project: project,
-                       member_through_role: role)
+                      member_in_project: project,
+                      member_through_role: role)
   end
   let(:group_project) { project }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { [:view_members] }
   let(:current_user) do
     FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_through_role: role)
+                      member_in_project: project,
+                      member_through_role: role)
   end
 
   subject(:response) { last_response }

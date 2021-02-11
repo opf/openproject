@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -37,8 +38,7 @@ describe Authentication::OmniauthService do
       info: { name: 'foo',
               email: 'foo@bar.com',
               first_name: 'foo',
-              last_name: 'bar'
-      }
+              last_name: 'bar' }
     )
   end
   let(:controller) { double('Controller', session: session_stub) }
@@ -111,7 +111,6 @@ describe Authentication::OmniauthService do
 
     context 'without remapping allowed',
             with_settings: { oauth_allow_remapping_of_existing_users?: false } do
-
       it 'does not look for the user by login' do
         # Regular find
         expect(User)

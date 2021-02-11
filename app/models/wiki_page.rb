@@ -49,7 +49,7 @@ class WikiPage < ApplicationRecord
 
   acts_as_searchable columns: ["#{WikiPage.table_name}.title", "#{WikiContent.table_name}.text"],
                      include: [{ wiki: :project }, :content],
-                     references: [:wikis, :wiki_contents],
+                     references: %i[wikis wiki_contents],
                      project_key: "#{Wiki.table_name}.project_id"
 
   attr_accessor :redirect_existing_links
@@ -131,14 +131,14 @@ class WikiPage < ApplicationRecord
   def content_for_version(version = nil)
     journal = content.versions.find_by(version: version.to_i) if version
 
-    unless journal.nil? || content.version == journal.version
+    if journal.nil? || content.version == journal.version
+      content
+    else
       content_version = WikiContent.new journal.data.attributes.except('id', 'journal_id')
       content_version.updated_at = journal.created_at
       content_version.journals = content.journals.select { |j| j.version <= version.to_i }
 
       content_version
-    else
-      content
     end
   end
 
@@ -150,7 +150,7 @@ class WikiPage < ApplicationRecord
     content_to = content.versions.find_by(version: version_to)
     content_from = content.versions.find_by(version: version_from)
 
-    (content_to && content_from) ? Wikis::Diff.new(content_to, content_from) : nil
+    content_to && content_from ? Wikis::Diff.new(content_to, content_from) : nil
   end
 
   def annotate(version = nil)
@@ -168,7 +168,11 @@ class WikiPage < ApplicationRecord
       if (time = read_attribute(:updated_at))
         # content updated_at was eager loaded with the page
         unless time.is_a? Time
-          time = Time.zone.parse(time) rescue nil
+          time = begin
+            Time.zone.parse(time)
+          rescue StandardError
+            nil
+          end
         end
         @updated_at = time
       else
@@ -188,7 +192,7 @@ class WikiPage < ApplicationRecord
   end
 
   def parent_title
-    @parent_title || (parent&.title)
+    @parent_title || parent&.title
   end
 
   def parent_title=(t)

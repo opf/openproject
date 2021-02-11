@@ -38,7 +38,7 @@ describe User, 'allowed scope' do
   let(:anonymous_role) { FactoryBot.build(:anonymous_role) }
   let(:member) do
     FactoryBot.build(:member, project: project,
-                               roles: [role])
+                              roles: [role])
   end
 
   let(:action) { :view_work_packages }

@@ -45,12 +45,11 @@ module HourlyRatesHelper
 
     self_and_ancestors.each do |ancestor|
       rate = all_rates[ancestor].select { |rate| rate.valid_from <= at_date }
-                                .sort_by(&:valid_from)
-                                .last
+                                .max_by(&:valid_from)
 
       return rate if rate
     end
 
-    return nil
+    nil
   end
 end

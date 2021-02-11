@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -70,7 +71,7 @@ class UserPassword < ApplicationRecord
 
       active
     end
-  rescue => e
+  rescue StandardError => e
     Rails.logger.error("Unable to re-hash UserPassword for #{user.login}: #{e.message}")
   end
 
@@ -86,6 +87,7 @@ class UserPassword < ApplicationRecord
   def expired?
     days_valid = Setting.password_days_valid.to_i.days
     return false if days_valid == 0
+
     created_at < (Time.now - days_valid)
   end
 
@@ -95,6 +97,7 @@ class UserPassword < ApplicationRecord
   # if it is is set.
   def salt_and_hash_password!
     return if plain_password.nil?
+
     self.hashed_password = derive_password!(plain_password)
   end
 

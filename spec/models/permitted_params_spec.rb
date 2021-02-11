@@ -507,15 +507,15 @@ describe PermittedParams, type: :model do
     subject { PermittedParams.new(params, user).send(attribute, external_authentication, change_password_allowed).to_h }
 
     all_permissions = ['admin',
-                         'login',
-                         'firstname',
-                         'lastname',
-                         'mail',
-                         'mail_notification',
-                         'language',
-                         'custom_fields',
-                         'auth_source_id',
-                         'force_password_change']
+                       'login',
+                       'firstname',
+                       'lastname',
+                       'mail',
+                       'mail_notification',
+                       'language',
+                       'custom_fields',
+                       'auth_source_id',
+                       'force_password_change']
 
     describe :user_create_as_admin do
       let(:attribute) { :user_create_as_admin }

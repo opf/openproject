@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -90,14 +91,14 @@ module PaginationHelper
   # Constructs the 'n items per page' entries
   # determined from available options in the settings.
   def per_page_links(paginator, options)
-    Setting.per_page_options_array.inject('') { |html, n|
+    Setting.per_page_options_array.inject('') do |html, n|
       if n == paginator.per_page
         html + content_tag(:li, n, class: 'pagination--item -current')
       else
         link = link_to_content_update(n, options.merge(page: 1, per_page: n))
         html + content_tag(:li, link.html_safe, class: 'pagination--item')
       end
-    }.html_safe
+    end.html_safe
   end
 
   # Returns page option used for pagination
@@ -130,9 +131,11 @@ module PaginationHelper
 
            end
 
-    page > 0 ?
-      page :
+    if page > 0
+      page
+    else
       1
+    end
   end
 
   # Returns per_page option used for pagination
@@ -146,20 +149,20 @@ module PaginationHelper
   def per_page_param(options = params)
     per_page_candidates = [options[:per_page].to_i, session[:per_page].to_i, options[:limit].to_i]
 
-    unless (union = per_page_candidates & Setting.per_page_options_array).empty?
+    if (union = per_page_candidates & Setting.per_page_options_array).empty?
+      Setting.per_page_options_array.min
+    else
       session[:per_page] = union.first
 
       union.first
-    else
-      Setting.per_page_options_array.sort.first
     end
   end
 
   class LinkRenderer < ::WillPaginate::ActionView::LinkRenderer
     def to_html
-      pagination.inject('') { |html, item|
+      pagination.inject('') do |html, item|
         html + (item.is_a?(Integer) ? page_number(item) : send(item))
-      }.html_safe
+      end.html_safe
     end
 
     protected

@@ -130,6 +130,7 @@ class Widget::Table::ReportTable < Widget::Table
 
   def render_tfoot
     return if walker.headers_empty?
+
     write '<tfoot>'
     walker.reverse_headers do |list, first, first_in_col, last_in_col|
       if first_in_col

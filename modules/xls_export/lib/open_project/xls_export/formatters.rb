@@ -1,7 +1,7 @@
 module OpenProject::XlsExport
   module Formatters
     def self.all
-      self.constants.map do |const|
+      constants.map do |const|
         Kernel.const_get("OpenProject::XlsExport::Formatters::#{const}")
       end.select do |const|
         const.is_a?(Class) && const != DefaultFormatter
@@ -15,7 +15,7 @@ module OpenProject::XlsExport
     ##
     # Returns a Hash mapping columns to formatters to be used.
     def self.for_columns(columns)
-      formatters = self.all
+      formatters = all
       entries = columns.map do |column|
         formatter = formatters.find { |formatter| formatter.apply? column }
         [column, (formatter || DefaultFormatter).new]
@@ -27,7 +27,7 @@ module OpenProject::XlsExport
       ##
       # Takes a QueryColumn and returns true if this formatter should be used to handle it.
       def self.apply?(column)
-        column.xls_formatter == self.key
+        column.xls_formatter == key
       end
 
       def self.key
@@ -49,20 +49,20 @@ module OpenProject::XlsExport
 
       ##
       # Takes a QueryColumn and returns format options for it.
-      def format_options(column)
+      def format_options(_column)
         {}
       end
     end
 
     class TimeFormatter < DefaultFormatter
-      def format_options(column)
-        { :number_format => '0.0 "h"' }
+      def format_options(_column)
+        { number_format: '0.0 "h"' }
       end
     end
 
     class CostFormatter < DefaultFormatter
-      def format_options(column)
-        { :number_format => number_format_string }
+      def format_options(_column)
+        { number_format: number_format_string }
       end
 
       def number_format_string

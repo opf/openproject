@@ -150,7 +150,6 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
         subproject
         project.reload
 
-
         f = Queries::WorkPackages::Filter::SubprojectFilter.create!(context: project)
         f.operator = '='
         f.values = [subproject.id]

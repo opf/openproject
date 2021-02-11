@@ -130,7 +130,7 @@ describe WorkPackage, type: :model do
 
         subject do
           FactoryBot.create(:work_package,
-                             assigned_to: group).assigned_to
+                            assigned_to: group).assigned_to
         end
 
         it { is_expected.to eq(group) }
@@ -142,8 +142,8 @@ describe WorkPackage, type: :model do
     let(:user_2) { FactoryBot.create(:user, member_in_project: project) }
     let(:category) do
       FactoryBot.create(:category,
-                         project: project,
-                         assigned_to: user_2)
+                        project: project,
+                        assigned_to: user_2)
     end
 
     before do

@@ -34,7 +34,6 @@ module API
       module Schemas
         class OnlySubprojectFilterDependencyRepresenter <
           FilterDependencyRepresenter
-
           def json_cache_key
             if filter.project
               super + [filter.project.id]
