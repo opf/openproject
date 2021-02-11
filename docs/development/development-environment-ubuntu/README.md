@@ -135,11 +135,11 @@ git clone https://github.com/nodenv/node-build.git $(nodenv root)/plugins/node-b
 
 You can find the latest LTS version here: https://nodejs.org/en/download/
 
-At the time of writing this is v12.16.1 Install and activate it with:
+At the time of writing this is v14.15.4 Install and activate it with:
 
 ```bash
-nodenv install 12.16.1
-nodenv global 12.16.1
+nodenv install 14.15.4
+nodenv global 14.15.4
 nodenv rehash
 ```
 
@@ -152,13 +152,13 @@ ruby --version
 ruby 2.7.2p137 (2020-10-01 revision 5445e04352) [x86_64-linux]
 
 bundler --version
-Bundler version 2.0.2
+Bundler version 2.1.4
 
 node --version
-v12.6.1
+v14.15.4
 
 npm --version
-6.14.4
+7.5.3
 ```
 
 # Install OpenProject
