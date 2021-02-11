@@ -45,24 +45,24 @@ See docs/COPYRIGHT.rdoc for more details.
   <div class="op-modal--body">
     <ul class="op-export-options">
       <li class="op-export-options--option">
-        <%= link_to url_for(controller: '/activities',
-                            class: 'op-export-options--option-link'
-                            action: 'index',
-                            show_wiki_edits: 1,
-                            apply: true,
-                            key: User.current.rss_key, format: 'atom')
-        do %>
+        <%= link_to url_for(
+                controller: '/activities',
+                action: 'index',
+                show_wiki_edits: 1,
+                apply: true,
+                key: User.current.rss_key,
+                format: 'atom',
+              ), class: 'op-export-options--option-link' do %>
             <%= op_icon('icon-big icon-export-atom') %>
             <span class="op-export-options--option-label"><%= t('export.format.atom') %></span>
         <% end %>
       </li>
       <li class="op-export-options--option">
         <%= link_to url_for(
-          class: 'op-export-options--option-link',
           version: @content.version,
           id: @page,
           format: 'markdown',
-        ) do %>
+        ), class: 'op-export-options--option-link' do %>
             <%= op_icon('icon-big icon-ticket') %>
             <span class="op-export-options--option-label"><%= t('text_formatting.markdown') %></span>
         <% end %>
