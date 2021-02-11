@@ -38,27 +38,5 @@ describe PlaceholderUsers::CreateContract do
     let(:placeholder_user) { PlaceholderUser.new(name: placeholder_user_name) }
     let(:contract) { described_class.new(placeholder_user, current_user) }
     let(:current_user) { FactoryBot.build_stubbed(:admin) }
-
-    describe 'validates attributes' do
-      describe 'name' do
-        context 'is unique' do
-          before do
-            PlaceholderUser.create(name: placeholder_user_name)
-          end
-
-          it_behaves_like 'contract is invalid'
-        end
-      end
-
-      describe 'type' do
-        context 'type and class mismatch' do
-          before do
-            placeholder_user.type = User.name
-          end
-
-          it_behaves_like 'contract is invalid'
-        end
-      end
-    end
   end
 end
