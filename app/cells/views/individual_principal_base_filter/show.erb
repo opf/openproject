@@ -37,6 +37,12 @@ See docs/COPYRIGHT.rdoc for more details.
       </a>
     <% end %>
     <ul class="simple-filters--filters">
+      <% if has_statuses? %>
+        <li class="simple-filters--filter">
+          <label class='simple-filters--filter-name' for='status'><%= User.human_attribute_name(:status) %>:</label>
+          <%= select_tag 'status', user_status_options, class: 'simple-filters--filter-value' %>
+        </li>
+      <% end %>
       <% if groups.present? &&
             self.class != PlaceholderUsers::PlaceholderUserFilterCell %>
         <li class="simple-filters--filter">

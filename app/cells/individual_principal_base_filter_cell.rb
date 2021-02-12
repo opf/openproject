@@ -36,7 +36,7 @@ class IndividualPrincipalBaseFilterCell < RailsCell
     def query(params)
       q = base_query.new
 
-       apply_filters(params, q)
+      apply_filters(params, q)
 
       q
     end
@@ -77,7 +77,7 @@ class IndividualPrincipalBaseFilterCell < RailsCell
       raise NotImplementedError
     end
 
-    private
+    protected
 
     def apply_filters(params, query)
       filter_project query, params[:project_id]
@@ -100,6 +100,10 @@ class IndividualPrincipalBaseFilterCell < RailsCell
   end
 
   def has_close_icon?
+    false
+  end
+
+  def has_statuses?
     false
   end
 

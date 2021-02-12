@@ -57,6 +57,16 @@ class UserFilterCell < IndividualPrincipalBaseFilterCell
     def base_query
       Queries::Users::UserQuery
     end
+
+
+    protected
+
+    def apply_filters(params, query)
+      super(params, query)
+      filter_status query, status_param(params)
+
+      query
+    end
   end
 
   # INSTANCE METHODS:
@@ -69,16 +79,11 @@ class UserFilterCell < IndividualPrincipalBaseFilterCell
     users_status_options_for_select status, extra: extra_user_status_options
   end
 
-  def extra_user_status_options
-    {}
+  def has_statuses?
+    true
   end
 
-  private
-
-  def apply_filters(params, query)
-    query = super(params, query)
-    filter_status query, status_param(params)
-
-    query
+  def extra_user_status_options
+    {}
   end
 end
