@@ -30,13 +30,11 @@
 
 module PlaceholderUsers
   class BaseContract < ::ModelContract
-    attribute :name,
-              writeable: ->(*) { user.admin? }
-    # TODO: Extend attribute_alias method to accept `writable` lambda.
-    #       Once that is done remove lastname attribute declaration here.
-    attribute :lastname,
-              writeable: ->(*) { user.admin? }
-    attribute_alias :lastname, :name
+    # attribute_alias is broken in the sense
+    # that `model#changed` includes only the non-aliased name
+    # hence we need to put "lastname" as an attribute here
+    attribute :name
+    attribute :lastname
 
     def self.model
       PlaceholderUser
