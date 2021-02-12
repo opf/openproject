@@ -281,3 +281,6 @@ Style/HashTransformKeys:
 
 Style/HashTransformValues:
   Enabled: true
+
+Rspec/MultipleMemoizedHelpers:
+  Max: 15
