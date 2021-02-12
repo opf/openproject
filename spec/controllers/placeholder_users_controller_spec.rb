@@ -79,7 +79,7 @@ describe PlaceholderUsersController, type: :controller do
         expect(response).to be_successful
         expect(response).to render_template 'placeholder_users/index'
         expect(assigns(:placeholder_users)).to be_empty
-        expect(assigns(:groups)).to be_empty
+        expect(assigns(:groups)).not_to be_present
       end
     end
 
