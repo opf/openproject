@@ -29,71 +29,72 @@
 require 'spec_helper'
 
 describe ::PlaceholderUsers::DeleteService, type: :model do
-  let(:input_user) { FactoryBot.build_stubbed(:user) }
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  skip 'Skipped as we will tackle the DeleteService in a separate PR' do
+    let(:input_user) { FactoryBot.build_stubbed(:user) }
+    let(:project) { FactoryBot.build_stubbed(:project) }
 
-  let(:instance) { described_class.new(input_user, actor) }
+    let(:instance) { described_class.new(input_user, actor) }
 
-  subject { instance.call }
+    subject { instance.call }
 
-  shared_examples 'deletes the user' do
-    it do
-      expect(input_user).to receive(:lock!)
-      expect(DeleteUserJob).to receive(:perform_later).with(input_user)
-      expect(subject).to eq true
-    end
-  end
-
-  shared_examples 'does not delete the user' do
-    it do
-      expect(input_user).not_to receive(:lock!)
-      expect(DeleteUserJob).not_to receive(:perform_later)
-      expect(subject).to eq false
-    end
-  end
-
-
-  context 'if deletion by admins allowed', with_settings: { users_deletable_by_admins: true } do
-    context 'with admin user' do
-      let(:actor) { FactoryBot.build_stubbed(:admin) }
-
-      it_behaves_like 'deletes the user'
+    shared_examples 'deletes the user' do
+      it do
+        expect(input_user).to receive(:lock!)
+        expect(DeleteUserJob).to receive(:perform_later).with(input_user)
+        expect(subject).to eq true
+      end
     end
 
-    context 'with unprivileged system user' do
-      let(:actor) { User.system }
+    shared_examples 'does not delete the user' do
+      it do
+        expect(input_user).not_to receive(:lock!)
+        expect(DeleteUserJob).not_to receive(:perform_later)
+        expect(subject).to eq false
+      end
+    end
 
-      before do
-        allow(actor).to receive(:admin?).and_return false
+    context 'if deletion by admins allowed', with_settings: { users_deletable_by_admins: true } do
+      context 'with admin user' do
+        let(:actor) { FactoryBot.build_stubbed(:admin) }
+
+        it_behaves_like 'deletes the user'
       end
 
-      it_behaves_like 'does not delete the user'
-    end
+      context 'with unprivileged system user' do
+        let(:actor) { User.system }
 
-    context 'with privileged system user' do
-      let(:actor) { User.system }
+        before do
+          allow(actor).to receive(:admin?).and_return false
+        end
 
-      it 'performs deletion' do
-        actor.run_given do
-          expect(input_user).to receive(:lock!)
-          expect(DeleteUserJob).to receive(:perform_later).with(input_user)
-          expect(subject).to eq true
+        it_behaves_like 'does not delete the user'
+      end
+
+      context 'with privileged system user' do
+        let(:actor) { User.system }
+
+        it 'performs deletion' do
+          actor.run_given do
+            expect(input_user).to receive(:lock!)
+            expect(DeleteUserJob).to receive(:perform_later).with(input_user)
+            expect(subject).to eq true
+          end
         end
       end
     end
-  end
 
-  context 'if deletion by admins NOT allowed', with_settings: { users_deletable_by_admins: false } do
-    context 'with admin user' do
-      let(:actor) { FactoryBot.build_stubbed(:admin) }
+    context 'if deletion by admins NOT allowed', with_settings: { users_deletable_by_admins: false } do
+      context 'with admin user' do
+        let(:actor) { FactoryBot.build_stubbed(:admin) }
 
-      it_behaves_like 'does not delete the user'
-    end
+        it_behaves_like 'does not delete the user'
+      end
 
-    context 'with system user' do
-      let(:actor) { User.system }
+      context 'with system user' do
+        let(:actor) { User.system }
 
-      it_behaves_like 'does not delete the user'
+        it_behaves_like 'does not delete the user'
+      end
     end
   end
 end
