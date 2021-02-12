@@ -27,8 +27,10 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% html_title t(:label_administration), t(:label_placeholder_user_plural) -%>
+<% has_ee = EnterpriseToken.allows_to?(:placeholder_users) %>
 
 <%= toolbar title: t(:label_placeholder_user_plural), title_class: 'no-padding-bottom' do %>
+  <% if has_ee %>
   <li class="toolbar-item">
     <%= link_to new_placeholder_user_path,
                 { class: 'button -alt-highlight',
@@ -38,8 +40,18 @@ See docs/COPYRIGHT.rdoc for more details.
       <span class="button--text"><%= t('activerecord.models.placeholder_user') %></span>
     <% end %>
   </li>
+  <% end %>
   <%= call_hook(:placeholder_user_admin_action_menu) %>
 <% end %>
+
+<%= unless has_ee
+  render template: 'common/upsale',
+    locals: {
+    feature_title: I18n.t('placeholder_users.upsale.title'),
+    feature_description: I18n.t('placeholder_users.upsale.description'),
+    feature_reference: 'placeholder_users'
+  }
+end %>
 
 <%= cell PlaceholderUsers::PlaceholderUserFilterCell, params %>
 &nbsp;

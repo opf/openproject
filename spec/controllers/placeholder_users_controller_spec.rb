@@ -100,61 +100,73 @@ describe PlaceholderUsersController, type: :controller do
         post :create, params: params
       end
 
-      it 'should be assigned their new values' do
-        user_from_db = PlaceholderUser.last
-        expect(user_from_db.name).to eq('UX Developer')
-      end
+      context 'without ee' do
+        it 'returns with an error' do
+          expect { post :create, params: params }.not_to change { PlaceholderUser.count }
+          expect(response).to be_successful
 
-      it 'should show a success notice' do
-        expect(flash[:notice]).to eql(I18n.t(:notice_successful_create))
-      end
-
-      it 'should not send an email' do
-        expect(ActionMailer::Base.deliveries.empty?).to be_truthy
-      end
-
-      context 'when user chose to directly create the next placeholder user' do
-        let(:params) do
-          {
-            placeholder_user: {
-              name: 'UX Developer'
-            },
-            continue: true
-          }
-        end
-
-        it 'should redirect to the new page' do
-          expect(response).to redirect_to(new_placeholder_user_url)
+          expect(assigns(:errors).details[:base])
+            .to eq([error: :error_enterprise_only])
         end
       end
 
-      context 'when user chose to NOT directly create the next placeholder user' do
-        let(:params) do
-          {
-            placeholder_user: {
-              name: 'UX Developer'
-            }
-          }
-        end
-
-        it 'should redirect to the edit page' do
+      context 'with ee', with_ee: %i[placeholder_users] do
+        it 'should be assigned their new values' do
           user_from_db = PlaceholderUser.last
-          expect(response).to redirect_to(edit_placeholder_user_url(user_from_db))
+          expect(user_from_db.name).to eq('UX Developer')
         end
-      end
 
-      context 'invalid params' do
-        let(:params) do
-          {
-            placeholder_user: {
-              name: 'x' * 300 # Name is too long
+        it 'should show a success notice' do
+          expect(flash[:notice]).to eql(I18n.t(:notice_successful_create))
+        end
+
+        it 'should not send an email' do
+          expect(ActionMailer::Base.deliveries.empty?).to be_truthy
+        end
+
+        context 'when user chose to directly create the next placeholder user' do
+          let(:params) do
+            {
+              placeholder_user: {
+                name: 'UX Developer'
+              },
+              continue: true
             }
-          }
+          end
+
+          it 'should redirect to the new page' do
+            expect(response).to redirect_to(new_placeholder_user_url)
+          end
         end
 
-        it 'should render the edit form with a validation error message' do
-          expect(assigns(:'placeholder_user').errors.messages[:name].first).to include('is too long')
-          expect(response).to render_template 'placeholder_users/new'
+        context 'when user chose to NOT directly create the next placeholder user' do
+          let(:params) do
+            {
+              placeholder_user: {
+                name: 'UX Developer'
+              }
+            }
+          end
+
+          it 'should redirect to the edit page' do
+            user_from_db = PlaceholderUser.last
+            expect(response).to redirect_to(edit_placeholder_user_url(user_from_db))
+          end
+        end
+
+        context 'invalid params' do
+          let(:params) do
+            {
+              placeholder_user: {
+                name: 'x' * 300 # Name is too long
+              }
+            }
+          end
+
+          it 'should render the edit form with a validation error message' do
+            expect(assigns(:'placeholder_user').errors.messages[:name].first).to include('is too long')
+            expect(response).to render_template 'placeholder_users/new'
+          end
         end
       end
     end
@@ -214,11 +226,13 @@ describe PlaceholderUsersController, type: :controller do
 
   context 'as an admin' do
     current_user { FactoryBot.create :admin }
+
     it_behaves_like 'authorized flows'
   end
 
   context 'as a user with global permission' do
     current_user { FactoryBot.create :user, global_permission: %i[add_placeholder_user] }
+
     it_behaves_like 'authorized flows'
   end
 
