@@ -57,7 +57,7 @@ COPY . .
 RUN ./docker/prod/setup/postinstall.sh
 
 # Expose ports for apache and postgres
-EXPOSE 8080 5432
+EXPOSE 80 5432
 
 # Expose the postgres data directory and OpenProject data directory as volumes
 VOLUME ["$PGDATA", "$APP_DATA_PATH"]
