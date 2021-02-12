@@ -95,8 +95,6 @@ describe 'Subproject action board', type: :feature, js: true do
     end
   end
 
-
-
   context 'with permissions in all subprojects' do
     let(:user) do
       FactoryBot.create(:user,
@@ -203,7 +201,6 @@ describe 'Subproject action board', type: :feature, js: true do
       # as this is the goal of the test.
       Member.where(project: subproject2, principal: user).destroy_all
     end
-
 
     it 'displays only the columns for the projects in which the current user has permission' do
       board_page.visit!

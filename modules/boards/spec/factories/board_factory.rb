@@ -85,13 +85,16 @@ FactoryBot.define do
           q.save!
         end
 
+        filters = [{ "onlySubproject" => { "operator" => "=", "values" => [project.id.to_s] } }]
+
         board.widgets << FactoryBot.create(:grid_widget,
                                            identifier: 'work_package_query',
                                            start_row: 1,
                                            end_row: 2,
                                            start_column: 1,
                                            end_column: 1,
-                                           options: { 'queryId' => query.id, "filters"=>[{"onlySubproject"=>{"operator"=>"=", "values"=>[project.id.to_s]}}]})
+                                           options: { 'queryId' => query.id,
+                                                      'filters' => filters })
       end
     end
   end
