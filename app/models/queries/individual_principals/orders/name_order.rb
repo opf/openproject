@@ -38,7 +38,7 @@ class Queries::IndividualPrincipals::Orders::NameOrder < Queries::BaseOrder
   private
 
   def order
-    ordered = self.model.order_by_name
+    ordered = model.order_by_name
 
     if direction == :desc
       ordered = ordered.reverse_order

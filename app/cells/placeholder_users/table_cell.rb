@@ -34,7 +34,7 @@ module PlaceholderUsers
     columns :name, :created_at
 
     def initial_sort
-      [:id, :asc]
+      %i[id asc]
     end
 
     def headers

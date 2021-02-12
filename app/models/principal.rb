@@ -91,7 +91,10 @@ class Principal < ApplicationRecord
     sql_condition = group_id.any? ? 'WHERE gu.group_id IN (?)' : ''
     sql_not = positive ? '' : 'NOT'
 
-    sql_query = ["#{User.table_name}.id #{sql_not} IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu #{sql_condition})"]
+    sql_query = [
+      "#{User.table_name}.id #{sql_not} IN " \
+      "(SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu #{sql_condition})"
+    ]
     if group_id.any?
       sql_query.push group_id
     end

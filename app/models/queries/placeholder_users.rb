@@ -29,11 +29,21 @@
 #++
 
 module Queries::PlaceholderUsers
-  Queries::Register.filter Queries::PlaceholderUsers::PlaceholderUserQuery, Queries::PlaceholderUsers::Filters::NameFilter
-  Queries::Register.filter Queries::PlaceholderUsers::PlaceholderUserQuery, Queries::PlaceholderUsers::Filters::AnyNameAttributeFilter
-  Queries::Register.filter Queries::PlaceholderUsers::PlaceholderUserQuery, Queries::PlaceholderUsers::Filters::GroupFilter
+  Queries::Register.filter Queries::PlaceholderUsers::PlaceholderUserQuery,
+                           Queries::PlaceholderUsers::Filters::NameFilter
 
-  Queries::Register.order Queries::PlaceholderUsers::PlaceholderUserQuery, Queries::PlaceholderUsers::Orders::DefaultOrder
-  Queries::Register.order Queries::PlaceholderUsers::PlaceholderUserQuery, Queries::PlaceholderUsers::Orders::NameOrder
-  Queries::Register.order Queries::PlaceholderUsers::PlaceholderUserQuery, Queries::PlaceholderUsers::Orders::GroupOrder
+  Queries::Register.filter Queries::PlaceholderUsers::PlaceholderUserQuery,
+                           Queries::PlaceholderUsers::Filters::AnyNameAttributeFilter
+
+  Queries::Register.filter Queries::PlaceholderUsers::PlaceholderUserQuery,
+                           Queries::PlaceholderUsers::Filters::GroupFilter
+
+  Queries::Register.order Queries::PlaceholderUsers::PlaceholderUserQuery,
+                          Queries::PlaceholderUsers::Orders::DefaultOrder
+
+  Queries::Register.order Queries::PlaceholderUsers::PlaceholderUserQuery,
+                          Queries::PlaceholderUsers::Orders::NameOrder
+
+  Queries::Register.order Queries::PlaceholderUsers::PlaceholderUserQuery,
+                          Queries::PlaceholderUsers::Orders::GroupOrder
 end
