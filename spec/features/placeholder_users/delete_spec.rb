@@ -28,37 +28,33 @@
 
 require 'spec_helper'
 
-describe PlaceholderUser, type: :model do
-  let(:placeholder_user) { FactoryBot.build(:placeholder_user) }
-
-  subject { placeholder_user }
-
-  describe '#name' do
-    it 'updates the name' do
-      subject.name = "Foo"
-      expect(subject.name).to eq("Foo")
-    end
-    it 'updates the lastname attribute' do
-      subject.name = "Foo"
-      expect(subject.lastname).to eq("Foo")
-    end
-
-    it { is_expected.to validate_presence_of :name }
-    it { is_expected.to validate_uniqueness_of :name }
+describe 'placeholder user deletion: ', type: :feature, js: true do
+  let!(:placeholder_user) { FactoryBot.create :placeholder_user }
+  let(:current_user) do
+    FactoryBot.create(:admin)
   end
 
-  describe "#to_s" do
-    it 'returns the lastname' do
-      expect(subject.to_s).to eq(subject.lastname)
-    end
+  before do
+    login_as(current_user)
   end
 
-  describe "#destroy" do
-    let!(:placeholder_user) { FactoryBot.create(:placeholder_user)}
+  context 'admin user' do
+    before do
+      visit placeholder_users_path
+    end
 
-    it 'deletes the placeholder user' do
-      subject.destroy
-      expect(PlaceholderUser.find_by(id: subject.id)).to be_nil
+    it 'can delete placeholder users from index page', selenium: true do
+      expect(page).to have_content placeholder_user.name
+
+      page.find('.icon-delete').click
+      page.accept_alert
+
+      expect(page).to have_content 'Account successfully deleted'
+      expect(current_path).to eq '/placeholder_users'
+
+      # TODO: Make the background jobs to work off.
+      # expect(page).to_not have_content placeholder_user.name
     end
   end
 end
+

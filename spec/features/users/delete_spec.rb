@@ -36,7 +36,7 @@ describe 'user deletion: ', type: :feature, js: true do
   end
 
   context 'regular user' do
-    let(:user_password) {'bob!' * 4}
+    let(:user_password) { 'bob!' * 4 }
     let(:current_user) do
       FactoryBot.create(:user,
                          password: user_password,

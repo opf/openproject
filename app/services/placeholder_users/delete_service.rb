@@ -28,5 +28,17 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class PlaceholderUsers::DeleteService < ::BaseServices::Delete
+class PlaceholderUsers::DeleteService < BaseServices::Delete
+  ##
+  # Deletes the given placeholder user if allowed.
+  #
+  # @return True if the user deletion has been initiated, false otherwise.
+  def destroy(placeholder_user_object)
+    # as destroying placeholder users is a lengthy process we handle it in the background
+    # and lock the account now so that no action can be performed with it
+    placeholder_user_object.lock!
+    DeleteUserJob.perform_later(placeholder_user_object)
+
+    true
+  end
 end
