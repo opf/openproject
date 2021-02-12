@@ -88,9 +88,7 @@ describe Users::CreateContract do
         user.auth_source = auth_source
       end
 
-      it 'is valid' do
-        expect_valid(true)
-      end
+      it_behaves_like 'contract is valid'
     end
 
     describe 'cannot set the identity url' do
