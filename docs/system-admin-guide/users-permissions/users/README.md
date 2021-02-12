@@ -7,71 +7,155 @@ robots: index, follow
 keywords: manage users, lock, unlock, invite, language
 ---
 
-# Manage Users
+# Manage users
 
-The users list provides an overview of all users in OpenProject. You can create new users, make changes to existing user accounts, block or delete users from the system. The number of users for your subscription is thus not bound to names. For example, if you block a user you can add a new one without upgrading.
+The users list provides an overview of all users in OpenProject. You can create new users, make changes to existing user accounts, block or delete users from the system. The number of users for your subscription is thus not bound to names. For example, if you block a user you can add a new one without upgrading. To manage users click on your avatar (top right corner) and select *Administration*. Select *Users and Permissions -> Users*. The list of current users is shown.
 
 <div class="glossary">
-**User** is defined as a person (described by an identifier) who uses OpenProject. New users can be created in the admin settings. Users can become project members by assigning them a role and adding them via the project settings.
+**User** is defined as a person (described by an identifier) who uses OpenProject. Users can become project members by assigning them a role and adding them via the project settings.
 </div>
 
+In the Community Edition there is no limit to the number of users. In Enterprise editions (cloud and on-premises) the user limit is based on your subscription.
 
 | Topic                                           | Content                                                      |
 | ----------------------------------------------- | ------------------------------------------------------------ |
 | [User list](#user-list)                         | Manage all users in OpenProject.                             |
-| [Lock and unlock users](#lock-and-unlock-users) | Block a user permanently in the system or unlock a user.     |
 | [Filter users](#filter-users)                   | Filter users in the list.                                    |
-| [Invite new users](#invite-new-users)           | Add new users to your OpenProject and invite them via email. Resend and delete user invitations. |
-| [Manage user settings](#manage-user-settings)   | Manage user settings, e.g. language, projects, groups, global roles, rate history, avatar, two-factor authentication. |
+| [Lock and unlock users](#lock-and-unlock-users) | Block a user permanently in the system or unlock a user.     |
+| [Create users](#create-users)                   | Create new users.                                            |
+| [Manage user settings](#manage-user-settings)   | Manage user details.                                         |
+| [Authentication](#authentication)               | Set and use authentication methods.                          |
 | [Delete users](#delete-users)                   | Delete a user from the system.                               |
 
 ## User list
 
-You will see the list of all users in your OpenProject with detailed information, such as user name, first name, last name, e-mail address.
-
-You will also see if a user is an Administrator in the system.
-
-Also, you get the information when the user has been created, and when the user had his last login.
+The User List is where users are managed. They can be added, edited or deleted from this list, which can be filtered if required.
 
 ![user list](image-20200211141841492.png)
 
+Column headers can be clicked to toggle sort direction. Arrows indicate sort order, up for ascending (a-z/0-9) and down for descending (z-a/9-0). Paging controls are shown at the bottom of the list. You will also see whether a user is a system administrator in OpenProject.
+
+## Filter users
+
+At the top of the user list is a filter box. Filter by Status or Name, then click the blue **Apply** button to filter the list. Click the **Clear** button to reset the filter fields and refresh the list.
+
+* **Status** - select from Active, All or Locked Temporarily. Each selection shows the number of users.
+* **Name** - enter any text; this can contain a "%" wild card for 0 or more characters. The filter applies to username, first name, last name and email address.
+
+![filter users](image-20200115155456033.png)
+
 ## Lock and unlock users
 
-If you want to **block users permanently** in the system, you can click the **Lock permanently** link next to a user.
+Handling locked users is also done from the list. To disable a user's access click the **Lock permanently** link next to a user. Use the **Unlock** link to restore the user's access.
 
-If you are using [Enterprise cloud](../../../cloud-edition-guide) or [Enterprise on-premises](../../../enterprise-edition-guide) you will then have a new user available to add to the system within your booked plan.
+If you are using [Enterprise cloud](../../../cloud-edition-guide) or [Enterprise on-premises](../../../enterprise-edition-guide) locking a user will make a new user available to add to the system within your booked plan.
 
 <div class="alert alert-info" role="alert">
-**Note**: The previous activities from these locked users will still be displayed in the system.
+**Note**: The previous activities from a locked user will still be displayed in the system.
 </div>
 
 ![System-admin-guide_lock-users](System-admin-guide_lock-users.png)
 
-The way to unlock users is basically the same. Use the **Unlock** link at the right. 
-Here you can also **unlock users who have been locked temporarily due to multiple failed login attempts**. 
+If a user has repeated failed logins the user will be locked and a "Reset failed logins" link is shown in the user list. Click the link to unlock it now, or wait and it will be unlocked automatically. See [Other authentication settings](../../authentication/authentication-settings/#other-authentication-settings) for failed attempts and time blocked.
 
-## Filter users
+## Create users
 
-Especially if you have a very long user list, it is essential to filter in this list.
+New users can be created and configured by an administrator, a single user or multiple users. A person can create their own user from the home page by clicking on the "Sign in" button (top right), then on the "Create a new account" link in the sign in box.
 
-At the top of the list, you can choose to filter for all, active, or locked users.
-You can then search for the name or email of a user. Click the blue **Apply** button to filter the list.
+### Create user (Sign in link)
 
-![filter users](image-20200115155456033.png)
+Click the "Create a new account" link in the sign in box. In the "Create a new account" window, enter values in all fields (they cannot be left blank). The Email field must be a valid email address that is not used in this system. Click the **Create** button. Your account is created but must be activated by the administrator.
 
-## Invite new users
+### Create user (Administration)
 
-To invite new users to your system, click the green **+ User** button at the top right.
-
-![Sys-admin-add-users](Sys-admin-add-users.png)
-
-Enter the Email address, first name, and last name of the new user. Check whether the new user should get system administration rights.
-
-Click the blue **Create** button in order to invite the new user via email.
+From the user list, click the "+User" button to open the "New user" form.
 
 ![new user](image-20200115155855409.png)
 
-The **Create and continue** button will bring you to the form to add another new user.
+Enter the Email address, First name, and Last name of the new user. Tick the box to make them an administrator user.
+
+Note: the Email field must be a valid format and be unique or it will be rejected on clicking the button.
+
+Click the **Create** button to add the user and show that users details page. Click the **Create and continue** button to add the user and stay on the new user form to add another user. When adding the last of multiple users you can click on **Create** or click the **Users** link. The users list is shown. Click each user in turn to edit their details.
+
+### Set initial details
+
+You can edit the details of a newly created user. Useful fields might be **Username**, **Language** and **Time zone**. You might also fill **Projects**, **Groups** and **Rates**, or leave these to the "Project creator".
+
+Also consider the **[authentication](#authentication) settings**. See [Manage user settings](#manage-user-settings) for full details.
+
+### Activate users
+
+Open the user list. If a user has created their own account it is shown in the list with an "Activate" link on the right. Click this link and continue to add details to this user as above. There is also an "Activate" button at the top of the user details page.
+
+## Manage user settings
+
+You can manage individual user details if you click on the user name in the list. These settings will overwrite the individual user's settings set in their My Account settings.
+
+### General settings
+
+On the General tab the following fields are shown:
+
+* **Status** - this is set by the system.
+* **Username** - this defaults to the email address for a new user (unless the user used the self registration). It can be changed on this page. Users cannot change their own username.
+* **First name**, **Last name**, **Email** - these fields are filled from the new user page. Users can change them on their Profile page; they are mandatory.
+* **Language** - this defaults from the [user settings](../settings/#default-preferences). Users can change this on their Profile page.
+* **Administrator** - Activate or deactivate this global role. Users cannot change this.
+* **Custom Fields** - if these have been created they are shown here.
+* **User consent** - if this has been [configured](../settings/#user-consent) the consent status is shown here.
+* **Authentication** - the content of this section depends on the type of [authentication method](#authentication) being used.
+* **Email notifications** - this defaults from the [Email notification settings](../../email/#email-notifications-settings). Users can change this on their Profile page.
+* **Preferences** - users can change these on their Profile page. Time zone defaults from chosen language.
+
+Do not forget to **Save** your changes.
+
+![Sys-admin-user-settings](Sys-admin-user-settings.png)
+
+### Add users to a project
+
+In order to see and work in a project, a user has to be a member of a project and needs to be added with a certain role to this project.
+
+On the **Projects** tab, select the new project from the drop-down list, choose the **roles** for this project and click the blue **Add** button.
+
+![Sys-admin-add-project](Sys-admin-add-project.gif)
+
+### Add users to groups
+
+On the **Groups** tab you can see the groups the user belongs to. If a group is shown, click a group name link. If no groups are shown, click the **Manage groups** link to [edit groups](../groups).
+
+![add users to a group](image-20200115165406439.png)
+
+### Global roles
+
+In order to add a global role to a user, at least [one global role needs to be created](../roles-permissions) in the system (a role with the "Global role" field ticked).
+
+On the **Global roles** tab, select or de-select the global role(s) for this user. Click the **Add** button.
+
+### Rate history
+
+The rate history shows the hourly rates that have been defined for the user. The "Default rate" is applied to projects with no rate defined. All projects that the user is a member of are listed with the user's rates.
+
+### Avatar
+
+The **Avatar** tab shows the default icon to be shown for this user. A custom image can be uploaded as the avatar. In addition, the users can also use their [Gravatar](https://en.wikipedia.org/wiki/Gravatar). The user can manage this in their Profile. These features can be disabled in the [avatar settings](../avatars).
+
+## Authentication
+
+The available authentication methods affect the content of the Authentication section in the user details.  See [authentication settings](../../authentication/authentication-settings/) for details.
+
+Use the **self-registration** field to give the following controls over a new user's access.
+
+### Manual account activation
+
+The user details Authentication section has fields **Assign random password**, **Password**, **Confirmation** and **Enforce password change**.
+
+* If you are near the new user, you can enter a password and confirmation then tell the user what it is. They can then sign in. It is recommended that you also tick the enforce password change tickbox, so that the user is prompted to change their password after they sign in.
+* You can phone the new user or send them an email, not using OpenProject, to give them the password. In this case it is more important to tick the enforce password change tickbox.
+* Tick the Assign random password, and probably the enforce password change tickbox. When the details are saved OpenProject will send an email to the new user with their password.
+
+### Account activation by email
+
+Leave all fields blank. When the details are saved OpenProject will send an email to the new user with a link inviting the user to OpenProject. They click the link to get the registration page to complete creating their account.
 
 ### Resend user invitation via email
 
@@ -81,76 +165,20 @@ In the top right, click the **Send invitation** button in order to send the emai
 
 ![Sys-admin-resend-invitation](Sys-admin-resend-invitation.png)
 
-### Delete user invitations
-To invalidate or revoke a user's invitation click on the user name and then on **Delete** in the upper right corner. This will prevent the invited user from logging in.
-Please note: This only works for users who haven't logged in yet. If the user is already active this will delete his/her whole profile and account. Deleting users can't be easily revoked.
-
-## View user profile
-
-If you want to see the user profile, click on the user name in the user list to display the activities across all projects from a certain user. Click the **Profile** button on the top right of a user.
-
-![Sys-admin-profile](Sys-admin-profile.png)
-
-
-
-You will see all the Activities across all projects from this user, as well as the amount of reported work packages in the system.
-
-![user profile](image-20200115162109669.png)
-
-## Manage user settings
-
-### General settings
-
-You can manage individual user settings if you click on the user name in the list. The settings will overwrite the individual user settings set in the [My Account settings](../../../getting-started/my-account/).
-
-(1) Change username, first name, last name, email address or language. Activate or deactivate **Administrator** permission.
-
-(2) See user based custom fields.
-
-(3) Display last given [user consent](../settings/#user-consent).
-
-(4) Display **authentication provider**.
-
-(5) Change e-mail **notification** settings.
-
-(6) Set **preferences** for time zone and display of comments.
-
-(7) Do not forget to **Save** your changes.
-
-![Sys-admin-user-settings](Sys-admin-user-settings.png)
-
-### Add users to a project
-
-In order to see and work in a project, a user has to be a member of a project and needs to be added with a certain role to this project.
-
-On the **Projects** tab, select the new project from the drop-down list, choose a **role** for this project and click the blue **Add** button.
-
-![Sys-admin-add-project](Sys-admin-add-project.gif)
-
-### Add users to groups
-
-In order to add a user to a group, at least [one group needs to be created](../groups) in the system.
-
-Select or de-select the groups a user should be a member of. Click the blue **Save** button.
-
-![add users to a group](image-20200115165406439.png)
-
-
-
 ## Delete users
 
-In order to delete users from the system, open the [user list](#user-list).
+Two [settings](../settings/#user-deletion/) allow users to be deleted from the system:
+* **User accounts deletable by admins** - if ticked, a "Delete" button is shown on the user details page.
+* **Users allowed to delete their accounts** - if ticked, a "Delete account" menu entry is shown in the "My Account" page.
 
-Click on the **user name** of the user which you want to delete.
-
-To delete a user permanently from the system, press the **Delete** button at the top right.
+To delete another user's account open the [user list](#user-list). Click on the **user name** of the user which you want to delete. Click the **Delete** button at the top right.
 
 ![Sys-admin-delete-user](Sys-admin-delete-user.png)
 
-You will then be asked to type in the user's email address in order to delete the user permanently from the system.
+You will then be asked to type in the username in order to delete the user permanently from the system, then confirm this with your password.
 
 ![delete user](image-20200115162533470.png)
 
 <div class="alert alert-info" role="alert">
-**Note**: Deleting a user account is an irreversible action and cannot easily be restored via the frontend.
+**Note**: Deleting a user account is an irreversible action and cannot be reversed. The previous activities from this user will still be displayed in the system but reassigned to "deleted user".
 </div>
