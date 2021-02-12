@@ -43,8 +43,7 @@ See docs/COPYRIGHT.rdoc for more details.
           <%= select_tag 'status', user_status_options, class: 'simple-filters--filter-value' %>
         </li>
       <% end %>
-      <% if groups.present? &&
-            self.class != PlaceholderUsers::PlaceholderUserFilterCell %>
+      <% if has_groups? %>
         <li class="simple-filters--filter">
           <label class='simple-filters--filter-name' for='group_id'><%= Group.model_name.human %>:</label>
           <%= collection_select :group,

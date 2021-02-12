@@ -104,7 +104,11 @@ class IndividualPrincipalBaseFilterCell < RailsCell
   end
 
   def has_statuses?
-    false
+    defined?(status)
+  end
+
+  def has_groups?
+    defined?(groups) && groups.present?
   end
 
   def params

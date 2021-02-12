@@ -41,7 +41,6 @@ class PlaceholderUsersController < ApplicationController
   before_action :check_if_deletion_allowed, only: [:destroy]
 
   def index
-    @groups = Group.all.sort
     @placeholder_users = PlaceholderUsers::PlaceholderUserFilterCell.filter params
 
     respond_to do |format|

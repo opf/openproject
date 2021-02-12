@@ -79,10 +79,6 @@ class UserFilterCell < IndividualPrincipalBaseFilterCell
     users_status_options_for_select status, extra: extra_user_status_options
   end
 
-  def has_statuses?
-    true
-  end
-
   def extra_user_status_options
     {}
   end

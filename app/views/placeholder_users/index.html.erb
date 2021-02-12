@@ -41,6 +41,6 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= call_hook(:placeholder_user_admin_action_menu) %>
 <% end %>
 
-<%= cell PlaceholderUsers::PlaceholderUserFilterCell, params, groups: @groups %>
+<%= cell PlaceholderUsers::PlaceholderUserFilterCell, params %>
 &nbsp;
 <%= cell PlaceholderUsers::TableCell, @placeholder_users, project: @project, current_user: current_user %>

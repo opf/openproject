@@ -30,7 +30,7 @@
 
 module PlaceholderUsers
   class PlaceholderUserFilterCell < IndividualPrincipalBaseFilterCell
-    options :groups, :roles, :clear_url, :project
+    options :roles, :clear_url, :project
 
     class << self
       def base_query
