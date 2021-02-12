@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 describe 'create placeholder users', type: :feature, selenium: true do
-  using_shared_fixtures :admin
-  let(:current_user) { admin }
+  let(:current_user) { FactoryBot.create :admin }
   let(:new_placeholder_user_page) { Pages::NewPlaceholderUser.new }
 
   before do

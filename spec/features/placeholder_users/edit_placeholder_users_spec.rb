@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 describe 'edit placeholder users', type: :feature, js: true do
-  using_shared_fixtures :admin
-  let(:current_user) { admin }
+  let(:current_user) { FactoryBot.create :admin }
   let(:placeholder_user) { FactoryBot.create :placeholder_user, name: 'UX Developer' }
 
   before do
