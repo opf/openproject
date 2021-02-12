@@ -59,27 +59,27 @@ module OpenProject
             {
               name: 'general',
               partial: 'users/general',
-              path: ->(params) { tab_edit_user_path(params[:user], tab: :general) },
+              path: ->(params) { edit_user_path(params[:user], tab: :general) },
               label: :label_general
             },
             {
               name: 'memberships',
               partial: 'individual_principals/memberships',
-              path: ->(params) { tab_edit_user_path(params[:user], tab: :memberships) },
+              path: ->(params) { edit_user_path(params[:user], tab: :memberships) },
               label: :label_project_plural,
               only_if: ->(*) { User.current.admin? }
             },
             {
               name: 'groups',
               partial: 'users/groups',
-              path: ->(params) { tab_edit_user_path(params[:user], tab: :groups) },
+              path: ->(params) { edit_user_path(params[:user], tab: :groups) },
               label: :label_group_plural,
               only_if: ->(*) { User.current.admin? && Group.any? }
             },
             {
               name: 'global_roles',
               partial: 'users/global_roles',
-              path: ->(params) { tab_edit_user_path(params[:user], tab: :global_roles) },
+              path: ->(params) { edit_user_path(params[:user], tab: :global_roles) },
               label: :label_global_roles,
               only_if: ->(*) { User.current.admin? }
             }

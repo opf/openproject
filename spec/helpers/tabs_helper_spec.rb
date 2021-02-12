@@ -34,7 +34,7 @@ describe TabsHelper, type: :helper do
   let(:given_tab) {
     { name: 'avatar',
       partial: 'avatars/users/avatar_tab',
-      path: ->(params) { tab_edit_user_path(params[:user], tab: :avatar) },
+      path: ->(params) { edit_user_path(params[:user], tab: :avatar) },
       label: :label_avatar }
   }
 
