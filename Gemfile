@@ -250,6 +250,8 @@ group :development do
   gem 'spring-commands-rspec'
 
   gem 'rubocop'
+  gem 'rubocop-rails'
+  gem 'rubocop-rspec'
 
   # Gems for living styleguide
   gem 'livingstyleguide', '~> 2.1.0'

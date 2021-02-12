@@ -1,8 +1,11 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+
 AllCops:
   TargetRubyVersion: 2.7
   Exclude:
     - db/schema.rb
-
 
 Layout/ConditionPosition:
   Enabled: false
