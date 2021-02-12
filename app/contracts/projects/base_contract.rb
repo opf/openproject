@@ -135,7 +135,7 @@ module Projects
     def validate_changing_active
       return unless model.active_changed?
 
-      validate_admin_only
+      RequiresAdminGuard.validate_admin_only(user, errors)
 
       if model.active?
         # switched to active -> unarchiving

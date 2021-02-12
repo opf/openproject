@@ -183,6 +183,10 @@ class PermittedParams
     permitted_params.merge(custom_field_values(:user))
   end
 
+  def placeholder_user
+    params.require(:placeholder_user).permit(*self.class.permitted_attributes[:placeholder_user])
+  end
+
   def my_account_settings
     user.merge(pref: pref)
   end
@@ -525,6 +529,9 @@ class PermittedParams
           :client_credentials_user_id,
           { scopes: [] }
         ],
+        placeholder_user: %i(
+          name
+        ),
         project_type: [
           :name,
           { type_ids: [] }

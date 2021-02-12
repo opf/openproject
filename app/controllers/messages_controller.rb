@@ -67,7 +67,7 @@ class MessagesController < ApplicationController
     @message = Messages::SetAttributesService
       .new(user: current_user,
            model: Message.new,
-           contract_class: NoopContract)
+           contract_class: EmptyContract)
       .call(forum: @forum)
       .result
   end

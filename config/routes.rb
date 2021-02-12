@@ -452,15 +452,23 @@ OpenProject::Application.routes.draw do
 
   resources :activity, :activities, only: :index, controller: 'activities'
 
-  resources :users do
+  resources :users, except: :edit do
     resources :memberships, controller: 'users/memberships', only: %i[update create destroy]
 
     member do
-      match '/edit/:tab' => 'users#edit', via: :get, as: 'tab_edit'
+      get '/edit(/:tab)' => 'users#edit', as: 'edit'
       match '/change_status/:change_action' => 'users#change_status_info', via: :get, as: 'change_status_info'
       post :change_status
       post :resend_invitation
       get :deletion_info
+    end
+  end
+
+  resources :placeholder_users, except: :edit do
+    resources :memberships, controller: 'placeholder_users/memberships', only: %i[update create destroy]
+
+    member do
+      get '/edit(/:tab)' => 'placeholder_users#edit', as: 'edit'
     end
   end
 

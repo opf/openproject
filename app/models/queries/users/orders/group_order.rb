@@ -28,24 +28,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Users::Orders::GroupOrder < Queries::BaseOrder
+class Queries::Users::Orders::GroupOrder < Queries::IndividualPrincipals::Orders::GroupOrder
   self.model = User
-
-  def self.key
-    :group
-  end
-
-  private
-
-  def order
-    order_string = "groups_users.lastname"
-
-    order_string += " DESC" if direction == :desc
-
-    model.order(order_string)
-  end
-
-  def joins
-    :groups
-  end
 end
