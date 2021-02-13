@@ -50,6 +50,7 @@ module OpenProject
       # which will be uploaded directly to the cloud storage rather than via OpenProject's
       # server process.
       'direct_uploads'          => true,
+      'fog_download_url_expires_in' => 21600, # 6h by default as 6 hours is max in S3 when using IAM roles
       'show_community_links' => true,
       'log_level' => 'info',
       'scm_git_command'         => nil,
@@ -119,7 +120,7 @@ module OpenProject
 
       'youtube_channel' => 'https://www.youtube.com/c/OpenProjectCommunity',
 
-      'ee_manager_visible' => false,
+      'ee_manager_visible' => true,
 
       # Health check configuration
       'health_checks_authentication_password' => nil,
@@ -173,10 +174,10 @@ module OpenProject
       'sentry_dsn' => nil,
       # Allow separate error reporting for frontend errors
       'sentry_frontend_dsn' => nil,
-      'sentry_host' => 'https://sentry.com',
+      'sentry_host' => 'https://sentry.openproject.com',
 
       # Allow connection to Augur
-      'enterprise_trial_creation_host' => '',
+      'enterprise_trial_creation_host' => 'https://augur.openproject.com',
 
       # Allow override of LDAP options
       'ldap_auth_source_tls_options' => nil,

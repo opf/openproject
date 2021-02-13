@@ -1,13 +1,12 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -27,40 +26,28 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module HomescreenHelper
-  ##
-  # Homescreen name
-  def organization_name
-    Setting.app_title || Setting.software_name
+require 'spec_helper'
+
+describe Queries::WorkPackages::Filter::ProjectFilter, type: :model do
+  let(:query) { FactoryBot.build :query }
+  let(:instance) do
+    described_class.create!(name: 'project', context: query, operator: '=', values: [])
   end
 
-  ##
-  # Homescreen organization icon
-  def organization_icon
-    op_icon('icon-context icon-enterprise')
-  end
+  describe '#allowed_values' do
+    let!(:project) { FactoryBot.create :project }
+    let!(:archived_project) { FactoryBot.create :project, active: false }
 
-  ##
-  # Render a static link defined in OpenProject::Static::Links
-  def static_link_to(key)
-    link = OpenProject::Static::Links.links[key]
-    label = I18n.t(link[:label])
+    let(:user) { FactoryBot.create(:user, member_in_projects: [project, archived_project], member_through_role: role) }
+    let(:role) { FactoryBot.create :role, permissions: %i(view_work_packages) }
 
-    link_to label,
-            link[:href],
-            title: label,
-            target: '_blank'
-  end
+    before do
+      login_as user
+    end
 
-  ##
-  # Determine whether we should render the links on homescreen?
-  def show_homescreen_links?
-    EnterpriseToken.show_banners? || OpenProject::Configuration.show_community_links?
-  end
-
-  ##
-  # Determine whether we should render the onboarding modal
-  def show_onboarding_modal?
-    return OpenProject::Configuration.onboarding_enabled? && params[:first_time_user]
+    it 'does not include the archived project (Regression #36026)' do
+      expect(instance.allowed_values)
+        .to match_array [[project.name, project.id.to_s]]
+    end
   end
 end
