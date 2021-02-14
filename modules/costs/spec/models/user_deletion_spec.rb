@@ -58,7 +58,7 @@ describe User, '#destroy', type: :model do
       end
       associated_instance.save!
 
-      user.destroy
+      Principals::DestroyJob.perform_now(user)
       associated_instance.reload
     end
 
@@ -97,7 +97,7 @@ describe User, '#destroy', type: :model do
       end
       associated_instance.save!
 
-      user.destroy
+      Principals::DestroyJob.perform_now(user)
       associated_instance.reload
     end
 
@@ -144,7 +144,7 @@ describe User, '#destroy', type: :model do
     before do
       item.save!
 
-      user.destroy
+      Principals::DestroyJob.perform_now(user)
     end
 
     it { expect(LaborBudgetItem.find_by_id(item.id)).to eq(item) }
@@ -168,7 +168,7 @@ describe User, '#destroy', type: :model do
                                  roles: [FactoryBot.build(:role)])
       entry
 
-      user.destroy
+      Principals::DestroyJob.perform_now(user)
 
       entry.reload
     end
@@ -184,7 +184,7 @@ describe User, '#destroy', type: :model do
 
     before do
       hourly_rate.save!
-      user.destroy
+      Principals::DestroyJob.perform_now(user)
     end
 
     it { expect(HourlyRate.find_by_id(hourly_rate.id)).to eq(hourly_rate) }
@@ -199,7 +199,7 @@ describe User, '#destroy', type: :model do
 
     before do
       default_hourly_rate.save!
-      user.destroy
+      Principals::DestroyJob.perform_now(user)
     end
 
     it { expect(DefaultHourlyRate.find_by_id(default_hourly_rate.id)).to eq(default_hourly_rate) }

@@ -35,6 +35,8 @@ module Principals
     def perform(principal_id)
       reassign_author principal_id
       reassign_user_id principal_id
+      reassign_assigned_to principal_id
+      reassign_responsible principal_id
       reassign_user_custom_values principal_id
 
       Journals::PrincipalReferenceUpdateService
@@ -53,6 +55,22 @@ module Principals
         klass
           .where(author_id: id)
           .update_all(author_id: substitute.id)
+      end
+    end
+
+    def reassign_responsible(id)
+      [WorkPackage].each do |klass|
+        klass
+          .where(responsible_id: id)
+          .update_all(responsible_id: substitute.id)
+      end
+    end
+
+    def reassign_assigned_to(id)
+      [WorkPackage].each do |klass|
+        klass
+          .where(assigned_to_id: id)
+          .update_all(assigned_to_id: substitute.id)
       end
     end
 

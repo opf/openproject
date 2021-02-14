@@ -87,9 +87,9 @@ describe Group, type: :model do
       expect(user).not_to be_member_of project
     end
 
-    it 'should roles removed when removing user from group' do
+    it 'should roles removed when removing group membership' do
       expect(user).to be_member_of project
-      group.destroy
+      Principals::DestroyJob.perform_now group
       user.reload
       project.reload
       expect(user).not_to be_member_of project
@@ -127,8 +127,8 @@ describe Group, type: :model do
         package.save!
       end
 
-      it 'should reassign the work package to nobody' do
-        group.destroy
+      it 'should reassign the work package to the deleted user' do
+        Principals::DestroyJob.perform_now(group)
 
         package.reload
 
@@ -136,7 +136,7 @@ describe Group, type: :model do
       end
 
       it 'should update all journals to have the deleted user as assigned' do
-        group.destroy
+        Principals::DestroyJob.perform_now(group)
 
         package.reload
 
@@ -150,7 +150,7 @@ describe Group, type: :model do
 
         context 'with user only in project through group' do
           it 'should remove the watcher' do
-            group.destroy
+            Principals::DestroyJob.perform_now(group)
             package.reload
             project.reload
 

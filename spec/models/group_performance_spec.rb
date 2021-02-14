@@ -78,7 +78,7 @@ describe Group, type: :model do
 
         puts "Destroying group ..."
         start = Time.now.to_i
-        group.destroy
+        Principals::DestroyJob.perform_now group
         @seconds = Time.now.to_i - start
 
         puts "Destroyed group in #{@seconds} seconds"

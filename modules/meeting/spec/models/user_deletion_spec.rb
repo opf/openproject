@@ -64,7 +64,7 @@ describe User, '#destroy', type: :model do
       end
       associated_instance.save!
 
-      user.destroy
+      Principals::DestroyJob.perform_now(user)
       associated_instance.reload
     end
 
@@ -103,7 +103,7 @@ describe User, '#destroy', type: :model do
       end
       associated_instance.save!
 
-      user.destroy
+      Principals::DestroyJob.perform_now(user)
       associated_instance.reload
     end
 
@@ -195,7 +195,7 @@ describe User, '#destroy', type: :model do
       participant
       # user2 added to participants by being the author
 
-      user.destroy
+      Principals::DestroyJob.perform_now(user)
       meeting.reload
       participant.reload
     end

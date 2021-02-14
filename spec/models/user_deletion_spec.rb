@@ -54,7 +54,7 @@ describe User, 'deletion', type: :model do
 
   describe 'WHEN there is the user' do
     before do
-      user.destroy
+      Principals::DestroyJob.perform_now(user)
     end
 
     it { expect(User.find_by(id: user.id)).to be_nil }
@@ -75,7 +75,7 @@ describe User, 'deletion', type: :model do
       end
       associated_instance.save!
 
-      user.destroy
+      Principals::DestroyJob.perform_now(user)
       associated_instance.reload
     end
 
@@ -110,7 +110,7 @@ describe User, 'deletion', type: :model do
       end
       associated_instance.save!
 
-      user.destroy
+      Principals::DestroyJob.perform_now(user)
       associated_instance.reload
     end
 
@@ -137,7 +137,7 @@ describe User, 'deletion', type: :model do
       end
       associated_instance.save!
 
-      user.destroy
+      Principals::DestroyJob.perform_now(user)
       associated_instance.reload
     end
 
@@ -213,15 +213,15 @@ describe User, 'deletion', type: :model do
       associated_instance.responsible = user
       associated_instance.save!
 
-      user.destroy
+      Principals::DestroyJob.perform_now(user)
       associated_instance.reload
     end
 
     it { expect(associated_class.find_by(id: associated_instance.id)).to eq(associated_instance) }
     it 'should replace the user on all associations' do
       expect(associated_instance.author).to eq(substitute_user)
-      expect(associated_instance.assigned_to).to be_nil
-      expect(associated_instance.responsible).to be_nil
+      expect(associated_instance.assigned_to).to eq(substitute_user)
+      expect(associated_instance.responsible).to eq(substitute_user)
     end
     it { expect(associated_instance.journals.first.user).to eq(user2) }
     it 'should update first journal changes' do
@@ -332,7 +332,7 @@ describe User, 'deletion', type: :model do
     end
 
     it 'removes that member' do
-      user.destroy
+      Principals::DestroyJob.perform_now(user)
 
       expect(Member.find_by(id: member.id)).to be_nil
       expect(Role.find_by(id: role.id)).to eq(role)
@@ -350,7 +350,7 @@ describe User, 'deletion', type: :model do
     before do
       watch.save!
 
-      user.destroy
+      Principals::DestroyJob.perform_now(user)
     end
 
     it { expect(Watcher.find_by(id: watch.id)).to be_nil }
@@ -364,7 +364,7 @@ describe User, 'deletion', type: :model do
     before do
       token.save!
 
-      user.destroy
+      Principals::DestroyJob.perform_now(user)
     end
 
     it { expect(Token::RSS.find_by(id: token.id)).to be_nil }
@@ -428,7 +428,7 @@ describe User, 'deletion', type: :model do
       associated_instance.user = user
       associated_instance.save!
 
-      user.destroy
+      Principals::DestroyJob.perform_now(user)
       associated_instance.reload
     end
 
@@ -454,7 +454,7 @@ describe User, 'deletion', type: :model do
 
     before do
       category.save!
-      user.destroy
+      Principals::DestroyJob.perform_now(user)
       category.reload
     end
 
