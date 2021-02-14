@@ -28,10 +28,13 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class DeleteUserJob < ApplicationJob
-  queue_with_priority :low
+module Principals
+  class DestroyJob < ApplicationJob
+    queue_with_priority :low
 
-  def perform(user)
-    user.destroy
+    def perform(principal)
+      ReplaceReferencesJob.perform_now(principal.id)
+      principal.destroy
+    end
   end
 end

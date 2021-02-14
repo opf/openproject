@@ -28,33 +28,48 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-##
-# Implements the deletion of a user.
-module Users
-  class DeleteService < ::BaseServices::Delete
-    ##
-    # Deletes the given user if allowed.
-    #
-    # @return True if the user deletion has been initiated, false otherwise.
-    def destroy(user_object)
-      # as destroying users is a lengthy process we handle it in the background
-      # and lock the account now so that no action can be performed with it
-      user_object.lock!
-      ::Principals::DestroyJob.perform_later(user_object)
+module Principals
+  class ReplaceReferencesJob < ApplicationJob
+    queue_with_priority :low
 
-      logout! if self_delete?
+    def perform(principal_id)
+      reassign_author principal_id
+      reassign_user_id principal_id
+      reassign_user_custom_values principal_id
 
-      true
+      Journals::PrincipalReferenceUpdateService
+        .new(principal_id)
+        .call(substitute)
     end
 
     private
 
-    def self_delete?
-      user == model
+    def substitute
+      @substitute ||= DeletedUser.first
     end
 
-    def logout!
-      User.current = nil
+    def reassign_author(id)
+      [WorkPackage, Attachment, WikiContent, News, Comment, Message].each do |klass|
+        klass
+          .where(author_id: id)
+          .update_all(author_id: substitute.id)
+      end
+    end
+
+    def reassign_user_id(id)
+      [TimeEntry, ::Query].each do |klass|
+        klass
+          .where(user_id: id)
+          .update_all(user_id: substitute.id)
+      end
+    end
+
+    def reassign_user_custom_values(id)
+      CustomValue
+        .joins(:custom_field)
+        .where("#{CustomField.table_name}.field_format" => 'user')
+        .where(value: id.to_s)
+        .update_all(value: substitute.id)
     end
   end
 end

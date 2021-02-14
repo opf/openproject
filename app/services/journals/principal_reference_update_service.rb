@@ -1,9 +1,9 @@
 module Journals
-  class UserReferenceUpdateService
-    attr_accessor :original_user
+  class PrincipalReferenceUpdateService
+    attr_accessor :principal_id
 
-    def initialize(original_user)
-      self.original_user = original_user
+    def initialize(principal_id)
+      self.principal_id = principal_id
     end
 
     def call(substitute_user)
@@ -11,7 +11,7 @@ module Journals
         foreign_keys.each do |foreign_key|
           if klass.column_names.include? foreign_key
             klass
-              .where(foreign_key => original_user.id)
+              .where(foreign_key => principal_id)
               .update_all(foreign_key => substitute_user.id)
           end
         end

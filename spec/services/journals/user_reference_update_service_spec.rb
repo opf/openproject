@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Journals::UserReferenceUpdateService, type: :model do
+describe Journals::PrincipalReferenceUpdateService, type: :model do
   let!(:work_package) { FactoryBot.create :work_package }
   let!(:doomed_user) { work_package.author }
   let!(:other_user) { FactoryBot.create(:user) }
