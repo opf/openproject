@@ -159,7 +159,13 @@ class UsersController < ApplicationController
 
         if @user.invited?
           # setting a password for an invited user activates them implicitly
-          @user.activate!
+          if OpenProject::Enterprise.user_limit_reached?
+            @user.register!
+            show_user_limit_warning!
+          else
+            @user.activate!
+          end
+
           send_information = true
         end
 

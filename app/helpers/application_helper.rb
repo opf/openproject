@@ -306,8 +306,7 @@ module ApplicationHelper
       css << 'action-' + params[:action]
     end
 
-    # Only until remove completely Enterprise banners
-    css << "ee-banners-hidden"
+    css << "ee-banners-#{EnterpriseToken.show_banners? ? 'visible' : 'hidden'}"
 
     # Add browser specific classes to aid css fixes
     css += browser_specific_classes

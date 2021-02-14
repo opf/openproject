@@ -40,7 +40,7 @@ class Group < Principal
   alias_attribute(:groupname, :lastname)
   validates_presence_of :groupname
   validate :uniqueness_of_groupname
-  validates_length_of :groupname, maximum: 30
+  validates_length_of :groupname, maximum: 256
 
   # HACK: We want to have the :preference association on the Principal to allow
   # for eager loading preferences.
