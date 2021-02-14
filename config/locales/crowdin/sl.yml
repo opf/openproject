@@ -37,12 +37,12 @@ sl:
         primary-color-dark: "Primarna (temna)"
         header-bg-color: "Ozadje glave"
         header-item-bg-hover-color: "Ozadje glave, ko smo z miško na vsebini"
-        header-item-font-color: "Font glave"
+        header-item-font-color: "Pisava glave"
         header-item-font-hover-color: "pisava glave, ko smo z miško na vsebini"
         header-border-bottom-color: "Rob glave"
         main-menu-bg-color: "Ozadje glavnega menija"
-        main-menu-bg-selected-background: "Glavni meni, ko se izbere"
-        main-menu-bg-hover-background: "Glavni meni ob nastavitvi kazalca"
+        main-menu-bg-selected-background: "Glavni meni, ko je izbran"
+        main-menu-bg-hover-background: "Glavni meni, ko smo z miško na vsebini"
         main-menu-font-color: "Pisava glavnega menija"
         main-menu-selected-font-color: "Pisava glavnega menija, ko je izbrana"
         main-menu-hover-font-color: "Pisava glavnega menija, ko z miško lebdimo nad vsebino"
@@ -57,11 +57,11 @@ sl:
         primary-color: "Glavna barva."
         primary-color-dark: "Običajno temnejša različica glavne barve, ki se uporablja za učinke lebdenja."
         header-item-bg-hover-color: "Barva ozadja enot v glavi katere je mogoče klikniti, ko se z miško premaknete na njih."
-        header-item-font-color: "Barva pisave klikajočih enot v glavi."
-        header-item-font-hover-color: "Barva pisave klikajočih elementov v glavi, ko se z miško premaknemo na njih."
+        header-item-font-color: "Barva pisave enot v glavi, na katere lahko kliknemo."
+        header-item-font-hover-color: "Barva pisave elementov v glavi, na katere lahko kliknemo, ko se z miško premaknemo na njih."
         header-border-bottom-color: "Tanka črta pod glavo. Pustite to polje prazno, če ne želite črte."
         main-menu-bg-color: "Barva ozadja levega menija."
-      theme_warning: "Sprememba teme bo nadomestilo vaš slog po meri. Oblikovanje bo tkao izgubljeno. Ali ste prepričani, da bi radi nadaljevali?\n"
+      theme_warning: "Sprememba teme bo nadomestilo vaš slog po meri. Oblikovanje bo tako izgubljeno. Ali ste prepričani, da bi radi nadaljevali?\n"
     enterprise:
       upgrade_to_ee: "Nadgradite v Enterprise Edition"
       add_token: "Naloži Enterprise Edition  podporni žeton"
@@ -78,8 +78,8 @@ sl:
     is_active: Trenutno prikazano
     is_inactive: trenutno ni prikazano
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
-    text_overview: 'V tem pogledu lahko ustvarite besedila pomoči po meri za pogled atributov. Ko je definirano, lahko ta besedila prikažemo s klikom ikone pomoči poleg pripadajočega atributa.'
+    note_public: 'Vsa dodana besedila in slike so javno vidna vsem prijavljenim uporabnikom'
+    text_overview: 'V tem pogledu lahko ustvarite besedila pomoči po meri za pogled atributov. Ob definiciji lahko ta besedila prikažemo s klikom ikone pomoči poleg pripadajočega atributa.'
     label_plural: 'Tekst pomoči atributa'
     show_preview: 'Predogled besedila'
     add_new: 'Dodajte besedilo pomoči'
@@ -194,7 +194,7 @@ sl:
       Določite seznam imen, ki jih ne upoštevate pri obdelavi prilog za dohodne pošte (npr. podpise ali ikone). Vnesite eno ime datoteke v vrstico.
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
+      scheduled: "Izbris je predviden in se izvaja v ozadju. Obveščeni boste o rezultatih."
       schedule_failed: "Projekta ni mogoče izbrisati: %{errors}"
       failed: "Projekt %{name} ni uspel"
       failed_text: "Zahteva za izbris projekta %{name} ni uspela. Projekt je ostal arhiviran."
@@ -536,8 +536,8 @@ sl:
         invalid_url: 'ni veljaven URL. '
         invalid_url_scheme: 'ni podprt protokol (dovoljeno:%{allowed_schemes}).'
         less_than_or_equal_to: "mora biti manjše ali enako %{count}. "
-        not_deletable: "cannot be deleted."
-        not_current_user: "is not the current user."
+        not_deletable: "se ne da izbrisati."
+        not_current_user: "ni trenutni uporabnik"
         not_a_date: "ni veljaven datum"
         not_a_datetime: "ni veljaven datum."
         not_a_number: "ni število."
@@ -725,7 +725,7 @@ sl:
       status: "Stanje delovnega paketa"
       member: "Član"
       news: "Novice"
-      placeholder_user: "Placeholder user"
+      placeholder_user: "Nadomestni uporabnik"
       project: "Projekt"
       query: "Iskanje po meri"
       role:
@@ -1162,7 +1162,7 @@ sl:
   error_menu_item_not_saved: Datoteke ni mogoče shraniti
   error_wiki_root_menu_item_conflict: >
     Ne moremo preimenovati "% {old_name}" v "% {new_name}" zaradi konflikta v nastalem elementu menija z obstoječo postavko menija "% {existing_caption}" (% {existing_identifier}).
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed: "Med zunanjo overitvijo je prišlo do napake. Prosim poskusite ponovno."
   error_attribute_not_highlightable: "Atribut(i) niso označljivi: %{attributes}"
   events:
     project: 'Projekt urejen'
@@ -1571,9 +1571,9 @@ sl:
   label_permissions: "Dovoljenja"
   label_permissions_report: "Poročilo o dovoljenjih"
   label_personalize_page: "Prilagodite to stran"
-  label_placeholder_user: "Placeholder user"
-  label_placeholder_user_new: "New placeholder user"
-  label_placeholder_user_plural: "Placeholder users"
+  label_placeholder_user: "Nadomestni uporabnik"
+  label_placeholder_user_new: "Nov nadomestni uporabnik"
+  label_placeholder_user_plural: "Nadomestni uporabniki"
   label_planning: "Načrtovanje"
   label_please_login: "Prosimo, prijavite se"
   label_plugins: "Vtičniki"
@@ -1797,7 +1797,7 @@ sl:
   label_yesterday: "včeraj"
   label_role_type: "Vrsta"
   label_member_role: "Projektne vloge"
-  label_global_role: "Globalne vloge"
+  label_global_role: "Globalna vloga"
   label_not_changeable: "(ne spremenljivo)"
   label_global: "Globalno"
   auth_source:
@@ -2156,7 +2156,7 @@ sl:
       username: "Uporbniški ime odlagališča"
     truncated: "Žal smo morali ta imenik prerezati v %{limit} datotek. %{truncated} vnosi so bili s seznama izpuščeni."
     named_repository: "%{vendor_name} odlagališče"
-    update_settings_successful: "The settings have been successfully saved."
+    update_settings_successful: "Nastavitve so bile uspešno shranjene."
     url: "Pot do shrambe"
     warnings:
       cannot_annotate: "Te datoteke ni mogoče opomniti."
