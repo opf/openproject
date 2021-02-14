@@ -84,6 +84,8 @@ import {TimeEntryWorkPackageAutocompleterComponent} from "core-app/modules/commo
 import {DraggableAutocompleteComponent} from "core-app/modules/common/draggable-autocomplete/draggable-autocomplete.component";
 import {DragulaModule} from "ng2-dragula";
 import {SlideToggleComponent} from "core-app/modules/common/slide-toggle/slide-toggle.component";
+import {PrincipalRendererService} from "core-app/modules/common/principal/principal-renderer.service";
+import {OpPrincipalComponent} from "core-app/modules/common/principal/op-principal.component";
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
@@ -197,6 +199,7 @@ export function bootstrapModule(injector:Injector) {
     // filter
 
     SlideToggleComponent,
+    OpPrincipalComponent,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -246,6 +249,7 @@ export function bootstrapModule(injector:Injector) {
 
     // User Avatar
     UserAvatarComponent,
+    OpPrincipalComponent,
 
     PersistentToggleComponent,
     AutocompleteSelectDecorationComponent,
