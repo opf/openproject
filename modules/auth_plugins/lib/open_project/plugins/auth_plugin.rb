@@ -71,7 +71,11 @@ module OpenProject::Plugins
     def self.filtered_strategies(options)
       options.select do |provider|
         name = provider[:name]&.to_s
-        next true 
+        next true if !EnterpriseToken.show_banners? || name == 'developer'
+
+        warn_unavailable(name)
+
+        false
       end
     end
 
@@ -87,6 +91,13 @@ module OpenProject::Plugins
       end.first
 
       [camelization, name].compact.first.underscore.to_sym
+    end
+
+    def self.warn_unavailable(name)
+      RequestStore.fetch("warn_unavailable_auth_#{name}") do
+        Rails.logger.warn { "OmniAuth SSO strategy #{name} is only available for Enterprise Editions." }
+        true
+      end
     end
   end
 

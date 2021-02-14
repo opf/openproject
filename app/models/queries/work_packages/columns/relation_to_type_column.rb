@@ -46,7 +46,9 @@ class Queries::WorkPackages::Columns::RelationToTypeColumn < Queries::WorkPackag
   end
 
   def self.instances(context = nil)
-    if context
+    if !granted_by_enterprise_token
+      []
+    elsif context
       context.types
     else
       Type.all

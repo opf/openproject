@@ -77,7 +77,7 @@ module OpenProject::LdapGroups
         Group.where(id: sync.group_id).update_all(lastname: name)
       else
         # Create an OpenProject group
-        sync.group = Group.find_or_initialize_by(groupname: name)
+        sync.group = Group.find_or_create_by!(groupname: name)
       end
     end
 

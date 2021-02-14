@@ -248,6 +248,11 @@ class Setting < ApplicationRecord
 
     value = cached_or_default(name)
 
+    case name
+    when "work_package_list_default_highlighting_mode"
+      value = "none" unless EnterpriseToken.allows_to? :conditional_highlighting
+    end
+
     value
   end
 

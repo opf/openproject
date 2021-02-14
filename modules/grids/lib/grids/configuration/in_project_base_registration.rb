@@ -24,7 +24,8 @@ module Grids::Configuration
     }
 
     queries_permission_and_ee_lambda = ->(user, project) {
-      save_or_manage_queries_lambda.call(user, project) 
+      save_or_manage_queries_lambda.call(user, project) &&
+        EnterpriseToken.allows_to?(:grid_widget_wp_graph)
     }
 
     view_work_packages_lambda = ->(user, project) {

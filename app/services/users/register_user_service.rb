@@ -37,6 +37,7 @@ module Users
 
     def call
       %i[
+        ensure_user_limit_not_reached!
         register_invited_user
         register_ldap_user
         ensure_registration_allowed!
@@ -61,6 +62,15 @@ module Users
     def ensure_registration_allowed!
       if Setting::SelfRegistration.disabled?
         ServiceResult.new(success: false, result: user, message: I18n.t('account.error_self_registration_disabled'))
+      end
+    end
+
+    ##
+    # Ensure the user limit is not reached
+    def ensure_user_limit_not_reached!
+      if OpenProject::Enterprise.user_limit_reached?
+        OpenProject::Enterprise.send_activation_limit_notification_about user
+        ServiceResult.new(success: false, result: user, message: I18n.t(:error_enterprise_activation_user_limit))
       end
     end
 

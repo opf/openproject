@@ -129,9 +129,9 @@ class User < Principal
   # Login must contain letters, numbers, underscores only
   validates_format_of :login, with: /\A[a-z0-9_\-@\.+ ]*\z/i
   validates_length_of :login, maximum: 256
-  validates_length_of :firstname, :lastname, maximum: 30
+  validates_length_of :firstname, :lastname, maximum: 256
   validates_format_of :mail, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, allow_blank: true
-  validates_length_of :mail, maximum: 60, allow_nil: true
+  validates_length_of :mail, maximum: 256, allow_nil: true
   validates_confirmation_of :password, allow_nil: true
   validates_inclusion_of :mail_notification, in: MAIL_NOTIFICATION_OPTIONS.map(&:first), allow_blank: true
 
@@ -283,7 +283,12 @@ class User < Principal
     new(attrs).tap do |user|
       user.language = Setting.default_language
 
-      if user.save
+      if OpenProject::Enterprise.user_limit_reached?
+        OpenProject::Enterprise.send_activation_limit_notification_about(user) if notify
+
+        Rails.logger.error("User '#{user.login}' could not be created as user limit exceeded.")
+        user.errors.add :base, I18n.t(:error_enterprise_activation_user_limit)
+      elsif user.save
         user.reload
         Rails.logger.info("User '#{user.login}' created from external auth source: #{user.auth_source&.type} - #{user.auth_source&.name}")
       else
