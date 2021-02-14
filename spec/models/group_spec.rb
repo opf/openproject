@@ -81,14 +81,6 @@ describe Group, type: :model do
 
     it 'should roles removed when removing group membership' do
       expect(user).to be_member_of project
-      member.destroy
-      user.reload
-      project.reload
-      expect(user).not_to be_member_of project
-    end
-
-    it 'should roles removed when removing group membership' do
-      expect(user).to be_member_of project
       Principals::DestroyJob.perform_now group
       user.reload
       project.reload
@@ -127,7 +119,11 @@ describe Group, type: :model do
         package.save!
       end
 
+<<<<<<< HEAD
       it 'should reassign the work package to the deleted user' do
+=======
+      it 'should reassign the work package to nobody' do
+>>>>>>> ce52949afc (Fix other specs)
         Principals::DestroyJob.perform_now(group)
 
         package.reload
