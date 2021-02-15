@@ -37,5 +37,5 @@ describe Projects::DeleteContract do
   let(:project) { FactoryBot.build_stubbed(:project) }
   let(:contract) { described_class.new(project, current_user) }
 
-  it_behaves_like 'contract is valid for active admin users only'
+  it_behaves_like 'contract is valid for active admins and invalid for regular users'
 end

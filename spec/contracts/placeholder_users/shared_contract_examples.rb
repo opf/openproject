@@ -39,7 +39,7 @@ shared_examples_for 'placeholder user contract' do
     it_behaves_like 'contract is valid'
   end
 
-  it_behaves_like 'contract is valid for active admin users only'
+  it_behaves_like 'contract is valid for active admins and invalid for regular users'
 
   describe 'validations' do
     let(:current_user) { FactoryBot.build_stubbed :admin }
