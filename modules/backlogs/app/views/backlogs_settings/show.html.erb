@@ -1,0 +1,69 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2021 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% html_title t(:label_administration), t(:label_backlogs) %>
+
+<%= form_tag(:admin_backlogs_settings, method: :put, name: 'admin_backlogs_form') do %>
+  <div class="form--field">
+    <%= styled_label_tag("settings[story_types]", t(:backlogs_story_type)) %>
+    <div class="form--field-container">
+      <%= styled_select_tag("settings[story_types]",
+                   options_from_collection_for_select(Type.all, :id, :name, Story.types),
+                   :multiple => true,
+                   container_class: '-slim') %>
+    </div>
+  </div>
+  <div class="form--field">
+    <%= styled_label_tag("settings[task_type]", t(:backlogs_task_type)) %>
+    <div class="form--field-container">
+      <%= styled_select_tag("settings[task_type]",
+                   options_from_collection_for_select(Type.all, :id, :name, Task.type),
+                   container_class: '-slim') %>
+    </div>
+  </div>
+  <div class="form--field">
+    <%= styled_label_tag("settings[points_burn_direction]", t(:backlogs_points_burn_direction)) %>
+    <div class="form--field-container">
+      <%= styled_select_tag("settings[points_burn_direction]",
+                   options_for_select([[t(:label_points_burn_up), 'up'], [t(:label_points_burn_down), 'down']],
+                                      Setting.plugin_openproject_backlogs["points_burn_direction"]),
+                   container_class: '-slim') %>
+    </div>
+  </div>
+  <div class="form--field">
+    <%= styled_label_tag("settings[wiki_template]", t(:backlogs_wiki_template)) %>
+    <div class="form--field-container">
+      <%= styled_text_field_tag("settings[wiki_template]",
+                       Setting.plugin_openproject_backlogs["wiki_template"],
+                       container_class: '-slim') %>
+    </div>
+  </div>
+
+  <%= styled_submit_tag t(:button_apply), class: '-highlight' %>
+<% end %>
