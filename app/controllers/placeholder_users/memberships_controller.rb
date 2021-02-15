@@ -32,7 +32,7 @@ class PlaceholderUsers::MembershipsController < ApplicationController
   include IndividualPrincipals::MembershipControllerMethods
   layout 'admin'
 
-  before_action :require_admin
+  before_action :authorize_global
   before_action :find_individual_principal
 
   def find_individual_principal

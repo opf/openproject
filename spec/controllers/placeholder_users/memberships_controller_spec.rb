@@ -106,7 +106,7 @@ describe PlaceholderUsers::MembershipsController, type: :controller do
   context 'as user with global permission' do
     current_user { FactoryBot.create :user, global_permission: %i[add_placeholder_user] }
 
-    it_behaves_like 'update memberships forbidden flow'
+    it_behaves_like 'update memberships flow'
   end
 
   context 'as user without global permission' do
