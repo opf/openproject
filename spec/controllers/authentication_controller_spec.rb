@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 describe AuthenticationController, type: :controller do
-  describe 'index.html' do
+  describe 'show.html' do
     def fetch
-      get 'index'
+      get 'show'
     end
 
-    it_should_behave_like 'a controller action with require_admin'
+    it_behaves_like 'a controller action with require_admin'
   end
 end
