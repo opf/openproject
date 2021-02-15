@@ -22,7 +22,7 @@ ja:
       export: '外部出力'
       import_update_comment: '(BCF インポートで更新済)'
       import_failed: 'BCF ファイルをインポートできません: %{error}'
-      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
+      import_failed_unsupported_bcf_version: 'BCF ファイルの読み取りに失敗しました: BCF バージョンはサポートされていません。少なくとも %{minimal_version} 以上のバージョンであることを確認してください。'
       import_successful: '%{count} BCF チケットをインポートしました'
       import_canceled: 'BCF-XML インポートをキャンセルしました。'
       type_not_active: "チケットの形式がこのプロジェクトで有効になっていません。"
@@ -30,7 +30,7 @@ ja:
         num_issues_found: '%{x_bcf_issues} は BCF-XML ファイルに含まれています。詳細は下に一覧表示されます。'
         button_prepare: 'インポートの準備'
         button_perform_import: 'インポートの確認'
-        button_proceed: 'Proceed with import'
+        button_proceed: 'インポートを続ける'
         button_back_to_list: 'リストに戻る'
         no_permission_to_add_members: 'プロジェクトにメンバーとして追加するための十分な権限がありません。'
         contact_project_admin: 'プロジェクト管理者に連絡してメンバーとして追加し、このインポートをもう一度開始してください。'
@@ -56,7 +56,7 @@ ja:
         import_as_system_user: 'それらを "システム" ユーザーとしてインポート'
         what_to_do: "どれかを選択して下さい。"
         work_package_has_newer_changes: "期限切れです! サーバー上の前回の変更がインポートされたトピックの「更新日付」よりも新しいため、このトピックは更新されませんでした。 ただし、トピックへのコメントはインポートされました。"
-        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
+        bcf_file_not_found: "BCFファイルが見つかりませんでした。再度アップロードを開始してください。"
   export:
     format:
       bcf: "BCF-XML"
