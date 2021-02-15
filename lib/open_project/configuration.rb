@@ -182,6 +182,7 @@ module OpenProject
 
       # Allow override of LDAP options
       'ldap_auth_source_tls_options' => nil,
+      'ldap_force_no_page' => false,
 
       # Slow query logging threshold in ms
       'sql_slow_query_threshold' => 2000
