@@ -59,21 +59,7 @@ describe PlaceholderUsers::MembershipsController, type: :controller do
     end
   end
 
-  context 'as admin' do
-    current_user { FactoryBot.create :admin }
-
-    it_behaves_like 'update memberships flow'
-  end
-
-  context 'as user with global permission' do
-    current_user { FactoryBot.create :user, global_permission: %i[add_placeholder_user] }
-
-    it_behaves_like 'update memberships flow'
-  end
-
-  context 'as user without global permission' do
-    current_user { FactoryBot.create :user }
-
+  shared_examples 'update memberships forbidden flow' do
     describe 'POST create' do
       it 'returns an error' do
         post :create, params: {
@@ -109,5 +95,23 @@ describe PlaceholderUsers::MembershipsController, type: :controller do
         expect(response.status).to eq 403
       end
     end
+  end
+
+  context 'as admin' do
+    current_user { FactoryBot.create :admin }
+
+    it_behaves_like 'update memberships flow'
+  end
+
+  context 'as user with global permission' do
+    current_user { FactoryBot.create :user, global_permission: %i[add_placeholder_user] }
+
+    it_behaves_like 'update memberships forbidden flow'
+  end
+
+  context 'as user without global permission' do
+    current_user { FactoryBot.create :user }
+
+    it_behaves_like 'update memberships forbidden flow'
   end
 end

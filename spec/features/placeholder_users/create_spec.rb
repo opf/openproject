@@ -36,10 +36,7 @@ describe 'create placeholder users', type: :feature, selenium: true do
       visit new_placeholder_user_path
 
       new_placeholder_user_page.fill_in! name: 'UX Designer'
-
-      perform_enqueued_jobs do
-        new_placeholder_user_page.submit!
-      end
+      new_placeholder_user_page.submit!
 
       expect(page).to have_selector('.flash', text: 'Successful creation.')
 

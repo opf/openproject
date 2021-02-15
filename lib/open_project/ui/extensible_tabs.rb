@@ -100,7 +100,8 @@ module OpenProject
               name: 'memberships',
               partial: 'individual_principals/memberships',
               path: ->(params) { edit_placeholder_user_path(params[:placeholder_user], tab: :memberships) },
-              label: :label_project_plural
+              label: :label_project_plural,
+              only_if: ->(*) { User.current.admin? }
             }
           ]
         end

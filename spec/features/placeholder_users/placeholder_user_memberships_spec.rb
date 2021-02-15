@@ -78,12 +78,6 @@ feature 'placeholder user memberships through placeholder user page', type: :fea
     it_behaves_like 'can work with placeholders'
   end
 
-  context 'as user with global permission' do
-    current_user { FactoryBot.create :user, global_permission: %i[add_placeholder_user] }
-
-    it_behaves_like 'can work with placeholders'
-  end
-
   context 'as user without global permission' do
     current_user { FactoryBot.create :user }
 
