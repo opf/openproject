@@ -38,11 +38,12 @@ module AdminSettingsUpdater
 
     def update
       if params[:settings]
-        Settings::UpdateService
+        call = Settings::UpdateService
           .new(user: current_user)
-          .call(settings: settings_params)
+          .call(settings_params)
 
-        flash[:notice] = t(:notice_successful_update)
+        call.on_success { flash[:notice] = t(:notice_successful_update) }
+        call.on_failure { flash[:error] = call.message || I18n.t(:notice_internal_server_error) }
         redirect_to action: 'show', tab: params[:tab]
       end
     end

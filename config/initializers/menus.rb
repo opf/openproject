@@ -149,7 +149,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-group'
 
   menu.push :user_settings,
-            { controller: '/users_settings' },
+            { controller: '/users_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_setting_plural,
             parent: :users_and_permissions
@@ -185,13 +185,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :users_and_permissions
 
   menu.push :admin_work_packages,
-            { controller: '/work_packages/settings' },
+            { controller: '/work_packages/settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_work_package_plural,
             icon: 'icon2 icon-view-timeline'
 
   menu.push :work_packages_setting,
-            { controller: '/work_packages/settings' },
+            { controller: '/work_packages/settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_setting_plural,
             parent: :admin_work_packages
@@ -274,13 +274,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :email
 
   menu.push :authentication,
-            { controller: '/authentication', action: 'authentication_settings' },
+            { controller: '/authentication', action: 'show' },
             if: Proc.new { User.current.admin? },
             caption: :label_authentication,
             icon: 'icon2 icon-two-factor-authentication'
 
   menu.push :authentication_settings,
-            { controller: '/authentication', action: 'authentication_settings' },
+            { controller: '/authentication', action: 'show' },
             if: Proc.new { User.current.admin? },
             caption: :label_setting_plural,
             parent: :authentication

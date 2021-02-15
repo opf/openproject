@@ -31,7 +31,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= toolbar title: t(:label_work_package_tracking) %>
 
-<%= styled_form_tag({action: 'edit'}) do %>
+<%= styled_form_tag({action: :update}) do %>
   <section class="form--section">
     <div class="form--field"><%= setting_check_box :cross_project_work_package_relations %></div>
     <div class="form--field"><%= setting_check_box :display_subprojects_work_packages %></div>

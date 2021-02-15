@@ -29,25 +29,13 @@
 #++
 
 class WorkPackages::SettingsController < ::ApplicationController
-  layout 'admin'
-  before_action :require_admin
+  include AdminSettingsUpdater
   current_menu_item :index do
     :work_packages_setting
   end
 
-  def index
-    render 'work_packages/settings/work_package_tracking'
-  end
-
-  def edit
-    if params[:settings]
-      Settings::UpdateService
-        .new(user: current_user)
-        .call(settings: permitted_params.settings.to_h)
-
-      flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to action: 'index'
-    end
+  def show
+    render template: 'work_packages/settings/work_package_tracking'
   end
 
   def default_breadcrumb

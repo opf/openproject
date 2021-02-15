@@ -30,22 +30,10 @@
 
 class UsersSettingsController < ::ApplicationController
   layout 'admin'
-  before_action :require_admin
   menu_item :user_settings
 
-  def index
-    render 'users/users_settings'
-  end
-
-  def edit
-    if params[:settings]
-      Settings::UpdateService
-        .new(user: current_user)
-        .call(settings: permitted_params.settings.to_h)
-
-      flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to action: 'index'
-    end
+  def show
+    render template: 'users/users_settings'
   end
 
   def default_breadcrumb

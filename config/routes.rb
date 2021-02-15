@@ -421,8 +421,8 @@ OpenProject::Application.routes.draw do
   end
 
   scope controller: 'work_packages/settings' do
-    get 'work_package_tracking' => 'work_packages/settings#index'
-    post 'work_package_tracking' => 'work_packages/settings#edit'
+    get 'work_package_tracking' => 'work_packages/settings#show'
+    post 'work_package_tracking' => 'work_packages/settings#update'
   end
 
   resources :work_packages, only: [:index] do
@@ -476,8 +476,8 @@ OpenProject::Application.routes.draw do
   resources :groups, only: %i[show], as: :show_group
 
   scope controller: 'users_settings' do
-    get 'users_settings' => 'users_settings#index'
-    post 'users_settings' => 'users_settings#edit'
+    get 'users_settings' => 'users_settings#show'
+    post 'users_settings' => 'users_settings#update'
   end
 
   resources :forums, only: [] do
@@ -555,9 +555,8 @@ OpenProject::Application.routes.draw do
   end
 
   scope controller: 'authentication' do
-    get 'authentication' => 'authentication#index'
-    get 'authentication_settings' => 'authentication#authentication_settings'
-    post 'authentication_settings' => 'authentication#edit'
+    get 'authentication_settings' => 'authentication#show'
+    post 'authentication_settings' => 'authentication#update'
   end
 
   resources :colors do

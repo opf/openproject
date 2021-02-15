@@ -30,7 +30,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= toolbar title: t(:label_user_settings) %>
 
-<%= styled_form_tag({ action: 'edit' }, class: 'admin-settings--form') do %>
+<%= styled_form_tag({ action: :update }, class: 'admin-settings--form') do %>
 
   <fieldset class="form--fieldset">
     <legend class="form--fieldset-legend"><%= t(:'settings.user.default_preferences')%></legend>

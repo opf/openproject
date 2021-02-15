@@ -28,19 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AuthenticationController < ApplicationController
-  include AdminSettingsUpdater
-  menu_item :authentication_settings
-
-  def show
-    render template: 'authentication/authentication_settings'
-  end
-
-  def default_breadcrumb
-    t(:label_authentication)
-  end
-
-  def show_local_breadcrumb
-    true
+module Settings
+  class BaseContract < ::BaseContract
+    include RequiresAdminGuard
   end
 end
