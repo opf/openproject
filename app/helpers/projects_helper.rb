@@ -52,7 +52,7 @@ module ProjectsHelper
       Queries::Projects::Filters::NameAndIdentifierFilter,
       Queries::Projects::Filters::TypeFilter
     ]
-    whitelist << Queries::Filters::Shared::CustomFields::Base if EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
+    whitelist << Queries::Filters::Shared::CustomFields::Base 
 
     whitelist.detect { |clazz| filter.is_a? clazz }
   end

@@ -119,6 +119,6 @@ class Queries::WorkPackages::Filter::SearchFilter <
   private
 
   def attachment_filters_allowed?
-    EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv?
+    OpenProject::Database.allows_tsv?
   end
 end

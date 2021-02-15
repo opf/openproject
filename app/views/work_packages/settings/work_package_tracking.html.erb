@@ -46,20 +46,12 @@ See docs/COPYRIGHT.rdoc for more details.
                          },
                          Hash.new.tap { |options|
                             options[:container_class] = '-middle'
-                            options[:disabled] = 'disabled' unless EnterpriseToken.allows_to?(:conditional_highlighting)
+                            
                          }
       %>
-      <%= render partial: 'work_packages/settings/enterprise_feature_hint',
-                 locals: {
-                   ee_feature: :conditional_highlighting,
-                   explanation: t('js.work_packages.table_configuration.upsale.attribute_highlighting'),
-                   link_out: {
-                     href: "https://www.openproject.org/enterprise-edition/?op_edtion=community-edition&op_referrer=settings-wp-attribute-highlighting#attribute-highlighting",
-                     caption: t('js.work_packages.table_configuration.upsale.check_out_link')
-                   }
-                 } %>
+
     </div>
-    <% if EnterpriseToken.allows_to? :conditional_highlighting %>
+
       <div class="form--field -indented -vertical settings--highlighted-attributes" style="<%= 'display: none' unless Setting[:work_package_list_default_highlighting_mode] == 'inline' %>">
         <%= setting_multiselect :work_package_list_default_highlighted_attributes,
                               Query.available_columns(nil).select(&:highlightable).map { |column|
@@ -67,7 +59,7 @@ See docs/COPYRIGHT.rdoc for more details.
                               }
         %>
       </div>
-    <% end %>
+
   </section>
   <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= t(:setting_column_options) %></legend>
     <%
