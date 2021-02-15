@@ -283,12 +283,7 @@ class User < Principal
     new(attrs).tap do |user|
       user.language = Setting.default_language
 
-      if OpenProject::Enterprise.user_limit_reached?
-        OpenProject::Enterprise.send_activation_limit_notification_about(user) if notify
-
-        Rails.logger.error("User '#{user.login}' could not be created as user limit exceeded.")
-        user.errors.add :base, I18n.t(:error_enterprise_activation_user_limit)
-      elsif user.save
+      if user.save
         user.reload
         Rails.logger.info("User '#{user.login}' created from external auth source: #{user.auth_source&.type} - #{user.auth_source&.name}")
       else
