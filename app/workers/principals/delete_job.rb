@@ -33,7 +33,9 @@ class Principals::DeleteJob < ApplicationJob
 
   def perform(principal)
     Principal.transaction do
+      delete_associated(principal)
       replace_references(principal)
+      update_cost_queries(principal)
 
       principal.destroy
     end
@@ -47,6 +49,37 @@ class Principals::DeleteJob < ApplicationJob
       .call(from: principal, to: DeletedUser.first)
       .tap do |call|
       raise ActiveRecord::Rollback if call.failure?
+    end
+  end
+
+  def delete_associated(principal)
+    delete_private_queries(principal)
+  end
+
+  def delete_private_queries(principal)
+    ::Query.where(user_id: principal.id, is_public: false).delete_all
+    CostQuery.where(user_id: principal.id, is_public: false).delete_all
+  end
+
+  # rubocop:disable Rails/SkipsModelValidations
+  def update_cost_queries(principal)
+    CostQuery.in_batches.each_record do |query|
+      serialized = query.serialized
+
+      serialized[:filters] = serialized[:filters].map do |name, options|
+        remove_cost_query_values(name, options, principal)
+      end.compact
+
+      CostQuery.where(id: query.id).update_all(serialized: serialized)
+    end
+  end
+  # rubocop:enable Rails/SkipsModelValidations
+
+  def remove_cost_query_values(name, options, principal)
+    options[:values].delete(principal.id.to_s) if %w[UserId AuthorId AssignedToId ResponsibleId].include?(name)
+
+    if options[:values].nil? || options[:values].any?
+      [name, options]
     end
   end
 end

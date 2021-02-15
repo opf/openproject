@@ -28,6 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+# Rewrites references to a principal from one principal to the other.
+# No data is to be removed.
 module Principals
   class ReplaceReferencesService
     def call(from:, to:)
@@ -56,7 +58,7 @@ module Principals
         .update_all(value: to.id.to_s)
     end
 
-    def rewrite_default_journals(from ,to)
+    def rewrite_default_journals(from, to)
       journal_classes.each do |klass|
         foreign_keys.each do |foreign_key|
           if klass.column_names.include? foreign_key
@@ -94,6 +96,7 @@ module Principals
       [TimeEntry,
        ::Query,
        Changeset,
+       CostQuery,
        MeetingParticipant].each do |klass|
         klass.where(user_id: from.id).update_all(user_id: to.id)
       end

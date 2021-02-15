@@ -134,7 +134,6 @@ class User < Principal
   after_save :update_password
 
   before_create :sanitize_mail_notification_setting
-  before_destroy :delete_associated_private_queries
 
   scope :admin, -> { where(admin: true) }
 
@@ -730,10 +729,6 @@ class User < Principal
     # minimum 1 to keep the actual user password
     keep_count = [1, Setting[:password_count_former_banned].to_i].max
     (passwords[keep_count..-1] || []).each(&:destroy)
-  end
-
-  def delete_associated_private_queries
-    ::Query.where(user_id: id, is_public: false).delete_all
   end
 
   ##

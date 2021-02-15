@@ -388,11 +388,21 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
     context 'with Query' do
       it_behaves_like 'rewritten record',
                       :query,
+                      :user_id
+    end
+
+    context 'with CostQuery' do
+      let(:query) { FactoryBot.create(:cost_query, user: principal) }
+
+      it_behaves_like 'rewritten record',
+                      :cost_query,
                       :user_id do
         let(:attributes) do
-          { }
+          { name: "'abc'",
+            serialized: "'cde'" }
         end
       end
+
     end
   end
 end
