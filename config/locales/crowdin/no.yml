@@ -598,7 +598,7 @@
             project:
               error_not_found: "not found"
             public:
-              error_unauthorized: "- The user has no permission to create public views."
+              error_unauthorized: "- Brukeren har ikke tillatelse til å opprette offentlige visninger."
             group_by:
               invalid: "Kan ikke gruppere av: %{value}"
               format: "%{message}"
@@ -1240,7 +1240,7 @@
   label_all: "alle"
   label_all_time: "alle tidspunkt"
   label_all_words: "Alle ord"
-  label_all_open_wps: "All open"
+  label_all_open_wps: "Alle åpne"
   label_always_visible: "Vises alltid"
   label_announcement: "Kunngjøring"
   label_api_access_key: "API adgangsnøkkel"
@@ -1947,7 +1947,7 @@
   permission_manage_members: "Administrere medlemmer"
   permission_manage_news: "Administrere nyheter"
   permission_manage_project_activities: "Administrere prosjektaktiviteter"
-  permission_manage_public_queries: "Manage public views"
+  permission_manage_public_queries: "Administrer offentlige visninger"
   permission_manage_repository: "Administrere pakkebrønner"
   permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Administrere versjoner"
