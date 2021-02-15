@@ -4,7 +4,7 @@ sidebar_navigation:
   priority: 799
 description: Time tracking in OpenProject
 robots: index, follow
-keywords: time tracking, logging time
+keywords: time tracking, logging time, define rate, labor costs
 ---
 
 # Time tracking
@@ -24,6 +24,7 @@ Users can book their time or units spent on an activity within a project directl
 | [Edit logged time](#edit-logged-time)                        | How to edit logged time on a work package?                   |
 | [Delete time entries](#delete-time-entires)                  | How to delete time entries logged to a work package?         |
 | [Spent time widget on the My Page](#spent-time-widget-on-the-my-page) | How to easily track and display spent time in the spent time widget on the MyPage? |
+| [Define hourly rate for labor costs](#define-hourly-rate-for-labor-costs) | How to set the hourly rate to track labor costs?    |
 
 ## Logging time in the work package view
 
@@ -86,3 +87,37 @@ You can easily track spent time in the **spent time widget on the MyPage** and g
 See more information about the My spent time widget on the [MyPage](../../../getting-started/my-page/#my-spent-time-widget).
 
 ![spent time widget](image-20200211160311662.png)
+
+## Define hourly rate for labor costs
+
+You can define an hourly rate to **track labor costs per user**. Please navigate to the user profile, e.g. by clicking on a hyper link of the user name on a work package.
+
+ ![User-profile](User-profile.png)
+
+You will be directed to the user's profile page.
+
+Here, you can click the **Edit button** on the top right corner of the user profile page.
+
+ ![User-profile-edit](User-profile-edit.png)
+
+Alternatively, you can navigate to *Administration ->Users & Permissions ->Users*.
+
+Click on the **Rate history** tab.
+
+You will see a default hourly rate valid for all projects.
+
+If you want to set a different hourly rate for the user on different projects, you can overwrite the default rate with a different rate below in the respective projects.
+
+![Rate-history](Rate-history-1574778553695.png)
+
+To enter a new hourly rate, click on the **Update** icon next to the rate history. You can either set a **default hourly rate** or define a rate for a certain project.
+
+![Update-hourly-rate](Update-hourly-rate-1574778595938.png)
+
+1. Enter a date from which the rate is **Valid from**.
+2. Enter the (hourly) **Rate**. The currency can only be changed in the system's Administration settings.
+3. You can delete an hourly rate.
+4. You can **add a rate** for a different time period.
+5. **Save** your changes.
+
+![Rate-history-change](Rate-history-change.png)
