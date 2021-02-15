@@ -322,7 +322,7 @@ class UsersController < ApplicationController
   end
 
   def show_local_breadcrumb
-    current_user.admin?
+    action_name != 'show'
   end
 
   def build_user_update_params
