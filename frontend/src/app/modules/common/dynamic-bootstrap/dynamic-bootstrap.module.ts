@@ -1,13 +1,20 @@
+/**
+ * @module
+ * DynamicBootstrapComponent allows to dynamically render an HTML string into any HTML node
+ * and bootstrap its Angular components and directives.
+ *
+ * Use example:
+ * ```
+ *  <op-dynamic-bootstrap [HTML]="<macro data-id="1" data-detailed="false" title="Macro nº1"></macro>">
+ *  </op-dynamic-bootstrap>
+ * ```
+ */
+
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { DynamicBootstrapDirective } from './directive/dynamic-bootstrap.directive';
 import { DynamicBootstrapComponent } from './component/dynamic-bootstrap/dynamic-bootstrap.component';
 
 @NgModule({
-  declarations: [DynamicBootstrapDirective, DynamicBootstrapComponent],
-  imports: [
-    CommonModule
-  ],
-  exports: [DynamicBootstrapDirective],
+  declarations: [DynamicBootstrapComponent],
+  exports: [DynamicBootstrapComponent],
 })
 export class DynamicBootstrapModule { }

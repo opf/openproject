@@ -7,13 +7,16 @@ import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
   templateUrl: './dynamic-bootstrap.component.html',
 })
 export class DynamicBootstrapComponent {
+  /*
+  * HTML string to be rendered, it can contain Angular components and directives.
+  */
   @Input()
-  set innerHtml(templateString:string) {
-    this._innerHtml = this.domSanitizer.bypassSecurityTrustHtml(templateString);
+  set HTML(templateString:string) {
+    this.innerHtml = this.domSanitizer.bypassSecurityTrustHtml(templateString);
     DynamicBootstrapper.bootstrapOptionalEmbeddable(this.appRef, this.elementRef.nativeElement);
   }
 
-  _innerHtml:SafeHtml;
+  innerHtml:SafeHtml;
 
   constructor(
     protected domSanitizer:DomSanitizer,

@@ -84,8 +84,6 @@ export class WorkPackageQuickinfoMacroComponent {
     this.detailed = element.dataset.detailed === 'true';
     this.workPackageLink = this.pathHelper.workPackagePath(id);
 
-    console.log('WorkPackageQuickinfoMacroComponent', element, id, this);
-
     this.workPackage$ = this
       .apiV3Service
       .work_packages

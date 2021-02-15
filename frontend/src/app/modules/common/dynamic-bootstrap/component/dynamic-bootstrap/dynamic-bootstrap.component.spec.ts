@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DynamicBootstrapComponent } from './dynamic-bootstrap.component';
 
-describe('DynamicBootstrapComponent', () => {
+fdescribe('DynamicBootstrapComponent', () => {
   let component: DynamicBootstrapComponent;
   let fixture: ComponentFixture<DynamicBootstrapComponent>;
 
