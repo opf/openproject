@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,13 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Principals
-  class DestroyJob < ApplicationJob
-    queue_with_priority :low
-
-    def perform(principal)
-      ReplaceReferencesJob.perform_now(principal.id)
-      principal.destroy
-    end
+FactoryBot.define do
+  factory :journal_time_entry_journal, class: Journal::TimeEntryJournal do
   end
 end

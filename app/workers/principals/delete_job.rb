@@ -28,33 +28,25 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-##
-# Implements the deletion of a user.
-module Users
-  class DeleteService < ::BaseServices::Delete
-    ##
-    # Deletes the given user if allowed.
-    #
-    # @return True if the user deletion has been initiated, false otherwise.
-    def destroy(user_object)
-      # as destroying users is a lengthy process we handle it in the background
-      # and lock the account now so that no action can be performed with it
-      user_object.lock!
-      ::Principals::DeleteJob.perform_later(user_object)
+class Principals::DeleteJob < ApplicationJob
+  queue_with_priority :low
 
-      logout! if self_delete?
+  def perform(principal)
+    Principal.transaction do
+      replace_references(principal)
 
-      true
+      principal.destroy
     end
+  end
 
-    private
+  private
 
-    def self_delete?
-      user == model
-    end
-
-    def logout!
-      User.current = nil
+  def replace_references(principal)
+    Principals::ReplaceReferencesService
+      .new
+      .call(from: principal, to: DeletedUser.first)
+      .tap do |call|
+      raise ActiveRecord::Rollback if call.failure?
     end
   end
 end

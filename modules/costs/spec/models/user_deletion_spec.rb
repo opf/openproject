@@ -43,108 +43,13 @@ describe User, '#destroy', type: :model do
     User.current = nil
   end
 
-  shared_examples_for 'costs updated journalized associated object' do
-    before do
-      User.current = user2
-      associations.each do |association|
-        associated_instance.send(association.to_s + '=', user2)
-      end
-      associated_instance.save!
-
-      User.current = user # in order to have the content journal created by the user
-      associated_instance.reload
-      associations.each do |association|
-        associated_instance.send(association.to_s + '=', user)
-      end
-      associated_instance.save!
-
-      Principals::DestroyJob.perform_now(user)
-      associated_instance.reload
-    end
-
-    it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
-    it 'should replace the user on all associations' do
-      associations.each do |association|
-        expect(associated_instance.send(association)).to eq(substitute_user)
-      end
-    end
-    it { expect(associated_instance.journals.first.user).to eq(user2) }
-    it 'should update first journal details' do
-      associations.each do |association|
-        expect(associated_instance.journals.first.details["#{association}_id".to_sym].last).to eq(user2.id)
-      end
-    end
-    it { expect(associated_instance.journals.last.user).to eq(substitute_user) }
-    it 'should update second journal details' do
-      associations.each do |association|
-        expect(associated_instance.journals.last.details["#{association}_id".to_sym].last).to eq(substitute_user.id)
-      end
-    end
-  end
-
-  shared_examples_for 'costs created journalized associated object' do
-    before do
-      User.current = user # in order to have the content journal created by the user
-      associations.each do |association|
-        associated_instance.send(association.to_s + '=', user)
-      end
-      associated_instance.save!
-
-      User.current = user2
-      associated_instance.reload
-      associations.each do |association|
-        associated_instance.send(association.to_s + '=', user2)
-      end
-      associated_instance.save!
-
-      Principals::DestroyJob.perform_now(user)
-      associated_instance.reload
-    end
-
-    it { expect(associated_class.find_by_id(associated_instance.id)).to eq(associated_instance) }
-    it 'should keep the current user on all associations' do
-      associations.each do |association|
-        expect(associated_instance.send(association)).to eq(user2)
-      end
-    end
-    it { expect(associated_instance.journals.first.user).to eq(substitute_user) }
-    it 'should update the first journal' do
-      associations.each do |association|
-        expect(associated_instance.journals.first.details["#{association}_id".to_sym].last).to eq(substitute_user.id)
-      end
-    end
-    it { expect(associated_instance.journals.last.user).to eq(user2) }
-    it 'should update the last journal' do
-      associations.each do |association|
-        expect(associated_instance.journals.last.details["#{association}_id".to_sym].first).to eq(substitute_user.id)
-        expect(associated_instance.journals.last.details["#{association}_id".to_sym].last).to eq(user2.id)
-      end
-    end
-  end
-
-  describe 'WHEN the user updated a cost object' do
-    let(:associations) { [:author] }
-    let(:associated_instance) { FactoryBot.build(:budget) }
-    let(:associated_class) { Budget }
-
-    it_should_behave_like 'costs updated journalized associated object'
-  end
-
-  describe 'WHEN the user created a cost object' do
-    let(:associations) { [:author] }
-    let(:associated_instance) { FactoryBot.build(:budget) }
-    let(:associated_class) { Budget }
-
-    it_should_behave_like 'costs created journalized associated object'
-  end
-
   describe 'WHEN the user has a labor_budget_item associated' do
     let(:item) { FactoryBot.build(:labor_budget_item, user: user) }
 
     before do
       item.save!
 
-      Principals::DestroyJob.perform_now(user)
+      Principals::DeleteJob.perform_now(user)
     end
 
     it { expect(LaborBudgetItem.find_by_id(item.id)).to eq(item) }
@@ -168,7 +73,7 @@ describe User, '#destroy', type: :model do
                                  roles: [FactoryBot.build(:role)])
       entry
 
-      Principals::DestroyJob.perform_now(user)
+      Principals::DeleteJob.perform_now(user)
 
       entry.reload
     end
@@ -184,7 +89,7 @@ describe User, '#destroy', type: :model do
 
     before do
       hourly_rate.save!
-      Principals::DestroyJob.perform_now(user)
+      Principals::DeleteJob.perform_now(user)
     end
 
     it { expect(HourlyRate.find_by_id(hourly_rate.id)).to eq(hourly_rate) }
@@ -199,7 +104,7 @@ describe User, '#destroy', type: :model do
 
     before do
       default_hourly_rate.save!
-      Principals::DestroyJob.perform_now(user)
+      Principals::DeleteJob.perform_now(user)
     end
 
     it { expect(DefaultHourlyRate.find_by_id(default_hourly_rate.id)).to eq(default_hourly_rate) }

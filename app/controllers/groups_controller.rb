@@ -80,7 +80,7 @@ class GroupsController < ApplicationController
   end
 
   def destroy
-    ::Principals::DestroyJob.perform_later(@group)
+    ::Principals::DeleteJob.perform_later(@group)
 
     flash[:info] = I18n.t(:notice_deletion_scheduled)
     redirect_to action: :index

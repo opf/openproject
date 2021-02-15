@@ -249,7 +249,7 @@ describe 'API v3 User resource',
       end
 
       it 'should lock the account and mark for deletion' do
-        expect(Principals::DestroyJob)
+        expect(Principals::DeleteJob)
           .to have_been_enqueued
           .with(user)
 

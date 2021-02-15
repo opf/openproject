@@ -254,12 +254,7 @@ class CostQuery < ApplicationRecord
     CostQuery.where(user_id: user.id, is_public: false).delete_all
     CostQuery.where(['user_id = ?', user.id]).update_all ['user_id = ?', DeletedUser.first.id]
 
-    max_query_id = 0
-    while (current_queries = CostQuery.limit(1000)
-                             .where(["id > ?", max_query_id])
-                             .order("id ASC")).size > 0
-
-      current_queries.each do |query|
+    CostQuery.in_batches(1000).each do |query|
         serialized = query.serialized
 
         serialized[:filters] = serialized[:filters].map do |name, options|
@@ -271,8 +266,6 @@ class CostQuery < ApplicationRecord
         end.compact
 
         CostQuery.where(["id = ?", query.id]).update_all ["serialized = ?", YAML::dump(serialized)]
-
-        max_query_id = query.id
       end
     end
   end
