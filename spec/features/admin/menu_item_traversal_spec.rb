@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'Menu item traversal', type: :feature, js: true do
-  let(:admin) { FactoryBot.create(:admin) }
+describe 'Menu item traversal', type: :feature do
+  shared_let(:admin) { FactoryBot.create(:admin) }
 
   describe 'EnterpriseToken management' do
     before do
@@ -46,6 +46,41 @@ describe 'Menu item traversal', type: :feature, js: true do
       # due to the plugin controller also being named 'admin' thus falling back to 'admin#index' => overview selected
       expect(page).to have_selector('.plugin-webhooks-menu-item.selected', text: 'Webhooks', wait: 5)
       expect(page).to have_no_selector('.admin-overview-menu-item.selected')
+    end
+  end
+
+  describe 'route authorization', with_settings: { login_required?: false } do
+    let(:user) { FactoryBot.create :user }
+    let(:anon) { User.anonymous }
+
+    let(:check_link) do
+      ->(link) {
+        visit link
+
+        if current_url.include? "/login?back_url="
+          expect(page).to have_text('Sign in'), "#{link} should redirect to sign in"
+        else
+          expect(page).to have_text(I18n.t(:notice_not_authorized)), "#{link} should result in 403 response"
+        end
+      }
+    end
+
+    it 'checks for authorized status for all links', :aggregate_failures do
+      login_as admin
+      visit admin_index_path
+
+      # Get all admin links from there
+      links = all('#menu-sidebar a[href]', visible: :all)
+        .map { |node| node['href'] }
+        .reject { |link| link.end_with? '/#' }
+        .compact
+        .uniq
+
+      login_as anon
+      links.each(&check_link)
+
+      login_as user
+      links.each(&check_link)
     end
   end
 end
