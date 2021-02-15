@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,25 +28,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_dependency 'project_settings_helper'
+class BacklogsProjectSettingsController < ProjectSettingsController
+  menu_item :settings_backlogs
 
-module OpenProject::Backlogs::Patches::ProjectSettingsHelperPatch
-  def self.included(base)
-    base.module_eval do
-      alias_method :project_settings_tabs_without_backlogs, :project_settings_tabs
-
-      def project_settings_tabs
-        project_settings_tabs_without_backlogs.tap do |settings|
-          settings << {
-            name: :backlogs,
-            action: { controller: '/backlogs_settings', action: 'show' },
-            label: :label_backlogs,
-            if: ->(p) { p.module_enabled?('backlogs') }
-          }
-        end
-      end
-    end
+  def show
+    @statuses_done_for_project = @project.done_statuses.select(:id).map(&:id)
+    render template: '/project_settings/backlogs_settings'
   end
 end
-
-ProjectSettingsHelper.include OpenProject::Backlogs::Patches::ProjectSettingsHelperPatch
