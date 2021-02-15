@@ -62,17 +62,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
   <% if @custom_field.class.name == 'WorkPackageCustomField' %>
     <div class="form--field" id="custom_field_multi_select">
-      <% if EnterpriseToken.allows_to?(:multiselect_custom_fields) %>
         <%= f.check_box :multi_value %>
-      <% else %>
-        <label class="form--label" for="custom_field_multi_value_disabled"><%= CustomField.human_attribute_name('multi_value') %></label>
-        <span class="form--field-container">
-          <span class="form--check-box-container">
-            <input disabled="disabled" class="-cf-ignore-disabled form--check-box" type="checkbox" name="custom_field_multi_value_disabled">
-            <%= render partial: 'enterprise/locked_note' %>
-          </span>
-        </span>
-      <% end %>
     </div>
   <% end %>
 
