@@ -81,7 +81,11 @@ feature 'placeholder user memberships through placeholder user page', type: :fea
   context 'as user with global permission' do
     current_user { FactoryBot.create :user, global_permission: %i[add_placeholder_user] }
 
-    it_behaves_like 'can work with placeholders'
+    it 'returns an error' do
+      placeholder_user_page.visit!
+      expect(page).to have_text 'You are not authorized to access this page.'
+      expect(page).to have_no_text placeholder_user.name
+    end
   end
 
   context 'as user without global permission' do
