@@ -4,7 +4,7 @@ sidebar_navigation:
   priority: 990
 description: Manage users in OpenProject.
 robots: index, follow
-keywords: manage users, lock, unlock, invite, language
+keywords: manage users, lock, unlock, invite, default language
 ---
 
 # Manage users
@@ -86,25 +86,12 @@ Enter values in all fields (they cannot be left blank). The email field must be 
 
 Open the user list. If a user has created their own account (and it has not been activated automatically) it is shown in the user list with an "Activate" link on the right. Click this link and continue to add details to this user as below. There is also an "Activate" button at the top of the user's details page.
 
-
-
 ### Set initial details
 
 You can edit the details of a newly created user. Useful fields might be Username, Language and Time zone. You might also fill Projects, Groups and Rates, or leave these to the "Project creator".
-
-
-
-
-
-Also consider the **[authentication](#authentication) settings**. 
-
-
+Also consider the [authentication](#authentication) settings. 
 
 See [Manage user settings](#manage-user-settings) for full details.
-
-
-
-
 
 ### Resend user invitation via email
 
@@ -115,12 +102,6 @@ In the top right, click the **Send invitation** button in order to send the emai
 ![Sys-admin-resend-invitation](Sys-admin-resend-invitation.png)
 
 ## 
-
-
-
-
-
-
 
 ## Manage user settings
 
@@ -183,7 +164,7 @@ Please note: As this is a [premium feature](https://www.openproject.org/enterpri
 
 ## Authentication
 
-The way a user was created (by an administrator or via [self-registration](../../authentication/authentication-settings/)) affects the content of the Authentication section in the General tab of the user details. 
+The available authentication methods affect the content of the Authentication section in the General tab of the user details. 
 
 Use the **self-registration** field to give the following controls over a new user's access.
 
