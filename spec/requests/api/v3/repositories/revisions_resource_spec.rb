@@ -34,26 +34,25 @@ describe 'API v3 Revisions resource', type: :request do
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
 
-  let(:revision) {
+  let(:revision) do
     FactoryBot.create(:changeset,
-                       repository: repository,
-                       comments: 'Some commit message',
-                       committer: 'foo bar <foo@example.org>'
-    )
-  }
-  let(:repository) {
+                      repository: repository,
+                      comments: 'Some commit message',
+                      committer: 'foo bar <foo@example.org>')
+  end
+  let(:repository) do
     FactoryBot.create(:repository_subversion, project: project)
-  }
-  let(:project) {
+  end
+  let(:project) do
     FactoryBot.create(:project, identifier: 'test_project', public: false)
-  }
-  let(:role) {
+  end
+  let(:role) do
     FactoryBot.create(:role,
-                       permissions: [:view_changesets])
-  }
-  let(:current_user) {
+                      permissions: [:view_changesets])
+  end
+  let(:current_user) do
     FactoryBot.create(:user, member_in_project: project, member_through_role: role)
-  }
+  end
 
   let(:unauthorized_user) { FactoryBot.create(:user) }
 

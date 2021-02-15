@@ -31,10 +31,10 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe DefaultHourlyRate, type: :model do
   let(:project) { FactoryBot.create(:project) }
   let(:user) { FactoryBot.create(:user) }
-  let(:rate) {
+  let(:rate) do
     FactoryBot.build(:default_hourly_rate, project: project,
-                                            user: user)
-  }
+                                           user: user)
+  end
 
   describe '#user' do
     describe 'WHEN an existing user is provided' do

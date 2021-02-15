@@ -33,7 +33,7 @@ describe EnterprisesController, type: :routing do
     it 'should connect GET /admin/enterprise to enterprises#show' do
       allow(OpenProject::Configuration).to receive(:ee_manager_visible?).and_return(true)
       expect(get('/admin/enterprise')).to route_to(controller: 'enterprises',
-      action: 'show')
+                                                   action: 'show')
     end
   end
 
@@ -44,7 +44,7 @@ describe EnterprisesController, type: :routing do
       # Think of cloud solutions for instance.
       allow(OpenProject::Configuration).to receive(:ee_manager_visible?).and_return(false)
       expect(get('/admin/enterprise')).not_to route_to(controller: 'enterprises',
-      action: 'show')
+                                                       action: 'show')
     end
   end
 end

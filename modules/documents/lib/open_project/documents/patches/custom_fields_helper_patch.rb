@@ -46,5 +46,5 @@ module OpenProject::Documents::Patches
 end
 
 unless CustomFieldsHelper.included_modules.include?(OpenProject::Documents::Patches::CustomFieldsHelperPatch)
-  CustomFieldsHelper.send(:include, OpenProject::Documents::Patches::CustomFieldsHelperPatch)
+  CustomFieldsHelper.include OpenProject::Documents::Patches::CustomFieldsHelperPatch
 end

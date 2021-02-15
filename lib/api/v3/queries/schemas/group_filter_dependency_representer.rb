@@ -34,7 +34,6 @@ module API
       module Schemas
         class GroupFilterDependencyRepresenter <
           PrincipalFilterDependencyRepresenter
-
           def json_cache_key
             super + (filter.project.present? ? [filter.project.id] : [])
           end

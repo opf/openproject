@@ -153,19 +153,19 @@ describe User, '#destroy', type: :model do
 
   describe 'WHEN the user has a cost entry' do
     let(:work_package) { FactoryBot.create(:work_package) }
-    let(:entry) {
+    let(:entry) do
       FactoryBot.create(:cost_entry, user: user,
                                      project: work_package.project,
                                      units: 100.0,
                                      spent_on: Date.today,
                                      work_package: work_package,
                                      comments: '')
-    }
+    end
 
     before do
       FactoryBot.create(:member, project: work_package.project,
-                                  user: user,
-                                  roles: [FactoryBot.build(:role)])
+                                 user: user,
+                                 roles: [FactoryBot.build(:role)])
       entry
 
       user.destroy
@@ -177,10 +177,10 @@ describe User, '#destroy', type: :model do
   end
 
   describe 'WHEN the user is assigned an hourly rate' do
-    let(:hourly_rate) {
+    let(:hourly_rate) do
       FactoryBot.build(:hourly_rate, user: user,
-                                      project: project)
-    }
+                                     project: project)
+    end
 
     before do
       hourly_rate.save!
@@ -192,10 +192,10 @@ describe User, '#destroy', type: :model do
   end
 
   describe 'WHEN the user is assigned a default hourly rate' do
-    let(:default_hourly_rate) {
+    let(:default_hourly_rate) do
       FactoryBot.build(:default_hourly_rate, user: user,
-                                              project: project)
-    }
+                                             project: project)
+    end
 
     before do
       default_hourly_rate.save!

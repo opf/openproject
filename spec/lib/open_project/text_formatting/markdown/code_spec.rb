@@ -149,6 +149,5 @@ describe OpenProject::TextFormatting,
         EXPECTED
       end
     end
-
   end
 end

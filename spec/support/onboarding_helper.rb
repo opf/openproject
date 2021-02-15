@@ -29,13 +29,13 @@
 require 'spec_helper'
 
 module OnboardingHelper
-  def step_through_onboarding_wp_tour project, wp
+  def step_through_onboarding_wp_tour(project, wp)
     expect(page).not_to have_selector('.loading-indicator')
-    expect(page).to have_text  'This is the Work package list'
+    expect(page).to have_text 'This is the Work package list'
 
     next_button.click
     expect(page).to have_current_path project_work_package_path(project, wp.id, 'activity')
-    expect(page).to have_text  'Within the Work package details you find all relevant information'
+    expect(page).to have_text 'Within the Work package details you find all relevant information'
 
     next_button.click
     expect(page).to have_text 'With the arrow you can navigate back to the work package list.'

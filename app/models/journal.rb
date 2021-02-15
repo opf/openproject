@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -33,6 +34,7 @@ class Journal < ApplicationRecord
   include ::JournalChanges
   include ::JournalFormatter
   include ::Acts::Journalized::FormatHooks
+  include ::Journal::Scopes::AggregatedJournal
 
   register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
   register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
@@ -40,7 +42,7 @@ class Journal < ApplicationRecord
   register_journal_formatter :schedule_manually, OpenProject::JournalFormatter::ScheduleManually
 
   # Make sure each journaled model instance only has unique version ids
-  validates_uniqueness_of :version, scope: [:journable_id, :journable_type]
+  validates_uniqueness_of :version, scope: %i[journable_id journable_type]
 
   belongs_to :user
   belongs_to :journable, polymorphic: true

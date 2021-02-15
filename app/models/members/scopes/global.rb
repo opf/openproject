@@ -28,11 +28,15 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Find all members that are global, i.e. have not project
 module Members::Scopes
-  class Global
-    def self.fetch
-      Member.where(project: nil)
+  module Global
+    extend ActiveSupport::Concern
+
+    class_methods do
+      # Find all members that are global, i.e. have not project
+      def global
+        where(project: nil)
+      end
     end
   end
 end

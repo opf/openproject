@@ -62,7 +62,7 @@ describe Bim::IfcModels::ViewConverterService do
       let(:working_directory) { Dir.mktmpdir }
       let(:ifc_model_file_name) { "büro.ifc" }
       let(:ifc_model_path) { File.join working_directory, ifc_model_file_name }
-      let(:ext_regex) { /\.[^\.]*\Z/ }
+      let(:ext_regex) { /\.[^.]*\Z/ }
 
       before do
         allow(described_class).to receive(:available?).and_return true

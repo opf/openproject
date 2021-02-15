@@ -14,6 +14,7 @@ module OpenIDConnect
     attr_reader :errors, :omniauth_provider
 
     attr_accessor :display_name
+
     delegate :name, to: :omniauth_provider, allow_nil: true
     delegate :identifier, to: :omniauth_provider, allow_nil: true
     delegate :secret, to: :omniauth_provider, allow_nil: true
@@ -40,6 +41,7 @@ module OpenIDConnect
 
     def id
       return nil unless persisted?
+
       name
     end
 
@@ -52,6 +54,7 @@ module OpenIDConnect
 
     def save
       return false unless valid?
+
       config = Setting.plugin_openproject_openid_connect || Hash.new
       config["providers"] ||= Hash.new
       config["providers"][name] = omniauth_provider.to_h.stringify_keys

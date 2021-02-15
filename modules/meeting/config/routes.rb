@@ -27,13 +27,11 @@
 #++
 
 OpenProject::Application.routes.draw do
-
   scope 'projects/:project_id' do
-    resources :meetings, only: [:new, :create, :index]
+    resources :meetings, only: %i[new create index]
   end
 
-  resources :meetings, except: [:new, :create, :index] do
-
+  resources :meetings, except: %i[new create index] do
     resource :agenda, controller: 'meeting_agendas', only: [:update] do
       member do
         get :history
@@ -49,7 +47,7 @@ OpenProject::Application.routes.draw do
                            controller: 'meeting_agendas'
     end
 
-    resource :contents, controller: 'meeting_contents', only: [:show, :update] do
+    resource :contents, controller: 'meeting_contents', only: %i[show update] do
       member do
         get :history
         get :diff

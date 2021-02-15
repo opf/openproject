@@ -30,6 +30,7 @@
 module DemoData
   class GroupSeeder < Seeder
     attr_accessor :user
+
     include ::DemoData::References
 
     def initialize

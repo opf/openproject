@@ -44,7 +44,7 @@ class CostQuery::SqlStatement < Report::SqlStatement
   # this is a hack to ensure that additional joins added by filters do not result
   # in additional columns being selected.
   def to_s
-    select(['entries.*']) if select == ['*'] && group_by.empty? && self.entry_union
+    select(['entries.*']) if select == ['*'] && group_by.empty? && entry_union
     super
   end
 
@@ -86,11 +86,12 @@ class CostQuery::SqlStatement < Report::SqlStatement
       query.select COMMON_FIELDS
       query.desc = "Subquery for #{table}"
       query.select({
-        count: 1, id: [model, :id], display_costs: 1,
-        real_costs: switch("#{table}.overridden_costs IS NULL" => [model, :costs], else: [model, :overridden_costs]),
-        week: iso_year_week(:spent_on, model),
-        singleton_value: 1 })
-      #FIXME: build this subquery from a sql_statement
+                     count: 1, id: [model, :id], display_costs: 1,
+                     real_costs: switch("#{table}.overridden_costs IS NULL" => [model, :costs], else: [model, :overridden_costs]),
+                     week: iso_year_week(:spent_on, model),
+                     singleton_value: 1
+                   })
+      # FIXME: build this subquery from a sql_statement
       query.from "(SELECT *, #{typed :text, model.model_name.to_s} AS type FROM #{table}) AS #{table}"
       send("unify_#{table}", query)
     end

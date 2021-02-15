@@ -34,7 +34,7 @@ class EnterpriseToken < ApplicationRecord
     end
 
     def table_exists?
-      connection.data_source_exists? self.table_name
+      connection.data_source_exists? table_name
     end
 
     def allows_to?(action)
@@ -102,8 +102,8 @@ class EnterpriseToken < ApplicationRecord
 
   def load_token!
     @token_object = OpenProject::Token.import(encoded_token)
-  rescue OpenProject::Token::ImportError => error
-    Rails.logger.error "Failed to load EE token: #{error}"
+  rescue OpenProject::Token::ImportError => e
+    Rails.logger.error "Failed to load EE token: #{e}"
     nil
   end
 

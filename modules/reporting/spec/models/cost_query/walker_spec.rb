@@ -46,7 +46,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       @query.row :user_id
 
       result = @query.transformer.row_first.values.first
-      [:user_id, :project_id, :tweek].each do |field|
+      %i[user_id project_id tweek].each do |field|
         expect(result.fields).to include(field)
         result = result.values.first
       end
@@ -59,7 +59,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       @query.row :user_id
 
       result = @query.transformer.column_first.values.first
-      [:tweek, :work_package_id].each do |field|
+      %i[tweek work_package_id].each do |field|
         expect(result.fields).to include(field)
         result = result.values.first
       end

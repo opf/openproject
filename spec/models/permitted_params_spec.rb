@@ -506,34 +506,33 @@ describe PermittedParams, type: :model do
 
     subject { PermittedParams.new(params, user).send(attribute, external_authentication, change_password_allowed).to_h }
 
-    admin_permissions = ['admin',
-                         'login',
-                         'firstname',
-                         'lastname',
-                         'mail',
-                         'mail_notification',
-                         'language',
-                         'custom_fields',
-                         'auth_source_id',
-                         'force_password_change']
+    all_permissions = ['admin',
+                       'login',
+                       'firstname',
+                       'lastname',
+                       'mail',
+                       'mail_notification',
+                       'language',
+                       'custom_fields',
+                       'auth_source_id',
+                       'force_password_change']
 
     describe :user_create_as_admin do
       let(:attribute) { :user_create_as_admin }
 
       context 'non-admin' do
-        let(:hash) { Hash[admin_permissions.zip(admin_permissions)] }
+        let(:hash) { Hash[all_permissions.zip(all_permissions)] }
 
         it 'permits default permissions' do
-          expect(subject.keys).to match_array(
-                                    %w[custom_fields firstname lastname language mail mail_notification]
-                                  )
+          expect(subject.keys)
+              .to match_array(%w[custom_fields firstname lastname language mail mail_notification auth_source_id])
         end
       end
 
       context 'admin' do
         let(:user) { admin }
 
-        admin_permissions.each do |field|
+        all_permissions.each do |field|
           context field do
             let(:hash) { { field => 'test' } }
 
@@ -600,7 +599,7 @@ describe PermittedParams, type: :model do
         end
       end
 
-      (admin_permissions - user_permissions).each do |field|
+      (all_permissions - user_permissions).each do |field|
         context "#{field} (admin-only)" do
           let(:hash) { { field => 'test' } }
 

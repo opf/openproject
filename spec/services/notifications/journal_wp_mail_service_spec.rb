@@ -69,7 +69,9 @@ describe Notifications::JournalWpMailService do
     work_package.journals.last
   end
   let(:send_mails) { true }
-  let(:notification_setting) { %w(work_package_added work_package_updated work_package_note_added status_updated work_package_priority_updated) }
+  let(:notification_setting) do
+    %w(work_package_added work_package_updated work_package_note_added status_updated work_package_priority_updated)
+  end
 
   def call
     described_class.call(journal, send_mails)
@@ -101,6 +103,25 @@ describe Notifications::JournalWpMailService do
   end
 
   it_behaves_like 'sends mail'
+
+  context 'assignee is placeholder user' do
+    let(:recipient) { FactoryBot.create :placeholder_user }
+
+    it_behaves_like 'sends no mail'
+  end
+
+  context 'responsible is placeholder user' do
+    let(:recipient) { FactoryBot.create :placeholder_user }
+    let(:work_package) do
+      FactoryBot.create(:work_package,
+                        project: project,
+                        author: author,
+                        responsible: recipient,
+                        type: project.types.first)
+    end
+
+    it_behaves_like 'sends no mail'
+  end
 
   context 'notification for work_package_added disabled' do
     let(:notification_setting) { %w(work_package_updated work_package_note_added) }

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -83,7 +84,7 @@ module OpenProject
         type = SENSIBLE_DEFAULT
       end
       type.split(/[:;\s]+/)[0]
-    rescue => e
+    rescue StandardError => e
       Rails.logger.info { "Failed to get mime type from #{@filename}: #{e} #{e.message}" }
       SENSIBLE_DEFAULT
     end

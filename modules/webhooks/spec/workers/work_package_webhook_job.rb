@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -72,12 +73,10 @@ describe WorkPackageWebhookJob, type: :model, webmock: true do
     end
 
     subject do
-      begin
-        job.perform
-      rescue
-        # ignoring it as it's expected to throw exceptions in certain scenarios
-        nil
-      end
+      job.perform
+    rescue StandardError
+      # ignoring it as it's expected to throw exceptions in certain scenarios
+      nil
     end
 
     before do

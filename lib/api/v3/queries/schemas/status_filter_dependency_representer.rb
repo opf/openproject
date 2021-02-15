@@ -34,7 +34,6 @@ module API
       module Schemas
         class StatusFilterDependencyRepresenter <
           FilterDependencyRepresenter
-
           def href_callback
             api_v3_paths.statuses
           end

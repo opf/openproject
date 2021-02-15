@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -54,9 +55,9 @@ module NoResultsHelper
 
     render partial: '/common/no_results',
            locals: {
-             title_text:  title,
+             title_text: title,
              action_text: display_action ? action_text : '',
-             action_url:  action_url || ''
+             action_url: action_url || ''
            }
   end
 end

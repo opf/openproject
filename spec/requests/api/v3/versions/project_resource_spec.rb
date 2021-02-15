@@ -61,13 +61,13 @@ describe "API v3 version's projects resource" do
 
         # this is to be included
         FactoryBot.create(:member, user: current_user,
-                                    project: project2,
-                                    roles: [role])
+                                   project: project2,
+                                   roles: [role])
         # this is to be included as the user is a member of the project, the
         # lack of permissions is irrelevant.
         FactoryBot.create(:member, user: current_user,
-                                    project: project3,
-                                    roles: [role_without_permissions])
+                                   project: project3,
+                                   roles: [role_without_permissions])
         # project4 should NOT be included
         project4
 

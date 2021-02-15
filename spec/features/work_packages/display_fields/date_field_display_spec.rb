@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'Show the date of a Work Package', type: :feature, js: true do
   let(:project) { FactoryBot.create :project }
-  let(:admin) { FactoryBot.create :admin}
+  let(:admin) { FactoryBot.create :admin }
   let(:work_package) do
     FactoryBot.create :work_package,
                       project: project,

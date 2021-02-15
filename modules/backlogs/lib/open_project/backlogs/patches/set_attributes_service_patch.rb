@@ -47,10 +47,12 @@ module OpenProject::Backlogs::Patches::SetAttributesServicePatch
 
     def closest_story_or_impediment(parent_id)
       return work_package if work_package.is_story? || work_package.is_impediment?
+
       closest = nil
       ancestor_chain(parent_id).each do |i|
         # break if we found an element in our chain that is not relevant in backlogs
         break unless i.in_backlogs_type?
+
         if i.is_story? || i.is_impediment?
           closest = i
           break

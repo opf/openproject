@@ -50,11 +50,11 @@ class Member < ApplicationRecord
   after_save :save_notification
   after_destroy :destroy_notification
 
-  scope_classes Members::Scopes::Global,
-                Members::Scopes::Visible,
-                Members::Scopes::Of,
-                Members::Scopes::Assignable,
-                Members::Scopes::NotLocked
+  scopes :assignable,
+         :global,
+         :not_locked,
+         :of,
+         :visible
 
   def name
     principal.name
@@ -111,10 +111,10 @@ class Member < ApplicationRecord
     do_remove_member_role(member_role, true, prune_watchers: prune_watchers)
   end
 
-  def <=>(member)
-    a = roles.sort.first
-    b = member.roles.sort.first
-    a == b ? (principal <=> member.principal) : (a <=> b)
+  def <=>(other)
+    a = roles.min
+    b = other.roles.min
+    a == b ? (principal <=> other.principal) : (a <=> b)
   end
 
   def deletable?

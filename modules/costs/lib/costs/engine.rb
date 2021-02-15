@@ -104,7 +104,7 @@ module Costs
     add_tab_entry :user,
                   name: 'rates',
                   partial: 'users/rates',
-                  path: ->(params) { tab_edit_user_path(params[:user], tab: :rates) },
+                  path: ->(params) { edit_user_path(params[:user], tab: :rates) },
                   only_if: ->(*) { User.current.admin? },
                   label: :caption_rate_history
 

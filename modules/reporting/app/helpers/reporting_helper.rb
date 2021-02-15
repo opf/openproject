@@ -35,7 +35,8 @@ module ReportingHelper
 
   def with_project(project)
     project = Project.find(project) unless project.is_a? Project
-    project_was, @project = @project, project
+    project_was = @project
+    @project = project
     yield
     @project = project_was
   end
@@ -52,6 +53,7 @@ module ReportingHelper
     if name.starts_with?('label')
       return I18n.t(field)
     end
+
     name = name.camelcase
     if CostQuery::Filter.const_defined? name
       CostQuery::Filter.const_get(name).label
@@ -239,6 +241,7 @@ module ReportingHelper
   def filter_class(filter_name)
     klass = CostQuery::Filter.const_get(filter_name.to_s.camelize)
     return klass if klass.is_a? Class
+
     nil
   rescue NameError
     nil

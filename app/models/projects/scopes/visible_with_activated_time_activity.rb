@@ -29,23 +29,20 @@
 #++
 
 module Projects::Scopes
-  class VisibleWithActivatedTimeActivity
-    class << self
-      def fetch(activity)
+  module VisibleWithActivatedTimeActivity
+    extend ActiveSupport::Concern
+
+    class_methods do
+      def visible_with_activated_time_activity(activity)
         allowed_scope
-          .where(id: activated_projects(activity).select(:id))
+          .where(id: activated_time_activity(activity).select(:id))
       end
 
       private
 
-      def activated_projects(activity)
-        Project.activated_time_activity(activity)
-      end
-
       def allowed_scope
-        Project
-          .where(id: Project.allowed_to(User.current, :view_time_entries).select(:id))
-          .or(Project.where(id: Project.allowed_to(User.current, :view_own_time_entries).select(:id)))
+        where(id: allowed_to(User.current, :view_time_entries).select(:id))
+          .or(where(id: Project.allowed_to(User.current, :view_own_time_entries).select(:id)))
       end
     end
   end

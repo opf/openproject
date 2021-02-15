@@ -31,7 +31,7 @@ require 'spec_helper'
 describe 'Project templates', type: :feature, js: true do
   describe 'making project a template' do
     let(:project) { FactoryBot.create :project }
-    using_shared_fixtures :admin
+    shared_let(:admin) { FactoryBot.create :admin }
 
     before do
       login_as admin
@@ -57,15 +57,17 @@ describe 'Project templates', type: :feature, js: true do
   end
 
   describe 'instantiating templates' do
-    let!(:template) {
+    let!(:template) do
       FactoryBot.create(:template_project, name: 'My template', enabled_module_names: %w[wiki work_package_tracking])
-    }
+    end
     let!(:template_status) { FactoryBot.create(:project_status, project: template, explanation: 'source') }
     let!(:other_project) { FactoryBot.create(:project, name: 'Some other project') }
     let!(:work_package) { FactoryBot.create :work_package, project: template }
     let!(:wiki_page) { FactoryBot.create(:wiki_page_with_content, wiki: template.wiki) }
 
-    let!(:role) { FactoryBot.create(:role, permissions: %i[view_project view_work_packages copy_projects add_subprojects add_project]) }
+    let!(:role) do
+      FactoryBot.create(:role, permissions: %i[view_project view_work_packages copy_projects add_subprojects add_project])
+    end
     let!(:current_user) { FactoryBot.create(:user, member_in_projects: [template, other_project], member_through_role: role) }
     let(:status_field_selector) { 'ckeditor-augmented-textarea[textarea-selector="#project_status_explanation"]' }
     let(:status_description) { ::Components::WysiwygEditor.new status_field_selector }
@@ -145,4 +147,3 @@ describe 'Project templates', type: :feature, js: true do
     end
   end
 end
-

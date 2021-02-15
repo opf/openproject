@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -77,6 +78,7 @@ class AccountController < ApplicationController
     if params[:token]
       @token = ::Token::Recovery.find_by_plaintext_value(params[:token])
       redirect_to(home_url) && return unless @token and !@token.expired?
+
       @user = @token.user
       if request.post?
         call = ::Users::ChangePasswordService.new(current_user: @user, session: session).call(params)
@@ -116,7 +118,7 @@ class AccountController < ApplicationController
         UserMailer.password_lost(token).deliver_later
         flash[:notice] = I18n.t(:notice_account_lost_email_sent)
         redirect_to action: 'login', back_url: home_url
-        return
+        nil
       end
     end
   end
@@ -277,7 +279,7 @@ class AccountController < ApplicationController
     show_sso_error_for user
 
     flash.now[:error] = I18n.t(:error_auth_source_sso_failed, value: failure[:login]) +
-      ": " + String(flash.now[:error])
+                        ": " + String(flash.now[:error])
 
     render action: 'login', back_url: failure[:back_url]
   end
@@ -413,10 +415,13 @@ class AccountController < ApplicationController
           account_inactive(user, flash_now: true)
         elsif user.force_password_change
           return if redirect_if_password_change_not_allowed(user)
+
           render_password_change(user, I18n.t(:notice_account_new_password_forced), show_user_name: true)
         elsif user.password_expired?
           return if redirect_if_password_change_not_allowed(user)
-          render_password_change(user, I18n.t(:notice_account_password_expired, days: Setting.password_days_valid.to_i), show_user_name: true)
+
+          render_password_change(user, I18n.t(:notice_account_password_expired, days: Setting.password_days_valid.to_i),
+                                 show_user_name: true)
         else
           flash_and_log_invalid_credentials
         end
@@ -546,7 +551,7 @@ class AccountController < ApplicationController
     end
   end
 
-  def invited_account_not_activated(user)
+  def invited_account_not_activated(_user)
     flash_error_message(log_reason: 'invited, NOT ACTIVATED', flash_now: false) do
       'account.error_inactive_activation_by_mail'
     end

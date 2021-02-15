@@ -49,7 +49,8 @@ class CostReportsController < ApplicationController
   helper_method :cost_type
   helper_method :unit_id
 
-  attr_accessor :report_engine
+  attr_accessor :report_engine, :cost_types, :unit_id, :cost_type
+
   helper_method :current_user
   helper_method :allowed_to?
 
@@ -58,11 +59,9 @@ class CostReportsController < ApplicationController
   helper { def engine; @report_engine; end }
 
   before_action :determine_engine
-  before_action :prepare_query, only: [:index, :create]
-  before_action :find_optional_report, only: [:index, :show, :update, :destroy, :rename]
+  before_action :prepare_query, only: %i[index create]
+  before_action :find_optional_report, only: %i[index show update destroy rename]
   before_action :possibly_only_narrow_values
-
-  attr_accessor :cost_types, :unit_id, :cost_type
 
   before_action :set_cost_types # has to be set AFTER the Report::Controller filters run
 
@@ -78,11 +77,13 @@ class CostReportsController < ApplicationController
   def index
     table
 
-    respond_to do |format|
-      format.html {
-        session[report_engine.name.underscore.to_sym].try(:delete, :name)
-      }
-    end unless performed?
+    unless performed?
+      respond_to do |format|
+        format.html do
+          session[report_engine.name.underscore.to_sym].try(:delete, :name)
+        end
+      end
+    end
   end
 
   ##
@@ -170,10 +171,10 @@ class CostReportsController < ApplicationController
     @query.public! if make_query_public?
     @query.save!
     store_query(@query)
-    unless request.xhr?
-      redirect_to action: 'show', id: @query.id
-    else
+    if request.xhr?
       render plain: @query.name
+    else
+      redirect_to action: 'show', id: @query.id
     end
   end
 
@@ -249,7 +250,6 @@ class CostReportsController < ApplicationController
   ##
   # Clear the query if the project context changed
   def update_project_context!(filters)
-
     # Only in project context
     return unless @project
 
@@ -284,11 +284,11 @@ class CostReportsController < ApplicationController
   # Set a default query to cut down initial load time
   def default_group_parameters
     { columns: [:week], rows: [] }.tap do |h|
-      if @project
-        h[:rows] << :work_package_id
-      else
-        h[:rows] << :project_id
-      end
+      h[:rows] << if @project
+                    :work_package_id
+                  else
+                    :project_id
+                  end
     end
   end
 
@@ -309,7 +309,7 @@ class CostReportsController < ApplicationController
                  cost_type_filter = @query.filters.detect { |f| f.is_a?(CostQuery::Filter::CostTypeId) }
 
                  cost_type_filter.values.first.to_i if cost_type_filter
-    end
+               end
 
     @unit_id = -1 unless @cost_types.include? @unit_id
   end
@@ -359,11 +359,11 @@ class CostReportsController < ApplicationController
     # If report does not belong to a project, it is ok to look for the
     # permission in any project. Otherwise, the user should have the permission
     # in this project.
-    if report.project.present?
-      options = {}
-    else
-      options = { global: true }
-    end
+    options = if report.project.present?
+                {}
+              else
+                { global: true }
+              end
 
     case action
     when :create
@@ -433,7 +433,8 @@ class CostReportsController < ApplicationController
 
   ##
   # Determines if the request contains filters to set
-  def set_filter? # FIXME: rename to set_query?
+  # FIXME: rename to set_query?
+  def set_filter?
     params[:set_filter].to_i == 1
   end
 

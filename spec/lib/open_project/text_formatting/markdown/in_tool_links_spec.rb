@@ -191,13 +191,19 @@ describe OpenProject::TextFormatting,
       context 'Plain message' do
         subject { format_text("message##{message1.id}") }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(message1.subject, topic_path(message1), class: 'message op-uc-link')}</p>") }
+        it {
+          is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(message1.subject, topic_path(message1),
+                                                                   class: 'message op-uc-link')}</p>")
+        }
       end
 
       context 'Message with parent' do
         subject { format_text("message##{message2.id}") }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(message2.subject, topic_path(message1, anchor: "message-#{message2.id}", r: message2.id), class: 'message op-uc-link')}</p>") }
+        it {
+          is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(message2.subject,
+                                                                   topic_path(message1, anchor: "message-#{message2.id}", r: message2.id), class: 'message op-uc-link')}</p>")
+        }
       end
     end
 
@@ -211,7 +217,9 @@ describe OpenProject::TextFormatting,
       context 'Plain work_package link' do
         subject { format_text("##{work_package.id}, [##{work_package.id}], (##{work_package.id}) and ##{work_package.id}.") }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{work_package_link}, [#{work_package_link}], (#{work_package_link}) and #{work_package_link}.</p>") }
+        it {
+          is_expected.to be_html_eql("<p class='op-uc-p'>#{work_package_link}, [#{work_package_link}], (#{work_package_link}) and #{work_package_link}.</p>")
+        }
       end
 
       context 'Plain work_package link with braces' do
@@ -294,19 +302,28 @@ describe OpenProject::TextFormatting,
       context 'Plain project link' do
         subject { format_text("project##{subproject.id}") }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url, class: 'project op-uc-link')}</p>") }
+        it {
+          is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url,
+                                                                   class: 'project op-uc-link')}</p>")
+        }
       end
 
       context 'Plain project link via identifier' do
         subject { format_text("project:#{subproject.identifier}") }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url, class: 'project op-uc-link')}</p>") }
+        it {
+          is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url,
+                                                                   class: 'project op-uc-link')}</p>")
+        }
       end
 
       context 'Plain project link via name' do
         subject { format_text("project:\"#{subproject.name}\"") }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url, class: 'project op-uc-link')}</p>") }
+        it {
+          is_expected.to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url,
+                                                                   class: 'project op-uc-link')}</p>")
+        }
       end
     end
 
@@ -357,86 +374,114 @@ describe OpenProject::TextFormatting,
       context 'Plain wiki link' do
         subject { format_text('[[CookBook documentation]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/cookbook-documentation\">CookBook documentation</a></p>") }
+        it {
+          is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/cookbook-documentation\">CookBook documentation</a></p>")
+        }
       end
 
       context 'Arbitrary wiki link' do
         title = '<script>alert("FOO")</script>'
         subject { format_text("[[#{title}]]") }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/alert-foo\">#{h(title)}</a></p>") }
+        it {
+          is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/alert-foo\">#{h(title)}</a></p>")
+        }
       end
 
       context 'Plain wiki page link' do
         subject { format_text('[[Another page|Page]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a></p>") }
+        it {
+          is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a></p>")
+        }
       end
 
       context 'Wiki link with anchor' do
         subject { format_text('[[CookBook documentation#One-section]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/cookbook-documentation#One-section\">CookBook documentation</a></p>") }
+        it {
+          is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/cookbook-documentation#One-section\">CookBook documentation</a></p>")
+        }
       end
 
       context 'Wiki page link with anchor' do
         subject { format_text('[[Another page#anchor|Page]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/another-page#anchor\">Page</a></p>") }
+        it {
+          is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/another-page#anchor\">Page</a></p>")
+        }
       end
 
       context 'Wiki link to an unknown page' do
         subject { format_text('[[Unknown page]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page new op-uc-link\" href=\"/projects/#{project.identifier}/wiki/unknown-page?title=Unknown+page\">Unknown page</a></p>") }
+        it {
+          is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page new op-uc-link\" href=\"/projects/#{project.identifier}/wiki/unknown-page?title=Unknown+page\">Unknown page</a></p>")
+        }
       end
 
       context 'Wiki page link to an unknown page' do
         subject { format_text('[[Unknown page|404]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page new op-uc-link\" href=\"/projects/#{project.identifier}/wiki/unknown-page?title=404\">404</a></p>") }
+        it {
+          is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page new op-uc-link\" href=\"/projects/#{project.identifier}/wiki/unknown-page?title=404\">404</a></p>")
+        }
       end
 
       context "Link to another project's wiki" do
         subject { format_text('[[onlinestore:]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/onlinestore/wiki/start-page\">onlinestore</a></p>") }
+        it {
+          is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/onlinestore/wiki/start-page\">onlinestore</a></p>")
+        }
       end
 
       context "Link to another project's wiki with label" do
         subject { format_text('[[onlinestore:|Wiki]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/onlinestore/wiki/start-page\">Wiki</a></p>") }
+        it {
+          is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/onlinestore/wiki/start-page\">Wiki</a></p>")
+        }
       end
 
       context "Link to another project's wiki page" do
         subject { format_text('[[onlinestore:Start page]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/onlinestore/wiki/start-page\">Start Page</a></p>") }
+        it {
+          is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/onlinestore/wiki/start-page\">Start Page</a></p>")
+        }
       end
 
       context "Link to another project's wiki page with label" do
         subject { format_text('[[onlinestore:Start page|Text]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/onlinestore/wiki/start-page\">Text</a></p>") }
+        it {
+          is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page op-uc-link\" href=\"/projects/onlinestore/wiki/start-page\">Text</a></p>")
+        }
       end
 
       context 'Link to an unknown wiki page in another project' do
         subject { format_text('[[onlinestore:Unknown page]]') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page new op-uc-link\" href=\"/projects/onlinestore/wiki/unknown-page?title=Unknown+page\">Unknown page</a></p>") }
+        it {
+          is_expected.to be_html_eql("<p class='op-uc-p'><a class=\"wiki-page new op-uc-link\" href=\"/projects/onlinestore/wiki/unknown-page?title=Unknown+page\">Unknown page</a></p>")
+        }
       end
 
       context 'Struck through link to wiki page' do
         subject { format_text('~~[[Another page|Page]]~~') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><del><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a></del></p>") }
+        it {
+          is_expected.to be_html_eql("<p class='op-uc-p'><del><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a></del></p>")
+        }
       end
 
       context 'Named struck through link to wiki page' do
         subject { format_text('~~[[Another page|Page]] link~~') }
 
-        it { is_expected.to be_html_eql("<p class='op-uc-p'><del><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a> link</del></p>") }
+        it {
+          is_expected.to be_html_eql("<p class='op-uc-p'><del><a class=\"wiki-page op-uc-link\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a> link</del></p>")
+        }
       end
 
       context 'Escaped link to wiki page' do
@@ -488,10 +533,13 @@ describe OpenProject::TextFormatting,
           'source:"/some/file.ext". ' => link_to('source:/some/file.ext', source_url_with_ext, class: 'source op-uc-link') + '.',
           'source:/some/file, ' => link_to('source:/some/file', source_url, class: 'source op-uc-link') + ',',
           'source:/some/file@52' => link_to('source:/some/file@52', source_url(rev: 52), class: 'source op-uc-link'),
-          'source:"/some/file.ext@52"' => link_to('source:/some/file.ext@52', source_url_with_ext(rev: 52), class: 'source op-uc-link'),
+          'source:"/some/file.ext@52"' => link_to('source:/some/file.ext@52', source_url_with_ext(rev: 52),
+                                                  class: 'source op-uc-link'),
           'source:"/some/file#L110"' => link_to('source:/some/file#L110', source_url(anchor: 'L110'), class: 'source op-uc-link'),
-          'source:"/some/file.ext#L110"' => link_to('source:/some/file.ext#L110', source_url_with_ext(anchor: 'L110'), class: 'source op-uc-link'),
-          'source:"/some/file@52#L110"' => link_to('source:/some/file@52#L110', source_url(rev: 52, anchor: 'L110'), class: 'source op-uc-link'),
+          'source:"/some/file.ext#L110"' => link_to('source:/some/file.ext#L110', source_url_with_ext(anchor: 'L110'),
+                                                    class: 'source op-uc-link'),
+          'source:"/some/file@52#L110"' => link_to('source:/some/file@52#L110', source_url(rev: 52, anchor: 'L110'),
+                                                   class: 'source op-uc-link'),
           'export:/some/file' => link_to('export:/some/file', source_url(format: 'raw'), class: 'source download op-uc-link'),
           # escaping
           '!source:/some/file' => 'source:/some/file',

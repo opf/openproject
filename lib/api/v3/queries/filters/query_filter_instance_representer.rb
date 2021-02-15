@@ -84,7 +84,7 @@ module API
                           path_name = value_object.class.name.demodulize.underscore
 
                           api_v3_paths.send(path_name, value_object.id)
-                        rescue => e
+                        rescue StandardError => e
                           Rails.logger.error "Failed to get href for value_object #{value_object}: #{e}"
                           nil
                         end

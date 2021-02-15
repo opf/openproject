@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Attribute help texts', js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
 
   let(:instance) { AttributeHelpText.last }
   let(:modal) { Components::AttributeHelpTextModal.new(instance) }

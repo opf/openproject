@@ -57,9 +57,9 @@ describe 'API v3 Work package form resource', type: :request do
       it_behaves_like 'API V3 formattable', '_embedded/payload/description' do
         let(:format) { 'markdown' }
         let(:raw) { defined?(raw_value) ? raw_value : work_package.description.to_s }
-        let(:html) {
+        let(:html) do
           defined?(html_value) ? html_value : ('<p class="op-uc-p">' + work_package.description.to_s + '</p>')
-        }
+        end
       end
     end
 
@@ -76,9 +76,9 @@ describe 'API v3 Work package form resource', type: :request do
         let(:error_path) { "_embedded/validationErrors/#{property}" }
         let(:error_id) { 'urn:openproject-org:api:v3:errors:PropertyConstraintViolation'.to_json }
 
-        let(:error_body) {
+        let(:error_body) do
           parse_json(subject.body)['_embedded']['validationErrors'][property]
-        }
+        end
 
         it { expect(subject.body).to have_json_path(error_path) }
         it {

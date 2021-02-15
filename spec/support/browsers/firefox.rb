@@ -42,23 +42,23 @@ def register_firefox(language, name: :"firefox_#{language}")
       options.args << "--headless"
     end
 
-    if ENV['SELENIUM_GRID_URL']
-      driver = Capybara::Selenium::Driver.new(
-        app,
-        browser: :remote,
-        url: ENV['SELENIUM_GRID_URL'],
-        desired_capabilities: capabilities,
-        options: options
-      )
-    else
-      driver = Capybara::Selenium::Driver.new(
-        app,
-        browser: :firefox,
-        desired_capabilities: capabilities,
-        options: options,
-        http_client: client
-      )
-    end
+    driver = if ENV['SELENIUM_GRID_URL']
+               Capybara::Selenium::Driver.new(
+                 app,
+                 browser: :remote,
+                 url: ENV['SELENIUM_GRID_URL'],
+                 desired_capabilities: capabilities,
+                 options: options
+               )
+             else
+               Capybara::Selenium::Driver.new(
+                 app,
+                 browser: :firefox,
+                 desired_capabilities: capabilities,
+                 options: options,
+                 http_client: client
+               )
+             end
 
     Capybara::Screenshot.register_driver(name) do |driver, path|
       driver.browser.save_screenshot(path)

@@ -99,7 +99,7 @@ describe OpenProject::Reminders::DueIssuesReminder do
         let(:user_ids) { [user.id] }
         it 'does notify' do
           expect(subject.notify_count).to eq 1
-          expect(ActionMailer::Base.deliveries.count). to eq 1
+          expect(ActionMailer::Base.deliveries.count).to eq 1
 
           mail = ActionMailer::Base.deliveries.last
           expect(mail).to be_present

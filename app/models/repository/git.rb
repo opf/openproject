@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -116,8 +117,10 @@ class Repository::Git < Repository
 
   def find_changeset_by_name(name)
     return nil if name.nil? || name.empty?
+
     e = changesets.where(['revision = ?', name.to_s]).first
     return e if e
+
     changesets.where(['scmid LIKE ?', "#{name}%"]).first
   end
 
@@ -139,11 +142,11 @@ class Repository::Git < Repository
     recent_changesets = changesets.where(['committed_on >= ?', since])
 
     # Clean out revisions that are no longer in git
-    recent_changesets.each do |c| c.destroy unless revisions.detect { |r| r.scmid.to_s == c.scmid.to_s } end
+    recent_changesets.each { |c| c.destroy unless revisions.detect { |r| r.scmid.to_s == c.scmid.to_s } }
 
     # Subtract revisions that redmine already knows about
     recent_revisions = recent_changesets.map(&:scmid)
-    revisions.reject! do |r| recent_revisions.include?(r.scmid) end
+    revisions.reject! { |r| recent_revisions.include?(r.scmid) }
 
     # Save the remaining ones to the database
     unless revisions.nil?
@@ -151,18 +154,20 @@ class Repository::Git < Repository
         transaction do
           changeset = Changeset.new(
             repository: self,
-            revision:   rev.identifier,
-            scmid:      rev.scmid,
-            committer:  rev.author,
+            revision: rev.identifier,
+            scmid: rev.scmid,
+            committer: rev.author,
             committed_on: rev.time,
-            comments:   rev.message)
+            comments: rev.message
+          )
 
           if changeset.save
             rev.paths.each do |file|
               Change.create(
                 changeset: changeset,
-                action:    file[:action],
-                path:      file[:path])
+                action: file[:action],
+                path: file[:path]
+              )
             end
           end
         end
@@ -185,7 +190,7 @@ class Repository::Git < Repository
     if parsed.scheme == 'ssh'
       errors.add :url, :must_not_be_ssh
     end
-  rescue => e
+  rescue StandardError => e
     Rails.logger.error "Failed to parse repository url for validation: #{e}"
     errors.add :url, :invalid_url
   end

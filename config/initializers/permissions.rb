@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -110,20 +111,20 @@ OpenProject::AccessControl.map do |map|
                    journals: %i[index diff],
                    work_packages: %i[show index],
                    work_packages_api: [:get],
-                   :'work_packages/reports' => %i[report report_details]
+                   'work_packages/reports': %i[report report_details]
 
     wpt.permission :add_work_packages,
                    {}
 
     wpt.permission :edit_work_packages,
                    {
-                     :'work_packages/bulk' => %i[edit update]
+                     'work_packages/bulk': %i[edit update]
                    },
                    require: :member,
                    dependencies: :view_work_packages
 
     wpt.permission :move_work_packages,
-                   { :'work_packages/moves' => %i[new create] },
+                   { 'work_packages/moves': %i[new create] },
                    require: :loggedin,
                    dependencies: :view_work_packages
 
@@ -155,21 +156,21 @@ OpenProject::AccessControl.map do |map|
 
     wpt.permission :export_work_packages,
                    {
-                     work_packages: %i[index all],
+                     work_packages: %i[index all]
                    },
                    dependencies: :view_work_packages
 
     wpt.permission :delete_work_packages,
                    {
                      work_packages: :destroy,
-                     :'work_packages/bulk' => :destroy
+                     'work_packages/bulk': :destroy
                    },
                    require: :member,
                    dependencies: :view_work_packages
 
     wpt.permission :manage_work_package_relations,
                    {
-                     work_package_relations: %i[create destroy],
+                     work_package_relations: %i[create destroy]
                    },
                    dependencies: :view_work_packages
 
@@ -211,12 +212,12 @@ OpenProject::AccessControl.map do |map|
     news.permission :manage_news,
                     {
                       news: %i[new create edit update destroy preview],
-                      :'news/comments' => [:destroy]
+                      'news/comments': [:destroy]
                     },
                     require: :member
 
     news.permission :comment_news,
-                    :'news/comments' => :create
+                    'news/comments': :create
   end
 
   map.project_module :wiki do |wiki|
@@ -314,7 +315,7 @@ OpenProject::AccessControl.map do |map|
 
   map.project_module :calendar do |cal|
     cal.permission :view_calendar,
-                   :'work_packages/calendars' => [:index]
+                   'work_packages/calendars': [:index]
   end
 
   map.project_module :activity

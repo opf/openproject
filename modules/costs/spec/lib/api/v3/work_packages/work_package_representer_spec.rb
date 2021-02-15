@@ -33,10 +33,10 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
   let(:project) { FactoryBot.create(:project) }
   let(:role) do
-    FactoryBot.create(:role, permissions: [:view_time_entries,
-                                           :view_cost_entries,
-                                           :view_cost_rates,
-                                           :view_work_packages])
+    FactoryBot.create(:role, permissions: %i[view_time_entries
+                                             view_cost_entries
+                                             view_cost_rates
+                                             view_work_packages])
   end
   let(:user) do
     FactoryBot.create(:user,
@@ -139,8 +139,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'only view_own_time_entries permission' do
           let(:own_time_entries_role) do
-            FactoryBot.create(:role, permissions: [:view_own_time_entries,
-                                                   :view_work_packages])
+            FactoryBot.create(:role, permissions: %i[view_own_time_entries
+                                                     view_work_packages])
           end
 
           let(:user2) do

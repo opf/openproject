@@ -65,7 +65,7 @@ module Pages
             set_toggle_filter(values)
           when 'created_at'
             set_created_at_filter(human_operator, values)
-          when /cf_[\d]+/
+          when /cf_\d+/
             set_custom_field_filter(selected_filter, human_operator, values)
           end
         end

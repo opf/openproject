@@ -56,7 +56,7 @@ describe "/api/v3/queries/:id/order", type: :request do
 
       expect(last_response.status).to eq 200
       expect(body).to be_a Hash
-      expect(body).to eq( { wp1.id => 0, wp2.id => 8192 }.stringify_keys )
+      expect(body).to eq({ wp1.id => 0, wp2.id => 8192 }.stringify_keys)
     end
   end
 

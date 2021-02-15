@@ -92,11 +92,11 @@ class CostQuery < ApplicationRecord
   end
 
   def deserialize
-    unless @chain
+    if @chain
+      raise ArgumentError, 'Cannot deserialize a report which already has a chain'
+    else
       hash = serialized || serialize
       self.class.deserialize(hash, self)
-    else
-      raise ArgumentError, 'Cannot deserialize a report which already has a chain'
     end
   end
 
@@ -121,7 +121,7 @@ class CostQuery < ApplicationRecord
   # This may be used to alter report properties without
   # creating a new report in a database.
   def migrate(report)
-    [:@chain, :@query, :@transformer, :@walker, :@table, :@depths, :@chain_initializer].each do |inst_var|
+    %i[@chain @query @transformer @walker @table @depths @chain_initializer].each do |inst_var|
       instance_variable_set inst_var, (report.instance_variable_get inst_var)
     end
   end
@@ -140,7 +140,10 @@ class CostQuery < ApplicationRecord
 
   def add_chain(type, name, options)
     chain type.const_get(name.to_s.camelcase), options
-    @transformer, @table, @depths, @walker = nil, nil, nil, nil
+    @transformer = nil
+    @table = nil
+    @depths = nil
+    @walker = nil
     self
   end
 
@@ -252,9 +255,9 @@ class CostQuery < ApplicationRecord
     CostQuery.where(['user_id = ?', user.id]).update_all ['user_id = ?', DeletedUser.first.id]
 
     max_query_id = 0
-    while((current_queries = CostQuery.limit(1000)
+    while (current_queries = CostQuery.limit(1000)
                              .where(["id > ?", max_query_id])
-                             .order("id ASC")).size > 0) do
+                             .order("id ASC")).size > 0
 
       current_queries.each do |query|
         serialized = query.serialized
@@ -262,9 +265,9 @@ class CostQuery < ApplicationRecord
         serialized[:filters] = serialized[:filters].map do |name, options|
           options[:values].delete(user.id.to_s) if ["UserId", "AuthorId", "AssignedToId"].include?(name)
 
-          options[:values].nil? || options[:values].size > 0 ?
-            [name, options] :
-            nil
+          if options[:values].nil? || options[:values].size > 0
+            [name, options]
+          end
         end.compact
 
         CostQuery.where(["id = ?", query.id]).update_all ["serialized = ?", YAML::dump(serialized)]

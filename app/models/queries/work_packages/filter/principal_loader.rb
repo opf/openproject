@@ -52,6 +52,12 @@ class Queries::WorkPackages::Filter::PrincipalLoader
   end
 
   def principal_values
+    @options ||= principals.map { |s| [s.name, s.id.to_s] }.sort
+  end
+
+  private
+
+  def principals
     if project
       project.principals.sort
     else
@@ -59,9 +65,7 @@ class Queries::WorkPackages::Filter::PrincipalLoader
     end
   end
 
-  private
-
   def principals_by_class
-    @principals_by_class ||= principal_values.group_by(&:class)
+    @principals_by_class ||= principals.group_by(&:class)
   end
 end

@@ -107,7 +107,7 @@ module API
                current_user_allowed_to(:view_members, context: represented)
              } do
           {
-            href: api_v3_paths.path_for(:memberships, filters: [{ project: { operator: "=", values: [represented.id.to_s] }}]),
+            href: api_v3_paths.path_for(:memberships, filters: [{ project: { operator: "=", values: [represented.id.to_s] } }])
           }
         end
 
@@ -222,7 +222,7 @@ module API
         self.to_eager_load = [:status,
                               :parent,
                               :enabled_modules,
-                              custom_values: :custom_field]
+                              { custom_values: :custom_field }]
 
         self.checked_permissions = [:add_work_packages]
       end

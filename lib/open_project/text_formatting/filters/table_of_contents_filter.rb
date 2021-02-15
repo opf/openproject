@@ -129,7 +129,6 @@ module OpenProject::TextFormatting
             render_nested
           end
         end
-
       rescue StandardError => e
         Rails.logger.error { "Failed to render table of contents: #{e} #{e.message}" }
       end

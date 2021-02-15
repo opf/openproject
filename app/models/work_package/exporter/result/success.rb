@@ -34,7 +34,7 @@ class WorkPackage::Exporter::Result::Success < WorkPackage::Exporter::Result
                 :content,
                 :mime_type
 
-  def initialize(format:, title:, content: nil, mime_type:)
+  def initialize(format:, title:, mime_type:, content: nil)
     self.format = format
     self.title = title
     self.content = content

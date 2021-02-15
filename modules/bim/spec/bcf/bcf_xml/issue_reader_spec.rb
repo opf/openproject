@@ -184,7 +184,8 @@ describe ::OpenProject::Bim::BcfXml::IssueReader do
 
       it '#viewpoint_by_uuid' do
         expect(subject.send(:viewpoint_by_uuid, nil)).to be_nil
-        expect(subject.send(:viewpoint_by_uuid, bcf_issue.comments.first.viewpoint.uuid)).to eql(bcf_issue.comments.first.viewpoint)
+        expect(subject.send(:viewpoint_by_uuid,
+                            bcf_issue.comments.first.viewpoint.uuid)).to eql(bcf_issue.comments.first.viewpoint)
       end
     end
   end

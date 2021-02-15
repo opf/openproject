@@ -129,11 +129,7 @@ module Tasks
       def attachments_page!(wiki, name:)
         page = wiki.pages.where(title: name).first
 
-        if page
-          page
-        else
-          Migrations::Attachments::CurrentWikiPage.create wiki_id: wiki.id, title: name
-        end
+        page || create(wiki_id: wiki.id, title: name)
       end
 
       def try_delete_attachments_from_projects_and_versions
@@ -142,13 +138,13 @@ module Tasks
 
           Attachment.where(container_type: ['Version', 'Project']).destroy_all
         end
-      rescue
+      rescue StandardError
         raise 'Cannot delete attachments from projects and versions! There may be migrations missing...?'
       end
 
       def user_agrees_to_delete_versions_and_projects_documents
         questions = ['CAUTION: This rake task will delete ALL attachments attached to versions or projects!',
-                    "DISCLAIMER: This is the final warning: You're going to lose information!"]
+                     "DISCLAIMER: This is the final warning: You're going to lose information!"]
 
         ask_for_confirmation(questions)
       end

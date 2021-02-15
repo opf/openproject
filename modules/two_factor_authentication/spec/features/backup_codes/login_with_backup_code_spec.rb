@@ -2,17 +2,16 @@ require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
 describe 'Login with 2FA backup code', with_2fa_ee: true, type: :feature,
-         with_config: {:'2fa' => {active_strategies: [:developer]}},
-         js: true do
-  let(:user_password) {'bob!' * 4}
+                                       with_config: { '2fa': { active_strategies: [:developer] } },
+                                       js: true do
+  let(:user_password) { 'bob!' * 4 }
   let(:user) do
     FactoryBot.create(:user,
-                       login: 'bob',
-                       password: user_password,
-                       password_confirmation: user_password,
-    )
+                      login: 'bob',
+                      password: user_password,
+                      password_confirmation: user_password)
   end
-  let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, active: true, default: true}
+  let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, active: true, default: true }
 
   context 'user has no backup code' do
     it 'does not show the backup code link' do
@@ -70,4 +69,3 @@ describe 'Login with 2FA backup code', with_2fa_ee: true, type: :feature,
     end
   end
 end
-

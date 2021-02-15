@@ -131,4 +131,4 @@ ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
   end
 end
 
-ActionView::Base.send :include, ActionView::Helpers::AccessibleErrors
+ActionView::Base.include ActionView::Helpers::AccessibleErrors

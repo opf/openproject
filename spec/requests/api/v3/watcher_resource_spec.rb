@@ -242,7 +242,7 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
     let(:permissions) { %i[add_work_package_watchers view_work_packages] }
     let(:available_watchers_path) { api_v3_paths.available_watchers work_package.id }
     let(:returned_user_ids) do
-      JSON.parse(subject.body)['_embedded']['elements'].map {|user| user['id'] }
+      JSON.parse(subject.body)['_embedded']['elements'].map { |user| user['id'] }
     end
 
     before do

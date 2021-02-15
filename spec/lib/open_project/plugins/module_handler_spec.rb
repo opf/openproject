@@ -37,6 +37,7 @@ describe OpenProject::Plugins::ModuleHandler do
 
   after do
     raise 'Test outdated' unless OpenProject::AccessControl.instance_variable_defined?(:@permissions)
+
     OpenProject::AccessControl.instance_variable_set(:@permissions, all_former_permissions)
     OpenProject::AccessControl.clear_caches
   end

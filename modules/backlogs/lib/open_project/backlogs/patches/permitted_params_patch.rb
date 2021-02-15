@@ -49,4 +49,4 @@ module OpenProject::Backlogs::Patches::PermittedParamsPatch
     end
   end
 end
-PermittedParams.send(:include, OpenProject::Backlogs::Patches::PermittedParamsPatch)
+PermittedParams.include OpenProject::Backlogs::Patches::PermittedParamsPatch

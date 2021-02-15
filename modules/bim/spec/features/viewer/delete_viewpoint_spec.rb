@@ -32,7 +32,7 @@ describe 'Delete viewpoint in model viewer',
          with_config: { edition: 'bim' },
          type: :feature,
          js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: [:bim, :work_package_tracking] }
+  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
   let(:user) { FactoryBot.create :admin }
 
   let!(:work_package) { FactoryBot.create(:work_package, project: project) }

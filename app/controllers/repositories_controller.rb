@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -34,6 +35,7 @@ require_dependency 'open_project/scm/adapters'
 
 class ChangesetNotFound < StandardError
 end
+
 class InvalidRevisionParam < StandardError
 end
 
@@ -42,12 +44,12 @@ class RepositoriesController < ApplicationController
   include RepositoriesHelper
 
   menu_item :repository
-  menu_item :settings, only: [:edit, :destroy_info]
+  menu_item :settings, only: %i[edit destroy_info]
   default_search_scope :changesets
 
   before_action :find_project_by_project_id
   before_action :authorize
-  before_action :find_repository, except: [:edit, :update, :create, :destroy, :destroy_info]
+  before_action :find_repository, except: %i[edit update create destroy destroy_info]
   accept_key_auth :revisions
 
   rescue_from OpenProject::SCM::Exceptions::SCMError, with: :show_error_command_failed
@@ -82,10 +84,10 @@ class RepositoriesController < ApplicationController
     if request.post? && params.key?(:committers)
       # Build a hash with repository usernames as keys and corresponding user ids as values
       @repository.committer_ids = params[:committers].values
-        .inject({}) { |h, c|
+        .inject({}) do |h, c|
           h[c.first] = c.last
           h
-        }
+        end
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: 'committers', project_id: @project
     end
@@ -207,6 +209,7 @@ class RepositoriesController < ApplicationController
       # TODO: need to handle edge cases of non-binary content that isn't UTF-8
       return false
     end
+
     true
   end
 
@@ -228,12 +231,13 @@ class RepositoriesController < ApplicationController
 
   def revision
     raise ChangesetNotFound if @rev.blank?
+
     @changeset = @repository.find_changeset_by_name(@rev)
     raise ChangesetNotFound unless @changeset
 
     respond_to do |format|
       format.html
-      format.js do render layout: false end
+      format.js { render layout: false }
     end
   rescue ChangesetNotFound
     show_error_not_found
@@ -297,6 +301,7 @@ class RepositoriesController < ApplicationController
       unless current_user.allowed_to_in_project?(:view_commit_author_statistics, @project)
         return deny_access
       end
+
       data = graph_commits_per_author(@repository)
     end
 
@@ -341,10 +346,8 @@ class RepositoriesController < ApplicationController
     @rev = params[:rev].blank? ? @repository.default_branch : params[:rev].to_s.strip
     @rev_to = params[:rev_to]
 
-    unless @rev.to_s.match(REV_PARAM_RE) && @rev_to.to_s.match(REV_PARAM_RE)
-      if @repository.branches.blank?
-        raise InvalidRevisionParam
-      end
+    if !@rev.to_s.match(REV_PARAM_RE) && @rev_to.to_s.match(REV_PARAM_RE) && @repository.branches.blank?
+      raise InvalidRevisionParam
     end
   rescue OpenProject::SCM::Exceptions::SCMEmpty
     render 'empty'
@@ -427,10 +430,10 @@ class RepositoriesController < ApplicationController
                         .references(:changesets)
                         .group(:committer)
                         .size
-    h = changes_by_author.inject({}) { |o, i|
+    h = changes_by_author.inject({}) do |o, i|
       o[i.first] = i.last
       o
-    }
+    end
 
     fields = commits_by_author.map(&:first)
     commits_data = commits_by_author.map(&:last)

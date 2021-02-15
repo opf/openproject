@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe OpenProject::AccessControl do
-
   def stash_access_control_permissions
     @stashed_permissions = OpenProject::AccessControl.permissions.dup
     OpenProject::AccessControl.clear_caches
@@ -80,6 +79,7 @@ describe OpenProject::AccessControl do
 
     after do
       raise 'Test outdated' unless OpenProject::AccessControl.instance_variable_defined?(:@permissions)
+
       OpenProject::AccessControl.instance_variable_set(:@permissions, all_former_permissions)
       OpenProject::AccessControl.clear_caches
     end

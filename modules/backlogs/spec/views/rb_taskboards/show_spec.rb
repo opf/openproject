@@ -31,17 +31,17 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe 'rb_taskboards/show', type: :view do
   let(:user1) { FactoryBot.create(:user) }
   let(:user2) { FactoryBot.create(:user) }
-  let(:role_allowed) {
+  let(:role_allowed) do
     FactoryBot.create(:role,
-                       permissions: [:add_work_packages, :edit_work_packages, :manage_subtasks])
-  }
+                      permissions: %i[add_work_packages edit_work_packages manage_subtasks])
+  end
   let(:role_forbidden) { FactoryBot.create(:role) }
   # We need to create these as some view helpers access the database
-  let(:statuses) {
+  let(:statuses) do
     [FactoryBot.create(:status),
      FactoryBot.create(:status),
      FactoryBot.create(:status)]
-  }
+  end
 
   let(:type_task) { FactoryBot.create(:type_task) }
   let(:type_feature) { FactoryBot.create(:type_feature) }
@@ -53,32 +53,29 @@ describe 'rb_taskboards/show', type: :view do
     project
   end
 
-  let(:story_a) {
+  let(:story_a) do
     FactoryBot.create(:story, status: statuses[0],
-                               project: project,
-                               type: type_feature,
-                               version: sprint,
-                               priority: issue_priority
-                      )
-  }
-  let(:story_b) {
+                              project: project,
+                              type: type_feature,
+                              version: sprint,
+                              priority: issue_priority)
+  end
+  let(:story_b) do
     FactoryBot.create(:story, status: statuses[1],
-                               project: project,
-                               type: type_feature,
-                               version: sprint,
-                               priority: issue_priority
-                      )
-  }
-  let(:story_c) {
+                              project: project,
+                              type: type_feature,
+                              version: sprint,
+                              priority: issue_priority)
+  end
+  let(:story_c) do
     FactoryBot.create(:story, status: statuses[2],
-                               project: project,
-                               type: type_feature,
-                               version: sprint,
-                               priority: issue_priority
-                      )
-  }
+                              project: project,
+                              type: type_feature,
+                              version: sprint,
+                              priority: issue_priority)
+  end
   let(:stories) { [story_a, story_b, story_c] }
-  let(:sprint)   { FactoryBot.create(:sprint, project: project) }
+  let(:sprint) { FactoryBot.create(:sprint, project: project) }
   let(:task) do
     task = FactoryBot.create(:task, project: project, status: statuses[0], version: sprint, type: type_task)
     # This is necessary as for some unknown reason passing the parent directly
@@ -87,10 +84,14 @@ describe 'rb_taskboards/show', type: :view do
     task.parent_id = story_a.id
     task
   end
-  let(:impediment) { FactoryBot.create(:impediment, project: project, status: statuses[0], version: sprint, blocks_ids: task.id.to_s, type: type_task) }
+  let(:impediment) do
+    FactoryBot.create(:impediment, project: project, status: statuses[0], version: sprint, blocks_ids: task.id.to_s,
+                                   type: type_task)
+  end
 
   before :each do
-    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [type_feature.id], 'task_type' => type_task.id })
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [type_feature.id],
+                                                                         'task_type' => type_task.id })
     view.extend RbCommonHelper
     view.extend TaskboardsHelper
 

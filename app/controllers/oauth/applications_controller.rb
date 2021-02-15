@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,7 +28,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-
 module OAuth
   class ApplicationsController < ::ApplicationController
     before_action :require_admin
@@ -42,6 +42,7 @@ module OAuth
     end
 
     def new; end
+
     def edit; end
 
     def show
@@ -87,7 +88,6 @@ module OAuth
 
       redirect_to action: :index
     end
-
 
     protected
 

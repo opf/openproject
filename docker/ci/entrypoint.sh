@@ -55,7 +55,7 @@ if [ "$1" == "run-units" ]; then
 	execute "time bundle exec rspec -I spec_legacy spec_legacy"
 	execute "time bundle exec rake parallel:units"
 	if [ ! $? -eq 0 ]; then
-		execute "cat tmp/spec_examples.txt | grep -Ev 'passed|unknown|pending'"
+		execute "cat tmp/parallel_runtime_rspec.log | grep -Ev 'passed|unknown|pending'"
 		exit 1
 	fi
 fi
@@ -67,7 +67,7 @@ if [ "$1" == "run-features" ]; then
 	execute "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
 	execute "time bundle exec rake parallel:features"
 	if [ ! $? -eq 0 ]; then
-		execute "cat tmp/spec_examples.txt | grep -Ev 'passed|unknown|pending'"
+		execute "cat tmp/parallel_runtime_rspec.log | grep -Ev 'passed|unknown|pending'"
 		exit 1
 	fi
 fi

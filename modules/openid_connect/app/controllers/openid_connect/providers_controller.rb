@@ -5,7 +5,7 @@ module OpenIDConnect
 
     before_action :require_admin
     before_action :check_ee
-    before_action :find_provider, only: [:edit, :update, :destroy]
+    before_action :find_provider, only: %i[edit update destroy]
 
     def index; end
 
@@ -57,7 +57,7 @@ module OpenIDConnect
     def check_ee
       if EnterpriseToken.show_banners?
         render template: '/openid_connect/providers/upsale'
-        return false
+        false
       end
     end
 

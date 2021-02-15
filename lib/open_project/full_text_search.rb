@@ -48,7 +48,7 @@ module OpenProject
     end
 
     def self.tokenize(text, concatenation = :and, normalization = :text)
-      terms = normalize(clean_terms(text), normalization).split(/[\s]+/).reject(&:blank?)
+      terms = normalize(clean_terms(text), normalization).split(/\s+/).reject(&:blank?)
 
       case concatenation
       when :and

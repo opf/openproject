@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -35,7 +36,6 @@
 # creation and deletion of repositories BOTH on the database and filesystem.
 # Until then, a synchronous process is more failsafe.
 class SCM::CreateLocalRepositoryJob < ApplicationJob
-
   def self.ensure_not_existing!(repository)
     # Cowardly refusing to override existing local repository
     if File.directory?(repository.root_url)
@@ -102,6 +102,6 @@ class SCM::CreateLocalRepositoryJob < ApplicationJob
   end
 
   def default_mode
-    0700
+    0o700
   end
 end

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -213,7 +214,10 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def render_unattached_menu_item(menu_item, project)
-    raise Redmine::MenuManager::MenuError, ':child_menus must be an array of MenuItems' unless menu_item.is_a? Redmine::MenuManager::MenuItem
+    unless menu_item.is_a? Redmine::MenuManager::MenuItem
+      raise Redmine::MenuManager::MenuError,
+            ':child_menus must be an array of MenuItems'
+    end
 
     if User.current.allowed_to?(menu_item.url(project), project)
       link_to(menu_item.caption,

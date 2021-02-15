@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -42,7 +43,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   end
 
   def send_request
-    header "Content-Type",  "application/json"
+    header "Content-Type", "application/json"
     patch path, parameters.to_json
   end
 
@@ -124,11 +125,10 @@ describe ::API::V3::Users::UsersAPI, type: :request do
         expect(last_response.status).to eql(404)
       end
     end
-
   end
 
   describe 'user with global add_user permission' do
-    using_shared_fixtures :global_add_user
+    shared_let(:global_add_user) { FactoryBot.create :user, global_permission: :add_user }
     let(:current_user) { global_add_user }
 
     it_behaves_like 'update flow'

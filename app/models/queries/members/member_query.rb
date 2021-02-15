@@ -31,6 +31,11 @@ class Queries::Members::MemberQuery < Queries::BaseQuery
     Member
   end
 
+  def results
+    super
+      .includes(:roles, :principal, :member_roles)
+  end
+
   def default_scope
     Member.visible(User.current)
   end

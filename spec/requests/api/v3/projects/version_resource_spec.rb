@@ -35,8 +35,8 @@ describe "API v3 project's versions resource" do
 
   let(:current_user) do
     user = FactoryBot.create(:user,
-                              member_in_project: project,
-                              member_through_role: role)
+                             member_in_project: project,
+                             member_through_role: role)
 
     allow(User).to receive(:current).and_return user
 

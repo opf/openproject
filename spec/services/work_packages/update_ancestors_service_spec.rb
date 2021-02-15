@@ -195,7 +195,7 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
     end
     let!(:parent) do
       FactoryBot.create :work_package,
-                         parent: grandparent
+                        parent: grandparent
     end
     let!(:sibling) do
       FactoryBot.create :work_package,
@@ -207,7 +207,7 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
 
     let!(:work_package) do
       FactoryBot.create :work_package,
-                         parent: parent
+                        parent: parent
     end
 
     subject do

@@ -32,7 +32,6 @@ module Components
       include Capybara::DSL
       include RSpec::Matchers
 
-
       def expect_changed
         expect(page).to have_selector '.editable-toolbar-title--save'
         expect(page).to have_selector '.editable-toolbar-title--input.-changed'

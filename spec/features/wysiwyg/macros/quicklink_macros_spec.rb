@@ -29,15 +29,15 @@
 require 'spec_helper'
 
 describe 'Wysiwyg work package quicklink macros', type: :feature, js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:user) { admin }
   let!(:project) { FactoryBot.create(:project, identifier: 'some-project', enabled_module_names: %w[wiki work_package_tracking]) }
-  let!(:work_package) {
+  let!(:work_package) do
     FactoryBot.create(:work_package, subject: "Foo Bar", project: project, start_date: '2020-01-01', due_date: '2020-02-01')
-  }
+  end
   let(:editor) { ::Components::WysiwygEditor.new }
 
-  let(:markdown) {
+  let(:markdown) do
     <<~MD
       # My headline
 
@@ -45,7 +45,7 @@ describe 'Wysiwyg work package quicklink macros', type: :feature, js: true do
 
       ####{work_package.id}
     MD
-  }
+  end
 
   before do
     login_as(user)
@@ -77,7 +77,7 @@ describe 'Wysiwyg work package quicklink macros', type: :feature, js: true do
           # Dates are being rendered in two nested spans
           expect(page).to have_selector('span', text: '01/01/2020', count: 2)
           expect(page).to have_selector('span', text: '02/01/2020', count: 2)
-          expect(page).to have_selector('.work-package--quickinfo.preview-trigger', text: "##{work_package.id}",  count: 2)
+          expect(page).to have_selector('.work-package--quickinfo.preview-trigger', text: "##{work_package.id}", count: 2)
         end
 
         # Edit page again

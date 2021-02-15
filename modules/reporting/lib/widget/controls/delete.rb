@@ -29,6 +29,7 @@
 class Widget::Controls::Delete < Widget::Controls
   def render
     return '' if @subject.new_record? or !@options[:can_delete]
+
     button = link_to(I18n.t(:button_delete),
                      '#',
                      id: 'query-icon-delete',

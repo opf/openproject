@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -45,6 +46,7 @@ namespace :redmine do
         lang = STDIN.gets.chomp!
         break if lang.empty?
         break if set_language_if_valid(lang)
+
         puts 'Unknown language!'
       end
       STDOUT.flush
@@ -54,11 +56,11 @@ namespace :redmine do
     begin
       Redmine::DefaultData::Loader.load(current_language)
       puts 'Default configuration data loaded.'
-    rescue Redmine::DefaultData::DataAlreadyLoaded => error
-      puts error
-    rescue => error
-      puts 'Error: ' + error.message
-      puts error.backtrace.join("\n")
+    rescue Redmine::DefaultData::DataAlreadyLoaded => e
+      puts e
+    rescue StandardError => e
+      puts 'Error: ' + e.message
+      puts e.backtrace.join("\n")
       puts 'Default configuration data was not loaded.'
     end
   end

@@ -29,14 +29,14 @@
 require 'spec_helper'
 
 describe WorkPackage, type: :model do
-  let(:work_package) {
+  let(:work_package) do
     FactoryBot.create(:work_package, project: project,
-                                      status: status)
-  }
-  let(:work_package2) {
+                                     status: status)
+  end
+  let(:work_package2) do
     FactoryBot.create(:work_package, project: project2,
-                                      status: status)
-  }
+                                     status: status)
+  end
   let(:user) { FactoryBot.create(:user) }
 
   let(:type) { FactoryBot.create(:type_standard) }
@@ -44,28 +44,28 @@ describe WorkPackage, type: :model do
   let(:project2) { FactoryBot.create(:project, types: [type]) }
   let(:role) { FactoryBot.create(:role) }
   let(:role2) { FactoryBot.create(:role) }
-  let(:member) {
+  let(:member) do
     FactoryBot.create(:member, principal: user,
-                                roles: [role])
-  }
-  let(:member2) {
+                               roles: [role])
+  end
+  let(:member2) do
     FactoryBot.create(:member, principal: user,
-                                roles: [role2],
-                                project: work_package2.project)
-  }
+                               roles: [role2],
+                               project: work_package2.project)
+  end
   let(:status) { FactoryBot.create(:status) }
   let(:priority) { FactoryBot.create(:priority) }
   let(:cost_type) { FactoryBot.create(:cost_type) }
-  let(:cost_entry) {
+  let(:cost_entry) do
     FactoryBot.create(:cost_entry, work_package: work_package,
                                    project: work_package.project,
                                    cost_type: cost_type)
-  }
-  let(:cost_entry2) {
+  end
+  let(:cost_entry2) do
     FactoryBot.create(:cost_entry, work_package: work_package2,
                                    project: work_package2.project,
                                    cost_type: cost_type)
-  }
+  end
 
   describe '#cleanup_action_required_before_destructing?' do
     describe 'w/ the work package having a cost entry' do
@@ -197,7 +197,10 @@ describe WorkPackage, type: :model do
 
     describe 'w/ "reassign" as action
               w/ reassigning to a valid work_package' do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'reassign', reassign_to_id: work_package2.id) }
+      let(:action) do
+        WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'reassign',
+                                                                                          reassign_to_id: work_package2.id)
+      end
 
       before do
         work_package2.save!
@@ -227,7 +230,10 @@ describe WorkPackage, type: :model do
 
     describe 'w/ "reassign" as action
               w/ reassigning to a work_package the user is not allowed to see' do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'reassign', reassign_to_id: work_package2.id) }
+      let(:action) do
+        WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'reassign',
+                                                                                          reassign_to_id: work_package2.id)
+      end
 
       before do
         work_package2.save!
@@ -247,7 +253,9 @@ describe WorkPackage, type: :model do
 
     describe 'w/ "reassign" as action
               w/ reassigning to a non existing work package' do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'reassign', reassign_to_id: 0) }
+      let(:action) do
+        WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: 'reassign', reassign_to_id: 0)
+      end
 
       it 'should return true' do
         expect(action).to be_falsey

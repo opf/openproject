@@ -78,7 +78,7 @@ module OpenProject::TextFormatting
 
       def self.regexp
         %r{
-          ([[[:space:]]\(,\-\[\>]|^) # Leading string
+          ([[[:space:]](,\-\[>]|^) # Leading string
           (!)? # Escaped marker
           (([a-z0-9\-_]+):)? # Project identifier
           (#{allowed_prefixes.join("|")})? # prefix
@@ -224,7 +224,7 @@ module OpenProject::TextFormatting
             break
           end
         end
-      rescue => e
+      rescue StandardError => e
         Rails.logger.error "Failed link resource handling for #{matched_string}: #{e}"
         Rails.logger.debug { "Backtrace:\n\t#{e.backtrace.join("\n\t")}" }
         # Keep the original string unmatched

@@ -16,7 +16,7 @@ module OpenProject
     ##
     # Loads the settings once to avoid accessing the file in each request
     def self.load_global_settings!
-       Hash(settings_from_config || settings_from_yaml).with_indifferent_access
+      Hash(settings_from_config || settings_from_yaml).with_indifferent_access
     end
 
     def self.settings_from_db
@@ -50,7 +50,7 @@ module OpenProject
       register 'openproject-auth_saml',
                author_url: 'https://github.com/finnlabs/openproject-auth_saml',
                bundled: true,
-               settings: { default: { "providers" => nil }}
+               settings: { default: { "providers" => nil } }
 
       assets %w(
         auth_saml/**

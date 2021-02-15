@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -29,7 +30,7 @@
 
 class Group < Principal
   has_and_belongs_to_many :users,
-                          join_table:   "#{table_name_prefix}group_users#{table_name_suffix}",
+                          join_table: "#{table_name_prefix}group_users#{table_name_suffix}",
                           before_add: :fail_add,
                           after_remove: :user_removed
 
@@ -106,7 +107,7 @@ class Group < Principal
   end
 
   def uniqueness_of_groupname
-    groups_with_name = Group.where('lastname = ? AND id <> ?', groupname, id ? id : 0).count
+    groups_with_name = Group.where('lastname = ? AND id <> ?', groupname, id || 0).count
     if groups_with_name > 0
       errors.add :groupname, :taken
     end

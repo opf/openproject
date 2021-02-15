@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 feature 'group memberships through groups page', type: :feature do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let!(:group) { FactoryBot.create :group, lastname: "Bob's Team" }
 
   let(:groups_page) { Pages::Groups.new }

@@ -27,11 +27,11 @@
 #++
 
 require 'spec_helper'
-require File.expand_path('../../support/shared/become_member', __FILE__)
+require File.expand_path('../support/shared/become_member', __dir__)
 
 describe Project, type: :model do
   include BecomeMember
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
 
   let(:active) { true }
   let(:project) { FactoryBot.create(:project, active: active) }
@@ -141,7 +141,7 @@ describe Project, type: :model do
   end
 
   describe 'name' do
-    let(:project) { FactoryBot.build_stubbed :project, name: '     Hello    World   '}
+    let(:project) { FactoryBot.build_stubbed :project, name: '     Hello    World   ' }
 
     before do
       project.valid?

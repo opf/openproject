@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -65,14 +66,14 @@ describe SCM::DeleteManagedRepositoryService do
 
   context 'with managed repository and managed config' do
     include_context 'with tmpdir'
-    let(:config) {
+    let(:config) do
       {
         subversion: { manages: File.join(tmpdir, 'svn') },
         git: { manages: File.join(tmpdir, 'git') }
       }
-    }
+    end
 
-    let(:repository) {
+    let(:repository) do
       repo = Repository::Subversion.new(scm_type: :managed)
       repo.project = project
       repo.configure(:managed, nil)
@@ -80,7 +81,7 @@ describe SCM::DeleteManagedRepositoryService do
       repo.save!
       perform_enqueued_jobs
       repo
-    }
+    end
 
     it 'deletes the repository' do
       expect(File.directory?(repository.root_url)).to be true
@@ -99,9 +100,9 @@ describe SCM::DeleteManagedRepositoryService do
     context 'and parent project' do
       let(:parent) { FactoryBot.create(:project) }
       let(:project) { FactoryBot.create(:project, parent: parent) }
-      let(:repo_path) {
+      let(:repo_path) do
         Pathname.new(File.join(tmpdir, 'svn', project.identifier))
-      }
+      end
 
       it 'does not delete anything but the repository itself' do
         expect(service.call).to be true
@@ -118,23 +119,23 @@ describe SCM::DeleteManagedRepositoryService do
 
   context 'with managed remote config', webmock: true do
     let(:url) { 'http://myreposerver.example.com/api/' }
-    let(:config) {
+    let(:config) do
       {
         subversion: { manages: url }
       }
-    }
+    end
 
-    let(:repository) {
+    let(:repository) do
       repo = Repository::Subversion.new(scm_type: :managed)
       repo.project = project
       repo.configure(:managed, nil)
 
       repo
-    }
+    end
 
     context 'with a valid remote' do
       before do
-        stub_request(:post, url).to_return(status: 200, body: {}.to_json )
+        stub_request(:post, url).to_return(status: 200, body: {}.to_json)
       end
 
       it 'calls the callback' do
@@ -160,7 +161,6 @@ describe SCM::DeleteManagedRepositoryService do
         expect(::SCM::DeleteRemoteRepositoryJob)
           .to receive(:perform_now)
           .and_call_original
-
 
         expect(service.call).to be false
 

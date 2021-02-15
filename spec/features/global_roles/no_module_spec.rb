@@ -41,7 +41,7 @@ describe 'Global role: No module', type: :feature, js: true do
   scenario 'Global Rights Modules do not exist as Project -> Settings -> Modules' do
     # Scenario:
     # Given there is the global permission "glob_test" of the module "global"
-    mock_global_permissions [['global_perm1', project_module: :global]]
+    mock_global_permissions [['global_perm1', { project_module: :global }]]
 
     # And there is 1 project with the following:
     # | name       | test |

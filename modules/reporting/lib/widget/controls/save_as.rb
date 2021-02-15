@@ -50,31 +50,31 @@ class Widget::Controls::SaveAs < Widget::Controls
                 class: 'form--label -transparent') do
         Query.human_attribute_name(:name).html_safe
       end +
-      content_tag(:span,
-                  class: 'form--field-container') do
         content_tag(:span,
-                    class: 'form--text-field-container') do
-          text_field_tag(:query_name,
-                         @subject.name,
-                         required: true)
+                    class: 'form--field-container') do
+          content_tag(:span,
+                      class: 'form--text-field-container') do
+            text_field_tag(:query_name,
+                           @subject.name,
+                           required: true)
+          end
         end
-      end
     end
     if @options[:can_save_as_public]
       box = content_tag :p, class: 'form--field -wide-label' do
         label_tag(:query_is_public,
                   Query.human_attribute_name(:is_public),
                   class: 'form--label -transparent') +
-        content_tag(:span,
-                    class: 'form--field-container') do
           content_tag(:span,
-                      class: 'form--check-box-container') do
-            check_box_tag(:query_is_public,
-                          1,
-                          false,
-                          class: 'form--check-box')
+                      class: 'form--field-container') do
+            content_tag(:span,
+                        class: 'form--check-box-container') do
+              check_box_tag(:query_is_public,
+                            1,
+                            false,
+                            class: 'form--check-box')
+            end
           end
-        end
       end
       name + box
     else
@@ -90,7 +90,7 @@ class Widget::Controls::SaveAs < Widget::Controls
                    '#',
                    id: 'query-icon-save-button',
                    class: 'button -highlight icon-context icon-save',
-                   :"data-target" => url_for(**save_url_params))
+                   "data-target": url_for(**save_url_params))
 
     cancel = link_to(I18n.t(:button_cancel),
                      '#',

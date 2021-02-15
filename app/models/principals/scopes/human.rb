@@ -33,10 +33,14 @@
 #   * User
 #   * Group
 module Principals::Scopes
-  class Human
-    def self.fetch
-      Principal.where(type: [::User.name,
-                             Group.name])
+  module Human
+    extend ActiveSupport::Concern
+
+    class_methods do
+      def human
+        where(type: [::User.name,
+                     Group.name])
+      end
     end
   end
 end

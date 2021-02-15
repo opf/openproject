@@ -46,4 +46,7 @@ module Queries::Members
   order_ns = Queries::Members::Orders
 
   Queries::Register.order query, order_ns::DefaultOrder
+  Queries::Register.order query, order_ns::NameOrder
+  Queries::Register.order query, order_ns::EmailOrder
+  Queries::Register.order query, order_ns::StatusOrder
 end

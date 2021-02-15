@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -50,7 +51,7 @@ namespace :migrations do
         TemporaryDocument.destroy_all
         Attachment.where(container_type: ['Document']).destroy_all
       end
-    rescue
+    rescue StandardError
       raise 'Cannot delete documents! There may be migrations missing...?'
     end
 

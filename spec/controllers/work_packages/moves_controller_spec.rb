@@ -33,11 +33,11 @@ describe WorkPackages::MovesController, type: :controller do
   let(:role) do
     FactoryBot.create :role,
                       permissions: %i(move_work_packages
-                                       view_work_packages
-                                       add_work_packages
-                                       edit_work_packages
-                                       assign_versions
-                                       manage_subtasks)
+                                      view_work_packages
+                                      add_work_packages
+                                      edit_work_packages
+                                      assign_versions
+                                      manage_subtasks)
   end
   let(:type) { FactoryBot.create :type }
   let(:type_2) { FactoryBot.create :type }
@@ -120,12 +120,12 @@ describe WorkPackages::MovesController, type: :controller do
     let!(:source_member) { FactoryBot.create(:member, user: current_user, project: project, roles: [role]) }
     let!(:target_member) { FactoryBot.create(:member, user: current_user, project: target_project, roles: [role]) }
     let(:target_project) { FactoryBot.create(:project, public: false) }
-    let(:work_package_2) {
+    let(:work_package_2) do
       FactoryBot.create(:work_package,
                         project_id: project.id,
                         type: type_2,
                         priority: priority)
-    }
+    end
 
     describe 'an issue to another project' do
       context 'w/o following' do
@@ -242,7 +242,7 @@ describe WorkPackages::MovesController, type: :controller do
       shared_examples_for 'single note for moved work package' do
         it { expect(moved_work_package.journals.count).to eq(2) }
 
-        it { expect(moved_work_package.journals.sort_by(&:id).last.notes).to eq(note) }
+        it { expect(moved_work_package.journals.max_by(&:id).notes).to eq(note) }
       end
 
       describe 'move with given note' do
@@ -447,7 +447,7 @@ describe WorkPackages::MovesController, type: :controller do
                   params: {
                     ids: [work_package.id, child_wp.id],
                     copy: '',
-                    new_project_id: to_project.id,
+                    new_project_id: to_project.id
                   }
 
               it 'reports the one child work package' do
@@ -468,13 +468,13 @@ describe WorkPackages::MovesController, type: :controller do
                 .not_to receive(:new)
                           .with(child_wp, current_user)
 
-              expect {
+              expect do
                 post :create,
                      params: {
                        ids: [work_package.id, child_wp.id],
-                       copy: '',
+                       copy: ''
                      }
-              }.to change(WorkPackage, :count).by(2)
+              end.to change(WorkPackage, :count).by(2)
 
               expect(flash[:notice]).to eq(I18n.t(:notice_successful_create))
             end

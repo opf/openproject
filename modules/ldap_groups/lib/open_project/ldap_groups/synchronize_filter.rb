@@ -52,7 +52,6 @@ module OpenProject::LdapGroups
             filter: filter.parsed_filter_string,
             attributes: ['dn', group_name]
           ).each do |entry|
-
           yield entry.dn, LdapAuthSource.get_attr(entry, group_name)
         end
       end
@@ -80,6 +79,5 @@ module OpenProject::LdapGroups
         sync.group = Group.find_or_create_by!(groupname: name)
       end
     end
-
   end
 end

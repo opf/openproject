@@ -37,7 +37,6 @@ class Queries::Members::Filters::GroupFilter < Queries::Members::Filters::Member
 
   def scope
     scope = model.joins(:principal).merge(User.joins(:groups))
-    scope = scope.where(where)
-    scope
+    scope.where(where)
   end
 end

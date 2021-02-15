@@ -28,9 +28,9 @@
 
 class MeetingsController < ApplicationController
   around_action :set_time_zone
-  before_action :find_project, only: [:index, :new, :create]
-  before_action :find_meeting, except: [:index, :new, :create]
-  before_action :convert_params, only: [:create, :update]
+  before_action :find_project, only: %i[index new create]
+  before_action :find_meeting, except: %i[index new create]
+  before_action :convert_params, only: %i[create update]
   before_action :authorize
 
   helper :watchers
@@ -39,7 +39,7 @@ class MeetingsController < ApplicationController
   include WatchersHelper
   include PaginationHelper
 
-  menu_item :new_meeting, only: [:new, :create]
+  menu_item :new_meeting, only: %i[new create]
 
   def index
     scope = @project.meetings
@@ -68,7 +68,8 @@ class MeetingsController < ApplicationController
     if params[:copied_from_meeting_id].present? && params[:copied_meeting_agenda_text].present?
       @meeting.agenda = MeetingAgenda.new(
         text: params[:copied_meeting_agenda_text],
-        comment: "Copied from Meeting ##{params[:copied_from_meeting_id]}")
+        comment: "Copied from Meeting ##{params[:copied_from_meeting_id]}"
+      )
       @meeting.agenda.author = User.current
     end
     if @meeting.save
@@ -160,10 +161,8 @@ class MeetingsController < ApplicationController
     @converted_params[:participants_attributes].each { |p| p.reverse_merge! attended: false, invited: false }
   end
 
-  private
-
   def meeting_params
     params.require(:meeting).permit(:title, :location, :start_time, :duration, :start_date, :start_time_hour,
-      participants_attributes: [:email, :name, :invited, :attended, :user, :user_id, :meeting, :id])
+                                    participants_attributes: %i[email name invited attended user user_id meeting id])
   end
 end

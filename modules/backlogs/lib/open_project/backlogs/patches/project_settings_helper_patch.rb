@@ -47,4 +47,4 @@ module OpenProject::Backlogs::Patches::ProjectSettingsHelperPatch
   end
 end
 
-ProjectSettingsHelper.send(:include, OpenProject::Backlogs::Patches::ProjectSettingsHelperPatch)
+ProjectSettingsHelper.include OpenProject::Backlogs::Patches::ProjectSettingsHelperPatch

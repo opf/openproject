@@ -43,7 +43,6 @@ module API
 
         link :memberships,
              cache_if: -> { current_user_allowed_to_see_members? } do
-
           filters = [
             {
               principal: {
