@@ -393,5 +393,12 @@ describe Principals::DeleteJob, type: :model do
         end
       end
     end
+
+    context 'with a placeholder user' do
+      let(:principal) { FactoryBot.create(:placeholder_user) }
+
+      it_behaves_like 'removes the principal'
+      it_behaves_like 'work_package handling'
+    end
   end
 end
