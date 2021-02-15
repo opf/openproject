@@ -199,12 +199,36 @@ module API
         def all_cfs_of_project
           @all_cfs_of_project ||= represented
                                   .group_by(&:project_id)
-                                  .map { |id, wps| [id, wps.map(&:available_custom_fields).flatten.uniq] }
-                                  .to_h
+                                  .transform_values { |wps| wps.map(&:available_custom_fields).flatten.uniq }
         end
 
         def paged_models(models)
-          models.page(@page).per_page(@per_page).pluck(:id)
+          # Some filters add a LEFT JOIN to the query.
+          # Because of that, the query has to have a DISTINCT applied as to not
+          # have duplicates returned which would then result in the pagination being broken.
+          # The IDs will be taken and then passed into the next query which will in effect apply a
+          # distinct.
+          # Because PostgreSQL requires to have all the columns present in the ORDER BY statement
+          # to also be present in the SELECT when DISTINCT is specified, that order columns need
+          # to be extracted first.
+          # This can either be considered pragmatic or hacky. Time will tell.
+          order = models.order_values.map do |order|
+            order_string = order.respond_to?(:to_sql) ? order.to_sql : order
+            order_string.gsub(/ (ASC|DESC|NULLS LAST) *.*?$/i, '')
+          end
+          to_pluck = [:id] + order
+
+          plucked = models
+                    .page(@page)
+                    .per_page(@per_page)
+                    .distinct
+                    .pluck(*to_pluck)
+
+          if to_pluck.size == 1
+            plucked
+          else
+            plucked.map(&:first)
+          end
         end
 
         def _type

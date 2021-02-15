@@ -32,7 +32,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:self_base_link) { '/api/v3/example' }
-  let(:work_packages) { WorkPackage.all }
+  let(:work_packages) { WorkPackage.all.order(id: :asc) }
   let(:user) { FactoryBot.build_stubbed(:user) }
 
   let(:query) { {} }

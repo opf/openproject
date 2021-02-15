@@ -123,7 +123,7 @@ module CustomField::OrderStatements
 
   def select_custom_values_joined_options_as_group
     <<-SQL
-      COALESCE((SELECT string_agg(co_sort.value, '.' ORDER BY co_sort.position ASC) FROM #{CustomOption.table_name} co_sort
+      COALESCE((SELECT string_agg(co_sort.value, '.' ORDER BY co_sort.position) FROM #{CustomOption.table_name} co_sort
         LEFT JOIN #{CustomValue.table_name} cv_sort
         ON cv_sort.value IS NOT NULL AND co_sort.id = cv_sort.value::numeric
         WHERE #{cv_sort_only_custom_field_condition_sql}), '')
