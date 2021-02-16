@@ -41,5 +41,5 @@ feature 'user memberships through user page', type: :feature, js: true do
     it_behaves_like 'principal membership management flows'
   end
 
-  it_behaves_like 'global user principal membership management flows', :add_user
+  it_behaves_like 'global user principal membership management flows', :manage_user
 end

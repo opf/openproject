@@ -61,7 +61,7 @@ describe Users::CreateContract do
   end
 
   context 'when global user' do
-    shared_let(:current_user) { FactoryBot.create :user, global_permission: :add_user }
+    shared_let(:current_user) { FactoryBot.create :user, global_permission: :manage_user }
 
     describe 'can invite user' do
       before do

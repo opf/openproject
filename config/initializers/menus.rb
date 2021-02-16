@@ -77,7 +77,7 @@ Redmine::MenuManager.map :account_menu do |menu|
             if: Proc.new { User.current.logged? }
   menu.push :administration,
             { controller: '/admin', action: 'index' },
-            if: Proc.new { User.current.admin? || User.current.allowed_to_globally?(:add_user) }
+            if: Proc.new { User.current.admin? || User.current.allowed_to_globally?(:manage_user) }
   menu.push :logout,
             :signout_path,
             if: Proc.new { User.current.logged? }
@@ -133,13 +133,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :users,
             { controller: '/users' },
-            if: Proc.new { !User.current.admin? && User.current.allowed_to_globally?(:add_user) },
+            if: Proc.new { !User.current.admin? && User.current.allowed_to_globally?(:manage_user) },
             caption: :label_user_plural,
             icon: 'icon2 icon-group'
 
   menu.push :placeholder_users,
             { controller: '/placeholder_users' },
-            if: Proc.new { !User.current.admin? && User.current.allowed_to_globally?(:add_placeholder_user) },
+            if: Proc.new { !User.current.admin? && User.current.allowed_to_globally?(:manage_placeholder_user) },
             caption: :label_placeholder_user_plural,
             icon: 'icon2 icon-group'
 

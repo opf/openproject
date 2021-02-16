@@ -218,7 +218,7 @@ describe PlaceholderUsersController, type: :controller do
   end
 
   context 'as a user with global permission' do
-    current_user { FactoryBot.create :user, global_permission: %i[add_placeholder_user] }
+    current_user { FactoryBot.create :user, global_permission: %i[manage_placeholder_user] }
     it_behaves_like 'authorized flows'
   end
 
