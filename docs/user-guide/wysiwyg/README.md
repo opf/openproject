@@ -70,9 +70,9 @@ In supported resources of OpenProject where attachments are allowed, you can add
 - pasting an image from your clipboard,
 - or drag & drop an image onto the editor.
 
+The image will be automatically uploaded and stored as an attachment. You can adjust the image size in the editor using your mouse.
 
-
-The attachment will be automatically uploaded and stored as an attachment.
+![resize-imagesshort](resize-imagesshort.gif)
 
  
 
