@@ -32,6 +32,7 @@ import {ConfigurationService} from 'core-app/modules/common/config/configuration
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {
+  ApplicationRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -91,7 +92,8 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
               readonly apiV3Service:APIV3Service,
               readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService,
-              readonly ngZone:NgZone) {
+              readonly ngZone:NgZone,
+              protected appRef:ApplicationRef) {
     super(elementRef, injector);
   }
 
@@ -227,6 +229,6 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   private updateCommentText() {
-    this.postedComment = this.sanitization.bypassSecurityTrustHtml(this.activity.comment.html);
+    this.postedComment = this.activity.comment.html;
   }
 }
