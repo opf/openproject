@@ -60,7 +60,7 @@ OpenProject::AccessControl.map do |map|
 
     map.permission :manage_placeholder_user,
                    {
-                     placeholder_users: %i[index show new create edit update destroy],
+                     placeholder_users: %i[index show new create edit update deletion_info destroy],
                      "placeholder_users/memberships": %i[create update destroy],
                      admin: %i[index]
                    },

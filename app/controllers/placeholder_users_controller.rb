@@ -38,6 +38,7 @@ class PlaceholderUsersController < ApplicationController
   before_action :find_placeholder_user, only: %i[show
                                                  edit
                                                  update
+                                                 deletion_info
                                                  destroy]
 
   def index
@@ -118,6 +119,10 @@ class PlaceholderUsersController < ApplicationController
         end
       end
     end
+  end
+
+  def deletion_info
+    respond_to :html
   end
 
   def destroy

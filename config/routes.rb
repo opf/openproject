@@ -469,6 +469,7 @@ OpenProject::Application.routes.draw do
 
     member do
       get '/edit(/:tab)' => 'placeholder_users#edit', as: 'edit'
+      get :deletion_info
     end
   end
 
