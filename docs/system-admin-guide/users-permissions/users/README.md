@@ -23,7 +23,7 @@ In the Community Edition there is no limit to the number of users. In Enterprise
 | [User list](#user-list)                         | Manage all users in OpenProject.                         |
 | [Filter users](#filter-users)                   | Filter users in the list.                                |
 | [Lock and unlock users](#lock-and-unlock-users) | Block a user permanently in the system or unlock a user. |
-| [Create users](#create-users)                   | Invite or create new users.                              |
+| [Create users](#create-users)                   | Invite or create new users. Resend or delete user invitations                              |
 | [Manage user settings](#manage-user-settings)   | Manage user details.                                     |
 | [Authentication](#authentication)               | Set and use authentication methods.                      |
 | [Delete users](#delete-users)                   | Delete a user from the system.                           |
@@ -47,7 +47,7 @@ At the top of the user list is a filter box. Filter by status or name, then clic
 
 ## Lock and unlock users
 
-Handling locked users is also done from the list. To disable a user's access click the **Lock permanently** link next to a user. Use the **Unlock** link to restore the user's access.
+Handling locking and unlocking of users is also done from the user list. To disable a user's access click the **Lock permanently** link next to a user. Use the **Unlock** link to restore the user's access.
 
 If you are using [Enterprise cloud](../../../cloud-edition-guide) or [Enterprise on-premises](../../../enterprise-edition-guide) locking a user will make a new user available to add to the system within your booked plan.
 
@@ -95,13 +95,16 @@ See [Manage user settings](#manage-user-settings) for full details.
 
 ### Resend user invitation via email
 
-If a user did not receive the email invitation, you can send the invitation to the user again if needed. In the user list, click on the user name to whom you want to resend the email with the invitation link to the system.
+If a user did not receive the email invitation or shall change their authentication method to email, you can send the invitation to the user again if needed. In the user list, click on the user name to whom you want to resend the email with the invitation link to the system.
 
 In the top right, click the **Send invitation** button in order to send the email once again.
 
 ![Sys-admin-resend-invitation](Sys-admin-resend-invitation.png)
 
-## 
+
+### Delete user invitations
+To invalidate or revoke a user's invitation click on the user name and then on **Delete** in the upper right corner. This will prevent the invited user from logging in. 
+Please note: This only works for users who haven't logged in yet. If the user is already active this will delete his/her whole profile and account. Deleting users can't be easily revoked.
 
 ## Manage user settings
 
