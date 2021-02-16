@@ -26,7 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {NgSelectComponent} from "@ng-select/ng-select";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
@@ -34,6 +43,10 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {AddTagFn} from "@ng-select/ng-select/lib/ng-select.component";
 import {Subject} from 'rxjs';
+import {IFieldSchema} from "core-app/modules/fields/field.base";
+import {OpEditingPortalSchemaToken} from "core-app/modules/fields/edit/edit-field.component";
+import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {InviteUserModalComponent} from "core-app/modules/invite-user-modal/invite-user.component";
 
 export interface CreateAutocompleterValueOption {
   name:string;
@@ -79,8 +92,11 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   constructor(readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
               readonly currentProject:CurrentProjectService,
-              readonly pathHelper:PathHelperService) {
-  }
+              readonly pathHelper:PathHelperService,
+              @Inject(OpEditingPortalSchemaToken) public schema:IFieldSchema,
+              readonly opModalService:OpModalService,
+              readonly currentProjectService:CurrentProjectService,
+) { }
 
   ngAfterViewInit() {
     this.onAfterViewInit.emit(this);
@@ -144,8 +160,29 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   }
 
   public onAddNewClick($event:Event) {
-    console.log($event);
+    this.ngSelectComponent.close();
     $event.stopPropagation();
-    this.onAddNew.emit();
+    this.openInviteUserModal();
+  }
+
+  public openInviteUserModal() {
+    const inviteModal = this.opModalService.show(InviteUserModalComponent, 'global', {
+      projectId: this.currentProjectService.id,
+    });
+
+    inviteModal
+      .closingEvent
+      .subscribe((modal:any) => {
+        // TODO: Remove this data formatting
+        // The principal should be a UserResource instance to match
+        // the interface used by the SelectEditFieldComponent's
+        // availableOptions.
+        const dataToEmit = {
+          ...modal.data,
+          $href: modal.data.$source?._links?.self?.href,
+        };
+
+        this.onChange.emit(dataToEmit);
+      });
   }
 }

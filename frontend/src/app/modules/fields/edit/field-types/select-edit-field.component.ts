@@ -54,7 +54,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   @InjectField() halNotification:HalResourceNotificationService;
   @InjectField() halSorting:HalResourceSortingService;
   @InjectField() permissionsService:PermissionsService;
-  @InjectField() opModalService:OpModalService;
 
   public availableOptions:any[];
   public valueOptions:ValueOption[];
@@ -67,7 +66,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     onOpen: () => this.onOpen(),
     onClose: () => this.onClose(),
     onAfterViewInit: (component:CreateAutocompleterComponent) => this._autocompleterComponent = component,
-    onAddNew: () => this.openInviteUserModal(), 
   };
   public get selectedOption() {
     const href = this.value ? this.value.$href : null;
@@ -131,15 +129,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
             .canInviteUsersToProject()
             .subscribe(canInviteUsersToProject => this.showAddNewButton = canInviteUsersToProject);
     }
-  }
-
-  public openInviteUserModal() {
-    const inviteModal = this.opModalService.show(InviteUserModalComponent, 'global', {
-      projectId: this.currentProjectService.id,
-    });
-    inviteModal.closingEvent.subscribe((modal:any) => {
-      console.log('Modal closed!', modal);
-    });
   }
 
   protected initialValueLoading() {

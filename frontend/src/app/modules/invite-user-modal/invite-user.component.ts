@@ -10,12 +10,7 @@ import {
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
-import * as URI from 'urijs';
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
-import {HttpClient} from '@angular/common/http';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {Observable} from 'rxjs';
 
 enum Steps {
   ProjectSelection,
@@ -70,9 +65,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
     super.ngOnInit();
 
     if (this.locals.projectId) {
-      debugger;
       this.apiV3Service.projects.id(this.locals.projectId).get().subscribe(data => {
-        console.log(data);
         this.project = data;
       });
     }

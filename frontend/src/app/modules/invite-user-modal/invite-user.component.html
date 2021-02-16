@@ -50,7 +50,7 @@
     [type]="type"
     [role]="role"
     [message]="message"
-    (save)="onSuccessfulSubmission($event)"
+    (save)="closeWithPrincipal()"
     (back)="goTo(this.type === 'placeholder' ? Steps.Role : Steps.Message)"
     (close)="closeMe()"
   ></op-ium-summary>

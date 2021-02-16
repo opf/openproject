@@ -66,8 +66,7 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
               @Inject(OpEditingPortalSchemaToken) public schema:IFieldSchema,
               @Inject(OpEditingPortalHandlerToken) readonly handler:EditFieldHandler,
               readonly cdRef:ChangeDetectorRef,
-              readonly injector:Injector,
-              readonly currentProjectService:CurrentProjectService) {
+              readonly injector:Injector) {
     super();
 
     this.updateFromChangeset(change);

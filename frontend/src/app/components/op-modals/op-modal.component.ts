@@ -23,6 +23,9 @@ export abstract class OpModalComponent extends UntilDestroyedMixin implements On
 
   public openingEvent = new EventEmitter<this>();
 
+  /* Data to be return from this modal instance */
+  public data:unknown;
+
   protected constructor(public locals:OpModalLocalsMap,
               readonly cdRef:ChangeDetectorRef,
               readonly elementRef:ElementRef) {
