@@ -22,7 +22,7 @@ Top-down scheduling enables the project team to define all tasks involved in a p
 
 ![top-down-scheduling](top-down-scheduling.png)
 
-Moving a child element in the manual scheduling mode will not move the dates of the parent element. It will now indicate the scheduling differences with a blue or red bracket underneath (e.g. when a child is shorter or longer than the parent phase). Also, we have added a grey background on hover to indicate the parent-child-relationships.
+Moving a child element in the manual scheduling mode will not move the dates of the parent element. It will now indicate the scheduling differences with a black or red bracket underneath (e.g. when a child is shorter or longer than the parent phase). Also, we have added a grey background on hover to indicate the parent-child-relationships.
 
 Now, in OpenProject you can rely on both, top-down and bottom-up planning or even a combination of both. The approach you choose depends on your specific planning goal.
 
