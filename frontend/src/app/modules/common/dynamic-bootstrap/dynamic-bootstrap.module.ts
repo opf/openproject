@@ -5,7 +5,7 @@
  *
  * @usageNotes
  * ```
- *  <op-dynamic-bootstrap [HTML]="<macro data-id="1" data-detailed="false" title="Macro nº1"></macro>">
+ *  <op-dynamic-bootstrap HTML="<macro data-id="1" data-detailed="false" title="Macro nº1"></macro>">
  *  </op-dynamic-bootstrap>
  * ```
  */
