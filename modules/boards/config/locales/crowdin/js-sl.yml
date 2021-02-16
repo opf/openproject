@@ -24,33 +24,34 @@ sl:
         locked: 'Zaklenjen'
         closed: 'Zaprto'
       new_board: 'Nova tabla'
-      add_list: 'Add list to board'
+      add_list: 'Dodaj seznam na odložišče'
       add_card: 'Dodaj kartico'
       error_attribute_not_writable: "Delovnega paketa ni mogoče premakniti, %{attribute} ni zapisljiv."
       error_loading_the_list: "Napaka pri nalaganju seznama: %{error_message}"
       error_permission_missing: "Ni dovoljenja za izdelavo javnih poizvedb"
-      error_cannot_move_into_self: "You can not move a work package into its own column."
+      error_cannot_move_into_self: "Delovnega paketa ne morate premakniti v svoj stoplpec."
       click_to_remove_list: "Kliknite za izbris seznama"
       board_type:
         text: 'Vrsta table'
         free: 'osnovno'
-        select_board_type: 'Please choose the type of board you need.'
+        select_board_type: 'Izberite vrsto odložišča.'
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
+          Začni s praznim odložiščem in ročno dodaj kartice in stolpce.
         action: 'Tabela opravil'
         action_by_attribute: 'Tabela opravil (%{attribute})'
         action_text: >
-          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          Ustvarite tabelo s filtriranimi seznami %{attribute} z eno lastnostjo. Če premaknete delovne pakete na druge sezname, boste posodobili njihove lastnosti.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+          Odložišče s samodejnimi stolpci za podprojektne. Če premaknete delovne pakete na druge sezname, boste ustrezno posodobili (pod)projekt.
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          Odložišče s samodejnimi stolpci za podelemente. Če premaknete delovne pakete na druge sezname, boste ustrezno posodobili nadrazred.
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          Osnoven kanban stil odložišča s stolpci za stanja: Za narediti, V delu, Narejeno.
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          Odložišče s samodejnimi stolpci glede na dodeljene člane. Popoln za odpošiljanje delovnih paketov
+
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning product development.
+          Odložišče s samodejnimi stolpci glede na verzijo lastnosti. Popoln za načrtovanje razvoja projekta.
         action_type:
           assignee: Pooblaščenec
           status: Stanje
@@ -67,17 +68,17 @@ sl:
         select_attribute: "Atributi opravil"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          assignee: Izberi uporabnika za nov seznam dodeljevanja
+          status: Izberi stanje za dodajanje kot nov seznam
+          version: Izberi različico za dodajanje kot nov seznam
+          subproject: Izberi podprojekt za dodajanje kot nov seznam
+          subtasks: Izberi delovni paket za dodajanje kot nov seznam
         warning:
           status: |
             Trenutno ni na voljo nobenega statusa <br>
             Ali jih ni, ali pa so vsi že dodani na desko.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
+          assignee: Noben član se ne ujema z vrednostmi filtra. <br>
+          no_member: Ta projekt trenutno nima članov, ki bi jih lahko dodali. <br>
           add_members: <a href="%{link}">V ta projekt dodajte novega člana </a>, da znova izberete uporabnike.
       configuration_modal:
         title: 'Konfigurirajte to tabelo'

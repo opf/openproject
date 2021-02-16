@@ -118,11 +118,11 @@ sl:
         manual: 'Preklopite na Markdown vir'
         wysiwyg: 'Preklopi na WYSIWYG urejevalnik'
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: 'razširitev makroprograma ni možna: %{message}'
         attribute_reference:
-          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
-          not_found: 'Requested resource could not be found'
-          invalid_attribute: "The selected attribute '%{name}' does not exist."
+          macro_help_tooltip: 'Ta del besedla je izveden dinamično s pomočjo makroprograma.'
+          not_found: 'Zahtevanega vira ni mogoče najti'
+          invalid_attribute: "Izbrana lastnost '%{name}' ne obstaja."
         child_pages:
           button: 'Povezave do podrejenih strani'
           include_parent: 'Vključi nadrejen zahtevek'
@@ -404,7 +404,7 @@ sl:
     label_sum_for: "Vsota za"
     label_subject: "Zadeva"
     label_this_week: "ta teden"
-    label_today: "Today"
+    label_today: "Danes"
     label_time_entry_plural: "Porabljen čas"
     label_up: "Navzgor"
     label_user_plural: "Uporabniki"
@@ -414,10 +414,10 @@ sl:
     label_total_amount: "Skupaj: %{amount}"
     label_updated_on: "Posodobljeno"
     label_value_derived_from_children: "(vrednost izpeljana iz podrejenih)"
-    label_children_derived_duration: "Work package's children derived duration"
+    label_children_derived_duration: "Trajanje podrazredov delovnih paketov."
     label_warning: "Opozorilo"
     label_work_package: "Zahtevek"
-    label_work_package_parent: "Parent work package"
+    label_work_package_parent: "Nadrazred delovnega paketa"
     label_work_package_plural: "Delovni paketi"
     label_watch: "Glej"
     label_watch_work_package: "Spremljaj delovni paket"
@@ -479,7 +479,7 @@ sl:
           drag: 'Povlecite in spustite svoje kartice znotraj seznama, če ga želite ponovno naročiti, ali na drug seznam. Z dvojnim klikom se odpre pogled s podrobnostmi.'
         wp:
           toggler: "Zdaj pa poglejmo <b>Delovni paket</b> del, ki vam da bolj podroben pregled vašega dela. "
-          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
+          list: 'To je seznam <b>delovnih paketov</b> s pomembnim delom v projektu; aktivnosti, mejniki, faze, in podobno. <br> Dodajanje in urejanje delovnih paketov je možno neposredno v tem seznamu. Za podrobnosti dvokliknite vrstico.'
           full_view: 'V <b>Podrobnostih delovnega paketa </b> najdete vse ustrezne informacije, na primer opis, stanje in prednostno nalogo, dejavnosti, odvisnosti ali komentarje.'
           back_button: 'S puščico lahko navigirate nazaj na seznam delovnih paketov. '
           create_button: 'Gumb <b>Ustvari</b> bo dodal nov delovni paket vašemu projektu. '
@@ -504,7 +504,7 @@ sl:
       context: 'Kontekst projekta'
       work_package_belongs_to: 'Ta delovni paket pripada projektu %{projectname}.'
       click_to_switch_context: 'Odpri ta delovni paket v tistem projektu. '
-      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      confirm_template_load: 'Menjava predloge bo ponovno naložila stran in vsi podatki vnešeni v obrazec bodo izgubljeni. Ali želite nadaljevati?'
       autocompleter:
         label: 'Samodejno dokončanje projekta'
     text_are_you_sure: "Ste prepričani?"
@@ -594,8 +594,8 @@ sl:
     field_value_enter_prompt: "Vnesite vrednost za '%{field}'"
     project_menu_details: "Podrobnosti"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      manual: 'Ročno razvrščanje.'
+      automatic: 'Samodejno razvrščanje'
     sort:
       sorted_asc: 'Uporabljeno je naraščajoče razvrščanje, '
       sorted_dsc: 'Uporabljeno je padajoče razvrščanje, '
@@ -808,8 +808,8 @@ sl:
           duplicate_query_title: "Ime tega pogleda že obstaja. Se vseeno spremeni?"
         text_no_results: "Ujemanj ni bilo najdenih."
       scheduling:
-        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
-        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+        is_parent: "Datumi tega delovnega paketa so samodejno ugotovljeni od njegovih podrazredov. Za nastavitev datumov aktivirajte 'Ročno razvrščanje'."
+        is_switched_from_manual_to_automatic: "Datumi delovnega paketa se bodo lahko, da morali preračunati po menjavi iz ročnega v samodejno razvrščanje zaradi razmerij z ostalimi delovnimi paketi."
       table:
         configure_button: 'Uredi tabelo delovnega paketa'
         summary: "Tabela z vrsticami delovnega paketa in stolpci atributov delovnega paketa.\n"
