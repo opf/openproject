@@ -5,8 +5,8 @@ import {
   tick,
 } from '@angular/core/testing';
 import {DynamicBootstrapComponent} from './dynamic-bootstrap.component';
-import {ApplicationRef, Component, DebugElement} from "@angular/core";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import {ApplicationRef, Component, DebugElement} from '@angular/core';
+import {DynamicBootstrapper} from 'core-app/globals/dynamic-bootstrapper';
 
 // Stub component to bootstrap dynamically
 @Component({
