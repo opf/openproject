@@ -29,6 +29,7 @@
 #++
 
 module Settings
-  class UpdateContract < BaseContract
+  class UpdateContract < ::BaseContract
+    include RequiresAdminGuard
   end
 end
