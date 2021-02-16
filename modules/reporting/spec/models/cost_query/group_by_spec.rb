@@ -31,34 +31,42 @@ require File.join(File.dirname(__FILE__), '..', '..', 'support', 'custom_field_f
 
 describe CostQuery, type: :model, reporting_query_helper: true do
   let!(:type) { FactoryBot.create(:type) }
-  let!(:project1){ FactoryBot.create(:project_with_types, types: [type]) }
-  let!(:work_package1) { FactoryBot.create(:work_package, project: project1, type: type)}
-  let!(:time_entry1) { FactoryBot.create(:time_entry, work_package: work_package1, project: project1, spent_on: Date.new(2012, 1, 1)) }
+  let!(:project1) { FactoryBot.create(:project_with_types, types: [type]) }
+  let!(:work_package1) { FactoryBot.create(:work_package, project: project1, type: type) }
+  let!(:time_entry1) do
+    FactoryBot.create(:time_entry, work_package: work_package1, project: project1, spent_on: Date.new(2012, 1, 1))
+  end
   let!(:time_entry2) do
     time_entry2 = time_entry1.dup
     time_entry2.save!
     time_entry2
   end
   let!(:budget1) { FactoryBot.create(:budget, project: project1) }
-  let!(:cost_entry1) { FactoryBot.create(:cost_entry, work_package: work_package1, project: project1, spent_on: Date.new(2013, 2, 3)) }
+  let!(:cost_entry1) do
+    FactoryBot.create(:cost_entry, work_package: work_package1, project: project1, spent_on: Date.new(2013, 2, 3))
+  end
   let!(:cost_entry2) do
-    cost_entry2 =  cost_entry1.dup
+    cost_entry2 = cost_entry1.dup
     cost_entry2.save!
     cost_entry2
   end
 
   let!(:project2) { FactoryBot.create(:project_with_types, types: [type]) }
   let!(:work_package2) { FactoryBot.create(:work_package, project: project2, type: type) }
-  let!(:time_entry3) { FactoryBot.create(:time_entry, work_package: work_package2, project: project2, spent_on: Date.new(2013, 2, 3)) }
+  let!(:time_entry3) do
+    FactoryBot.create(:time_entry, work_package: work_package2, project: project2, spent_on: Date.new(2013, 2, 3))
+  end
   let!(:time_entry4) do
     time_entry4 = time_entry3.dup
     time_entry4.save!
     time_entry4
   end
   let!(:budget2) { FactoryBot.create(:budget, project: project2) }
-  let!(:cost_entry3) { FactoryBot.create(:cost_entry, work_package: work_package2, project: project2, spent_on: Date.new(2012, 1, 1)) }
+  let!(:cost_entry3) do
+    FactoryBot.create(:cost_entry, work_package: work_package2, project: project2, spent_on: Date.new(2012, 1, 1))
+  end
   let!(:cost_entry4) do
-    cost_entry4 =  cost_entry3.dup
+    cost_entry4 = cost_entry3.dup
     cost_entry4.save!
     cost_entry4
   end
@@ -196,7 +204,6 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     end
 
     it "should aggregate a third group_by which owns at least 2 sub results" do
-
       @query.group_by :tweek
       @query.group_by :project_id
       @query.group_by :user_id
@@ -225,7 +232,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     end
 
     describe CostQuery::GroupBy::CustomFieldEntries do
-      let!(:project){ FactoryBot.create(:project_with_types) }
+      let!(:project) { FactoryBot.create(:project_with_types) }
       let!(:custom_field) do
         FactoryBot.create(:work_package_custom_field)
       end
@@ -280,13 +287,13 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
 
       it "includes custom fields classes in CustomFieldEntries.all" do
-        expect(CostQuery::GroupBy::CustomFieldEntries.all).
-          to include(group_by_class_name_string(custom_field).constantize)
+        expect(CostQuery::GroupBy::CustomFieldEntries.all)
+          .to include(group_by_class_name_string(custom_field).constantize)
       end
 
       it "includes custom fields classes in GroupBy.all" do
-        expect(CostQuery::GroupBy.all).
-          to include(group_by_class_name_string(custom_field).constantize)
+        expect(CostQuery::GroupBy.all)
+          .to include(group_by_class_name_string(custom_field).constantize)
       end
 
       it "is usable as filter" do

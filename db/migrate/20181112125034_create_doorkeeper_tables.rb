@@ -50,12 +50,12 @@ class CreateDoorkeeperTables < ActiveRecord::Migration[5.1]
       # https://github.com/doorkeeper-gem/doorkeeper/tree/v3.0.0.rc1#custom-access-token-generator
       #
       # t.text     :token,             null: false
-      t.string   :token,                  null: false
+      t.string   :token, null: false
 
       t.string   :refresh_token
       t.integer  :expires_in
       t.datetime :revoked_at
-      t.datetime :created_at,             null: false
+      t.datetime :created_at, null: false
       t.string   :scopes
 
       # If there is a previous_refresh_token column,

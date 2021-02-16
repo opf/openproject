@@ -101,7 +101,7 @@ class JournalsController < ApplicationController
 
   def valid_diff?
     valid_field?(params[:field]) &&
-      @journal.journable.class == WorkPackage
+      @journal.journable.instance_of?(WorkPackage)
   end
 
   def journals_index_title

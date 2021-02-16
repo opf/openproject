@@ -104,7 +104,7 @@ class WorkPackages::MovesController < ApplicationController
       .compact
 
     if ids.present?
-      joined = ids.map {|id| "##{id}" }.join(" ")
+      joined = ids.map { |id| "##{id}" }.join(" ")
       ["#{parent_id} (+ children errors: #{joined})"]
     else
       [parent_id]
@@ -122,7 +122,7 @@ class WorkPackages::MovesController < ApplicationController
     unless @project
       # TODO: let users bulk move/copy work packages from different projects
       render_error message: :'work_packages.move.unsupported_for_multiple_projects', status: 400
-      return false
+      false
     end
   end
 

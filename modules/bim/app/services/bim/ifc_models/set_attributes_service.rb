@@ -75,7 +75,7 @@ module Bim
 
           model.attachments << ifc_attachment
         else
-          model.attach_files('first' => {'file' => ifc_attachment, 'description' => 'ifc'})
+          model.attach_files('first' => { 'file' => ifc_attachment, 'description' => 'ifc' })
         end
       end
     end

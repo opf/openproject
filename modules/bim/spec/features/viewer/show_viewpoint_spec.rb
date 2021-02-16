@@ -34,7 +34,7 @@ describe 'Show viewpoint in model viewer',
          js: true do
   let(:project) do
     FactoryBot.create(:project,
-                      enabled_module_names: [:bim, :work_package_tracking],
+                      enabled_module_names: %i[bim work_package_tracking],
                       parent: parent_project)
   end
   let(:parent_project) { nil }
@@ -99,7 +99,7 @@ describe 'Show viewpoint in model viewer',
 
   context 'when in work packages details view' do
     let(:wp_details) { ::Pages::SplitWorkPackage.new(work_package, project) }
-    
+
     shared_examples "moves to the BCF page" do
       it 'moves to the bcf page' do
         wp_details.visit!

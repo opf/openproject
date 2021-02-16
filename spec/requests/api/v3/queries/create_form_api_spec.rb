@@ -190,10 +190,10 @@ describe "POST /api/v3/queries/form", type: :request do
       context 'with relation columns allowed by the enterprise token' do
         it 'has the static, custom field and relation columns' do
           expected_columns = static_columns_json +
-            custom_field_columns_json +
-            relation_to_type_columns_json +
-            relation_of_type_columns_json +
-            non_project_type_relation_column_json
+                             custom_field_columns_json +
+                             relation_to_type_columns_json +
+                             relation_of_type_columns_json +
+                             non_project_type_relation_column_json
 
           actual_columns = form.dig('_embedded',
                                     'schema',
@@ -216,7 +216,7 @@ describe "POST /api/v3/queries/form", type: :request do
 
         it 'has the static and custom field' do
           expected_columns = static_columns_json +
-            custom_field_columns_json
+                             custom_field_columns_json
 
           actual_columns = form.dig('_embedded',
                                     'schema',
@@ -283,9 +283,9 @@ describe "POST /api/v3/queries/form", type: :request do
       context 'with relation columns allowed by the enterprise token' do
         it 'has the static, custom field and relation columns' do
           expected_columns = static_columns_json +
-            custom_field_columns_json +
-            relation_to_type_columns_json +
-            relation_of_type_columns_json
+                             custom_field_columns_json +
+                             relation_to_type_columns_json +
+                             relation_of_type_columns_json
 
           actual_columns = form.dig('_embedded',
                                     'schema',
@@ -309,7 +309,7 @@ describe "POST /api/v3/queries/form", type: :request do
 
         it 'has the static and custom field' do
           expected_columns = static_columns_json +
-            custom_field_columns_json
+                             custom_field_columns_json
 
           actual_columns = form.dig('_embedded',
                                     'schema',
@@ -580,15 +580,14 @@ describe "POST /api/v3/queries/form", type: :request do
     let!(:type) { FactoryBot.create(:type, custom_fields: [custom_field]) }
     let!(:project) { FactoryBot.create(:project, types: [type], work_package_custom_fields: [custom_field]) }
 
-
-    let(:path_with_cf) {
+    let(:path_with_cf) do
       uri = Addressable::URI.parse(path)
       uri.query = {
         filters: [{ "customField#{custom_field.id}": { "operator": "=", "values": ["ABC"] } }]
       }.to_query
 
       uri.to_s
-    }
+    end
 
     let(:parameters) do
       {

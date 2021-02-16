@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -49,7 +50,7 @@ module WatchersHelper
 
     label = watched ? I18n.t(:button_unwatch) : I18n.t(:button_watch)
 
-    link_to(content_tag(:i,'', class: watched ? 'button--icon icon-watched' : ' button--icon icon-unwatched') + ' ' +
+    link_to(content_tag(:i, '', class: watched ? 'button--icon icon-watched' : ' button--icon icon-unwatched') + ' ' +
       content_tag(:span, label, class: 'button--text'), path, html_options.merge(method: method))
   end
 end

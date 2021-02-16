@@ -9,13 +9,13 @@ keywords: feature requests, ideas, open feature request
 
 ## How to submit a feature idea?
 
-1. Login to or register at the [OpenProject community platform](https://community.openproject.com/login). It's fast and free.
+1. Login to or register at the [OpenProject community platform](https://community.openproject.org/login). It's fast and free.
 2. Use the search bar in the header navigation on top to look for similar feature requests. If there's one, please leave a comment or add additional information. Otherwise:
-3. Open the [feature create form](https://community.openproject.com/projects/openproject/work_packages/create_new?type=6).
-4. Add a subject and detailed description.
+3. Open the [feature create form](https://community.openproject.org/projects/openproject/work_packages/new?type=6).
+4. Add a subject and detailed description using the template.
 5. Attach a file (optional).
 6. Set version to "Wish List".
-7. Press Create.
+7. Press **Create**.
 
 ## Feature idea guideline
 

@@ -180,9 +180,20 @@ describe Queries::Users::UserQuery, type: :model do
       instance.order(name: :desc)
     end
 
-    describe '#results' do
+    describe '#results', with_settings: { user_format: :firstname_lastname } do
+      let(:order_sql) do
+        <<~SQL
+          CASE
+          WHEN users.type = 'User' THEN LOWER(concat_ws(' ', users.firstname, users.lastname))
+          WHEN users.type != 'User' THEN LOWER(users.lastname)
+          END DESC
+        SQL
+      end
       it 'is the same as handwriting the query' do
-        expected = User.user.merge(User.order_by_name.reverse_order).order(id: :desc)
+        expected = User
+            .user
+            .order(Arel.sql(order_sql))
+            .order(id: :desc)
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end

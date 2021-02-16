@@ -23,7 +23,7 @@ module OpenProject::Recaptcha
     end
 
     config.after_initialize do
-      SecureHeaders::Configuration.named_append(:recaptcha) do |request|
+      SecureHeaders::Configuration.named_append(:recaptcha) do |_request|
         { frame_src: %w(https://www.google.com/recaptcha/) }
       end
 

@@ -34,7 +34,6 @@ module API
       module Schemas
         class CustomOptionFilterDependencyRepresenter <
           FilterDependencyRepresenter
-
           schema_with_allowed_collection :values,
                                          type: ->(*) { type },
                                          writable: true,

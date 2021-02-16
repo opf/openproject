@@ -35,7 +35,7 @@ describe CustomActions::Actions::AssignedTo, type: :model do
     users = [FactoryBot.build_stubbed(:user),
              FactoryBot.build_stubbed(:group)]
     allow(Principal)
-      .to receive_message_chain(:not_locked, :select, :order_by_name)
+      .to receive_message_chain(:not_locked, :select, :ordered_by_name)
       .and_return(users)
 
     [{ value: nil, label: '-' },

@@ -2,7 +2,7 @@ require "spec_helper"
 require "support/pages/work_packages/abstract_work_package"
 
 describe "multi select custom values", js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:current_user) { admin }
 
   shared_let(:type) { FactoryBot.create :type }
@@ -18,7 +18,6 @@ describe "multi select custom values", js: true do
       projects: [project]
     )
   end
-
 
   let(:wp_page) { Pages::FullWorkPackage.new work_package }
 
@@ -128,7 +127,6 @@ describe "multi select custom values", js: true do
                         member_through_role: role
     end
 
-
     context "with existing custom values" do
       let(:work_package) do
         wp = FactoryBot.build :work_package, project: project, type: type
@@ -140,7 +138,6 @@ describe "multi select custom values", js: true do
         wp.save
         wp
       end
-
 
       it "should be shown and allowed to be updated" do
         expect(page).to have_text custom_field.name

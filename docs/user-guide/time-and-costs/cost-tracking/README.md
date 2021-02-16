@@ -4,7 +4,7 @@ sidebar_navigation:
   priority: 798
 description: Time and cost tracking in OpenProject
 robots: index, follow
-keywords: cost tracking
+keywords: cost tracking, log costs, unit costs
 ---
 
 # Cost tracking
@@ -16,7 +16,7 @@ You can log unit costs on a work package within a project to keep track on certa
 | [Logging costs to a work package](#logging-costs-to-a-work-package) | How to track costs on a work package?               |
 | [Edit logged costs](#edit-logged-costs)                      | How to edit spent costs logged to a work package?   |
 | [Delete logged costs](#delete-logged-costs)                  | How to delete spent costs logged to a work package? |
-| [Define hourly rate for labor costs](#define-hourly-rate-for-labor-costs) | How to set the hourly rate to track labor costs?    |
+
 
 ## Logging costs to a work package
 
@@ -68,48 +68,14 @@ It will open the details view of the cost entry and you will be able to make you
 
 In some cases, you might want to change the costs manually so that it differs from the automatically calculated product from spent units and costs per unit.
 
-In this case, click on the Edit icon, the little pen, next to the cost entry. Now you can manually enter the costs.
+In this case, click on the **Edit icon**, the little pen, next to the cost entry. Now you can manually enter the costs.
 
 ![Edit-costs-details](Edit-costs-details.png)
 
-Do not forget to save your changes.
+Do not forget to **save** your changes.
 
 ## Delete logged costs
 
 If you made a mistake and need to delete logged costs, click on the **delete icon** next to a cost entry in the cost report.
 
 ![Delete-cost-entry](Delete-cost-entry.png)
-
-## Define hourly rate for labor costs
-
-You can define an hourly rate to **track labor costs per user**. Please navigate to the user profile, e.g. by clicking on a hyper link of the user name on a work package.
-
- ![User-profile](User-profile.png)
-
-You will be directed to the user's profile page.
-
-Here, you can click the **Edit button** on the top right corner of the user profile page.
-
- ![User-profile-edit](User-profile-edit.png)
-
-Alternatively, you can navigate to ->Administration ->Users & Permissions ->Users.
-
-Click on the **Rate history** tab.
-
-You will see a default hourly rate valid for all projects.
-
-If you want to set a different hourly rate for the user on different projects, you can overwrite the default rate with a different rate below in the respective projects.
-
-![Rate-history](Rate-history-1574778553695.png)
-
-To enter a new hourly rate, click on the **Update** icon next to the rate history. You can either set a **default hourly rate** or define a rate for a certain project.
-
-![Update-hourly-rate](Update-hourly-rate-1574778595938.png)
-
-1. Enter a date from which the rate is **Valid from**.
-2. Enter the (hourly) **Rate**. The currency can only be changed in the system's Administration settings.
-3. You can delete an hourly rate.
-4. You can **add a rate** for a different time period.
-5. Save your changes.
-
-![Rate-history-change](Rate-history-change.png)

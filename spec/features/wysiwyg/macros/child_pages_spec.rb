@@ -32,33 +32,32 @@ require 'spec_helper'
 
 describe 'Wysiwyg child pages spec',
          type: :feature, js: true do
-
-  let(:project) {
+  let(:project) do
     FactoryBot.create :project,
                       enabled_module_names: %w[wiki]
-  }
+  end
   let(:role) { FactoryBot.create(:role, permissions: %i[view_wiki_pages edit_wiki_pages]) }
-  let(:user) {
+  let(:user) do
     FactoryBot.create(:user, member_in_project: project, member_through_role: role)
-  }
+  end
 
-  let(:wiki_page) {
+  let(:wiki_page) do
     FactoryBot.create :wiki_page,
                       title: 'Test',
                       content: FactoryBot.build(:wiki_content, text: '# My page')
-  }
+  end
 
-  let(:parent_page) {
+  let(:parent_page) do
     FactoryBot.create :wiki_page,
                       title: 'Parent page',
                       content: FactoryBot.build(:wiki_content, text: '# parent page')
-  }
+  end
 
-  let(:child_page) {
+  let(:child_page) do
     FactoryBot.create :wiki_page,
                       title: 'Child page',
                       content: FactoryBot.build(:wiki_content, text: '# child page')
-  }
+  end
 
   before do
     login_as(user)
@@ -70,7 +69,6 @@ describe 'Wysiwyg child pages spec',
     child_page.save!
     project.wiki.save!
   end
-
 
   let(:editor) { ::Components::WysiwygEditor.new }
 

@@ -45,7 +45,6 @@ describe 'Wysiwyg work package linking',
     end
 
     it 'can reference work packages' do
-
       # single hash autocomplete
       editor.click_and_type_slowly "##{work_package.id}"
       editor.click_autocomplete work_package.subject

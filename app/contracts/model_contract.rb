@@ -34,7 +34,7 @@ require_relative './base_contract'
 # Model contract for AR records that
 # support change tracking
 class ModelContract < BaseContract
-  def valid?(*args)
+  def valid?(*_args)
     super()
     readonly_attributes_unchanged
 

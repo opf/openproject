@@ -84,7 +84,6 @@ shared_examples_for 'filter dependency empty' do
   end
 end
 
-
 shared_examples_for 'relation filter dependency' do
   include ::API::V3::Utilities::PathHelper
 

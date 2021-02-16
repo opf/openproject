@@ -1,5 +1,3 @@
-
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -90,7 +88,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
     story
   end
 
-  let(:task) {
+  let(:task) do
     FactoryBot.build(:work_package,
                      subject: 'Task',
                      type: type_task,
@@ -99,9 +97,9 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
                      status: status,
                      author: user,
                      priority: issue_priority)
-  }
+  end
 
-  let(:task2) {
+  let(:task2) do
     FactoryBot.build(:work_package,
                      subject: 'Task2',
                      type: type_task,
@@ -110,9 +108,9 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
                      status: status,
                      author: user,
                      priority: issue_priority)
-  }
+  end
 
-  let(:task3) {
+  let(:task3) do
     FactoryBot.build(:work_package,
                      subject: 'Task3',
                      type: type_task,
@@ -121,9 +119,9 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
                      status: status,
                      author: user,
                      priority: issue_priority)
-  }
+  end
 
-  let(:task4) {
+  let(:task4) do
     FactoryBot.build(:work_package,
                      subject: 'Task4',
                      type: type_task,
@@ -132,9 +130,9 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
                      status: status,
                      author: user,
                      priority: issue_priority)
-  }
+  end
 
-  let(:task5) {
+  let(:task5) do
     FactoryBot.build(:work_package,
                      subject: 'Task5',
                      type: type_task,
@@ -143,9 +141,9 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
                      status: status,
                      author: user,
                      priority: issue_priority)
-  }
+  end
 
-  let(:task6) {
+  let(:task6) do
     FactoryBot.build(:work_package,
                      subject: 'Task6',
                      type: type_task,
@@ -154,9 +152,9 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
                      status: status,
                      author: user,
                      priority: issue_priority)
-  }
+  end
 
-  let(:bug) {
+  let(:bug) do
     FactoryBot.build(:work_package,
                      subject: 'Bug',
                      type: type_bug,
@@ -165,9 +163,9 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
                      status: status,
                      author: user,
                      priority: issue_priority)
-  }
+  end
 
-  let(:bug2) {
+  let(:bug2) do
     FactoryBot.build(:work_package,
                      subject: 'Bug2',
                      type: type_bug,
@@ -176,9 +174,9 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
                      status: status,
                      author: user,
                      priority: issue_priority)
-  }
+  end
 
-  let(:bug3) {
+  let(:bug3) do
     FactoryBot.build(:work_package,
                      subject: 'Bug3',
                      type: type_bug,
@@ -187,16 +185,16 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
                      status: status,
                      author: user,
                      priority: issue_priority)
-  }
+  end
 
   before(:each) do
     project.save!
 
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
-                                                                         'wiki_template'         => '',
-                                                                         'card_spec'             => 'Sattleford VM-5040',
-                                                                         'story_types'           => [type_feature.id],
-                                                                         'task_type'             => type_task.id.to_s })
+                                                                         'wiki_template' => '',
+                                                                         'card_spec' => 'Sattleford VM-5040',
+                                                                         'story_types' => [type_feature.id],
+                                                                         'task_type' => type_task.id.to_s })
   end
 
   def standard_child_layout
@@ -392,7 +390,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
       end
 
       describe 'WITH a task (impediment) without a parent' do
-        let(:parent) { task}
+        let(:parent) { task }
 
         describe 'WITH a task as child' do
           let(:child) { task2 }

@@ -22,9 +22,9 @@ module OpenProject
       end
 
       def restricted_project_admin_permissions
-        [
-          :save_cost_reports,
-          :save_private_cost_reports
+        %i[
+          save_cost_reports
+          save_private_cost_reports
         ]
       end
     end

@@ -97,11 +97,11 @@ $ nodenv init
 
 You can find the latest LTS version here: https://nodejs.org/en/download/
 
-At the time of writing this is v12.16.1. Install and activate it with:
+At the time of writing this is v14.15.4. Install and activate it with:
 
 ```bash
-nodenv install 12.16.1
-nodenv global 12.16.1
+nodenv install 14.15.4
+nodenv global 14.15.4
 ```
 
 ## Verify your installation
@@ -113,10 +113,13 @@ $ ruby --version
 ruby 2.7.2p137 (2020-03-31 revision a0c7c23c9c) [x86_64-darwin16]
 
 $ bundler --version
-Bundler version 2.0.2
+Bundler version 2.1.4
 
-$ npm --version
-12.16.1
+node --version
+v14.15.4
+
+npm --version
+7.5.3
 ```
 
 # Install OpenProject
@@ -126,12 +129,12 @@ $ npm --version
 git clone https://github.com/opf/openproject.git
 cd openproject
 
-# Install gem dependencies
-# If you get errors here, you're likely missing a development dependency for your distribution
-bundle install
-
-# Install node_modules
-npm install
+# Install
+# - gem dependencies (If you get errors here, you're likely missing a development dependency for your distribution)
+# - node_modules
+# - link plugin frontend modules
+# - and export frontend local files
+bin/setup_dev
 ```
 
 Note that we have checked out the `dev` branch of the OpenProject repository. Development in OpenProject happens in the `dev` branch (there is no `master` branch).

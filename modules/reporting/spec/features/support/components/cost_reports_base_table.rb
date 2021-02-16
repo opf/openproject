@@ -26,7 +26,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-
 module Components
   class CostReportsBaseTable
     include Capybara::DSL

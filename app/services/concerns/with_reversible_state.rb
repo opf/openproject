@@ -33,6 +33,7 @@ module WithReversibleState
 
   included do
     attr_reader :state
+
     around_call :assign_state
 
     ##

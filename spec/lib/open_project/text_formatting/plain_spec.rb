@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -46,7 +47,8 @@ describe OpenProject::TextFormatting::Formats::Plain::Formatter do
 
   def assert_html_output(to_test, expect_paragraph = true)
     to_test.each do |text, expected|
-      assert_equal((expect_paragraph ? "<p>#{expected}</p>" : expected), subject.to_html(text), "Formatting the following text failed:\n===\n#{text}\n===\n")
+      assert_equal((expect_paragraph ? "<p>#{expected}</p>" : expected), subject.to_html(text),
+                   "Formatting the following text failed:\n===\n#{text}\n===\n")
     end
   end
 

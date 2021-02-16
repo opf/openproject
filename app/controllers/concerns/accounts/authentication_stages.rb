@@ -14,10 +14,10 @@ module Accounts::AuthenticationStages
       end
     else
       flash[:error] = I18n.t(
-                    :notice_auth_stage_wrong_stage,
-                    expected: stage || '(none)',
-                    actual: params[:stage]
-                    )
+        :notice_auth_stage_wrong_stage,
+        expected: stage || '(none)',
+        actual: params[:stage]
+      )
 
       redirect_to signin_path
     end
@@ -33,7 +33,7 @@ module Accounts::AuthenticationStages
 
   def authentication_stages(after_activation: false, reset: true)
     if OpenProject::Authentication::Stage.stages.select(&:active?).any?
-      session.delete [:authentication_stages, :stage_secrets, :back_url] if reset
+      session.delete %i[authentication_stages stage_secrets back_url] if reset
 
       if session.include?(:authentication_stages)
         lookup_authentication_stages
@@ -82,7 +82,7 @@ module Accounts::AuthenticationStages
       .to_h
   end
 
-  def stage_secret(ident)
+  def stage_secret(_ident)
     SecureRandom.hex(16)
   end
 end

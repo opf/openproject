@@ -36,13 +36,13 @@ class Widget::Filters::Operators < Widget::Filters::Base
       options = { class: 'advanced-filters--select filters-select filter_operator',
                   id: "operators[#{filter_class.underscore_name}]",
                   name: "operators[#{filter_class.underscore_name}]",
-                  :"data-filter-name" => filter_class.underscore_name }
+                  "data-filter-name": filter_class.underscore_name }
       options.merge! style: 'display: none' if hide_select_box
 
       select_box = content_tag :select, options do
         filter_class.available_operators.map do |o|
-          opts = { value: h(o.to_s), :"data-arity" => o.arity }
-          opts.reverse_merge! :"data-forced" => o.forced if o.forced?
+          opts = { value: h(o.to_s), "data-arity": o.arity }
+          opts.reverse_merge! "data-forced": o.forced if o.forced?
           opts[:selected] = 'selected' if filter.operator.to_s == o.to_s
           content_tag(:option, opts) { h(I18n.t(o.label)) }
         end.join.html_safe

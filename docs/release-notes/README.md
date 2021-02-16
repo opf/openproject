@@ -12,6 +12,19 @@ Stay up to date and get an overview of the new features included in the releases
 <!--- New release notes are generated below. Do not remove comment. -->
 <!--- RELEASE MARKER -->
 
+## 11.1.4
+
+Release date: 2021-02-15
+
+[Release Notes](11-1-4/)
+
+## 11.1.3
+
+Release date: 2021-02-11
+
+[Release Notes](11-1-3/)
+
+
 ## 11.1.2
 
 Release date: 2021-01-21

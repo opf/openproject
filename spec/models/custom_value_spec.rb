@@ -86,7 +86,7 @@ describe CustomValue do
 
     describe 'date custom value' do
       let(:format) { 'date' }
-      let(:value) { Date.new(2016,12,1) }
+      let(:value) { Date.new(2016, 12, 1) }
 
       it { expect(subject.typed_value).to eql(value) }
 

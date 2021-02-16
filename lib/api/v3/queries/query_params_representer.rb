@@ -45,7 +45,7 @@ module API
         # To json hash outputs the hash to be parsed to the frontend http
         # which contains a reference to the columns array as columns[].
         # This will match the Rails +to_query+ output
-        def to_json
+        def to_json(*_args)
           to_h(column_key: 'columns[]'.to_sym).to_json
         end
 

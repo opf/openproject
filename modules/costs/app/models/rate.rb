@@ -66,10 +66,10 @@ class Rate < ApplicationRecord
 
     next_rate = self.next
     # get entries from the current project
-    entries = o.find_entries(valid_from, (next_rate&.valid_from))
+    entries = o.find_entries(valid_from, next_rate&.valid_from)
 
     # and entries from subprojects that need updating (only applies to hourly_rates)
-    entries += o.orphaned_child_entries(valid_from, (next_rate&.valid_from))
+    entries += o.orphaned_child_entries(valid_from, next_rate&.valid_from)
 
     o.update_entries(entries)
   end
@@ -81,6 +81,7 @@ class Rate < ApplicationRecord
       # We have not moved a rate, maybe just changed the rate value
 
       return unless saved_change_to_rate?
+
       # Only the rate value was changed so just update the currently assigned entries
       return rate_created
     end
@@ -105,7 +106,7 @@ class Rate < ApplicationRecord
       # and entries from subprojects that need updating (only applies to hourly_rates)
       entries += o.child_entries(valid_from_was, valid_from)
 
-      o.update_entries(entries, (valid_from_was < valid_from) ? previous : self)
+      o.update_entries(entries, valid_from_was < valid_from ? previous : self)
     end
   end
 
@@ -145,12 +146,10 @@ class Rate < ApplicationRecord
       if @rate.is_a?(HourlyRate)
         { date_column => date1..(date2 - 1),
           user_id: @rate.user_id,
-          project_id: @rate.project_id
-        }
+          project_id: @rate.project_id }
       else
         { date_column => date1..(date2 - 1),
-          cost_type_id: @rate.cost_type_id,
-        }
+          cost_type_id: @rate.cost_type_id }
       end
     end
 
@@ -187,19 +186,19 @@ class Rate < ApplicationRecord
       # This gets an array of all the ids of the DefaultHourlyRates
       default_rates = DefaultHourlyRate.pluck(:id)
 
-      if date1.nil? || date2.nil?
-        # we have only one date, query >=
-        conditions = [
-          'user_id = ? AND project_id IN (?) AND (rate_id IN (?) OR rate_id IS NULL) AND spent_on >= ?',
-          @rate.user_id, @rate.project.descendants.to_a, default_rates, date1 || date2
-        ]
-      else
-        # we have two dates, query between
-        conditions = [
-          'user_id = ? AND project_id IN (?) AND (rate_id IN (?) OR rate_id IS NULL) AND spent_on BETWEEN ? AND ?',
-          @rate.user_id, @rate.project.descendants.to_a, default_rates, date1, date2
-        ]
-      end
+      conditions = if date1.nil? || date2.nil?
+                     # we have only one date, query >=
+                     [
+                       'user_id = ? AND project_id IN (?) AND (rate_id IN (?) OR rate_id IS NULL) AND spent_on >= ?',
+                       @rate.user_id, @rate.project.descendants.to_a, default_rates, date1 || date2
+                     ]
+                   else
+                     # we have two dates, query between
+                     [
+                       'user_id = ? AND project_id IN (?) AND (rate_id IN (?) OR rate_id IS NULL) AND spent_on BETWEEN ? AND ?',
+                       @rate.user_id, @rate.project.descendants.to_a, default_rates, date1, date2
+                     ]
+                   end
 
       TimeEntry.includes(:rate).where(conditions)
     end
@@ -212,19 +211,19 @@ class Rate < ApplicationRecord
 
       (date1, date2) = order_dates(date1, date2)
 
-      if date1.nil? || date2.nil?
-        # we have only one date, query >=
-        conditions = [
-          'user_id = ? AND project_id IN (?) AND rate_id = ? AND spent_on >= ?',
-          @rate.user_id, @rate.project.descendants.to_a, @rate.id, date1 || date2
-        ]
-      else
-        # we have two dates, query between
-        conditions = [
-          'user_id = ? AND project_id IN (?) AND rate_id  = ? AND spent_on BETWEEN ? AND ?',
-          @rate.user_id, @rate.project.descendants.to_a, @rate.id, date1, date2
-        ]
-      end
+      conditions = if date1.nil? || date2.nil?
+                     # we have only one date, query >=
+                     [
+                       'user_id = ? AND project_id IN (?) AND rate_id = ? AND spent_on >= ?',
+                       @rate.user_id, @rate.project.descendants.to_a, @rate.id, date1 || date2
+                     ]
+                   else
+                     # we have two dates, query between
+                     [
+                       'user_id = ? AND project_id IN (?) AND rate_id  = ? AND spent_on BETWEEN ? AND ?',
+                       @rate.user_id, @rate.project.descendants.to_a, @rate.id, date1, date2
+                     ]
+                   end
 
       TimeEntry.includes(:rate).where(conditions)
     end

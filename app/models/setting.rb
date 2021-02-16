@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -93,6 +94,7 @@ class Setting < ApplicationRecord
 
   def self.create_setting_accessors(name)
     return if [:installation_uuid].include?(name.to_sym)
+
     # Defines getter and setter for each setting
     # Then setting values can be read using: Setting.some_setting_name
     # or set using Setting.some_setting_name = "some value"
@@ -131,8 +133,12 @@ class Setting < ApplicationRecord
   end
 
   validates_uniqueness_of :name
-  validates_inclusion_of :name, in: lambda { |_setting| @@available_settings.keys } # lambda, because @available_settings changes at runtime
-  validates_numericality_of :value, only_integer: true, if: Proc.new { |setting| @@available_settings[setting.name]['format'] == 'int' }
+  validates_inclusion_of :name, in: lambda { |_setting|
+                                      @@available_settings.keys
+                                    } # lambda, because @available_settings changes at runtime
+  validates_numericality_of :value, only_integer: true, if: Proc.new { |setting|
+                                                              @@available_settings[setting.name]['format'] == 'int'
+                                                            }
 
   def value
     self.class.deserialize(name, read_attribute(:value))
@@ -210,7 +216,7 @@ class Setting < ApplicationRecord
     end
   end
 
-  [:emails_header, :emails_footer].each do |mail|
+  %i[emails_header emails_footer].each do |mail|
     src = <<-END_SRC
     def self.localized_#{mail}
       I18n.fallbacks[I18n.locale].each do |lang|
@@ -237,8 +243,6 @@ class Setting < ApplicationRecord
     RequestStore.delete :cached_settings
     RequestStore.delete :settings_updated_at
   end
-
-  private
 
   # Returns the Setting instance for the setting named name
   # and allows to filter the returned value
@@ -273,11 +277,11 @@ class Setting < ApplicationRecord
   # Unless one cache hits, it plucks from the database
   # Returns a hash of setting => (possibly serialized) value
   def self.cached_settings
-    RequestStore.fetch(:cached_settings) {
-      Rails.cache.fetch(cache_key) {
+    RequestStore.fetch(:cached_settings) do
+      Rails.cache.fetch(cache_key) do
         Hash[Setting.pluck(:name, :value)]
-      }
-    }
+      end
+    end
   end
 
   def self.cache_key

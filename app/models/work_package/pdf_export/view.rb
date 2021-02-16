@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,7 +29,6 @@
 #++
 
 class WorkPackage::PDFExport::View
-
   include Prawn::View
   include Redmine::I18n
 

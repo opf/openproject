@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../spec_helper', __FILE__)
+require File.expand_path('../spec_helper', __dir__)
 
 describe OpenProject::GithubIntegration do
   before do
@@ -35,9 +35,11 @@ describe OpenProject::GithubIntegration do
 
   describe 'with sane set-up' do
     let(:user) { FactoryBot.create(:user) }
-    let(:role) { FactoryBot.create(:role,
-                                    permissions: [:view_work_packages, :add_work_package_notes]) }
-    let(:statuses) { (1..5).map{ |i| FactoryBot.create(:status)}}
+    let(:role) do
+      FactoryBot.create(:role,
+                        permissions: %i[view_work_packages add_work_package_notes])
+    end
+    let(:statuses) { (1..5).map { |_i| FactoryBot.create(:status) } }
     let(:priority) { FactoryBot.create :priority, is_default: true }
     let(:status) { statuses[0] }
     let(:project) do
@@ -54,11 +56,11 @@ describe OpenProject::GithubIntegration do
     end
     let(:wp3) do
       FactoryBot.create :work_package,
-                             project: project_without_permission
+                        project: project_without_permission
     end
     let(:wp4) do
       FactoryBot.create :work_package,
-                             project: project_without_permission
+                        project: project_without_permission
     end
     let(:wps) { [wp1, wp2, wp3, wp4] }
 
@@ -97,7 +99,7 @@ describe OpenProject::GithubIntegration do
       journal_count = wps.map { |wp| wp.journals.count }
       OpenProject::GithubIntegration::HookHandler.new.process('github', OpenStruct.new(env: environment), params, user)
 
-      [wp1,wp2,wp3,wp4].map { |x| x.reload }
+      [wp1, wp2, wp3, wp4].map { |x| x.reload }
 
       expect(wp1.journals.count).to equal(journal_count[0] + 1)
       expect(wp2.journals.count).to equal(journal_count[1] + 1)
@@ -142,7 +144,7 @@ describe OpenProject::GithubIntegration do
       journal_count = wps.map { |wp| wp.journals.count }
       OpenProject::GithubIntegration::HookHandler.new.process('github', OpenStruct.new(env: environment), params, user)
 
-      [wp1,wp2,wp3,wp4].map { |x| x.reload }
+      [wp1, wp2, wp3, wp4].map { |x| x.reload }
 
       expect(wp1.journals.count).to eq(journal_count[0] + 1)
       expect(wp2.journals.count).to eq(journal_count[1] + 1)
@@ -188,7 +190,7 @@ describe OpenProject::GithubIntegration do
       journal_count = wps.map { |wp| wp.journals.count }
       OpenProject::GithubIntegration::HookHandler.new.process('github', OpenStruct.new(env: environment), params, user)
 
-      [wp1,wp2,wp3,wp4].map { |x| x.reload }
+      [wp1, wp2, wp3, wp4].map { |x| x.reload }
 
       expect(wp1.journals.count).to equal(journal_count[0] + 1)
       expect(wp2.journals.count).to equal(journal_count[1] + 1)
@@ -254,7 +256,7 @@ describe OpenProject::GithubIntegration do
       journal_count = wps.map { |wp| wp.journals.count }
       OpenProject::GithubIntegration::HookHandler.new.process('github', OpenStruct.new(env: environment), params, user)
 
-      [wp1,wp2,wp3,wp4].map { |x| x.reload }
+      [wp1, wp2, wp3, wp4].map { |x| x.reload }
 
       expect(wp1.journals.count).to equal(journal_count[0] + 1)
       expect(wp2.journals.count).to equal(journal_count[1] + 1)

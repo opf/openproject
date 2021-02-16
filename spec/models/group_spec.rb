@@ -30,8 +30,6 @@ require 'spec_helper'
 require_relative '../support/shared/become_member'
 
 describe Group, type: :model do
-  include BecomeMember
-
   let(:group) { FactoryBot.create(:group) }
   let(:user) { FactoryBot.create(:user) }
   let(:watcher) { FactoryBot.create :user }
@@ -39,9 +37,9 @@ describe Group, type: :model do
   let(:status) { FactoryBot.create(:status) }
   let(:package) do
     FactoryBot.build(:work_package, type: project.types.first,
-                     author: user,
-                     project: project,
-                     status: status)
+                                    author: user,
+                                    project: project,
+                                    status: status)
   end
 
   it 'should create' do
@@ -79,18 +77,9 @@ describe Group, type: :model do
     let!(:member) { FactoryBot.create :member, project: project, principal: group, role_ids: role_ids }
     let!(:group) { FactoryBot.create(:group, members: user) }
 
-
     it 'should roles removed when removing group membership' do
       expect(user).to be_member_of project
-      member.destroy
-      user.reload
-      project.reload
-      expect(user).not_to be_member_of project
-    end
-
-    it 'should roles removed when removing user from group' do
-      expect(user).to be_member_of project
-      group.destroy
+      Principals::DeleteJob.perform_now group
       user.reload
       project.reload
       expect(user).not_to be_member_of project
@@ -101,7 +90,7 @@ describe Group, type: :model do
       member = FactoryBot.build :member
       roles = FactoryBot.create_list :role, 2
       role_ids = roles.map(&:id)
-      member.attributes = {principal: group, role_ids: role_ids}
+      member.attributes = { principal: group, role_ids: role_ids }
       member.save!
 
       member.role_ids = [role_ids.first]
@@ -115,50 +104,6 @@ describe Group, type: :model do
 
       member.role_ids = [role_ids.first]
       expect(user.reload.roles_for_project(member.project).map(&:id).sort).to eq([role_ids.first])
-    end
-  end
-
-  describe '#destroy' do
-    describe 'work packages assigned to the group' do
-      let(:group) { FactoryBot.create(:group, members: [user, watcher]) }
-      before do
-        become_member_with_permissions project, group, [:view_work_packages]
-        package.assigned_to = group
-
-        package.save!
-      end
-
-      it 'should reassign the work package to nobody' do
-        group.destroy
-
-        package.reload
-
-        expect(package.assigned_to).to eq(DeletedUser.first)
-      end
-
-      it 'should update all journals to have the deleted user as assigned' do
-        group.destroy
-
-        package.reload
-
-        expect(package.journals.all? { |j| j.data.assigned_to_id == DeletedUser.first.id }).to be_truthy
-      end
-
-      describe 'watchers' do
-        before do
-          package.watcher_users << watcher
-        end
-
-        context 'with user only in project through group' do
-          it 'should remove the watcher' do
-            group.destroy
-            package.reload
-            project.reload
-
-            expect(package.watchers).to be_empty
-          end
-        end
-      end
     end
   end
 
@@ -184,7 +129,6 @@ describe Group, type: :model do
        build_preference
        create_preference
        create_preference!}.each do |method|
-
       it "should not respond to #{method}" do
         expect(group).to_not respond_to method
       end

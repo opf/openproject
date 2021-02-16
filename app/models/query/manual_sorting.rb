@@ -39,8 +39,6 @@ module Query::ManualSorting
       sort_criteria_columns.any? { |clz, _| clz.is_a?(::Queries::WorkPackages::Columns::ManualSortingColumn) }
     end
 
-    private
-
     def self.manual_sorting_column
       ::Queries::WorkPackages::Columns::ManualSortingColumn.new
     end

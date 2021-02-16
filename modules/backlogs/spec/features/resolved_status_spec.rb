@@ -38,7 +38,6 @@ describe 'Resolved status',
   let(:role) do
     FactoryBot.create(:role,
                       permissions: %i(edit_project))
-
   end
   let!(:current_user) do
     FactoryBot.create(:user,

@@ -59,7 +59,10 @@ module Redmine
           searchable_options[:order_column] ||= searchable_options[:date_column]
 
           # Permission needed to search this model
-          searchable_options[:permission] = "view_#{name.underscore.pluralize}".to_sym unless searchable_options.has_key?(:permission)
+          unless searchable_options.has_key?(:permission)
+            searchable_options[:permission] =
+              "view_#{name.underscore.pluralize}".to_sym
+          end
 
           # Should we search custom fields on this model ?
           searchable_options[:search_custom_fields] = !reflect_on_association(:custom_values).nil?

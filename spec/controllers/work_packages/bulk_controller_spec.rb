@@ -180,7 +180,9 @@ describe WorkPackages::BulkController, type: :controller do
           end
 
           describe '#project' do
-            it { assert_select 'select', { attributes: { name: "work_package[custom_field_values][#{custom_field_2.id}]" } }, false }
+            it {
+              assert_select 'select', { attributes: { name: "work_package[custom_field_values][#{custom_field_2.id}]" } }, false
+            }
           end
         end
       end
@@ -223,7 +225,9 @@ describe WorkPackages::BulkController, type: :controller do
     context 'when updating two work packages with differing whitelisted params' do
       let!(:work_package_ids) { [work_package_1.id, work_package_3.id] }
 
-      let!(:role_with_permission_to_add_watchers) { FactoryBot.create(:role, permissions: role.permissions + [:add_work_package_watchers]) }
+      let!(:role_with_permission_to_add_watchers) do
+        FactoryBot.create(:role, permissions: role.permissions + [:add_work_package_watchers])
+      end
       let!(:other_user) { FactoryBot.create :user }
 
       let!(:other_member_1) do
@@ -673,7 +677,8 @@ describe WorkPackages::BulkController, type: :controller do
 
     describe 'w/o the cleanup being successful' do
       before do
-        expect(WorkPackage).to receive(:cleanup_associated_before_destructing_if_required).with([stub_work_package], user, params['to_do']).and_return false
+        expect(WorkPackage).to receive(:cleanup_associated_before_destructing_if_required).with([stub_work_package], user,
+                                                                                                params['to_do']).and_return false
 
         as_logged_in_user(user) do
           delete :destroy, params: params

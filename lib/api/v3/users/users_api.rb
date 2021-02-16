@@ -76,7 +76,7 @@ module API
           params do
             requires :id, desc: 'User\'s id'
           end
-          route_param :id  do
+          route_param :id do
             after_validation do
               @user =
                 if params[:id] == 'me'

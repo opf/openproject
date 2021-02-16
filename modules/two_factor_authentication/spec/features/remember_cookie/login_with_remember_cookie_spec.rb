@@ -13,7 +13,7 @@ describe 'Login with 2FA remember cookie',
     # Works because the user is not reloaded
     user.password
   end
-  let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, active: true, default: true}
+  let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, active: true, default: true }
 
   def login_with_cookie
     page.driver.browser.manage.delete_all_cookies
@@ -42,8 +42,7 @@ describe 'Login with 2FA remember cookie',
   end
 
   context 'not enabled',
-
-          with_config: {:'2fa' => {active_strategies: [:developer], allow_remember_for_days: 0 }} do
+          with_config: { '2fa': { active_strategies: [:developer], allow_remember_for_days: 0 } } do
     it 'does not show the save form' do
       first_login_step
       expect(page).to have_no_selector('input#remember_me')
@@ -104,4 +103,3 @@ describe 'Login with 2FA remember cookie',
     end
   end
 end
-

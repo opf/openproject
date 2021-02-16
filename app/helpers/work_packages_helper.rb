@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -70,7 +71,7 @@ module WorkPackagesHelper
 
     # Prefix part
 
-    parts[:prefix] << "#{package.project}" if options[:project]
+    parts[:prefix] << package.project.to_s if options[:project]
 
     # Link part
 
@@ -80,7 +81,7 @@ module WorkPackagesHelper
 
     parts[:link] << "##{h(package.id)}" if options[:id]
 
-    parts[:link] << "#{h(package.status)}" if options[:id] && options[:status] && package.status_id
+    parts[:link] << h(package.status).to_s if options[:id] && options[:status] && package.status_id
 
     # Hidden link part
 
@@ -148,7 +149,7 @@ module WorkPackagesHelper
 
       [[prefix, html_link].reject(&:empty?).join(' - '),
        suffix].reject(&:empty?).join(': ')
-     end.html_safe
+    end.html_safe
   end
 
   def work_package_list(work_packages, &_block)
@@ -196,13 +197,13 @@ module WorkPackagesHelper
 
     ret += content_tag(:p, I18n.t(:text_destroy_with_associated), class: 'bold')
 
-    ret += content_tag(:ul) {
+    ret += content_tag(:ul) do
       associated.inject(''.html_safe) do |list, associated_class|
         list += content_tag(:li, associated_class.model_name.human, class: 'decorated')
 
         list
       end
-    }
+    end
 
     ret
   end
@@ -215,6 +216,7 @@ module WorkPackagesHelper
   def last_work_package_note(work_package)
     note_journals = work_package.journals.select(&:notes?)
     return t(:text_no_notes) if note_journals.empty?
+
     note_journals.last.notes
   end
 
@@ -246,12 +248,12 @@ module WorkPackagesHelper
   def info_user_attributes(work_package)
     responsible = if work_package.responsible_id.present?
                     "<span class='label'>#{WorkPackage.human_attribute_name(:responsible)}:</span> " +
-                    "#{h(work_package.responsible.name)}"
+                      h(work_package.responsible.name).to_s
                   end
 
     assignee = if work_package.assigned_to_id.present?
                  "<span class='label'>#{WorkPackage.human_attribute_name(:assigned_to)}:</span> " +
-                 "#{h(work_package.assigned_to.name)}"
+                   h(work_package.assigned_to.name).to_s
                end
 
     [responsible, assignee].compact.join('<br>').html_safe

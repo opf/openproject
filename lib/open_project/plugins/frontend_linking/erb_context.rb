@@ -2,7 +2,6 @@ module OpenProject
   module Plugins
     module FrontendLinking
       class ErbContext
-
         def initialize(plugins)
           @plugins = plugins.keys.map { |name, _| [name, importable_name(name)] }
         end

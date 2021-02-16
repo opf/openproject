@@ -142,14 +142,13 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
     end
 
     context 'with a subproject filter value_objects' do
-      using_shared_fixtures :admin
+      shared_let(:admin) { FactoryBot.create :admin }
 
       let(:project) { FactoryBot.create :project }
       let(:subproject) { FactoryBot.create :project, parent: project }
       let(:filter) do
         subproject
         project.reload
-
 
         f = Queries::WorkPackages::Filter::SubprojectFilter.create!(context: project)
         f.operator = '='

@@ -109,11 +109,9 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     context 'as an admin' do
       let(:current_user) { admin }
 
-      it 'responds 200 OK' do
+      it 'returns a collection of memberships containing only the visible ones', :aggregate_failures do
         expect(subject.status).to eq(200)
-      end
 
-      it 'returns a collection of memberships containing only the visible ones' do
         expect(subject.body)
           .to be_json_eql('Collection'.to_json)
           .at_path('_type')
@@ -677,7 +675,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
         .to match_array [another_role]
 
       # Assigning a new role also updates the member
-      expect(other_member.updated_at > other_member_updated_at )
+      expect(other_member.updated_at > other_member_updated_at)
         .to be_truthy
     end
 

@@ -34,7 +34,6 @@ describe 'user self registration', type: :feature, js: true do
 
   context 'with "manual account activation"',
           with_settings: { self_registration: Setting::SelfRegistration.manual.to_s } do
-
     it 'allows self registration on login page (Regression #28076)' do
       visit signin_path
 

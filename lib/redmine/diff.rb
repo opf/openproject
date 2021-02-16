@@ -33,13 +33,7 @@ module Redmine
   class Diff
     include ActionView::Helpers::TagHelper
 
-    attr_accessor :nb_line_left
-    attr_accessor :line_left
-    attr_accessor :nb_line_right
-    attr_accessor :line_right
-    attr_accessor :type_diff_right
-    attr_accessor :type_diff_left
-    attr_accessor :offsets
+    attr_accessor :nb_line_left, :line_left, :nb_line_right, :line_right, :type_diff_right, :type_diff_left, :offsets
 
     def initialize
       self.nb_line_left = ''
@@ -91,13 +85,13 @@ module Redmine
 
       ActiveSupport::SafeBuffer.new.tap do |output|
         if offsets.first != 0
-          output << line[0..offsets.first-1]
+          output << line[0..offsets.first - 1]
         end
 
         output << content_tag(:span, line[offsets.first..offsets.last])
 
         unless offsets.last == -1
-          output << line[offsets.last+1..-1]
+          output << line[offsets.last + 1..-1]
         end
       end.to_s
     end

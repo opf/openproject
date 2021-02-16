@@ -36,7 +36,7 @@ describe CustomActions::Actions::Notify, type: :model do
              FactoryBot.build_stubbed(:group)]
 
     allow(Principal)
-      .to receive_message_chain(:not_locked, :select, :order_by_name)
+      .to receive_message_chain(:not_locked, :select, :ordered_by_name)
             .and_return(users)
 
     [{ value: nil, label: '-' },
@@ -65,7 +65,7 @@ describe CustomActions::Actions::Notify, type: :model do
                       FactoryBot.build_stubbed(:user)]
 
         allow(Principal)
-          .to receive_message_chain(:not_locked, :select, :order_by_name, :where)
+          .to receive_message_chain(:not_locked, :select, :ordered_by_name, :where)
           .and_return(principals)
 
         instance.values = principals.map(&:id)

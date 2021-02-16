@@ -3,8 +3,6 @@ require_dependency 'oauth/applications/row_cell'
 module OAuth
   module Applications
     class TableCell < ::TableCell
-
-
       class << self
         def row_class
           ::OAuth::Applications::RowCell
@@ -38,11 +36,11 @@ module OAuth
 
       def headers
         [
-          ['name', caption: ::Doorkeeper::Application.human_attribute_name(:name)],
-          ['owner', caption: ::Doorkeeper::Application.human_attribute_name(:owner)],
-          ['client_credentials', caption: I18n.t('oauth.client_credentials')],
-          ['redirect_uri', caption: ::Doorkeeper::Application.human_attribute_name(:redirect_uri)],
-          ['confidential', caption: ::Doorkeeper::Application.human_attribute_name(:confidential)],
+          ['name', { caption: ::Doorkeeper::Application.human_attribute_name(:name) }],
+          ['owner', { caption: ::Doorkeeper::Application.human_attribute_name(:owner) }],
+          ['client_credentials', { caption: I18n.t('oauth.client_credentials') }],
+          ['redirect_uri', { caption: ::Doorkeeper::Application.human_attribute_name(:redirect_uri) }],
+          ['confidential', { caption: ::Doorkeeper::Application.human_attribute_name(:confidential) }]
         ]
       end
     end

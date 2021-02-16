@@ -109,8 +109,8 @@ describe 'Version action board', type: :feature, js: true do
         queries = board.contained_queries
         expect(queries.count).to eq(2)
 
-        open = queries.detect { |q| q.name == 'Open version'}
-        second_open = queries.detect { |q| q.name == 'A second version'}
+        open = queries.detect { |q| q.name == 'Open version' }
+        second_open = queries.detect { |q| q.name == 'A second version' }
 
         expect(open.name).to eq 'Open version'
         expect(second_open.name).to eq 'A second version'
@@ -311,7 +311,7 @@ describe 'Version action board', type: :feature, js: true do
     let(:no_version_edit_role) { FactoryBot.create(:role, permissions: no_version_edit_permissions) }
     let(:no_version_edit_permissions) do
       %i[show_board_views manage_board_views add_work_packages manage_versions
-       edit_work_packages view_work_packages manage_public_queries]
+         edit_work_packages view_work_packages manage_public_queries]
     end
 
     it 'can not move cards or add cards' do

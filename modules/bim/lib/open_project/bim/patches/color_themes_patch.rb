@@ -32,7 +32,7 @@ module OpenProject::Bim
               'content-link-color' => "#275BB5",
               'main-menu-bg-color' => "#0E2045",
               'main-menu-bg-selected-background' => "#3270DB",
-              'main-menu-bg-hover-background' => "#163473",
+              'main-menu-bg-hover-background' => "#163473"
               # TODO 'new-feature-teaser-image' => '#{image-url("bim/new_feature_teaser.jpg")}'
             },
             logo: 'bim/logo_openproject_bim_big.png'

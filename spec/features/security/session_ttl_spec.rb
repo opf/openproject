@@ -31,8 +31,8 @@ require 'spec_helper'
 describe 'Session TTL',
          with_settings: { session_ttl_enabled?: true, session_ttl: '10' },
          type: :feature do
-  using_shared_fixtures :admin
-  let(:admin_password) { 'adminADMIN!'}
+  shared_let(:admin) { FactoryBot.create :admin }
+  let(:admin_password) { 'adminADMIN!' }
 
   let!(:work_package) { FactoryBot.create :work_package }
 

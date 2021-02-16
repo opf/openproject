@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'Wysiwyg tables',
          type: :feature, js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:user) { admin }
 
   let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki]) }
@@ -130,7 +130,7 @@ describe 'Wysiwyg tables',
         # Edit again
         click_on 'Edit'
 
-        editor.in_editor do |container, editable|
+        editor.in_editor do |_container, editable|
           # Table should still have header
           expect(editable).to have_selector('th', count: 2)
           expect(editable).to have_selector('td', count: 2)
@@ -194,7 +194,7 @@ describe 'Wysiwyg tables',
         # Edit again
         click_on 'Edit'
 
-        editor.in_editor do |container, editable|
+        editor.in_editor do |_container, editable|
           expect(editable).to have_selector('td[style*="background-color:#123456"]')
 
           # Change table styles
@@ -250,7 +250,7 @@ describe 'Wysiwyg tables',
         click_on 'Edit'
 
         # Expect all previous changes to be there
-        editor.in_editor do |container, editable|
+        editor.in_editor do |_container, editable|
           expect(editable).to have_selector('td[style*="background-color:#123456"]')
 
           # table height and width is set on figure
@@ -295,7 +295,6 @@ describe 'Wysiwyg tables',
           find('.ck-button-save').click
 
           expect(editable).to have_selector('td[style*="width:250px"]')
-
         end
 
         # Save wiki page
@@ -311,14 +310,14 @@ describe 'Wysiwyg tables',
         # Edit again
         click_on 'Edit'
 
-        editor.in_editor do |container, editable|
+        editor.in_editor do |_container, editable|
           expect(editable).to have_selector('td[style*="width:250px"]')
         end
       end
     end
 
     describe 'editing a wiki page with tables' do
-      let(:wiki_page) {
+      let(:wiki_page) do
         page = FactoryBot.build :wiki_page_with_content,
                                 title: 'Wiki page with titles'
         page.content.text = <<~MARKDOWN
@@ -346,7 +345,7 @@ describe 'Wysiwyg tables',
         MARKDOWN
 
         page
-      }
+      end
 
       before do
         project.wiki.pages << wiki_page

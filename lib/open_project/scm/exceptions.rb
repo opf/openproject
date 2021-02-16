@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -43,9 +44,7 @@ module OpenProject
 
       # Exception marking an error in the execution of a local command.
       class CommandFailed < SCMError
-        attr_reader :program
-        attr_reader :message
-        attr_reader :stderr
+        attr_reader :program, :message, :stderr
 
         # Create a +CommandFailed+ exception for the executed program (e.g., 'svn'),
         # and a meaningful error message
@@ -83,6 +82,7 @@ module OpenProject
           super('unauthorized')
         end
       end
+
       # raised when encountering an empty (bare) repository
       class SCMEmpty < SCMUnavailable
         def initialize

@@ -37,17 +37,16 @@ module OpenProject::Reporting
     register 'openproject-reporting',
              author_url: 'https://www.openproject.com',
              bundled: true do
+      view_actions = %i[index show drill_down available_values display_report_list]
+      edit_actions = %i[create update rename destroy]
 
-      view_actions = [:index, :show, :drill_down, :available_values, :display_report_list]
-      edit_actions = [:create, :update, :rename, :destroy]
-
-      #register reporting_module including permissions
+      # register reporting_module including permissions
       project_module :costs do
         permission :save_cost_reports, { cost_reports: edit_actions }
         permission :save_private_cost_reports, { cost_reports: edit_actions }
       end
 
-      #register additional permissions for viewing time and cost entries through the CostReportsController
+      # register additional permissions for viewing time and cost entries through the CostReportsController
       view_actions.each do |action|
         OpenProject::AccessControl.permission(:view_time_entries).actions << "cost_reports/#{action}"
         OpenProject::AccessControl.permission(:view_own_time_entries).actions << "cost_reports/#{action}"
@@ -55,7 +54,7 @@ module OpenProject::Reporting
         OpenProject::AccessControl.permission(:view_own_cost_entries).actions << "cost_reports/#{action}"
       end
 
-      #menu extensions
+      # menu extensions
       menu :top_menu,
            :cost_reports_global,
            { controller: '/cost_reports', action: 'index', project_id: nil },
@@ -67,7 +66,7 @@ module OpenProject::Reporting
                  User.current.allowed_to?(:view_own_time_entries, nil, global: true) ||
                  User.current.allowed_to?(:view_cost_entries, nil, global: true) ||
                  User.current.allowed_to?(:view_own_cost_entries, nil, global: true)
-               )
+             )
            }
 
       menu :project_menu,

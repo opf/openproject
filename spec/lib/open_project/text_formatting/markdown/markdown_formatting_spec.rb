@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -33,14 +34,14 @@ require_relative './expected_markdown'
 describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
   it 'should modifiers' do
     assert_html_output(
-      '**bold**'                => '<strong>bold</strong>',
-      'before **bold**'         => 'before <strong>bold</strong>',
-      '**bold** after'          => '<strong>bold</strong> after',
-      '**two words**'           => '<strong>two words</strong>',
-      '**two*words**'           => '<strong>two*words</strong>',
-      '**two * words**'         => '<strong>two * words</strong>',
-      '**two** **words**'         => '<strong>two</strong> <strong>words</strong>',
-      '**(two)** **(words)**'     => '<strong>(two)</strong> <strong>(words)</strong>'
+      '**bold**' => '<strong>bold</strong>',
+      'before **bold**' => 'before <strong>bold</strong>',
+      '**bold** after' => '<strong>bold</strong> after',
+      '**two words**' => '<strong>two words</strong>',
+      '**two*words**' => '<strong>two*words</strong>',
+      '**two * words**' => '<strong>two * words</strong>',
+      '**two** **words**' => '<strong>two</strong> <strong>words</strong>',
+      '**(two)** **(words)**' => '<strong>(two)</strong> <strong>(words)</strong>'
     )
   end
 

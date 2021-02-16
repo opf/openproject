@@ -44,7 +44,7 @@ describe 'new work package', js: true do
     end
   end
 
-  def create_work_package(type, project)
+  def create_work_package(type, _project)
     loading_indicator_saveguard
 
     wp_page.click_create_wp_button(type)
@@ -435,7 +435,7 @@ describe 'new work package', js: true do
 
       # The dates are taken over from the parent by default
       date_field = split_create_page.edit_field(:combinedDate)
-      date_field.expect_value("#{parent.start_date} - #{parent.due_date}" )
+      date_field.expect_value("#{parent.start_date} - #{parent.due_date}")
 
       date_field.input_element.click
       sleep 1

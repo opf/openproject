@@ -456,7 +456,7 @@ describe 'API v3 time_entry resource', type: :request do
 
     context 'if sending an activity the project disables' do
       let(:disable_activity) do
-        TimeEntryActivitiesProject.insert( { activity_id: activity.id, project_id: project.id, active: false } )
+        TimeEntryActivitiesProject.insert({ activity_id: activity.id, project_id: project.id, active: false })
       end
 
       let(:additional_setup) { -> { disable_activity } }
@@ -549,7 +549,7 @@ describe 'API v3 time_entry resource', type: :request do
 
     context 'if sending an activity the project disables' do
       let(:disable_activity) do
-        TimeEntryActivitiesProject.insert( { activity_id: activity.id, project_id: project.id, active: false } )
+        TimeEntryActivitiesProject.insert({ activity_id: activity.id, project_id: project.id, active: false })
       end
 
       let(:additional_setup) { -> { disable_activity } }

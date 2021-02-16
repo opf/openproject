@@ -46,8 +46,7 @@ module Bim
 
       menu_item :ifc_models
 
-      def upload;
-      end
+      def upload; end
 
       def index
         redirect_to action: :upload
@@ -98,10 +97,10 @@ module Bim
 
       def import_canceled?
         if %i[unknown_types_action
-            unknown_statuses_action
-            invalid_people_action
-            unknown_mails_action
-            non_members_action].map { |key| params.dig(:import_options, key) }.include? 'cancel'
+              unknown_statuses_action
+              invalid_people_action
+              unknown_mails_action
+              non_members_action].map { |key| params.dig(:import_options, key) }.include? 'cancel'
           flash[:notice] = I18n.t('bcf.bcf_xml.import_canceled')
           redirect_to_bcf_issues_list
         end
@@ -225,7 +224,9 @@ module Bim
 
       def check_bcf_version
         unless @importer.bcf_version_valid?
-          flash[:error] = I18n.t('bcf.bcf_xml.import_failed_unsupported_bcf_version', minimal_version: OpenProject::Bim::BcfXml::Importer::MINIMUM_BCF_VERSION)
+          flash[:error] =
+            I18n.t('bcf.bcf_xml.import_failed_unsupported_bcf_version',
+                   minimal_version: OpenProject::Bim::BcfXml::Importer::MINIMUM_BCF_VERSION)
           redirect_to action: :upload
         end
       end

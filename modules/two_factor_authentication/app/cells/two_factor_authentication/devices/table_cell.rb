@@ -5,7 +5,7 @@ module ::TwoFactorAuthentication
       columns :device_type, :default, :confirmed
 
       def initial_sort
-        [:login, :asc]
+        %i[login asc]
       end
 
       def self_table?
@@ -33,7 +33,7 @@ module ::TwoFactorAuthentication
           link_to({ controller: target_controller, action: :new },
                   class: 'budget-add-row wp-inline-create--add-link',
                   title: I18n.t('two_factor_authentication.devices.add_new')) do
-              op_icon('icon icon-add')
+            op_icon('icon icon-add')
           end
         end
       end
@@ -56,9 +56,9 @@ module ::TwoFactorAuthentication
 
       def headers
         [
-            ['device_type', caption: I18n.t('two_factor_authentication.label_device_type')],
-            ['default', caption: I18n.t(:label_default)],
-            ['confirmed', caption: I18n.t(:label_confirmed)],
+          ['device_type', { caption: I18n.t('two_factor_authentication.label_device_type') }],
+          ['default', { caption: I18n.t(:label_default) }],
+          ['confirmed', { caption: I18n.t(:label_confirmed) }]
         ]
       end
     end

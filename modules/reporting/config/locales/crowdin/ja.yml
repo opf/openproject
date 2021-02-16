@@ -69,7 +69,7 @@ ja:
   label_inactive: "«非活動»"
   label_no: "いいえ"
   label_none: "(データなし)"
-  label_no_reports: "There are no cost reports yet."
+  label_no_reports: "コストレポートはまだありません。"
   label_report: "レポート"
   label_yes: "はい"
   load_query_question: "レポートは%{size}つセルを持つために、描画するに時間がかかる場合があります。描画してもよろしいですか?"

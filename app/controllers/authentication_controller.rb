@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,7 +29,7 @@
 #++
 
 class AuthenticationController < ApplicationController
-  before_action :require_login
+  before_action :require_admin
   layout 'admin'
   menu_item :authentication_settings
 

@@ -31,7 +31,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe CostQuery, type: :model, reporting_query_helper: true do
   minimal_query
 
-  let!(:project1){ FactoryBot.create(:project_with_types) }
+  let!(:project1) { FactoryBot.create(:project_with_types) }
   let!(:work_package1) { FactoryBot.create(:work_package, project: project1) }
   let!(:time_entry1) { FactoryBot.create(:time_entry, work_package: work_package1, project: project1) }
   let!(:time_entry2) { FactoryBot.create(:time_entry, work_package: work_package1, project: project1) }
@@ -52,10 +52,10 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       sql_result = @query.result
 
       expect(sql_result.size).to eq(2)
-      #for each project the number of entries should be correct
+      # for each project the number of entries should be correct
       sql_count = []
       sql_result.each do |sub_result|
-        #project should be the outmost group_by
+        # project should be the outmost group_by
         expect(sub_result.fields).to include(:project_id)
         sql_count.push sub_result.count
       end
@@ -69,10 +69,10 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
       sql_result = @query.result
       expect(sql_result.size).to eq(2)
-      #for each user the number of entries should be correct
+      # for each user the number of entries should be correct
       sql_count = []
       sql_result.each do |sub_result|
-        #project should be the outmost group_by
+        # project should be the outmost group_by
         expect(sub_result.fields).to include(:user_id)
         sql_count.push sub_result.count
       end

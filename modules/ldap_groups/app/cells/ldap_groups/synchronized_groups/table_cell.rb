@@ -1,4 +1,3 @@
-
 module LdapGroups
   module SynchronizedGroups
     class TableCell < ::TableCell
@@ -16,7 +15,7 @@ module LdapGroups
         true
       end
 
-      def sortable_column?(column)
+      def sortable_column?(_column)
         false
       end
 
@@ -34,10 +33,10 @@ module LdapGroups
 
       def headers
         [
-            ['dn', caption: ::LdapGroups::SynchronizedGroup.human_attribute_name('dn')],
-            ['auth_source', caption: ::LdapGroups::SynchronizedGroup.human_attribute_name('auth_source')],
-            ['group', caption: I18n.t(:label_group)],
-            ['users', caption: I18n.t(:label_user_plural)],
+          ['dn', { caption: ::LdapGroups::SynchronizedGroup.human_attribute_name('dn') }],
+          ['auth_source', { caption: ::LdapGroups::SynchronizedGroup.human_attribute_name('auth_source') }],
+          ['group', { caption: I18n.t(:label_group) }],
+          ['users', { caption: I18n.t(:label_user_plural) }]
         ]
       end
     end

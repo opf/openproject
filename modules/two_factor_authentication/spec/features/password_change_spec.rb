@@ -1,19 +1,17 @@
 require_relative '../spec_helper'
 
 describe 'Password change with OTP', with_2fa_ee: true, type: :feature,
-         with_config: {:'2fa' => {active_strategies: [:developer]}},
-         js: true do
-  let(:user_password) {'bob' * 4}
-  let(:new_user_password) {'obb' * 4}
+                                     with_config: { '2fa': { active_strategies: [:developer] } },
+                                     js: true do
+  let(:user_password) { 'bob' * 4 }
+  let(:new_user_password) { 'obb' * 4 }
   let(:user) do
     FactoryBot.create(:user,
-                       login: 'bob',
-                       password: user_password,
-                       password_confirmation: user_password,
-    )
+                      login: 'bob',
+                      password: user_password,
+                      password_confirmation: user_password)
   end
-  let(:expected_path_after_login) {my_page_path}
-
+  let(:expected_path_after_login) { my_page_path }
 
   def handle_password_change(requires_otp: true)
     visit signin_path
@@ -49,8 +47,7 @@ describe 'Password change with OTP', with_2fa_ee: true, type: :feature,
   end
 
   context 'when password is expired',
-          with_settings: {password_days_valid: 7} do
-
+          with_settings: { password_days_valid: 7 } do
     before do
       user
     end
@@ -89,18 +86,17 @@ describe 'Password change with OTP', with_2fa_ee: true, type: :feature,
   end
 
   context 'when force password change is set' do
-    let(:user_password) {'bob' * 4}
-    let(:new_user_password) {'obb' * 4}
+    let(:user_password) { 'bob' * 4 }
+    let(:new_user_password) { 'obb' * 4 }
     let(:user) do
       FactoryBot.create(:user,
-                         force_password_change: true,
-                         first_login: true,
-                         login: 'bob',
-                         password: user_password,
-                         password_confirmation: user_password,
-      )
+                        force_password_change: true,
+                        first_login: true,
+                        login: 'bob',
+                        password: user_password,
+                        password_confirmation: user_password)
     end
-    let(:expected_path_after_login) {home_path}
+    let(:expected_path_after_login) { home_path }
 
     before do
       user
@@ -123,4 +119,3 @@ describe 'Password change with OTP', with_2fa_ee: true, type: :feature,
     end
   end
 end
-

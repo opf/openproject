@@ -78,7 +78,6 @@ module API
                   .new(user: current_user,
                        action: custom_action)
                   .call(work_package: work_package) do |call|
-
                   call.on_success do
                     work_package.reload
 

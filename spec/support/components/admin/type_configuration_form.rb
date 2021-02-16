@@ -211,10 +211,10 @@ module Components
       end
 
       def expect_no_attribute(attribute, group)
-        expect(find_group(group)).not_to have_selector("#{attribute_selector(attribute)}")
+        expect(find_group(group)).not_to have_selector(attribute_selector(attribute).to_s)
       end
 
-      def expect_group(label, translation, *attributes)
+      def expect_group(_label, translation, *attributes)
         expect(find_group(translation)).to have_selector(".group-edit-handler", text: translation.upcase)
 
         within find_group(translation) do

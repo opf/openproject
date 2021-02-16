@@ -14,7 +14,7 @@ class MigrateXmlViewpointToJson < ActiveRecord::Migration[6.0]
       resource.update_column(:json_viewpoint, mapper.result)
 
       Rails.logger.debug { "Converted viewpoint (##{resource.id}) #{resource.uuid} to JSON." }
-    rescue => e
+    rescue StandardError => e
       warn "Failed to convert viewpoint #{viewpoint.uuid}: #{e} #{e.message}"
     end
 

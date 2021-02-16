@@ -31,12 +31,12 @@ require 'spec_helper'
 describe TypesController, type: :controller do
   let(:project) do
     FactoryBot.create(:project,
-                       work_package_custom_fields: [custom_field_2])
+                      work_package_custom_fields: [custom_field_2])
   end
   let(:custom_field_1) do
     FactoryBot.create(:work_package_custom_field,
-                       field_format: 'string',
-                       is_for_all: true)
+                      field_format: 'string',
+                      is_for_all: true)
   end
   let(:custom_field_2) { FactoryBot.create(:work_package_custom_field) }
   let(:status_0) { FactoryBot.create(:status) }
@@ -168,9 +168,9 @@ describe TypesController, type: :controller do
         let!(:existing_type) { FactoryBot.create(:type, name: 'Existing type') }
         let!(:workflow) do
           FactoryBot.create(:workflow,
-                             old_status: status_0,
-                             new_status: status_1,
-                             type_id: existing_type.id)
+                            old_status: status_0,
+                            new_status: status_1,
+                            type_id: existing_type.id)
         end
 
         let(:params) do
@@ -200,8 +200,8 @@ describe TypesController, type: :controller do
       render_views
       let(:type) do
         FactoryBot.create(:type, name: 'My type',
-                                  is_milestone: true,
-                                  projects: [project])
+                                 is_milestone: true,
+                                 projects: [project])
       end
 
       before do
@@ -219,8 +219,8 @@ describe TypesController, type: :controller do
       render_views
       let(:type) do
         FactoryBot.create(:type, name: 'My type',
-                                  is_milestone: true,
-                                  projects: [project])
+                                 is_milestone: true,
+                                 projects: [project])
       end
 
       before do
@@ -230,15 +230,17 @@ describe TypesController, type: :controller do
       it { expect(response).to be_successful }
       it { expect(response).to render_template 'edit' }
       it { expect(response).to render_template 'types/form/_projects' }
-      it { expect(response.body).to have_selector "input[@name='type[project_ids][]'][@value='#{project.id}'][@checked='checked']" }
+      it {
+        expect(response.body).to have_selector "input[@name='type[project_ids][]'][@value='#{project.id}'][@checked='checked']"
+      }
     end
 
     describe 'POST update' do
       let(:project2) { FactoryBot.create(:project) }
       let(:type) do
         FactoryBot.create(:type, name: 'My type',
-                                  is_milestone: true,
-                                  projects: [project, project2])
+                                 is_milestone: true,
+                                 projects: [project, project2])
       end
 
       describe 'WITH type rename' do
@@ -327,14 +329,14 @@ describe TypesController, type: :controller do
       describe 'detroy type in use should fail' do
         let(:project2) do
           FactoryBot.create(:project,
-                             work_package_custom_fields: [custom_field_2],
-                             types: [type2])
+                            work_package_custom_fields: [custom_field_2],
+                            types: [type2])
         end
         let!(:work_package) do
           FactoryBot.create(:work_package,
-                             author: current_user,
-                             type: type2,
-                             project: project2)
+                            author: current_user,
+                            type: type2,
+                            project: project2)
         end
         let(:params) { { 'id' => type2.id } }
 

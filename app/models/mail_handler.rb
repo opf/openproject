@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -32,6 +33,7 @@ class MailHandler < ActionMailer::Base
   include Redmine::I18n
 
   class UnauthorizedAction < StandardError; end
+
   class MissingInformation < StandardError; end
 
   attr_reader :email, :user, :options
@@ -130,7 +132,7 @@ class MailHandler < ActionMailer::Base
 
   private
 
-  MESSAGE_ID_RE = %r{^<?openproject\.([a-z0-9_]+)\-(\d+)\.\d+@}
+  MESSAGE_ID_RE = %r{^<?openproject\.([a-z0-9_]+)-(\d+)\.\d+@}
   ISSUE_REPLY_SUBJECT_RE = %r{.+? - .+ #(\d+):}
   MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]*msg(\d+)\]}
 
@@ -191,6 +193,7 @@ class MailHandler < ActionMailer::Base
   def receive_work_package_reply(work_package_id)
     work_package = WorkPackage.find_by(id: work_package_id)
     return unless work_package
+
     # ignore CLI-supplied defaults for new work_packages
     options[:issue].clear
 
@@ -273,7 +276,7 @@ class MailHandler < ActionMailer::Base
   # appropriate permission
   def add_watchers(obj)
     if user.allowed_to?("add_#{obj.class.name.underscore}_watchers".to_sym, obj.project) ||
-      user.allowed_to?("add_#{obj.class.lookup_ancestors.last.name.underscore}_watchers".to_sym, obj.project)
+       user.allowed_to?("add_#{obj.class.lookup_ancestors.last.name.underscore}_watchers".to_sym, obj.project)
       addresses = [email.to, email.cc].flatten.compact.uniq.map { |a| a.strip.downcase }
       unless addresses.empty?
         watchers = User.active.where(['LOWER(mail) IN (?)', addresses])
@@ -328,6 +331,7 @@ class MailHandler < ActionMailer::Base
     # * specific project (eg. Setting.mail_handler_target_project)
     target = Project.find_by(identifier: get_keyword(:project))
     raise MissingInformation.new('Unable to determine target project') if target.nil?
+
     target
   end
 
@@ -442,8 +446,6 @@ class MailHandler < ActionMailer::Base
     end
   end
 
-  private
-
   def allow_override_option(options)
     if options[:allow_override].is_a?(String)
       options[:allow_override].split(',').map(&:strip)
@@ -489,7 +491,7 @@ class MailHandler < ActionMailer::Base
       [a.mail.to_s.downcase, a.login.to_s.downcase].include?(keyword)
     end
     if assignee.nil? && keyword.match(/ /)
-      firstname, lastname = *(keyword.split) # "First Last Throwaway"
+      firstname, lastname = *keyword.split # "First Last Throwaway"
       assignee ||= assignable.detect do |a|
         a.is_a?(User) && a.firstname.to_s.downcase == firstname &&
           a.lastname.to_s.downcase == lastname

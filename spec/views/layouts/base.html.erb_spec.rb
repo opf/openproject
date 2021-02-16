@@ -90,8 +90,7 @@ describe 'layouts/base', type: :view do
     end
 
     context 'with omni_auth_direct_login enabled',
-             with_config: { omniauth_direct_login_provider: 'some_provider' } do
-
+            with_config: { omniauth_direct_login_provider: 'some_provider' } do
       it 'shows just a sign-in link, no menu' do
         expect(rendered).to have_selector "a[href='/login']"
         expect(rendered).not_to have_selector 'div#nav-login-content'

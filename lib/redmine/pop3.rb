@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -51,13 +52,11 @@ module Redmine
               if MailHandler.receive(message, options)
                 msg.delete
                 logger.debug "--> Message #{message_id} processed and deleted from the server" if logger && logger.debug?
-              else
-                if delete_unprocessed
-                  msg.delete
-                  logger.debug "--> Message #{message_id} NOT processed and deleted from the server" if logger && logger.debug?
-                else
-                  logger.debug "--> Message #{message_id} NOT processed and left on the server" if logger && logger.debug?
-                end
+              elsif delete_unprocessed
+                msg.delete
+                logger.debug "--> Message #{message_id} NOT processed and deleted from the server" if logger && logger.debug?
+              elsif logger&.debug?
+                logger.debug "--> Message #{message_id} NOT processed and left on the server"
               end
             end
           end

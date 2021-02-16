@@ -47,8 +47,8 @@ module Bim
 
         import_options = {
           invalid_people_action: 'anonymize',
-          unknown_mails_action:  'anonymize',
-          non_members_action:    'anonymize'
+          unknown_mails_action: 'anonymize',
+          non_members_action: 'anonymize'
         }
 
         bcf_xml_file = File.new(File.join(Rails.root, 'modules/bim/files', filename))

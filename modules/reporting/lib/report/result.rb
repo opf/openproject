@@ -30,8 +30,7 @@ class Report::Result
   include Report::QueryUtils
 
   class Base
-    attr_accessor :parent, :type, :important_fields
-    attr_accessor :key
+    attr_accessor :parent, :type, :important_fields, :key
     attr_reader :value
     alias values value
     include Enumerable
@@ -117,8 +116,7 @@ class Report::Result
       type == :direct
     end
 
-    def each_row
-    end
+    def each_row; end
 
     def final?(type)
       type? type and (direct? or size == 0 or first.type != type)
@@ -137,6 +135,7 @@ class Report::Result
     def final_number(type)
       return 1 if final? type
       return 0 if direct?
+
       @final_number ||= {}
       @final_number[type] ||= sum { |v| v.final_number type }
     end
@@ -181,11 +180,13 @@ class Report::Result
 
     def each
       return enum_for(__method__) unless block_given?
+
       yield self
     end
 
     def each_direct_result(_cached = false)
       return enum_for(__method__) unless block_given?
+
       yield self
     end
 
@@ -204,6 +205,7 @@ class Report::Result
 
     def sort!(force = false)
       return false if @sorted and not force
+
       values.sort! { |a, b| compare a.key, b.key }
       values.each { |e| e.sort! force }
       @sorted = true
@@ -252,6 +254,7 @@ class Report::Result
 
       def each_row
         return enum_for(:each_row) unless block_given?
+
         if final_row? then yield self
         else each { |c| c.each_row(&Proc.new) }
         end
@@ -266,10 +269,11 @@ class Report::Result
       values.each(&block)
     end
 
-    def each_direct_result(cached = true)
+    def each_direct_result(cached = true, &block)
       return enum_for(__method__) unless block_given?
+
       if @direct_results
-        @direct_results.each { |r| yield(r) }
+        @direct_results.each(&block)
       else
         values.each do |value|
           value.each_direct_result(false) do |result|

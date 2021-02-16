@@ -26,10 +26,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require Rails.root.join("db","migrate","migration_utils","migration_squasher").to_s
+require Rails.root.join("db", "migrate", "migration_utils", "migration_squasher").to_s
 # This migration aggregates the migrations detailed in MIGRATION_FILES
 class ToV710AggregatedCostsMigrations < ActiveRecord::Migration[5.1]
-
   MIGRATION_FILES = <<-MIGRATIONS
     20121022124254_aggregated_costs_migrations.rb
     20130529145329_remove_signoff_from_cost_objects.rb
@@ -49,12 +48,12 @@ class ToV710AggregatedCostsMigrations < ActiveRecord::Migration[5.1]
         t.integer 'project_id',                                                         null: false
         t.integer 'work_package_id',                                                    null: false
         t.integer 'cost_type_id',                                                       null: false
-        t.float 'units',                                                              null: false
-        t.date 'spent_on',                                                           null: false
+        t.float 'units', null: false
+        t.date 'spent_on', null: false
         t.datetime 'created_on',                                                         null: false
         t.datetime 'updated_on',                                                         null: false
-        t.string 'comments',                                                           null: false
-        t.boolean 'blocked',                                         default: false, null: false
+        t.string 'comments', null: false
+        t.boolean 'blocked', default: false, null: false
         t.decimal 'overridden_costs', precision: 15, scale: 4
         t.decimal 'costs',            precision: 15, scale: 4
         t.integer 'rate_id'
@@ -66,44 +65,44 @@ class ToV710AggregatedCostsMigrations < ActiveRecord::Migration[5.1]
       create_table 'cost_objects', id: :integer do |t|
         t.integer 'project_id',                                 null: false
         t.integer 'author_id',                                  null: false
-        t.string 'subject',                                    null: false
-        t.text 'description',                                null: false
-        t.string 'type',                                       null: false
-        t.date 'fixed_date',                                 null: false
+        t.string 'subject', null: false
+        t.text 'description', null: false
+        t.string 'type', null: false
+        t.date 'fixed_date', null: false
         t.datetime 'created_on'
         t.datetime 'updated_on'
       end
 
-      add_index :cost_objects, [:project_id, :updated_on]
+      add_index :cost_objects, %i[project_id updated_on]
 
       create_table 'cost_types', id: :integer do |t|
         t.string 'name',                           null: false
         t.string 'unit',                           null: false
         t.string 'unit_plural',                    null: false
-        t.boolean 'default',     default: false, null: false
+        t.boolean 'default', default: false, null: false
         t.datetime 'deleted_at'
       end
 
       create_table 'labor_budget_items', id: :integer do |t|
-        t.integer 'cost_object_id',                                                null: false
-        t.float 'hours',                                                         null: false
+        t.integer 'cost_object_id', null: false
+        t.float 'hours', null: false
         t.integer 'user_id'
-        t.string 'comments',                                      default: '', null: false
-        t.decimal 'budget',         precision: 15, scale: 4
+        t.string 'comments', default: '', null: false
+        t.decimal 'budget', precision: 15, scale: 4
       end
 
       create_table 'material_budget_items', id: :integer do |t|
-        t.integer 'cost_object_id',                                                null: false
-        t.float 'units',                                                         null: false
+        t.integer 'cost_object_id', null: false
+        t.float 'units', null: false
         t.integer 'cost_type_id'
-        t.string 'comments',                                      default: '', null: false
-        t.decimal 'budget',         precision: 15, scale: 4
+        t.string 'comments', default: '', null: false
+        t.decimal 'budget', precision: 15, scale: 4
       end
 
       create_table 'rates', id: :integer do |t|
-        t.date 'valid_from',                                  null: false
-        t.decimal 'rate',         precision: 15, scale: 4, null: false
-        t.string 'type',                                        null: false
+        t.date 'valid_from', null: false
+        t.decimal 'rate', precision: 15, scale: 4, null: false
+        t.string 'type', null: false
         t.integer 'project_id'
         t.integer 'user_id'
         t.integer 'cost_type_id'
@@ -119,7 +118,7 @@ class ToV710AggregatedCostsMigrations < ActiveRecord::Migration[5.1]
         t.integer :journal_id,  null: false
         t.integer :project_id,  null: false
         t.integer :author_id,   null: false
-        t.string :subject,     null: false
+        t.string :subject, null: false
         t.text :description
         t.date :fixed_date,  null: false
         t.datetime :created_on

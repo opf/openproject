@@ -39,7 +39,6 @@ module OpenProject::TextFormatting
         if process_node!(content, context)
           node.replace(content)
         end
-
       rescue RuntimeError
         # If an error is occurred, instead of failing hard, simply do not replace.
       end

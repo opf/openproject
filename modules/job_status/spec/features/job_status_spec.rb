@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Job status', type: :feature, js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
 
   before do
     login_as admin

@@ -31,14 +31,14 @@ require 'spec_helper'
 module Redmine
   describe UnifiedDiff do
     before do
-      @diff = Redmine::UnifiedDiff.new(<<-DIFF
---- old.js Thu May 11 14:24:58 2014
-+++ new.js Thu May 11 14:25:02 2014
-@@ -0,0 +1,1 @@
-+<script>someMethod();</script>
-@@ -1,2 +1,2 @@
--text text
-+text modified
+      @diff = Redmine::UnifiedDiff.new(<<~DIFF
+        --- old.js Thu May 11 14:24:58 2014
+        +++ new.js Thu May 11 14:25:02 2014
+        @@ -0,0 +1,1 @@
+        +<script>someMethod();</script>
+        @@ -1,2 +1,2 @@
+        -text text
+        +text modified
       DIFF
                                       )
     end
@@ -70,12 +70,12 @@ module Redmine
          Test 3
          Test 4
       DIFF
-      )
+                              )
     end
 
     subject do
       [].tap do |lines|
-        diff.first.each_line { |_,l| lines << [l.html_line_left, l.html_line_right] }
+        diff.first.each_line { |_, l| lines << [l.html_line_left, l.html_line_right] }
       end
     end
 

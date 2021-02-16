@@ -8,12 +8,12 @@ describe 'Watcher tab', js: true, selenium: true do
   let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
   let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:permissions) {
+  let(:permissions) do
     %i(view_work_packages
        view_work_package_watchers
        delete_work_package_watchers
        add_work_package_watchers)
-  }
+  end
 
   let(:watch_button) { find '#watch-button' }
   let(:watchers_tab) { find('.tabrow li.selected', text: 'WATCHERS') }
@@ -83,12 +83,12 @@ describe 'Watcher tab', js: true, selenium: true do
     end
 
     context 'with a user with arbitrary characters' do
-      let!(:html_user) {
+      let!(:html_user) do
         FactoryBot.create :user,
-                           firstname: '<em>foo</em>',
-                           member_in_project: project,
-                           member_through_role: role
-      }
+                          firstname: '<em>foo</em>',
+                          member_in_project: project,
+                          member_through_role: role
+      end
 
       it 'escapes the user name' do
         autocomplete = find('.wp-watcher--autocomplete')
@@ -119,7 +119,7 @@ describe 'Watcher tab', js: true, selenium: true do
     let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
     it_behaves_like 'watchers tab'
   end
-  
+
   context 'when the work package has a watcher' do
     let(:watchers) { FactoryBot.create(:watcher, watchable: work_package, user: user) }
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -129,11 +129,11 @@ describe 'Watcher tab', js: true, selenium: true do
       login_as(user)
       wp_table.visit!
       wp_table.expect_work_package_listed work_package
-    end 
-    
+    end
+
     it 'should show the number of watchers [#33685]' do
       wp_table.open_full_screen_by_doubleclick(work_package)
-      expect(page).to have_selector('.wp-tabs-count',  text: 1)
+      expect(page).to have_selector('.wp-tabs-count', text: 1)
     end
   end
 

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'index users', type: :feature, with_clean_fixture: true do
+describe 'index users', type: :feature do
   shared_let(:current_user) { FactoryBot.create :admin, firstname: 'admin', lastname: 'admin', created_at: 1.hour.ago }
   let(:index_page) { Pages::Admin::Users::Index.new }
 
@@ -37,9 +37,9 @@ describe 'index users', type: :feature, with_clean_fixture: true do
   end
 
   describe 'with some sortable users' do
-    let!(:a_user) { FactoryBot.create :user, login: 'a_login', firstname: 'a_first', lastname: 'xxx_a' }
-    let!(:b_user) { FactoryBot.create :user, login: 'b_login', firstname: 'b_first', lastname: 'nnn_b' }
-    let!(:z_user) { FactoryBot.create :user, login: 'z_login', firstname: 'z_first', lastname: 'ccc_z' }
+    let!(:a_user) { FactoryBot.create :user, login: 'aa_login', firstname: 'aa_first', lastname: 'xxx_a' }
+    let!(:b_user) { FactoryBot.create :user, login: 'bb_login', firstname: 'bb_first', lastname: 'nnn_b' }
+    let!(:z_user) { FactoryBot.create :user, login: 'zz_login', firstname: 'zz_first', lastname: 'ccc_z' }
 
     it 'sorts them correctly (Regression #35012)' do
       index_page.visit!
@@ -147,7 +147,7 @@ describe 'index users', type: :feature, with_clean_fixture: true do
     end
 
     context 'as global user' do
-      using_shared_fixtures :global_add_user
+      shared_let(:global_add_user) { FactoryBot.create :user, global_permission: :add_user }
       let(:current_user) { global_add_user }
 
       it 'can too visit the page' do

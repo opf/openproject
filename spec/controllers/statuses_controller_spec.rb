@@ -91,7 +91,7 @@ describe StatusesController, type: :controller do
     context 'default' do
       let!(:status_default) do
         FactoryBot.create(:status,
-                           is_default: true)
+                          is_default: true)
       end
 
       before do
@@ -156,7 +156,7 @@ describe StatusesController, type: :controller do
     shared_examples_for :destroyed do
       subject { Status.find_by(name: name) }
 
-      it { is_expected.to be_nil}
+      it { is_expected.to be_nil }
     end
 
     context 'unused' do

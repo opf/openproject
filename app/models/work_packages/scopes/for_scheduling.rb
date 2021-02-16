@@ -120,45 +120,45 @@ module WorkPackages::Scopes
         values = work_packages.map { |wp| "(#{wp.id}, false)" }.join(', ')
 
         <<~SQL
-          to_schedule (id, manually) AS (
-            SELECT * FROM (VALUES#{values}) AS t(id, manually)
+             to_schedule (id, manually) AS (
+               SELECT * FROM (VALUES#{values}) AS t(id, manually)
 
-            UNION
+               UNION
 
-            SELECT
-              CASE
-                WHEN relations.to_id = to_schedule.id
-                THEN relations.from_id
-                ELSE relations.to_id
-              END id,
-              (work_packages.schedule_manually OR COALESCE(descendants.schedule_manually, false)) manually
-            FROM
-              to_schedule
-            JOIN
-              relations
-              ON NOT to_schedule.manually
-              AND (#{relations_condition_sql})
-              AND
-                ((relations.to_id = to_schedule.id)
-                OR (relations.from_id = to_schedule.id AND relations.follows = 0))
-            LEFT JOIN work_packages
-              ON (CASE
-                WHEN relations.to_id = to_schedule.id
-                THEN relations.from_id
-                ELSE relations.to_id
-                END) = work_packages.id
-            LEFT JOIN (
-              SELECT
-                relations.from_id,
-                bool_and(COALESCE(work_packages.schedule_manually, false)) schedule_manually
-              FROM relations relations
-              JOIN work_packages
-              ON
-                work_packages.id = relations.to_id
-                AND relations.follows = 0 AND #{relations_condition_sql(transitive: true)}
-              GROUP BY relations.from_id
-					  ) descendants ON work_packages.id = descendants.from_id
-          )
+               SELECT
+                 CASE
+                   WHEN relations.to_id = to_schedule.id
+                   THEN relations.from_id
+                   ELSE relations.to_id
+                 END id,
+                 (work_packages.schedule_manually OR COALESCE(descendants.schedule_manually, false)) manually
+               FROM
+                 to_schedule
+               JOIN
+                 relations
+                 ON NOT to_schedule.manually
+                 AND (#{relations_condition_sql})
+                 AND
+                   ((relations.to_id = to_schedule.id)
+                   OR (relations.from_id = to_schedule.id AND relations.follows = 0))
+               LEFT JOIN work_packages
+                 ON (CASE
+                   WHEN relations.to_id = to_schedule.id
+                   THEN relations.from_id
+                   ELSE relations.to_id
+                   END) = work_packages.id
+               LEFT JOIN (
+                 SELECT
+                   relations.from_id,
+                   bool_and(COALESCE(work_packages.schedule_manually, false)) schedule_manually
+                 FROM relations relations
+                 JOIN work_packages
+                 ON
+                   work_packages.id = relations.to_id
+                   AND relations.follows = 0 AND #{relations_condition_sql(transitive: true)}
+                 GROUP BY relations.from_id
+          ) descendants ON work_packages.id = descendants.from_id
+             )
         SQL
       end
 

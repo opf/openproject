@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../shared/become_member', __FILE__)
+require File.expand_path('shared/become_member', __dir__)
 
 module PermissionSpecs
   def self.included(base)

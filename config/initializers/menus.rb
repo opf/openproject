@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -152,6 +153,11 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/users' },
             if: Proc.new { User.current.admin? },
             caption: :label_user_plural,
+            parent: :users_and_permissions
+
+  menu.push :placeholder_users,
+            { controller: '/placeholder_users' },
+            caption: :label_placeholder_user_plural,
             parent: :users_and_permissions
 
   menu.push :groups,
@@ -338,13 +344,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :admin_costs
 
   menu.push :admin_backlogs,
-            { controller: '/settings', action: 'plugin', id: :openproject_backlogs },
+            { controller: '/backlogs_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_backlogs,
             icon: 'icon2 icon-backlogs'
 
   menu.push :backlogs_settings,
-            { controller: '/settings', action: 'plugin', id: :openproject_backlogs },
+            { controller: '/backlogs_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_setting_plural,
             parent: :admin_backlogs
@@ -370,7 +376,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-view-timeline',
             html: {
               id: 'main-menu-work-packages',
-              :'wp-query-menu' => 'wp-query-menu'
+              'wp-query-menu': 'wp-query-menu'
             }
 
   menu.push :work_packages_query_select,

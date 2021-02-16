@@ -716,13 +716,15 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       context 'when the user has the permission to add and remove watchers' do
         it 'should have a link to add watcher' do
           expect(subject).to be_json_eql(
-                               api_v3_paths.work_package_watchers(work_package.id).to_json)
+            api_v3_paths.work_package_watchers(work_package.id).to_json
+          )
             .at_path('_links/addWatcher/href')
         end
 
         it 'should have a link to remove watcher' do
           expect(subject).to be_json_eql(
-                               api_v3_paths.watcher('{user_id}', work_package.id).to_json)
+            api_v3_paths.watcher('{user_id}', work_package.id).to_json
+          )
             .at_path('_links/removeWatcher/href')
         end
       end
@@ -801,7 +803,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           it_behaves_like 'has a titled link' do
             let(:link) { 'timeEntries' }
             let(:href) do
-              api_v3_paths.path_for(:time_entries, filters: [{ work_package_id: { operator: "=", values: [work_package.id.to_s] } }])
+              api_v3_paths.path_for(:time_entries,
+                                    filters: [{ work_package_id: { operator: "=", values: [work_package.id.to_s] } }])
             end
             let(:title) { 'Time entries' }
           end
@@ -1120,7 +1123,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it 'is based on the representer\'s cache_key' do
         allow(OpenProject::Cache)
           .to receive(:fetch)
-          .and_return({_links: {}}.to_json)
+          .and_return({ _links: {} }.to_json)
         expect(OpenProject::Cache)
           .to receive(:fetch)
           .with(representer.json_cache_key)

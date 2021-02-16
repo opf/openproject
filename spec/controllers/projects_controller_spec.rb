@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ProjectsController, type: :controller do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:non_member) { FactoryBot.create :non_member }
 
   before do
@@ -113,7 +113,6 @@ describe ProjectsController, type: :controller do
 
   context 'with default modules',
           with_settings: { default_projects_modules: %w(work_package_tracking repository) } do
-
     it 'should create should preserve modules on validation failure' do
       expect do
         post :create,
@@ -192,7 +191,7 @@ describe ProjectsController, type: :controller do
       # We need at least one givable role to make the user member
       let!(:role) { FactoryBot.create :role, permissions: [:view_project] }
       before do
-        non_member.update_attribute :permissions, [:add_project, :view_work_packages]
+        non_member.update_attribute :permissions, %i[add_project view_work_packages]
         login_as non_member_user
       end
 
@@ -565,8 +564,8 @@ describe ProjectsController, type: :controller do
 
         it 'sets flash[:error]' do
           expect(flash[:error]).to include(
-                                     "You cannot update the project's available custom fields. The project is invalid:"
-                                   )
+            "You cannot update the project's available custom fields. The project is invalid:"
+          )
         end
       end
     end
@@ -594,7 +593,7 @@ describe ProjectsController, type: :controller do
             params: {
               id: project.id,
               project: {
-                name: 'Test changed name',
+                name: 'Test changed name'
               }
             }
 

@@ -34,18 +34,18 @@ describe 'API::V3::CustomActions::CustomActionsAPI', type: :request do
 
   let(:role) do
     FactoryBot.create(:role,
-                       permissions: %i[edit_work_packages view_work_packages])
+                      permissions: %i[edit_work_packages view_work_packages])
   end
   let(:project) { FactoryBot.create(:project) }
   let(:work_package) do
     FactoryBot.create(:work_package,
-                       project: project,
-                       assigned_to: user)
+                      project: project,
+                      assigned_to: user)
   end
   let(:user) do
     FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_through_role: role)
+                      member_in_project: project,
+                      member_through_role: role)
   end
   let(:action) do
     FactoryBot.create(:custom_action, actions: [CustomActions::Actions::AssignedTo.new(nil)])

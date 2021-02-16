@@ -50,8 +50,8 @@ describe 'Cost report saving', type: :feature, js: true do
     let(:role) { FactoryBot.create :role, permissions: %i(view_time_entries) }
     let!(:user) do
       FactoryBot.create :user,
-                         member_in_project: project,
-                         member_through_role: role
+                        member_in_project: project,
+                        member_through_role: role
     end
 
     it 'cannot save reports' do

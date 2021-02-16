@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -33,24 +34,23 @@ describe SCM::CheckoutInstructionsService do
   let(:project) { FactoryBot.build(:project) }
 
   let(:url) { 'file:///tmp/some/svn/repo' }
-  let(:repository) {
+  let(:repository) do
     FactoryBot.build(:repository_subversion,
-                      url: url,
-                      project: project)
-  }
+                     url: url,
+                     project: project)
+  end
 
   let(:base_url) { 'http://example.org/svn/' }
   let(:path) { nil }
   let(:text) { 'foo' }
-  let(:checkout_hash) {
+  let(:checkout_hash) do
     {
       'git' => { 'enabled' => '0' },
       'subversion' => { 'enabled' => '1',
                         'text' => text,
-                        'base_url' => base_url
-                      }
+                        'base_url' => base_url }
     }
-  }
+  end
 
   subject(:service) { SCM::CheckoutInstructionsService.new(repository, user: user, path: path) }
 

@@ -27,11 +27,9 @@
 #++
 
 module OpenProject::GithubIntegration
-
   ##
   # Handles github-related notifications.
   module NotificationHandlers
-
     ##
     # Handles a pull_request webhook notification.
     # The payload looks similar to this:
@@ -53,8 +51,9 @@ module OpenProject::GithubIntegration
       # Don't add comments about assignments and labels either.
       ignored_actions = %w[synchronize assigned unassigned labeled unlabeled]
       return if ignored_actions.include? payload['action']
+
       comment_on_referenced_work_packages payload['pull_request']['body'], payload
-    rescue => e
+    rescue StandardError => e
       Rails.logger.error "Failed to handle pull_request event: #{e} #{e.message}"
       raise e
     end
@@ -78,8 +77,9 @@ module OpenProject::GithubIntegration
     def self.issue_comment(payload)
       # if the comment is not associated with a PR, ignore it
       return unless payload['issue']['pull_request']['html_url']
+
       comment_on_referenced_work_packages payload['comment']['body'], payload
-    rescue => e
+    rescue StandardError => e
       Rails.logger.error "Failed to handle issue_comment event: #{e} #{e.message}"
       raise e
     end
@@ -125,7 +125,7 @@ module OpenProject::GithubIntegration
       wp_regex = /OP#(\d+)|http(?:s?):\/\/#{host_name}\/(?:\S+?\/)*(?:work_packages|wp)\/([0-9]+)/
 
       source.scan(wp_regex)
-        .map {|first, second| (first || second).to_i }
+        .map { |first, second| (first || second).to_i }
         .select { |el| el > 0 }
         .uniq
     end
@@ -173,26 +173,26 @@ module OpenProject::GithubIntegration
       return nil unless key
 
       I18n.t("github_integration.pull_request_#{key}_comment",
-             :pr_number => payload['number'],
-             :pr_title => payload['pull_request']['title'],
-             :pr_url => payload['pull_request']['html_url'],
-             :repository => payload['pull_request']['base']['repo']['full_name'],
-             :repository_url => payload['pull_request']['base']['repo']['html_url'],
-             :github_user => payload['sender']['login'],
-             :github_user_url => payload['sender']['html_url'])
+             pr_number: payload['number'],
+             pr_title: payload['pull_request']['title'],
+             pr_url: payload['pull_request']['html_url'],
+             repository: payload['pull_request']['base']['repo']['full_name'],
+             repository_url: payload['pull_request']['base']['repo']['html_url'],
+             github_user: payload['sender']['login'],
+             github_user_url: payload['sender']['html_url'])
     end
 
     def self.notes_for_issue_comment_payload(payload)
       return nil unless payload['action'] == 'created'
 
       I18n.t("github_integration.pull_request_referenced_comment",
-             :pr_number => payload['issue']['number'],
-             :pr_title => payload['issue']['title'],
-             :pr_url => payload['comment']['html_url'],
-             :repository => payload['repository']['full_name'],
-             :repository_url => payload['repository']['html_url'],
-             :github_user => payload['comment']['user']['login'],
-             :github_user_url => payload['comment']['user']['html_url'])
+             pr_number: payload['issue']['number'],
+             pr_title: payload['issue']['title'],
+             pr_url: payload['comment']['html_url'],
+             repository: payload['repository']['full_name'],
+             repository_url: payload['repository']['html_url'],
+             github_user: payload['comment']['user']['login'],
+             github_user_url: payload['comment']['user']['html_url'])
     end
   end
 end

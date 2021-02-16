@@ -6,4 +6,3 @@ FactoryBot.define do
     auth_source factory: :ldap_auth_source
   end
 end
-

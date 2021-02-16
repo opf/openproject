@@ -38,16 +38,16 @@ describe Authorization::UserGlobalRolesQuery do
   let(:role2) { FactoryBot.build(:role) }
   let(:anonymous_role) { FactoryBot.build(:anonymous_role) }
   let(:non_member) { FactoryBot.build(:non_member) }
-  let(:member) {
+  let(:member) do
     FactoryBot.build(:member, project: project,
-                               roles: [role],
-                               principal: user)
-  }
-  let(:member2) {
+                              roles: [role],
+                              principal: user)
+  end
+  let(:member2) do
     FactoryBot.build(:member, project: project2,
-                               roles: [role2],
-                               principal: user)
-  }
+                              roles: [role2],
+                              principal: user)
+  end
   let(:global_permission) { OpenProject::AccessControl.permissions.find { |p| p.global? } }
   let(:global_role) do
     FactoryBot.build(:global_role,

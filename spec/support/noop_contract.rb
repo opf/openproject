@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,8 +29,7 @@
 #++
 
 class NoopContract
-  def initialize(*_)
-  end
+  def initialize(*_); end
 
   def validate
     true

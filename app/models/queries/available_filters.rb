@@ -95,6 +95,7 @@ module Queries::AvailableFilters
 
   def initialize_filter(filter)
     return if already_initialized_filters.include?(filter)
+
     already_initialized_filters << filter
 
     new_filters = filter.all_for(context)

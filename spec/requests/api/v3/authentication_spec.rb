@@ -35,9 +35,9 @@ describe API::V3, type: :request do
 
     let(:response_401) do
       {
-        '_type'           => 'Error',
+        '_type' => 'Error',
         'errorIdentifier' => 'urn:openproject-org:api:v3:errors:Unauthenticated',
-        'message'         => expected_message
+        'message' => expected_message
       }
     end
 
@@ -127,7 +127,6 @@ describe API::V3, type: :request do
           it 'should return the correct content type header' do
             expect(last_response.headers['Content-Type']).to eq 'application/hal+json; charset=utf-8'
           end
-
 
           it 'should return the WWW-Authenticate header' do
             expect(last_response.header['WWW-Authenticate'])

@@ -139,7 +139,6 @@ describe CustomField, type: :model do
 
     describe "WITH a text field
               WITH an invalid regexp" do
-
       before do
         field.field_format = 'text'
         field.regexp = '[0-9}'

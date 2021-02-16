@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -30,7 +31,9 @@ module Bim
   module BasicData
     class ThemeSeeder < Seeder
       def seed_data!
-        theme = OpenProject::CustomStyles::ColorThemes.themes.find { |t| t[:theme] == OpenProject::CustomStyles::ColorThemes::BIM_THEME_NAME }
+        theme = OpenProject::CustomStyles::ColorThemes.themes.find do |t|
+          t[:theme] == OpenProject::CustomStyles::ColorThemes::BIM_THEME_NAME
+        end
 
         ::Design::UpdateDesignService
           .new(theme)

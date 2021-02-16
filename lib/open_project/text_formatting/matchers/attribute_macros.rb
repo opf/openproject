@@ -52,7 +52,7 @@ module OpenProject::TextFormatting
         content.include?('Label:') || content.include?('Value:')
       end
 
-      def self.process_match(m, matched_string, context)
+      def self.process_match(m, _matched_string, _context)
         # Leading string before match
         macro_attributes = {
           model: m[1],

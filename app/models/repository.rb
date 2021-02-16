@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -217,6 +218,7 @@ class Repository < ApplicationRecord
   def find_changeset_by_name(name)
     name = name.to_s
     return nil if name.blank?
+
     changesets.where((name.match(/\A\d*\z/) ? ['revision = ?', name] : ['revision LIKE ?', name + '%'])).first
   end
 
@@ -316,7 +318,6 @@ class Repository < ApplicationRecord
   def self.scan_changesets_for_work_package_ids
     all.each(&:scan_changesets_for_work_package_ids)
   end
-
 
   ##
   # Builds a model instance of type +Repository::#{vendor}+ with the given parameters.

@@ -59,7 +59,7 @@ describe 'API v3 members available projects resource', type: :request do
                         user: current_user)
     end
   end
-  #let(:membered_project) do
+  # let(:membered_project) do
   #  FactoryBot.create(:project).tap do |p|
   #    FactoryBot.create(:member,
   #                      roles: [FactoryBot.create(:role, permissions: permissions)],
@@ -71,7 +71,7 @@ describe 'API v3 members available projects resource', type: :request do
   #                      project: p,
   #                      user: other_user)
   #  end
-  #end
+  # end
   let(:unauthorized_project) do
     FactoryBot.create(:public_project)
   end
