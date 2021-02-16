@@ -38,6 +38,9 @@ module Queries::PlaceholderUsers
   Queries::Register.filter Queries::PlaceholderUsers::PlaceholderUserQuery,
                            Queries::PlaceholderUsers::Filters::GroupFilter
 
+  Queries::Register.filter Queries::PlaceholderUsers::PlaceholderUserQuery,
+                           Queries::PlaceholderUsers::Filters::StatusFilter
+
   Queries::Register.order Queries::PlaceholderUsers::PlaceholderUserQuery,
                           Queries::PlaceholderUsers::Orders::DefaultOrder
 

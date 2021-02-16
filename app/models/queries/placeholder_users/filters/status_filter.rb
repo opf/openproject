@@ -28,11 +28,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class PlaceholderUsers::DeleteService < ::BaseServices::Delete
-  def destroy(placeholder)
-    placeholder.update_column(:status, Principal.statuses[:locked])
-    ::Principals::DeleteJob.perform_later(placeholder)
-
-    true
-  end
+class Queries::PlaceholderUsers::Filters::StatusFilter < Queries::PlaceholderUsers::Filters::PlaceholderUserFilter
+  include Queries::Filters::Shared::UserStatusFilter
 end
