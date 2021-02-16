@@ -26,25 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_dependency 'project_settings_helper'
-
-module OpenProject::Backlogs::Patches::ProjectSettingsHelperPatch
-  def self.included(base)
-    base.module_eval do
-      alias_method :project_settings_tabs_without_backlogs, :project_settings_tabs
-
-      def project_settings_tabs
-        project_settings_tabs_without_backlogs.tap do |settings|
-          settings << {
-            name: :backlogs,
-            action: { controller: '/backlogs_settings', action: 'show' },
-            label: :label_backlogs,
-            if: ->(p) { p.module_enabled?('backlogs') }
-          }
-        end
-      end
-    end
+FactoryBot.define do
+  factory :journal_time_entry_journal, class: Journal::TimeEntryJournal do
   end
 end
-
-ProjectSettingsHelper.include OpenProject::Backlogs::Patches::ProjectSettingsHelperPatch

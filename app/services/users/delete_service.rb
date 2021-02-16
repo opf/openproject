@@ -40,7 +40,7 @@ module Users
       # as destroying users is a lengthy process we handle it in the background
       # and lock the account now so that no action can be performed with it
       user_object.lock!
-      DeleteUserJob.perform_later(user_object)
+      ::Principals::DeleteJob.perform_later(user_object)
 
       logout! if self_delete?
 

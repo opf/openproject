@@ -122,11 +122,11 @@ class PlaceholderUsersController < ApplicationController
   end
 
   def destroy
-    Users::DeleteService.new(user: User.current,
-                             model: @placeholder_user)
+    PlaceholderUsers::DeleteService
+      .new(user: User.current, model: @placeholder_user)
       .call
 
-    flash[:notice] = I18n.t('account.deleted')
+    flash[:info] = I18n.t(:notice_deletion_scheduled)
 
     respond_to do |format|
       format.html do
@@ -144,7 +144,7 @@ class PlaceholderUsersController < ApplicationController
   end
 
   def check_if_deletion_allowed
-    render_404 unless PlaceholderUsers::DeleteService.deletion_allowed? @placeholder_user, User.current
+    render_404 unless PlaceholderUsers::DeleteContract.deletion_allowed?(current_user)
   end
 
   protected

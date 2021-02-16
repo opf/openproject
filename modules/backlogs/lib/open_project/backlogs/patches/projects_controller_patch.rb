@@ -65,7 +65,7 @@ module OpenProject::Backlogs::Patches::ProjectsControllerPatch
     end
 
     def redirect_to_backlogs_settings
-      redirect_to controller: 'backlogs_settings', action: 'show', id: @project
+      redirect_to controller: 'backlogs_project_settings', action: 'show', id: @project
     end
   end
 end

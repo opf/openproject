@@ -79,7 +79,7 @@ ja:
   label_costlog: "単価を記録"
   label_cost_plural: "コスト"
   label_cost_type_plural: "コスト種類"
-  label_cost_type_specific: "Cost type #%{id}: %{name}"
+  label_cost_type_specific: "コスト種類 #%{id}: %{name}"
   label_costs_per_page: "1ページあたりのコスト"
   label_currency: "通貨"
   label_currency_format: "通貨の形式"

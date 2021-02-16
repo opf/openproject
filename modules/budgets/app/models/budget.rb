@@ -59,10 +59,6 @@ class Budget < ApplicationRecord
   validates_length_of :subject, maximum: 255
   validates_length_of :subject, minimum: 1
 
-  User.before_destroy do |user|
-    Budget.replace_author_with_deleted_user user
-  end
-
   class << self
     def visible(user)
       includes(:project)
@@ -78,12 +74,6 @@ class Budget < ApplicationRecord
       copy_budget_items(source, copy, items: :material_budget_items)
 
       copy
-    end
-
-    def replace_author_with_deleted_user(user)
-      substitute = DeletedUser.first
-
-      where(author_id: user.id).update_all(author_id: substitute.id)
     end
 
     protected

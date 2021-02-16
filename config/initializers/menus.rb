@@ -351,13 +351,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :admin_costs
 
   menu.push :admin_backlogs,
-            { controller: '/settings', action: 'plugin', id: :openproject_backlogs },
+            { controller: '/backlogs_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_backlogs,
             icon: 'icon2 icon-backlogs'
 
   menu.push :backlogs_settings,
-            { controller: '/settings', action: 'plugin', id: :openproject_backlogs },
+            { controller: '/backlogs_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_setting_plural,
             parent: :admin_backlogs

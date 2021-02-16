@@ -36,8 +36,6 @@ class Group < Principal
 
   acts_as_customizable
 
-  before_destroy :remove_references_before_destroy
-
   alias_attribute(:groupname, :lastname)
   validates_presence_of :groupname
   validate :uniqueness_of_groupname
@@ -93,18 +91,6 @@ class Group < Principal
   end
 
   private
-
-  # Removes references that are not handled by associations
-  def remove_references_before_destroy
-    return if id.nil?
-
-    deleted_user = DeletedUser.first
-
-    WorkPackage.where(assigned_to_id: id).update_all(assigned_to_id: deleted_user.id)
-
-    Journal::WorkPackageJournal.where(assigned_to_id: id)
-      .update_all(assigned_to_id: deleted_user.id)
-  end
 
   def uniqueness_of_groupname
     groups_with_name = Group.where('lastname = ? AND id <> ?', groupname, id || 0).count

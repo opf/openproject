@@ -87,12 +87,6 @@ module OpenProject::Meeting
     end
 
     config.to_prepare do
-      # load classes so that all User.before_destroy filters are loaded
-      require_dependency 'meeting'
-      require_dependency 'meeting_agenda'
-      require_dependency 'meeting_minutes'
-      require_dependency 'meeting_participant'
-
       PermittedParams.permit(:search, :meetings)
     end
 

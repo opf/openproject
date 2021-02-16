@@ -272,11 +272,11 @@ sl:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-1-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              Verzija vsebuje veliko novih funkcij in izboljšav:br> <ul class="%{list_styling_class}"> <li><b>Izboljšani stili</b> WYSIWYG urednika.</li> <li>Direkten prikaz <b>uporabniškega imena za @obvestila</b> med urejanjem.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              Verzija vsebuje veliko novih funkcij in izboljšav:br> <ul class="%{list_styling_class}"> <li><b>Izboljšani stili</b> WYSIWYG urednika.</li> <li>Direkten prikaz <b>uporabniškega imena za @obvestila</b> med urejanjem.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
     label_activate: "Aktiviraj"
     label_add_column_after: "Dodaj stolpec za"
     label_add_column_before: "Dodaj stolpec pred"
@@ -332,7 +332,7 @@ sl:
     label_filename: "Datoteka"
     label_filesize: "Velikost"
     label_general: "Splošno"
-    label_global_roles: "Globalna pravila"
+    label_global_roles: "Globalne vloge"
     label_greater_or_equal: ">="
     label_group: 'Skupina'
     label_group_by: "Razvrsti po"

@@ -28,10 +28,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class DeleteUserJob < ApplicationJob
-  queue_with_priority :low
+class BacklogsProjectSettingsController < ProjectSettingsController
+  menu_item :settings_backlogs
 
-  def perform(user)
-    user.destroy
+  def show
+    @statuses_done_for_project = @project.done_statuses.select(:id).map(&:id)
+    render template: '/project_settings/backlogs_settings'
   end
 end
