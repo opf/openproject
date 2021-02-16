@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,33 +26,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-##
-# Implements the deletion of a user.
-module Users
-  class DeleteService < ::BaseServices::Delete
-    ##
-    # Deletes the given user if allowed.
-    #
-    # @return True if the user deletion has been initiated, false otherwise.
-    def destroy(user_object)
-      # as destroying users is a lengthy process we handle it in the background
-      # and lock the account now so that no action can be performed with it
-      user_object.lock!
-      ::Principals::DeleteJob.perform_later(user_object)
+class CostQuery::Filter::ResponsibleId < CostQuery::Filter::UserId
+  use :null_operators
+  join_table WorkPackage
+  applies_for :label_work_package_attributes
 
-      logout! if self_delete?
+  def self.label
+    WorkPackage.human_attribute_name(:responsible)
+  end
 
-      true
-    end
-
-    private
-
-    def self_delete?
-      user == model
-    end
-
-    def logout!
-      User.current = nil
-    end
+  def self.available_values(*)
+    CostQuery::Filter::UserId.available_values
   end
 end

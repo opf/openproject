@@ -89,10 +89,6 @@ class Meeting < ApplicationRecord
 
   after_initialize :set_initial_values
 
-  User.before_destroy do |user|
-    Meeting.where(['author_id = ?', user.id]).update_all ['author_id = ?', DeletedUser.first.id]
-  end
-
   ##
   # Return the computed start_time when changed
   def start_time

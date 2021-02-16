@@ -1906,6 +1906,7 @@ en:
   notice_email_sent: "An email was sent to %{value}"
   notice_failed_to_save_work_packages: "Failed to save %{count} work package(s) on %{total} selected: %{ids}."
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
 
   notice_file_not_found: "The page you were trying to access doesn't exist or has been removed."
   notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."

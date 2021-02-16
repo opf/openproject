@@ -82,6 +82,9 @@ describe GroupsController, type: :controller do
 
     it 'should destroy' do
       delete :destroy, params: { id: group.id }
+
+      perform_enqueued_jobs
+
       expect { group.reload }.to raise_error ActiveRecord::RecordNotFound
 
       expect(response).to redirect_to groups_path
