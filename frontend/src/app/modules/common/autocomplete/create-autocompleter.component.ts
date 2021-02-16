@@ -144,7 +144,6 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   }
 
   public onAddNewClick($event:Event) {
-    console.log($event);
     $event.stopPropagation();
     this.onAddNew.emit();
   }

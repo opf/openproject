@@ -70,9 +70,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
     super.ngOnInit();
 
     if (this.locals.projectId) {
-      debugger;
       this.apiV3Service.projects.id(this.locals.projectId).get().subscribe(data => {
-        console.log(data);
         this.project = data;
       });
     }
