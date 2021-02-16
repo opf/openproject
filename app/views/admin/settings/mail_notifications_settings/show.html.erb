@@ -31,7 +31,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= toolbar title: t(:'activerecord.attributes.user.mail_notification') %>
 
-<%= styled_form_tag(admin_mail_notifications_path, method: :patch) do %>
+<%= styled_form_tag(admin_settings_mail_notifications_path, method: :patch) do %>
   <% if @deliveries %>
     <section class="form--section">
       <div class="form--field"><%= setting_text_field :mail_from, size: 60, container_class: '-middle' %></div>

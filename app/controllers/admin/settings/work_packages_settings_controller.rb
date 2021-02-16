@@ -28,22 +28,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Settings::APIController < SettingsController
-  include AdminSettingsUpdater
+module Admin::Settings
+  class WorkPackagesSettingsController < ::Admin::SettingsController
+    current_menu_item :index do
+      :work_packages_setting
+    end
 
-  menu_item :settings_api
+    def show
+      render template: 'work_packages/settings/work_package_tracking'
+    end
 
-  def show
-    render template: 'settings/_api'
-  end
+    def default_breadcrumb
+      t(:label_work_package_tracking)
+    end
 
-  def default_breadcrumb
-    t(:label_api_access_key_type)
-  end
-
-  def settings_params
-    super.tap do |settings|
-      settings["apiv3_cors_origins"] = settings["apiv3_cors_origins"].split(/\r?\n/)
+    def show_local_breadcrumb
+      true
     end
   end
 end

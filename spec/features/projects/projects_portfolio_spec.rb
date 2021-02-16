@@ -82,7 +82,7 @@ describe 'Projects index page',
     let!(:work_package_b) { FactoryBot.create :work_package, subject: 'WP B', type: type_milestone, project: project_b }
 
     it 'can manage and browse the project portfolio Gantt' do
-      visit projects_settings_path
+      visit projects_admin_settings_path
 
       # It has checked all selected settings
       Setting.enabled_projects_columns.each do |name|

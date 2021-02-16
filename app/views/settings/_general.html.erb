@@ -28,7 +28,7 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= toolbar title: t(:label_general) %>
 
-<%= styled_form_tag(update_general_settings_path, method: :patch) do %>
+<%= styled_form_tag(update_general_admin_settings_path, method: :patch) do %>
   <section class="form--section">
     <div class="form--field"><%= setting_text_field :app_title, size: 30, container_class: '-middle' %></div>
     <div class="form--field">

@@ -35,14 +35,14 @@ describe 'Settings', type: :feature do
     before do
       login_as(admin)
 
-      visit '/settings/api'
+      visit '/admin/settings/api'
     end
 
     shared_examples "it can be visited" do
       let(:section) { raise "define me" }
 
       before do
-        visit "/settings/#{section}"
+        visit "/admin/settings/#{section}"
       end
 
       it "can be visited" do

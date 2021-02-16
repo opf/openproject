@@ -29,20 +29,24 @@
 require 'spec_helper'
 
 describe 'settings routes', type: :routing do
-  it { expect(get('/settings')).to route_to('settings#show') }
+  it { expect(get('/admin/settings'))
+    .to route_to('admin/settings#show') }
 
   it do
-    expect(patch('/settings')).to route_to('settings#update')
+    expect(patch('/admin/settings'))
+      .to route_to('admin/settings#update')
   end
 
   it do
-    expect(get('/settings/plugin/abc')).to route_to(controller: 'settings',
-                                                    action: 'plugin',
-                                                    id: 'abc')
+    expect(get('/admin/settings/plugin/abc'))
+      .to route_to(controller: 'admin/settings',
+                   action: 'plugin',
+                   id: 'abc')
   end
   it do
-    expect(post('/settings/plugin/abc')).to route_to(controller: 'settings',
-                                                     action: 'plugin',
-                                                     id: 'abc')
+    expect(post('/admin/settings/plugin/abc'))
+      .to route_to(controller: 'admin/settings',
+                   action: 'plugin',
+                   id: 'abc')
   end
 end

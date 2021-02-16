@@ -28,18 +28,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Admin::IncomingMailsController < ApplicationController
-  include AdminSettingsUpdater
+module Admin::Settings
+  class AuthenticationSettingsController < ::Admin::SettingsController
+    menu_item :authentication_settings
 
-  current_menu_item [:show] do
-    :incoming_mails
-  end
+    def show; end
 
-  def default_breadcrumb
-    t(:label_incoming_emails)
-  end
+    def default_breadcrumb
+      t(:label_authentication)
+    end
 
-  def show_local_breadcrumb
-    true
+    def show_local_breadcrumb
+      true
+    end
   end
 end

@@ -28,23 +28,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Admin::MailNotificationsController < ApplicationController
-  include AdminSettingsUpdater
+module Admin::Settings
+  class GeneralSettingsController < ::Admin::SettingsController
+    menu_item :settings_general
 
-  current_menu_item [:show] do
-    :mail_notifications
-  end
+    def show
+      render template: 'settings/_general'
+    end
 
-  def show
-    @deliveries = ActionMailer::Base.perform_deliveries
-    @notifiables = Redmine::Notifiable.all
-  end
-
-  def default_breadcrumb
-    t(:'activerecord.attributes.user.mail_notification')
-  end
-
-  def show_local_breadcrumb
-    true
+    def default_breadcrumb
+      t(:label_general)
+    end
   end
 end

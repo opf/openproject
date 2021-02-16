@@ -28,17 +28,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module AdminSettingsUpdater
-  extend ActiveSupport::Concern
-
-  included do
+module Admin
+  class SettingsController < ApplicationController
     layout 'admin'
-
     before_action :require_admin
+
+    helper_method :gon
+
+    current_menu_item [:show] do
+      :settings
+    end
+
+    current_menu_item :plugin do |controller|
+      plugin = Redmine::Plugin.find(controller.params[:id])
+      plugin.settings[:menu_item] || :settings
+    rescue Redmine::PluginNotFound
+      :settings
+    end
+
+    def show
+      redirect_to general_admin_settings_path
+    end
 
     def update
       if params[:settings]
-        call = Settings::UpdateService
+        call = ::Settings::UpdateService
           .new(user: current_user)
           .call(settings_params)
 
@@ -46,6 +60,24 @@ module AdminSettingsUpdater
         call.on_failure { flash[:error] = call.message || I18n.t(:notice_internal_server_error) }
         redirect_to action: 'show', tab: params[:tab]
       end
+    end
+
+    def plugin
+      @plugin = Redmine::Plugin.find(params[:id])
+      if request.post?
+        Setting["plugin_#{@plugin.id}"] = params[:settings].permit!.to_h
+        flash[:notice] = I18n.t(:notice_successful_update)
+        redirect_to action: 'plugin', id: @plugin.id
+      else
+        @partial = @plugin.settings[:partial]
+        @settings = Setting["plugin_#{@plugin.id}"]
+      end
+    rescue Redmine::PluginNotFound
+      render_404
+    end
+
+    def show_local_breadcrumb
+      true
     end
 
     protected

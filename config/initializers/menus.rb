@@ -149,7 +149,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-group'
 
   menu.push :user_settings,
-            { controller: '/users_settings', action: :show },
+            { controller: '/admin/settings/users_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_setting_plural,
             parent: :users_and_permissions
@@ -179,19 +179,19 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :users_and_permissions
 
   menu.push :user_avatars,
-            { controller: '/settings', action: 'plugin', id: :openproject_avatars },
+            { controller: '/admin/settings', action: 'plugin', id: :openproject_avatars },
             if: Proc.new { User.current.admin? },
             caption: :label_avatar_plural,
             parent: :users_and_permissions
 
   menu.push :admin_work_packages,
-            { controller: '/work_packages/settings', action: :show },
+            { controller: '/admin/settings/work_packages_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_work_package_plural,
             icon: 'icon2 icon-view-timeline'
 
   menu.push :work_packages_setting,
-            { controller: '/work_packages/settings', action: :show },
+            { controller: '/admin/settings/work_packages_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_setting_plural,
             parent: :admin_work_packages
@@ -242,45 +242,45 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-enumerations'
 
   menu.push :settings,
-            { controller: '/settings/general', action: 'show' },
+            { controller: '/admin/settings/general_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_system_settings,
             icon: 'icon2 icon-settings2'
 
   SettingsHelper.system_settings_tabs.each do |node|
     menu.push :"settings_#{node[:name]}",
-              node[:action],
+              { controller: node[:controller], action: :show },
               caption: node[:label],
               if: Proc.new { User.current.admin? },
               parent: :settings
   end
 
   menu.push :email,
-            { controller: '/admin/mail_notifications', action: 'show' },
+            { controller: '/admin/settings/mail_notifications_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :'attributes.mail',
             icon: 'icon2 icon-mail1'
 
   menu.push :mail_notifications,
-            { controller: '/admin/mail_notifications', action: 'show' },
+            { controller: '/admin/settings/mail_notifications_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :'activerecord.attributes.user.mail_notification',
             parent: :email
 
   menu.push :incoming_mails,
-            { controller: '/admin/incoming_mails', action: 'show' },
+            { controller: '/admin/settings/incoming_mails_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_incoming_emails,
             parent: :email
 
   menu.push :authentication,
-            { controller: '/authentication', action: 'show' },
+            { controller: '/admin/settings/authentication_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_authentication,
             icon: 'icon2 icon-two-factor-authentication'
 
   menu.push :authentication_settings,
-            { controller: '/authentication', action: 'show' },
+            { controller: '/admin/settings/authentication_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_setting_plural,
             parent: :authentication
@@ -320,7 +320,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-info1'
 
   menu.push :custom_style,
-            { controller: '/custom_styles', action: 'show' },
+            { controller: '/custom_styles', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_custom_style,
             icon: 'icon2 icon-design'
@@ -332,19 +332,19 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'icon2 icon-status'
 
   menu.push :enterprise,
-            { controller: '/enterprises', action: 'show' },
+            { controller: '/enterprises', action: :show },
             caption: :label_enterprise_edition,
             icon: 'icon2 icon-headset',
             if: proc { User.current.admin? && OpenProject::Configuration.ee_manager_visible? }
 
   menu.push :admin_costs,
-            { controller: '/settings', action: 'plugin', id: :costs },
+            { controller: '/admin/settings', action: 'plugin', id: :costs },
             if: Proc.new { User.current.admin? },
             caption: :project_module_costs,
             icon: 'icon2 icon-budget'
 
   menu.push :costs_setting,
-            { controller: '/settings', action: 'plugin', id: :costs },
+            { controller: '/admin/settings', action: 'plugin', id: :costs },
             if: Proc.new { User.current.admin? },
             caption: :label_setting_plural,
             parent: :admin_costs
@@ -412,7 +412,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-ticket-note'
 
   menu.push :repository,
-            { controller: '/repositories', action: 'show' },
+            { controller: '/repositories', action: :show },
             param: :project_id,
             if: Proc.new { |p| p.repository && !p.repository.new_record? },
             icon: 'icon2 icon-folder-open'
@@ -427,7 +427,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-group'
 
   menu.push :settings,
-            { controller: '/project_settings/generic', action: 'show' },
+            { controller: '/project_settings/generic', action: :show },
             caption: :label_project_settings,
             last: true,
             icon: 'icon2 icon-settings2',

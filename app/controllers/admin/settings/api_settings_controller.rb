@@ -28,41 +28,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class SettingsController < ApplicationController
-  include AdminSettingsUpdater
+module Admin::Settings
+  class APISettingsController < ::Admin::SettingsController
+    menu_item :settings_api
 
-  helper_method :gon
-
-  current_menu_item [:show] do
-    :settings
-  end
-
-  current_menu_item :plugin do |controller|
-    plugin = Redmine::Plugin.find(controller.params[:id])
-    plugin.settings[:menu_item] || :settings
-  rescue Redmine::PluginNotFound
-    :settings
-  end
-
-  def show
-    redirect_to general_settings_path
-  end
-
-  def plugin
-    @plugin = Redmine::Plugin.find(params[:id])
-    if request.post?
-      Setting["plugin_#{@plugin.id}"] = params[:settings].permit!.to_h
-      flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to action: 'plugin', id: @plugin.id
-    else
-      @partial = @plugin.settings[:partial]
-      @settings = Setting["plugin_#{@plugin.id}"]
+    def show
+      render template: 'settings/_api'
     end
-  rescue Redmine::PluginNotFound
-    render_404
-  end
 
-  def show_local_breadcrumb
-    true
+    def default_breadcrumb
+      t(:label_api_access_key_type)
+    end
+
+    def settings_params
+      super.tap do |settings|
+        settings["apiv3_cors_origins"] = settings["apiv3_cors_origins"].split(/\r?\n/)
+      end
+    end
   end
 end

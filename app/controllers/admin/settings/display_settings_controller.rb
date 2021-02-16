@@ -28,21 +28,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackages::SettingsController < ::ApplicationController
-  include AdminSettingsUpdater
-  current_menu_item :index do
-    :work_packages_setting
-  end
+module Admin::Settings
+  class DisplaySettingsController < ::Admin::SettingsController
+    menu_item :settings_display
 
-  def show
-    render template: 'work_packages/settings/work_package_tracking'
-  end
+    def show
+      @options = {}
+      @options[:user_format] = User::USER_FORMATS_STRUCTURE.keys.map { |f| [User.current.name(f), f.to_s] }
 
-  def default_breadcrumb
-    t(:label_work_package_tracking)
-  end
+      render template: 'settings/_display'
+    end
 
-  def show_local_breadcrumb
-    true
+    def default_breadcrumb
+      t(:label_display)
+    end
   end
 end

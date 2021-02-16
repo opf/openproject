@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'authentication/authentication_settings', type: :view do
+describe 'admin/settings/authentication_settings/show', type: :view do
   context 'with password login enabled' do
     before do
       allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)

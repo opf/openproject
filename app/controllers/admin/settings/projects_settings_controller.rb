@@ -28,19 +28,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AuthenticationController < ApplicationController
-  include AdminSettingsUpdater
-  menu_item :authentication_settings
+module Admin::Settings
+  class ProjectsSettingsController < ::Admin::SettingsController
+    menu_item :settings_projects
 
-  def show
-    render template: 'authentication/authentication_settings'
-  end
+    def show
+      render template: 'settings/_projects'
+    end
 
-  def default_breadcrumb
-    t(:label_authentication)
-  end
-
-  def show_local_breadcrumb
-    true
+    def default_breadcrumb
+      t(:label_project_plural)
+    end
   end
 end

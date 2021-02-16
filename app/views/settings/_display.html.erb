@@ -33,7 +33,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= toolbar title: t(:label_display) %>
 
-<%= styled_form_tag(update_display_settings_path, method: :patch) do %>
+<%= styled_form_tag(update_display_admin_settings_path, method: :patch) do %>
 
   <section class="form--section">
     <div class="form--field" id="setting_available_languages"><%= setting_multiselect :available_languages, all_lang_options_for_select(false) %></div>

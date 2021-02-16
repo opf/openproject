@@ -8,7 +8,7 @@
       <%= t 'warning_bar.protocol_mismatch.text_html',
             set_protocol: Setting.protocol,
             actual_protocol: request.ssl? ? 'https' : 'http',
-            setting_path: general_settings_path
+            setting_path: general_admin_settings_path
       %>
     </p>
   <% end %>
@@ -20,7 +20,7 @@
       <%= t 'warning_bar.hostname_mismatch.text_html',
             set_hostname: Setting.host_name,
             actual_hostname: request.host,
-            setting_path: general_settings_path
+            setting_path: general_admin_settings_path
       %>
     </p>
   <% end %>

@@ -28,16 +28,17 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Settings::ProjectsController < SettingsController
-  include AdminSettingsUpdater
+module Admin::Settings
+  class RepositoriesSettingsController < ::Admin::SettingsController
+    menu_item :settings_repositories
 
-  menu_item :settings_projects
+    def show
+      render template: 'settings/_repositories'
+    end
 
-  def show
-    render template: 'settings/_projects'
-  end
-
-  def default_breadcrumb
-    t(:label_project_plural)
+    def default_breadcrumb
+      t(:label_repository_plural)
+    end
   end
 end
+

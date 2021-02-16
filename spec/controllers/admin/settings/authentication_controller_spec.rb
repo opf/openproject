@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,19 +26,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Settings::DisplayController < SettingsController
-  include AdminSettingsUpdater
+require 'spec_helper'
 
-  menu_item :settings_display
+describe Admin::Settings::AuthenticationSettingsController, type: :controller do
+  describe 'show.html' do
+    def fetch
+      get 'show'
+    end
 
-  def show
-    @options = {}
-    @options[:user_format] = User::USER_FORMATS_STRUCTURE.keys.map { |f| [User.current.name(f), f.to_s] }
-
-    render template: 'settings/_display'
-  end
-
-  def default_breadcrumb
-    t(:label_display)
+    it_behaves_like 'a controller action with require_admin'
   end
 end

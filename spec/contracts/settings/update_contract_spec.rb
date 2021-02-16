@@ -38,5 +38,5 @@ describe Settings::UpdateContract do
     described_class.new(nil, current_user)
   end
 
-  it_behaves_like 'contract is valid for active admin users only'
+  it_behaves_like 'contract is valid for active admins and invalid for regular users'
 end
