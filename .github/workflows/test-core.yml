@@ -5,7 +5,6 @@ on:
     branches:
       - dev
       - release/*
-      - debug-one-off-runners
     paths-ignore:
       - 'docs/**'
       - 'help/**'
@@ -54,6 +53,11 @@ jobs:
       CI_CACHE_PATH: "/tmp/cache"
       LOCAL_DEV_CHECK: 1
       CI_RETRY_COUNT: 3
+      OPENPROJECT_ENABLE_CAPYBARA_SCREENSHOT_S3_UPLOADS: true
+      AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
+      AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
+      AWS_REGION: "eu-west-1"
+      S3_BUCKET_NAME: "openproject-ci-public-logs"
     steps:
     - uses: actions/checkout@v2
     - name: cache
