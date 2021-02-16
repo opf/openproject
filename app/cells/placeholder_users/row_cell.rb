@@ -46,7 +46,7 @@ module PlaceholderUsers
     end
 
     def delete_link
-      return nil unless User.current.admin?
+      return nil unless User.current.admin? || PlaceholderUsers::DeleteContract.deletion_allowed?(User.current)
 
       link_to '',
               placeholder_user_path(placeholder_user),
