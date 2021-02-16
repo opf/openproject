@@ -30,6 +30,7 @@
 
 class WorkPackages::SettingsController < ::ApplicationController
   layout 'admin'
+  before_action :require_admin
   current_menu_item :index do
     :work_packages_setting
   end
