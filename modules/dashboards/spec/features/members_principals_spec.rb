@@ -28,14 +28,15 @@
 
 require 'spec_helper'
 
-require_relative '../support/pages/overview'
+require_relative '../support/pages/dashboard'
 
-describe 'Overview page members', type: :feature, js: true, with_mail: false do
+describe 'Dashboard page members', type: :feature, js: true, with_mail: false do
   shared_let(:type) { FactoryBot.create :type }
   shared_let(:project) { FactoryBot.create :project, types: [type], description: 'My **custom** description' }
 
   shared_let(:permissions) do
-    %i[manage_overview
+    %i[manage_dashboards
+       view_dashboards
        view_members
       ]
   end
@@ -62,17 +63,20 @@ describe 'Overview page members', type: :feature, js: true, with_mail: false do
                       member_with_permissions: permissions)
   end
 
-  let(:overview_page) do
-    Pages::Overview.new(project)
+  let(:dashboard_page) do
+    Pages::Dashboard.new(project)
   end
 
   before do
     login_as user
 
-    overview_page.visit!
+    dashboard_page.visit!
   end
 
   it 'renders the default view, allows altering and saving' do
+    # within top-right area, add an additional widget
+    dashboard_page.add_widget(1, 1, :within, 'Members')
+
     members_block = page.find('.widget-box', text: 'MEMBERS')
 
     within(members_block) do
