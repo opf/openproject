@@ -203,12 +203,29 @@ describe PlaceholderUsersController, type: :controller do
       end
     end
 
+    describe 'GET deletion_info' do
+      before do
+        get :deletion_info, params: { id: placeholder_user.id }
+      end
+
+      it 'should render the deletion info response' do
+        expect(response).to be_successful
+        expect(response).to render_template 'placeholder_users/deletion_info'
+      end
+    end
+
     describe 'POST destroy' do
       before do
         delete :destroy, params: { id: placeholder_user.id }
       end
 
-      pending 'not yet implemented'
+      it 'should trigger the deletion' do
+        expect(response).to redirect_to action: :index
+        expect(flash[:info]).to include I18n.t(:notice_deletion_scheduled)
+
+        expect(Principals::DeleteJob)
+          .to(have_been_enqueued.with(placeholder_user))
+      end
     end
   end
 
@@ -281,6 +298,14 @@ describe PlaceholderUsersController, type: :controller do
 
       before do
         put :update, params: params
+      end
+
+      it_behaves_like 'do not allow non-admins'
+    end
+
+    describe 'GET deletion_info' do
+      before do
+        get :deletion_info, params: { id: placeholder_user.id }
       end
 
       it_behaves_like 'do not allow non-admins'
