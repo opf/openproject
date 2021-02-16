@@ -8,9 +8,9 @@ release_date: 2020-10-12
 
 # OpenProject 11.0.0
 
-We released [OpenProject 11.0.0](https://community.openproject.com/versions/1429).
+We released [OpenProject 11.0.0](https://community.openproject.org/versions/1429).
 
-This new release will bring all sorts of features that will improve  classical as well as agile project management. We have implemented a top-down scheduling which introduces the option to schedule tasks  manually in OpenProject. Also, we have done a lot of improvements to the agile boards, e.g. to create a work breakdown structure for your projects. Furthermore, we have developed project templates as well as  better project portfolio management.
+This new release will bring all sorts of features that will improve classical as well as agile project management. We have implemented a top-down scheduling which introduces the option to schedule tasks manually in OpenProject. Also, we have done a lot of improvements to the agile boards, e.g. to create a work breakdown structure for your projects. Furthermore, we have developed project templates as well as better project portfolio management.
 
 As always, the release contains many more improvements and bug fixes and we recommend updating to the newest version promptly.
 
@@ -18,13 +18,13 @@ As always, the release contains many more improvements and bug fixes and we reco
 
 ## Top-down project scheduling with new manual planning mode
 
-Top-down scheduling enables the project team to define all tasks  involved in a project, starting with a fixed start and finish date, and  breaking it down into smaller work packages. The new manual scheduling  mode in OpenProject allows to set a start and finish date of the parent  without being affected by the start and finish dates of its children.  You can now plan a project top-down without knowing all tasks at the  start of the project.
+Top-down scheduling enables the project team to define all tasks involved in a project, starting with a fixed start and finish date, and breaking it down into smaller work packages. The new manual scheduling mode in OpenProject allows to set a start and finish date of the parent without being affected by the start and finish dates of its children. You can now plan a project top-down without knowing all tasks at the start of the project.
 
 ![top-down-scheduling](top-down-scheduling.png)
 
-Moving a child element in the manual scheduling mode will not move  the dates of the parent element. It will now indicate the scheduling  differences with a blue or red bracket underneath (e.g. when a child is  shorter or longer than the parent phase). Also, we have added a grey background on hover to indicate the parent-child-relationships.
+Moving a child element in the manual scheduling mode will not move the dates of the parent element. It will now indicate the scheduling differences with a blue or red bracket underneath (e.g. when a child is shorter or longer than the parent phase). Also, we have added a grey background on hover to indicate the parent-child-relationships.
 
-Now, in OpenProject you can rely on both, top-down and bottom-up planning or even a combination of both. The approach you choose depends  on your specific planning goal.
+Now, in OpenProject you can rely on both, top-down and bottom-up planning or even a combination of both. The approach you choose depends on your specific planning goal.
 
 ![Top-down-scheduling](Top-down-scheduling.gif)
 
@@ -46,13 +46,13 @@ Also, project hierarchies can now be displayed in the boards, e.g. to distribute
 
 ### New boards creation screen to select different board types
 
-Furthermore, we have implemented more improvements to the agile  boards, such as a better board creation modal. It is now much easier to  choose a new board from the available options.
+Furthermore, we have implemented more improvements to the agile boards, such as a better board creation modal. It is now much easier to choose a new board from the available options.
 
 ![boards-creation-modal](boards-creation-modal.png)
 
 ### Cards with details view in boards
 
-To get more information about the cards in a board and to enable  quick and easy updates of all work package attributes incl. custom  fields, we have enabled a split-screen view also for the boards view.  The new split screen view can be enabled via the info icon on the cards.
+To get more information about the cards in a board and to enable quick and easy updates of all work package attributes incl. custom fields, we have enabled a split-screen view also for the boards view. The new split screen view can be enabled via the info icon on the cards.
 
 ![boards-split-screen](boards-split-screen.png)
 
@@ -64,7 +64,7 @@ The new project templates allow you to create projects based on predefined templ
 
 ## Improved project portfolio management
 
-The configuration of the “view all projects” page now enables better project portfolio management. You can configure the “view all projects”  list to show relevant project information for all projects, e.g. add custom fields for projects and remove columns which are not needed. With the link to the Gantt charts view you can directly open a global work  packages view for all projects, configured to your needs, e.g. to show all milestones across all projects.
+The configuration of the “view all projects” page now enables better project portfolio management. You can configure the “view all projects” list to show relevant project information for all projects, e.g. add custom fields for projects and remove columns which are not needed. With the link to the Gantt chart view you can directly open a global work packages view for all projects, configured to your needs, e.g. to show all milestones across all projects.
 
 ![project-portfolio-management](project-portfolio-management.png)
 
@@ -86,7 +86,7 @@ Additionally, it is now possible to add macros to insert project or work package
 
 ## Attribute help texts for projects (premium feature)
 
-We have now also expanded the attribute help texts for projects. You can define help text for all project attributes, such as status or accountable or any custom field for projects. A small question mark icon will appear behind the attribute in order to make the entry of this  information easier and eliminate errors.
+We have now also expanded the attribute help texts for projects. You can define help text for all project attributes, such as status or accountable or any custom field for projects. A small question mark icon will appear behind the attribute in order to make the entering this information easier and to eliminate errors.
 
 ![project-help-texts](project-help-texts.png)
 
@@ -310,8 +310,7 @@ To use OpenProject 11.0 right away, create an instance and [test 14 days for fre
 Prefer to run OpenProject 11.0 in your own infrastructure?
 Here you can find the [Installation guidelines](../../installation-and-operations) for OpenProject.
 
-Want to upgrade from your self-managed Community version to try out the Enterprise premium features? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/enterprise-edition-upgrade-test-free/)
-
+Want to upgrade from your self-managed Community version to try out the Enterprise premium features? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/enterprise-edition-upgrade-test-free/) 
 Navigate to the -> *Administration*-> *Enterprise Edition* and request your trial token.
 
 ## Migrating to OpenProject 11.0
@@ -328,7 +327,7 @@ Special thanks go to all OpenProject contributors without whom this release woul
 
 - The City of Cologne for sponsoring some of the open source features and thus contributing them to the Community.
 
-- Every dedicated user who has created feature request, [reported bugs](../../development/report-a-bug/) for 11.0 and also supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+- Every dedicated user who has created feature request, [reported bugs](../../development/report-a-bug/) for 11.0 and also supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/forums).
 
 - All the engaged users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).
 
@@ -338,4 +337,4 @@ Special thanks go to all OpenProject contributors without whom this release woul
 
 ## What’s next?
 
-We are continuously developing new features and improvements for  OpenProject. If you’d like to preview what’s coming in the next release, be sure to check out our [development roadmap](https://community.openproject.com/projects/openproject/work_packages?query_id=918).
+We are continuously developing new features and improvements for OpenProject. If you’d like to preview what’s coming in the next release, be sure to check out our [development roadmap](https://community.openproject.org/projects/openproject/work_packages?query_id=918).
