@@ -28,21 +28,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module PlaceholderUsers
-  class CreateContract < BaseContract
-    include RequiresEnterpriseGuard
-    self.enterprise_action = :placeholder_users
+module RequiresEnterpriseGuard
+  extend ActiveSupport::Concern
 
-    attribute :type
+  included do
+    class_attribute :enterprise_action
+    validate :has_enterprise
+  end
 
-    validate :type_is_placeholder_user
+  module_function
 
-    private
-
-    def type_is_placeholder_user
-      unless model.type == PlaceholderUser.name
-        errors.add(:type, 'Type and class mismatch')
-      end
+  def has_enterprise
+    unless EnterpriseToken.allows_to?(enterprise_action)
+      errors.add :base, :error_enterprise_only
     end
   end
 end

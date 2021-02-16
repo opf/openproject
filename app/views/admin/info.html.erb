@@ -45,7 +45,13 @@ See docs/COPYRIGHT.rdoc for more details.
     <div class="attributes-key-value--key"><%= t(:label_core_version) %></div>
     <div class="attributes-key-value--value-container">
       <div class="attributes-key-value--value -text">
-        <span><strong><%= OpenProject::Info.versioned_name %></strong> (<%= @db_adapter_name %>)</span>
+        <span><strong><%= OpenProject::Info.versioned_name %></strong> </span>
+      </div>
+    </div>
+    <div class="attributes-key-value--key"><%= t(:label_database_version) %></div>
+    <div class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <span><%= @db_version %></span>
       </div>
     </div>
     <% if display_security_badge_graphic? %>

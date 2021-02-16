@@ -32,17 +32,33 @@ describe 'create placeholder users', type: :feature, selenium: true do
   let(:new_placeholder_user_page) { Pages::NewPlaceholderUser.new }
 
   shared_examples_for 'placeholders creation flow' do
-    it 'creates the placeholder user' do
-      visit new_placeholder_user_path
+    context 'with enterprise', with_ee: %i[placeholder_users] do
+      it 'creates the placeholder user' do
+        visit new_placeholder_user_path
 
-      new_placeholder_user_page.fill_in! name: 'UX Designer'
-      new_placeholder_user_page.submit!
+        new_placeholder_user_page.fill_in! name: 'UX Designer'
 
-      expect(page).to have_selector('.flash', text: 'Successful creation.')
 
-      new_placeholder_user = PlaceholderUser.order(Arel.sql('id DESC')).first
+          new_placeholder_user_page.submit!
 
-      expect(current_path).to eql(edit_placeholder_user_path(new_placeholder_user.id))
+
+        expect(page).to have_selector('.flash', text: 'Successful creation.')
+
+        new_placeholder_user = PlaceholderUser.order(Arel.sql('id DESC')).first
+
+        expect(current_path).to eql(edit_placeholder_user_path(new_placeholder_user.id))
+      end
+    end
+
+    context 'without enterprise' do
+      it 'creates the placeholder user' do
+        visit new_placeholder_user_path
+
+        new_placeholder_user_page.fill_in! name: 'UX Designer'
+        new_placeholder_user_page.submit!
+
+        expect(page).to have_text 'is only available in the OpenProject Enterprise Edition'
+      end
     end
   end
 

@@ -275,6 +275,11 @@ en:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
 
+  placeholder_users:
+    upsale:
+      title: 'Placeholder users are an Enterprise Edition feature'
+      description: 'Placeholder users allow you create a work plan for users that must not have access to the system (yet).'
+
   prioritiies:
     edit:
      priority_color_text: |
@@ -572,6 +577,7 @@ en:
         confirmation: "doesn't match %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "does not exist."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         empty: "can't be empty."
@@ -1378,6 +1384,7 @@ en:
   label_custom_field_plural: "Custom fields"
   label_custom_field_default_type: "Empty type"
   label_custom_style: "Design"
+  label_database_version: "PostgreSQL version"
   label_date: "Date"
   label_date_and_time: "Date and time"
   label_date_from: "From"
