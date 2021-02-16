@@ -27,7 +27,11 @@
   </ng-template>
 
   <ng-template ng-footer-tmp *ngIf="showAddNewButton">
-    <button class="button -tiny -alt-highlight">
+    <button
+      class="button -tiny -alt-highlight"
+      type="button"
+      (click)="onAddNewClick($event)"
+    >
       <op-icon icon-classes="button--icon icon-add" class="op-icon--wrapper"></op-icon>
       <span class="button--text">Invite</span>
     </button>

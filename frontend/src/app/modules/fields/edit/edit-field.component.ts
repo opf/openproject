@@ -41,6 +41,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {Field, IFieldSchema} from "core-app/modules/fields/field.base";
 import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {CurrentProjectService} from 'core-components/projects/current-project.service';
 
 export const OpEditingPortalSchemaToken = new InjectionToken('editing-portal--schema');
 export const OpEditingPortalHandlerToken = new InjectionToken('editing-portal--handler');
@@ -65,7 +66,8 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
               @Inject(OpEditingPortalSchemaToken) public schema:IFieldSchema,
               @Inject(OpEditingPortalHandlerToken) readonly handler:EditFieldHandler,
               readonly cdRef:ChangeDetectorRef,
-              readonly injector:Injector) {
+              readonly injector:Injector,
+              readonly currentProjectService:CurrentProjectService) {
     super();
 
     this.updateFromChangeset(change);

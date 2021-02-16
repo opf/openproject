@@ -11,6 +11,8 @@ import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import * as URI from 'urijs';
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {HttpClient} from '@angular/common/http';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {Observable} from 'rxjs';
@@ -46,20 +48,34 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   /* Close on outside click */
   public closeOnOutsideClick = true;
 
+  /* Data that is retured from the modal on close */
+  public data:any = null;
+
   public type:PrincipalType|null = null;
   public project:any = null;
   public principal = null;
   public role = null;
   public message = '';
 
-  constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly cdRef:ChangeDetectorRef,
-              readonly elementRef:ElementRef) {
+  constructor(
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    readonly cdRef:ChangeDetectorRef,
+    readonly elementRef:ElementRef,
+    readonly apiV3Service:APIV3Service,
+  ) {
     super(locals, cdRef, elementRef);
   }
 
   ngOnInit() {
     super.ngOnInit();
+
+    if (this.locals.projectId) {
+      debugger;
+      this.apiV3Service.projects.id(this.locals.projectId).get().subscribe(data => {
+        console.log(data);
+        this.project = data;
+      });
+    }
   }
 
   onProjectSelectionSave({ type, project }:{ type:PrincipalType, project:any }) {
@@ -97,6 +113,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   }
 
   closeWithPrincipal() {
+    this.data = this.principal;
     this.closeMe();
   }
 }

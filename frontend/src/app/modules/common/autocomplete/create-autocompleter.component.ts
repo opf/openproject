@@ -63,6 +63,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   @Output() public onOpen = new EventEmitter<void>();
   @Output() public onClose = new EventEmitter<void>();
   @Output() public onAfterViewInit = new EventEmitter<this>();
+  @Output() public onAddNew = new EventEmitter<this>();
 
 
   @ViewChild('ngSelectComponent') public ngSelectComponent:NgSelectComponent;
@@ -140,5 +141,11 @@ export class CreateAutocompleterComponent implements AfterViewInit {
 
   public focusInputField() {
     this.ngSelectComponent && this.ngSelectComponent.focus();
+  }
+
+  public onAddNewClick($event:Event) {
+    console.log($event);
+    $event.stopPropagation();
+    this.onAddNew.emit();
   }
 }
