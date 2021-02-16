@@ -38,4 +38,10 @@ describe PlaceholderUsers::DeleteContract do
   let(:contract) { described_class.new(placeholder_user, current_user) }
 
   it_behaves_like 'contract is valid for active admins and invalid for regular users'
+
+  context 'when user with global permission' do
+    let(:current_user) { FactoryBot.create(:user, global_permission: %i[manage_placeholder_user]) }
+
+    it_behaves_like 'contract is valid'
+  end
 end
