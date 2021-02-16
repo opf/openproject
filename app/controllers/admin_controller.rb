@@ -82,7 +82,7 @@ class AdminController < ApplicationController
   end
 
   def info
-    @db_adapter_name = ActiveRecord::Base.connection.adapter_name
+    @db_version = OpenProject::Database.version
     @checklist = [
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
       [:text_database_allows_tsv, OpenProject::Database.allows_tsv?]

@@ -1378,6 +1378,7 @@ en:
   label_custom_field_plural: "Custom fields"
   label_custom_field_default_type: "Empty type"
   label_custom_style: "Design"
+  label_database_version: "PostgreSQL version"
   label_date: "Date"
   label_date_and_time: "Date and time"
   label_date_from: "From"
