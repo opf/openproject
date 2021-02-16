@@ -27,11 +27,12 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% roles = Role.givable %>
-<% projects = Project.active.order(Arel.sql('lft')) %>
+<% projects = Project.visible.active.order(Arel.sql('lft')) %>
+<% memberships = @individual_principal.memberships.visible(current_user) %>
 
 <div class="grid-block">
   <div class="grid-content">
-  <% if @individual_principal.memberships.any? %>
+  <% if memberships.any? %>
     <div class="generic-table--container">
       <div class="generic-table--results-container">
         <table class="generic-table memberships">
@@ -66,7 +67,7 @@ See docs/COPYRIGHT.rdoc for more details.
             </tr>
           </thead>
           <tbody>
-            <% @individual_principal.memberships.where.not(project: nil).each do |membership| %>
+            <% memberships.where.not(project: nil).each do |membership| %>
               <% next if membership.new_record? %>
                 <tr id="member-<%= membership.id %>" class="member">
                   <td class="project">

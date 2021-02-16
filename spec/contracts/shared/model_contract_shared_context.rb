@@ -29,7 +29,7 @@ shared_context 'ModelContract shared context' do
     end
   end
 
-  shared_examples 'contract is valid for active admin users only' do
+  shared_examples 'contract is valid for active admins and invalid for regular users' do
     context 'when admin' do
       let(:current_user) { FactoryBot.build_stubbed(:admin) }
 

@@ -1975,6 +1975,8 @@ en:
   permission_add_work_packages: "Add work packages"
   permission_add_messages: "Post messages"
   permission_add_project: "Create project"
+  permission_add_user: "Create and edit users"
+  permission_add_placeholder_user: "Create and edit placeholder users"
   permission_add_subprojects: "Create subprojects"
   permission_add_work_package_watchers: "Add watchers"
   permission_assign_versions: "Assign versions"

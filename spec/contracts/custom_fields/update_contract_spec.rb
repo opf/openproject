@@ -39,5 +39,5 @@ describe CustomFields::UpdateContract do
     described_class.new(cf, current_user, options: { changed_by_system: [] })
   end
 
-  it_behaves_like 'contract is valid for active admin users only'
+  it_behaves_like 'contract is valid for active admins and invalid for regular users'
 end

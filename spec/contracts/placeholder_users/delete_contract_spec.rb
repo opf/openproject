@@ -37,5 +37,5 @@ describe PlaceholderUsers::DeleteContract do
   let(:placeholder_user) { FactoryBot.build_stubbed(:placeholder_user) }
   let(:contract) { described_class.new(placeholder_user, current_user) }
 
-  it_behaves_like 'contract is valid for active admin users only'
+  it_behaves_like 'contract is valid for active admins and invalid for regular users'
 end

@@ -37,6 +37,5 @@ describe PlaceholderUsers::CreateContract do
   it_behaves_like 'placeholder user contract' do
     let(:placeholder_user) { PlaceholderUser.new(name: placeholder_user_name) }
     let(:contract) { described_class.new(placeholder_user, current_user) }
-    let(:current_user) { FactoryBot.build_stubbed(:admin) }
   end
 end

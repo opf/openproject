@@ -47,9 +47,13 @@ module PlaceholderUsers
     ##
     # Placeholder users can only be updated by Admins
     def user_allowed_to_modify
-      unless user.admin? && user.active?
+      unless user_allowed_to_add?
         errors.add :base, :error_unauthorized
       end
+    end
+
+    def user_allowed_to_add?
+      user.allowed_to_globally?(:add_placeholder_user)
     end
   end
 end

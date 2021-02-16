@@ -48,27 +48,46 @@ describe 'index placeholder users', type: :feature do
   end
   let(:index_page) { Pages::Admin::PlaceholderUsers::Index.new }
 
-  before do
-    login_as(current_user)
+  shared_examples 'placeholders index flow' do
+    it 'shows the placeholder users and allows filtering and ordering' do
+      index_page.visit!
+
+      index_page.expect_not_listed(anonymous, current_user)
+
+      # Order is by id, asc
+      # so first ones created are on top.
+      index_page.expect_listed(placeholder_user_1, placeholder_user_2, placeholder_user_3)
+
+      index_page.order_by('Created on')
+      index_page.expect_listed(placeholder_user_3, placeholder_user_2, placeholder_user_1)
+
+      index_page.order_by('Created on')
+      index_page.expect_listed(placeholder_user_1, placeholder_user_2, placeholder_user_3)
+
+      index_page.filter_by_name(placeholder_user_3.name)
+      index_page.expect_listed(placeholder_user_3)
+      index_page.expect_not_listed(placeholder_user_1, placeholder_user_2)
+    end
   end
 
-  it 'shows the placeholder users and allows filtering and ordering' do
-    index_page.visit!
+  context 'as admin' do
+    current_user { FactoryBot.create :admin }
 
-    index_page.expect_not_listed(anonymous, current_user)
+    it_behaves_like 'placeholders index flow'
+  end
 
-    # Order is by id, asc
-    # so first ones created are on top.
-    index_page.expect_listed(placeholder_user_1, placeholder_user_2, placeholder_user_3)
+  context 'as user with global permission' do
+    current_user { FactoryBot.create :user, global_permission: %i[add_placeholder_user] }
 
-    index_page.order_by('Created on')
-    index_page.expect_listed(placeholder_user_3, placeholder_user_2, placeholder_user_1)
+    it_behaves_like 'placeholders index flow'
+  end
 
-    index_page.order_by('Created on')
-    index_page.expect_listed(placeholder_user_1, placeholder_user_2, placeholder_user_3)
+  context 'as user without global permission' do
+    current_user { FactoryBot.create :user }
 
-    index_page.filter_by_name(placeholder_user_3.name)
-    index_page.expect_listed(placeholder_user_3)
-    index_page.expect_not_listed(placeholder_user_1, placeholder_user_2)
+    it 'returns an error' do
+      index_page.visit!
+      expect(page).to have_text 'You are not authorized to access this page.'
+    end
   end
 end

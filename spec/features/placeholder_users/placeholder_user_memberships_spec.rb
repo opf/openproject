@@ -27,51 +27,19 @@
 #++
 
 require 'spec_helper'
+require_relative '../principals/shared_memberships_examples'
 
 feature 'placeholder user memberships through placeholder user page', type: :feature, js: true do
-  let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
-  let!(:project2) { FactoryBot.create :project, name: 'Project 2', identifier: 'project2' }
-  let(:admin) { FactoryBot.create :admin }
-  let(:placeholder_user) { FactoryBot.create :placeholder_user, name: 'UX Designer' }
+  shared_let(:principal) { FactoryBot.create :placeholder_user, name: 'UX Designer' }
+  shared_let(:principal_page) { Pages::Admin::IndividualPrincipals::Edit.new(principal) }
 
-  let!(:manager)   { FactoryBot.create :role, name: 'Manager' }
-  let!(:developer) { FactoryBot.create :role, name: 'Developer' }
+  include_context 'principal membership management context'
 
-  let(:placeholder_user_page) { Pages::Admin::IndividualPrincipals::Edit.new(placeholder_user) }
+  context 'as admin' do
+    current_user { FactoryBot.create :admin }
 
-  before do
-    login_as(admin)
-
-    placeholder_user_page.visit!
-    placeholder_user_page.open_projects_tab!
+    it_behaves_like 'principal membership management flows'
   end
 
-  scenario 'handles role modification flow' do
-    placeholder_user_page.add_to_project! project.name, as: 'Manager'
-
-    member = placeholder_user.memberships.where(project_id: project.id).first
-    placeholder_user_page.edit_roles!(member, %w(Manager Developer))
-
-    # Modify roles
-    placeholder_user_page.expect_project(project.name)
-    placeholder_user_page.expect_roles(project.name, %w(Manager Developer))
-
-    placeholder_user_page.expect_no_membership(project2.name)
-
-    # Remove all roles
-    placeholder_user_page.expect_project(project.name)
-    placeholder_user_page.edit_roles!(member, %w())
-
-    expect(page).to have_selector('.flash.error', text: 'Roles need to be assigned.')
-
-    # Remove the user from the project
-    placeholder_user_page.remove_from_project!(project.name)
-    placeholder_user_page.expect_no_membership(project.name)
-
-    # Re-add the user
-    placeholder_user_page.add_to_project! project.name, as: %w(Manager Developer)
-
-    placeholder_user_page.expect_project(project.name)
-    placeholder_user_page.expect_roles(project.name, %w(Manager Developer))
-  end
+  it_behaves_like 'global user principal membership management flows', :add_placeholder_user
 end
