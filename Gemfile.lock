@@ -1024,7 +1024,7 @@ DEPENDENCIES
   openproject-webhooks!
   openproject-xls_export!
   overviews!
-  parallel_tests (~> 3.1)
+  parallel_tests
   pg (~> 1.2.2)
   plaintext (~> 0.3.2)
   posix-spawn (~> 0.3.13)
