@@ -1849,6 +1849,7 @@ hu:
   notice_email_sent: "Egy email elküldve %{value}"
   notice_failed_to_save_work_packages: "Nem sikerült menteni a %{count} munkacsomag(ok)a %{total} kiválasztott: %{ids}."
   notice_failed_to_save_members: "Nem sikerült menteni a tag(ok)at: %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Az elérni kivánt oldal nem létezik, vagy már eltávolították."
   notice_forced_logout: "Automatikusan kijelentkezett %{ttl_time} perc inaktivitás után."
   notice_internal_server_error: "Az elérni kivánt oldalon hiba történt. Ha továbbra is problémákat tapasztal, kérem forduljon a %{app_title} rendszergazdához segítségért."

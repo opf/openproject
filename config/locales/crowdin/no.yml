@@ -1853,6 +1853,7 @@
   notice_email_sent: "Det ble sendt en e-post til %{value}"
   notice_failed_to_save_work_packages: "Det oppstod en feil under lagring av %{count} arbeidspakke(r) av %{total} valgte: %{ids}."
   notice_failed_to_save_members: "Feil ved lagring av medlem(mer): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Siden du forsøker å nå eksisterer ikke eller har blitt fjernet."
   notice_forced_logout: "Du ble automatisk utlogget etter %{ttl_time} minutters inaktivitet."
   notice_internal_server_error: "Det oppstod en feil på siden du forsøkte å nå. Dersom du fortsetter å oppleve problemer, vennligst kontakt din %{app_title}-administrator for bistand."

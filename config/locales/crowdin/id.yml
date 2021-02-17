@@ -1832,6 +1832,7 @@ id:
   notice_email_sent: "Email telah dikirim ke %{value}"
   notice_failed_to_save_work_packages: "Gagal menyimpan %{count} Paket-Penugasan untuk %{total} yang terpilih: %{ids}."
   notice_failed_to_save_members: "Gagal menyimpan member : %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Halaman yang Anda akses sudah dihapus atau dipindahkan."
   notice_forced_logout: "Anda secara otomatis telah Logout setelah %{ttl_time} menit tanpa aktivitas."
   notice_internal_server_error: "Error pada halaman yang Anda akses. Jika Anda tetap mengalami masalah hubungi administrator %{app_title} untuk bantuan."

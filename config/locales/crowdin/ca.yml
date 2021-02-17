@@ -1853,6 +1853,7 @@ ca:
   notice_email_sent: "S'ha enviat un correu electrònic a %{value}"
   notice_failed_to_save_work_packages: "No s'han pogut desar %{count} paquet(s) de treball de %{total} seleccionats: %{ids}."
   notice_failed_to_save_members: "No s'han pogut desar els membre(s): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "La pàgina a la que intenteu accedir no existeix o s'ha suprimit."
   notice_forced_logout: "Vostè té estat automàticament desconnectant després %{ttl_time} minuts d'inactivitat."
   notice_internal_server_error: "S'ha produït un error a la pàgina a la que intenteu accedir. Si continueu tenint problemes contacteu amb el vostre administrador %{app_title} per obtenir ajuda."

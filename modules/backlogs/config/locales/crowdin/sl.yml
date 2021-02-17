@@ -99,6 +99,7 @@ sl:
   backlogs_empty_title: "Za zaostanke ni definirana nobena različica"
   backlogs_empty_action_text: "Če želite začeti z Backlogs vtičnikom, ustvarite novo različico in jo dodelite stolpcu Backlogs."
   button_edit_wiki: "Uredi wiki strani"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
   error_intro_plural: "Prišlo je do naslednjih napak:"
   error_intro_singular: "Prišlo je do naslednje napake:"
   error_outro: "Odpravite napake pred ponovno potrditvijo"

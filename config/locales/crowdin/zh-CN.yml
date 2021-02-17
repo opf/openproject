@@ -1826,6 +1826,7 @@ zh-CN:
   notice_email_sent: "电子邮件被发送到 %{value}"
   notice_failed_to_save_work_packages: "%{total} 个选定工作包中的 %{count} 保存失败： %{ids} 。"
   notice_failed_to_save_members: "成员保存失败： %{errors} 。"
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "你想要访问的页面不存在或已被删除。"
   notice_forced_logout: "%{ttl_time} 分钟不活动后，您已经被自动注销。"
   notice_internal_server_error: "你想要访问的页面上出现错误。如果您继续遇到问题请联系您 %{app_title} 管理员寻求帮助。"

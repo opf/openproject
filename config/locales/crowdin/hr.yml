@@ -1873,6 +1873,7 @@ hr:
   notice_email_sent: "Email poruka je poslana %{value}"
   notice_failed_to_save_work_packages: "Neuspjelo spremanje %{count} radnog(ih) paketa na %{total} odabranih: %{ids}."
   notice_failed_to_save_members: "Neuspijelo spremanje člana(ova): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Stranica kojoj ste pokušali pristupiti ne postoji ili je izbrisana."
   notice_forced_logout: "Automatski ste odjavljeni iz sustava nakon %{ttl_time} minuta neaktivnosti."
   notice_internal_server_error: "Nastupila je pogrška na stranici kojoj pokuštavate pristupiti. Ako se problemi nastave molim vas da kontaktirate vašeg %{app_title} administratora za podršku."

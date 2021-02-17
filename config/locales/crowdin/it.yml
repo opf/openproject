@@ -1849,6 +1849,7 @@ it:
   notice_email_sent: "Un'email è stata inviata a %{value}"
   notice_failed_to_save_work_packages: "Impossibile salvare %{count} macro-attività su %{total} selezionate: %{ids}."
   notice_failed_to_save_members: "Impossibile salvare il membro(i): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "La pagina alla quale stavi tentando di accedere non esiste o è stata rimossa."
   notice_forced_logout: "Sei stato disconnesso automaticamente dopo %{ttl_time} minuti di inattività."
   notice_internal_server_error: "Si è verificato un errore sulla pagina alla quale hai richiesto di accedere. Se continui ad avere problemi per favore contatta il tuo amministratore %{app_title} per ricevere assistenza."

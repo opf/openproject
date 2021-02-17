@@ -99,6 +99,7 @@ ru:
   backlogs_empty_title: "Для невыполненных работ не задано ни одного этапа"
   backlogs_empty_action_text: "Чтобы пользоваться модулем невыполненной работы, создайте этап и назначьте его столбцу невыполненной работы."
   button_edit_wiki: "Редактировать wiki-страницу"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
   error_intro_plural: "Найдены следующие ошибки:"
   error_intro_singular: "Найдена следующая ошибка:"
   error_outro: "Исправьте вышеуказанные ошибки перед повторной отправкой."

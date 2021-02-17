@@ -1853,6 +1853,7 @@ fi:
   notice_email_sent: "Sähköposti on lähetty osoitteeseen %{value}"
   notice_failed_to_save_work_packages: "Failed to save %{count} work package(s) on %{total} selected: %{ids}."
   notice_failed_to_save_members: "Jäsentä tai jäseniä ei voitu tallentaa: %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Hakemaasi sivua ei löytynyt tai se on poistettu."
   notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."
   notice_internal_server_error: "Tapahtui virhe. Jos ongelma jatkuu, ota yhteys %{app_title} ylläpitoon."

@@ -1892,6 +1892,7 @@ cs:
   notice_email_sent: "Email zaslán na %{value}"
   notice_failed_to_save_work_packages: "Nepodařilo se uložit %{count} pracovních balíčků z %{total} vybraných: %{ids}."
   notice_failed_to_save_members: "Nepodařilo se uložit člena(y): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Stránka, kterou se snažíte získat přístup, neexistuje nebo byla odstraněna."
   notice_forced_logout: "Byli jste automaticky odhlášeni po %{ttl_time} minutách nečinnosti."
   notice_internal_server_error: "Nastala chyba na stránce, ke které se pokoušíte přistoupit. Pokud přetrváváte problémy, obraťte se na správce %{app_title}."

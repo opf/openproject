@@ -1852,6 +1852,7 @@ nl:
   notice_email_sent: "Een e-mail werd verzonden naar %{value}"
   notice_failed_to_save_work_packages: "%{count} werkpakket(ten) op %{total} geselecteerd opslaan mislukt: %{ids}."
   notice_failed_to_save_members: "Lid/leden opslaan mislukt: %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "De pagina die u probeerde te benaderen bestaat niet of is verwijderd."
   notice_forced_logout: "U bent automatisch uitgelogd na %{ttl_time} minuten van inactiviteit."
   notice_internal_server_error: "Er is een fout opgetreden op de pagina die u probeerde te gebruiken. Als u problemen blijft ervaren, neem dan contact op met uw %{app_title} beheerder voor hulp."

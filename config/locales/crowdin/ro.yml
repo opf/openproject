@@ -1872,6 +1872,7 @@ ro:
   notice_email_sent: "A fost trimis un e-mail la %{value}"
   notice_failed_to_save_work_packages: "Nu au putut fi salvate %{count} pachete de lucru din %{total} selectate: %{ids}."
   notice_failed_to_save_members: "Nu au putut fi salvați membrii: %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Pagina pe care doriți să o accesați nu există sau a fost ștearsă."
   notice_forced_logout: "Ați fost deconectat automat după %{ttl_time} minute fără activitate."
   notice_internal_server_error: "A apărut o eroare pe pagina pe care aţi încercat să o accesaţi. Dacă veţi continua să experimentați probleme vă rugăm să contactaţi administratorul %{app_title} pentru asistenţă."

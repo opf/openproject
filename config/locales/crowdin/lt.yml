@@ -1888,6 +1888,7 @@ lt:
   notice_email_sent: "Laiškas išsiųstas į %{value}"
   notice_failed_to_save_work_packages: "Nepavyko išsaugoti %{count} darbų paketo(-ų) iš %{total} pažymėto(-ų): %{ids}."
   notice_failed_to_save_members: "Nepavyko išsaugoti nario(-ių): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Puslapis, į kurį norite patekti, neegzistuoja arba yra pašalintas."
   notice_forced_logout: "Jūs buvo automatiškai atjungti po %{ttl_time} minučių (-ės) neveiklumo."
   notice_internal_server_error: "Bandant prisijungti prie puslapio įvyko klaida. Jei klaida kartosis, susisiekite su %{app_title} administratoriumi."

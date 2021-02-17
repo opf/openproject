@@ -1832,6 +1832,7 @@ ko:
   notice_email_sent: "%{value}님에게 이메일이 전송되었습니다."
   notice_failed_to_save_work_packages: "선택된 %{total}개에서 %{count}개 작업 패키지를 저장하지 못했습니다. %{ids}."
   notice_failed_to_save_members: "멤버를 저장하지 못했습니다. %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "액세스하려는 페이지가 존재하지 않거나 제거되었습니다."
   notice_forced_logout: "비활성화된지 %{ttl_time}분 후 자동으로 로그아웃되었습니다."
   notice_internal_server_error: "액세스하려는 페이지에 오류가 발생했습니다. 계속하여 문제가 발생하는 경우 %{app_title} 관리자에게 문의하여 지원을 받으세요."

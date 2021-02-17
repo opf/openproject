@@ -1852,6 +1852,7 @@ fr:
   notice_email_sent: "Un courriel a été envoyé à %{value}"
   notice_failed_to_save_work_packages: "Échec lors de l'enregistrement de %{count} lot(s) de travaux sur %{total} sélectionnés: %{ids}."
   notice_failed_to_save_members: "Échec de sauvegarde du ou des membres: %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "La page à laquelle vous essayez d'accéder n'existe pas ou a été supprimée."
   notice_forced_logout: "Vous avez été déconnecté après %{ttl_time} minutes d'inactivité."
   notice_internal_server_error: "Une erreur est survenue sur la page à laquelle vous essayez d'accéder. Si le problème persiste, veuillez contacter votre administrateur %{app_title} pour assistance."

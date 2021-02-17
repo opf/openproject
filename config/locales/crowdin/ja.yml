@@ -1829,6 +1829,7 @@ ja:
   notice_email_sent: "%{value}宛にメールを送信しました。"
   notice_failed_to_save_work_packages: "全%{total}件中に%{count}件の作業項目が保存できませんでした: %{ids}。"
   notice_failed_to_save_members: "メンバーの保存に失敗しました: %{errors}。"
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "アクセスしようとしたページが存在しないか削除されています。"
   notice_forced_logout: "%{ttl_time}分間の非活動のために、自動的にログアウトされました。"
   notice_internal_server_error: "アクセスしようとしたページでエラーが発生しました。継続して問題が発生している場合、%{app_title}の管理者にお問い合わせください。"

@@ -1847,6 +1847,7 @@ el:
   notice_email_sent: "Στάλθηκε ένα email στο %{value}"
   notice_failed_to_save_work_packages: "Δεν ήταν δυνατή η αποθήκευση %{count} πακέτου(-ων) εργασίας σε %{total} επιλεγμένα: %{ids}."
   notice_failed_to_save_members: "Δεν ήταν δυνατή η αποθήκευση των μελών: %{errors}"
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Η σελίδα που ζητήσατε δεν υπάρχει ή έχει αφαιρεθεί."
   notice_forced_logout: "Αποσυνδεθήκατε αυτόματα μετά από %{ttl_time} λεπτά αδράνειας."
   notice_internal_server_error: "Παρουσιάστηκε ένα σφάλμα στη σελίδα που προσπαθήσατε να ανοίξετε. Αν εξακολουθείτε να αντιμετωπίζετε προβλήματα παρακαλούμε επικοινωνήστε με τον %{app_title} διαχειριστή σας για βοήθεια."

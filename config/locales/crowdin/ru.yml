@@ -1891,6 +1891,7 @@ ru:
   notice_email_sent: "На адрес %{value} было отправлено письмо"
   notice_failed_to_save_work_packages: "Не удалось сохранить %{count} пакет(-ов) работ из %{total},  выбрано: %{ids}."
   notice_failed_to_save_members: "Не удалось сохранить участника(-ов): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Страница, к которой Вы обратились, не существует или была удалена."
   notice_forced_logout: "Вы автоматически вышли из системы после %{ttl_time} минут бездействия."
   notice_internal_server_error: "На странице, к которой Вы пытаетесь получить доступ, возникла ошибка. Если ошибка повторится, пожалуйста, свяжитесь со своим %{app_title} администратором."

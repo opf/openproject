@@ -99,6 +99,7 @@ ca:
   backlogs_empty_title: "No hi ha versions definides per a ser utilitzades als backlogs"
   backlogs_empty_action_text: "Per a introduir-se als backlogs, generi una nova versio i assigni-la a la columna bakclogs."
   button_edit_wiki: "Editar pàgina wiki"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
   error_intro_plural: "S'han produït els següents errors:"
   error_intro_singular: "S'ha produït el següent error:"
   error_outro: "Corregiu els errors anteriors abans d'enviar-lo una altra vegada."

@@ -99,6 +99,7 @@ hr:
   backlogs_empty_title: "No versions are defined to be used in backlogs"
   backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
   button_edit_wiki: "Uredi wiki stranicu"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
   error_intro_plural: "Nastupile su sljedeće pogreške:"
   error_intro_singular: "Nastupila je sljedeća pogreška:"
   error_outro: "Molim Vas ispravite gore navedene greške prije nego opet potvrdite unose."

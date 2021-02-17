@@ -1933,6 +1933,7 @@ ar:
   notice_email_sent: "تم إرسال بريد إلكتروني إلى %{value}"
   notice_failed_to_save_work_packages: "فشل في حفظ %{count} مجموعات عمل على %{total} مختارة: %{ids}."
   notice_failed_to_save_members: "فشل في حفظ العضو (الأعضاء): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "الصفحة التي تحاول الوصول إليها غير موجودة أو قد أزيلت."
   notice_forced_logout: "لقد قمت تلقائياً بتسجيل خروج بعد %{ttl_time} دقائق من الخمول."
   notice_internal_server_error: "حدث خطأ في الصفحة التي تحاول الوصول إليها. إذا كنت لا تزال تواجه مشاكل الرجاء الاتصال بالمسؤول %{app_title} للحصول على المساعدة."

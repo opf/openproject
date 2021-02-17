@@ -1850,6 +1850,7 @@ es:
   notice_email_sent: "Se ha enviado un email a %{value}"
   notice_failed_to_save_work_packages: "Fallo al salvar %{count} paquete(s) de trabajo en %{total} seleccionado: %{ids}."
   notice_failed_to_save_members: "Fallo al salvar miembro(s): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "La página que estaba intentando acceder no existe o ha sido eliminada."
   notice_forced_logout: "Su sesión ha sido cerrada automáticamente después de %{ttl_time} minutos de inactividad."
   notice_internal_server_error: "Ha ocurrido un error en la página que usted trato de acceder. Si usted continua teniendo problemas por favor contacte su administrador de %{app_title} para asistencia."

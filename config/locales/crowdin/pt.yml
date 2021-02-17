@@ -1850,6 +1850,7 @@ pt:
   notice_email_sent: "Um e-mail foi enviado para %{value}"
   notice_failed_to_save_work_packages: "Falha ao salvar %{count} pacote(s) de trabalho de um total de %{total} selecionado: %{ids}."
   notice_failed_to_save_members: "Falha ao salvar o(s) membro(s): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "A página que você estava tentando acessar não existe ou foi removida."
   notice_forced_logout: "Você foi automaticamente desconectado após %{ttl_time} minutos de inatividade."
   notice_internal_server_error: "Ocorreu um erro na página que você está tentando acessar. Se você continuar a ter problemas, por favor contate o %{app_title} administrador para obter assistência."

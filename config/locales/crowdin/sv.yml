@@ -1852,6 +1852,7 @@ sv:
   notice_email_sent: "Ett E-postmeddelande skickades till %{value}"
   notice_failed_to_save_work_packages: "Det gick inte att spara %{count} arbetspaket av %{total} valt: %{ids}."
   notice_failed_to_save_members: "Det gick inte att spara medlem(mar): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Sidan du försökte komma åt existerar inte eller har tagits bort."
   notice_forced_logout: "Du har blivit automatiskt utloggad efter %{ttl_time} minuter av inaktivitet."
   notice_internal_server_error: "Det uppstod ett fel på sidan du försökte komma åt. Om du fortsatt har problem kontakta administratören för %{app_title} för att få hjälp."

@@ -1888,6 +1888,7 @@ pl:
   notice_email_sent: "E-mail został wysłany do %{value}"
   notice_failed_to_save_work_packages: "Nie udało się zapisać %{count} z %{total} wybranych pakietów roboczych: %{ids}."
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Strona, do której próbowano uzyskać dostęp nie istnieje lub została usunięta."
   notice_forced_logout: "Będziesz automatycznie wylogowany po %{ttl_time} minutach braku aktywności."
   notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."

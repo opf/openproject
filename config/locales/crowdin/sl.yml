@@ -90,8 +90,8 @@ sl:
       no_results_content_text: Ustvarite nov način preverjanja pristnosti
   background_jobs:
     status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
+      error_requeue: "V opravilu je prišlo do napake, poskus opravila se izvaja ponovno. Napaka je bila: %{message}"
+      cancelled_due_to: "Opravilo je bilo prekinjeno zaradi napake: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Ta obrazec LDAP zahteva tehnično znanje o vaši namestitvi LDAP / Active Directory.
@@ -201,9 +201,9 @@ sl:
       completed: "Projekt %{name} izbrisan"
       completed_text: "Zahteva za izbris projekta '%{name}' je zaključena."
     index:
-      open_as_gantt: 'Open as Gantt view'
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
+      open_as_gantt: 'Odpri kot gantogram'
+      open_as_gantt_title: "Uporabi ta gumb za izdelavo gantograma, ki filtrira delovne pakete za projekte vidne na tej strani."
+      open_as_gantt_title_admin: "Spreminjanje nastavitev pogleda (na primer izbrane vrste delovnih paketov) je možno v skrbništvu pod nastavitvami projekta."
       no_results_title_text: Trenutno ni projektov
       no_results_content_text: Kreiraj nov projekt
     settings:
@@ -493,7 +493,7 @@ sl:
         parent_work_package: "Nadrejeni"
         priority: "Prioriteta"
         progress: "Napredek (%)"
-        schedule_manually: "Manual scheduling"
+        schedule_manually: "Ročno razvrščanje."
         spent_hours: "Porabljen čas"
         spent_time: "Porabljen čas"
         subproject: "Podprojekt"
@@ -537,7 +537,7 @@ sl:
         invalid_url_scheme: 'ni podprt protokol (dovoljeno:%{allowed_schemes}).'
         less_than_or_equal_to: "mora biti manjše ali enako %{count}. "
         not_deletable: "se ne da izbrisati."
-        not_current_user: "ni trenutni uporabnik"
+        not_current_user: "ni trenutni uporabnik."
         not_a_date: "ni veljaven datum"
         not_a_datetime: "ni veljaven datum."
         not_a_number: "ni število."
@@ -705,7 +705,7 @@ sl:
         version:
           undeletable_work_packages_attached: "Različice ni mogoče izbrisati, saj so nanjo priloženi delovni paketi."
         status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
+          readonly_default_exlusive: "aktivacija za privzeta stanja ni možna."
       template:
         body: "Preverite naslednja polja:"
         header:
@@ -769,7 +769,7 @@ sl:
     description: "Opis"
     derived_due_date: "Končni datum"
     derived_estimated_time: "Predvideni čas"
-    derived_start_date: "Derived start date"
+    derived_start_date: "Izpeljan začetni datum"
     display_sums: "Prikaži vsote"
     due_date: "Končni datum"
     estimated_hours: "Predvideni čas"
@@ -919,7 +919,7 @@ sl:
       - "Okt"
       - "Nov"
       - "Dec"
-    abbr_week: 'Wk'
+    abbr_week: 'Teden'
     day_names:
       - "Nedelja"
       - "Ponedeljek"
@@ -1148,7 +1148,7 @@ sl:
   error_no_default_work_package_status: "Ni definirano privzetega stanja delovnega paketa/ zahtevka. Preverite konfiguracijo (pojdite na \"Administracija -> Stanje zahtevka/ delovnega paketa\")."
   error_no_type_in_project: "Noben tip ni povezan s tem projektom. Prosimo preverite nastavitve projekta."
   error_omniauth_registration_timed_out: "Registracija preko zunanjega avtentikacijskega ponudnika je potekla. Prosimo poskusite ponovno."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
+  error_omniauth_invalid_auth: "Avtentikacija ni uspela. Za pomoč se obrnite na skrbnika."
   error_scm_command_failed: "Med vzpostavljem povezave s shrambo je prišlo do napake: %{value}"
   error_scm_not_found: "Vnos ali revizija v shrambi ni bila najdena ."
   error_unable_delete_status: "Stanja delovnega paketa ni mogoče izbrisati, saj ga uporablja vsaj en delovni paket."
@@ -1176,8 +1176,8 @@ sl:
     work_package_edit: 'Delovni paket je bil urejen'
     work_package_note: 'Dodana opomba o delovnem paketu'
   export:
-    your_work_packages_export: "Your work packages export"
-    succeeded: "The export has completed successfully."
+    your_work_packages_export: "Izvoz delovnih paketov\n"
+    succeeded: "Izvoz uspešno zaključen."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1829,14 +1829,14 @@ sl:
   mail_body_account_information: "Informacije vašega računa"
   mail_body_account_information_external: "Za prijavo lahko uporabite vaš %{value} račun."
   mail_body_lost_password: "Za spremembo glesla kliknite na naslednjo povezavo:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
-  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register: "Dobrodošli v OpenProject. Aktivirajte svoj uporabniški račun s klikom na povezavo:"
+  mail_body_register_header_title: "E-pošta člana projekta za vabilo"
   mail_body_register_user: "Dragi %{name},"
   mail_body_register_links_html: |
-    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
-    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    Na našem youtube kanalu (%{youtube_link}) lahko najdete spletinar (%{webinar_link})
+    in “Kako začeti” video vsebine (%{get_started_link}).
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+    V primeru dodatnih vprašanj se obrnite na dokumentacijo (%{documentation_link}) ali nas kontaktirajte (%{contact_us_link}).
   mail_body_register_closing: "Tvoja OpenProject ekipa"
   mail_body_register_ending: "Ostanite povezani! Lep pozdrav,"
   mail_body_reminder: "%{count} delovni paketi, ki so vam dodeljeni bodo zapadli v naslednjih dneh: %{days}"
@@ -1891,6 +1891,7 @@ sl:
   notice_email_sent: "E-sporočilo je bilo poslano %{value}"
   notice_failed_to_save_work_packages: "%{count} delovnih paketov  ni bilo mogoče shraniti na %{total} izbranih: %{ids}"
   notice_failed_to_save_members: "Shranjevanje uporabnika(ov) ni uspelo: %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Stran na katero se želite povezati ne obstaja ali pa je bila umaknjena."
   notice_forced_logout: "Avtomatično ste bili izpisani po %{ttl_time} neaktivnih minutah."
   notice_internal_server_error: "Napaka se je pojavila na strani do katere ste želeli dostopati. Če imate še vedno težave, se za pomoč obrnite na skrbnika %{app_title}"
@@ -2032,7 +2033,7 @@ sl:
       title: Spremenite identifikator projekta
     template:
       copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+        Vaš projekt se ustvarja iz izbrane projektne predloge. Preko e-pošte boste obveščeni, ko bo projekt na voljo.
       use_template: 'Uporabi predlogo'
       make_template: 'Nastavi za predlogo'
       remove_from_templates: 'Odstrani iz predlog'
@@ -2055,8 +2056,8 @@ sl:
     assigned_to_role: "Pooblaščenčeva vloga"
     member_of_group: "Pooblaščenčeva skupina"
     assignee_or_group: "Prejemnik ali pripadajoča skupina"
-    subproject_id: "Including Subproject"
-    only_subproject_id: "Only subproject"
+    subproject_id: "Vključuje podprojekt"
+    only_subproject_id: "Samo podprojekt"
     name_or_identifier: "Ime ali identifikator"
   repositories:
     at_identifier: 'na% {identifier}'
@@ -2165,9 +2166,9 @@ sl:
     deactivated: 'deaktivirano'
   search_input_placeholder: "Iskanje..."
   setting_apiv3_cors_enabled: "Omogoči CORS"
-  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) dovoljen izvir"
   setting_apiv3_cors_origins_text_html: >
-    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+    To so izviri, ki jim je dovoljeno dostopati do OpenProject API, če je CORS omogočen. <br/> Preverite <a href="%{origin_link}" target="_blank">dokumentacijo o glavi izvira</a> kako navesti pričakovane vrednosti.
   setting_email_delivery_method: "Način dostave po e-pošti"
   setting_sendmail_location: "Lokacija izvršljive pošte"
   setting_smtp_enable_starttls_auto: "Avtomatično uporabi STARTTLS, če je možno"
@@ -2243,8 +2244,8 @@ sl:
   setting_per_page_options: "Možnosti predmetov na stran"
   setting_plain_text_mail: "Navadna besedilna pošta (brez HTML-ja)\n"
   setting_protocol: "Protokol"
-  setting_project_gantt_query: "Project portfolio Gantt view"
-  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
+  setting_project_gantt_query: "Projektni portfelj gantogram\n"
+  setting_project_gantt_query_text: "Pozivedbo za prikaz gantograma lahko spremenite na strani pregled projekta."
   setting_security_badge_displayed: "Prikaži varnostno značko"
   setting_registration_footer: "Noga za registracijo"
   setting_repositories_automatic_managed_vendor: "Samodejni tip prodajalca odlagališča"
@@ -2284,7 +2285,7 @@ sl:
     brute_force_prevention: "Avtomatično blokiranje uporabnika"
     projects:
       section_new_projects: "Nastavitve za nove projekte"
-      section_project_overview: "Settings for project overview list"
+      section_project_overview: "Nastavitve za seznam pregleda projekta."
     user:
       default_preferences: "Privzete nastavitve"
       deletion: "brisanje"
@@ -2712,7 +2713,7 @@ sl:
     pre_authorization:
       status: 'Pred odobritvijo'
     auth_url: 'Auth URL'
-    access_token_url: 'Access token URL'
+    access_token_url: 'Žeton za dostop'
     errors:
       messages:
         #Common error messages

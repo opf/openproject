@@ -1892,6 +1892,7 @@ sk:
   notice_email_sent: "Na adresu %{value} bol odoslaný email"
   notice_failed_to_save_work_packages: "Nepodarilo sa uložiť %{count} pracovných balíčkov z %{total} vybraných: %{ids}."
   notice_failed_to_save_members: "Nepodarilo sa uložiť člena / členov: %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Stránka, ktorú se pokúšate zobraziť, neexistuje, alebo bola odstránená."
   notice_forced_logout: "Boli ste automaticky odhlásení po %{ttl_time} minútach nečinnosti."
   notice_internal_server_error: "Vyskytla sa chyba na stránke, ku ktorej ste sa pokúšali pristupovať. Ak sa naďalej vyskytnú problémy, obráťte sa na správcu %{app_title} o pomoc."

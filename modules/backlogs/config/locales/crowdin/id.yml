@@ -99,6 +99,7 @@ id:
   backlogs_empty_title: "Ada versi yang didefinisikan untuk digunakan dalam backlogs"
   backlogs_empty_action_text: "Untuk memulai dengan backlogs, membuat versi baru, dan menetapkannya ke kolom backlogs."
   button_edit_wiki: "Edit halaman wiki"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
   error_intro_plural: "Kesalahan berikut ini ditemui:"
   error_intro_singular: "Kesalahan berikut ini ditemui:"
   error_outro: "Perbaiki kesalahan di atas sebelum mengirimkannya lagi."

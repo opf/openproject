@@ -1853,6 +1853,7 @@ fil:
   notice_email_sent: "Isang email ang ipinadala sa %{value}"
   notice_failed_to_save_work_packages: "Hindi nai-save ang %{count} work package sa %{total} na napili: %{ids}."
   notice_failed_to_save_members: "Hindi na i-save ang mga miyembro: %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Ang package na iyong sinusibukan i-access ay hindi umiiral o inalis na."
   notice_forced_logout: "Ikaw ay automatikong naka-log out pagkatapos ng %{ttl_time} ilang minuto ng hindi aktibidad."
   notice_internal_server_error: "Isang error ang naganap sa oahina na gusto mong i-access. Kung nagpatuloy ang mga problema nararansan mo manyaring kontakin ang iyong %{app_title} tagapangasiwa para sa tulong."

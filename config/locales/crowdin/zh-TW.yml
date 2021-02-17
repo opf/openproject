@@ -1832,6 +1832,7 @@ zh-TW:
   notice_email_sent: "一封郵件被傳送給 %{value}"
   notice_failed_to_save_work_packages: "%{total} 個選取的工作項目中的 %{count} 儲存失敗: %{ids}"
   notice_failed_to_save_members: "無法保存成員: %{errors}。"
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "您試圖存取的頁面不存在或已被移除。"
   notice_forced_logout: "由於超過 %{ttl_time} 分鐘沒有操作，您已被自動登出。"
   notice_internal_server_error: "你試圖前往的頁面發生一個錯誤。如果你一直遇到問題，請聯絡你的 %{app_title} 管理員以得到協助！"
