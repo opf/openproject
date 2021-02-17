@@ -61,7 +61,7 @@ module Principals::Scopes
           'users.firstname'
         when :lastname_firstname, :lastname_coma_firstname
           "concat_ws(' ', users.lastname, users.firstname)"
-        when :login
+        when :username
           "users.login"
         else
           raise ArgumentError, "Invalid user format"
