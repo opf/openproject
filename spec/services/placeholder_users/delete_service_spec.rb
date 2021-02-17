@@ -38,7 +38,7 @@ describe ::PlaceholderUsers::DeleteService, type: :model do
 
   shared_examples 'deletes the user' do
     it do
-      expect(placeholder_user).to receive(:update_column).with(:status, Principal.statuses[:locked])
+      expect(placeholder_user).to receive(:locked!)
       expect(Principals::DeleteJob).to receive(:perform_later).with(placeholder_user)
       expect(subject).to be_success
     end
@@ -46,7 +46,7 @@ describe ::PlaceholderUsers::DeleteService, type: :model do
 
   shared_examples 'does not delete the user' do
     it do
-      expect(placeholder_user).not_to receive(:update_column)
+      expect(placeholder_user).not_to receive(:locked!)
       expect(Principals::DeleteJob).not_to receive(:perform_later)
       expect(subject).not_to be_success
     end
