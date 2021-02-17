@@ -1,7 +1,8 @@
 <form
-  class="op-modal datepicker-modal"
+  class="op-modal datepicker-modal loading-indicator--location"
   [attr.id]="htmlId"
   #modalContainer
+  data-indicator-name="modal"
   (submit)="save($event)"
 >
   <div class="op-modal--body form -vertical">
