@@ -237,7 +237,7 @@ ja:
       embedded_table_loading: "埋め込みビューを読み込めませんでした: %{message}"
     enumeration_activities: "作業分類 (時間の追跡)"
     enumeration_doc_categories: "ドキュメントのカテゴリ"
-    enumeration_work_package_priorities: "作業項目の優先度"
+    enumeration_work_package_priorities: "ワークパッケージの優先度"
     filter:
       description:
         text_open_filter: "'ALT' と矢印キーでこのフィルタを開きます。"
@@ -303,7 +303,7 @@ ja:
     label_board_plural: "ボード"
     label_board_sticky: "固定する"
     label_create: "作成"
-    label_create_work_package: "新しい作業項目を作成"
+    label_create_work_package: "新しいワークパッケージを作成"
     label_created_by: "作成者："
     label_date: "日付"
     label_date_with_format: "次の形式を使用して %{date_attribute} を入力してください: %{format}"
@@ -420,7 +420,7 @@ ja:
     label_warning: "注意"
     label_work_package: "ワーク パッケージ"
     label_work_package_parent: "親の作業項目"
-    label_work_package_plural: "作業項目"
+    label_work_package_plural: "ワークパッケージ"
     label_watch: "ウォッチする"
     label_watch_work_package: "作業項目をウォッチ"
     label_watcher_added_successfully: "ウォッチャーが正常に追加されました ！"
@@ -608,7 +608,7 @@ ja:
       activate_asc: '昇順の並べ替えを適用'
       activate_dsc: '降順の並べ替えを適用'
       activate_no: '並べ替えを削除'
-    text_work_packages_destroy_confirmation: "選択した作業項目を削除してもよろしいですか？"
+    text_work_packages_destroy_confirmation: "選択したワークパッケージを削除してもよろしいですか？"
     text_query_destroy_confirmation: "選択したビューを削除してもよろしいですか？"
     text_attachment_destroy_confirmation: "この添付ファイルを削除してよろしいですか。"
     timelines:
@@ -722,7 +722,7 @@ ja:
       inline_create:
         title: 'クリックしてこのリストに新しい作業項目を追加します'
       create:
-        title: '新しい作業項目'
+        title: '新しいワークパッケージ'
         header: '新しい %{type}'
         header_no_type: '新しいワークパッケージ（タイプ未設定）'
         header_with_parent: '新しい %{type}（%{parent_type} #%{id} の子要素）'
@@ -938,9 +938,9 @@ ja:
       workPackage:
         other: "ワークパッケージ"
       child_work_packages:
-        other: "%{count} の子ワークパッケージ"
+        other: "%{count} つの子ワークパッケージ"
       hour:
-        zero: "0h"
+        zero: "0 h"
         other: "%{count} 時間"
     zen_mode:
       button_activate: 'マナーモードをアクティブにする'

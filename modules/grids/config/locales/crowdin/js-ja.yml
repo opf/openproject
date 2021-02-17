@@ -47,7 +47,7 @@ ja:
         work_packages_accountable:
           title: "責任者である作業項目"
         work_packages_assigned:
-          title: '担当している作業項目'
+          title: '担当しているワークパッケージ'
         work_packages_created:
           title: '自分が作成した作業項目'
         work_packages_watched:
