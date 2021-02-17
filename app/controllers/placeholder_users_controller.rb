@@ -38,8 +38,8 @@ class PlaceholderUsersController < ApplicationController
   before_action :find_placeholder_user, only: %i[show
                                                  edit
                                                  update
+                                                 deletion_info
                                                  destroy]
-  before_action :check_if_deletion_allowed, only: [:destroy]
 
   def index
     @placeholder_users = PlaceholderUsers::PlaceholderUserFilterCell.filter params
@@ -121,6 +121,10 @@ class PlaceholderUsersController < ApplicationController
     end
   end
 
+  def deletion_info
+    respond_to :html
+  end
+
   def destroy
     PlaceholderUsers::DeleteService
       .new(user: User.current, model: @placeholder_user)
@@ -141,10 +145,6 @@ class PlaceholderUsersController < ApplicationController
     @placeholder_user = PlaceholderUser.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
-  end
-
-  def check_if_deletion_allowed
-    render_404 unless PlaceholderUsers::DeleteContract.deletion_allowed?(current_user)
   end
 
   protected

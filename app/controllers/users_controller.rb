@@ -82,7 +82,7 @@ class UsersController < ApplicationController
     events = Activities::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
     @events_by_day = events.group_by { |e| e.event_datetime.to_date }
 
-    if !current_user.allowed_to_globally?(:add_user) &&
+    if !current_user.allowed_to_globally?(:manage_user) &&
        (!(@user.active? ||
        @user.registered?) ||
        (@user != User.current && @memberships.empty? && events.empty?))

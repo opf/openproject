@@ -6,7 +6,7 @@
 | lock                | Restrict the user from logging in and performing any actions         | not locked; **Permission**: Administrator                        |
 | show                | Link to the OpenProject user page (HTML)                             |                                                                  |
 | unlock              | Allow a locked user to login and act again                           | locked; **Permission**: Administrator                            |
-| updateImmediately   | Updates the user's attributes.                                       | **Permission**: Administrator, add_users global permission       |
+| updateImmediately   | Updates the user's attributes.                                       | **Permission**: Administrator, manage_users global permission       |
 | delete              | Permanently remove a user from the instance                          | **Permission**: Administrator, self-delete                       |
 
 ## Linked Properties
@@ -20,15 +20,15 @@
 | Property     | Description                                               | Type     | Constraints                                          | Supported operations | Condition                                                                             |
 | :----------: | --------------------------------------------------------- | -------- | ---------------------------------------------------- | -------------------- | -----------------------------------------------------------                           |
 | id           | User's id                                                 | Integer  | x > 0                                                | READ                 |                                                                                       |
-| login        | User's login name                                         | String   | unique, 256 max length                               | READ / WRITE         | **Permission**: Administrator, add_users global permission                            |
-| firstName    | User's first name                                         | String   | 30 max length                                        | READ / WRITE         | **Permission**: Administrator, add_users global permission                            |
-| lastName     | User's last name                                          | String   | 30 max length                                        | READ / WRITE         | **Permission**: Administrator, add_users global permission                            |
+| login        | User's login name                                         | String   | unique, 256 max length                               | READ / WRITE         | **Permission**: Administrator, manage_users global permission                            |
+| firstName    | User's first name                                         | String   | 30 max length                                        | READ / WRITE         | **Permission**: Administrator, manage_users global permission                            |
+| lastName     | User's last name                                          | String   | 30 max length                                        | READ / WRITE         | **Permission**: Administrator, manage_users global permission                            |
 | name         | User's full name, formatting depends on instance settings | String   |                                                      | READ                 |                                                                                       |
-| email        | User's email address                                      | String   | unique, 60 max length                                | READ / WRITE         | E-Mail address not hidden, **Permission**: Administrator, add_users global permission |
+| email        | User's email address                                      | String   | unique, 60 max length                                | READ / WRITE         | E-Mail address not hidden, **Permission**: Administrator, manage_users global permission |
 | admin        | Flag indicating whether or not the user is an admin       | Boolean  | in: [true, false]                                    | READ / WRITE         | **Permission**: Administrator                                                         |
 | avatar       | URL to user's avatar                                      | Url      |                                                      | READ                 |                                                                                       |
 | status       | The current activation status of the user (see below)     | String   | in: ["active", "registered", "locked", "invited"]    | READ                 |                                                                                       |
-| language     | User's language                                           | String   | ISO 639-1                                            | READ / WRITE         | **Permission**: Administrator, add_users global permission                            |
+| language     | User's language                                           | String   | ISO 639-1                                            | READ / WRITE         | **Permission**: Administrator, manage_users global permission                            |
 | password     | User's password for the default password authentication   | String   |                                                      | WRITE                | **Permission**: Administrator                                                         |
 | identity_url | User's identity_url for OmniAuth authentication           | String   |                                                      | READ / WRITE         | **Permission**: Administrator                                                         |
 | createdAt    | Time of creation                                          | DateTime |                                                      | READ                 |                                                                                       |
@@ -162,7 +162,7 @@ When calling this endpoint the client provides a single object, containing at le
 
     Returned if the client does not have sufficient permissions.
 
-    **Required permission:** Administrators, add_users global permission
+    **Required permission:** Administrators, manage_users global permission
 
     + Body
 
@@ -409,7 +409,7 @@ Permanently deletes the specified user account.
 
 ## List Users [GET]
 
-Lists users. Only administrators or users with add_users global permission have permission to do this.
+Lists users. Only administrators or users with manage_users global permission have permission to do this.
 
 + Parameters
     + offset = `1` (optional, integer, `25`) ... Page number inside the requested collection.
@@ -459,7 +459,7 @@ Lists users. Only administrators or users with add_users global permission have 
 
 ## Create User [POST]
 
-Creates a new user. Only administrators and users with add_users global permission are allowed to do so.
+Creates a new user. Only administrators and users with manage_users global permission are allowed to do so.
 When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
 
 Valid values for `status`:

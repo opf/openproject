@@ -39,8 +39,8 @@ describe 'API v3 User resource',
   let(:user) { FactoryBot.create(:user) }
   let(:admin) { FactoryBot.create(:admin) }
   let(:locked_admin) { FactoryBot.create :admin, status: Principal.statuses[:locked] }
-  let(:user_with_global_add_user) do
-    FactoryBot.create :user, firstname: 'Global', lastname: 'User', global_permission: :add_user
+  let(:user_with_global_manage_user) do
+    FactoryBot.create :user, firstname: 'Global', lastname: 'User', global_permission: :manage_user
   end
 
   subject(:response) { last_response }
@@ -161,8 +161,8 @@ describe 'API v3 User resource',
       it_behaves_like 'flow with permitted user'
     end
 
-    context 'user with global add_user permission' do
-      let(:current_user) { user_with_global_add_user }
+    context 'user with global manage_user permission' do
+      let(:current_user) { user_with_global_manage_user }
 
       it_behaves_like 'flow with permitted user'
     end
@@ -304,8 +304,8 @@ describe 'API v3 User resource',
       it_behaves_like 'deletion is not allowed'
     end
 
-    context 'as user with add_user permission' do
-      let(:current_user) { user_with_global_add_user }
+    context 'as user with manage_user permission' do
+      let(:current_user) { user_with_global_manage_user }
 
       it_behaves_like 'deletion is not allowed'
     end

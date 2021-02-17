@@ -46,13 +46,11 @@ module PlaceholderUsers
     end
 
     def delete_link
-      return nil unless User.current.admin?
+      return nil unless PlaceholderUsers::DeleteContract.deletion_allowed?(User.current)
 
       link_to '',
-              placeholder_user_path(placeholder_user),
-              data: { confirm: I18n.t(:text_are_you_sure) },
-              class: 'icon icon-delete',
-              method: :delete
+              deletion_info_placeholder_user_path(placeholder_user),
+              class: 'icon icon-delete'
     end
   end
 end

@@ -39,7 +39,7 @@ describe PlaceholderUsers::CreateContract do
     let(:contract) { described_class.new(placeholder_user, current_user) }
 
     context 'when user with global permission' do
-      let(:current_user) { FactoryBot.create(:user, global_permission: %i[add_placeholder_user]) }
+      let(:current_user) { FactoryBot.create(:user, global_permission: %i[manage_placeholder_user]) }
 
       it_behaves_like 'contract is invalid', base: :error_enterprise_only
     end

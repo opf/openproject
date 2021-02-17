@@ -144,8 +144,8 @@ describe 'create users', type: :feature, selenium: true do
   end
 
   context 'as global user' do
-    shared_let(:global_add_user) { FactoryBot.create :user, global_permission: :add_user }
-    let(:current_user) { global_add_user }
+    shared_let(:global_manage_user) { FactoryBot.create :user, global_permission: :manage_user }
+    let(:current_user) { global_manage_user }
 
     context 'with internal authentication' do
       before do

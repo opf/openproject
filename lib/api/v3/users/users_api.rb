@@ -49,7 +49,7 @@ module API
           end
 
           def authorize_user_cru_allowed
-            authorize_by_with_raise(current_user.allowed_to_globally?(:add_user))
+            authorize_by_with_raise(current_user.allowed_to_globally?(:manage_user))
           end
         end
 
