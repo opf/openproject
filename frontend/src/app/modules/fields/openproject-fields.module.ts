@@ -27,6 +27,11 @@
 //++
 
 import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-a11y.module";
+import {OpenprojectModalModule} from "core-app/modules/modal/modal.module";
+import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-editor.module';
+import {OpenprojectAttachmentsModule} from "core-app/modules/attachments/openproject-attachments.module";
+import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {EditFieldService} from "core-app/modules/fields/edit/edit-field.service";
 import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
 import {initializeCoreEditFields} from "core-app/modules/fields/edit/edit-field.initializer";
@@ -40,11 +45,8 @@ import {MultiSelectEditFieldComponent} from "core-app/modules/fields/edit/field-
 import {SelectEditFieldComponent} from "core-app/modules/fields/edit/field-types/select-edit-field.component";
 import {FormattableEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-edit-field.component";
 import {TextEditFieldComponent} from "core-app/modules/fields/edit/field-types/text-edit-field.component";
-import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {EditFormPortalComponent} from "core-app/modules/fields/edit/editing-portal/edit-form-portal.component";
 import {EditFieldControlsComponent,} from "core-app/modules/fields/edit/field-controls/edit-field-controls.component";
-import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-a11y.module";
-import {OpenprojectEditorModule} from 'core-app/modules/editor/openproject-editor.module';
 import {SelectAutocompleterRegisterService} from "core-app/modules/fields/edit/field-types/select-autocompleter-register.service";
 import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
 import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
@@ -56,7 +58,6 @@ import {AttributeValueMacroComponent} from "core-app/modules/fields/macros/attri
 import {AttributeLabelMacroComponent} from "core-app/modules/fields/macros/attribute-label-macro.component";
 import {AttributeHelpTextComponent} from "core-app/modules/fields/help-texts/attribute-help-text.component";
 import {AttributeHelpTextModal} from "core-app/modules/fields/help-texts/attribute-help-text.modal";
-import {OpenprojectAttachmentsModule} from "core-app/modules/attachments/openproject-attachments.module";
 import {WorkPackageQuickinfoMacroComponent} from "core-app/modules/fields/macros/work-package-quickinfo-macro.component";
 import {DisplayFieldComponent} from "core-app/modules/fields/display/display-field.component";
 
@@ -66,6 +67,7 @@ import {DisplayFieldComponent} from "core-app/modules/fields/display/display-fie
     OpenprojectAttachmentsModule,
     OpenprojectAccessibilityModule,
     OpenprojectEditorModule,
+    OpenprojectModalModule,
   ],
   exports: [
     EditFieldControlsComponent,

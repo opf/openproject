@@ -13,10 +13,8 @@ import {
   Optional,
   ViewChild
 } from '@angular/core';
-import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
 import {WorkPackageViewColumnsService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
-import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {
   ActiveTabInterface,
@@ -29,7 +27,9 @@ import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/iso
 import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
 import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
+import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
+import {OpModalComponent} from 'core-app/modules/modal/modal.component';
+import {OpModalLocalsMap} from 'core-app/modules/modal/modal.types';
 import {ComponentType} from "@angular/cdk/portal";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";

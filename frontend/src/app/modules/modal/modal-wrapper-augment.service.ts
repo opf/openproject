@@ -30,12 +30,16 @@
 import {Inject, Injectable, Injector} from "@angular/core";
 import {DOCUMENT} from "@angular/common";
 import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-content.modal";
-import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {OpModalService} from "core-app/modules/modal/modal.service";
 
 const iframeSelector = '.iframe-target-wrapper';
 
+/**
+ * This service takes modals that are rendered by the rails backend,
+ * and re-renders them with the angular op-modal service
+ */
 @Injectable({ providedIn: 'root' })
-export class ModalWrapperAugmentService {
+export class OpModalWrapperAugmentService {
 
   constructor(@Inject(DOCUMENT) protected documentElement:Document,
               protected injector:Injector,
@@ -57,12 +61,8 @@ export class ModalWrapperAugmentService {
    */
   public wrapElement(element:JQuery) {
     // Find activation link
-    let activationLink = element.find('.modal-wrapper--activation-link');
-    let activationSelector = element.data('activationSelector');
-
-    if (activationSelector) {
-      activationLink = jQuery(activationSelector);
-    }
+    const activationSelector = element.data('activationSelector') || '.modal-delivery-element--activation-link';
+    const activationLink = jQuery(activationSelector);
 
     const initializeNow = element.data('modalInitializeNow');
 
@@ -83,7 +83,7 @@ export class ModalWrapperAugmentService {
     const iframeUrl = element.data('modalIframeUrl');
 
     // Set template from wrapped element
-    const wrappedElement = element.find('.modal-wrapper--content');
+    const wrappedElement = element.find('.modal-delivery-element');
     let modalBody = wrappedElement.html();
 
     if (iframeUrl) {

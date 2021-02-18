@@ -39,7 +39,7 @@ import {ComponentType} from "@angular/cdk/overlay";
 import {Ng2StateDeclaration} from "@uirouter/angular";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {WorkPackageFilterContainerComponent} from "core-components/filters/filter-container/filter-container.directive";
-import {OpModalService} from 'core-app/components/op-modals/op-modal.service';
+import {OpModalService} from 'core-app/modules/modal/modal.service';
 import {InviteUserModalComponent} from 'core-app/modules/invite-user-modal/invite-user.component';
 
 export interface DynamicComponentDefinition {

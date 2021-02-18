@@ -102,7 +102,7 @@ module UsersHelper
   ##
   # Returns the user avatar or a default image
   def user_avatar_icon
-    op_icon('icon-context icon-user')
+    op_icon('op-icon icon-context icon-user')
   end
 
   def change_user_status_buttons(user)

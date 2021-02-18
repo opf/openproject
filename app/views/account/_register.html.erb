@@ -27,25 +27,28 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="modal-wrapper--content">
+<div class="modal-delivery-element">
   <%= labelled_tabular_form_for(@user, url: account_register_path, html: { class: 'form -wide-labels' }) do |f| %>
 
     <%= back_url_hidden_field_tag %>
     <%= error_messages_for :user %>
 
-    <div class="op-modal--modal-header">
-      <h2>
-        <%= op_icon 'icon-context icon-user' %>
+    <div class="op-modal--header">
+      <%= op_icon 'icon-context icon-user' %>
+      <h1 class="op-modal--title">
         <%= I18n.t('onboarding.welcome') %>
-      </h2>
-      <a class="op-modal--modal-close-button dynamic-content-modal--close-button"
-         title="<%= t('js.close_popup_title') %>"
-         aria-label="<%= t('js.close_popup_title') %>">
+      </h1>
+      <button
+        type="button"
+        class="op-modal--close-button"
+        title="<%= t('js.close_popup_title') %>"
+        aria-label="<%= t('js.close_popup_title') %>"
+      >
         <%= op_icon('icon-close') %>
-      </a>
+      </button>
     </div>
 
-    <div class="op-modal--modal-body">
+    <div class="op-modal--body">
       <h2><%= t(:label_register) %></h2>
       <section class="form--section">
         <% if @user.auth_source_id.nil? %>
@@ -109,7 +112,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
       <%= render partial: 'account/auth_providers', locals: { omniauth_title: I18n.t('account.signup_with_auth_provider'), wide: true } %>
     </div>
-    <div class="op-modal--modal-footer">
+    <div class="op-modal--footer">
       <%= render partial: 'account/footer' %>
     </div>
   <% end %>

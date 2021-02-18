@@ -1,25 +1,20 @@
-<div class="op-modal--portal ">
-  <div class="op-modal--modal-container wp-table--configuration-modal"
-       tabindex="0">
-    <div class="op-modal--modal-header">
-      <h3 [textContent]="text.title"></h3>
+<div class="op-modal op-modal_wide wp-table--configuration-modal">
+  <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
 
-      <a class="op-modal--modal-close-button">
-        <i
-            class="icon-close"
-            (click)="closeMe($event)"
-            [attr.title]="text.closePopup">
-        </i>
-      </a>
-    </div>
-
-    <ul *ngIf="exportOptions" class="export-options" [ngClass]="{'-hidden': isLoading}">
-      <li *ngFor="let option of exportOptions">
-        <a [attr.href]="option.url"
-           (click)="triggerByLink(option.url, $event)"
-           id="export-{{ option.identifier }}">
+  <div class="op-modal--body">
+    <ul *ngIf="exportOptions" class="op-export-options" [ngClass]="{'-hidden': isLoading}">
+      <li
+        *ngFor="let option of exportOptions"
+        class="op-export-options--option"
+      >
+        <a
+          [attr.href]="option.url"
+          class="op-export-options--option-link"
+          (click)="triggerByLink(option.url, $event)"
+          id="export-{{ option.identifier }}"
+        >
           <op-icon icon-classes="icon-export-{{ option.identifier }} icon-big"></op-icon>
-          <span class="export-label" [textContent]="option.label"></span>
+          <span class="op-export-options--option-label" [textContent]="option.label"></span>
         </a>
       </li>
     </ul>

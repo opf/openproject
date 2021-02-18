@@ -1,18 +1,7 @@
-<div class="op-modal--portal ">
-  <div class="op-modal--modal-container"
-       data-indicator-name="modal"
-       tabindex="0">
-    <div class="op-modal--modal-header">
-      <a class="op-modal--modal-close-button">
-        <i
-          class="icon-close"
-          (click)="closeMe($event)"
-          [attr.title]="text.closePopup">
-        </i>
-      </a>
-      <h3 [textContent]="text.displayedDays"></h3>
-    </div>
+<div class="op-modal">
+  <op-modal-header (close)="closeMe($event)">{{text.displayedDays}}</op-modal-header>
 
+  <div class="op-modal--body">
     <div class="form--field -trailing-label" *ngFor="let day of text.weekdays; let index = index">
       <label class="form--label" [textContent]="day" [htmlFor]="'day_' + index"></label>
       <span class="form--field-container">
@@ -21,17 +10,16 @@
         </span>
       </span>
     </div>
+  </div>
 
-    <div class="tab-content"></div>
-    <div class="modal--form-actions">
-      <button class="button -highlight"
-              [textContent]="text.applyButton"
-              (click)="saveChanges()">
-      </button>
-      <button class="button"
-              [textContent]="text.cancelButton"
-              (click)="closeMe($event)">
-      </button>
-    </div>
+  <div class="op-modal--footer">
+    <button class="button -highlight"
+            [textContent]="text.applyButton"
+            (click)="saveChanges()">
+    </button>
+    <button class="button"
+            [textContent]="text.cancelButton"
+            (click)="closeMe($event)">
+    </button>
   </div>
 </div>

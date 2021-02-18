@@ -29,7 +29,7 @@
 import {NgModule} from '@angular/core';
 import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
 import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
-import {OpenprojectInviteUserModalModule} from "core-app/modules/invite-user-modal/invite-user-modal.module";
+import {OpenprojectModalModule} from "core-app/modules/modal/modal.module";
 import {UIRouterModule} from "@uirouter/angular";
 import {BoardListComponent} from "core-app/modules/boards/board/board-list/board-list.component";
 import {BoardsRootComponent} from "core-app/modules/boards/boards-root/boards-root.component";
@@ -61,6 +61,7 @@ import {StatusBoardHeaderComponent} from "core-app/modules/boards/board/board-ac
   imports: [
     OpenprojectCommonModule,
     OpenprojectWorkPackagesModule,
+    OpenprojectModalModule,
     DragScrollModule,
 
     // Dynamic Module for actions

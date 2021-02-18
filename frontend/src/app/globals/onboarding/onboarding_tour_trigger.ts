@@ -22,7 +22,7 @@ export function detectOnboardingTour() {
       sessionStorage.setItem(onboardingTourStorageKey, 'readyToStart');
 
       // Start automatically when the language selection is closed
-      jQuery('.op-modal--modal-close-button').click(function () {
+      jQuery('.op-modal--close-button').click(function () {
         tourCancelled = true;
         triggerTour('homescreen');
       });

@@ -28,10 +28,10 @@
 
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 import {States} from '../../states.service';
-import {OpModalComponent} from "core-components/op-modals/op-modal.component";
 import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from "@angular/core";
-import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
-import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
+import {OpModalComponent} from "core-app/modules/modal/modal.component";
+import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
+import {OpModalLocalsMap} from "core-app/modules/modal/modal.types";
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import {StateService} from '@uirouter/core';

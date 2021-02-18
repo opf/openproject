@@ -2,9 +2,9 @@
   [formGroup]="projectAndTypeForm"
   (ngSubmit)="onSubmit($event)"
 >
-  <op-modal-heading (close)="close.emit()">{{ text.title }}</op-modal-heading>
+  <op-modal-header (close)="close.emit()">{{ text.title }}</op-modal-header>
 
-  <div class="op-modal--modal-body">
+  <div class="op-modal--body">
     <op-form-field
       label="Project"
       required
@@ -40,7 +40,7 @@
     </div>
   </div>
 
-  <div class="op-modal--modal-footer">
+  <div class="op-modal--footer">
     <button class="button">{{ text.nextButton }}</button>
   </div>
 </form>
