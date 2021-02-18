@@ -14,7 +14,7 @@ export class PermissionsService {
     private currentProjectService:CurrentProjectService,
   ) { }
 
-  canInviteUsersToProject(projectId = this.currentProjectService.id!):Observable<boolean> {
+  canInviteUsersToProject$(projectId = this.currentProjectService.id!):Observable<boolean> {
     // TODO: Remove/Fix this typing issue
     const filters:[string, FilterOperator, string[]][] = [['id', '=', [projectId]]];
 

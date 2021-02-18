@@ -31,7 +31,6 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  Inject,
   Input,
   Output,
   ViewChild
@@ -43,10 +42,6 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {AddTagFn} from "@ng-select/ng-select/lib/ng-select.component";
 import {Subject} from 'rxjs';
-import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {OpEditingPortalSchemaToken} from "core-app/modules/fields/edit/edit-field.component";
-import {OpModalService} from "core-components/op-modals/op-modal.service";
-import {InviteUserModalComponent} from "core-app/modules/invite-user-modal/invite-user.component";
 
 export interface CreateAutocompleterValueOption {
   name:string;
@@ -93,9 +88,6 @@ export class CreateAutocompleterComponent implements AfterViewInit {
               readonly cdRef:ChangeDetectorRef,
               readonly currentProject:CurrentProjectService,
               readonly pathHelper:PathHelperService,
-              @Inject(OpEditingPortalSchemaToken) public schema:IFieldSchema,
-              readonly opModalService:OpModalService,
-              readonly currentProjectService:CurrentProjectService,
 ) { }
 
   ngAfterViewInit() {
@@ -159,30 +151,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
     this.ngSelectComponent && this.ngSelectComponent.focus();
   }
 
-  public onAddNewClick($event:Event) {
-    this.ngSelectComponent.close();
-    $event.stopPropagation();
-    this.openInviteUserModal();
-  }
-
-  public openInviteUserModal() {
-    const inviteModal = this.opModalService.show(InviteUserModalComponent, 'global', {
-      projectId: this.currentProjectService.id,
-    });
-
-    inviteModal
-      .closingEvent
-      .subscribe((modal:any) => {
-        // TODO: Remove this data formatting
-        // The principal should be a UserResource instance to match
-        // the interface used by the SelectEditFieldComponent's
-        // availableOptions.
-        const dataToEmit = {
-          ...modal.data,
-          $href: modal.data.$source?._links?.self?.href,
-        };
-
-        this.onChange.emit(dataToEmit);
-      });
+  public onUserInvited(user:HalResource) {
+    this.onChange.emit(user);
   }
 }

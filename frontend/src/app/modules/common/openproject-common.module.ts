@@ -28,10 +28,8 @@
 
 import {FormsModule} from "@angular/forms";
 import {Injector, NgModule} from "@angular/core";
-
 import {AuthoringComponent} from 'core-app/modules/common/authoring/authoring.component';
 import {OpDateTimeComponent} from 'core-app/modules/common/date/op-date-time.component';
-import {OpIcon} from 'core-app/modules/common/icon/op-icon';
 import {NotificationComponent} from 'core-app/modules/common/notifications/notification.component';
 import {NotificationsContainerComponent} from 'core-app/modules/common/notifications/notifications-container.component';
 import {UploadProgressComponent} from 'core-app/modules/common/notifications/upload-progress.component';
@@ -84,10 +82,11 @@ import {TimeEntryWorkPackageAutocompleterComponent} from "core-app/modules/commo
 import {DraggableAutocompleteComponent} from "core-app/modules/common/draggable-autocomplete/draggable-autocomplete.component";
 import {DragulaModule} from "ng2-dragula";
 import {SlideToggleComponent} from "core-app/modules/common/slide-toggle/slide-toggle.component";
-import {OpOptionListComponent} from "core-app/modules/common/option-list/option-list.component";
-import {OpFormFieldComponent} from "core-app/modules/common/form-field/form-field.component";
-import {OpFormBindingDirective} from "core-app/modules/common/form-field/form-binding.directive";
-import {OpModalHeadingComponent} from "./modal/modal-heading.component";
+import {OpInviteUserModalModule} from "core-app/modules/common/invite-user-modal/op-invite-user-modal.module";
+import {OpenprojectModalHeadingModule} from "core-app/modules/common/modal/modal-heading.module";
+import {OpFormFieldModule} from "core-app/modules/common/form-field/op-form-field.module";
+import {OptionListModule} from "core-app/modules/common/option-list/option-list.module";
+import {OpIconModule} from "core-app/modules/common/icon/icon.module";
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
@@ -137,6 +136,12 @@ export function bootstrapModule(injector:Injector) {
       WorkPackageAutocompleterComponent,
       TimeEntryWorkPackageAutocompleterComponent,
       CreateAutocompleterComponent]),
+
+    OpFormFieldModule,
+    OptionListModule,
+    OpInviteUserModalModule,
+    OpenprojectModalHeadingModule,
+    OpIconModule,
   ],
   exports: [
     // Re-export all commonly used
@@ -152,11 +157,6 @@ export function bootstrapModule(injector:Injector) {
 
     OpDatePickerComponent,
     OpDateTimeComponent,
-    OpIcon,
-    OpOptionListComponent,
-    OpFormFieldComponent,
-    OpFormBindingDirective,
-    OpModalHeadingComponent,
     AutofocusDirective,
 
     FocusWithinDirective,
@@ -205,15 +205,16 @@ export function bootstrapModule(injector:Injector) {
     // filter
 
     SlideToggleComponent,
+
+    OpFormFieldModule,
+    OptionListModule,
+    OpInviteUserModalModule,
+    OpenprojectModalHeadingModule,
+    OpIconModule,
   ],
   declarations: [
     OpDatePickerComponent,
     OpDateTimeComponent,
-    OpIcon,
-    OpOptionListComponent,
-    OpFormFieldComponent,
-    OpFormBindingDirective,
-    OpModalHeadingComponent,
     AutofocusDirective,
 
     FocusWithinDirective,

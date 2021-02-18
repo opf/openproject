@@ -1040,6 +1040,7 @@ en:
 
     invite_user_modal:
       back: 'Back'
+      invite: 'Invite'
       title:
         invite: 'Invite user'
         invite_to_project: 'Invite %{type} to %{project}'

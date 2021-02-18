@@ -11,15 +11,26 @@ import {MessageComponent} from "./message/message.component";
 import {SummaryComponent} from "./summary/summary.component";
 import {SuccessComponent} from "./success/success.component";
 import {NgSelectModule} from "@ng-select/ng-select";
-import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
+import {OpenprojectModalHeadingModule} from "core-app/modules/common/modal/modal-heading.module";
+import {CommonModule} from "@angular/common";
+import {OpFormFieldModule} from "core-app/modules/common/form-field/op-form-field.module";
+import {OptionListModule} from "core-app/modules/common/option-list/option-list.module";
+import {InviteUserButtonComponent} from "core-app/modules/common/invite-user-modal/button/invite-user-button.component";
+import {OpIconModule} from "core-app/modules/common/icon/icon.module";
 
 @NgModule({
   imports: [
-    OpenprojectCommonModule,
+    CommonModule,
+    OpenprojectModalHeadingModule,
     NgSelectModule,
     ReactiveFormsModule,
+    OpFormFieldModule,
+    OptionListModule,
+    OpIconModule,
   ],
-  exports: [],
+  exports: [
+    InviteUserButtonComponent,
+  ],
   declarations: [
     InviteUserModalComponent,
     ProjectSelectionComponent,
@@ -31,6 +42,7 @@ import {OpenprojectCommonModule} from "core-app/modules/common/openproject-commo
     MessageComponent,
     SuccessComponent,
     SummaryComponent,
+    InviteUserButtonComponent,
   ]
 })
-export class OpenprojectInviteUserModalModule { }
+export class OpInviteUserModalModule { }
