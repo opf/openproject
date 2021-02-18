@@ -36,22 +36,7 @@ module API
 
         def self.link(name, getter: "#{name}_id")
           ->(*) {
-            instance = represented.send(name)
-
-            v3_path = case instance
-                      when User
-                        :user
-                      when Group
-                        :group
-                      when PlaceholderUser
-                        :placeholder_user
-                      when NilClass
-                        # Fall back to user for unknown principal
-                        # since we do not have a principal route.
-                        :user
-                      else
-                        raise "undefined subclass for #{instance}"
-                      end
+            v3_path = API::V3::Principals::AssociatedSubclassLambda.v3_path(represented.send(name))
 
             instance_exec(&self.class.associated_resource_default_link(name,
                                                                        v3_path: v3_path,
@@ -83,6 +68,23 @@ module API
                    setter: :"#{name}_id=")
               .from_hash(fragment)
           }
+        end
+
+        def self.v3_path(instance)
+          case instance
+          when User
+            :user
+          when Group
+            :group
+          when PlaceholderUser
+            :placeholder_user
+          when NilClass
+            # Fall back to user for unknown principal
+            # since we do not have a principal route.
+            :user
+          else
+            raise "undefined subclass for #{instance}"
+          end
         end
       end
     end

@@ -57,5 +57,13 @@ describe ::API::V3::Principals::PrincipalRepresenterFactory do
         expect(subject).to be_a ::API::V3::PlaceholderUsers::PlaceholderUserRepresenter
       end
     end
+
+    context 'with a deleted user' do
+      let(:principal) { FactoryBot.build_stubbed :deleted_user }
+
+      it 'returns a user representer' do
+        expect(subject).to be_a ::API::V3::Users::UserRepresenter
+      end
+    end
   end
 end
