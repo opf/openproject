@@ -1,0 +1,13 @@
+<button
+  class="button -tiny -alt-highlight"
+  type="button"
+  (click)="onAddNewClick($event)"
+  *ngIf="showButton">
+  <op-icon icon-classes="button--icon icon-add" class="op-icon--wrapper">
+  </op-icon>
+
+  <span class="button--text">
+    {{text.button}}
+  </span>
+</button>
+
