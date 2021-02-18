@@ -240,6 +240,14 @@ es:
       no_results_title_text: Este usuario no es miembro actualmente de ningún grupo.
     memberships:
       no_results_title_text: El usuario no es actualmente un miembro del proyecto.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -518,6 +526,7 @@ es:
         confirmation: "no coincide con %{attribute}."
         could_not_be_copied: "%{dependency} no se pudo copiar (en su totalidad)."
         does_not_exist: "no existe."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "no se puede acceder."
         error_readonly: "se intentó escribir pero no se puede escribir."
         empty: "No puede estar vacío."
@@ -1330,6 +1339,7 @@ es:
   label_custom_field_plural: "Campos Personalizados"
   label_custom_field_default_type: "Tipo vacío"
   label_custom_style: "Diseño"
+  label_database_version: "PostgreSQL version"
   label_date: "Fecha"
   label_date_and_time: "Fecha y hora"
   label_date_from: "De"
@@ -1914,6 +1924,8 @@ es:
   permission_add_work_packages: "Añadir paquetes de trabajo"
   permission_add_messages: "Publicar mensajes"
   permission_add_project: "Crear proyecto"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Crear subproyectos"
   permission_add_work_package_watchers: "Agregar observadores"
   permission_assign_versions: "Asignar versiones"

@@ -243,6 +243,14 @@
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Denne brukeren er for øyeblikket ikke medlem av et prosjekt.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -521,6 +529,7 @@
         confirmation: "samsvarer ikke med %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "finnes ikke."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "kan ikke nås"
         error_readonly: "ble forsøkt skrevet til, men er skrivebeskyttet"
         empty: "kan ikke være tomt."
@@ -1333,6 +1342,7 @@
   label_custom_field_plural: "Egendefinerte felter"
   label_custom_field_default_type: "Tom type"
   label_custom_style: "Design"
+  label_database_version: "PostgreSQL version"
   label_date: "Dato"
   label_date_and_time: "Dato og tid"
   label_date_from: "Fra"
@@ -1917,6 +1927,8 @@
   permission_add_work_packages: "Legg til arbeidspakker"
   permission_add_messages: "Skriv meldinger"
   permission_add_project: "Opprett prosjekt"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Opprett underprosjekt"
   permission_add_work_package_watchers: "Legg til overvåker"
   permission_assign_versions: "Assign versions"

@@ -243,6 +243,14 @@ ko:
       no_results_title_text: 이 사용자는 현재 어떤 그룹의 멤버도 아닙니다.
     memberships:
       no_results_title_text: 이 사용자는 프로젝트의 멤버가 아닙니다.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -519,6 +527,7 @@ ko:
         confirmation: "%{attribute} 속성에 부합하지 않습니다."
         could_not_be_copied: "%{dependency}을(를) (완전히) 복사할 수 없습니다."
         does_not_exist: "존재하지 않음"
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "액세스하지 못할 수 있습니다."
         error_readonly: "- 쓰려고 했지만 쓸 수 없습니다."
         empty: "비워둘 수 없습니다."
@@ -1316,6 +1325,7 @@ ko:
   label_custom_field_plural: "사용자 정의 필드"
   label_custom_field_default_type: "빈 유형"
   label_custom_style: "디자인"
+  label_database_version: "PostgreSQL version"
   label_date: "날짜"
   label_date_and_time: "날짜 및 시간"
   label_date_from: "시작"
@@ -1895,6 +1905,8 @@ ko:
   permission_add_work_packages: "작업 패키지 추가"
   permission_add_messages: "메시지 게시"
   permission_add_project: "프로젝트 만들기"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "하위 프로젝트 만들기"
   permission_add_work_package_watchers: "주시자 추가"
   permission_assign_versions: "버전 할당"

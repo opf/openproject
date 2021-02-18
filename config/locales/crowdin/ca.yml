@@ -243,6 +243,14 @@ ca:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Aquest usuari no és actualment membre de cap projecte.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -521,6 +529,7 @@ ca:
         confirmation: "no coincideix amb el %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "no existeix."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         empty: "no pot estar buit."
@@ -1333,6 +1342,7 @@ ca:
   label_custom_field_plural: "Camps personalitzats"
   label_custom_field_default_type: "Tipus buit"
   label_custom_style: "Design"
+  label_database_version: "PostgreSQL version"
   label_date: "Data"
   label_date_and_time: "Date and time"
   label_date_from: "De"
@@ -1917,6 +1927,8 @@ ca:
   permission_add_work_packages: "Afegir paquets de treball"
   permission_add_messages: "Publicar missatges"
   permission_add_project: "Crear un projecte"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Crear subprojectes"
   permission_add_work_package_watchers: "Afegir observadors"
   permission_assign_versions: "Assign versions"

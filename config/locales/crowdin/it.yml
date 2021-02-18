@@ -240,6 +240,14 @@ it:
       no_results_title_text: Questo utente al momento non è un membro di alcun gruppo.
     memberships:
       no_results_title_text: Questo utente non è attualmente membro di alcun progetto.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -517,6 +525,7 @@ it:
         confirmation: "non coincide con %{attribute}."
         could_not_be_copied: "%{dependency} non può essere (completamente) copiato."
         does_not_exist: "non esiste."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "potrebbe non essere accessibile."
         error_readonly: "è in sola lettura, pertanto non è stato possibile modificarlo."
         empty: "non può essere vuoto."
@@ -1329,6 +1338,7 @@ it:
   label_custom_field_plural: "Campo personalizzato"
   label_custom_field_default_type: "Tipo vuoto"
   label_custom_style: "Progettazione"
+  label_database_version: "PostgreSQL version"
   label_date: "Data"
   label_date_and_time: "Data e ora"
   label_date_from: "Da"
@@ -1913,6 +1923,8 @@ it:
   permission_add_work_packages: "Aggiungere macro-attività (work package)"
   permission_add_messages: "Postare messaggi"
   permission_add_project: "Creare un progetto"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Creare sotto-progetti"
   permission_add_work_package_watchers: "Aggiungere osservatori"
   permission_assign_versions: "Assegna versioni"
