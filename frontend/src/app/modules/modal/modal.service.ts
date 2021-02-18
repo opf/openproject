@@ -71,7 +71,12 @@ export class OpModalService {
    *                 Can be passed 'global' to take the default (global!) injector of this service.
    * @param locals A map to be injected via token into the component.
    */
-  public show<T extends OpModalComponent>(modal:ComponentType<T>, injector:Injector|'global', locals:any = {}):T {
+  public show<T extends OpModalComponent>(
+    modal:ComponentType<T>,
+    injector:Injector|'global',
+    locals:any = {},
+    notFullScreen:boolean = false, // TODO: Remove this option once `WpPreviewModal` is not a modal anymore
+  ):T {
     this.close();
 
     // Prevent closing events during the opening time frame.
@@ -88,6 +93,9 @@ export class OpModalService {
     const instance = ref.instance as T;
     this.active = instance;
     this.portalHostElement.classList.add('op-modal-overlay_active');
+    if (notFullScreen) {
+      this.portalHostElement.classList.add('op-modal-overlay_not-full-screen');
+    }
 
     setTimeout(() => {
       // Focus on the first element
@@ -113,6 +121,7 @@ export class OpModalService {
       this.active.closingEvent.emit(this.active);
       this.bodyPortalHost.detach();
       this.portalHostElement.classList.remove('op-modal-overlay_active');
+      this.portalHostElement.classList.remove('op-modal-overlay_not-full-screen');
       this.active = null;
     }
   }
