@@ -32,6 +32,7 @@ module Admin
   class SettingsController < ApplicationController
     layout 'admin'
     before_action :require_admin
+    before_action :find_plugin, only: %i[show_plugin update_plugin]
 
     helper_method :gon
 
@@ -39,7 +40,7 @@ module Admin
       :settings
     end
 
-    current_menu_item :plugin do |controller|
+    current_menu_item :show_plugin do |controller|
       plugin = Redmine::Plugin.find(controller.params[:id])
       plugin.settings[:menu_item] || :settings
     rescue Redmine::PluginNotFound
@@ -47,7 +48,7 @@ module Admin
     end
 
     def show
-      redirect_to general_admin_settings_path
+      respond_to :html
     end
 
     def update
@@ -62,18 +63,15 @@ module Admin
       end
     end
 
-    def plugin
-      @plugin = Redmine::Plugin.find(params[:id])
-      if request.post?
-        Setting["plugin_#{@plugin.id}"] = params[:settings].permit!.to_h
-        flash[:notice] = I18n.t(:notice_successful_update)
-        redirect_to action: 'plugin', id: @plugin.id
-      else
-        @partial = @plugin.settings[:partial]
-        @settings = Setting["plugin_#{@plugin.id}"]
-      end
-    rescue Redmine::PluginNotFound
-      render_404
+    def show_plugin
+      @partial = @plugin.settings[:partial]
+      @settings = Setting["plugin_#{@plugin.id}"]
+    end
+
+    def update_plugin
+      Setting["plugin_#{@plugin.id}"] = params[:settings].permit!.to_h
+      flash[:notice] = I18n.t(:notice_successful_update)
+      redirect_to action: :show_plugin, id: @plugin.id
     end
 
     def show_local_breadcrumb
@@ -81,6 +79,12 @@ module Admin
     end
 
     protected
+
+    def find_plugin
+      @plugin = Redmine::Plugin.find(params[:id])
+    rescue Redmine::PluginNotFound
+      render_404
+    end
 
     def settings_params
       permitted_params.settings.to_h

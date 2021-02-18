@@ -388,7 +388,7 @@ OpenProject::Application.routes.draw do
   end
 
   namespace :admin do
-    resource :settings, only: %i(update show) do
+    namespace :settings do
       SettingsHelper.system_settings_tabs.each do |tab|
         get tab[:name], controller: tab[:controller], action: :show, as: tab[:name].to_s
         patch tab[:name], controller: tab[:controller], action: :update, as: "update_#{tab[:name]}"
@@ -400,10 +400,12 @@ OpenProject::Application.routes.draw do
       resource :work_packages, controller: '/admin/settings/work_packages_settings', only: %i[show update]
       resource :users, controller: '/admin/settings/users_settings', only: %i[show update]
 
-      # We should fix this crappy routing (split up and rename controller methods)
-      collection do
-        match 'plugin/:id', action: 'plugin', via: %i[get post]
-      end
+      # Redirect /settings to general settings
+      get '/', to: redirect('/admin/settings/general')
+
+      # Plugin settings
+      get 'plugin/:id', action: :show_plugin
+      post 'plugin/:id', action: :update_plugin
     end
   end
 

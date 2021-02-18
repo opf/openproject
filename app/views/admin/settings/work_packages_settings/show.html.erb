@@ -48,7 +48,7 @@ See docs/COPYRIGHT.rdoc for more details.
                             options[:disabled] = 'disabled' unless EnterpriseToken.allows_to?(:conditional_highlighting)
                          }
       %>
-      <%= render partial: 'work_packages/settings/enterprise_feature_hint',
+      <%= render partial: 'enterprise_feature_hint',
                  locals: {
                    ee_feature: :conditional_highlighting,
                    explanation: t('js.work_packages.table_configuration.upsale.attribute_highlighting'),

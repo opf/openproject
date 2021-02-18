@@ -179,7 +179,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :users_and_permissions
 
   menu.push :user_avatars,
-            { controller: '/admin/settings', action: 'plugin', id: :openproject_avatars },
+            { controller: '/admin/settings', action: 'show_plugin', id: :openproject_avatars },
             if: Proc.new { User.current.admin? },
             caption: :label_avatar_plural,
             parent: :users_and_permissions
@@ -338,13 +338,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: proc { User.current.admin? && OpenProject::Configuration.ee_manager_visible? }
 
   menu.push :admin_costs,
-            { controller: '/admin/settings', action: 'plugin', id: :costs },
+            { controller: '/admin/settings', action: 'show_plugin', id: :costs },
             if: Proc.new { User.current.admin? },
             caption: :project_module_costs,
             icon: 'icon2 icon-budget'
 
   menu.push :costs_setting,
-            { controller: '/admin/settings', action: 'plugin', id: :costs },
+            { controller: '/admin/settings', action: 'show_plugin', id: :costs },
             if: Proc.new { User.current.admin? },
             caption: :label_setting_plural,
             parent: :admin_costs

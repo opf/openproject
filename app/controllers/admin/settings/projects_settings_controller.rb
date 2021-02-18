@@ -32,10 +32,6 @@ module Admin::Settings
   class ProjectsSettingsController < ::Admin::SettingsController
     menu_item :settings_projects
 
-    def show
-      render template: 'settings/_projects'
-    end
-
     def default_breadcrumb
       t(:label_project_plural)
     end

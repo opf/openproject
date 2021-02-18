@@ -37,6 +37,8 @@ module Admin::Settings
     def show
       @deliveries = ActionMailer::Base.perform_deliveries
       @notifiables = Redmine::Notifiable.all
+
+      respond_to :html
     end
 
     def default_breadcrumb

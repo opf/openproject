@@ -32,10 +32,6 @@ module Admin::Settings
   class APISettingsController < ::Admin::SettingsController
     menu_item :settings_api
 
-    def show
-      render template: 'settings/_api'
-    end
-
     def default_breadcrumb
       t(:label_api_access_key_type)
     end

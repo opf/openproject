@@ -30,12 +30,8 @@
 
 module Admin::Settings
   class WorkPackagesSettingsController < ::Admin::SettingsController
-    current_menu_item :index do
+    current_menu_item :show do
       :work_packages_setting
-    end
-
-    def show
-      render template: 'work_packages/settings/work_package_tracking'
     end
 
     def default_breadcrumb

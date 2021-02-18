@@ -36,7 +36,7 @@ module Admin::Settings
       @options = {}
       @options[:user_format] = User::USER_FORMATS_STRUCTURE.keys.map { |f| [User.current.name(f), f.to_s] }
 
-      render template: 'settings/_display'
+      respond_to :html
     end
 
     def default_breadcrumb

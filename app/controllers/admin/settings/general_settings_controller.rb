@@ -32,10 +32,6 @@ module Admin::Settings
   class GeneralSettingsController < ::Admin::SettingsController
     menu_item :settings_general
 
-    def show
-      render template: 'settings/_general'
-    end
-
     def default_breadcrumb
       t(:label_general)
     end

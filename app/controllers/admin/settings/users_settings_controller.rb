@@ -32,8 +32,6 @@ module Admin::Settings
   class UsersSettingsController < ::Admin::SettingsController
     menu_item :user_settings
 
-    def show; end
-
     def default_breadcrumb
       t(:label_user_settings)
     end

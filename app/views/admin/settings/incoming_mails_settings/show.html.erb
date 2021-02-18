@@ -31,7 +31,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= toolbar title: t(:label_incoming_emails) %>
 
-<%= styled_form_tag(admin_incoming_mails_path, method: :patch) do %>
+<%= styled_form_tag(admin_settings_incoming_mails_path, method: :patch) do %>
   <section class="form--section">
     <div class="form--field">
       <%= setting_text_area :mail_handler_body_delimiters, rows: 5, container_class: '-wide' %>

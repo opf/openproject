@@ -39,6 +39,6 @@ class RepositorySettingsPage
   end
 
   def visit_repository_settings
-    visit repository_admin_settings_path
+    visit admin_settings_repositories_path
   end
 end

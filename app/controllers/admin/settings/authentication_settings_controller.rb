@@ -32,8 +32,6 @@ module Admin::Settings
   class AuthenticationSettingsController < ::Admin::SettingsController
     menu_item :authentication_settings
 
-    def show; end
-
     def default_breadcrumb
       t(:label_authentication)
     end
