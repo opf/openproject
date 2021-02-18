@@ -79,8 +79,6 @@ OpenProject, for example, uses the projects to structure the different modules/p
 
 <div class="alert alert-info" role="alert">
 **Please note**: You have to be a [member](../members/#add-members) of a project in order to see the project and to work in a project.
-
-
 </div>
 
 ## Project Settings
@@ -121,7 +119,7 @@ Press the blue **Save** button to apply your changes.
 If you want to set a project to public, you can do so by ticking the box next to "Public" in the [project settings](project-settings) *->Information*.
 
 Setting a project to public will make it accessible to all people within your OpenProject instance. 
-(Should your instance be accessible without authentication [accessible without authentication](../../system-admin-guide/authentication/authentication-settings) this option will make the project visible to the general public outside your users, too)
+(Should your instance be [accessible without authentication](../../system-admin-guide/authentication/authentication-settings) this option will make the project visible to the general public outside your registered users, too)
 
 
 ### Create a project template
