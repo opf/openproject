@@ -78,7 +78,7 @@ de:
     is_active: derzeit angezeigt
     is_inactive: derzeit nicht angezeigt
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
+    note_public: 'Alle Texte und Bilder, die Sie diesem Feld hinzufügen, sind öffentlich für angemeldete Benutzer sichtbar.'
     text_overview: 'In dieser Ansicht können Sie benutzerdefinierte Hilfe-Texte für Attribute definieren. Für Attribute mit hinterlegtem Text können diese über ein kleines Hilfe-Icon neben dem Attribut angezeigt werden.'
     label_plural: 'Hilfe-Texte für Attribute'
     show_preview: 'Vorschau des Hilfe-Textes'
@@ -192,7 +192,7 @@ de:
       Geben Sie eine Liste von Dateinamen an, die beim Verarbeiten von Anhängen für eingehende Mails (z.B. Signaturen oder Symbole) ignoriert werden sollen. Geben Sie einen Dateinamen pro Zeile ein.
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
+      scheduled: "Die Löschung wurde geplant und wird im Hintergrund durchgeführt. Sie werden über das Ergebnis informiert."
       schedule_failed: "Projekt kann nicht gelöscht werden: %{errors}"
       failed: "Löschen des Projekts %{name} ist fehlgeschlagen"
       failed_text: "Die Anfrage zum Löschen des Projekts %{name} ist fehlgeschlagen. Das Projekt wurde archiviert."
@@ -240,6 +240,14 @@ de:
       no_results_title_text: Dieser Benutzer ist derzeit kein Mitglied in einer Gruppe.
     memberships:
       no_results_title_text: Dieser Nutzer ist derzeit in keinem Projekt Mitglied.
+  placeholder_users:
+    deletion_info:
+      heading: "Platzhalter %{name} löschen"
+      data_consequences: >
+        Alle Vorkommnisse des Platzhalter-Benutzers (z.B. als zugewiesene Person, Verantwortlicher oder andere Benutzerwerte) werden einem Konto mit dem Namen "Gelöschter Benutzer" zugewiesen.
+        Da die Daten jedes gelöschten Kontos diesem Konto zugewiesen werden, wird es nicht möglich sein, die Daten des Benutzers von den Daten eines anderen gelöschten Kontos zu unterscheiden.
+      irreversible: "Dieser Vorgang kann nicht rückgängig gemacht werden"
+      confirmation: "Geben Sie den Platzhalternamen %{name} ein, um die Löschung zu bestätigen."
   prioritiies:
     edit:
       priority_color_text: |
@@ -516,6 +524,7 @@ de:
         confirmation: "stimmt nicht mit %{attribute} überein."
         could_not_be_copied: "%{dependency} konnte nicht (vollständig) kopiert werden."
         does_not_exist: "existiert nicht."
+        error_enterprise_only: "ist nur in der OpenProject Enterprise Edition verfügbar"
         error_unauthorized: "kann nicht zugegriffen werden."
         error_readonly: "wurde versucht zu beschreiben, ist aber nicht beschreibbar."
         empty: "muss ausgefüllt werden."
@@ -531,7 +540,7 @@ de:
         invalid_url: 'ist keine gültige URL.'
         invalid_url_scheme: 'ist kein unterstütztes Protokoll (erlaubt: %{allowed_schemes}).'
         less_than_or_equal_to: "muss kleiner oder gleich %{count} sein."
-        not_deletable: "cannot be deleted."
+        not_deletable: "kann nicht entfernt werden."
         not_current_user: "ist nicht der aktuelle Benutzer."
         not_a_date: "ist kein gültiges Datum."
         not_a_datetime: "ist kein gültiges Datum."
@@ -716,7 +725,7 @@ de:
       status: "Arbeitspaket-Status"
       member: "Mitglied"
       news: "Nachrichten"
-      placeholder_user: "Placeholder user"
+      placeholder_user: "Platzhalter-Benutzer"
       project: "Projekt"
       query: "Benutzerdefinierte Abfrage"
       role:
@@ -1127,7 +1136,7 @@ de:
   error_menu_item_not_saved: Menüpunkt konnte nicht aktualisiert werden.
   error_wiki_root_menu_item_conflict: >
     Kann "%{old_name}" nicht in "%{new_name}" umbenennen, weil es mit dem bestehenden Menüeintrag "%{existing_caption}" (%{existing_identifier}) kollidiert.
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed: "Die externe Authentifizierung ist fehlgeschlagen. Bitte versuchen Sie es erneut."
   error_attribute_not_highlightable: "Nicht hervorhebbare Attribut(e): %{attributes}"
   events:
     project: 'Projekt bearbeitet'
@@ -1328,6 +1337,7 @@ de:
   label_custom_field_plural: "Benutzerdefinierte Felder"
   label_custom_field_default_type: "Leerer Typ"
   label_custom_style: "Design"
+  label_database_version: "PostgreSQL-Version"
   label_date: "Datum"
   label_date_and_time: "Datum und Zeit"
   label_date_from: "Von"
@@ -1536,9 +1546,9 @@ de:
   label_permissions: "Berechtigungen"
   label_permissions_report: "Berechtigungsübersicht"
   label_personalize_page: "Diese Seite anpassen"
-  label_placeholder_user: "Placeholder user"
-  label_placeholder_user_new: "New placeholder user"
-  label_placeholder_user_plural: "Placeholder users"
+  label_placeholder_user: "Platzhalter-Benutzer"
+  label_placeholder_user_new: "Neuer Platzhalter-Benutzer"
+  label_placeholder_user_plural: "Platzhalter-Benutzer"
   label_planning: "Terminplanung"
   label_please_login: "Anmelden"
   label_plugins: "Plugins"
@@ -1848,7 +1858,7 @@ de:
   notice_email_sent: "Eine E-Mail wurde an %{value} gesendet."
   notice_failed_to_save_work_packages: "%{count} von %{total} ausgewählten Arbeitspaketen konnte(n) nicht gespeichert werden: %{ids}."
   notice_failed_to_save_members: "Benutzer konnte(n) nicht gespeichert werden: %{errors}."
-  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
+  notice_deletion_scheduled: "Die Löschung wurde geplant und wird asynchron durchgeführt."
   notice_file_not_found: "Die von Ihnen aufgerufene Seite existiert nicht oder ist verschoben worden."
   notice_forced_logout: "Nach %{ttl_time} Minuten Inaktivität wurden Sie automatisch ausgeloggt."
   notice_internal_server_error: "Auf der von Ihnen aufgerufenen Seite ist ein Fehler aufgetreten. Kontaktieren Sie bitte Ihren %{app_title} Administrator, wenn Sie wiederholt Probleme mit dem Aufrufen der Seite haben."
@@ -1912,6 +1922,8 @@ de:
   permission_add_work_packages: "Arbeitspakete hinzufügen"
   permission_add_messages: "Forenbeiträge hinzufügen"
   permission_add_project: "Projekt erstellen"
+  permission_manage_user: "Benutzer erstellen und bearbeiten"
+  permission_manage_placeholder_user: "Platzhalter-Benutzer erstellen, bearbeiten und löschen"
   permission_add_subprojects: "Unterprojekte erstellen"
   permission_add_work_package_watchers: "Beobachter hinzufügen"
   permission_assign_versions: "Versionen zuweisen"
@@ -2113,7 +2125,7 @@ de:
       username: "Projektarchiv-Nutzername"
     truncated: "Dieses Projektarchiv musste limitiert werden auf %{limit} Dateien. %{truncated} Einträge wurden von der Liste weggelassen."
     named_repository: "%{vendor_name} Projektarchiv"
-    update_settings_successful: "The settings have been successfully saved."
+    update_settings_successful: "Die Einstellungen wurden erfolgreich gespeichert."
     url: "URL zum Projektarchiv"
     warnings:
       cannot_annotate: "Diese Datei kann nicht kommentiert werden."

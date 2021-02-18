@@ -844,7 +844,7 @@ sl:
           automatic: 'Avtomatično'
           manually: 'Ročno'
           warning: 'Ko aktivirate način samodejnega razvrščanja, boste izgubili prejšnje razvrščanje.'
-        columns_help_text: "Uporabite zgornje vnosno polje za dodajanje stolpcev v tabelo. Vrstni red lahko spremenite tako da stolpce povlečete in spustite."
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Potrebujete določene delovne pakete da izstopajo iz nereda?'
           relation_columns: 'Potrebujete videti povezave v seznamu delovnega paketa?'

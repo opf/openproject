@@ -243,6 +243,14 @@ tr:
       no_results_title_text: Bu kullanıcı şu anda hiçbir gruba üye değil.
     memberships:
       no_results_title_text: Bu kullanıcı şuan için bir proje üyesi değil.
+  placeholder_users:
+    deletion_info:
+      heading: "%{name} yer tutucu kullanıcısını sil."
+      data_consequences: >
+        Yer tutucu kullanıcının adının geçtiği her şey (örn. devralan, sorumlu veya diğer kullanıcı değerleri) "Silinmiş Kullanıcı" olarak anılan bir hesaba atanacaktır.
+        Silinmiş tüm hesapların bilgileri bu hesaba atandığından bu kullanıcının oluşturduğu veriler başka bir silinmiş hesap tarafından oluşturulmuş verilerden ayrılamaz.
+      irreversible: "Bu işlem geri alınamaz"
+      confirmation: "Silme işlemini onaylamak için yer tutucu %{name} ismini girin."
   prioritiies:
     edit:
       priority_color_text: |
@@ -521,6 +529,7 @@ tr:
         confirmation: "%{attribute} eşleşmiyor."
         could_not_be_copied: "%{dependency} (tam olarak) kopyalanamadı."
         does_not_exist: "mevcut değil."
+        error_enterprise_only: "sadece OpenProject'in ticari sürümlerinde mevcuttur"
         error_unauthorized: "erişilemez."
         error_readonly: "yazılmaya çalışıldı fakat yazılabilir değil."
         empty: "boş olamaz."
@@ -1333,6 +1342,7 @@ tr:
   label_custom_field_plural: "Özel alanlar"
   label_custom_field_default_type: "Boş tür"
   label_custom_style: "Tasarım"
+  label_database_version: "PostgreSQL sürümü"
   label_date: "Tarih"
   label_date_and_time: "Tarih ve zaman"
   label_date_from: "Başlangıç"
@@ -1853,7 +1863,7 @@ tr:
   notice_email_sent: "%{value} adresine bir e-posta gönderildi"
   notice_failed_to_save_work_packages: "Seçilen %{total} %{count} iş paketini(ler) kaydettirilemedi: %{ids}."
   notice_failed_to_save_members: "Üye(ler) kaydedilemedi: %{errors}."
-  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
+  notice_deletion_scheduled: "Silme planlandı ve eşzamansız olarak yapıldı."
   notice_file_not_found: "Erişmeye çalıştığınız sayfa mevcut değil veya kaldırıldı."
   notice_forced_logout: "%{ttl_time} dakika hareketsizlikten sonra hesabınızdan otomatik çıkış yapılmıştır."
   notice_internal_server_error: "Erişmeye çalıştığınız sayfada bir hata oluştu. Sorun yaşamaya devam ederseniz, lütfen yardım için %{app_title} yöneticinize başvurun."
@@ -1917,6 +1927,8 @@ tr:
   permission_add_work_packages: "İş paketi eklemek"
   permission_add_messages: "İleti göndermek"
   permission_add_project: "Proje oluşturmak"
+  permission_manage_user: "Kullanıcılar oluştur ve düzenle"
+  permission_manage_placeholder_user: "Yer tutucu kullanıcılar oluştur, düzenle ve sil."
   permission_add_subprojects: "Alt proje oluşturmak"
   permission_add_work_package_watchers: "Takipçi ekle"
   permission_assign_versions: "Sürüm ata"

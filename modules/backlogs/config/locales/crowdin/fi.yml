@@ -45,7 +45,7 @@ fi:
   backlogs:
     add_new_story: "Uusi tarina"
     any: "kaikki"
-    backlog_settings: "Backlogs settings"
+    backlog_settings: "Työjonon asetukset"
     burndown_graph: "Edistymiskäyrä"
     card_paper_size: "Paperin koko kortille"
     chart_options: "Kaavion asetukset"

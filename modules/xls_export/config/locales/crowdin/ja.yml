@@ -6,8 +6,8 @@ ja:
   export:
     format:
       xls: "XLS"
-      xls_with_descriptions: "説明付きXLS"
+      xls_with_descriptions: "説明付きの XLS"
       xls_with_relations: "関係を含むXLS"
   xls_export:
-    child_of: 次の子供
+    child_of: 次の子
     parent_of: 次の親
