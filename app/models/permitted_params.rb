@@ -207,8 +207,9 @@ class PermittedParams
     if current_user.admin?
       additional_params << :force_password_change if change_password_allowed
       additional_params << :admin
-      additional_params << :login
     end
+
+    additional_params << :login if current_user.allowed_to_globally?(:manage_user)
 
     user additional_params
   end
