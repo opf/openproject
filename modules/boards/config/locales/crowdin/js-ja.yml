@@ -44,13 +44,13 @@ ja:
         action_text_subprojects: >
           サブプロジェクトの列が自動化されたボード。ワークパッケージを他のリストにドラッグすると、それに応じて(サブ)プロジェクトが更新されます。
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          子要素の列が自動化されたボード。ワークパッケージを他のリストにドラッグすると、それに応じて親要素が更新されます。
         action_text_status: >
           To Do、進行中、完了などのステータスの列を持つ基本的なカンバンスタイルボード。
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          担当者ベースの自動化された列を持つボード。ワークパッケージの割り当てに最適です。
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning product development.
+          バージョン属性に基づき自動化される列のボード。製品開発の計画に最適です。
         action_type:
           assignee: 担当者
           status: ステータス

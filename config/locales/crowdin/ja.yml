@@ -202,7 +202,7 @@ ja:
     index:
       open_as_gantt: 'ガントビューとして開く'
       open_as_gantt_title: "このボタンを使用して、このページに表示されているプロジェクトのワークパッケージをフィルタリングするガントビューを生成します。"
-      open_as_gantt_title_admin: "プロジェクト設定で、表示設定 (選択した作業項目の種類など) を変更できます。"
+      open_as_gantt_title_admin: "プロジェクト設定で、表示設定 (選択したワークパッケージの種類など) を変更できます。"
       no_results_title_text: 現在、プロジェクトはありません
       no_results_content_text: プロジェクトを新規作成
     settings:
@@ -243,12 +243,12 @@ ja:
       no_results_title_text: このユーザは現在プロジェクトのメンバーではありません。
   placeholder_users:
     deletion_info:
-      heading: "Delete placeholder user %{name}"
+      heading: "プレースホルダー ユーザー %{name} を削除"
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
-        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
-      irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+        プレースホルダー ユーザのすべての発生(担当者、担当者、その他のユーザ値など)は、「削除されたユーザー」というアカウントに再割り当てられます。
+        削除されたすべてのアカウントのデータがこのアカウントに再割り当てられるため、ユーザーが作成したデータと別の削除されたアカウントのデータを区別することはできません。
+      irreversible: "この操作は元に戻せません"
+      confirmation: "削除を確認するためにプレースホルダ名 %{name} を入力します。"
   prioritiies:
     edit:
       priority_color_text: |
@@ -262,7 +262,7 @@ ja:
     edit:
       status_readonly_html: |
         このステータスを読み取り専用としてマークするにはこのオプションを選択します。ステータスを除く属性は変更できません。<br/>
-        <strong>注</strong>：継承された値（子供や関係など）は引き続き適用されます。
+        <strong>注</strong>：継承された値（子や関係）は引き続き適用されます。
       status_color_text: |
         このステータスの色を割り当てたり変更する場合にクリックします。
         ステータスボタンに表示され、テーブル内の作業パッケージを強調表示するために使用できます。
@@ -286,7 +286,7 @@ ja:
         したがって、はっきりした色を使用することをお勧めします。
   versions:
     overview:
-      no_results_title_text: このバージョンに割り当てられている作業項目はありません。
+      no_results_title_text: このバージョンに割り当てられているワークパッケージはありません。
   wiki:
     page_not_editable_index: 要求されたページは (まだ) 存在しません。すべてのwikiページの索引にリダイレクトされました。
     no_results_title_text: 現在、Wikiページはありません。
@@ -408,7 +408,7 @@ ja:
       relation:
         delay: "遅延"
         from: "ワーク パッケージ"
-        to: "関連するワークパッケージ"
+        to: "関係するワークパッケージ"
       status:
         is_closed: "作業が完了"
         is_readonly: "読み取り専用のワークパッケージ"
@@ -447,7 +447,7 @@ ja:
         activity: "活動"
         hours: " 時間"
         spent_on: "日付"
-        type: "種別"
+        type: "タイプ"
       type:
         description: "デフォルトの説明"
         attribute_groups: ''
@@ -501,7 +501,7 @@ ja:
         spent_time: "作業時間の記録"
         subproject: "子プロジェクト"
         time_entries: "時間を記録"
-        type: "種別"
+        type: "タイプ"
         watcher: "ウォッチャー"
       'doorkeeper/application':
         uid: "クライアントID"
@@ -519,12 +519,12 @@ ja:
         before: "は%{date}の前にしてください。"
         before_or_equal_to: "は%{date}より以前にしてください。"
         blank: "は空白にすることができません。"
-        cant_link_a_work_package_with_a_descendant: "親子関係にある作業項目間で関連設定できません。"
+        cant_link_a_work_package_with_a_descendant: "親子関係にあるワークパッケージ間で関係の設定はできません。"
         circular_dependency: "この関係は循環依存になります。"
         confirmation: "は%{attribute} と一致しません。"
         could_not_be_copied: "%{dependency} を（完全に）コピーできませんでした。"
         does_not_exist: "は存在しません。"
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "はOpenProjectエンタープライズ版でのみ利用可能です"
         error_unauthorized: "アクセスできません。"
         error_readonly: "書けませんでした。"
         empty: "は空にすることができません。"
@@ -657,12 +657,12 @@ ja:
               cannot_be_in_another_project: "は別のプロジェクトに属することはできません。"
               not_a_valid_parent: "は不正な値です。"
             start_date:
-              violates_relationships: "は、ワークパッケージの関連に違反しないように %{soonest_start} またはそれ以降にのみ設定できます。"
+              violates_relationships: "は、ワークパッケージの関係に違反しないように %{soonest_start} またはそれ以降にのみ設定できます。"
             status_id:
               status_transition_invalid: "現在のユーザロールでは旧ステータスから新ステータスへの有効な遷移がないため無効"
               status_invalid_in_type: "現在のステータスがこのタイプに存在しないため無効です。"
             type:
-              cannot_be_milestone_due_to_children: "このワークパッケージには子関連があるため、マイルストーンにはできません。"
+              cannot_be_milestone_due_to_children: "このワークパッケージには子ワークパッケージがあるため、マイルストーンにはできません。"
             priority_id:
               only_active_priorities_allowed: "は有効である必要があります。"
             category:
@@ -728,7 +728,7 @@ ja:
       query: "ユーザのクエリ"
       role:
         other: "ロール"
-      type: "種別"
+      type: "タイプ"
       user: "ユーザ"
       version: "バージョン"
       wiki: "Wiki"
@@ -792,10 +792,10 @@ ja:
     roles: "ロール"
     start_date: "開始日"
     status: "ステータス"
-    subject: "題名"
-    summary: "サマリー"
+    subject: "タイトル"
+    summary: "サマリ"
     title: "タイトル"
-    type: "種別"
+    type: "タイプ"
     updated_at: "更新日時"
     updated_on: "更新日時"
     uploader: "アップロード"
@@ -831,7 +831,7 @@ ja:
   button_download: "ダウンロード"
   button_duplicate: "複製"
   button_edit: "編集"
-  button_edit_associated_wikipage: "関連するWiki ページを編集: %{page_title}"
+  button_edit_associated_wikipage: "関係するWiki ページを編集: %{page_title}"
   button_expand_all: "全てを展開"
   button_filter: "フィルタ"
   button_generate: "生成"
@@ -953,7 +953,7 @@ ja:
   datetime:
     distance_in_words:
       about_x_hours:
-        other: "約%{count}時間"
+        other: "約 %{count} 時間"
       about_x_months:
         other: "約%{count}ヶ月間"
       about_x_years:
@@ -977,7 +977,7 @@ ja:
         other: "%{count}秒"
     units:
       hour:
-        other: "時"
+        other: "時間"
   default_activity_development: "開発作業"
   default_activity_management: "管理"
   default_activity_other: "その他"
@@ -1079,7 +1079,7 @@ ja:
   error_can_not_archive_project: "このプロジェクトはアーカイブできません: %{errors}"
   error_can_not_delete_entry: "エントリを削除できません"
   error_can_not_delete_custom_field: "カスタムフィールドを削除できません。"
-  error_can_not_delete_type: "このタイプのワークパッケージが存在するため、削除できません。"
+  error_can_not_delete_type: "この種類のワークパッケージが存在するため、削除できません。"
   error_can_not_delete_standard_type: "標準型は削除できません。"
   error_can_not_invite_user: "ユーザーへの招待状の送信に失敗しました。"
   error_can_not_remove_role: "このロールは使用されています。削除できません。"
@@ -1104,8 +1104,8 @@ ja:
   error_must_be_project_member: "プロジェクトのメンバーである必要があります。"
   error_migrations_are_pending: "OpenProject のインストールはデータベースの移行が保留中です。前回のアップグレード時に移行の実行を行っていない可能性があります。アップグレードガイドを確認して、適切にインストールをアップグレードしてください。"
   error_migrations_visit_upgrade_guides: "アップグレードガイドのドキュメントをご覧ください"
-  error_no_default_work_package_status: "｀ワークパッケージ目の既定のステータスが定義されていません。 設定をご確認してください（管理→作業項目ステータス）。"
-  error_no_type_in_project: "このプロジェクトには関連付けられているワークパッケージのタイプがありません。プロジェクトの設定をご確認してください。"
+  error_no_default_work_package_status: "｀ワークパッケージ目の既定のステータスが定義されていません。 設定をご確認してください（管理→ワークパッケージステータス）。"
+  error_no_type_in_project: "このプロジェクトには関連付けられているワークパッケージの種類がありません。プロジェクトの設定をご確認してください。"
   error_omniauth_registration_timed_out: "外部認証プロバイダーを経由して登録がタイムアウトしました。もう一度やり直してください。"
   error_omniauth_invalid_auth: "IDプロバイダーから返された認証情報が無効です。詳細については管理者に連絡してください"
   error_scm_command_failed: "「%{value}」リポジトリにアクセスしようとしてエラーが発生しました。"
@@ -1135,7 +1135,7 @@ ja:
     work_package_edit: '仕事項目が編集されました。'
     work_package_note: '仕事項目の注記が追加されました。'
   export:
-    your_work_packages_export: "作業項目をエクスポート"
+    your_work_packages_export: "ワークパッケージをエクスポート"
     succeeded: "エクスポートが正常に完了しました。"
     format:
       atom: "Atom"
@@ -1218,7 +1218,7 @@ ja:
   label_add_another_file: "別のファイルを追加"
   label_add_columns: "選択した列を追加"
   label_add_note: "注記を追加"
-  label_add_related_work_packages: "関連するワークパッケージを追加"
+  label_add_related_work_packages: "関係するワークパッケージを追加"
   label_add_subtask: "子タスクを追加"
   label_added: "追加"
   label_added_time_by: "%{author}が%{age}前に追加"
@@ -1231,7 +1231,7 @@ ja:
   label_all: "全て"
   label_all_time: "全期間"
   label_all_words: "全ての単語"
-  label_all_open_wps: "開いているすべて"
+  label_all_open_wps: "未完了"
   label_always_visible: "常に表示"
   label_announcement: "お知らせ"
   label_api_access_key: "APIアクセスキー"
@@ -1320,9 +1320,9 @@ ja:
   label_custom_field_add_no_type: "このフィールドをワークパッケージタイプに追加"
   label_custom_field_new: "新規カスタムフィールド"
   label_custom_field_plural: "カスタムフィールド"
-  label_custom_field_default_type: "空の型"
+  label_custom_field_default_type: "空の種類"
   label_custom_style: "デザイン"
-  label_database_version: "PostgreSQL version"
+  label_database_version: "PostgreSQL バージョン"
   label_date: "日付"
   label_date_and_time: "日付と時刻"
   label_date_from: "日付指定: "
@@ -1344,7 +1344,7 @@ ja:
   label_disabled: "無効"
   label_display: "表示"
   label_display_per_page: "1ページあたり： %{value}"
-  label_display_used_statuses_only: "この型で使用されているステータスのみを表示"
+  label_display_used_statuses_only: "この種類で使用されているステータスのみを表示"
   label_download: "%{count}件ダウンロード"
   label_download_plural: "%{count}件ダウンロード"
   label_downloads_abbr: "D/L"
@@ -1373,8 +1373,8 @@ ja:
   label_import: "インポート"
   label_export_to: "こちらもアクセス可能："
   label_expanded_click_to_collapse: "拡大しました。クリックすると閉じます"
-  label_f_hour: "%{value}時間"
-  label_f_hour_plural: "%{value}時間"
+  label_f_hour: "%{value} 時間"
+  label_f_hour_plural: "%{value} 時間"
   label_feed_plural: "フィード"
   label_feeds_access_key: "RSSアクセスキー"
   label_feeds_access_key_created_on: "RSSアクセスキーが%{value}前に作成されました"
@@ -1406,7 +1406,7 @@ ja:
   label_history: "履歴"
   label_hierarchy_leaf: "階層枚"
   label_home: "ホーム"
-  label_subject_or_id: "件名またはID"
+  label_subject_or_id: "タイトルまたはID"
   label_impressum: "法的情報"
   label_in: "今日から○日後"
   label_in_less_than: "今日から○日後以前"
@@ -1553,7 +1553,7 @@ ja:
   label_project_count: "プロジェクトの合計数"
   label_project_copy_notifications: "プロジェクトのコピーの時、コピーした内容をメール通知する"
   label_project_latest: "最新のプロジェクト"
-  label_project_default_type: "空の型を許可する"
+  label_project_default_type: "空の種類を許可する"
   label_project_hierarchy: "プロジェクトの階層構造"
   label_project_new: "新規プロジェクト"
   label_project_plural: "プロジェクト"
@@ -1573,11 +1573,11 @@ ja:
   label_registration_activation_by_email: "電子メールでアカウントの有効化"
   label_registration_automatic_activation: "自動でアカウントの有効化"
   label_registration_manual_activation: "手動でアカウントの有効化"
-  label_related_work_packages: "関連するワークパッケージ"
-  label_relates: "関連している"
-  label_relates_to: "関連している"
-  label_relation_delete: "関連の削除"
-  label_relation_new: "新しい関連"
+  label_related_work_packages: "関係するワークパッケージ"
+  label_relates: "関係している"
+  label_relates_to: "関係している"
+  label_relation_delete: "関係の削除"
+  label_relation_new: "新しい関係"
   label_release_notes: "リリースノート"
   label_remove_columns: "選択した列を削除"
   label_renamed: "名称変更"
@@ -1637,7 +1637,7 @@ ja:
   label_subproject_new: "新しい子プロジェクト"
   label_subproject_plural: "子プロジェクト"
   label_subtask_plural: "子タスク"
-  label_summary: "サマリー"
+  label_summary: "サマリ"
   label_system: "システム"
   label_system_storage: "ストレージ情報"
   label_table_of_contents: "目次"
@@ -1652,7 +1652,7 @@ ja:
   label_top_menu: "トップメニュー"
   label_topic_plural: "トピック"
   label_total: "合計"
-  label_type_new: "新しい型"
+  label_type_new: "新しいタイプ"
   label_type_plural: "ワークパッケージのタイプ"
   label_ui: "UI（ユーザインターフェイス）"
   label_update_work_package_done_ratios: "進捗率の更新"
@@ -1671,7 +1671,7 @@ ja:
   label_user_mail_option_all: "参加しているプロジェクトの全イベント"
   label_user_mail_option_none: "通知しない"
   label_user_mail_option_only_assigned: "自分が担当している事柄のみ"
-  label_user_mail_option_only_my_events: "ウォッチまたは関連している事柄のみ"
+  label_user_mail_option_only_my_events: "ウォッチまたは関係している事柄のみ"
   label_user_mail_option_only_owner: "自分が作成した事柄のみ"
   label_user_mail_option_selected: "選択したプロジェクトのみのイベントに対して"
   label_user_new: "新規ユーザ"
@@ -1722,14 +1722,14 @@ ja:
   label_work_package_priority_updated: "ワークパッケージの優先度が更新されました"
   label_work_package_status: "ステータス名"
   label_work_package_status_new: "新規ステータス"
-  label_work_package_status_plural: "ステータスの型"
+  label_work_package_status_plural: "ステータスの種類"
   label_work_package_types: "ワークパッケージの種類"
   label_work_package_updated: "ワークパッケージが更新されました"
   label_work_package_tracking: "ワークパッケージの追跡"
   label_work_package_view_all: "全てのワークパッケージを表示"
   label_workflow: "ワークフロー"
   label_workflow_plural: "ワークフロー"
-  label_workflow_summary: "サマリー"
+  label_workflow_summary: "サマリ"
   label_x_closed_work_packages_abbr:
     zero: "0 クローズ"
     other: ""
@@ -1743,7 +1743,7 @@ ja:
     zero: "プロジェクトがありません"
     other: ""
   label_yesterday: "昨日"
-  label_role_type: "種別"
+  label_role_type: "タイプ"
   label_member_role: "プロジェクトの役割"
   label_global_role: "グローバルロール"
   label_not_changeable: "（変更不可）"
@@ -1839,7 +1839,7 @@ ja:
   notice_email_sent: "%{value}宛にメールを送信しました。"
   notice_failed_to_save_work_packages: "全 %{total} 件中 %{count} 件のワークパッケージが保存できませんでした: %{ids}。"
   notice_failed_to_save_members: "メンバーの保存に失敗しました: %{errors}。"
-  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
+  notice_deletion_scheduled: "削除はスケジュールされ、非同期で実行されます。"
   notice_file_not_found: "アクセスしようとしたページが存在しないか削除されています。"
   notice_forced_logout: "%{ttl_time}分間の非活動のために、自動的にログアウトされました。"
   notice_internal_server_error: "アクセスしようとしたページでエラーが発生しました。継続して問題が発生している場合、%{app_title}の管理者にお問い合わせください。"
@@ -1902,8 +1902,8 @@ ja:
   permission_add_work_packages: "ワークパッケージの追加"
   permission_add_messages: "メッセージの投稿"
   permission_add_project: "プロジェクトの作成"
-  permission_manage_user: "Create and edit users"
-  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
+  permission_manage_user: "ユーザーの作成と編集"
+  permission_manage_placeholder_user: "プレースホルダーユーザの作成、編集、削除"
   permission_add_subprojects: "子プロジェクトの追加"
   permission_add_work_package_watchers: "ウォッチャーの追加"
   permission_assign_versions: "バージョンの割り当て"
@@ -1937,13 +1937,13 @@ ja:
   permission_log_time: "作業時間の記録"
   permission_manage_forums: "フォーラムの管理"
   permission_manage_categories: "仕事項目のカテゴリの管理"
-  permission_manage_work_package_relations: "ワークパッケージの関連の管理"
+  permission_manage_work_package_relations: "ワークパッケージの関係の管理"
   permission_manage_members: "メンバーの管理"
   permission_manage_news: "ニュースの管理"
   permission_manage_project_activities: "プロジェクト活動の管理"
   permission_manage_public_queries: "公開ビューの管理"
   permission_manage_repository: "リポジトリの管理"
-  permission_manage_subtasks: "作業項目階層の管理"
+  permission_manage_subtasks: "ワークパッケージ階層の管理"
   permission_manage_versions: "バージョンの管理"
   permission_manage_wiki: "Wiki の管理"
   permission_manage_wiki_menu: "Wikiメニューの管理"
@@ -1952,7 +1952,7 @@ ja:
   permission_rename_wiki_pages: "Wikiページ名の変更"
   permission_save_queries: "ビューを保存"
   permission_select_project_modules: "プロジェクトでモジュールの選択"
-  permission_manage_types: "ワークパッケージのタイプの選択"
+  permission_manage_types: "ワークパッケージのタイプを選択"
   permission_view_calendar: "カレンダーの閲覧"
   permission_view_changesets: "OpenProject にリポジトリのリビジョンを表示"
   permission_view_commit_author_statistics: "コミット作成者の統計情報の閲覧"
@@ -2002,7 +2002,7 @@ ja:
     active_or_archived: "アクティブまたはアーカイブ"
     assigned_to_role: "担当者のロール"
     member_of_group: "担当者のグループ"
-    assignee_or_group: "割り当てまたは所属するグループ"
+    assignee_or_group: "担当者または所属グループ"
     subproject_id: "サブプロジェクトを含む"
     only_subproject_id: "サブプロジェクトのみ"
     name_or_identifier: "名前または ID"
@@ -2344,7 +2344,7 @@ ja:
   text_tip_work_package_begin_day: "この日に開始する作業"
   text_tip_work_package_begin_end_day: "この日に開始・終了する作業"
   text_tip_work_package_end_day: "この日に終了する作業"
-  text_type_no_workflow: "このワークパッケージのタイプに対してワークフローが定義されていません。"
+  text_type_no_workflow: "このワークパッケージの種類に対してワークフローが定義されていません。"
   text_unallowed_characters: "次の文字は使用できません。"
   text_user_invited: ユーザは招待されて、登録は保留中です。
   text_user_wrote: "%{value}が書き込みました："
@@ -2355,7 +2355,7 @@ ja:
   text_wiki_page_destroy_question: "この親ページの配下に%{descendants}ページの子孫ページがあります。どれかを選択してください。"
   text_wiki_page_nullify_children: "子ページをメインページ配下に移動する"
   text_wiki_page_reassign_children: "\"子ページを次の親ページの配下に移動する"
-  text_workflow_edit: "ワークフローを編集する役割とワークパッケージのタイプを選択してください。"
+  text_workflow_edit: "ワークフローを編集する役割とワークパッケージの種類を選択してください。"
   text_zoom_in: "拡大"
   text_zoom_out: "拡大"
   text_setup_mail_configuration: "メール プロバイダーを構成"
@@ -2419,7 +2419,7 @@ ja:
         default: "デフォルト"
       column:
         assigned_to: "担当者"
-        type: "種別"
+        type: "タイプ"
         due_date: "完了日"
         name: "名称"
         status: "ステータス"
@@ -2453,7 +2453,7 @@ ja:
       work_package_filters: "ワークパッケージのフィルタ"
       work_package_responsible: "責任を持つワークパッケージを表示"
       work_package_assignee: "担当者付きのワークパッケージを表示"
-      types: "ワークパッケージのタイプを表示"
+      types: "ワークパッケージの種類を表示"
       status: "ステータスを表示"
       project_time_filter: "特定の期間に特定のワークパッケージを持つプロジェクト"
       project_time_filter_timeframe: "タイムフレーム"
@@ -2497,7 +2497,7 @@ ja:
       edit: "ステータスを編集:%{comment}"
       show: "ステータス:%{comment}"
     planning_element_update: "更新:%{title}"
-    type_could_not_be_saved: "ワークパッケージのタイプを保存できませんでした。"
+    type_could_not_be_saved: "ワークパッケージの種類を保存できませんでした。"
     reporting_could_not_be_saved: "レポートを保存できませんでした。"
     properties: "プロパティ"
     really_delete_color: >
@@ -2642,9 +2642,9 @@ ja:
         context_object_not_found: "コンテキストで指定されたリソースが見つかりません。"
       validation:
         done_ratio: "完了率はそのステータスにより推定または無効にされている場合、親ワークパッケージにセットすることはできません。"
-        due_date: "終了日は親作業項目には設定できません。"
+        due_date: "終了日は親ワークパッケージには設定できません。"
         estimated_hours: "推定時間は、親ワークパッケージに設定できません。"
-        invalid_user_assigned_to_work_package: "選択されたユーザーは、この作業項目の'%{property}' にすることはできません。"
+        invalid_user_assigned_to_work_package: "選択されたユーザーは、このワークパッケージの'%{property}' にすることはできません。"
         start_date: "開始日は、親ワークパッケージに設定できません。"
       eprops:
         invalid_gzip: "無効なgzipです: %{message}"
