@@ -215,6 +215,10 @@ module API
           index :placeholder_user
           show :placeholder_user
 
+          def self.show_placeholder(user_id)
+            placeholder_user_path(user_id)
+          end
+
           index :post
           show :post
 

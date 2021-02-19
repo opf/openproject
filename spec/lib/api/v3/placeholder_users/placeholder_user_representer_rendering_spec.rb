@@ -66,6 +66,47 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUserRepresenter, 'rendering' do
       end
     end
 
+    context 'showUser' do
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'showUser' }
+        let(:href) { "/placeholder_users/#{placeholder_user.id}" }
+      end
+    end
+
+    context 'delete' do
+      it_behaves_like 'has no link' do
+        let(:link) { 'delete' }
+      end
+
+      context 'when user allowed to manage' do
+        let(:global_permissions) { [:manage_placeholder_user] }
+
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'delete' }
+          let(:href) { "/api/v3/placeholder_users/#{placeholder_user.id}" }
+          let(:method) { :delete }
+          let(:title) { "Delete #{placeholder_user.name}" }
+        end
+      end
+    end
+
+    context 'updateImmediately' do
+      it_behaves_like 'has no link' do
+        let(:link) { 'updateImmediately' }
+      end
+
+      context 'when user allowed to manage' do
+        let(:global_permissions) { [:manage_placeholder_user] }
+
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'updateImmediately' }
+          let(:href) { "/api/v3/placeholder_users/#{placeholder_user.id}" }
+          let(:method) { :patch }
+          let(:title) { "Update #{placeholder_user.name}" }
+        end
+      end
+    end
+
     context 'memberships' do
       it_behaves_like 'has no link' do
         let(:link) { 'memberships' }
@@ -141,8 +182,8 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUserRepresenter, 'rendering' do
     it 'is based on the representer\'s cache_key' do
       expect(OpenProject::Cache)
         .to receive(:fetch)
-        .with(representer.json_cache_key)
-        .and_call_original
+              .with(representer.json_cache_key)
+              .and_call_original
 
       representer.to_json
     end

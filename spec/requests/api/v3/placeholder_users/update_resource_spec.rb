@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,46 +26,51 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See docs/COPYRIGHT.rdoc for more details.
-#++
 
-module API
-  module V3
-    module PlaceholderUsers
-      class PlaceholderUserRepresenter < ::API::V3::Principals::PrincipalRepresenter
-        link :updateImmediately,
-             cache_if: -> { current_user_can_manage? } do
-          {
-            href: api_v3_paths.placeholder_user(represented.id),
-            title: "Update #{represented.name}",
-            method: :patch
-          }
-        end
+require 'spec_helper'
+require_relative './update_resource_examples'
 
-        link :delete,
-             cache_if: -> { current_user_can_manage? } do
-          {
-            href: api_v3_paths.placeholder_user(represented.id),
-            title: "Delete #{represented.name}",
-            method: :delete
-          }
-        end
+describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
+         'update',
+         type: :request do
+  include API::V3::Utilities::PathHelper
 
-        link :showUser do
-          {
-            href: api_v3_paths.show_placeholder(represented.id),
-            type: 'text/html'
-          }
-        end
+  shared_let(:placeholder) { FactoryBot.create :placeholder_user, name: 'foo' }
 
+  let(:parameters) do
+    {}
+  end
 
-        def _type
-          'PlaceholderUser'
-        end
+  let(:send_request) do
+    header "Content-Type", "application/json"
+    patch api_v3_paths.placeholder_user(placeholder.id), parameters.to_json
+  end
 
-        def current_user_can_manage?
-          current_user&.allowed_to_globally?(:manage_placeholder_user)
-        end
-      end
+  let(:parsed_response) { JSON.parse(last_response.body) }
+
+  current_user { user }
+
+  before do
+    send_request
+  end
+
+  describe 'admin user' do
+    let(:user) { FactoryBot.build(:admin) }
+
+    it_behaves_like 'updates the placeholder'
+  end
+
+  describe 'user with manage_placeholder_user permission' do
+    let(:user) { FactoryBot.create(:user, global_permission: %i[manage_placeholder_user]) }
+
+    it_behaves_like 'updates the placeholder'
+  end
+
+  describe 'unauthorized user' do
+    let(:user) { FactoryBot.build(:user) }
+
+    it 'returns an erroneous response' do
+      expect(last_response.status).to eq(403)
     end
   end
 end

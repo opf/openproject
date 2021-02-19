@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,46 +26,38 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See docs/COPYRIGHT.rdoc for more details.
-#++
 
-module API
-  module V3
-    module PlaceholderUsers
-      class PlaceholderUserRepresenter < ::API::V3::Principals::PrincipalRepresenter
-        link :updateImmediately,
-             cache_if: -> { current_user_can_manage? } do
-          {
-            href: api_v3_paths.placeholder_user(represented.id),
-            title: "Update #{represented.name}",
-            method: :patch
-          }
-        end
+shared_examples 'updates the placeholder' do
+  context 'with an empty name' do
+    let(:parameters) do
+      { name: '' }
+    end
 
-        link :delete,
-             cache_if: -> { current_user_can_manage? } do
-          {
-            href: api_v3_paths.placeholder_user(represented.id),
-            title: "Delete #{represented.name}",
-            method: :delete
-          }
-        end
+    it 'returns an error' do
+      expect(last_response.status).to eq(422)
+      expect(last_response.body)
+        .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyConstraintViolation'.to_json)
+              .at_path('errorIdentifier')
 
-        link :showUser do
-          {
-            href: api_v3_paths.show_placeholder(represented.id),
-            type: 'text/html'
-          }
-        end
+      expect(parsed_response['_embedded']['details']['attribute'])
+        .to eq 'name'
 
+      expect(parsed_response['message'])
+        .to eq "Name can't be blank."
+    end
+  end
 
-        def _type
-          'PlaceholderUser'
-        end
+  context 'with a new name' do
+    let(:parameters) do
+      { name: 'my new name' }
+    end
 
-        def current_user_can_manage?
-          current_user&.allowed_to_globally?(:manage_placeholder_user)
-        end
-      end
+    it 'updates the placeholder' do
+      expect(last_response.status).to eq(200)
+
+      placeholder.reload
+
+      expect(placeholder.name).to eq 'my new name'
     end
   end
 end

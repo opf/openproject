@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -31,39 +29,29 @@
 module API
   module V3
     module PlaceholderUsers
-      class PlaceholderUserRepresenter < ::API::V3::Principals::PrincipalRepresenter
-        link :updateImmediately,
-             cache_if: -> { current_user_can_manage? } do
-          {
-            href: api_v3_paths.placeholder_user(represented.id),
-            title: "Update #{represented.name}",
-            method: :patch
-          }
-        end
+      class PlaceholderUsersAPI < ::API::OpenProjectAPI
+        resources :placeholder_users do
+          after_validation do
+            authorize_any %i[manage_placeholder_user], global: true
+          end
 
-        link :delete,
-             cache_if: -> { current_user_can_manage? } do
-          {
-            href: api_v3_paths.placeholder_user(represented.id),
-            title: "Delete #{represented.name}",
-            method: :delete
-          }
-        end
+          get &::API::V3::Utilities::Endpoints::Index
+            .new(model: PlaceholderUser)
+            .mount
 
-        link :showUser do
-          {
-            href: api_v3_paths.show_placeholder(represented.id),
-            type: 'text/html'
-          }
-        end
+          post &::API::V3::Utilities::Endpoints::Create
+            .new(model: PlaceholderUser)
+            .mount
 
+          route_param :id, type: Integer, desc: 'Placeholder user ID' do
+            after_validation do
+              @placeholder_user = PlaceholderUser.find(params[:id])
+            end
 
-        def _type
-          'PlaceholderUser'
-        end
-
-        def current_user_can_manage?
-          current_user&.allowed_to_globally?(:manage_placeholder_user)
+            get &::API::V3::Utilities::Endpoints::Show.new(model: PlaceholderUser).mount
+            patch &::API::V3::Utilities::Endpoints::Update.new(model: PlaceholderUser).mount
+            delete &::API::V3::Utilities::Endpoints::Delete.new(model: PlaceholderUser, success_status: 202).mount
+          end
         end
       end
     end

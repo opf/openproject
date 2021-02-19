@@ -64,6 +64,7 @@ module API
       mount ::API::V3::StringObjects::StringObjectsAPI
       mount ::API::V3::Types::TypesAPI
       mount ::API::V3::Users::UsersAPI
+      mount ::API::V3::PlaceholderUsers::PlaceholderUsersAPI
       mount ::API::V3::UserPreferences::UserPreferencesAPI
       mount ::API::V3::Groups::GroupsAPI
       mount ::API::V3::Versions::VersionsAPI

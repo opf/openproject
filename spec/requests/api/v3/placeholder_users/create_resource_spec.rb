@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,46 +26,36 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See docs/COPYRIGHT.rdoc for more details.
-#++
 
-module API
-  module V3
-    module PlaceholderUsers
-      class PlaceholderUserRepresenter < ::API::V3::Principals::PrincipalRepresenter
-        link :updateImmediately,
-             cache_if: -> { current_user_can_manage? } do
-          {
-            href: api_v3_paths.placeholder_user(represented.id),
-            title: "Update #{represented.name}",
-            method: :patch
-          }
-        end
+require 'spec_helper'
+require 'rack/test'
+require_relative './create_shared_examples'
 
-        link :delete,
-             cache_if: -> { current_user_can_manage? } do
-          {
-            href: api_v3_paths.placeholder_user(represented.id),
-            title: "Delete #{represented.name}",
-            method: :delete
-          }
-        end
+describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
+         'create',
+         type: :request do
 
-        link :showUser do
-          {
-            href: api_v3_paths.show_placeholder(represented.id),
-            type: 'text/html'
-          }
-        end
+  current_user { user }
 
+  describe 'admin user' do
+    let(:user) { FactoryBot.build(:admin) }
 
-        def _type
-          'PlaceholderUser'
-        end
+    it_behaves_like 'create placeholder user request flow'
+  end
 
-        def current_user_can_manage?
-          current_user&.allowed_to_globally?(:manage_placeholder_user)
-        end
-      end
+  describe 'user with manage_placeholder_user permission' do
+    let(:user) { FactoryBot.create(:user, global_permission: %i[manage_placeholder_user]) }
+
+    it_behaves_like 'create placeholder user request flow'
+  end
+
+  describe 'unauthorized user' do
+    include_context 'create placeholder user request context'
+    let(:user) { FactoryBot.build(:user) }
+
+    it 'returns an erroneous response' do
+      send_request
+      expect(last_response.status).to eq(403)
     end
   end
 end
