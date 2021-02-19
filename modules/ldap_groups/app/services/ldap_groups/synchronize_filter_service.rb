@@ -1,26 +1,32 @@
-module OpenProject::LdapGroups
-  class SynchronizeFilter
-    attr_reader :filter, :raise_errors
+module LdapGroups
+  class SynchronizeFilterService
+    attr_reader :filter
 
-    def initialize(filter, raise_errors: false)
+    def initialize(filter)
       @filter = filter
-      @raise_errors = raise_errors
-      synchronize!
     end
 
-    private
+    def call
+      count = synchronize!
+      ServiceResult.new(success: true, result: count)
+    rescue StandardError => e
+      error = "[LDAP groups] Failed to extract LDAP groups from filter #{filter.name}: #{e.class}: #{e.message}"
+      Rails.logger.error(error)
+      ServiceResult.new(success: false, message: error)
+    end
 
     ##
     # Perform the synchronization for the given filter
     def synchronize!
       # Replace the filter groups, this will remove any groups
       # no longer found in ldap
-      filter.groups.replace upstream_groups
-    rescue StandardError => e
-      error = "[LDAP groups] Failed to extract LDAP groups from filter #{filter.name}: #{e.class}: #{e.message}"
-      Rails.logger.error(error)
-      raise(e) if raise_errors
+      groups = upstream_groups
+      filter.groups.replace groups
+
+      groups.count
     end
+
+    private
 
     ##
     # Get the current members from the ldap group
@@ -42,19 +48,22 @@ module OpenProject::LdapGroups
     # and yield them one by one
     def each_group
       ldap = filter.auth_source
-      base_dn = ldap.base_dn
-      group_name = filter.group_name_attribute
-
       ldap.with_connection do |ldap_con|
-        ldap_con
-          .search(
-            base: base_dn,
-            filter: filter.parsed_filter_string,
-            attributes: ['dn', group_name]
-          ).each do |entry|
-          yield entry.dn, LdapAuthSource.get_attr(entry, group_name)
+        search(filter, ldap_con) do |entry|
+          yield entry.dn, LdapAuthSource.get_attr(entry, filter.group_name_attribute)
         end
       end
+    end
+
+    ##
+    # Perform the LDAP search for the groups
+    def search(filter, ldap_con, &block)
+      ldap_con.search(
+        base: filter.used_base_dn,
+        filter: filter.parsed_filter_string,
+        attributes: ['dn', filter.group_name_attribute],
+        &block
+      )
     end
 
     ##
@@ -65,6 +74,9 @@ module OpenProject::LdapGroups
         # they are simply being re-assigned to the latest one
         sync.filter_id = filter.id
         sync.auth_source_id = filter.auth_source_id
+
+        # Tell the group to synchronize users if the filter has requested it to
+        sync.sync_users = filter.sync_users
       end
     end
 
