@@ -844,7 +844,7 @@ hu:
           automatic: 'Automatikus'
           manually: 'Kézi'
           warning: 'Az automatikus válogatás üzemmód aktiválásakor elveszíti korábbi rendezését.'
-        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Szeretné látni a munkacsomag kapcsolatait?'

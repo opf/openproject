@@ -844,7 +844,7 @@ sv:
           automatic: 'Automatisk'
           manually: 'Manuellt'
           warning: 'Du förlorar din tidigare sortering när du aktiverar det automatiska sorteringsläget.'
-        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Behöver vissa arbetspaket sticka ut från massan?'
           relation_columns: 'Behöver du se relationer i listan på arbetspaket?'

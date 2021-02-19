@@ -845,7 +845,7 @@ fi:
           automatic: 'Automaattinen'
           manually: 'Manuaalinen'
           warning: 'Automaattinen lajittelutapa korvaa nykyiset asetukset'
-        columns_help_text: "Käytä yläpuolella olevaa kenttää taulunäkymän sarakkeiden valintaan. Voit järjestää sarakkeita raahaamalla niitä."
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Täytyy nähdä riippuvuudet tehtävälistassa?'

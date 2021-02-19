@@ -845,7 +845,7 @@ bg:
           automatic: 'Автоматично'
           manually: 'Ръчно'
           warning: 'Ще загубите предишното си сортиране, когато активирате автоматичния режим на сортиране.'
-        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'

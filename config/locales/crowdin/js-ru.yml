@@ -844,7 +844,7 @@ ru:
           automatic: 'Автоматически'
           manually: 'Вручную'
           warning: 'При активации режима автоматического упорядования вы потеряете свою предыдущую сортировку.'
-        columns_help_text: "С помощью поля ввода выше можно добавлять столбцы в табличное представление. Для изменения порядка столбцов перетаскивайте их мышью."
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Хотите выделить некоторые пакеты работ из общей массы?'
           relation_columns: 'Нужно видеть отношения в списке пакетов работ?'
