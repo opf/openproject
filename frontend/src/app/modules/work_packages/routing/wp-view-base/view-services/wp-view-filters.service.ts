@@ -57,7 +57,10 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
     'requires',
     'required',
     'search',
+    // The filter should be named subjectOrId but for some reason
+    // it is only named subjectOr
     'subjectOrId',
+    'subjectOr',
     'manualSort'
   ];
 
