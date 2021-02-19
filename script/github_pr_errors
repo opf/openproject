@@ -37,13 +37,7 @@ rescue => e
   warn "Failed to perform API request #{url}: #{e} #{e.message}"
 end
 
-response = get_http "pulls?state=open&head=opf:#{branch_name}"
-raise "No PR found" if response.empty?
-raise "More than one PR found??" if response.count > 1
-
-pr_number = response.first['number']
-
-warn "Looking for PR #{pr_number}"
+warn "Looking for the last action in branch #{branch_name}"
 
 response = get_http "actions/runs?branch=#{CGI.escape(branch_name)}"
 
@@ -53,7 +47,7 @@ last_test_action =
     .select { |entry| entry['name'] == 'Core/Test' }
     .max_by { |entry| entry['run_number'] }
 
-raise "No action run found for PR #{pr_number}" unless last_test_action
+raise "No action run found for branch #{branch_name}" unless last_test_action
 log_response = get_http last_test_action['logs_url'], json: false
 errors = []
 
