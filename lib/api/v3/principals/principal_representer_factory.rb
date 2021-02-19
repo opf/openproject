@@ -41,12 +41,12 @@ module API
         end
 
         def self.representer_class(model)
-          case model.type
-          when User.name, DeletedUser.name
+          case model
+          when User
             ::API::V3::Users::UserRepresenter
-          when Group.name
+          when Group
             ::API::V3::Groups::GroupRepresenter
-          when PlaceholderUser.name
+          when PlaceholderUser
             ::API::V3::PlaceholderUsers::PlaceholderUserRepresenter
           else
             raise ArgumentError, "Missing concrete principal representer for #{model}"
