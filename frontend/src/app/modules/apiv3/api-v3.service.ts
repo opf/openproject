@@ -145,6 +145,12 @@ export class APIV3Service {
     }
   }
 
+  public collectionFromString(fullPath:string) {
+    const path = fullPath.replace(this.pathHelper.api.v3.apiV3Base + '/', '');
+
+    return this.apiV3CollectionEndpoint(path);
+  }
+
   private apiV3CollectionEndpoint<V extends HalResource, T extends APIv3GettableResource<V>>(segment:string, resource?:Constructor<T>) {
     return new APIv3ResourceCollection<V, T>(this, this.pathHelper.api.v3.apiV3Base, segment, resource);
   }
