@@ -60,6 +60,7 @@ services:
       - "8080"
     command: "./docker/prod/web"
     depends_on:
+      - db
       - worker
 
   worker:
