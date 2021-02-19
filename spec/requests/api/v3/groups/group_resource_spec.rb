@@ -33,28 +33,32 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project) }
+  subject(:response) { last_response }
+
+  shared_let(:project) { FactoryBot.create(:project) }
+  let(:admin) { FactoryBot.create(:admin) }
   let(:group) do
     FactoryBot.create(:group,
                       member_in_project: project,
-                      member_through_role: role)
+                      member_through_role: role).tap do |g|
+      members.each do |members|
+        GroupUser.create group_id: g.id, user_id: members.id
+      end
+    end
   end
-  let(:group_project) { project }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:permissions) { [:view_members] }
-  let(:current_user) do
+  let(:permissions) { %i[view_members manage_members] }
+  let(:members) do
+    FactoryBot.create_list(:user, 2)
+  end
+
+  current_user do
     FactoryBot.create(:user,
                       member_in_project: project,
                       member_through_role: role)
   end
 
-  subject(:response) { last_response }
-
-  before do
-    login_as(current_user)
-  end
-
-  describe '#get' do
+  describe 'GET api/v3/groups/:id' do
     before do
       get get_path
     end
@@ -67,20 +71,21 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
           .to eq(200)
       end
 
-      it 'responds with a group resource' do
+      it 'responds with the correct group resource including the members' do
         expect(subject.body)
           .to be_json_eql('Group'.to_json)
           .at_path('_type')
-      end
 
-      it 'responds with the correct group' do
         expect(subject.body)
           .to be_json_eql(group.name.to_json)
           .at_path('name')
+
+        expect(JSON::parse(subject.body).dig('_links', 'members').map { |link| link['href'] })
+          .to match_array members.map { |m| api_v3_paths.user(m.id) }
       end
     end
 
-    context 'requesting nonexistent user' do
+    context 'requesting nonexistent group' do
       let(:get_path) { api_v3_paths.group 9999 }
 
       it_behaves_like 'not found' do

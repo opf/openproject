@@ -31,28 +31,26 @@ module API
     module Groups
       class GroupsAPI < ::API::OpenProjectAPI
         helpers ::API::Utilities::PageSizeHelper
+        helpers do
+          def group_scope
+            if current_user.allowed_to_globally?(:manage_members)
+              Group.all
+            else
+              Group
+                .in_project(Project.allowed_to(current_user, :view_members))
+            end
+          end
+        end
 
         resources :groups do
           route_param :id, type: Integer, desc: 'Group ID' do
-            helpers do
-              def group_scope
-                if current_user.allowed_to_globally?(:manage_members)
-                  Group.all
-                else
-                  Group
-                    .in_project(Project.allowed_to(current_user, :view_members))
-                end
-              end
-
-              def requested_user
-                group_scope.find(params[:id])
-              end
+            after_validation do
+              @group = group_scope.find(params[:id])
             end
 
-            get do
-              GroupRepresenter
-                .new(requested_user, current_user: current_user)
-            end
+            get &::API::V3::Utilities::Endpoints::Show
+                   .new(model: Group)
+                   .mount
           end
         end
       end

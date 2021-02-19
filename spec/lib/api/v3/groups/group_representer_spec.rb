@@ -28,101 +28,174 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Groups::GroupRepresenter do
-  let(:group) { FactoryBot.build_stubbed(:group) }
+describe ::API::V3::Groups::GroupRepresenter, 'rendering' do
+  include ::API::V3::Utilities::PathHelper
+
+  subject(:generated) { representer.to_json }
+
+  let(:group) do
+    FactoryBot.build_stubbed(:group).tap do |g|
+      allow(g)
+        .to receive(:users)
+        .and_return(members)
+    end
+  end
   let(:current_user) { FactoryBot.build_stubbed(:user) }
-  let(:representer) { described_class.new(group, current_user: current_user) }
+  let(:representer) { described_class.new(group, current_user: current_user, embed_links: embed_links) }
+  let(:members) { 2.times.map { FactoryBot.build_stubbed(:user) } }
+  let(:permissions) { [:manage_members] }
+  let(:embed_links) { true }
 
-  context 'generation' do
-    subject(:generated) { representer.to_json }
+  before do
+    allow(current_user)
+      .to receive(:allowed_to_globally?) do |permission|
+      permissions.include?(permission)
+    end
+  end
 
-    it do is_expected.to include_json('Group'.to_json).at_path('_type') end
-
-    context 'as regular user' do
-      it 'has an id property' do
-        is_expected
-          .to be_json_eql(group.id.to_json)
-          .at_path('id')
-      end
-
-      it 'has a name property' do
-        is_expected
-          .to be_json_eql(group.name.to_json)
-          .at_path('name')
-      end
-
-      it 'hides the updatedAt property' do
-        is_expected.not_to have_json_path('updatedAt')
-      end
-
-      it 'hides the createdAt property' do
-        is_expected.not_to have_json_path('createdAt')
+  describe '_links' do
+    describe 'self' do
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'self' }
+        let(:href) { api_v3_paths.group group.id }
+        let(:title) { group.name }
       end
     end
 
-    context 'as admin' do
-      let(:current_user) { FactoryBot.build_stubbed(:admin) }
-
-      it 'has an id property' do
-        is_expected
-          .to be_json_eql(group.id.to_json)
-          .at_path('id')
-      end
-
-      it 'has a name property' do
-        is_expected
-          .to be_json_eql(group.name.to_json)
-          .at_path('name')
-      end
-
-      it_behaves_like 'has UTC ISO 8601 date and time' do
-        let(:date) { group.created_at }
-        let(:json_path) { 'createdAt' }
-      end
-
-      it_behaves_like 'has UTC ISO 8601 date and time' do
-        let(:date) { group.updated_at }
-        let(:json_path) { 'updatedAt' }
-      end
-    end
-
-    describe '_links' do
-      it 'should link to self' do
-        expect(subject).to have_json_path('_links/self/href')
-      end
-    end
-
-    describe 'caching' do
-      it 'is based on the representer\'s cache_key' do
-        expect(OpenProject::Cache)
-          .to receive(:fetch)
-          .with(representer.json_cache_key)
-          .and_call_original
-
-        representer.to_json
-      end
-
-      describe '#json_cache_key' do
-        let!(:former_cache_key) { representer.json_cache_key }
-
-        it 'includes the name of the representer class' do
-          expect(representer.json_cache_key)
-            .to include('API', 'V3', 'Groups', 'GroupRepresenter')
-        end
-
-        it 'changes when the locale changes' do
-          I18n.with_locale(:fr) do
-            expect(representer.json_cache_key)
-              .not_to eql former_cache_key
+    describe 'members' do
+      context 'with the necessary permissions' do
+        it_behaves_like 'has a link collection' do
+          let(:link) { 'members' }
+          let(:hrefs) do
+            members.map do |member|
+              {
+                href: api_v3_paths.user(member.id),
+                title: member.name
+              }
+            end
           end
         end
+      end
 
-        it 'changes when the group is updated' do
-          group.updated_at = Time.now + 20.seconds
+      context 'without the necessary permissions' do
+        let(:permissions) { [] }
 
+        it_behaves_like 'has no link' do
+          let(:link) { 'members' }
+        end
+      end
+    end
+  end
+
+  describe 'properties' do
+    it_behaves_like 'property', :_type do
+      let(:value) { 'Group' }
+    end
+
+    it_behaves_like 'property', :id do
+      let(:value) { group.id }
+    end
+
+    it_behaves_like 'property', :name do
+      let(:value) { group.name }
+    end
+
+    describe 'createdAt' do
+      context 'without admin' do
+        it 'hides the createdAt property' do
+          is_expected.not_to have_json_path('createdAt')
+        end
+      end
+
+      context 'with an admin' do
+        let(:current_user) { FactoryBot.build_stubbed(:admin) }
+
+        it_behaves_like 'has UTC ISO 8601 date and time' do
+          let(:date) { group.created_at }
+          let(:json_path) { 'createdAt' }
+        end
+      end
+    end
+
+    describe 'updatedAt' do
+      context 'without admin' do
+        it 'hides the updatedAt property' do
+          is_expected.not_to have_json_path('updatedAt')
+        end
+      end
+
+      context 'with an admin' do
+        let(:current_user) { FactoryBot.build_stubbed(:admin) }
+
+        it_behaves_like 'has UTC ISO 8601 date and time' do
+          let(:date) { group.updated_at }
+          let(:json_path) { 'updatedAt' }
+        end
+      end
+    end
+  end
+
+  describe '_embedded' do
+    describe 'members' do
+      let(:embedded_path) { '_embedded/members' }
+
+      context 'with the necessary permissions' do
+        it 'has an array of users embedded' do
+          members.each_with_index do |user, index|
+            is_expected
+              .to be_json_eql('User'.to_json)
+              .at_path("#{embedded_path}/#{index}/_type")
+
+            is_expected
+              .to be_json_eql(user.name.to_json)
+              .at_path("#{embedded_path}/#{index}/name")
+          end
+        end
+      end
+
+      context 'without the necessary permissions' do
+        let(:permissions) { [] }
+
+        it 'has no members embedded' do
+          expect(subject)
+            .not_to have_json_path embedded_path
+        end
+      end
+    end
+  end
+
+  describe 'caching' do
+    let(:embed_links) { false }
+
+    it 'is based on the representer\'s cache_key' do
+      expect(OpenProject::Cache)
+        .to receive(:fetch)
+        .with(representer.json_cache_key)
+        .and_call_original
+
+      representer.to_json
+    end
+
+    describe '#json_cache_key' do
+      let!(:former_cache_key) { representer.json_cache_key }
+
+      it 'includes the name of the representer class' do
+        expect(representer.json_cache_key)
+          .to include('API', 'V3', 'Groups', 'GroupRepresenter')
+      end
+
+      it 'changes when the locale changes' do
+        I18n.with_locale(:fr) do
           expect(representer.json_cache_key)
             .not_to eql former_cache_key
         end
+      end
+
+      it 'changes when the group is updated' do
+        group.updated_at = Time.now + 20.seconds
+
+        expect(representer.json_cache_key)
+          .not_to eql former_cache_key
       end
     end
   end

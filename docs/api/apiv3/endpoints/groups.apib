@@ -9,18 +9,19 @@ This resource is currently a stub.
 None
 
 ## Linked Properties
-|  Link       | Description                                                                                                                                                           | Type              | Constraints           | Supported operations | Condition                                                     |
-|:-----------:|--------------------------------------------------------------                                                                                                         | -------------     | --------------------- | -------------------- | -----------------------------------------                     |
-| self        | This group                                                                                                                                                            | Group             | not null              | READ                 |                                                               |
-| members     | Link to collection of all the group's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions. | MemberCollection  |                       | READ                 | **Permission**: view members or manage members in any project |
+|  Link           | Description                                                                                                                                                           | Type              | Constraints           | Supported operations | Condition                                                     |
+|:-----------:    |--------------------------------------------------------------                                                                                                         | -------------     | --------------------- | -------------------- | -----------------------------------------                     |
+| self            | This group                                                                                                                                                            | Group             | not null              | READ                 |                                                               |
+| memberships     | Link to collection of all the group's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions. | MemberCollection  |                       | READ                 | **Permission**: view members or manage members in any project |
+| members         | The list all all the users that are members of the group                                                                                                              | UserCollection    |                       | READ                 | **Permission**: manage members in any project                 |
 
 ## Local Properties
 | Property     | Description                                                | Type     | Constraints                                          | Supported operations | Condition                                                                           |
 | :----------: | ---------------------------------------------------------  | -------- | ---------------------------------------------------- | -------------------- | -----------------------------------------------------------                         |
 | id           | Group's id                                                 | Integer  | x > 0                                                | READ                 |                                                                                     |
 | name         | Group's full name, formatting depends on instance settings | String   |                                                      | READ                 |                                                                                     |
-| createdAt    | Time of creation                                           | DateTime |                                                      | READ                 |                                                                                     |
-| updatedAt    | Time of the most recent change to the user                 | DateTime |                                                      | READ                 |                                                                                     |
+| createdAt    | Time of creation                                           | DateTime |                                                      | READ                 | Only visible by admins                                                              |
+| updatedAt    | Time of the most recent change to the user                 | DateTime |                                                      | READ                 | Only visible by admins                                                              |
 
 ## Group [/api/v3/groups/{id}]
 
@@ -37,7 +38,21 @@ None
                     "self": {
                         "href": "/api/v3/groups/9",
                         "title": "The group"
-                    }
+                    },
+                    "memberships": {
+                        "href": "/api/v3/memberships?filters=[{"principal":{"operator":"=","values":["9"]}}]",
+                        "title": "Memberships"
+                    },
+                    "members": [
+                        {
+                            "href": "/api/v3/users/363",
+                            "title": "First user"
+                        },
+                        {
+                            "href": "/api/v3/users/60",
+                            "title": "Second user"
+                        }
+                    ]
                 }
             }
 
