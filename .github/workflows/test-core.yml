@@ -5,6 +5,7 @@ on:
     branches:
       - dev
       - release/*
+      - one-off-hosted-runners
     paths-ignore:
       - 'docs/**'
       - 'help/**'
