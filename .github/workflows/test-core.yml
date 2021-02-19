@@ -15,6 +15,15 @@ on:
       - 'help/**'
 
 jobs:
+  danger:
+    if: github.repository == 'opf/openproject'
+    runs-on: [ubuntu-latest]
+    timeout-minutes: 10
+    steps:
+    - uses: actions/checkout@v2
+    - uses: danger/danger@master
+      env:
+        DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   units:
     name: Units
     if: github.repository == 'opf/openproject'
@@ -36,7 +45,6 @@ jobs:
           ${{ runner.os }}-core-tests-
     - name: test
       run: |
-        cp .env.example .env
         docker-compose -f docker-compose.ci.yml build ci
         docker-compose -f docker-compose.ci.yml run ci setup-tests run-units
     - name: cleanup
@@ -70,7 +78,6 @@ jobs:
           ${{ runner.os }}-core-tests-
     - name: test
       run: |
-        cp .env.example .env
         docker-compose -f docker-compose.ci.yml build ci
         docker-compose -f docker-compose.ci.yml run ci setup-tests run-features
     - name: cleanup
