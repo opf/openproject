@@ -26,7 +26,7 @@ jobs:
       run: |
         cp ./docker/pullpreview/docker-compose.yml ./docker-compose.pullpreview.yml
         cp ./docker/prod/Dockerfile ./Dockerfile
-    - uses: pullpreview/action@v4
+    - uses: pullpreview/action@v5
       with:
         admins: crohr,HDinger,machisuji,oliverguenther,ulferts,wielinde,b12f
         always_on: dev
