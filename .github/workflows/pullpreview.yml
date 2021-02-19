@@ -32,6 +32,8 @@ jobs:
         always_on: dev
         compose_files: docker-compose.pullpreview.yml
         instance_type: medium_2_0
+        ports: 80,443
+        default_port: 443
       env:
         AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
         AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
