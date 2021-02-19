@@ -29,6 +29,8 @@
 #++
 
 class Group < Principal
+  include ::Scopes::Scoped
+
   has_and_belongs_to_many :users,
                           join_table: "#{table_name_prefix}group_users#{table_name_suffix}",
                           before_add: :fail_add,
@@ -54,6 +56,8 @@ class Group < Principal
                :create_preference!
 
   include Destroy
+
+  scopes :visible
 
   def to_s
     lastname.to_s

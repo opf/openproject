@@ -370,17 +370,12 @@ module API
           index :user
           show :user
 
-          class << self
-            alias :groups :users
-          end
-
           def self.user_lock(id)
             "#{user(id)}/lock"
           end
 
-          def self.group(id)
-            "#{root}/groups/#{id}"
-          end
+          index :group
+          show :group
 
           resources :version
 

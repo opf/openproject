@@ -26,30 +26,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Groups
-      class GroupsAPI < ::API::OpenProjectAPI
-        resources :groups do
-          after_validation do
-            authorize_any %i[view_members manage_members], global: true
-          end
+class Queries::Groups::GroupQuery < Queries::BaseQuery
+  def self.model
+    Group
+  end
 
-          get &::API::V3::Utilities::Endpoints::Index
-                 .new(model: Group)
-                 .mount
-
-          route_param :id, type: Integer, desc: 'Group ID' do
-            after_validation do
-              @group = Group.visible(current_user).find(params[:id])
-            end
-
-            get &::API::V3::Utilities::Endpoints::Show
-                   .new(model: Group)
-                   .mount
-          end
-        end
-      end
-    end
+  def default_scope
+    Group.visible(User.current)
   end
 end

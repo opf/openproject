@@ -26,30 +26,42 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Groups
-      class GroupsAPI < ::API::OpenProjectAPI
-        resources :groups do
-          after_validation do
-            authorize_any %i[view_members manage_members], global: true
-          end
+require 'spec_helper'
 
-          get &::API::V3::Utilities::Endpoints::Index
-                 .new(model: Group)
-                 .mount
+describe ::API::V3::Groups::GroupCollectionRepresenter do
+  let(:self_base_link) { '/api/v3/groups' }
+  let(:groups) do
+    FactoryBot.build_stubbed_list(:group, 3).tap do |groups|
+      allow(groups)
+        .to receive(:per_page)
+        .with(page_size)
+        .and_return(groups)
 
-          route_param :id, type: Integer, desc: 'Group ID' do
-            after_validation do
-              @group = Group.visible(current_user).find(params[:id])
-            end
-
-            get &::API::V3::Utilities::Endpoints::Show
-                   .new(model: Group)
-                   .mount
-          end
-        end
-      end
+      allow(groups)
+        .to receive(:page)
+        .with(page)
+        .and_return(groups)
     end
+  end
+  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:representer) do
+    described_class.new(groups,
+                        self_link: self_base_link,
+                        per_page: page_size,
+                        page: page,
+                        current_user: current_user)
+  end
+  let(:total) { 3 }
+  let(:page) { 1 }
+  let(:page_size) { 2 }
+  let(:actual_count) { 3 }
+  let(:collection_inner_type) { 'Group' }
+
+  include API::V3::Utilities::PathHelper
+
+  context 'generation' do
+    subject(:collection) { representer.to_json }
+
+    it_behaves_like 'offset-paginated APIv3 collection', 3, 'groups', 'Group'
   end
 end

@@ -425,11 +425,8 @@ describe ::API::V3::Utilities::PathHelper do
   end
 
   describe 'group paths' do
-    describe '#group' do
-      subject { helper.group 1 }
-
-      it_behaves_like 'api v3 path', '/groups/1'
-    end
+    it_behaves_like 'index', :group
+    it_behaves_like 'show', :group
   end
 
   describe 'version paths' do

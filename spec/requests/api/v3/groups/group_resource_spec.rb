@@ -36,7 +36,6 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
   subject(:response) { last_response }
 
   shared_let(:project) { FactoryBot.create(:project) }
-  let(:admin) { FactoryBot.create(:admin) }
   let(:group) do
     FactoryBot.create(:group,
                       member_in_project: project,
@@ -59,13 +58,13 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
   end
 
   describe 'GET api/v3/groups/:id' do
+    let(:get_path) { api_v3_paths.group group.id }
+
     before do
       get get_path
     end
 
     context 'having the necessary permission' do
-      let(:get_path) { api_v3_paths.group group.id }
-
       it 'responds with 200 OK' do
         expect(subject.status)
           .to eq(200)
@@ -94,14 +93,62 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
       end
     end
 
+    context 'not having the necessary permission to see any group' do
+      let(:permissions) { [] }
+
+      it_behaves_like 'unauthorized access'
+    end
+
+    context 'not having the necessary permission to see the specific group' do
+      let(:permissions) { %i[view_members] }
+      let(:group) { FactoryBot.create(:group) }
+
+      it_behaves_like 'not found'
+    end
+  end
+
+  describe 'GET api/v3/groups' do
+    let(:get_path) { api_v3_paths.groups }
+    let(:other_group) do
+      FactoryBot.create(:group)
+    end
+
+    before do
+      group
+      other_group
+
+      get get_path
+    end
+
+    context 'having the necessary permission' do
+      it 'responds with 200 OK' do
+        expect(subject.status)
+          .to eq(200)
+      end
+
+      it 'responds with a collection of groups' do
+        expect(subject.body)
+          .to be_json_eql('Collection'.to_json)
+          .at_path('_type')
+
+        expect(subject.body)
+          .to be_json_eql('2')
+          .at_path('total')
+
+        expect(subject.body)
+          .to be_json_eql(other_group.id.to_json)
+          .at_path('_embedded/elements/0/id')
+
+        expect(subject.body)
+          .to be_json_eql(group.id.to_json)
+          .at_path('_embedded/elements/1/id')
+      end
+    end
+
     context 'not having the necessary permission' do
       let(:permissions) { [] }
-      let(:get_path) { api_v3_paths.group group.id }
 
-      it_behaves_like 'not found' do
-        let(:id) { group.id }
-        let(:type) { 'Group' }
-      end
+      it_behaves_like 'unauthorized access'
     end
   end
 end
