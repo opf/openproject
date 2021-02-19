@@ -43,17 +43,19 @@ describe Users::UpdateContract do
         firstname: user_firstname,
         lastname: user_lastname,
         login: user_login,
-        mail: user_mail,
-        password: user_password,
-        password_confirmation: user_password_confirmation
+        mail: user_mail
       }
     end
 
     context 'when global user' do
-      shared_let(:current_user) { FactoryBot.create :user, global_permission: :manage_user }
+      let(:current_user) { FactoryBot.create :user, global_permission: :manage_user }
 
       describe 'can set the login' do
         before do
+          # We reset the password from the factory so that it does not appear to be
+          # changed.
+          user.password = user.password_confirmation = nil
+
           user.login = 'new-foo'
         end
 

@@ -64,7 +64,7 @@ shared_examples_for 'user contract' do
   end
 
   context 'when global user' do
-    shared_let(:current_user) { FactoryBot.create :user, global_permission: :manage_user }
+    let(:current_user) { FactoryBot.create :user, global_permission: :manage_user }
 
     describe 'cannot set the password' do
       before do
