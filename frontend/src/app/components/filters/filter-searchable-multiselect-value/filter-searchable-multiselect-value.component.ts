@@ -33,9 +33,6 @@ export interface FilterConditions {name:string; operator:FilterOperator; values:
 
 export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
   @Input() public filter:QueryFilterInstanceResource;
-  @Input() public filterConditions?:FilterConditions[];
-  @Input() public filterResource:'work_packages' | 'users';
-  @Input() public filterSearchKey?:string;
   @Input() public shouldFocus:boolean = false;
   @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
 
@@ -104,7 +101,7 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
   }
 
   public loadAvailable(matching:string):Observable<HalResource[]> {
-    const filters:ApiV3FilterBuilder = this.createFilters([], matching);
+    const filters:ApiV3FilterBuilder = this.createFilters(matching);
     const href = (this.filter.currentSchema!.values!.allowedValues as any).$href;
 
     const filteredData = (this.apiV3Service.collectionFromString(href) as
@@ -116,15 +113,13 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
     return filteredData;
   }
 
-  protected createFilters(filterConditions:FilterConditions[], matching:string) {
+  protected createFilters(matching:string) {
     const filters = new ApiV3FilterBuilder();
 
-    for (const condition of filterConditions) {
-      filters.add(condition.name, condition.operator, condition.values);
-    }
     if (matching) {
-      filters.add(this.filterSearchKey ?? '', '**', [matching]);
+      filters.add('subjectOrId', '**', [matching]);
     }
+
     return filters;
   }
 
