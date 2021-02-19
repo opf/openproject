@@ -204,7 +204,7 @@ ja:
           status_confirmed: "確認済み"
           status_waiting: "メールが送信されました - 確認待ちです"
           test_ee: "エンタープライズ版を14日間無料でテストする"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
+          quick_overview: "OpenProject Enterprise Edition でのプロジェクト管理とチームコラボレーションの概要をご確認ください。"
         upsale:
           become_hero: "ヒーローになる!"
           benefits:
@@ -212,9 +212,9 @@ ja:
             high_security: "セキュリティ機能"
             high_security_text: "シングルサインオン(SAML、OpenID Connect、CAS)、2要素認証、LDAPグループの自動同期。"
             installation: "インストールサポート"
-            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
+            installation_text: "経験豊富なソフトウェアエンジニアが、あなた独自のインフラストラクチャへの完全なインストールとセットアッププロセスをガイドします。"
             premium_features: "プレミアム機能"
-            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
+            premium_features_text: "アジャイルボード、カスタムテーマとロゴ、グラフ、カスタムアクションによるインテリジェントワークフロー、ワークパッケージの添付ファイルおよびマルチセレクトカスタムフィールドの全文検索。"
             professional_support: "プロフェッショナルサポート"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "無料トライアルを開始"
@@ -824,7 +824,7 @@ ja:
       table_configuration:
         button: 'このワークパッケージテーブルを設定する'
         choose_display_mode: 'ワークパッケージを次のように表示する'
-        modal_title: 'ワークパッケージ表の設定'
+        modal_title: 'ワークパッケージ一覧の設定'
         embedded_tab_disabled: "この設定タブは編集中の埋め込みビューでは使用できません。"
         default: "デフォルト"
         display_settings: '表示設定'
@@ -939,7 +939,7 @@ ja:
       workPackage:
         other: "ワークパッケージ"
       child_work_packages:
-        other: "%{count} つの子ワークパッケージ"
+        other: "%{count} 件の子ワークパッケージ"
       hour:
         zero: "0 h"
         other: ""

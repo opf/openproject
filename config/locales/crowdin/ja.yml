@@ -953,7 +953,7 @@ ja:
   datetime:
     distance_in_words:
       about_x_hours:
-        other: "約%{count}時間"
+        other: "約 %{count} 時間"
       about_x_months:
         other: "約%{count}ヶ月間"
       about_x_years:
@@ -977,7 +977,7 @@ ja:
         other: "%{count}秒"
     units:
       hour:
-        other: "時"
+        other: "時間"
   default_activity_development: "開発作業"
   default_activity_management: "管理"
   default_activity_other: "その他"
@@ -1373,8 +1373,8 @@ ja:
   label_import: "インポート"
   label_export_to: "こちらもアクセス可能："
   label_expanded_click_to_collapse: "拡大しました。クリックすると閉じます"
-  label_f_hour: "%{value}時間"
-  label_f_hour_plural: "%{value}時間"
+  label_f_hour: "%{value} 時間"
+  label_f_hour_plural: "%{value} 時間"
   label_feed_plural: "フィード"
   label_feeds_access_key: "RSSアクセスキー"
   label_feeds_access_key_created_on: "RSSアクセスキーが%{value}前に作成されました"
