@@ -133,7 +133,7 @@ describe 'Projects', type: :feature do
       let(:input) { find('.danger-zone input') }
       it do
         input.set 'Not the project name'
-        expect(page).to have_css('.danger-zone .button[disabled]')
+        expect(page).to have_no_css('.danger-zone .button[disabled]')
       end
     end
 
@@ -141,7 +141,7 @@ describe 'Projects', type: :feature do
       let(:input) { find('.danger-zone input') }
       it do
         input.set project.name
-        expect(page).to have_css('.danger-zone .button:not([disabled])')
+        expect(page).to have_no_css('.danger-zone .button:not([disabled])')
       end
     end
   end
