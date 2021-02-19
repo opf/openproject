@@ -43,7 +43,6 @@ import {mapTo, take} from "rxjs/operators";
 @Injectable()
 export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<QueryFilterInstanceResource[]> {
   public hidden:string[] = [
-    'id',
     'datesInterval',
     'precedes',
     'follows',
