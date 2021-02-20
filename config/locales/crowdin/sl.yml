@@ -117,7 +117,7 @@ sl:
         S tem lahko omejite nabor uporabnikov, ki jih OpenProject najde za preverjanje pristnosti in skupinsko sinhronizacijo.
       filter_string_concat: |
         OpenProject bo vedno filtriral atribut za prijavo, ki ga je uporabnik določil za identifikacijo zapisa. Če vstavite filter tu,
-        bo združen z AND. Privzeto bo kot  element (objectClass = *). uporabljen kot filter.
+        bo združen z AND. Privzeto bo kot element (objectClass = *) uporabljen kot filter.
       onthefly_register: |
         Če potrdite to polje, bo OpenProject samodejno ustvaril nove uporabnike iz njihovih vnosov LDAP, ko se prvič potrdijo z OpenProject.
         Pustite to polje brez potrditve, da samo obstoječim računom v programu OpenProject dovolite avtentikacijo preko LDAP.
