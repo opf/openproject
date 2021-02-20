@@ -364,7 +364,7 @@ ja:
     label_next: "次へ"
     label_no_color: "色なし"
     label_no_data: "表示できるデータがありません。"
-    label_no_due_date: "終了日なし"
+    label_no_due_date: "終了日が未設定"
     label_no_start_date: "開始日なし"
     label_no_value: "値なし"
     label_none: "なし"
@@ -848,7 +848,7 @@ ja:
           automatic: '自動'
           manually: '手動'
           warning: '自動並び替えモードをアクティブにすると、以前のソートが失われます。'
-        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "テーブルビューに列を追加するには、上の入力フィールドを使用します。列をドラッグアンドドロップして並べ替えることができます。"
         upsale:
           attribute_highlighting: '全体から目立つように特定のワークパッケージが必要ですか？'
           relation_columns: 'ワークパッケージリストに関係を表示する必要がありますか?'

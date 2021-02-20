@@ -172,12 +172,12 @@ sl:
         reset_to_defaults: 'Ponastavi na privzete vrednosti'
       enterprise:
         trial:
-          confirmation: "Potrdite e-poštni naslov"
+          confirmation: "Potrditev e-poštnega naslova"
           confirmation_info: >
             Na dan %{date} smo vam na elektronski naslov %{email} poslali e-pošto. Prosimo preglejte vašo pošto in kliknite na potrditveno povezavo za začetek vašega 14 dnevnega preizkusa.
           form:
             general_consent: >
-              Strinjam se z  <a target="_blank" href="%{link_terms}">terms of service</a> in <a target="_blank" href="%{link_privacy}">privacy policy</a>.
+              Strinjam se z  <a target="_blank" href="%{link_terms}">pogoji uporabe</a> in <a target="_blank" href="%{link_privacy}">politiko zasebnosti</a>.
             invalid_email: "Neveljaven e-poštni naslov"
             label_company: "Podjetje"
             label_first_name: "Ime"
@@ -188,7 +188,7 @@ sl:
             label_maximum_users: "Največje število aktivnih uporabnikov"
             label_starts_at: "Se začne z"
             label_expires_at: "Izteče ob"
-            receive_newsletter: Želim prejemati OpenProject  <a target="_blank" href="%{link}">newsletter</a>.
+            receive_newsletter: Želim prejemati OpenProject  <a target="_blank" href="%{link}">novice</a>.
             taken_domain: Možen je le en aktivni preizkus na domeno.
             taken_email: Vsak uporabnik ima na voljo le en preizkus.
           email_not_received: "Niste prejeli e-pošte? E-pošto lahko ponovno pošljete s povezavo na desni."
