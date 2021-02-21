@@ -1231,7 +1231,7 @@ ja:
   label_all: "全て"
   label_all_time: "全期間"
   label_all_words: "全ての単語"
-  label_all_open_wps: "未完了"
+  label_all_open_wps: "全ての未完了"
   label_always_visible: "常に表示"
   label_announcement: "お知らせ"
   label_api_access_key: "APIアクセスキー"
