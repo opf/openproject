@@ -27,11 +27,12 @@
 #++
 
 module Groups
-  class AddUsersContract < Groups::BaseContract
+  class AddUsersContract < ::ModelContract
+    include RequiresAdminGuard
+
     protected
 
     # No need to validate the whole of the group when we only want to ensure that the user is an admin.
-    # In case more conditions are added to the BaseContract, we might need an extra AdminOnlyContract
     def validate_model?
       false
     end

@@ -35,7 +35,7 @@ describe Principals::Scopes::OrderedByName, type: :model do
     shared_let(:alice) { FactoryBot.create(:user, login: 'alice', firstname: 'Alice', lastname: 'Zetop') }
     shared_let(:eve) { FactoryBot.create(:user, login: 'eve', firstname: 'Eve', lastname: 'Baddie') }
 
-    shared_let(:group) { FactoryBot.create(:group, groupname: 'Core Team') }
+    shared_let(:group) { FactoryBot.create(:group, name: 'Core Team') }
     shared_let(:placeholder_user) { FactoryBot.create(:placeholder_user, name: 'Developers') }
 
     subject { Principal.ordered_by_name(desc: descending).pluck(:id) }

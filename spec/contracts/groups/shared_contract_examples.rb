@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,28 +28,53 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Groups
-  class BaseContract < ::ModelContract
-    include RequiresAdminGuard
+require 'spec_helper'
 
-    # attribute_alias is broken in the sense
-    # that `model#changed` includes only the non-aliased name
-    # hence we need to put "lastname" as an attribute here
-    attribute :name
-    attribute :lastname
+shared_examples_for 'group contract' do
+  let(:group_name) { 'The group' }
+  let(:group_users) do
+    [FactoryBot.build_stubbed(:group_user, user_id: 1),
+     FactoryBot.build_stubbed(:group_user, user_id: 2)]
+  end
 
-    validate :validate_unique_users
+  it_behaves_like 'contract is valid for active admins and invalid for regular users'
 
-    private
+  describe 'validations' do
+    let(:current_user) { FactoryBot.build_stubbed :admin }
 
-    # Validating on the group_users since those are dealt with in the
-    # corresponding services.
-    def validate_unique_users
-      user_ids = model.group_users.map(&:user_id)
-
-      if user_ids.uniq.length < user_ids.length
-        errors.add(:group_users, :taken)
+    context 'name' do
+      context 'is valid' do
+        it_behaves_like 'contract is valid'
       end
+
+      context 'is too long' do
+        let(:group_name) { 'X' * 257 }
+
+        it_behaves_like 'contract is invalid', name: :too_long
+      end
+
+      context 'is not empty' do
+        let(:group_name) { '' }
+
+        it_behaves_like 'contract is invalid', name: :blank
+      end
+
+      context 'is unique' do
+        before do
+          Group.create(name: group_name)
+        end
+
+        it_behaves_like 'contract is invalid', name: :taken
+      end
+    end
+
+    context 'groups_users' do
+      let(:group_users) do
+        [FactoryBot.build_stubbed(:group_user, user_id: 1),
+         FactoryBot.build_stubbed(:group_user, user_id: 1)]
+      end
+
+      it_behaves_like 'contract is invalid', group_users: :taken
     end
   end
 end

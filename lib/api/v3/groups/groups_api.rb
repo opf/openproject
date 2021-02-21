@@ -38,6 +38,9 @@ module API
           get &::API::V3::Utilities::Endpoints::Index
                  .new(model: Group)
                  .mount
+          post &::API::V3::Utilities::Endpoints::Create
+                  .new(model: Group)
+                  .mount
 
           route_param :id, type: Integer, desc: 'Group ID' do
             after_validation do

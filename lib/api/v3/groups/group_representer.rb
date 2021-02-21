@@ -41,7 +41,6 @@ module API
         associated_resources :users,
                              as: :members,
                              skip_render: -> { !current_user.allowed_to_globally?(:manage_members) }
-
       end
     end
   end

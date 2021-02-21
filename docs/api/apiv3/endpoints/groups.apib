@@ -80,6 +80,79 @@ None
                 "message": "The requested resource could not be found."
             }
 
+## Create group [/api/v3/groups]
+
+## Create group [POST]
+
+Creates a new group applying the attributes provided in the body.
+
++ Request Create group
+
+    + Body
+
+            {
+                "name": "The group",
+                "_links": {
+                    "members": [
+                        {
+                            "href": "/api/v3/users/363"
+                        },
+                        {
+                            "href": "/api/v3/users/60"
+                        }
+                    ]
+                }
+            }
+
++ Response 201
+
+    [View group][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** Admin
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Name can't be blank.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "name"
+                    }
+                }
+            }
+
 ## List groups [/api/v3/groups{?sortBy}]
 
 + Model

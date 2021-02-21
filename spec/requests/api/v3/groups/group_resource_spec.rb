@@ -107,6 +107,76 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     end
   end
 
+  describe 'POST api/v3/groups' do
+    let(:path) { api_v3_paths.groups }
+    let(:body) do
+      {
+        name: 'The new group',
+        members: [
+          {
+            href: api_v3_paths.user(members.first.id)
+          },
+          {
+            href: api_v3_paths.user(members.last.id)
+          }
+        ]
+      }.to_json
+    end
+
+    before do
+      post path, body
+    end
+
+    context 'when the user is allowed and the input is valid' do
+      current_user { FactoryBot.create(:admin) }
+
+      it 'responds with 201' do
+        expect(last_response.status).to eq(201)
+      end
+
+      it 'creates the group and sets the members' do
+        group = Group.find_by(name: 'The new group')
+        expect(group)
+          .to be_present
+
+        expect(group.users)
+          .to match_array members
+      end
+
+      it 'returns the newly created group' do
+        expect(last_response.body)
+          .to be_json_eql('Group'.to_json)
+          .at_path('_type')
+
+        expect(last_response.body)
+          .to be_json_eql('The new group'.to_json)
+          .at_path('name')
+      end
+    end
+
+    context 'when the user is allowed and the input is invalid' do
+      current_user { FactoryBot.create(:admin) }
+
+      let(:body) do
+        {
+          name: ''
+        }.to_json
+      end
+
+      it 'responds with 422 and explains the error' do
+        expect(last_response.status).to eq(422)
+
+        expect(last_response.body)
+          .to be_json_eql("Name can't be blank.".to_json)
+          .at_path('message')
+      end
+    end
+
+    context 'not having the necessary permission' do
+      it_behaves_like 'unauthorized access'
+    end
+  end
+
   describe 'GET api/v3/groups' do
     let(:get_path) { api_v3_paths.groups }
     let(:other_group) do

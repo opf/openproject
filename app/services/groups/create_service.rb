@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,28 +28,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Groups
-  class BaseContract < ::ModelContract
-    include RequiresAdminGuard
+class Groups::CreateService < ::BaseServices::Create
+  protected
 
-    # attribute_alias is broken in the sense
-    # that `model#changed` includes only the non-aliased name
-    # hence we need to put "lastname" as an attribute here
-    attribute :name
-    attribute :lastname
+  def after_perform(call)
+    # TODO: check if the AddUsersService itself can be removed
+    # TODO: check if the call to the AddUsersService can be removed from here
+    #       if a newly created group cannot have a membership in any project
+    db_call = ::Groups::AddUsersService
+              .new(call.result, current_user: user)
+              .call(ids: call.result.group_users.select(&:new_record?).map(&:user_id))
 
-    validate :validate_unique_users
+    call.add_dependent!(db_call)
 
-    private
-
-    # Validating on the group_users since those are dealt with in the
-    # corresponding services.
-    def validate_unique_users
-      user_ids = model.group_users.map(&:user_id)
-
-      if user_ids.uniq.length < user_ids.length
-        errors.add(:group_users, :taken)
-      end
-    end
+    call
   end
 end
