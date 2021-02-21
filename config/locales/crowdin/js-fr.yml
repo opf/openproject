@@ -86,7 +86,7 @@ fr:
     caption_rate_history: "Historique des tarifs"
     clipboard:
       browser_error: "Votre navigateur ne prend pas en charge la copie dans le presse-papier. Veuillez copier manuellement le texte sélectionné."
-      copied_successful: "Successfully copied to clipboard!"
+      copied_successful: "Copie réussie dans le presse-papiers !"
     chart:
       type: 'Type de graphique'
       axis_criteria: 'Critères de l''axe'
@@ -363,7 +363,7 @@ fr:
     label_next: "Suivante"
     label_no_color: "Aucune couleur"
     label_no_data: "Aucune donnée à afficher"
-    label_no_due_date: "no finish date"
+    label_no_due_date: "pas de date de fin"
     label_no_start_date: "pas de date de début"
     label_no_value: "Aucune valeur"
     label_none: "aucune"
@@ -403,7 +403,7 @@ fr:
     label_public_query: "Public"
     label_sum: "Total"
     label_sum_for: "Somme pour"
-    label_total_sum: "Total sum"
+    label_total_sum: "Somme totale"
     label_subject: "Sujet"
     label_this_week: "cette semaine"
     label_today: "Aujourd'hui"
@@ -845,7 +845,7 @@ fr:
           automatic: 'Automatique'
           manually: 'Manuellement'
           warning: 'Vous perdrez votre tri précédent lors de l''activation du mode de tri automatique.'
-        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Utilisez le champ de saisie ci-dessus pour ajouter des colonnes à votre vue table. Vous pouvez glisser-déposer les colonnes pour les réorganiser."
         upsale:
           attribute_highlighting: 'Vous avez besoin de lots de travaux qui sortent du lot ?'
           relation_columns: 'Besoin de voir les relations sur la liste des lots de travaux ?'

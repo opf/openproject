@@ -777,7 +777,7 @@ ja:
         created_by_me: "私が作成した"
         assigned_to_me: "私に割り当てられた"
         recently_created: "最近作成された"
-        all_open: "未完了"
+        all_open: "全ての未完了"
         summary: "サマリ"
       jump_marks:
         pagination: "表のページ設定に移動する"
