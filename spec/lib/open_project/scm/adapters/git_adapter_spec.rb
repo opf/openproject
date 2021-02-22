@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -35,7 +36,7 @@ describe OpenProject::SCM::Adapters::Git do
     let(:url) { protocol + Rails.root.join('/tmp/does/not/exist.git').to_s }
     let(:config) { {} }
     let(:encoding) { nil }
-    let(:adapter) {
+    let(:adapter) do
       OpenProject::SCM::Adapters::Git.new(
         url,
         nil,
@@ -44,7 +45,7 @@ describe OpenProject::SCM::Adapters::Git do
         encoding,
         "test-identifier"
       )
-    }
+    end
 
     repos_dir = Dir.mktmpdir
 

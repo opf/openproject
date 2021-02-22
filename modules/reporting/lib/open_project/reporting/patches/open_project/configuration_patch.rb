@@ -26,7 +26,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-
 require_dependency 'open_project/configuration'
 
 module OpenProject::Reporting::Patches

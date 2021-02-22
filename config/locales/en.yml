@@ -275,6 +275,11 @@ en:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
 
+  placeholder_users:
+    upsale:
+      title: 'Placeholder users are an Enterprise Edition feature'
+      description: 'Placeholder users allow you create a work plan for users that must not have access to the system (yet).'
+
   prioritiies:
     edit:
      priority_color_text: |
@@ -572,6 +577,7 @@ en:
         confirmation: "doesn't match %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "does not exist."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         empty: "can't be empty."
@@ -774,6 +780,7 @@ en:
       status: "Work package status"
       member: "Member"
       news: "News"
+      placeholder_user: "Placeholder user"
       project: "Project"
       query: "Custom query"
       role:
@@ -1377,6 +1384,7 @@ en:
   label_custom_field_plural: "Custom fields"
   label_custom_field_default_type: "Empty type"
   label_custom_style: "Design"
+  label_database_version: "PostgreSQL version"
   label_date: "Date"
   label_date_and_time: "Date and time"
   label_date_from: "From"
@@ -1535,6 +1543,7 @@ en:
   label_my_account_data: "My account data"
   label_my_projects: "My projects"
   label_my_queries: "My custom queries"
+  label_name: "Name"
   label_never: "Never"
   label_new: "New"
   label_new_features: "New features"
@@ -1584,6 +1593,9 @@ en:
   label_permissions: "Permissions"
   label_permissions_report: "Permissions report"
   label_personalize_page: "Personalize this page"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Planning"
   label_please_login: "Please log in"
   label_plugins: "Plugins"
@@ -1901,6 +1913,7 @@ en:
   notice_email_sent: "An email was sent to %{value}"
   notice_failed_to_save_work_packages: "Failed to save %{count} work package(s) on %{total} selected: %{ids}."
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
 
   notice_file_not_found: "The page you were trying to access doesn't exist or has been removed."
   notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."
@@ -1969,6 +1982,8 @@ en:
   permission_add_work_packages: "Add work packages"
   permission_add_messages: "Post messages"
   permission_add_project: "Create project"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Create subprojects"
   permission_add_work_package_watchers: "Add watchers"
   permission_assign_versions: "Assign versions"
@@ -2033,6 +2048,21 @@ en:
 
   placeholders:
     default: "-"
+
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values)
+        will be reassigned to an account called "Deleted user".
+
+        As the data of every deleted account is reassigned to this account
+        it will not be possible to distinguish the data the user created from
+        the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+
+
 
   project:
     destroy:

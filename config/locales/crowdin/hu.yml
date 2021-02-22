@@ -242,6 +242,14 @@ hu:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Ez a felhasználó jelenleg nem tagja egy projektnek sem.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -518,6 +526,7 @@ hu:
         confirmation: "%{attribute} nem egyezik."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "nem létezik."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "lehet, hogy nem érhető el."
         error_readonly: "írása megkísérelve, de nem írható."
         empty: "nem lehet üres."
@@ -718,6 +727,7 @@ hu:
       status: "Feladatcsoport állapot"
       member: "Tag"
       news: "Hírek"
+      placeholder_user: "Placeholder user"
       project: "Projekt"
       query: "Egyéni lekérdezés"
       role:
@@ -1329,6 +1339,7 @@ hu:
   label_custom_field_plural: "Választható mezők"
   label_custom_field_default_type: "Üres típus"
   label_custom_style: "Kinézet"
+  label_database_version: "PostgreSQL version"
   label_date: "dátum"
   label_date_and_time: "Dátum és idő"
   label_date_from: "tól"
@@ -1487,6 +1498,7 @@ hu:
   label_my_account_data: "Az én fiók adataim"
   label_my_projects: "Az én projektjeim"
   label_my_queries: "Az én egyéni lekérdezéseim"
+  label_name: "Név"
   label_never: "Soha"
   label_new: "Új"
   label_new_features: "New features"
@@ -1536,6 +1548,9 @@ hu:
   label_permissions: "Jogosultságok"
   label_permissions_report: "Jogosultságok riportálása"
   label_personalize_page: "A lap testreszabása"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Tervezés"
   label_please_login: "Kérjük, jelentkezzen be"
   label_plugins: "Modulok"
@@ -1844,6 +1859,7 @@ hu:
   notice_email_sent: "Egy email elküldve %{value}"
   notice_failed_to_save_work_packages: "Nem sikerült menteni a %{count} munkacsomag(ok)a %{total} kiválasztott: %{ids}."
   notice_failed_to_save_members: "Nem sikerült menteni a tag(ok)at: %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Az elérni kivánt oldal nem létezik, vagy már eltávolították."
   notice_forced_logout: "Automatikusan kijelentkezett %{ttl_time} perc inaktivitás után."
   notice_internal_server_error: "Az elérni kivánt oldalon hiba történt. Ha továbbra is problémákat tapasztal, kérem forduljon a %{app_title} rendszergazdához segítségért."
@@ -1907,6 +1923,8 @@ hu:
   permission_add_work_packages: "feladatcsoport hozzáadása"
   permission_add_messages: "Elküldött üzenetek"
   permission_add_project: "Projekt létrehozása"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Alprojektek létrehozása"
   permission_add_work_package_watchers: "Megfigyelő hozzáadása"
   permission_assign_versions: "Assign versions"

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -108,7 +109,7 @@ module SettingsHelper
       unit_html = content_tag(:span,
                               unit,
                               class: 'form--field-affix',
-                              :'aria-hidden' => true,
+                              'aria-hidden': true,
                               id: unit_id)
     end
 

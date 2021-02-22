@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -66,11 +67,12 @@ module Redmine
     end
 
     def ll(lang, str, value = nil)
-      ::I18n.t(str.to_s, value: value, locale: lang.to_s.gsub(%r{(.+)\-(.+)$}) { "#{$1}-#{$2.upcase}" })
+      ::I18n.t(str.to_s, value: value, locale: lang.to_s.gsub(%r{(.+)-(.+)$}) { "#{$1}-#{$2.upcase}" })
     end
 
     def format_date(date)
       return nil unless date
+
       Setting.date_format.blank? ? ::I18n.l(date.to_date) : date.strftime(Setting.date_format)
     end
 
@@ -120,16 +122,26 @@ module Redmine
     # otherwise just use the date in the time zone attached to the time
     def format_time_as_date(time, format)
       return nil unless time
+
       zone = User.current.time_zone
-      local_date = (zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)).to_date
+      local_date = (if zone
+                      time.in_time_zone(zone)
+                    else
+                      (time.utc? ? time.localtime : time)
+                    end).to_date
       local_date.strftime(format)
     end
 
     def format_time(time, include_date = true)
       return nil unless time
+
       time = time.to_time if time.is_a?(String)
       zone = User.current.time_zone
-      local = zone ? time.in_time_zone(zone) : (time.utc? ? time.to_time.localtime : time)
+      local = if zone
+                time.in_time_zone(zone)
+              else
+                (time.utc? ? time.to_time.localtime : time)
+              end
       (include_date ? "#{format_date(local)} " : '') +
         (Setting.time_format.blank? ? ::I18n.l(local, format: :time) : local.strftime(Setting.time_format))
     end
@@ -153,7 +165,7 @@ module Redmine
     ##
     # Returns the given language if it is valid or nil otherwise.
     def find_language(lang)
-      return nil unless (lang.present? && lang =~ /[a-z-]+/i)
+      return nil unless lang.present? && lang =~ /[a-z-]+/i
 
       # Direct match
       direct_match = valid_languages.detect { |l| l =~ /^#{lang}$/i }
@@ -175,11 +187,13 @@ module Redmine
     # Collects all translations for ActiveRecord attributes
     def all_attribute_translations(locale = current_locale)
       @cached_attribute_translations ||= {}
-      @cached_attribute_translations[locale] ||= (
+      @cached_attribute_translations[locale] ||= begin
         general_attributes = ::I18n.t('attributes', locale: locale)
-        ::I18n.t('activerecord.attributes', locale: locale).inject(general_attributes) { |attr_t, model_t|
+        ::I18n.t('activerecord.attributes',
+                 locale: locale).inject(general_attributes) do |attr_t, model_t|
           attr_t.merge(model_t.last || {})
-        })
+        end
+      end
       @cached_attribute_translations[locale]
     end
   end

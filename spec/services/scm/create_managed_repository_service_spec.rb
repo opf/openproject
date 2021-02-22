@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -55,11 +56,11 @@ describe SCM::CreateManagedRepositoryService do
 
   context 'with managed repository' do
     # Must not .create a managed repository, or it will call this service itself!
-    let(:repository) {
+    let(:repository) do
       repo = Repository::Subversion.new(scm_type: :managed)
       repo.project = project
       repo
-    }
+    end
 
     context 'but no managed config' do
       it 'does not create a filesystem repository' do
@@ -71,14 +72,14 @@ describe SCM::CreateManagedRepositoryService do
 
   context 'with managed local config' do
     include_context 'with tmpdir'
-    let(:config) {
+    let(:config) do
       {
         subversion: { manages: File.join(tmpdir, 'svn') },
         git: { manages: File.join(tmpdir, 'git') }
       }
-    }
+    end
 
-    let(:repository) {
+    let(:repository) do
       repo = Repository::Subversion.new(scm_type: :managed)
       repo.project = project
       repo.configure(:managed, nil)
@@ -87,7 +88,7 @@ describe SCM::CreateManagedRepositoryService do
       allow(repo).to receive(:create_managed_repository)
       repo.save!
       repo
-    }
+    end
 
     before do
       allow_any_instance_of(SCM::CreateLocalRepositoryJob)
@@ -144,18 +145,18 @@ describe SCM::CreateManagedRepositoryService do
 
   context 'with managed remote config', webmock: true do
     let(:url) { 'http://myreposerver.example.com/api/' }
-    let(:config) {
+    let(:config) do
       {
         subversion: { manages: url }
       }
-    }
+    end
 
-    let(:repository) {
+    let(:repository) do
       repo = FactoryBot.build(:repository_subversion, scm_type: :managed)
       repo.project = project
       repo.configure(:managed, nil)
       repo
-    }
+    end
 
     it 'detects the remote config' do
       expect(repository.class.managed_remote.to_s).to eq(url)
@@ -200,11 +201,11 @@ describe SCM::CreateManagedRepositoryService do
 
       context 'with https' do
         let(:url) { 'https://myreposerver.example.com/api/' }
-        let(:config) {
+        let(:config) do
           {
             subversion: { manages: url, insecure: insecure }
           }
-        }
+        end
 
         let(:instance) { SCM::CreateRemoteRepositoryJob.new }
         let(:job_call) { instance.perform(repository) }

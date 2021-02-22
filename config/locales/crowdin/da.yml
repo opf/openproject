@@ -243,6 +243,14 @@ da:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: This user is currently not a member of a project.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -521,6 +529,7 @@ da:
         confirmation: "matcher ikke %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "findes ikke."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "kan muligvis ikke tilgås."
         error_readonly: "was attempted to be written but is not writable."
         empty: "må ikke være tomt."
@@ -721,6 +730,7 @@ da:
       status: "Status for arbejdspakke"
       member: "Medlem"
       news: "Nyheder"
+      placeholder_user: "Placeholder user"
       project: "Prjoekt"
       query: "Selvvalgt forespørgsel"
       role:
@@ -1332,6 +1342,7 @@ da:
   label_custom_field_plural: "Selvvalgte felter"
   label_custom_field_default_type: "Tom typebetegnelse"
   label_custom_style: "Design"
+  label_database_version: "PostgreSQL version"
   label_date: "Dato"
   label_date_and_time: "Date and time"
   label_date_from: "Fra"
@@ -1490,6 +1501,7 @@ da:
   label_my_account_data: "Mine kontodata"
   label_my_projects: "Mine projekter"
   label_my_queries: "Mine selvvalgte forespørgsler"
+  label_name: "Navn"
   label_never: "Aldrig"
   label_new: "Ny"
   label_new_features: "New features"
@@ -1539,6 +1551,9 @@ da:
   label_permissions: "Tilladelser"
   label_permissions_report: "Oversigt over tilladelser"
   label_personalize_page: "Tilpas denne side"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Planlæg"
   label_please_login: "Log venligst ind"
   label_plugins: "Tilføjelsesprogrammer"
@@ -1848,6 +1863,7 @@ da:
   notice_email_sent: "Der blev sendt en mail til %{value}"
   notice_failed_to_save_work_packages: "Det lykkedes ikke at gemme %{count} arbejdspakke(r) i %{total} valgte: %{ids}."
   notice_failed_to_save_members: "Det lykkedes ikke at gemme medlem(mer): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Den side du prøvede at gå til eksisterer ikke eller er blevet flyttet."
   notice_forced_logout: "Du er blevet automatisk logget ud efter %{ttl_time} minutters inaktivitet."
   notice_internal_server_error: "Der opstod en fejl på siden du prøver at gå til. Hvis du fortsat oplever problemer kontakt venligst din %{app_title} administrator for hjælp."
@@ -1911,6 +1927,8 @@ da:
   permission_add_work_packages: "Tilføj arbejdspakker"
   permission_add_messages: "Send beskeder"
   permission_add_project: "Opret projekt"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Opret underprojekter"
   permission_add_work_package_watchers: "Tilføj tilsynsførende"
   permission_assign_versions: "Assign versions"

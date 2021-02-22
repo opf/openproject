@@ -243,6 +243,14 @@ tr:
       no_results_title_text: Bu kullanıcı şu anda hiçbir gruba üye değil.
     memberships:
       no_results_title_text: Bu kullanıcı şuan için bir proje üyesi değil.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -521,6 +529,7 @@ tr:
         confirmation: "%{attribute} eşleşmiyor."
         could_not_be_copied: "%{dependency} (tam olarak) kopyalanamadı."
         does_not_exist: "mevcut değil."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "erişilemez."
         error_readonly: "yazılmaya çalışıldı fakat yazılabilir değil."
         empty: "boş olamaz."
@@ -721,6 +730,7 @@ tr:
       status: "İş paketi durumu"
       member: "Üye"
       news: "Haberler"
+      placeholder_user: "Yer tutucu kullanıcı"
       project: "Proje"
       query: "Özel sorgu"
       role:
@@ -1332,6 +1342,7 @@ tr:
   label_custom_field_plural: "Özel alanlar"
   label_custom_field_default_type: "Boş tür"
   label_custom_style: "Tasarım"
+  label_database_version: "PostgreSQL version"
   label_date: "Tarih"
   label_date_and_time: "Tarih ve zaman"
   label_date_from: "Başlangıç"
@@ -1490,6 +1501,7 @@ tr:
   label_my_account_data: "Hesap verilerim"
   label_my_projects: "Projelerim"
   label_my_queries: "Özel sorgularım"
+  label_name: "İsim"
   label_never: "Hiçbir zaman"
   label_new: "Yeni"
   label_new_features: "Yeni özellikler"
@@ -1539,6 +1551,9 @@ tr:
   label_permissions: "İzinler"
   label_permissions_report: "İzin raporu"
   label_personalize_page: "Bu sayfayı kişiselleştir"
+  label_placeholder_user: "Yer tutucu kullanıcı"
+  label_placeholder_user_new: "Yeni yer tutucu kullanıcı"
+  label_placeholder_user_plural: "Yer tutucu kullanıcılar"
   label_planning: "Planlanıyor"
   label_please_login: "Lütfen giriş yapın"
   label_plugins: "Eklentiler"
@@ -1848,6 +1863,7 @@ tr:
   notice_email_sent: "%{value} adresine bir e-posta gönderildi"
   notice_failed_to_save_work_packages: "Seçilen %{total} %{count} iş paketini(ler) kaydettirilemedi: %{ids}."
   notice_failed_to_save_members: "Üye(ler) kaydedilemedi: %{errors}."
+  notice_deletion_scheduled: "Silme planlandı ve eşzamansız olarak yapıldı."
   notice_file_not_found: "Erişmeye çalıştığınız sayfa mevcut değil veya kaldırıldı."
   notice_forced_logout: "%{ttl_time} dakika hareketsizlikten sonra hesabınızdan otomatik çıkış yapılmıştır."
   notice_internal_server_error: "Erişmeye çalıştığınız sayfada bir hata oluştu. Sorun yaşamaya devam ederseniz, lütfen yardım için %{app_title} yöneticinize başvurun."
@@ -1911,6 +1927,8 @@ tr:
   permission_add_work_packages: "İş paketi eklemek"
   permission_add_messages: "İleti göndermek"
   permission_add_project: "Proje oluşturmak"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Alt proje oluşturmak"
   permission_add_work_package_watchers: "Takipçi ekle"
   permission_assign_versions: "Sürüm ata"

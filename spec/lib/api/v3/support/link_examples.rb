@@ -42,7 +42,7 @@ shared_examples_for 'action link' do
   before do
     login_as(user)
     allow(user)
-      .to receive(:allowed_to?) do |permission, project|
+      .to receive(:allowed_to?) do |permission, _project|
       permissions.include?(permission)
     end
   end
@@ -81,12 +81,12 @@ shared_context 'action link shared' do
 
   it 'indicates the desired method' do
     verb = begin
-             # the standard method #method on an object interferes
-             # with the let named 'method' conditionally defined
-             method
-           rescue ArgumentError
-             :get
-           end
+      # the standard method #method on an object interferes
+      # with the let named 'method' conditionally defined
+      method
+    rescue ArgumentError
+      :get
+    end
 
     if verb != :get
       is_expected

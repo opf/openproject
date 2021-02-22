@@ -32,6 +32,6 @@ class Widget::Controls::Apply < Widget::Controls
                   '#',
                   id: 'query-icon-apply-button',
                   class: 'button -highlight',
-                  :'data-target' => url_for(action: 'index', set_filter:  '1'))
+                  'data-target': url_for(action: 'index', set_filter: '1'))
   end
 end

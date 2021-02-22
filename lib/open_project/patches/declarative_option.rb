@@ -35,6 +35,7 @@ module OpenProject::Patches::DeclarativeOption
     # Override Declarative::Option to avoid ruby 2.7.1 warnings about using the last argument as keyword parameter.
     def lambda_for_proc(value, options)
       return ->(context, **args) { context.instance_exec(**args, &value) } if options[:instance_exec]
+
       value
     end
   end
@@ -44,5 +45,6 @@ unless Declarative::Option.included_modules.include?(OpenProject::Patches::Decla
   if Gem.loaded_specs['declarative-option'].version > Gem::Version.create('0.1.0')
     raise "Check whether the patch to Declarative::Option is still necessary"
   end
-  Declarative::Option.send(:include, OpenProject::Patches::DeclarativeOption)
+
+  Declarative::Option.include OpenProject::Patches::DeclarativeOption
 end

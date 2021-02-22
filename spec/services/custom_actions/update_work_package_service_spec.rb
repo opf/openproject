@@ -205,7 +205,7 @@ describe CustomActions::UpdateWorkPackageService do
 
         allow(contract)
           .to receive(:errors)
-          .and_return(:base => ['invalid'])
+          .and_return(base: ['invalid'])
 
         work_package.lock_version = 200
 

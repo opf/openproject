@@ -55,7 +55,7 @@ describe Repository::Git, type: :model do
     end
 
     context 'with disabled types' do
-      let(:config) { { disabled_types: [:local, :managed] } }
+      let(:config) { { disabled_types: %i[local managed] } }
 
       it 'does not have any types' do
         expect(instance.class.available_types).to be_empty
@@ -84,7 +84,7 @@ describe Repository::Git, type: :model do
 
       it 'is manageable' do
         expect(instance.manageable?).to be true
-        expect(instance.class.available_types).to eq([:local, :managed])
+        expect(instance.class.available_types).to eq(%i[local managed])
       end
 
       context 'with disabled managed typed' do
@@ -107,7 +107,7 @@ describe Repository::Git, type: :model do
 
         it 'is no longer manageable' do
           expect(instance.class.available_types).to eq([])
-          expect(instance.class.disabled_types).to eq([:managed, :local])
+          expect(instance.class.disabled_types).to eq(%i[managed local])
           expect(instance.manageable?).to be false
         end
       end
@@ -178,12 +178,12 @@ describe Repository::Git, type: :model do
   describe 'with an actual repository' do
     with_git_repository do |repo_dir|
       let(:url) { repo_dir }
-      let(:instance) {
+      let(:instance) do
         FactoryBot.create(:repository_git,
-                           path_encoding: encoding,
-                           url: url,
-                           root_url: url)
-      }
+                          path_encoding: encoding,
+                          url: url,
+                          root_url: url)
+      end
 
       before do
         instance.fetch_changesets
@@ -226,7 +226,7 @@ describe Repository::Git, type: :model do
       it 'should fetch changesets from scratch' do
         expect(instance.changesets.count).to eq(22)
         # This test fails on macs since they count file changes to be 33, *nix system count 34
-        expect(instance.file_changes.count).to be_between(33,34)
+        expect(instance.file_changes.count).to be_between(33, 34)
 
         commit = instance.changesets.reorder(Arel.sql('committed_on ASC')).first
         expect(commit.comments).to eq("Initial import.\nThe repository contains 3 files.")
@@ -239,7 +239,7 @@ describe Repository::Git, type: :model do
         expect(commit.scmid).to eq('7234cb2750b63f47bff735edc50a1c0a433c2518')
         expect(commit.file_changes.count).to eq(3)
 
-        change = commit.file_changes.sort_by(&:path).first
+        change = commit.file_changes.min_by(&:path)
         expect(change.path).to eq('README')
         expect(change.action).to eq('A')
       end
@@ -444,21 +444,23 @@ describe Repository::Git, type: :model do
             instance.fetch_changesets
             instance.reload
             changesets = instance.latest_changesets(
-              "latin-1-dir/test-#{char1_hex}-subdir", '1ca7f5ed')
+              "latin-1-dir/test-#{char1_hex}-subdir", '1ca7f5ed'
+            )
             expect(changesets.map(&:revision))
               .to eq(['1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127'])
           end
 
           it 'should browse changesets' do
             changesets = instance.latest_changesets(
-              "latin-1-dir/test-#{char1_hex}-2.txt", '64f1f3e89')
+              "latin-1-dir/test-#{char1_hex}-2.txt", '64f1f3e89'
+            )
             expect(changesets.map(&:revision))
               .to eq(['64f1f3e89ad1cb57976ff0ad99a107012ba3481d',
-                      '4fc55c43bf3d3dc2efb66145365ddc17639ce81e',
-                     ])
+                      '4fc55c43bf3d3dc2efb66145365ddc17639ce81e'])
 
             changesets = instance.latest_changesets(
-              "latin-1-dir/test-#{char1_hex}-2.txt", '64f1f3e89', 1)
+              "latin-1-dir/test-#{char1_hex}-2.txt", '64f1f3e89', 1
+            )
             expect(changesets.map(&:revision))
               .to eq(['64f1f3e89ad1cb57976ff0ad99a107012ba3481d'])
           end
@@ -468,7 +470,6 @@ describe Repository::Git, type: :model do
       it_behaves_like 'is a countable repository' do
         let(:repository) { instance }
       end
-
     end
   end
 

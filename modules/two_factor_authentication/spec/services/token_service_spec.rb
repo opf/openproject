@@ -93,7 +93,7 @@ describe ::TwoFactorAuthentication::TokenService, with_2fa_ee: true do
     end
 
     context 'when developer and totp strategies are set' do
-      let(:active_strategies) { [:developer, :totp] }
+      let(:active_strategies) { %i[developer totp] }
       let!(:totp_device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, default: true }
       let!(:sms_device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, default: false }
 

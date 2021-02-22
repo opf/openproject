@@ -70,7 +70,9 @@ describe WikiPage, type: :model do
 
   describe '#nearest_main_item' do
     let(:child_page) { FactoryBot.create(:wiki_page, parent: wiki_page, wiki: wiki) }
-    let!(:child_page_wiki_menu_item) { FactoryBot.create(:wiki_menu_item, wiki: wiki, name: child_page.slug, parent: wiki_page.menu_item) }
+    let!(:child_page_wiki_menu_item) do
+      FactoryBot.create(:wiki_menu_item, wiki: wiki, name: child_page.slug, parent: wiki_page.menu_item)
+    end
     let(:grand_child_page) { FactoryBot.create(:wiki_page, parent: child_page, wiki: wiki) }
     let!(:grand_child_page_wiki_menu_item) { FactoryBot.create(:wiki_menu_item, wiki: wiki, name: grand_child_page.slug) }
 

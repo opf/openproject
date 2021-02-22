@@ -243,6 +243,14 @@ sk:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Tento používateľ nie je v súčasnosti členom projektu.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -523,6 +531,7 @@ sk:
         confirmation: "%{attribute} sa nezhoduje."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "neexistuje."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         empty: "nemôže byť prázdny."
@@ -727,6 +736,7 @@ sk:
       status: "Stav pracovného balíčka"
       member: "Člen"
       news: "Novinky"
+      placeholder_user: "Placeholder user"
       project: "Projekt"
       query: "Vlastný dopyt"
       role:
@@ -1364,6 +1374,7 @@ sk:
   label_custom_field_plural: "Vlastné polia"
   label_custom_field_default_type: "Prázdny typ"
   label_custom_style: "Návrh"
+  label_database_version: "PostgreSQL version"
   label_date: "Dátum"
   label_date_and_time: "Dátum a čas"
   label_date_from: "Od"
@@ -1522,6 +1533,7 @@ sk:
   label_my_account_data: "Moje prihlasovacie parametre"
   label_my_projects: "Moje projekty"
   label_my_queries: "Moje vlastné dopyty"
+  label_name: "Názov"
   label_never: "Nikdy"
   label_new: "Nový"
   label_new_features: "New features"
@@ -1571,6 +1583,9 @@ sk:
   label_permissions: "Oprávnenia"
   label_permissions_report: "Výkaz oprávnení"
   label_personalize_page: "Prispôsobiť túto stránku"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Plánovanie"
   label_please_login: "Prosím prihláste sa"
   label_plugins: "Doplnky"
@@ -1887,6 +1902,7 @@ sk:
   notice_email_sent: "Na adresu %{value} bol odoslaný email"
   notice_failed_to_save_work_packages: "Nepodarilo sa uložiť %{count} pracovných balíčkov z %{total} vybraných: %{ids}."
   notice_failed_to_save_members: "Nepodarilo sa uložiť člena / členov: %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Stránka, ktorú se pokúšate zobraziť, neexistuje, alebo bola odstránená."
   notice_forced_logout: "Boli ste automaticky odhlásení po %{ttl_time} minútach nečinnosti."
   notice_internal_server_error: "Vyskytla sa chyba na stránke, ku ktorej ste sa pokúšali pristupovať. Ak sa naďalej vyskytnú problémy, obráťte sa na správcu %{app_title} o pomoc."
@@ -1952,6 +1968,8 @@ sk:
   permission_add_work_packages: "Pridať pracovné balíky"
   permission_add_messages: "Publikovať správy"
   permission_add_project: "Vytvoriť projekt"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Vytvoriť podprojekty"
   permission_add_work_package_watchers: "Pridať pozorovateľov"
   permission_assign_versions: "Assign versions"

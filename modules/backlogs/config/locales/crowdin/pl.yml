@@ -99,6 +99,7 @@ pl:
   backlogs_empty_title: "Nie ma wersji zdefiniowanej do użycia w zaległościach"
   backlogs_empty_action_text: "Aby rozpocząć pracę z zaległościami, utworzyć nową wersję i przypisać ją do kolumna w zaległości."
   button_edit_wiki: "Edytuj stronę wiki"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
   error_intro_plural: "Wystąpiły następujące błędy:"
   error_intro_singular: "Wystąpił następujący błąd:"
   error_outro: "Popraw błędy powyżej przed ponownym złożeniem."

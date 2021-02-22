@@ -1,0 +1,18 @@
+<div class="op-ium-success">
+  <op-modal-header (close)="close.emit()"></op-modal-header>
+
+  <div class="op-modal--body">
+    <img src="" />
+
+    <h1 [textContent]="text.title()"></h1>
+
+    <p [textContent]="text.description[type]()"></p>
+  </div>
+  <div class="op-modal--footer">
+    <button
+      (click)="close.emit()"
+      class="button"
+      type="button"
+    >{{ text.nextButton }}</button>
+  </div>
+</div>

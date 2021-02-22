@@ -51,11 +51,11 @@ describe 'backlogs onboarding tour', js: true do
 
   let(:impediment) do
     FactoryBot.build(:impediment, author: user,
-                     version: sprint,
-                     assigned_to: user,
-                     project: project,
-                     type: type_task,
-                     status: status)
+                                  version: sprint,
+                                  assigned_to: user,
+                                  project: project,
+                                  type: type_task,
+                                  status: status)
   end
 
   let(:story_type) { FactoryBot.create(:type_feature) }
@@ -74,7 +74,7 @@ describe 'backlogs onboarding tour', js: true do
                       priority: priority,
                       position: 1,
                       story_points: 3,
-                      version: sprint )
+                      version: sprint)
   end
 
   before do

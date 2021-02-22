@@ -28,10 +28,10 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Document do
-  let(:documentation_category) { FactoryBot.create :document_category, name: 'User documentation'}
-  let(:project)                { FactoryBot.create :project}
-  let(:user)                   { FactoryBot.create(:user)}
-  let(:admin)                  { FactoryBot.create(:admin)}
+  let(:documentation_category) { FactoryBot.create :document_category, name: 'User documentation' }
+  let(:project)                { FactoryBot.create :project }
+  let(:user)                   { FactoryBot.create(:user) }
+  let(:admin)                  { FactoryBot.create(:admin) }
 
   let(:mail) do
     mock = Object.new
@@ -40,27 +40,27 @@ describe Document do
   end
 
   context "validation" do
-    it { is_expected.to validate_presence_of :project}
-    it { is_expected.to validate_presence_of :title}
-    it { is_expected.to validate_presence_of :category}
+    it { is_expected.to validate_presence_of :project }
+    it { is_expected.to validate_presence_of :title }
+    it { is_expected.to validate_presence_of :category }
   end
 
   describe "create with a valid document" do
-    let(:valid_document) {Document.new(title: "Test", project: project, category: documentation_category)}
+    let(:valid_document) { Document.new(title: "Test", project: project, category: documentation_category) }
 
     it "should add a document" do
-      expect{
+      expect  do
         valid_document.save
-      }.to change{Document.count}.by 1
+      end.to change { Document.count }.by 1
     end
 
     it "should send out email-notifications" do
       allow(valid_document).to receive(:recipients).and_return([user])
       Setting.notified_events = Setting.notified_events << 'document_added'
 
-      expect{
+      expect  do
         valid_document.save
-      }.to change{ActionMailer::Base.deliveries.size}.by 1
+      end.to change { ActionMailer::Base.deliveries.size }.by 1
     end
 
     it "should send notifications to the recipients of the project" do
@@ -76,24 +76,24 @@ describe Document do
       default_category = FactoryBot.create :document_category, name: 'Technical documentation', is_default: true
       document = Document.new(project: project, title: "New Document")
       expect(document.category).to eql default_category
-      expect{
+      expect do
         document.save
-      }.to change { Document.count }.by 1
+      end.to change { Document.count }.by 1
     end
 
     it "with attachments should change the updated_at-date on the document to the attachment's date" do
       valid_document.save
 
-      expect {
+      expect do
         Attachments::CreateService
           .new(valid_document, author: admin)
           .call(uploaded_file: FactoryBot.attributes_for(:attachment)[:file], description: '')
 
         expect(valid_document.attachments.size).to eql 1
-      }.to(change {
+      end.to(change do
         valid_document.reload
         valid_document.updated_at
-      })
+      end)
     end
 
     it "without attachments, the updated-on-date is taken from the document's date" do

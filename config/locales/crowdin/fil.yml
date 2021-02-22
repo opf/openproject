@@ -243,6 +243,14 @@ fil:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Ang user na ito ay kasalukuyang hindi myembro ng proyekto.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -521,6 +529,7 @@ fil:
         confirmation: "hindi tugma %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "hindi umiiral."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         empty: "hindi pwedeng blanko."
@@ -721,6 +730,7 @@ fil:
       status: "Estado ng pakete ng gumagawa"
       member: "Miyembro"
       news: "Mga balita"
+      placeholder_user: "Placeholder user"
       project: "Proyekto"
       query: "Custom query"
       role:
@@ -1332,6 +1342,7 @@ fil:
   label_custom_field_plural: "Mga pasadyang patlang"
   label_custom_field_default_type: "Uri ng walang laman"
   label_custom_style: "Disenyo"
+  label_database_version: "PostgreSQL version"
   label_date: "Petsa"
   label_date_and_time: "Petsa at oras"
   label_date_from: "Mula sa"
@@ -1490,6 +1501,7 @@ fil:
   label_my_account_data: "Ang data ng aking akwant"
   label_my_projects: "Ang mga aking proyekto"
   label_my_queries: "Ang mga aking custom query"
+  label_name: "Pangalan"
   label_never: "Hindi kailanman"
   label_new: "Bago"
   label_new_features: "New features"
@@ -1539,6 +1551,9 @@ fil:
   label_permissions: "Mga pahintulot"
   label_permissions_report: "Mga pinahintulutan na ulat"
   label_personalize_page: "Personalize ang pahina na ito"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Pagpaplano"
   label_please_login: "Mangyaring mag-log in"
   label_plugins: "Mga plugin"
@@ -1848,6 +1863,7 @@ fil:
   notice_email_sent: "Isang email ang ipinadala sa %{value}"
   notice_failed_to_save_work_packages: "Hindi nai-save ang %{count} work package sa %{total} na napili: %{ids}."
   notice_failed_to_save_members: "Hindi na i-save ang mga miyembro: %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Ang package na iyong sinusibukan i-access ay hindi umiiral o inalis na."
   notice_forced_logout: "Ikaw ay automatikong naka-log out pagkatapos ng %{ttl_time} ilang minuto ng hindi aktibidad."
   notice_internal_server_error: "Isang error ang naganap sa oahina na gusto mong i-access. Kung nagpatuloy ang mga problema nararansan mo manyaring kontakin ang iyong %{app_title} tagapangasiwa para sa tulong."
@@ -1911,6 +1927,8 @@ fil:
   permission_add_work_packages: "Magdagdag ng mga work package"
   permission_add_messages: "Mga post na mensahe"
   permission_add_project: "Lumikha ng proyekto"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Lumikha ng mga subproject"
   permission_add_work_package_watchers: "Magdagdag ng manunuod"
   permission_assign_versions: "Assign versions"

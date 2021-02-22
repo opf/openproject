@@ -44,6 +44,7 @@ class CostQuery::Filter < Report::Filter
       CostQuery::Filter::OverriddenCosts,
       CostQuery::Filter::PriorityId,
       CostQuery::Filter::ProjectId,
+      CostQuery::Filter::ResponsibleId,
       CostQuery::Filter::SpentOn,
       CostQuery::Filter::StartDate,
       CostQuery::Filter::StatusId,

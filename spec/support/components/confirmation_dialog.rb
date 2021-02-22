@@ -34,7 +34,7 @@ module Components
     def initialize; end
 
     def container
-      '.confirm-dialog--modal'
+      '.op-modal'
     end
 
     def expect_open

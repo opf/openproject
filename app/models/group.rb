@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -29,13 +30,11 @@
 
 class Group < Principal
   has_and_belongs_to_many :users,
-                          join_table:   "#{table_name_prefix}group_users#{table_name_suffix}",
+                          join_table: "#{table_name_prefix}group_users#{table_name_suffix}",
                           before_add: :fail_add,
                           after_remove: :user_removed
 
   acts_as_customizable
-
-  before_destroy :remove_references_before_destroy
 
   alias_attribute(:groupname, :lastname)
   validates_presence_of :groupname
@@ -93,20 +92,8 @@ class Group < Principal
 
   private
 
-  # Removes references that are not handled by associations
-  def remove_references_before_destroy
-    return if id.nil?
-
-    deleted_user = DeletedUser.first
-
-    WorkPackage.where(assigned_to_id: id).update_all(assigned_to_id: deleted_user.id)
-
-    Journal::WorkPackageJournal.where(assigned_to_id: id)
-      .update_all(assigned_to_id: deleted_user.id)
-  end
-
   def uniqueness_of_groupname
-    groups_with_name = Group.where('lastname = ? AND id <> ?', groupname, id ? id : 0).count
+    groups_with_name = Group.where('lastname = ? AND id <> ?', groupname, id || 0).count
     if groups_with_name > 0
       errors.add :groupname, :taken
     end

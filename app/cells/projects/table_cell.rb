@@ -6,7 +6,7 @@ module Projects
     options :current_user # adds this option to those of the base class
 
     def initial_sort
-      [:lft, :asc]
+      %i[lft asc]
     end
 
     def table_id
@@ -52,11 +52,11 @@ module Projects
     def all_columns
       @all_columns ||= begin
         [
-          [:hierarchy, builtin: true],
-          [:name, builtin: true, caption: Project.human_attribute_name(:name)],
-          [:project_status, caption: Project.human_attribute_name(:status)],
-          [:status_explanation, caption: Projects::Status.human_attribute_name(:explanation)],
-          [:public, caption: Project.human_attribute_name(:public)],
+          [:hierarchy, { builtin: true }],
+          [:name, { builtin: true, caption: Project.human_attribute_name(:name) }],
+          [:project_status, { caption: Project.human_attribute_name(:status) }],
+          [:status_explanation, { caption: Projects::Status.human_attribute_name(:explanation) }],
+          [:public, { caption: Project.human_attribute_name(:public) }],
           *custom_field_columns,
           *admin_columns
         ]
@@ -82,15 +82,15 @@ module Projects
       return [] unless current_user.admin?
 
       [
-        [:created_at, caption: Project.human_attribute_name(:created_at)],
-        [:latest_activity_at, caption: Project.human_attribute_name(:latest_activity_at)],
-        [:required_disk_space, caption: I18n.t(:label_required_disk_storage)]
+        [:created_at, { caption: Project.human_attribute_name(:created_at) }],
+        [:latest_activity_at, { caption: Project.human_attribute_name(:latest_activity_at) }],
+        [:required_disk_space, { caption: I18n.t(:label_required_disk_storage) }]
       ]
     end
 
     def custom_field_columns
       project_custom_fields.values.map do |custom_field|
-        [:"cf_#{custom_field.id}", caption: custom_field.name, custom_field: true]
+        [:"cf_#{custom_field.id}", { caption: custom_field.name, custom_field: true }]
       end
     end
 

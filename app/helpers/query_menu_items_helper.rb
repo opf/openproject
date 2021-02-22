@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -29,6 +30,11 @@
 
 module QueryMenuItemsHelper
   def update_query_menu_item_path(project, query_menu_item)
-    query_menu_item.persisted? ? query_menu_item_path(project, query_menu_item.query, query_menu_item) : query_menu_items_path(project, query_menu_item.query)
+    if query_menu_item.persisted?
+      query_menu_item_path(project, query_menu_item.query,
+                           query_menu_item)
+    else
+      query_menu_items_path(project, query_menu_item.query)
+    end
   end
 end

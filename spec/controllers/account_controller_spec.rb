@@ -29,10 +29,8 @@
 require 'spec_helper'
 
 describe AccountController, type: :controller do
-
   class UserHook < Redmine::Hook::ViewListener
-    attr_reader :registered_user
-    attr_reader :first_login_user
+    attr_reader :registered_user, :first_login_user
 
     def user_registered(context)
       @registered_user = context[:user]
@@ -101,7 +99,7 @@ describe AccountController, type: :controller do
   end
 
   context 'POST #login' do
-    using_shared_fixtures :admin
+    shared_let(:admin) { FactoryBot.create :admin }
 
     describe 'wrong password' do
       it 'redirects back to login' do
@@ -280,7 +278,7 @@ describe AccountController, type: :controller do
     end
 
     context 'GET #logout' do
-      using_shared_fixtures :admin
+      shared_let(:admin) { FactoryBot.create :admin }
 
       it 'calls reset_session' do
         expect(@controller).to receive(:reset_session).once
@@ -323,7 +321,6 @@ describe AccountController, type: :controller do
           context 'with direct login and redirecting callback',
                   with_settings: { login_required?: true },
                   with_config: { omniauth_direct_login_provider: 'foo' } do
-
             it 'will still call the callback' do
               # Set the previous session
               session[:foo] = 'bar'
@@ -351,9 +348,9 @@ describe AccountController, type: :controller do
         context 'with a no-op callback' do
           it 'will redirect to default if the callback does nothing' do
             was_called = false
-            sso_provider[:single_sign_out_callback] = Proc.new {
+            sso_provider[:single_sign_out_callback] = Proc.new do
               was_called = true
-            }
+            end
 
             get :logout
             expect(was_called).to eq true
@@ -448,8 +445,7 @@ describe AccountController, type: :controller do
   end
 
   describe '#login with omniauth_direct_login enabled',
-            with_config: { omniauth_direct_login_provider: 'some_provider' } do
-
+           with_config: { omniauth_direct_login_provider: 'some_provider' } do
     describe 'GET' do
       it 'redirects to some_provider' do
         get :login
@@ -473,7 +469,6 @@ describe AccountController, type: :controller do
     before do
       allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
     end
-
 
     describe "Missing flash data for user initiated password change" do
       before do
@@ -810,7 +805,8 @@ describe AccountController, type: :controller do
 
         it 'preserves the back url' do
           expect(response).to redirect_to(
-            '/login?back_url=https%3A%2F%2Fexample.net%2Fsome_back_url')
+            '/login?back_url=https%3A%2F%2Fexample.net%2Fsome_back_url'
+          )
         end
 
         it 'calls the user_registered callback' do

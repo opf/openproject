@@ -51,10 +51,11 @@ FactoryBot.define do
 
     initialize_with do
       FileHelpers.mock_uploaded_file(
-        name:         name,
-        content:      content,
+        name: name,
+        content: content,
         content_type: content_type,
-        binary:       binary)
+        binary: binary
+      )
     end
 
     factory :uploaded_jpg do

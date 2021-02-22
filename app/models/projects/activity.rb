@@ -36,7 +36,7 @@ module Projects::Activity
   end
 
   module ActivityScopes
-    def register_latest_project_activity(on:, chain: [], attribute:)
+    def register_latest_project_activity(on:, attribute:, chain: [])
       Constants::ProjectActivity.register(on: on,
                                           chain: chain,
                                           attribute: attribute)

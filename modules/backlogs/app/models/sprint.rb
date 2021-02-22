@@ -53,17 +53,17 @@ class Sprint < Version
 
   scope :displayed_left, lambda { |project|
     joins(sanitize_sql_array([
-      "LEFT OUTER JOIN (SELECT * from #{VersionSetting.table_name}" +
-        ' WHERE project_id = ? ) version_settings' +
-        ' ON version_settings.version_id = versions.id',
-      project.id])
-    )
+                               "LEFT OUTER JOIN (SELECT * from #{VersionSetting.table_name}" +
+                                 ' WHERE project_id = ? ) version_settings' +
+                                 ' ON version_settings.version_id = versions.id',
+                               project.id
+                             ]))
       .where([
-        '(version_settings.project_id = ? AND version_settings.display = ?)' +
-          ' OR (version_settings.project_id is NULL)',
-        project.id,
-        VersionSetting::DISPLAY_LEFT
-      ])
+               '(version_settings.project_id = ? AND version_settings.display = ?)' +
+                 ' OR (version_settings.project_id is NULL)',
+               project.id,
+               VersionSetting::DISPLAY_LEFT
+             ])
       .joins("
         LEFT OUTER JOIN (SELECT * FROM #{VersionSetting.table_name}) AS vs
         ON vs.version_id = #{Version.table_name}.id AND vs.project_id = #{Version.table_name}.project_id
@@ -143,17 +143,17 @@ class Sprint < Version
   end
 
   def burndown(project, burn_direction = nil)
-    return nil unless self.has_burndown?
+    return nil unless has_burndown?
 
     @cached_burndown ||= Burndown.new(self, project, burn_direction)
   end
 
   def self.generate_burndown(only_current = true)
-    if only_current
-      conditions = ['? BETWEEN start_date AND effective_date', Date.today]
-    else
-      conditions = '1 = 1'
-    end
+    conditions = if only_current
+                   ['? BETWEEN start_date AND effective_date', Date.today]
+                 else
+                   '1 = 1'
+                 end
 
     Version.where(conditions).each(&:burndown)
   end

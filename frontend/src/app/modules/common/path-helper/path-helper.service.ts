@@ -224,8 +224,24 @@ export class PathHelperService {
     return `${this.staticBase}/users`;
   }
 
+  public groupsPath() {
+    return `${this.staticBase}/groups`;
+  }
+
+  public placeholderUsersPath() {
+    return `${this.staticBase}/placeholder_users`;
+  }
+
   public userPath(id:string|number) {
     return `${this.usersPath()}/${id}`;
+  }
+
+  public placeholderUserPath(id:string|number) {
+    return `${this.placeholderUsersPath()}/${id}`;
+  }
+
+  public groupPath(id:string|number) {
+    return `${this.groupsPath()}/${id}`;
   }
 
   public rolesPath() {

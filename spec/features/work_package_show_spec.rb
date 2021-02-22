@@ -33,9 +33,9 @@ RSpec.feature 'Work package show page', selenium: true do
   let(:project) { FactoryBot.create(:project) }
   let(:work_package) do
     FactoryBot.build(:work_package,
-                      project: project,
-                      assigned_to: user,
-                      responsible: user)
+                     project: project,
+                     assigned_to: user,
+                     responsible: user)
   end
 
   before do

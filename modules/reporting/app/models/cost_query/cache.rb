@@ -28,7 +28,6 @@
 
 module CostQuery::Cache
   class << self
-
     def check
       reset! if reset_required?
     end

@@ -4,25 +4,26 @@ require 'features/page_objects/notification'
 describe 'Copy work packages through Rails view', js: true do
   let(:dev_role) do
     FactoryBot.create :role,
-                       permissions: %i[view_work_packages]
+                      permissions: %i[view_work_packages]
   end
   let(:mover_role) do
     FactoryBot.create :role,
-                       permissions: %i[view_work_packages copy_work_packages move_work_packages manage_subtasks assign_versions add_work_packages]
+                      permissions: %i[view_work_packages copy_work_packages move_work_packages manage_subtasks assign_versions
+                                      add_work_packages]
   end
   let(:dev) do
     FactoryBot.create :user,
-                       firstname: 'Dev',
-                       lastname: 'Guy',
-                       member_in_project: project,
-                       member_through_role: dev_role
+                      firstname: 'Dev',
+                      lastname: 'Guy',
+                      member_in_project: project,
+                      member_through_role: dev_role
   end
   let(:mover) do
     FactoryBot.create :admin,
-                       firstname: 'Manager',
-                       lastname: 'Guy',
-                       member_in_project: project,
-                       member_through_role: mover_role
+                      firstname: 'Manager',
+                      lastname: 'Guy',
+                      member_in_project: project,
+                      member_through_role: mover_role
   end
 
   let(:type) { FactoryBot.create :type, name: 'Bug' }
@@ -31,28 +32,28 @@ describe 'Copy work packages through Rails view', js: true do
   let!(:project) { FactoryBot.create(:project, name: 'Source', types: [type, type2]) }
   let!(:project2) { FactoryBot.create(:project, name: 'Target', types: [type, type2]) }
 
-  let!(:work_package) {
+  let!(:work_package) do
     FactoryBot.create(:work_package,
-                       author: dev,
-                       project: project,
-                       type: type)
-  }
-  let!(:work_package2) {
+                      author: dev,
+                      project: project,
+                      type: type)
+  end
+  let!(:work_package2) do
     FactoryBot.create(:work_package,
-                       author: dev,
-                       project: project,
-                       type: type)
-  }
+                      author: dev,
+                      project: project,
+                      type: type)
+  end
 
   let(:status) { work_package.status }
   let!(:version) { FactoryBot.create :version, project: project2 }
   let!(:status2) { FactoryBot.create :default_status }
   let!(:workflow) do
     FactoryBot.create :workflow,
-                       type_id: type2.id,
-                       old_status: work_package.status,
-                       new_status: status2,
-                       role: mover_role
+                      type_id: type2.id,
+                      old_status: work_package.status,
+                      new_status: status2,
+                      role: mover_role
   end
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }

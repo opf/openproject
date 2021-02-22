@@ -135,10 +135,8 @@ module API
           end
         end
 
-        def reformated(setting)
-          format = setting.gsub(/%\w/) do |directive|
-            yield directive
-          end
+        def reformated(setting, &block)
+          format = setting.gsub(/%\w/, &block)
 
           format.blank? ? nil : format
         end

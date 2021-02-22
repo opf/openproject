@@ -169,7 +169,7 @@ module OpenProject::TextFormatting::Formats
         markdowns_in_groups = []
 
         begin
-          markdown = convert_textile_to_markdown(joined_textile,  raise_on_timeout: true)
+          markdown = convert_textile_to_markdown(joined_textile, raise_on_timeout: true)
           markdowns_in_groups = split_markdown(markdown).each_slice(attributes.length).to_a
         rescue StandardError => e
           # Don't do anything. Let the subsequent code try to handle it again
@@ -221,7 +221,6 @@ module OpenProject::TextFormatting::Formats
       def execute_pandoc_with_stdin!(textile, raise_on_timeout)
         pandoc.execute! textile
       rescue Timeout::Error => e
-
         if raise_on_timeout
           logger.error <<~TIMEOUT_WARN
             Execution of pandoc timed out: #{e}.
@@ -272,7 +271,7 @@ module OpenProject::TextFormatting::Formats
           ::AttributeHelpText => [:help_text],
           ::Comment => [:comments],
           ::WikiContent => [:text],
-          ::WorkPackage =>  [:description],
+          ::WorkPackage => [:description],
           ::Message => [:content],
           ::News => [:description],
           OldForum => [:description],
@@ -366,12 +365,12 @@ module OpenProject::TextFormatting::Formats
         markdown.gsub!(/<span class="underline">(.+)<\/span>/, '<ins>\1</ins>')
 
         markdown.gsub!(/#{BLOCKQUOTE_START}\n(.+?)\n\n#{BLOCKQUOTE_END}/m) do
-          $1.gsub(/([\n])([^\n]*)/, '\1> \2')
+          $1.gsub(/(\n)([^\n]*)/, '\1> \2')
         end
 
         # Create markdown links from !image!:link syntax
         # ![alt](image])
-        markdown.gsub! /(?<image>\!\[[^\]]*\]\([^\)]+\)):(?<link>https?:\S+)/,
+        markdown.gsub! /(?<image>!\[[^\]]*\]\([^)]+\)):(?<link>https?:\S+)/,
                        '[\k<image>](\k<link>)'
 
         # remove the escaping from links within parenthesis having a trailing slash
@@ -391,7 +390,7 @@ module OpenProject::TextFormatting::Formats
             (
             \{\{                        # opening tag
             ([\w\\_]+)                  # macro name
-            (\(([^\}]*)\))?             # optional arguments
+            (\(([^}]*)\))?             # optional arguments
             \}\}                        # closing tag
             )
           /x
@@ -429,7 +428,7 @@ module OpenProject::TextFormatting::Formats
       # OpenProject support @ inside inline code marked with @ (such as "@git@github.com@"), but not pandoc.
       # So we inject a placeholder that will be replaced later on with a real backtick.
       def placeholder_for_inline_code_at(textile)
-        textile.gsub!(/@([\S]+@[\S]+)@/, TAG_CODE + '\\1' + TAG_CODE)
+        textile.gsub!(/@(\S+@\S+)@/, TAG_CODE + '\\1' + TAG_CODE)
       end
 
       # Drop table colspan/rowspan notation ("|\2." or "|/2.") because pandoc does not support it
@@ -464,7 +463,7 @@ module OpenProject::TextFormatting::Formats
 
       # Remove empty paragraph blocks which trip up pandoc
       def remove_empty_paragraphs(textile)
-        textile.gsub!(/\np(=|>)?\.[\s\.]*\n/, '')
+        textile.gsub!(/\np(=|>)?\.[\s.]*\n/, '')
       end
 
       # Replace numbered headings as they are not supported in commonmark/gfm
@@ -495,7 +494,7 @@ module OpenProject::TextFormatting::Formats
       def hard_breaks_within_multiline_tables(textile)
         content_regexp = %r{
           (?<=\|) # Assert beginning table pipe lookbehind
-          ([^\|]{5,}) # Non-empty content
+          ([^|]{5,}) # Non-empty content
           (?=\|) # Assert ending table pipe lookahead
         }mx
 
@@ -508,11 +507,10 @@ module OpenProject::TextFormatting::Formats
       # Wrap all blockquote blocks into boundaries as `>` is not valid blockquote syntax and would thus be
       # escaped
       def wrap_blockquotes(textile)
-        textile.gsub!(/(([\n]>[^\n]*)+)/m) do
-          "\n#{BLOCKQUOTE_START}\n" + $1.gsub(/([\n])> *([^\n]*)/, '\1\2') + "\n\n#{BLOCKQUOTE_END}\n"
+        textile.gsub!(/((\n>[^\n]*)+)/m) do
+          "\n#{BLOCKQUOTE_START}\n" + $1.gsub(/(\n)> *([^\n]*)/, '\1\2') + "\n\n#{BLOCKQUOTE_END}\n"
         end
       end
-
 
       class OldForum < ::ActiveRecord::Base
         self.table_name = 'boards'

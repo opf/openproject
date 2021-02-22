@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -33,6 +34,7 @@ module API
       module Schema
         class SpecificWorkPackageSchema < BaseWorkPackageSchema
           attr_reader :work_package
+
           include AssignableCustomFieldValues
           include AssignableValuesContract
 

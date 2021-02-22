@@ -24,60 +24,60 @@ ja:
         locked: 'ロックされている'
         closed: '終了'
       new_board: '新しいボード'
-      add_list: 'Add list to board'
+      add_list: 'ボードにリストを追加'
       add_card: 'カードを追加'
       error_attribute_not_writable: "作業項目を移動できません。 %{attribute} は書き込みできません。"
       error_loading_the_list: "リストの読み込み中にエラーが発生しました: %{error_message}"
       error_permission_missing: "公開クエリを作成するアクセス許可が見つかりません。"
-      error_cannot_move_into_self: "You can not move a work package into its own column."
+      error_cannot_move_into_self: "作業項目を自身の列に移動することはできません。"
       click_to_remove_list: "クリックしてこのリストを削除"
       board_type:
         text: 'ボードの形式'
-        free: 'basic'
-        select_board_type: 'Please choose the type of board you need.'
+        free: '基本'
+        select_board_type: '必要なボードの種類を選択してください。'
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
+          空白のボードで一からスタートします。カードと列を手動で追加します。
         action: 'アクションボード'
         action_by_attribute: 'アクションボード (%{attribute})'
         action_text: >
-          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          %{attribute} 属性のリストをフィルタリングしたボード。作業項目を他のリストに移動すると、それらの属性が更新されます。
         action_text_subprojects: >
-          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+          サブプロジェクトの列が自動化されたボード。作業項目を他のリストにドラッグすると、それに応じて(サブ)プロジェクトが更新されます。
         action_text_subtasks: >
           Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          To Do、進行中、完了などのステータスの列を持つ基本的なカンバンスタイルボード。
         action_text_assignee: >
           Board with automated columns based on assigned users. Ideal for dispatching work packages.
         action_text_version: >
           Board with automated columns based on the version attribute. Ideal for planning product development.
         action_type:
-          assignee: assignee
-          status: status
-          version: version
-          subproject: subproject
-          subtasks: parent-child
+          assignee: 担当者
+          status: ステータス
+          version: バージョン
+          subproject: サブプロジェクト
+          subtasks: 親子
         board_type_title:
           assignee: 担当者
           status: ステータス
           version: バージョン
           subproject: 子プロジェクト
-          subtasks: Parent-Child
-          basic: Basic
+          subtasks: 親子
+          basic: 基本
         select_attribute: "アクション属性"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          assignee: 新しい担当者リストとして追加するユーザーを選択します
+          status: 新しいリストとして追加するステータスを選択
+          version: 新しいリストとして追加するバージョンを選択してください
+          subproject: 新しいリストとして追加するサブプロジェクトを選択します
+          subtasks: 新しいリストとして追加する作業項目を選択
         warning:
           status: |
             利用可能な状態ではありません。<br>
             または、既にボードに追加されています。
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
+          assignee: フィルター値と一致するメンバーがいません。 <br>
+          no_member: このプロジェクトには現在追加できるメンバーはいません。 <br>
           add_members: <a href="%{link}">プロジェクトに新規メンバーを追加し</a> 、再度ユーザーを選択してください。
       configuration_modal:
         title: 'このボードの設定'

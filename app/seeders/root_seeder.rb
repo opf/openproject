@@ -127,7 +127,7 @@ class RootSeeder < Seeder
     # Load FactoryBot factories
     begin
       ::FactoryBot.find_definitions
-    rescue => e
+    rescue StandardError => e
       raise e unless e.message.downcase.include? "factory already registered"
     end
 

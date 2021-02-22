@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../spec_helper', __FILE__)
+require File.expand_path('../spec_helper', __dir__)
 
 describe PermittedParams, type: :model do
   let(:user) { FactoryBot.build(:user) }
@@ -122,7 +122,8 @@ describe PermittedParams, type: :model do
 
     context 'new_rate_attributes' do
       let(:hash) do
-        { 'new_rate_attributes' => { '0' => { 'valid_from' => '2013-05-08', 'rate' => '5002' }, '1' => { 'valid_from' => '2013-05-10', 'rate' => '5004' } } }
+        { 'new_rate_attributes' => { '0' => { 'valid_from' => '2013-05-08', 'rate' => '5002' },
+                                     '1' => { 'valid_from' => '2013-05-10', 'rate' => '5004' } } }
       end
 
       it_behaves_like 'allows params'

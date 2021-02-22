@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -46,11 +47,10 @@ namespace :assets do
   end
 
   desc 'Prepare locales and angular assets'
-  task prepare_op: [:export_locales, :angular]
+  task prepare_op: %i[export_locales angular]
 
   desc 'Compile assets with webpack'
   task :angular do
-
     # We skip angular compilation if backend was requested
     # but frontend was not explicitly set
     if ENV['RECOMPILE_RAILS_ASSETS'] == 'true' && ENV['RECOMPILE_ANGULAR_ASSETS'] != 'true'

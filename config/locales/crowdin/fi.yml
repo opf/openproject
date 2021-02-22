@@ -243,6 +243,14 @@ fi:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Tämä käyttäjä ei ole projektin jäsen.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -521,6 +529,7 @@ fi:
         confirmation: "ei vastaa %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "ei ole olemassa."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         empty: "ei voi olla tyhjä."
@@ -721,6 +730,7 @@ fi:
       status: "Tehtävän tila"
       member: "Jäsen"
       news: "Uutiset"
+      placeholder_user: "Placeholder user"
       project: "Projekti"
       query: "Mukautettu haku"
       role:
@@ -1332,6 +1342,7 @@ fi:
   label_custom_field_plural: "Mukautetut kentät"
   label_custom_field_default_type: "Tyhjä tyyppi"
   label_custom_style: "Ulkoasu"
+  label_database_version: "PostgreSQL version"
   label_date: "Päivämäärä"
   label_date_and_time: "Päivämäärä ja aika"
   label_date_from: "Alkaen"
@@ -1490,6 +1501,7 @@ fi:
   label_my_account_data: "Tilini tiedot"
   label_my_projects: "Omat projektit"
   label_my_queries: "Omat hakuni"
+  label_name: "Nimi"
   label_never: "Ei koskaan"
   label_new: "Uusi"
   label_new_features: "Uudet ominaisuudet"
@@ -1539,6 +1551,9 @@ fi:
   label_permissions: "Oikeudet"
   label_permissions_report: "Käyttöoikeudet-raportti"
   label_personalize_page: "Personoi tämä sivu"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Suunnittelu"
   label_please_login: "Kirjaudu sisään"
   label_plugins: "Laajennukset"
@@ -1848,6 +1863,7 @@ fi:
   notice_email_sent: "Sähköposti on lähetty osoitteeseen %{value}"
   notice_failed_to_save_work_packages: "Failed to save %{count} work package(s) on %{total} selected: %{ids}."
   notice_failed_to_save_members: "Jäsentä tai jäseniä ei voitu tallentaa: %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Hakemaasi sivua ei löytynyt tai se on poistettu."
   notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."
   notice_internal_server_error: "Tapahtui virhe. Jos ongelma jatkuu, ota yhteys %{app_title} ylläpitoon."
@@ -1911,6 +1927,8 @@ fi:
   permission_add_work_packages: "Lisää tehtävä"
   permission_add_messages: "Jätä viesti"
   permission_add_project: "Luo projekti"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Luoda aliprojekteja"
   permission_add_work_package_watchers: "Lisää seuraajia"
   permission_assign_versions: "Assign versions"

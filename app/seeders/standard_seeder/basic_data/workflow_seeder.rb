@@ -50,13 +50,17 @@ module StandardSeeder
         rejected         = Status.find_by(name: I18n.t(:default_status_rejected))
 
         {
-          types[I18n.t(:default_type_task)]       => [new, in_progress, on_hold, rejected, closed],
-          types[I18n.t(:default_type_milestone)]  => [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
-          types[I18n.t(:default_type_phase)]      => [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
-          types[I18n.t(:default_type_feature)]    => [new, in_specification, specified, in_progress, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
-          types[I18n.t(:default_type_epic)]       => [new, in_specification, specified, in_progress, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
-          types[I18n.t(:default_type_user_story)] => [new, in_specification, specified, in_progress, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
-          types[I18n.t(:default_type_bug)]        => [new, confirmed, in_progress, developed, in_testing, tested, test_failed, on_hold, rejected, closed]
+          types[I18n.t(:default_type_task)] => [new, in_progress, on_hold, rejected, closed],
+          types[I18n.t(:default_type_milestone)] => [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
+          types[I18n.t(:default_type_phase)] => [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
+          types[I18n.t(:default_type_feature)] => [new, in_specification, specified, in_progress, developed, in_testing,
+                                                   tested, test_failed, on_hold, rejected, closed],
+          types[I18n.t(:default_type_epic)] => [new, in_specification, specified, in_progress, developed, in_testing,
+                                                tested, test_failed, on_hold, rejected, closed],
+          types[I18n.t(:default_type_user_story)] => [new, in_specification, specified, in_progress, developed, in_testing,
+                                                      tested, test_failed, on_hold, rejected, closed],
+          types[I18n.t(:default_type_bug)] => [new, confirmed, in_progress, developed, in_testing, tested, test_failed,
+                                               on_hold, rejected, closed]
         }
       end
 

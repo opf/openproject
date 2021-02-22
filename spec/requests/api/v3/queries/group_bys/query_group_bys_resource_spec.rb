@@ -41,8 +41,8 @@ describe 'API v3 Query Group By resource', type: :request do
     let(:permissions) { [:view_work_packages] }
     let(:user) do
       FactoryBot.create(:user,
-                         member_in_project: project,
-                         member_through_role: role)
+                        member_in_project: project,
+                        member_through_role: role)
     end
 
     before do

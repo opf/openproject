@@ -58,7 +58,6 @@ describe 'Tasks on taskboard',
                                       edit_work_packages
                                       manage_subtasks
                                       assign_versions))
-
   end
   let!(:current_user) do
     FactoryBot.create(:user,
@@ -136,7 +135,6 @@ describe 'Tasks on taskboard',
                       status: default_status,
                       version: sprint,
                       story_points: 10)
-
   end
   let!(:export_card_configurations) do
     ExportCardConfiguration.create!(name: 'Default',

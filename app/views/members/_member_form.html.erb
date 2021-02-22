@@ -30,8 +30,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= labelled_tabular_form_for(:member, url: main_app.project_members_path,
                               method: :post,
                               html: { id: "members_add_form", class: "form -vertical -bordered -medium-compressed" }) do |f| %>
-    <a title="<%= t('js.close_form_title') %>" class="hide-add-member-form-link form--close icon-context icon-close"></a>
-    <% csp_onclick('hideAddMemberForm()', '.hide-add-member-form-link') %>
+    <a title="<%= t('js.close_form_title') %>" class="hide-member-form-button form--close icon-context icon-close"></a>
     <div id="new-member-message"></div>
     <div class="grid-block">
       <div class="grid-content medium-5 small-12 collapse -flex">

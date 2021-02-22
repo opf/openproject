@@ -239,6 +239,14 @@ lt:
       no_results_title_text: Šis vartotojas nėra jokios grupės narys.
     memberships:
       no_results_title_text: Šis vartotojas šiuo metu nėra projekto narys.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -518,6 +526,7 @@ lt:
         confirmation: "nesutampa su %{attribute}."
         could_not_be_copied: "%{dependency} negali (pilnai) būti nukopijuota(s)."
         does_not_exist: "neegzistuoja."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "negali būti pasiektas."
         error_readonly: "bandytas įrašyti, bet įrašyti nebuvo galima."
         empty: "negali būti tuščia."
@@ -533,7 +542,7 @@ lt:
         invalid_url: 'nėra tinkamas URL.'
         invalid_url_scheme: 'nėra palaikomos protokolas (leidžiamas: %{allowed_schemes}).'
         less_than_or_equal_to: "turi būti mažesnis arba lygus %{count}."
-        not_deletable: "cannot be deleted."
+        not_deletable: "negali būti pašalintas."
         not_current_user: "nėra dabartinis vartotojas"
         not_a_date: "nėra tinkama data."
         not_a_datetime: "nėra tinkama data ir laikas."
@@ -722,6 +731,7 @@ lt:
       status: "Darbų paketo būsena"
       member: "Narys"
       news: "Naujienos"
+      placeholder_user: "Statytinis vartotojas"
       project: "Projektas"
       query: "Vartotojo užklausa"
       role:
@@ -1359,6 +1369,7 @@ lt:
   label_custom_field_plural: "Pritaikyti laukai"
   label_custom_field_default_type: "Tuščias tipas"
   label_custom_style: "Išvaizda"
+  label_database_version: "PostgreSQL version"
   label_date: "Data"
   label_date_and_time: "Data ir laikas"
   label_date_from: "Nuo"
@@ -1517,6 +1528,7 @@ lt:
   label_my_account_data: "Mano paskyros duomenys"
   label_my_projects: "Mano projektai"
   label_my_queries: "Mano sukurtos užklausos"
+  label_name: "Vardas"
   label_never: "Niekada"
   label_new: "Naujas"
   label_new_features: "Naujos savybės"
@@ -1566,6 +1578,9 @@ lt:
   label_permissions: "Leidimai"
   label_permissions_report: "Leidimų ataskaita"
   label_personalize_page: "Suasmeninti šį puslapį"
+  label_placeholder_user: "Statytinis vartotojas"
+  label_placeholder_user_new: "Naujas statytinis vartotojas"
+  label_placeholder_user_plural: "Statytiniai vartotojai"
   label_planning: "Planavimas"
   label_please_login: "Prašome prisijungti"
   label_plugins: "Papildiniai"
@@ -1883,6 +1898,7 @@ lt:
   notice_email_sent: "Laiškas išsiųstas į %{value}"
   notice_failed_to_save_work_packages: "Nepavyko išsaugoti %{count} darbų paketo(-ų) iš %{total} pažymėto(-ų): %{ids}."
   notice_failed_to_save_members: "Nepavyko išsaugoti nario(-ių): %{errors}."
+  notice_deletion_scheduled: "Trynimui buvo paskirtas laikas ir tai bus atlikta asinchroniškai."
   notice_file_not_found: "Puslapis, į kurį norite patekti, neegzistuoja arba yra pašalintas."
   notice_forced_logout: "Jūs buvo automatiškai atjungti po %{ttl_time} minučių (-ės) neveiklumo."
   notice_internal_server_error: "Bandant prisijungti prie puslapio įvyko klaida. Jei klaida kartosis, susisiekite su %{app_title} administratoriumi."
@@ -1948,6 +1964,8 @@ lt:
   permission_add_work_packages: "Pridėti darbų paketų"
   permission_add_messages: "Skelbti pranešimus"
   permission_add_project: "Sukurti projektą"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Sukurti sub-projektus"
   permission_add_work_package_watchers: "Pridėti stebėtojus"
   permission_assign_versions: "Priskirti versijas"

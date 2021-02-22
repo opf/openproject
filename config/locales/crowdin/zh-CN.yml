@@ -239,6 +239,14 @@ zh-CN:
       no_results_title_text: 此用户当前不是任何组的成员。
     memberships:
       no_results_title_text: 该用户当前不是项目的成员。
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -515,6 +523,7 @@ zh-CN:
         confirmation: "不匹配 %{attribute}。"
         could_not_be_copied: "无法（完全）复制 %{dependency}。"
         does_not_exist: "不存在。"
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "无法访问。"
         error_readonly: "曾尝试被写入，但不可写。"
         empty: "不能为空。"
@@ -713,6 +722,7 @@ zh-CN:
       status: "工作包状态"
       member: "成员"
       news: "新闻"
+      placeholder_user: "Placeholder user"
       project: "项目"
       query: "自定义查询"
       role:
@@ -1311,6 +1321,7 @@ zh-CN:
   label_custom_field_plural: "自定义字段"
   label_custom_field_default_type: "空类型"
   label_custom_style: "设计"
+  label_database_version: "PostgreSQL version"
   label_date: "日期"
   label_date_and_time: "日期和时间"
   label_date_from: "从"
@@ -1469,6 +1480,7 @@ zh-CN:
   label_my_account_data: "我的账户数据"
   label_my_projects: "我的项目"
   label_my_queries: "我的自定义查询"
+  label_name: "名称"
   label_never: "永不"
   label_new: "新增"
   label_new_features: "新功能"
@@ -1518,6 +1530,9 @@ zh-CN:
   label_permissions: "权限"
   label_permissions_report: "权限报告"
   label_personalize_page: "对此页面进行个性化设置"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "规划"
   label_please_login: "请登录"
   label_plugins: "插件"
@@ -1821,6 +1836,7 @@ zh-CN:
   notice_email_sent: "电子邮件被发送到 %{value}"
   notice_failed_to_save_work_packages: "%{total} 个选定工作包中的 %{count} 保存失败： %{ids} 。"
   notice_failed_to_save_members: "成员保存失败： %{errors} 。"
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "你想要访问的页面不存在或已被删除。"
   notice_forced_logout: "%{ttl_time} 分钟不活动后，您已经被自动注销。"
   notice_internal_server_error: "你想要访问的页面上出现错误。如果您继续遇到问题请联系您 %{app_title} 管理员寻求帮助。"
@@ -1883,6 +1899,8 @@ zh-CN:
   permission_add_work_packages: "添加工作包"
   permission_add_messages: "发布消息"
   permission_add_project: "创建项目"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "创建子项目"
   permission_add_work_package_watchers: "添加关注人"
   permission_assign_versions: "分配版本"

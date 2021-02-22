@@ -33,8 +33,8 @@
 class RbSprintsController < RbApplicationController
   def update
     result  = @sprint.update(params.permit(:name,
-                                                     :start_date,
-                                                     :effective_date))
+                                           :start_date,
+                                           :effective_date))
     status  = (result ? 200 : 400)
 
     respond_to do |format|

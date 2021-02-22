@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -78,10 +79,10 @@ session_store     = config['session_store'].to_sym
 relative_url_root = config['rails_relative_url_root'].presence
 
 session_options = {
-  key:    config['session_cookie_name'],
+  key: config['session_cookie_name'],
   httponly: true,
   secure: Setting.https?,
-  path:   relative_url_root
+  path: relative_url_root
 }
 
 if session_store == :cache_store

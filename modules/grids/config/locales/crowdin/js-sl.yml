@@ -3,7 +3,7 @@ sl:
     grid:
       add_widget: 'Dodaj gradnik'
       remove: 'Odstrani gradnik'
-      configure: 'Configure widget'
+      configure: 'Oblikuj gradnik'
       upsale:
         text: "Nekateri gradniki, kot delovni paket graf Gradnik, so dostopni samo v"
         link: 'podjetniška verzija. '
@@ -39,8 +39,8 @@ sl:
           title: 'Podprojekti'
           no_results: 'Ni podprojektov. '
         time_entries_current_user:
-          title: 'Poglej porabljen čas'
-          displayed_days: 'Days displayed in the widget:'
+          title: 'Moj porabljen čas'
+          displayed_days: 'Dnevi prikazani v gradniku:'
         time_entries_list:
           title: 'Porabljen čas (zadnjih 7 dni) '
           no_results: 'Nobenih zapisov časa zadnjih 7 dni. '

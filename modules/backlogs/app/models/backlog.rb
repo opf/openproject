@@ -27,8 +27,7 @@
 #++
 
 class Backlog
-  attr_accessor :sprint
-  attr_accessor :stories
+  attr_accessor :sprint, :stories
 
   def self.owner_backlogs(project, options = {})
     options.reverse_merge!(limit: nil)

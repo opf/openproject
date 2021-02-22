@@ -5,7 +5,7 @@ require 'capybara-screenshot/rspec'
 require 'rack_session_access/capybara'
 require 'action_dispatch'
 
-RSpec.configure do |config|
+RSpec.configure do |_config|
   Capybara.default_max_wait_time = 4
   Capybara.javascript_driver = :chrome_en
 

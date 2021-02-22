@@ -31,15 +31,13 @@ import {HalResourceSortingService} from 'core-app/modules/hal/services/hal-resou
 import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {EditFieldComponent} from '../edit-field.component';
-import {CreateAutocompleterComponent} from 'core-app/modules/common/autocomplete/create-autocompleter.component';
 import {SelectAutocompleterRegisterService} from 'app/modules/fields/edit/field-types/select-autocompleter-register.service';
 import {from} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import {HalResourceNotificationService} from 'core-app/modules/hal/services/hal-resource-notification.service';
 import {InjectField} from 'core-app/helpers/angular/inject-field.decorator';
 import {PermissionsService} from 'core-app/core/services/permissions/permissions.service';
-import {OpModalService} from 'core-app/components/op-modals/op-modal.service';
-import {InviteUserModalComponent} from 'core-app/modules/common/invite-user-modal/invite-user.component';
+import {CreateAutocompleterComponent} from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component";
 
 export interface ValueOption {
   name:string;
@@ -53,6 +51,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   @InjectField() selectAutocompleterRegister:SelectAutocompleterRegisterService;
   @InjectField() halNotification:HalResourceNotificationService;
   @InjectField() halSorting:HalResourceSortingService;
+  @InjectField() permissionsService:PermissionsService;
 
   public availableOptions:any[];
   public valueOptions:ValueOption[];
@@ -64,7 +63,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     onKeydown: (event:JQuery.TriggeredEvent) => this.handler.handleUserKeydown(event, true),
     onOpen: () => this.onOpen(),
     onClose: () => this.onClose(),
-    onAfterViewInit: (component:CreateAutocompleterComponent) => this._autocompleterComponent = component,
+    onAfterViewInit: (component:CreateAutocompleterComponent) => this._autocompleterComponent = component
   };
   public get selectedOption() {
     const href = this.value ? this.value.$href : null;
@@ -118,6 +117,16 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     this.valuesLoadingPromise = this.change.getForm().then(() => {
       return this.initialValueLoading();
     });
+
+    this.initializeShowAddButton();
+  }
+
+  initializeShowAddButton() {
+    if (this.schema.type === 'User') {
+      this.permissionsService
+            .canInviteUsersToProject()
+            .subscribe(canInviteUsersToProject => this.showAddNewButton = canInviteUsersToProject);
+    }
   }
 
   protected initialValueLoading() {

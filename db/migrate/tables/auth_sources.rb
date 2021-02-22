@@ -31,7 +31,6 @@
 require_relative 'base'
 
 class Tables::AuthSources < Tables::Base
-  # rubocop:disable Metrics/AbcSize
   def self.table(migration)
     create_table migration do |t|
       t.string :type, limit: 30, default: '', null: false
@@ -52,5 +51,4 @@ class Tables::AuthSources < Tables::Base
       t.index %i[id type], name: 'index_auth_sources_on_id_and_type'
     end
   end
-  # rubocop:enable Metrics/AbcSize
 end

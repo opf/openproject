@@ -47,10 +47,8 @@ describe 'OpenProject::Configuration' do
       expect(OpenProject::Configuration.cost_reporting_cache_filter_classes).to be_truthy
     end
 
-
     it 'is true by default via the hash' do
       expect(OpenProject::Configuration['cost_reporting_cache_filter_classes']).to be_truthy
     end
-
   end
 end

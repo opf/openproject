@@ -43,7 +43,7 @@ module MeetingsHelper
   end
 
   # This renders a journal entry with a header and details
-  def render_journal_details(journal, header_label = :label_updated_time_by, model = nil, options = {})
+  def render_journal_details(journal, header_label = :label_updated_time_by, _model = nil, options = {})
     header = <<-HTML
       <div class="profile-wrap">
         #{avatar(journal.user)}
@@ -57,11 +57,11 @@ module MeetingsHelper
 
     if journal.details.any?
       details = content_tag 'ul', class: 'details journal-attributes' do
-        journal.details.map { |detail|
+        journal.details.map do |detail|
           if d = journal.render_detail(detail, cache: options[:cache])
             content_tag('li', d.html_safe)
           end
-        }.compact.join(' ').html_safe
+        end.compact.join(' ').html_safe
       end
     end
 

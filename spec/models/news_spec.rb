@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,18 +28,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 require 'spec_helper'
-require File.expand_path('../../support/shared/become_member', __FILE__)
+require File.expand_path('../support/shared/become_member', __dir__)
 
 require 'support/shared/acts_as_watchable'
 
 describe News, type: :model do
   include BecomeMember
 
-  let(:project) {
+  let(:project) do
     project = FactoryBot.create(:public_project)
     project.enabled_modules << EnabledModule.new(name: 'news')
     project.reload
-  }
+  end
 
   let!(:news) { FactoryBot.create(:news, project: project) }
   let(:permissions) { [] }

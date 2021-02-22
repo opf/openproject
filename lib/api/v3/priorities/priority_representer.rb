@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -42,7 +43,7 @@ module API
         property :name
         property :position
         property :color,
-                 getter: -> (*) { color.hexcode if color },
+                 getter: ->(*) { color.hexcode if color },
                  render_nil: true
         property :is_default
         property :active, as: :isActive

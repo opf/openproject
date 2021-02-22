@@ -1,0 +1,61 @@
+<op-ium-project-selection
+  *ngIf="step === Steps.ProjectSelection"
+  class="op-modal"
+  [project]="project"
+  [type]="type"
+  (save)="onProjectSelectionSave($event)"
+  (close)="closeMe()"
+></op-ium-project-selection>
+
+<op-ium-principal
+  *ngIf="step === Steps.Principal"
+  class="op-modal"
+  [project]="project"
+  [principal]="principal"
+  [type]="type"
+  (save)="onPrincipalSave($event)"
+  (back)="goTo(Steps.ProjectSelection)"
+  (close)="closeMe()"
+></op-ium-principal>
+
+<op-ium-role
+  *ngIf="step === Steps.Role"
+  class="op-modal"
+  [role]="role"
+  [principal]="principal"
+  [project]="project"
+  [type]="type"
+  (save)="onRoleSave($event)"
+  (back)="goTo(Steps.Principal)"
+  (close)="closeMe()"
+></op-ium-role>
+
+<op-ium-message
+  *ngIf="step === Steps.Message"
+  class="op-modal"
+  [message]="message"
+  [principal]="principal"
+  [project]="project"
+  (save)="onMessageSave($event)"
+  (back)="goTo(Steps.Role)"
+  (close)="closeMe()"
+></op-ium-message>
+
+<op-ium-summary
+  *ngIf="step === Steps.Summary"
+  class="op-modal"
+  [project]="project"
+  [principal]="principal"
+  [type]="type"
+  [role]="role"
+  [message]="message"
+  (save)="onSuccessfulSubmission($event)"
+  (back)="goTo(this.type === 'placeholder' ? Steps.Role : Steps.Message)"
+  (close)="closeMe()"
+></op-ium-summary>
+
+<op-ium-success
+  *ngIf="step === Steps.Success"
+  class="op-modal"
+  (close)="closeMe()"
+></op-ium-success>

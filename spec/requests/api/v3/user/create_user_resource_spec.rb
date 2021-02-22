@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -34,7 +35,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.users }
-  let(:parameters) {
+  let(:parameters) do
     {
       status: 'active',
       login: 'myusername',
@@ -43,7 +44,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
       email: 'foobar@example.org',
       language: 'de'
     }
-  }
+  end
 
   before do
     login_as(current_user)
@@ -129,7 +130,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
     end
 
     describe 'active status' do
-      let(:parameters) {
+      let(:parameters) do
         {
           status: 'active',
           login: 'myusername',
@@ -138,7 +139,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
           email: 'foobar@example.org',
           language: 'de'
         }
-      }
+      end
 
       context 'with identity_url' do
         let(:identity_url) { 'google:3289272389298' }
@@ -194,16 +195,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   end
 
   describe 'user with global user CRU permission' do
-    let!(:global_add_user_role) { FactoryBot.create :global_role, name: 'Add user', permissions: %i[add_user] }
-    let(:current_user) do
-      user = FactoryBot.create(:user)
-
-      FactoryBot.create(:global_member,
-                        principal: user,
-                        roles: [global_add_user_role])
-
-      user
-    end
+    shared_let(:current_user) { FactoryBot.create :user, global_permission: :manage_user }
 
     it_behaves_like 'create user request flow'
 
@@ -241,7 +233,13 @@ describe ::API::V3::Users::UsersAPI, type: :request do
         }
       end
 
-      it_behaves_like 'property is not writable', 'authSource'
+      it 'creates the user with the given auth source id' do
+        send_request
+
+        user = User.find_by(login: parameters[:login])
+
+        expect(user.auth_source).to eq auth_source
+      end
     end
   end
 

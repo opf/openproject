@@ -4,7 +4,6 @@ import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {VersionResource} from "core-app/modules/hal/resources/version-resource";
-import {VersionAutocompleterComponent} from "core-app/modules/common/autocomplete/version-autocompleter.component";
 import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
 import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
 import {StateService} from "@uirouter/core";
@@ -14,6 +13,7 @@ import {FormResource} from "core-app/modules/hal/resources/form-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {CachedBoardActionService} from "core-app/modules/boards/board/board-actions/cached-board-action.service";
 import {ImageHelpers} from "core-app/helpers/images/path-helper";
+import {VersionAutocompleterComponent} from "core-app/modules/autocompleter/version-autocompleter/version-autocompleter.component";
 
 @Injectable()
 export class BoardVersionActionService extends CachedBoardActionService {

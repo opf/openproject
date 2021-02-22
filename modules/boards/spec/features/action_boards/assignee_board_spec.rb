@@ -49,13 +49,12 @@ describe 'Assignee action board',
   let(:board_index) { Pages::BoardIndex.new(project) }
   let(:other_board_index) { Pages::BoardIndex.new(project_without_members) }
 
-  let(:permissions) {
+  let(:permissions) do
     %i[show_board_views manage_board_views add_work_packages
        edit_work_packages view_work_packages manage_public_queries]
-  }
+  end
 
   let!(:priority) { FactoryBot.create :default_priority }
-
 
   # Set up other assignees
 
@@ -76,10 +75,12 @@ describe 'Assignee action board',
     end
   end
 
-  let!(:work_package) { FactoryBot.create :work_package,
-                                          project: project,
-                                          assigned_to: bobself_user,
-                                          subject: 'Some Task' }
+  let!(:work_package) do
+    FactoryBot.create :work_package,
+                      project: project,
+                      assigned_to: bobself_user,
+                      subject: 'Some Task'
+  end
 
   context 'in a project with members' do
     before do

@@ -58,4 +58,4 @@ module OpenProject
   end
 end
 
-ActiveRecord::Acts::List::InstanceMethods.send(:include, OpenProject::Patches::ActsAsList)
+ActiveRecord::Acts::List::InstanceMethods.include OpenProject::Patches::ActsAsList

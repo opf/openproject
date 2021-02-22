@@ -243,6 +243,14 @@ uk:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Цей користувач наразі не є учасником проекту.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -523,6 +531,7 @@ uk:
         confirmation: "не збігається %{attribute}"
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "не існує."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         empty: "не може бути порожнім."
@@ -727,6 +736,7 @@ uk:
       status: "Стан робочого пакета"
       member: "Учасник"
       news: "Новини"
+      placeholder_user: "Placeholder user"
       project: "Проект"
       query: "Частковий запит"
       role:
@@ -1364,6 +1374,7 @@ uk:
   label_custom_field_plural: "Індивідуальні поля"
   label_custom_field_default_type: "Порожній тип"
   label_custom_style: "Дизайн"
+  label_database_version: "PostgreSQL version"
   label_date: "Дата"
   label_date_and_time: "Дата і час"
   label_date_from: "Від"
@@ -1522,6 +1533,7 @@ uk:
   label_my_account_data: "Мої дані облікового запису"
   label_my_projects: "Мої проекти"
   label_my_queries: "Мої збережені запити"
+  label_name: "Ім’я"
   label_never: "Ніколи"
   label_new: "Новий"
   label_new_features: "Нові можливості"
@@ -1571,6 +1583,9 @@ uk:
   label_permissions: "Дозволи"
   label_permissions_report: "Звіт про права доступу"
   label_personalize_page: "Персоналізуйте цю сторінку"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Планування"
   label_please_login: "Увійдіть у систему"
   label_plugins: "Плагіни"
@@ -1888,6 +1903,7 @@ uk:
   notice_email_sent: "Відправлено листа %{value}"
   notice_failed_to_save_work_packages: "Не вдалося зберегти %{count} робочих пакетів на %{total} вибрано: %{ids}."
   notice_failed_to_save_members: "Не вдалось зберегти учасника(ів): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Сторінка, на яку ви намагаєтеся зайти, не існує або видалена."
   notice_forced_logout: "Ви автоматично вийшли з системи після %{ttl_time} хвилин бездіяльності."
   notice_internal_server_error: "Сталася помилка на сторінці, до якої ви намагалися отримати доступ. Якщо ви продовжуєте відчувати проблеми, зверніться до свого адміністратора %{app_title} за допомогою."
@@ -1953,6 +1969,8 @@ uk:
   permission_add_work_packages: "Додати робочі пакети"
   permission_add_messages: "Відправка повідомлень"
   permission_add_project: "Створити проект"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Створення підпроектів"
   permission_add_work_package_watchers: "Додати спостерігачів"
   permission_assign_versions: "Призначити версії"

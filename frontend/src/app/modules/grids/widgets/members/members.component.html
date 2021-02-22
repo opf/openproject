@@ -19,22 +19,14 @@
       </div>
 
       <div class="attributes-map--value">
-          <span *ngFor="let principal of usersByRole.users; let last = last">
-
-            <ng-container *ngIf="isGroup(principal)">
-              <span [textContent]="userName(principal)"></span>
-            </ng-container>
-            <ng-container *ngIf="!isGroup(principal)">
-              <user-avatar [user]="principal"
-                           data-class-list="avatar avatar-mini -spaced">
-              </user-avatar>
-              <a [href]="userPath(principal)"
-                 [textContent]="userName(principal)">
-              </a>
-            </ng-container>
-
+          <ng-container *ngFor="let principal of usersByRole.users; let last = last">
+            <op-principal
+                [principal]="principal"
+                avatarClasses="avatar avatar-mini -spaced"
+                >
+            </op-principal>
             <ng-container *ngIf="!last">, </ng-container>
-          </span>
+          </ng-container>
       </div>
     </ng-container>
   </div>

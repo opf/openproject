@@ -36,7 +36,7 @@ describe 'Global role: Global role assignment', type: :feature, js: true do
 
   describe 'Going to the global role assignment page' do
     before do
-      mock_global_permissions [['global1', project_module: :global], ['global2', project_module: :global]]
+      mock_global_permissions [['global1', { project_module: :global }], ['global2', { project_module: :global }]]
     end
     let!(:global_role1) { FactoryBot.create :global_role, name: 'global_role1', permissions: %i[global1] }
     let!(:global_role2) { FactoryBot.create :global_role, name: 'global_role2', permissions: %i[global2] }

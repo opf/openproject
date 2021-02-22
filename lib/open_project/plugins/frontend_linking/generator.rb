@@ -32,7 +32,6 @@ require 'fileutils'
 module ::OpenProject::Plugins
   module FrontendLinking
     class Generator
-
       attr_reader :openproject_plugins
 
       def initialize
@@ -90,10 +89,8 @@ module ::OpenProject::Plugins
       # Regenerate the frontend plugin module orchestrating the linked frontends
       def generate_plugin_module(plugins)
         file_register = Rails.root.join('frontend', 'src', 'app', 'modules', 'plugins', 'linked-plugins.module.ts')
-        template_file = File.read(File.expand_path('../linked-plugins.module.ts.erb', __FILE__))
-        template = ::ERB.new template_file,
-                             nil,
-                             '-'
+        template_file = File.read(File.expand_path('linked-plugins.module.ts.erb', __dir__))
+        template = ::ERB.new template_file, trim_mode: '-'
 
         puts "Regenerating frontend plugin registry #{file_register}."
         context = ::OpenProject::Plugins::FrontendLinking::ErbContext.new plugins

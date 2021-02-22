@@ -37,7 +37,6 @@ module OpenProject::PDFExport
     register 'openproject-pdf_export',
              author_url: 'https://www.openproject.com',
              bundled: true do
-
       menu :admin_menu,
            :export_card_configurations,
            { controller: '/export_card_configurations', action: 'index' },

@@ -119,7 +119,6 @@ class ServiceResult
     results.reject { |call| call.errors.empty? }
   end
 
-
   def self_and_dependent
     [self] + dependent_results
   end
@@ -191,7 +190,6 @@ class ServiceResult
       end
   end
 
-
   def get_message_type
     if message_type.present?
       message_type.to_sym
@@ -207,7 +205,7 @@ class ServiceResult
   end
 
   def merge_errors!(other)
-    self.errors.merge! other.errors
+    errors.merge! other.errors
   end
 
   def merge_dependent!(other)

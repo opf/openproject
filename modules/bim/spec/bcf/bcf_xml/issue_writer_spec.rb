@@ -145,7 +145,7 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
 
   shared_examples_for 'valid markup' do
     it 'produces valid markup' do
-      expect(valid_markup? subject).to be_truthy
+      expect(valid_markup?(subject)).to be_truthy
     end
   end
 

@@ -61,7 +61,7 @@ class TimeEntry < ApplicationRecord
   def self.update_all(updates, conditions = nil, options = {})
     # instead of a update_all, perform an individual update during work_package#move
     # to trigger the update of the costs based on new rates
-    if conditions.respond_to?(:keys) && conditions.keys == [:work_package_id] && updates =~ /^project_id = ([\d]+)$/
+    if conditions.respond_to?(:keys) && conditions.keys == [:work_package_id] && updates =~ /^project_id = (\d+)$/
       project_id = $1
       time_entries = TimeEntry.where(conditions)
       time_entries.each do |entry|

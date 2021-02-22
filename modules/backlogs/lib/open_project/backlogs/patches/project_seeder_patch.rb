@@ -51,11 +51,11 @@ module OpenProject::Backlogs::Patches::ProjectSeederPatch
     # This relies on the names from the core's `config/locales/en.seeders.yml`.
     def version_settings_display_map
       {
-        'Sprint 1'        => VersionSetting::DISPLAY_LEFT,
-        'Sprint 2'        => VersionSetting::DISPLAY_LEFT,
-        'Bug Backlog'     => VersionSetting::DISPLAY_RIGHT,
+        'Sprint 1' => VersionSetting::DISPLAY_LEFT,
+        'Sprint 2' => VersionSetting::DISPLAY_LEFT,
+        'Bug Backlog' => VersionSetting::DISPLAY_RIGHT,
         'Product Backlog' => VersionSetting::DISPLAY_RIGHT,
-        'Wish List'       => VersionSetting::DISPLAY_RIGHT
+        'Wish List' => VersionSetting::DISPLAY_RIGHT
       }
     end
   end

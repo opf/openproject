@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -86,6 +87,7 @@ module PasswordHelper
   # the minimum number of rules to adhere to and the total number of rules.
   def password_rules_description
     return '' if OpenProject::Passwords::Evaluator.min_adhered_rules == 0
+
     OpenProject::Passwords::Evaluator.rules_description_locale(password_active_rules)
   end
 end

@@ -29,7 +29,6 @@
 namespace :random_data do
   desc 'seeds the data base wth random data'
   task seed: :environment do
-
     puts '*** Seeding basic data'
     BasicDataSeeder.seed!
 

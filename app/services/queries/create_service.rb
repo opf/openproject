@@ -39,7 +39,6 @@ class Queries::CreateService < Queries::BaseService
     super
   end
 
-
   private
 
   def remove_invalid_order(query)

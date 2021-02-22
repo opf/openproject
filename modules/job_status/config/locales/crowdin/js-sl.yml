@@ -5,9 +5,9 @@ sl:
       click_to_download: 'Ali kliknite tu za prenos.'
       title: 'Background job status'
       redirect: 'Preusmerjamo vas.'
-      redirect_link: 'Za nadaljevanje, prosimo kliknite tu. '
-      redirect_errors: 'Due to these errors, you will not be redirected automatically.'
-      errors: 'Some errors have occurred'
+      redirect_link: 'Za nadaljevanje kliknite tukaj.'
+      redirect_errors: 'Zaradi teh napak ne boste avtomatsko preusmerjeni.'
+      errors: 'Prišlo je do napak.'
       generic_messages:
         not_found: 'This job could not be found.'
         in_queue: 'The job has been queued and will be processed shortly.'

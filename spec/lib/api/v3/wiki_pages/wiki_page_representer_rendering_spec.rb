@@ -50,7 +50,7 @@ describe ::API::V3::WikiPages::WikiPageRepresenter, 'rendering' do
 
   before do
     allow(user)
-      .to receive(:allowed_to?) do |permission, project|
+      .to receive(:allowed_to?) do |permission, _project|
       permissions.include?(permission)
     end
   end

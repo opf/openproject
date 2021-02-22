@@ -99,6 +99,7 @@ lt:
   backlogs_empty_title: "Nėra versijų, skirtų naudoti darbų sąrašuose"
   backlogs_empty_action_text: "Norėdami pradėti naudoti darbų sąrašus, sukurkite naują versiją ir priskirkite ją darbų sąrašo stulpeliui."
   button_edit_wiki: "Redaguoti wiki puslapį"
+  error_backlogs_task_cannot_be_story: "Neteisingi nustatymai. Pasirinktas užduoties tipas negali būti kartu ir istorijos tipu."
   error_intro_plural: "Rastos tokios klaidos:"
   error_intro_singular: "Rasta tokia klaida:"
   error_outro: "Prašome pataisyti aukščiau nurodytas klaidas prieš pateikiant dar kartą."

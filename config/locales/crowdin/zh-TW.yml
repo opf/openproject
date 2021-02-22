@@ -243,6 +243,14 @@ zh-TW:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: 這個使用者目前不是任何專案的成員
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -520,6 +528,7 @@ zh-TW:
         confirmation: "不吻合 %{attribute}。"
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "不存在"
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "無法被存取。"
         error_readonly: "被嘗試寫入但是無法寫入。"
         empty: "不可為空"
@@ -718,6 +727,7 @@ zh-TW:
       status: "工作項目狀態"
       member: "成員"
       news: "新知"
+      placeholder_user: "Placeholder user"
       project: "專案"
       query: "自訂查詢"
       role:
@@ -1316,6 +1326,7 @@ zh-TW:
   label_custom_field_plural: "自訂欄位"
   label_custom_field_default_type: "空類型"
   label_custom_style: "設計"
+  label_database_version: "PostgreSQL version"
   label_date: "日期"
   label_date_and_time: "日期和時間"
   label_date_from: "寄件者"
@@ -1474,6 +1485,7 @@ zh-TW:
   label_my_account_data: "我的帳號資料"
   label_my_projects: "我的專案"
   label_my_queries: "我的自訂查詢"
+  label_name: "名稱"
   label_never: "永不"
   label_new: "新增"
   label_new_features: "新功能"
@@ -1523,6 +1535,9 @@ zh-TW:
   label_permissions: "權限"
   label_permissions_report: "權限報表"
   label_personalize_page: "個人化本頁"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "計劃中"
   label_please_login: "請登入"
   label_plugins: "擴充套件"
@@ -1827,6 +1842,7 @@ zh-TW:
   notice_email_sent: "一封郵件被傳送給 %{value}"
   notice_failed_to_save_work_packages: "%{total} 個選取的工作項目中的 %{count} 儲存失敗: %{ids}"
   notice_failed_to_save_members: "無法保存成員: %{errors}。"
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "您試圖存取的頁面不存在或已被移除。"
   notice_forced_logout: "由於超過 %{ttl_time} 分鐘沒有操作，您已被自動登出。"
   notice_internal_server_error: "你試圖前往的頁面發生一個錯誤。如果你一直遇到問題，請聯絡你的 %{app_title} 管理員以得到協助！"
@@ -1889,6 +1905,8 @@ zh-TW:
   permission_add_work_packages: "新增工作項目"
   permission_add_messages: "張貼訊息"
   permission_add_project: "建立專案"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "建立子專案"
   permission_add_work_package_watchers: "新增監看者"
   permission_assign_versions: "指派版本"

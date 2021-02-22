@@ -243,6 +243,14 @@ nl:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Deze gebruiker is momenteel geen lid van een project.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -521,6 +529,7 @@ nl:
         confirmation: "komt niet overeen met %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "bestaat niet."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         empty: "mag niet leeg zijn."
@@ -721,6 +730,7 @@ nl:
       status: "Status werkpakket"
       member: "Deelnemer"
       news: "Nieuws"
+      placeholder_user: "Placeholder user"
       project: "Project"
       query: "Aangepaste query"
       role:
@@ -1332,6 +1342,7 @@ nl:
   label_custom_field_plural: "Aangepaste velden"
   label_custom_field_default_type: "Leeg type"
   label_custom_style: "Ontwerp"
+  label_database_version: "PostgreSQL version"
   label_date: "Datum"
   label_date_and_time: "Datum en tijd"
   label_date_from: "Van"
@@ -1490,6 +1501,7 @@ nl:
   label_my_account_data: "Mijn accountgegevens"
   label_my_projects: "Mijn projecten"
   label_my_queries: "Mijn aangepaste query 's"
+  label_name: "Naam"
   label_never: "Nooit"
   label_new: "Nieuw"
   label_new_features: "New features"
@@ -1539,6 +1551,9 @@ nl:
   label_permissions: "Machtigingen"
   label_permissions_report: "Machtigingen verslag"
   label_personalize_page: "Personaliseer deze pagina"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Planning"
   label_please_login: "Log in a.u.b."
   label_plugins: "Plug-ins"
@@ -1847,6 +1862,7 @@ nl:
   notice_email_sent: "Een e-mail werd verzonden naar %{value}"
   notice_failed_to_save_work_packages: "%{count} werkpakket(ten) op %{total} geselecteerd opslaan mislukt: %{ids}."
   notice_failed_to_save_members: "Lid/leden opslaan mislukt: %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "De pagina die u probeerde te benaderen bestaat niet of is verwijderd."
   notice_forced_logout: "U bent automatisch uitgelogd na %{ttl_time} minuten van inactiviteit."
   notice_internal_server_error: "Er is een fout opgetreden op de pagina die u probeerde te gebruiken. Als u problemen blijft ervaren, neem dan contact op met uw %{app_title} beheerder voor hulp."
@@ -1910,6 +1926,8 @@ nl:
   permission_add_work_packages: "Werkpakketten toevoegen"
   permission_add_messages: "Berichten posten"
   permission_add_project: "Project Aanmaken"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Subprojecten maken"
   permission_add_work_package_watchers: "Kijkers toevoegen"
   permission_assign_versions: "Assign versions"

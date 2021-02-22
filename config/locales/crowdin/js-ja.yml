@@ -77,7 +77,7 @@ ja:
     button_export-atom: "Atomをダウンロード"
     calendar:
       title: 'カレンダー'
-      too_many: '光景で %{count} の作業項目がありますが %{max} のみ表示されます。'
+      too_many: '合計 %{count} の作業項目がありますが %{max} のみ表示されます。'
     card:
       add_new: '新規カード追加'
       highlighting:
@@ -87,7 +87,7 @@ ja:
     caption_rate_history: "進捗履歴"
     clipboard:
       browser_error: "お使いのブラウザーでは、クリップボードへのコピーをサポートしていません。手動で選択したテキストをコピーしてください。"
-      copied_successful: "Successfully copied to clipboard!"
+      copied_successful: "クリップボードにコピーしました"
     chart:
       type: 'グラフの種類'
       axis_criteria: '座標条件'
@@ -119,11 +119,11 @@ ja:
         manual: 'Markdownソースに切り替える'
         wysiwyg: 'WYSIWYGエディタに切り替えます'
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: 'マクロを展開できません: %{message}'
         attribute_reference:
-          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
-          not_found: 'Requested resource could not be found'
-          invalid_attribute: "The selected attribute '%{name}' does not exist."
+          macro_help_tooltip: 'このテキストセグメントはマクロによって動的にレンダリングされています。'
+          not_found: '要求されたリソースが見つかりませんでした'
+          invalid_attribute: "選択した属性 '%{name}' は存在しません。"
         child_pages:
           button: '子ページへのリンク'
           include_parent: '親を含める'
@@ -174,58 +174,58 @@ ja:
         reset_to_defaults: 'デフォルトに戻す'
       enterprise:
         trial:
-          confirmation: "Confirmation of email address"
+          confirmation: "メールアドレスの確認"
           confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+            %{date} に %{email} へメールを送信しました。 14日間のトライアルを開始するには、受信トレイを確認し、確認リンクをクリックしてください。
           form:
             general_consent: >
-              I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
-            invalid_email: "Invalid email address"
-            label_company: "Company"
+              <a target="_blank" href="%{link_terms}">利用規約</a>と<a target="_blank" href="%{link_privacy}">プライバシー ポリシー</a>に同意します。
+            invalid_email: "無効なメールアドレス"
+            label_company: "会社名"
             label_first_name: "名前"
             label_last_name: "苗字"
             label_email: "電子メールアドレス"
-            label_domain: "Domain"
+            label_domain: "ドメイン"
             label_subscriber: "購入者"
             label_maximum_users: "アクティブなユーザーの最大数"
-            label_starts_at: "Starts at"
+            label_starts_at: "開始"
             label_expires_at: "有効期限"
-            receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
-            taken_domain: There can only be one active trial per domain.
-            taken_email: Each user can only create one trial.
-          email_not_received: "You did not receive an email? You can resend the email with the link on the right."
-          try_another_email: "Or try it with another email address."
-          next_steps: "Next steps"
+            receive_newsletter: OpenProject <a target="_blank" href="%{link}">ニュースレター</a> を受け取りたい。
+            taken_domain: 有効なトライアルはドメインごとに1つしかありません。
+            taken_email: 各ユーザーはトライアルを1回のみ作成できます。
+          email_not_received: "メールが届きませんでしたか？右側のリンクでメールを再送信できます。"
+          try_another_email: "または別のメールアドレスでお試しください。"
+          next_steps: "次のステップ"
           resend_link: "再送信"
-          resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
-          resend_warning: "Could not resend email."
-          session_timeout: "Your session timed out. Please try to reload the page or resend email."
-          status_label: "Status:"
-          status_confirmed: "confirmed"
-          status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise Edition 14 days for free"
+          resend_success: "メールが再送信されました。メールを確認し、確認リンクをクリックしてください。"
+          resend_warning: "メールを再送信できませんでした。"
+          session_timeout: "セッションがタイムアウトしました。ページを再読み込みするか、メールを再送信してください。"
+          status_label: "ステータス:"
+          status_confirmed: "確認済み"
+          status_waiting: "メールが送信されました - 確認待ちです"
+          test_ee: "エンタープライズ版を14日間無料でテストする"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
         upsale:
           become_hero: "ヒーローになる!"
           benefits:
             description: "メリットは何ですか？"
-            high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
-            installation: "Installation support"
+            high_security: "セキュリティ機能"
+            high_security_text: "シングルサインオン(SAML、OpenID Connect、CAS)、2要素認証、LDAPグループの自動同期。"
+            installation: "インストールサポート"
             installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Premium features"
+            premium_features: "プレミアム機能"
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "プロフェッショナルサポート"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
-          button_start_trial: "Start free trial"
-          button_book_now: "Book now"
+          button_start_trial: "無料トライアルを開始"
+          button_book_now: "今すぐ予約"
           confidence: >
-            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
-          link_quote: "Get a quote"
+            テストおよびサポートされているエンタープライズクラスのプロジェクト管理ソフトウェアの信頼性を提供します。オープンソースとオープンマインドとともに。
+          link_quote: "見積もりの入手"
           text: >
-            The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
-          unlimited: "Unlimited"
-          you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
+            OpenProject Enterprise Edition は、Community Edition の上に構築されます。 OpenProjectでビジネスクリティカルなプロジェクトを管理する10人以上のユーザーを抱える組織を中心としたプレミアム機能とプロフェッショナルサポートが含まれています。
+          unlimited: "無制限"
+          you_contribute: "開発者も請求書を支払う必要があります。Enterprise Edition では、このオープンソースコミュニティの取り組みに実質的に貢献します。"
     custom_actions:
       date:
         specific: 'オン'
@@ -237,7 +237,7 @@ ja:
       embedded_table_loading: "埋め込みビューを読み込めませんでした: %{message}"
     enumeration_activities: "作業分類 (時間の追跡)"
     enumeration_doc_categories: "ドキュメントのカテゴリ"
-    enumeration_work_package_priorities: "作業項目の優先度"
+    enumeration_work_package_priorities: "ワークパッケージの優先度"
     filter:
       description:
         text_open_filter: "'ALT' と矢印キーでこのフィルタを開きます。"
@@ -289,7 +289,7 @@ ja:
     label_add_row_before: "前に行を追加"
     label_add_selected_columns: "選択した列を追加"
     label_added_by: "追加した人"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "<a href=%{authorLink}>%{author}</a> によって %{age}に追加されました"
     label_ago: "○日前"
     label_all: "全て"
     label_all_work_packages: "全ての作業項目"
@@ -303,7 +303,7 @@ ja:
     label_board_plural: "ボード"
     label_board_sticky: "固定する"
     label_create: "作成"
-    label_create_work_package: "新しい作業項目を作成"
+    label_create_work_package: "新しいワークパッケージを作成"
     label_created_by: "作成者："
     label_date: "日付"
     label_date_with_format: "次の形式を使用して %{date_attribute} を入力してください: %{format}"
@@ -330,7 +330,7 @@ ja:
     label_expand_all: "全てを展開"
     label_expand_project_menu: "プロジェクトメニューを展開"
     label_export: "外部出力"
-    label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_export_preparing: "エクスポートは準備中です。まもなくダウンロードされます。"
     label_filename: "ファイル"
     label_filesize: "サイズ"
     label_general: "概要"
@@ -364,7 +364,7 @@ ja:
     label_next: "次へ"
     label_no_color: "色なし"
     label_no_data: "表示できるデータがありません。"
-    label_no_due_date: "no finish date"
+    label_no_due_date: "終了日なし"
     label_no_start_date: "開始日なし"
     label_no_value: "値なし"
     label_none: "なし"
@@ -404,10 +404,10 @@ ja:
     label_public_query: "公開"
     label_sum: "合計"
     label_sum_for: "合計"
-    label_total_sum: "Total sum"
+    label_total_sum: "総額"
     label_subject: "題名"
     label_this_week: "今週"
-    label_today: "Today"
+    label_today: "今日"
     label_time_entry_plural: "作業時間の記録"
     label_up: "アップ"
     label_user_plural: "ユーザ"
@@ -417,11 +417,11 @@ ja:
     label_total_amount: "合計: %{amount}"
     label_updated_on: "更新日時"
     label_value_derived_from_children: "(子から派生した値)"
-    label_children_derived_duration: "Work package's children derived duration"
+    label_children_derived_duration: "子作業項目のの派生期間"
     label_warning: "注意"
     label_work_package: "ワーク パッケージ"
-    label_work_package_parent: "Parent work package"
-    label_work_package_plural: "作業項目"
+    label_work_package_parent: "親の作業項目"
+    label_work_package_plural: "ワークパッケージ"
     label_watch: "ウォッチする"
     label_watch_work_package: "作業項目をウォッチ"
     label_watcher_added_successfully: "ウォッチャーが正常に追加されました ！"
@@ -507,7 +507,7 @@ ja:
       context: 'プロジェクトのコンテキスト'
       work_package_belongs_to: 'このワークパッケージは、プロジェクト %{projectname} に属しています。'
       click_to_switch_context: 'このワークパッケージをそのプロジェクトで開きます。'
-      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      confirm_template_load: 'テンプレートを切り替えるとページが再読み込みされ、すべての入力が失われます。続行しますか？'
       autocompleter:
         label: 'プロジェクト名の入力補完'
     text_are_you_sure: "よろしいですか？"
@@ -531,7 +531,7 @@ ja:
     time_entry:
       project: 'プロジェクト'
       work_package: 'ワーク パッケージ'
-      work_package_required: 'Requires selecting a work package first.'
+      work_package_required: '最初に作業項目を選択する必要があります。'
       activity: '活動'
       comment: 'コメント'
       duration: '期間'
@@ -599,8 +599,8 @@ ja:
     field_value_enter_prompt: "'%{field}'の値を入力"
     project_menu_details: "詳細"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      manual: '手動スケジュール'
+      automatic: '自動スケジュール'
     sort:
       sorted_asc: '昇順の並べ替えを適用しました。 '
       sorted_dsc: '降順の並べ替えを適用しました。 '
@@ -609,7 +609,7 @@ ja:
       activate_asc: '昇順の並べ替えを適用'
       activate_dsc: '降順の並べ替えを適用'
       activate_no: '並べ替えを削除'
-    text_work_packages_destroy_confirmation: "選択した作業項目を削除してもよろしいですか？"
+    text_work_packages_destroy_confirmation: "選択したワークパッケージを削除してもよろしいですか？"
     text_query_destroy_confirmation: "選択したビューを削除してもよろしいですか？"
     text_attachment_destroy_confirmation: "この添付ファイルを削除してよろしいですか。"
     timelines:
@@ -723,7 +723,7 @@ ja:
       inline_create:
         title: 'クリックしてこのリストに新しい作業項目を追加します'
       create:
-        title: '新しい作業項目'
+        title: '新しいワークパッケージ'
         header: '新しい %{type}'
         header_no_type: '新しいワークパッケージ（タイプ未設定）'
         header_with_parent: '新しい %{type}（%{parent_type} #%{id} の子要素）'
@@ -813,8 +813,8 @@ ja:
           duplicate_query_title: "このビューの名前は既に存在します。 とにかく変更しますか？"
         text_no_results: "一致するビューは見つかりませんでした。"
       scheduling:
-        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
-        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+        is_parent: "この作業項目の日付は、その子から自動的に推定されます。日付を設定するには、「手動スケジューリング」を有効にします。"
+        is_switched_from_manual_to_automatic: "他の作業項目との関連により、手動スケジューリングから自動スケジューリングに切り替えた後に、このワークパッケージの日付を再計算する必要がある場合があります。"
       table:
         configure_button: 'ワークパッケージテーブルを設定する'
         summary: "作業項目の行と、作業項目の属性の列から成る表。"
@@ -848,13 +848,13 @@ ja:
           automatic: '自動'
           manually: '手動'
           warning: '自動並び替えモードをアクティブにすると、以前のソートが失われます。'
-        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "上記の入力を使用して、テーブルビューに列を追加します。列をドラッグアンドドロップして並べ替えることができます。"
         upsale:
           attribute_highlighting: '全体から目立つように特定の作業項目が必要ですか？'
           relation_columns: 'ワークパッケージリストに関係を表示する必要がありますか?'
           check_out_link: 'エンタープライズ版をチェックしてください。'
         relation_filters:
-          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
+          filter_work_packages_by_relation_type: '関係タイプで作業項目をフィルタ'
       tabs:
         overview: 概要
         activity: 活動
@@ -904,8 +904,8 @@ ja:
         confirm_deletion_children: "列挙された作業項目のすべての子孫が再帰的に削除されることを承認します。"
         deletes_children: "すべての子作業項目とその子孫も再帰的に削除されます。"
       destroy_time_entry:
-        title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry?"
+        title: "タイムエントリの削除を確認"
+        text: "次のタイムエントリを削除してもよろしいですか？"
     notice_no_results_to_display: "表示結果はありません。"
     notice_successful_create: "正常に作成しました。"
     notice_successful_delete: "正常に削除しました。"
@@ -939,9 +939,9 @@ ja:
       workPackage:
         other: "ワークパッケージ"
       child_work_packages:
-        other: "%{count} の子ワークパッケージ"
+        other: "%{count} つの子ワークパッケージ"
       hour:
-        zero: "0h"
+        zero: "0 h"
         other: ""
     zen_mode:
       button_activate: 'マナーモードをアクティブにする'

@@ -36,6 +36,6 @@ module AttributeHelpTextsHelper
     available
       .reject { |key,| used.include? key }
       .map { |key, label| [label, key] }
-      .sort_by { |label, key| label.downcase }
+      .sort_by { |label, _key| label.downcase }
   end
 end

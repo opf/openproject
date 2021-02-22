@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -44,7 +45,12 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
     raise ArgumentError, "Invalid option :html for menu item '#{name}'" if options[:html] && !options[:html].is_a?(Hash)
     raise ArgumentError, 'Cannot set the :parent to be the same as this item' if options[:parent] == name.to_sym
-    raise ArgumentError, "Invalid option :children for menu item '#{name}'" if options[:children] && !options[:children].respond_to?(:call)
+
+    if options[:children] && !options[:children].respond_to?(:call)
+      raise ArgumentError,
+            "Invalid option :children for menu item '#{name}'"
+    end
+
     @name = name
     @url = url
     @condition = options[:if]
@@ -73,12 +79,10 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
       c = @caption.call(project).to_s
       c = @name.to_s.humanize if c.blank?
       c
+    elsif @caption.nil?
+      l_or_humanize(name, prefix: 'label_')
     else
-      if @caption.nil?
-        l_or_humanize(name, prefix: 'label_')
-      else
-        @caption.is_a?(Symbol) ? I18n.t(@caption) : @caption
-      end
+      @caption.is_a?(Symbol) ? I18n.t(@caption) : @caption
     end
   end
 
@@ -145,11 +149,12 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
 
   def add_condition(new_condition)
     raise ArgumentError, 'Condition needs to be callable' unless new_condition.respond_to?(:call)
+
     old_condition = @condition
-    if old_condition.respond_to?(:call)
-      @condition = -> (project) { old_condition.call(project) && new_condition.call(project) }
-    else
-      @condition = -> (project) { new_condition.call(project) }
-    end
+    @condition = if old_condition.respond_to?(:call)
+                   ->(project) { old_condition.call(project) && new_condition.call(project) }
+                 else
+                   ->(project) { new_condition.call(project) }
+                 end
   end
 end

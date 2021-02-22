@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe Principals::Scopes::User, type: :model, with_clean_fixture: true do
+describe Principals::Scopes::User, type: :model do
   describe '.user' do
     let!(:anonymous_user) { FactoryBot.create(:anonymous) }
     let!(:system_user) { FactoryBot.create(:system) }

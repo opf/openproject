@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -29,13 +30,13 @@
 
 def deprecated_task(name, new_name)
   task name => new_name do
-    $stderr.puts "\nNote: The rake task #{name} has been deprecated, please use the replacement version #{new_name}"
+    warn "\nNote: The rake task #{name} has been deprecated, please use the replacement version #{new_name}"
   end
 end
 
 def removed_task(name, message)
   task name do
-    $stderr.puts "\nError: The rake task #{name} has been removed. #{message}"
+    warn "\nError: The rake task #{name} has been removed. #{message}"
     raise
   end
 end

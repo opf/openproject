@@ -243,6 +243,14 @@
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Denne brukeren er for øyeblikket ikke medlem av et prosjekt.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -521,6 +529,7 @@
         confirmation: "samsvarer ikke med %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "finnes ikke."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "kan ikke nås"
         error_readonly: "ble forsøkt skrevet til, men er skrivebeskyttet"
         empty: "kan ikke være tomt."
@@ -599,7 +608,7 @@
             project:
               error_not_found: "not found"
             public:
-              error_unauthorized: "- The user has no permission to create public views."
+              error_unauthorized: "- Brukeren har ikke tillatelse til å opprette offentlige visninger."
             group_by:
               invalid: "Kan ikke gruppere av: %{value}"
               format: "%{message}"
@@ -721,6 +730,7 @@
       status: "Status for arbeidspakke"
       member: "Medlem"
       news: "Nyheter"
+      placeholder_user: "Placeholder user"
       project: "Prosjekt"
       query: "Egendefinert spørring"
       role:
@@ -1241,7 +1251,7 @@
   label_all: "alle"
   label_all_time: "alle tidspunkt"
   label_all_words: "Alle ord"
-  label_all_open_wps: "All open"
+  label_all_open_wps: "Alle åpne"
   label_always_visible: "Vises alltid"
   label_announcement: "Kunngjøring"
   label_api_access_key: "API adgangsnøkkel"
@@ -1332,6 +1342,7 @@
   label_custom_field_plural: "Egendefinerte felter"
   label_custom_field_default_type: "Tom type"
   label_custom_style: "Design"
+  label_database_version: "PostgreSQL version"
   label_date: "Dato"
   label_date_and_time: "Dato og tid"
   label_date_from: "Fra"
@@ -1490,6 +1501,7 @@
   label_my_account_data: "Min kontoinformasjon"
   label_my_projects: "Mine prosjekter"
   label_my_queries: "Minne egendefinerte spørringer"
+  label_name: "Navn"
   label_never: "Aldri"
   label_new: "Ny"
   label_new_features: "New features"
@@ -1539,6 +1551,9 @@
   label_permissions: "Tilganger"
   label_permissions_report: "Tilgangsrapport"
   label_personalize_page: "Tilpass denne siden"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Planlegging"
   label_please_login: "Vennligst logg på"
   label_plugins: "Programtillegg"
@@ -1848,6 +1863,7 @@
   notice_email_sent: "Det ble sendt en e-post til %{value}"
   notice_failed_to_save_work_packages: "Det oppstod en feil under lagring av %{count} arbeidspakke(r) av %{total} valgte: %{ids}."
   notice_failed_to_save_members: "Feil ved lagring av medlem(mer): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Siden du forsøker å nå eksisterer ikke eller har blitt fjernet."
   notice_forced_logout: "Du ble automatisk utlogget etter %{ttl_time} minutters inaktivitet."
   notice_internal_server_error: "Det oppstod en feil på siden du forsøkte å nå. Dersom du fortsetter å oppleve problemer, vennligst kontakt din %{app_title}-administrator for bistand."
@@ -1911,6 +1927,8 @@
   permission_add_work_packages: "Legg til arbeidspakker"
   permission_add_messages: "Skriv meldinger"
   permission_add_project: "Opprett prosjekt"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Opprett underprosjekt"
   permission_add_work_package_watchers: "Legg til overvåker"
   permission_assign_versions: "Assign versions"
@@ -1948,7 +1966,7 @@
   permission_manage_members: "Administrere medlemmer"
   permission_manage_news: "Administrere nyheter"
   permission_manage_project_activities: "Administrere prosjektaktiviteter"
-  permission_manage_public_queries: "Manage public views"
+  permission_manage_public_queries: "Administrer offentlige visninger"
   permission_manage_repository: "Administrere pakkebrønner"
   permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_versions: "Administrere versjoner"

@@ -245,6 +245,14 @@ vi:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Người dùng này không phải là thành viên của dự án.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -522,6 +530,7 @@ vi:
         confirmation: "không khớp %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "không tồn tại"
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "Có thể không được truy cập."
         error_readonly: "was attempted to be written but is not writable."
         empty: "không thể để trống"
@@ -720,6 +729,7 @@ vi:
       status: "Tình trạng work package"
       member: "Thành viên"
       news: "Tin tức"
+      placeholder_user: "Placeholder user"
       project: "Dự án"
       query: "Truy vấn riêng"
       role:
@@ -1318,6 +1328,7 @@ vi:
   label_custom_field_plural: "Tùy chỉnh mục"
   label_custom_field_default_type: "Kiểu rỗng"
   label_custom_style: "Thiết kế"
+  label_database_version: "PostgreSQL version"
   label_date: "Ngày"
   label_date_and_time: "Ngày và giờ"
   label_date_from: "Từ"
@@ -1476,6 +1487,7 @@ vi:
   label_my_account_data: "Dữ liệu tài khoản của tôi"
   label_my_projects: "Dự án của tôi"
   label_my_queries: "Các truy vấn tùy biến của tôi"
+  label_name: "Tên"
   label_never: "Không bao giờ"
   label_new: "Mới"
   label_new_features: "Tính năng mới"
@@ -1525,6 +1537,9 @@ vi:
   label_permissions: "Phân Quyền"
   label_permissions_report: "Báo cáo phân quyền"
   label_personalize_page: "Cá nhân hoá các trang này"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Lập kế hoạch"
   label_please_login: "Vui lòng đăng nhập"
   label_plugins: "Plugins"
@@ -1830,6 +1845,7 @@ vi:
   notice_email_sent: "An email was sent to %{value}"
   notice_failed_to_save_work_packages: "Failed to save %{count} work package(s) on %{total} selected: %{ids}."
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "The page you were trying to access doesn't exist or has been removed."
   notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."
   notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."
@@ -1892,6 +1908,8 @@ vi:
   permission_add_work_packages: "Thêm mới Gói công việc"
   permission_add_messages: "Đăng tin nhắn"
   permission_add_project: "Tạo Dự án"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Tạo Dự án con"
   permission_add_work_package_watchers: "Thêm người theo dõi"
   permission_assign_versions: "Assign versions"

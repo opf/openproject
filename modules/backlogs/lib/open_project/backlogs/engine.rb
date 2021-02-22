@@ -35,12 +35,14 @@ module OpenProject::Backlogs
     engine_name :openproject_backlogs
 
     def self.settings
-      { default: { 'story_types'  => nil,
-                   'task_type'    => nil,
-                   'card_spec'    => nil
-      },
-        partial: 'shared/settings',
-        menu_item: :backlogs_settings }
+      {
+        default: {
+          'story_types' => nil,
+          'task_type' => nil,
+          'card_spec' => nil
+        },
+        menu_item: :backlogs_settings
+      }
     end
 
     include OpenProject::Plugins::ActsAsOpEngine
@@ -52,7 +54,7 @@ module OpenProject::Backlogs
       OpenProject::AccessControl.permission(:edit_project).tap do |add|
         add.actions << 'projects/project_done_statuses'
         add.actions << 'projects/rebuild_positions'
-        add.actions << 'backlogs_settings/show'
+        add.actions << 'backlogs_project_settings/show'
       end
 
       OpenProject::AccessControl.permission(:add_work_packages).tap do |add|
@@ -71,27 +73,27 @@ module OpenProject::Backlogs
         # SYNTAX: permission :name_of_permission, { :controller_name => [:action1, :action2] }
 
         # Master backlog permissions
-        permission :view_master_backlog,           rb_master_backlogs:  :index,
-                                                   rb_sprints:          [:index, :show],
-                                                   rb_wikis:            :show,
-                                                   rb_stories:          [:index, :show],
-                                                   rb_queries:          :show,
-                                                   rb_burndown_charts:  :show,
-                                                   rb_export_card_configurations: [:index, :show]
+        permission :view_master_backlog, rb_master_backlogs: :index,
+                   rb_sprints: %i[index show],
+                   rb_wikis: :show,
+                   rb_stories: %i[index show],
+                   rb_queries: :show,
+                   rb_burndown_charts: :show,
+                   rb_export_card_configurations: %i[index show]
 
-        permission :view_taskboards,               rb_taskboards:       :show,
-                                                   rb_sprints:          :show,
-                                                   rb_stories:          :show,
-                                                   rb_tasks:            [:index, :show],
-                                                   rb_impediments:      [:index, :show],
-                                                   rb_wikis:            :show,
-                                                   rb_burndown_charts:  :show,
-                                                   rb_export_card_configurations: [:index, :show]
+        permission :view_taskboards, rb_taskboards: :show,
+                   rb_sprints: :show,
+                   rb_stories: :show,
+                   rb_tasks: %i[index show],
+                   rb_impediments: %i[index show],
+                   rb_wikis: :show,
+                   rb_burndown_charts: :show,
+                   rb_export_card_configurations: %i[index show]
 
         # Sprint permissions
         # :show_sprints and :list_sprints are implicit in :view_master_backlog permission
-        permission :update_sprints,                rb_sprints: [:edit, :update],
-                                                   rb_wikis:   [:edit, :update]
+        permission :update_sprints, rb_sprints: %i[edit update],
+                   rb_wikis: %i[edit update]
       end
 
       menu :project_menu,
@@ -112,7 +114,6 @@ module OpenProject::Backlogs
                Type
                Project
                ProjectsController
-               ProjectSettingsHelper
                User
                VersionsController
                Version]

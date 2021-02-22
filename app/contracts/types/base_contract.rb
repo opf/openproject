@@ -32,7 +32,6 @@ require 'model_contract'
 
 module Types
   class BaseContract < ::ModelContract
-
     def self.model
       Type
     end
@@ -97,7 +96,7 @@ module Types
           errors.add(
             :attribute_groups,
             I18n.t('activerecord.errors.models.type.attributes.attribute_groups.attribute_unknown_name',
-                            attribute: key)
+                   attribute: key)
           )
         end
       end

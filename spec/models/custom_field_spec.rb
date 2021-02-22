@@ -139,7 +139,6 @@ describe CustomField, type: :model do
 
     describe "WITH a text field
               WITH an invalid regexp" do
-
       before do
         field.field_format = 'text'
         field.regexp = '[0-9}'
@@ -194,7 +193,7 @@ describe CustomField, type: :model do
       before do
         field.field_format = 'user'
         allow(project)
-          .to receive(:users)
+          .to receive(:principals)
           .and_return([user1, user2])
 
         allow(Principal)

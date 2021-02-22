@@ -113,7 +113,7 @@ module API
         end
 
         self.to_eager_load = [:to,
-                              from: { project: :enabled_modules }]
+                              { from: { project: :enabled_modules } }]
       end
     end
   end

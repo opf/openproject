@@ -1,5 +1,6 @@
 class SetLocalizationService
   attr_reader :user, :http_accept_header
+
   include Redmine::I18n
 
   def initialize(user, http_accept_header = nil)
@@ -57,7 +58,7 @@ class SetLocalizationService
     end
 
     tmp
-  rescue
+  rescue StandardError
     nil
   end
 

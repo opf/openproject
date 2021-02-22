@@ -1,57 +1,47 @@
-<div class="op-modal--portal ngdialog-theme-openproject">
-  <div class="op-modal--modal-container confirm-dialog--modal loading-indicator--location"
-       data-indicator-name="modal"
-       tabindex="0">
-    <div class="op-modal--modal-header">
-      <a class="op-modal--modal-close-button">
-        <i
-          class="icon-close"
-          (click)="closeMe($event)"
-          [attr.title]="text.close">
-        </i>
-      </a>
-      <h3 class="icon-context icon-log_time" [textContent]="text.title"></h3>
-    </div>
+<div
+  class="op-modal configm-dialog--modal loading-indicator--location"
+  data-indicator-name="modal"
+>
+  <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
 
-    <div class="ngdialog-body op-modal--modal-body">
-      <te-form #editForm
-               [changeset]="changeset"
-               [showWorkPackageField]="showWorkPackageField"
-               (modifiedEntry)="setModifiedEntry($event)">
-      </te-form>
-    </div>
+  <div class="ngdialog-body op-modal--body">
+    <te-form #editForm
+             [changeset]="changeset"
+             [showWorkPackageField]="showWorkPackageField"
+             (modifiedEntry)="setModifiedEntry($event)">
+    </te-form>
+  </div>
 
-    <div class="op-modal--modal-footer">
-      <button class="button -highlight"
-              *ngIf="saveAllowed"
-              (click)="saveEntry()"
-              [attr.title]="saveText"
-              [disabled]="formInFlight">
-        <op-icon icon-classes="button--icon icon-checkmark"></op-icon>
-        <span class="button--text"
-              [textContent]="saveText"
-              aria-hidden="true"></span>
-      </button>
+  <div class="op-modal--footer">
+    <button class="button -highlight"
+            *ngIf="saveAllowed"
+            (click)="saveEntry()"
+            [attr.title]="saveText"
+            [disabled]="formInFlight">
+      <op-icon icon-classes="button--icon icon-checkmark"></op-icon>
+      <span class="button--text"
+            [textContent]="saveText"
+            aria-hidden="true"></span>
+    </button>
 
-      <button class="button"
-              *ngIf="saveAllowed"
-              (click)="closeMe($event)"
-              [attr.title]="text.cancel">
-        <op-icon icon-classes="button--icon icon-close"></op-icon>
-        <span class="button--text"
-              [textContent]="text.cancel"
-              aria-hidden="true"></span>
-      </button>
+    <button class="button"
+            *ngIf="saveAllowed"
+            (click)="closeMe($event)"
+            [attr.title]="text.cancel">
+      <op-icon icon-classes="button--icon icon-close"></op-icon>
+      <span class="button--text"
+            [textContent]="text.cancel"
+            aria-hidden="true"></span>
+    </button>
 
-      <button class="button"
-              *ngIf="deleteAllowed"
-              (click)="destroy()"
-              [attr.title]="text.delete">
-        <op-icon icon-classes="button--icon icon-delete"></op-icon>
-        <span class="button--text"
-              [textContent]="text.delete"
-              aria-hidden="true"></span>
-      </button>
-    </div>
+    <button class="button"
+            *ngIf="deleteAllowed"
+            (click)="destroy()"
+            [attr.title]="text.delete">
+      <op-icon icon-classes="button--icon icon-delete"></op-icon>
+      <span class="button--text"
+            [textContent]="text.delete"
+            aria-hidden="true"></span>
+    </button>
   </div>
 </div>

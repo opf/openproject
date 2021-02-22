@@ -73,11 +73,11 @@ describe 'work package export', type: :feature do
                                  wait: 10
 
     # Expect title
-    expect(page).to have_selector 'h3', text: I18n.t('export.your_work_packages_export')
+    expect(page).to have_selector 'h1', text: I18n.t('export.your_work_packages_export')
 
     begin
       perform_enqueued_jobs
-    rescue
+    rescue StandardError
       # nothing
     end
 

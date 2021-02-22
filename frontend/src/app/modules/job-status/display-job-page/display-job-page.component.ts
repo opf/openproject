@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, Injector, OnDestroy} from "@angular/core";
 import {StateService} from "@uirouter/core";
-import {OpModalService} from "core-components/op-modals/op-modal.service";
-import {OpModalComponent} from "core-components/op-modals/op-modal.component";
+import {OpModalService} from "core-app/modules/modal/modal.service";
+import {OpModalComponent} from "core-app/modules/modal/modal.component";
 import {JobStatusModal} from "core-app/modules/job-status/job-status-modal/job-status.modal";
 import {take} from "rxjs/operators";
 

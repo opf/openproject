@@ -63,22 +63,22 @@ ja:
         main-menu-bg-color: "左サイドメニューの背景色。"
       theme_warning: テーマを変更した場合、カスタムスタイルが上書きされ、失われます。本当に続けますか？
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
+      upgrade_to_ee: "エンタープライズ版にアップグレード"
       add_token: "エンタープライズ版サポートのトークンをアップロード"
       replace_token: "現在のサポート トークンを置き換え"
       order: "エンタープライズ版を注文"
       paste: "エンタープライズ版サポートのトークンを貼り付け"
       required_for_feature: "この機能は、アクティブなエンタープライズ版のサポート トークンでのみ利用可能です。"
       enterprise_link: "詳細については、ここをクリックしてください。"
-      start_trial: 'Start free trial'
-      book_now: 'Book now'
-      get_quote: 'Get a quote'
+      start_trial: '無料トライアルを開始'
+      book_now: '今すぐ予約'
+      get_quote: '見積もりの入手'
   announcements:
     show_until: までを表示
     is_active: 現在表示されています
     is_inactive: 現在表示されていません
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
+    note_public: 'このフィールドに追加したテキストと画像は、ログインしているすべてのユーザーに公開されます！'
     text_overview: 'このビューは、属性表示のカスタム ヘルプ テキストを作成できます。定義すると、このテキストはその属性の横にあるヘルプ アイコンをクリックして表示できます。'
     label_plural: '属性のヘルプ テキスト'
     show_preview: 'テキストをプレビュー'
@@ -113,16 +113,17 @@ ja:
         OpenProject は、このサブツリー内の指定されたユーザー名のみをフィルタリングします。
         例: ou=users,dc=example,dc=com
       filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+        LDAPでフィルタされたユーザーに対して返された結果に適用するオプションのRFC4515フィルタを追加します。
+        これは、OpenProjectによって検出された認証とグループ同期のためのユーザーのセットを制限するために使用することができます。
       filter_string_concat: |
-        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
-        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
+
+        OpenProjectはレコードを識別するために、ユーザーが提供するログイン属性を常にフィルタリングします。ここにフィルタを指定すると、
+        ANDで連結されます。デフォルトではキャッチオール（objectClass = *）がフィルタとして使用されます。
       onthefly_register: |
         チェックを入れると、OpenProjectは初回認証時に自動的にLDAPエントリーに新規ユーザー登録します。LDAPの既存ユーザーのみ許可する場合はチェックを外してください。
       onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
+        この LDAP 接続のグループ同期を有効にすると、同期されたグループのユーザーも OpenProject に自動的に作成されます。
+        これがなければ OpenProjec 内tの既存のアカウントのみがグループに追加されます。
     connection_encryption: '接続の暗号化'
     system_account: 'システムアカウント'
     system_account_legend: |
@@ -192,7 +193,7 @@ ja:
       受信メールの添付ファイルを処理するとき、無視する名前の一覧を指定します (例えば、署名またはアイコン)。1 行につき 1 つのファイル名を入力してください。
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
+      scheduled: "削除がスケジュールされ、バックグラウンドで実行されます。結果は通知されます。"
       schedule_failed: "プロジェクトを削除できません: %{errors}"
       failed: "プロジェクト%{name} の削除に失敗しました"
       failed_text: "プロジェクト%{name} の削除要求が失敗しました。 プロジェクトはアーカイブされたままです。"
@@ -201,7 +202,7 @@ ja:
     index:
       open_as_gantt: 'ガントビューとして開く'
       open_as_gantt_title: "このボタンを使用して、このページに表示されているプロジェクトのワークパッケージをフィルタリングするガントビューを生成します。"
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
+      open_as_gantt_title_admin: "プロジェクト設定で、表示設定 (選択した作業項目の種類など) を変更できます。"
       no_results_title_text: 現在、プロジェクトはありません
       no_results_content_text: プロジェクトを新規作成
     settings:
@@ -211,8 +212,8 @@ ja:
         no_results_title_text: 現在、プロジェクトに関するフォーラムはありません。
         no_results_content_text: 新しいフォーラムを作成する
       categories:
-        no_results_title_text: 現在、作業項目のカテゴリはありません。
-        no_results_content_text: 新しい作業項目のカテゴリを作成
+        no_results_title_text: 現在、ワークパッケージのカテゴリはありません。
+        no_results_content_text: 新しいワークパッケージのカテゴリを作成
       custom_fields:
         no_results_title_text: 現在、有効なカスタム フィールドはありません。
       types:
@@ -236,10 +237,18 @@ ja:
       no_results_content_text: ニュース項目を追加
   users:
     groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
+      member_in_these_groups: 'このユーザーは現在以下のグループのメンバーです：'
+      no_results_title_text: このユーザーは現在どのグループのメンバーでもありません。
     memberships:
       no_results_title_text: このユーザは現在プロジェクトのメンバーではありません。
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -258,7 +267,7 @@ ja:
         このステータスの色を割り当てたり変更する場合にクリックします。
         ステータスボタンに表示され、テーブル内の作業パッケージを強調表示するために使用できます。
     index:
-      no_results_title_text: 現在、作業項目のステータスはありません。
+      no_results_title_text: 現在、ワークパッケージのステータスはありません。
       no_results_content_text: 新しいステータスを追加
   types:
     index:
@@ -279,7 +288,7 @@ ja:
     overview:
       no_results_title_text: このバージョンに割り当てられている作業項目はありません。
   wiki:
-    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
+    page_not_editable_index: 要求されたページは (まだ) 存在しません。すべてのwikiページの索引にリダイレクトされました。
     no_results_title_text: 現在、Wikiページはありません。
     index:
       no_results_content_text: 新しいWikiページを追加
@@ -288,12 +297,12 @@ ja:
       no_results_title_text: 現在、ワークフローはありません。
   work_packages:
     x_descendants:
-      other: '%{count} つの作業項目の子孫'
+      other: '%{count} 件のワークパッケージの子孫'
     bulk:
-      could_not_be_saved: "次の作業項目を保存できませんでした:"
+      could_not_be_saved: "次のワークパッケージを保存できませんでした:"
     move:
       no_common_statuses_exists: "選択されたすべての項目に利用可能なステータスはありません。 それらの状態は変更できません。"
-      unsupported_for_multiple_projects: '複数のプロジェクトから、作業項目の一括移動/コピーはサポートされていません'
+      unsupported_for_multiple_projects: '複数のプロジェクトからのワークパッケージの一括移動 / コピーはサポートされていません'
     summary:
       reports:
         category:
@@ -317,8 +326,8 @@ ja:
     deleted: "アカウントが正常に削除されました。"
     deletion_info:
       data_consequences:
-        other: "ユーザーが作成した殆どのデータ (例えば電子メール、設定、作業項目 、wiki記載 )が削除されます。ただし、他のユーザーの作業を妨害することがなく作業項目やwiki 記載のようなデータは削除できません。それ故に、このようなデータは「削除されたユーザー」と呼ばれるアカウントに再割り当てます。削除された各アカウントのデータがこのアカウントに再割り当ているので、削除された別のユーザーのデータと区別できなくなります。"
-        self: "ユーザーが作成した殆どのデータ (例えば電子メール、設定、作業項目 、wiki記載 )が削除されます。ただし、他のユーザーの作業を妨害することがなく作業項目やwiki 記載のようなデータは削除できません。それ故に、このようなデータは「削除されたユーザー」と呼ばれるアカウントに再割り当てます。削除された各アカウントのデータがこのアカウントに再割り当ているので、削除された別のユーザーのデータと区別できなくなります。"
+        other: "ユーザーが作成した殆どのデータ (例えば電子メール、設定、ワークパッケージ 、wiki記載 )が削除されます。ただし、他のユーザーの作業を妨害することがなくワークパッケージやwiki 記載のようなデータは削除できません。それ故に、このようなデータは「削除されたユーザー」と呼ばれるアカウントに再割り当てます。削除された各アカウントのデータがこのアカウントに再割り当ているので、削除された別のユーザーのデータと区別できなくなります。"
+        self: "ユーザーが作成した殆どのデータ (例えば電子メール、設定、ワークパッケージ 、wiki記載 )が削除されます。ただし、他のユーザーの作業を妨害することがなくワークパッケージやwiki 記載のようなデータは削除できません。それ故に、このようなデータは「削除されたユーザー」と呼ばれるアカウントに再割り当てます。削除された各アカウントのデータがこのアカウントに再割り当ているので、削除された別のユーザーのデータと区別できなくなります。"
       heading: "アカウント名「 %{name} 」を削除します。"
       info:
         other: "ユーザアカウントの削除は復元できない操作です。"
@@ -362,7 +371,7 @@ ja:
         attr_mail: "メール"
         base_dn: "ベースDN"
         host: "ホスト"
-        onthefly: "Automatic user creation"
+        onthefly: "ユーザーの自動作成"
         port: "ポート番号"
       changeset:
         repository: "リポジトリ"
@@ -399,10 +408,10 @@ ja:
       relation:
         delay: "遅延"
         from: "ワーク パッケージ"
-        to: "関連する作業項目"
+        to: "関連するワークパッケージ"
       status:
         is_closed: "作業が完了"
-        is_readonly: "読み取り専用の作業項目"
+        is_readonly: "読み取り専用のワークパッケージ"
       journal:
         notes: "注記"
       member:
@@ -412,9 +421,9 @@ ja:
         latest_activity_at: "最新の活動"
         parent: "親プロジェクト名"
         queries: "クエリ"
-        types: "作業項目の型"
+        types: "ワークパッケージのタイプ"
         versions: "バージョン"
-        work_packages: "作業項目"
+        work_packages: "ワークパッケージ"
         templated: 'テンプレートプロジェクト'
       projects/status:
         code: 'ステータス'
@@ -487,7 +496,7 @@ ja:
         parent_work_package: "親項目"
         priority: "優先度"
         progress: "進行状況 (%)"
-        schedule_manually: "Manual scheduling"
+        schedule_manually: "手動スケジュール"
         spent_hours: "作業時間の記録"
         spent_time: "作業時間の記録"
         subproject: "子プロジェクト"
@@ -513,8 +522,9 @@ ja:
         cant_link_a_work_package_with_a_descendant: "親子関係にある作業項目間で関連設定できません。"
         circular_dependency: "この関係は循環依存になります。"
         confirmation: "は%{attribute} と一致しません。"
-        could_not_be_copied: "%{dependency} could not be (fully) copied."
+        could_not_be_copied: "%{dependency} を（完全に）コピーできませんでした。"
         does_not_exist: "は存在しません。"
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "アクセスできません。"
         error_readonly: "書けませんでした。"
         empty: "は空にすることができません。"
@@ -530,8 +540,8 @@ ja:
         invalid_url: 'は有効な URL ではありません。'
         invalid_url_scheme: 'はサポートされたプロトコルではありません (可能: %{allowed_schemes})。'
         less_than_or_equal_to: "は%{count}以下の値にしてください。"
-        not_deletable: "cannot be deleted."
-        not_current_user: "is not the current user."
+        not_deletable: "削除できません。"
+        not_current_user: "現在のユーザーではありません。"
         not_a_date: "は有効な日付ではありません。"
         not_a_datetime: "は有効な日時ではありません。"
         not_a_number: "は数値にしてください。"
@@ -584,10 +594,10 @@ ja:
               id_filter_required: "'Id' のフィルターが必要です。"
         project:
           archived_ancestor: 'プロジェクトの祖先がアーカイブされています。'
-          foreign_wps_reference_version: '子孫でないプロジェクトの作業項目が、プロジェクトまたはその子孫のバージョンを参照しています。'
+          foreign_wps_reference_version: '子孫でないプロジェクトのワークパッケージが、プロジェクトまたはその子孫のバージョンを参照しています。'
           attributes:
             types:
-              in_use_by_work_packages: "まだ作業項目によって使用されています: %{types}"
+              in_use_by_work_packages: "まだワークパッケージによって使用されています: %{types}"
         query:
           attributes:
             project:
@@ -611,7 +621,7 @@ ja:
         queries/filters/base:
           attributes:
             values:
-              inclusion: "filter has invalid values."
+              inclusion: "フィルタの値が無効です"
               format: "%{message}"
         relation:
           typed_dag:
@@ -638,7 +648,7 @@ ja:
             hours:
               day_limit: "1日あたり最大24時間まで記録できます。"
         work_package:
-          is_not_a_valid_target_for_time_entries: "作業時間を再割り当てるには、作業項目#%{id}は対象外である。"
+          is_not_a_valid_target_for_time_entries: "ワークパッケージ #%{id} は、作業時間の再割り当ての対象としては有効ではありません。"
           attributes:
             due_date:
               not_start_date: "は開始日になっていません。これはマイルストーンの場倍、必要である。"
@@ -647,12 +657,12 @@ ja:
               cannot_be_in_another_project: "は別のプロジェクトに属することはできません。"
               not_a_valid_parent: "は不正な値です。"
             start_date:
-              violates_relationships: "は、作業項目の関係に違反しないように %{soonest_start} またはそれ以降にのみ設定できます。"
+              violates_relationships: "は、ワークパッケージの関連に違反しないように %{soonest_start} またはそれ以降にのみ設定できます。"
             status_id:
               status_transition_invalid: "現在のユーザロールでは旧ステータスから新ステータスへの有効な遷移がないため無効"
               status_invalid_in_type: "現在のステータスがこのタイプに存在しないため無効です。"
             type:
-              cannot_be_milestone_due_to_children: "この作業項目には子供がいるためマイルストーンになることはできません。"
+              cannot_be_milestone_due_to_children: "このワークパッケージには子関連があるため、マイルストーンにはできません。"
             priority_id:
               only_active_priorities_allowed: "は有効である必要があります。"
             category:
@@ -696,7 +706,7 @@ ja:
         version:
           undeletable_work_packages_attached: "作業パッケージが添付されているため、バージョンを削除できません。"
         status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
+          readonly_default_exlusive: "デフォルトとしてマークされている状態では有効にできません。"
       template:
         body: "次のフィールドをチェックしてください："
         header:
@@ -713,6 +723,7 @@ ja:
       status: "ステータス名"
       member: "メンバー"
       news: "ニュース"
+      placeholder_user: "プレースホルダー ユーザー"
       project: "プロジェクト"
       query: "ユーザのクエリ"
       role:
@@ -739,7 +750,7 @@ ja:
     attachments: "添付ファイル"
     author: "作成者"
     base: "一般的なエラー:"
-    blocks_ids: "ブロックされている作業項目のID"
+    blocks_ids: "ブロックされているワークパッケージのID"
     category: "カテゴリ"
     comment: "コメント"
     comments: "コメント"
@@ -751,9 +762,9 @@ ja:
     date: "日付"
     default_columns: "既定の列"
     description: "説明"
-    derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
-    derived_start_date: "Derived start date"
+    derived_due_date: "派生終了日"
+    derived_estimated_time: "派生予定工数"
+    derived_start_date: "派生開始日"
     display_sums: "合計を表示"
     due_date: "終了日"
     estimated_hours: "予定工数"
@@ -1013,7 +1024,7 @@ ja:
   default_role_non_member: "非メンバー"
   default_role_reader: "リーダー"
   default_role_member: "メンバー"
-  default_type: "作業項目"
+  default_type: "ワークパッケージ"
   default_type_bug: "不具合"
   default_type_deliverable: "要素成果物"
   default_type_epic: "エピック"
@@ -1025,7 +1036,7 @@ ja:
   description_active: "有効？"
   description_attachment_toggle: "添付ファイルの表示/非表示"
   description_autocomplete: >
-    このフィールドは、オートコンプリートを使用します。作業項目のタイトルを入力中は可能な候補のリストが表示されます。矢印キーを利用していずれかを選んで、タブキーかエンターキーで選択できます。または作業項目の番号を直接入力もできます。
+    このフィールドはオートコンプリートを使用します。ワークパッケージのタイトルを入力中は、可能な候補のリストが表示されます。矢印キーを利用していずれかを選んで、タブキーかエンターキーで選択できます。またはワークパッケージの ID を直接入力することもできます。
   description_available_columns: "利用できる項目"
   description_choose_project: "プロジェクト"
   description_compare_from: "以下と比較："
@@ -1041,14 +1052,14 @@ ja:
   description_message_content: "内容"
   description_my_project: "あなたはメンバー"
   description_notes: "注記"
-  description_parent_work_package: "親作業項目"
+  description_parent_work_package: "親ワークパッケージ"
   description_project_scope: "検索範囲"
   description_query_sort_criteria_attribute: "項目"
   description_query_sort_criteria_direction: "順序"
   description_search: "検索キーワード"
-  description_select_work_package: "作業項目を選択してください。"
+  description_select_work_package: "ワークパッケージを選択してください。"
   description_selected_columns: "選択された項目"
-  description_sub_work_package: "子作業項目"
+  description_sub_work_package: "現在のサブワークパッケージ"
   description_toc_toggle: "目次の表示/非表示"
   description_wiki_subpages_reassign: "新しい親ページを選択してください。"
   #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
@@ -1062,17 +1073,17 @@ ja:
       project_filters:
         description_html: "カスタムフィールドのフィルタリングと並べ替えは、エンタープライズ版の機能です。"
   enumeration_activities: "タイムトラッキングアクティビティ"
-  enumeration_work_package_priorities: "作業項目の優先度"
+  enumeration_work_package_priorities: "ワークパッケージの優先度"
   enumeration_reported_project_statuses: "報告されるプロジェクト進捗状況"
   error_auth_source_sso_failed: "ユーザー '%{value}' のシングルサインオン (SSO) に失敗しました"
   error_can_not_archive_project: "このプロジェクトはアーカイブできません: %{errors}"
   error_can_not_delete_entry: "エントリを削除できません"
   error_can_not_delete_custom_field: "カスタムフィールドを削除できません。"
-  error_can_not_delete_type: "この型の作業項目が存在しています。削除できません。"
+  error_can_not_delete_type: "このタイプのワークパッケージが存在するため、削除できません。"
   error_can_not_delete_standard_type: "標準型は削除できません。"
   error_can_not_invite_user: "ユーザーへの招待状の送信に失敗しました。"
   error_can_not_remove_role: "このロールは使用されています。削除できません。"
-  error_can_not_reopen_work_package_on_closed_version: "終了したバージョンにひも付けされた作業項目は再度開けません。"
+  error_can_not_reopen_work_package_on_closed_version: "終了したバージョンにひも付けられたワークパッケージは再度開くことはできません。"
   error_can_not_find_all_resources: "この要求に、すべての関連リソースを見つけられませんでした。"
   error_can_not_unarchive_project: "このプロジェクトはアーカイブを戻すことができません: %{errors}"
   error_check_user_and_role: "ユーザーとロールを選択してください。"
@@ -1080,7 +1091,7 @@ ja:
   error_cookie_missing: 'OpenProject のcookieが見つかりません。cookieが有効であることを確認してください。そうしないとこのアプリケーションは正しく動作しません。'
   error_custom_option_not_found: "オプションが存在しません。"
   error_enterprise_activation_user_limit: "あなたのアカウントを有効にすることができませんでした（ユーザー制限に達しました）。アクセスするには管理者に連絡してください。"
-  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "Enterprise Edition がアクティブではありません。Enterprise トークンのドメイン (%{actual}) がシステムのホスト名(%{expected}) と一致しません。"
   error_failed_to_delete_entry: 'このエントリを削除できませんでした。'
   error_in_dependent: "依存オブジェクトを変更しようとしてエラーが発生しました: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "選択された値が無効です。"
@@ -1088,19 +1099,19 @@ ja:
   error_pdf_export_too_many_columns: "PDF エクスポート用に選択された列が多すぎます。 列の数を減らしてください。"
   error_pdf_failed_to_export: "PDFエクスポートを保存できませんでした： %{error}"
   error_token_authenticity: 'クロスサイトリクエスト偽造トークンを確認できません。 複数のブラウザやタブでデータを送信しようとしましたか？ すべてのタブを閉じてもう一度やり直してください。'
-  error_work_package_done_ratios_not_updated: "作業項目の進捗率が更新できません。"
-  error_work_package_not_found_in_project: "作業項目が見つからないか、このプロジェクトに属してないかです。"
+  error_work_package_done_ratios_not_updated: "ワークパッケージの進捗率は更新できません。"
+  error_work_package_not_found_in_project: "ワークパッケージが見つからないか、このプロジェクトに属していません。"
   error_must_be_project_member: "プロジェクトのメンバーである必要があります。"
   error_migrations_are_pending: "OpenProject のインストールはデータベースの移行が保留中です。前回のアップグレード時に移行の実行を行っていない可能性があります。アップグレードガイドを確認して、適切にインストールをアップグレードしてください。"
   error_migrations_visit_upgrade_guides: "アップグレードガイドのドキュメントをご覧ください"
-  error_no_default_work_package_status: "作業項目の既定のステータスが定義されていません。 設定をご確認してください（管理→作業項目ステータス）。"
-  error_no_type_in_project: "このプロジェクトには関連付けている作業項目の型がありません。プロジェクトの設定をご確認してください。"
+  error_no_default_work_package_status: "｀ワークパッケージ目の既定のステータスが定義されていません。 設定をご確認してください（管理→作業項目ステータス）。"
+  error_no_type_in_project: "このプロジェクトには関連付けられているワークパッケージのタイプがありません。プロジェクトの設定をご確認してください。"
   error_omniauth_registration_timed_out: "外部認証プロバイダーを経由して登録がタイムアウトしました。もう一度やり直してください。"
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
+  error_omniauth_invalid_auth: "IDプロバイダーから返された認証情報が無効です。詳細については管理者に連絡してください"
   error_scm_command_failed: "「%{value}」リポジトリにアクセスしようとしてエラーが発生しました。"
   error_scm_not_found: "リポジトリに、エントリ/リビジョンが存在しません。"
-  error_unable_delete_status: "一つ以上の作業項目によって使用されているため、作業項目のステータスを削除できません。"
-  error_unable_delete_default_status: "作業項目の既定のステータスを削除できません。削除する前に別の既定値を選択してください。"
+  error_unable_delete_status: "一つ以上のワークパッケージによって使用されているため、ステータスを削除できません。"
+  error_unable_delete_default_status: "ワークパッケージの既定値のステータスは削除できません。削除する前に別のものを既定値にしてください。"
   error_unable_to_connect: "接続できません。 （%{value}）"
   error_unable_delete_wiki: "Wikiページを削除できません。"
   error_unable_update_wiki: "Wikiページを更新できません。"
@@ -1110,7 +1121,7 @@ ja:
   error_menu_item_not_saved: メニュー項目を保存できませんでした。
   error_wiki_root_menu_item_conflict: >
     結果のメニュー項目が既存のメニュー項目 "%{existing_caption}" (%{existing_identifier}) と競合するため、"%{old_name}" の名前を "%{new_name}" に変更できません。
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed: "外部認証中にエラーが発生しました。もう一度やり直してください。"
   error_attribute_not_highlightable: "強調表示されない属性: %{attributes}"
   events:
     project: 'プロジェクトが編集されました。'
@@ -1124,8 +1135,8 @@ ja:
     work_package_edit: '仕事項目が編集されました。'
     work_package_note: '仕事項目の注記が追加されました。'
   export:
-    your_work_packages_export: "Your work packages export"
-    succeeded: "The export has completed successfully."
+    your_work_packages_export: "作業項目をエクスポート"
+    succeeded: "エクスポートが正常に完了しました。"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1180,10 +1191,10 @@ ja:
   image_conversion:
     imagemagick: 'Imagemagick'
   journals:
-    changes_retracted: "The changes were retracted."
+    changes_retracted: "変更は取り下げられました。"
   links:
     configuration_guide: '設定ガイド'
-    get_in_touch: "You have questions? Get in touch with us."
+    get_in_touch: "ご質問がありますか？ご連絡ください。"
   instructions_after_registration: "%{signin}をクリックして、アカウントが有効された後にログインできます。"
   instructions_after_logout: "%{signin}をクリックして再びログインできます。"
   instructions_after_error: "%{signin} をクリックして再びログインを試行できます。エラーが解決しない場合は、管理者にお問い合わせください。"
@@ -1207,7 +1218,7 @@ ja:
   label_add_another_file: "別のファイルを追加"
   label_add_columns: "選択した列を追加"
   label_add_note: "注記を追加"
-  label_add_related_work_packages: "関連する作業項目を追加"
+  label_add_related_work_packages: "関連するワークパッケージを追加"
   label_add_subtask: "子タスクを追加"
   label_added: "追加"
   label_added_time_by: "%{author}が%{age}前に追加"
@@ -1229,7 +1240,7 @@ ja:
   label_applied_status: "適用されるステータス"
   label_archive_project: "プロジェクトをアーカイブ"
   label_ascending: "昇順"
-  label_assigned_to_me_work_packages: "担当している作業項目"
+  label_assigned_to_me_work_packages: "担当しているワークパッケージ"
   label_associated_revisions: "関連するリビジョン"
   label_attachment_delete: "ファイルを削除"
   label_attachment_new: "新しいファイル"
@@ -1240,8 +1251,8 @@ ja:
   label_auth_source_new: "新しい認証方式"
   label_auth_source_plural: "認証方式"
   label_authentication: "認証"
-  label_available_project_work_package_categories: '有効な作業項目のカテゴリ'
-  label_available_project_work_package_types: '利用可能な作業項目の種類'
+  label_available_project_work_package_categories: '有効なワークパッケージのカテゴリ'
+  label_available_project_work_package_types: '利用可能なワークパッケージのタイプ'
   label_available_project_forums: '利用可能なフォーラム'
   label_available_project_versions: '利用できるバージョン'
   label_available_project_repositories: '使用できるリポジトリ'
@@ -1257,7 +1268,7 @@ ja:
   label_boolean: "ブール型"
   label_branch: "分岐"
   label_browse: "閲覧"
-  label_bulk_edit_selected_work_packages: "選択した作業項目を一括編集"
+  label_bulk_edit_selected_work_packages: "選択したワークパッケージを一括編集"
   label_bundled: '(バンドル)'
   label_calendar: "カレンダー"
   label_calendar_show: "カレンダーを表示"
@@ -1311,6 +1322,7 @@ ja:
   label_custom_field_plural: "カスタムフィールド"
   label_custom_field_default_type: "空の型"
   label_custom_style: "デザイン"
+  label_database_version: "PostgreSQL version"
   label_date: "日付"
   label_date_and_time: "日付と時刻"
   label_date_from: "日付指定: "
@@ -1322,7 +1334,7 @@ ja:
   label_delete_project: "プロジェクトを削除"
   label_deleted: "削除された"
   label_deleted_custom_field: "（削除されたカスタムフィールド）"
-  label_deleted_custom_option: "(deleted option)"
+  label_deleted_custom_option: "(削除されたオプション)"
   label_descending: "降順"
   label_details: "詳細"
   label_development_roadmap: "開発ロードマップ"
@@ -1340,7 +1352,7 @@ ja:
   label_duplicate: "重複"
   label_duplicates: "次と重複"
   label_edit: "編集"
-  label_edit_x: "Edit: %{x}"
+  label_edit_x: "編集: %{x}"
   label_enable_multi_select: "複数選択の切り替え"
   label_enabled_project_custom_fields: '有効なカスタム フィールド'
   label_enabled_project_modules: '有効なモジュール'
@@ -1464,11 +1476,12 @@ ja:
   label_months_from: "ヶ月分"
   label_more: "続き"
   label_more_than_ago: "今日より○日前以前"
-  label_move_work_package: "作業項目を移動"
+  label_move_work_package: "ワークパッケージを移動"
   label_my_account: "個人設定"
   label_my_account_data: "アカウントのデータ"
   label_my_projects: "参加しているプロジェクト"
   label_my_queries: "個人のクエリ"
+  label_name: "名称"
   label_never: "なし"
   label_new: "新しく作成"
   label_new_features: "新機能"
@@ -1518,6 +1531,9 @@ ja:
   label_permissions: "権限"
   label_permissions_report: "権限のレポート"
   label_personalize_page: "このページを個人用にカスタマイズする"
+  label_placeholder_user: "プレースホルダー ユーザー"
+  label_placeholder_user_new: "新しいプレースホルダー ユーザー"
+  label_placeholder_user_plural: "プレースホルダー ユーザー"
   label_planning: "計画"
   label_please_login: "ログインしてください。"
   label_plugins: "プラグイン"
@@ -1557,7 +1573,7 @@ ja:
   label_registration_activation_by_email: "電子メールでアカウントの有効化"
   label_registration_automatic_activation: "自動でアカウントの有効化"
   label_registration_manual_activation: "手動でアカウントの有効化"
-  label_related_work_packages: "関連する作業項目"
+  label_related_work_packages: "関連するワークパッケージ"
   label_relates: "関連している"
   label_relates_to: "関連している"
   label_relation_delete: "関連の削除"
@@ -1569,7 +1585,7 @@ ja:
   label_report: "レポート"
   label_report_bug: "バグを報告する"
   label_report_plural: "レポート"
-  label_reported_work_packages: "報告した作業項目"
+  label_reported_work_packages: "報告したワークパッケージ"
   label_reporting: "レポート作成"
   label_reporting_plural: "レポート"
   label_repository: "リポジトリ"
@@ -1585,7 +1601,7 @@ ja:
   label_roadmap: "ロードマップ"
   label_roadmap_edit: "ロードマップ%{name}を編集"
   label_roadmap_due_in: "期日まで %{value}"
-  label_roadmap_no_work_packages: "このバージョンに関する作業項目はありません。"
+  label_roadmap_no_work_packages: "このバージョンに関するワークパッケージはありません。"
   label_roadmap_overdue: "%{value}遅れ"
   label_role_and_permissions: "ロールと権限"
   label_role_new: "新しいロール"
@@ -1637,7 +1653,7 @@ ja:
   label_topic_plural: "トピック"
   label_total: "合計"
   label_type_new: "新しい型"
-  label_type_plural: "作業項目の型"
+  label_type_plural: "ワークパッケージのタイプ"
   label_ui: "UI（ユーザインターフェイス）"
   label_update_work_package_done_ratios: "進捗率の更新"
   label_updated_time: "%{value}前に更新"
@@ -1673,7 +1689,7 @@ ja:
   label_view_all_revisions: "全てのリビジョンを表示"
   label_view_diff: "差分を表示"
   label_view_revisions: "リビジョンを表示"
-  label_watched_work_packages: "ウォッチしている作業項目"
+  label_watched_work_packages: "ウォッチしているワークパッケージ"
   label_what_is_this: "これは何ですか?"
   label_week: "週"
   label_wiki_content_added: "Wikiページが追加されました。"
@@ -1694,23 +1710,23 @@ ja:
   label_wiki_show_submenu_item: "上位のメニュー項目"
   label_wiki_start: "開始ページ"
   label_work_package: "ワーク パッケージ"
-  label_work_package_added: "作業項目が追加されました。"
+  label_work_package_added: "ワークパッケージが追加されました"
   label_work_package_attachments: "ワークパッケージの添付ファイル"
   label_work_package_category_new: "新規カテゴリ"
-  label_work_package_category_plural: "作業項目のカテゴリ"
+  label_work_package_category_plural: "ワークパッケージのカテゴリ"
   label_work_package_hierarchy: "ワークパッケージの階層"
-  label_work_package_new: "新しい作業項目"
+  label_work_package_new: "新しいワークパッケージ"
   label_work_package_note_added: "仕事項目の注記が追加されました。"
-  label_work_package_edit: "作業項目%{name}を編集"
-  label_work_package_plural: "作業項目"
-  label_work_package_priority_updated: "作業項目の優先度が更新されました。"
+  label_work_package_edit: "ワークパッケージ %{name} を編集"
+  label_work_package_plural: "ワークパッケージ"
+  label_work_package_priority_updated: "ワークパッケージの優先度が更新されました"
   label_work_package_status: "ステータス名"
   label_work_package_status_new: "新規ステータス"
   label_work_package_status_plural: "ステータスの型"
-  label_work_package_types: "作業項目の種類"
-  label_work_package_updated: "作業項目が更新されました。"
-  label_work_package_tracking: "作業項目の追跡"
-  label_work_package_view_all: "全ての作業項目を表示"
+  label_work_package_types: "ワークパッケージの種類"
+  label_work_package_updated: "ワークパッケージが更新されました"
+  label_work_package_tracking: "ワークパッケージの追跡"
+  label_work_package_view_all: "全てのワークパッケージを表示"
   label_workflow: "ワークフロー"
   label_workflow_plural: "ワークフロー"
   label_workflow_summary: "サマリー"
@@ -1753,7 +1769,7 @@ ja:
       errors:
         no_project_context: '外部プロジェクトのコンテキストから create_work_package_link マクロを呼び出します。'
         invalid_type: "プロジェクト '%{project}' に名前 '%{type}' のタイプが見つかりません。"
-      link_name: '新しい作業項目'
+      link_name: '新しいワークパッケージ'
       link_name_type: '新しい %{type_name}'
   mail:
     actions: '操作'
@@ -1761,25 +1777,25 @@ ja:
   mail_body_account_information: "アカウント情報"
   mail_body_account_information_external: "%{value} アカウントを使ってログインできます。"
   mail_body_lost_password: "パスワードを変更するには、以下のリンクをクリックしてください:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
-  mail_body_register_header_title: "Project member invitation email"
-  mail_body_register_user: "Dear %{name}, "
+  mail_body_register: "OpenProjectへようこそ。このリンクをクリックしてアカウントを有効化してください："
+  mail_body_register_header_title: "プロジェクトへの招待メール"
+  mail_body_register_user: "%{name}さん"
   mail_body_register_links_html: |
     Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
     and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
     If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
-  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_closing: "あなたのOpenProjectチーム"
   mail_body_register_ending: "Stay connected! Kind regards,"
-  mail_body_reminder: "担当している%{count}件の作業項目が%{days}日内に予定日になっています："
-  mail_body_group_reminder: "グループ \"%{group}\" に割り当てられた%{count}件の作業項目が%{days}日内に期限が到来します："
+  mail_body_reminder: "担当している %{count}件 のワークパッケージが %{days} 日内に期限を迎えます："
+  mail_body_group_reminder: "グループ \"%{group}\" に割り当てられた %{count} 件のワークパッケージが %{days} 日内に期限を迎えます"
   mail_body_wiki_content_added: "%{author}によってWikiページ'%{id}'が追加されました。"
   mail_body_wiki_content_updated: "%{author}によってWikiページ'%{id}'が更新されました。"
   mail_subject_account_activation_request: "%{value} アカウントの承認要求"
   mail_subject_lost_password: "%{value} パスワード再発行"
   mail_subject_register: "%{value} アカウント登録の確認"
-  mail_subject_reminder: "%{count}件の作業項目が%{days}日内に予定日になっています"
-  mail_subject_group_reminder: "グループ \"%{group}\" の%{count}件の作業項目が%{days}日内に期限が到来します"
+  mail_subject_reminder: "%{count} 件のワークパッケージが %{days} 日内に期限を迎えます"
+  mail_subject_group_reminder: "グループ \"%{group}\" の %{count} 件のワークパッケージが %{days} 日内に期限を迎えます"
   mail_subject_wiki_content_added: "Wikiページ'%{id}'が追加されました"
   mail_subject_wiki_content_updated: "Wikiページ'%{id}'が更新されました"
   mail_user_activation_limit_reached:
@@ -1821,12 +1837,13 @@ ja:
   notice_custom_options_deleted: "オプション '%{option_value}' と %{num_deleted} の発生が削除されました。"
   notice_email_error: "メール送信中にエラーが発生しました（%{value}）。"
   notice_email_sent: "%{value}宛にメールを送信しました。"
-  notice_failed_to_save_work_packages: "全%{total}件中に%{count}件の作業項目が保存できませんでした: %{ids}。"
+  notice_failed_to_save_work_packages: "全 %{total} 件中 %{count} 件のワークパッケージが保存できませんでした: %{ids}。"
   notice_failed_to_save_members: "メンバーの保存に失敗しました: %{errors}。"
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "アクセスしようとしたページが存在しないか削除されています。"
   notice_forced_logout: "%{ttl_time}分間の非活動のために、自動的にログアウトされました。"
   notice_internal_server_error: "アクセスしようとしたページでエラーが発生しました。継続して問題が発生している場合、%{app_title}の管理者にお問い合わせください。"
-  notice_work_package_done_ratios_updated: "作業項目の進捗率を更新しました。"
+  notice_work_package_done_ratios_updated: "ワークパッケージの進捗率を更新しました。"
   notice_locking_conflict: "別のユーザーが同時にデータを更新しています。"
   notice_locking_conflict_additional_information: "ユーザ%{users}により更新されました。"
   notice_locking_conflict_reload_page: "ページをリロードして、変更を確認してから再適用してください。"
@@ -1882,9 +1899,11 @@ ja:
     welcome: "OpenProjectへようこそ"
     select_language: "言語を選択してください"
   permission_add_work_package_notes: "注記の追加"
-  permission_add_work_packages: "作業項目の追加"
+  permission_add_work_packages: "ワークパッケージの追加"
   permission_add_messages: "メッセージの投稿"
   permission_add_project: "プロジェクトの作成"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "子プロジェクトの追加"
   permission_add_work_package_watchers: "ウォッチャーの追加"
   permission_assign_versions: "バージョンの割り当て"
@@ -1894,7 +1913,7 @@ ja:
   permission_commit_access: "リポジトリに読み取り/書き込みアクセス (コミット)"
   permission_copy_projects: "プロジェクトのコピー"
   permission_delete_work_package_watchers: "ウォッチャーの削除"
-  permission_delete_work_packages: "作業項目の削除"
+  permission_delete_work_packages: "ワークパッケージの削除"
   permission_delete_messages: "メッセージの削除"
   permission_delete_own_messages: "自身が投稿したメッセージの削除"
   permission_delete_reportings: "レポートの削除"
@@ -1902,7 +1921,7 @@ ja:
   permission_delete_wiki_pages: "Wikiページの削除"
   permission_delete_wiki_pages_attachments: "添付ファイルの削除"
   permission_edit_work_package_notes: "注記の編集"
-  permission_edit_work_packages: "作業項目の編集"
+  permission_edit_work_packages: "ワークパッケージの編集"
   permission_edit_messages: "メッセージの編集"
   permission_edit_own_work_package_notes: "自分が記入した注記の編集"
   permission_edit_own_messages: "自分の投稿したメッセージの編集"
@@ -1912,33 +1931,33 @@ ja:
   permission_edit_time_entries: "作業時間記録の編集"
   permission_edit_timelines: "タイムラインの編集"
   permission_edit_wiki_pages: "Wikiページの編集"
-  permission_export_work_packages: "作業項目のエクスポート"
+  permission_export_work_packages: "ワークパッケージのエクスポート"
   permission_export_wiki_pages: "Wikiページのエクスポート"
   permission_list_attachments: "添付ファイルの一覧表"
   permission_log_time: "作業時間の記録"
   permission_manage_forums: "フォーラムの管理"
   permission_manage_categories: "仕事項目のカテゴリの管理"
-  permission_manage_work_package_relations: "作業項目の関連の管理"
+  permission_manage_work_package_relations: "ワークパッケージの関連の管理"
   permission_manage_members: "メンバーの管理"
   permission_manage_news: "ニュースの管理"
   permission_manage_project_activities: "プロジェクト活動の管理"
   permission_manage_public_queries: "公開ビューの管理"
   permission_manage_repository: "リポジトリの管理"
-  permission_manage_subtasks: "Manage work package hierarchies"
+  permission_manage_subtasks: "作業項目階層の管理"
   permission_manage_versions: "バージョンの管理"
   permission_manage_wiki: "Wiki の管理"
   permission_manage_wiki_menu: "Wikiメニューの管理"
-  permission_move_work_packages: "作業項目の移動"
+  permission_move_work_packages: "ワークパッケージの移動"
   permission_protect_wiki_pages: "Wikiページの凍結"
   permission_rename_wiki_pages: "Wikiページ名の変更"
   permission_save_queries: "ビューを保存"
   permission_select_project_modules: "プロジェクトでモジュールの選択"
-  permission_manage_types: "作業項目の型の選択"
+  permission_manage_types: "ワークパッケージのタイプの選択"
   permission_view_calendar: "カレンダーの閲覧"
   permission_view_changesets: "OpenProject にリポジトリのリビジョンを表示"
   permission_view_commit_author_statistics: "コミット作成者の統計情報の閲覧"
   permission_view_work_package_watchers: "ウォッチャー一覧の閲覧"
-  permission_view_work_packages: "作業項目の表示"
+  permission_view_work_packages: "ワークパッケージの表示"
   permission_view_messages: "メッセージの閲覧"
   permission_view_members: "メンバーを表示"
   permission_view_reportings: "レポートの閲覧"
@@ -1963,15 +1982,15 @@ ja:
       copying: >
         Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
       use_template: 'テンプレートを使用'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
+      make_template: 'テンプレートとして設定'
+      remove_from_templates: 'テンプレートから削除'
     archive:
       are_you_sure: "プロジェクト '%{name}' をアーカイブしてもよろしいですか？"
       archived: "アーカイブ済み"
   project_module_activity: "活動"
   project_module_forums: "フォーラム"
   project_module_calendar: "カレンダー"
-  project_module_work_package_tracking: "作業項目の追跡"
+  project_module_work_package_tracking: "ワークパッケージの追跡"
   project_module_news: "ニュース"
   project_module_repository: "リポジトリ"
   project_module_wiki: "Wiki"
@@ -1984,7 +2003,7 @@ ja:
     assigned_to_role: "担当者のロール"
     member_of_group: "担当者のグループ"
     assignee_or_group: "割り当てまたは所属するグループ"
-    subproject_id: "Including Subproject"
+    subproject_id: "サブプロジェクトを含む"
     only_subproject_id: "サブプロジェクトのみ"
     name_or_identifier: "名前または ID"
   repositories:
@@ -2086,7 +2105,7 @@ ja:
       username: "リポジトリのユーザ名"
     truncated: "申し訳ありません。 このディレクトリを %{limit} ファイルに切り捨てる必要がありました。%{truncated} エントリがリストから除外されました。"
     named_repository: "%{vendor_name} リポジトリ"
-    update_settings_successful: "The settings have been successfully saved."
+    update_settings_successful: "設定を保存しました。"
     url: "リポジトリの URL"
     warnings:
       cannot_annotate: "このファイルに注釈を付けることはできません。"
@@ -2120,7 +2139,7 @@ ja:
   setting_brute_force_block_minutes: "ユーザーがロックされている期間"
   setting_cache_formatted_text: "書式化されたテキストをキャッシュする"
   setting_use_wysiwyg_description: "すべてのユーザーに対してデフォルトで CKEditor5 WYSIWYGエディタ を有効にする場合に選択します。 CKEditor は GFM Markdown の機能が制限されています。"
-  setting_column_options: "作業項目一覧の表示をカスタマイズする"
+  setting_column_options: "ワークパッケージの一覧表示をカスタマイズする"
   setting_commit_fix_keywords: "修正用キーワード"
   setting_commit_logs_encoding: "メッセージのエンコードをコミット"
   setting_commit_logtime_activity_id: "コミット時に作業時間を記録する"
@@ -2130,31 +2149,31 @@ ja:
   setting_consent_info: "同意文"
   setting_consent_required: "同意が必要です。"
   setting_consent_decline_mail: "連絡先メールアドレスに同意します。"
-  setting_cross_project_work_package_relations: "他プロジェクト間に作業項目の関連付けを許可する"
+  setting_cross_project_work_package_relations: "他プロジェクトとの間にワークパッケージの関連付けを許可する"
   setting_date_format: "日付の形式"
   setting_default_language: "デフォルトの言語"
   setting_default_notification_option: "デフォルトのメール通知オプション"
   setting_default_projects_modules: "新規プロジェクトにおいてデフォルトで有効になるモジュール"
   setting_default_projects_public: "デフォルトで新しいプロジェクトは公開にする"
   setting_diff_max_lines_displayed: "差分の表示行数の上限"
-  setting_display_subprojects_work_packages: "デフォルトで子プロジェクトの作業項目を親プロジェクトに表示する"
+  setting_display_subprojects_work_packages: "デフォルトで子プロジェクトのワークパッケージを親プロジェクトに表示する"
   setting_emails_footer: "電子メールのフッター"
   setting_emails_header: "電子メールのヘッダー"
   setting_email_login: "メールアドレスをログインに使用する"
   setting_enabled_scm: "使用するバージョン管理システム"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "プロジェクトリストに表示する"
   setting_feeds_enabled: "フィードを有効にする"
   setting_feeds_limit: "フィードの項目数の上限"
   setting_file_max_size_displayed: "画面表示するテキストファイルの最大サイズ"
   setting_host_name: "ホスト名"
   setting_invitation_expiration_days: "アクティベーションのメールは次で有効期限切れ"
   setting_work_package_done_ratio: "進捗率の算出方法"
-  setting_work_package_done_ratio_field: "作業項目のフィールドを使用する"
-  setting_work_package_done_ratio_status: "作業項目のステータスを使用する"
+  setting_work_package_done_ratio_field: "ワークパッケージのフィールドを使用する"
+  setting_work_package_done_ratio_status: "ワークパッケージのステータスを使用する"
   setting_work_package_done_ratio_disabled: "無効にする（進行状況が非表示）"
   setting_work_package_list_default_columns: "デフォルトで表示する"
   setting_work_package_properties: "項目名"
-  setting_work_package_startdate_is_adddate: "今日の日付を新しい作業項目の開始日とする"
+  setting_work_package_startdate_is_adddate: "今日の日付を新しいワークパッケージの開始日とする"
   setting_work_packages_export_limit: "エクスポートする項目数の上限"
   setting_journal_aggregation_time_minutes: "期間内の履歴記述を集計して表示する"
   setting_log_requesting_user: "全てのリクエストに対し、ユーザのログイン名、名前、メールアドレスをログに記録する"
@@ -2173,8 +2192,8 @@ ja:
   setting_per_page_options: "オプションページごとの項目数"
   setting_plain_text_mail: "テキストメール（HTMLなし）"
   setting_protocol: "プロトコル"
-  setting_project_gantt_query: "Project portfolio Gantt view"
-  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
+  setting_project_gantt_query: "プロジェクトポートフォリオガントビュー"
+  setting_project_gantt_query_text: "プロジェクトの概要ページからガントチャートを表示するために使用するクエリを変更できます。"
   setting_security_badge_displayed: "セキュリティバッジを表示する"
   setting_registration_footer: "登録フッター"
   setting_repositories_automatic_managed_vendor: "自動リポジトリ ベンダー種類"
@@ -2214,7 +2233,7 @@ ja:
     brute_force_prevention: "自動的にユーザをロック"
     projects:
       section_new_projects: "新規プロジェクトの設定"
-      section_project_overview: "Settings for project overview list"
+      section_project_overview: "プロジェクト概要リストの設定"
     user:
       default_preferences: "デフォルト設定"
       deletion: "削除"
@@ -2277,15 +2296,15 @@ ja:
   text_hint_date_format: "YYYY-MM-DD の形式で日付を入力してください。他の形式は、予期しない日付に変更される可能性があります。"
   text_hint_disable_with_0: "注：0で無効になる"
   text_hours_between: "%{min} 〜 %{max} 時間。"
-  text_work_package_added: "作業項目%{id}が%{author}によって報告されました。"
+  text_work_package_added: "ワークパッケージ %{id} が %{author} によって報告されました。"
   text_work_package_category_destroy_assignments: "カテゴリへの割り当てを削除する"
-  text_work_package_category_destroy_question: "%{count}件の作業項目がこのカテゴリに割り当てられています。よろしいですか？"
-  text_work_package_category_reassign_to: "作業項目をこのカテゴリに再割り当てする"
-  text_work_package_updated: "作業項目%{id}が%{author}によって更新されました。"
+  text_work_package_category_destroy_question: "%{count} 件のワークパッケージがこのカテゴリに割り当てられています。よろしいですか？"
+  text_work_package_category_reassign_to: "ワークパッケージのこのカテゴリへの再割当て"
+  text_work_package_updated: "ワークパッケージ %{id} が %{author} によって更新されました。"
   text_work_package_watcher_added: "あなたは %{watcher_changer}によってワークパッケージ%{id} のウォッチャーとして追加されました。"
   text_work_package_watcher_removed: "あなたは %{watcher_changer}によってワークパッケージ%{id} のウォッチャーとして追加されました。"
-  text_work_packages_destroy_confirmation: "選択した作業項目を削除してもよろしいですか？"
-  text_work_packages_ref_in_commit_messages: "コミットメッセージ内で作業項目の参照/修正"
+  text_work_packages_destroy_confirmation: "選択したワークパッケージを削除してもよろしいですか？"
+  text_work_packages_ref_in_commit_messages: "コミットメッセージ内でのワークパッケージの参照 / 修正"
   text_journal_added: "%{label}で%{value}を追加"
   text_journal_aggregation_time_explanation: "発生時刻の差が指定された期間内であれば、履歴記述を集計して表示する。またメールの通知がこの期間で遅らせます。"
   text_journal_changed: "%{label} は %{old} <br/><strong>から</strong> %{new}　に変更されました"
@@ -2304,8 +2323,8 @@ ja:
   text_min_max_length_info: "0だと無制限になります。"
   text_no_roles_defined: 役割が定義されていません。
   text_no_access_tokens_configurable: "設定できるアクセストークンがありません。"
-  text_no_configuration_data: "ロール、作業項目のステータスと型、ワークフローが未設定です。\nデフォルト設定のロードを強くお勧めします。ロードした後、それを修正することができます。"
-  text_no_notes: "この作業項目に有効なコメントはありません."
+  text_no_configuration_data: "ロール、ワークパッケージのステータスとタイプ、ワークフローが未設定です。\nデフォルト設定のロードを強くお勧めします。ロードした後、それを修正することができます。"
+  text_no_notes: "このワークパッケージに有効なコメントはありません."
   text_notice_too_many_values_are_inperformant: "注: 1ページあたり100以上の項目を表示すると読み込み時間が増加することがあります。"
   text_notice_security_badge_displayed_html: >
     602/5000
@@ -2314,7 +2333,7 @@ ja:
   text_plugin_assets_writable: "プラグインの「assets」ディレクトリが書き込み可能"
   text_powered_by: "Powered by %{link}"
   text_project_identifier_info: "アルファベット小文字(a-z)・数字・ハイフン・アンダースコアが使えます。アルファベット小文字で始まる必要があります。"
-  text_reassign: "作業項目に再割り当て:"
+  text_reassign: "ワークパッケージへの再割り当て:"
   text_regexp_info: "例) ^[A-Z0-9]+$"
   text_regexp_multiline: '正規表現は、複数行モードで適用されます。例えば、^---\s+'
   text_repository_usernames_mapping: "リポジトリのログから検出されたユーザ名をどのOpenProjectユーザに関連づけるかを選択してください。\nログ上のユーザ名またはメールアドレスがOpenProjectのユーザと一致する場合は自動的に関連づけます。"
@@ -2325,7 +2344,7 @@ ja:
   text_tip_work_package_begin_day: "この日に開始する作業"
   text_tip_work_package_begin_end_day: "この日に開始・終了する作業"
   text_tip_work_package_end_day: "この日に終了する作業"
-  text_type_no_workflow: "この作業項目の型に対してワークフローが定義されていません。"
+  text_type_no_workflow: "このワークパッケージのタイプに対してワークフローが定義されていません。"
   text_unallowed_characters: "次の文字は使用できません。"
   text_user_invited: ユーザは招待されて、登録は保留中です。
   text_user_wrote: "%{value}が書き込みました："
@@ -2336,7 +2355,7 @@ ja:
   text_wiki_page_destroy_question: "この親ページの配下に%{descendants}ページの子孫ページがあります。どれかを選択してください。"
   text_wiki_page_nullify_children: "子ページをメインページ配下に移動する"
   text_wiki_page_reassign_children: "\"子ページを次の親ページの配下に移動する"
-  text_workflow_edit: "ワークフローを編集する役割と作業項目の型を選択してください。"
+  text_workflow_edit: "ワークフローを編集する役割とワークパッケージのタイプを選択してください。"
   text_zoom_in: "拡大"
   text_zoom_out: "拡大"
   text_setup_mail_configuration: "メール プロバイダーを構成"
@@ -2387,10 +2406,10 @@ ja:
         timeframe_end: "期間終了"
         compare_to_relative: "相対的比較の値"
         compare_to_absolute: "絶対的比較の値"
-        planning_element_time_relative_one: "作業項目の開始は特定の期間内になり、"
-        planning_element_time_relative_two: "作業項目の終了は特定の期間内になり"
-        planning_element_time_absolute_one: "作業項目の開始は特定の期間内になり、"
-        planning_element_time_absolute_two: "作業項目の終了は特定の期間内になり、"
+        planning_element_time_relative_one: "ワークパッケージの開始は特定の期間内になり、"
+        planning_element_time_relative_two: "ワークパッケージの終了は特定の期間内になり"
+        planning_element_time_absolute_one: "ワークパッケージの開始は特定の期間内になり、"
+        planning_element_time_absolute_two: "ワークパッケージの終了は特定の期間内になり、"
       sort:
         sortation: "並べ替え"
         alphabet: "アルファベット"
@@ -2418,7 +2437,7 @@ ja:
         days: "日"
         weeks: "週"
         months: "月"
-      exclude_own_work_packages: "このプロジェクトで作業項目を非表示"
+      exclude_own_work_packages: "このプロジェクでワークパッケージを非表示"
       exclude_reporters: "他プロジェクトを非表示"
       exclude_empty: "空のプロジェクトを非表示"
       grouping: "グループ化"
@@ -2431,12 +2450,12 @@ ja:
       noneSelection: "(なし)"
       outline: "初期概要の拡大"
       parent: "子プロジェクトを表示"
-      work_package_filters: "作業項目のフィルタ"
-      work_package_responsible: "責任を持つ作業項目を表示"
-      work_package_assignee: "担当者付きの作業項目を表示"
-      types: "作業項目の型を表示"
+      work_package_filters: "ワークパッケージのフィルタ"
+      work_package_responsible: "責任を持つワークパッケージを表示"
+      work_package_assignee: "担当者付きのワークパッケージを表示"
+      types: "ワークパッケージのタイプを表示"
       status: "ステータスを表示"
-      project_time_filter: "特定の期間に特定の作業項目を持つプロジェクト"
+      project_time_filter: "特定の期間に特定のワークパッケージを持つプロジェクト"
       project_time_filter_timeframe: "タイムフレーム"
       project_time_filter_historical_from: "日付指定"
       project_time_filter_historical_to: "終了"
@@ -2453,7 +2472,7 @@ ja:
     history: "履歴"
     new_color: "新しい色"
     new_association: "新しい依存関係"
-    new_work_package: "新しい作業項目"
+    new_work_package: "新しいワークパッケージ"
     new_reporting: "新規レポート"
     new_timeline: "新規タイムラインレポート"
     no_projects_for_reporting_available: "レポートの関連づけを作成できるプロジェクトがありません。"
@@ -2478,18 +2497,18 @@ ja:
       edit: "ステータスを編集:%{comment}"
       show: "ステータス:%{comment}"
     planning_element_update: "更新:%{title}"
-    type_could_not_be_saved: "作業項目の型を保存できませんでした。"
+    type_could_not_be_saved: "ワークパッケージのタイプを保存できませんでした。"
     reporting_could_not_be_saved: "レポートを保存できませんでした。"
     properties: "プロパティ"
     really_delete_color: >
-      次の色を削除してもよろしいですか。この色を使用している作業項目は削除されません。
+      次の色を削除してもよろしいですか。この色を使用しているワークパッケージは削除されません。
     really_delete_reporting: >
       以下のレポートを削除してもよろしいですか？以前レポートステータスも削除されます。
     start: "開始"
     timeline: "タイムラインレポート"
     timelines: "タイムラインレポート"
     settings: "タイムライン"
-    vertical_work_package: "垂直作業項目"
+    vertical_work_package: "垂直ワークパッケージ"
     you_are_viewing_the_selected_timeline: "選択したタイムラインレポートが表示されています"
     zoom:
       in: "拡大"
@@ -2541,11 +2560,11 @@ ja:
     reset_failed_logins: "失敗したログイン数をリセットする"
     settings:
       mail_notifications: "メール通知を送信"
-      mail_project_explanaition: "未選択プロジェクトでは、ウォッチ又は関与している事柄（例： 自分が作成者又は担当者の作業項目）のみメールが送信されます。"
+      mail_project_explanaition: "未選択プロジェクトでは、ウォッチ又は関与している事柄（例： 自分が作成者又は担当者のワークパッケージ）のみメールが送信されます。"
       mail_self_notified: "自分自身による変更の通知を希望"
     status_user_and_brute_force: "%{user}かつ%{brute_force}"
     status_change: "ステータスの変更"
-    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
+    text_change_disabled_for_provider_login: "名前はログインプロバイダーによって設定されるため、変更できません。"
     unlock: "ロックを解除"
     unlock_and_reset_failed_logins: "ロックを解除して、失敗したログイン数をリセットする"
   version_status_closed: "完了"
@@ -2585,10 +2604,10 @@ ja:
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
-      _子作業項目%{child}の変更による自動更新されました_
+      _子ワークパッケージ %{child} の変更によって自動更新されました_
     destroy:
-      info: "作業項目の削除は復元できない操作です。"
-      title: "作業項目の削除"
+      info: "ワークパッケージの削除は復元できない操作です。"
+      title: "ワークパッケージの削除"
   nothing_to_preview: "プレビューできるものは何もありません。"
   api_v3:
     attributes:

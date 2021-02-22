@@ -99,6 +99,7 @@ el:
   backlogs_empty_title: "Δεν έχουν οριστεί εκδόσεις που μπορούν να χρησιμοποιηθούν σε backlogs"
   backlogs_empty_action_text: "Για να ξεκινήσετε με τα backlogs, δημιουργήστε μια καινούργια έκδοση και αναθέστε την σε μια στήλη backlog."
   button_edit_wiki: "Επεξεργασία σελίδας wiki"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
   error_intro_plural: "Παρουσιάστηκαν τα ακόλουθα σφάλματα:"
   error_intro_singular: "Συναντήθηκε το ακόλουθο σφάλμα:"
   error_outro: "Παρακαλούμε διορθώστε τα παραπάνω σφάλματα πριν το ξαναυποβάλλετε."

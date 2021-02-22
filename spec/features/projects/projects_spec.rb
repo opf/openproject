@@ -58,7 +58,7 @@ describe 'Projects', type: :feature do
     end
 
     context 'work_packages module disabled',
-            with_settings: { default_projects_modules: %q(wiki) } do
+            with_settings: { default_projects_modules: 'wiki' } do
       it 'creates a project and redirects to settings' do
         click_on 'New project'
 
@@ -97,8 +97,6 @@ describe 'Projects', type: :feature do
       expect(page).to have_content 'Identifier has already been taken'
       expect(current_path).to eq '/projects'
     end
-
-
   end
 
   describe 'project types' do
@@ -185,14 +183,14 @@ describe 'Projects', type: :feature do
     let(:project) { FactoryBot.build(:project, name: 'Foo project', identifier: 'foo-project') }
     let!(:optional_custom_field) do
       FactoryBot.create(:custom_field, name: 'Optional Foo',
-                                        type: ProjectCustomField,
-                                        is_for_all: true)
+                                       type: ProjectCustomField,
+                                       is_for_all: true)
     end
     let!(:required_custom_field) do
       FactoryBot.create(:custom_field, name: 'Required Foo',
-                                        type: ProjectCustomField,
-                                        is_for_all: true,
-                                        is_required: true)
+                                       type: ProjectCustomField,
+                                       is_for_all: true,
+                                       is_required: true)
     end
 
     it 'seperates optional and required custom fields for new' do

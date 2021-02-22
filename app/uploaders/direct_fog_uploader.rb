@@ -18,7 +18,7 @@ class DirectFogUploader < FogFileUploader
     def for_uploader(fog_file_uploader)
       raise ArgumentError, "FogFileUploader expected" unless fog_file_uploader.is_a? FogFileUploader
 
-      uploader = self.new
+      uploader = new
 
       uploader.instance_variable_set "@file", fog_file_uploader.file
       uploader.instance_variable_set "@key", fog_file_uploader.path

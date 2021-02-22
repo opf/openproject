@@ -52,7 +52,7 @@ module Components
             .to have_content(I18n.t('js.button_log_time'))
         end
       else
-        expect(page).to have_no_selector '.op-modal--modal-container'
+        expect(page).to have_no_selector '.op-modal'
       end
     end
 
@@ -114,8 +114,6 @@ module Components
         'wp-new-inline-edit--field-spentOn'
       when 'work_package'
         'wp-new-inline-edit--field-workPackage'
-      else
-        nil
       end
     end
 
@@ -131,13 +129,11 @@ module Components
         comment_field
       when 'work_package'
         work_package_field
-      else
-        nil
       end
     end
 
     def modal_container
-      page.find('.op-modal--modal-container')
+      page.find('.op-modal')
     end
   end
 end

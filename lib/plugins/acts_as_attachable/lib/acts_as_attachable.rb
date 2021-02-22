@@ -52,6 +52,7 @@ module Redmine
 
           attr_accessor :attachments_replacements,
                         :attachments_claimed
+
           send :include, Redmine::Acts::Attachable::InstanceMethods
 
           OpenProject::Deprecation.deprecate_method self, :attach_files

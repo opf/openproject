@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -35,18 +36,18 @@ class UsersController < ApplicationController
   before_action :authorize_global, except: %i[show deletion_info destroy]
 
   before_action :find_user, only: %i[show
-                                   edit
-                                   update
-                                   change_status_info
-                                   change_status
-                                   destroy
-                                   deletion_info
-                                   resend_invitation]
+                                     edit
+                                     update
+                                     change_status_info
+                                     change_status
+                                     destroy
+                                     deletion_info
+                                     resend_invitation]
   # should also contain destroy but post data can not be redirected
   before_action :require_login, only: [:deletion_info]
   before_action :authorize_for_user, only: [:destroy]
   before_action :check_if_deletion_allowed, only: %i[deletion_info
-                                                   destroy]
+                                                     destroy]
 
   # Password confirmation helpers and actions
   include PasswordConfirmation
@@ -81,7 +82,7 @@ class UsersController < ApplicationController
     events = Activities::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
     @events_by_day = events.group_by { |e| e.event_datetime.to_date }
 
-    if !current_user.allowed_to_globally?(:add_user) &&
+    if !current_user.allowed_to_globally?(:manage_user) &&
        (!(@user.active? ||
        @user.registered?) ||
        (@user != User.current && @memberships.empty? && events.empty?))
@@ -125,6 +126,7 @@ class UsersController < ApplicationController
   def edit
     @auth_sources = AuthSource.all
     @membership ||= Member.new
+    @individual_principal = @user
   end
 
   def update
@@ -320,7 +322,7 @@ class UsersController < ApplicationController
   end
 
   def show_local_breadcrumb
-    current_user.admin?
+    action_name != 'show'
   end
 
   def build_user_update_params

@@ -29,7 +29,7 @@
 import {Component, Injector} from "@angular/core";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {EnterpriseTrialModal} from "core-components/enterprise/enterprise-modal/enterprise-trial.modal";
-import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {OpModalService} from "core-app/modules/modal/modal.service";
 import {EnterpriseTrialService} from "core-components/enterprise/enterprise-trial.service";
 
 export const enterpriseBaseSelector = 'enterprise-base';

@@ -44,14 +44,13 @@ module Components
         end
       end
 
-      def update_criteria(first, second=nil, third=nil)
+      def update_criteria(first, second = nil, third = nil)
         open_modal
         SeleniumHubWaiter.wait
 
         [first, second, third]
           .compact
           .each_with_index do |entry, i|
-
           column, direction = entry
           update_nth_criteria(i, column, descending: descending?(direction))
         end
@@ -59,14 +58,13 @@ module Components
         apply_changes
       end
 
-      def expect_criteria(first, second=nil, third=nil)
+      def expect_criteria(first, second = nil, third = nil)
         open_modal
         SeleniumHubWaiter.wait
 
         [first, second, third]
           .compact
           .each_with_index do |entry, i|
-
           column, direction = entry
           page.within(".modal-sorting-row-#{i}") do
             expect(page).to have_selector("#modal-sorting-attribute-#{i} option", text: column)
@@ -99,13 +97,13 @@ module Components
       end
 
       def cancel_changes
-        page.within('.op-modal--modal-container') do
+        page.within('.op-modal') do
           click_on 'Cancel'
         end
       end
 
       def apply_changes
-        page.within('.op-modal--modal-container') do
+        page.within('.op-modal') do
           click_on 'Apply'
         end
       end
@@ -121,10 +119,8 @@ module Components
         page.find(".generic-table--sort-header ##{id}").click
       end
 
-      def within_column_context_menu
-        page.within('#column-context-menu') do
-          yield
-        end
+      def within_column_context_menu(&block)
+        page.within('#column-context-menu', &block)
       end
     end
   end

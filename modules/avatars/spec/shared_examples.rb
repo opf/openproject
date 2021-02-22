@@ -89,9 +89,8 @@ shared_examples_for "an action requiring admin" do
     end
   end
 end
-#
 shared_context "there are users with and without avatars" do
-  let(:base_path) { File.expand_path '../fixtures/', __FILE__ }
+  let(:base_path) { File.expand_path 'fixtures', __dir__ }
   let(:user_without_avatar) { FactoryBot.create :user }
   let(:user_with_avatar) do
     u = FactoryBot.create :user
@@ -118,7 +117,6 @@ shared_context "there are users with and without avatars" do
     testfile
   end
 end
-#
 shared_examples_for "an action with an invalid user" do
   it do
     do_action
@@ -133,7 +131,6 @@ shared_examples_for "an action with stubbed User.find" do
     allow(User).to receive(:find) { |id, _args| id.to_s == "0" ? nil : user }
   end
 end
-#
 shared_examples_for "an action that deletes the user's avatar" do
   it do
     expect_any_instance_of(Attachment).to receive(:destroy).and_call_original

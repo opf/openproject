@@ -2,7 +2,6 @@ module OpenProject
   module Logging
     class LogDelegator
       class << self
-
         ##
         # Consume a message and let it be handled
         # by all handlers
@@ -69,7 +68,7 @@ module OpenProject
 
         ##
         # Create a payload for lograge from a controller request line
-        def controller_payload_hash(controller)
+        def controller_payload_hash(_controller)
           {
             user: User.current.try(:id)
           }

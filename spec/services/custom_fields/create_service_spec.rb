@@ -29,126 +29,16 @@
 #++
 
 require 'spec_helper'
+require 'services/base_services/behaves_like_create_service'
 
 describe CustomFields::CreateService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:contract_class) do
-    double('contract_class', '<=': true)
-  end
-  let(:cf_valid) { true }
-  let(:instance) do
-    described_class.new(user: user, contract_class: contract_class)
-  end
-  let(:call_attributes) { { type: 'ProjectCustomField', name: 'Some name', field_format: 'string' } }
-  let(:set_attributes_success) do
-    true
-  end
-  let(:set_attributes_errors) do
-    double('set_attributes_errors')
-  end
-  let(:set_attributes_result) do
-    ServiceResult.new result: created_cf,
-                      success: set_attributes_success,
-                      errors: set_attributes_errors
-  end
-  let!(:created_cf) do
-    cf = FactoryBot.build_stubbed(:project_custom_field)
+  it_behaves_like 'BaseServices create service' do
+    context 'when creating a project cf' do
+      let(:model_instance) { FactoryBot.build_stubbed :project_custom_field }
 
-    allow(ProjectCustomField)
-      .to receive(:new)
-      .and_return(cf)
-
-    allow(cf)
-      .to receive(:save)
-      .and_return(cf_valid)
-
-    cf
-  end
-
-  let!(:set_attributes_service) do
-    service = double('set_attributes_service_instance')
-
-    allow(CustomFields::SetAttributesService)
-      .to receive(:new)
-      .with(user: user,
-            model: created_cf,
-            contract_class: contract_class,
-            contract_options: {})
-      .and_return(service)
-
-    allow(service)
-      .to receive(:call)
-      .and_return(set_attributes_result)
-  end
-  let(:new_project_role) { FactoryBot.build_stubbed(:role) }
-
-  describe 'call' do
-    subject { instance.call(call_attributes) }
-
-    it 'is successful' do
-      expect(subject.success?).to be_truthy
-    end
-
-    it 'returns the result of the SetAttributesService' do
-      expect(subject)
-        .to eql set_attributes_result
-    end
-
-    it 'persists the custom_field' do
-      expect(created_cf)
-        .to receive(:save)
-        .and_return(cf_valid)
-
-      subject
-    end
-
-    it 'modifies the settings' do
-      subject
-      expect(Setting.enabled_projects_columns).to include "cf_#{created_cf.id}"
-    end
-
-    it 'creates the custom field' do
-      expect(subject.result).to eql created_cf
-      expect(subject.result).to be_kind_of(ProjectCustomField)
-    end
-
-    context 'if the SetAttributeService is unsuccessful' do
-      let(:set_attributes_success) { false }
-
-      it 'is unsuccessful' do
-        expect(subject.success?).to be_falsey
-      end
-
-      it 'returns the result of the SetAttributesService' do
-        expect(subject)
-          .to eql set_attributes_result
-      end
-
-      it 'does not persist the changes' do
-        expect(created_cf)
-          .to_not receive(:save)
-
+      it 'modifies the settings on successful call' do
         subject
-      end
-
-      it "exposes the contract's errors" do
-        subject
-
-        expect(subject.errors).to eql set_attributes_errors
-      end
-    end
-
-    context 'when the cf is invalid' do
-      let(:cf_valid) { false }
-
-      it 'is unsuccessful' do
-        expect(subject.success?).to be_falsey
-      end
-
-      it "exposes the message's errors" do
-        subject
-
-        expect(subject.errors).to eql created_cf.errors
+        expect(Setting.enabled_projects_columns).to include "cf_#{model_instance.id}"
       end
     end
   end

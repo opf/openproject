@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -33,7 +34,6 @@ module OpenProject
     # To be included into OpenProject::Configuration in order to provide
     # helper methods for easier access to certain configuration options.
     module Helpers
-
       ##
       # Carrierwave storage type. Possible values are, among others, :file and :fog.
       # The latter requires further configuration.
@@ -109,9 +109,9 @@ module OpenProject
       end
 
       def hidden_menu_items
-        menus = self['hidden_menu_items'].map { |label, nodes|
+        menus = self['hidden_menu_items'].map do |label, nodes|
           [label, array(nodes)]
-        }
+        end
 
         Hash[menus]
       end

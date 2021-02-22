@@ -243,6 +243,14 @@ ar:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: هذا المستخدم حالياً ليس عضواً في المشروع.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -525,6 +533,7 @@ ar:
         confirmation: "لا يتطابق مع %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "غير موجود."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         empty: "لا يمكن أن تكون فارغة."
@@ -733,6 +742,7 @@ ar:
       status: "حالة مجموعة العمل"
       member: "عضو"
       news: "الأخبار"
+      placeholder_user: "Placeholder user"
       project: "مشروع"
       query: "استعلام مخصص"
       role:
@@ -1396,6 +1406,7 @@ ar:
   label_custom_field_plural: "الحقول المخصصة"
   label_custom_field_default_type: "نوع فارغ"
   label_custom_style: "Design"
+  label_database_version: "PostgreSQL version"
   label_date: "التاريخ"
   label_date_and_time: "Date and time"
   label_date_from: "من"
@@ -1554,6 +1565,7 @@ ar:
   label_my_account_data: "بيانات حسابي"
   label_my_projects: "مشاريعي"
   label_my_queries: "استعلاماتي المخصصة"
+  label_name: "الاسم"
   label_never: "أبداً"
   label_new: "جديد"
   label_new_features: "New features"
@@ -1603,6 +1615,9 @@ ar:
   label_permissions: "السماحيات"
   label_permissions_report: "تقرير السماحيات"
   label_personalize_page: "تخصيص هذه الصفحة"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "تخطيط"
   label_please_login: "الرجاء تسجيل الدخول"
   label_plugins: "الإضافات"
@@ -1928,6 +1943,7 @@ ar:
   notice_email_sent: "تم إرسال بريد إلكتروني إلى %{value}"
   notice_failed_to_save_work_packages: "فشل في حفظ %{count} مجموعات عمل على %{total} مختارة: %{ids}."
   notice_failed_to_save_members: "فشل في حفظ العضو (الأعضاء): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "الصفحة التي تحاول الوصول إليها غير موجودة أو قد أزيلت."
   notice_forced_logout: "لقد قمت تلقائياً بتسجيل خروج بعد %{ttl_time} دقائق من الخمول."
   notice_internal_server_error: "حدث خطأ في الصفحة التي تحاول الوصول إليها. إذا كنت لا تزال تواجه مشاكل الرجاء الاتصال بالمسؤول %{app_title} للحصول على المساعدة."
@@ -1995,6 +2011,8 @@ ar:
   permission_add_work_packages: "إضافة مجموعات عمل"
   permission_add_messages: "نشر الرسائل"
   permission_add_project: "إنشاء مشروع"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "إنشاء مشاريع فرعية"
   permission_add_work_package_watchers: "إضافة مراقب"
   permission_assign_versions: "Assign versions"

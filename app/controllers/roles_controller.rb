@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -86,7 +87,7 @@ class RolesController < ApplicationController
     flash[:notice] = I18n.t(:notice_successful_delete)
     redirect_to action: 'index'
     notify_changed_roles(:removed, @role)
-  rescue
+  rescue StandardError
     flash[:error] = I18n.t(:error_can_not_remove_role)
     redirect_to action: 'index'
   end

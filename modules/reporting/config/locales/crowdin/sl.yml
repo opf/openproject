@@ -69,7 +69,7 @@ sl:
   label_inactive: "«neaktiven»"
   label_no: "Ne"
   label_none: "(ni podatkov)"
-  label_no_reports: "There are no cost reports yet."
+  label_no_reports: "Trenutno še ni stroškovnih poročil."
   label_report: "Poročilo"
   label_yes: "Da"
   load_query_question: "Poročilo bo imelo %{size} celice tabel zato lahko traja nekaj časa, da se upodobi. \nAli še vedno želite poskusiti upodabljanje?"

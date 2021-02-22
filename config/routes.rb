@@ -46,7 +46,6 @@ OpenProject::Application.routes.draw do
     "#{rails_relative_url_root}/work_packages/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
   }
 
-
   # Respond with 410 gone for APIV2 calls
   match '/api/v2(/*unmatched_route)', to: proc { [410, {}, ['']] }, via: :all
   match '/assets/compiler.js.map', to: proc { [404, {}, ['']] }, via: :all
@@ -299,29 +298,29 @@ OpenProject::Application.routes.draw do
       get '(/revisions/:rev)/diff(/*repo_path)',
           action: :diff,
           format: 'html',
-          constraints: { rev: /[\w0-9\.\-_]+/, repo_path: /.*/ }
+          constraints: { rev: /[\w0-9.\-_]+/, repo_path: /.*/ }
 
       get '(/revisions/:rev)/:format/*repo_path',
           action: :entry,
           format: /raw/,
-          rev: /[\w0-9\.\-_]+/
+          rev: /[\w0-9.\-_]+/
 
       %w{diff annotate changes entry browse}.each do |action|
         get "(/revisions/:rev)/#{action}(/*repo_path)",
             format: 'html',
             action: action,
-            constraints: { rev: /[\w0-9\.\-_]+/, repo_path: /.*/ },
+            constraints: { rev: /[\w0-9.\-_]+/, repo_path: /.*/ },
             as: "#{action}_revision"
       end
 
-      get '/revision(/:rev)', rev: /[\w0-9\.\-_]+/,
+      get '/revision(/:rev)', rev: /[\w0-9.\-_]+/,
                               action: :revision,
                               as: 'show_revision'
 
       get '(/revisions/:rev)(/*repo_path)',
           action: :show,
           format: 'html',
-          constraints: { rev: /[\w0-9\.\-_]+/, repo_path: /.*/ },
+          constraints: { rev: /[\w0-9.\-_]+/, repo_path: /.*/ },
           as: 'show_revisions_path'
     end
   end
@@ -395,7 +394,7 @@ OpenProject::Application.routes.draw do
 
   resource :settings, only: %i(update show) do
     SettingsHelper.system_settings_tabs.each do |tab|
-      get tab[:name], controller: "settings/#{tab[:name]}", action: 'show', as: "#{tab[:name]}"
+      get tab[:name], controller: "settings/#{tab[:name]}", action: 'show', as: (tab[:name]).to_s
       patch tab[:name], controller: "settings/#{tab[:name]}", action: 'update', as: "update_#{tab[:name]}"
     end
 
@@ -453,14 +452,23 @@ OpenProject::Application.routes.draw do
 
   resources :activity, :activities, only: :index, controller: 'activities'
 
-  resources :users do
+  resources :users, except: :edit do
     resources :memberships, controller: 'users/memberships', only: %i[update create destroy]
 
     member do
-      match '/edit/:tab' => 'users#edit', via: :get, as: 'tab_edit'
+      get '/edit(/:tab)' => 'users#edit', as: 'edit'
       match '/change_status/:change_action' => 'users#change_status_info', via: :get, as: 'change_status_info'
       post :change_status
       post :resend_invitation
+      get :deletion_info
+    end
+  end
+
+  resources :placeholder_users, except: :edit do
+    resources :memberships, controller: 'placeholder_users/memberships', only: %i[update create destroy]
+
+    member do
+      get '/edit(/:tab)' => 'placeholder_users#edit', as: 'edit'
       get :deletion_info
     end
   end
@@ -522,7 +530,8 @@ OpenProject::Application.routes.draw do
   # alternate routes for the current user
   scope 'my' do
     match '/deletion_info' => 'users#deletion_info', via: :get, as: 'delete_my_account_info'
-    match '/oauth/revoke_application/:application_id' => 'oauth/grants#revoke_application', via: :post, as: 'revoke_my_oauth_application'
+    match '/oauth/revoke_application/:application_id' => 'oauth/grants#revoke_application', via: :post,
+          as: 'revoke_my_oauth_application'
   end
 
   scope controller: 'my' do

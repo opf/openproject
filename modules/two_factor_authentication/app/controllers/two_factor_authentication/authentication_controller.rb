@@ -66,7 +66,6 @@ module ::TwoFactorAuthentication
       render_login_otp(service)
     end
 
-
     ##
     # Create a token service for the current user
     # with an optional override to use a non-default channel
@@ -81,8 +80,6 @@ module ::TwoFactorAuthentication
       use_device =
         if session[:two_factor_authentication_device_id]
           user.otp_devices.find(session[:two_factor_authentication_device_id])
-        else
-          nil
         end
       otp_service(user, use_device: use_device)
     rescue ActiveRecord::RecordNotFound
@@ -97,8 +94,6 @@ module ::TwoFactorAuthentication
       device =
         if params[:use_device].present?
           @authenticated_user.otp_devices.find(params[:use_device])
-        else
-          nil
         end
 
       otp_service(@authenticated_user, use_channel: channel, use_device: device)
@@ -134,9 +129,9 @@ module ::TwoFactorAuthentication
       @active_devices = @user.otp_devices.get_active
 
       if params["back_url"]
-        render :action => 'request_otp', :back_url => params["back_url"]
+        render action: 'request_otp', back_url: params["back_url"]
       else
-        render :action => 'request_otp'
+        render action: 'request_otp'
       end
     end
 
@@ -160,7 +155,7 @@ module ::TwoFactorAuthentication
       unless request.post?
         head(:method_not_allowed)
 
-        return false
+        false
       end
     end
 
@@ -190,7 +185,7 @@ module ::TwoFactorAuthentication
     def ensure_valid_configuration
       if manager.invalid_configuration?
         render_500 message: I18n.t('two_factor_authentication.error_is_enforced_not_active')
-        return false
+        false
       end
     end
 

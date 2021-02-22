@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -50,8 +51,7 @@ module ConnectionIsolationLevel
   end
 end
 
-ActiveRecord::ConnectionAdapters::ConnectionPool.send(:prepend,
-                                                      ConnectionIsolationLevel::ConnectionPoolPatch)
+ActiveRecord::ConnectionAdapters::ConnectionPool.prepend ConnectionIsolationLevel::ConnectionPoolPatch
 
 # in case the existing connection was created before our patch
 # N.B.: this assumes that our process only has this single thread, which is at least true today...

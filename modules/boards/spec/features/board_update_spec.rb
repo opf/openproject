@@ -26,7 +26,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-
 require 'spec_helper'
 require_relative './support/board_index_page'
 require_relative './support/board_page'

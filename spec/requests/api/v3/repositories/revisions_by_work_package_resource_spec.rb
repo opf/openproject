@@ -34,14 +34,14 @@ describe 'API v3 Revisions by work package resource', type: :request do
   include API::V3::Utilities::PathHelper
   include FileHelpers
 
-  let(:current_user) {
+  let(:current_user) do
     FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_through_role: role)
-  }
+                      member_in_project: project,
+                      member_through_role: role)
+  end
   let(:project) { FactoryBot.create(:project, public: false) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:permissions) { [:view_work_packages, :view_changesets] }
+  let(:permissions) { %i[view_work_packages view_changesets] }
   let(:repository) { FactoryBot.create(:repository_subversion, project: project) }
   let(:work_package) { FactoryBot.create(:work_package, author: current_user, project: project) }
   let(:revisions) { [] }
@@ -56,7 +56,7 @@ describe 'API v3 Revisions by work package resource', type: :request do
     let(:get_path) { api_v3_paths.work_package_revisions work_package.id }
 
     before do
-      revisions.each do |rev| rev.save! end
+      revisions.each { |rev| rev.save! }
       get get_path
     end
 
@@ -66,15 +66,13 @@ describe 'API v3 Revisions by work package resource', type: :request do
 
     it_behaves_like 'API V3 collection response', 0, 0, 'Revision'
 
-
     context 'with existing revisions' do
-      let(:revisions) {
+      let(:revisions) do
         FactoryBot.build_list(:changeset,
-                               5,
-                               comments: "This commit references ##{work_package.id}",
-                               repository: repository
-        )
-      }
+                              5,
+                              comments: "This commit references ##{work_package.id}",
+                              repository: repository)
+      end
 
       it_behaves_like 'API V3 collection response', 5, 5, 'Revision'
 
@@ -96,20 +94,19 @@ describe 'API v3 Revisions by work package resource', type: :request do
     describe 'revisions linked from another project' do
       let(:subproject) { FactoryBot.create(:project, parent: project) }
       let(:repository) { FactoryBot.create(:repository_subversion, project: subproject) }
-      let!(:revisions) {
+      let!(:revisions) do
         FactoryBot.build_list(:changeset,
-                               2,
-                               comments: "This commit references ##{work_package.id}",
-                               repository: repository
-        )
-      }
+                              2,
+                              comments: "This commit references ##{work_package.id}",
+                              repository: repository)
+      end
 
       context 'with permissions in subproject' do
-        let(:current_user) {
+        let(:current_user) do
           FactoryBot.create(:user,
-                             member_in_projects: [project, subproject],
-                             member_through_role: role)
-        }
+                            member_in_projects: [project, subproject],
+                            member_through_role: role)
+        end
 
         it_behaves_like 'API V3 collection response', 2, 2, 'Revision'
       end

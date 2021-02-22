@@ -61,7 +61,6 @@ describe 'Impediments on taskboard',
                                       edit_work_packages
                                       manage_subtasks
                                       assign_versions))
-
   end
   let!(:current_user) do
     FactoryBot.create(:user,
@@ -139,7 +138,8 @@ describe 'Impediments on taskboard',
     expect(page)
       .to have_selector('div.impediment.error', text: 'Other sprint impediment')
     expect(page)
-      .to have_selector('#msgBox', text: "IDs of blocked work packages can only contain IDs of work packages in the current sprint.")
+      .to have_selector('#msgBox',
+                        text: "IDs of blocked work packages can only contain IDs of work packages in the current sprint.")
 
     click_on 'OK'
 
@@ -156,7 +156,8 @@ describe 'Impediments on taskboard',
     expect(page)
       .to have_selector('div.impediment.error', text: 'Invalid id impediment')
     expect(page)
-      .to have_selector('#msgBox', text: "IDs of blocked work packages can only contain IDs of work packages in the current sprint.")
+      .to have_selector('#msgBox',
+                        text: "IDs of blocked work packages can only contain IDs of work packages in the current sprint.")
     click_on 'OK'
 
     # Attempt to create a new impediment without specifying the blocked story/task

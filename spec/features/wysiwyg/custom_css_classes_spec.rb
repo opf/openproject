@@ -34,7 +34,7 @@ describe 'Wysiwyg paragraphs in lists behavior (Regression #28765)',
   let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { ::Components::WysiwygEditor.new }
 
-  let(:wiki_page) {
+  let(:wiki_page) do
     page = FactoryBot.build :wiki_page_with_content
     page.content.text = <<~MARKDOWN
       paragraph
@@ -100,7 +100,7 @@ describe 'Wysiwyg paragraphs in lists behavior (Regression #28765)',
     MARKDOWN
 
     page
-  }
+  end
 
   before do
     login_as(user)
@@ -111,7 +111,7 @@ describe 'Wysiwyg paragraphs in lists behavior (Regression #28765)',
   end
 
   it 'custom classes are placed correctly' do
-    editor.in_editor do |container, editable|
+    editor.in_editor do |_container, editable|
       expect(editable).to have_css('p.op-uc-p', count: 5)
       expect(editable).to have_css('h1.op-uc-h1', count: 1)
       expect(editable).to have_css('h2.op-uc-h2', count: 1)

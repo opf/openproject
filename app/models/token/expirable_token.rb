@@ -29,6 +29,7 @@ module Token
 
       def valid_plaintext?(input)
         return false if expired?
+
         super
       end
 
@@ -53,7 +54,6 @@ module Token
     end
 
     module ClassMethods
-
       ##
       # Return a scope of active tokens
       def not_expired

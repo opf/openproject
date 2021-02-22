@@ -35,7 +35,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
   describe '#chain' do
     before do
-      #FIXME: is there a better way to load all filter and groups?
+      # FIXME: is there a better way to load all filter and groups?
       CostQuery::Filter.all && CostQuery::GroupBy.all
       CostQuery.chain_initializer.clear
     end
@@ -95,14 +95,14 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       @query.filter :project_id
       @query.group_by :project_id
       expect(@query.filters.size).to eq(2)
-      expect(@query.filters.map {|f| f.class.underscore_name}).to include "project_id"
+      expect(@query.filters.map { |f| f.class.underscore_name }).to include "project_id"
     end
 
     it "should return all group_bys" do
       @query.filter :project_id
       @query.group_by :project_id
       expect(@query.group_bys.size).to eq(1)
-      expect(@query.group_bys.map {|g| g.class.underscore_name}).to include "project_id"
+      expect(@query.group_bys.map { |g| g.class.underscore_name }).to include "project_id"
     end
 
     it "should initialize the chain through a block" do
@@ -111,10 +111,10 @@ describe CostQuery, type: :model, reporting_query_helper: true do
           CostQuery
         end
       end
-      TestFilter.send(:initialize_query_with) {|query| query.filter(:project_id, value: project.id)}
+      TestFilter.send(:initialize_query_with) { |query| query.filter(:project_id, value: project.id) }
       @query.build_new_chain
-      expect(@query.filters.map {|f| f.class.underscore_name}).to include "project_id"
-      expect(@query.filters.detect {|f| f.class.underscore_name == "project_id"}.values).to eq(Array(project.id))
+      expect(@query.filters.map { |f| f.class.underscore_name }).to include "project_id"
+      expect(@query.filters.detect { |f| f.class.underscore_name == "project_id" }.values).to eq(Array(project.id))
     end
 
     context "store and load" do
@@ -129,9 +129,9 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
 
       it "should serialize the chain correctly" do
-        [:filters, :group_bys].each do |type|
+        %i[filters group_bys].each do |type|
           @query.send(type).each do |chainable|
-            expect(@query.serialize[type].collect{|c| c[0]}).to include chainable.class.name.demodulize
+            expect(@query.serialize[type].collect { |c| c[0] }).to include chainable.class.name.demodulize
           end
         end
       end
@@ -144,7 +144,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         @query.group_bys.each_with_index do |group_by, index|
           # check for order
           @new_query.group_bys.each_with_index do |g, ix|
-            if g.class.name == group_by.class.name
+            if g.instance_of?(group_by.class)
               expect(ix).to eq(index)
             end
           end
@@ -152,10 +152,10 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
 
       it "should keep the right filter values" do
-        @query.filters.each_with_index do |filter, index|
+        @query.filters.each_with_index do |filter, _index|
           # check for presence
           expect(@new_query.filters.any? do |f|
-            f.class.name == filter.class.name && (filter.respond_to?(:values) ? f.values == filter.values : true)
+            f.instance_of?(filter.class) && (filter.respond_to?(:values) ? f.values == filter.values : true)
           end).to be_truthy
         end
       end
@@ -180,7 +180,8 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       it "sets new top when prepending elements" do
         current = @chain
         10.times do
-          old, current = current, Report::Chainable.new(current)
+          old = current
+          current = Report::Chainable.new(current)
           expect(old.top).to eq(current)
           expect(@chain.top).to eq(current)
         end
@@ -215,7 +216,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
 
       it 'is able to map values' do
-        @a.inherited_attribute :bar, map: proc { |x| x*2 }
+        @a.inherited_attribute :bar, map: proc { |x| x * 2 }
         @a.bar 21
         expect(@a.bar).to eq(42)
       end

@@ -32,9 +32,9 @@ class RbStoriesController < RbApplicationController
   # This is a constant here because we will recruit it elsewhere to whitelist
   # attributes. This is necessary for now as we still directly use `attributes=`
   # in non-controller code.
-  PERMITTED_PARAMS = [:id, :status_id, :version_id,
-                      :story_points, :type_id, :subject, :author_id,
-                      :sprint_id]
+  PERMITTED_PARAMS = %i[id status_id version_id
+                        story_points type_id subject author_id
+                        sprint_id]
 
   def create
     call = Stories::CreateService

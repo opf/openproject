@@ -917,7 +917,7 @@ en:
           automatic: 'Automatic'
           manually: 'Manually'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
-        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'
@@ -1055,13 +1055,13 @@ en:
         no_results: 'No projects were found'
       type:
         required: 'Please select the type of principal to be invited'
-        user: 
+        user:
           title: 'User'
           description: 'Permissions based on the assigned role in the selected project'
-        group: 
+        group:
           title: 'Group'
           description: 'Permissions based on the assigned role in the selected project'
-        placeholder: 
+        placeholder:
           title: 'Placeholder'
           description: 'Has no access to the project and no emails are sent out'
 
@@ -1111,7 +1111,7 @@ en:
 
       success:
         title: '%{principal} was invited!'
-        description: 
+        description:
           user: 'The user can now login to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'

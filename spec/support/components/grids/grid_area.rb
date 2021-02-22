@@ -67,7 +67,6 @@ module Components
          ['grid-column-start', startColumn * 2],
          ['grid-row-end', endRow * 2 - 1],
          ['grid-column-end', endColumn * 2 - 1]].each do |style, expected|
-
           actual = area.native.style(style)
 
           expect(actual)

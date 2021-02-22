@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -334,14 +335,14 @@ describe Project, 'allowed to', type: :model do
 
       context 'w/ the non member role having the permission
                w/o the project being active' do
-        let(:project_status) { false}
+        let(:project_status) { false }
 
         it_behaves_like 'is empty'
       end
 
       context 'w/ the permission being public and not module bound
                w/o the project being active' do
-        let(:project_status) { false}
+        let(:project_status) { false }
 
         it 'is empty' do
           expect(Project.allowed_to(user, public_non_module_action)).to be_empty

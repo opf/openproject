@@ -34,7 +34,6 @@ module API
       module Schemas
         class IntegerFilterDependencyRepresenter <
           FilterDependencyRepresenter
-
           def href_callback; end
 
           private

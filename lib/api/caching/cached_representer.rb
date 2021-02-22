@@ -85,6 +85,7 @@ module API
         protected
 
         attr_accessor :caching_state
+
         class_attribute :_cached_representer_config
 
         private

@@ -36,55 +36,55 @@ describe Impediments::UpdateService, type: :model do
   let(:type_feature) { FactoryBot.create(:type_feature) }
   let(:type_task) { FactoryBot.create(:type_task) }
   let(:priority) { impediment.priority }
-  let(:task) {
+  let(:task) do
     FactoryBot.build(:task, type: type_task,
-                             project: project,
-                             author: user,
-                             priority: priority,
-                             status: status1)
-  }
-  let(:feature) {
+                            project: project,
+                            author: user,
+                            priority: priority,
+                            status: status1)
+  end
+  let(:feature) do
     FactoryBot.build(:work_package, type: type_feature,
-                                     project: project,
-                                     author: user,
-                                     priority: priority,
-                                     status: status1)
-  }
+                                    project: project,
+                                    author: user,
+                                    priority: priority,
+                                    status: status1)
+  end
   let(:version) { FactoryBot.create(:version, project: project) }
 
   let(:project) do
     project = FactoryBot.create(:project, types: [type_feature, type_task])
 
     FactoryBot.create(:member, principal: user,
-                                project: project,
-                                roles: [role])
+                               project: project,
+                               roles: [role])
 
     project
   end
 
   let(:status1) { FactoryBot.create(:status, name: 'status 1', is_default: true) }
   let(:status2) { FactoryBot.create(:status, name: 'status 2') }
-  let(:type_workflow) {
+  let(:type_workflow) do
     Workflow.create(type_id: type_task.id,
                     old_status: status1,
                     new_status: status2,
                     role: role)
-  }
+  end
   let(:impediment) do
     FactoryBot.build(:impediment, author: user,
-                                   version: version,
-                                   assigned_to: user,
-                                   project: project,
-                                   type: type_task,
-                                   status: status1)
+                                  version: version,
+                                  assigned_to: user,
+                                  project: project,
+                                  type: type_task,
+                                  status: status1)
   end
 
   before(:each) do
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
-                                                                         'wiki_template'         => '',
-                                                                         'card_spec'             => 'Sattleford VM-5040',
-                                                                         'story_types'           => [type_feature.id.to_s],
-                                                                         'task_type'             => type_task.id.to_s })
+                                                                         'wiki_template' => '',
+                                                                         'card_spec' => 'Sattleford VM-5040',
+                                                                         'story_types' => [type_feature.id.to_s],
+                                                                         'task_type' => type_task.id.to_s })
 
     login_as user
 
@@ -135,15 +135,15 @@ describe Impediments::UpdateService, type: :model do
   describe 'WHEN changing the blocking relationship to another story' do
     let(:story) do
       FactoryBot.build(:work_package,
-                        subject: 'another story',
-                        type: type_feature,
-                        project: project,
-                        author: user,
-                        priority: priority,
-                        status: status1)
+                       subject: 'another story',
+                       type: type_feature,
+                       project: project,
+                       author: user,
+                       priority: priority,
+                       status: status1)
     end
     let(:blocks) { story.id.to_s }
-    let(:story_version)  { version }
+    let(:story_version) { version }
 
     before(:each) do
       story.version = story_version
@@ -162,7 +162,11 @@ describe Impediments::UpdateService, type: :model do
       it 'should not be saved successfully' do
         expect(subject).to be_changed
       end
-      it { expect(subject.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint, scope: [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
+      it {
+        expect(subject.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint,
+                                                              scope: %i[activerecord errors models work_package attributes
+                                                                        blocks_ids])
+      }
     end
 
     describe 'WITH the story being non existent' do
@@ -172,7 +176,11 @@ describe Impediments::UpdateService, type: :model do
       it 'should not be saved successfully' do
         expect(subject).to be_changed
       end
-      it { expect(subject.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint, scope: [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
+      it {
+        expect(subject.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint,
+                                                              scope: %i[activerecord errors models work_package attributes
+                                                                        blocks_ids])
+      }
     end
   end
 
@@ -184,6 +192,10 @@ describe Impediments::UpdateService, type: :model do
       expect(subject).to be_changed
     end
 
-    it { expect(subject.errors[:blocks_ids]).to include I18n.t(:must_block_at_least_one_work_package, scope: [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
+    it {
+      expect(subject.errors[:blocks_ids]).to include I18n.t(:must_block_at_least_one_work_package,
+                                                            scope: %i[activerecord errors models work_package attributes
+                                                                      blocks_ids])
+    }
   end
 end

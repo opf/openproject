@@ -33,10 +33,6 @@ class MeetingParticipant < ApplicationRecord
   scope :invited, -> { where(invited: true) }
   scope :attended, -> { where(attended: true) }
 
-  User.before_destroy do |user|
-    MeetingParticipant.where(['user_id = ?', user.id]).update_all ['user_id = ?', DeletedUser.first]
-  end
-
   def name
     user.present? ? user.name : name
   end
@@ -45,8 +41,8 @@ class MeetingParticipant < ApplicationRecord
     user.present? ? user.mail : mail
   end
 
-  def <=>(participant)
-    to_s.downcase <=> participant.to_s.downcase
+  def <=>(other)
+    to_s.downcase <=> other.to_s.downcase
   end
 
   alias :to_s :name

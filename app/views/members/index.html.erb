@@ -32,8 +32,6 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% html_title t(:label_member_plural) -%>
 
-<% any_members = @members.any? %>
-
 <%= toolbar title: t(:label_member_plural) do %>
   <% if authorize_for(:members, :new) %>
     <li class="toolbar-item">
@@ -47,16 +45,14 @@ See docs/COPYRIGHT.rdoc for more details.
       </button>
     </li>
   <% end %>
-  <% if any_members %>
-    <li class="toolbar-item">
-      <button id="filter-member-button"
-              focus
-              title="<%= I18n.t(:description_filter) %>"
-              class="toggle-member-filter-link button">
-        <%= op_icon('button--icon icon-filter') %>
-      </button>
-    </li>
-  <% end %>
+  <li class="toolbar-item">
+    <button id="filter-member-button"
+            focus
+            title="<%= I18n.t(:description_filter) %>"
+            class="toggle-member-filter-link button">
+      <%= op_icon('button--icon icon-filter') %>
+    </button>
+  </li>
 <% end %>
 
 <%= error_messages_for 'member' %>
@@ -75,13 +71,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <div>
   <%= cell Members::UserFilterCell, params, @members_filter_options %>
-  <% if any_members %>
-    <%= cell Members::TableCell, @members, @members_table_options %>
-  <% elsif @is_filtered %>
-    <%= no_results_box custom_title: t(:notice_no_principals_found) %>
-  <% else %>
-    <%= no_results_box %>
-  <% end %>
+  <%= cell Members::TableCell, @members, @members_table_options %>
 </div>
 
 

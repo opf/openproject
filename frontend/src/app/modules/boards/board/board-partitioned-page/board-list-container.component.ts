@@ -1,12 +1,12 @@
 import {Component, ElementRef, Injector, OnInit, QueryList, ViewChild, ViewChildren} from "@angular/core";
-import {Observable, Subscription} from "rxjs";
+import {forkJoin, Observable, of, Subscription} from "rxjs";
 import {QueryResource} from "core-app/modules/hal/resources/query-resource";
 import {BoardListComponent} from "core-app/modules/boards/board/board-list/board-list.component";
 import {StateService} from "@uirouter/core";
 import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
-import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {OpModalService} from "core-app/modules/modal/modal.service";
 import {BoardService} from "core-app/modules/boards/board/board.service";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
@@ -19,9 +19,10 @@ import {BoardPartitionedPageComponent} from "core-app/modules/boards/board/board
 import {AddListModalComponent} from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BoardListCrossSelectionService} from "core-app/modules/boards/board/board-list/board-list-cross-selection.service";
-import {filter} from "rxjs/operators";
+import {catchError, filter, map, switchMap, tap} from "rxjs/operators";
 import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { WorkPackageStatesInitializationService } from 'core-app/components/wp-list/wp-states-initialization.service';
 
 @Component({
   templateUrl: './board-list-container.component.html',
@@ -66,6 +67,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   trackByQueryId = (index:number, widget:GridWidgetResource) => widget.options.queryId;
 
   board$:Observable<Board>;
+  boardWidgets:GridWidgetResource[] = [];
 
   private currentQueryUpdatedMonitoring:Subscription;
 
@@ -82,29 +84,26 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
               readonly Boards:BoardService,
               readonly Banner:BannersService,
               readonly boardListCrossSelectionService:BoardListCrossSelectionService,
+              readonly wpStatesInitialization:WorkPackageStatesInitializationService,
               readonly Drag:DragAndDropService,
+              readonly apiv3Service:APIV3Service,
               readonly QueryUpdated:QueryUpdatedService) {
     super();
   }
 
   ngOnInit():void {
     const id:string = this.state.params.board_id.toString();
-
     this.board$ = this
       .apiV3Service
       .boards
       .id(id)
-      .requireAndStream();
+      .requireAndStream()
+      .pipe(
+        this.setAllowedBoardWidgets,
+        tap(board => this.setupQueryUpdatedMonitoring(board))
+      );
 
     this.Boards.currentBoard$.next(id);
-
-    this.board$
-      .pipe(
-        this.untilDestroyed()
-      )
-      .subscribe(board => {
-        this.setupQueryUpdatedMonitoring(board);
-      });
 
     this.boardListCrossSelectionService
       .selections()
@@ -116,6 +115,44 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
       // Update split screen
       this.state.go(this.state.current.data.baseRoute + '.details', { workPackageId: selection.focusedWorkPackage });
     });
+  }
+
+  setAllowedBoardWidgets = (boardObservable:Observable<Board>) => {
+    // The grid config could have widgets that the user is not allowed to
+    // see, so we filter out those that rise an access error.
+    return boardObservable
+      .pipe(
+        switchMap(
+          board => this.getAllowedBoardWidgets(board).pipe(map(allowedBoardWidgets => ({board, allowedBoardWidgets}))),
+        ),
+        map(result => {
+          this.boardWidgets = result.allowedBoardWidgets;
+
+          return result.board;
+        })
+      );
+  }
+
+  getAllowedBoardWidgets(board:Board) {
+    if (board.queries?.length) {
+      const queryRequests$ = board.queries.map(query => this.apiv3Service.queries
+        .find({filters: JSON.stringify(query.options.filters), pageSize: 0}, query.options.queryId as string)
+        .pipe(
+          map(() => query),
+          catchError(error => {
+            const userIsNotAllowedToSeeSubprojectError = 'urn:openproject-org:api:v3:errors:InvalidQuery';
+            const result = error.errorIdentifier ===  userIsNotAllowedToSeeSubprojectError ? null : query;
+
+            return of(result);
+          })
+        )
+      );
+
+      return forkJoin([...queryRequests$])
+              .pipe(map(boardWidgets => boardWidgets.filter(boardWidget => !!boardWidget) as GridWidgetResource[]));
+    } else {
+      return of([]);
+    }
   }
 
   moveList(board:Board, event:CdkDragDrop<GridWidgetResource[]>) {

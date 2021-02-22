@@ -239,6 +239,14 @@ pl:
       no_results_title_text: Ten użytkownik nie jest obecnie członkiem żadnej grupy.
     memberships:
       no_results_title_text: Użytkownik jeszcze nie jest członkiem projektu.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -519,6 +527,7 @@ pl:
         confirmation: "nie pasuje do %{attribute}."
         could_not_be_copied: "Nie można było (w pełni) skopiować %{dependency}."
         does_not_exist: "nie istnieje."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
         empty: "nie może być puste."
@@ -723,6 +732,7 @@ pl:
       status: "Status pakietu roboczego"
       member: "Członek"
       news: "Aktualności"
+      placeholder_user: "Placeholder user"
       project: "Projekt"
       query: "Kwerenda użytkownika"
       role:
@@ -1360,6 +1370,7 @@ pl:
   label_custom_field_plural: "Pola niestandardowe"
   label_custom_field_default_type: "Typ pusty"
   label_custom_style: "Kompozycja"
+  label_database_version: "PostgreSQL version"
   label_date: "Data"
   label_date_and_time: "Data i czas"
   label_date_from: "Od"
@@ -1518,6 +1529,7 @@ pl:
   label_my_account_data: "Moje dane konta"
   label_my_projects: "Moje projekty"
   label_my_queries: "Moje zapytania niestandardowe"
+  label_name: "Nazwa"
   label_never: "Nigdy"
   label_new: "Nowy"
   label_new_features: "Nowe funkcje"
@@ -1567,6 +1579,9 @@ pl:
   label_permissions: "Uprawnienia"
   label_permissions_report: "Raport uprawnień"
   label_personalize_page: "Personalizacja tej strony"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Planowanie"
   label_please_login: "Proszę się zalogować"
   label_plugins: "Wtyczki"
@@ -1883,6 +1898,7 @@ pl:
   notice_email_sent: "E-mail został wysłany do %{value}"
   notice_failed_to_save_work_packages: "Nie udało się zapisać %{count} z %{total} wybranych pakietów roboczych: %{ids}."
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Strona, do której próbowano uzyskać dostęp nie istnieje lub została usunięta."
   notice_forced_logout: "Będziesz automatycznie wylogowany po %{ttl_time} minutach braku aktywności."
   notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."
@@ -1948,6 +1964,8 @@ pl:
   permission_add_work_packages: "Dodawanie pakietów roboczych"
   permission_add_messages: "Wysyłanie wiadomości"
   permission_add_project: "Tworzenie projektu"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Tworzenie podprojektów"
   permission_add_work_package_watchers: "Dodawanie obserwatorów"
   permission_assign_versions: "Przypisz wersje"

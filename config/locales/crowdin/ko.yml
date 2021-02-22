@@ -243,6 +243,14 @@ ko:
       no_results_title_text: 이 사용자는 현재 어떤 그룹의 멤버도 아닙니다.
     memberships:
       no_results_title_text: 이 사용자는 프로젝트의 멤버가 아닙니다.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -519,6 +527,7 @@ ko:
         confirmation: "%{attribute} 속성에 부합하지 않습니다."
         could_not_be_copied: "%{dependency}을(를) (완전히) 복사할 수 없습니다."
         does_not_exist: "존재하지 않음"
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "액세스하지 못할 수 있습니다."
         error_readonly: "- 쓰려고 했지만 쓸 수 없습니다."
         empty: "비워둘 수 없습니다."
@@ -717,6 +726,7 @@ ko:
       status: "작업 패키지 상태"
       member: "멤버"
       news: "뉴스"
+      placeholder_user: "Placeholder user"
       project: "프로젝트"
       query: "사용자 지정 쿼리"
       role:
@@ -1315,6 +1325,7 @@ ko:
   label_custom_field_plural: "사용자 정의 필드"
   label_custom_field_default_type: "빈 유형"
   label_custom_style: "디자인"
+  label_database_version: "PostgreSQL version"
   label_date: "날짜"
   label_date_and_time: "날짜 및 시간"
   label_date_from: "시작"
@@ -1473,6 +1484,7 @@ ko:
   label_my_account_data: "내 계정 데이터"
   label_my_projects: "내 프로젝트"
   label_my_queries: "내 사용자 지정 쿼리"
+  label_name: "이름"
   label_never: "사용 안 함"
   label_new: "새로 만들기"
   label_new_features: "새로운 기능"
@@ -1522,6 +1534,9 @@ ko:
   label_permissions: "권한"
   label_permissions_report: "권한 보고서"
   label_personalize_page: "이 페이지 개인 설정"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "계획"
   label_please_login: "로그인하세요."
   label_plugins: "플러그인"
@@ -1827,6 +1842,7 @@ ko:
   notice_email_sent: "%{value}님에게 이메일이 전송되었습니다."
   notice_failed_to_save_work_packages: "선택된 %{total}개에서 %{count}개 작업 패키지를 저장하지 못했습니다. %{ids}."
   notice_failed_to_save_members: "멤버를 저장하지 못했습니다. %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "액세스하려는 페이지가 존재하지 않거나 제거되었습니다."
   notice_forced_logout: "비활성화된지 %{ttl_time}분 후 자동으로 로그아웃되었습니다."
   notice_internal_server_error: "액세스하려는 페이지에 오류가 발생했습니다. 계속하여 문제가 발생하는 경우 %{app_title} 관리자에게 문의하여 지원을 받으세요."
@@ -1889,6 +1905,8 @@ ko:
   permission_add_work_packages: "작업 패키지 추가"
   permission_add_messages: "메시지 게시"
   permission_add_project: "프로젝트 만들기"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "하위 프로젝트 만들기"
   permission_add_work_package_watchers: "주시자 추가"
   permission_assign_versions: "버전 할당"

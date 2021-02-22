@@ -55,7 +55,7 @@ class CustomActions::Actions::AssignedTo < CustomActions::Actions::Base
     principal_class
       .not_locked
       .select(:id, :firstname, :lastname, :type)
-      .order_by_name
+      .ordered_by_name
       .map { |u| [u.id, u.name] }
   end
 

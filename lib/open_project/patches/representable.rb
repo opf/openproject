@@ -51,5 +51,5 @@ module OpenProject::Patches::Representable
 end
 
 unless Representable::Decorator.included_modules.include?(OpenProject::Patches::Representable)
-  Representable::Decorator.send(:include, OpenProject::Patches::Representable)
+  Representable::Decorator.include OpenProject::Patches::Representable
 end

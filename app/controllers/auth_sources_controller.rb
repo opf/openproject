@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -79,8 +80,8 @@ class AuthSourcesController < ApplicationController
     begin
       @auth_method.test_connection
       flash[:notice] = I18n.t(:notice_successful_connection)
-    rescue => text
-      flash[:error] = I18n.t(:error_unable_to_connect, value: text.message)
+    rescue StandardError => e
+      flash[:error] = I18n.t(:error_unable_to_connect, value: e.message)
     end
     redirect_to action: 'index'
   end

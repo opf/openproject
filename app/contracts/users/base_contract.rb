@@ -28,11 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'model_contract'
-
 module Users
   class BaseContract < ::ModelContract
-    attribute :type
     attribute :login
     attribute :firstname
     attribute :lastname
@@ -43,7 +40,7 @@ module Users
     attribute :language
 
     attribute :auth_source_id,
-              writeable: ->(*) { user.admin? }
+              writeable: ->(*) { user.allowed_to_globally?(:manage_user) }
 
     attribute :identity_url,
               writeable: ->(*) { user.admin? }

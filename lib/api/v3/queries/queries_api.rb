@@ -166,6 +166,7 @@ module API
 
               query_menu_item = @query.query_menu_item
               return representer if @query.query_menu_item.nil?
+
               query_menu_item.destroy
 
               @query.reload

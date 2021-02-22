@@ -29,7 +29,6 @@
 #++
 
 class ProjectMailer < BaseMailer
-
   def delete_project_completed(project, user:)
     open_project_headers Project: project.identifier,
                          Author: user.login
@@ -59,7 +58,7 @@ class ProjectMailer < BaseMailer
     @errors = errors
 
     open_project_headers 'Source-Project' => source_project.identifier,
-                         'Author'         => user.login
+                         'Author' => user.login
 
     message_id source_project, user
 
@@ -77,7 +76,7 @@ class ProjectMailer < BaseMailer
 
     open_project_headers 'Source-Project' => source_project.identifier,
                          'Target-Project' => target_project.identifier,
-                         'Author'         => user.login
+                         'Author' => user.login
 
     message_id target_project, user
 

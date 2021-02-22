@@ -1,4 +1,3 @@
-
 module LdapGroups
   module SynchronizedFilters
     class TableCell < ::TableCell
@@ -26,9 +25,9 @@ module LdapGroups
 
       def headers
         [
-            ['name', caption: ::LdapGroups::SynchronizedFilter.human_attribute_name('name')],
-            ['auth_source', caption: ::LdapGroups::SynchronizedFilter.human_attribute_name('auth_source')],
-            ['groups', caption: I18n.t('ldap_groups.synchronized_filters.plural')]
+          ['name', { caption: ::LdapGroups::SynchronizedFilter.human_attribute_name('name') }],
+          ['auth_source', { caption: ::LdapGroups::SynchronizedFilter.human_attribute_name('auth_source') }],
+          ['groups', { caption: I18n.t('ldap_groups.synchronized_filters.plural') }]
         ]
       end
     end

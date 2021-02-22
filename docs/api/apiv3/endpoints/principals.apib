@@ -1,6 +1,7 @@
 # Group Principals
 
-Principals are the superclass of groups and users.
+Principals are the superclass of users, groups and placeholder users. This end point returns all principals
+within a joined collection but can be filtered to e.g. only return groups or users.
 
 ## Linked Properties
 
@@ -8,7 +9,7 @@ See [user](#users) and [group](#groups)
 
 ## Local Properties
 
-See [user](#users) and [group](#groups)
+See [user](#users) and [group](#groups) and placeholder users (TDB)
 
 ## Principals [/api/v3/principals{?filters}]
 
@@ -17,8 +18,8 @@ See [user](#users) and [group](#groups)
 
             {
               "_type": "Collection",
-              "total": 3,
-              "count": 3,
+              "total": 4,
+              "count": 4,
               "_embedded": {
                 "elements": [
                   {
@@ -113,6 +114,19 @@ See [user](#users) and [group](#groups)
                               "title": "The group"
                           }
                       }
+                  },
+                  {
+                      "_type": "PlaceholderUser",
+                      "id": 29,
+                      "name": "UX Designer",
+                      "createdAt": "2018-09-23T11:06:36Z",
+                      "updatedAt": "2019-10-23T11:06:36Z",
+                      "_links": {
+                          "self": {
+                              "href": "/api/v3/placholder_users/29",
+                              "title": "UX Designer"
+                          }
+                      }
                   }
                 ]
               },
@@ -128,10 +142,10 @@ See [user](#users) and [group](#groups)
 List all principals. The client can choose to filter the principals similar to how work packages are filtered. In addition to the provided filters, the server will reduce the result set to only contain principals who are members in projects the client is allowed to see.
 
 + Parameters
-    + filters (optional, string, `[{ "type": { "operator": "=", "values": ["User"] }" }]`) ... JSON specifying filter conditions.
+    + filters (optional, string, `[{ "type": { "operator": "=", "values": ["User"] } }]`) ... JSON specifying filter conditions.
     Accepts the same format as returned by the [queries](#queries) endpoint.
     Currently supported filters are:
-      + type: filters principals by their type (*User*, *Group*).
+      + type: filters principals by their type (*User*, *Group*, *PlaceholderUser*).
       + member: filters principals by the projects they are members in.
       + name: filters principals by the user or group name.
       + status: filters principals by their status number (active = *1*, registered = *2*, locked = *3*, invited = *4*)

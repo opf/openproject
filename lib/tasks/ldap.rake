@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,7 +29,6 @@
 #++
 
 namespace :ldap do
-
   def parse_args
     # Rake croaks when using commas in default args without properly escaping
     args = {}
@@ -54,7 +54,6 @@ namespace :ldap do
 
     User.transaction do
       ldap_con.search(base: ldap.base_dn, filter: filter) do |entry|
-
         user = User.find_or_initialize_by(login: entry[ldap.attr_login])
         user.attributes = {
           firstname: entry[ldap.attr_firstname],
@@ -102,7 +101,6 @@ namespace :ldap do
 
       entries = ldap_con.search(base: base_dn, filter: object_filter & login_filter, attributes: attributes)
 
-
       if entries.count == 0
         warn "Did not find entry for #{username}"
         next
@@ -123,7 +121,7 @@ namespace :ldap do
         if user.save
           puts "#{prefix} user #{user.login} from ldap synchronization"
         else
-          puts "Failed to save #{user.login}: #{user.errors.full_messages.join(", ")}."
+          puts "Failed to save #{user.login}: #{user.errors.full_messages.join(', ')}."
         end
       end
     end
@@ -138,7 +136,6 @@ namespace :ldap do
     unless %w(ldap ldaps).include?(url.scheme)
       raise "Expected #{args[:url]} to be a valid ldap(s) URI."
     end
-
 
     source = LdapAuthSource.find_or_initialize_by(name: args[:name])
 

@@ -30,6 +30,7 @@ module Redmine
   module CodesetUtil
     def self.replace_invalid_utf8(str)
       return str if str.nil?
+
       str.force_encoding('UTF-8')
       if str.valid_encoding?
         str
@@ -44,6 +45,7 @@ module Redmine
 
     def self.to_utf8(str, encoding)
       return str if str.nil?
+
       str.force_encoding('ASCII-8BIT')
       if str.empty?
         str.force_encoding('UTF-8')

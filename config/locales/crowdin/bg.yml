@@ -243,6 +243,14 @@ bg:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Този потребител в момента не е член на проекта.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -521,6 +529,7 @@ bg:
         confirmation: "не съвпада с %{attribute}."
         could_not_be_copied: "%{dependency} не може да бъде (напълно) копирана."
         does_not_exist: "не съществува."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         empty: "не може да бъде празно."
@@ -721,6 +730,7 @@ bg:
       status: "Статус на работен пакет"
       member: "Член"
       news: "Новини"
+      placeholder_user: "Placeholder user"
       project: "Проект"
       query: "Потребителска заявка"
       role:
@@ -1332,6 +1342,7 @@ bg:
   label_custom_field_plural: "допълнителни полета"
   label_custom_field_default_type: "Празен тип"
   label_custom_style: "Дизайн"
+  label_database_version: "PostgreSQL version"
   label_date: "Дата"
   label_date_and_time: "Дата и час"
   label_date_from: "От"
@@ -1490,6 +1501,7 @@ bg:
   label_my_account_data: "Данни за моят акаунт"
   label_my_projects: "Моите проекти"
   label_my_queries: "Моите потребителски заявки"
+  label_name: "Име"
   label_never: "Никога"
   label_new: "Нов"
   label_new_features: "New features"
@@ -1539,6 +1551,9 @@ bg:
   label_permissions: "Права"
   label_permissions_report: "Доклади за права"
   label_personalize_page: "Персонализирай тази страница"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Планиране"
   label_please_login: "Моля влез в профила си"
   label_plugins: "Плъгини"
@@ -1848,6 +1863,7 @@ bg:
   notice_email_sent: "Имейл е изпратен до %{value}"
   notice_failed_to_save_work_packages: "Неуспешно записване на %{count} работни пакети от %{total} избрани: %{ids}."
   notice_failed_to_save_members: "Неуспешно записване на членовете: %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Несъществуваща или преместена страница."
   notice_forced_logout: "Вие автоматично излязохте след %{ttl_time} минути на неактивност."
   notice_internal_server_error: "Възникна грешка в страницата, до която се опитвате да получите достъп. Ако продължавате да имате проблеми свържете %{app_title} администратор за съдействие."
@@ -1911,6 +1927,8 @@ bg:
   permission_add_work_packages: "Add work packages"
   permission_add_messages: "Post messages"
   permission_add_project: "Създаване на проект"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Създаване на подпроекти"
   permission_add_work_package_watchers: "Добавяне на наблюдатели"
   permission_assign_versions: "Assign versions"

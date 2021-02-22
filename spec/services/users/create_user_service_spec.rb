@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,80 +28,28 @@
 # See docs/COPYRIGHT.rdoc for more details.
 
 require 'spec_helper'
+require 'services/base_services/behaves_like_create_service'
 
 describe Users::CreateService do
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
-  let(:new_user) { FactoryBot.build_stubbed(:user) }
-  let(:instance) { described_class.new(user: current_user) }
-  let(:params) do
-    {
-      firstname: 'Bob',
-      lastname: 'Bobby',
-      login: 'bob1',
-      mail: 'bob@example.com'
-    }
-  end
+  it_behaves_like 'BaseServices create service' do
+    context 'when the user being invited' do
+      let(:model_instance) { FactoryBot.build :invited_user }
 
-  describe '.contract' do
-    it 'uses the CreateContract contract' do
-      expect(instance.contract_class).to eql Users::CreateContract
-    end
-  end
-
-  describe '.new' do
-    it 'takes a user which is available as a getter' do
-      expect(instance.user).to eql current_user
-    end
-  end
-
-  describe '#call' do
-    subject { instance.call(params) }
-    let(:validates) { true }
-    let(:saves) { true }
-
-    before do
-      allow(instance).to receive(:instance).and_return(new_user)
-      allow(new_user).to receive(:save).and_return(saves)
-      allow_any_instance_of(Users::CreateContract).to receive(:validate).and_return(validates)
-    end
-
-    context 'if contract validates and the user saves' do
-      it 'is successful' do
-        expect(subject).to be_success
+      context 'and the mail is present' do
+        let(:model_instance) { FactoryBot.build :invited_user, mail: 'foo@example.com' }
+        it 'will call UserInvitation' do
+          expect(::UserInvitation).to receive(:invite_user!).with(model_instance).and_return(model_instance)
+          expect(subject).to be_success
+        end
       end
 
-      it 'has no errors' do
-        expect(subject.errors).to be_empty
-      end
-
-      it 'returns the user as a result' do
-        result = subject.result
-        expect(result).to be_a User
-      end
-    end
-
-    context 'if contract does not validate' do
-      let(:validates) { false }
-
-      it 'is unsuccessful' do
-        expect(subject).to_not be_success
-      end
-    end
-
-    context 'if user does not save' do
-      let(:saves) { false }
-      let(:errors) { double('errors') }
-
-      it 'is unsuccessful' do
-        expect(subject).to_not be_success
-      end
-
-      it "returns the user's errors" do
-        allow(new_user)
-          .to receive(:errors)
-          .and_return errors
-
-        expect(subject.errors).to eql errors
+      context 'and the mail is empty' do
+        let(:model_instance) { FactoryBot.build :invited_user, mail: nil }
+        it 'will call not call UserInvitation' do
+          expect(::UserInvitation).not_to receive(:invite_user!)
+          expect(subject).not_to be_success
+          expect(subject.errors.details[:mail]).to eq [{ error: :blank }]
+        end
       end
     end
   end

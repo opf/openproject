@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -79,9 +80,9 @@ class GroupsController < ApplicationController
   end
 
   def destroy
-    @group.destroy
+    ::Principals::DeleteJob.perform_later(@group)
 
-    flash[:notice] = I18n.t(:notice_successful_delete)
+    flash[:info] = I18n.t(:notice_deletion_scheduled)
     redirect_to action: :index
   end
 
