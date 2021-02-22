@@ -46,21 +46,5 @@ describe Users::UpdateContract do
         mail: user_mail
       }
     end
-
-    context 'when global user' do
-      let(:current_user) { FactoryBot.create :user, global_permission: :manage_user }
-
-      describe 'can set the login' do
-        before do
-          # We reset the password from the factory so that it does not appear to be
-          # changed.
-          user.password = user.password_confirmation = nil
-
-          user.login = 'new-foo'
-        end
-
-        it_behaves_like 'contract is valid'
-      end
-    end
   end
 end
