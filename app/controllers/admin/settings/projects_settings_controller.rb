@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,40 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module Admin::Settings
+  class ProjectsSettingsController < ::Admin::SettingsController
+    menu_item :settings_projects
 
-describe 'Settings', type: :feature do
-  let(:admin) { FactoryBot.create(:admin) }
-
-  describe 'subsection' do
-    before do
-      login_as(admin)
-
-      visit '/admin/settings/api'
-    end
-
-    shared_examples "it can be visited" do
-      let(:section) { raise "define me" }
-
-      before do
-        visit "/admin/settings/#{section}"
-      end
-
-      it "can be visited" do
-        expect(page).to have_content(/#{section}/i)
-      end
-    end
-
-    describe "general" do
-      it_behaves_like "it can be visited" do
-        let(:section) { "general" }
-      end
-    end
-
-    describe "API (regression #34938)" do
-      it_behaves_like "it can be visited" do
-        let(:section) { "api" }
-      end
+    def default_breadcrumb
+      t(:label_project_plural)
     end
   end
 end

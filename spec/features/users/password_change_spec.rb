@@ -119,7 +119,7 @@ describe 'random password generation',
     end
 
     it 'can configure and enforce password rules', js: true do
-      visit authentication_settings_path
+      visit admin_settings_authentication_path
       expect_angular_frontend_initialized
 
       # Enforce rules
