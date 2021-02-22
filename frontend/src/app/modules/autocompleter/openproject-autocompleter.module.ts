@@ -13,6 +13,7 @@ import {VersionAutocompleterComponent} from "core-app/modules/autocompleter/vers
 import {UserAutocompleterComponent} from "core-app/modules/autocompleter/user-autocompleter/user-autocompleter.component";
 import {CommonModule} from "@angular/common";
 import {OpenprojectInviteUserModalModule} from "core-app/modules/invite-user-modal/invite-user-modal.module";
+import {DragulaModule} from "ng2-dragula";
 
 export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   CreateAutocompleterComponent,
@@ -32,6 +33,7 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
     OpenprojectModalModule,
     OpenprojectInviteUserModalModule,
     NgSelectModule,
+    DragulaModule,
 
     DynamicModule.withComponents(OPENPROJECT_AUTOCOMPLETE_COMPONENTS)
   ],
