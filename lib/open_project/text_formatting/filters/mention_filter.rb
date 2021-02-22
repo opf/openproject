@@ -69,10 +69,9 @@ module OpenProject::TextFormatting
       end
 
       def group_mention(group)
-        content_tag :span,
-                    group.name,
-                    title: I18n.t(:label_group_named, name: group.name),
-                    class: 'user-mention'
+        link_to_group(group,
+                      only_path: context[:only_path],
+                      class: 'user-mention')
       end
 
       def work_package_mention(work_package)
