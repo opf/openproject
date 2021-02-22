@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 require 'ladle'
 
-describe OpenProject::LdapGroups::SynchronizeFilter, with_ee: %i[ldap_groups] do
+describe LdapGroups::SynchronizeFilterService, with_ee: %i[ldap_groups] do
   before(:all) do
     ldif = Rails.root.join('spec/fixtures/ldap/users.ldif')
     @ldap_server = Ladle::Server.new(quiet: false, port: ParallelHelper.port_for_ldap.to_s, domain: 'dc=example,dc=com',
@@ -24,10 +24,6 @@ describe OpenProject::LdapGroups::SynchronizeFilter, with_ee: %i[ldap_groups] do
                       attr_login: 'uid'
   end
 
-  let(:user_aa729) { FactoryBot.create :user, login: 'aa729', auth_source: auth_source }
-  let(:user_bb459) { FactoryBot.create :user, login: 'bb459', auth_source: auth_source }
-  let(:user_cc414) { FactoryBot.create :user, login: 'cc414', auth_source: auth_source }
-
   let(:group_foo) { FactoryBot.create :group, lastname: 'foo' }
   let(:group_bar) { FactoryBot.create :group, lastname: 'bar' }
 
@@ -42,7 +38,7 @@ describe OpenProject::LdapGroups::SynchronizeFilter, with_ee: %i[ldap_groups] do
 
   let(:filter_foo_bar) { FactoryBot.create :ldap_synchronized_filter, auth_source: auth_source }
 
-  subject { described_class.new filter_foo_bar }
+  subject { described_class.new(filter_foo_bar).call }
 
   shared_examples 'has foo and bar synced groups' do
     it 'creates the two groups' do
@@ -100,6 +96,39 @@ describe OpenProject::LdapGroups::SynchronizeFilter, with_ee: %i[ldap_groups] do
     it 'removes that group' do
       expect { subject }.not_to raise_error
       expect { synced_doesnotexist.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+
+  describe 'when filter has sync_users selected' do
+    let(:filter_foo_bar) { FactoryBot.create :ldap_synchronized_filter, auth_source: auth_source, sync_users: true }
+
+    it 'creates the groups with sync_users flag set' do
+      expect { subject }.not_to raise_error
+
+      filter_foo_bar.reload
+
+      # Expect two synchronized groups added
+      expect(filter_foo_bar.groups.count).to eq 2
+      sync_foo_group = LdapGroups::SynchronizedGroup.find_by(dn: 'cn=foo,ou=groups,dc=example,dc=com')
+      sync_bar_group = LdapGroups::SynchronizedGroup.find_by(dn: 'cn=bar,ou=groups,dc=example,dc=com')
+      expect(sync_foo_group.sync_users).to be_truthy
+      expect(sync_bar_group.sync_users).to be_truthy
+    end
+  end
+
+  describe 'when filter has its own base dn' do
+    let(:filter_foo_bar) do
+      FactoryBot.create :ldap_synchronized_filter,
+                        auth_source: auth_source,
+                        base_dn: 'ou=users,dc=example,dc=com'
+    end
+
+    it 'users that base for searching and doesnt find any groups' do
+      expect { subject }.not_to raise_error
+
+      filter_foo_bar.reload
+
+      expect(filter_foo_bar.groups.count).to eq 0
     end
   end
 end

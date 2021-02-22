@@ -118,6 +118,10 @@ class LdapAuthSource < AuthSource
     parsed_filter_string || object_filter
   end
 
+  def parsed_filter_string
+    Net::LDAP::Filter.from_rfc2254(filter_string) if filter_string.present?
+  end
+
   private
 
   def strip_ldap_attributes
@@ -187,10 +191,6 @@ class LdapAuthSource < AuthSource
 
   def set_default_port
     self.port = 389 if port.to_i == 0
-  end
-
-  def parsed_filter_string
-    Net::LDAP::Filter.from_rfc2254(filter_string) if filter_string.present?
   end
 
   def validate_filter_string

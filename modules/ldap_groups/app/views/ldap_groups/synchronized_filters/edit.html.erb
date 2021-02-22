@@ -1,8 +1,6 @@
 <% local_assigns[:additional_breadcrumb] = h(@filter.name) %>
 <% html_title(t(:label_administration), t(:label_edit_x, x: @filter.name)) -%>
 
-<%= error_messages_for @filter %>
-
 <%= toolbar title: t(:label_edit_x, x: @filter.name) %>
 
 <%= labelled_tabular_form_for @filter,

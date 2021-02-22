@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 require 'ladle'
 
-describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
+describe LdapGroups::SynchronizationService, with_ee: %i[ldap_groups] do
   let(:plugin_settings) do
     { group_base: 'ou=groups,dc=example,dc=com', group_key: 'cn' }
   end
@@ -34,6 +34,7 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
   end
 
   let(:onthefly_register) { false }
+  let(:sync_users) { false }
   let(:ldap_filter) { nil }
 
   let(:user_aa729) { FactoryBot.create :user, login: 'aa729', auth_source: auth_source }
@@ -44,18 +45,24 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
   let(:group_bar) { FactoryBot.create :group, lastname: 'bar' }
 
   let(:synced_foo) do
-    FactoryBot.create :ldap_synchronized_group, dn: 'cn=foo,ou=groups,dc=example,dc=com', group: group_foo,
-                                                auth_source: auth_source
+    FactoryBot.create :ldap_synchronized_group,
+                      dn: 'cn=foo,ou=groups,dc=example,dc=com',
+                      group: group_foo,
+                      sync_users: sync_users,
+                      auth_source: auth_source
   end
   let(:synced_bar) do
-    FactoryBot.create :ldap_synchronized_group, dn: 'cn=bar,ou=groups,dc=example,dc=com', group: group_bar,
-                                                auth_source: auth_source
+    FactoryBot.create :ldap_synchronized_group,
+                      dn: 'cn=bar,ou=groups,dc=example,dc=com',
+                      group: group_bar,
+                      sync_users: sync_users,
+                      auth_source: auth_source
   end
 
   subject do
     # Need the system user for admin permission
     User.system.run_given do
-      described_class.new auth_source
+      described_class.new(auth_source).call
     end
   end
 
@@ -181,29 +188,65 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
           let(:user_aa729) { User.find_by login: 'aa729' }
           let(:user_bb459) { User.find_by login: 'bb459' }
 
-          it 'creates the remaining users' do
-            subject
-            expect(synced_foo.users.count).to eq(1)
-            expect(synced_bar.users.count).to eq(3)
 
-            expect(group_foo.users).to contain_exactly(user_aa729)
-            expect(group_bar.users).to contain_exactly(user_aa729, user_bb459, user_cc414)
+          context 'and users sync in the groups enabled' do
+            let(:sync_users) { true }
+
+            it 'creates the remaining users' do
+              subject
+              expect(synced_foo.users.count).to eq(1)
+              expect(synced_bar.users.count).to eq(3)
+
+              expect(group_foo.users).to contain_exactly(user_aa729)
+              expect(group_bar.users).to contain_exactly(user_aa729, user_bb459, user_cc414)
+            end
+          end
+
+          context 'and users sync not enabled' do
+            let(:sync_users) { false }
+
+            it 'does not create the users' do
+              subject
+              expect(synced_foo.users.count).to eq(0)
+              expect(synced_bar.users.count).to eq(1)
+
+              expect(group_foo.users).to be_empty
+              expect(group_bar.users).to contain_exactly(user_cc414)
+            end
           end
         end
 
         context 'with an LDAP filter for users starting with b and on-the-fly enabled' do
           let(:onthefly_register) { true }
           let(:ldap_filter) { '(uid=b*)' }
+          let(:user_aa729) { User.find_by login: 'aa729' }
           let(:user_bb459) { User.find_by login: 'bb459' }
 
-          it 'creates the remaining users' do
-            subject
-            expect(synced_foo.users.count).to eq(0)
-            expect(synced_bar.users.count).to eq(1)
+          context 'and users sync in the groups enabled' do
+            let(:sync_users) { true }
 
-            expect(User.find_by(login: 'aa729')).to eq nil
-            # Only matched users are added to the group, meaning cc414 is not added
-            expect(group_bar.users).to contain_exactly(user_bb459)
+            it 'creates the remaining users' do
+              subject
+              expect(synced_foo.users.count).to eq(0)
+              expect(synced_bar.users.count).to eq(1)
+
+              expect(user_aa729).to eq nil
+              # Only matched users are added to the group, meaning cc414 is not added
+              expect(group_bar.users).to contain_exactly(user_bb459)
+            end
+          end
+
+          context 'and users sync not enabled' do
+            let(:sync_users) { false }
+
+            it 'does not create the users' do
+              subject
+              expect(synced_foo.users.count).to eq(0)
+              expect(synced_bar.users.count).to eq(0)
+
+              expect(user_aa729).to eq nil
+              expect(user_bb459).to eq nil
+            end
           end
         end
       end
@@ -267,11 +310,11 @@ describe OpenProject::LdapGroups::Synchronization, with_ee: %i[ldap_groups] do
   context 'with invalid base' do
     let(:synced_foo) do
       FactoryBot.create :ldap_synchronized_group, dn: 'cn=foo,ou=invalid,dc=example,dc=com', group: group_foo,
-                                                  auth_source: auth_source
+                        auth_source: auth_source
     end
     let(:synced_bar) do
       FactoryBot.create :ldap_synchronized_group, dn: 'cn=bar,ou=invalid,dc=example,dc=com', group: group_bar,
-                                                  auth_source: auth_source
+                        auth_source: auth_source
     end
 
     context 'when one synced group exists' do

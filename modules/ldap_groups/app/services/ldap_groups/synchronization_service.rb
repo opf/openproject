@@ -1,5 +1,5 @@
-module OpenProject::LdapGroups
-  class Synchronization
+module LdapGroups
+  class SynchronizationService
     attr_reader :ldap, :synced_groups
 
     def initialize(ldap)
@@ -7,32 +7,41 @@ module OpenProject::LdapGroups
 
       # Get current synced groups in OP
       @synced_groups = ::LdapGroups::SynchronizedGroup.where(auth_source: ldap)
+    end
 
-      synchronize!
+    def call
+      count = synchronize!
+      ServiceResult.new(result: count, success: true)
     rescue StandardError => e
       error = "[LDAP groups] Failed to perform LDAP group synchronization: #{e.class}: #{e.message}"
       Rails.logger.error(error)
+      ServiceResult.new(message: error, success: false)
     end
 
     def synchronize!
       ldap_con = ldap.instance_eval { initialize_ldap_con(account, account_password) }
+      count = 0
 
       ::LdapGroups::Membership.transaction do
-        @synced_groups.find_each do |group|
-          user_data = get_members(ldap_con, group)
+        @synced_groups.find_each do |sync_group|
+          user_data = get_members(ldap_con, sync_group)
 
           # Create users that are not existing
-          users = map_to_users(user_data)
+          users = map_to_users(sync_group, user_data)
 
-          update_memberships!(group, users)
+          update_memberships!(sync_group, users)
+
+          count += users.count
         end
       end
+
+      count
     end
 
     ##
     # Map LDAP entries to user accounts, creating them if necessary
-    def map_to_users(entries)
-      create_missing!(entries) if ldap.onthefly_register?
+    def map_to_users(sync_group, entries)
+      create_missing!(entries) if sync_group.sync_users
 
       User.where(login: entries.keys)
     end
@@ -75,12 +84,9 @@ module OpenProject::LdapGroups
       # Get user login attribute and base dn which are private
       base_dn = ldap.base_dn
 
-      # memberOf filter to identifiy member entries of the group
-      memberof_filter = Net::LDAP::Filter.eq('memberOf', group.dn)
-
       users = {}
       ldap_con.search(base: base_dn,
-                      filter: ldap.default_filter & memberof_filter,
+                      filter: memberof_filter(group),
                       attributes: ldap.search_attributes) do |entry|
         data = ldap.get_user_attributes_from_ldap_entry(entry)
         users[data[:login]] = data.except(:dn)
@@ -100,6 +106,20 @@ module OpenProject::LdapGroups
       Rails.logger.info { "[LDAP groups] Adding #{new_member_ids.length} users to #{sync.dn}" }
 
       sync.add_members! new_member_ids
+    end
+
+    ##
+    # Get the memberof filter to use for querying members
+    def memberof_filter(group)
+      # memberOf filter to identify member entries of the group
+      filter = Net::LDAP::Filter.eq('memberOf', group.dn)
+
+      # Add the LDAP auth source own filter if present
+      if ldap.filter_string.present?
+        filter = filter & ldap.parsed_filter_string
+      end
+
+      filter
     end
 
     ##
