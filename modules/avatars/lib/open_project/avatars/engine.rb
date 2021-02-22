@@ -32,6 +32,7 @@ module OpenProject::Avatars
                partial: 'settings/openproject_avatars',
                menu_item: :user_avatars
              },
+             name: :label_avatar_plural,
              bundled: true do
       add_menu_item :my_menu, :avatar,
                     { controller: '/avatars/my_avatar', action: 'show' },

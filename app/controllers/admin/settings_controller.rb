@@ -78,6 +78,14 @@ module Admin
       true
     end
 
+    def default_breadcrumb
+      if @plugin
+        @plugin.name
+      else
+        I18n.t(:label_setting_plural)
+      end
+    end
+
     protected
 
     def find_plugin
