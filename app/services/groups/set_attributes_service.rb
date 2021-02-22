@@ -43,7 +43,7 @@ module Groups
     # Note that due to the way we handle members, via a specific AddUsersService
     # the group should no longer simply be saved after group_users have been added.
     def set_users(params)
-      user_ids = params.delete(:user_ids) || []
+      user_ids = (params.delete(:user_ids) || []).map(&:to_i)
 
       existing_user_ids = model.group_users.map(&:user_id)
       build_new_users user_ids - existing_user_ids

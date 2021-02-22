@@ -28,19 +28,4 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Groups::CreateService < ::BaseServices::Create
-  protected
-
-  def after_perform(call)
-    # TODO: check if the AddUsersService itself can be removed
-    # TODO: check if the call to the AddUsersService can be removed from here
-    #       if a newly created group cannot have a membership in any project
-    db_call = ::Groups::AddUsersService
-              .new(call.result, current_user: user)
-              .call(ids: call.result.group_users.select(&:new_record?).map(&:user_id))
-
-    call.add_dependent!(db_call)
-
-    call
-  end
-end
+class Groups::CreateService < ::BaseServices::Create; end

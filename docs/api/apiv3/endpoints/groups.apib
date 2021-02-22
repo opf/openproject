@@ -2,26 +2,30 @@
 
 Groups are collections of users. They support assigning/unassigning multiple users to/from a project in one operation.
 
-This resource is currently a stub.
+This resource does not yet have the form and schema endpoints. But as all properties are static, clients should still be able
+to work with this resource.
 
 ## Actions
 
-None
+## Actions
+| Link                | Description                                                          | Condition                                                        |
+|:-------------------:| -------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| updateImmediately   | Updates the group's attributes.                                      | **Permission**: Administrator                                    |
 
 ## Linked Properties
-|  Link           | Description                                                                                                                                                           | Type              | Constraints           | Supported operations | Condition                                                     |
-|:-----------:    |--------------------------------------------------------------                                                                                                         | -------------     | --------------------- | -------------------- | -----------------------------------------                     |
-| self            | This group                                                                                                                                                            | Group             | not null              | READ                 |                                                               |
-| memberships     | Link to collection of all the group's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions. | MemberCollection  |                       | READ                 | **Permission**: view members or manage members in any project |
-| members         | The list all all the users that are members of the group                                                                                                              | UserCollection    |                       | READ                 | **Permission**: manage members in any project                 |
+|  Link              | Description                                                                                                                                                           | Type              | Constraints           | Supported operations | Condition                                                                |
+|:-----------:       |--------------------------------------------------------------                                                                                                         | -------------     | --------------------- | -------------------- | -----------------------------------------                                |
+| self               | This group                                                                                                                                                            | Group             | not null              | READ                 |                                                                          |
+| memberships        | Link to collection of all the group's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions. | MemberCollection  |                       | READ                 | **Permission**: view members or manage members in any project            |
+| members            | The list all all the users that are members of the group                                                                                                              | UserCollection    |                       | READ/WRITE           | **Permission**: manage members in any project to read & admin to write   |
 
 ## Local Properties
-| Property     | Description                                                | Type     | Constraints                                          | Supported operations | Condition                                                                           |
-| :----------: | ---------------------------------------------------------  | -------- | ---------------------------------------------------- | -------------------- | -----------------------------------------------------------                         |
-| id           | Group's id                                                 | Integer  | x > 0                                                | READ                 |                                                                                     |
-| name         | Group's full name, formatting depends on instance settings | String   |                                                      | READ                 |                                                                                     |
-| createdAt    | Time of creation                                           | DateTime |                                                      | READ                 | Only visible by admins                                                              |
-| updatedAt    | Time of the most recent change to the user                 | DateTime |                                                      | READ                 | Only visible by admins                                                              |
+| Property     | Description                                                | Type     | Constraints                                          | Supported operations | Condition                                                      |
+| :----------: | ---------------------------------------------------------  | -------- | ---------------------------------------------------- | -------------------- | -----------------------------------------------------------    |
+| id           | Group's id                                                 | Integer  | x > 0                                                | READ                 |                                                                |
+| name         | Group's full name, formatting depends on instance settings | String   |                                                      | READ/WRITE           | Admin to write                                                 |
+| createdAt    | Time of creation                                           | DateTime |                                                      | READ                 | Only visible by admins                                         |
+| updatedAt    | Time of the most recent change to the user                 | DateTime |                                                      | READ                 | Only visible by admins                                         |
 
 ## View group [/api/v3/groups/{id}]
 
@@ -43,6 +47,10 @@ None
                         "href": "/api/v3/memberships?filters=[{"principal":{"operator":"=","values":["9"]}}]",
                         "title": "Memberships"
                     },
+                    "updateImmediately": {
+                        "href": "/api/v3/group/9",
+                        "method": "patch"
+                    }
                     "members": [
                         {
                             "href": "/api/v3/users/363",
@@ -124,7 +132,7 @@ Creates a new group applying the attributes provided in the body.
 
     Returned if the client does not have sufficient permissions.
 
-    **Required permission:** Admin
+    **Required permission:** Administrator
 
     + Body
 
@@ -149,6 +157,100 @@ Creates a new group applying the attributes provided in the body.
                 "_embedded": {
                     "details": {
                         "attribute": "name"
+                    }
+                }
+            }
+
+## Update group [/api/v3/groups/{id}]
+
+## Update group [PATCH]
+
+Updates the given group by applying the attributes provided in the body.
+
++ Parameters
+    + id (required, integer, `1`) ... Group id
+
++ Request Update membership
+
+    + Body
+
+            {
+                "_links": {
+                    "members": [
+                        {
+                            "href": "/api/v3/users/363"
+                        },
+                        {
+                            "href": "/api/v3/users/60"
+                        }
+                    ]
+                }
+            }
+
++ Response 200
+
+    [View group][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** Administrator
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the membership does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission** If the user has the *manage members* permission in at least one project the user will be able to query all groups. If not, the user
+    will be able to query all groups which are members in projects, he has the *view members* permission in.
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of
+    a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Member is already taken.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "members"
                     }
                 }
             }

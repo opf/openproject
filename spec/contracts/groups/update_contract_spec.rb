@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,35 +28,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Groups
-      class GroupsAPI < ::API::OpenProjectAPI
-        resources :groups do
-          after_validation do
-            authorize_any %i[view_members manage_members], global: true
-          end
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
+require_relative 'shared_contract_examples'
 
-          get &::API::V3::Utilities::Endpoints::Index
-                 .new(model: Group)
-                 .mount
-          post &::API::V3::Utilities::Endpoints::Create
-                  .new(model: Group)
-                  .mount
+describe Groups::UpdateContract do
+  include_context 'ModelContract shared context'
 
-          route_param :id, type: Integer, desc: 'Group ID' do
-            after_validation do
-              @group = Group.visible(current_user).find(params[:id])
-            end
+  it_behaves_like 'group contract' do
+    let(:group) do
+      FactoryBot.build_stubbed(:group,
+                               name: group_name,
+                               group_users: group_users)
+    end
 
-            get &::API::V3::Utilities::Endpoints::Show
-                   .new(model: Group)
-                   .mount
-            patch &::API::V3::Utilities::Endpoints::Update
-                     .new(model: Group)
-                     .mount
-          end
+    let(:contract) { described_class.new(group, current_user) }
+
+    describe 'validations' do
+      let(:current_user) { FactoryBot.build_stubbed :admin }
+
+      describe 'type' do
+        before do
+          group.type = 'A new type'
         end
+
+        it_behaves_like 'contract is invalid', type: :error_readonly
       end
     end
   end

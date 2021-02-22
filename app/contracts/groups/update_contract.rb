@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,36 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Groups
-      class GroupsAPI < ::API::OpenProjectAPI
-        resources :groups do
-          after_validation do
-            authorize_any %i[view_members manage_members], global: true
-          end
-
-          get &::API::V3::Utilities::Endpoints::Index
-                 .new(model: Group)
-                 .mount
-          post &::API::V3::Utilities::Endpoints::Create
-                  .new(model: Group)
-                  .mount
-
-          route_param :id, type: Integer, desc: 'Group ID' do
-            after_validation do
-              @group = Group.visible(current_user).find(params[:id])
-            end
-
-            get &::API::V3::Utilities::Endpoints::Show
-                   .new(model: Group)
-                   .mount
-            patch &::API::V3::Utilities::Endpoints::Update
-                     .new(model: Group)
-                     .mount
-          end
-        end
-      end
-    end
+module Groups
+  class UpdateContract < BaseContract
   end
 end

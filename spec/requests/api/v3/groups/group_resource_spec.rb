@@ -177,6 +177,137 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     end
   end
 
+  describe 'PATCH api/v3/groups/:id' do
+    let(:path) { api_v3_paths.group(group.id) }
+    let(:another_user) { FactoryBot.create(:user) }
+    let(:body) do
+      {
+        _links: {
+          "members": [
+            {
+              href: api_v3_paths.user(members.last.id)
+            },
+            {
+              href: api_v3_paths.user(another_user.id)
+            }
+          ]
+        }
+      }.to_json
+    end
+    let(:group_updated_at) { group.reload.updated_at }
+    let(:other_project) { FactoryBot.create(:project) }
+    let!(:membership) do
+      FactoryBot.create(:member,
+                        principal: group,
+                        project: other_project,
+                        roles: [FactoryBot.create(:role)])
+    end
+    let(:admin) { FactoryBot.create(:admin) }
+
+    before do
+      # Setup the memberships in the group has
+      ::Groups::AddUsersService
+        .new(group, current_user: admin)
+        .call(ids: members.map(&:id))
+
+      group_updated_at
+
+      login_as current_user
+
+      patch path, body
+    end
+
+    context 'when the user is allowed and the input is valid' do
+      current_user { admin }
+
+      it 'responds with 200' do
+        expect(last_response.status).to eq(200)
+      end
+
+      it 'updates the group' do
+        group.reload
+
+        expect(group.users)
+          .to match_array [members.last, another_user]
+
+        # Altering only the members still updates the group's timestamp
+        expect(group.updated_at > group_updated_at)
+          .to be_truthy
+      end
+
+      it 'returns the updated group' do
+        expect(last_response.body)
+          .to be_json_eql('Group'.to_json)
+          .at_path('_type')
+
+        expect(last_response.body)
+          .to be_json_eql([{ href: api_v3_paths.user(members.last.id), title: members.last.name },
+                           { href: api_v3_paths.user(another_user.id), title: another_user.name }].to_json)
+          .at_path('_links/members')
+
+        # unchanged
+        expect(last_response.body)
+          .to be_json_eql(group.name.to_json)
+          .at_path('name')
+
+        # includes the memberships the group has applied to the added user
+        expect(other_project.reload.users)
+          .to match_array [members.last, another_user]
+      end
+    end
+
+    context 'if attempting to set an empty name' do
+      current_user { admin }
+
+      let(:body) do
+        {
+          _links: {
+            "members": [
+              {
+                href: api_v3_paths.user(members.last.id)
+              },
+              {
+                href: api_v3_paths.user(another_user.id)
+              }
+            ]
+          },
+          name: ''
+        }.to_json
+      end
+
+      it 'returns 422' do
+        expect(last_response.status)
+          .to eql(422)
+
+        expect(last_response.body)
+          .to be_json_eql("Name can't be blank.".to_json)
+          .at_path('message')
+      end
+
+      it 'does not alter the group' do
+        group.reload
+
+        expect(group.users)
+          .to match_array members
+
+        expect(group.updated_at)
+          .to eql group_updated_at
+      end
+    end
+
+    context 'when not being an admin' do
+      let(:permissions) { [:manage_members] }
+
+      it_behaves_like 'unauthorized access'
+    end
+
+    context 'when lacking the view permissions' do
+      let(:permissions) { [] }
+
+      it_behaves_like 'unauthorized access'
+    end
+  end
+
   describe 'GET api/v3/groups' do
     let(:get_path) { api_v3_paths.groups }
     let(:other_group) do

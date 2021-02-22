@@ -71,6 +71,30 @@ describe Group, type: :model do
     end
   end
 
+  describe '#group_users' do
+    context 'when adding a user' do
+      it 'updates the timestamp' do
+        updated_at = group.updated_at
+        group.group_users.create(user: user)
+
+        expect(updated_at < group.reload.updated_at)
+          .to be_truthy
+      end
+    end
+
+    context 'when removing a user' do
+      it 'updates the timestamp' do
+        group.group_users.create(user: user)
+        updated_at = group.reload.updated_at
+
+        group.group_users.destroy_all
+
+        expect(updated_at < group.reload.updated_at)
+          .to be_truthy
+      end
+    end
+  end
+
   describe 'from legacy specs' do
     let!(:roles) { FactoryBot.create_list :role, 2 }
     let!(:role_ids) { roles.map(&:id).sort }

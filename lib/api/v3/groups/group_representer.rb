@@ -38,6 +38,14 @@ module API
           'Group'
         end
 
+        link :updateImmediately,
+             cache_if: -> { current_user.admin? } do
+          {
+            href: api_v3_paths.group(represented.id),
+            method: :patch
+          }
+        end
+
         associated_resources :users,
                              as: :members,
                              skip_render: -> { !current_user.allowed_to_globally?(:manage_members) }

@@ -40,7 +40,8 @@ describe ::API::V3::Groups::GroupRepresenter, 'rendering' do
         .and_return(members)
     end
   end
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user_admin) { false }
+  let(:current_user) { FactoryBot.build_stubbed(:user, admin: current_user_admin) }
   let(:representer) { described_class.new(group, current_user: current_user, embed_links: embed_links) }
   let(:members) { 2.times.map { FactoryBot.build_stubbed(:user) } }
   let(:permissions) { [:manage_members] }
@@ -63,9 +64,10 @@ describe ::API::V3::Groups::GroupRepresenter, 'rendering' do
     end
 
     describe 'members' do
+      let(:link) { 'members' }
+
       context 'with the necessary permissions' do
         it_behaves_like 'has a link collection' do
-          let(:link) { 'members' }
           let(:hrefs) do
             members.map do |member|
               {
@@ -80,9 +82,25 @@ describe ::API::V3::Groups::GroupRepresenter, 'rendering' do
       context 'without the necessary permissions' do
         let(:permissions) { [] }
 
-        it_behaves_like 'has no link' do
-          let(:link) { 'members' }
+        it_behaves_like 'has no link'
+      end
+    end
+
+    describe 'updateImmediately' do
+      let(:link) { 'updateImmediately' }
+
+      context 'with the necessary permissions' do
+        let(:current_user_admin) { true }
+
+        it_behaves_like 'has an untitled link' do
+          let(:href) { api_v3_paths.group group.id }
         end
+      end
+
+      context 'without the necessary permissions' do
+        let(:current_user_admin) { false }
+
+        it_behaves_like 'has no link'
       end
     end
   end

@@ -102,7 +102,7 @@ describe Groups::SetAttributesService, type: :model do
         .not_to have_received(:save)
     end
 
-    context 'with changes to the roles do' do
+    context 'with changes to the users do' do
       let(:first_user) { FactoryBot.build_stubbed(:user) }
       let(:second_user) { FactoryBot.build_stubbed(:user) }
       let(:third_user) { FactoryBot.build_stubbed(:user) }
@@ -113,7 +113,7 @@ describe Groups::SetAttributesService, type: :model do
         }
       end
 
-      context 'with a persisted record' do
+      shared_examples_for 'updates the users' do
         let(:first_group_user) { FactoryBot.build_stubbed(:group_user, user: first_user) }
         let(:second_group_user) { FactoryBot.build_stubbed(:group_user, user: second_user) }
 
@@ -140,6 +140,26 @@ describe Groups::SetAttributesService, type: :model do
           expect(service_call.result.group_users.find { |gu| gu.user_id == first_user.id })
             .to be_marked_for_destruction
         end
+      end
+
+      context 'with a persisted record and integer values' do
+        let(:call_attributes) do
+          {
+            user_ids: [second_user.id, third_user.id]
+          }
+        end
+
+        it_behaves_like 'updates the users'
+      end
+
+      context 'with a persisted record and string values' do
+        let(:call_attributes) do
+          {
+            user_ids: [second_user.id.to_s, third_user.id.to_s]
+          }
+        end
+
+        it_behaves_like 'updates the users'
       end
 
       context 'with a new record' do
