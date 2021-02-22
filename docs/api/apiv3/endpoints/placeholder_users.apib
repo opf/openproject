@@ -11,7 +11,7 @@
 |  Link       | Description                                                                                                                                                          | Type              | Constraints           | Supported operations | Condition                                                     |
 |:-----------:|--------------------------------------------------------------                                                                                                        | -------------     | --------------------- | -------------------- | -----------------------------------------                     |
 | self        | This user                                                                                                                                                            | User              | not null              | READ                 |                                                               |
-| members     | Link to collection of all the user's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions. | MemberCollection  |                       | READ                 | **Permission**: view members or manage members in any project |
+| memberships | Link to collection of all the user's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions. | MemberCollection  |                       | READ                 | **Permission**: view members or manage members in any project |
 
 ## Local Properties
 | Property     | Description                                               | Type     | Constraints                                          | Supported operations | Condition                                                                             |
@@ -119,7 +119,7 @@ When calling this endpoint the client provides a single object, containing at le
 
 + Response 404 (application/hal+json)
 
-    Returned if the user does not exist or if the API user does not have the necessary permissions to update it.
+    Returned if the user does not exist.
 
     **Required permission:** Administrators, manage_placeholder_user global permission
 
@@ -128,7 +128,7 @@ When calling this endpoint the client provides a single object, containing at le
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
-                "message": "The specified user does not exist or you do not have permission to view them."
+                "message": "The requested resource could not be found."
             }
 
 
@@ -154,7 +154,8 @@ When calling this endpoint the client provides a single object, containing at le
 
 ## Delete placeholder user [DELETE]
 
-Permanently deletes the specified placeholder.
+Permanently deletes the specified placeholder. This action will be performed asynchronously
+and the response will only accept the deletion request. The actual deletion will then potentially take a while.
 
 + Parameters
     + id (required, integer, `1`) ... Placeholder user id
@@ -167,7 +168,7 @@ Permanently deletes the specified placeholder.
 
 + Response 403 (application/hal+json)
 
-    Returned if the client does not have sufficient permissions or if deletion of users was disabled in the instance wide settings.
+    Returned if the client does not have sufficient permissions.
 
     **Required permission:** Administrators or manage_placeholder_user permission
 
@@ -176,7 +177,7 @@ Permanently deletes the specified placeholder.
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
-                "message": "You are not allowed to delete the account of this user."
+                "message": "You are not authorized to access this resource"
             }
 
 + Response 404 (application/hal+json)
@@ -188,7 +189,7 @@ Permanently deletes the specified placeholder.
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
-                "message": "The specified user does not exist."
+                "message": "The requested resource could not be found."
             }
 
 ## PlaceholderUsers [/api/v3/users{?offset,pageSize,filters,sortBy}]
@@ -216,7 +217,7 @@ Permanently deletes the specified placeholder.
                                     "href": "/placeholder_users/1",
                                     "type": 'text/html'
                                 },
-                                "update": {
+                                "updateImmediately": {
                                     "href": "/api/v3/placeholder_users/1",
                                     "title": "Update placeholder"
                                     "method": "PATCH"
@@ -245,13 +246,19 @@ Lists placeholders. Only administrators or users with manage_placeholder_user gl
 
     + pageSize (optional, integer, `25`) ... Number of elements to display per page.
 
-    + filters (optional, string, `[{ "group": { "operator": "=", "values": ["1"] } }, { "name": { "operator": "=", "values": ["h.wurst@openproject.com"] } }]`) ... JSON specifying filter conditions.
+    + filters (optional, string, `[{ "group": { "operator": "=", "values": ["1"] } }, { "name": { "operator": "=", "values": ["placeholder"] } }]`) ... JSON specifying filter conditions.
     Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported filters are:
       + group: Name of the group in which to-be-listed placeholder users are members.
       + name: Filter placeholder users in whose first or last names, or email addresses the given string occurs.
+      + status: Filter placeholder users by their status. Possible values are "active" and "locked"
 
-    + sortBy (optional, string, `[["nmae", "asc"]]`) ... JSON specifying sort criteria.
+    + sortBy (optional, string, `[["name", "asc"]]`) ... JSON specifying sort criteria.
     Accepts the same format as returned by the [queries](#queries) endpoint.
+
+      Currently supported orders are:
+        + id
+        + name
+        + group
 
 + Response 200 (application/hal+json)
 
@@ -283,6 +290,8 @@ Lists placeholders. Only administrators or users with manage_placeholder_user gl
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
                 "message": "You are not authorized to access this resource."
             }
+
+## Create placeholder user [/api/v3/placeholder_users]
 
 ## Create Placeholder User [POST]
 
