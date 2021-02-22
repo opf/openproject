@@ -43,7 +43,6 @@ import {mapTo, take} from "rxjs/operators";
 @Injectable()
 export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<QueryFilterInstanceResource[]> {
   public hidden:string[] = [
-    'id',
     'datesInterval',
     'precedes',
     'follows',
@@ -57,7 +56,10 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
     'requires',
     'required',
     'search',
+    // The filter should be named subjectOrId but for some reason
+    // it is only named subjectOr
     'subjectOrId',
+    'subjectOr',
     'manualSort'
   ];
 

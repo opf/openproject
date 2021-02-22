@@ -76,9 +76,6 @@
       <filter-searchable-multiselect-value *ngSwitchCase="'[]WorkPackage'"
                            (filterChanged)="onFilterUpdated($event)"
                            [shouldFocus]="shouldFocus"
-                           [filterConditions]="parentFilter.filters"
-                           [filterResource]="parentFilter.resource"
-                           [filterSearchKey]="parentFilter.searchKey"
                            [filter]="filter"></filter-searchable-multiselect-value>
 
       <filter-toggled-multiselect-value *ngSwitchDefault
