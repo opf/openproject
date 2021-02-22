@@ -519,13 +519,22 @@ describe PermittedParams, type: :model do
 
     describe :user_create_as_admin do
       let(:attribute) { :user_create_as_admin }
+      let(:default_permissions) { %w[custom_fields firstname lastname language mail mail_notification auth_source_id] }
 
       context 'non-admin' do
         let(:hash) { Hash[all_permissions.zip(all_permissions)] }
 
         it 'permits default permissions' do
-          expect(subject.keys)
-              .to match_array(%w[custom_fields firstname lastname language mail mail_notification auth_source_id])
+          expect(subject.keys).to match_array(default_permissions)
+        end
+      end
+
+      context 'non-admin with global :manage_user permission' do
+        let(:user) { FactoryBot.create(:user, global_permission: :manage_user) }
+        let(:hash) { Hash[all_permissions.zip(all_permissions)] }
+
+        it 'permits default permissions and "login"' do
+          expect(subject.keys).to match_array(default_permissions + ['login'])
         end
       end
 
