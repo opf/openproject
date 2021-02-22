@@ -348,7 +348,12 @@ describe OpenProject::TextFormatting,
             let(:expected) do
               <<~EXPECTED
                 <p class="op-uc-p">
-                  Link to <span title="Group #{linked_project_member_group.name}" class="user-mention">#{linked_project_member_group.name}</span>
+                  Link to
+                  <a class="user-mention op-uc-link"
+                     href="/groups/#{linked_project_member_group.id}"
+                     title="Group #{linked_project_member_group.name}">
+                    #{linked_project_member_group.name}
+                  </a>
                 </p>
               EXPECTED
             end
@@ -389,10 +394,11 @@ describe OpenProject::TextFormatting,
             let(:expected) do
               <<~EXPECTED
                 <p class="op-uc-p">
-                  <span class='user-mention'
-                        title='Group #{linked_project_member_group.name}'>
+                  <a class="user-mention op-uc-link"
+                     href="/groups/#{linked_project_member_group.id}"
+                     title="Group #{linked_project_member_group.name}">
                     #{linked_project_member_group.name}
-                  </span>
+                  </a>
                 </p>
               EXPECTED
             end
