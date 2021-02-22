@@ -123,7 +123,7 @@ describe LdapGroups::SynchronizeFilterService, with_ee: %i[ldap_groups] do
                         base_dn: 'ou=users,dc=example,dc=com'
     end
 
-    it 'users that base for searching and doesnt find any groups' do
+    it 'uses that base for searching and doesnt find any groups' do
       expect { subject }.not_to raise_error
 
       filter_foo_bar.reload
