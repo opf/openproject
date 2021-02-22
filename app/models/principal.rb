@@ -63,7 +63,8 @@ class Principal < ApplicationRecord
          :possible_assignee,
          :possible_member,
          :user,
-         :ordered_by_name
+         :ordered_by_name,
+         :visible
 
   scope :not_locked, -> {
     not_builtin.where.not(status: statuses[:locked])

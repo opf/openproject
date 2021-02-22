@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,31 +28,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Principals
-      class PrincipalsAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::PageSizeHelper
+# Only return Principals that are visible to the current user.
+#
+# Either the user has the `manage_members` permission in any project,
+# or all principals in visible projects are returned.
+module Principals::Scopes
+  module Visible
+    extend ActiveSupport::Concern
 
-        resource :principals do
-          get do
-            query = ParamsToQueryService.new(Principal, current_user).call(params)
-
-            if query.valid?
-              principals = query
-                           .results
-                           .where(id: Principal.visible(current_user))
-                           .includes(:preference)
-
-              ::API::V3::Users::PaginatedUserCollectionRepresenter.new(principals,
-                                                                       self_link: api_v3_paths.principals,
-                                                                       page: to_i_or_nil(params[:offset]),
-                                                                       per_page: resolve_page_size(params[:pageSize]),
-                                                                       current_user: current_user)
-            else
-              raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
-            end
-          end
+    class_methods do
+      def visible(user = ::User.current)
+        if user.allowed_to_globally?(:manage_members)
+          all
+        else
+          in_visible_project_or_me(user)
         end
       end
     end
