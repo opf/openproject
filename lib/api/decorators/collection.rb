@@ -47,7 +47,19 @@ module API
       end
 
       def element_decorator
-        self.class.element_decorator_class
+        self.class.element_decorator_class || deduce_element_decorator
+      end
+
+      def deduce_element_decorator
+        name = self.class.name
+
+        unless name.end_with?('CollectionRepresenter')
+          raise ArgumentError, "Can't deduce representer name from #{name}, please specify it with `element_decorator ClassName`"
+        end
+
+        name
+          .gsub("CollectionRepresenter", "Representer")
+          .constantize
       end
 
       link :self do

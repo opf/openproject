@@ -34,8 +34,6 @@ module API
       class GridCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
         attr_reader :grid_scope, :grid_writable
 
-        element_decorator ::API::V3::Grids::GridRepresenter
-
         def initialize(models, self_link:, grid_scope:, **args)
           super(models, self_link: self_link, **args)
           @grid_scope = grid_scope

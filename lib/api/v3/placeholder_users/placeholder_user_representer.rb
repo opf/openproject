@@ -52,7 +52,7 @@ module API
 
         link :showUser do
           {
-            href: api_v3_paths.show_placeholder(represented.id),
+            href: api_v3_paths.placeholder_user_path(represented.id),
             type: 'text/html'
           }
         end

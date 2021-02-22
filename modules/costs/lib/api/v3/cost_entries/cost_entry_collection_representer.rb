@@ -32,7 +32,6 @@ module API
   module V3
     module CostEntries
       class CostEntryCollectionRepresenter < ::API::Decorators::Collection
-        element_decorator ::API::V3::CostEntries::CostEntryRepresenter
       end
     end
   end

@@ -32,7 +32,6 @@ module API
   module V3
     module Budgets
       class BudgetCollectionRepresenter < ::API::Decorators::Collection
-        element_decorator ::API::V3::Budgets::BudgetRepresenter
       end
     end
   end

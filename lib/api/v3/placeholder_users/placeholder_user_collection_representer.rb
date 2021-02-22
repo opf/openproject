@@ -32,7 +32,6 @@ module API
   module V3
     module PlaceholderUsers
       class PlaceholderUserCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
-        include API::V3::Principals::NotBuiltinElements
       end
     end
   end
