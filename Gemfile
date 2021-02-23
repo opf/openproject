@@ -283,7 +283,7 @@ group :development, :test do
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.6.0', require: false
+gem 'bootsnap', '~> 1.7.0', require: false
 
 # API gems
 gem 'grape', '~> 1.5.0'
