@@ -208,8 +208,8 @@ class PermittedParams
       additional_params << :force_password_change if change_password_allowed
       additional_params << :admin
     end
-
-    additional_params << :login if current_user.allowed_to_globally?(:manage_user)
+    
+    additional_params << :login if Users::BaseContract.new(User.new, current_user).writable?(:login)
 
     user additional_params
   end
