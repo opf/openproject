@@ -50,6 +50,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
   let(:members) do
     FactoryBot.create_list(:user, 2)
   end
+  let(:admin) { FactoryBot.create(:admin) }
 
   current_user do
     FactoryBot.create(:user,
@@ -202,7 +203,6 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
                         project: other_project,
                         roles: [FactoryBot.create(:role)])
     end
-    let(:admin) { FactoryBot.create(:admin) }
 
     before do
       # Setup the memberships in the group has
@@ -305,6 +305,66 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
       let(:permissions) { [] }
 
       it_behaves_like 'unauthorized access'
+    end
+  end
+
+  describe 'DELETE /api/v3/groups/:id' do
+    let(:path) { api_v3_paths.group(group.id) }
+    let(:other_project) { FactoryBot.create(:project) }
+    let!(:membership) do
+      FactoryBot.create(:member,
+                        principal: group,
+                        project: other_project,
+                        roles: [FactoryBot.create(:role)])
+    end
+
+    before do
+      # Setup the memberships in the group has
+      ::Groups::AddUsersService
+        .new(group, current_user: admin)
+        .call(ids: members.map(&:id))
+
+      login_as current_user
+
+      delete path
+    end
+
+    subject(:response) { last_response }
+
+    context 'with required permissions' do
+      current_user { admin }
+
+      it 'responds with HTTP No Content' do
+        expect(response.status).to eq 204
+      end
+
+      it 'deletes the group' do
+        expect(Group)
+          .not_to exist(group.id)
+      end
+
+      it 'deletes the memberships of the members' do
+        expect(other_project.users)
+          .to be_empty
+      end
+
+      context 'for a non-existent group' do
+        let(:path) { api_v3_paths.group 11111337 }
+
+        it_behaves_like 'not found' do
+          let(:id) { 11111337 }
+          let(:type) { 'Group' }
+        end
+      end
+    end
+
+    context 'without permission to delete groups' do
+      it_behaves_like 'unauthorized access'
+
+      it 'does not delete the member' do
+        expect(Group)
+          .to exist(group.id)
+      end
     end
   end
 

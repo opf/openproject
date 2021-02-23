@@ -103,6 +103,24 @@ describe ::API::V3::Groups::GroupRepresenter, 'rendering' do
         it_behaves_like 'has no link'
       end
     end
+
+    describe 'delete' do
+      let(:link) { 'delete' }
+
+      context 'with the necessary permissions' do
+        let(:current_user_admin) { true }
+
+        it_behaves_like 'has an untitled link' do
+          let(:href) { api_v3_paths.group group.id }
+        end
+      end
+
+      context 'without the necessary permissions' do
+        let(:current_user_admin) { false }
+
+        it_behaves_like 'has no link'
+      end
+    end
   end
 
   describe 'properties' do

@@ -53,6 +53,9 @@ module API
             patch &::API::V3::Utilities::Endpoints::Update
                      .new(model: Group)
                      .mount
+            delete &::API::V3::Utilities::Endpoints::Delete
+                     .new(model: Group)
+                     .mount
           end
         end
       end
