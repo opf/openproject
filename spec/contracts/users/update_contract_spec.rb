@@ -46,5 +46,16 @@ describe Users::UpdateContract do
         mail: user_mail
       }
     end
+
+    describe "validations" do
+      describe "#user_allowed_to_update" do
+        context "updated user is current user" do
+          # That scenario is the only that is not covered by the shared examples
+          let(:current_user) { user }
+
+          it_behaves_like 'contract is valid'
+        end
+      end
+    end
   end
 end

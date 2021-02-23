@@ -41,26 +41,9 @@ shared_examples_for 'user contract' do
   it_behaves_like 'contract is valid for active admins and invalid for regular users'
 
   context 'when admin' do
-    let(:current_user) { FactoryBot.build_stubbed(:admin) }
+    let(:current_user) { FactoryBot.build_stubbed :admin }
 
     it_behaves_like 'contract is valid'
-
-    describe 'requires a password set when active' do
-      before do
-        user.password = nil
-        user.activate
-      end
-
-      it_behaves_like 'contract is invalid', password: :blank
-
-      context 'when password is set' do
-        before do
-          user.password = user.password_confirmation = 'password!password!'
-        end
-
-        it_behaves_like 'contract is valid'
-      end
-    end
   end
 
   context 'when global user' do
