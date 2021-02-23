@@ -64,11 +64,16 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
     it_behaves_like 'API V3 collection response', 2, 2, 'PlaceholderUser'
   end
 
+  describe 'user with manage_members permission' do
+    let(:project) { FactoryBot.create(:project) }
+    let(:user) { FactoryBot.create(:user, member_in_project: project, member_with_permissions: %i[manage_members]) }
+
+    it_behaves_like 'API V3 collection response', 2, 2, 'PlaceholderUser'
+  end
+
   describe 'unauthorized user' do
     let(:user) { FactoryBot.build(:user) }
 
-    it 'returns an erroneous response' do
-      expect(last_response.status).to eq(403)
-    end
+    it_behaves_like 'API V3 collection response', 0, 0, 'PlaceholderUser'
   end
 end

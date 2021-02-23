@@ -31,12 +31,8 @@ module API
     module PlaceholderUsers
       class PlaceholderUsersAPI < ::API::OpenProjectAPI
         resources :placeholder_users do
-          after_validation do
-            authorize_any %i[manage_placeholder_user], global: true
-          end
-
           get &::API::V3::Utilities::Endpoints::Index
-            .new(model: PlaceholderUser)
+            .new(model: PlaceholderUser, scope: -> { PlaceholderUser.visible(current_user) })
             .mount
 
           post &::API::V3::Utilities::Endpoints::Create
@@ -45,7 +41,8 @@ module API
 
           route_param :id, type: Integer, desc: 'Placeholder user ID' do
             after_validation do
-              @placeholder_user = PlaceholderUser.find(params[:id])
+              authorize_any %i[manage_placeholder_user manage_members], global: true
+              @placeholder_user = PlaceholderUser.visible.find(params[:id])
             end
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: PlaceholderUser).mount
