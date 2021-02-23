@@ -198,7 +198,7 @@ group :test do
   # and other niceties
   gem 'test-prof', '~> 1.0.0'
 
-  gem 'database_cleaner', '~> 1.8'
+  gem 'database_cleaner', '~> 2.0'
   gem 'rack_session_access'
   gem 'rspec', '~> 3.10.0'
   # also add to development group, so "spec" rake task gets loaded
