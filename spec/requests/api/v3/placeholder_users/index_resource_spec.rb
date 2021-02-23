@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,27 +26,49 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See docs/COPYRIGHT.rdoc for more details.
-#++
 
-module API
-  module V3
-    module Queries
-      class QueryCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        def initialize(models, self_link:, current_user:)
-          super(models.includes(::API::V3::Queries::QueryRepresenter.to_eager_load),
-                self_link: self_link,
-                current_user: current_user)
-        end
+require 'spec_helper'
+require 'rack/test'
 
-        collection :elements,
-                   getter: ->(*) {
-                     represented.each(&:valid_subset!).map do |model|
-                       element_decorator.create(model, current_user: current_user)
-                     end
-                   },
-                   exec_context: :decorator,
-                   embedded: true
-      end
+describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
+         'index',
+         type: :request do
+
+  include API::V3::Utilities::PathHelper
+
+  shared_let(:placeholder1) { FactoryBot.create :placeholder_user, name: 'foo' }
+  shared_let(:placeholder2) { FactoryBot.create :placeholder_user, name: 'bar' }
+
+  let(:send_request) do
+    header "Content-Type", "application/json"
+    get api_v3_paths.placeholder_users
+  end
+
+  let(:parsed_response) { JSON.parse(last_response.body) }
+
+  current_user { user }
+
+  before do
+    send_request
+  end
+
+  describe 'admin user' do
+    let(:user) { FactoryBot.build(:admin) }
+
+    it_behaves_like 'API V3 collection response', 2, 2, 'PlaceholderUser'
+  end
+
+  describe 'user with manage_placeholder_user permission' do
+    let(:user) { FactoryBot.create(:user, global_permission: %i[manage_placeholder_user]) }
+
+    it_behaves_like 'API V3 collection response', 2, 2, 'PlaceholderUser'
+  end
+
+  describe 'unauthorized user' do
+    let(:user) { FactoryBot.build(:user) }
+
+    it 'returns an erroneous response' do
+      expect(last_response.status).to eq(403)
     end
   end
 end

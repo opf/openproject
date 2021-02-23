@@ -34,8 +34,6 @@ module API
       module Schema
         class WorkPackageSchemaCollectionRepresenter <
           ::API::V3::Schemas::SchemaCollectionRepresenter
-          element_decorator ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter
-
           private
 
           def model_self_link(model)

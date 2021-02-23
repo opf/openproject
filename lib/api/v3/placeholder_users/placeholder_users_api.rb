@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -30,22 +28,31 @@
 
 module API
   module V3
-    module Queries
-      class QueryCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        def initialize(models, self_link:, current_user:)
-          super(models.includes(::API::V3::Queries::QueryRepresenter.to_eager_load),
-                self_link: self_link,
-                current_user: current_user)
-        end
+    module PlaceholderUsers
+      class PlaceholderUsersAPI < ::API::OpenProjectAPI
+        resources :placeholder_users do
+          after_validation do
+            authorize_any %i[manage_placeholder_user], global: true
+          end
 
-        collection :elements,
-                   getter: ->(*) {
-                     represented.each(&:valid_subset!).map do |model|
-                       element_decorator.create(model, current_user: current_user)
-                     end
-                   },
-                   exec_context: :decorator,
-                   embedded: true
+          get &::API::V3::Utilities::Endpoints::Index
+            .new(model: PlaceholderUser)
+            .mount
+
+          post &::API::V3::Utilities::Endpoints::Create
+            .new(model: PlaceholderUser)
+            .mount
+
+          route_param :id, type: Integer, desc: 'Placeholder user ID' do
+            after_validation do
+              @placeholder_user = PlaceholderUser.find(params[:id])
+            end
+
+            get &::API::V3::Utilities::Endpoints::Show.new(model: PlaceholderUser).mount
+            patch &::API::V3::Utilities::Endpoints::Update.new(model: PlaceholderUser).mount
+            delete &::API::V3::Utilities::Endpoints::Delete.new(model: PlaceholderUser, success_status: 202).mount
+          end
+        end
       end
     end
   end

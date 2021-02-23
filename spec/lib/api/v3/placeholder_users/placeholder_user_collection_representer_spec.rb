@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,25 +26,44 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      class QueryCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        def initialize(models, self_link:, current_user:)
-          super(models.includes(::API::V3::Queries::QueryRepresenter.to_eager_load),
-                self_link: self_link,
-                current_user: current_user)
-        end
+require 'spec_helper'
 
-        collection :elements,
-                   getter: ->(*) {
-                     represented.each(&:valid_subset!).map do |model|
-                       element_decorator.create(model, current_user: current_user)
-                     end
-                   },
-                   exec_context: :decorator,
-                   embedded: true
-      end
-    end
+describe ::API::V3::PlaceholderUsers::PlaceholderUserCollectionRepresenter do
+  let(:self_base_link) { '/api/v3/placeholder_users' }
+  let(:collection_inner_type) { 'PlaceholderUser' }
+  let(:total) { 3 }
+  let(:page) { 1 }
+  let(:page_size) { 2 }
+  let(:actual_count) { 3 }
+  let(:current_user) { FactoryBot.build_stubbed :user }
+
+  let(:placeholders) do
+    placeholders = FactoryBot.build_stubbed_list(:placeholder_user,
+                                          actual_count)
+    allow(placeholders)
+      .to receive(:per_page)
+      .with(page_size)
+      .and_return(placeholders)
+
+    allow(placeholders)
+      .to receive(:page)
+      .with(page)
+      .and_return(placeholders)
+
+    placeholders
+  end
+
+  let(:representer) do
+    described_class.new(placeholders,
+                        self_link: self_base_link,
+                        per_page: page_size,
+                        page: page,
+                        current_user: current_user)
+  end
+
+  context 'generation' do
+    subject(:collection) { representer.to_json }
+
+    it_behaves_like 'offset-paginated APIv3 collection'
   end
 end

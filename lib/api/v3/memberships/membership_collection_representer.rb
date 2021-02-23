@@ -32,7 +32,6 @@ module API
   module V3
     module Memberships
       class MembershipCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
-        element_decorator ::API::V3::Memberships::MembershipRepresenter
       end
     end
   end

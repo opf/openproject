@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,27 +26,36 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See docs/COPYRIGHT.rdoc for more details.
-#++
 
-module API
-  module V3
-    module Queries
-      class QueryCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        def initialize(models, self_link:, current_user:)
-          super(models.includes(::API::V3::Queries::QueryRepresenter.to_eager_load),
-                self_link: self_link,
-                current_user: current_user)
-        end
+shared_examples 'deletion allowed' do
+  it 'should respond with 202' do
+    expect(last_response.status).to eq 202
+  end
 
-        collection :elements,
-                   getter: ->(*) {
-                     represented.each(&:valid_subset!).map do |model|
-                       element_decorator.create(model, current_user: current_user)
-                     end
-                   },
-                   exec_context: :decorator,
-                   embedded: true
-      end
+  it 'should lock the account and mark for deletion' do
+    expect(Principals::DeleteJob)
+      .to have_been_enqueued
+            .with(placeholder)
+
+    expect(placeholder.reload).to be_locked
+  end
+
+  context 'with a non-existent user' do
+    let(:path) { api_v3_paths.placeholder_user 1337 }
+
+    it_behaves_like 'not found' do
+      let(:id) { 1337 }
+      let(:type) { 'PlaceholderUser' }
     end
+  end
+end
+
+shared_examples 'deletion is not allowed' do
+  it 'should respond with 403' do
+    expect(last_response.status).to eq 403
+  end
+
+  it 'should not delete the user' do
+    expect(PlaceholderUser.exists?(placeholder.id)).to be_truthy
   end
 end
