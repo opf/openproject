@@ -43,22 +43,30 @@ module OpenProject
 
     # Displays a link to user's account page if active or registered
     def link_to_user(user, options = {})
-      if user.is_a?(User)
+      if user.is_a?(User) && user.locked?
+        user.name
+      elsif user.is_a?(User)
         name = user.name
-        only_path = options.delete(:only_path)
-        only_path = true if only_path.nil?
+        href = user_url(user,
+                        only_path: options.delete(:only_path) { true })
+        options[:title] ||= I18n.t(:label_user_named, name: name)
 
-        if user.active? || user.registered? || user.invited?
-          href = only_path ? user_path(user) : user_url(user)
-          options[:title] ||= I18n.t(:label_user_named, name: name)
-
-          link_to(name, href, options)
-        else
-          name
-        end
+        link_to(name, href, options)
       else
         h(user.to_s)
       end
+    end
+
+    # Displays a link to groups's account page
+    def link_to_group(group, options = {})
+      return h(group.to_s) unless group.is_a?(Group)
+
+      name = group.name
+      href = show_group_url(group,
+                            only_path: options.delete(:only_path) { true })
+      options[:title] ||= I18n.t(:label_group_named, name: name)
+
+      link_to(name, href, options)
     end
 
     # Generates a link to an attachment.

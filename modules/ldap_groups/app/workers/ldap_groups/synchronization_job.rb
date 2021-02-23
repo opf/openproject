@@ -48,10 +48,15 @@ module LdapGroups
         Rails.logger.info { "[LDAP groups] Retrieving groups from filters for ldap auth source #{ldap.name}" }
         LdapGroups::SynchronizedFilter
           .where(auth_source_id: ldap.id)
-          .find_each { |filter| OpenProject::LdapGroups::SynchronizeFilter.new(filter) }
+          .find_each do |filter|
+
+          LdapGroups::SynchronizeFilterService
+            .new(filter)
+            .call
+        end
 
         Rails.logger.info { "[LDAP groups] Start group synchronization for ldap auth source #{ldap.name}" }
-        OpenProject::LdapGroups::Synchronization.new(ldap)
+        LdapGroups::SynchronizationService.new(ldap).call
       end
     rescue StandardError => e
       msg = "[LDAP groups] Failed to run LDAP group synchronization. #{e.class.name}: #{e.message}"

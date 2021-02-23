@@ -13,11 +13,19 @@ module LdapGroups
       end
 
       def auth_source
-        link_to synchronized_filter.auth_source.name, edit_auth_source_path(synchronized_filter.auth_source)
+        link_to synchronized_filter.auth_source.name, edit_ldap_auth_source_path(synchronized_filter.auth_source)
+      end
+
+      def base_dn
+        synchronized_filter.base_dn
       end
 
       def groups
         synchronized_filter.groups.count
+      end
+
+      def sync_users
+        checked_image synchronized_filter.sync_users
       end
 
       def button_links
