@@ -28,7 +28,7 @@
 #++
 
 class AuthenticationController < ApplicationController
-  before_action :require_login
+  before_action :require_admin
   layout 'admin'
   menu_item :authentication_settings
 

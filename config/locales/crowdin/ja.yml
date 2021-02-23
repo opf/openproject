@@ -63,16 +63,16 @@ ja:
         main-menu-bg-color: "左サイドメニューの背景色。"
       theme_warning: テーマを変更した場合、カスタムスタイルが上書きされ、失われます。本当に続けますか？
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
+      upgrade_to_ee: "エンタープライズ版にアップグレード"
       add_token: "エンタープライズ版サポートのトークンをアップロード"
       replace_token: "現在のサポート トークンを置き換え"
       order: "エンタープライズ版を注文"
       paste: "エンタープライズ版サポートのトークンを貼り付け"
       required_for_feature: "この機能は、アクティブなエンタープライズ版のサポート トークンでのみ利用可能です。"
       enterprise_link: "詳細については、ここをクリックしてください。"
-      start_trial: 'Start free trial'
-      book_now: 'Book now'
-      get_quote: 'Get a quote'
+      start_trial: '無料トライアルを開始'
+      book_now: '今すぐ予約'
+      get_quote: '見積もりの入手'
   announcements:
     show_until: までを表示
     is_active: 現在表示されています
@@ -113,16 +113,17 @@ ja:
         OpenProject は、このサブツリー内の指定されたユーザー名のみをフィルタリングします。
         例: ou=users,dc=example,dc=com
       filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+        LDAPでフィルタされたユーザーに対して返された結果に適用するオプションのRFC4515フィルタを追加します。
+        これは、OpenProjectによって検出された認証とグループ同期のためのユーザーのセットを制限するために使用することができます。
       filter_string_concat: |
-        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
-        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
+
+        OpenProjectはレコードを識別するために、ユーザーが提供するログイン属性を常にフィルタリングします。ここにフィルタを指定すると、
+        ANDで連結されます。デフォルトではキャッチオール（objectClass = *）がフィルタとして使用されます。
       onthefly_register: |
         チェックを入れると、OpenProjectは初回認証時に自動的にLDAPエントリーに新規ユーザー登録します。LDAPの既存ユーザーのみ許可する場合はチェックを外してください。
       onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
+        この LDAP 接続のグループ同期を有効にすると、同期されたグループのユーザーも OpenProject に自動的に作成されます。
+        これがなければ OpenProjec 内tの既存のアカウントのみがグループに追加されます。
     connection_encryption: '接続の暗号化'
     system_account: 'システムアカウント'
     system_account_legend: |
@@ -201,7 +202,7 @@ ja:
     index:
       open_as_gantt: 'ガントビューとして開く'
       open_as_gantt_title: "このボタンを使用して、このページに表示されているプロジェクトのワークパッケージをフィルタリングするガントビューを生成します。"
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
+      open_as_gantt_title_admin: "プロジェクト設定で、表示設定 (選択した作業項目の種類など) を変更できます。"
       no_results_title_text: 現在、プロジェクトはありません
       no_results_content_text: プロジェクトを新規作成
     settings:
@@ -236,8 +237,8 @@ ja:
       no_results_content_text: ニュース項目を追加
   users:
     groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
+      member_in_these_groups: 'このユーザーは現在以下のグループのメンバーです：'
+      no_results_title_text: このユーザーは現在どのグループのメンバーでもありません。
     memberships:
       no_results_title_text: このユーザは現在プロジェクトのメンバーではありません。
   prioritiies:
@@ -279,7 +280,7 @@ ja:
     overview:
       no_results_title_text: このバージョンに割り当てられている作業項目はありません。
   wiki:
-    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
+    page_not_editable_index: 要求されたページは (まだ) 存在しません。すべてのwikiページの索引にリダイレクトされました。
     no_results_title_text: 現在、Wikiページはありません。
     index:
       no_results_content_text: 新しいWikiページを追加
@@ -362,7 +363,7 @@ ja:
         attr_mail: "メール"
         base_dn: "ベースDN"
         host: "ホスト"
-        onthefly: "Automatic user creation"
+        onthefly: "ユーザーの自動作成"
         port: "ポート番号"
       changeset:
         repository: "リポジトリ"
@@ -487,7 +488,7 @@ ja:
         parent_work_package: "親項目"
         priority: "優先度"
         progress: "進行状況 (%)"
-        schedule_manually: "Manual scheduling"
+        schedule_manually: "手動スケジュール"
         spent_hours: "作業時間の記録"
         spent_time: "作業時間の記録"
         subproject: "子プロジェクト"
@@ -513,7 +514,7 @@ ja:
         cant_link_a_work_package_with_a_descendant: "親子関係にある作業項目間で関連設定できません。"
         circular_dependency: "この関係は循環依存になります。"
         confirmation: "は%{attribute} と一致しません。"
-        could_not_be_copied: "%{dependency} could not be (fully) copied."
+        could_not_be_copied: "%{dependency} を（完全に）コピーできませんでした。"
         does_not_exist: "は存在しません。"
         error_unauthorized: "アクセスできません。"
         error_readonly: "書けませんでした。"
@@ -530,7 +531,7 @@ ja:
         invalid_url: 'は有効な URL ではありません。'
         invalid_url_scheme: 'はサポートされたプロトコルではありません (可能: %{allowed_schemes})。'
         less_than_or_equal_to: "は%{count}以下の値にしてください。"
-        not_current_user: "is not the current user."
+        not_current_user: "現在のユーザーではありません。"
         not_a_date: "は有効な日付ではありません。"
         not_a_datetime: "は有効な日時ではありません。"
         not_a_number: "は数値にしてください。"
@@ -610,7 +611,7 @@ ja:
         queries/filters/base:
           attributes:
             values:
-              inclusion: "filter has invalid values."
+              inclusion: "フィルタの値が無効です"
               format: "%{message}"
         relation:
           typed_dag:
@@ -695,7 +696,7 @@ ja:
         version:
           undeletable_work_packages_attached: "作業パッケージが添付されているため、バージョンを削除できません。"
         status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
+          readonly_default_exlusive: "デフォルトとしてマークされている状態では有効にできません。"
       template:
         body: "次のフィールドをチェックしてください："
         header:
@@ -750,9 +751,9 @@ ja:
     date: "日付"
     default_columns: "既定の列"
     description: "説明"
-    derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
-    derived_start_date: "Derived start date"
+    derived_due_date: "派生終了日"
+    derived_estimated_time: "派生予定工数"
+    derived_start_date: "派生開始日"
     display_sums: "合計を表示"
     due_date: "終了日"
     estimated_hours: "予定工数"
@@ -1079,7 +1080,7 @@ ja:
   error_cookie_missing: 'OpenProject のcookieが見つかりません。cookieが有効であることを確認してください。そうしないとこのアプリケーションは正しく動作しません。'
   error_custom_option_not_found: "オプションが存在しません。"
   error_enterprise_activation_user_limit: "あなたのアカウントを有効にすることができませんでした（ユーザー制限に達しました）。アクセスするには管理者に連絡してください。"
-  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "Enterprise Edition がアクティブではありません。Enterprise トークンのドメイン (%{actual}) がシステムのホスト名(%{expected}) と一致しません。"
   error_failed_to_delete_entry: 'このエントリを削除できませんでした。'
   error_in_dependent: "依存オブジェクトを変更しようとしてエラーが発生しました: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_invalid_selected_value: "選択された値が無効です。"
@@ -1095,7 +1096,7 @@ ja:
   error_no_default_work_package_status: "作業項目の既定のステータスが定義されていません。 設定をご確認してください（管理→作業項目ステータス）。"
   error_no_type_in_project: "このプロジェクトには関連付けている作業項目の型がありません。プロジェクトの設定をご確認してください。"
   error_omniauth_registration_timed_out: "外部認証プロバイダーを経由して登録がタイムアウトしました。もう一度やり直してください。"
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
+  error_omniauth_invalid_auth: "IDプロバイダーから返された認証情報が無効です。詳細については管理者に連絡してください"
   error_scm_command_failed: "「%{value}」リポジトリにアクセスしようとしてエラーが発生しました。"
   error_scm_not_found: "リポジトリに、エントリ/リビジョンが存在しません。"
   error_unable_delete_status: "一つ以上の作業項目によって使用されているため、作業項目のステータスを削除できません。"
@@ -1123,8 +1124,8 @@ ja:
     work_package_edit: '仕事項目が編集されました。'
     work_package_note: '仕事項目の注記が追加されました。'
   export:
-    your_work_packages_export: "Your work packages export"
-    succeeded: "The export has completed successfully."
+    your_work_packages_export: "作業項目をエクスポート"
+    succeeded: "エクスポートが正常に完了しました。"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1179,10 +1180,10 @@ ja:
   image_conversion:
     imagemagick: 'Imagemagick'
   journals:
-    changes_retracted: "The changes were retracted."
+    changes_retracted: "変更は取り下げられました。"
   links:
     configuration_guide: '設定ガイド'
-    get_in_touch: "You have questions? Get in touch with us."
+    get_in_touch: "ご質問がありますか？ご連絡ください。"
   instructions_after_registration: "%{signin}をクリックして、アカウントが有効された後にログインできます。"
   instructions_after_logout: "%{signin}をクリックして再びログインできます。"
   instructions_after_error: "%{signin} をクリックして再びログインを試行できます。エラーが解決しない場合は、管理者にお問い合わせください。"
@@ -1321,7 +1322,7 @@ ja:
   label_delete_project: "プロジェクトを削除"
   label_deleted: "削除された"
   label_deleted_custom_field: "（削除されたカスタムフィールド）"
-  label_deleted_custom_option: "(deleted option)"
+  label_deleted_custom_option: "(削除されたオプション)"
   label_descending: "降順"
   label_details: "詳細"
   label_development_roadmap: "開発ロードマップ"
@@ -1339,7 +1340,7 @@ ja:
   label_duplicate: "重複"
   label_duplicates: "次と重複"
   label_edit: "編集"
-  label_edit_x: "Edit: %{x}"
+  label_edit_x: "編集: %{x}"
   label_enable_multi_select: "複数選択の切り替え"
   label_enabled_project_custom_fields: '有効なカスタム フィールド'
   label_enabled_project_modules: '有効なモジュール'
@@ -1760,15 +1761,15 @@ ja:
   mail_body_account_information: "アカウント情報"
   mail_body_account_information_external: "%{value} アカウントを使ってログインできます。"
   mail_body_lost_password: "パスワードを変更するには、以下のリンクをクリックしてください:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
-  mail_body_register_header_title: "Project member invitation email"
-  mail_body_register_user: "Dear %{name}, "
+  mail_body_register: "OpenProjectへようこそ。このリンクをクリックしてアカウントを有効化してください："
+  mail_body_register_header_title: "プロジェクトへの招待メール"
+  mail_body_register_user: "%{name}さん"
   mail_body_register_links_html: |
     Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
     and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
     If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
-  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_closing: "あなたのOpenProjectチーム"
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "担当している%{count}件の作業項目が%{days}日内に予定日になっています："
   mail_body_group_reminder: "グループ \"%{group}\" に割り当てられた%{count}件の作業項目が%{days}日内に期限が到来します："
@@ -1923,7 +1924,7 @@ ja:
   permission_manage_project_activities: "プロジェクト活動の管理"
   permission_manage_public_queries: "公開ビューの管理"
   permission_manage_repository: "リポジトリの管理"
-  permission_manage_subtasks: "Manage work package hierarchies"
+  permission_manage_subtasks: "作業項目階層の管理"
   permission_manage_versions: "バージョンの管理"
   permission_manage_wiki: "Wiki の管理"
   permission_manage_wiki_menu: "Wikiメニューの管理"
@@ -1962,8 +1963,8 @@ ja:
       copying: >
         Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
       use_template: 'テンプレートを使用'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
+      make_template: 'テンプレートとして設定'
+      remove_from_templates: 'テンプレートから削除'
     archive:
       are_you_sure: "プロジェクト '%{name}' をアーカイブしてもよろしいですか？"
       archived: "アーカイブ済み"
@@ -1983,7 +1984,7 @@ ja:
     assigned_to_role: "担当者のロール"
     member_of_group: "担当者のグループ"
     assignee_or_group: "割り当てまたは所属するグループ"
-    subproject_id: "Including Subproject"
+    subproject_id: "サブプロジェクトを含む"
     only_subproject_id: "サブプロジェクトのみ"
     name_or_identifier: "名前または ID"
   repositories:
@@ -2141,7 +2142,7 @@ ja:
   setting_emails_header: "電子メールのヘッダー"
   setting_email_login: "メールアドレスをログインに使用する"
   setting_enabled_scm: "使用するバージョン管理システム"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "プロジェクトリストに表示する"
   setting_feeds_enabled: "フィードを有効にする"
   setting_feeds_limit: "フィードの項目数の上限"
   setting_file_max_size_displayed: "画面表示するテキストファイルの最大サイズ"
@@ -2172,8 +2173,8 @@ ja:
   setting_per_page_options: "オプションページごとの項目数"
   setting_plain_text_mail: "テキストメール（HTMLなし）"
   setting_protocol: "プロトコル"
-  setting_project_gantt_query: "Project portfolio Gantt view"
-  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
+  setting_project_gantt_query: "プロジェクトポートフォリオガントビュー"
+  setting_project_gantt_query_text: "プロジェクトの概要ページからガントチャートを表示するために使用するクエリを変更できます。"
   setting_security_badge_displayed: "セキュリティバッジを表示する"
   setting_registration_footer: "登録フッター"
   setting_repositories_automatic_managed_vendor: "自動リポジトリ ベンダー種類"
@@ -2214,7 +2215,7 @@ ja:
     brute_force_prevention: "自動的にユーザをロック"
     projects:
       section_new_projects: "新規プロジェクトの設定"
-      section_project_overview: "Settings for project overview list"
+      section_project_overview: "プロジェクト概要リストの設定"
     user:
       default_preferences: "デフォルト設定"
       deletion: "削除"
@@ -2545,7 +2546,7 @@ ja:
       mail_self_notified: "自分自身による変更の通知を希望"
     status_user_and_brute_force: "%{user}かつ%{brute_force}"
     status_change: "ステータスの変更"
-    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
+    text_change_disabled_for_provider_login: "名前はログインプロバイダーによって設定されるため、変更できません。"
     unlock: "ロックを解除"
     unlock_and_reset_failed_logins: "ロックを解除して、失敗したログイン数をリセットする"
   version_status_closed: "完了"

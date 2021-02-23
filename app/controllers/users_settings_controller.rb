@@ -30,6 +30,7 @@
 
 class UsersSettingsController < ::ApplicationController
   layout 'admin'
+  before_action :require_admin
   menu_item :user_settings
 
   def index
