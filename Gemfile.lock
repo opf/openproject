@@ -818,7 +818,7 @@ GEM
     ruby-enum (0.9.0)
       i18n
     ruby-ole (1.2.12.2)
-    ruby-prof (1.4.2)
+    ruby-prof (1.4.3)
     ruby-progressbar (1.11.0)
     ruby-rc4 (0.1.5)
     ruby-saml (1.11.0)
