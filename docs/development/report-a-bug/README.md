@@ -9,13 +9,13 @@ keywords: bug report, bug, error, not working
 
 If you find a bug please create a bug report.
 
-1. Login to or register at the [OpenProject community platform](https://community.openproject.com/login). It's fast and free.
+1. Login to or register at the [OpenProject community platform](https://community.openproject.org/login). It's fast and free.
 2. Look for an existing bug report using the search bar in the header navigation on top. If there's one, please leave a comment or add additional information. Otherwise:
-3. Open the [bug form](https://community.openproject.com/projects/openproject/work_packages/new?type=1).
+3. Open the [bug form](https://community.openproject.org/projects/openproject/work_packages/new?type=1).
 4. Add a precise subject.
-5. Add a detailed description.
+5. Add a detailed description using the template.
 6. Attach a file (optional).
-7. Press Create.
+7. Press **Create**.
 
 
 # Information you should add to the bug description
