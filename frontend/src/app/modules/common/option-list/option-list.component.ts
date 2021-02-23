@@ -9,7 +9,6 @@ import {
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
-  DefaultValueAccessor,
 } from "@angular/forms";
 
 export interface IOpOptionListOption<T> {
@@ -41,10 +40,11 @@ export class OpOptionListComponent<T> implements ControlValueAccessor {
   get selected() {
     return this._selected;
   }
-  set selected(data:IOpOptionListValue<T>) {
-    this._selected = data;
-    this.onChange(data);
+  set selected(value:IOpOptionListValue<T>) {
+    this._selected = value;
+    this.onChange(value);
   }
+
   onChange = (_:IOpOptionListValue<T>) => {};
   onTouched = (_:IOpOptionListValue<T>) => {};
 

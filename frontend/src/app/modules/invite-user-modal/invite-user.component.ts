@@ -10,10 +10,7 @@ import {
 import {OpModalLocalsMap} from 'core-app/modules/modal/modal.types';
 import {OpModalComponent} from 'core-app/modules/modal/modal.component';
 import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
-import * as URI from 'urijs';
-import {HttpClient} from '@angular/common/http';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {Observable} from 'rxjs';
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
 enum Steps {
   ProjectSelection,
@@ -46,20 +43,32 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   /* Close on outside click */
   public closeOnOutsideClick = true;
 
+  /* Data that is retured from the modal on close */
+  public data:any = null;
+
   public type:PrincipalType|null = null;
   public project:any = null;
   public principal = null;
   public role = null;
   public message = '';
 
-  constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly cdRef:ChangeDetectorRef,
-              readonly elementRef:ElementRef) {
+  constructor(
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    readonly cdRef:ChangeDetectorRef,
+    readonly elementRef:ElementRef,
+    readonly apiV3Service:APIV3Service,
+  ) {
     super(locals, cdRef, elementRef);
   }
 
   ngOnInit() {
     super.ngOnInit();
+
+    if (this.locals.projectId) {
+      this.apiV3Service.projects.id(this.locals.projectId).get().subscribe(data => {
+        this.project = data;
+      });
+    }
   }
 
   onProjectSelectionSave({ type, project }:{ type:PrincipalType, project:any }) {
@@ -97,6 +106,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   }
 
   closeWithPrincipal() {
+    this.data = this.principal;
     this.closeMe();
   }
 }
