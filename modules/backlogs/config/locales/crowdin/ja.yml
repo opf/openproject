@@ -33,10 +33,10 @@ ja:
         work_package:
           attributes:
             blocks_ids:
-              can_only_contain_work_packages_of_current_sprint: "では現在のスプリント内の作業項目IDのみを含めることができます。"
+              can_only_contain_work_packages_of_current_sprint: "では現在のスプリント内のワークパッケージ ID のみを含めることができます。"
               must_block_at_least_one_work_package: "は少なくとも 1つのチケットIDを含める必要があります。"
             parent_id:
-              parent_child_relationship_across_projects: "は無効です。作業項目'%{work_package_name}'はバックログタスクで、現在のプロジェクト外の親を持つことはできません。"
+              parent_child_relationship_across_projects: "は無効です。ワークパッケージ '%{work_package_name}' はバックログタスクで、現在のプロジェクト外の親を持つことはできません。"
               type_must_be_one_of_the_following: "型は次のいずれかである必要があります: %{type_names}"
             version_id:
               task_version_must_be_the_same_as_story_version: "親ストーリーのバージョンと同じでなければなりません。"
@@ -99,7 +99,7 @@ ja:
   backlogs_empty_title: "バックログで使用するバージョンは定義されていません"
   backlogs_empty_action_text: "バックログを開始するには、新しいバージョンを作成しそれをバックログ列に割り当てます。"
   button_edit_wiki: "Wikiページの編集"
-  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
+  error_backlogs_task_cannot_be_story: "設定が無効です。選択したタスクのタイプはストーリータイプにはできません。"
   error_intro_plural: "次のエラーが発生しました："
   error_intro_singular: "次のエラーが発生しました："
   error_outro: "送信する前に上記のエラーを修正してください。"
@@ -115,7 +115,7 @@ ja:
   label_burndown: "バーンダウン"
   label_column_in_backlog: "バックログの列"
   label_hours: "時間"
-  label_work_package_hierarchy: "作業項目の階層"
+  label_work_package_hierarchy: "ワークパッケージの階層"
   label_master_backlog: "マスターバックログ"
   label_not_prioritized: "優先度が未設定"
   label_points: "ポイント"
@@ -144,7 +144,7 @@ ja:
   points_to_accept: "未着手ポイント"
   points_to_resolve: "未解決ポイント"
   project_module_backlogs: "バックログ"
-  rb_label_copy_tasks: "作業項目をコピー"
+  rb_label_copy_tasks: "ワークパッケージをコピー"
   rb_label_copy_tasks_all: "全て"
   rb_label_copy_tasks_none: "なし"
   rb_label_copy_tasks_open: "開く"

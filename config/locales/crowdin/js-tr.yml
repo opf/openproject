@@ -845,7 +845,7 @@ tr:
           automatic: 'Otomatik'
           manually: 'el ile'
           warning: 'Otomatik sıralama modunu etkinleştirirken önceki sıralamanızı kaybedeceksiniz.'
-        columns_help_text: "Tablo görünümünüze sütun eklemek için yukarıdaki girişi kullanın. Sütunları yeniden sıralamak için sürükleyip bırakabilirsiniz."
+        columns_help_text: "Tablo görünümünüze sütun eklemek için yukarıdaki giriş alanını kullanın. Sütunları yeniden sıralamak için sürükleyip bırakabilirsiniz."
         upsale:
           attribute_highlighting: 'Kitleden sıyrılmak için bazı iş paketlerine mi ihtiyacınız var?'
           relation_columns: 'İş paketleri listesindeki ilişkileri görmek ister misiniz?'

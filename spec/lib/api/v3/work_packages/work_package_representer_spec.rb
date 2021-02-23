@@ -456,6 +456,26 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
 
+        context 'is placeholder user' do
+          let(:assignee) { FactoryBot.build_stubbed(:placeholder_user) }
+
+          it_behaves_like 'has a titled link' do
+            let(:link) { 'assignee' }
+            let(:href) { "/api/v3/placeholder_users/#{work_package.assigned_to.id}" }
+            let(:title) { work_package.assigned_to.name }
+          end
+        end
+
+        context 'is deleted user' do
+          let(:assignee) { FactoryBot.build_stubbed(:deleted_user) }
+
+          it_behaves_like 'has a titled link' do
+            let(:link) { 'assignee' }
+            let(:href) { "/api/v3/users/#{work_package.assigned_to.id}" }
+            let(:title) { work_package.assigned_to.name }
+          end
+        end
+
         context 'is not set' do
           it_behaves_like 'has an empty link' do
             let(:link) { 'assignee' }
@@ -480,6 +500,26 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           it_behaves_like 'has a titled link' do
             let(:link) { 'responsible' }
             let(:href) { "/api/v3/groups/#{work_package.responsible.id}" }
+            let(:title) { work_package.responsible.name }
+          end
+        end
+
+        context 'is placeholder user' do
+          let(:responsible) { FactoryBot.build_stubbed(:placeholder_user) }
+
+          it_behaves_like 'has a titled link' do
+            let(:link) { 'responsible' }
+            let(:href) { "/api/v3/placeholder_users/#{work_package.responsible.id}" }
+            let(:title) { work_package.responsible.name }
+          end
+        end
+
+        context 'is deleted user' do
+          let(:responsible) { FactoryBot.build_stubbed(:deleted_user) }
+
+          it_behaves_like 'has a titled link' do
+            let(:link) { 'responsible' }
+            let(:href) { "/api/v3/users/#{work_package.responsible.id}" }
             let(:title) { work_package.responsible.name }
           end
         end

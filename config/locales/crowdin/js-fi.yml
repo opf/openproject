@@ -361,7 +361,7 @@ fi:
     label_menu_expand: "laajenna"
     label_more_than_ago: "enemän kuin päivää sitten"
     label_next: "Seuraava"
-    label_no_color: "No color"
+    label_no_color: "Ei väriä"
     label_no_data: "Ei tietoja"
     label_no_due_date: "no finish date"
     label_no_start_date: "ei aloituspäivää"
@@ -417,7 +417,7 @@ fi:
     label_updated_on: "päivitetty"
     label_value_derived_from_children: "(value derived from children)"
     label_children_derived_duration: "Work package's children derived duration"
-    label_warning: "Warning"
+    label_warning: "Varoitus"
     label_work_package: "Tehtävä"
     label_work_package_parent: "Parent work package"
     label_work_package_plural: "Tehtävät"
@@ -660,9 +660,9 @@ fi:
         auto: "Auto zoom"
         days: "Päivää"
         weeks: "Viikkoa"
-        months: "Months"
+        months: "Kuukautta"
         quarters: "Quarters"
-        years: "Years"
+        years: "Vuotta"
         slider: "Lähennyksen säätö"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
@@ -845,7 +845,7 @@ fi:
           automatic: 'Automaattinen'
           manually: 'Manuaalinen'
           warning: 'Automaattinen lajittelutapa korvaa nykyiset asetukset'
-        columns_help_text: "Käytä yläpuolella olevaa kenttää taulunäkymän sarakkeiden valintaan. Voit järjestää sarakkeita raahaamalla niitä."
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Täytyy nähdä riippuvuudet tehtävälistassa?'
@@ -860,8 +860,8 @@ fi:
         attachments: Liitteet
       time_relative:
         days: "päivää"
-        weeks: "weeks"
-        months: "months"
+        weeks: "viikkoa"
+        months: "kuukautta"
     toolbar:
       settings:
         configure_view: "Määritä näkymä"
@@ -940,7 +940,7 @@ fi:
         one: "one child work package"
         other: "%{count} work package children"
       hour:
-        zero: "0 h"
+        zero: "0 t"
         one: ""
         other: ""
     zen_mode:
@@ -953,7 +953,7 @@ fi:
       current_project: "Tästä projektista"
       current_project_and_all_descendants: "Tästä projektista + aliprojekteista"
       title:
-        all_projects: "all projects"
+        all_projects: "kaikki projektit"
         project_and_subprojects: "and all subprojects"
         search_for: "Search for"
     views:

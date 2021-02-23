@@ -66,22 +66,22 @@ shared_examples 'BaseServices update service' do
 
     allow(set_attributes_class)
       .to receive(:new)
-            .with(user: user,
-                  model: model_instance,
-                  contract_class: contract_class,
-                  contract_options: {})
-            .and_return(service)
+      .with(user: user,
+            model: model_instance,
+            contract_class: contract_class,
+            contract_options: {})
+      .and_return(service)
 
     allow(service)
       .to receive(:call)
-            .and_return(set_attributes_result)
+      .and_return(set_attributes_result)
   end
 
   before do
     allow(model_instance).to receive(:save).and_return(true)
   end
 
-  subject { instance.call(call_attributes) }
+  subject(:instance_call) { instance.call(call_attributes) }
 
   describe '#user' do
     it 'exposes a user which is available as a getter' do
@@ -98,7 +98,7 @@ shared_examples 'BaseServices update service' do
   describe "#call" do
     context 'when the model instance is valid' do
       it 'is a successful call', :aggregate_failures do
-        expect(subject.success?).to be_truthy
+        expect(subject).to be_success
         expect(subject).to eql set_attributes_result
         expect(subject.result).to eql model_instance
       end
@@ -110,7 +110,7 @@ shared_examples 'BaseServices update service' do
       it 'is unsuccessful', :aggregate_failures do
         expect(model_instance).not_to receive(:save)
 
-        expect(subject.success?).to be_falsey
+        expect(subject).to be_failure
         expect(subject).to eql set_attributes_result
 
         expect(model_instance).to_not receive(:save)
@@ -127,7 +127,7 @@ shared_examples 'BaseServices update service' do
       end
 
       it 'is unsuccessful and returns the errors', :aggregate_failures do
-        expect(subject.success?).to be_falsey
+        expect(subject).to be_failure
         expect(subject.errors).to eql model_instance.errors
       end
     end

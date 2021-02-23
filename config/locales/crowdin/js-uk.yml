@@ -845,7 +845,7 @@ uk:
           automatic: 'Автоматично'
           manually: 'Вручну'
           warning: 'Ви втратите попереднє сортування при активації автоматичного сортування.'
-        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Потрібні певні робочі пакети, щоб виділитися зі скупчення?'
           relation_columns: 'Потрібно бачити відносини у списку робочих пакетів?'

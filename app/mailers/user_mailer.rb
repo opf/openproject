@@ -300,7 +300,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = if @group
-                  t(:mail_subject_group_reminder, count: @issues.size, days: @days, group: @group.groupname)
+                  t(:mail_subject_group_reminder, count: @issues.size, days: @days, group: @group.name)
                 else
                   t(:mail_subject_reminder, count: @issues.size, days: @days)
                 end

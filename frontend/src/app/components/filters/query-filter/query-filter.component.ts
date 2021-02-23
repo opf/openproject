@@ -74,13 +74,6 @@ export class QueryFilterComponent implements OnInit {
     this.filterChanged.emit(this.filter);
   }
 
-  public parentFilter = {
-    filters:[{name:'is_milestone', operator:'=', values:false},
-    {name:'project', operator:'=', values:[this.currentProject.id]}],
-    resource:'work_packages',
-    searchKey:'subjectOrId'
-    };
-
   public removeThisFilter() {
     this.deactivateFilter.emit(this.filter);
   }

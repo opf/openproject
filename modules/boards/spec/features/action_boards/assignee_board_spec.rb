@@ -67,7 +67,7 @@ describe 'Assignee action board',
   end
 
   let!(:group) do
-    FactoryBot.create(:group, groupname: 'Grouped').tap do |group|
+    FactoryBot.create(:group, name: 'Grouped').tap do |group|
       FactoryBot.create(:member,
                         principal: group,
                         project: project,

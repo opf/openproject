@@ -388,19 +388,24 @@ OpenProject::Application.routes.draw do
   end
 
   namespace :admin do
-    resource :incoming_mails, only: %i[show update]
-    resource :mail_notifications, only: %i[show update]
-  end
+    namespace :settings do
+      SettingsHelper.system_settings_tabs.each do |tab|
+        get tab[:name], controller: tab[:controller], action: :show, as: tab[:name].to_s
+        patch tab[:name], controller: tab[:controller], action: :update, as: "update_#{tab[:name]}"
+      end
 
-  resource :settings, only: %i(update show) do
-    SettingsHelper.system_settings_tabs.each do |tab|
-      get tab[:name], controller: "settings/#{tab[:name]}", action: 'show', as: (tab[:name]).to_s
-      patch tab[:name], controller: "settings/#{tab[:name]}", action: 'update', as: "update_#{tab[:name]}"
-    end
+      resource :authentication, controller: '/admin/settings/authentication_settings', only: %i[show update]
+      resource :incoming_mails, controller: '/admin/settings/incoming_mails_settings', only: %i[show update]
+      resource :mail_notifications, controller: '/admin/settings/mail_notifications_settings', only: %i[show update]
+      resource :work_packages, controller: '/admin/settings/work_packages_settings', only: %i[show update]
+      resource :users, controller: '/admin/settings/users_settings', only: %i[show update]
 
-    # We should fix this crappy routing (split up and rename controller methods)
-    collection do
-      match 'plugin/:id', action: 'plugin', via: %i[get post]
+      # Redirect /settings to general settings
+      get '/', to: redirect('/admin/settings/general')
+
+      # Plugin settings
+      get 'plugin/:id', action: :show_plugin
+      post 'plugin/:id', action: :update_plugin
     end
   end
 
@@ -418,11 +423,6 @@ OpenProject::Application.routes.draw do
     # FIXME: this is kind of evil!! We need to remove this soonest and
     # cover the functionality. Route is being used in work-package-service.js:331
     get '/bulk' => 'bulk#destroy'
-  end
-
-  scope controller: 'work_packages/settings' do
-    get 'work_package_tracking' => 'work_packages/settings#index'
-    post 'work_package_tracking' => 'work_packages/settings#edit'
   end
 
   resources :work_packages, only: [:index] do
@@ -475,11 +475,6 @@ OpenProject::Application.routes.draw do
 
   # The show page of groups is public and thus moved out of the admin scope
   resources :groups, only: %i[show], as: :show_group
-
-  scope controller: 'users_settings' do
-    get 'users_settings' => 'users_settings#index'
-    post 'users_settings' => 'users_settings#edit'
-  end
 
   resources :forums, only: [] do
     resources :topics, controller: 'messages', except: [:index], shallow: true do
@@ -553,12 +548,6 @@ OpenProject::Application.routes.draw do
 
   scope controller: 'onboarding' do
     patch 'user_settings', action: 'user_settings'
-  end
-
-  scope controller: 'authentication' do
-    get 'authentication' => 'authentication#index'
-    get 'authentication_settings' => 'authentication#authentication_settings'
-    post 'authentication_settings' => 'authentication#edit'
   end
 
   resources :colors do

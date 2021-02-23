@@ -845,7 +845,7 @@ it:
           automatic: 'Automatico'
           manually: 'Manuale'
           warning: 'Perderai il tuo ordinamento precedente quando attivi la modalità di ordinamento automatico.'
-        columns_help_text: "Utilizza l'input sopra per aggiungere colonne alla visualizzazione della tabella. È possibile trascinare e rilasciare le colonne per riordinarle."
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Vuoi che alcune macro-attività si distinguano dalla massa?'
           relation_columns: 'Vuoi visualizzare le relazioni nell''elenco di macro-attività?'

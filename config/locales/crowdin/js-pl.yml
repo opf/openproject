@@ -845,7 +845,7 @@ pl:
           automatic: 'Automatycznie'
           manually: 'Ręcznie'
           warning: 'Wskutek aktywacji trybu automatycznego sortowania utracisz poprzednie sortowanie.'
-        columns_help_text: "Użyj powyższych danych wejściowych, aby dodać kolumny do widoku tabeli. Możesz przeciągać i upuszczać kolumny, aby zmienić ich kolejność."
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Czy określone pakiety robocze trzeba wyróżnić?'
           relation_columns: 'Chcesz zobaczyć relacje w tej liście pakietów roboczych?'

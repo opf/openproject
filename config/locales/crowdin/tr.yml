@@ -245,12 +245,12 @@ tr:
       no_results_title_text: Bu kullanıcı şuan için bir proje üyesi değil.
   placeholder_users:
     deletion_info:
-      heading: "Delete placeholder user %{name}"
+      heading: "%{name} yer tutucu kullanıcısını sil."
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
-        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
-      irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+        Yer tutucu kullanıcının adının geçtiği her şey (örn. devralan, sorumlu veya diğer kullanıcı değerleri) "Silinmiş Kullanıcı" olarak anılan bir hesaba atanacaktır.
+        Silinmiş tüm hesapların bilgileri bu hesaba atandığından bu kullanıcının oluşturduğu veriler başka bir silinmiş hesap tarafından oluşturulmuş verilerden ayrılamaz.
+      irreversible: "Bu işlem geri alınamaz"
+      confirmation: "Silme işlemini onaylamak için yer tutucu %{name} ismini girin."
   prioritiies:
     edit:
       priority_color_text: |
@@ -529,7 +529,7 @@ tr:
         confirmation: "%{attribute} eşleşmiyor."
         could_not_be_copied: "%{dependency} (tam olarak) kopyalanamadı."
         does_not_exist: "mevcut değil."
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "sadece OpenProject'in ticari sürümlerinde mevcuttur"
         error_unauthorized: "erişilemez."
         error_readonly: "yazılmaya çalışıldı fakat yazılabilir değil."
         empty: "boş olamaz."
@@ -1342,7 +1342,7 @@ tr:
   label_custom_field_plural: "Özel alanlar"
   label_custom_field_default_type: "Boş tür"
   label_custom_style: "Tasarım"
-  label_database_version: "PostgreSQL version"
+  label_database_version: "PostgreSQL sürümü"
   label_date: "Tarih"
   label_date_and_time: "Tarih ve zaman"
   label_date_from: "Başlangıç"
@@ -1927,8 +1927,8 @@ tr:
   permission_add_work_packages: "İş paketi eklemek"
   permission_add_messages: "İleti göndermek"
   permission_add_project: "Proje oluşturmak"
-  permission_manage_user: "Create and edit users"
-  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
+  permission_manage_user: "Kullanıcılar oluştur ve düzenle"
+  permission_manage_placeholder_user: "Yer tutucu kullanıcılar oluştur, düzenle ve sil."
   permission_add_subprojects: "Alt proje oluşturmak"
   permission_add_work_package_watchers: "Takipçi ekle"
   permission_assign_versions: "Sürüm ata"

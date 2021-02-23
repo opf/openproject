@@ -53,7 +53,7 @@ sl:
         action_text_version: >
           Odložišče s samodejnimi stolpci glede na verzijo lastnosti. Popoln za načrtovanje razvoja projekta.
         action_type:
-          assignee: Pooblaščenec
+          assignee: Nosilec
           status: Stanje
           version: različica
           subproject: Podprojekt

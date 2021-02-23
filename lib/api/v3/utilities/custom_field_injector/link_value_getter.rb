@@ -93,7 +93,7 @@ module API
             end
 
             def derive_principal_path_method(custom_value)
-              custom_value.typed_value.model_name.singular
+              API::V3::Principals::PrincipalRepresenterFactory.v3_path(custom_value.typed_value)
             end
 
             def link_value_title(custom_value)

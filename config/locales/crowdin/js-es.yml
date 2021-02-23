@@ -845,7 +845,7 @@ es:
           automatic: 'Automático'
           manually: 'Manual'
           warning: 'Al activar el modo de ordenación automática, se perderá la ordenación actual.'
-        columns_help_text: "Use los datos anteriores para añadir columnas a la vista de tabla. Puede arrastrar y colocar las columnas para cambiar el orden."
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: '¿Necesita que algunos paquetes de trabajo destaquen del resto?'
           relation_columns: '¿Necesita ver las relaciones en la lista del paquete de trabajo?'

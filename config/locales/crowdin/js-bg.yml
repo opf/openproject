@@ -86,7 +86,7 @@ bg:
     caption_rate_history: "Оценете историята"
     clipboard:
       browser_error: "Вашият браузър не поддържа копиране в клипборд. Моля копирайте избрания текст ръчно."
-      copied_successful: "Successfully copied to clipboard!"
+      copied_successful: "Копирано успешно в клипборда!"
     chart:
       type: 'Тип на диаграмата'
       axis_criteria: 'Критерии за ос'
@@ -273,11 +273,11 @@ bg:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-1-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              Изданието съдържа различни нови функции и подобрения: <br> <ul class ="%{list_styling_class}"> <li> <b> Подобрени стилове </b> на редактора WYSIWYG. </li> <li> Директно показване на <b> потребителско име за @notifications </b> по време на редактиране. </li> <li> Разширен профил за удостоверяване с <b> доставчик на OpenID Connect. </b> </li> <li> Показване на проект <b> обобщени етапи </b> в един ред в диаграмата на Гант. </li> <li> <b> Бутон Свиване на всички за групи </b> в списъка с работни пакети. </li> <li> <b> Оптимизация за печат, </b> напр wiki страници, чрез функцията за печат в браузъра. </li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-0-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              Изданието съдържа различни нови функции и подобрения: <br> <ul class ="%{list_styling_class}"> <li> <b> Подобрени стилове </b> на редактора WYSIWYG. </li> <li> Директно показване на <b> потребителско име за @notifications </b> по време на редактиране. </li> <li> Разширен профил за удостоверяване с <b> доставчик на OpenID Connect. </b> </li> <li> Показване на проект <b> обобщени етапи </b> в един ред в диаграмата на Гант. </li> <li> <b> Бутон Свиване на всички за групи </b> в списъка с работни пакети. </li> <li> <b> Оптимизация за печат, </b> напр wiki страници, чрез функцията за печат в браузъра. </li> </ul>
     label_activate: "Activate"
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
@@ -363,7 +363,7 @@ bg:
     label_next: "Следващо"
     label_no_color: "No color"
     label_no_data: "Няма данни за показване"
-    label_no_due_date: "no finish date"
+    label_no_due_date: "без крайна дата"
     label_no_start_date: "няма начална дата"
     label_no_value: "Няма стойност"
     label_none: "none"
@@ -403,7 +403,7 @@ bg:
     label_public_query: "Публичен"
     label_sum: "Sum"
     label_sum_for: "Сума за"
-    label_total_sum: "Total sum"
+    label_total_sum: "Обща сума"
     label_subject: "Заглавие"
     label_this_week: "тази седмица"
     label_today: "Днес"
@@ -845,7 +845,7 @@ bg:
           automatic: 'Автоматично'
           manually: 'Ръчно'
           warning: 'Ще загубите предишното си сортиране, когато активирате автоматичния режим на сортиране.'
-        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Използвайте полето за въвеждане по-горе, за да добавите колони към изгледа на вашата таблица. Можете да плъзгате и пускате колоните, за да ги пренареждате."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'
