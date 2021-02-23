@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,27 +28,32 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Groups
-  class BaseContract < ::ModelContract
-    include RequiresAdminGuard
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
+require_relative 'shared_contract_examples'
 
-    # attribute_alias is broken in the sense
-    # that `model#changed` includes only the non-aliased name
-    # hence we need to put "lastname" as an attribute here
-    attribute :name
-    attribute :lastname
+describe Groups::CreateContract do
+  include_context 'ModelContract shared context'
 
-    validate :validate_unique_users
+  it_behaves_like 'group contract' do
+    let(:group) do
+      Group.new(name: group_name,
+                group_users: group_users)
+    end
 
-    private
+    let(:contract) { described_class.new(group, current_user) }
 
-    # Validating on the group_users since those are dealt with in the
-    # corresponding services.
-    def validate_unique_users
-      user_ids = model.group_users.map(&:user_id)
+    describe 'validations' do
+      let(:current_user) { FactoryBot.build_stubbed :admin }
 
-      if user_ids.uniq.length < user_ids.length
-        errors.add(:group_users, :taken)
+      describe 'type' do
+        context 'type and class mismatch' do
+          before do
+            group.type = User.name
+          end
+
+          it_behaves_like 'contract is invalid', type: 'Type and class mismatch'
+        end
       end
     end
   end

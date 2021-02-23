@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,27 +28,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Groups
-  class BaseContract < ::ModelContract
-    include RequiresAdminGuard
+module Groups::Scopes
+  module Visible
+    extend ActiveSupport::Concern
 
-    # attribute_alias is broken in the sense
-    # that `model#changed` includes only the non-aliased name
-    # hence we need to put "lastname" as an attribute here
-    attribute :name
-    attribute :lastname
-
-    validate :validate_unique_users
-
-    private
-
-    # Validating on the group_users since those are dealt with in the
-    # corresponding services.
-    def validate_unique_users
-      user_ids = model.group_users.map(&:user_id)
-
-      if user_ids.uniq.length < user_ids.length
-        errors.add(:group_users, :taken)
+    class_methods do
+      def visible(current_user = User.current)
+        if current_user.allowed_to_globally?(:manage_members)
+          Group.all
+        else
+          Group
+            .in_project(Project.allowed_to(current_user, :view_members))
+        end
       end
     end
   end

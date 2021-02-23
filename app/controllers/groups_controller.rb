@@ -141,8 +141,8 @@ class GroupsController < ApplicationController
   end
 
   def remove_user
-    @group = Group.includes(:users).find(params[:id])
-    @group.users.delete(User.includes(:memberships).find(params[:user_id]))
+    @group = Group.includes(:group_users).find(params[:id])
+    @group.group_users.destroy(GroupUser.find_by(user_id: params[:user_id], group_id: @group.id))
 
     I18n.t :notice_successful_update
     redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users'

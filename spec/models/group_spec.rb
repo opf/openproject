@@ -49,7 +49,7 @@ describe Group, type: :model do
 
   describe 'with long but allowed attributes' do
     it 'is valid' do
-      group.groupname = 'a' * 256
+      group.name = 'a' * 256
       expect(group).to be_valid
       expect(group.save).to be_truthy
     end
@@ -57,7 +57,7 @@ describe Group, type: :model do
 
   describe 'with a name too long' do
     it 'is invalid' do
-      group.groupname = 'a' * 257
+      group.name = 'a' * 257
       expect(group).not_to be_valid
       expect(group.save).to be_falsey
     end
@@ -68,6 +68,30 @@ describe Group, type: :model do
       user.firstname = 'a' * 257
       expect(user).not_to be_valid
       expect(user.save).to be_falsey
+    end
+  end
+
+  describe '#group_users' do
+    context 'when adding a user' do
+      it 'updates the timestamp' do
+        updated_at = group.updated_at
+        group.group_users.create(user: user)
+
+        expect(updated_at < group.reload.updated_at)
+          .to be_truthy
+      end
+    end
+
+    context 'when removing a user' do
+      it 'updates the timestamp' do
+        group.group_users.create(user: user)
+        updated_at = group.reload.updated_at
+
+        group.group_users.destroy_all
+
+        expect(updated_at < group.reload.updated_at)
+          .to be_truthy
+      end
     end
   end
 
@@ -118,7 +142,7 @@ describe Group, type: :model do
           group.valid?
         end
 
-        it { expect(group.errors.full_messages[0]).to include I18n.t('attributes.groupname') }
+        it { expect(group.errors.full_messages[0]).to include I18n.t('attributes.name') }
       end
     end
   end
@@ -135,8 +159,8 @@ describe Group, type: :model do
     end
   end
 
-  describe '#groupname' do
-    it { expect(group).to validate_presence_of :groupname }
-    it { expect(group).to validate_uniqueness_of :groupname }
+  describe '#name' do
+    it { expect(group).to validate_presence_of :name }
+    it { expect(group).to validate_uniqueness_of :name }
   end
 end

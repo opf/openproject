@@ -29,17 +29,23 @@
 #++
 
 class Group < Principal
-  has_and_belongs_to_many :users,
-                          join_table: "#{table_name_prefix}group_users#{table_name_suffix}",
-                          before_add: :fail_add,
-                          after_remove: :user_removed
+  include ::Scopes::Scoped
+
+  has_many :group_users,
+           autosave: true,
+           dependent: :destroy,
+           after_remove: :user_removed
+
+  has_many :users,
+           through: :group_users,
+           before_add: :fail_add
 
   acts_as_customizable
 
-  alias_attribute(:groupname, :lastname)
-  validates_presence_of :groupname
-  validate :uniqueness_of_groupname
-  validates_length_of :groupname, maximum: 256
+  alias_attribute(:name, :lastname)
+  validates_presence_of :name
+  validate :uniqueness_of_name
+  validates_length_of :name, maximum: 256
 
   # HACK: We want to have the :preference association on the Principal to allow
   # for eager loading preferences.
@@ -55,13 +61,15 @@ class Group < Principal
 
   include Destroy
 
+  scopes :visible
+
   def to_s
-    lastname.to_s
+    lastname
   end
 
-  alias :name :to_s
+  def user_removed(group_user)
+    user = group_user.user
 
-  def user_removed(user)
     member_roles = MemberRole
                    .includes(member: :member_roles)
                    .where(inherited_from: members.joins(:member_roles).select('member_roles.id'))
@@ -92,10 +100,10 @@ class Group < Principal
 
   private
 
-  def uniqueness_of_groupname
-    groups_with_name = Group.where('lastname = ? AND id <> ?', groupname, id || 0).count
+  def uniqueness_of_name
+    groups_with_name = Group.where('lastname = ? AND id <> ?', name, id || 0).count
     if groups_with_name > 0
-      errors.add :groupname, :taken
+      errors.add :name, :taken
     end
   end
 
