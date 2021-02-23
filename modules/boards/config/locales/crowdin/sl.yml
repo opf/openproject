@@ -1,7 +1,7 @@
 #English strings go here
 sl:
-  permission_show_board_views: "Prikaži deske"
-  permission_manage_board_views: "Upravljaj deske"
+  permission_show_board_views: "Prikaži tabele"
+  permission_manage_board_views: "Upravljaj tabele"
   project_module_board_view: "Boardi"
   boards:
     label_board: "Board"

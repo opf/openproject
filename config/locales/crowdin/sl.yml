@@ -37,12 +37,12 @@ sl:
         primary-color-dark: "Primarna (temna)"
         header-bg-color: "Ozadje glave"
         header-item-bg-hover-color: "Ozadje glave, ko smo z miško na vsebini"
-        header-item-font-color: "Font glave"
+        header-item-font-color: "Pisava glave"
         header-item-font-hover-color: "pisava glave, ko smo z miško na vsebini"
         header-border-bottom-color: "Rob glave"
         main-menu-bg-color: "Ozadje glavnega menija"
-        main-menu-bg-selected-background: "Glavni meni, ko se izbere"
-        main-menu-bg-hover-background: "Glavni meni ob nastavitvi kazalca"
+        main-menu-bg-selected-background: "Glavni meni, ko je izbran"
+        main-menu-bg-hover-background: "Glavni meni, ko smo z miško na vsebini"
         main-menu-font-color: "Pisava glavnega menija"
         main-menu-selected-font-color: "Pisava glavnega menija, ko je izbrana"
         main-menu-hover-font-color: "Pisava glavnega menija, ko z miško lebdimo nad vsebino"
@@ -57,11 +57,11 @@ sl:
         primary-color: "Glavna barva."
         primary-color-dark: "Običajno temnejša različica glavne barve, ki se uporablja za učinke lebdenja."
         header-item-bg-hover-color: "Barva ozadja enot v glavi katere je mogoče klikniti, ko se z miško premaknete na njih."
-        header-item-font-color: "Barva pisave klikajočih enot v glavi."
-        header-item-font-hover-color: "Barva pisave klikajočih elementov v glavi, ko se z miško premaknemo na njih."
+        header-item-font-color: "Barva pisave enot v glavi, na katere lahko kliknemo."
+        header-item-font-hover-color: "Barva pisave elementov v glavi, na katere lahko kliknemo, ko se z miško premaknemo na njih."
         header-border-bottom-color: "Tanka črta pod glavo. Pustite to polje prazno, če ne želite črte."
         main-menu-bg-color: "Barva ozadja levega menija."
-      theme_warning: "Sprememba teme bo nadomestilo vaš slog po meri. Oblikovanje bo tkao izgubljeno. Ali ste prepričani, da bi radi nadaljevali?\n"
+      theme_warning: "Sprememba teme bo nadomestilo vaš slog po meri. Oblikovanje bo tako izgubljeno. Ali ste prepričani, da bi radi nadaljevali?\n"
     enterprise:
       upgrade_to_ee: "Nadgradite v Enterprise Edition"
       add_token: "Naloži Enterprise Edition  podporni žeton"
@@ -79,7 +79,7 @@ sl:
     is_inactive: trenutno ni prikazano
   attribute_help_texts:
     note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
-    text_overview: 'V tem pogledu lahko ustvarite besedila pomoči po meri za pogled atributov. Ko je definirano, lahko ta besedila prikažemo s klikom ikone pomoči poleg pripadajočega atributa.'
+    text_overview: 'V tem pogledu lahko ustvarite besedila pomoči po meri za pogled atributov. Ob definiciji lahko ta besedila prikažemo s klikom ikone pomoči poleg pripadajočega atributa.'
     label_plural: 'Tekst pomoči atributa'
     show_preview: 'Predogled besedila'
     add_new: 'Dodajte besedilo pomoči'
@@ -536,7 +536,7 @@ sl:
         invalid_url: 'ni veljaven URL. '
         invalid_url_scheme: 'ni podprt protokol (dovoljeno:%{allowed_schemes}).'
         less_than_or_equal_to: "mora biti manjše ali enako %{count}. "
-        not_current_user: "is not the current user."
+        not_current_user: "ni trenutni uporabnik"
         not_a_date: "ni veljaven datum"
         not_a_datetime: "ni veljaven datum."
         not_a_number: "ni število."
@@ -1791,7 +1791,7 @@ sl:
   label_yesterday: "včeraj"
   label_role_type: "Vrsta"
   label_member_role: "Projektne vloge"
-  label_global_role: "Globalne vloge"
+  label_global_role: "Globalna vloga"
   label_not_changeable: "(ne spremenljivo)"
   label_global: "Globalno"
   auth_source:

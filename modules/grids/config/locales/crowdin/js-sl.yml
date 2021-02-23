@@ -39,7 +39,7 @@ sl:
           title: 'Podprojekti'
           no_results: 'Ni podprojektov. '
         time_entries_current_user:
-          title: 'Poglej porabljen čas'
+          title: 'Moj porabljen čas'
           displayed_days: 'Days displayed in the widget:'
         time_entries_list:
           title: 'Porabljen čas (zadnjih 7 dni) '

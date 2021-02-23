@@ -60,7 +60,7 @@ class FogFileUploader < CarrierWave::Uploader::Base
   ##
   # This is necessary for carrierwave to set the Content-Type in the S3 metadata for instance.
   def fog_attributes
-    content_type = model.content_type
+    content_type = model.respond_to?(:content_type) ? model.content_type : ""
 
     return super if content_type.blank?
 
