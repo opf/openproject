@@ -122,9 +122,6 @@ ca:
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Connection encryption'
     system_account: 'System account'
     system_account_legend: |
@@ -780,7 +777,7 @@ ca:
     firstname: "Nom"
     group: "Grup"
     groups: "Grups"
-    name: "Nom"
+    groupname: "Nom del grup"
     id: "Id"
     is_default: "Valor per defecte"
     is_for_all: "Per tots els projectes"
@@ -790,6 +787,7 @@ ca:
     lastname: "Cognom"
     login: "Nom d'usuari"
     mail: "Correu electrònic"
+    name: "Nom"
     password: "Contrasenya"
     priority: "Prioritat"
     project: "Projecte"

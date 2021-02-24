@@ -122,9 +122,6 @@ hu:
         Ha bejelöli ezt a négyzetet, az OpenProject automatikusan új felhasználókat hoz létre az LDAP bejegyzéseikből
         amikor először hitelesítenek az OpenProject segítségével.
         Ha ezt nem jelöli, akkor az OpenProject már létező fiókjai csak az LDAP segítségével hitelesíthetők!
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Kapcsolat titkosítása'
     system_account: 'Rendszer fiók'
     system_account_legend: |
@@ -777,7 +774,7 @@ hu:
     firstname: "Keresztnév"
     group: "Csoport"
     groups: "Csoportok"
-    name: "Név"
+    groupname: "Csoport neve"
     id: "ID"
     is_default: "Alap érték"
     is_for_all: "Minden projekthez"
@@ -787,6 +784,7 @@ hu:
     lastname: "Vezetéknév"
     login: "Felhasználónév"
     mail: "Email"
+    name: "Név"
     password: "Jelszó"
     priority: "Fontosság"
     project: "Projekt"

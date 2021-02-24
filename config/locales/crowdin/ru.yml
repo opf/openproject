@@ -121,9 +121,6 @@ ru:
       onthefly_register: |
         Отмеченный флажок разрешает OpenProject при первой аутентификации создавать новых пользователей из их LDAP записей.
         Для аутентификации существующих в OpenProject учетных записей через LDAP не отмечайте!
-      onthefly_group_sync: |
-        Если вы включите синхронизацию групп для этого подключения LDAP, пользователи также будут автоматически созданы
-        в OpenProject для синхронизированных групп. Без него в группе будут добавлены только существующие учетные записи в OpenProject.
     connection_encryption: 'Шифрование подключения'
     system_account: 'Системный аккаунт'
     system_account_legend: |
@@ -787,7 +784,7 @@ ru:
     firstname: "Имя"
     group: "Группа"
     groups: "Группы"
-    name: "Имя"
+    groupname: "Имя группы"
     id: "ID"
     is_default: "Значение по умолчанию"
     is_for_all: "Для всех проектов"
@@ -797,6 +794,7 @@ ru:
     lastname: "Фамилия"
     login: "Имя пользователя"
     mail: "Электронная почта"
+    name: "Имя"
     password: "Пароль"
     priority: "Приоритет"
     project: "Проект"
@@ -1372,7 +1370,7 @@ ru:
   label_custom_field_plural: "Настраиваемые поля"
   label_custom_field_default_type: "Пустой тип"
   label_custom_style: "Дизайн"
-  label_database_version: "PostgreSQL version"
+  label_database_version: "Версия PostgreSQL"
   label_date: "Дата"
   label_date_and_time: "Дата и время"
   label_date_from: "От"
@@ -1966,7 +1964,7 @@ ru:
   permission_add_work_packages: "Добавление пакетов работ"
   permission_add_messages: "Написать сообщения"
   permission_add_project: "Создать проект"
-  permission_manage_user: "Create and edit users"
+  permission_manage_user: "Создание и редактирование пользователей"
   permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Создать подпроект"
   permission_add_work_package_watchers: "Добавить наблюдателей"

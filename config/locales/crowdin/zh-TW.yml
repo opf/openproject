@@ -122,9 +122,6 @@ zh-TW:
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: '連線加密'
     system_account: '系統帳戶'
     system_account_legend: |
@@ -776,7 +773,7 @@ zh-TW:
     firstname: "名字"
     group: "群組"
     groups: "群組"
-    name: "名稱"
+    groupname: "團體名稱"
     id: "ID"
     is_default: "預設值"
     is_for_all: "對所有的專案"
@@ -786,6 +783,7 @@ zh-TW:
     lastname: "姓："
     login: "使用者名稱"
     mail: "電子郵件"
+    name: "名稱"
     password: "密碼"
     priority: "優先等級"
     project: "專案"

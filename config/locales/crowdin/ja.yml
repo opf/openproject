@@ -121,9 +121,6 @@ ja:
         ANDで連結されます。デフォルトではキャッチオール（objectClass = *）がフィルタとして使用されます。
       onthefly_register: |
         チェックを入れると、OpenProjectは初回認証時に自動的にLDAPエントリーに新規ユーザー登録します。LDAPの既存ユーザーのみ許可する場合はチェックを外してください。
-      onthefly_group_sync: |
-        この LDAP 接続のグループ同期を有効にすると、同期されたグループのユーザーも OpenProject に自動的に作成されます。
-        これがなければ OpenProjec 内tの既存のアカウントのみがグループに追加されます。
     connection_encryption: '接続の暗号化'
     system_account: 'システムアカウント'
     system_account_legend: |
@@ -772,7 +769,7 @@ ja:
     firstname: "名前"
     group: "グループ"
     groups: "グループ"
-    name: "名称"
+    groupname: "グループ名"
     id: "ID"
     is_default: "デフォルト値"
     is_for_all: "全プロジェクト向け"
@@ -782,6 +779,7 @@ ja:
     lastname: "苗字"
     login: "ユーザー名"
     mail: "電子メールアドレス"
+    name: "名称"
     password: "パスワード"
     priority: "優先度"
     project: "プロジェクト"

@@ -120,8 +120,6 @@ lt:
       onthefly_register: |
         Jei pažymėsite šį lauką, OpenProject automatiškai sukurs naujus vartotojus pagal LDAP informaciją, kai tik šie vartotojai pirmą kartą prisijungs prie OpenProject.
         Nežymėkite šio lauko, jei norite, kad tik jau sukurti vartotojai galėtų prisijungti pasinaudodami LDAP!
-      onthefly_group_sync: |
-        Jei jūs įjungsite grupių sinchronizavimą šiai LDAP jungčiai, OpenProject automatiškai sukurs savo vartotojus visiems sinchronizuojamų grupių nariams. Neįjungus, tik dabar esantys OpenProject vartotojai bus pridėti į grupes.
     connection_encryption: 'Jungties šifravimas'
     system_account: 'Sistemos paskyra'
     system_account_legend: |
@@ -783,7 +781,7 @@ lt:
     firstname: "Vardas"
     group: "Grupė"
     groups: "Grupės"
-    name: "Vardas"
+    groupname: "Grupės pavadinimas"
     id: "ID"
     is_default: "Numatytoji vertė"
     is_for_all: "Visiems projektams"
@@ -793,6 +791,7 @@ lt:
     lastname: "Pavardė"
     login: "Naudotojas"
     mail: "El. paštas"
+    name: "Vardas"
     password: "Slaptažodis"
     priority: "Pirmenybė"
     project: "Projektas"

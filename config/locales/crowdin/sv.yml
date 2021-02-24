@@ -122,9 +122,6 @@ sv:
         Om du kryssar i den här rutan kommer OpenProject automatiskt att skapa nya användare från sina LDAP-poster
         när de först autentiserar med OpenProject.
         Lämna detta avmarkerat för att endast tillåta befintliga konton i OpenProject att autentisera via LDAP!
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Kryptering av anslutning'
     system_account: 'Systemkonto'
     system_account_legend: |
@@ -779,7 +776,7 @@ sv:
     firstname: "Förnamn"
     group: "Grupp"
     groups: "Grupper"
-    name: "Namn"
+    groupname: "Gruppens namn"
     id: "ID"
     is_default: "Standardvärde"
     is_for_all: "För alla projekt"
@@ -789,6 +786,7 @@ sv:
     lastname: "Efternamn"
     login: "Användarnamn"
     mail: "E-post"
+    name: "Namn"
     password: "Lösenord"
     priority: "Prioritet"
     project: "Projekt"

@@ -120,8 +120,6 @@ pl:
       onthefly_register: |
         Jeśli zaznaczysz to pole, OpenProject będzie automatycznie tworzyć nowych użytkowników z ich wpisów LDAP przy pierwszym uwierzytelnieniu za pomocą OpenProject.
         Pozostaw to pole niezaznaczone, aby tylko istniejące konta w OpenProject mogły się uwierzytelniać za pomocą LDAP!
-      onthefly_group_sync: |
-        Jeśli włączysz synchronizację grupy dla tego połączenia LDAP, użytkownicy zostaną również automatycznie utworzeni w OpenProject w przypadku grup synchronizowanych. Bez tego dodane do grup zostaną tylko konta istniejące w OpenProject.
     connection_encryption: 'Szyfrowanie połączenia'
     system_account: 'Konto systemowe'
     system_account_legend: |
@@ -784,7 +782,7 @@ pl:
     firstname: "Imię"
     group: "Grupa"
     groups: "Grupy"
-    name: "Nazwa"
+    groupname: "Nazwa grupy"
     id: "ID"
     is_default: "Wartość domyślna"
     is_for_all: "Dla wszystkich projektów"
@@ -794,6 +792,7 @@ pl:
     lastname: "Nazwisko"
     login: "Nazwa użytkownika"
     mail: "Adres e-mail"
+    name: "Nazwa"
     password: "Hasło"
     priority: "Priorytet"
     project: "Projekt"

@@ -45,7 +45,7 @@ id:
   backlogs:
     add_new_story: "Cerita baru "
     any: "apapun"
-    backlog_settings: "Backlogs settings"
+    backlog_settings: "Pengaturan Backlog"
     burndown_graph: "Grafik Burndown"
     card_paper_size: "Ukuran kertas untuk pencetakan kartu"
     chart_options: "Bagan pilihan"

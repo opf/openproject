@@ -124,9 +124,6 @@ vi:
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Mã hóa kết nối'
     system_account: 'Tài khoản hệ thống'
     system_account_legend: |
@@ -778,7 +775,7 @@ vi:
     firstname: "Tên"
     group: "Nhóm"
     groups: "Các Nhóm"
-    name: "Tên"
+    groupname: "Tên nhóm"
     id: "ID"
     is_default: "Giá trị mặc định"
     is_for_all: "Cho tất cả các dự án"
@@ -788,6 +785,7 @@ vi:
     lastname: "Họ"
     login: "Tên người dùng"
     mail: "Thư điện tử"
+    name: "Tên"
     password: "Mật khẩu"
     priority: "Độ ưu tiên"
     project: "Dự án"

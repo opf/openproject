@@ -122,9 +122,6 @@ tr:
         Bu kutuyu işaretlerseniz, OpenProject otomatik olarak LDAP girişlerinden yeni kullanıcılar oluşturur
         OpenProject ile ilk kimlik doğrulaması yaptıklarında.
         Yalnızca OpenProject’deki mevcut hesapların LDAP üzerinden kimlik doğrulaması yapmasına izin vermek için işaretlenmemiş bırakın!
-      onthefly_group_sync: |
-        Bu LDAP bağlantısı için grup senkronizasyonunu etkinleştirirseniz, kullanıcılar da otomatik olarak oluşturulur
-        senkronize gruplar için OpenProject'te. Bu olmadan, gruplara yalnızca OpenProject'teki mevcut hesaplar eklenir.
     connection_encryption: 'Bağlantı şifreleme'
     system_account: 'Sistem hesabı'
     system_account_legend: |
@@ -780,7 +777,7 @@ tr:
     firstname: "İsim"
     group: "Grup"
     groups: "Gruplar"
-    name: "İsim"
+    groupname: "Grup adı"
     id: "ID"
     is_default: "Varsayılan değer"
     is_for_all: "Tüm projeler için"
@@ -790,6 +787,7 @@ tr:
     lastname: "Soyisim"
     login: "Kullanıcı adı"
     mail: "Eposta"
+    name: "İsim"
     password: "Parola"
     priority: "Öncelik"
     project: "Proje"

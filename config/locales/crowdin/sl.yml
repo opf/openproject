@@ -121,9 +121,6 @@ sl:
       onthefly_register: |
         Če potrdite to polje, bo OpenProject samodejno ustvaril nove uporabnike iz njihovih vnosov LDAP, ko se prvič potrdijo z OpenProject.
         Pustite to polje brez potrditve, da samo obstoječim računom v programu OpenProject dovolite avtentikacijo preko LDAP.
-      onthefly_group_sync: |
-        Če za to povezavo LDAP omogočite skupinsko sinhronizacijo, bodo uporabniki tudi samodejno ustvarjeni
-        v OpenProject za sinhronizirane skupine. Brez nje bodo v skupine dodani samo obstoječi računi v programu OpenProject.
     connection_encryption: 'Šifriranje povezave'
     system_account: 'Sistemski račun'
     system_account_legend: |
@@ -786,7 +783,7 @@ sl:
     firstname: "Ime"
     group: "Skupina"
     groups: "Skupine"
-    name: "Ime"
+    groupname: "Ime skupine"
     id: "ID / identiteta"
     is_default: "Privzeta vrednost"
     is_for_all: "Za vse projekte"
@@ -796,6 +793,7 @@ sl:
     lastname: "Priimek"
     login: "Uporabniško ime"
     mail: "E-pošta"
+    name: "Ime"
     password: "Geslo"
     priority: "Prioriteta"
     project: "Projekt"

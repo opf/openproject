@@ -122,9 +122,6 @@ ko:
         이 확인란을 선택하면 OpenProject로 처음 인증할 때 OpenProject가 LDAP 항목에서
         자동으로 새 사용자를 만듭니다.
         OpenProject의 기존 계정만 LDAP를 통해 인증할 수 있게 하려면 이 확인란을 선택하지 마세요!
-      onthefly_group_sync: |
-        이 LDAP 연결에 대한 그룹 동기화를 활성화하면, 동기화된 그룹에 대해 
-        사용자가 OpenProject에서 자동으로 생성됩니다. 활성화하지 않으면, OpenProject의 기존 계정만 그룹에 추가됩니다.
     connection_encryption: '연결 암호화'
     system_account: '시스템 계정'
     system_account_legend: |
@@ -775,7 +772,7 @@ ko:
     firstname: "이름"
     group: "그룹"
     groups: "그룹"
-    name: "이름"
+    groupname: "그룹명"
     id: "ID"
     is_default: "기본값"
     is_for_all: "모든 포로젝트를 위한"
@@ -785,6 +782,7 @@ ko:
     lastname: "성"
     login: "사용자 이름"
     mail: "이메일"
+    name: "이름"
     password: "암호"
     priority: "우선 순위"
     project: "프로젝트"
