@@ -100,8 +100,8 @@ You can find the latest LTS version here: https://nodejs.org/en/download/
 At the time of writing this is v14.15.4. Install and activate it with:
 
 ```bash
-nodenv install 14.15.4
-nodenv global 14.15.4
+nodenv install 14.16.0
+nodenv global 14.16.0
 ```
 
 ## Verify your installation
@@ -116,7 +116,7 @@ $ bundler --version
 Bundler version 2.1.4
 
 node --version
-v14.15.4
+v14.16.0
 
 npm --version
 7.5.3
