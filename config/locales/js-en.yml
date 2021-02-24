@@ -301,7 +301,7 @@ en:
               The release contains various new features and improvements: <br>
               <ul class="%{list_styling_class}">
                 <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li>
-                <li>The work package filter is extended by a parent option <b>to filter for child work packages</b> and easily see all direct sub tasks.</li>
+                <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li>
                 <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li>
                 <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li>
               </ul>
@@ -311,7 +311,7 @@ en:
               The release contains various new features and improvements: <br>
               <ul class="%{list_styling_class}">
                 <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li>
-                <li>The work package filter is extended by a parent option </b>to filter for child work packages</b> and easily see all direct sub tasks.</li>
+                <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li>
                 <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li>
                 <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li>
               </ul>
