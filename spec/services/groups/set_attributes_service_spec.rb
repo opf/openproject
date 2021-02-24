@@ -39,7 +39,7 @@ describe Groups::SetAttributesService, type: :model do
 
     allow(contract)
       .to receive(:new)
-      .with(group, user, options: { changed_by_system: [] })
+      .with(group, user, options: {})
       .and_return(contract_instance)
 
     contract

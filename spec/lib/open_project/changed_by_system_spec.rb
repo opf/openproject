@@ -27,52 +27,66 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_contract_examples'
 
-describe WikiPages::CreateContract do
-  it_behaves_like 'wiki page contract' do
-    subject(:contract) { described_class.new(page, current_user, options: {}) }
+describe OpenProject::ChangedBySystem do
+  subject(:model) do
+    model = News.new
+    model.extend(described_class)
+    model
+  end
 
-    let(:page) do
-      WikiPage.new(wiki: page_wiki,
-                   title: page_title,
-                   slug: page_slug,
-                   protected: page_protected,
-                   parent: page_parent).tap do |page|
-        page.build_content text: page_text,
-                           author: page_author
-        page.content.extend(OpenProject::ChangedBySystem)
-        page.content.changed_by_system(changed_by_system)
+  describe '#changed_by_user' do
+    context 'when an attribute is changed' do
+      before do
+        model.title = 'abc'
+      end
 
-        allow(page)
-          .to receive(:project)
-          .and_return(page_wiki&.project)
+      it 'returns the attribute' do
+        expect(model.changed_by_user)
+          .to match_array ['title']
       end
     end
 
-    let(:changed_by_system) do
-      if page_author
-        { "author_id" => [nil, page_author.id] }
-      else
-        {}
+    context 'when an attribute is changed by the system' do
+      before do
+        model.change_by_system do
+          model.title = 'abc'
+        end
+      end
+
+      it 'returns no attributes' do
+        expect(model.changed_by_user)
+          .to be_empty
       end
     end
 
-    describe '#validation' do
-      context 'if the author is different from the current user' do
-        let(:page_author) { FactoryBot.build_stubbed(:user) }
-
-        it 'is invalid' do
-          expect_valid(false, author: :not_current_user)
+    context 'when an attribute is changed by the system first and then by the user to a different value' do
+      before do
+        model.change_by_system do
+          model.title = 'abc'
         end
+
+        model.title = 'xyz'
       end
 
-      context 'if the author was not set by system' do
-        let(:changed_by_system) { {} }
+      it 'returns the attribute' do
+        expect(model.changed_by_user)
+          .to match_array ['title']
+      end
+    end
 
-        it 'is invalid' do
-          expect_valid(false, author_id: %i(error_readonly))
+    context 'when an attribute is changed by the system first and then by the user to the same value' do
+      before do
+        model.change_by_system do
+          model.title = 'abc'
         end
+
+        model.title = 'abc'
+      end
+
+      it 'returns no attribute' do
+        expect(model.changed_by_user)
+          .to be_empty
       end
     end
   end

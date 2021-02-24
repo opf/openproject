@@ -61,7 +61,7 @@ describe TimeEntries::SetAttributesService, type: :model do
   let(:contract_class) do
     allow(TimeEntries::CreateContract)
       .to receive(:new)
-      .with(anything, user, options: { changed_by_system: ["user_id"] })
+      .with(anything, user, options: {})
       .and_return(contract_instance)
 
     TimeEntries::CreateContract
@@ -97,8 +97,8 @@ describe TimeEntries::SetAttributesService, type: :model do
   it 'notes the user to be system changed' do
     subject
 
-    expect(instance.changed_by_system)
-      .to include('user_id')
+    expect(time_entry_instance.changed_by_system['user_id'])
+      .to eql [nil, user.id]
   end
 
   it 'assigns the default TimeEntryActivity' do

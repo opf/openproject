@@ -56,7 +56,7 @@ describe Messages::SetAttributesService, type: :model do
   let(:contract_class) do
     allow(Messages::CreateContract)
       .to receive(:new)
-      .with(message_instance, user, options: { changed_by_system: ["author_id"] })
+      .with(message_instance, user, options: {})
       .and_return(contract_instance)
 
     Messages::CreateContract
@@ -92,8 +92,8 @@ describe Messages::SetAttributesService, type: :model do
   it 'notes the author to be system changed' do
     subject
 
-    expect(instance.changed_by_system)
-      .to include('author_id')
+    expect(message_instance.changed_by_system['author_id'])
+      .to eql [nil, user.id]
   end
 
   context 'with params' do

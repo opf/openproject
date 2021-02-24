@@ -37,7 +37,7 @@ describe Projects::SetAttributesService, type: :model do
 
     allow(contract)
       .to receive(:new)
-      .with(project, user, options: { changed_by_system: [] })
+      .with(project, user, options: {})
       .and_return(contract_instance)
 
     contract
