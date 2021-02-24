@@ -142,4 +142,8 @@ module UsersHelper
   def user_name(user)
     user ? user.name : I18n.t('user.deleted')
   end
+
+  def can_users_have_auth_source?
+    AuthSource.any? && !OpenProject::Configuration.disable_password_login?
+  end
 end
