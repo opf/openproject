@@ -28,35 +28,25 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OAuth
-  ##
-  # Base controller for doorkeeper to skip the login check
-  # because it needs to set a specific return URL
-  # See config/initializers/doorkeeper.rb
-  class AuthBaseController < ::ApplicationController
-    # Ensure we prepend the CSP extension
-    # before any other action is being performed
-    prepend_before_action :extend_content_security_policy
+require 'spec_helper'
 
-    skip_before_action :check_if_login_required
-    layout 'only_logo'
+describe 'CSP appends on login form from oauth',
+         type: :rails_request do
+  let!(:redirect_uri) { 'https://foobar.com' }
+  let!(:oauth_app) { FactoryBot.create(:oauth_application, redirect_uri: redirect_uri) }
+  let(:oauth_path) do
+    "/oauth/authorize?response_type=code&client_id=#{oauth_app.uid}&redirect_uri=#{CGI.escape(redirect_uri)}&scope=api_v3"
+  end
 
-    def extend_content_security_policy
-      return unless pre_auth&.authorizable?
+  context 'when login required', with_settings: { login_required: true } do
+    it 'appends given CSP appends from flash' do
+      get oauth_path
 
-      additional_form_actions = application_redirect_uris
-      return if additional_form_actions.empty?
+      csp = response.headers['Content-Security-Policy']
+      expect(csp).to include "form-action 'self' https://foobar.com/;"
 
-      flash[:_csp_appends] = { form_action: additional_form_actions }
-      append_content_security_policy_directives flash[:_csp_appends]
-    end
-
-    def application_redirect_uris
-      pre_auth&.client&.application&.redirect_uri
-        .to_s
-        .split
-        .select { |url| url.start_with?('http') }
-        .map { |url| URI.join(url, '/').to_s }
+      location = response.headers['Location']
+      expect(location).to include("/login?back_url=#{CGI.escape(oauth_path)}")
     end
   end
 end
