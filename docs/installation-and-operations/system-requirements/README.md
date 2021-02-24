@@ -15,7 +15,7 @@ provide any official support for them.
 ### Hardware
 
 * __Memory:__ 4096 MB
-* __Free disk space:__ 2 GB
+* __Free disk space:__ 4 GB
 
 ### Operating system
 
