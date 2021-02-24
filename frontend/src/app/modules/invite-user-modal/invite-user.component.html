@@ -1,6 +1,6 @@
 <op-ium-project-selection
   *ngIf="step === Steps.ProjectSelection"
-  class="op-modal"
+  class="op-modal op-modal"
   [project]="project"
   [type]="type"
   (save)="onProjectSelectionSave($event)"
@@ -9,7 +9,7 @@
 
 <op-ium-principal
   *ngIf="step === Steps.Principal"
-  class="op-modal"
+  class="op-modal op-modal"
   [project]="project"
   [principal]="principal"
   [type]="type"
@@ -20,7 +20,7 @@
 
 <op-ium-role
   *ngIf="step === Steps.Role"
-  class="op-modal"
+  class="op-modal op-modal"
   [role]="role"
   [principal]="principal"
   [project]="project"
@@ -32,7 +32,7 @@
 
 <op-ium-message
   *ngIf="step === Steps.Message"
-  class="op-modal"
+  class="op-modal op-modal"
   [message]="message"
   [principal]="principal"
   [project]="project"
@@ -43,7 +43,7 @@
 
 <op-ium-summary
   *ngIf="step === Steps.Summary"
-  class="op-modal"
+  class="op-modal op-modal"
   [project]="project"
   [principal]="principal"
   [type]="type"
@@ -56,6 +56,6 @@
 
 <op-ium-success
   *ngIf="step === Steps.Success"
-  class="op-modal"
+  class="op-modal op-modal"
   (close)="closeMe()"
 ></op-ium-success>

@@ -26,34 +26,27 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {APIv3UserPaths} from "core-app/modules/apiv3/endpoints/users/apiv3-user-paths";
+import {APIv3GettableResource} from "core-app/modules/apiv3/paths/apiv3-resource";
+import {GroupResource} from "core-app/modules/hal/resources/group-resource";
 import {Observable} from "rxjs";
-import {UserResource} from "core-app/modules/hal/resources/user-resource";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
-export class Apiv3UsersPaths extends APIv3ResourceCollection<UserResource, APIv3UserPaths> {
-  constructor(protected apiRoot:APIV3Service,
-              protected basePath:string) {
-    super(apiRoot, basePath, 'users', APIv3UserPaths);
-  }
-
-  // Static paths
-
-  // /api/v3/users/me
-  public readonly me = this.path + '/me';
-
+export class Apiv3GroupPaths extends APIv3GettableResource<GroupResource> {
   /**
-   * Create a new UserResource
-   *
+   * Update a placeholder user resource or payload
    * @param resource
    */
-  public post(resource:UserResource|{firstName:string, email:string, status:'invited'}):Observable<UserResource> {
+  public patch(resource:GroupResource|Object):Observable<GroupResource> {
     return this
       .halResourceService
-      .post<UserResource>(
-        this.path,
-        resource,
-      );
+      .patch<GroupResource>(this.path, resource);
+  }
+
+  /**
+   * Delete a placeholder user resource
+   */
+  public delete():Observable<unknown> {
+    return this
+      .halResourceService
+      .delete(this.path);
   }
 }

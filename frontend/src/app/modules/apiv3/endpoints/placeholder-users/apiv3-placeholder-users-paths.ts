@@ -27,31 +27,44 @@
 //++
 
 import {APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {APIv3UserPaths} from "core-app/modules/apiv3/endpoints/users/apiv3-user-paths";
-import {Observable} from "rxjs";
-import {UserResource} from "core-app/modules/hal/resources/user-resource";
+import {Apiv3PlaceholderUserPaths} from "core-app/modules/apiv3/endpoints/placeholder-users/apiv3-placeholder-user-paths";
+import {PlaceholderUserResource} from "core-app/modules/hal/resources/placeholder-user-resource";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {Observable} from "rxjs";
+import {
+  Apiv3ListParameters,
+  Apiv3ListResourceInterface,
+  listParamsString
+} from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
+import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 
-export class Apiv3UsersPaths extends APIv3ResourceCollection<UserResource, APIv3UserPaths> {
+export class Apiv3PlaceholderUsersPaths
+  extends APIv3ResourceCollection<PlaceholderUserResource, Apiv3PlaceholderUserPaths>
+  implements Apiv3ListResourceInterface<PlaceholderUserResource> {
   constructor(protected apiRoot:APIV3Service,
               protected basePath:string) {
-    super(apiRoot, basePath, 'users', APIv3UserPaths);
+    super(apiRoot, basePath, 'placeholder_users', Apiv3PlaceholderUserPaths);
   }
 
-  // Static paths
-
-  // /api/v3/users/me
-  public readonly me = this.path + '/me';
+  /**
+   * Load a list of placeholder users with a given list parameter filter
+   * @param params
+   */
+  public list(params?:Apiv3ListParameters):Observable<CollectionResource<PlaceholderUserResource>> {
+    return this
+      .halResourceService
+      .get<CollectionResource<PlaceholderUserResource>>(this.path + listParamsString(params));
+  }
 
   /**
-   * Create a new UserResource
+   * Create a new PlaceholderUserResource
    *
    * @param resource
    */
-  public post(resource:UserResource|{firstName:string, email:string, status:'invited'}):Observable<UserResource> {
+  public post(resource:{ name:string }):Observable<PlaceholderUserResource> {
     return this
       .halResourceService
-      .post<UserResource>(
+      .post<PlaceholderUserResource>(
         this.path,
         resource,
       );

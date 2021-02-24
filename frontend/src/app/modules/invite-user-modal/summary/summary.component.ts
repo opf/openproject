@@ -62,32 +62,23 @@ export class SummaryComponent {
 
       switch (this.type) {
         case 'user':
-          /*
           return this.api.users.post({
             email: this.principal.name,
             firstName: this.principal.email,
             status: 'invited',
           });
-          */
-        //case 'group':
-        default:
-        /*
+        case 'group':
           return this.api.groups.post({ name: this.principal.name });
-          */
-        /*
         case 'placeholder':
-          return this.api.placeholders.post({ name: this.principal.name });
-        */
+          return this.api.placeholder_users.post({ name: this.principal.name });
       }
     })();
 
-    /*
     return this.api.memberships.post({
       principal,
       project: this.project,
       roles: [this.role],
     });
-    */
   }
 
   async onSubmit($e:Event) {

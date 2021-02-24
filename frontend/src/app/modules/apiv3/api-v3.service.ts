@@ -38,6 +38,8 @@ import {Apiv3GridsPaths} from "core-app/modules/apiv3/endpoints/grids/apiv3-grid
 import {Apiv3TimeEntriesPaths} from "core-app/modules/apiv3/endpoints/time-entries/apiv3-time-entries-paths";
 import {Apiv3MembershipsPaths} from "core-app/modules/apiv3/endpoints/memberships/apiv3-memberships-paths";
 import {Apiv3UsersPaths} from "core-app/modules/apiv3/endpoints/users/apiv3-users-paths";
+import {Apiv3PlaceholderUsersPaths} from 'core-app/modules/apiv3/endpoints/placeholder-users/apiv3-placeholder-users-paths.ts';
+import {Apiv3GroupsPaths} from 'core-app/modules/apiv3/endpoints/groups/apiv3-groups-paths.ts';
 import {APIv3TypesPaths} from "core-app/modules/apiv3/endpoints/types/apiv3-types-paths";
 import {APIv3QueriesPaths} from "core-app/modules/apiv3/endpoints/queries/apiv3-queries-paths";
 import {APIV3WorkPackagesPaths} from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-packages-paths";
@@ -69,9 +71,6 @@ export class APIV3Service {
 
   // /api/v3/grids
   public readonly grids = this.apiV3CustomEndpoint(Apiv3GridsPaths);
-
-  // /api/v3/groups
-  public readonly groups = this.apiV3CollectionEndpoint('groups');
 
   // /api/v3/principals
   public readonly principals = this.apiV3CollectionEndpoint('principals');
@@ -116,7 +115,10 @@ export class APIV3Service {
   public readonly users = this.apiV3CustomEndpoint(Apiv3UsersPaths);
 
   // /api/v3/placeholderUsers
-  public readonly placeholder_users = this.apiV3CollectionEndpoint('placeholder_users')
+  public readonly placeholder_users = this.apiV3CustomEndpoint(Apiv3PlaceholderUsersPaths)
+
+  // /api/v3/groups
+  public readonly groups = this.apiV3CustomEndpoint(Apiv3GroupsPaths)
 
   // /api/v3/roles
   public readonly roles = this.apiV3CustomEndpoint(APIv3RolesPaths);
