@@ -122,9 +122,6 @@ fr:
         Si vous cochez cette case, OpenProject créera automatiquement de nouveaux utilisateurs à partir de leurs entrées LDAP
         lorsqu'ils s'authentifieront pour la première fois avec OpenProject.
         Laissez ceci non coché pour permettre uniquement aux comptes existants dans OpenProject de s'authentifier via LDAP!
-      onthefly_group_sync: |
-        Si vous activez la synchronisation de groupe pour cette connexion LDAP, les utilisateurs seront également créés automatiquement
-        dans OpenProject pour les groupes synchronisés. Sans cela, seuls les comptes existants dans OpenProject seront ajoutés aux groupes.
     connection_encryption: 'Cryptage de la connexion'
     system_account: 'Compte système'
     system_account_legend: |

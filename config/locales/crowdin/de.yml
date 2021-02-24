@@ -120,9 +120,6 @@ de:
       onthefly_register: |
         Wenn Sie dieses Häkchen setzen, erstellt OpenProject automatisch neue Benutzer aus ihren zugehörigen LDAP-Einträgen, wenn sie sich zuerst mit OpenProject anmelden.
         Lassen Sie sie deaktiviert, um nur existierenden Konten in OpenProject die Authentifizierung über LDAP zu ermöglichen!
-      onthefly_group_sync: |
-        Wenn Sie die Gruppensynchronisation für diese LDAP-Verbindung aktivieren, werden Benutzer in synchronisierten Gruppen auch automatisch
-        in OpenProject erstellt. Ohne sie werden nur bestehende Konten in OpenProject zu Gruppen hinzugefügt.
     connection_encryption: 'Verbindungsverschlüsselung'
     system_account: 'Systemkonto'
     system_account_legend: |

@@ -120,8 +120,6 @@ zh-CN:
       onthefly_register: |
         如果选中此框，OpenProject 将在新用户首次向 OpenProject 验证身份时从其 LDAP 条目创建这些用户。
         不选中此框则会仅允许 OpenProject 中的现有帐户通过 LDAP 验证身份！
-      onthefly_group_sync: |
-        如果您为此 LDAP 连接启用组同步，还会在 OpenProject 中为同步的组自动创建用户。如果不启用，只有 OpenProject 中的现有帐户会被添加到组中。
     connection_encryption: '连接加密'
     system_account: '系统帐户'
     system_account_legend: |
