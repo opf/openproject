@@ -26,34 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {APIv3UserPaths} from "core-app/modules/apiv3/endpoints/users/apiv3-user-paths";
-import {Observable} from "rxjs";
-import {UserResource} from "core-app/modules/hal/resources/user-resource";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {InputState} from 'reactivestates';
 
-export class Apiv3UsersPaths extends APIv3ResourceCollection<UserResource, APIv3UserPaths> {
-  constructor(protected apiRoot:APIV3Service,
-              protected basePath:string) {
-    super(apiRoot, basePath, 'users', APIv3UserPaths);
+export class PlaceholderUserResource extends HalResource {
+  // Links
+  public updateImmediately:HalResource;
+  public delete:HalResource;
+  public showUser:HalResource;
+
+  public get state():InputState<this> {
+    return this.states.placeholderUsers.get(this.href as string) as any;
   }
 
-  // Static paths
-
-  // /api/v3/users/me
-  public readonly me = this.path + '/me';
-
-  /**
-   * Create a new UserResource
-   *
-   * @param resource
-   */
-  public post(resource:UserResource|{firstName:string, email:string, status:'invited'}):Observable<UserResource> {
-    return this
-      .halResourceService
-      .post<UserResource>(
-        this.path,
-        resource,
-      );
+  public get showUserPath() {
+    return this.showUser ? this.showUser.$link.href : null;
   }
 }

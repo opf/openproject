@@ -115,6 +115,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
     nonMemberFilter.add('status', '!', [3]);
     nonMemberFilter.add('type', '=', [this.type?.charAt(0).toUpperCase() + this.type?.slice(1)]);
     nonMemberFilter.add('member', '!', [this.project?.id]);
+
     const memberFilter = new ApiV3FilterBuilder();
     if (searchTerm) {
       memberFilter.add('name', '~', [searchTerm]);
