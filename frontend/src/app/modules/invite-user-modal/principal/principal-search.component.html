@@ -31,8 +31,8 @@
   </ng-template>
 
 
-  <!--Invite a new user by email-->
   <ng-template ng-footer-tmp>
+    <!--Invite a new user by email-->
     <div *ngIf="canInviteByEmail$ | async">
       <button
         class="button"
@@ -42,17 +42,15 @@
         {{ text.inviteNewUser() }}
       </button>
     </div>
-  </ng-template>
 
-  <!--Create a new placeholder by name-->
-  <ng-template ng-footer-tmp>
-    <div *ngIf="canCreateNewGroupOrPlaceholder$ | async">
+    <!--Create a new placeholder by name-->
+    <div *ngIf="canCreateNewPlaceholder$ | async">
       <button
         class="button"
         (click)="createNewFromInput()"
       >
         <op-icon icon-classes="icon-mail1"></op-icon>
-        {{ text.createNew[type]() }}
+        {{ text.createNewPlaceholder() }}
       </button>
     </div>
   </ng-template>
