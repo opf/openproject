@@ -8,6 +8,7 @@ import {
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {PrincipalType} from '../invite-user.component';
+import {RoleResource} from "core-app/modules/hal/resources/role-resource";
 
 @Component({
   selector: 'op-ium-summary',
@@ -17,7 +18,7 @@ import {PrincipalType} from '../invite-user.component';
 export class SummaryComponent {
   @Input() type:PrincipalType;
   @Input() project:any = null;
-  @Input() role:any = null;
+  @Input() role:RoleResource = null;
   @Input() principal:any = null;
   @Input() message:string = '';
 

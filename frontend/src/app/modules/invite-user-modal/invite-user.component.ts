@@ -11,6 +11,7 @@ import {OpModalLocalsMap} from 'core-app/modules/modal/modal.types';
 import {OpModalComponent} from 'core-app/modules/modal/modal.component';
 import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {RoleResource} from "core-app/modules/hal/resources/role-resource";
 
 enum Steps {
   ProjectSelection,
@@ -49,7 +50,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   public type:PrincipalType|null = null;
   public project:any = null;
   public principal = null;
-  public role = null;
+  public role:RoleResource|null = null;
   public message = '';
 
   constructor(
@@ -86,7 +87,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
     this.goTo(Steps.Role);
   }
 
-  onRoleSave({ role }:{ role:any }) {
+  onRoleSave(role:RoleResource) {
     this.role = role;
 
     if (this.type === 'placeholder') {

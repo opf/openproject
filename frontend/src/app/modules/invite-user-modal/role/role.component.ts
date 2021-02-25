@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {PrincipalType} from '../invite-user.component';
+import {RoleResource} from "core-app/modules/hal/resources/role-resource";
 
 @Component({
   selector: 'op-ium-role',
@@ -26,7 +27,7 @@ export class RoleComponent implements OnInit {
 
   @Output() close = new EventEmitter<void>();
   @Output() back = new EventEmitter<void>();
-  @Output() save = new EventEmitter<{ role:any }>();
+  @Output() save = new EventEmitter<RoleResource>();
 
   public text = {
     title: () => this.I18n.t('js.invite_user_modal.title.invite_principal_to_project', {
@@ -63,6 +64,6 @@ export class RoleComponent implements OnInit {
       return;
     }
 
-    this.save.emit({ role: this.roleForm?.value });
+    this.save.emit(this.roleForm?.value.role);
   }
 }
