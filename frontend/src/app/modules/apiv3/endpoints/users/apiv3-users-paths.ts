@@ -32,9 +32,6 @@ import {Observable} from "rxjs";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
-interface NewUserResource = {
-};
-
 export class Apiv3UsersPaths extends APIv3ResourceCollection<UserResource, APIv3UserPaths> {
   constructor(protected apiRoot:APIV3Service,
               protected basePath:string) {
