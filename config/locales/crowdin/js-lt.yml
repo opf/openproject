@@ -271,13 +271,13 @@ lt:
           text_new_features: "Skaitykite apie naujas savybes ir produkto atnaujinimus."
           learn_about: "Sužinokite apie naujas galimybes"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              Ši laida turi įvairias naujas galimybes ir patobulinimus: <br> <ul class="%{list_styling_class}"> <li>WYSIWYG redaktoriuje <b>pagerintas stilius</b>.</li> <li>Redaguojant iš karto rodomas <b>vartotojo vardas @kreipiniuose</b>.</li> <li>Autentifikavimo profilis praplėstas <b>OpenID Connect tiekėju.</b></li> <li>Gantt diagramoje projekto <b>sujungti etapai</b> rodomi vienoje eilutėje.</li> <li><b>Suskleisti viską mygtukas grupėms</b> darbo paketų sąraše.</li> <li><b>Spausdinimo optimizavimai</b> pvz., wiki puslapiams, naudojant naršyklės spausdinimo funkciją.</li> </ul>
+              Šioje laidoje yra naujų galimybių ir patobulinimų: <br> <ul class="%{list_styling_class}"> <li>Naujas konceptas -- <b>statytiniai vartotojai (placeholder users)</b> (premium galimybė) leidžia iš anksto prideti prie OpenProject vartotojus be el.pašto adreso ir priskirti jiems užduotis.</li> <li>Darbo paketų <b>filtrai papildyti tėvinės užduoties galimybe</b> lengviau pamatyti visus užduoties tiesioginius vaikus ir <b>pagal ID</b> leidžianti įtraukti arba išmesti iš sąrašo konkrečias užduotis.</li> <li>Vartotojų administravimas yra paskirstytas ne-administratoriams įvedant <b>naują globalią rolę</b>, leidžiančią valdyti ir kviesti vartotojus neturint pilnų administratoriaus teisių.</li> <li>Tolimesni UI ir UX patobulinimai, t.y. harmonizuota išlaidų raportų navigacija, grupės ir sumos eilutėms darbo paketų sąraše priskirtos spalvos, pridėtas grupės rodymo puslapis.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              Ši laida turi įvairias naujas galimybes ir patobulinimus: <br> <ul class="%{list_styling_class}"> <li>WYSIWYG redaktoriuje <b>pagerintas stilius</b>.</li> <li>Redaguojant iš karto rodomas <b>vartotojo vardas @kreipiniuose</b>.</li> <li>Autentifikavimo profilis praplėstas <b>OpenID Connect tiekėju.</b></li> <li>Gantt diagramoje projekto <b>sujungti etapai</b> rodomi vienoje eilutėje.</li> <li><b>Suskleisti viską mygtukas grupėms</b> darbo paketų sąraše.</li> <li><b>Spausdinimo optimizavimai</b> pvz., wiki puslapiams, naudojant naršyklės spausdinimo funkciją.</li> </ul>
+              Šioje laidoje yra naujų galimybių ir patobulinimų: <br> <ul class="%{list_styling_class}"> <li>Naujas konceptas -- <b>statytiniai vartotojai (placeholder users)</b> (premium galimybė) leidžia iš anksto prideti prie OpenProject vartotojus be el.pašto adreso ir priskirti jiems užduotis.</li> <li>Darbo paketų <b>filtrai papildyti tėvinės užduoties galimybe</b> lengviau pamatyti visus užduoties tiesioginius vaikus ir <b>pagal ID</b> leidžianti įtraukti arba išmesti iš sąrašo konkrečias užduotis.</li> <li>Vartotojų administravimas yra paskirstytas ne-administratoriams įvedant <b>naują globalią rolę</b>, leidžiančią valdyti ir kviesti vartotojus neturint pilnų administratoriaus teisių.</li> <li>Tolimesni UI ir UX patobulinimai, t.y. harmonizuota išlaidų raportų navigacija, grupės ir sumos eilutėms darbo paketų sąraše priskirtos spalvos, pridėtas grupės rodymo puslapis.</li> </ul>
     label_activate: "Aktyvuoti"
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"
@@ -845,7 +845,7 @@ lt:
           automatic: 'Automatinis'
           manually: 'Rankinis'
           warning: 'Aktyvuojant automatinį rikiavimo režimą jūs prarasite savo ankstesnį rikiavimą.'
-        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Aukščiau esančioje įvedimo eilutėje pridėkite stulpelius į lentelės vaizdą. Galite pele perkelti stulpelius, jei reikalinga kita jų tvarka."
         upsale:
           attribute_highlighting: 'Reikia išskirti tam tikrus darbo paketus iš didelės masės?'
           relation_columns: 'Ar reikia matyti ryšius darbų paketų sąraše?'

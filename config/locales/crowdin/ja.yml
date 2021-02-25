@@ -1782,7 +1782,7 @@ ja:
     <br />
     If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
   mail_body_register_closing: "あなたのOpenProjectチーム"
-  mail_body_register_ending: "Stay connected! Kind regards,"
+  mail_body_register_ending: "連絡をお待ちしています！よろしくお願いいたします。"
   mail_body_reminder: "担当している %{count}件 のワークパッケージが %{days} 日内に期限を迎えます："
   mail_body_group_reminder: "グループ \"%{group}\" に割り当てられた %{count} 件のワークパッケージが %{days} 日内に期限を迎えます"
   mail_body_wiki_content_added: "%{author}によってWikiページ'%{id}'が追加されました。"
@@ -1976,7 +1976,7 @@ ja:
       title: プロジェクトの識別子を変更
     template:
       copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+        プロジェクトは選択したテンプレートプロジェクトから作成されています。プロジェクトが利用可能になるとすぐにメールで通知されます。
       use_template: 'テンプレートを使用'
       make_template: 'テンプレートとして設定'
       remove_from_templates: 'テンプレートから削除'
@@ -2110,9 +2110,9 @@ ja:
     deactivated: '無効化'
   search_input_placeholder: "検索…"
   setting_apiv3_cors_enabled: "CORSを有効にする"
-  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins: "API V3のオリジン間リソース共有 (CORS) が許可されています"
   setting_apiv3_cors_origins_text_html: >
-    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+    CORS が有効になっている場合、これらは OpenProject API へのアクセスが許可されている起源です。 <br/> 期待される値を指定する方法については、 <a href="%{origin_link}" target="_blank">Origin ヘッダー</a> のドキュメントを確認してください。
   setting_email_delivery_method: "メールの配信方法"
   setting_sendmail_location: "Sendmail の実行可能ファイルの場所"
   setting_smtp_enable_starttls_auto: "利用可能な場合、STARTTLS を自動的に使用する"
