@@ -239,12 +239,12 @@ lt:
       no_results_title_text: Šis vartotojas šiuo metu nėra projekto narys.
   placeholder_users:
     deletion_info:
-      heading: "Delete placeholder user %{name}"
+      heading: "Pašalinti statytinį vartotoją %{name}"
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
-        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
-      irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+        Visose vietose, kur naudojamas statytinis vartotojas (t.y. kaip paskirtas, atsakingas ar kitose vartotojo vietose) jis bus pakeistas į vartotoją „Deleted user“.
+        Kadangi visų ištrintų vartotojų visi duomenys yra priskiriami šiam vartotojui, nebebus galima atskirti šio vartotojo sukurtų duomenų, nuo tų, kuriuos sukūrė kiti ištrinti vartotojai.
+      irreversible: "Šis veiksmas negrįžtamas"
+      confirmation: "Naikinimo patvirtinimui įveskite statytinio vartotojo vardą %{name}."
   prioritiies:
     edit:
       priority_color_text: |
@@ -524,7 +524,7 @@ lt:
         confirmation: "nesutampa su %{attribute}."
         could_not_be_copied: "%{dependency} negali (pilnai) būti nukopijuota(s)."
         does_not_exist: "neegzistuoja."
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "yra galimas tik OpenProject Enterprise Edition"
         error_unauthorized: "negali būti pasiektas."
         error_readonly: "bandytas įrašyti, bet įrašyti nebuvo galima."
         empty: "negali būti tuščia."
@@ -1367,7 +1367,7 @@ lt:
   label_custom_field_plural: "Pritaikyti laukai"
   label_custom_field_default_type: "Tuščias tipas"
   label_custom_style: "Išvaizda"
-  label_database_version: "PostgreSQL version"
+  label_database_version: "PostgreSQL versija"
   label_date: "Data"
   label_date_and_time: "Data ir laikas"
   label_date_from: "Nuo"
@@ -1962,8 +1962,8 @@ lt:
   permission_add_work_packages: "Pridėti darbų paketų"
   permission_add_messages: "Skelbti pranešimus"
   permission_add_project: "Sukurti projektą"
-  permission_manage_user: "Create and edit users"
-  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
+  permission_manage_user: "Kurti ir keisti vartotojus"
+  permission_manage_placeholder_user: "Kurti, keisti ir trinti statytinius vartotojus"
   permission_add_subprojects: "Sukurti sub-projektus"
   permission_add_work_package_watchers: "Pridėti stebėtojus"
   permission_assign_versions: "Priskirti versijas"
