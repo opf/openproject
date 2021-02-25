@@ -1,0 +1,40 @@
+#English strings go here
+pl:
+  label_avatar: "Awatar"
+  label_avatar_plural: "Awatary"
+  label_current_avatar: "Bieżący awatar"
+  label_choose_avatar: "Wybierz awatar z pliku"
+  message_avatar_uploaded: "Awatar został zmieniony."
+  error_image_upload: "Błąd podczas zapisywania obrazu."
+  error_image_size: "Obraz jest za duży."
+  button_change_avatar: "Zmień awatar"
+  are_you_sure_delete_avatar: "Czy na pewno chcesz usunąć ten awatar?"
+  avatar_deleted: "Awatar został usunięty."
+  unable_to_delete_avatar: "Nie można usunąć awatara."
+  wrong_file_format: "Dozwolone są formaty jpg, png, gif"
+  empty_file_error: "Prześlij prawidłowy obraz (jpg, png, gif)"
+  avatars:
+    label_avatar: "Awatar"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Bieżący awatar'
+    label_local_avatar: 'Awatar niestandardowy'
+    text_current_avatar: |
+      Poniższy obraz przedstawia aktualny awatar.
+    text_upload_instructions: |
+      Prześlij swój własny awatar 128 na 128 pikseli. Rozmiar większych plików zostanie zmieniony i zostaną one odpowiednio przycięte.
+      Podgląd awatara zostanie wyświetlony przed przesłaniem, po wybraniu obrazu.
+    text_change_gravatar_html: 'Aby zmienić lub dodać Gravatar dla tego adresu e-mail, przejdź na stronę %{gravatar_url}.'
+    text_your_local_avatar: |
+      OpenProject umożliwia przesłanie własnego, niestandardowego awatara.
+    text_local_avatar_over_gravatar: |
+      Jeśli go ustawisz, ten niestandardowy awatar będzie używany w pierwszej kolejności przed powyższym Gravatarem.
+    text_your_current_gravatar: |
+      OpenProject używa Gravatara, jeśli użytkownik go zarejestrował albo domyślnego obrazu lub ikony, jeśli taka istnieje.
+      Bieżący Gravatar jest następujący:
+    settings:
+      enable_gravatars: 'Włącz Gravatary użytkownika'
+      gravatar_default: "Domyślny obraz Gravatar"
+      enable_local_avatars: 'Włącz niestandardowe awatary użytkownika'
+
+
+

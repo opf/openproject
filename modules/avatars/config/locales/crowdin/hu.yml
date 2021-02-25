@@ -1,0 +1,39 @@
+#English strings go here
+hu:
+  label_avatar: "Profilkép"
+  label_avatar_plural: "Profilképek"
+  label_current_avatar: "Jelenlegi profilkép"
+  label_choose_avatar: "Profilkép kiválasztása fájlból"
+  message_avatar_uploaded: "A profilkép sikeresen megváltoztatva."
+  error_image_upload: "Hiba a kép mentésekor."
+  error_image_size: "A kép túl nagy."
+  button_change_avatar: "Profilkép megváltoztatása"
+  are_you_sure_delete_avatar: "Biztosan törölni szeretné a profilképét?"
+  avatar_deleted: "A profilkép sikeresen törölve."
+  unable_to_delete_avatar: "A profilképet nem sikerült törölni."
+  wrong_file_format: "A megengedett formátumok: jpg, png, gif"
+  empty_file_error: "Töltsön fel egy érvényes képet (jpg, png, gif)"
+  avatars:
+    label_avatar: "Profilkép"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Jelenlegi profilkép'
+    label_local_avatar: 'Egyéni profilkép'
+    text_current_avatar: |
+      A következő kép jeleníti meg a jelenlegi profilképet.
+    text_upload_instructions: |
+      Töltsön fel saját, 128x128 képpont méretű profilképet. A nagyobb fájlok átméretezésre és levágásra kerülnek, hogy illeszkedjenek a méretkorláthoz. Feltöltés előtt megjelenik a profilképének előnézete, miután kiválasztott egy képet.
+    text_change_gravatar_html: 'Menjen a %{gravatar_url} oldalra az e-mail címéhez történő Gravatar megváltoztatásához vagy hozzáadásához.'
+    text_your_local_avatar: |
+      Az OpenProject lehetővé teszi a saját profilképének feltöltését.
+    text_local_avatar_over_gravatar: |
+      Ha beállít egyet, akkor az egyéni profilkép elsőbbséget élvez a fenti Gravatar profilképpel szemben.
+    text_your_current_gravatar: |
+      Az OpenProject a gravatar profilképét használja, ha regisztrált egyet, vagy egy alapértelmezett képet vagy ikont, ha létezik valamelyik.
+      A jelenlegi gravatar a következő:
+    settings:
+      enable_gravatars: 'Felhasználói gravatar profilképek engedélyezése'
+      gravatar_default: "Alapértelmezett Gravatar profilkép"
+      enable_local_avatars: 'Felhasználói egyéni profilképek engedélyezése'
+
+
+

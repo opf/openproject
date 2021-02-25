@@ -1,0 +1,5 @@
+lt:
+  dashboards:
+    label: 'Skydeliai'
+    menu_badge: 'Alfa'
+  project_module_dashboards: 'Skydeliai'

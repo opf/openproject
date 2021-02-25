@@ -1,0 +1,59 @@
+fr:
+  activerecord:
+    attributes:
+      webhooks/webhook:
+        url: 'URL de payload'
+        secret: 'Secret de la signature'
+        events: 'Événements'
+        projects: 'Projets activés'
+      webhooks/log:
+        event_name: 'Nom de l''événement'
+        url: 'URL de payload'
+        response_code: 'Code de réponse'
+        response_body: 'Réponse'
+    models:
+      webhooks/outgoing_webhook: "Webhook sortant"
+  webhooks:
+    singular: Webhook
+    plural: Webhooks
+    resources:
+      time_entry:
+        name: "Saisie du temps"
+    outgoing:
+      no_results_table: Aucun webhook n'a encore été défini.
+      label_add_new: Ajouter un nouveau webhook
+      label_edit: Modifier le webhook
+      label_event_resources: Ressources de l'événement
+      events:
+        created: "Créé"
+        updated: "Mis à jour"
+      status:
+        enabled: 'Webhook activé'
+        disabled: 'Webhook désactivé'
+        enabled_text: 'Le webhook émettra des payloads pour les événements définis ci-dessous.'
+        disabled_text: 'Cliquez sur le bouton Modifier pour activer le webhook.'
+      deliveries:
+        no_results_table: Aucune livraison n'a été effectuée pour ce webhook.
+        title: 'Livraisons récentes'
+        time: 'Délai de livraison'
+      form:
+        introduction: >
+          Envoyez une demande POST à l'URL de payload ci-dessous pour tout événement dans le projet auquel vous êtes abonné. Payload correspond à la représentation APIv3 de l'objet en cours de modification.
+        apiv3_doc_url: Pour plus d'informations, consultez la documentation API
+        description:
+          placeholder: 'Description facultative pour le webhook.'
+        enabled:
+          description: >
+            En cochant cette option, le webhook déclenchera les événements sélectionnés. Décochez pour désactiver le webhook.
+        events:
+          title: 'Événements activés'
+        project_ids:
+          title: 'Projets activés'
+          description: 'Sélectionnez les projets pour lesquels ce webhook doit être exécuté.'
+          all: 'Tous les projets'
+          selected: 'Projets sélectionnés uniquement'
+        selected_project_ids:
+          title: 'Projets sélectionnés'
+        secret:
+          description: >
+            Si définie, cette valeur secrète est utilisée par OpenProject pour signer le payload du webhook.

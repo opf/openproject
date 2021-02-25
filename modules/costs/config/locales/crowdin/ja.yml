@@ -1,0 +1,141 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+ja:
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "ワーク パッケージ"
+        overridden_costs: "オーバーライドされたコスト"
+        spent: "使用済"
+        spent_on: "日付"
+      cost_type:
+        unit: "単位名"
+        unit_plural: "単位名"
+      work_package:
+        costs_by_type: "使用済単価"
+        labor_costs: "作業員コスト"
+        material_costs: "単価"
+        overall_costs: "集計コスト"
+        spent_costs: "使用済コスト"
+        spent_units: "使用済単価"
+      rate:
+        rate: "原価率"
+      user:
+        default_rates: "デフォルト原価率"
+    models:
+      cost_type:
+        other: "コスト種類"
+      rate: "原価率"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "コストを再割り当てるには、ワークパッケージ#%{id}は対象外である。"
+          nullify_is_not_valid_for_cost_entries: "コストエントリをプロジェクトに割り当てることはできません。"
+  attributes:
+    comment: "コメント"
+    cost_type: "コスト種類"
+    costs: "コスト"
+    current_rate: "現状原価率"
+    hours: " 時間"
+    units: "単位"
+    valid_from: "から有効"
+    fixed_date: "固定日付"
+  button_add_rate: "原価率を追加"
+  button_log_costs: "単価を記録"
+  caption_booked_on_project: "プロジェクトの予約"
+  caption_default: "既定の項目"
+  caption_default_rate_history_for: "%{user} のデフォルト率の履歴"
+  caption_locked_on: "ロックオン"
+  caption_materials: "単位"
+  caption_rate_history: "進捗履歴"
+  caption_rate_history_for: "%{user} の進捗履歴"
+  caption_rate_history_for_project: "プロジェクト %{project} で %{user} の進捗履歴"
+  caption_save_rate: "進捗の保存"
+  caption_set_rate: "現在の進捗を設定する"
+  caption_show_locked: "ロックの種類を表示します。"
+  description_date_for_new_rate: "新しいレートの日付"
+  group_by_others: "どのグループにもない"
+  label_between: "次の範囲内"
+  label_cost_filter_add: "コストフィルタの追加"
+  label_costlog: "単価を記録"
+  label_cost_plural: "コスト"
+  label_cost_type_plural: "コスト種類"
+  label_cost_type_specific: "コスト種類 #%{id}: %{name}"
+  label_costs_per_page: "1ページあたりのコスト"
+  label_currency: "通貨"
+  label_currency_format: "通貨の形式"
+  label_current_default_rate: "現在のデフォルトレート"
+  label_date_on: "オン"
+  label_deleted_cost_types: "削除されたコストタイプ"
+  label_locked_cost_types: "ロックされたコストタイプ"
+  label_display_cost_entries: "ユニットのコストを表示"
+  label_display_time_entries: "報告された時間を表示する"
+  label_display_types: "表示タイプ"
+  label_edit: "編集"
+  label_generic_user: "一般ユーザー"
+  label_greater_or_equal: ">="
+  label_group_by: "グループ化"
+  label_group_by_add: "グループ化フィールドを追加"
+  label_hourly_rate: "時給"
+  label_include_deleted: "削除済みを含める"
+  label_work_package_filter_add: "ワークパッケージフィルタを追加する"
+  label_kind: "タイプ"
+  label_less_or_equal: "以下"
+  label_log_costs: "単価を記録"
+  label_no: "いいえ"
+  label_option_plural: "オプション"
+  label_overall_costs: "集計コスト"
+  label_rate: "原価率"
+  label_rate_plural: "レート"
+  label_status_finished: "完了しました"
+  label_units: "単価"
+  label_user: "ユーザ"
+  label_until: "まで"
+  label_valid_from: "から有効"
+  label_yes: "はい"
+  notice_something_wrong: "エラーが発生しました。再試行してください。"
+  notice_successful_restore: "復元処理が成功します。"
+  notice_successful_lock: "ロックに成功しました。"
+  notice_cost_logged_successfully: '単価が正常に記録されました。'
+  permission_edit_cost_entries: "予約単価の編集"
+  permission_edit_own_cost_entries: "自分が予約した単価の編集"
+  permission_edit_hourly_rates: "時給の編集"
+  permission_edit_own_hourly_rate: "自分の時給の編集"
+  permission_edit_rates: "率の編集"
+  permission_log_costs: "単価の予約"
+  permission_log_own_costs: "自分の単価の予約"
+  permission_view_cost_entries: "予約したコストの表示"
+  permission_view_cost_rates: "コスト率の表示"
+  permission_view_hourly_rates: "全ての時給の表示"
+  permission_view_own_cost_entries: "自分が予約したコストの表示"
+  permission_view_own_hourly_rate: "自分の時給の表示"
+  permission_view_own_time_entries: "自分の使用済み時間の表示"
+  project_module_costs: "時間とコスト"
+  text_assign_time_and_cost_entries_to_project: "報告された時間とコストをプロジェクトに割り当てる"
+  text_destroy_cost_entries_question: "削除しようとしているワークパッケージが%{cost_entries} 件報告されました。どうしますか？"
+  text_destroy_time_and_cost_entries: "報告された時間とコストを削除する"
+  text_destroy_time_and_cost_entries_question: "%{hours} 時間分、削除しようとしているワークパッケージが %{cost_entries} 件報告されました。どうしますか？"
+  text_reassign_time_and_cost_entries: "報告された時間とコストをこのワークパッケージに再割り当てください。"
+  text_warning_hidden_elements: "いくつかのエントリは、集計から除外されている可能性があります。"
+  week: "週間"
+  js:
+    text_are_you_sure: "よろしいですか？"

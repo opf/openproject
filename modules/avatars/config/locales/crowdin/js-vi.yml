@@ -1,0 +1,14 @@
+#English strings go here
+vi:
+  js:
+    label_preview: 'Xem trước'
+    button_update: 'Cập Nhật'
+    avatars:
+      label_choose_avatar: "Chọn hình đại diện từ tập tin"
+      uploading_avatar: "Đang tải hình đại diện của bạn"
+      text_upload_instructions: |
+        Tải lên hình đại diện tùy chỉnh của bạn, kích thước 128x128 điểm ảnh. Kích thước lớn hơn sẽ bị giảm chất lượng và thu nhỏ để phù hợp. Ảnh xem trước của hình đại diện sẽ hiện lên trước khi tải lên khi mà bạn chọn ảnh.
+      error_image_too_large: "Hình ảnh quá lớn"
+      wrong_file_format: "Định dạng ảnh được chấp nhận: jpg, png, gif"
+      empty_file_error: "Xin hãy tải lên hình ảnh đúng định dạng(jpg, png, gif)"
+

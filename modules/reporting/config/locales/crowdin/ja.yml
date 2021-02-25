@@ -1,0 +1,87 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+ja:
+  button_save_as: "名前を付けてレポートの保存"
+  comments: "コメント"
+  cost_reports_title: "時間とコスト"
+  label_cost_report: "コストレポート"
+  label_cost_report_plural: "コストレポート"
+  description_drill_down: "詳細を表示"
+  description_filter_selection: "選択"
+  description_multi_select: "複数選択"
+  description_remove_filter: "絞り込みを外す"
+  information_restricted_depending_on_permission: "アクセス権に応じて、このページでは情報を制限されている場合があります。"
+  label_click_to_edit: "クリックして編集"
+  label_closed: "完了"
+  label_columns: "列"
+  label_cost_entry_attributes: "コストエントリの属性"
+  label_days_ago: "直近の日の間"
+  label_entry: "コストエントリ"
+  label_filter_text: "テキストの絞り込み"
+  label_filter_value: "値"
+  label_filters: "フィルタ"
+  label_greater: ">"
+  label_is_not_project_with_subprojects: "ではない (子プロジェクトを含む)"
+  label_is_project_with_subprojects: "は(サブプロジェクトを含む)"
+  label_work_package_attributes: "ワークパッケージの属性"
+  label_less: "<"
+  label_money: "金額"
+  label_month_reporting: "月 (経過)"
+  label_new_report: "新しいコストレポート"
+  label_open: "未完了"
+  label_operator: "演算子"
+  label_private_report_plural: "マイコストレポート"
+  label_progress_bar_explanation: "レポートを生成中..."
+  label_public_report_plural: "共有コストレポート"
+  label_really_delete_question: "このレポートを削除してもよろしいですか？"
+  label_rows: "行"
+  label_saving: "保存中…"
+  label_spent_on_reporting: "日付 (経過)"
+  label_sum: "合計"
+  label_units: "単位"
+  label_week_reporting: "週 (経過)"
+  label_year_reporting: "年 (経過)"
+  label_count: "回数"
+  label_filter: "フィルタ"
+  label_filter_add: "フィルタを追加"
+  label_filter_plural: "フィルタ"
+  label_group_by: "グループ化"
+  label_group_by_add: "グループ化属性を追加"
+  label_inactive: "«非活動»"
+  label_no: "いいえ"
+  label_none: "(データなし)"
+  label_no_reports: "コストレポートはまだありません。"
+  label_report: "レポート"
+  label_yes: "はい"
+  load_query_question: "レポートは%{size}つセルを持つために、描画するに時間がかかる場合があります。描画してもよろしいですか?"
+  permission_save_cost_reports: "共有コストレポートを保存"
+  permission_save_private_cost_reports: "マイコストレポートを保存"
+  project_module_reporting_module: "コストレポート"
+  text_costs_are_rounded_note: "表示されている数字は四捨五入されています。すべての計算は非四捨五入の値に基づいています。"
+  toggle_multiselect: "複数選択を有効/無効にする"
+  units: "単位"
+  validation_failure_date: "は有効な日付ではありません。"
+  validation_failure_integer: "は有効な整数ではありません。"
+  reporting:
+    group_by:
+      selected_columns: "選択された列"
+      selected_rows: "選択された行"

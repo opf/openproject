@@ -1,0 +1,40 @@
+#English strings go here
+ja:
+  label_avatar: "アバター"
+  label_avatar_plural: "アバター"
+  label_current_avatar: "現在のアバター"
+  label_choose_avatar: "ファイルからアバターを選択"
+  message_avatar_uploaded: "アバターの変更が完了しました。"
+  error_image_upload: "画像の保存時にエラーが発生しました。"
+  error_image_size: "画像が大きすぎます。"
+  button_change_avatar: "アバターを変更"
+  are_you_sure_delete_avatar: "アバターを削除してもよろしいですか?"
+  avatar_deleted: "アバターの削除が完了しました。"
+  unable_to_delete_avatar: "アバターを削除できませんでした。"
+  wrong_file_format: "利用可能な形式は jpg、png、gif"
+  empty_file_error: "正しい画像をアップロードしてください (jpg、png、gif)"
+  avatars:
+    label_avatar: "アバター"
+    label_gravatar: 'グラバター'
+    label_current_avatar: '現在のアバター'
+    label_local_avatar: 'カスタムのアバター'
+    text_current_avatar: |
+      次の画像は現在のアバターです。
+    text_upload_instructions: |
+      128 x 128 ピクセルの独自のカスタムアバターをアップロードしてください。 大きいファイルはサイズが変更され、それに合わせてトリミングされます。
+      画像を選択すると、アップロード前にアバターのプレビューが表示されます。
+    text_change_gravatar_html: 'メールアドレスのグラバターを変更または追加するには、%{gravatar_url} にアクセスしてください。'
+    text_your_local_avatar: |
+      OpenProject は独自のカスタムアバターをアップロードすることができます。
+    text_local_avatar_over_gravatar: |
+      設定すると、このカスタムアバターが上のグラバターよりも優先して使用されます。
+    text_your_current_gravatar: |
+      OpenProject は、登録済みの場合はグラバターを、存在する場合はデフォルトの画像またはアイコンを使用します。
+      現在のグラバターは以下の通りです:
+    settings:
+      enable_gravatars: 'ユーザーのグラバターを有効にする'
+      gravatar_default: "デフォルトのグラバター画像"
+      enable_local_avatars: 'ユーザーのカスタムアバターを有効にする'
+
+
+

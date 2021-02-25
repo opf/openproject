@@ -1,0 +1,87 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+de:
+  button_save_as: "Speichern unter ..."
+  comments: "Kommentar"
+  cost_reports_title: "Zeit und Kosten"
+  label_cost_report: "Report"
+  label_cost_report_plural: "Kostenauswertungen"
+  description_drill_down: "Details anzeigen"
+  description_filter_selection: "Auswahl"
+  description_multi_select: "Mehrfachauswahl anzeigen"
+  description_remove_filter: "Filter entfernen"
+  information_restricted_depending_on_permission: "Abhängig von Ihren Berechtigungen können die Informationen auf dieser Seite eingeschränkt sein."
+  label_click_to_edit: "Zum Bearbeiten hier klicken."
+  label_closed: "Geschlossen"
+  label_columns: "Spalten"
+  label_cost_entry_attributes: "Attribute am Kosteneintrag"
+  label_days_ago: "in den letzten Tagen"
+  label_entry: "Kosteneintrag"
+  label_filter_text: "Filtertext"
+  label_filter_value: "Wert"
+  label_filters: "Filter"
+  label_greater: ">"
+  label_is_not_project_with_subprojects: "ist nicht (mit Unterprojekten)"
+  label_is_project_with_subprojects: "ist (mit Unterprojekten)"
+  label_work_package_attributes: "Attribute am Ticket"
+  label_less: "<"
+  label_money: "Geldwert"
+  label_month_reporting: "Monat der Buchung"
+  label_new_report: "Neue Kostenauswertung"
+  label_open: "Offen"
+  label_operator: "Operator"
+  label_private_report_plural: "Persönliche Kostenauswertungen"
+  label_progress_bar_explanation: "Report wird erstellt ..."
+  label_public_report_plural: "Gemeinsame Kostenauswertungen"
+  label_really_delete_question: "Diesen Report wirklich löschen?"
+  label_rows: "Zeilen"
+  label_saving: "Speichern ..."
+  label_spent_on_reporting: "Datum der Buchung"
+  label_sum: "Summe"
+  label_units: "Einheiten"
+  label_week_reporting: "Woche der Buchung"
+  label_year_reporting: "Jahr der Buchung"
+  label_count: "Anzahl"
+  label_filter: "Filter"
+  label_filter_add: "Filter hinzufügen"
+  label_filter_plural: "Filter"
+  label_group_by: "Gruppiere Ergebnisse"
+  label_group_by_add: "Gruppierung hinzufügen"
+  label_inactive: "«nicht aktiviert»"
+  label_no: "Nein"
+  label_none: "(Keine Angabe)"
+  label_no_reports: "Es gibt noch keine Kostenauswertungen."
+  label_report: "Report"
+  label_yes: "Ja"
+  load_query_question: "Der Report wird %{size} Tabellen-Zellen haben, was sehr rechenintensiv sein kann. Wollen Sie dennoch versuchen, den Report durch zu führen?"
+  permission_save_cost_reports: "Speichern gemeinsamer Kostenauswertungen"
+  permission_save_private_cost_reports: "Speichern persönlicher Kostenauswertungen"
+  project_module_reporting_module: "Kostenauswertungen"
+  text_costs_are_rounded_note: "Die angezeigten Werte sind gerundet. Alle Berechnungen basieren auf ungerundeten Werten."
+  toggle_multiselect: "Mehrfachauswahl aktivieren/deaktivieren"
+  units: "Einheiten"
+  validation_failure_date: "ist kein gültiges Datum"
+  validation_failure_integer: "ist keine ganze Zahl"
+  reporting:
+    group_by:
+      selected_columns: "Ausgewählte Spalten"
+      selected_rows: "Ausgewählte Zeilen"

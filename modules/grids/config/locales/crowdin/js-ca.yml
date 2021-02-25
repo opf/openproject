@@ -1,0 +1,63 @@
+ca:
+  js:
+    grid:
+      add_widget: 'Add widget'
+      remove: 'Remove widget'
+      configure: 'Configure widget'
+      upsale:
+        text: "Some widgets, like the work package graph widget, are only available in the "
+        link: 'enterprise edition.'
+      widgets:
+        custom_text:
+          title: 'Custom text'
+        documents:
+          title: 'Documents'
+          no_results: 'Sense documents de moment.'
+        members:
+          title: 'Membres'
+          no_results: 'No visible members.'
+          view_all_members: 'Veure tots els membres'
+          add: 'Membre'
+          too_many: 'Displaying %{count} of %{total} members.'
+        news:
+          title: 'Notícies'
+          at: 'a'
+          no_results: 'Res de nou a informar.'
+        project_description:
+          title: 'Project description'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+        project_details:
+          title: 'Project details'
+          no_results: 'No custom fields have been defined for projects.'
+        project_status:
+          title: 'Estat del projecte'
+          on_track: 'On track'
+          off_track: 'Off track'
+          at_risk: 'At risk'
+          not_set: 'Not set'
+        subprojects:
+          title: 'Subprojectes'
+          no_results: 'No subprojects.'
+        time_entries_current_user:
+          title: 'El meu temps invertit'
+          displayed_days: 'Days displayed in the widget:'
+        time_entries_list:
+          title: 'Temps invertit (últims 7 dies)'
+          no_results: 'Sense entrades de temps per als últims 7 dies.'
+        work_packages_accountable:
+          title: "Paquets de treball dels que en sóc responsable"
+        work_packages_assigned:
+          title: 'Paquets de treball assignats a mi'
+        work_packages_created:
+          title: 'Paquets de treball creats per vosté'
+        work_packages_watched:
+          title: 'Paquets de treball seguiment per vosté'
+        work_packages_table:
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
+        work_packages_calendar:
+          title: 'Calendari'
+        work_packages_overview:
+          title: 'Work packages overview'
+          placeholder: 'Click to edit ...'

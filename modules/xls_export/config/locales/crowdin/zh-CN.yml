@@ -1,0 +1,13 @@
+zh-CN:
+  export_to_excel: "导出 XLS"
+  print_with_description: "带说明的打印预览"
+  sentence_separator_or: "或"
+  different_formats: 不同格式
+  export:
+    format:
+      xls: "XLS"
+      xls_with_descriptions: "带描述的XLS"
+      xls_with_relations: "带关系的 XLS"
+  xls_export:
+    child_of: 此项的子项
+    parent_of: 此项的父项

@@ -1,0 +1,27 @@
+#English strings go here
+el:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Εισαγωγή'
+      import_bcf_xml_file: 'Import BCF XML file (BCF version 2.1)'
+      export: 'Εξαγωγή'
+      export_bcf_xml_file: 'Export BCF XML file (BCF version 2.1)'
+      viewpoint: 'Viewpoint'
+      add_viewpoint: 'Προσθήκη viewpoint'
+      show_viewpoint: 'Εμφάνιση viewpoint'
+      delete_viewpoint: 'Διαγραφή viewpoint'
+      management: 'BCF management'
+    ifc_models:
+      empty_warning: "This project does not yet have any IFC models."
+      use_this_link_to_manage: "Use this link to upload and manage your IFC models"
+      keyboard_input_disabled: "Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer."
+      models:
+        ifc_models: 'Μοντέλα IFC'
+      views:
+        viewer: 'Θεατής'
+        split: 'Viewer and table'
+        split_cards: 'Θεατής και κάρτες'
+    revit:
+      revit_add_in: "Revit Add-In"
+      revit_add_in_settings: "Revit Add-In settings"

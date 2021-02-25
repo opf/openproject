@@ -1,0 +1,4 @@
+bg:
+  overviews:
+    label: 'Общ преглед'
+  permission_manage_overview: 'Управление на страницата с общ преглед'

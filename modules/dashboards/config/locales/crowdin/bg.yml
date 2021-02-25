@@ -1,0 +1,5 @@
+bg:
+  dashboards:
+    label: 'Табло'
+    menu_badge: 'Алфа'
+  project_module_dashboards: 'Табло'

@@ -1,0 +1,142 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+fr:
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "Lot de travaux"
+        overridden_costs: "Coûts outrepassés"
+        spent: "Consommé"
+        spent_on: "date"
+      cost_type:
+        unit: "Nom de l'unité"
+        unit_plural: "Nom pluriel de l'unité"
+      work_package:
+        costs_by_type: "Unités consommées"
+        labor_costs: "Coûts de main d'œuvre"
+        material_costs: "Coûts unitaires"
+        overall_costs: "Coûts globaux"
+        spent_costs: "Montants dépensés"
+        spent_units: "Unités consommées"
+      rate:
+        rate: "Tarif"
+      user:
+        default_rates: "Tarifs par défaut"
+    models:
+      cost_type:
+        one: "Types de coût"
+        other: "Types de coûts"
+      rate: "Tarif"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Le lot de travaux #%{id} n'est pas une cible valide pour réaffecter les entrées de coût."
+          nullify_is_not_valid_for_cost_entries: "Des entrées de coût ne peuvent pas être assignées à un projet."
+  attributes:
+    comment: "Commentaire"
+    cost_type: "Types de coût"
+    costs: "Coûts"
+    current_rate: "Tarif actuel"
+    hours: "Heures"
+    units: "Unités"
+    valid_from: "Valable à partir du"
+    fixed_date: "Date fixe"
+  button_add_rate: "Ajouter tarif"
+  button_log_costs: "Consigner coûts unitaires"
+  caption_booked_on_project: "Réservé pour le projet"
+  caption_default: "défaut"
+  caption_default_rate_history_for: "Historique des tarifs par défaut pour %{user}"
+  caption_locked_on: "Verrouillé le"
+  caption_materials: "Unités"
+  caption_rate_history: "Historique des tarifs"
+  caption_rate_history_for: "Historique des tarifs pour %{user}"
+  caption_rate_history_for_project: "Historique des tarifs pour %{user} dans le projet %{project}"
+  caption_save_rate: "Enregistrer tarif"
+  caption_set_rate: "Définir le tarif actuel"
+  caption_show_locked: "Afficher les types verrouillés"
+  description_date_for_new_rate: "Date pour le nouveau tarif"
+  group_by_others: "dans aucun groupe"
+  label_between: "entre"
+  label_cost_filter_add: "Ajouter filtre d'entrée de coût"
+  label_costlog: "Coûts unitaires consignés"
+  label_cost_plural: "Coûts"
+  label_cost_type_plural: "Types de coûts"
+  label_cost_type_specific: "Type de coût N°%{id} : %{name}"
+  label_costs_per_page: "Coûts par page"
+  label_currency: "Devise"
+  label_currency_format: "Format de devise"
+  label_current_default_rate: "Taux par défaut actuel"
+  label_date_on: "le"
+  label_deleted_cost_types: "Types de coût effacés"
+  label_locked_cost_types: "Types de coût bloqués"
+  label_display_cost_entries: "Afficher les coûts unitaires"
+  label_display_time_entries: "Afficher les heures consignées"
+  label_display_types: "Afficher les types"
+  label_edit: "Éditer"
+  label_generic_user: "Utilisateur générique"
+  label_greater_or_equal: ">="
+  label_group_by: "Grouper par"
+  label_group_by_add: "Ajouter un champ de regroupement"
+  label_hourly_rate: "Tarif horaire"
+  label_include_deleted: "Inclure les supprimé(e)s"
+  label_work_package_filter_add: "Ajouter filtre de lot de travaux"
+  label_kind: "Type"
+  label_less_or_equal: "<="
+  label_log_costs: "Consigner coûts unitaires"
+  label_no: "Non"
+  label_option_plural: "Options"
+  label_overall_costs: "Coûts globaux"
+  label_rate: "Tarif"
+  label_rate_plural: "Tarifs"
+  label_status_finished: "Terminé"
+  label_units: "Unités de coût"
+  label_user: "Utilisateur"
+  label_until: "jusque"
+  label_valid_from: "Valable à partir du"
+  label_yes: "Oui"
+  notice_something_wrong: "Quelque chose s'est mal passé. Veuillez réessayer."
+  notice_successful_restore: "Restauration réussie."
+  notice_successful_lock: "Bloqué avec succès."
+  notice_cost_logged_successfully: 'Coût unitaire enregistré avec succès.'
+  permission_edit_cost_entries: "Éditer coûts unitaires réservés"
+  permission_edit_own_cost_entries: "Éditer coûts unitaires propres réservés"
+  permission_edit_hourly_rates: "Éditer les tarifs horaires"
+  permission_edit_own_hourly_rate: "Éditer ses propres tarifs horaires"
+  permission_edit_rates: "Éditer les tarifs"
+  permission_log_costs: "Réserver coûts unitaires"
+  permission_log_own_costs: "Réserver coûts unitaires propres"
+  permission_view_cost_entries: "Afficher coûts réservés"
+  permission_view_cost_rates: "Voir les tarifs de coût"
+  permission_view_hourly_rates: "Voir tous les tarifs horaires"
+  permission_view_own_cost_entries: "Afficher coûts propres réservés"
+  permission_view_own_hourly_rate: "Voir son propre tarif horaire"
+  permission_view_own_time_entries: "Voir son propre temps passé"
+  project_module_costs: "Temps et coûts"
+  text_assign_time_and_cost_entries_to_project: "Assigner les heures et coûts consignés au projet"
+  text_destroy_cost_entries_question: "%{cost_entries} ont été consignés sur les lots de travaux que vous êtes sur le point de supprimer. Que voulez-vous faire ?"
+  text_destroy_time_and_cost_entries: "Supprimer les heures et coûts consignés"
+  text_destroy_time_and_cost_entries_question: "%{hours} heures, %{cost_entries} ont été consignés sur les lots de travaux que vous êtes sur le point de supprimer. Que voulez-vous faire ?"
+  text_reassign_time_and_cost_entries: "Réassigner les heures et coûts consignés à ce lot de travaux :"
+  text_warning_hidden_elements: "Certaines entrées peuvent avoir été exclues de l'agrégation."
+  week: "semaine"
+  js:
+    text_are_you_sure: "Êtes-vous sûr ?"

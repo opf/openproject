@@ -1,0 +1,59 @@
+ru:
+  activerecord:
+    attributes:
+      webhooks/webhook:
+        url: 'URL-адрес загрузки'
+        secret: 'Секретный ключ-подпись'
+        events: 'События'
+        projects: 'Доступные проекты'
+      webhooks/log:
+        event_name: 'Название события'
+        url: 'URL-адрес загрузки'
+        response_code: 'Код ответа'
+        response_body: 'Ответ'
+    models:
+      webhooks/outgoing_webhook: "Исходящий веб-хук"
+  webhooks:
+    singular: Вебхук
+    plural: Вебхуки
+    resources:
+      time_entry:
+        name: "Временная запись"
+    outgoing:
+      no_results_table: Вебхуки еще не определены.
+      label_add_new: Добавить новый вебхук
+      label_edit: Изменить вебхук
+      label_event_resources: Ресурсы события
+      events:
+        created: "Создан"
+        updated: "Обновлено"
+      status:
+        enabled: 'Вебхук включён'
+        disabled: 'Вебхук отключён'
+        enabled_text: 'Вебхук выпускать загруженные файлы для определенных событий ниже.'
+        disabled_text: 'Нажмите кнопку редактирования, чтобы активировать вебхук.'
+      deliveries:
+        no_results_table: Для этого вебхука рассылок не было.
+        title: 'Последние рассылки'
+        time: 'Время рассылки'
+      form:
+        introduction: >
+          Отправьте POST-запрос на указанный ниже URL-адрес загрузки для любого события проека, на которое вы подписаны. Загрузка будет соответствовать представлению APIv3 изменяемого в будущем объекта.
+        apiv3_doc_url: Для получения дополнительной информации посетите документацию API
+        description:
+          placeholder: 'Необязательное описание вебхука.'
+        enabled:
+          description: >
+            При отмеченной опции вебхук будет срабатывать на выбранных событиях. Снимите флажок, чтобы отключить вебхук.
+        events:
+          title: 'Включенные события'
+        project_ids:
+          title: 'Доступные проекты'
+          description: 'Выберите, для каких проектов этот вебхук должен быть выполнен.'
+          all: 'Все проекты'
+          selected: 'Только выбранные проекты'
+        selected_project_ids:
+          title: 'Выбранные проекты'
+        secret:
+          description: >
+            Если установлено, это секретное значение используется OpenProject для подписания сетевой загрузки.

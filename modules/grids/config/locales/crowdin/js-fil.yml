@@ -1,0 +1,63 @@
+fil:
+  js:
+    grid:
+      add_widget: 'Add widget'
+      remove: 'Remove widget'
+      configure: 'Configure widget'
+      upsale:
+        text: "Some widgets, like the work package graph widget, are only available in the "
+        link: 'enterprise edition.'
+      widgets:
+        custom_text:
+          title: 'Custom text'
+        documents:
+          title: 'Mga dokumento'
+          no_results: 'No documents yet.'
+        members:
+          title: 'Mga miyembro'
+          no_results: 'No visible members.'
+          view_all_members: 'Tingnan ang lahat na mga miyembro'
+          add: 'Miyembro'
+          too_many: 'Displaying %{count} of %{total} members.'
+        news:
+          title: 'Mga balita'
+          at: 'at'
+          no_results: 'Walang bago para ireport.'
+        project_description:
+          title: 'Project description'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+        project_details:
+          title: 'Project details'
+          no_results: 'No custom fields have been defined for projects.'
+        project_status:
+          title: 'Estado ng proyekto'
+          on_track: 'On track'
+          off_track: 'Off track'
+          at_risk: 'At risk'
+          not_set: 'Not set'
+        subprojects:
+          title: 'Ang mga subproject'
+          no_results: 'No subprojects.'
+        time_entries_current_user:
+          title: 'My spent time'
+          displayed_days: 'Days displayed in the widget:'
+        time_entries_list:
+          title: 'Spent time (last 7 days)'
+          no_results: 'No time entries for the last 7 days.'
+        work_packages_accountable:
+          title: "Work packages I am accountable for"
+        work_packages_assigned:
+          title: 'Ang work package ay nakatakaga sa akin'
+        work_packages_created:
+          title: 'Work packages created by me'
+        work_packages_watched:
+          title: 'Work packages watched by me'
+        work_packages_table:
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
+        work_packages_calendar:
+          title: 'Kalendaryo'
+        work_packages_overview:
+          title: 'Work packages overview'
+          placeholder: 'Click to edit ...'

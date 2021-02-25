@@ -1,0 +1,160 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+lt:
+  activerecord:
+    attributes:
+      work_package:
+        position: "Vieta"
+        remaining_hours: "Liko valandų"
+        remaining_time: "Liko valandų"
+        story_points: "Istorijos taškai"
+        backlogs_work_package_type: "Darbų sąrašo tipas"
+    errors:
+      models:
+        work_package:
+          attributes:
+            blocks_ids:
+              can_only_contain_work_packages_of_current_sprint: "galima įtraukti tik dabartinio sprinto darbo paketų ID."
+              must_block_at_least_one_work_package: "turi turėti bent vieną ID."
+            parent_id:
+              parent_child_relationship_across_projects: "yra netinkamas, nes darbų paketas  '%{work_package_name}' yra darbų sąrašo užduotis ir todėl negali turėti tėvų už šio projekto ribų."
+              type_must_be_one_of_the_following: "Tipas turi būti vienas iš šių: %{type_names}."
+            version_id:
+              task_version_must_be_the_same_as_story_version: "turi būti tokia pati kaip ir tėvinės istorijos versija."
+        sprint:
+          cannot_end_before_it_starts: "Sprintas negali baigtis prieš prasidėdamas."
+  backlogs:
+    add_new_story: "Nauja istorija"
+    any: "bet koks"
+    backlog_settings: "Darbų sąrašo nustatymai"
+    burndown_graph: "Perdegimo Grafas"
+    card_paper_size: "Lapo dydis kortelių spausdinimui"
+    chart_options: "Diagramos parinktys"
+    close: "Uždaryti"
+    column_width: "Stulpelio plotis:"
+    date: "Diena"
+    definition_of_done: "Pabaigimo apibrėžimas"
+    generating_chart: "Kuriamas grafas..."
+    hours: "Valandų"
+    impediment: "Kliūtis"
+    label_versions_default_fold_state: "Rodyti suskleistas versijas"
+    work_package_is_closed: "Darbo paketas baigtas, kai"
+    label_is_done_status: "Būsena %{status_name} reiškia atlikta"
+    no_burndown_data: "Nėra perdegimo duomenų. Būtina nustatyti sprinto pradžios ir pabaigos datas."
+    points: "Taškai"
+    positions_could_not_be_rebuilt: "Nepavyko perkurti pozicijų."
+    positions_rebuilt_successfully: "Pozicijos sėkmingai perkurtos."
+    properties: "Ypatybės"
+    rebuild: "Perkurti"
+    rebuild_positions: "Perkurti pozicijas"
+    remaining_hours: "Liko valandų"
+    remaining_hours_ideal: "Liko valandų (idealiai)"
+    show_burndown_chart: "Perdegimo lentelė"
+    story: "Istorija"
+    story_points: "Istorijos taškai"
+    story_points_ideal: "Istorijos taškai (idealiai)"
+    task: "Užduotis"
+    task_color: "Užduoties spalva"
+    unassigned: "Nepriskirta"
+    x_more: "dar %{count}..."
+  backlogs_active: "aktyvus"
+  backlogs_any: "bet koks"
+  backlogs_card_specification: "Etikečių tipai kortelių spausdinimui"
+  backlogs_inactive: "Projekte nesimato aktyvumo"
+  backlogs_points_burn_direction: "Taškai dega aukštyn/žemyn"
+  backlogs_product_backlog: "Produkto darbų sąrašas"
+  backlogs_product_backlog_is_empty: "Produkto darbų sąrašas yra tuščias"
+  backlogs_product_backlog_unsized: "Viršutinė produkto darbų sąrašo pozicija turi neįvertinų istorijų"
+  backlogs_sizing_inconsistent: "Istorijų dydis skiriasi nuo jų prognozių"
+  backlogs_sprint_notes_missing: "Uždaryti sprintai be retrospektyvinių/įvertinimo pastabų"
+  backlogs_sprint_unestimated: "Uždaryti ir aktyvūs sprintai su neįvertintomis istorijomis"
+  backlogs_sprint_unsized: "Projekto aktyvūs ir neseniai uždaryti sprintai turi istorijų, kurių dydis nėra įvertintas"
+  backlogs_sprints: "Sprintai"
+  backlogs_story: "Istorija"
+  backlogs_story_type: "Istorijos tipas"
+  backlogs_task: "Užduotis"
+  backlogs_task_type: "Užduoties tipas"
+  backlogs_velocity_missing: "Šiam projektui negalima paskaičiuoti greičio"
+  backlogs_velocity_varies: "Sprintų greitis žymiai skiriasi"
+  backlogs_wiki_template: "Šablonas sprinto wiki puslapiui"
+  backlogs_empty_title: "Nėra versijų, skirtų naudoti darbų sąrašuose"
+  backlogs_empty_action_text: "Norėdami pradėti naudoti darbų sąrašus, sukurkite naują versiją ir priskirkite ją darbų sąrašo stulpeliui."
+  button_edit_wiki: "Redaguoti wiki puslapį"
+  error_backlogs_task_cannot_be_story: "Neteisingi nustatymai. Pasirinktas užduoties tipas negali būti kartu ir istorijos tipu."
+  error_intro_plural: "Rastos tokios klaidos:"
+  error_intro_singular: "Rasta tokia klaida:"
+  error_outro: "Prašome pataisyti aukščiau nurodytas klaidas prieš pateikiant dar kartą."
+  event_sprint_description: "%{summary}: %{url}\n%{description}"
+  event_sprint_summary: "%{project}: %{summary}"
+  ideal: "idealus"
+  inclusion: "neįtraukta į sąrašą"
+  label_back_to_project: "Atgal į projekto puslapį"
+  label_backlog: "Darbų sąrašas"
+  label_backlogs: "Darbų sąrašai"
+  label_backlogs_unconfigured: "Jūs dar nesukonfigūravote Darbų sąrašų. Prašome eiti į  %{administration} > %{plugins}, tada nuspausti ant  %{configure} nuorodos šiam įskiepiui. Kai nustatysite laukus, grįžkite čia ir pradėkite naudoti instrumentą."
+  label_blocks_ids: "Blokuotų darbų paketų ID reikšmės"
+  label_burndown: "Perdegimas"
+  label_column_in_backlog: "Stulpelis darbų sąraše"
+  label_hours: "valandos (-a, -ų)"
+  label_work_package_hierarchy: "Darbų paketų hierarchija"
+  label_master_backlog: "Pagrindinis darbų sąrašas"
+  label_not_prioritized: "neprioritetizuota"
+  label_points: "taškai"
+  label_points_burn_down: "Žemyn"
+  label_points_burn_up: "Aukštyn"
+  label_product_backlog: "produkto darbų sąrašas"
+  label_select_all: "Pasirinkti viską"
+  label_sprint_backlog: "sprinto darbų sąrašas"
+  label_sprint_cards: "Eksportuoti korteles"
+  label_sprint_impediments: "Sprinto trukdžiai"
+  label_sprint_name: "Sprintas „%{name}“"
+  label_sprint_velocity: "Greitis %{velocity}, pagal %{sprints} sprintus su vidutiniškai %{days} dienomis"
+  label_stories: "Istorijos"
+  label_stories_tasks: "Istorijos / Užduotys"
+  label_task_board: "Užduočių lenta"
+  label_version_setting: "Versijos"
+  label_version: 'Versija'
+  label_webcal: "Webcal srautas"
+  label_wiki: "Wiki"
+  permission_view_master_backlog: "Peržiūrėti pagrindinį darbų sąrašą"
+  permission_view_taskboards: "Peržiūrėti užduočių lentas"
+  permission_update_sprints: "Atnaujinti sprintus"
+  points_accepted: "taškai priimti"
+  points_committed: "taškai patvirtinti"
+  points_resolved: "taškai išspręsti"
+  points_to_accept: "taškai nepriimti"
+  points_to_resolve: "taškai neišspręsti"
+  project_module_backlogs: "Darbų sąrašai"
+  rb_label_copy_tasks: "Nukopijuoti darbų paketus"
+  rb_label_copy_tasks_all: "Visi"
+  rb_label_copy_tasks_none: "Joks"
+  rb_label_copy_tasks_open: "Atidaryti"
+  rb_label_link_to_original: "Įtraukti nuorodą į originalią istoriją"
+  remaining_hours: "likę valandos"
+  required_burn_rate_hours: "reikalingas degimo tempas (valandos)"
+  required_burn_rate_points: "reikalingas degimo tempas (taškai)"
+  todo_work_package_description: "%{summary}: %{url}\n%{description}"
+  todo_work_package_summary: "%{type}: %{summary}"
+  version_settings_display_label: "Stulpelis darbų sąraše"
+  version_settings_display_option_left: "kairėn"
+  version_settings_display_option_none: "joks"
+  version_settings_display_option_right: "dešinėn"

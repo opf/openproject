@@ -1,0 +1,63 @@
+vi:
+  js:
+    grid:
+      add_widget: 'Add widget'
+      remove: 'Remove widget'
+      configure: 'Configure widget'
+      upsale:
+        text: "Một số widget, như widget biểu đồ gói công việc, chỉ có sẵn trong"
+        link: 'Phiên bản doanh nghiệp.'
+      widgets:
+        custom_text:
+          title: 'Custom text'
+        documents:
+          title: 'Tài liệu'
+          no_results: 'Chưa có tài liệu.'
+        members:
+          title: 'Members'
+          no_results: 'No visible members.'
+          view_all_members: 'View all members'
+          add: 'Thành viên'
+          too_many: 'Displaying %{count} of %{total} members.'
+        news:
+          title: 'Tin tức'
+          at: 'tại'
+          no_results: 'Không có gì mới để báo cáo.'
+        project_description:
+          title: 'Project description'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+        project_details:
+          title: 'Project details'
+          no_results: 'No custom fields have been defined for projects.'
+        project_status:
+          title: 'Tình trạng dự án'
+          on_track: 'Theo dõi'
+          off_track: 'Không theo dõi'
+          at_risk: 'Có rủi ro'
+          not_set: 'Không được thiết lập'
+        subprojects:
+          title: 'Dự án con'
+          no_results: 'No subprojects.'
+        time_entries_current_user:
+          title: 'Thời gian hiện tại (My spent time)'
+          displayed_days: 'Days displayed in the widget:'
+        time_entries_list:
+          title: 'Thời gian làm việc (trong 7 ngày gần nhất)'
+          no_results: 'Không có ghi nhận thời gian làm việc trong 7 ngày gần nhất.'
+        work_packages_accountable:
+          title: "Gói công việc mà tôi có trách nhiệm"
+        work_packages_assigned:
+          title: 'Work package được chỉ định cho tôi'
+        work_packages_created:
+          title: 'Công việc tạo bởi tôi'
+        work_packages_watched:
+          title: 'Công việc có liên quan tới tôi'
+        work_packages_table:
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
+        work_packages_calendar:
+          title: 'Lịch'
+        work_packages_overview:
+          title: 'Work packages overview'
+          placeholder: 'Click to edit ...'

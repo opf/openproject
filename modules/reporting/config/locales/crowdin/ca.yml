@@ -1,0 +1,87 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+ca:
+  button_save_as: "Save report as..."
+  comments: "Comentari"
+  cost_reports_title: "Time and costs"
+  label_cost_report: "Cost report"
+  label_cost_report_plural: "Cost reports"
+  description_drill_down: "Mostra els detalls"
+  description_filter_selection: "Selection"
+  description_multi_select: "Show multiselect"
+  description_remove_filter: "Remove filter"
+  information_restricted_depending_on_permission: "Depending on your permissions this page might contain restricted information."
+  label_click_to_edit: "Feu clic per editar."
+  label_closed: "tancat"
+  label_columns: "Columnes"
+  label_cost_entry_attributes: "Cost entry attributes"
+  label_days_ago: "during the last days"
+  label_entry: "Cost entry"
+  label_filter_text: "Filter text"
+  label_filter_value: "Valor"
+  label_filters: "Filtre"
+  label_greater: ">"
+  label_is_not_project_with_subprojects: "is not (includes subprojects)"
+  label_is_project_with_subprojects: "is (includes subprojects)"
+  label_work_package_attributes: "Work package attributes"
+  label_less: "<"
+  label_money: "Cash value"
+  label_month_reporting: "Month (Spent)"
+  label_new_report: "New cost report"
+  label_open: "obrir"
+  label_operator: "Operator"
+  label_private_report_plural: "Private cost reports"
+  label_progress_bar_explanation: "Generant informe..."
+  label_public_report_plural: "Public cost reports"
+  label_really_delete_question: "Esteu segur que voleu suprimir aquest informe?"
+  label_rows: "Files"
+  label_saving: "Desant ..."
+  label_spent_on_reporting: "Date (Spent)"
+  label_sum: "Suma"
+  label_units: "Unitats"
+  label_week_reporting: "Week (Spent)"
+  label_year_reporting: "Year (Spent)"
+  label_count: "Recompte"
+  label_filter: "Filtre"
+  label_filter_add: "Afegir filtre"
+  label_filter_plural: "Filtres"
+  label_group_by: "Agrupa per"
+  label_group_by_add: "Afegir grup per atribut"
+  label_inactive: "«inactiu»"
+  label_no: "No"
+  label_none: "(no hi ha dades)"
+  label_no_reports: "There are no cost reports yet."
+  label_report: "Informe"
+  label_yes: "Sí"
+  load_query_question: "L'informe tindrà %{size} de cel·les i pot trigar algun temps per generar-se. Encara voleu intentar la generació?"
+  permission_save_cost_reports: "Save public cost reports"
+  permission_save_private_cost_reports: "Save private cost reports"
+  project_module_reporting_module: "Cost reports"
+  text_costs_are_rounded_note: "Displayed values are rounded. All calculations are based on the non-rounded values."
+  toggle_multiselect: "activate/deactivate multiselect"
+  units: "Unitats"
+  validation_failure_date: "no és una data vàlida"
+  validation_failure_integer: "no és un enter vàlid"
+  reporting:
+    group_by:
+      selected_columns: "Columnes seleccionades"
+      selected_rows: "Files seleccionades"

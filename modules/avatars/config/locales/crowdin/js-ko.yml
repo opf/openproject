@@ -1,0 +1,15 @@
+#English strings go here
+ko:
+  js:
+    label_preview: '미리 보기'
+    button_update: '업데이트'
+    avatars:
+      label_choose_avatar: "파일에서 아바타 선택"
+      uploading_avatar: "아바타를 업로드 중입니다."
+      text_upload_instructions: |
+        128 × 128픽셀 크기의 사용자 지정 아바타를 업로드하십시오. 더 큰 파일은 이 크기에 맞게 조정되고 잘립니다.
+        이미지를 선택하면, 업로드하기 전에 아바타의 미리 보기가 표시됩니다.
+      error_image_too_large: "이미지가 너무 큽니다."
+      wrong_file_format: "허용된 형식은 jpg, png, gif입니다."
+      empty_file_error: "유효한 이미지(jpg, png, gif)를 업로드하십시오."
+

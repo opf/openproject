@@ -1,0 +1,146 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+ar:
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "مجموعة العمل"
+        overridden_costs: "تكاليف متجاوزة"
+        spent: "أنفق"
+        spent_on: "التاريخ"
+      cost_type:
+        unit: "اسم الوحدة"
+        unit_plural: "اسم الوحدة متعددة الأقطاب"
+      work_package:
+        costs_by_type: "الوحدات المستهلكة"
+        labor_costs: "تكاليف العمل"
+        material_costs: "تكاليف الوحدة"
+        overall_costs: "التكاليف الإجمالية"
+        spent_costs: "التكاليف المستهلكة"
+        spent_units: "الوحدات المستهلكة"
+      rate:
+        rate: "المعدل"
+      user:
+        default_rates: "المعدلات المفترضة"
+    models:
+      cost_type:
+        zero: "أنواع التكلفة"
+        one: "أنواع التكلفة"
+        two: "أنواع التكلفة"
+        few: "أنواع التكلفة"
+        many: "أنواع التكلفة"
+        other: "أنواع التكلفة"
+      rate: "المعدل"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "مجموعة العمل #%{id} ليست هدفًا صالحًا لإعادة تعيين إدخالات التكلفة."
+          nullify_is_not_valid_for_cost_entries: "لا يمكن تعيين إدخالات التكلفة للمشروع."
+  attributes:
+    comment: "تعليق"
+    cost_type: "أنواع التكلفة"
+    costs: "التكاليف"
+    current_rate: "المعدل الحالي"
+    hours: "الساعات"
+    units: "الوحدات"
+    valid_from: "صالح من"
+    fixed_date: "تاريخ ثابت"
+  button_add_rate: "أضِف المعدل"
+  button_log_costs: "سجل تكاليف الوحدة"
+  caption_booked_on_project: "حُجِِز على المشروع"
+  caption_default: "الافتراضي"
+  caption_default_rate_history_for: "تاريخ المعدل الافتراضي ل %{user}"
+  caption_locked_on: "مؤمّن عليه"
+  caption_materials: "الوحدات"
+  caption_rate_history: "تاريخ السعر"
+  caption_rate_history_for: "تاريخ السعر ل %{user}"
+  caption_rate_history_for_project: "تاريخ السعر ل %{user} في مشروع %{project}"
+  caption_save_rate: "معدل التوفير"
+  caption_set_rate: "ضبط المعدل الحالي"
+  caption_show_locked: "إظهار الأنواع المغلقة"
+  description_date_for_new_rate: "تاريخ المعدل الجديد"
+  group_by_others: "ليس في أي مجموعة"
+  label_between: "بين"
+  label_cost_filter_add: "أضِف عامل تصفية لإدخال التكلفة"
+  label_costlog: "تكاليف الوحدة المسجلة"
+  label_cost_plural: "التكاليف"
+  label_cost_type_plural: "أنواع التكلفة"
+  label_cost_type_specific: "Cost type #%{id}: %{name}"
+  label_costs_per_page: "التكاليف للصفحة"
+  label_currency: "العملة"
+  label_currency_format: "شكل العملة"
+  label_current_default_rate: "المعدل الافتراضي الحالي"
+  label_date_on: "في"
+  label_deleted_cost_types: "أنواع التكلفة المحذوفة"
+  label_locked_cost_types: "أنواع التكلفة المغلقة"
+  label_display_cost_entries: "عرض تكاليف الوحدة"
+  label_display_time_entries: "عرض الساعات المبلّغ عنها"
+  label_display_types: "أنواع العرض"
+  label_edit: "تعديل"
+  label_generic_user: "المستخدم العام"
+  label_greater_or_equal: "=<"
+  label_group_by: "مجموعة من"
+  label_group_by_add: "أضِف حقل التجميع"
+  label_hourly_rate: "الأجر بالساعة"
+  label_include_deleted: "يتضمن المحذوف"
+  label_work_package_filter_add: "أضِف عامل تصفية لمجموعة العمل"
+  label_kind: "النّوع"
+  label_less_or_equal: "=>"
+  label_log_costs: "سجل تكاليف الوحدة"
+  label_no: "لا"
+  label_option_plural: "خيارات"
+  label_overall_costs: "التكاليف الإجمالية"
+  label_rate: "المعدل"
+  label_rate_plural: "الأسعار"
+  label_status_finished: "مكتمل"
+  label_units: "وحدات التكلفة"
+  label_user: "المستخدم"
+  label_until: "حتى"
+  label_valid_from: "صالح من"
+  label_yes: "نعم"
+  notice_something_wrong: "حصل خطأ ما. من فضلك حاول مرة أخرى."
+  notice_successful_restore: "استعادة ناجحة."
+  notice_successful_lock: "أغلِقت بنجاح."
+  notice_cost_logged_successfully: 'تمّ تسجيل تكلفة الوحدة بنجاح.'
+  permission_edit_cost_entries: "تحرير تكاليف الوحدة المحجوزة"
+  permission_edit_own_cost_entries: "تحرير تكاليف الوحدة المحجوزة الخاصة"
+  permission_edit_hourly_rates: "تحرير الأجور الساعيّة"
+  permission_edit_own_hourly_rate: "تعديل الأجور الساعيّة الخاصة"
+  permission_edit_rates: "تعديل الأسعار"
+  permission_log_costs: "حجز تكاليف الوحدة"
+  permission_log_own_costs: "حجز تكاليف الوحدة لنفسه"
+  permission_view_cost_entries: "عرض تكاليف الحجز"
+  permission_view_cost_rates: "عرض معدلات التكلفة"
+  permission_view_hourly_rates: "عرض جميع الأجور الساعيّة"
+  permission_view_own_cost_entries: "عرض تكاليف الحجز الخاصة"
+  permission_view_own_hourly_rate: "عرض الأجور الساعيّة الخاصة"
+  permission_view_own_time_entries: "عرض الوقت الخاص الذي تم قضاؤه"
+  project_module_costs: "Time and costs"
+  text_assign_time_and_cost_entries_to_project: "تعيين الساعات والتكاليف التي تمّ الإبلاغ عنها للمشروع"
+  text_destroy_cost_entries_question: "%{cost_entries} تم الإبلاغ عنها في مجموعات العمل التي توشك أن تلغيها. ماذا تريد أن تفعل؟"
+  text_destroy_time_and_cost_entries: "إلغاء الساعات والتكاليف التي تم الإبلاغ عنها"
+  text_destroy_time_and_cost_entries_question: "%{hours} ساعات، %{cost_entries} تم الإبلاغ عنها في مجموعات العمل التي توشك على إلغائها. ماذا تريد أن تفعل؟"
+  text_reassign_time_and_cost_entries: "إعادة تعيين الساعات والتكاليف التي تم التبليغ عنها لمجموعة العمل هذه:"
+  text_warning_hidden_elements: "من الممكن أنه تمّ استبعاد بعض الإدخالات من التجميع."
+  week: "الأسبوع"
+  js:
+    text_are_you_sure: "هل أنت متأكد؟"

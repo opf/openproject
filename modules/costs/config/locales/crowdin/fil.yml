@@ -1,0 +1,142 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+fil:
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "Work package"
+        overridden_costs: "Overridden costs"
+        spent: "Nagasta"
+        spent_on: "Petsa"
+      cost_type:
+        unit: "Pangalan ng yunit"
+        unit_plural: "Pinaraming pangalan ng yunit"
+      work_package:
+        costs_by_type: "Ginugol na yunit"
+        labor_costs: "Gastos sa Paggawa"
+        material_costs: "Gastos kada yunit"
+        overall_costs: "Kabuuang gastos"
+        spent_costs: "Ginugol na gastos"
+        spent_units: "Ginugol na yunit"
+      rate:
+        rate: "Rate"
+      user:
+        default_rates: "Default rates"
+    models:
+      cost_type:
+        one: "Cost type"
+        other: "Cost types"
+      rate: "Rate"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Work package #%{id} is not a valid target for reassigning the cost entries."
+          nullify_is_not_valid_for_cost_entries: "Cost entries can not be assigned to a project."
+  attributes:
+    comment: "Komento"
+    cost_type: "Uri ng Gastos"
+    costs: "Costs"
+    current_rate: "Current rate"
+    hours: "Mga oras"
+    units: "Units"
+    valid_from: "Valid from"
+    fixed_date: "Iksaktong Petsa"
+  button_add_rate: "Add rate"
+  button_log_costs: "Log unit costs"
+  caption_booked_on_project: "Booked on project"
+  caption_default: "Default"
+  caption_default_rate_history_for: "Default rate history for %{user}"
+  caption_locked_on: "Locked on"
+  caption_materials: "Units"
+  caption_rate_history: "Rate history"
+  caption_rate_history_for: "Rate history for %{user}"
+  caption_rate_history_for_project: "Rate history for %{user} in project %{project}"
+  caption_save_rate: "Save rate"
+  caption_set_rate: "Set current rate"
+  caption_show_locked: "Show locked types"
+  description_date_for_new_rate: "Date for new rate"
+  group_by_others: "not in any group"
+  label_between: "sa pagitan ng"
+  label_cost_filter_add: "Add cost entry filter"
+  label_costlog: "Logged unit costs"
+  label_cost_plural: "Costs"
+  label_cost_type_plural: "Cost types"
+  label_cost_type_specific: "Cost type #%{id}: %{name}"
+  label_costs_per_page: "Costs per page"
+  label_currency: "Currency"
+  label_currency_format: "Format of currency"
+  label_current_default_rate: "Current default rate"
+  label_date_on: "sa"
+  label_deleted_cost_types: "Deleted cost types"
+  label_locked_cost_types: "Locked cost types"
+  label_display_cost_entries: "Display unit costs"
+  label_display_time_entries: "Display reported hours"
+  label_display_types: "Display types"
+  label_edit: "I-edit"
+  label_generic_user: "Generic user"
+  label_greater_or_equal: ">=="
+  label_group_by: "Pangkat sa"
+  label_group_by_add: "Add grouping field"
+  label_hourly_rate: "Hourly rate"
+  label_include_deleted: "Include deleted"
+  label_work_package_filter_add: "Add work package filter"
+  label_kind: "Uri"
+  label_less_or_equal: "<="
+  label_log_costs: "Log unit costs"
+  label_no: "Hindi"
+  label_option_plural: "Mga opsyon"
+  label_overall_costs: "Kabuuang gastos"
+  label_rate: "Rate"
+  label_rate_plural: "Rates"
+  label_status_finished: "Finished"
+  label_units: "Cost units"
+  label_user: "Gumagamit"
+  label_until: "until"
+  label_valid_from: "Valid from"
+  label_yes: "Oo"
+  notice_something_wrong: "Something went wrong. Please try again."
+  notice_successful_restore: "Successful restore."
+  notice_successful_lock: "Locked successfully."
+  notice_cost_logged_successfully: 'Unit cost logged successfully.'
+  permission_edit_cost_entries: "Edit booked unit costs"
+  permission_edit_own_cost_entries: "Edit own booked unit costs"
+  permission_edit_hourly_rates: "Edit hourly rates"
+  permission_edit_own_hourly_rate: "Edit own hourly rates"
+  permission_edit_rates: "Edit rates"
+  permission_log_costs: "Book unit costs"
+  permission_log_own_costs: "Book unit costs for oneself"
+  permission_view_cost_entries: "View booked costs"
+  permission_view_cost_rates: "View cost rates"
+  permission_view_hourly_rates: "View all hourly rates"
+  permission_view_own_cost_entries: "View own booked costs"
+  permission_view_own_hourly_rate: "View own hourly rate"
+  permission_view_own_time_entries: "View own spent time"
+  project_module_costs: "Time and costs"
+  text_assign_time_and_cost_entries_to_project: "Assign reported hours and costs to the project"
+  text_destroy_cost_entries_question: "%{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
+  text_destroy_time_and_cost_entries: "Delete reported hours and costs"
+  text_destroy_time_and_cost_entries_question: "%{hours} hours, %{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
+  text_reassign_time_and_cost_entries: "Reassign reported hours and costs to this work package:"
+  text_warning_hidden_elements: "Some entries may have been excluded from the aggregation."
+  week: "week"
+  js:
+    text_are_you_sure: "Sigurado ka ba?"

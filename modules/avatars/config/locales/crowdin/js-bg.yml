@@ -1,0 +1,15 @@
+#English strings go here
+bg:
+  js:
+    label_preview: 'Предварителен преглед'
+    button_update: 'Обнови'
+    avatars:
+      label_choose_avatar: "Изберете аватар от файл"
+      uploading_avatar: "Качете вашия аватар."
+      text_upload_instructions: |
+        Качете свой собствен персонализиран аватар от 128 на 128 пиксела. По-големите файлове ще бъдат преоразмерени и изрязани, за да съвпадат.
+        Визуализация на вашия аватар ще бъде показан преди качването, след като изберете изображение.
+      error_image_too_large: "Картинката е твърде голяма."
+      wrong_file_format: "Разрешени формати са jpg, png, gif"
+      empty_file_error: "Моля вдигайте валидни образи (jpg, png, gif)"
+

@@ -1,0 +1,40 @@
+#English strings go here
+ca:
+  label_avatar: "Avatar"
+  label_avatar_plural: "Avatars"
+  label_current_avatar: "Avatar actual"
+  label_choose_avatar: "Tria un Avatar des d'un fitxer"
+  message_avatar_uploaded: "Avatar canviat correctament."
+  error_image_upload: "Error guardant la imatge."
+  error_image_size: "El fitxer és massa gran."
+  button_change_avatar: "Canviar avatar"
+  are_you_sure_delete_avatar: "Estàs segur que vols suprimir el teu avatar?"
+  avatar_deleted: "Avatar eliminat correctament."
+  unable_to_delete_avatar: "No s'ha pogut suprimir l'avatar."
+  wrong_file_format: "Els formats permesos són jpg, png, gif "
+  empty_file_error: "Si us plau, puja una imatge vàlida (jpg, png, gif)"
+  avatars:
+    label_avatar: "Avatar"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Avatar actual'
+    label_local_avatar: 'Avatar personalitzat'
+    text_current_avatar: |
+      La següent imatge mostra l'avatar actual
+    text_upload_instructions: |
+      Puja el teu avatar personalitzat de 128 per 128 pixels. Les imatges més grans es re-dimensionaran i retallaran per encaixar.
+      Una visualització prèvia de l'avatar es mostrarà abans de carregar-la, un cop seleccioni la imatge.
+    text_change_gravatar_html: 'Per a canviar o afegir el Gravatar per la seva direcció de correu electrònic, vagi a %{gravatar_url}.'
+    text_your_local_avatar: |
+      OpenProject li deixa pujar el seu avatar personalitzat.
+    text_local_avatar_over_gravatar: |
+      Si s'estableix un, aquest avatar personalitzat s'utilitzarà amb preferència sobre el gravatar de amunt.
+    text_your_current_gravatar: |
+      OpenProject utilitza el seu gravatar si en registra un, o una imatge o icona per defecte si existeix.
+      L'actual gravatar es:
+    settings:
+      enable_gravatars: 'Activa Gravatars'
+      gravatar_default: "Imatge Gravatar predeterminada"
+      enable_local_avatars: 'Activa avatars personalitzats'
+
+
+

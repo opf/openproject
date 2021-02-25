@@ -1,0 +1,144 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+pl:
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "Zadanie"
+        overridden_costs: "Koszty zastąpione"
+        spent: "Wydatki"
+        spent_on: "Data"
+      cost_type:
+        unit: "Nazwa jednostki"
+        unit_plural: "Liczba mnoga jednostki"
+      work_package:
+        costs_by_type: "Zużyte jednostki"
+        labor_costs: "Koszty pracy"
+        material_costs: "Koszt jednostki"
+        overall_costs: "Koszt całkowity"
+        spent_costs: "Zużyte koszty"
+        spent_units: "Zużyte jednostki"
+      rate:
+        rate: "Stawka"
+      user:
+        default_rates: "Domyślna stawka"
+    models:
+      cost_type:
+        one: "Jednostki"
+        few: "Rodzaje kosztów"
+        many: "Rodzaje kosztów"
+        other: "Rodzaje kosztów"
+      rate: "Stawka"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Zestaw zadań #%{id} nie jest poprawnym celem do ponownego rozpisania kosztów."
+          nullify_is_not_valid_for_cost_entries: "Pozycje kosztów nie mogą być przypisane do projektu."
+  attributes:
+    comment: "Komentarz"
+    cost_type: "Jednostki"
+    costs: "Koszty"
+    current_rate: "Aktualna stawka"
+    hours: "Godziny"
+    units: "Jednostki"
+    valid_from: "Ważny od"
+    fixed_date: "Przypisana data"
+  button_add_rate: "Dodaj stawkę"
+  button_log_costs: "Rejestruj koszty jednostkowe"
+  caption_booked_on_project: "Zarezerwowano na projekt"
+  caption_default: "Domyślnie"
+  caption_default_rate_history_for: "Domyślna stawka historii dla %{user}"
+  caption_locked_on: "Zablokowane dnia"
+  caption_materials: "Jednostki"
+  caption_rate_history: "Historia stawek"
+  caption_rate_history_for: "Historia stawek dla %{user}"
+  caption_rate_history_for_project: "Historia stawek dla %{user} w projekcie %{project}"
+  caption_save_rate: "Zapisz stawkę"
+  caption_set_rate: "Ustaw domyślną stawkę"
+  caption_show_locked: "Pokaż zamknięte typy kosztów"
+  description_date_for_new_rate: "Data nowej stawki"
+  group_by_others: "nie w każdej grupie"
+  label_between: "pomiędzy"
+  label_cost_filter_add: "Dodaj filtr kosztów"
+  label_costlog: "Zarejestrowane koszty jednostkowe"
+  label_cost_plural: "Koszty"
+  label_cost_type_plural: "Rodzaje kosztów"
+  label_cost_type_specific: "Typ kosztu #%{id}: %{name}"
+  label_costs_per_page: "Kosztów na stronę"
+  label_currency: "Waluta"
+  label_currency_format: "Format waluty"
+  label_current_default_rate: "Aktualne stawki domyślne"
+  label_date_on: "wł"
+  label_deleted_cost_types: "Usunięte typy kosztów"
+  label_locked_cost_types: "Zablokowane typy kosztów"
+  label_display_cost_entries: "Pokaż koszty jednostkowe"
+  label_display_time_entries: "Wyświetl zgłoszone godziny"
+  label_display_types: "Wyświetl typy"
+  label_edit: "Edycja"
+  label_generic_user: "Ogólne informacje"
+  label_greater_or_equal: "≥"
+  label_group_by: "Grupuj według"
+  label_group_by_add: "Dodaj pole grupowania"
+  label_hourly_rate: "Stawka godzinowa"
+  label_include_deleted: "Uwzględnij usunięte"
+  label_work_package_filter_add: "Dodaj filtr Zestawu zadań"
+  label_kind: "Typ"
+  label_less_or_equal: "≤"
+  label_log_costs: "Rejestruj koszty jednostkowe"
+  label_no: "Nie"
+  label_option_plural: "Opcje"
+  label_overall_costs: "Koszt całkowity"
+  label_rate: "Stawka"
+  label_rate_plural: "Taryfy"
+  label_status_finished: "Zakończone"
+  label_units: "Koszt jednostki"
+  label_user: "Użytkownik"
+  label_until: "do"
+  label_valid_from: "Ważny od"
+  label_yes: "Tak"
+  notice_something_wrong: "Coś poszło nie tak. Proszę spróbuj ponownie."
+  notice_successful_restore: "Przywracanie się powiodło."
+  notice_successful_lock: "Zablokowano."
+  notice_cost_logged_successfully: 'Koszt jednostkowy zarejestrowano pomyślnie.'
+  permission_edit_cost_entries: "Edytuj zapisane koszty jednostkowe"
+  permission_edit_own_cost_entries: "Edytuj zarejestrowane własne koszty jednostkowe"
+  permission_edit_hourly_rates: "Edycja stawek godzinowych"
+  permission_edit_own_hourly_rate: "Edycja własnych stawek godzinowych"
+  permission_edit_rates: "Edycja stawek/cen"
+  permission_log_costs: "Zarejestruj koszty jednostkowe"
+  permission_log_own_costs: "Zarejestruj koszty jednostkowe dla siebie"
+  permission_view_cost_entries: "Zobacz zarejestrowane koszty"
+  permission_view_cost_rates: "Zobacz koszty stawek"
+  permission_view_hourly_rates: "Zobacz wszystkie stawki godzinowe"
+  permission_view_own_cost_entries: "Zobacz samodzielnie zarejestrowane koszty"
+  permission_view_own_hourly_rate: "Zobacz własne stawki godzinowe"
+  permission_view_own_time_entries: "Zobacz swój poświęcony czas"
+  project_module_costs: "Czas i koszty"
+  text_assign_time_and_cost_entries_to_project: "Przypisz zgłoszone godziny i koszty do projektu"
+  text_destroy_cost_entries_question: "%{cost_entries} zostały zgłoszone do Zestawu zadań, który chcesz usunąć. Co chcesz zrobić?"
+  text_destroy_time_and_cost_entries: "Usuń zgłoszone godziny i koszty"
+  text_destroy_time_and_cost_entries_question: "%{hours} godzin, %{cost_entries} zostały zgłoszone do Zestawu zadań, który chcesz usunąć. Co chcesz zrobić?"
+  text_reassign_time_and_cost_entries: "Ponownie przypisz zgłoszone godziny i koszty do tego Zestawu zadań:"
+  text_warning_hidden_elements: "Niektóre wpisy mogą zostać wyłączone ze zbioru."
+  week: "tydzień"
+  js:
+    text_are_you_sure: "Jesteś pewien?"

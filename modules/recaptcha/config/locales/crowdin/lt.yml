@@ -1,0 +1,18 @@
+#English strings go here for Rails i18n
+lt:
+  recaptcha:
+    label_recaptcha: "reCAPTCHA"
+    button_please_wait: 'Prašome palaukti...'
+    verify_account: "Patikrinkite jūsų paskyrą"
+    error_captcha: "Nepavyko patikrinti jūsų paskyros. Prašome susisiekti su administratoriumi."
+    settings:
+      website_key: 'Svetainės raktas'
+      website_key_text: 'Įveskite svetainės raktą, kurį sukūrėte reCAPTCHA šio domeno administratoriaus konsolėje.'
+      secret_key: 'Slaptas raktas'
+      secret_key_text: 'Įveskite slaptą raktą, kurį sukūrėte reCAPTCHA administratoriaus konsolėje.'
+      type: 'Naudoti reCAPTCHA'
+      type_disabled: 'Išjungti reCAPTCHA'
+      type_v2: 'reCAPTCHA v2'
+      type_v3: 'reCAPTCHA v3'
+      recaptcha_description_html: >
+        reCAPTCHA yra nemokama Google paslauga, kurią galima įjungti jūsų OpenProject. Įjungus captcha forma bus rodoma prisijungiant visiems naudotojams, kurie dar nėra patvirtinti. <br/> Daugiau informacijos apie reCAPTCHA ir jos versijas bei kaip sukurti svetainę ir slaptus raktus rasite: %{recaptcha_link}

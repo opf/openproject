@@ -1,0 +1,142 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+sv:
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "Arbetspaket"
+        overridden_costs: "Åsidosatta kostnader"
+        spent: "Spenderat"
+        spent_on: "Datum"
+      cost_type:
+        unit: "Enhetsnamn"
+        unit_plural: "Enhetsnamn plural"
+      work_package:
+        costs_by_type: "Bokade enheter"
+        labor_costs: "Personalkostnader"
+        material_costs: "Enhetskostnader"
+        overall_costs: "Totalkostnader"
+        spent_costs: "Bokade kostnader"
+        spent_units: "Bokade enheter"
+      rate:
+        rate: "Timpris"
+      user:
+        default_rates: "Standardtimpris"
+    models:
+      cost_type:
+        one: "Kostnadstyp"
+        other: "Kostnadstyper"
+      rate: "Timpris"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Arbetspaket #%{id} är inte ett giltigt mål för omfördelning av kostnadsposterna."
+          nullify_is_not_valid_for_cost_entries: "Kostnadsposterna kan inte tilldelas till ett projekt."
+  attributes:
+    comment: "Kommentar"
+    cost_type: "Kostnadstyp"
+    costs: "Kostnader"
+    current_rate: "Nuvarande timpris"
+    hours: "Timmar"
+    units: "Enheter"
+    valid_from: "Gäller från"
+    fixed_date: "Referensdatum"
+  button_add_rate: "Lägg till timpris"
+  button_log_costs: "Logga enhetskostnader"
+  caption_booked_on_project: "Bokade på projekt"
+  caption_default: "Standard"
+  caption_default_rate_history_for: "Historiskt standardtimpris för %{user}"
+  caption_locked_on: "Låst den"
+  caption_materials: "Enheter"
+  caption_rate_history: "Historiska timpriser"
+  caption_rate_history_for: "Historiska timpriser för %{user}"
+  caption_rate_history_for_project: "Historiska timpriser för %{user} i projekt %{project}"
+  caption_save_rate: "Spara timpris"
+  caption_set_rate: "Ange aktuellt timpris"
+  caption_show_locked: "Visa låst typer"
+  description_date_for_new_rate: "Datum för nytt timpris"
+  group_by_others: "inte i någon grupp"
+  label_between: "mellan"
+  label_cost_filter_add: "Lägg till filter för kostnadspost"
+  label_costlog: "Loggade enhetskostnader"
+  label_cost_plural: "Kostnader"
+  label_cost_type_plural: "Kostnadstyper"
+  label_cost_type_specific: "Cost type #%{id}: %{name}"
+  label_costs_per_page: "Kostnader per sida"
+  label_currency: "Valuta"
+  label_currency_format: "Formatet för valuta"
+  label_current_default_rate: "Nuvarande standardtimpris"
+  label_date_on: "på"
+  label_deleted_cost_types: "Borttagna kostnadstyper"
+  label_locked_cost_types: "Låsta kostnadstyper"
+  label_display_cost_entries: "Visa enhetskostnader"
+  label_display_time_entries: "Visa rapporterade timmar"
+  label_display_types: "Visa typer"
+  label_edit: "Redigera"
+  label_generic_user: "Generisk användare"
+  label_greater_or_equal: ">="
+  label_group_by: "Gruppera efter"
+  label_group_by_add: "Lägg till grupperingsfält"
+  label_hourly_rate: "Timpris"
+  label_include_deleted: "Inkludera borttagna"
+  label_work_package_filter_add: "Lägg till arbetspaketsfilter"
+  label_kind: "Typ"
+  label_less_or_equal: "<="
+  label_log_costs: "Logga enhetskostnader"
+  label_no: "Nej"
+  label_option_plural: "Alternativ"
+  label_overall_costs: "Totalkostnader"
+  label_rate: "Timpris"
+  label_rate_plural: "Priser"
+  label_status_finished: "Avslutad"
+  label_units: "Kostnadsenheter"
+  label_user: "Användare"
+  label_until: "fram till"
+  label_valid_from: "Gäller från"
+  label_yes: "Ja"
+  notice_something_wrong: "Ett fel inträffade. Försök igen."
+  notice_successful_restore: "Lyckad återställning."
+  notice_successful_lock: "Låst framgångsrikt."
+  notice_cost_logged_successfully: 'Enhetskostnaden loggad framgångsrikt.'
+  permission_edit_cost_entries: "Redigera bokade enhetskostnader"
+  permission_edit_own_cost_entries: "Redigera egna bokade enhetskostnader"
+  permission_edit_hourly_rates: "Redigera timpriser"
+  permission_edit_own_hourly_rate: "Redigera egna timpriser"
+  permission_edit_rates: "Redigera priser"
+  permission_log_costs: "Boka enhetskostnader"
+  permission_log_own_costs: "Boka enhetskostnader för sig själv"
+  permission_view_cost_entries: "Visa bokade kostnader"
+  permission_view_cost_rates: "Visa enhetspriser"
+  permission_view_hourly_rates: "Visa alla timpriser"
+  permission_view_own_cost_entries: "Visa egna bokade kostnader"
+  permission_view_own_hourly_rate: "Visa egna timpriser"
+  permission_view_own_time_entries: "Visa egen spenderad tid"
+  project_module_costs: "Time and costs"
+  text_assign_time_and_cost_entries_to_project: "Tilldela rapporterade timmar och kostnader till projektet"
+  text_destroy_cost_entries_question: "%{cost_entries} rapporterades på de arbetspaket som du håller på och tar bort. Vad vill du göra?"
+  text_destroy_time_and_cost_entries: "Ta bort rapporterade timmar och kostnader"
+  text_destroy_time_and_cost_entries_question: "%{hours} timmar, %{cost_entries} rapporterades på de arbetspaket som du håller på att ta bort. Vad vill du göra?"
+  text_reassign_time_and_cost_entries: "Tilldela rapporterade timmar och kostnader på detta arbetspaket:"
+  text_warning_hidden_elements: "Vissa poster kan ha undantagits från summeringen."
+  week: "vecka"
+  js:
+    text_are_you_sure: "Är du säker?"

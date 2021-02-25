@@ -1,0 +1,40 @@
+#English strings go here
+"no":
+  label_avatar: "Profilbilde"
+  label_avatar_plural: "Profilbilder"
+  label_current_avatar: "Nåværende Profilbilde"
+  label_choose_avatar: "Velg Profilbilde fra fil"
+  message_avatar_uploaded: "Profilbildet har blitt endret."
+  error_image_upload: "Feil ved lagring av bilde."
+  error_image_size: "Bildet er for stor."
+  button_change_avatar: "Endre profilbilde"
+  are_you_sure_delete_avatar: "Er du sikker på at du vil slette profilbildet din?"
+  avatar_deleted: "Profilbildet har blitt endret."
+  unable_to_delete_avatar: "Profilbildet kunne ikke slettes."
+  wrong_file_format: "Tillatte formater er jpg, png, gif"
+  empty_file_error: "Vennligst last opp et gyldig bilde (jpg, png, gif)"
+  avatars:
+    label_avatar: "Profilbilde"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Nåværende profilbilde'
+    label_local_avatar: 'Tilpasset profilbilde'
+    text_current_avatar: |
+      Følgende bilde viser nåværende profilbilde.
+    text_upload_instructions: |
+      Last opp din egen egendefinerte avatar på 128 etter 128 pixler. Større filer vil bli endret til å matche.
+      En forhåndsvisning av profilbildet vil bli vist før opplasting, når du har valgt et bilde.
+    text_change_gravatar_html: 'For å endre eller legge til Gravatar-en for e-postadressen din, gå til %{gravatar_url}.'
+    text_your_local_avatar: |
+      OpenProject lar deg laste opp din egen profilbilde.
+    text_local_avatar_over_gravatar: |
+      Hvis du har valgt en, brukes dette egendefinert profilbildet i forkant, over gravatar-en ovenfor.
+    text_your_current_gravatar: |
+      OpenProject bruker gravatar hvis du registrerte det, eller et standard bilde eller ikon hvis det finnes.
+      Den nåværende gravatar-en er som følger:
+    settings:
+      enable_gravatars: 'Aktiver brukergravatarer'
+      gravatar_default: "Standard Gravatar-bilde"
+      enable_local_avatars: 'Aktiver brukerdefinerte profilbilder'
+
+
+

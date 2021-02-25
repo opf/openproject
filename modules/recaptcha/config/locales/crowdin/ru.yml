@@ -1,0 +1,18 @@
+#English strings go here for Rails i18n
+ru:
+  recaptcha:
+    label_recaptcha: "reCAPTCHA"
+    button_please_wait: 'Пожалуйста, подождите...'
+    verify_account: "Подтвердить учетную запись"
+    error_captcha: "Невозможно подтвердить учетную запись. Пожалуйста, свяжитесь с администратором."
+    settings:
+      website_key: 'Ключ веб-сайта'
+      website_key_text: 'Введите ключ веб-сайта, который вы создали на консоли администратора reCAPTCHA для этого домена.'
+      secret_key: 'Секретный ключ'
+      secret_key_text: 'Введите секретный ключ, который вы создали на консоли администратора reCAPTCHA.'
+      type: 'Использовать reCAPTCHA'
+      type_disabled: 'Отключить reCAPTCHA'
+      type_v2: 'reCAPTCHA v2'
+      type_v3: 'reCAPTCHA v3'
+      recaptcha_description_html: >
+        reCAPTCHA — это бесплатный сервис Google, который можно включить для OpenProject. Если он включен, форма ввода капчи будет отображаться при входе для всех пользователей, которые еще не подтвердили капчу. <br/>Пожалуйста, перейдите по следующей ссылке, чтобы узнать больше о reCAPTCHA и его версиях, а также о том, как создать веб-сайт и секретные ключи: %{recaptcha_link}

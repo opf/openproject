@@ -1,0 +1,63 @@
+zh-TW:
+  js:
+    grid:
+      add_widget: 'Add widget'
+      remove: 'Remove widget'
+      configure: '設定小工具'
+      upsale:
+        text: "Some widgets, like the work package graph widget, are only available in the "
+        link: 'enterprise edition.'
+      widgets:
+        custom_text:
+          title: '自訂文字'
+        documents:
+          title: '文件'
+          no_results: 'No documents yet.'
+        members:
+          title: '成員'
+          no_results: 'No visible members.'
+          view_all_members: '查看所有成員'
+          add: '成員'
+          too_many: 'Displaying %{count} of %{total} members.'
+        news:
+          title: '新知'
+          at: 'at'
+          no_results: '沒有新的消息可以報告'
+        project_description:
+          title: '專案描述'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+        project_details:
+          title: '專案詳細資訊'
+          no_results: 'No custom fields have been defined for projects.'
+        project_status:
+          title: '專案狀態'
+          on_track: '進度良好'
+          off_track: '進度脫軌'
+          at_risk: '存在風險'
+          not_set: 'Not set'
+        subprojects:
+          title: '子專案'
+          no_results: 'No subprojects.'
+        time_entries_current_user:
+          title: 'My spent time'
+          displayed_days: '小工具顯示天數'
+        time_entries_list:
+          title: 'Spent time (last 7 days)'
+          no_results: 'No time entries for the last 7 days.'
+        work_packages_accountable:
+          title: "我負責的工作項目"
+        work_packages_assigned:
+          title: '分配給我的工作項目'
+        work_packages_created:
+          title: 'Work packages created by me'
+        work_packages_watched:
+          title: 'Work packages watched by me'
+        work_packages_table:
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
+        work_packages_calendar:
+          title: '行事曆'
+        work_packages_overview:
+          title: 'Work packages overview'
+          placeholder: 'Click to edit ...'

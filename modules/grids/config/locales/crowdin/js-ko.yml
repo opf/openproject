@@ -1,0 +1,63 @@
+ko:
+  js:
+    grid:
+      add_widget: '위젯 추가'
+      remove: '위젯 제거'
+      configure: '위젯 구성'
+      upsale:
+        text: "작업 패키지 그래프 위젯 같은 일부 위젯은 다음에서만 사용 가능합니다: "
+        link: 'Enterprise Edition.'
+      widgets:
+        custom_text:
+          title: '사용자 지정 텍스트'
+        documents:
+          title: '문서'
+          no_results: '아직 문서가 없습니다.'
+        members:
+          title: '멤버'
+          no_results: '표시할 멤버가 없습니다.'
+          view_all_members: '모든 회원 보기'
+          add: '멤버'
+          too_many: '%{count}/%{total}명의 멤버를 표시 중입니다.'
+        news:
+          title: '뉴스'
+          at: '-'
+          no_results: '새로 보고할 것이 없음'
+        project_description:
+          title: '프로젝트 설명'
+          no_results: "설명이 아직 작성되지 않았습니다. '프로젝트 설정'에서 입력할 수 있습니다."
+        project_details:
+          title: '프로젝트 세부 정보'
+          no_results: '프로젝트에 대한 사용자 지정 필드가 정의되지 않았습니다.'
+        project_status:
+          title: '프로젝트 상태'
+          on_track: '정상 상태'
+          off_track: '비정상 상태'
+          at_risk: '위험 상태'
+          not_set: '설정되지 않음'
+        subprojects:
+          title: '하위 프로젝트'
+          no_results: '하위 프로젝트가 없습니다.'
+        time_entries_current_user:
+          title: '내 소요 시간'
+          displayed_days: '위젯에 표시되는 일수:'
+        time_entries_list:
+          title: '경과 시간(지난 7 일)'
+          no_results: '지난 7일간 시간 엔트리가 없습니다.'
+        work_packages_accountable:
+          title: "내가 담당하는 작업 패키지"
+        work_packages_assigned:
+          title: '내게 할당된 작업 패키지'
+        work_packages_created:
+          title: '내가 만든 작업 패키지'
+        work_packages_watched:
+          title: '내가 본 작업 패키지'
+        work_packages_table:
+          title: '작업 패키지 테이블'
+        work_packages_graph:
+          title: '작업 패키지 그래프'
+        work_packages_calendar:
+          title: '달력'
+        work_packages_overview:
+          title: '작업 패키지 개요'
+          placeholder: '편집하려면 클릭...'

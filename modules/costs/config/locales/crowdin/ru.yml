@@ -1,0 +1,144 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+ru:
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "Пакет работ"
+        overridden_costs: "Переопределенные расходы"
+        spent: "Потрачено"
+        spent_on: "Дата"
+      cost_type:
+        unit: "Наименование количественного показателя"
+        unit_plural: "Множественное наименование количественного показателя"
+      work_package:
+        costs_by_type: "Затраченное количество"
+        labor_costs: "Трудовые расходы"
+        material_costs: "Расходы на единицу"
+        overall_costs: "Общие расходы"
+        spent_costs: "Понесенные расходы"
+        spent_units: "Затраченное количество"
+      rate:
+        rate: "Тариф"
+      user:
+        default_rates: "Тариф по умолчанию"
+    models:
+      cost_type:
+        one: "Тип затрат"
+        few: "Типы затрат"
+        many: "Типы затрат"
+        other: "Типы затрат"
+      rate: "Тариф"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Пакет работ #%{id} не является допустимым объектом для назначения стимостей."
+          nullify_is_not_valid_for_cost_entries: "Записи о стоимостях не могут быть присвоены проекту."
+  attributes:
+    comment: "Комментарий"
+    cost_type: "Тип затрат"
+    costs: "Расходы"
+    current_rate: "Текущий тариф"
+    hours: "Часы"
+    units: "Модули"
+    valid_from: "Действует с"
+    fixed_date: "Фиксированная Дата"
+  button_add_rate: "Добавить тариф"
+  button_log_costs: "Журналировать расходы на единицу"
+  caption_booked_on_project: "Заказано на проект"
+  caption_default: "по умолчанию"
+  caption_default_rate_history_for: "История тарифов по умолчанию для %{user}"
+  caption_locked_on: "Закрывается на"
+  caption_materials: "Модули"
+  caption_rate_history: "История тарифов"
+  caption_rate_history_for: "История тарифов для %{user}"
+  caption_rate_history_for_project: "История тарифов для %{user} в проекте %{project}"
+  caption_save_rate: "Сохранить тариф"
+  caption_set_rate: "Установить текущий тариф"
+  caption_show_locked: "Показывать Заблокированные типы"
+  description_date_for_new_rate: "Дата для нового тарифа"
+  group_by_others: "не в какой-либо группе"
+  label_between: "между"
+  label_cost_filter_add: "Добавить фильтр расходов"
+  label_costlog: "Журналированные затраты на единицу"
+  label_cost_plural: "Расходы"
+  label_cost_type_plural: "Типы затрат"
+  label_cost_type_specific: "Затраты типа #%{id}: %{name}"
+  label_costs_per_page: "Расходов на странице"
+  label_currency: "Валюта"
+  label_currency_format: "Формат валюты"
+  label_current_default_rate: "Текущий тариф по умолчанию"
+  label_date_on: "на"
+  label_deleted_cost_types: "Типы удаленных расходов"
+  label_locked_cost_types: "Заблокированные типы стоимостей"
+  label_display_cost_entries: "Отображать расходы на единицу"
+  label_display_time_entries: "Отображать часы по отчету"
+  label_display_types: "Отображение типов"
+  label_edit: "Правка"
+  label_generic_user: "Универсальный пользователь"
+  label_greater_or_equal: ">="
+  label_group_by: "Группировать по"
+  label_group_by_add: "Добавьте поле группировки"
+  label_hourly_rate: "Почасовой тариф"
+  label_include_deleted: "Включая удаленные"
+  label_work_package_filter_add: "Добавить фильтр пакетов работы"
+  label_kind: "Тип"
+  label_less_or_equal: "<="
+  label_log_costs: "Журналировать расходы на единицу"
+  label_no: "Нет"
+  label_option_plural: "Параметры"
+  label_overall_costs: "Общие расходы"
+  label_rate: "Тариф"
+  label_rate_plural: "Тарифы"
+  label_status_finished: "Завершенные"
+  label_units: "Стоимость единицы"
+  label_user: "Пользователь"
+  label_until: "До"
+  label_valid_from: "Действует с"
+  label_yes: "да"
+  notice_something_wrong: "Произошла ошибка. Пожалуйста, попробуйте снова."
+  notice_successful_restore: "Успешное восстановление."
+  notice_successful_lock: "Успешно заблокировано."
+  notice_cost_logged_successfully: 'Стоимость единицы успешно зажурналировано '
+  permission_edit_cost_entries: "Править зарегестрированные количественные затраты"
+  permission_edit_own_cost_entries: "Править собственные зарегистрированные количественные затраты"
+  permission_edit_hourly_rates: "Править почасовые тарифы"
+  permission_edit_own_hourly_rate: "Править собственные почасовые тарифы"
+  permission_edit_rates: "Править тарифы"
+  permission_log_costs: "Регистрировать затраты по количеству"
+  permission_log_own_costs: "Регистрировать затраты по количеству для себя"
+  permission_view_cost_entries: "Просмотр зарегистрированных затрат"
+  permission_view_cost_rates: "Просмотр тарифов по стоимости"
+  permission_view_hourly_rates: "Просмотр всех почасовых тарифов"
+  permission_view_own_cost_entries: "Просмотр своих зарегистрированных расходов"
+  permission_view_own_hourly_rate: "Просмотр своей почасовой ставки"
+  permission_view_own_time_entries: "Просмотр своего отработанного времени"
+  project_module_costs: "Время и затраты"
+  text_assign_time_and_cost_entries_to_project: "Связать сообщенные часы и расходы с проектом"
+  text_destroy_cost_entries_question: "%{cost_entries} сообщили о рабочих пакетах, которые вы собираетесь удалить. Что вы собираетесь сделать?"
+  text_destroy_time_and_cost_entries: "Удалить отчеты о часах и расходах"
+  text_destroy_time_and_cost_entries_question: "%{hours} часов, %{cost_entries} сообщили о рабочих пакетах, котрый вы собираетесь удалить. Что вы хотите сделать?"
+  text_reassign_time_and_cost_entries: "Переназначьте сообщенные часы и расходы на этот пакет работ:"
+  text_warning_hidden_elements: "Некоторые записи были исключены из агрегирования."
+  week: "неделя"
+  js:
+    text_are_you_sure: "Вы уверены?"

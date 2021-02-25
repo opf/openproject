@@ -1,0 +1,175 @@
+#English strings go here for Rails i18n
+sl:
+  activerecord:
+    attributes:
+      two_factor_authentication/device:
+        identifier: 'Identifikator '
+        default: 'Uporabi kot privzeto'
+      two_factor_authentication/device/sms:
+        phone_number: "Telefonska številka"
+    errors:
+      models:
+        two_factor_authentication/device:
+          default_already_exists: 'je že nastavljeno za drugo napravo OTP'
+        two_factor_authentication/device/sms:
+          attributes:
+            phone_number:
+              error_phone_number_format: "mora biti formata +XX XXXXXXXXX"
+    models:
+      two_factor_authentication/device: "2FA naprava"
+      two_factor_authentication/device/sms: "Mobilni telefon"
+      two_factor_authentication/device/totp: "Aplikacija za preverjanje avtenčnosti "
+  two_factor_authentication:
+    error_2fa_disabled: "Dostava 2FA je onemogočena."
+    error_no_device: "Za tega uporabnika ni bila najdena nobena registrirana 2FA naprava, čeprav je za ta primer potrebna."
+    error_no_matching_strategy: "Za tega uporabnika ni na voljo ustrezne strategije 2FA. Prosimo obrnite se na svojega upravnika."
+    error_is_enforced_not_active: 'Napaka v konfiguraciji: dvofaktorska overitev je bila izvršena, vendar nobena aktivna strategija ne obstaja.'
+    error_invalid_backup_code: 'Neveljavna rezervna koda 2FA'
+    channel_unavailable: "Kanal za dostavo %{channel} ni na voljo."
+    no_valid_phone_number: "Ne obstaja veljavna telefonska številka."
+    label_pwd_confirmation: "Geslo"
+    notice_pwd_confirmation: "Ko spremenite te nastavitve, morate potrditi geslo."
+    label_device_type: "Vrsta naprave"
+    label_default_device: "Privzeta naprava 2FA"
+    label_device: "2FA naprava"
+    label_devices: "naprave 2FA"
+    label_one_time_password: 'Enkratno geslo'
+    label_2fa_enabled: 'Dvofaktorska avtentikacija je aktivna'
+    label_2fa_disabled: 'Dvofaktorska avtentikacija ni aktivna'
+    text_otp_delivery_message_sms: "Vaše  %{app_title} enkratno geslo je %{token}"
+    text_otp_delivery_message_voice: "Vaše %{app_title} enkratno geslo je: %{pause} %{token}. %{pause} Ponavljam: %{pause} %{token}"
+    text_enter_2fa: 'Prosimo vnesite enkratno geslo iz vaše naprave.'
+    text_2fa_enabled: "\nOb vsaki prijavi boste morali vnesti OTP žeton iz vaše privzete naprave 2FA."
+    text_2fa_disabled: 'Da omogočite dvofaktorsko preverjanje pristnosti uporabite zgornji gumb za registracijo nove 2FA naprave. Če že imate napravo, jo morate nastaviti kot privzeto.'
+    login:
+      enter_backup_code_title: Vstavite rezervno kodo
+      enter_backup_code_text: Prosimo vnesite veljavno rezervno kodo s svojega seznama kod v primeru, da ne morete več dostopati do vaših registriranih 2FA naprav.
+      other_device: 'Uporabite drugo napravo ali rezervno kodo'
+    settings:
+      title: 'Nastavitve 2FA'
+      current_configuration: 'Trenutna konfiguracija'
+      label_active_strategies: 'Aktivne 2FA strategije'
+      label_enforced: 'Izvršite 2FA'
+      label_remember: 'Zapomnite si 2FA prijavo'
+      text_configuration: |
+        Opomba: Te vrednosti predstavljajo trenutno konfiguracijo celotne aplikacije. Ne morete onemogočiti nastavitev, ki jih izvrši konfiguracija, ali spremeniti trenutnih aktivnih strategij, saj zahtevajo ponovni zagon strežnika.
+      text_configuration_guide: Za več informacij preverite vodnik konfiguracije.
+      text_enforced: 'Omogočite to nastavitev, da prisilite vse uporabnike, da ob naslednji prijavi registrirajo napravo 2FA. Lahko se onemogoči le ko ni izvršeno od konfiguracije.'
+      text_remember: |
+        To nastavite na več kot nič, da dovolite uporabnikom, da si bodo lahko za poljubno število dni zapomnili njihovo 2FA avtentikacijo. V tem obdobju jih ne bo treba ponovno vnesti. Nastavite ga lahko samo, če ga konfiguracija ne uveljavi.
+      error_invalid_settings: 'Izbrane strategije 2FA so neveljavne'
+      failed_to_save_settings: 'Posodobitev nastavitev 2FA ni uspela: %{message}'
+    admin:
+      self_edit_path: 'Če želite dodati ali spremeniti svoje 2FA naprave, pojdite na %{self_edit_link}'
+      self_edit_link_name: 'Dvofaktorna avtentikacija na strani vašega računa'
+      self_edit_forbidden: 'Tukaj ne morete urejati svojih naprav 2FA. Namesto tega pojdite na Moj račun > Dvofaktorska overitev'
+      no_devices_for_user: 'Za tega uporabnika ni bila registrirana nobena naprava 2FA.'
+      all_devices_deleted: 'Izbrisane so vse naprave 2FA tega uporabnika'
+      delete_all_are_you_sure: 'Ali ste prepričani, da želite izbrisati vse naprave 2FA za tega uporabnika?'
+      button_delete_all_devices: 'Izbrišite registrirane 2FA naprave'
+      button_register_mobile_phone_for_user: 'Registrirajte mobilni telefon'
+      text_2fa_enabled: 'Ob vsaki prijavi bo moral ta uporabnik vnesti žeton OTP iz svoje privzete naprave 2FA.'
+      text_2fa_disabled: "Uporabnik ni nastavil naprave 2FA preko strani »Moj račun«"
+    upsale:
+      title: 'Dvofaktorska overitev je lastnost podjetja'
+      description: 'Z drugim dejavnikom okrepite notranje ali zunanje mehanizme za preverjanje pristnosti.'
+    backup_codes:
+      none_found: "\nZa ta račun ni rezervnih kod."
+      singular: Rezervna koda
+      plural: Rezervne kode
+      your_codes: za vaš %{app_name} račun %{login}
+      overview_description: |
+        Če ne morete dostopati do svojih dvo-faktorskih naprav, lahko z rezervno kodo obnovite dostop do svojega računa.
+        Uporabite naslednji gumb za generacijo novih rezervnih kod.
+      generate:
+        title: Ustvari rezervne kode
+        keep_safe_as_password: 'Pomembno! Tretirajte te kode kot gesla.'
+        keep_safe_warning: 'Shranite jih v vašem upravljalcu gesel ali pa natisnite to stran in jo spravite na varno mesto.'
+        regenerate_warning: 'Opozorilo: Če ste v preteklosti že ustvarili rezervne kode, bodo razveljavljene in ne bodo več delovale.'
+    devices:
+      add_new: 'Dodajte novo 2FA napravo'
+      register: 'Registrirajte napravo'
+      confirm_default: 'Potrdite spreminjanje privzete naprave'
+      confirm_device: 'Potrdite napravo'
+      confirm_now: 'Ni potrjeno, kliknite tukaj za aktivacijo'
+      cannot_delete_default: 'Privzete naprave ni mogoče izbrisati'
+      make_default_are_you_sure: 'Ali ste prepričani, da želite to napravo 2FA nastaviti za privzeto?'
+      make_default_failed: 'Posodobitev privzete naprave 2FA ni uspela.'
+      deletion_are_you_sure: 'Ali ste prepričani, da želite izbrisati to napravo 2FA?'
+      registration_complete: 'Registracije naprave 2FA je končana!'
+      registration_failed_token_invalid: 'Registracija naprave 2FA ni uspela, žeton je bil neveljaven.'
+      registration_failed_update: 'Registracija naprave 2FA ni uspela, žeton je bil veljaven, vendar naprave ni bilo mogoče posodobiti.'
+      confirm_send_failed: 'Potrditev vaše naprave 2FA je spodletelo.'
+      button_complete_registration: 'Zaključi 2FA registracijo'
+      text_confirm_to_complete_html: "Prosimo, dokončajte registracijo vaše naprave <strong>%{identifier}</strong> z vnosom enkratnega gesla iz privzete naprave."
+      text_confirm_to_change_default_html: "Prosimo potrdite zamenjavo vaše privzete naprave v <strong>%{new_identifier}</strong> tako, da vnesete enkratno geslo iz trenutne privzete naprave."
+      text_identifier: 'Z uporabo tega polja lahko napravi daste identifikator po meri.'
+      failed_to_delete: 'Brisanje naprave 2FA ni bilo mogoče.'
+      is_default_cannot_delete: 'Naprava je označena kot privzeta in je ni mogoče izbrisati zaradi aktivnega varnostnega pravilnika. Pred brisanjem označite drugo napravo kot privzeto.'
+      not_existing: 'Za vaš račun ni bila registrirana nobena naprava 2FA.'
+      request_2fa: Prosimo vnesite kodo iz vašega %{device_name} za potrditev vaše identitete.
+      totp:
+        title: 'Uporabite vaš avtentikator, ki temelji na aplikaciji.'
+        provisioning_uri: 'Zagotavljanje URI'
+        secret_key: 'Skrivni ključ'
+        time_based: 'Temelji na času'
+        account: 'Ime računa / Izdajatelj'
+        setup: |
+          Za nastavitev dvofaktorne avtentikacije z Google Authenticator, naložite aplikacijo iz Apple trgovine ali Google Play Store.
+          Ko odprete aplikacijo, lahko skenirate to QR kodo in tako registrirate napravo.
+        question_cannot_scan: |
+          Ne morete skenirati kode s pomočjo aplikacije?
+        text_cannot_scan: |
+          Če ne morete skenirati kode, lahko vnos vnesete ročno z naslednjimi podrobnostmi:
+        description: |
+          Registrirajte program za preverjanje pristnosti aplikacij za uporabo s programom OpenProject tako, da uporabite avtentikacijski standard enkratnega gesla, ki temelji na času. 
+          Pogosti primeri so Google Authenticator ali Authy.
+      sms:
+        title: 'Uporabite mobilni telefon'
+        redacted_identifier: 'Mobilna naprava (%{redacted_number})'
+        request_2fa_identifier: '%{redacted_identifier}, poslali smo vam avtentikacijsko kodo na %{delivery_channel}'
+        description: |
+          Registrirajte svojo številko mobilnega telefona za dostavo enkratnih gesel OpenProject.
+    sns:
+      delivery_failed: 'Dostava SNS ni uspela:'
+    message_bird:
+      sms_delivery_failed: 'MessageBird SMS dostava ni uspela.'
+      voice_delivery_failed: 'MessageBird glasovni klic ni uspel.'
+    restdt:
+      delivery_failed_with_code: "\nDostava žetona ni uspela. (Koda napake %{code})"
+    strategies:
+      totp: 'Aplikacija za preverjanje avtenčnosti '
+      sns: 'Amazon SNS'
+      resdt: 'SMS počitek API'
+    mobile_transmit_notification: "Enkratno geslo je bilo poslano na vaš mobilni telefon."
+    label_two_factor_authentication: 'Dvofaktorna avtentikacija'
+    forced_registration:
+      required_to_add_device: 'Aktivni varnostni pravilnik zahteva, da omogočite dvofaktorsko preverjanje pristnosti. Za registracijo naprave uporabite sledeči obrazec.'
+    remember:
+      active_session_notice: >
+        Vaš račun ima aktiven pomnik piškotka veljaven do %{expires_on}. Ta piškotek vam omogoča, da se do takrat vpišete brez drugega faktorja v svoj račun.
+      other_active_session_notice: Vaš račun ima aktivni piškotek za zapomnitev v drugi seji.
+      label: 'Ne pozabite'
+      clear_cookie: 'Kliknite tukaj, da odstranite vse spomnjene seje 2FA.'
+      cookie_removed: 'Vse spomnjene seje 2FA so bile odstranjene.'
+      dont_ask_again: "Ustvarite piškotek za zapomnitev pristnosti 2FA na tej stranki za %{days} days."
+  field_phone: "Mobitel"
+  field_otp: "Enkratno geslo"
+  notice_account_otp_invalid: "Neveljavno enkratno geslo."
+  notice_account_otp_expired: "To enkratno geslo je poteklo."
+  notice_developer_strategy_otp: "Strategija razvijalcev je generirala sledeče enkratno geslo: %{token} (Kanal: %{channel})"
+  notice_account_otp_send_failed: "Vašega enkratnega gesla ni bilo mogoče poslati."
+  notice_account_has_no_phone: "Z vašim računom ni povezana nobena številka mobilnega telefona."
+  label_expiration_hint: "%{date} ali ob odjavi"
+  label_actions: 'Akcije'
+  label_confirmed: 'Potrjeno'
+  button_continue: 'Nadaljuj'
+  button_make_default: 'Označite kot privzeto'
+  label_unverified_phone: "Mobilni telefon še ni preverjen"
+  notice_phone_number_format: "Vnesite številko v naslednji obliki: + XX XXXXXXXX."
+  text_otp_not_receive: "Druge metode preverjanja"
+  text_send_otp_again: "Enkratno geslo znova pošljite po:"
+  button_resend_otp_form: "Pošljite ponovno"
+  button_otp_by_voice: "Glasovni klic"
+  button_otp_by_sms: "SMS"
+  label_otp_channel: "Kanal za dostavo"

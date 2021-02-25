@@ -1,0 +1,63 @@
+es:
+  js:
+    grid:
+      add_widget: 'Agregar widget'
+      remove: 'Quitar widget'
+      configure: 'Configurar widget'
+      upsale:
+        text: "Algunos widgets, como el widget del gráfico de paquetes de trabajo, solo están disponibles en la "
+        link: 'edición Enterprise.'
+      widgets:
+        custom_text:
+          title: 'Texto personalizado'
+        documents:
+          title: 'Documentos'
+          no_results: 'No hay documentos.'
+        members:
+          title: 'Miembros'
+          no_results: 'No hay miembros visibles.'
+          view_all_members: 'Ver todos los miembros'
+          add: 'Miembro'
+          too_many: 'Mostrando %{count} de %{total} miembros.'
+        news:
+          title: 'Noticias'
+          at: 'en'
+          no_results: 'Nada nuevo sobre lo que informar.'
+        project_description:
+          title: 'Descripción del proyecto'
+          no_results: "Aún no se ha escrito ninguna descripción. Puede proporcionar una descripción en la configuración del proyecto."
+        project_details:
+          title: 'Detalles del proyecto'
+          no_results: 'No se han definido campos personalizados para los proyectos.'
+        project_status:
+          title: 'Estado del proyecto'
+          on_track: 'Según lo previsto'
+          off_track: 'Fuera de lo previsto'
+          at_risk: 'En riesgo'
+          not_set: 'No establecido'
+        subprojects:
+          title: 'Subproyectos'
+          no_results: 'No hay subproyectos.'
+        time_entries_current_user:
+          title: 'Tiempo que he invertido'
+          displayed_days: 'Días mostrados en el widget:'
+        time_entries_list:
+          title: 'Tiempo de gastos (últimos 7 días)'
+          no_results: 'Sin entradas temporales en los últimos 7 días.'
+        work_packages_accountable:
+          title: "Soy responsable por estos paquetes de trabajo"
+        work_packages_assigned:
+          title: 'Paquetes de trabajo asignados a mí'
+        work_packages_created:
+          title: 'Paquetes de trabajo creados por mí'
+        work_packages_watched:
+          title: 'Paquetes de trabajo vigilados por mí'
+        work_packages_table:
+          title: 'Tabla de paquetes de trabajo'
+        work_packages_graph:
+          title: 'Gráfico de paquetes de trabajo'
+        work_packages_calendar:
+          title: 'Calendario'
+        work_packages_overview:
+          title: 'Información general sobre paquete de trabajo'
+          placeholder: 'Haga clic para editar…'

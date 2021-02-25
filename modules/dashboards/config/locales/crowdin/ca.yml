@@ -1,0 +1,5 @@
+ca:
+  dashboards:
+    label: 'Tauler de control'
+    menu_badge: 'Alfa'
+  project_module_dashboards: 'Tauler de control'

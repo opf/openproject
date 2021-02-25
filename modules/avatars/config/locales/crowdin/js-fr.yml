@@ -1,0 +1,15 @@
+#English strings go here
+fr:
+  js:
+    label_preview: 'Aperçu'
+    button_update: 'Mettre à jour'
+    avatars:
+      label_choose_avatar: "Choisir un avatar depuis un fichier"
+      uploading_avatar: "Chargement de votre avatar."
+      text_upload_instructions: |
+        Téléchargez votre propre avatar personnalisé de 128 par 128 pixels. Les fichiers plus gros seront redimensionnés et recadrés pour correspondre.
+        Un aperçu de votre avatar sera affiché avant le téléchargement, une fois que vous aurez sélectionné une image.
+      error_image_too_large: "L'image est trop grande."
+      wrong_file_format: "Les formats autorisés sont Jpg, Png et Gif"
+      empty_file_error: "Veuillez téléverser une image valide (jpg, png, gif)"
+
