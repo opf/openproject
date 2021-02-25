@@ -1,5 +1,0 @@
-vi:
-  dashboards:
-    label: 'Bảng theo dõi'
-    menu_badge: 'Alpha'
-  project_module_dashboards: 'Bảng theo dõi'
