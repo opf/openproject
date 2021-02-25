@@ -41,7 +41,7 @@ All changes of a work package are documented in the work package [Activity](#act
 
 ### How to assign a team member to a work package?
 
-When you assign a team member to a work package, you can distinguish between **assignee** and **accountable**. Accountable per definition would be the one accountable for the delivery of the work package. The assignee is the person currently assigned and working on the work package. 
+When you assign a team member to a work package, you can distinguish between **assignee** and **accountable**. Accountable per definition would be the one accountable for the delivery of the work package. The assignee is the person currently assigned and working on the work package.
 Choose the respective team member from the drop down for assignee or accountable. If you are looking to add a team member that is not coming up in the drop down, this team member might not yet be a member of the project and needs to be [invited](../../members/#add-members).
 
 ![Assignee_accountable](Assignee_accountable-3987223.png)
