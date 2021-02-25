@@ -35,10 +35,12 @@ export class Apiv3GroupPaths extends APIv3GettableResource<GroupResource> {
    * Update a placeholder user resource or payload
    * @param resource
    */
-  public patch(resource:GroupResource|Object):Observable<GroupResource> {
+  public patch(resource:GroupResource|{ name:string }):Observable<GroupResource> {
     return this
       .halResourceService
-      .patch<GroupResource>(this.path, resource);
+      .patch<GroupResource>(this.path, {
+        name: resource.name,
+      });
   }
 
   /**

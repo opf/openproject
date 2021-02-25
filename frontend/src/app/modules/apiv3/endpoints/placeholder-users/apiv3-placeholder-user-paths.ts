@@ -35,10 +35,12 @@ export class Apiv3PlaceholderUserPaths extends APIv3GettableResource<Placeholder
    * Update a placeholder user resource or payload
    * @param resource
    */
-  public patch(resource:PlaceholderUserResource|Object):Observable<PlaceholderUserResource> {
+  public patch(resource:PlaceholderUserResource|{ name:string }):Observable<PlaceholderUserResource> {
     return this
       .halResourceService
-      .patch<PlaceholderUserResource>(this.path, resource);
+      .patch<PlaceholderUserResource>(this.path, {
+        name: resource.name
+      });
   }
 
   /**

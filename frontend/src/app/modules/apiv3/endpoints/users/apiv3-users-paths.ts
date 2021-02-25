@@ -32,6 +32,9 @@ import {Observable} from "rxjs";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
+interface NewUserResource = {
+};
+
 export class Apiv3UsersPaths extends APIv3ResourceCollection<UserResource, APIv3UserPaths> {
   constructor(protected apiRoot:APIV3Service,
               protected basePath:string) {
@@ -48,7 +51,19 @@ export class Apiv3UsersPaths extends APIv3ResourceCollection<UserResource, APIv3
    *
    * @param resource
    */
-  public post(resource:UserResource|{firstName:string, email:string, status:'invited'}):Observable<UserResource> {
+  public post(resource:{
+    // TODO: The typing here could be a lot better
+    login?:string,
+    firstName?:string,
+    lastName?:string,
+    email?:string,
+    admin?:boolean,
+    language?:string,
+    password?:string,
+    auth_source?:string,
+    identity_url?:string,
+    status:'invited'|'active',
+  }):Observable<UserResource> {
     return this
       .halResourceService
       .post<UserResource>(
