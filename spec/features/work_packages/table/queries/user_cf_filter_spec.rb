@@ -40,19 +40,19 @@ describe 'Work package filtering by user custom field', js: true do
     end
   end
   let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages save_queries]) }
-  let(:other_user) do
+  let!(:other_user) do
     FactoryBot.create :user,
                       firstname: 'Other',
                       lastname: 'User',
                       member_in_project: project,
                       member_through_role: role
   end
-  let(:placeholder_user) do
+  let!(:placeholder_user) do
     FactoryBot.create :placeholder_user,
                       member_in_project: project,
                       member_through_role: role
   end
-  let(:group) do
+  let!(:group) do
     FactoryBot.create :group,
                       member_in_project: project,
                       member_through_role: role
