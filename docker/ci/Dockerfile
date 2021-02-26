@@ -1,4 +1,4 @@
-FROM ruby:2.7.2-buster
+FROM ruby:2.7-buster
 MAINTAINER operations@openproject.com
 
 ENV USER=dev
