@@ -18,7 +18,7 @@ import {RoleResource} from "core-app/modules/hal/resources/role-resource";
 export class SummaryComponent {
   @Input() type:PrincipalType;
   @Input() project:any = null;
-  @Input() role:RoleResource = null;
+  @Input() role:RoleResource;
   @Input() principal:any = null;
   @Input() message:string = '';
 
