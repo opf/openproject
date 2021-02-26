@@ -6,7 +6,7 @@ robots: index, follow
 keywords: development concepts, inline editing, edit forms
 ---
 
-# Development Concept: Inline Editing
+# Development concept: Inline editing
 
 Inline editing is a core functionality of work packages and other attributes. 
 
