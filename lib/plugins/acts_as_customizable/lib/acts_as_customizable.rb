@@ -339,7 +339,8 @@ module Redmine
         end
 
         def add_custom_value(custom_field_id, value)
-          new_custom_value = custom_values.build(custom_field_id: custom_field_id,
+          new_custom_value = custom_values.build(customized: self,
+                                                 custom_field_id: custom_field_id,
                                                  value: value)
 
           custom_field_values.push(new_custom_value)
