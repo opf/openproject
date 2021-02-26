@@ -44,9 +44,12 @@ module OpenProject
       ##
       # We only allow direct uploads to S3 as we are using the carrierwave_direct
       # gem which only supports S3 for the time being.
+      #
+      # Do not allow direct uploads when using IAM-profile-based authorization rather
+      # than access-key-based ones since carrierwave_direct does not support that.
       def direct_uploads
-        return false unless remote_storage?
-        return false unless remote_storage_aws?
+        return false unless remote_storage? && remote_storage_aws?
+        return false if use_iam_profile?
 
         self['direct_uploads']
       end
@@ -94,6 +97,10 @@ module OpenProject
 
       def attachments_storage_path
         Rails.root.join(self['attachments_storage_path'] || 'files')
+      end
+
+      def use_iam_profile?
+        fog_credentials[:use_iam_profile]
       end
 
       def fog_credentials
