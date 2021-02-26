@@ -98,14 +98,14 @@ describe 'Wysiwyg child pages spec',
           # Edit widget and cancel again
           placeholder.click
           page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
-          expect(page).to have_selector('.op-modal--macro-modal')
+          expect(page).to have_selector('.op-modal')
           expect(page).to have_field('selected-page', with: '')
           find('.op-modal--cancel-button').click
 
           # Edit widget and save
           placeholder.click
           page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
-          expect(page).to have_selector('.op-modal--macro-modal')
+          expect(page).to have_selector('.op-modal')
           fill_in 'selected-page', with: 'parent-page'
 
           # Save widget
@@ -138,7 +138,7 @@ describe 'Wysiwyg child pages spec',
           # Edit widget and save
           placeholder.click
           page.find('.ck-balloon-panel .ck-button', visible: :all, text: 'Edit').click
-          expect(page).to have_selector('.op-modal--macro-modal')
+          expect(page).to have_selector('.op-modal')
           page.check 'include-parent'
 
           # Save widget

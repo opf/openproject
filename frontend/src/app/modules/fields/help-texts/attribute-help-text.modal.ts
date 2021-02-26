@@ -27,11 +27,11 @@
 //++
 
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from '@angular/core';
-import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
-import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
+import {OpModalComponent} from 'core-app/modules/modal/modal.component';
+import {OpModalLocalsMap} from 'core-app/modules/modal/modal.types';
+import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
 import {HelpTextResource} from 'core-app/modules/hal/resources/help-text-resource';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 
 @Component({
   templateUrl: './help-text.modal.html',

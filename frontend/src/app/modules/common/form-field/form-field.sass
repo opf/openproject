@@ -1,0 +1,39 @@
+@import './form-field.children'
+
+.op-form-field
+  display: flex
+  flex-direction: column
+  
+  &--label,
+  &--description,
+  &--input,
+  &--help-text
+    margin-bottom: 0.5rem
+
+  &--label-wrap
+    display: flex
+    flex-direction: column
+    margin: 0
+
+  &--label
+    font-size: 14px
+    font-weight: bold
+    line-height: 1.2
+
+    &-indicator
+      color: var(--primary-color)
+
+  &_invalid &--label
+    color: var(--content-form-error-color)
+
+  &--description,
+  &--help-text
+    font-size: 12px
+
+  &--errors
+    display: flex
+    flex-direction: column
+
+  &--error
+    color: var(--content-form-error-color)
+    margin-top: 1rem

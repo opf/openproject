@@ -18,6 +18,10 @@
            [appendTo]="appendTo"
            [dropdownPosition]="'top'"
            [hideSelected]="true">
+  <ng-template ng-footer-tmp>
+    <op-invite-user-button (invited)="selectedOption = $event">
+    </op-invite-user-button>
+  </ng-template>
 </ng-select>
 
 <edit-field-controls [fieldController]="self"

@@ -28,6 +28,7 @@
 
 import {APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
 import {APIv3UserPaths} from "core-app/modules/apiv3/endpoints/users/apiv3-user-paths";
+import {Observable} from "rxjs";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
@@ -41,4 +42,30 @@ export class Apiv3UsersPaths extends APIv3ResourceCollection<UserResource, APIv3
 
   // /api/v3/users/me
   public readonly me = this.path + '/me';
+
+  /**
+   * Create a new UserResource
+   *
+   * @param resource
+   */
+  public post(resource:{
+    // TODO: The typing here could be a lot better
+    login?:string,
+    firstName?:string,
+    lastName?:string,
+    email?:string,
+    admin?:boolean,
+    language?:string,
+    password?:string,
+    auth_source?:string,
+    identity_url?:string,
+    status:'invited'|'active',
+  }):Observable<UserResource> {
+    return this
+      .halResourceService
+      .post<UserResource>(
+        this.path,
+        resource,
+      );
+  }
 }

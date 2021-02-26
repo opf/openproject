@@ -1,7 +1,7 @@
 import { ElementRef, Inject, ChangeDetectorRef, ViewChild, Directive, Injector } from "@angular/core";
-import {OpModalComponent} from "app/components/op-modals/op-modal.component";
-import {OpModalLocalsToken} from "app/components/op-modals/op-modal.service";
-import {OpModalLocalsMap} from "app/components/op-modals/op-modal.types";
+import {OpModalComponent} from "core-app/modules/modal/modal.component";
+import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
+import {OpModalLocalsMap} from "core-app/modules/modal/modal.types";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {TimeEntryFormComponent} from "core-app/modules/time_entries/form/form.component";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";

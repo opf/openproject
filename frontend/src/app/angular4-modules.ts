@@ -34,8 +34,6 @@ import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-
 import {States} from 'core-components/states.service';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {MainMenuResizerComponent} from 'core-components/resizer/main-menu-resizer.component';
-import {ExternalQueryConfigurationService} from 'core-components/wp-table/external-configuration/external-query-configuration.service';
-import {ExternalRelationQueryConfigurationService} from 'core-components/wp-table/external-configuration/external-relation-query-configuration.service';
 import {ConfirmDialogModal} from "core-components/modals/confirm-dialog/confirm-dialog.modal";
 import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
 import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-content.modal";
@@ -76,7 +74,10 @@ import {globalDynamicComponents} from "core-app/global-dynamic-components.const"
 import {OpenprojectMembersModule} from "core-app/modules/members/members.module";
 import {OpenprojectEnterpriseModule} from "core-components/enterprise/openproject-enterprise.module";
 import {OpenprojectAugmentingModule} from "core-app/modules/augmenting/openproject-augmenting.module";
+import {OpenprojectInviteUserModalModule} from "core-app/modules/invite-user-modal/invite-user-modal.module";
+import {OpenprojectModalModule} from "core-app/modules/modal/modal.module";
 import {RevitAddInSettingsButtonService} from "core-app/modules/bim/revit_add_in/revit-add-in-settings-button.service";
+import {OpenprojectAutocompleterModule} from "core-app/modules/autocompleter/openproject-autocompleter.module";
 
 @NgModule({
   imports: [
@@ -138,6 +139,15 @@ import {RevitAddInSettingsButtonService} from "core-app/modules/bim/revit_add_in
 
     // Augmenting Module
     OpenprojectAugmentingModule,
+
+    // Modals
+    OpenprojectModalModule,
+
+    // Invite user modal
+    OpenprojectInviteUserModalModule,
+
+    // Autocompleters
+    OpenprojectAutocompleterModule,
   ],
   providers: [
     { provide: States, useValue: new States() },

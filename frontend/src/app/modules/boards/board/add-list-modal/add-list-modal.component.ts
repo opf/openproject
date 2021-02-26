@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {OpModalComponent} from "core-components/op-modals/op-modal.component";
-import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from "@angular/core";
-import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
+import {OpModalLocalsMap} from "core-app/modules/modal/modal.types";
+import {OpModalComponent} from "core-app/modules/modal/modal.component";
+import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {Board} from "core-app/modules/boards/board/board";
 import {StateService} from "@uirouter/core";
@@ -38,7 +38,7 @@ import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-a
 import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
-import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
+import {CreateAutocompleterComponent} from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component.ts";
 import {of} from "rxjs";
 import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/helpers/rxjs/debounced-input-switchmap";
 import {ValueOption} from "core-app/modules/fields/edit/field-types/select-edit-field.component";

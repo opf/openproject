@@ -28,7 +28,6 @@
 
 import {Injectable} from '@angular/core';
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 class Apiv3Paths {
   readonly apiV3Base:string;
@@ -243,6 +242,14 @@ export class PathHelperService {
 
   public groupPath(id:string|number) {
     return `${this.groupsPath()}/${id}`;
+  }
+
+  public rolesPath() {
+    return `${this.staticBase}/roles`;
+  }
+
+  public rolePath(id:string|number) {
+    return `${this.rolesPath()}/${id}`;
   }
 
   public versionsPath() {

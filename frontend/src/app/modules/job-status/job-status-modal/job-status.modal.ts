@@ -1,8 +1,8 @@
 import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
-import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
-import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
+import {OpModalLocalsMap} from 'core-app/modules/modal/modal.types';
+import {OpModalComponent} from 'core-app/modules/modal/modal.component';
+import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
 import {interval, Observable, timer} from "rxjs";
 import {map, switchMap, takeUntil, takeWhile} from "rxjs/operators";

@@ -1,7 +1,9 @@
 import {ProjectResource} from 'core-app/modules/hal/resources/project-resource';
 import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
 import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
+import {RoleResource} from 'core-app/modules/hal/resources/role-resource';
 import {UserResource} from 'core-app/modules/hal/resources/user-resource';
+import {PlaceholderUserResource} from 'core-app/modules/hal/resources/placeholder-user-resource';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {input, InputState, multiInput, MultiInputState, StatesGroup} from 'reactivestates';
 import {QueryColumn} from './wp-query/query-column';
@@ -45,6 +47,13 @@ export class States extends StatesGroup {
 
   /* /api/v3/users */
   users = multiInput<UserResource>();
+
+  /* /api/v3/placeholder_users */
+  placeholderUsers = multiInput<PlaceholderUserResource>();
+
+  /* /api/v3/roles */
+  roles = multiInput<RoleResource>();
+
 
   // Work Package query states
   queries = new QueryAvailableDataStates();

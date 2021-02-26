@@ -1,0 +1,29 @@
+<form
+  [formGroup]="messageForm"
+  (ngSubmit)="onSubmit($event)"
+>
+  <op-modal-header (close)="close.emit()">{{ text.title() }}</op-modal-header>
+
+  <div class="op-modal--body">
+    <op-form-field [label]="text.label">
+      <p class="op-form-field--description" slot="description">
+        {{ text.description() }}
+      </p>
+      <textarea
+        class="op-input"
+        [formControl]="messageControl"
+        slot="input"
+        autofocus
+      ></textarea>
+    </op-form-field>
+  </div>
+
+  <div class="op-modal--footer">
+    <button
+      type="button"
+      class="button"
+      (click)="back.emit()"
+    >{{ text.backButton }}</button>
+    <button class="button">{{ text.nextButton }}</button>
+  </div>
+</form>

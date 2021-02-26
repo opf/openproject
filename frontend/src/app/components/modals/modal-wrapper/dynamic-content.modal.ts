@@ -27,9 +27,9 @@
 //++
 
 import {ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit} from "@angular/core";
-import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
-import {OpModalLocalsMap} from "core-components/op-modals/op-modal.types";
-import {OpModalComponent} from "core-components/op-modals/op-modal.component";
+import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
+import {OpModalLocalsMap} from "core-app/modules/modal/modal.types";
+import {OpModalComponent} from "core-app/modules/modal/modal.component";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
@@ -60,9 +60,11 @@ export class DynamicContentModal extends OpModalComponent implements OnInit, OnD
       .append(this.locals.modalBody);
 
     // Register click listeners
+    // This registers both on the close button in the modal header, as well as on any
+    // other elements you have added the dynamic-content-modal--close-button class.
     jQuery(document.body)
       .on('click.opdynamicmodal',
-        '.dynamic-content-modal--close-button',
+        '.op-modal--close-button, [dynamic-content-modal-close-button]',
         (evt:JQuery.TriggeredEvent) => {
         this.closeMe(evt);
       });

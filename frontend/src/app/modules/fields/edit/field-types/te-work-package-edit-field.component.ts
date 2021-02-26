@@ -29,13 +29,13 @@
 import {Component} from "@angular/core";
 import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
-import {
-  TimeEntryWorkPackageAutocompleterComponent,
-  TimeEntryWorkPackageAutocompleterMode
-} from "core-app/modules/common/autocomplete/te-work-package-autocompleter.component";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {
+  TimeEntryWorkPackageAutocompleterComponent,
+  TimeEntryWorkPackageAutocompleterMode
+} from "core-app/modules/autocompleter/te-work-package-autocompleter/te-work-package-autocompleter.component";
 
 const RECENT_TIME_ENTRIES_MAGIC_NUMBER = 30;
 

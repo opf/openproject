@@ -1,8 +1,8 @@
 import {ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit} from '@angular/core';
-import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
-import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
+import {OpModalLocalsMap} from 'core-app/modules/modal/modal.types';
+import {OpModalComponent} from 'core-app/modules/modal/modal.component';
+import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {boardTeaserVideoURL} from "core-app/modules/boards/board-constants.const";
 import {DomSanitizer} from "@angular/platform-browser";
 

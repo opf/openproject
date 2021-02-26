@@ -1,0 +1,75 @@
+<form
+  [formGroup]="principalForm"
+  (ngSubmit)="onSubmit($event)"
+>
+  <op-modal-header (close)="close.emit()">{{ text.title() }}</op-modal-header>
+
+  <div class="op-modal--body">
+    <op-form-field
+      [label]="text.label[type]"
+      required
+    >
+      <op-ium-principal-search
+        *ngIf="!isNewPrincipal"
+        [opFormBinding]="principalControl"
+        [type]="type"
+        [project]="project"
+        slot="input"
+        (createNew)="createNewFromInput($event)"
+      ></op-ium-principal-search>
+
+      <div
+        class="pill"
+        *ngIf="isNewPrincipal && type === 'user'"
+        slot="input"
+      >
+        {{ text.inviteUser() }}
+        <button
+          class="op-link"
+          (click)="principalControl?.setValue(null)"
+          >{{ text.changeUserSelection }}</button>
+      </div>
+
+      <div
+        class="pill"
+        *ngIf="isNewPrincipal && type === 'placeholder'"
+        slot="input"
+      >
+        {{ text.createNew.placeholder() }}
+        <button
+          class="op-link"
+          (click)="principalControl?.setValue(null)"
+        >{{ text.changePlaceholderSelection }}</button>
+      </div>
+
+      <div
+        class="pill"
+        *ngIf="isNewPrincipal && type === 'group'"
+        slot="input"
+      >
+        {{ text.createNew.group() }}
+        <button
+          class="op-link"
+          (click)="principalControl?.setValue(null)"
+        >{{ text.changeGroupSelection }}</button>
+      </div>
+      
+      <div
+        slot="errors"
+        class="op-form-field--error"
+        *ngIf="principalControl?.touched && principalControl?.invalid"
+      >
+        {{ text.required[type] }}
+      </div>
+    </op-form-field>
+  </div>
+
+  <div class="op-modal--footer">
+    <button
+      type="button"
+      class="button"
+      (click)="back.emit()"
+      >{{ text.backButton }}</button>
+    <button class="button">{{ text.nextButton }}</button>
+  </div>
+</form>
