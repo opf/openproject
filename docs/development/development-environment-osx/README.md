@@ -115,7 +115,7 @@ ruby 2.7.2p137 (2020-03-31 revision a0c7c23c9c) [x86_64-darwin16]
 $ bundler --version
 Bundler version 2.0.2
 
-$ npm --version
+$ node --version
 12.16.1
 ```
 
