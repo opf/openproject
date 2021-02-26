@@ -61,15 +61,13 @@ export class SummaryComponent {
       }
 
       switch (this.type) {
-        case 'user':
+        case PrincipalType.User:
           return this.api.users.post({
             email: this.principal.name,
             firstName: this.principal.email,
             status: 'invited',
           });
-        case 'group':
-          return this.api.groups.post({ name: this.principal.name });
-        case 'placeholder':
+        case PrincipalType.Placeholder:
           return this.api.placeholder_users.post({ name: this.principal.name });
       }
     })();
