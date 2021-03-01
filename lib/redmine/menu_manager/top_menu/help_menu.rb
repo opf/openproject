@@ -46,15 +46,15 @@ module Redmine::MenuManager::TopMenu::HelpMenu
   def render_help_dropdown
     link_to_help_pop_up = link_to '',
                                   title: I18n.t(:label_help),
-                                  class: 'menu-item--help',
+                                  class: 'top-menu-dropdown--link',
                                   aria: { haspopup: 'true' } do
-      op_icon('icon-help')
+      op_icon('icon-help top-menu-help--icon')
     end
 
     render_menu_dropdown(
       link_to_help_pop_up,
-      menu_item_class: 'hidden-for-mobile',
-      drop_down_class: 'drop-down--help'
+      menu_item_class: 'hidden-for-mobile top-menu-help',
+      drop_down_class: 'top-menu-help--dropdown'
     ) do
       result = ''.html_safe
       render_onboarding result
@@ -70,11 +70,11 @@ module Redmine::MenuManager::TopMenu::HelpMenu
   def render_onboarding(result)
     result << content_tag(:li) do
       content_tag(:span, I18n.t('top_menu.getting_started'),
-                  class: 'drop-down--help-headline',
+                  class: 'top-menu-dropdown--headline',
                   title: I18n.t('top_menu.getting_started'))
     end
     result << render_onboarding_menu_item
-    result << content_tag(:hr, '', class: 'form--separator')
+    result << content_tag(:hr, '', class: 'top-menu-dropdown--separator')
   end
 
   def render_onboarding_menu_item
@@ -84,7 +84,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
   def render_help_and_support(result)
     result << content_tag(:li) do
       content_tag :span, I18n.t('top_menu.help_and_support'),
-                  class: 'drop-down--help-headline',
+                  class: 'top-menu-dropdown--headline',
                   title: I18n.t('top_menu.help_and_support')
     end
     if EnterpriseToken.show_banners?
@@ -101,14 +101,14 @@ module Redmine::MenuManager::TopMenu::HelpMenu
     result << static_link_item(:shortcuts)
     result << static_link_item(:forums)
     result << static_link_item(:professional_support)
-    result << content_tag(:hr, '', class: 'form--separator')
+    result << content_tag(:hr, '', class: 'top-menu-dropdown--separator')
   end
 
   def render_additional_resources(result)
     result << content_tag(:li) do
       content_tag :span,
                   I18n.t('top_menu.additional_resources'),
-                  class: 'drop-down--help-headline',
+                  class: 'top-menu-dropdown--headline',
                   title: I18n.t('top_menu.additional_resources')
     end
 

@@ -32,14 +32,14 @@ module Redmine::MenuManager::TopMenuHelper
   include Redmine::MenuManager::TopMenu::QuickAddMenu
 
   def render_top_menu_left
-    content_tag :ul, id: 'account-nav-left', class: 'menu_root account-nav' do
+    content_tag :ul, id: 'account-nav-left', class: 'menu_root account-nav top-menu' do
       [render_main_top_menu_nodes,
        render_projects_top_menu_node].join.html_safe
     end
   end
 
   def render_top_menu_right
-    content_tag :ul, id: 'account-nav-right', class: 'menu_root account-nav' do
+    content_tag :ul, id: 'account-nav-right', class: 'menu_root account-nav top-menu-right' do
       [render_module_top_menu_node,
        render_help_top_menu_node,
        render_user_top_menu_node].join.html_safe

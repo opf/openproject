@@ -30,7 +30,7 @@ require 'spec_helper'
 
 feature 'Help menu items' do
   let(:user) { FactoryBot.create :admin }
-  let(:help_item) { find('.menu-item--help') }
+  let(:help_item) { find('.top-menu-help') }
 
   before do
     login_as user

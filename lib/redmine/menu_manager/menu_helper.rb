@@ -100,7 +100,7 @@ module Redmine::MenuManager::MenuHelper
   # menu_item_class: Additional classes for the menu item li wrapper
   # drop_down_class: Additional classes for the hidden drop down
   def render_menu_dropdown(label_node, options = {}, &block)
-    content_tag :li, class: "#{options[:menu_item_class]} drop-down" do
+    content_tag :li, class: "top-menu-dropdown #{options[:menu_item_class]} drop-down" do
       concat(label_node)
       concat(content_tag(:ul,
                          style: 'display:none',
@@ -113,13 +113,13 @@ module Redmine::MenuManager::MenuHelper
   def render_drop_down_label_node(label, selected, options = {})
     options[:title] ||= selected ? t(:description_current_position) + label : label
     options[:aria] = { haspopup: 'true' }
-    options[:class] = "#{options[:class]} #{selected ? 'selected' : ''}"
+    options[:class] = "top-menu-dropdown--link #{options[:class]} #{selected ? 'selected' : ''}"
 
     link_to('', options) do
       concat(op_icon(options[:icon])) if options[:icon]
       concat(you_are_here_info(selected).html_safe)
       concat(content_tag(:span, label, class: 'button--dropdown-text'))
-      concat('<i class="button--dropdown-indicator"></i>'.html_safe) unless options[:icon]
+      concat('<i class="button--dropdown-indicator"></i>'.html_safe) unless options.key?(:icon)
     end
   end
 

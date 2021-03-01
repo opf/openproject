@@ -26,24 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-%top-menu-hover-styles
-  background: var(--header-item-bg-hover-color)
-  color: var(--header-item-font-hover-color)
-  border-bottom-width: var(--header-border-bottom-width)
-  border-bottom-color: var(--header-border-bottom-color)
-  border-bottom-style: solid
 
-%top-menu-link-styles
-  display: block
-  height: var(--header-height)
-  line-height: var(--header-height)
-  zoom: 1
-  color: var(--header-item-font-color)
-  font-size: var(--header-item-font-size)
-  text-decoration: none
-  padding: 0 15px
-  &:hover
-    @extend %top-menu-hover-styles
+// These styles do not follow BEM
+// instead of modifying, please extract into BEM pieces when you touch these
 
 #logo
   width: 230px
@@ -85,11 +70,6 @@
     position: relative
     z-index: 5
     padding: 0
-    > a
-      @extend %top-menu-link-styles
-
-      &:hover .icon-help:before
-        border-color: var(--header-item-font-hover-color)
 
     > ul
       min-width: 270px
@@ -114,7 +94,6 @@
       @include icon-mixin-pulldown-up
 
   li.last-child > ul,
-  .drop-down--help,
   .drop-down--modules
     left: auto
     right: 0
@@ -124,21 +103,6 @@
       &:nth-last-child(2)
         margin-bottom: 6px
 
-  .drop-down--help
-    .form--separator
-      margin-bottom: 10px
-      &+ li
-        margin-bottom: 5px
-    .drop-down--help-headline
-      padding-left: 10px
-      font-size: 12px
-      color: var(--gray-dark)
-      text-transform: uppercase
-
-  #loggedas
-    float: right
-    margin-right: 0.5em
-    color: #fff
   #nav-login-content
     width: 506px
     position: relative
@@ -172,10 +136,6 @@
   align-items: center
   .top-menu-items-right
     display: flex
-
-#header
-  .chzn-container .chzn-results .highlighted
-    background-color:  #24b3e7
 
 .account-nav
   display: block
@@ -221,15 +181,6 @@
     .avatar-default
       border: 1px solid
       border-color: var(--header-item-font-color)
-
-  .icon-help:before
-    border-width: 2px
-    border-style: solid
-    border-color: var(--header-item-font-color)
-    border-radius: 50%
-    width: 26px
-    height: 26px
-    display: inline-block
 
   .icon-user
     font-size: 18px
