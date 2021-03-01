@@ -141,9 +141,20 @@ describe 'OAuth authorization code flow',
         visit oauth_path app.uid, redirect_uri
 
         # Check that the hosts of allowed redirection urls are present in the content security policy
-        expect(page.response_headers['content-security-policy']).to(
-          include("form-action 'self' https://foo.com/ https://bar.com/;")
-        )
+
+        form_csp_header = page
+                            .response_headers['content-security-policy']
+                            .split(';')
+                            .find { |s| s.start_with?(' form-action') }
+
+        expect(form_csp_header)
+          .to include("'self'")
+
+        expect(form_csp_header)
+          .to include('foo.com')
+
+        expect(form_csp_header)
+          .to include('bar.com')
       end
     end
   end
