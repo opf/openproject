@@ -46,6 +46,7 @@ module ProjectsHelper
     whitelist = [
       Queries::Projects::Filters::ActiveFilter,
       Queries::Projects::Filters::TemplatedFilter,
+      Queries::Projects::Filters::PublicFilter,
       Queries::Projects::Filters::ProjectStatusFilter,
       Queries::Projects::Filters::CreatedAtFilter,
       Queries::Projects::Filters::LatestActivityAtFilter,
