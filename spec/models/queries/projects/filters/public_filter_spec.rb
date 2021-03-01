@@ -28,30 +28,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Projects
-  register = ::Queries::Register
-  filters = ::Queries::Projects::Filters
-  orders = ::Queries::Projects::Orders
-  query = ::Queries::Projects::ProjectQuery
+require 'spec_helper'
 
-  register.filter query, filters::AncestorFilter
-  register.filter query, filters::TypeFilter
-  register.filter query, filters::ActiveFilter
-  register.filter query, filters::TemplatedFilter
-  register.filter query, filters::PublicFilter
-  register.filter query, filters::NameAndIdentifierFilter
-  register.filter query, filters::CustomFieldFilter
-  register.filter query, filters::CreatedAtFilter
-  register.filter query, filters::LatestActivityAtFilter
-  register.filter query, filters::PrincipalFilter
-  register.filter query, filters::ParentFilter
-  register.filter query, filters::IdFilter
-  register.filter query, filters::ProjectStatusFilter
-
-  register.order query, orders::DefaultOrder
-  register.order query, orders::LatestActivityAtOrder
-  register.order query, orders::RequiredDiskSpaceOrder
-  register.order query, orders::CustomFieldOrder
-  register.order query, orders::ProjectStatusOrder
-  register.order query, orders::NameOrder
+describe Queries::Projects::Filters::PublicFilter, type: :model do
+  it_behaves_like 'boolean query filter' do
+    let(:model) { Project }
+    let(:attribute) { :public }
+  end
 end
