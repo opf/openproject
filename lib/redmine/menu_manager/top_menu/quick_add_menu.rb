@@ -27,6 +27,8 @@
 #++
 
 module Redmine::MenuManager::TopMenu::QuickAddMenu
+  include OpenProject::StaticRouting::UrlHelpers
+
   def render_quick_add_menu
     content_tag :ul, class: 'menu_root account-nav quick-add-menu' do
       render_quick_add_dropdown
@@ -40,10 +42,38 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
       label: '',
       label_options: {
         title: I18n.t('menus.quick_add.label'),
-        icon: ('icon-plus')
+        icon: 'icon-add quick-add-menu--icon',
+        class: 'quick-add-menu--button'
       },
       items: first_level_menu_items_for(:quick_add_menu),
       options: { drop_down_id: 'quick-add-menu' }
-    )
+    ) do
+      concat content_tag(:hr, '', class: 'top-menu-dropdown--separator')
+      render_default_work_package_types
+
+      # Return nil as the yield result is concat as well
+      nil
+    end
+  end
+
+  def render_default_work_package_types
+    return unless User.current.allowed_to_globally?(:add_work_packages)
+
+    Type
+      .default
+      .pluck(:id, :name)
+      .each do |id, name|
+      concat work_package_create_link(id, name)
+    end
+  end
+
+  def work_package_create_link(type_id, type_name)
+    content_tag(:li) do
+      if @project
+        link_to type_name, new_project_work_packages_path(project_id: @project.identifier, type: type_id)
+      else
+        link_to type_name, new_work_packages_path(type: type_id)
+      end
+    end
   end
 end

@@ -62,24 +62,28 @@ Redmine::MenuManager.map :top_menu do |menu|
             icon: 'icon5 icon-help',
             html: { accesskey: OpenProject::AccessKeys.key_for(:help),
                     title: I18n.t('label_help'),
-                    class: 'menu-item--help',
+                    class: 'top-menu-help',
                     target: '_blank' }
 end
 
 Redmine::MenuManager.map :quick_add_menu do |menu|
-  menu.push :my_page,
-            :my_page_path,
-            caption: I18n.t('js.my_page.label'),
-            if: Proc.new { User.current.logged? }
-  menu.push :my_account,
-            { controller: '/my', action: 'account' },
-            if: Proc.new { User.current.logged? }
-  menu.push :administration,
-            { controller: '/admin', action: 'index' },
-            if: Proc.new { User.current.allowed_to_globally?(:manage_placeholder_user) || User.current.allowed_to_globally?(:manage_user) }
-  menu.push :logout,
-            :signout_path,
-            if: Proc.new { User.current.logged? }
+  menu.push :new_project,
+            { controller: '/projects', action: :new },
+            caption: Project.model_name.human,
+            icon: "icon-add icon3",
+            html: {
+              aria: { label: I18n.t(:label_project_new) },
+              title: I18n.t(:label_project_new)
+            },
+            if: Proc.new { User.current.allowed_to_globally?(:add_project) }
+
+  menu.push :invite_user,
+            '#',
+            caption: :label_invite_user,
+            icon: 'icon3 icon-user-plus',
+            html: {
+              'invite-user-entry': 'invite-user-entry'
+            }
 end
 
 Redmine::MenuManager.map :account_menu do |menu|
