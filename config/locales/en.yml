@@ -1256,6 +1256,10 @@ en:
   instructions_after_logout: "You can sign in again by clicking %{signin}."
   instructions_after_error: "You can try to sign in again by clicking %{signin}. If the error persists, ask your admin for help."
 
+  menus:
+    quick_add:
+      label: "Open quick add menu"
+
   my_account:
     access_tokens:
       no_results:

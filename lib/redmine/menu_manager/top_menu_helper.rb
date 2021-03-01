@@ -29,6 +29,7 @@
 module Redmine::MenuManager::TopMenuHelper
   include Redmine::MenuManager::TopMenu::HelpMenu
   include Redmine::MenuManager::TopMenu::ProjectsMenu
+  include Redmine::MenuManager::TopMenu::QuickAddMenu
 
   def render_top_menu_left
     content_tag :ul, id: 'account-nav-left', class: 'menu_root account-nav' do

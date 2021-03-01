@@ -66,6 +66,22 @@ Redmine::MenuManager.map :top_menu do |menu|
                     target: '_blank' }
 end
 
+Redmine::MenuManager.map :quick_add_menu do |menu|
+  menu.push :my_page,
+            :my_page_path,
+            caption: I18n.t('js.my_page.label'),
+            if: Proc.new { User.current.logged? }
+  menu.push :my_account,
+            { controller: '/my', action: 'account' },
+            if: Proc.new { User.current.logged? }
+  menu.push :administration,
+            { controller: '/admin', action: 'index' },
+            if: Proc.new { User.current.allowed_to_globally?(:manage_placeholder_user) || User.current.allowed_to_globally?(:manage_user) }
+  menu.push :logout,
+            :signout_path,
+            if: Proc.new { User.current.logged? }
+end
+
 Redmine::MenuManager.map :account_menu do |menu|
   menu.push :my_page,
             :my_page_path,
