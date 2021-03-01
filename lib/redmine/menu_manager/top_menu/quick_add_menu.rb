@@ -49,31 +49,51 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
       options: { drop_down_id: 'quick-add-menu' }
     ) do
       concat content_tag(:hr, '', class: 'top-menu-dropdown--separator')
-      render_default_work_package_types
+      render_work_package_types
 
       # Return nil as the yield result is concat as well
       nil
     end
   end
 
+  def render_work_package_types
+    if in_project_context?
+      render_project_work_package_types
+    else
+      render_default_work_package_types
+    end
+  end
+
+  def render_project_work_package_types
+    return unless User.current.allowed_to?(:add_work_packages, @project)
+
+    render_type_collection @project.types
+  end
+
   def render_default_work_package_types
     return unless User.current.allowed_to_globally?(:add_work_packages)
 
-    Type
-      .default
-      .pluck(:id, :name)
-      .each do |id, name|
+    render_type_collection Type.default
+  end
+
+  def render_type_collection(types)
+    types.pluck(:id, :name)
+       .each do |id, name|
       concat work_package_create_link(id, name)
     end
   end
 
   def work_package_create_link(type_id, type_name)
     content_tag(:li) do
-      if @project&.persisted?
+      if in_project_context?
         link_to type_name, new_project_work_packages_path(project_id: @project.identifier, type: type_id)
       else
         link_to type_name, new_work_packages_path(type: type_id)
       end
     end
+  end
+
+  def in_project_context?
+    @project&.persisted?
   end
 end
