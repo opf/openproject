@@ -66,16 +66,24 @@ To add a filter criteria, click the **+ Add filter:** button in the grey filter 
 
 You can add as many filter criteria as needed. 
 Also, you can filter by [custom fields](../../../system-admin-guide/custom-fields) if you set this in the custom field configuration.
+<div class="alert alert-info" role="alert">
+**Good to know**: Filtering a work packages list will temporarily change the default work package type and default status according to your filters to make newly created work packages visible in the list.
+</div>
 
+### Filtering by text
 If you want to search for specific text in the subject, description or comments of a work package, type in the **Filter by text** the expression you want to filter for.
 
 The results will be displayed accordingly in the work package list.
 
 ![filter-text](filter-text.png)
 
-<div class="alert alert-info" role="alert">
-**Good to know**: Filtering a work packages list will temporarily change the default work package type and default status according to your filters to make newly created work packages visible in the list.
-</div>
+### Filtering for a work package's children
+
+If you want to only show work package with specific parents (e.g. all work packages belonging to a specific phase of your project) you can use the filter "Parent". Enter all required work packages and press Enter. This will show the selected work package(s) and its/their children. 
+If you only selected work packages without children, no work packages will be shown at all.
+
+![filter-for-parent-work-package](image-20210301182354564.png)
+
 
 ## Sort the work package list
 
