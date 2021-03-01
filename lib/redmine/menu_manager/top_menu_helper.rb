@@ -61,7 +61,7 @@ module Redmine::MenuManager::TopMenuHelper
   def render_login_drop_down
     url = { controller: '/account', action: 'login' }
     link = link_to url,
-                   class: 'login',
+                   class: 'top-menu-dropdown--link login',
                    title: I18n.t(:label_login) do
       concat('<span class="button--dropdown-text hidden-for-mobile">'.concat(I18n.t(:label_login)).concat('</span>').html_safe)
       concat('<i class="button--dropdown-indicator hidden-for-mobile"></i>'.html_safe)
