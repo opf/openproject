@@ -69,7 +69,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
 
   def work_package_create_link(type_id, type_name)
     content_tag(:li) do
-      if @project
+      if @project&.persisted?
         link_to type_name, new_project_work_packages_path(project_id: @project.identifier, type: type_id)
       else
         link_to type_name, new_work_packages_path(type: type_id)
