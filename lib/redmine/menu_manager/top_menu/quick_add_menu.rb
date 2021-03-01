@@ -30,6 +30,8 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   include OpenProject::StaticRouting::UrlHelpers
 
   def render_quick_add_menu
+    return unless show_quick_add_menu?
+
     content_tag :ul, class: 'menu_root account-nav quick-add-menu' do
       render_quick_add_dropdown
     end
@@ -92,6 +94,12 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
       else
         link_to type_name, new_work_packages_path(type: type_id)
       end
+    end
+  end
+
+  def show_quick_add_menu?
+    %i[add_work_packages add_project manage_members add_user].any? do |permission|
+      User.current.allowed_to_globally?(permission)
     end
   end
 
