@@ -30,7 +30,7 @@ require 'open_project/plugins'
 require_relative './notification_handlers'
 require_relative './hook_handler'
 
-module OpenProject::GitLabIntegration
+module OpenProject::GitlabIntegration
   class Engine < ::Rails::Engine
     engine_name :openproject_gitlab_integration
 
@@ -48,10 +48,10 @@ module OpenProject::GitLabIntegration
     end
 
     initializer 'gitlab.subscribe_to_notifications' do
-      ::OpenProject::Notifications.subscribe('gitlab.pull_request',
-                                             &NotificationHandlers.method(:pull_request))
-      ::OpenProject::Notifications.subscribe('gitlab.issue_comment',
-                                             &NotificationHandlers.method(:issue_comment))
+      ::OpenProject::Notifications.subscribe('gitlab.merge_request_hook',
+                                             &NotificationHandlers.method(:merge_request_hook))
+      ::OpenProject::Notifications.subscribe('gitlab.note_hook',
+                                             &NotificationHandlers.method(:note_hook))
     end
 
   end

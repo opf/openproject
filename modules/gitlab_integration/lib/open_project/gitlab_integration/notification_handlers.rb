@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::GitLabIntegration
+module OpenProject::GitlabIntegration
 
   ##
   # Handles github-related notifications.
@@ -48,13 +48,17 @@ module OpenProject::GitLabIntegration
     #           synchronized, or reopened - we habven't checked)
     #   repository: <the repository in action>
     # }
-    def self.merge_request(payload)
+    def self.merge_request_hook(payload)
       # Don't add comments on new pushes to the pull request => ignore synchronize.
       # Don't add comments about assignments and labels either.
       
-      #ignored_actions = %w[synchronize assigned unassigned labeled unlabeled]
+      accepted_actions = %w[open]
+      accepted_states = %w[closed merged]
       #return if ignored_actions.include? payload['action']
+      #return unless accepted_actions.include? payload['object_attributes']['action']
+      return unless (accepted_actions.include? payload['object_attributes']['action']) || (accepted_states.include? payload['object_attributes']['state'])
       comment_on_referenced_work_packages payload['object_attributes']['title'], payload
+      #comment_on_referenced_work_packages payload['object_attributes']['source']['description'], payload
     rescue => e
       Rails.logger.error "Failed to handle merge_request event: #{e} #{e.message}"
       raise e
@@ -76,7 +80,7 @@ module OpenProject::GitLabIntegration
     #           synchronized, or reopened - we habven't checked)
     #   repository: <the repository in action>
     # }
-    def self.issue_comment(payload)
+    def self.note_hook(payload)
       # if the comment is not associated with a PR, ignore it
       return unless payload['object_attributes']['noteable_type'] == "MergeRequest"
       comment_on_referenced_work_packages payload['object_attributes']['note'], payload
@@ -98,7 +102,14 @@ module OpenProject::GitLabIntegration
       notes = notes_for_payload(payload)
       return if notes.nil?
 
-      attributes = { journal_notes: notes }
+      if payload['object_attributes']['state'] == 'opened'
+        attributes = { journal_notes: notes, status_id: 7 }
+      elsif payload['object_attributes']['state'] == 'merged'
+        attributes = { journal_notes: notes, status_id: 8 }
+      else
+        attributes = { journal_notes: notes }
+      end
+      
       wps.each do |wp|
         ::WorkPackages::UpdateService
           .new(user: user, model: wp)
@@ -150,7 +161,7 @@ module OpenProject::GitLabIntegration
     ##
     # Find a matching translation for the action specified in the payload.
     def self.notes_for_payload(payload)
-      if payload['merge_request']
+      if payload['object_kind'] == 'merge_request'
         notes_for_pull_request_payload(payload)
       else
         notes_for_issue_comment_payload(payload)
@@ -162,19 +173,20 @@ module OpenProject::GitLabIntegration
         'opened' => 'opened',
         'reopened' => 'opened',
         'closed' => 'closed',
+        'merged' => 'merged',
         'edited' => 'referenced',
         'referenced' => 'referenced'
-      }[payload['merge_request']['state']]
+      }[payload['object_attributes']['state']]
 
       # a closed pull request which has been merged
       # deserves a different label :)
-      key = 'merged' if key == 'closed' && payload['merge_request']['state'] == 'closed'
+      #key = 'merged' if key == 'closed' && payload['object_attributes']['state'] == 'closed'
 
       return nil unless key
 
       I18n.t("gitlab_integration.merge_request_#{key}_comment",
-             :mr_number => payload['merge_request']['id'],
-             :mr_title => payload['merge_request']['title'],
+             :mr_number => payload['object_attributes']['id'],
+             :mr_title => payload['object_attributes']['title'],
              :mr_url => payload['object_attributes']['url'],
              :repository => payload['repository']['name'],
              :repository_url => payload['repository']['url'],

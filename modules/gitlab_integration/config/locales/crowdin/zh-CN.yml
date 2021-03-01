@@ -20,12 +20,12 @@
 #See docs/COPYRIGHT.rdoc for more details.
 #++
 zh-CN:
-  github_integration:
-    pull_request_opened_comment: >
+  gitlab_integration:
+    merge_request_opened_comment: >
       **拉取请求已打开：** [%{repository}](%{repository_url}) 的拉取请求 %{pr_number} [%{pr_title}](%{pr_url}) 已由 [%{github_user}](%{github_user_url}) 打开。
-    pull_request_closed_comment: >
+    merge_request_closed_comment: >
       **拉取请求已关闭：** [%{repository}](%{repository_url}) 的拉取请求 %{pr_number} [%{pr_title}](%{pr_url}) 已由 [%{github_user}](%{github_user_url}) 关闭。
-    pull_request_merged_comment: >
+    merge_request_merged_comment: >
       **拉取请求已合并：** [%{repository}](%{repository_url}) 的拉取请求 %{pr_number} [%{pr_title}](%{pr_url}) 已由 [%{github_user}](%{github_user_url}) 合并。
-    pull_request_referenced_comment: >
+    merge_request_referenced_comment: >
       **已在拉取请求中引用：** [%{github_user}](%{github_user_url}) 在 [%{repository}](%{repository_url}) 上的拉取请求 %{pr_number} [%{pr_title}](%{pr_url}) 中引用了此工作包。
