@@ -84,6 +84,13 @@ If you only selected work packages without children, no work packages will be sh
 
 ![filter-for-parent-work-package](image-20210301182354564.png)
 
+### Filtering by ID or work package name
+
+If you want to [create a work package view](#save-work-package-views) with only specific work packages you can use the filter "ID". By entering the ID or subject of work packages you can select them. 
+Another use case would be to *exclude* specific work packages (e.g. you want to display all milestones but one). Therefore, use the "is not" option next to the filter's name on the left.
+
+![filtering-by-work-package-id](image-20210301185550169.png)
+
 
 ## Sort the work package list
 

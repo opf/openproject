@@ -147,7 +147,7 @@ The work package graph widgets displays information about the work packages with
 
 **Configure the work package graph**
 
-You can filter the work packages to be displayed in the graph according to the [work packages table configuration](/user-guide/work-packages/work-package-table-configuration/).
+You can filter the work packages to be displayed in the graph according to the [work packages table configuration](../work-packages/work-package-table-configuration/).
 
 To configure the work package graph, click on the three dots in the top right corner and select **Configure view...**
 
@@ -189,7 +189,7 @@ The widget lists all **open** and all **closed** work packages according to this
 
 ### Work package table widget
 
-The work package table widget includes a work package table to the project overview. The work package table can be filtered, grouped, sorted according to the [work package table configuration](/user-guide/work-packages/work-package-table-configuration/), e.g. display only work packages with Priority High.
+The work package table widget includes a work package table to the project overview. The work package table can be filtered, grouped, sorted according to the [work package table configuration](../work-packages/work-package-table-configuration/), e.g. display only work packages with the priority "High".
 
 ![work package table widget](image-20191112152119523.png)
 
