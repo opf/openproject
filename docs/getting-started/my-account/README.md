@@ -1,28 +1,28 @@
 ---
 sidebar_navigation:
-  title: My Account
+  title: My account
   priority: 400
 description: Learn how to configure account settings.
 robots: index, follow
 keywords: my account, account settings, change language, Deutsch
 ---
 
-# My Account
+# My account
 
-Change your personal settings in My Account. Here you can adapt, e.g. the language, edit notifications, or add an avatar.
+Change your personal settings in My account. Here you can adapt, e.g. the language, edit notifications, or add an avatar.
 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Open My Account settings](#open-my-account-settings)        | How to open your personal settings in OpenProject?           |
+| [Open My account settings](#open-my-account-settings)        | How to open your personal settings in OpenProject?           |
 | [Change password](#change-password)                          | How to change my password?                                   |
 | [Edit your user information](#edit-your-user-information)    | How to change the name or email address in OpenProject?      |
 | [Profile settings: change your language, time zone or display of comments](#profile-settings) | How to change the language, time zone or display of comments in OpenProject? |
 | [Two-factor authentication](#two-factor-authentication-premium-feature) | How to set up a two-factor authentication?                   |
 | [Email notifications](#email-notifications)                  | How to change email notifications sent by OpenProject?       |
-| [Set an Avatar](#set-an-avatar)                              | How to set an Avatar in OpenProject and change the profile picture? |
+| [Set anaAvatar](#set-an-avatar)                              | How to set an avatar in OpenProject and change the profile picture? |
 | [Delete account](#delete-account)                            | How to delete my own account?                                |
 
-## Open My Account settings
+## Open My account settings
 
 To open your personal settings in OpenProject, click on your user icon in the top right corner in the header of the application.
 
@@ -32,7 +32,7 @@ Choose **My account**.
 
 ## Change password
 
-In order to reset your password, navigate to the My Account section and choose **Change password** in the menu.
+In order to reset your password, navigate to the My account section and choose **Change password** in the menu.
 
 Enter your current password.
 
@@ -78,7 +78,7 @@ If you want to help us to add further languages or to add the translations in yo
 
 ### Change your time zone
 
-You can choose a Time zone in which you work and how the comments and changes will be saved.
+You can choose a time zone in which you work and how the comments and changes will be saved.
 
 ![time zone](1572882881007.png)
 
@@ -159,11 +159,11 @@ By default you do not receive any email notifications about your own changes. If
 
 
 
-## Set an Avatar
+## Set an avatar
 
-To change your profile picture in OpenProject you can set an Avatar in your My account settings. Navigate to **Avatar** in the menu.
+To change your profile picture in OpenProject you can set an avatar in your My account settings. Navigate to **Avatar** in the menu.
 
-OpenProject uses Gravatar as default profile image. It displays a preview of your Avatar.
+OpenProject uses Gravatar as default profile image. It displays a preview of your avatar.
 
 Also, you can upload a **Custom Avatar** by choosing a Avatar to be uploaded from a file. Press the blue **Update** button to change your profile picture.
 

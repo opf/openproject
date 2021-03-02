@@ -1,7 +1,12 @@
-<% unless @auth_sources.empty? || OpenProject::Configuration.disable_password_login? %>
+<% if can_users_have_auth_source? %>
   <div class="form--field">
-    <% sources = ([[t(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }) %>
-    <%= f.select :auth_source_id, sources, label: :'activerecord.attributes.user.auth_source', container_class: '-middle'  %>
+    <%= f.collection_select :auth_source_id,
+                            AuthSource.all,
+                            :id,
+                            :name,
+                            label: :'activerecord.attributes.user.auth_source',
+                            container_class: '-middle',
+                            include_blank: t(:label_internal) %>
   </div>
 
   <div class="form--field" id="new_user_login" style="display: none;">

@@ -1,15 +1,15 @@
 ---
 sidebar_navigation:
-  title: Github Integration
+  title: Github integration
   priority: 600
 description: Integrate the Github pull request workflow into OpenProject.
 robots: index, follow
 keywords: github integration
 ---
-# Github Integration
+# GitHub integration
 
-OpenProject offers are very basic Github integration for pull requests.
-You create a pull request in Github and link to an OpenProject work package.
+OpenProject offers are very basic GitHub integration for pull requests.
+You create a pull request in GitHub and link to an OpenProject work package.
 
 ![New pull request linking to an OpenProject work package](github-pr-workpackage-reference.png)
 
@@ -25,14 +25,14 @@ the pull request is
 ![Github comments on work package](workpackage-github-comments.png)
 
 Mind that editing an existing pull request's description to add a work package link will
-not add a comment in OpenProject. Github does not send webhook events for that.
+not add a comment in OpenProject. GitHub does not send webhook events for that.
 
 If you still want a comment in OpenProject you will have to reference the
-work package in a comment on the pull request in Github.
+work package in a comment on the pull request in GitHub.
 
 ## Configuration
 
-You will have to configure both OpenProject and Github for the integration to work.
+You will have to configure both OpenProject and GitHub for the integration to work.
 
 ### OpenProject
 
@@ -47,24 +47,24 @@ The role needs two permissions and should only receive those two: "View work pac
 ![Github user added as member to project with respective role](github-project-member.png)
 
 Once the user is created you need to generate an OpenProject API token for it
-to use later on the Github side of things. For this you have to:
+to use later on the GitHub side of things. For this you have to:
 
 1. Login as the newly created user
 2. Go to My Account (click on Avatar in top right corner)
 3. Go to Access Token
 4. Click on generate in the API row
 
-Copy the generated key. You can now configure the necessary webhook in Github.
+Copy the generated key. You can now configure the necessary webhook in GitHub.
 
-### Github
+### GitHub
 
-In Github you have to set up a webhook in each repository to be integrated with OpenProject.
+In GitHub you have to set up a webhook in each repository to be integrated with OpenProject.
 
 ![Create the webhook in Github](create-github-webhook.png)
 
 You need to configure just two things in the webhook.
 The **Content Type** has to be `application/json`.
-The **Payload URL** must point to your OpenProject server's github webhook endpoint (`/webhooks/github`).
+The **Payload URL** must point to your OpenProject server's GitHub webhook endpoint (`/webhooks/github`).
 
 Now you need the API key you copied earlier. Append it to the *Payload URL* as a simple GET parameter named `key`. In the end the URL should look something like this:
 

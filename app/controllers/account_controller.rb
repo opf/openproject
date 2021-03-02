@@ -41,6 +41,7 @@ class AccountController < ApplicationController
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_action :check_if_login_required
 
+  before_action :apply_csp_appends, only: %i[login]
   before_action :disable_api
   before_action :check_auth_source_sso_failure, only: :auth_source_sso_failed
 
@@ -576,5 +577,12 @@ class AccountController < ApplicationController
     flash[:error] = I18n.t(:notice_account_invalid_token)
 
     redirect_to home_url
+  end
+
+  def apply_csp_appends
+    appends = flash[:_csp_appends]
+    return unless appends
+
+    append_content_security_policy_directives(appends)
   end
 end

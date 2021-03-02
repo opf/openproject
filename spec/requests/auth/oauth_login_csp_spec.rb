@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,28 +28,25 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module CostlogHelper
-  def cost_types_collection_for_select_options(selected_type = nil)
-    cost_types = CostType.active.sort
+require 'spec_helper'
 
-    if selected_type && !cost_types.include?(selected_type)
-      cost_types << selected_type
-      cost_types.sort
+describe 'CSP appends on login form from oauth',
+         type: :rails_request do
+  let!(:redirect_uri) { 'https://foobar.com' }
+  let!(:oauth_app) { FactoryBot.create(:oauth_application, redirect_uri: redirect_uri) }
+  let(:oauth_path) do
+    "/oauth/authorize?response_type=code&client_id=#{oauth_app.uid}&redirect_uri=#{CGI.escape(redirect_uri)}&scope=api_v3"
+  end
+
+  context 'when login required', with_settings: { login_required: true } do
+    it 'appends given CSP appends from flash' do
+      get oauth_path
+
+      csp = response.headers['Content-Security-Policy']
+      expect(csp).to include "form-action 'self' https://foobar.com/;"
+
+      location = response.headers['Location']
+      expect(location).to include("/login?back_url=#{CGI.escape(oauth_path)}")
     end
-    cost_types.map { |t| [t.name, t.id] }
-  end
-
-  def user_collection_for_select_options(_options = {})
-    User
-      .possible_assignee(@project)
-      .map { |t| [t.name, t.id] }
-  end
-
-  def extended_progress_bar(pcts, options = {})
-    return progress_bar(pcts, options) unless pcts.is_a?(Numeric) && pcts > 100
-
-    closed = ((100.0 / pcts) * 100).round
-    done = 100.0 - ((100.0 / pcts) * 100).round
-    progress_bar([closed, done], options)
   end
 end
