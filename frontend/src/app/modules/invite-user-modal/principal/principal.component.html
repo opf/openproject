@@ -22,8 +22,7 @@
         *ngIf="isNewPrincipal && type === 'user'"
         slot="input"
       >
-        <b>{{ text.inviteUser }}</b>
-        <op-principal [principal]="principal"></op-principal>
+        <b>{{ text.inviteUser }}</b> {{ principal.name }}
         <button
           class="op-link"
           (click)="principalControl?.setValue(null)"
@@ -34,8 +33,7 @@
         *ngIf="isNewPrincipal && type === 'placeholder'"
         slot="input"
       >
-        <b>{{ text.createNewPlaceholder }}</b>
-        <op-principal [principal]="principal"></op-principal>
+        <b>{{ text.createNewPlaceholder }}</b> {{ principal.name }}
         <button
           class="op-link"
           (click)="principalControl?.setValue(null)"
