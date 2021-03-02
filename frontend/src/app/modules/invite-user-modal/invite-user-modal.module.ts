@@ -1,6 +1,7 @@
 import {NgModule} from "@angular/core";
 import {ReactiveFormsModule} from "@angular/forms";
 import {OpenprojectModalModule} from "core-app/modules/modal/modal.module";
+import {OpenprojectPrincipalRenderingModule} from "core-app/modules/principal/principal-rendering.module";
 import {InviteUserModalComponent} from "./invite-user.component";
 import {ProjectSelectionComponent} from "./project-selection/project-selection.component";
 import {ProjectSearchComponent} from "./project-selection/project-search.component";
@@ -19,6 +20,7 @@ import {InviteUserButtonComponent} from "core-app/modules/invite-user-modal/butt
   imports: [
     OpenprojectCommonModule,
     OpenprojectModalModule,
+    OpenprojectPrincipalRenderingModule,
     NgSelectModule,
     ReactiveFormsModule,
   ],

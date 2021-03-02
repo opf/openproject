@@ -19,11 +19,11 @@
       ></op-ium-principal-search>
 
       <div
-        class="pill"
         *ngIf="isNewPrincipal && type === 'user'"
         slot="input"
       >
-        {{ text.inviteUser() }}
+        <b>{{ text.inviteUser }}</b>
+        <op-principal [principal]="principal"></op-principal>
         <button
           class="op-link"
           (click)="principalControl?.setValue(null)"
@@ -31,29 +31,17 @@
       </div>
 
       <div
-        class="pill"
         *ngIf="isNewPrincipal && type === 'placeholder'"
         slot="input"
       >
-        {{ text.createNew.placeholder() }}
+        <b>{{ text.createNewPlaceholder }}</b>
+        <op-principal [principal]="principal"></op-principal>
         <button
           class="op-link"
           (click)="principalControl?.setValue(null)"
         >{{ text.changePlaceholderSelection }}</button>
       </div>
 
-      <div
-        class="pill"
-        *ngIf="isNewPrincipal && type === 'group'"
-        slot="input"
-      >
-        {{ text.createNew.group() }}
-        <button
-          class="op-link"
-          (click)="principalControl?.setValue(null)"
-        >{{ text.changeGroupSelection }}</button>
-      </div>
-      
       <div
         slot="errors"
         class="op-form-field--error"

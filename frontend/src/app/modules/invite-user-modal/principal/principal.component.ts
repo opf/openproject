@@ -38,17 +38,11 @@ export class PrincipalComponent implements OnInit {
       placeholder: this.I18n.t('js.invite_user_modal.principal.label.name'),
       group: this.I18n.t('js.invite_user_modal.principal.label.name'),
     },
-    inviteUser: () => this.I18n.t('js.invite_user_modal.principal.invite_user', {
-      email: this.principalControl?.value?.name,
-    }),
     changeUserSelection: this.I18n.t('js.invite_user_modal.principal.change_user_selection'),
     changePlaceholderSelection: this.I18n.t('js.invite_user_modal.principal.change_placeholder_selection'),
     changeGroupSelection: this.I18n.t('js.invite_user_modal.principal.change_group_selection'),
-    createNew: {
-      placeholder: () => this.I18n.t('js.invite_user_modal.principal.create_new_placeholder', {
-        name: this.principalControl?.value?.name
-      })
-    },
+    inviteUser: this.I18n.t('js.invite_user_modal.principal.invite_user'),
+    createNewPlaceholder: this.I18n.t('js.invite_user_modal.principal.create_new_placeholder'),
     required: {
       user: this.I18n.t('js.invite_user_modal.principal.required.user'),
       placeholder: this.I18n.t('js.invite_user_modal.principal.required.placeholder'),

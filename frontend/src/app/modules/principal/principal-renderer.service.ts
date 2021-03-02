@@ -2,7 +2,8 @@ import {Injectable} from "@angular/core";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {ColorsService} from "core-app/modules/common/colors/colors.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {PrincipalHelper} from "core-app/modules/common/principal/principal-helper";
+
+import {PrincipalHelper} from "./principal-helper";
 import PrincipalType = PrincipalHelper.PrincipalType;
 
 export interface PrincipalLike {
