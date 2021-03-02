@@ -24,7 +24,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   @Input() type:PrincipalType;
   @Input() project:any = null;
 
-  @Output() createNew = new EventEmitter<string>();
+  @Output() createNew = new EventEmitter<{ name:string }>();
 
   public input$ = new BehaviorSubject<string>('');
   public input = '';
@@ -91,7 +91,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   }
 
   createNewFromInput() {
-    this.createNew.emit(this.input);
+    this.createNew.emit({ name: this.input });
   }
 
   private loadPrincipalData(searchTerm:string) {

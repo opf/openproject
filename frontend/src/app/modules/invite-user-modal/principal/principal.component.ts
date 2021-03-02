@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {PrincipalType} from '../invite-user.component';
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 @Component({
   selector: 'op-ium-principal',
@@ -46,10 +47,7 @@ export class PrincipalComponent implements OnInit {
     createNew: {
       placeholder: () => this.I18n.t('js.invite_user_modal.principal.create_new_placeholder', {
         name: this.principalControl?.value?.name
-      }),
-      group: () => this.I18n.t('js.invite_user_modal.principal.create_new_group', {
-        name: this.principalControl?.value?.name
-      }),
+      })
     },
     required: {
       user: this.I18n.t('js.invite_user_modal.principal.required.user'),
@@ -69,7 +67,8 @@ export class PrincipalComponent implements OnInit {
   }
 
   get isNewPrincipal() {
-    return typeof this.principalControl?.value === 'string';
+    const principal:{ name:string}|HalResource = this.principalControl?.value;
+    return principal instanceof HalResource;
   }
 
   get isMemberOfCurrentProject() {

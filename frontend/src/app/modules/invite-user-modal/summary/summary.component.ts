@@ -9,6 +9,11 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {PrincipalType} from '../invite-user.component';
 import {RoleResource} from "core-app/modules/hal/resources/role-resource";
+import {PrincipalLike} from "core-app/modules/invite-user-modal/invite-user-modal.types";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {Observable, of} from "rxjs";
+import {switchMap} from "rxjs/operators";
+import {propertyNames} from "@angular/cdk/schematics";
 
 @Component({
   selector: 'op-ium-summary',
@@ -19,7 +24,7 @@ export class SummaryComponent {
   @Input() type:PrincipalType;
   @Input() project:any = null;
   @Input() role:RoleResource;
-  @Input() principal:any = null;
+  @Input() principal:PrincipalLike;
   @Input() message:string = '';
 
   @Output() close = new EventEmitter<void>();
@@ -52,31 +57,37 @@ export class SummaryComponent {
     readonly I18n:I18nService,
     readonly elementRef:ElementRef,
     readonly api:APIV3Service,
-  ) {}
+  ) {
+  }
 
-  async invite() {
-    const principal = await (async () => {
-      if (this.principal.id) {
-        return this.principal;
-      }
+  invite() {
+    return of(this.principal)
+      .pipe(
+        switchMap((principal:PrincipalLike) => this.createPrincipal(principal)),
+        switchMap((principal:HalResource) => this.api.memberships.post({
+          principal,
+          project: this.project,
+          roles: [this.role],
+        }))
+      );
+  }
 
-      switch (this.type) {
-        case PrincipalType.User:
-          return this.api.users.post({
-            email: this.principal.name,
-            firstName: this.principal.email,
-            status: 'invited',
-          });
-        case PrincipalType.Placeholder:
-          return this.api.placeholder_users.post({ name: this.principal.name });
-      }
-    })();
+  private createPrincipal(principal:PrincipalLike):Observable<HalResource> {
+    if (principal instanceof HalResource) {
+      return of(principal);
+    }
 
-    return this.api.memberships.post({
-      principal,
-      project: this.project,
-      roles: [this.role],
-    });
+    switch (this.type) {
+      case PrincipalType.User:
+        return this.api.users.post({
+          email: principal.name,
+          status: 'invited',
+        });
+      case PrincipalType.Placeholder:
+        return this.api.placeholder_users.post({ name: principal.name });
+      default:
+        throw new Error("Unsupported PrincipalType given");
+    }
   }
 
   async onSubmit($e:Event) {
