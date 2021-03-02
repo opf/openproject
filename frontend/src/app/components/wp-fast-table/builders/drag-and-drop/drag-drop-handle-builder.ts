@@ -25,11 +25,13 @@ export class DragDropHandleBuilder {
     // Append sort handle
     let td = document.createElement('td');
 
+    td.classList.add(tdClassName, internalSortColumn.id);
+
     if (!this.actionService.canPickup(workPackage)) {
       return td;
     }
 
-    td.classList.add(tdClassName, 'wp-table--sort-td', internalSortColumn.id,  'hide-when-print');
+    td.classList.add('wp-table--sort-td', internalSortColumn.id,  'hide-when-print');
 
     // Wrap handle as span
     let span = document.createElement('span');
