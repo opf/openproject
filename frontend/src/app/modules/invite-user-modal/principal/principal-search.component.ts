@@ -36,12 +36,8 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
     alreadyAMember: () => this.I18n.t('js.invite_user_modal.principal.already_member_message', {
       project: this.project?.name,
     }),
-    inviteNewUser: () => this.I18n.t('js.invite_user_modal.principal.invite_user', {
-      email: this.input,
-    }),
-    createNewPlaceholder: () => this.I18n.t('js.invite_user_modal.principal.create_new_placeholder', {
-      name: this.input,
-    }),
+    inviteNewUser: this.I18n.t('js.invite_user_modal.principal.invite_user'),
+    createNewPlaceholder: this.I18n.t('js.invite_user_modal.principal.create_new_placeholder'),
     noResults: {
       user: this.I18n.t('js.invite_user_modal.principal.no_results_user'),
       placeholder: this.I18n.t('js.invite_user_modal.principal.no_results_placeholder'),
@@ -95,11 +91,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   }
 
   createNewFromInput() {
-    this.input$
-      .pipe(first())
-      .subscribe((input:string) => {
-        this.createNew.emit(input);
-      });
+    this.createNew.emit(this.input);
   }
 
   private loadPrincipalData(searchTerm:string) {

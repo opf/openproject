@@ -28,8 +28,11 @@
   <div class="op-modal--footer">
     <button
       type="button"
+      class="button"
       (click)="back.emit()"
     >{{ text.backButton }}</button>
-    <button>{{ text.nextButton() }}</button>
+    <button
+      class="button primary"
+    >{{ text.nextButton() }}</button>
   </div>
 </form>
