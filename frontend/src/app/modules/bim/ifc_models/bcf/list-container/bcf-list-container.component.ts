@@ -17,8 +17,8 @@ import {splitViewRoute} from "core-app/modules/work_packages/routing/split-view-
 import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 
 @Component({
-  templateUrl: '/app/modules/bim/ifc_models/bcf/list-container/bcf-list-container.component.html',
-  styleUrls: ['/app/modules/bim/ifc_models/bcf/list-container/bcf-list-container.component.sass'],
+  templateUrl: './bcf-list-container.component.html',
+  styleUrls: ['./bcf-list-container.component.sass'],
   providers: [
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
     DragAndDropService,

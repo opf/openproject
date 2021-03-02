@@ -48,7 +48,7 @@ interface GonTab {
 
 @Component({
   selector: 'content-tabs',
-  templateUrl: '/app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component.html',
+  templateUrl: '../scrollable-tabs/scrollable-tabs.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 

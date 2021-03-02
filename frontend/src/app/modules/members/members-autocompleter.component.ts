@@ -10,7 +10,7 @@ import {UserAutocompleterComponent} from "core-app/modules/autocompleter/user-au
 export const membersAutocompleterSelector = 'members-autocompleter';
 
 @Component({
-  templateUrl: '/app/modules/autocompleter/user-autocompleter/user-autocompleter.component.html',
+  templateUrl: '../autocompleter/user-autocompleter/user-autocompleter.component.html',
   selector: membersAutocompleterSelector
 })
 export class MembersAutocompleterComponent extends UserAutocompleterComponent {

@@ -47,7 +47,7 @@ import {WorkPackageFoldToggleButtonComponent} from "core-components/wp-buttons/w
 
 @Component({
   selector: 'wp-view-page',
-  templateUrl: '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
+  templateUrl: '../../../work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
   styleUrls: [
     // Absolute paths do not work for styleURLs :-(
     '../partitioned-query-space-page/partitioned-query-space-page.component.sass'
