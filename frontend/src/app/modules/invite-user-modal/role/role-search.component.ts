@@ -37,8 +37,8 @@ export class RoleSearchComponent extends UntilDestroyedMixin implements OnInit {
     this.items$ = combineLatest(
       this.input$
         .pipe(
-          this.untilDestroyed(),
           debounceTime(200),
+          this.untilDestroyed(),
           map((input:string) => input.toLowerCase()),
           distinctUntilChanged(),
         ),
