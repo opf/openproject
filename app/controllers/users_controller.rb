@@ -97,7 +97,6 @@ class UsersController < ApplicationController
   def new
     @user = User.new(language: Setting.default_language,
                      mail_notification: Setting.default_notification_option)
-    @auth_sources = AuthSource.all
   end
 
   def create
@@ -115,8 +114,6 @@ class UsersController < ApplicationController
         end
       end
     else
-      @auth_sources = AuthSource.all
-
       respond_to do |format|
         format.html { render action: 'new' }
       end
@@ -124,7 +121,6 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @auth_sources = AuthSource.all
     @membership ||= Member.new
     @individual_principal = @user
   end
@@ -167,7 +163,6 @@ class UsersController < ApplicationController
         end
       end
     else
-      @auth_sources = AuthSource.all
       @membership ||= Member.new
       # Clear password input
       @user = call.result
