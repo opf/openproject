@@ -33,15 +33,20 @@ require_relative './shared_contract_examples'
 
 describe Bim::IfcModels::UpdateContract do
   it_behaves_like 'ifc model contract' do
+    subject(:contract) { described_class.new(ifc_model, current_user) }
+
     let(:ifc_model) do
       FactoryBot.build_stubbed(:ifc_model,
                                uploader: model_user,
                                title: model_title,
                                project: model_project).tap do |model|
-        model.uploader = uploader_user
+        model.extend(OpenProject::ChangedBySystem)
+
+        model.change_by_system do
+          model.uploader = uploader_user
+        end
       end
     end
-    subject(:contract) { described_class.new(ifc_model, current_user, options: { changed_by_system: %w(uploader_id) }) }
     let(:permissions) { %i(manage_ifc_models) }
     let(:uploader_user) { model_user }
 

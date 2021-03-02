@@ -38,7 +38,7 @@ module Bim
 
         super
 
-        change_by_system do
+        model.change_by_system do
           model.uploader = model.ifc_attachment&.author if model.ifc_attachment&.new_record? || model.ifc_attachment&.pending_direct_upload?
         end
       end

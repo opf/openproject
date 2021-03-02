@@ -67,26 +67,18 @@ class ModelContract < BaseContract
   private
 
   def readonly_attributes_unchanged
-    invalid_changes = attributes_changed_by_user - writable_attributes
-
-    invalid_changes.each do |attribute|
+    unauthenticated_changed.each do |attribute|
       outside_attribute = collect_ancestor_attribute_aliases[attribute] || attribute
 
       errors.add outside_attribute, :error_readonly
     end
   end
 
-  def attributes_changed_by_user
-    changed = changed_attributes
-
-    if options[:changed_by_system]
-      changed -= options[:changed_by_system]
-    end
-
-    changed
+  def unauthenticated_changed
+    changed_by_user - writable_attributes
   end
 
-  def changed_attributes
-    model.changed
+  def changed_by_user
+    model.respond_to?(:changed_by_user) ? model.changed_by_user : model.changed
   end
 end

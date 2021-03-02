@@ -38,12 +38,11 @@ describe Bim::IfcModels::SetAttributesService, type: :model do
 
     allow(contract)
       .to receive(:new)
-      .with(model, user, options: { changed_by_system: changed_by_system })
+      .with(model, user, options: {})
       .and_return(contract_instance)
 
     contract
   end
-  let(:changed_by_system) { [] }
   let(:contract_instance) do
     double('contract_instance', validate: contract_valid, errors: contract_errors)
   end
@@ -113,8 +112,6 @@ describe Bim::IfcModels::SetAttributesService, type: :model do
       end
 
       context 'with an ifc_attachment' do
-        let(:changed_by_system) { %w(uploader_id) }
-
         let(:call_attributes) do
           {
             ifc_attachment: ifc_file
@@ -143,8 +140,6 @@ describe Bim::IfcModels::SetAttributesService, type: :model do
 
     context 'for an existing model' do
       context 'with an ifc_attachment' do
-        let(:changed_by_system) { %w(uploader_id) }
-
         let(:call_attributes) do
           {
             ifc_attachment: ifc_file

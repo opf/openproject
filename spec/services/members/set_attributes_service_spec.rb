@@ -37,7 +37,7 @@ describe Members::SetAttributesService, type: :model do
 
     allow(contract)
       .to receive(:new)
-      .with(member, user, options: { changed_by_system: [] })
+      .with(member, user, options: {})
       .and_return(contract_instance)
 
     contract
