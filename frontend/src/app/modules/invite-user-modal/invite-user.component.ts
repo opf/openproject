@@ -12,6 +12,8 @@ import {OpModalComponent} from 'core-app/modules/modal/modal.component';
 import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {RoleResource} from "core-app/modules/hal/resources/role-resource";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 
 enum Steps {
   ProjectSelection,
@@ -48,8 +50,8 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   public data:any = null;
 
   public type:PrincipalType|null = null;
-  public project:any = null;
-  public principal = null;
+  public project:ProjectResource|null = null;
+  public principal:HalResource|null = null;
   public role:RoleResource|null = null;
   public message = '';
 
@@ -100,6 +102,11 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   onMessageSave({ message }:{ message:string }) {
     this.message = message;
     this.goTo(Steps.Summary);
+  }
+
+  onSuccessfulSubmission($event:{ principal:HalResource }) {
+    this.principal = $event.principal;
+    this.goTo(Steps.Success);
   }
 
   goTo(step:Steps) {

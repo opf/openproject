@@ -22,7 +22,7 @@ import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
   styleUrls: ['./principal.component.sass'],
 })
 export class PrincipalComponent implements OnInit {
-  @Input() principal:PrincipalLike|null = null;
+  @Input('principal') storedPrincipal:PrincipalLike|null = null;
   @Input() project:ProjectResource;
   @Input() type:PrincipalType;
 
@@ -62,13 +62,16 @@ export class PrincipalComponent implements OnInit {
     return this.principalForm.get('principal');
   }
 
-  get hasPrincipalSelected() {
+  get principal():PrincipalLike|undefined {
     return this.principalControl?.value;
   }
 
+  get hasPrincipalSelected() {
+    return !!this.principal;
+  }
+
   get isNewPrincipal() {
-    const principal:{ name:string}|HalResource = this.principalControl?.value;
-    return this.hasPrincipalSelected && !(principal instanceof HalResource);
+    return this.hasPrincipalSelected && !(this.principal instanceof HalResource);
   }
 
   get isMemberOfCurrentProject() {
@@ -78,7 +81,7 @@ export class PrincipalComponent implements OnInit {
   constructor(readonly I18n:I18nService) {}
 
   ngOnInit() {
-    this.principalControl?.setValue(this.principal);
+    this.principalControl?.setValue(this.storedPrincipal);
   }
 
   createNewFromInput(input:PrincipalLike) {
@@ -94,7 +97,7 @@ export class PrincipalComponent implements OnInit {
     }
 
     this.save.emit({
-      principal: this.principalControl?.value,
+      principal: this.principal!,
       isAlreadyMember: this.isMemberOfCurrentProject,
     });
   }

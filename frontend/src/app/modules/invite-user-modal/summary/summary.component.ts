@@ -12,7 +12,7 @@ import {RoleResource} from "core-app/modules/hal/resources/role-resource";
 import {PrincipalLike} from "core-app/modules/invite-user-modal/invite-user-modal.types";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {Observable, of} from "rxjs";
-import {switchMap} from "rxjs/operators";
+import {map, switchMap} from "rxjs/operators";
 import {propertyNames} from "@angular/cdk/schematics";
 
 @Component({
@@ -90,9 +90,13 @@ export class SummaryComponent {
     }
   }
 
-  async onSubmit($e:Event) {
+  onSubmit($e:Event) {
     $e.preventDefault();
 
-    this.save.emit({ principal: this.principal });
+    this
+      .invite()
+      .subscribe(principal =>
+        this.save.emit({ principal: principal })
+      );
   }
 }
