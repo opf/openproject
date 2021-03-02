@@ -12,7 +12,7 @@ import {RoleResource} from "core-app/modules/hal/resources/role-resource";
 import {PrincipalLike} from "core-app/modules/invite-user-modal/invite-user-modal.types";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {Observable, of} from "rxjs";
-import {map, switchMap} from "rxjs/operators";
+import {map, mapTo, switchMap} from "rxjs/operators";
 import {propertyNames} from "@angular/cdk/schematics";
 
 @Component({
@@ -64,11 +64,17 @@ export class SummaryComponent {
     return of(this.principal)
       .pipe(
         switchMap((principal:PrincipalLike) => this.createPrincipal(principal)),
-        switchMap((principal:HalResource) => this.api.memberships.post({
-          principal,
-          project: this.project,
-          roles: [this.role],
-        }))
+        switchMap((principal:HalResource) =>
+          this.api.memberships
+            .post({
+              principal,
+              project: this.project,
+              roles: [this.role],
+            })
+            .pipe(
+              mapTo(principal)
+            )
+        )
       );
   }
 
