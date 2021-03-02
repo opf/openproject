@@ -35,7 +35,7 @@ export function wpOnboardingTourSteps():any[] {
           // because its the last that appears and it shifts the WP create button to the left.
           // Thus it is important that the tour rendering starts after the badge is visible
           waitForElement('#work-packages-filter-toggle-button .badge', '#content', function () {
-            resolve();
+            resolve(undefined);
           });
         });
       },

@@ -97,7 +97,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
         .then((elements:RelationResource[]) => {
           this.clearSome(...ids);
           this.accumulateRelationsFromInvolved(ids, elements);
-          resolve();
+          resolve(undefined);
         })
         .catch(reject);
     });

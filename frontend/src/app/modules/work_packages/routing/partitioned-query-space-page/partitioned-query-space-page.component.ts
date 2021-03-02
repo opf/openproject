@@ -231,7 +231,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
     // Update the title if we're in the list state alone
     if (this.shouldUpdateHtmlTitle()) {
-      this.titleService.setFirstPart(this.selectedTitle);
+      this.titleService.setFirstPart(this.selectedTitle!);
     }
   }
 
