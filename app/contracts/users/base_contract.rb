@@ -30,7 +30,8 @@
 
 module Users
   class BaseContract < ::ModelContract
-    attribute :login
+    attribute :login,
+              writeable: ->(*) { user.allowed_to_globally?(:manage_user) && model.id != user.id }
     attribute :firstname
     attribute :lastname
     attribute :name
