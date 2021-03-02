@@ -7,6 +7,8 @@ import {
 } from '@angular/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {PrincipalType} from '../invite-user.component';
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 
 @Component({
   selector: 'op-ium-success',
@@ -14,8 +16,8 @@ import {PrincipalType} from '../invite-user.component';
   styleUrls: ['./success.component.sass'],
 })
 export class SuccessComponent {
-  @Input() principal:any = null;
-  @Input() project:any = null;
+  @Input() principal:HalResource;
+  @Input() project:ProjectResource;
   @Input() type:PrincipalType;
 
   @Output() close = new EventEmitter<void>();

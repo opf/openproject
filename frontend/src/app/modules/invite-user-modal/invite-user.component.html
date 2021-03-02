@@ -55,7 +55,10 @@
 ></op-ium-summary>
 
 <op-ium-success
+  [principal]="principal"
+  [project]="project"
+  [type]="type"
   *ngIf="step === Steps.Success"
   class="op-modal op-modal"
-  (close)="closeMe()"
+  (close)="closeWithPrincipal()"
 ></op-ium-success>
