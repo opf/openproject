@@ -97,11 +97,11 @@ $ nodenv init
 
 You can find the latest LTS version here: https://nodejs.org/en/download/
 
-At the time of writing this is v12.16.1. Install and activate it with:
+At the time of writing this is v14.16.0. Install and activate it with:
 
 ```bash
-nodenv install 12.16.1
-nodenv global 12.16.1
+nodenv install 14.16.0
+nodenv global 14.16.0
 ```
 
 ## Verify your installation
@@ -115,8 +115,8 @@ ruby 2.7.2p137 (2020-03-31 revision a0c7c23c9c) [x86_64-darwin16]
 $ bundler --version
 Bundler version 2.0.2
 
-$ npm --version
-12.16.1
+$ node --version
+14.16.0
 ```
 
 # Install OpenProject
