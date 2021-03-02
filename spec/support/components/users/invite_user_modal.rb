@@ -46,9 +46,7 @@ module Components
       end
 
       def next
-        within_modal do
-          click_button 'Next'
-        end
+        click_modal_button 'Next'
       end
 
       def invitation_message(text)

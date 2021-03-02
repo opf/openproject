@@ -10,7 +10,7 @@
       required
     >
       <op-ium-principal-search
-        *ngIf="!hasPrincipalSelected"
+        *ngIf="!(hasPrincipalSelected && isNewPrincipal)"
         [opFormBinding]="principalControl"
         [type]="type"
         [project]="project"

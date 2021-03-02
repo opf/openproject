@@ -8,15 +8,20 @@
   [clearOnBackspace]="false"
   [clearSearchOnAdd]="false"
   bindLabel="name"
+  bindValue="value"
   autofocus
   #ngselect
 >
+  <ng-template ng-label-tmp let-item="item">
+    {{item.value.name }}
+  </ng-template>
+
   <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
     <!--Selectable option-->
     <div
       [ngOptionHighlight]="search"
       class="ng-option-label"
-    >{{ item.name }}</div>
+    >{{ item.value.name }}</div>
     <!-- Already a member of the project -->
     <div
       *ngIf="item.disabled"

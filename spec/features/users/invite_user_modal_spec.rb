@@ -51,10 +51,59 @@ feature 'Invite user modal', type: :feature, js: true do
                       permissions: permissions
   end
 
-  describe 'through the assignee field' do
+  describe 'inviting a non-project existing user' do
+    describe 'through the assignee field' do
+      let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
+      let(:assignee_field) { wp_page.edit_field :assignee }
+      let(:modal) { ::Components::Users::InviteUserModal.new }
+
+      before do
+        wp_page.visit!
+      end
+
+      it 'can add an existing user to the project' do
+        assignee_field.activate!
+
+        find('.ng-dropdown-footer button', text: 'Invite', wait: 10).click
+
+        modal.expect_open
+
+        # STEP 1: Project and type
+        modal.expect_title 'Invite user'
+        modal.autocomplete project.name
+        modal.select_type 'User'
+
+        modal.next
+
+        # STEP 2: User name
+        modal.autocomplete non_project_user.name
+        modal.next
+
+        # STEP 3: Role name
+        modal.autocomplete role.name
+        modal.next
+
+        # STEP 4: Invite message
+        modal.invitation_message 'Welcome user!'
+        modal.click_modal_button 'Review Invitation'
+
+        modal.within_modal do
+          expect(page).to have_text project.name
+          expect(page).to have_text non_project_user.name
+          expect(page).to have_text role.name
+          expect(page).to have_text 'Welcome user!'
+        end
+
+        # Step 5: Perform invite
+        modal.click_modal_button 'Send Invitation'
+      end
+    end
+  end
+
+  context 'when the user has no permission to manage members' do
+    let(:permissions) { %i[view_work_packages edit_work_packages] }
     let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
     let(:assignee_field) { wp_page.edit_field :assignee }
-    let(:modal) { ::Components::Users::InviteUserModal.new }
 
     before do
       wp_page.visit!
@@ -63,39 +112,7 @@ feature 'Invite user modal', type: :feature, js: true do
     it 'can add an existing user to the project' do
       assignee_field.activate!
 
-      find('.ng-dropdown-footer button', text: 'Invite', wait: 10).click
-
-      modal.expect_open
-
-      # STEP 1: Project and type
-      modal.expect_title 'Invite user'
-      modal.autocomplete project.name
-      modal.select_type 'User'
-
-      modal.next
-
-      # STEP 2: User name
-      modal.autocomplete non_project_user.name
-      modal.next
-
-      # STEP 3: Role name
-      modal.autocomplete role.name
-      modal.next
-
-      # STEP 4: Invite message
-      modal.invitation_message 'Welcome user!'
-      modal.click_modal_button 'Review Invitation'
-
-      modal.within_modal do
-        expect(page).to have_text project.name
-        expect(page).to have_text non_project_user.name
-        expect(page).to have_text role.name
-        expect(page).to have_text 'Welcome user!'
-      end
-    end
-
-    context 'when the user has no permission to manage members' do
-      let(:permissions) { %i[view_work_packages edit_work_packages] }
+      expect(page).to have_no_selector('.ng-dropdown-footer', text: 'Invite')
     end
   end
 end

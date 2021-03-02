@@ -127,11 +127,11 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
       .pipe(
         map(({ members, nonMembers }) => [
           ...members.elements.map((member:any) => ({
-            ...member,
+            value: member,
             disabled: false,
           })),
           ...nonMembers.elements.map((nonMember:any) => ({
-            ...nonMember,
+            value: nonMember,
             disabled: true,
           })),
         ]),
