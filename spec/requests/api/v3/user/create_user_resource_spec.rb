@@ -56,7 +56,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   end
 
   describe 'admin user' do
-    let(:current_user) { FactoryBot.build(:admin) }
+    let(:current_user) { FactoryBot.create(:admin) }
 
     it_behaves_like 'create user request flow'
 

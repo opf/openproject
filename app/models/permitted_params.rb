@@ -207,8 +207,9 @@ class PermittedParams
     if current_user.admin?
       additional_params << :force_password_change if change_password_allowed
       additional_params << :admin
-      additional_params << :login
     end
+    
+    additional_params << :login if Users::BaseContract.new(User.new, current_user).writable?(:login)
 
     user additional_params
   end
