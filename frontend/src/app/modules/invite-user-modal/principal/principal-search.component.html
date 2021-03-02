@@ -1,6 +1,6 @@
 <ng-select
   [formControl]="principalControl"
-  [addTag]="createNewFromInput"
+  [addTag]="createNewFromInput.bind(this)"
   [typeahead]="input$"
   [items]="items$ | async"
   [virtualScroll]="true"

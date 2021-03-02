@@ -14,6 +14,7 @@ import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-build
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {PrincipalType} from '../invite-user.component';
+import {PrincipalLike} from "core-app/modules/invite-user-modal/invite-user-modal.types";
 
 @Component({
   selector: 'op-ium-principal-search',
@@ -24,7 +25,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   @Input() type:PrincipalType;
   @Input() project:any = null;
 
-  @Output() createNew = new EventEmitter<{ name:string }>();
+  @Output() createNew = new EventEmitter<PrincipalLike>();
 
   public input$ = new BehaviorSubject<string>('');
   public input = '';

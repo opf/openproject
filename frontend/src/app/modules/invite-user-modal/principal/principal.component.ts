@@ -3,7 +3,7 @@ import {
   OnInit,
   Input,
   Output,
-  EventEmitter,
+  EventEmitter, ChangeDetectorRef,
 } from '@angular/core';
 import {
   FormGroup,
@@ -13,6 +13,8 @@ import {
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {PrincipalType} from '../invite-user.component';
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {PrincipalLike} from "core-app/modules/invite-user-modal/invite-user-modal.types";
+import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 
 @Component({
   selector: 'op-ium-principal',
@@ -20,12 +22,12 @@ import {HalResource} from "core-app/modules/hal/resources/hal-resource";
   styleUrls: ['./principal.component.sass'],
 })
 export class PrincipalComponent implements OnInit {
-  @Input() principal:any = null;
-  @Input() project:any = null;
+  @Input() principal:PrincipalLike|null = null;
+  @Input() project:ProjectResource;
   @Input() type:PrincipalType;
 
   @Output() close = new EventEmitter<void>();
-  @Output() save = new EventEmitter<{ principal:any, isAlreadyMember:boolean }>();
+  @Output() save = new EventEmitter<{ principal:PrincipalLike, isAlreadyMember:boolean }>();
   @Output() back = new EventEmitter();
 
   public text = {
@@ -60,9 +62,13 @@ export class PrincipalComponent implements OnInit {
     return this.principalForm.get('principal');
   }
 
+  get hasPrincipalSelected() {
+    return this.principalControl?.value;
+  }
+
   get isNewPrincipal() {
     const principal:{ name:string}|HalResource = this.principalControl?.value;
-    return principal instanceof HalResource;
+    return this.hasPrincipalSelected && !(principal instanceof HalResource);
   }
 
   get isMemberOfCurrentProject() {
@@ -75,7 +81,7 @@ export class PrincipalComponent implements OnInit {
     this.principalControl?.setValue(this.principal);
   }
 
-  createNewFromInput(input:string) {
+  createNewFromInput(input:PrincipalLike) {
     this.principalControl?.setValue(input);
   }
 
