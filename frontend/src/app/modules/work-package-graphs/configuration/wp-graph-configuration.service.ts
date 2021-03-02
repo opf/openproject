@@ -28,11 +28,9 @@ export class WpGraphConfigurationService {
   }
 
   public persistAndReload() {
-    return new Promise((resolve, reject) => {
-      this.persistChanges().then(() => {
-        this.reloadQueries().then(() => resolve());
-      });
-    });
+      return this
+        .persistChanges()
+        .then(() => this.reloadQueries());
   }
 
   public persistChanges() {

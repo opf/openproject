@@ -134,7 +134,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
      * Upload the given attachments, update the resource and notify the user.
      * Return an updated AttachmentCollectionResource.
      */
-    public uploadAttachments(files:UploadFile[]):Promise<{ response:HalResource, uploadUrl:string }[]> {
+    public uploadAttachments(files:UploadFile[]):Promise<string|{ response:HalResource, uploadUrl:string }[]> {
       const {uploads, finished} = this.performUpload(files);
 
       const message = I18n.t('js.label_upload_notification');

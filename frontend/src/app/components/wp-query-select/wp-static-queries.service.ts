@@ -120,7 +120,7 @@ export class WorkPackageStaticQueriesService {
       delete queryProps.pa;
       let queryPropsString = JSON.stringify(queryProps);
 
-      const matched = _.find(this.all, item =>
+      const matched = this.all.find( item =>
         item.query_props && item.query_props === queryPropsString
       );
 

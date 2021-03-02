@@ -37,7 +37,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   @InjectField() keepTab:KeepTabService;
 
   // Cache the form promise
-  private formPromise:Promise<QueryFormResource>|undefined;
+  private formPromise:Promise<QueryFormResource|undefined>|undefined;
 
   // If the query was provided to use via the query space,
   // use it to cache first loading
@@ -113,7 +113,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       });
   }
 
-  private loadForm(query:QueryResource):Promise<QueryFormResource> {
+  private loadForm(query:QueryResource):Promise<QueryFormResource|void> {
     if (this.formPromise) {
       return this.formPromise;
     }
@@ -133,7 +133,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
         .catch(() => this.formPromise = undefined);
   }
 
-  public loadQuery(visible:boolean = true, firstPage:boolean = false):Promise<QueryResource> {
+  public loadQuery(visible:boolean = true, firstPage:boolean = false):Promise<QueryResource|void> {
     // Ensure we are loading the form.
     this.formPromise = undefined;
 

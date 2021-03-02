@@ -25,9 +25,9 @@ import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
 import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 
 @Component({
-  templateUrl: '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
+  templateUrl: '../../../../work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
   styleUrls: [
-    '/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
+    '../../../../work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
     './styles/generic.sass'
   ],
   encapsulation: ViewEncapsulation.None,

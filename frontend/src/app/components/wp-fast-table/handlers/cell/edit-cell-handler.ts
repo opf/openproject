@@ -10,6 +10,7 @@ import {ClickOrEnterHandler} from '../click-or-enter-handler';
 import {TableEventComponent, TableEventHandler} from '../table-handler-registry';
 import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 
 export class EditCellHandler extends ClickOrEnterHandler implements TableEventHandler {
 
@@ -65,7 +66,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
 
     // Activate the field
     form.activate(fieldName)
-      .then((handler) => {
+      .then((handler:EditFieldHandler) => {
         handler.$onUserActivate.next();
         handler.focus(positionOffset);
       })

@@ -35,7 +35,7 @@ export const globalSearchTabsSelector = 'global-search-tabs';
 
 @Component({
   selector: globalSearchTabsSelector,
-  templateUrl: '/app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component.html'
+  templateUrl: '../../common/tabs/scrollable-tabs/scrollable-tabs.component.html'
 })
 
 export class GlobalSearchTabsComponent extends ScrollableTabsComponent implements OnDestroy {

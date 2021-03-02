@@ -115,7 +115,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    * @param fieldName
    * @param noWarnings Ignore warnings if the field cannot be opened
    */
-  public activate(fieldName:string, noWarnings:boolean = false):Promise<EditFieldHandler> {
+  public activate(fieldName:string, noWarnings:boolean = false):Promise<void|EditFieldHandler> {
     return this.loadFieldSchema(fieldName, noWarnings)
       .then((schema:IFieldSchema) => {
         if (!schema.writable && !noWarnings) {
@@ -308,7 +308,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
       });
   }
 
-  private renderField(fieldName:string, schema:IFieldSchema):Promise<EditFieldHandler> {
+  private renderField(fieldName:string, schema:IFieldSchema):Promise<void|EditFieldHandler> {
     const promise:Promise<EditFieldHandler> = this.activateField(this,
       schema,
       fieldName,

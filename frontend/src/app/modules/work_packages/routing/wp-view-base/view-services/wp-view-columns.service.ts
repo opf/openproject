@@ -130,7 +130,7 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
   public next(column:QueryColumn):QueryColumn|null {
     let index = this.index(column.id);
 
-    if (index === -1 || this.isLast(name)) {
+    if (index === -1 || this.isLast(column)) {
       return null;
     }
 

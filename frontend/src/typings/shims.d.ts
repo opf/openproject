@@ -11,7 +11,6 @@
 /// <reference path="../../node_modules/@types/moment-timezone/index.d.ts" />
 /// <reference path="../../node_modules/@types/urijs/index.d.ts" />
 /// <reference path="../../node_modules/@types/webpack-env/index.d.ts" />
-/// <reference path="../../node_modules/@types/es6-shim/index.d.ts" />
 /// <reference path="../../node_modules/@types/dragula/index.d.ts" />
 /// <reference path="../../node_modules/@types/resize-observer-browser/index.d.ts" />
 

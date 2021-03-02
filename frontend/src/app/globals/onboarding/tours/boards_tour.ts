@@ -21,7 +21,7 @@ export function boardTourSteps() {
       'timeout': function () {
         return new Promise(function (resolve) {
           waitForElement('.wp-card', '#content', function () {
-            resolve();
+            resolve(undefined);
           });
         });
       }
