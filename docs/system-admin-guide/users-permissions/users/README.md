@@ -114,20 +114,20 @@ You can manage individual user details if you click on the user name in the list
 
 On the General tab the following fields are shown:
 
-* **Status** - this is set by the system.
-* **Username** - this defaults to the email address for a new user (unless the user used the self registration). It can be changed on this page. Users cannot change their own user name.
-* **First name**, **Last name**, **Email** - these fields are filled from the New user page. Users can change them on their Profile page; they are mandatory.
-* **Language** - this defaults from the [user settings](../settings/#default-preferences). Users can change this on their Profile page.
-* **Administrator** - Activate or deactivate this global role. Users cannot change this.
-* **Custom Fields** - if these have been created they are shown here.
-* **User consent** - if this has been [configured](../settings/#user-consent) (i.e. if the box next to "Consent required" is ticked) the consent status is shown here.
-* **Authentication** - the content of this section depends on the type of [authentication method](#authentication) being used.
-* **Email notifications** - this defaults from the [Email notification settings](../../email/#email-notifications-settings). Users can change this on their Profile page.
-* **Preferences** - users can change these on their Profile page. Time zone defaults from chosen language. "Auto-hide success notifications" means that they will automatically be removed after some seconds, not that there are no success notifications at all.
+1. User's master date
+   - **Status** - this is set by the system.
+   - **Username** - this defaults to the email address for a new user (unless the user used the self registration). It can be changed on this page. Users cannot change their own user name.
+   - **First name**, **Last name**, **Email** - these fields are filled from the New user page. Users can change them on their Profile page; they are mandatory.
+   - **Language** - this defaults from the [user settings](../settings/#default-preferences). Users can change this on their Profile page.
+   - **Administrator** - activate or deactivate this global role. Users cannot change this.
+   - **Custom Fields** - if these have been created they are shown here. Use it for e.g. department or phone number.
+2. **User consent** - if this has been [configured](../settings/#user-consent) (i.e. if the box next to "Consent required" is ticked) the consent status is shown here.
+3. **Authentication** - the content of this section depends on the type of [authentication method](#authentication) being used (e.g. password, OpenID, Kerberos, etc.)
+4. **Email notifications** - this defaults from the [Email notification settings](../../email/#email-notifications-settings). Users can change this on their Profile page.
+5. **Preferences** - users can change these on their Profile page. Time zone defaults from chosen language. "Auto-hide success notifications" means that they will automatically be removed after some seconds, not that there are no success notifications at all.
+6. Do not forget to **Save** your changes.
 
-Do not forget to **Save** your changes.
-
-![Sys-admin-user-settings](Sys-admin-user-settings.png)
+![administration-user-settings-manage-user](image-20210302092958881.png)
 
 ### Add users to a project
 
