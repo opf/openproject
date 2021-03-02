@@ -8,7 +8,12 @@
     "@angular/language-service": "11.2.3",
     "@jsdevtools/coverage-istanbul-loader": "3.0.5",
     "@types/jasmine": "~3.6.0",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
     "codelyzer": "^6.0.0",
+    "eslint": "^7.21.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~5.0.0",
@@ -17,8 +22,7 @@
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "~3.3.0",
     "karma-jasmine-html-reporter": "^1.5.0",
-    "ts-node": "~8.3.0",
-    "tslint": "~6.1.0"
+    "ts-node": "~8.3.0"
   },
   "dependencies": {
     "@angular-devkit/build-angular": "~0.1102.2",
@@ -111,7 +115,7 @@
     "serve-test": "node --max_old_space_size=8096 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --disable-host-check --public-host http://frontend-test:4200",
     "pretest": "./scripts/link_plugin_placeholder.js",
     "test": "ng test --watch=false",
-    "tslint_typechecks": "./node_modules/.bin/tslint -p . -c tslint_typechecks.json",
+    "lint": "eslint -c .eslintrc.js --ext .ts src/app/",
     "generate-typings": "tsc -d -p src/tsconfig.app.json"
   }
 }
