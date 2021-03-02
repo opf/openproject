@@ -30,9 +30,9 @@ import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resourc
 import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 import {HalPayloadHelper} from "core-app/modules/hal/schemas/hal-payload.helper";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
+import {MembershipResource, MembershipResourceEmbedded} from "core-app/modules/hal/resources/membership-resource";
 
-export class Apiv3GridForm extends APIv3FormResource {
+export class Apiv3MembershipsForm extends APIv3FormResource {
 
   /**
    * We need to override the grid widget extraction
@@ -41,31 +41,14 @@ export class Apiv3GridForm extends APIv3FormResource {
    * @param resource
    * @param schema
    */
-  public static extractPayload(resource:HalResource|Object, schema:SchemaResource|null = null):Object {
-    if (resource instanceof HalResource && schema) {
-      let grid = resource as HalResource;
-      let payload = HalPayloadHelper.extractPayloadFromSchema(grid, schema);
-
-      // The widget only states the type of the widget resource but does not explain
-      // the widget itself. We therefore have to do that by hand.
-      if (payload.widgets) {
-        payload.widgets = grid.widgets.map((widget:GridWidgetResource) => {
-          return {
-            id: widget.id,
-            startRow: widget.startRow,
-            endRow: widget.endRow,
-            startColumn: widget.startColumn,
-            endColumn: widget.endColumn,
-            identifier: widget.identifier,
-            options: widget.options
-          };
-        });
+  public static extractPayload(resource:MembershipResourceEmbedded):Object {
+    return {
+      _links: {
+        project: { href: resource.project.href },
+        principal: { href: resource.principal.href },
+        roles: resource.roles.map(role => ({ href: role.href })),
       }
-
-      return payload;
     }
-
-    return resource || {};
   }
 
   /**
@@ -74,8 +57,8 @@ export class Apiv3GridForm extends APIv3FormResource {
    * @param request
    * @param schema
    */
-  public extractPayload(request:HalResource|Object, schema:SchemaResource|null = null) {
-    return Apiv3GridForm.extractPayload(request, schema);
+  public extractPayload(request:MembershipResourceEmbedded) {
+    return Apiv3MembershipsForm.extractPayload(request);
   }
 
 }

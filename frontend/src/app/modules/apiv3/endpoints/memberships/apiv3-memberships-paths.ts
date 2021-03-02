@@ -36,17 +36,24 @@ import {
 import {Observable} from "rxjs";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {MembershipResource} from "core-app/modules/hal/resources/membership-resource";
+import {MembershipResource, MembershipResourceEmbedded} from "core-app/modules/hal/resources/membership-resource";
 import {ProjectResource} from 'core-app/modules/hal/resources/project-resource';
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {GroupResource} from "core-app/modules/hal/resources/group-resource";
 import {PlaceholderUserResource} from "core-app/modules/hal/resources/placeholder-user-resource";
 import {RoleResource} from 'core-app/modules/hal/resources/role-resource';
+import {Apiv3MembershipsForm} from "core-app/modules/apiv3/endpoints/memberships/apiv3-memberships-form";
+import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
+import {map, switchMap} from "rxjs/operators";
 
 
 export class Apiv3MembershipsPaths
   extends APIv3ResourceCollection<MembershipResource, APIv3GettableResource<MembershipResource>>
   implements Apiv3ListResourceInterface<MembershipResource> {
+
+  // Static paths
+  readonly form = this.subResource('form', Apiv3MembershipsForm);
+
   constructor(protected apiRoot:APIV3Service,
               protected basePath:string) {
     super(apiRoot, basePath, 'memberships');
@@ -71,16 +78,14 @@ export class Apiv3MembershipsPaths
    *
    * @param resource
    */
-  public post(resource:{
-    principal:UserResource|GroupResource|PlaceholderUserResource,
-    project:ProjectResource,
-    roles:RoleResource[],
-  }):Observable<MembershipResource> {
+  public post(resource:MembershipResourceEmbedded):Observable<MembershipResource> {
+    const payload = this.form.extractPayload(resource);
     return this
       .halResourceService
       .post<MembershipResource>(
         this.path,
-        resource,
+        payload,
       );
   }
+
 }

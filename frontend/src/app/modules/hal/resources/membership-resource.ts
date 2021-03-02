@@ -38,7 +38,7 @@ export interface MembershipResourceLinks {
 }
 
 export interface MembershipResourceEmbedded {
-  principal:UserResource;
+  principal:HalResource;
   roles:RoleResource[];
   project:ProjectResource;
 }
