@@ -5,15 +5,14 @@ import {
   Output,
   ElementRef,
 } from '@angular/core';
+import {Observable, of} from "rxjs";
+import {mapTo, switchMap} from "rxjs/operators";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {RoleResource} from "core-app/modules/hal/resources/role-resource";
 import {PrincipalLike} from "core-app/modules/invite-user-modal/invite-user-modal.types";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ProjectResource} from 'core-app/modules/hal/resources/project-resource';
-import {Observable, of} from "rxjs";
-import {map, mapTo, switchMap} from "rxjs/operators";
-import {propertyNames} from "@angular/cdk/schematics";
 import {PrincipalType} from '../invite-user.component';
 
 @Component({
@@ -31,6 +30,8 @@ export class SummaryComponent {
   @Output() close = new EventEmitter<void>();
   @Output() back = new EventEmitter<void>();
   @Output() save = new EventEmitter();
+
+  public PrincipalType = PrincipalType;
 
   public text = {
     title: () => this.I18n.t('js.invite_user_modal.title.invite_principal_to_project', {
@@ -102,8 +103,8 @@ export class SummaryComponent {
 
     this
       .invite()
-      .subscribe(principal =>
-        this.save.emit({ principal: principal })
+      .subscribe((principal) =>
+        this.save.emit({ principal })
       );
   }
 }

@@ -19,7 +19,7 @@
       ></op-ium-principal-search>
 
       <div
-        *ngIf="isNewPrincipal && type === 'user'"
+        *ngIf="isNewPrincipal && type === PrincipalType.User"
         slot="input"
       >
         <b>{{ text.inviteUser }}</b> {{ principal.name }}
@@ -30,7 +30,7 @@
       </div>
 
       <div
-        *ngIf="isNewPrincipal && type === 'placeholder'"
+        *ngIf="isNewPrincipal && type === PrincipalType.Placeholder"
         slot="input"
       >
         <b>{{ text.createNewPlaceholder }}</b> {{ principal.name }}

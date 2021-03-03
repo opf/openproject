@@ -19,7 +19,7 @@
     </div>
     <op-form-field
       [label]="text.messageLabel"
-      *ngIf="type !== 'placeholder'"
+      *ngIf="type !== PrincipalType.Placeholder"
     >
       <p slot="input">{{ message }}</p>
     </op-form-field>
