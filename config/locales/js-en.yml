@@ -1062,7 +1062,7 @@ en:
           title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
           description: 'Has no access to the project and no emails are sent out.'
           description_no_ee: 'Has no access to the project and no emails are sent out.
-            <br>Check out the <a href="%{eeHref}">Enterprise Edition</a>'
+            <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
 
       principal:
         label:
