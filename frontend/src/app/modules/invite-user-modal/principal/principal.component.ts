@@ -92,7 +92,7 @@ export class PrincipalComponent implements OnInit {
     $e.preventDefault();
 
     if (this.principalForm.invalid) {
-      this.principalForm.markAllAsTouched();
+      this.principalForm.markAsDirty();
       return;
     }
 

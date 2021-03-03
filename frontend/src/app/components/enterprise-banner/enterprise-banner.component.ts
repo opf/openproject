@@ -1,5 +1,6 @@
 import {Component, Input} from "@angular/core";
-import {enterpriseEditionUrl} from "core-app/globals/constants.const";
+import {BannersService} from 'core-app/modules/common/enterprise/banners.service';
+import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
@@ -28,14 +29,12 @@ export class EnterpriseBannerComponent {
     enterpriseFeature: this.I18n.t('js.upsale.ee_only'),
   };
 
-  constructor(protected I18n:I18nService) {
-  }
+  constructor(
+    protected I18n:I18nService,
+    protected bannersService:BannersService,
+  ) {}
 
   public eeLink() {
-    if (this.opReferrer) {
-      return enterpriseEditionUrl + '&op_referrer=' + this.opReferrer;
-    } else {
-      return enterpriseEditionUrl;
-    }
+    this.bannersService.getEnterPriseEditionUrl({ referrer: this.opReferrer });
   }
 }

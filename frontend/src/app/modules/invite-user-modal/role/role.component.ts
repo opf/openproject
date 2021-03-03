@@ -60,7 +60,7 @@ export class RoleComponent implements OnInit {
   onSubmit($e:Event) {
     $e.preventDefault();
     if (this.roleForm.invalid) {
-      this.roleForm.markAllAsTouched();
+      this.roleForm.markAsDirty();
       return;
     }
 

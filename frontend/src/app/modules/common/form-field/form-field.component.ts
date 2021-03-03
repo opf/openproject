@@ -5,7 +5,8 @@ import {
   ContentChild,
 } from "@angular/core";
 import {
-  NgControl
+  NgControl,
+  AbstractControl,
 } from "@angular/forms";
 
 @Component({
@@ -23,7 +24,24 @@ export class OpFormFieldComponent {
 
   @ContentChild(NgControl) control:NgControl;
 
+  get isDirty() {
+    let control:AbstractControl|null = this.control?.control;
+    do {
+      if (!control) {
+        return false;
+      }
+
+      if (control.dirty) {
+        return true;
+      }
+
+      control = control.parent;
+    } while (control);
+
+    return false;
+  }
+
   get isInvalid() {
-    return this.control?.touched && this.control?.invalid;
+    return this.isDirty && this.control?.invalid;
   }
 }

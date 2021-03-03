@@ -59,7 +59,7 @@ export class MessageComponent implements OnInit {
   onSubmit($e:Event) {
     $e.preventDefault();
     if (this.messageForm.invalid) {
-      this.messageForm.markAllAsTouched();
+      this.messageForm.markAsDirty();
       return;
     }
 

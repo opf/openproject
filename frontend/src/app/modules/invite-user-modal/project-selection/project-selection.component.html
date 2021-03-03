@@ -30,7 +30,7 @@
       ></op-option-list>
 
       <div
-        *ngIf="typeControl?.touched && typeControl?.invalid"
+        *ngIf="projectAndTypeForm?.dirty && typeControl?.invalid"
         class="op-form-field--errors"
       >
         <div class="op-form-field--error">

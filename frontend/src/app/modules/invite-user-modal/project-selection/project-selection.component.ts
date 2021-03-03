@@ -13,7 +13,6 @@ import {
 } from '@angular/forms';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
-import {enterpriseEditionUrl} from "core-app/globals/constants.const";
 import {IOpOptionListOption} from "core-app/modules/common/option-list/option-list.component";
 import {PrincipalType} from '../invite-user.component';
 
@@ -77,7 +76,12 @@ export class ProjectSelectionComponent implements OnInit {
         ? this.I18n.t('js.invite_user_modal.type.placeholder.title_no_ee')
         : this.I18n.t('js.invite_user_modal.type.placeholder.title'),
       description: this.bannersService.eeShowBanners
-        ? this.I18n.t('js.invite_user_modal.type.placeholder.description_no_ee', { eeHref: enterpriseEditionUrl, })
+        ? this.I18n.t('js.invite_user_modal.type.placeholder.description_no_ee', {
+            eeHref: this.bannersService.getEnterPriseEditionUrl({
+              referrer: 'placeholder-users',
+              hash: 'placeholder-users',
+            }),
+          })
         : this.I18n.t('js.invite_user_modal.type.placeholder.description'),
       disabled: this.bannersService.eeShowBanners,
     });
@@ -86,7 +90,7 @@ export class ProjectSelectionComponent implements OnInit {
   onSubmit($e:Event) {
     $e.preventDefault();
     if (this.projectAndTypeForm.invalid) {
-      this.projectAndTypeForm.markAllAsTouched();
+      this.projectAndTypeForm.markAsDirty();
       return;
     }
 

@@ -7,6 +7,7 @@ import {
   NgControl,
   FormControl,
   FormGroup,
+  FormArray,
 } from '@angular/forms';
 
 export const formControlBinding:any = {
@@ -14,11 +15,15 @@ export const formControlBinding:any = {
   useExisting: forwardRef(() => OpFormBindingDirective)
 };
 
-@Directive({selector: '[opFormBinding]', providers: [formControlBinding], exportAs: 'ngForm'})
+@Directive({
+  selector: '[opFormBinding]',
+  providers: [formControlBinding],
+  exportAs: 'ngForm',
+})
 export class OpFormBindingDirective extends NgControl {
-  @Input('opFormBinding') form!:FormControl|FormGroup;
+  @Input('opFormBinding') form!:FormControl|FormGroup|FormArray;
 
-  get control():FormControl|FormGroup {
+  get control():FormControl|FormGroup|FormArray {
     return this.form;
   }
 
