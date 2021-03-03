@@ -1,6 +1,6 @@
 <ng-select
   [formControl]="principalControl"
-  [addTag]="createNewFromInput.bind(this)"
+  [addTag]="showAddTag ? createNewFromInput.bind(this) : false"
   [typeahead]="input$"
   [items]="items$ | async"
   [virtualScroll]="true"
@@ -17,9 +17,12 @@
   </ng-template>
 
   <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-    <div class="ng-option-label">
+    <div
+      *ngIf="item"
+      class="ng-option-label"
+    >
       <!--Selectable option-->
-      <div [ngOptionHighlight]="search">{{ item.value.name }} {{ item.value.id }}</div>
+      <div [ngOptionHighlight]="search">{{ item.value.name }}</div>
 
       <!-- Already a member of the project -->
       <div
@@ -30,7 +33,7 @@
   </ng-template>
 
   <!--Nothing found -->
-  <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
+  <ng-template ng-notfound-tmp>
     <div class="ng-option disabled">
       {{ text.noResults[type] }}
     </div>

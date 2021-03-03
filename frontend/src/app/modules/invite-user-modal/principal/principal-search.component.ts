@@ -8,13 +8,13 @@ import {
 } from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {Observable, BehaviorSubject, combineLatest, forkJoin} from "rxjs";
-import {debounceTime, distinctUntilChanged, first, shareReplay, map, switchMap} from "rxjs/operators";
+import {debounceTime, distinctUntilChanged, tap, shareReplay, map, switchMap} from "rxjs/operators";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {PrincipalType} from '../invite-user.component';
 import {PrincipalLike} from "core-app/modules/invite-user-modal/invite-user-modal.types";
+import {PrincipalType} from '../invite-user.component';
 
 @Component({
   selector: 'op-ium-principal-search',
@@ -32,6 +32,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   public items$:Observable<any[]>;
   public canInviteByEmail$:Observable<boolean>;
   public canCreateNewPlaceholder$:Observable<boolean>;
+  public showAddTag = false;
 
   public text = {
     alreadyAMember: () => this.I18n.t('js.invite_user_modal.principal.already_member_message', {
@@ -84,6 +85,13 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
         return !!input && !elements.find((el:any) => el.name === input);
       }),
     );
+
+    combineLatest(
+      this.canInviteByEmail$,
+      this.canCreateNewPlaceholder$,
+    ).pipe(
+      map(([canInviteByEmail, canCreateNewPlaceholder]:boolean[]) => canInviteByEmail || canCreateNewPlaceholder)
+    ).subscribe(showAddTag => { this.showAddTag = showAddTag; });
   }
 
   ngOnInit() {

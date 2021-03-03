@@ -23,7 +23,8 @@ export class SuccessComponent {
 
   @Output() close = new EventEmitter<void>();
 
-  success_image = ImageHelpers.imagePath('invite-user-modal/successful-invite.svg');
+  user_image = ImageHelpers.imagePath('invite-user-modal/successful-invite.svg');
+  placeholder_image = ImageHelpers.imagePath('invite-user-modal/added-placeholder.svg');
 
   public text = {
     title: () => this.I18n.t('js.invite_user_modal.success.title', {
