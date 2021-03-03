@@ -77,8 +77,8 @@ export class ProjectSelectionComponent implements OnInit {
         ? this.I18n.t('js.invite_user_modal.type.placeholder.title_no_ee')
         : this.I18n.t('js.invite_user_modal.type.placeholder.title'),
       description: this.bannersService.eeShowBanners
-        ? () => this.I18n.t('js.invite_user_modal.type.placeholder.description_no_ee', { eeHref: enterpriseEditionUrl, })
-        : () => this.I18n.t('js.invite_user_modal.type.placeholder.description'),
+        ? this.I18n.t('js.invite_user_modal.type.placeholder.description_no_ee', { eeHref: enterpriseEditionUrl, })
+        : this.I18n.t('js.invite_user_modal.type.placeholder.description'),
       disabled: this.bannersService.eeShowBanners,
     });
   }
