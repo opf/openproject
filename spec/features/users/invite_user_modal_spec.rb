@@ -39,63 +39,75 @@ feature 'Invite user modal', type: :feature, js: true do
                       member_through_role: role
   end
 
-  let!(:non_project_user) do
-    FactoryBot.create :user,
-                      firstname: 'Nonproject',
-                      lastname: 'User'
-  end
-
   let!(:role) do
     FactoryBot.create :role,
                       name: 'Member',
                       permissions: permissions
   end
 
+  let(:modal) do
+    ::Components::Users::InviteUserModal.new project: project,
+                                             principal: principal,
+                                             role: role
+  end
+
   describe 'inviting a non-project existing user' do
     describe 'through the assignee field' do
       let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
       let(:assignee_field) { wp_page.edit_field :assignee }
-      let(:modal) { ::Components::Users::InviteUserModal.new }
 
       before do
         wp_page.visit!
-      end
 
-      it 'can add an existing user to the project' do
         assignee_field.activate!
 
         find('.ng-dropdown-footer button', text: 'Invite', wait: 10).click
+      end
 
-        modal.expect_open
-
-        # STEP 1: Project and type
-        modal.expect_title 'Invite user'
-        modal.autocomplete project.name
-        modal.select_type 'User'
-
-        modal.next
-
-        # STEP 2: User name
-        modal.autocomplete non_project_user.name
-        modal.next
-
-        # STEP 3: Role name
-        modal.autocomplete role.name
-        modal.next
-
-        # STEP 4: Invite message
-        modal.invitation_message 'Welcome user!'
-        modal.click_modal_button 'Review Invitation'
-
-        modal.within_modal do
-          expect(page).to have_text project.name
-          expect(page).to have_text non_project_user.name
-          expect(page).to have_text role.name
-          expect(page).to have_text 'Welcome user!'
+      context 'with a non project user' do
+        let!(:principal) do
+          FactoryBot.create :user,
+                            firstname: 'Nonproject',
+                            lastname: 'User'
         end
+        it 'can add an existing user to the project' do
+          modal.run_all_steps
 
-        # Step 5: Perform invite
-        modal.click_modal_button 'Send Invitation'
+          assignee_field.expect_active!
+          # TODO assignee field should contain the user name now
+          #assignee_field.expect_value principal.name
+          assignee_field.expect_value nil
+
+          # But the user got created
+          new_member = project.reload.members.find_by(user_id: principal.id)
+          expect(new_member).to be_present
+          expect(new_member.roles).to eq [role]
+        end
+      end
+
+      context 'with a user to be invited' do
+        let(:principal) { FactoryBot.build :invited_user }
+
+        context 'when the current user has permissions to create a user' do
+          let(:permissions) { %i[view_work_packages edit_work_packages manage_members manage_user] }
+
+          it 'will create that user' do
+            modal.run_all_steps
+
+            assignee_field.expect_active!
+            # TODO assignee field should contain the user name now
+            #assignee_field.expect_value principal.name
+            assignee_field.expect_value nil
+
+            # But the user got created
+            new_user = User.find_by(mail: principal.mail)
+            expect(new_user).to be_present
+
+            new_member = project.reload.members.find_by(user_id: new_user.id)
+            expect(new_member).to be_present
+            expect(new_member.roles).to eq [role]
+          end
+        end
       end
     end
   end

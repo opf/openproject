@@ -48,6 +48,12 @@ module Components
         expect(page).to have_no_selector(selector)
       end
 
+      def expect_text(text)
+        within_modal do
+          expect(page).to have_text(text)
+        end
+      end
+
       def click_modal_button(text)
         within_modal do
           click_button text

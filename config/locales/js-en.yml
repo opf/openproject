@@ -1107,7 +1107,7 @@ en:
       success:
         title: '%{principal} was invited!'
         description:
-          user: 'The user can now login to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: 'Continue'
