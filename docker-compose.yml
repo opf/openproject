@@ -50,6 +50,7 @@ services:
       OPENPROJECT_CACHE__MEMCACHE__SERVER: cache:11211
       OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
       DATABASE_URL: postgresql://${DB_USERNAME:-postgres}:${DB_PASSWORD:-postgres}@${DB_HOST:-db}:${DB_PORT:-5432}/${DB_DATABASE:-openproject}
+    env_file: ./.env
     volumes:
       - ".:/home/dev/openproject"
       - "opdata:/var/openproject/assets"

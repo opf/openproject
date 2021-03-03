@@ -112,8 +112,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
       <%= render partial: 'account/auth_providers', locals: { omniauth_title: I18n.t('account.signup_with_auth_provider'), wide: true } %>
     </div>
-    <div class="op-modal--footer">
-      <%= render partial: 'account/footer' %>
-    </div>
+
+    <%= render partial: 'account/footer' %>
   <% end %>
 </div>
