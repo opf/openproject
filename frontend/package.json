@@ -5,6 +5,11 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "@angular-eslint/builder": "1.2.0",
+    "@angular-eslint/eslint-plugin": "1.2.0",
+    "@angular-eslint/eslint-plugin-template": "1.2.0",
+    "@angular-eslint/schematics": "1.2.0",
+    "@angular-eslint/template-parser": "1.2.0",
     "@angular/language-service": "11.2.3",
     "@jsdevtools/coverage-istanbul-loader": "3.0.5",
     "@types/jasmine": "~3.6.0",
@@ -113,7 +118,7 @@
     "preserve": "./scripts/link_plugin_placeholder.js",
     "serve": "node --max_old_space_size=8096 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --public-host http://localhost:4200",
     "serve-test": "node --max_old_space_size=8096 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --disable-host-check --public-host http://frontend-test:4200",
-  "pretest": "./scripts/link_plugin_placeholder.js",
+    "pretest": "./scripts/link_plugin_placeholder.js",
     "test": "ng test --watch=false",
     "lint": "eslint -c .eslintrc.js --ext .ts src/app/",
     "generate-typings": "tsc -d -p src/tsconfig.app.json"
