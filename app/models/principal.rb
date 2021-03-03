@@ -76,7 +76,7 @@ class Principal < ApplicationRecord
   scope :not_in_project, ->(project) {
     where.not(id: Member.of(project).select(:user_id))
   }
-  
+
   scope :in_group, ->(group) {
     within_group(group)
   }
