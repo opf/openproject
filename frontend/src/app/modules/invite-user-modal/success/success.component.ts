@@ -31,9 +31,9 @@ export class SuccessComponent {
       principal: this.principal.name,
     }),
     description: {
-      user: () => this.I18n.t('js.invite_user_modal.success.description.user', { project: this.project?.name }),
-      placeholder: () => this.I18n.t('js.invite_user_modal.success.description.placeholder', { project: this.project?.name }),
-      group: () => this.I18n.t('js.invite_user_modal.success.description.group', { project: this.project?.name }),
+      User: () => this.I18n.t('js.invite_user_modal.success.description.user', { project: this.project?.name }),
+      PlaceholderUser: () => this.I18n.t('js.invite_user_modal.success.description.placeholder', { project: this.project?.name }),
+      Group: () => this.I18n.t('js.invite_user_modal.success.description.group', { project: this.project?.name }),
     },
     nextButton: this.I18n.t('js.invite_user_modal.success.next_button'),
   };

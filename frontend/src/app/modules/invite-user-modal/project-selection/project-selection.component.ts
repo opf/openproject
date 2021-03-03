@@ -41,12 +41,12 @@ export class ProjectSelectionComponent implements OnInit {
 
   public typeOptions:IOpOptionListOption<string>[] = [
     {
-      value: 'user',
+      value: PrincipalType.User,
       title: this.I18n.t('js.invite_user_modal.type.user.title'),
       description: this.I18n.t('js.invite_user_modal.type.user.description'),
     },
     {
-      value: 'group',
+      value: PrincipalType.Group,
       title: this.I18n.t('js.invite_user_modal.type.group.title'),
       description: this.I18n.t('js.invite_user_modal.type.group.description'),
     },
@@ -71,7 +71,7 @@ export class ProjectSelectionComponent implements OnInit {
     this.projectControl?.setValue(this.project);
 
     this.typeOptions.push({
-      value: 'placeholder',
+      value: PrincipalType.Placeholder,
       title: this.bannersService.eeShowBanners
         ? this.I18n.t('js.invite_user_modal.type.placeholder.title_no_ee')
         : this.I18n.t('js.invite_user_modal.type.placeholder.title'),

@@ -7,13 +7,14 @@ import {
 } from '@angular/core';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {PrincipalType} from '../invite-user.component';
 import {RoleResource} from "core-app/modules/hal/resources/role-resource";
 import {PrincipalLike} from "core-app/modules/invite-user-modal/invite-user-modal.types";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {ProjectResource} from 'core-app/modules/hal/resources/project-resource';
 import {Observable, of} from "rxjs";
 import {map, mapTo, switchMap} from "rxjs/operators";
 import {propertyNames} from "@angular/cdk/schematics";
+import {PrincipalType} from '../invite-user.component';
 
 @Component({
   selector: 'op-ium-summary',
@@ -22,7 +23,7 @@ import {propertyNames} from "@angular/cdk/schematics";
 })
 export class SummaryComponent {
   @Input() type:PrincipalType;
-  @Input() project:any = null;
+  @Input() project:ProjectResource;
   @Input() role:RoleResource;
   @Input() principal:PrincipalLike;
   @Input() message:string = '';
@@ -38,9 +39,9 @@ export class SummaryComponent {
     }),
     projectLabel: this.I18n.t('js.invite_user_modal.project.label'),
     principalLabel: {
-      user: this.I18n.t('js.invite_user_modal.principal.label.name_or_email'),
-      placeholder: this.I18n.t('js.invite_user_modal.principal.label.name'),
-      group: this.I18n.t('js.invite_user_modal.principal.label.name'),
+      User: this.I18n.t('js.invite_user_modal.principal.label.name_or_email'),
+      PlaceholderUser: this.I18n.t('js.invite_user_modal.principal.label.name'),
+      Group: this.I18n.t('js.invite_user_modal.principal.label.name'),
     },
     roleLabel: () => this.I18n.t('js.invite_user_modal.role.label', {
       project: this.project?.name,

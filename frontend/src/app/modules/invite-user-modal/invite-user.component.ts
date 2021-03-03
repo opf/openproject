@@ -25,9 +25,9 @@ enum Steps {
 }
 
 export enum PrincipalType {
-  User = 'user',
-  Placeholder = 'placeholder',
-  Group = 'group',
+  User = 'User',
+  Placeholder = 'PlaceholderUser',
+  Group = 'Group',
 }
 
 @Component({
@@ -92,7 +92,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   onRoleSave(role:RoleResource) {
     this.role = role;
 
-    if (this.type === 'placeholder') {
+    if (this.type === PrincipalType.Placeholder) {
       this.goTo(Steps.Summary);
     } else {
       this.goTo(Steps.Message);

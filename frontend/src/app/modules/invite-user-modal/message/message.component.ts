@@ -11,6 +11,8 @@ import {
   FormGroup,
 } from '@angular/forms';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {ProjectResource} from 'core-app/modules/hal/resources/project-resource';
 import {PrincipalType} from '../invite-user.component';
 
 @Component({
@@ -20,8 +22,8 @@ import {PrincipalType} from '../invite-user.component';
 })
 export class MessageComponent implements OnInit {
   @Input() type:PrincipalType;
-  @Input() project:any = null;
-  @Input() principal:any = null;
+  @Input() project:ProjectResource;
+  @Input() principal:HalResource;
   @Input() message:string = '';
 
   @Output() close = new EventEmitter<void>();

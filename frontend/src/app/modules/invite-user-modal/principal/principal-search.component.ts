@@ -13,6 +13,7 @@ import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {PrincipalLike} from "core-app/modules/invite-user-modal/invite-user-modal.types";
 import {PrincipalType} from '../invite-user.component';
 
@@ -23,7 +24,7 @@ import {PrincipalType} from '../invite-user.component';
 export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnInit {
   @Input('opFormBinding') principalControl:FormControl;
   @Input() type:PrincipalType;
-  @Input() project:any = null;
+  @Input() project:ProjectResource;
 
   @Output() createNew = new EventEmitter<PrincipalLike>();
 
@@ -41,9 +42,9 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
     inviteNewUser: this.I18n.t('js.invite_user_modal.principal.invite_user'),
     createNewPlaceholder: this.I18n.t('js.invite_user_modal.principal.create_new_placeholder'),
     noResults: {
-      user: this.I18n.t('js.invite_user_modal.principal.no_results_user'),
-      placeholder: this.I18n.t('js.invite_user_modal.principal.no_results_placeholder'),
-      group: this.I18n.t('js.invite_user_modal.principal.no_results_group'),
+      User: this.I18n.t('js.invite_user_modal.principal.no_results_user'),
+      PlaceholderUser: this.I18n.t('js.invite_user_modal.principal.no_results_placeholder'),
+      Group: this.I18n.t('js.invite_user_modal.principal.no_results_group'),
     },
   };
 
@@ -104,18 +105,12 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   }
 
   private loadPrincipalData(searchTerm:string) {
-    const type = {
-      placeholder: 'PlaceholderUser',
-      user: 'User',
-      group: 'Group',
-    }[this.type];
-
     const nonMemberFilter = new ApiV3FilterBuilder();
     if (searchTerm) {
       nonMemberFilter.add('name', '~', [searchTerm]);
     }
     nonMemberFilter.add('status', '!', [3]);
-    nonMemberFilter.add('type', '=', [type]);
+    nonMemberFilter.add('type', '=', [this.type]);
     nonMemberFilter.add('member', '!', [this.project?.id]);
     const nonMembers = this.apiV3Service.principals.filtered(nonMemberFilter).get();
 
@@ -124,7 +119,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
       memberFilter.add('name', '~', [searchTerm]);
     }
     memberFilter.add('status', '!', [3]);
-    memberFilter.add('type', '=', [type]);
+    memberFilter.add('type', '=', [this.type]);
     memberFilter.add('member', '=', [this.project?.id]);
     const members = this.apiV3Service.principals.filtered(memberFilter).get();
 
