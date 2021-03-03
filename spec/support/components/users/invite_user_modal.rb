@@ -57,7 +57,7 @@ module Components
         role_step
 
         # STEP 4: Invite message
-        invitation_step
+        invitation_step unless placeholder?
 
         # STEP 5: Confirmation screen
         confirmation_step
@@ -76,7 +76,7 @@ module Components
           when User
             "The user can now log in to access #{project.name}"
           when PlaceholderUser
-            "The placeholder can be used in #{project.name}"
+            "The placeholder can now be used in #{project.name}"
           when Group
             "The group is now a part of #{project.name}"
           else
@@ -116,7 +116,7 @@ module Components
 
       def invitation_step(next_step: true)
         invitation_message invite_message
-        click_modal_button 'Review Invitation'
+        click_modal_button 'Review Invitation' if next_step
       end
 
       def confirmation_step
@@ -124,7 +124,7 @@ module Components
           expect(page).to have_text project.name
           expect(page).to have_text principal_name
           expect(page).to have_text role.name
-          expect(page).to have_text invite_message
+          expect(page).to have_text invite_message unless placeholder?
         end
       end
 
@@ -155,6 +155,10 @@ module Components
         principal.invited?
       end
 
+      def placeholder?
+        principal.is_a?(PlaceholderUser)
+      end
+
       def principal_name
         if invite_user?
           principal.mail
@@ -162,9 +166,8 @@ module Components
           principal.name
         end
       end
-
       def type
-        principal.class.name
+        principal.model_name.human
       end
     end
   end
