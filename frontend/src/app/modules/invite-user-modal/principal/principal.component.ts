@@ -30,8 +30,6 @@ export class PrincipalComponent implements OnInit {
   @Output() save = new EventEmitter<{ principal:PrincipalLike, isAlreadyMember:boolean }>();
   @Output() back = new EventEmitter();
 
-  public PrincipalType = PrincipalType;
-
   public text = {
     title: () => this.I18n.t('js.invite_user_modal.title.invite_to_project', {
       type: this.I18n.t(`js.invite_user_modal.title.${this.type}`),

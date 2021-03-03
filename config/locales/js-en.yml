@@ -1040,9 +1040,9 @@ en:
       title:
         invite: 'Invite user'
         invite_to_project: 'Invite %{type} to %{project}'
-        user: 'user'
-        group: 'group'
-        placeholder: 'placeholder user'
+        User: 'user'
+        Group: 'group'
+        PlaceholderUser: 'placeholder user'
         invite_principal_to_project: 'Invite %{principal} to %{project}'
       project:
         label: 'Project'
