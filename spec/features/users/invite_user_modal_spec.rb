@@ -28,6 +28,7 @@
 
 require 'spec_helper'
 
+
 feature 'Invite user modal', type: :feature, js: true do
   shared_let(:project) { FactoryBot.create :project }
   shared_let(:work_package) { FactoryBot.create :work_package, project: project }
@@ -73,9 +74,9 @@ feature 'Invite user modal', type: :feature, js: true do
         it 'can add an existing user to the project' do
           modal.run_all_steps
 
-          assignee_field.expect_active!
-          # TODO assignee field should contain the user name now
+          # TODO assignee field should close and contain the user name now
           #assignee_field.expect_value principal.name
+          assignee_field.expect_active!
           assignee_field.expect_value nil
 
           # But the user got created
@@ -106,6 +107,51 @@ feature 'Invite user modal', type: :feature, js: true do
             new_member = project.reload.members.find_by(user_id: new_user.id)
             expect(new_member).to be_present
             expect(new_member.roles).to eq [role]
+          end
+        end
+      end
+
+      describe 'inviting placeholders' do
+        let(:principal) { FactoryBot.build :placeholder_user, name: 'MY NEW PLACEHOLDER' }
+
+        context 'system has enterprise', with_ee: %i[placeholder_users] do
+          it 'can invite a new placeholder' do
+            modal.run_all_steps
+
+            assignee_field.expect_active!
+            # TODO assignee field should contain the user name now
+            #assignee_field.expect_value principal.name
+            assignee_field.expect_value nil
+
+            new_placeholder = PlaceholderUser.find_by(name: 'MY NEW PLACEHOLDER')
+            new_member = project.reload.members.find_by(user_id: new_placeholder.id)
+            expect(new_member).to be_present
+            expect(new_member.roles).to eq [role]
+          end
+
+          context 'with an existing placeholder' do
+            let(:principal) { FactoryBot.create :placeholder_user }
+
+            it 'can invite an existing placeholder' do
+              modal.run_all_steps
+
+              assignee_field.expect_active!
+              # TODO assignee field should contain the user name now
+              #assignee_field.expect_value principal.name
+              assignee_field.expect_value nil
+
+              new_member = project.reload.members.find_by(user_id: principal.id)
+              expect(new_member).to be_present
+              expect(new_member.roles).to eq [role]
+            end
+          end
+        end
+
+        context 'system has no enterprise' do
+          it 'shows the modal with placeholder option disabled' do
+            modal.within_modal do
+              expect(page).to have_field 'Placeholder user', disabled: true
+            end
           end
         end
       end

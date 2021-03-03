@@ -116,7 +116,7 @@ module Components
 
       def invitation_step(next_step: true)
         invitation_message invite_message
-        click_modal_button 'Review Invitation'
+        click_modal_button 'Review Invitation' if next_step
       end
 
       def confirmation_step
@@ -164,7 +164,7 @@ module Components
       end
 
       def type
-        principal.class.name
+        principal.model_name.human
       end
     end
   end
