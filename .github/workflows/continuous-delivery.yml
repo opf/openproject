@@ -12,7 +12,7 @@ jobs:
       - name: Trigger downstream workflow
         env:
           TOKEN: ${{ secrets.OPENPROJECT_CI_TOKEN }}
-          SAAS_CD_WORKFLOW_ID: 2625552
+          SAAS_CD_WORKFLOW_ID: continuous-delivery-saas.yml
           SAAS_REPOSITORY: opf/saas-openproject
         run: |
           curl -H"authorization: Bearer $TOKEN" \
