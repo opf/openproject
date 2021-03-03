@@ -53,6 +53,9 @@ RSpec.configure do |config|
           .with(k)
           .and_return true
       end
+
+      # Also disable banners to signal the frontend we're on EE
+      allow(EnterpriseToken).to receive(:show_banners?).and_return(allowed.empty?)
     end
   end
 end
