@@ -17,16 +17,16 @@
   </ng-template>
 
   <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-    <!--Selectable option-->
-    <div
-      [ngOptionHighlight]="search"
-      class="ng-option-label"
-    >{{ item.value.name }}</div>
-    <!-- Already a member of the project -->
-    <div
-      *ngIf="item.disabled"
-      class="ng-option-label ellipsis"
-    >{{ text.alreadyAMember() }}</div>
+    <div class="ng-option-label">
+      <!--Selectable option-->
+      <div [ngOptionHighlight]="search">{{ item.value.name }} {{ item.value.id }}</div>
+
+      <!-- Already a member of the project -->
+      <div
+        *ngIf="item.disabled"
+        class="ellipsis"
+      >{{ text.alreadyAMember() }}</div>
+    </div>
   </ng-template>
 
   <!--Nothing found -->

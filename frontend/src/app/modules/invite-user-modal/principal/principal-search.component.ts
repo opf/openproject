@@ -109,6 +109,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
     nonMemberFilter.add('status', '!', [3]);
     nonMemberFilter.add('type', '=', [type]);
     nonMemberFilter.add('member', '!', [this.project?.id]);
+    const nonMembers = this.apiV3Service.principals.filtered(nonMemberFilter).get();
 
     const memberFilter = new ApiV3FilterBuilder();
     if (searchTerm) {
@@ -116,9 +117,8 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
     }
     memberFilter.add('status', '!', [3]);
     memberFilter.add('type', '=', [type]);
-    nonMemberFilter.add('member', '=', [this.project?.id]);
+    memberFilter.add('member', '=', [this.project?.id]);
     const members = this.apiV3Service.principals.filtered(memberFilter).get();
-    const nonMembers = this.apiV3Service.principals.filtered(nonMemberFilter).get();
 
     return forkJoin({
       members,
@@ -126,12 +126,12 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
     })
       .pipe(
         map(({ members, nonMembers }) => [
-          ...members.elements.map((member:any) => ({
-            value: member,
-            disabled: false,
-          })),
           ...nonMembers.elements.map((nonMember:any) => ({
             value: nonMember,
+            disabled: false,
+          })),
+          ...members.elements.map((member:any) => ({
+            value: member,
             disabled: true,
           })),
         ]),

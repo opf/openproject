@@ -70,13 +70,16 @@ export class ProjectSelectionComponent implements OnInit {
     this.typeControl?.setValue(this.type);
     this.projectControl?.setValue(this.project);
 
-    if (!this.bannersService.eeShowBanners) {
-      this.typeOptions.push({
-        value: 'placeholder',
-        title: this.I18n.t('js.invite_user_modal.type.placeholder.title'),
-        description: this.I18n.t('js.invite_user_modal.type.placeholder.description'),
-      });
-    }
+    this.typeOptions.push({
+      value: 'placeholder',
+      title: this.bannersService.eeShowBanners
+        ? this.I18n.t('js.invite_user_modal.type.placeholder.title_no_ee')
+        : this.I18n.t('js.invite_user_modal.type.placeholder.title'),
+      description: this.bannersService.eeShowBanners
+        ? this.I18n.t('js.invite_user_modal.type.placeholder.description_no_ee')
+        : this.I18n.t('js.invite_user_modal.type.placeholder.description'),
+      disabled: this.bannersService.eeShowBanners,
+    });
   }
 
   onSubmit($e:Event) {
