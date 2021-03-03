@@ -115,18 +115,31 @@ feature 'Invite user modal', type: :feature, js: true do
         let(:principal) { FactoryBot.build :placeholder_user, name: 'MY NEW PLACEHOLDER' }
 
         context 'system has enterprise', with_ee: %i[placeholder_users] do
-          it 'can invite a new placeholder' do
-            modal.run_all_steps
+          describe 'create a new placeholder' do
+            context 'with permissions to manage placeholders' do
+              let(:permissions) { %i[view_work_packages edit_work_packages manage_members manage_placeholder_user] }
 
-            assignee_field.expect_active!
-            # TODO assignee field should contain the user name now
-            #assignee_field.expect_value principal.name
-            assignee_field.expect_value nil
+              it 'can invite a new placeholder' do
+                modal.run_all_steps
 
-            new_placeholder = PlaceholderUser.find_by(name: 'MY NEW PLACEHOLDER')
-            new_member = project.reload.members.find_by(user_id: new_placeholder.id)
-            expect(new_member).to be_present
-            expect(new_member.roles).to eq [role]
+                assignee_field.expect_active!
+                # TODO assignee field should contain the user name now
+                #assignee_field.expect_value principal.name
+                assignee_field.expect_value nil
+
+                new_placeholder = PlaceholderUser.find_by(name: 'MY NEW PLACEHOLDER')
+                new_member = project.reload.members.find_by(user_id: new_placeholder.id)
+                expect(new_member).to be_present
+                expect(new_member.roles).to eq [role]
+              end
+            end
+
+            context 'without permissions to manage placeholders' do
+              let(:permissions) { %i[view_work_packages edit_work_packages manage_members manage_placeholder_user] }
+              it 'does not allow to invite a new placeholder' do
+                skip "TODO wait for permissions API"
+              end
+            end
           end
 
           context 'with an existing placeholder' do
