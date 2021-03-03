@@ -49,37 +49,13 @@ OpenProject::Notifications.subscribe(OpenProject::Events::WATCHER_REMOVED) do |p
 end
 
 OpenProject::Notifications.subscribe(OpenProject::Events::MEMBER_CREATED) do |payload|
-  # TODO: add a Mails::Prepare::MemberCreatedJob that fans out the member in case the principal
-  # is a group which will result in multiple memberships being added
-  # In order to determine whether user was added to the project
-  # by the group, compare updated_at and created_at. If they differ,
-  # the membership was updated. If they are the same, the membership was created.
-  # DISCUSS: do we want to handle the fan out in a delayed job. I think we do.
-  # DISCUSS: do we want to create individual delayed jobs for every fanned out job. I think we don't.
-  # TODO: also cover adding a user to a group
-  member = payload[:member]
+  Mails::Deliver::MemberCreatedJob
+    .perform_later(current_user: User.current,
+                   member: payload[:member])
+end
 
-  created = member.id_previously_changed?
-
-  if created && member.project.nil?
-    MemberMailer
-      .updated_global(User.current, payload[:member])
-      .deliver_later
-  elsif created && member.project && member.principal.is_a?(Group)
-    Member
-      .where(project: member.project,
-             principal: member.principal.users)
-      .includes(:project, :principal, :roles)
-      .each do |users_member|
-      # TODO: differentiate between the user having just been added as a member and a user
-      # having gained additional permissions
-      MemberMailer
-        .added_project(User.current, users_member)
-        .deliver_later
-    end
-  elsif created && member.principal.is_a?(User)
-    MemberMailer
-      .added_project(User.current, payload[:member])
-      .deliver_later
-  end
+OpenProject::Notifications.subscribe(OpenProject::Events::MEMBER_UPDATED) do |payload|
+  Mails::Deliver::MemberUpdatedJob
+    .perform_later(current_user: User.current,
+                   member: payload[:member])
 end

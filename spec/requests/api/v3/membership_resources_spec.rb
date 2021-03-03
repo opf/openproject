@@ -67,6 +67,18 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
   subject(:response) { last_response }
 
+  shared_examples_for 'sends mails' do
+    let(:expected_receivers) { defined?(receivers) ? receivers : [principal] }
+
+    it 'sends a mail to the principal of the member' do
+      expect(ActionMailer::Base.deliveries.size)
+        .to eql expected_receivers.length
+
+      expect(ActionMailer::Base.deliveries.map(&:to).flatten)
+        .to match_array expected_receivers.map(&:mail)
+    end
+  end
+
   describe 'GET api/v3/memberships' do
     let(:members) { [own_member, other_member, invisible_member, global_member] }
 
@@ -421,18 +433,6 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       end
     end
 
-    shared_examples_for 'sends mails' do
-      let(:expected_receivers) { defined?(receivers) ? receivers : [principal] }
-
-      it 'sends a mail to the added user' do
-        expect(ActionMailer::Base.deliveries.size)
-          .to eql expected_receivers.length
-
-        expect(ActionMailer::Base.deliveries.map(&:to).flatten)
-          .to match_array expected_receivers.map(&:mail)
-      end
-    end
-
     context 'for a user' do
       it_behaves_like 'successful member creation'
       it_behaves_like 'sends mails'
@@ -706,7 +706,9 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
       login_as current_user
 
-      patch path, body
+      perform_enqueued_jobs do
+        patch path, body
+      end
     end
 
     it 'responds with 200' do
@@ -741,6 +743,10 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       expect(last_response.body)
         .to be_json_eql(other_user.name.to_json)
         .at_path('_links/principal/title')
+    end
+
+    it_behaves_like 'sends mails' do
+      let(:receivers) { [other_member.principal] }
     end
 
     context 'if attempting to empty the roles' do

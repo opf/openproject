@@ -43,8 +43,9 @@ module OpenProject
     JOURNAL_CREATED = 'journal_created'.freeze
 
     MEMBER_CREATED = 'member_created'.freeze
+    MEMBER_UPDATED = 'member_updated'.freeze
 
-    NEW_TIME_ENTRY_CREATED = "new_time_entry_created".freeze
+    TIME_ENTRY_CREATED = "time_entry_created".freeze
 
     PROJECT_CREATED = "project_created".freeze
     PROJECT_UPDATED = "project_updated".freeze

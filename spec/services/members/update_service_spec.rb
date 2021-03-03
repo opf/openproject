@@ -28,14 +28,47 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# TODO: move to workers/mails and turn inot delayed job
-class WatcherAddedNotificationMailer < WatcherNotificationMailer
-  class << self
-    private
+require 'spec_helper'
+require 'services/base_services/behaves_like_update_service'
 
-    def perform_notification_job(watcher, watcher_changer)
-      DeliverWatcherAddedNotificationJob
-        .perform_later(watcher.id, watcher.user.id, watcher_changer.id)
+describe Members::UpdateService, type: :model do
+  it_behaves_like 'BaseServices update service' do
+    let!(:allow_notification_call) do
+      allow(OpenProject::Notifications)
+        .to receive(:send)
+    end
+
+    describe 'if successful' do
+      it 'sends a notification' do
+        expect(OpenProject::Notifications)
+          .to receive(:send)
+          .with(OpenProject::Events::MEMBER_UPDATED,
+                member: model_instance)
+
+        subject
+      end
+    end
+
+    context 'if the SetAttributeService is unsuccessful' do
+      let(:set_attributes_success) { false }
+
+      it 'sends no notification' do
+        expect(OpenProject::Notifications)
+          .not_to receive(:send)
+
+        subject
+      end
+    end
+
+    context 'when the member is invalid' do
+      let(:model_save_result) { false }
+
+      it 'sends no notification' do
+        expect(OpenProject::Notifications)
+          .not_to receive(:send)
+
+        subject
+      end
     end
   end
 end

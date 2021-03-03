@@ -28,6 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+# TODO: move to workers/mails and turn inot delayed job
 class WatcherRemovedNotificationMailer < WatcherNotificationMailer
   class << self
     private

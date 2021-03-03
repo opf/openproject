@@ -28,4 +28,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Members::UpdateService < ::BaseServices::Update; end
+class Members::UpdateService < ::BaseServices::Update
+  def after_perform(service_call)
+    OpenProject::Notifications.send(OpenProject::Events::MEMBER_UPDATED,
+                                    member: service_call.result)
+
+    service_call
+  end
+end

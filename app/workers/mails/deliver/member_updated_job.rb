@@ -28,14 +28,27 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# TODO: move to workers/mails and turn inot delayed job
-class WatcherAddedNotificationMailer < WatcherNotificationMailer
-  class << self
-    private
-
-    def perform_notification_job(watcher, watcher_changer)
-      DeliverWatcherAddedNotificationJob
-        .perform_later(watcher.id, watcher.user.id, watcher_changer.id)
+class Mails::Deliver::MemberUpdatedJob < ApplicationJob
+  def perform(current_user:,
+              member:)
+    if member.project.nil?
+      MemberMailer
+        .updated_global(current_user, member)
+        .deliver_now
+    elsif member.principal.is_a?(Group)
+      Member
+        .of(member.project)
+        .where(principal: member.principal.users)
+        .includes(:project, :principal, :roles)
+        .each do |users_member|
+        MemberMailer
+          .added_project(current_user, users_member)
+          .deliver_now
+      end
+    elsif member.principal.is_a?(User)
+      MemberMailer
+        .updated_project(current_user, member)
+        .deliver_now
     end
   end
 end

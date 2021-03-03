@@ -47,7 +47,6 @@ class Member < ApplicationRecord
   after_destroy :unwatch_from_permission_change,
                 if: ->(member) { member.prune_watchers_on_destruction != false }
 
-  after_save :save_notification
   after_destroy :destroy_notification
 
   scopes :assignable,
@@ -240,10 +239,7 @@ class Member < ApplicationRecord
     end
   end
 
-  def save_notification
-    ::OpenProject::Notifications.send(:member_updated, member: self)
-  end
-
+  # TODO: Move into services
   def destroy_notification
     ::OpenProject::Notifications.send(:member_removed, member: self)
   end
