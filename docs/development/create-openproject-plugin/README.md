@@ -40,7 +40,7 @@ bundle install
 
 ### Production
 
-To use your plugin in production you have to add it to your [docker](/installation-and-operations/installation/docker/#openproject-plugins) container or install it in the [packaged installation](/installation-and-operations/configuration/plugins/#adding-plugins-debrpm-packages).
+To use your plugin in production you have to add it to your [docker](../../installation-and-operations/installation/docker/#openproject-plugins) container or install it in the [packaged installation](../../installation-and-operations/configuration/plugins/#adding-plugins-debrpm-packages).
 
 ## Start coding
 
