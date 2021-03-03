@@ -39,7 +39,7 @@ plugins:
     enabled: true
     channel: "eslint-7"
     config:
-      config: frontend/.eslintrc
+      config: frontend/.eslintrc.js
   csslint:
     enabled: true
   scsslint:
