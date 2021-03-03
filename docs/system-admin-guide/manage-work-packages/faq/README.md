@@ -22,3 +22,9 @@ Please note: If you *delete* a custom field (in the custom field configuration) 
 
 The work package type that is at the top of the [list](../work-package-types) is the default type. To change it, use the arrows on the right to move another type to the top of the list.
 
+## Why can I not find the option to set a progress percentage for a work package status?
+
+You have to activate the progress calculation by status first. Find out [here](../work-package-settings) how to do it.
+
+
+

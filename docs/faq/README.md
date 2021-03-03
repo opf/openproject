@@ -49,6 +49,9 @@ We offer the premium functions of OpenProject (incl. boards) for two different O
 If you want to run OpenProject on your own server the OpenProject Enterprise on-premises edition is the right option.
 Have you already installed the [OpenProject Community edition](https://www.openproject.org/download-and-installation/)? If yes, you can request a trial license for the OpenProject Enterprise on-premises edition by clicking on the button "Free trial license" [here](https://www.openproject.org/de/enterprise-edition/) and test the Enterprise on-premises edition for 14 days for free.
 
+### Can I have some users with premium features and some without?
+As the Enterprise premium features affect the whole instance (e.g. with Agile Boards and project custom fields) it's not possible to upgrade only some users. 
+
 ### What are the system requirements?
 
 The system requirements can be found [here](../installation-and-operations/system-requirements).

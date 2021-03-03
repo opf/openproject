@@ -9,6 +9,10 @@ keywords: work packages FAQ, tickets, how to
 
 # Frequently asked questions (FAQ) for work packages
 
+## How can I add additional attributes/fields to a work package?
+
+You can use custom fields for this. Please navigate to *Administration -> Custom fields* to create new ones. Don't forget to add them to the respective work package form and to activate them in projects (if necessary). Find out more about custom fields [here](../../../system-admin-guide/custom-fields). 
+
 ## How can I copy work package hierarchies with their relations?
 
 You can create work package templates with hierarchies (parent and child work packages) and copy these templates, including the relations.
@@ -150,3 +154,16 @@ You can create a custom field for this that you add to the work package form. Pl
 ## When I create a new work package it's always a "Task". How can I change the default work package type?
 
 Please navigate to *Administration ->Work packages ->Types*. The type that is at the top of the list is the default type. To change it, use the arrows on the right to move another work package type to the top of the list.
+
+## The work package XLS export is taking very long (> 10 minutes). Why is that and what can we do about this?
+
+The work package export is run as a background job (such as e.g. copying projects). Therefore, the export may be delayed.
+The following factors can have an impact on the duration of the export:
+\- Number of work packages to be exported
+\- Chosen export (e.g. XLS with relations will possibly perform many more calculations)
+\- Number of columns in the export (less of an impact)
+
+To identify how many background jobs have run or are delayed, enter "/health_checks/full" after the URL (e.g. myopenprojectinstance.com/health_checks/full).
+This provides an overview of "delayed_jobs_never_ran" which shows the number of background jobs that could not get ran within the last 10 minutes. If there are multiple entries this can indicate that the number of web workers should be increased.
+
+For a documentation of how to do this, please refer to [these instructions](../operation/control) (see section "Scaling the number of web workers").

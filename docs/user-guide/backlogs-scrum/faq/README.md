@@ -30,3 +30,7 @@ Please try these approaches:
 - check whether your role in the current project (e.g. "Member") has sufficient rights to move the the work package (e.g. from "new" to "in progress") in the [workflow settings](../../../system-admin-guide/manage-work-packages/work-package-workflows/)
 - remove unused story types in the administration
 - deactivate the Backlogs module in the project settings
+
+## How can I change the the color of a user's tasks?
+
+The colors can be changed in your personal settings: Please click on your avatar, then navigate to **My account -> Settings -> Backlogs**. There you can change the task color.
