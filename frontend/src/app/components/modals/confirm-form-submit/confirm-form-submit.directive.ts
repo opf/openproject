@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ConfirmDialogService} from './../confirm-dialog/confirm-dialog.service';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {Component, ElementRef, OnInit} from "@angular/core";
+import { ConfirmDialogService } from './../confirm-dialog/confirm-dialog.service';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { Component, ElementRef, OnInit } from "@angular/core";
 
 export const confirmFormSubmitSelector = 'confirm-form-submit';
 
@@ -80,9 +80,9 @@ export class ConfirmFormSubmitController implements OnInit {
       showClose: true,
       closeByDocument: true,
     }).then(() => {
-        this.confirmed = true;
-        this.$form.trigger('submit');
-      })
+      this.confirmed = true;
+      this.$form.trigger('submit');
+    })
       .catch(() => this.confirmed = false);
   }
 }

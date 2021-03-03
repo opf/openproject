@@ -1,16 +1,16 @@
-import {Injector} from '@angular/core';
-import {CardEventHandler} from "core-components/wp-card-view/event-handler/card-view-handler-registry";
-import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
-import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import {StateService} from "@uirouter/core";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { Injector } from '@angular/core';
+import { CardEventHandler } from "core-components/wp-card-view/event-handler/card-view-handler-registry";
+import { WorkPackageCardViewComponent } from "core-components/wp-card-view/wp-card-view.component";
+import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { StateService } from "@uirouter/core";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export class CardDblClickHandler implements CardEventHandler {
   @InjectField() $state:StateService;
   @InjectField() wpTableSelection:WorkPackageViewSelectionService;
 
   constructor(public readonly injector:Injector,
-              card:WorkPackageCardViewComponent) {
+    card:WorkPackageCardViewComponent) {
   }
 
   public get EVENT() {
@@ -26,7 +26,7 @@ export class CardDblClickHandler implements CardEventHandler {
   }
 
   public handleEvent(card:WorkPackageCardViewComponent, evt:JQuery.TriggeredEvent) {
-    let target = jQuery(evt.target);
+    const target = jQuery(evt.target);
 
     // Ignore links
     if (target.is('a') || target.parent().is('a')) {
@@ -34,8 +34,8 @@ export class CardDblClickHandler implements CardEventHandler {
     }
 
     // Locate the row from event
-    let element = target.closest('wp-single-card');
-    let wpId = element.data('workPackageId');
+    const element = target.closest('wp-single-card');
+    const wpId = element.data('workPackageId');
 
     if (!wpId) {
       return true;

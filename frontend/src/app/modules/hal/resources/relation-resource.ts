@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 
 export interface RelationResourceLinks {
   delete():Promise<any>;
@@ -37,7 +37,7 @@ export interface RelationResourceLinks {
 
 export class RelationResource extends HalResource {
 
-  static RELATION_TYPES(includeParentChild:boolean = true):string[] {
+  static RELATION_TYPES(includeParentChild = true):string[] {
     const types = [
       'relates',
       'duplicates',
@@ -59,11 +59,11 @@ export class RelationResource extends HalResource {
     return types;
   }
 
-  static LOCALIZED_RELATION_TYPES(includeParentchild:boolean = true) {
+  static LOCALIZED_RELATION_TYPES(includeParentchild = true) {
     const relationTypes = RelationResource.RELATION_TYPES(includeParentchild);
 
     return relationTypes.map((key:string) => {
-      return {name: key, label: I18n.t('js.relation_labels.' + key)};
+      return { name: key, label: I18n.t('js.relation_labels.' + key) };
     });
   }
 
@@ -122,16 +122,15 @@ export class RelationResource extends HalResource {
   }
 
   public updateDescription(description:string) {
-    return this.$links.updateImmediately({description: description});
+    return this.$links.updateImmediately({ description: description });
   }
 
   public updateType(type:any) {
-    return this.$links.updateImmediately({type: type});
+    return this.$links.updateImmediately({ type: type });
   }
 }
 
-export interface RelationResource extends RelationResourceLinks {
-}
+export interface RelationResource extends RelationResourceLinks {}
 
 export interface DenormalizedRelationData {
   target:WorkPackageResource;

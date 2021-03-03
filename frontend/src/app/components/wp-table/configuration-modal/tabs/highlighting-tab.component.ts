@@ -1,13 +1,13 @@
-import {Component, Injector, ViewChild} from '@angular/core';
-import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
-import {WorkPackageViewHighlightingService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {States} from "core-app/components/states.service";
-import {BannersService} from "core-app/modules/common/enterprise/banners.service";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {NgSelectComponent} from "@ng-select/ng-select";
+import { Component, Injector, ViewChild } from '@angular/core';
+import { TabComponent } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
+import { WorkPackageViewHighlightingService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { HighlightingMode } from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { States } from "core-app/components/states.service";
+import { BannersService } from "core-app/modules/common/enterprise/banners.service";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { NgSelectComponent } from "@ng-select/ng-select";
 
 @Component({
   templateUrl: './highlighting-tab.component.html'
@@ -16,9 +16,9 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
 
   // Display mode
   public highlightingMode:HighlightingMode = 'inline';
-  public entireRowMode:boolean = false;
+  public entireRowMode = false;
   public lastEntireRowAttribute:HighlightingMode = 'status';
-  public eeShowBanners:boolean = false;
+  public eeShowBanners = false;
 
   public availableInlineHighlightedAttributes:HalResource[] = [];
   public selectedAttributes:any[] = [];
@@ -55,8 +55,8 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   ngOnInit() {
     this.availableInlineHighlightedAttributes = this.availableHighlightedAttributes;
     this.availableRowHighlightedAttributes = [
-      {name: this.text.highlighting_mode.status, value: 'status'},
-      {name: this.text.highlighting_mode.priority, value: 'priority'},
+      { name: this.text.highlighting_mode.status, value: 'status' },
+      { name: this.text.highlighting_mode.priority, value: 'priority' },
     ];
 
     this.setSelectedValues();
@@ -70,7 +70,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   }
 
   public onSave() {
-    let mode = this.highlightingMode;
+    const mode = this.highlightingMode;
     this.wpTableHighlight.update({ mode: mode, selectedAttributes: this.selectedAttributes });
   }
 

@@ -1,4 +1,4 @@
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 export function projectStatusCodeCssClass(code:string|null|undefined):string {
   code = ensureDefaultCode(code);

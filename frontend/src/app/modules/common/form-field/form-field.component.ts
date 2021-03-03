@@ -19,8 +19,8 @@ export class OpFormFieldComponent {
     return this.isInvalid;
   }
 
-  @Input() label:string = '';
-  @Input() required:boolean = false;
+  @Input() label = '';
+  @Input() required = false;
 
   @ContentChild(NgControl) control:NgControl;
 

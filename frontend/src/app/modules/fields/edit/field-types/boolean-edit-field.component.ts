@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component} from "@angular/core";
-import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
+import { Component } from "@angular/core";
+import { EditFieldComponent } from "core-app/modules/fields/edit/edit-field.component";
 
 
 @Component({

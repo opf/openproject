@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output} from '@angular/core';
-import {TypeFormAttribute, TypeGroup} from "core-app/modules/admin/types/type-form-configuration.component";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { TypeFormAttribute, TypeGroup } from "core-app/modules/admin/types/type-form-configuration.component";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   selector: 'type-form-attribute-group',

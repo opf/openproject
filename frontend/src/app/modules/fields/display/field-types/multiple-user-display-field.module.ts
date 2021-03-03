@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ResourcesDisplayField} from "./resources-display-field.module";
-import {UserResource} from "core-app/modules/hal/resources/user-resource";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {UserAvatarRendererService} from "core-components/user/user-avatar/user-avatar-renderer.service";
-import {cssClassCustomOption} from "core-app/modules/fields/display/display-field.module";
+import { ResourcesDisplayField } from "./resources-display-field.module";
+import { UserResource } from "core-app/modules/hal/resources/user-resource";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { UserAvatarRendererService } from "core-components/user/user-avatar/user-avatar-renderer.service";
+import { cssClassCustomOption } from "core-app/modules/fields/display/display-field.module";
 
 export class MultipleUserFieldModule extends ResourcesDisplayField {
   @InjectField() avatarRenderer:UserAvatarRendererService;

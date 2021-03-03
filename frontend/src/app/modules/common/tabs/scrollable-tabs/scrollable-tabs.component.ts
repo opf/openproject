@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from "@angular/core";
+import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
 
 export interface Tab {
   id:string;
@@ -16,11 +16,11 @@ export class ScrollableTabsComponent implements AfterViewInit {
   @ViewChild('scrollRightBtn', { static: true }) scrollRightBtn:ElementRef;
   @ViewChild('scrollLeftBtn', { static: true }) scrollLeftBtn:ElementRef;
 
-  public currentTabId:string = '';
+  public currentTabId = '';
   public tabs:Tab[] = [];
   public classes:string[] = ['scrollable-tabs'];
-  public hideLeftButton:boolean = true;
-  public hideRightButton:boolean = true;
+  public hideLeftButton = true;
+  public hideRightButton = true;
 
   private container:Element;
   private pane:Element;

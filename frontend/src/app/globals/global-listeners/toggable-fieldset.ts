@@ -92,7 +92,7 @@ export function setupToggableFieldsets() {
     .each(function() {
       var fieldset = getFieldset(this);
 
-      let contentArea = fieldset.find('> div');
+      const contentArea = fieldset.find('> div');
       if (fieldset.hasClass('collapsed')) {
         contentArea.hide();
       }

@@ -1,8 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {WorkPackageRelationsService} from '../../wp-relations/wp-relations.service';
-import {combineLatest} from 'rxjs';
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { Component, Input, OnInit } from '@angular/core';
+import { WorkPackageRelationsService } from '../../wp-relations/wp-relations.service';
+import { combineLatest } from 'rxjs';
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   templateUrl: './wp-relations-count.html',
@@ -10,7 +10,7 @@ import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 })
 export class WorkPackageRelationsCountComponent extends UntilDestroyedMixin implements OnInit {
   @Input('wpId') wpId:string;
-  public count:number = 0;
+  public count = 0;
 
   constructor(protected apiV3Service:APIV3Service,
               protected wpRelations:WorkPackageRelationsService) {
@@ -33,8 +33,8 @@ export class WorkPackageRelationsCountComponent extends UntilDestroyedMixin impl
     ]).pipe(
       this.untilDestroyed()
     ).subscribe(([relations, workPackage]) => {
-      let relationCount = _.size(relations);
-      let childrenCount = _.size(workPackage.children);
+      const relationCount = _.size(relations);
+      const childrenCount = _.size(workPackage.children);
 
       this.count = relationCount + childrenCount;
     });

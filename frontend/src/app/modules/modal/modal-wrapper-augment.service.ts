@@ -27,10 +27,10 @@
 //++
 
 
-import {Inject, Injectable, Injector} from "@angular/core";
-import {DOCUMENT} from "@angular/common";
-import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-content.modal";
-import {OpModalService} from "core-app/modules/modal/modal.service";
+import { Inject, Injectable, Injector } from "@angular/core";
+import { DOCUMENT } from "@angular/common";
+import { DynamicContentModal } from "core-components/modals/modal-wrapper/dynamic-content.modal";
+import { OpModalService } from "core-app/modules/modal/modal.service";
 
 const iframeSelector = '.iframe-target-wrapper';
 
@@ -101,8 +101,8 @@ export class OpModalWrapperAugmentService {
   }
 
   private appendIframe(body:string, url:string) {
-    let subdom = jQuery(body);
-    let iframe = jQuery('<iframe frameborder="0" height="400" allowfullscreen>></iframe>');
+    const subdom = jQuery(body);
+    const iframe = jQuery('<iframe frameborder="0" height="400" allowfullscreen>></iframe>');
     iframe.attr('src', url);
 
     subdom.find(iframeSelector).append(iframe);

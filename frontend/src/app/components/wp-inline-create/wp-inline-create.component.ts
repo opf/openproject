@@ -36,28 +36,28 @@ import {
   Input,
   OnInit
 } from '@angular/core';
-import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
-import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import {filter} from 'rxjs/operators';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {onClickOrEnter} from '../wp-fast-table/handlers/click-or-enter-handler';
-import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
-import {WorkPackageCreateService} from '../wp-new/wp-create.service';
+import { AuthorisationService } from 'core-app/modules/common/model-auth/model-auth.service';
+import { WorkPackageViewFocusService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { filter } from 'rxjs/operators';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { onClickOrEnter } from '../wp-fast-table/handlers/click-or-enter-handler';
+import { WorkPackageTable } from '../wp-fast-table/wp-fast-table';
+import { WorkPackageCreateService } from '../wp-new/wp-create.service';
 import {
   inlineCreateCancelClassName,
   InlineCreateRowBuilder,
   inlineCreateRowClassName
 } from './inline-create-row-builder';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
-import {Subscription} from 'rxjs';
-import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
-import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { WorkPackageInlineCreateService } from "core-components/wp-inline-create/wp-inline-create.service";
+import { Subscription } from 'rxjs';
+import { WorkPackageViewColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
+import { EditForm } from "core-app/modules/fields/edit/edit-form/edit-form";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 
 @Component({
   selector: '[wpInlineCreate]',
@@ -69,13 +69,13 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   @Input('wp-inline-create--project-identifier') projectIdentifier:string;
 
   // inner state
-  public canAdd:boolean = false;
-  public canReference:boolean = false;
+  public canAdd = false;
+  public canReference = false;
 
   // Inline create / reference row is active
   public mode:'inactive'|'create'|'reference' = 'inactive';
 
-  public focus:boolean = false;
+  public focus = false;
 
   public text = this.wpInlineCreate.buttonTexts;
 

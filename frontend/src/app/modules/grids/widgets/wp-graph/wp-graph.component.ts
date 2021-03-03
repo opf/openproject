@@ -1,10 +1,10 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit} from '@angular/core';
-import {WorkPackageEmbeddedGraphDataset} from "core-app/modules/work-package-graphs/embedded/wp-embedded-graph.component";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
-import {ChartOptions, ChartType} from 'chart.js';
-import {WpGraphConfigurationService} from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration.service";
-import {WpGraphConfiguration} from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { WorkPackageEmbeddedGraphDataset } from "core-app/modules/work-package-graphs/embedded/wp-embedded-graph.component";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { AbstractWidgetComponent } from "core-app/modules/grids/widgets/abstract-widget.component";
+import { ChartOptions, ChartType } from 'chart.js';
+import { WpGraphConfigurationService } from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration.service";
+import { WpGraphConfiguration } from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration";
 
 @Component({
   selector: 'widget-wp-graph',
@@ -38,7 +38,7 @@ export class WidgetWpGraphComponent extends AbstractWidgetComponent implements O
         this.repaint();
 
         if (this.resource.options.chartType !== this.graphConfiguration.chartType) {
-          let changeset = this.setChangesetOptions({ chartType: this.graphConfiguration.chartType });
+          const changeset = this.setChangesetOptions({ chartType: this.graphConfiguration.chartType });
 
           this.resourceChanged.emit(changeset);
         }
@@ -51,7 +51,7 @@ export class WidgetWpGraphComponent extends AbstractWidgetComponent implements O
   }
 
   protected initializeConfiguration() {
-    let ids = [];
+    const ids = [];
     if (this.resource.options.queryId) {
       ids.push({ id: this.resource.options.queryId as string });
     }
@@ -65,7 +65,7 @@ export class WidgetWpGraphComponent extends AbstractWidgetComponent implements O
     this.graphConfiguration.ensureQueryAndLoad()
       .then(() => {
         if (!this.resource.options.queryId) {
-          let changeset = this.setChangesetOptions({ queryId: this.graphConfiguration.queryParams[0].id });
+          const changeset = this.setChangesetOptions({ queryId: this.graphConfiguration.queryParams[0].id });
 
           this.resourceChanged.emit(changeset);
         }

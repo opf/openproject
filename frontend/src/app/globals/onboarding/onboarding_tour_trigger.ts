@@ -1,7 +1,7 @@
 // Dynamically loads and triggers the onboarding tour
 // when on the correct spots
-import {demoProjectsLinks, OnboardingTourNames, onboardingTourStorageKey} from "core-app/globals/onboarding/helpers";
-import {debugLog} from "core-app/helpers/debug_output";
+import { demoProjectsLinks, OnboardingTourNames, onboardingTourStorageKey } from "core-app/globals/onboarding/helpers";
+import { debugLog } from "core-app/helpers/debug_output";
 
 export function detectOnboardingTour() {
   // ------------------------------- Global -------------------------------

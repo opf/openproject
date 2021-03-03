@@ -26,16 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++    Ng1FieldControlsWrapper,
 
-import {Injectable} from "@angular/core";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {NEVER, Observable, throwError} from "rxjs";
-import {filter, map, take, tap} from "rxjs/operators";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {multiInput} from "reactivestates";
-import {TransitionService} from "@uirouter/core";
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
+import { Injectable } from "@angular/core";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { NEVER, Observable, throwError } from "rxjs";
+import { filter, map, take, tap } from "rxjs/operators";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { multiInput } from "reactivestates";
+import { TransitionService } from "@uirouter/core";
+import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
 
 export type SupportedAttributeModels = 'project'|'workPackage';
 
@@ -97,12 +97,12 @@ export class AttributeModelLoaderService {
 
   private load(model:SupportedAttributeModels, id?:string|undefined|null):Observable<HalResource|null> {
     switch (model) {
-      case 'workPackage':
-        return this.loadWorkPackage(id);
-      case 'project':
-        return this.loadProject(id);
-      default:
-        return NEVER;
+    case 'workPackage':
+      return this.loadWorkPackage(id);
+    case 'project':
+      return this.loadProject(id);
+    default:
+      return NEVER;
     }
   }
 

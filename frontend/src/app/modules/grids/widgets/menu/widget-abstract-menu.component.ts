@@ -27,11 +27,11 @@
 //++
 
 import { Input, Directive } from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
-import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
-import {GridRemoveWidgetService} from "core-app/modules/grids/grid/remove-widget.service";
-import {GridAreaService} from "core-app/modules/grids/grid/area.service";
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { OpContextMenuItem } from "core-components/op-context-menu/op-context-menu.types";
+import { GridWidgetResource } from "core-app/modules/hal/resources/grid-widget-resource";
+import { GridRemoveWidgetService } from "core-app/modules/grids/grid/remove-widget.service";
+import { GridAreaService } from "core-app/modules/grids/grid/area.service";
 
 @Directive()
 export abstract class WidgetAbstractMenuComponent {

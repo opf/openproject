@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {StateService, Transition, TransitionService} from '@uirouter/core';
-import {ReplaySubject} from 'rxjs';
-import {Injectable} from "@angular/core";
+import { StateService, Transition, TransitionService } from '@uirouter/core';
+import { ReplaySubject } from 'rxjs';
+import { Injectable } from "@angular/core";
 
 @Injectable({ providedIn: 'root' })
 export class KeepTabService {
-  protected currentTab:string = 'overview';
+  protected currentTab = 'overview';
 
   protected subject = new ReplaySubject<{ [tab:string]:string; }>(1);
 

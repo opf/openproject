@@ -1,6 +1,6 @@
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {Injectable} from "@angular/core";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { Injectable } from "@angular/core";
 
 export interface ICKEditorInstance {
   getData(obtions:{ trim:boolean }):string;

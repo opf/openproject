@@ -25,14 +25,14 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import {IAutocompleteItem} from 'core-components/wp-query-select/wp-query-select-dropdown.component';
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {Injectable} from '@angular/core';
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {StateService} from "@uirouter/core";
-import {CurrentUserService} from "core-components/user/current-user.service";
+import { IAutocompleteItem } from 'core-components/wp-query-select/wp-query-select-dropdown.component';
+import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { Injectable } from '@angular/core';
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { StateService } from "@uirouter/core";
+import { CurrentUserService } from "core-components/user/current-user.service";
 
 @Injectable()
 export class WorkPackageStaticQueriesService {
@@ -115,10 +115,10 @@ export class WorkPackageStaticQueriesService {
 
   public getStaticName(query:QueryResource) {
     if (this.$state.params.query_props) {
-      let queryProps = JSON.parse(this.$state.params.query_props);
+      const queryProps = JSON.parse(this.$state.params.query_props);
       delete queryProps.pp;
       delete queryProps.pa;
-      let queryPropsString = JSON.stringify(queryProps);
+      const queryPropsString = JSON.stringify(queryProps);
 
       const matched = this.all.find( item =>
         item.query_props && item.query_props === queryPropsString

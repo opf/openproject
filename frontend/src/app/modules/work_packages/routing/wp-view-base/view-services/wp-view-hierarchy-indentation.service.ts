@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
-import {States} from "core-components/states.service";
-import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { Injectable } from '@angular/core';
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { WorkPackageViewHierarchiesService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { WorkPackageRelationsHierarchyService } from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
+import { States } from "core-components/states.service";
+import { WorkPackageViewDisplayRepresentationService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class WorkPackageViewHierarchyIdentationService {

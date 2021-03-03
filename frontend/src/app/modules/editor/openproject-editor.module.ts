@@ -26,19 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {CommonModule} from "@angular/common";
-import {OpenprojectAttachmentsModule} from 'core-app/modules/attachments/openproject-attachments.module';
-import {OpenprojectModalModule} from "core-app/modules/modal/modal.module";
-import {WikiIncludePageMacroModal} from 'core-components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal';
-import {CodeBlockMacroModal} from 'core-components/modals/editor/macro-code-block-modal/code-block-macro.modal';
-import {ChildPagesMacroModal} from 'core-components/modals/editor/macro-child-pages-modal/child-pages-macro.modal';
-import {CkeditorAugmentedTextareaComponent} from 'core-app/ckeditor/ckeditor-augmented-textarea.component';
-import {OpCkeditorComponent} from 'core-app/modules/common/ckeditor/op-ckeditor.component';
-import {EditorMacrosService} from 'core-components/modals/editor/editor-macros.service';
-import {CKEditorSetupService} from 'core-app/modules/common/ckeditor/ckeditor-setup.service';
-import {CKEditorPreviewService} from 'core-app/modules/common/ckeditor/ckeditor-preview.service';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from "@angular/common";
+import { OpenprojectAttachmentsModule } from 'core-app/modules/attachments/openproject-attachments.module';
+import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
+import { WikiIncludePageMacroModal } from 'core-components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal';
+import { CodeBlockMacroModal } from 'core-components/modals/editor/macro-code-block-modal/code-block-macro.modal';
+import { ChildPagesMacroModal } from 'core-components/modals/editor/macro-child-pages-modal/child-pages-macro.modal';
+import { CkeditorAugmentedTextareaComponent } from 'core-app/ckeditor/ckeditor-augmented-textarea.component';
+import { OpCkeditorComponent } from 'core-app/modules/common/ckeditor/op-ckeditor.component';
+import { EditorMacrosService } from 'core-components/modals/editor/editor-macros.service';
+import { CKEditorSetupService } from 'core-app/modules/common/ckeditor/ckeditor-setup.service';
+import { CKEditorPreviewService } from 'core-app/modules/common/ckeditor/ckeditor-preview.service';
 
 @NgModule({
   imports: [

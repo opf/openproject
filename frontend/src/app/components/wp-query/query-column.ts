@@ -1,5 +1,5 @@
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 export const queryColumnTypes = {
   PROPERTY: 'QueryColumn::Property',
   RELATION_OF_TYPE: 'QueryColumn::RelationOfType',
@@ -18,19 +18,19 @@ export interface QueryColumn extends HalResource {
   id:string;
   name:string;
   custom_field?:any;
-  _links?: {
+  _links?:{
     self:{ href:string, title:string };
   };
 }
 
 export interface TypeRelationQueryColumn extends QueryColumn {
-  type:{ href: string, name:string },
-  _links?: {
+  type:{ href:string, name:string },
+  _links?:{
     self:{ href:string, title:string },
     type:{ href:string, title:string }
   }
 }
 
 export interface RelationQueryColumn extends QueryColumn {
-  relationType: string;
+  relationType:string;
 }

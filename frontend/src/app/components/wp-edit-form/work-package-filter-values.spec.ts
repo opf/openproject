@@ -26,35 +26,35 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {TestBed} from "@angular/core/testing";
-import {CurrentUserService} from "core-components/user/current-user.service";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {Injector} from "@angular/core";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
-import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
+import { TestBed } from "@angular/core/testing";
+import { CurrentUserService } from "core-components/user/current-user.service";
+import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
+import { Injector } from "@angular/core";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { WorkPackageFilterValues } from "core-components/wp-edit-form/work-package-filter-values";
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { WorkPackagesActivityService } from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
+import { WorkPackageCreateService } from "core-components/wp-new/wp-create.service";
 
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {TypeResource} from "core-app/modules/hal/resources/type-resource";
-import {HttpClientModule} from "@angular/common/http";
-import {States} from "core-components/states.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {UIRouterModule} from "@uirouter/angular";
-import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
-import {OpenProjectDirectFileUploadService} from "core-components/api/op-file-upload/op-direct-file-upload.service";
-import {HookService} from "core-app/modules/plugins/hook-service";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
-import {TimezoneService} from "core-components/datetime/timezone.service";
-import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { TypeResource } from "core-app/modules/hal/resources/type-resource";
+import { HttpClientModule } from "@angular/common/http";
+import { States } from "core-components/states.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { UIRouterModule } from "@uirouter/angular";
+import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import { OpenProjectFileUploadService } from "core-components/api/op-file-upload/op-file-upload.service";
+import { OpenProjectDirectFileUploadService } from "core-components/api/op-file-upload/op-direct-file-upload.service";
+import { HookService } from "core-app/modules/plugins/hook-service";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
+import { TimezoneService } from "core-components/datetime/timezone.service";
+import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 describe('WorkPackageFilterValues', () => {
   let resource:WorkPackageResource;
@@ -103,11 +103,11 @@ describe('WorkPackageFilterValues', () => {
     resource = halResourceService.createHalResourceOfClass(WorkPackageResource, source, true);
     changeset = new WorkPackageChangeset(resource);
 
-    let type1 = halResourceService.createHalResourceOfClass(
+    const type1 = halResourceService.createHalResourceOfClass(
       TypeResource,
       { _type: 'Type', id: '1', _links: { self: { href: '/api/v3/types/1', name: 'Task' } } }
     );
-    let type2 = halResourceService.createHalResourceOfClass(
+    const type2 = halResourceService.createHalResourceOfClass(
       TypeResource,
       { _type: 'Type', id: '2', _links: { self: { href: '/api/v3/types/2', name: 'Bug' } } }
     );

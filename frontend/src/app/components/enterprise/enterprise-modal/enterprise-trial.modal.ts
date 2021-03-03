@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, ViewChild} from "@angular/core";
-import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
-import {FormControl, FormGroup} from "@angular/forms";
-import {OpModalComponent} from "core-app/modules/modal/modal.component";
-import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
-import {OpModalLocalsMap} from "core-app/modules/modal/modal.types";
-import {I18nService} from "app/modules/common/i18n/i18n.service";
-import {EETrialFormComponent} from "core-components/enterprise/enterprise-modal/enterprise-trial-form/ee-trial-form.component";
-import {EnterpriseTrialService} from "core-components/enterprise/enterprise-trial.service";
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, ViewChild } from "@angular/core";
+import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
+import { FormControl, FormGroup } from "@angular/forms";
+import { OpModalComponent } from "core-app/modules/modal/modal.component";
+import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { OpModalLocalsMap } from "core-app/modules/modal/modal.types";
+import { I18nService } from "app/modules/common/i18n/i18n.service";
+import { EETrialFormComponent } from "core-components/enterprise/enterprise-modal/enterprise-trial-form/ee-trial-form.component";
+import { EnterpriseTrialService } from "core-components/enterprise/enterprise-trial.service";
 
 export const eeOnboardingVideoURL = 'https://www.youtube.com/embed/zLMSydhFSkw?autoplay=1';
 

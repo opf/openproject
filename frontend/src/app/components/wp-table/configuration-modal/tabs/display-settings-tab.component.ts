@@ -1,11 +1,11 @@
 
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
-import {WorkPackageViewGroupByService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service';
-import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
-import {WorkPackageViewHierarchiesService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
-import {WorkPackageViewSumService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sum.service';
-import {Component, Injector} from "@angular/core";
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { TabComponent } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
+import { WorkPackageViewGroupByService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service';
+import { QueryGroupByResource } from 'core-app/modules/hal/resources/query-group-by-resource';
+import { WorkPackageViewHierarchiesService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+import { WorkPackageViewSumService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sum.service';
+import { Component, Injector } from "@angular/core";
 
 @Component({
   templateUrl: './display-settings-tab.component.html'
@@ -20,7 +20,7 @@ export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
   public availableGroups:QueryGroupByResource[] = [];
 
   // Sums row display
-  public displaySums:boolean = false;
+  public displaySums = false;
 
   public text = {
     choose_mode: this.I18n.t('js.work_packages.table_configuration.choose_display_mode'),
@@ -51,7 +51,7 @@ export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
     this.wpTableHierarchies.setEnabled(this.displayMode === 'hierarchy');
 
     // Update grouping state
-    let group = this.displayMode === 'grouped' ? this.currentGroup : null;
+    const group = this.displayMode === 'grouped' ? this.currentGroup : null;
     this.wpTableGroupBy.update(group);
 
     // Update sums state

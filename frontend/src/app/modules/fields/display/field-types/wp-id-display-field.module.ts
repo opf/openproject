@@ -26,23 +26,23 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {KeepTabService} from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
-import {StateService} from '@uirouter/core';
-import {UiStateLinkBuilder} from "core-components/wp-fast-table/builders/ui-state-link-builder";
-import {IdDisplayField} from "core-app/modules/fields/display/field-types/id-display-field.module";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { KeepTabService } from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import { StateService } from '@uirouter/core';
+import { UiStateLinkBuilder } from "core-components/wp-fast-table/builders/ui-state-link-builder";
+import { IdDisplayField } from "core-app/modules/fields/display/field-types/id-display-field.module";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export class WorkPackageIdDisplayField extends IdDisplayField {
   @InjectField() $state!:StateService;
   @InjectField() keepTab!:KeepTabService;
-  
+
   private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.$state, this.keepTab);
 
   public render(element:HTMLElement, displayText:string):void {
     if (!this.value) {
       return;
     }
-    let link = this.uiStateBuilder.linkToShow(
+    const link = this.uiStateBuilder.linkToShow(
       this.value,
       displayText,
       this.value

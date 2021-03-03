@@ -26,21 +26,21 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injector} from '@angular/core';
-import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
-import {States} from 'core-components/states.service';
-import {IFieldSchema} from "core-app/modules/fields/field.base";
+import { Injector } from '@angular/core';
+import { ErrorResource } from 'core-app/modules/hal/resources/error-resource';
+import { States } from 'core-components/states.service';
+import { IFieldSchema } from "core-app/modules/fields/field.base";
 
 import {
   HalResourceEditingService,
   ResourceChangesetCommit
 } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
-import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
+import { EditFieldHandler } from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
@@ -63,7 +63,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
   public resource:T;
 
   // Whether this form exists in edit mode
-  public editMode:boolean = false;
+  public editMode = false;
 
   protected constructor(public injector:Injector) {
   }
@@ -115,7 +115,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    * @param fieldName
    * @param noWarnings Ignore warnings if the field cannot be opened
    */
-  public activate(fieldName:string, noWarnings:boolean = false):Promise<void|EditFieldHandler> {
+  public activate(fieldName:string, noWarnings = false):Promise<void|EditFieldHandler> {
     return this.loadFieldSchema(fieldName, noWarnings)
       .then((schema:IFieldSchema) => {
         if (!schema.writable && !noWarnings) {
@@ -191,7 +191,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
           this.onSaved(result);
           this.change.inFlight = false;
         })
-        .catch((error:ErrorResource|Object) => {
+        .catch((error:ErrorResource|unknown) => {
           this.halNotification.handleRawError(error, this.resource);
 
           if (error instanceof ErrorResource) {
@@ -212,7 +212,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    * @param {string[]} fields
    * @param resetChange whether to undo any changes made
    */
-  public closeEditFields(fields:string[]|'all' = 'all', resetChange:boolean = true) {
+  public closeEditFields(fields:string[]|'all' = 'all', resetChange = true) {
     if (fields === 'all') {
       fields = _.keys(this.activeFields);
     }
@@ -247,7 +247,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
 
   private setErrorsForFields(erroneousFields:string[]) {
     // Accumulate errors for the given response
-    let promises:Promise<any>[] = erroneousFields.map((fieldName:string) => {
+    const promises:Promise<any>[] = erroneousFields.map((fieldName:string) => {
       return this.requireVisible(fieldName).then(() => {
         if (this.activeFields[fieldName]) {
           this.activeFields[fieldName].setErrors(this.errorsPerAttribute[fieldName] || []);
@@ -271,7 +271,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    * values loaded.
    * @param fieldName
    */
-  protected loadFieldSchema(fieldName:string, noWarnings:boolean = false):Promise<IFieldSchema> {
+  protected loadFieldSchema(fieldName:string, noWarnings = false):Promise<IFieldSchema> {
     return new Promise((resolve, reject) => {
       this.loadFormAndCheck(fieldName, noWarnings);
       const fieldSchema:IFieldSchema = this.change.schema.ofProperty(fieldName);
@@ -289,7 +289,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    * @param fieldName
    * @param noWarnings
    */
-  private loadFormAndCheck(fieldName:string, noWarnings:boolean = false) {
+  private loadFormAndCheck(fieldName:string, noWarnings = false) {
     // Ensure the form is being loaded if necessary
     this.change
       .getForm()

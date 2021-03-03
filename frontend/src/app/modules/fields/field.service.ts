@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injector} from '@angular/core';
-import {Field} from "core-app/modules/fields/field.base";
+import { Injector } from '@angular/core';
+import { Field } from "core-app/modules/fields/field.base";
 
 export interface IFieldType<T extends Field> {
   fieldType:string;
@@ -62,13 +62,13 @@ export abstract class AbstractFieldService<T extends Field, C extends IFieldType
    * @param {string} fieldName
    * @returns {C}
    */
-  public getClassFor(fieldName:string, type:string = 'unknown'):C {
-    let key = this.fieldType(fieldName) || this.fieldType(type) || this.defaultFieldType;
+  public getClassFor(fieldName:string, type = 'unknown'):C {
+    const key = this.fieldType(fieldName) || this.fieldType(type) || this.defaultFieldType;
     return this.classes[key];
   }
 
-  public getSpecificClassFor(resourceType:string, fieldName:string, type:string = 'unknown'):C {
-    let key = this.fieldType(`${resourceType}-${fieldName}`) ||
+  public getSpecificClassFor(resourceType:string, fieldName:string, type = 'unknown'):C {
+    const key = this.fieldType(`${resourceType}-${fieldName}`) ||
               this.fieldType(`${resourceType}-${type}`);
 
     if (key) {
@@ -121,7 +121,7 @@ export abstract class AbstractFieldService<T extends Field, C extends IFieldType
    * @returns {this}
    */
   public extendFieldType(fieldType:string, attributes:string[]) {
-    let fieldClass = this.classes[fieldType] || this.getClassFor(fieldType);
+    const fieldClass = this.classes[fieldType] || this.getClassFor(fieldType);
     return this.addFieldType(fieldClass, fieldType, attributes);
   }
 

@@ -1,6 +1,6 @@
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
+import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
 import { WorkPackageSchemaProxy } from 'core-app/modules/hal/schemas/work-package-schema-proxy';
 
 export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource> {

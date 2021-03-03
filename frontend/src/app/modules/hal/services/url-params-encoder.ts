@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HttpParameterCodec} from '@angular/common/http';
+import { HttpParameterCodec } from '@angular/common/http';
 
 export class URLParamsEncoder implements HttpParameterCodec {
   encodeKey(key:string):string {

@@ -25,10 +25,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, OnInit, ViewChild, ChangeDetectionStrategy} from "@angular/core";
-import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
-import {OpCkeditorComponent} from "core-app/modules/common/ckeditor/op-ckeditor.component";
-import {ICKEditorContext, ICKEditorInstance} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from "@angular/core";
+import { EditFieldComponent } from "core-app/modules/fields/edit/edit-field.component";
+import { OpCkeditorComponent } from "core-app/modules/common/ckeditor/op-ckeditor.component";
+import { ICKEditorContext, ICKEditorInstance } from "core-app/modules/common/ckeditor/ckeditor-setup.service";
 
 export const formattableFieldTemplate = `
     <div class="textarea-wrapper">
@@ -64,8 +64,8 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   @ViewChild(OpCkeditorComponent, { static: true }) editor:OpCkeditorComponent;
 
   // Values used in template
-  public isPreview:boolean = false;
-  public previewHtml:string = '';
+  public isPreview = false;
+  public previewHtml = '';
   public text:any = {};
 
   public editorType = this.resource.getEditorTypeFor(this.field.name);
@@ -76,8 +76,8 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     this.handler.registerOnSubmit(() => this.getCurrentValue());
     this.text = {
       attachmentLabel: this.I18n.t('js.label_formattable_attachment_hint'),
-      save: this.I18n.t('js.inplace.button_save', {attribute: this.schema.name}),
-      cancel: this.I18n.t('js.inplace.button_cancel', {attribute: this.schema.name})
+      save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
+      cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name })
     };
   }
 
@@ -115,7 +115,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   public get ckEditorContext():ICKEditorContext {
     return {
       resource: this.change.pristineResource,
-      macros: 'none' as 'none',
+      macros: 'none' as const,
       previewContext: this.previewContext,
       options: { rtl: this.schema.options && this.schema.options.rtl }
     };

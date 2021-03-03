@@ -27,9 +27,9 @@
 //++
 
 
-import {Inject, Injectable} from "@angular/core";
-import {DOCUMENT} from "@angular/common";
-import {debugLog} from "core-app/helpers/debug_output";
+import { Inject, Injectable } from "@angular/core";
+import { DOCUMENT } from "@angular/common";
+import { debugLog } from "core-app/helpers/debug_output";
 
 @Injectable({ providedIn: 'root' })
 export class PathScriptAugmentService {

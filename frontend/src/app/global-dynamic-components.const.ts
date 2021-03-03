@@ -1,5 +1,5 @@
-import {OptionalBootstrapDefinition} from "core-app/globals/dynamic-bootstrapper";
-import {appBaseSelector, ApplicationBaseComponent} from "core-app/modules/router/base/application-base.component";
+import { OptionalBootstrapDefinition } from "core-app/globals/dynamic-bootstrapper";
+import { appBaseSelector, ApplicationBaseComponent } from "core-app/modules/router/base/application-base.component";
 import {
   EmbeddedTablesMacroComponent,
   wpEmbeddedTableMacroSelector
@@ -12,7 +12,7 @@ import {
   ZenModeButtonComponent,
   zenModeComponentSelector
 } from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
-import {AttachmentsComponent, attachmentsSelector} from "core-app/modules/attachments/attachments.component";
+import { AttachmentsComponent, attachmentsSelector } from "core-app/modules/attachments/attachments.component";
 import {
   UserAutocompleterComponent,
   usersAutocompleterSelector
@@ -29,7 +29,7 @@ import {
   CustomDateActionAdminComponent,
   customDateActionAdminSelector
 } from "core-components/wp-custom-actions/date-action/custom-date-action-admin.component";
-import {BoardsMenuComponent, boardsMenuSelector} from "core-app/modules/boards/boards-sidebar/boards-menu.component";
+import { BoardsMenuComponent, boardsMenuSelector } from "core-app/modules/boards/boards-sidebar/boards-menu.component";
 import {
   GlobalSearchWorkPackagesEntryComponent,
   globalSearchWorkPackagesSelectorEntry
@@ -50,7 +50,7 @@ import {
   PersistentToggleComponent,
   persistentToggleSelector
 } from "core-app/modules/common/persistent-toggle/persistent-toggle.component";
-import {UserAvatarComponent, userAvatarSelector} from "core-components/user/user-avatar/user-avatar.component";
+import { UserAvatarComponent, userAvatarSelector } from "core-components/user/user-avatar/user-avatar.component";
 import {
   HideSectionLinkComponent,
   hideSectionLinkSelector
@@ -79,7 +79,7 @@ import {
   ConfirmFormSubmitController,
   confirmFormSubmitSelector
 } from "core-components/modals/confirm-form-submit/confirm-form-submit.directive";
-import {MainMenuResizerComponent, mainMenuResizerSelector} from "core-components/resizer/main-menu-resizer.component";
+import { MainMenuResizerComponent, mainMenuResizerSelector } from "core-components/resizer/main-menu-resizer.component";
 import {
   GlobalSearchInputComponent,
   globalSearchSelector
@@ -116,12 +116,12 @@ import {
   GlobalSearchTabsComponent,
   globalSearchTabsSelector
 } from "core-app/modules/global_search/tabs/global-search-tabs.component";
-import {MainMenuToggleComponent, mainMenuToggleSelector} from "core-components/main-menu/main-menu-toggle.component";
+import { MainMenuToggleComponent, mainMenuToggleSelector } from "core-components/main-menu/main-menu-toggle.component";
 import {
   MembersAutocompleterComponent,
   membersAutocompleterSelector
 } from "core-app/modules/members/members-autocompleter.component";
-import {EnterpriseBaseComponent, enterpriseBaseSelector} from "core-components/enterprise/enterprise-base.component";
+import { EnterpriseBaseComponent, enterpriseBaseSelector } from "core-components/enterprise/enterprise-base.component";
 import {
   EEActiveSavedTrialComponent,
   enterpriseActiveSavedTrialSelector
@@ -154,7 +154,7 @@ import {
   EditableQueryPropsComponent,
   editableQueryPropsSelector
 } from "core-app/modules/admin/editable-query-props/editable-query-props.component";
-import {SlideToggleComponent, slideToggleSelector} from "core-app/modules/common/slide-toggle/slide-toggle.component";
+import { SlideToggleComponent, slideToggleSelector } from "core-app/modules/common/slide-toggle/slide-toggle.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },

@@ -114,6 +114,13 @@ module.exports = {
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": "off",
 
+    // Allow object.hasOwnProperty calls
+    "no-prototype-builtins": "off",
+
+    // We need to redeclare interface with the same name
+    // as a class or constant for type ducking
+    "no-redeclare": "off",
+
     // Whitespace configuration
     "@typescript-eslint/type-annotation-spacing": [
       "error",
@@ -128,6 +135,9 @@ module.exports = {
         },
       },
     ],
+
+    // Allow empty interfaces for naming purposes (HAL resources)
+    "@typescript-eslint/no-empty-interface": "off",
 
     // Force spaces in objects
     "object-curly-spacing": ["error", "always"],

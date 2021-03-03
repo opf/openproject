@@ -27,9 +27,9 @@
 //++
 
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-import {By} from "@angular/platform-browser";
-import {DebugElement} from "@angular/core";
-import {OpIconComponent} from "core-app/modules/common/icon/icon.component";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
+import { OpIconComponent } from "core-app/modules/common/icon/icon.component";
 
 describe('opIcon Directive', function() {
   let app:OpIconComponent;

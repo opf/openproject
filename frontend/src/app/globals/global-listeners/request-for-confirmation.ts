@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {OpModalService} from "core-app/modules/modal/modal.service";
-import {PasswordConfirmationModal} from "core-components/modals/request-for-confirmation/password-confirmation.modal";
+import { OpModalService } from "core-app/modules/modal/modal.service";
+import { PasswordConfirmationModal } from "core-components/modals/request-for-confirmation/password-confirmation.modal";
 
 function registerListener(
   form:JQuery,
@@ -73,7 +73,7 @@ export function registerRequestForConfirmation($:JQueryStatic) {
           const form = jQuery(this);
 
           if (form.find('input[name="_password_confirmation"]').length) {
-              return true;
+            return true;
           }
 
           return registerListener(form, $event, opModalService, passwordConfirmationModal);

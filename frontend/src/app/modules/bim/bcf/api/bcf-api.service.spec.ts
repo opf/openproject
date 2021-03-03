@@ -27,9 +27,9 @@
 //++
 
 import { TestBed, waitForAsync } from "@angular/core/testing";
-import {BcfApiService} from "core-app/modules/bim/bcf/api/bcf-api.service";
-import {BcfResourceCollectionPath, BcfResourcePath} from "core-app/modules/bim/bcf/api/bcf-path-resources";
-import {BcfTopicPaths} from "core-app/modules/bim/bcf/api/topics/bcf-topic.paths";
+import { BcfApiService } from "core-app/modules/bim/bcf/api/bcf-api.service";
+import { BcfResourceCollectionPath, BcfResourcePath } from "core-app/modules/bim/bcf/api/bcf-path-resources";
+import { BcfTopicPaths } from "core-app/modules/bim/bcf/api/topics/bcf-topic.paths";
 
 describe('BcfApiService', function () {
   let service:BcfApiService;
@@ -49,64 +49,64 @@ describe('BcfApiService', function () {
 
   describe('building the path', () => {
     it('can build projects', () => {
-      let subject = service.projects;
+      const subject = service.projects;
       expect(subject.toPath()).toEqual('/api/bcf/2.1/projects');
     });
 
     it('can build project', () => {
-      let subject = service.projects.id('foo');
+      const subject = service.projects.id('foo');
       expect(subject.toPath()).toEqual('/api/bcf/2.1/projects/foo');
     });
 
     it('can build topics', () => {
-      let subject = service.projects.id('foo').topics;
+      const subject = service.projects.id('foo').topics;
       expect(subject.toPath()).toEqual('/api/bcf/2.1/projects/foo/topics');
     });
 
     it('can build topic', () => {
-      let subject = service.projects.id('foo').topics.id('bar');
+      const subject = service.projects.id('foo').topics.id('bar');
       expect(subject.toPath()).toEqual('/api/bcf/2.1/projects/foo/topics/bar');
     });
 
     it('can build viewpoints', () => {
-      let subject = service.projects.id('foo').topics.id('bar').viewpoints;
+      const subject = service.projects.id('foo').topics.id('bar').viewpoints;
       expect(subject.toPath()).toEqual('/api/bcf/2.1/projects/foo/topics/bar/viewpoints');
     });
 
     it('can build comments', () => {
-      let subject = service.projects.id('foo').topics.id('bar').comments;
+      const subject = service.projects.id('foo').topics.id('bar').comments;
       expect(subject.toPath()).toEqual('/api/bcf/2.1/projects/foo/topics/bar/comments');
     });
   });
 
   describe('#parse', () => {
     it('can parse projects', () => {
-      let href = '/api/bcf/2.1/projects';
-      let subject:any = service.parse(href);
+      const href = '/api/bcf/2.1/projects';
+      const subject:any = service.parse(href);
       expect(subject).toBeInstanceOf(BcfResourceCollectionPath);
       expect(subject.segment).toEqual('projects');
       expect(subject.toPath()).toEqual(href);
     });
 
     it('can parse single project', () => {
-      let href = '/api/bcf/2.1/projects/foo';
-      let subject:any = service.parse(href);
+      const href = '/api/bcf/2.1/projects/foo';
+      const subject:any = service.parse(href);
       expect(subject).toBeInstanceOf(BcfResourcePath);
       expect(subject.id).toEqual('foo');
       expect(subject.toPath()).toEqual(href);
     });
 
     it('can parse topics in projects', () => {
-      let href = '/api/bcf/2.1/projects/foo/topics';
-      let subject:any = service.parse(href);
+      const href = '/api/bcf/2.1/projects/foo/topics';
+      const subject:any = service.parse(href);
       expect(subject).toBeInstanceOf(BcfResourceCollectionPath);
       expect(subject.segment).toEqual('topics');
       expect(subject.toPath()).toEqual(href);
     });
 
     it('can parse single topic in projects', () => {
-      let href = '/api/bcf/2.1/projects/foo/topics/0efc0da-b4d5-4933-bcb6-e01513ee2bcc';
-      let subject:any = service.parse(href);
+      const href = '/api/bcf/2.1/projects/foo/topics/0efc0da-b4d5-4933-bcb6-e01513ee2bcc';
+      const subject:any = service.parse(href);
       expect(subject).toBeInstanceOf(BcfTopicPaths);
       expect(subject.comments).toBeDefined();
       expect(subject.viewpoints).toBeDefined();
@@ -115,16 +115,16 @@ describe('BcfApiService', function () {
     });
 
     it('can parse viewpoints in topic', () => {
-      let href = '/api/bcf/2.1/projects/foo/topics/0efc0da-b4d5-4933-bcb6-e01513ee2bcc/viewpoints';
-      let subject:any = service.parse(href);
+      const href = '/api/bcf/2.1/projects/foo/topics/0efc0da-b4d5-4933-bcb6-e01513ee2bcc/viewpoints';
+      const subject:any = service.parse(href);
       expect(subject).toBeInstanceOf(BcfResourceCollectionPath);
       expect(subject.segment).toEqual('viewpoints');
       expect(subject.toPath()).toEqual(href);
     });
 
     it('can parse single viewpoint in topic', () => {
-      let href = '/api/bcf/2.1/projects/demo-bcf-management-project/topics/00efc0da-b4d5-4933-bcb6-e01513ee2bcc/viewpoints/dfca6c25-832f-6a94-53ca-48d510b6bad9';
-      let subject:any = service.parse(href);
+      const href = '/api/bcf/2.1/projects/demo-bcf-management-project/topics/00efc0da-b4d5-4933-bcb6-e01513ee2bcc/viewpoints/dfca6c25-832f-6a94-53ca-48d510b6bad9';
+      const subject:any = service.parse(href);
       expect(subject).toBeInstanceOf(BcfResourcePath);
       expect(subject.id).toEqual('dfca6c25-832f-6a94-53ca-48d510b6bad9');
       expect(subject.toPath()).toEqual(href);

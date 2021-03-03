@@ -1,11 +1,11 @@
-import {Injector} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {WorkPackageTable} from '../../../wp-fast-table';
-import {PrimaryRenderPass} from '../../primary-render-pass';
-import {SingleRowBuilder} from '../../rows/single-row-builder';
-import {RowsBuilder} from '../rows-builder';
-import {PlainRenderPass} from './plain-render-pass';
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { Injector } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { WorkPackageTable } from '../../../wp-fast-table';
+import { PrimaryRenderPass } from '../../primary-render-pass';
+import { SingleRowBuilder } from '../../rows/single-row-builder';
+import { RowsBuilder } from '../rows-builder';
+import { PlainRenderPass } from './plain-render-pass';
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export class PlainRowsBuilder extends RowsBuilder {
 

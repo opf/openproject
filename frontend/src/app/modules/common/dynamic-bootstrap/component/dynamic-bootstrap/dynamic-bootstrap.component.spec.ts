@@ -4,9 +4,9 @@ import {
   TestBed,
   tick,
 } from '@angular/core/testing';
-import {DynamicBootstrapComponent} from './dynamic-bootstrap.component';
-import {ApplicationRef, Component, DebugElement} from '@angular/core';
-import {DynamicBootstrapper} from 'core-app/globals/dynamic-bootstrapper';
+import { DynamicBootstrapComponent } from './dynamic-bootstrap.component';
+import { ApplicationRef, Component, DebugElement } from '@angular/core';
+import { DynamicBootstrapper } from 'core-app/globals/dynamic-bootstrapper';
 
 // Stub component to bootstrap dynamically
 @Component({
@@ -34,7 +34,7 @@ describe('DynamicBootstrapComponent', () => {
         TestComponent,
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

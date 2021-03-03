@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from '@angular/core';
-import {DateKeys} from "core-components/datepicker/datepicker.modal";
-import {DatePicker} from "core-app/modules/common/op-date-picker/datepicker";
-import {DateOption} from "flatpickr/dist/types/options";
+import { Injectable } from '@angular/core';
+import { DateKeys } from "core-components/datepicker/datepicker.modal";
+import { DatePicker } from "core-app/modules/common/op-date-picker/datepicker";
+import { DateOption } from "flatpickr/dist/types/options";
 
 @Injectable({ providedIn: 'root' })
 export class DatePickerModalHelper {
@@ -67,8 +67,8 @@ export class DatePickerModalHelper {
   }
 
   public areDatesEqual(firstDate:Date|string, secondDate:Date|string) {
-    let parsedDate1 = this.parseDate(firstDate);
-    let parsedDate2 = this.parseDate(secondDate);
+    const parsedDate1 = this.parseDate(firstDate);
+    const parsedDate2 = this.parseDate(secondDate);
 
     if ((typeof(parsedDate1) === 'string') || (typeof(parsedDate2) === 'string')) {
       return false;
@@ -91,8 +91,8 @@ export class DatePickerModalHelper {
   }
 
   public setDates(dates:DateOption|DateOption[], datePicker:DatePicker, enforceDate?:Date) {
-    let currentMonth = datePicker.datepickerInstance.currentMonth;
-    let currentYear = datePicker.datepickerInstance.currentYear;
+    const currentMonth = datePicker.datepickerInstance.currentMonth;
+    const currentYear = datePicker.datepickerInstance.currentYear;
     datePicker.setDates(dates);
 
     if (enforceDate) {
@@ -155,7 +155,7 @@ export class DatePickerModalHelper {
         selectedElements[0].classList.add('startRange');
         this.selectRangeFromUntil(selectedElements[0], '');
       } else if (this.datepickerShowsDate(dates.end, selectedElements[0])) {
-        let firstDay = jQuery(container).find('.flatpickr-day')[0];
+        const firstDay = jQuery(container).find('.flatpickr-day')[0];
 
         selectedElements[0].classList.add('endRange');
         firstDay.classList.add('inRange');

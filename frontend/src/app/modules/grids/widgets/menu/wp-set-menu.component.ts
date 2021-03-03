@@ -27,14 +27,14 @@
 //++
 
 import { Injector, EventEmitter, Output, Directive } from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {OpModalService} from "core-app/modules/modal/modal.service";
-import {OpModalComponent} from "core-app/modules/modal/modal.component";
-import {GridRemoveWidgetService} from "core-app/modules/grids/grid/remove-widget.service";
-import {ComponentType} from '@angular/cdk/portal';
-import {WidgetAbstractMenuComponent} from "core-app/modules/grids/widgets/menu/widget-abstract-menu.component";
-import {WpGraphConfigurationModalComponent} from "core-app/modules/work-package-graphs/configuration-modal/wp-graph-configuration.modal";
-import {GridAreaService} from "core-app/modules/grids/grid/area.service";
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { OpModalService } from "core-app/modules/modal/modal.service";
+import { OpModalComponent } from "core-app/modules/modal/modal.component";
+import { GridRemoveWidgetService } from "core-app/modules/grids/grid/remove-widget.service";
+import { ComponentType } from '@angular/cdk/portal';
+import { WidgetAbstractMenuComponent } from "core-app/modules/grids/widgets/menu/widget-abstract-menu.component";
+import { WpGraphConfigurationModalComponent } from "core-app/modules/work-package-graphs/configuration-modal/wp-graph-configuration.modal";
+import { GridAreaService } from "core-app/modules/grids/grid/area.service";
 
 @Directive()
 export abstract class WidgetWpSetMenuComponent extends WidgetAbstractMenuComponent {
@@ -53,9 +53,9 @@ export abstract class WidgetWpSetMenuComponent extends WidgetAbstractMenuCompone
               readonly i18n:I18nService,
               protected readonly remove:GridRemoveWidgetService,
               readonly layout:GridAreaService) {
-  super(i18n,
-        remove,
-        layout);
+    super(i18n,
+      remove,
+      layout);
   }
 
   protected get configureItem() {
@@ -65,7 +65,7 @@ export abstract class WidgetWpSetMenuComponent extends WidgetAbstractMenuCompone
         this.opModalService.show(this.configurationComponent, this.injector, this.locals)
           .closingEvent.subscribe((modal:WpGraphConfigurationModalComponent) => {
             this.onConfigured.emit(modal.configuration);
-        });
+          });
         return true;
       }
     };

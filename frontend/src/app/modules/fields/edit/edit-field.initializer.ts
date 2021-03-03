@@ -26,25 +26,25 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {EditFieldService} from "core-app/modules/fields/edit/edit-field.service";
-import {TextEditFieldComponent} from "core-app/modules/fields/edit/field-types/text-edit-field.component";
-import {IntegerEditFieldComponent} from "core-app/modules/fields/edit/field-types/integer-edit-field.component";
-import {DurationEditFieldComponent} from "core-app/modules/fields/edit/field-types/duration-edit-field.component";
-import {SelectEditFieldComponent} from "core-app/modules/fields/edit/field-types/select-edit-field.component";
-import {MultiSelectEditFieldComponent} from "core-app/modules/fields/edit/field-types/multi-select-edit-field.component";
-import {FloatEditFieldComponent} from "core-app/modules/fields/edit/field-types/float-edit-field.component";
-import {BooleanEditFieldComponent} from "core-app/modules/fields/edit/field-types/boolean-edit-field.component";
-import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
-import {DateEditFieldComponent} from "core-app/modules/fields/edit/field-types/date-edit-field.component";
-import {FormattableEditFieldComponent} from "core-app/modules/fields/edit/field-types/formattable-edit-field.component";
-import {WorkPackageCommentFieldComponent} from "core-components/work-packages/work-package-comment/wp-comment-field.component";
-import {SelectAutocompleterRegisterService} from "core-app/modules/fields/edit/field-types/select-autocompleter-register.service";
-import {ProjectStatusEditFieldComponent} from "core-app/modules/fields/edit/field-types/project-status-edit-field.component";
-import {PlainFormattableEditFieldComponent} from "core-app/modules/fields/edit/field-types/plain-formattable-edit-field.component";
-import {TimeEntryWorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/te-work-package-edit-field.component";
-import {CombinedDateEditFieldComponent} from "core-app/modules/fields/edit/field-types/combined-date-edit-field.component";
-import {VersionAutocompleterComponent} from "core-app/modules/autocompleter/version-autocompleter/version-autocompleter.component";
-import {WorkPackageAutocompleterComponent} from "core-app/modules/autocompleter/work-package-autocompleter/wp-autocompleter.component";
+import { EditFieldService } from "core-app/modules/fields/edit/edit-field.service";
+import { TextEditFieldComponent } from "core-app/modules/fields/edit/field-types/text-edit-field.component";
+import { IntegerEditFieldComponent } from "core-app/modules/fields/edit/field-types/integer-edit-field.component";
+import { DurationEditFieldComponent } from "core-app/modules/fields/edit/field-types/duration-edit-field.component";
+import { SelectEditFieldComponent } from "core-app/modules/fields/edit/field-types/select-edit-field.component";
+import { MultiSelectEditFieldComponent } from "core-app/modules/fields/edit/field-types/multi-select-edit-field.component";
+import { FloatEditFieldComponent } from "core-app/modules/fields/edit/field-types/float-edit-field.component";
+import { BooleanEditFieldComponent } from "core-app/modules/fields/edit/field-types/boolean-edit-field.component";
+import { WorkPackageEditFieldComponent } from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
+import { DateEditFieldComponent } from "core-app/modules/fields/edit/field-types/date-edit-field.component";
+import { FormattableEditFieldComponent } from "core-app/modules/fields/edit/field-types/formattable-edit-field.component";
+import { WorkPackageCommentFieldComponent } from "core-components/work-packages/work-package-comment/wp-comment-field.component";
+import { SelectAutocompleterRegisterService } from "core-app/modules/fields/edit/field-types/select-autocompleter-register.service";
+import { ProjectStatusEditFieldComponent } from "core-app/modules/fields/edit/field-types/project-status-edit-field.component";
+import { PlainFormattableEditFieldComponent } from "core-app/modules/fields/edit/field-types/plain-formattable-edit-field.component";
+import { TimeEntryWorkPackageEditFieldComponent } from "core-app/modules/fields/edit/field-types/te-work-package-edit-field.component";
+import { CombinedDateEditFieldComponent } from "core-app/modules/fields/edit/field-types/combined-date-edit-field.component";
+import { VersionAutocompleterComponent } from "core-app/modules/autocompleter/version-autocompleter/version-autocompleter.component";
+import { WorkPackageAutocompleterComponent } from "core-app/modules/autocompleter/work-package-autocompleter/wp-autocompleter.component";
 
 
 export function initializeCoreEditFields(editFieldService:EditFieldService, selectAutocompleterRegisterService:SelectAutocompleterRegisterService) {
@@ -77,8 +77,8 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
 
     editFieldService
       .addSpecificFieldType('WorkPackage', CombinedDateEditFieldComponent,
-                            'date',
-                            ['combinedDate', 'startDate', 'dueDate', 'date'])
+        'date',
+        ['combinedDate', 'startDate', 'dueDate', 'date'])
       .addSpecificFieldType('TimeEntry', PlainFormattableEditFieldComponent, 'comment', ['comment'])
       .addSpecificFieldType('TimeEntry', TimeEntryWorkPackageEditFieldComponent, 'workPackage', ['WorkPackage']);
 

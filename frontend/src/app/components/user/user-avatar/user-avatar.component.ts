@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {UserResource} from 'core-app/modules/hal/resources/user-resource';
-import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input} from "@angular/core";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {UserAvatarRendererService} from "core-components/user/user-avatar/user-avatar-renderer.service";
+import { UserResource } from 'core-app/modules/hal/resources/user-resource';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input } from "@angular/core";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { UserAvatarRendererService } from "core-components/user/user-avatar/user-avatar-renderer.service";
 
 export const userAvatarSelector = 'user-avatar';
 
@@ -49,7 +49,7 @@ export class UserAvatarComponent implements AfterViewInit {
 
   public ngAfterViewInit() {
     const element = this.elementRef.nativeElement;
-    let user = this.user || { name: element.dataset.userName!, id: element.dataset.userId };
+    const user = this.user || { name: element.dataset.userName!, id: element.dataset.userId };
     this.avatarRenderer.render(element, user, false, element.dataset.classList);
   }
 }

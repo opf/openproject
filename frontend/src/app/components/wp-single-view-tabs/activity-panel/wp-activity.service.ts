@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ActivityEntryInfo} from './activity-entry-info';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {Injectable} from '@angular/core';
-import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {WorkPackageLinkedResourceCache} from 'core-components/wp-single-view-tabs/wp-linked-resource-cache.service';
-import {TimezoneService} from 'core-components/datetime/timezone.service';
+import { ActivityEntryInfo } from './activity-entry-info';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { Injectable } from '@angular/core';
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { WorkPackageLinkedResourceCache } from 'core-components/wp-single-view-tabs/wp-linked-resource-cache.service';
+import { TimezoneService } from 'core-components/datetime/timezone.service';
 
 @Injectable()
 export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<HalResource[]> {
@@ -72,8 +72,8 @@ export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<
     });
   }
 
-  protected sortedActivityList(activities:HalResource[], attr:string = 'createdAt'):HalResource[] {
-    let sorted = _.sortBy(_.flatten(activities), attr);
+  protected sortedActivityList(activities:HalResource[], attr = 'createdAt'):HalResource[] {
+    const sorted = _.sortBy(_.flatten(activities), attr);
 
     if (this.isReversed) {
       return sorted.reverse();

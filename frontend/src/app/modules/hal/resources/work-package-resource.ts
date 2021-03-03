@@ -26,26 +26,26 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {AttachmentCollectionResource} from 'core-app/modules/hal/resources/attachment-collection-resource';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
-import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { AttachmentCollectionResource } from 'core-app/modules/hal/resources/attachment-collection-resource';
+import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
+import { TypeResource } from 'core-app/modules/hal/resources/type-resource';
+import { RelationResource } from 'core-app/modules/hal/resources/relation-resource';
 import {
   OpenProjectFileUploadService,
   UploadFile
 } from 'core-components/api/op-file-upload/op-file-upload.service';
-import {States} from 'core-components/states.service';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
-import {Attachable} from 'core-app/modules/hal/resources/mixins/attachable-mixin';
-import {FormResource} from "core-app/modules/hal/resources/form-resource";
-import {InputState} from "reactivestates";
-import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { States } from 'core-components/states.service';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
+import { Attachable } from 'core-app/modules/hal/resources/mixins/attachable-mixin';
+import { FormResource } from "core-app/modules/hal/resources/form-resource";
+import { InputState } from "reactivestates";
+import { WorkPackagesActivityService } from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -144,7 +144,7 @@ export class WorkPackageBaseResource extends HalResource {
   /**
    * Return "<type name>: <subject> (#<id>)" if type and id are known.
    */
-  public subjectWithType(truncateSubject:number = 40):string {
+  public subjectWithType(truncateSubject = 40):string {
     const type = this.type ? `${this.type.name}: ` : '';
     const subject = this.subjectWithId(truncateSubject);
 
@@ -154,15 +154,15 @@ export class WorkPackageBaseResource extends HalResource {
   /**
    * Return "<subject> (#<id>)" if the id is known.
    */
-  public subjectWithId(truncateSubject:number = 40):string {
+  public subjectWithId(truncateSubject = 40):string {
     const id = this.isNew ? '' : ` (#${this.id})`;
-    const subject = _.truncate(this.subject, {length: truncateSubject});
+    const subject = _.truncate(this.subject, { length: truncateSubject });
 
     return `${subject}${id}`;
   }
 
   public get isLeaf():boolean {
-    let children = this.$links.children;
+    const children = this.$links.children;
     return !(children && children.length > 0);
   }
 
@@ -208,7 +208,7 @@ export class WorkPackageBaseResource extends HalResource {
   public $initialize(source:any) {
     super.$initialize(source);
 
-    let attachments:any = this.attachments || {$source: {}, elements: []};
+    const attachments:any = this.attachments || { $source: {}, elements: [] };
     this.attachments = new AttachmentCollectionResource(
       this.injector,
       // Attachments MAY be an array if we're building from a form

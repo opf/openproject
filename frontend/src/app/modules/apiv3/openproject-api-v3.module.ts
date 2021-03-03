@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-common.module';
-import {NgModule} from '@angular/core';
-import {OpenprojectHalModule} from "core-app/modules/hal/openproject-hal.module";
+import { OpenprojectCommonModule } from 'core-app/modules/common/openproject-common.module';
+import { NgModule } from '@angular/core';
+import { OpenprojectHalModule } from "core-app/modules/hal/openproject-hal.module";
 
 @NgModule({
   imports: [

@@ -1,16 +1,16 @@
-import {Injectable, Injector, Optional} from '@angular/core';
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
-import {States} from "core-components/states.service";
-import {WorkPackageCreateService} from "core-components/wp-new/wp-create.service";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
-import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
-import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
-import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
-import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { Injectable, Injector, Optional } from '@angular/core';
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { WorkPackageViewOrderService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
+import { States } from "core-components/states.service";
+import { WorkPackageCreateService } from "core-components/wp-new/wp-create.service";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { WorkPackageInlineCreateService } from "core-components/wp-inline-create/wp-inline-create.service";
+import { DragAndDropService } from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
+import { DragAndDropHelpers } from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
+import { WorkPackageCardViewComponent } from "core-components/wp-card-view/wp-card-view.component";
+import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class WorkPackageCardDragAndDropService {
@@ -112,12 +112,12 @@ export class WorkPackageCardDragAndDropService {
    */
   public set workPackages(workPackages:WorkPackageResource[]) {
     if (this.activeInlineCreateWp) {
-      let existingNewWp = this._workPackages.find(o => o.isNew);
+      const existingNewWp = this._workPackages.find(o => o.isNew);
 
       // If there is already a card for a new WP,
       // we have to replace this one by the new activeInlineCreateWp
       if (existingNewWp) {
-        let index = this._workPackages.indexOf(existingNewWp);
+        const index = this._workPackages.indexOf(existingNewWp);
         this._workPackages[index] = this.activeInlineCreateWp;
       } else {
         this._workPackages = [this.activeInlineCreateWp, ...workPackages];
@@ -173,7 +173,7 @@ export class WorkPackageCardDragAndDropService {
   /**
    * Add the given work package to the query
    */
-  async addWorkPackageToQuery(workPackage:WorkPackageResource, toIndex:number = -1):Promise<boolean> {
+  async addWorkPackageToQuery(workPackage:WorkPackageResource, toIndex = -1):Promise<boolean> {
     try {
       await this.cardView.workPackageAddedHandler(workPackage);
       const newOrder = await this.reorderService.add(this.currentOrder, workPackage.id!, toIndex);

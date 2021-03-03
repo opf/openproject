@@ -1,7 +1,7 @@
-import {Component, ChangeDetectionStrategy} from "@angular/core";
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { TimeEntryResource } from "core-app/modules/hal/resources/time-entry-resource";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 import { TimeEntryBaseModal } from '../shared/modal/base.modal';
 
 @Component({

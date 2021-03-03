@@ -1,14 +1,14 @@
-import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
-import {Component, OnInit, SecurityContext, ChangeDetectionStrategy, ChangeDetectorRef, Injector} from '@angular/core';
-import {DocumentResource} from "../../../../../../../modules/documents/frontend/module/hal/resources/document-resource";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {TimezoneService} from "core-components/datetime/timezone.service";
-import {DomSanitizer} from '@angular/platform-browser';
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { AbstractWidgetComponent } from "core-app/modules/grids/widgets/abstract-widget.component";
+import { Component, OnInit, SecurityContext, ChangeDetectionStrategy, ChangeDetectorRef, Injector } from '@angular/core';
+import { DocumentResource } from "../../../../../../../modules/documents/frontend/module/hal/resources/document-resource";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
+import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { TimezoneService } from "core-components/datetime/timezone.service";
+import { DomSanitizer } from '@angular/platform-browser';
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   templateUrl: './documents.component.html',
@@ -67,12 +67,12 @@ export class WidgetDocumentsComponent extends AbstractWidgetComponent implements
   }
 
   public get documentsUrl() {
-    let orders = JSON.stringify([['updated_at', 'desc']]);
+    const orders = JSON.stringify([['updated_at', 'desc']]);
 
     let url = this.apiV3Service.documents.toPath() + `?sortBy=${orders}&pageSize=10`;
 
     if (this.currentProject.id) {
-      let filters = JSON.stringify([{project_id: { operator: '=', values: [this.currentProject.id.toString()]}}]);
+      const filters = JSON.stringify([{ project_id: { operator: '=', values: [this.currentProject.id.toString()] } }]);
 
       url = url + `&filters=${filters}`;
     }

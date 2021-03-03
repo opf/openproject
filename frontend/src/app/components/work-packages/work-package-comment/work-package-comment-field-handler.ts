@@ -1,9 +1,9 @@
-import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
+import { EditFieldHandler } from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import { ElementRef, Injector, OnInit, Directive } from "@angular/core";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {Subject} from "rxjs";
-import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { IFieldSchema } from "core-app/modules/fields/field.base";
+import { Subject } from "rxjs";
+import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 
 @Directive()
 export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler implements OnInit {
@@ -34,7 +34,7 @@ export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler im
 
   public abstract get workPackage():WorkPackageResource;
 
-  public reset(withText:string = '') {
+  public reset(withText = '') {
     if (withText.length > 0) {
       withText += '\n';
     }

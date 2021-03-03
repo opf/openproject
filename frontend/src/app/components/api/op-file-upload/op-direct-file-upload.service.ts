@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from "@angular/core";
-import {HttpEvent, HttpResponse} from "@angular/common/http";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {from, Observable, of} from "rxjs";
-import {share, switchMap} from "rxjs/operators";
-import {OpenProjectFileUploadService, UploadBlob, UploadFile, UploadInProgress} from './op-file-upload.service';
+import { Injectable } from "@angular/core";
+import { HttpEvent, HttpResponse } from "@angular/common/http";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { from, Observable, of } from "rxjs";
+import { share, switchMap } from "rxjs/operators";
+import { OpenProjectFileUploadService, UploadBlob, UploadFile, UploadInProgress } from './op-file-upload.service';
 
 interface PrepareUploadResult {
   url:string;
@@ -47,7 +47,7 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
    * @param {UploadFile} file
    * @param {string} method
    */
-  public uploadSingle(url:string, file:UploadFile|UploadBlob, method:string = 'post', responseType:'text'|'json' = 'text') {
+  public uploadSingle(url:string, file:UploadFile|UploadBlob, method = 'post', responseType:'text'|'json' = 'text') {
     const observable = from(this.getDirectUploadFormFrom(url, file))
       .pipe(
         switchMap(this.uploadToExternal(file, method, responseType)),
@@ -134,7 +134,7 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
       )
       .toPromise()
       .then((res) => {
-        let form = new FormData();
+        const form = new FormData();
 
         _.each(res._links.addAttachment.form_fields, (value, key) => {
           form.append(key, value);

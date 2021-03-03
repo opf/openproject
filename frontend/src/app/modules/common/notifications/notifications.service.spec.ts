@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
+import { OpenprojectHalModule } from 'core-app/modules/hal/openproject-hal.module';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
-import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 
 describe('NotificationsService', function () {
   var notificationsService:NotificationsService;
@@ -56,7 +56,7 @@ describe('NotificationsService', function () {
   it('should be able to create warnings', function () {
     var notification = notificationsService.addWarning('warning!');
 
-    expect(notification).toEqual({message: 'warning!', type: 'warning'});
+    expect(notification).toEqual({ message: 'warning!', type: 'warning' });
   });
 
   it('should be able to create error messages with errors', function () {

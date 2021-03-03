@@ -1,28 +1,28 @@
-import {ChangeDetectionStrategy, Component, Injector, ViewEncapsulation} from "@angular/core";
-import {GonService} from "core-app/modules/common/gon/gon.service";
+import { ChangeDetectionStrategy, Component, Injector, ViewEncapsulation } from "@angular/core";
+import { GonService } from "core-app/modules/common/gon/gon.service";
 import {
   PartitionedQuerySpacePageComponent,
   ToolbarButtonComponentDefinition
 } from "core-app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
-import {WorkPackageFilterButtonComponent} from "core-components/wp-buttons/wp-filter-button/wp-filter-button.component";
-import {ZenModeButtonComponent} from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
+import { WorkPackageFilterButtonComponent } from "core-components/wp-buttons/wp-filter-button/wp-filter-button.component";
+import { ZenModeButtonComponent } from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
 import {
   bimListViewIdentifier,
   bimViewerViewIdentifier,
   BimViewService
 } from "core-app/modules/bim/ifc_models/pages/viewer/bim-view.service";
-import {BimViewToggleButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/view-toggle/bim-view-toggle-button.component";
-import {IfcModelsDataService} from "core-app/modules/bim/ifc_models/pages/viewer/ifc-models-data.service";
-import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {BimManageIfcModelsButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/manage-ifc-models-button/bim-manage-ifc-models-button.component";
-import {WorkPackageCreateButtonComponent} from "core-components/wp-buttons/wp-create-button/wp-create-button.component";
-import {StateService, TransitionService} from "@uirouter/core";
-import {BehaviorSubject} from "rxjs";
-import {BcfImportButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-import-button.component";
-import {BcfExportButtonComponent} from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-export-button.component";
-import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
-import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
+import { BimViewToggleButtonComponent } from "core-app/modules/bim/ifc_models/toolbar/view-toggle/bim-view-toggle-button.component";
+import { IfcModelsDataService } from "core-app/modules/bim/ifc_models/pages/viewer/ifc-models-data.service";
+import { QueryParamListenerService } from "core-components/wp-query/query-param-listener.service";
+import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { BimManageIfcModelsButtonComponent } from "core-app/modules/bim/ifc_models/toolbar/manage-ifc-models-button/bim-manage-ifc-models-button.component";
+import { WorkPackageCreateButtonComponent } from "core-components/wp-buttons/wp-create-button/wp-create-button.component";
+import { StateService, TransitionService } from "@uirouter/core";
+import { BehaviorSubject } from "rxjs";
+import { BcfImportButtonComponent } from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-import-button.component";
+import { BcfExportButtonComponent } from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-export-button.component";
+import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
+import { ViewerBridgeService } from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 
 @Component({
   templateUrl: '../../../../work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',

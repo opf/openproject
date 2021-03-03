@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {InputState} from 'reactivestates';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { InputState } from 'reactivestates';
 
 export class PlaceholderUserResource extends HalResource {
   // Links

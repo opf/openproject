@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {NgModule} from '@angular/core';
-import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-common.module';
-import {OpenprojectModalModule} from "core-app/modules/modal/modal.module";
-import {Ng2StateDeclaration, UIRouterModule} from "@uirouter/angular";
-import {DisplayJobPageComponent} from "core-app/modules/job-status/display-job-page/display-job-page.component";
-import {JobStatusModal} from "core-app/modules/job-status/job-status-modal/job-status.modal";
+import { NgModule } from '@angular/core';
+import { OpenprojectCommonModule } from 'core-app/modules/common/openproject-common.module';
+import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
+import { Ng2StateDeclaration, UIRouterModule } from "@uirouter/angular";
+import { DisplayJobPageComponent } from "core-app/modules/job-status/display-job-page/display-job-page.component";
+import { JobStatusModal } from "core-app/modules/job-status/job-status-modal/job-status.modal";
 
 export const JOB_STATUS_ROUTE:Ng2StateDeclaration[] = [
   {

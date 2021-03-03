@@ -1,11 +1,11 @@
-import {Component, ElementRef, Inject, ChangeDetectorRef} from "@angular/core";
-import {OpModalComponent} from "core-app/modules/modal/modal.component";
-import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
-import {OpModalLocalsMap} from "core-app/modules/modal/modal.types";
-import {WidgetRegistration} from "app/modules/grids/grid/grid.component";
-import {GridWidgetsService} from "app/modules/grids/widgets/widgets.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {BannersService} from "core-app/modules/common/enterprise/banners.service";
+import { Component, ElementRef, Inject, ChangeDetectorRef } from "@angular/core";
+import { OpModalComponent } from "core-app/modules/modal/modal.component";
+import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { OpModalLocalsMap } from "core-app/modules/modal/modal.types";
+import { WidgetRegistration } from "app/modules/grids/grid/grid.component";
+import { GridWidgetsService } from "app/modules/grids/widgets/widgets.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { BannersService } from "core-app/modules/common/enterprise/banners.service";
 
 @Component({
   templateUrl: './add.modal.html'
@@ -52,7 +52,7 @@ export class AddGridWidgetModal extends OpModalComponent {
   }
 
   private get eligibleWidgets() {
-    let schemaWidgetIdentifiers = this.locals.schema.widgets.allowedValues.map((widget:any) => {
+    const schemaWidgetIdentifiers = this.locals.schema.widgets.allowedValues.map((widget:any) => {
       return widget.identifier;
     });
 

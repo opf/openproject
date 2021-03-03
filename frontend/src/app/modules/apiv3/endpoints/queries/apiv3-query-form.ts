@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
-import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
-import {Observable} from "rxjs";
+import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { APIv3FormResource } from "core-app/modules/apiv3/forms/apiv3-form-resource";
+import { QueryFormResource } from "core-app/modules/hal/resources/query-form-resource";
+import { Observable } from "rxjs";
 import * as URI from "urijs";
-import {map, tap} from "rxjs/operators";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
+import { map, tap } from "rxjs/operators";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { QueryFiltersService } from "core-components/wp-query/query-filters.service";
 
 export class Apiv3QueryForm extends APIv3FormResource<QueryFormResource> {
   @InjectField() private queryFilters:QueryFiltersService;
@@ -46,7 +46,7 @@ export class Apiv3QueryForm extends APIv3FormResource<QueryFormResource> {
     // We need a valid payload so that we
     // can check whether form saving is possible.
     // The query needs a name to be valid.
-    let payload:any = {
+    const payload:any = {
       'name': query.name || '!!!__O__o__O__!!!'
     };
 
@@ -58,7 +58,7 @@ export class Apiv3QueryForm extends APIv3FormResource<QueryFormResource> {
       };
     }
 
-    let path = this.apiRoot.queries.withOptionalId(query.id).form.path;
+    const path = this.apiRoot.queries.withOptionalId(query.id).form.path;
     return this.halResourceService
       .post<QueryFormResource>(path, payload)
       .pipe(
@@ -91,7 +91,7 @@ export class Apiv3QueryForm extends APIv3FormResource<QueryFormResource> {
 
     }
 
-    let path = this.apiRoot.queries.withOptionalId(queryId).form.path;
+    const path = this.apiRoot.queries.withOptionalId(queryId).form.path;
     const href = URI(path).search(params).toString();
     return this.halResourceService
       .post<QueryFormResource>(href, payload)

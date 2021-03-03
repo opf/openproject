@@ -27,7 +27,7 @@
 //++
 
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 
 export class QueryOperatorResource extends HalResource {
   public get id():string {

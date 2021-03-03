@@ -1,7 +1,7 @@
-import {Injectable} from "@angular/core";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {ColorsService} from "core-app/modules/common/colors/colors.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { Injectable } from "@angular/core";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { ColorsService } from "core-app/modules/common/colors/colors.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 export interface UserLike {
   name:string;
@@ -18,9 +18,9 @@ export class UserAvatarRendererService {
   }
 
   renderMultiple(container:HTMLElement,
-                 users:UserLike[],
-                 renderName:boolean = true,
-                 multiLine:boolean = false) {
+    users:UserLike[],
+    renderName = true,
+    multiLine = false) {
 
     const span = document.createElement('span');
 
@@ -46,9 +46,9 @@ export class UserAvatarRendererService {
   }
 
   render(container:HTMLElement,
-         user:UserLike,
-         renderName:boolean = true,
-         classes:string = 'avatar-medium'):void {
+    user:UserLike,
+    renderName = true,
+    classes = 'avatar-medium'):void {
     const userInitials = this.getInitials(user.name);
     const colorCode = this.colors.toHsl(user.name);
 
@@ -84,10 +84,10 @@ export class UserAvatarRendererService {
   }
 
   private getInitials(name:string) {
-    let characters = [...name];
-    let lastSpace = name.lastIndexOf(' ');
-    let first = characters[0]?.toUpperCase();
-    let last = name[lastSpace + 1]?.toUpperCase();
+    const characters = [...name];
+    const lastSpace = name.lastIndexOf(' ');
+    const first = characters[0]?.toUpperCase();
+    const last = name[lastSpace + 1]?.toUpperCase();
 
     return [first, last].join("");
   }

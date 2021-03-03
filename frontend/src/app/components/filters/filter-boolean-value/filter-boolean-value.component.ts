@@ -26,17 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
 
 @Component({
   selector: 'filter-boolean-value',
   templateUrl: './filter-boolean-value.component.html'
 })
 export class FilterBooleanValueComponent {
-  @Input() public shouldFocus:boolean = false;
+  @Input() public shouldFocus = false;
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
 

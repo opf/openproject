@@ -7,15 +7,15 @@ import { States } from 'core-app/components/states.service';
 import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
 import { HttpClientModule } from "@angular/common/http";
 import { By } from '@angular/platform-browser';
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {of} from "rxjs";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { of } from "rxjs";
 
 describe('shows news', () => {
   let app:WidgetNewsComponent;
   let fixture:ComponentFixture<WidgetNewsComponent>;
   let element:DebugElement;
 
-  let newsStub = {
+  const newsStub = {
     id: 1,
     title: 'Welcome to your demo project',
     author: {
@@ -32,7 +32,7 @@ describe('shows news', () => {
     updatedAt: '2020-03-26T10:42:14Z',
   };
 
-  let apiv3ServiceStub = {
+  const apiv3ServiceStub = {
     news: {
       list: (_params:any) => {
         return of({ elements: [newsStub] });
@@ -40,7 +40,7 @@ describe('shows news', () => {
     }
   };
 
-  let configurationServiceStub = {
+  const configurationServiceStub = {
     isTimezoneSet: () => false,
     dateFormatPresent: () => false,
     timeFormatPresent: () => false
@@ -75,7 +75,7 @@ describe('shows news', () => {
   it('should render the componenet successfully to show the news', waitForAsync(() => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      let newsItem = document.querySelector('li');
+      const newsItem = document.querySelector('li');
       expect(document.contains(newsItem)).toBeTruthy();
     });
   }));
@@ -83,7 +83,7 @@ describe('shows news', () => {
   it('should Not add the no-results component into DOM', waitForAsync(() => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      let newsItem = document.querySelector('no-results');
+      const newsItem = document.querySelector('no-results');
       expect(document.contains(newsItem)).not.toBeTruthy();
     });
   }));
@@ -91,7 +91,7 @@ describe('shows news', () => {
   it('should add the widget-header component into DOM', waitForAsync(() => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      let newsItem = document.querySelector('widget-header');
+      const newsItem = document.querySelector('widget-header');
       expect(document.contains(newsItem)).toBeTruthy();
     });
   }));
@@ -100,7 +100,7 @@ describe('shows news', () => {
     fixture.detectChanges();
 
     fixture.whenStable().then(() => {
-      let newsItem:HTMLElement = element.query(By.css('.widget-box--additional-info')).nativeElement;
+      const newsItem:HTMLElement = element.query(By.css('.widget-box--additional-info')).nativeElement;
       expect(newsItem.innerText).toContain('We are glad you joined.');
 
     });
@@ -110,7 +110,7 @@ describe('shows news', () => {
     fixture.detectChanges();
 
     fixture.whenStable().then(() => {
-      let newsItem = document.querySelector('user-avatar');
+      const newsItem = document.querySelector('user-avatar');
       expect(document.contains(newsItem)).toBeTruthy();
 
     });

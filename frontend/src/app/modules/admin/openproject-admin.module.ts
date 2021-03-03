@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {NgModule} from '@angular/core';
-import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
-import {TypeFormConfigurationComponent} from 'core-app/modules/admin/types/type-form-configuration.component';
-import {GroupEditInPlaceComponent} from 'core-app/modules/admin/types/group-edit-in-place.component';
-import {TypeFormAttributeGroupComponent} from 'core-app/modules/admin/types/attribute-group.component';
-import {DragulaModule} from 'ng2-dragula';
-import {TypeFormQueryGroupComponent} from "core-app/modules/admin/types/query-group.component";
-import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-a11y.module";
-import {EditableQueryPropsComponent} from "core-app/modules/admin/editable-query-props/editable-query-props.component";
+import { NgModule } from '@angular/core';
+import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
+import { TypeFormConfigurationComponent } from 'core-app/modules/admin/types/type-form-configuration.component';
+import { GroupEditInPlaceComponent } from 'core-app/modules/admin/types/group-edit-in-place.component';
+import { TypeFormAttributeGroupComponent } from 'core-app/modules/admin/types/attribute-group.component';
+import { DragulaModule } from 'ng2-dragula';
+import { TypeFormQueryGroupComponent } from "core-app/modules/admin/types/query-group.component";
+import { OpenprojectAccessibilityModule } from "core-app/modules/a11y/openproject-a11y.module";
+import { EditableQueryPropsComponent } from "core-app/modules/admin/editable-query-props/editable-query-props.component";
 
 @NgModule({
   imports: [

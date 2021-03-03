@@ -29,15 +29,15 @@
 /*jshint expr: true*/
 
 import { TestBed, waitForAsync } from "@angular/core/testing";
-import {States} from "core-components/states.service";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
-import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
-import {WorkPackageViewHierarchyIdentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
-import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import { States } from "core-components/states.service";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { WorkPackageViewHierarchiesService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import { WorkPackageRelationsHierarchyService } from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
+import { WorkPackageViewHierarchyIdentationService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
+import { WorkPackageViewDisplayRepresentationService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import SpyObj = jasmine.SpyObj;
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {of} from "rxjs";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { of } from "rxjs";
 
 describe('WorkPackageViewIndentation service', function () {
   let service:WorkPackageViewHierarchyIdentationService;
@@ -93,7 +93,7 @@ describe('WorkPackageViewIndentation service', function () {
 
   describe('canIndent', () => {
     it('Cannot indent without changeParent link', () => {
-      let workPackage:any = { id: '1234' };
+      const workPackage:any = { id: '1234' };
       expect(service.canIndent(workPackage)).toBeFalsy();
     });
 
@@ -103,7 +103,7 @@ describe('WorkPackageViewIndentation service', function () {
         { workPackageId: '2345', hidden: false, classIdentifier: 'foo' }
       ]);
 
-      let workPackage:any = { id: '1234', changeParent: () => 'foo' };
+      const workPackage:any = { id: '1234', changeParent: () => 'foo' };
       expect(service.canIndent(workPackage)).toBeFalsy();
     });
 
@@ -113,7 +113,7 @@ describe('WorkPackageViewIndentation service', function () {
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' }
       ]);
 
-      let workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: [] };
+      const workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: [] };
       expect(service.canIndent(workPackage)).toBeTruthy();
     });
 
@@ -126,7 +126,7 @@ describe('WorkPackageViewIndentation service', function () {
       spyOnProperty(hierarchyServiceStub, 'isEnabled', 'get')
         .and.returnValue(false);
 
-      let workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: [] };
+      const workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: [] };
       expect(service.canIndent(workPackage)).toBeFalsy();
     });
 
@@ -136,7 +136,7 @@ describe('WorkPackageViewIndentation service', function () {
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' }
       ]);
 
-      let workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: ['2345'] };
+      const workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: ['2345'] };
       expect(service.canIndent(workPackage)).toBeFalsy();
     });
 
@@ -147,19 +147,19 @@ describe('WorkPackageViewIndentation service', function () {
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' }
       ]);
 
-      let workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: ['2345'] };
+      const workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: ['2345'] };
       expect(service.canIndent(workPackage)).toBeTruthy();
     });
   });
 
   describe('canOutdent', () => {
     it('Cannot outdent without changeParent link', () => {
-      let workPackage:any = { id: '1234' };
+      const workPackage:any = { id: '1234' };
       expect(service.canOutdent(workPackage)).toBeFalsy();
     });
 
     it('Cannot outdent with changeParent link but disabled', () => {
-      let workPackage:any = { id: '1234', changeParent: () => 'foo', parent: { id: '2345' } };
+      const workPackage:any = { id: '1234', changeParent: () => 'foo', parent: { id: '2345' } };
 
       spyOnProperty(hierarchyServiceStub, 'isEnabled', 'get')
         .and.returnValue(false);
@@ -168,7 +168,7 @@ describe('WorkPackageViewIndentation service', function () {
     });
 
     it('can outdent with changeParent link', () => {
-      let workPackage:any = { id: '1234', changeParent: () => 'foo', parent: { id: '2345' } };
+      const workPackage:any = { id: '1234', changeParent: () => 'foo', parent: { id: '2345' } };
 
       expect(service.canOutdent(workPackage)).toBeTruthy();
     });
@@ -182,8 +182,8 @@ describe('WorkPackageViewIndentation service', function () {
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' }
       ]);
 
-      let workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: [] };
-      let predecessor:any = { id: '2345', changeParent: () => 'foo', ancestorIds: [] };
+      const workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: [] };
+      const predecessor:any = { id: '2345', changeParent: () => 'foo', ancestorIds: [] };
 
       states.workPackages.get('2345').putValue(predecessor);
 
@@ -200,8 +200,8 @@ describe('WorkPackageViewIndentation service', function () {
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' }
       ]);
 
-      let workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: [] };
-      let predecessor:any = { id: '2345', changeParent: () => 'foo', ancestorIds: ['5555'] };
+      const workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: [] };
+      const predecessor:any = { id: '2345', changeParent: () => 'foo', ancestorIds: ['5555'] };
 
       states.workPackages.get('2345').putValue(predecessor);
 
@@ -218,8 +218,8 @@ describe('WorkPackageViewIndentation service', function () {
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' }
       ]);
 
-      let workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: ['5555'] };
-      let predecessor:any = { id: '2345', changeParent: () => 'foo', ancestorIds: ['5555'] };
+      const workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: ['5555'] };
+      const predecessor:any = { id: '2345', changeParent: () => 'foo', ancestorIds: ['5555'] };
 
       states.workPackages.get('2345').putValue(predecessor);
 
@@ -236,7 +236,7 @@ describe('WorkPackageViewIndentation service', function () {
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
-      let workPackage:any = { id: '1234', changeParent: () => 'foo', parent: '5555', ancestorIds: ['2345', '5555'] };
+      const workPackage:any = { id: '1234', changeParent: () => 'foo', parent: '5555', ancestorIds: ['2345', '5555'] };
 
       service.outdent(workPackage).then(() => {
         expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, '2345');
@@ -249,7 +249,7 @@ describe('WorkPackageViewIndentation service', function () {
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
-      let workPackage:any = { id: '1234', changeParent: () => 'foo', parent: '2345', ancestorIds: ['2345'] };
+      const workPackage:any = { id: '1234', changeParent: () => 'foo', parent: '2345', ancestorIds: ['2345'] };
 
       service.outdent(workPackage).then(() => {
         expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, null);

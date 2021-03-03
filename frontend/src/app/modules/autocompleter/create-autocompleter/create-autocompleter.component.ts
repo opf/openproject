@@ -35,13 +35,13 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
-import {NgSelectComponent} from "@ng-select/ng-select";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {AddTagFn} from "@ng-select/ng-select/lib/ng-select.component";
-import {Subject} from 'rxjs';
+import { NgSelectComponent } from "@ng-select/ng-select";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { AddTagFn } from "@ng-select/ng-select/lib/ng-select.component";
+import { Subject } from 'rxjs';
 
 export interface CreateAutocompleterValueOption {
   name:string;
@@ -57,13 +57,13 @@ export class CreateAutocompleterComponent implements AfterViewInit {
   @Input() public availableValues:CreateAutocompleterValueOption[];
   @Input() public appendTo:string;
   @Input() public model:any;
-  @Input() public required:boolean = false;
-  @Input() public disabled:boolean = false;
-  @Input() public finishedLoading:boolean = false;
-  @Input() public id:string = '';
-  @Input() public classes:string = '';
+  @Input() public required = false;
+  @Input() public disabled = false;
+  @Input() public finishedLoading = false;
+  @Input() public id = '';
+  @Input() public classes = '';
   @Input() public typeahead?:Subject<string>;
-  @Input() public hideSelected:boolean = false;
+  @Input() public hideSelected = false;
   @Input() public showAddNewButton:boolean;
 
   @Output() public onChange = new EventEmitter<HalResource>();
@@ -82,13 +82,13 @@ export class CreateAutocompleterComponent implements AfterViewInit {
 
   public createAllowed:boolean|AddTagFn = false;
 
-  private _openDirectly:boolean = false;
+  private _openDirectly = false;
 
   constructor(readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,
               readonly currentProject:CurrentProjectService,
               readonly pathHelper:PathHelperService,
-) { }
+  ) { }
 
   ngAfterViewInit() {
     this.onAfterViewInit.emit(this);

@@ -1,15 +1,15 @@
-import {Injector} from '@angular/core';
-import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {States} from '../../../states.service';
-import {KeepTabService} from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
-import {tableRowClassName} from '../../builders/rows/single-row-builder';
-import {uiStateLinkClass} from '../../builders/ui-state-link-builder';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {TableEventComponent, TableEventHandler} from '../table-handler-registry';
-import {StateService} from '@uirouter/core';
-import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { Injector } from '@angular/core';
+import { WorkPackageViewFocusService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { States } from '../../../states.service';
+import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
+import { tableRowClassName } from '../../builders/rows/single-row-builder';
+import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
+import { WorkPackageTable } from '../../wp-fast-table';
+import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
+import { StateService } from '@uirouter/core';
+import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export class WorkPackageStateLinksHandler implements TableEventHandler {
 
@@ -56,9 +56,9 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     // not matter what other rows are (de-)selected below.
     // Thus save that row for the details view button.
     // Locate the row from event
-    let row = target.closest(`.${tableRowClassName}`);
-    let classIdentifier = row.data('classIdentifier');
-    let [index, _] = view.workPackageTable.findRenderedRow(classIdentifier);
+    const row = target.closest(`.${tableRowClassName}`);
+    const classIdentifier = row.data('classIdentifier');
+    const [index, _] = view.workPackageTable.findRenderedRow(classIdentifier);
 
     // Update single selection if no modifier present
     this.wpTableSelection.setSelection(workPackageId, index);

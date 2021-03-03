@@ -26,24 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectorRef, Component, ElementRef, Inject, ViewChild} from "@angular/core";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {OpModalComponent} from "core-app/modules/modal/modal.component";
-import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
-import {OpModalLocalsMap} from "core-app/modules/modal/modal.types";
-import {QuerySharingChange} from "core-components/modals/share-modal/query-sharing-form.component";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
-import {States} from '../../states.service';
+import { ChangeDetectorRef, Component, ElementRef, Inject, ViewChild } from "@angular/core";
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { OpModalComponent } from "core-app/modules/modal/modal.component";
+import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { OpModalLocalsMap } from "core-app/modules/modal/modal.types";
+import { QuerySharingChange } from "core-components/modals/share-modal/query-sharing-form.component";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { WorkPackagesListService } from "core-components/wp-list/wp-list.service";
+import { States } from '../../states.service';
 
 @Component({
   templateUrl: './save-query.modal.html'
 })
 export class SaveQueryModal extends OpModalComponent {
-  public queryName:string = '';
+  public queryName = '';
   public isStarred = false;
   public isPublic = false;
   public isBusy = false;

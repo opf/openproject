@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from "@angular/core";
+import { Injectable } from "@angular/core";
 
 @Injectable()
 export class HookService {
@@ -45,11 +45,11 @@ export class HookService {
   }
 
   public call(id:string, ...params:any[]):any[] {
-    let results = [];
+    const results = [];
 
     if (this.hooks[id]) {
       for (let x = 0; x < this.hooks[id].length; x++) {
-        let result = this.hooks[id][x](...params);
+        const result = this.hooks[id][x](...params);
 
         if (result) {
           results.push(result);

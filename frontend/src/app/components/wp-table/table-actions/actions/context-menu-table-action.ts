@@ -3,7 +3,7 @@ import {
   contextMenuLinkClassName,
   OpTableAction
 } from 'core-components/wp-table/table-actions/table-action';
-import {opIconElement} from 'core-app/helpers/op-icon-builder';
+import { opIconElement } from 'core-app/helpers/op-icon-builder';
 
 export class OpContextMenuTableAction extends OpTableAction {
 
@@ -14,7 +14,7 @@ export class OpContextMenuTableAction extends OpTableAction {
   };
 
   public buildElement() {
-    let contextMenu = document.createElement('a');
+    const contextMenu = document.createElement('a');
     contextMenu.href = '#';
     contextMenu.classList.add(contextMenuLinkClassName, contextColumnIcon);
     contextMenu.title = this.text.linkTitle;

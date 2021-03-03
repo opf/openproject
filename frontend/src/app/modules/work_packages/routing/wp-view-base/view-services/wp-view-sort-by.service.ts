@@ -26,17 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {States} from 'core-components/states.service';
-import {combine} from 'reactivestates';
-import {mapTo} from 'rxjs/operators';
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {Injectable} from '@angular/core';
-import {WorkPackageQueryStateService} from './wp-view-base.service';
-import {Observable} from 'rxjs';
-import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-resource';
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {QueryColumn} from "core-components/wp-query/query-column";
+import { States } from 'core-components/states.service';
+import { combine } from 'reactivestates';
+import { mapTo } from 'rxjs/operators';
+import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { Injectable } from '@angular/core';
+import { WorkPackageQueryStateService } from './wp-view-base.service';
+import { Observable } from 'rxjs';
+import { QuerySortByResource } from 'core-app/modules/hal/resources/query-sort-by-resource';
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { QueryColumn } from "core-components/wp-query/query-column";
 
 @Injectable()
 export class WorkPackageViewSortByService extends WorkPackageQueryStateService<QuerySortByResource[]> {
@@ -85,7 +85,7 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   }
 
   public addSortCriteria(column:QueryColumn, criteria:string) {
-    let available = this.findAvailableDirection(column, criteria);
+    const available = this.findAvailableDirection(column, criteria);
 
     if (available) {
       this.add(available);
@@ -93,7 +93,7 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   }
 
   public setAsSingleSortCriteria(column:QueryColumn, criteria:string) {
-    let available:QuerySortByResource = this.findAvailableDirection(column, criteria)!;
+    const available:QuerySortByResource = this.findAvailableDirection(column, criteria)!;
 
     if (available) {
       this.update([available]);
@@ -109,7 +109,7 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   }
 
   public add(sortBy:QuerySortByResource) {
-    let newValue = _
+    const newValue = _
       .uniqBy([sortBy, ...this.current], sortBy => sortBy.column.$href)
       .slice(0, 3);
 
@@ -121,7 +121,7 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   }
 
   public switchToManualSorting(query:QueryResource):boolean {
-    let manualSortObject =  this.manualSortObject;
+    const manualSortObject =  this.manualSortObject;
     if (manualSortObject && !this.isManualSortingMode) {
 
       if (query && query.persisted) {

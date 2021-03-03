@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from "@angular/core";
-import {IFCGonDefinition} from "../../bim/ifc_models/pages/viewer/ifc-models-data.service";
+import { Injectable } from "@angular/core";
+import { IFCGonDefinition } from "../../bim/ifc_models/pages/viewer/ifc-models-data.service";
 
 declare global {
   interface Window {

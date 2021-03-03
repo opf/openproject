@@ -1,7 +1,7 @@
-import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
-import {GridResource} from "core-app/modules/hal/resources/grid-resource";
-import {CardHighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
-import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
+import { GridWidgetResource } from "core-app/modules/hal/resources/grid-widget-resource";
+import { GridResource } from "core-app/modules/hal/resources/grid-resource";
+import { CardHighlightingMode } from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
+import { ApiV3Filter } from "core-components/api/api-v3/api-v3-filter-builder";
 
 export type BoardType = 'free'|'action';
 
