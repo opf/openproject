@@ -71,7 +71,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
       this.items$,
       this.input$,
     ).pipe(
-      map(([elements, input]) => this.type === 'user' && input?.includes('@') && !elements.find((el:any) => el.email === input)),
+      map(([elements, input]) => this.type === PrincipalType.User && input?.includes('@') && !elements.find((el:any) => el.email === input)),
     );
 
     this.canCreateNewPlaceholder$ = combineLatest(
