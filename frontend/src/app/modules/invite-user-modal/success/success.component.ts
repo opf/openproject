@@ -23,6 +23,8 @@ export class SuccessComponent {
 
   @Output() close = new EventEmitter<void>();
 
+  public PrincipalType = PrincipalType;
+
   user_image = ImageHelpers.imagePath('invite-user-modal/successful-invite.svg');
   placeholder_image = ImageHelpers.imagePath('invite-user-modal/added-placeholder.svg');
 

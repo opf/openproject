@@ -168,6 +168,23 @@ feature 'Invite user modal', type: :feature, js: true do
           end
         end
       end
+
+      describe 'inviting groups' do
+        let(:principal) { FactoryBot.create :group, name: 'MY NEW GROUP' }
+
+        it 'can invite an existing group' do
+          modal.run_all_steps
+
+          assignee_field.expect_active!
+          # TODO assignee field should contain the user name now
+          #assignee_field.expect_value principal.name
+          assignee_field.expect_value nil
+
+          new_member = project.reload.members.find_by(user_id: principal.id)
+          expect(new_member).to be_present
+          expect(new_member.roles).to eq [role]
+        end
+      end
     end
   end
 
