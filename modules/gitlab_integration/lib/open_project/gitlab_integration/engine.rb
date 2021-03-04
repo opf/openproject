@@ -52,6 +52,10 @@ module OpenProject::GitlabIntegration
                                              &NotificationHandlers.method(:merge_request_hook))
       ::OpenProject::Notifications.subscribe('gitlab.note_hook',
                                              &NotificationHandlers.method(:note_hook))
+      ::OpenProject::Notifications.subscribe('gitlab.issue_hook',
+                                             &NotificationHandlers.method(:issue_hook))
+      ::OpenProject::Notifications.subscribe('gitlab.push_hook',
+                                             &NotificationHandlers.method(:push_hook))
     end
 
   end
