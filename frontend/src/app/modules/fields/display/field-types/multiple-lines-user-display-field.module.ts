@@ -29,10 +29,10 @@
 import {ResourcesDisplayField} from "./resources-display-field.module";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {UserAvatarRendererService} from "core-components/user/user-avatar/user-avatar-renderer.service";
+import {PrincipalRendererService} from "core-app/modules/principal/principal-renderer.service";
 
 export class MultipleLinesUserFieldModule extends ResourcesDisplayField {
-  @InjectField() avatarRenderer:UserAvatarRendererService;
+  @InjectField() principalRenderer:PrincipalRendererService;
 
   public render(element:HTMLElement, displayText:string):void {
     const values = this.attribute;
@@ -49,6 +49,6 @@ export class MultipleLinesUserFieldModule extends ResourcesDisplayField {
   }
 
   protected renderValues(values:UserResource[], element:HTMLElement) {
-    this.avatarRenderer.renderMultiple(element, values, true, true);
+    this.principalRenderer.renderMultiple(element, values, true, true);
   }
 }

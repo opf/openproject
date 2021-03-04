@@ -28,10 +28,10 @@
 
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {UserAvatarRendererService} from "core-components/user/user-avatar/user-avatar-renderer.service";
+import {PrincipalRendererService} from "core-app/modules/principal/principal-renderer.service";
 
 export class UserDisplayField extends DisplayField {
-  @InjectField() avatarRenderer:UserAvatarRendererService;
+  @InjectField() principalRenderer:PrincipalRendererService;
 
   public get value() {
     if (this.schema) {
@@ -45,7 +45,7 @@ export class UserDisplayField extends DisplayField {
     if (this.placeholder === displayText) {
       this.renderEmpty(element);
     } else {
-      this.avatarRenderer.render(
+      this.principalRenderer.render(
         element,
         this.attribute,
       );

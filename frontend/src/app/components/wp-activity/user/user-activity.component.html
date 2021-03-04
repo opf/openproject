@@ -2,11 +2,12 @@
      *ngIf="workPackage"
      (mouseenter)="focus()"
      (mouseleave)="blur()">
-  <user-avatar *ngIf="userName"
-               [attr.data-user-name]="userName"
-               [attr.data-user-id]="userId"
-               data-class-list="avatar">
-  </user-avatar>
+  <op-principal
+    *ngIf="userName"
+    [attr.data-user-name]="userName"
+    [attr.data-user-id]="userId"
+    data-class-list="avatar"
+  ></op-principal>
 
   <span class="user">
     <user-link [user]="user"></user-link>
