@@ -145,7 +145,7 @@ module Members
     end
 
     def principal_link
-      link_to h(principal.name), principal_show_path
+      link_to principal.name, principal_show_path
     end
 
     def principal_class_name
