@@ -20,10 +20,6 @@ Welcome to the central overview of frequently asked questions for OpenProject.
 
 ## Learn more about OpenProject
 
-### Is OpenProject free of charge?
-
-We offer three different versions of OpenProject. Please get an overview of the different OpenProject Editions [here](https://www.openproject.org/pricing/). The (on-premise) OpenProject Community edition is completely free. The Enterprise cloud and Enterprise on-premises edition offer premium features and support and thus we are charging for it. Nevertheless, we offer free 14 days trials for the Enterprise versions so that you can get to know their benefits. If you prefer to use the free OpenProject Community edition, you can follow these [installation instructions](https://www.openproject.org/download-and-installation/), please note that you need a Linux server to install the Community edition. It is always possible to upgrade from the Community to the Enterprise cloud and Enterprise on-premises edition – check out the premium features [here](https://www.openproject.org/enterprise-edition/#premium-features).
-
 ### What about data privacy, data security and GDPR conformity?
 
 Data protection and security are one of the main motivations for the development of this open source application. Thus, you have the possibility to move the OpenProject application including your data to your own infrastructure at any time. Unlike other cloud tools, you can also take a look at the software code and adapt it if necessary. 
@@ -78,6 +74,10 @@ Our minimum plan for the Enterprise cloud edition and Enterprise on-premises edi
 OpenProject comes with the GNU General Public License v3 (GPLv3). You can find out more about the copyright [here](https://github.com/opf/openproject/blob/dev/docs/COPYRIGHT.rdoc).
 In accordance with the terms set by the GPLv3 license, users can make modifications, create copies and redistribute the work. 
 Terms and conditions regarding GPLv3 are available at[ ](http://www.gnu.org/licenses/gpl-3.0.html.)[http://www.gnu.org/licenses/gpl-3.0.html](http://www.gnu.org/licenses/gpl-3.0.html.).
+
+### Is OpenProject free of charge?
+
+We offer three different versions of OpenProject. Please get an overview of the different OpenProject Editions [here](https://www.openproject.org/pricing/). The (on-premise) OpenProject Community edition is completely free. The Enterprise cloud and Enterprise on-premises edition offer premium features and support and thus we are charging for it. Nevertheless, we offer free 14 days trials for the Enterprise versions so that you can get to know their benefits. If you prefer to use the free OpenProject Community edition, you can follow these [installation instructions](https://www.openproject.org/download-and-installation/), please note that you need a Linux server to install the Community edition. It is always possible to upgrade from the Community to the Enterprise cloud and Enterprise on-premises edition – check out the premium features [here](https://www.openproject.org/enterprise-edition/#premium-features).
 
 ### Can I have both users with the Enterprise cloud and others with the Enterprise on-premises Edition?
 
@@ -201,11 +201,23 @@ In our [introductory video](https://www.youtube.com/watch?v=ThA4_17yedg) to the 
 ### How can I migrate from Bitnami to OpenProject?
 
 To migrate from Bitnami **to Enterprise cloud** please provide these: 
-\- data as database dump (.sql file)
-\- attachment folder
+
+- data as database dump (.sql file)
+- attachment folder
+
 You can use the first two steps of [this instruction](../installation-and-operations/faq/#how-can-i-migrate-from-bitnami-to-the-official-openproject-installation-packages). Please contact us to discuss your migration.
 
 To migrate from Bitnami **to Enterprise on premises** please use [this instruction](../installation-and-operations/faq/#how-can-i-migrate-from-bitnami-to-the-official-openproject-installation-packages). We offer (paid) installation support to help you migrate to OpenProject (for the Enterprise on-premises edition). Please contact us to request it.
+
+### How can I migrate from Jira/Confluence to OpenProject?
+
+At the moment there are these ways to migrate:
+
+- our API (https://docs.openproject.org/api/)
+- our Excel sync (https://docs.openproject.org/user-guide/integrations/Excel%20Synchronization/)
+- Using a [Markdown export app](https://marketplace.atlassian.com/apps/1221351/markdown-exporter-for-confluence?hosting=cloud&tab=overview) you can export pages from Confluence and paste them (via copy & paste) into OpenProject in e.g. the wiki. This should preserve at least most of the layout. Attachments would then have to be added manually.
+
+For more information please contact us.
 
 ### How can I migrate from Community Edition or Enterprise on-premises to Enterprise cloud?
 
@@ -229,9 +241,17 @@ Please have a look at [this section](../installation-and-operations/misc).
 
 ## Other
 
+### How can I contribute to OpenProject?
+
+We welcome everybody willing to help make OpenProject better. There are a lot of possibilities for helping, be it [improving the translations](../development/translate-openproject) via crowdin, answering questions in the [forums](https://community.openproject.org/projects/openproject/forums) or by fixing bugs and implementing features.
+
+If you want to code, a good starting point would be to make yourself familiar with the [basic approaches for developing](https://docs.openproject.org/development/) in OpenProject and opening a pull request on GitHub referencing an existing bug report or feature request. Find our GitHub page [here](https://github.com/opf/openproject).
+
+If in doubt on how you should start, you can also just [contact us](https://www.openproject.org/contact-us/).
+
 ### Do you support Univention users?
 
-If you're an Enterprise on-premises user you're eligibe for Professional Support. However, we can't support you in all Univention-related topics (e.g. server not reachable, authentification setup, ...).
+If you're an Enterprise on-premises user you're eligible for Professional Support. However, we can't support you in all Univention-related topics (e.g. server not reachable, authentication setup, ...).
 
 ### Do you have a cyber insurance?
 
@@ -249,3 +269,7 @@ Yes, this is possible. Please get in touch.
 ### How long is the OpenProject certification valid?
 
 It does not expire. However, the certification training always covers the current version of the software at the time.
+
+### Where can I find out more about pricing?
+
+You can find the price calculator [here](https://www.openproject.org/pricing) 	and FAQ regarding pricing [here](https://www.openproject.org/pricing/#FAQ).

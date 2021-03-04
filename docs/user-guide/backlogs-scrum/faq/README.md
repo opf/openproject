@@ -4,14 +4,10 @@ sidebar_navigation:
   priority: 001
 description: Frequently asked questions regarding the backlogs module
 robots: index, follow
-keywords: backlogs FAQ, back-logs. task board, version, sprint
+keywords: backlogs FAQ, back-logs. task board, version, sprint, scrum
 ---
 
 # Frequently asked questions (FAQ) for Backlogs
-
-## How can I change the user's colors in the task board?
-
-The colors can be changed in each user's personal settings: Please click on your avatar, then navigate to *My account ->Settings ->Backlogs*. There you can change the task color.
 
 ## What can I do to show the tasks of shared sub-projects in the backlog?
 
@@ -31,6 +27,6 @@ Please try these approaches:
 - remove unused story types in the administration
 - deactivate the Backlogs module in the project settings
 
-## How can I change the the color of a user's tasks?
+## How can I change the user's colors in the task board?
 
-The colors can be changed in your personal settings: Please click on your avatar, then navigate to **My account -> Settings -> Backlogs**. There you can change the task color.
+The colors can be changed in each user's personal settings: Please click on your avatar, then navigate to *My account ->Settings ->Backlogs*. There you can change the task color.

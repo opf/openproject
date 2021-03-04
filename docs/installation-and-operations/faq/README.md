@@ -134,6 +134,10 @@ If that doesn't help either, please have a look at your logs, which are accessib
 
 Another approach would be to restart OpenProject completely:  `sudo openproject restart`.
 
+### How can I enable OpenProject on boot?
+
+This will be done automatically in case the package based installation is used.
+
 ### After upgrading I receive the error message "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation." What does that mean?
 
 For some updates of OpenProject, the database layout needs to be adapted to support new features and fix bugs. These changes need to be carried out as part of the update process. This is why it is important to always run `sudo openproject configure`as part of the update process. 
