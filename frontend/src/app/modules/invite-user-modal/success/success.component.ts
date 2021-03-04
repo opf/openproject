@@ -26,7 +26,7 @@ export class SuccessComponent {
   public PrincipalType = PrincipalType;
 
   user_image = ImageHelpers.imagePath('invite-user-modal/successful-invite.svg');
-  placeholder_image = ImageHelpers.imagePath('invite-user-modal/added-placeholder.svg');
+  placeholder_image = ImageHelpers.imagePath('invite-user-modal/placeholder-added.svg');
 
   public text = {
     title: () => this.I18n.t('js.invite_user_modal.success.title', {
