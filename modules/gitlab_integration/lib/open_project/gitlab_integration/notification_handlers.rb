@@ -60,7 +60,7 @@ module OpenProject::GitlabIntegration
       comment_on_referenced_work_packages payload['object_attributes']['title'], payload
       #comment_on_referenced_work_packages payload['object_attributes']['source']['description'], payload
     rescue => e
-      Rails.logger.error "Failed to handle merge_request event: #{e} #{e.message}"
+      Rails.logger.error "Failed to handle merge_request_hook event: #{e} #{e.message}"
       raise e
     end
 
@@ -82,10 +82,32 @@ module OpenProject::GitlabIntegration
     # }
     def self.note_hook(payload)
       # if the comment is not associated with a PR, ignore it
-      return unless payload['object_attributes']['noteable_type'] == "MergeRequest"
+      #return unless payload['object_attributes']['noteable_type'] == "MergeRequest"
       comment_on_referenced_work_packages payload['object_attributes']['note'], payload
     rescue => e
-      Rails.logger.error "Failed to handle issue_comment event: #{e} #{e.message}"
+      Rails.logger.error "Failed to handle note_hook event: #{e} #{e.message}"
+      raise e
+    end
+
+    def self.push_hook(payload)
+      # if the comment is not associated with a PR, ignore it
+      #return unless payload['object_attributes']['noteable_type'] == "MergeRequest"
+      #payload[:commits].each do |commit|
+      comment_on_referenced_work_packages payload['commits'], payload
+      #end
+      
+    rescue => e
+      Rails.logger.error "Failed to handle push_hook event: #{e} #{e.message}"
+      raise e
+    end
+
+    def self.issue_hook(payload)
+      # if the comment is not associated with a PR, ignore it
+      #return unless payload['object_attributes']['noteable_type'] == "MergeRequest"
+      comment_on_referenced_work_packages payload['object_attributes']['title'] + ' - ' + payload['object_attributes']['description'], payload
+      
+    rescue => e
+      Rails.logger.error "Failed to handle issue_hook event: #{e} #{e.message}"
       raise e
     end
 
@@ -102,9 +124,9 @@ module OpenProject::GitlabIntegration
       notes = notes_for_payload(payload)
       return if notes.nil?
 
-      if payload['object_attributes']['state'] == 'opened'
+      if payload['object_attributes']['state'] == 'opened' && payload['object_kind'] == 'merge_request'
         attributes = { journal_notes: notes, status_id: 7 }
-      elsif payload['object_attributes']['state'] == 'merged'
+      elsif payload['object_attributes']['state'] == 'merged' && payload['object_kind'] == 'merge_request'
         attributes = { journal_notes: notes, status_id: 8 }
       else
         attributes = { journal_notes: notes }
@@ -161,14 +183,60 @@ module OpenProject::GitlabIntegration
     ##
     # Find a matching translation for the action specified in the payload.
     def self.notes_for_payload(payload)
-      if payload['object_kind'] == 'merge_request'
-        notes_for_pull_request_payload(payload)
+      if payload['object_kind'] == 'push'
+        notes_for_push_payload(payload)
+      elsif payload['object_kind'] == 'issue'
+        notes_for_issue_payload(payload)
+      elsif payload['object_kind'] == 'merge_request'
+        notes_for_merge_request_payload(payload)
+      elsif payload['object_kind'] == 'note'
+        notes_for_note_payload(payload)
       else
-        notes_for_issue_comment_payload(payload)
+        return nil
       end
     end
 
-    def self.notes_for_pull_request_payload(payload)
+    def self.notes_for_issue_payload(payload)
+      return nil unless payload['object_attributes']['action'] == 'open' || payload['object_attributes']['state'] == 'closed'
+      I18n.t("gitlab_integration.issue_#{payload['object_attributes']['state']}_referenced_comment",
+        :issue_number => payload['object_attributes']['iid'],
+        :issue_title => payload['object_attributes']['title'],
+        :issue_url => payload['object_attributes']['url'],
+        :repository => payload['repository']['name'],
+        :repository_url => payload['repository']['homepage'],
+        :gitlab_user => payload['user']['name'],
+        :gitlab_user_url => payload['user']['avatar_url'])
+    end
+
+    def self.notes_for_push_payload(payload)
+
+      # a closed pull request which has been merged
+      # deserves a different label :)
+      #key = 'merged' if key == 'closed' && payload['object_attributes']['state'] == 'closed'
+
+      return nil unless payload['total_commits_count'] > 0
+      if payload['total_commits_count'] == 1
+        I18n.t("gitlab_integration.push_single_commit_comment",
+          :commit_number => payload['commits']['id'],
+          :commit_note => payload['commits']['message'],
+          :commit_url => payload['commits']['url'],
+          :repository => payload['repository']['name'],
+          :repository_url => payload['repository']['homepage'],
+          :gitlab_user => payload['user_name'],
+          :gitlab_user_url => payload['user_avatar'])
+      else
+        I18n.t("gitlab_integration.push_multiple_commits_comment",
+          :commit_number => payload['commits']['id'],
+          :commit_note => payload['commits']['message'],
+          :commit_url => payload['commits']['url'],
+          :repository => payload['repository']['name'],
+          :repository_url => payload['repository']['homepage'],
+          :gitlab_user => payload['user_name'],
+          :gitlab_user_url => payload['user_avatar'])
+      end
+    end
+
+    def self.notes_for_merge_request_payload(payload)
       key = {
         'opened' => 'opened',
         'reopened' => 'opened',
@@ -194,17 +262,51 @@ module OpenProject::GitlabIntegration
              :gitlab_user_url => payload['user']['avatar_url'])
     end
 
-    def self.notes_for_issue_comment_payload(payload)
-      return nil unless payload['action'] == 'created'
-
-      I18n.t("gitlab_integration.pull_request_referenced_comment",
-             :pr_number => payload['issue']['number'],
-             :pr_title => payload['issue']['title'],
-             :pr_url => payload['comment']['html_url'],
-             :repository => payload['repository']['full_name'],
-             :repository_url => payload['repository']['html_url'],
-             :github_user => payload['comment']['user']['login'],
-             :github_user_url => payload['comment']['user']['html_url'])
+    def self.notes_for_note_payload(payload)
+      #return nil unless payload['action'] == 'created'
+      if payload['object_attributes']['noteable_type'] == 'Commit'
+        commit_id = payload['commit']['id']
+        I18n.t("gitlab_integration.note_commit_referenced_comment",
+              :commit_id => commit_id[0, 8],
+              :commit_url => payload['object_attributes']['url'],
+              :commit_note => payload['object_attributes']['note'],
+              :repository => payload['repository']['name'],
+              :repository_url => payload['repository']['homepage'],
+              :gitlab_user => payload['user']['name'],
+              :gitlab_user_url => payload['user']['avatar_url'])
+      elsif payload['object_attributes']['noteable_type'] == 'MergeRequest'
+        I18n.t("gitlab_integration.note_mr_referenced_comment",
+              :mr_number => payload['merge_request']['id'],
+              :mr_title => payload['merge_request']['title'],
+              :mr_url => payload['object_attributes']['url'],
+              :mr_note => payload['object_attributes']['note'],
+              :repository => payload['repository']['name'],
+              :repository_url => payload['repository']['homepage'],
+              :gitlab_user => payload['user']['name'],
+              :gitlab_user_url => payload['user']['avatar_url'])
+      elsif payload['object_attributes']['noteable_type'] == 'Issue'
+        I18n.t("gitlab_integration.note_issue_referenced_comment",
+              :issue_number => payload['issue']['iid'],
+              :issue_title => payload['issue']['title'],
+              :issue_url => payload['object_attributes']['url'],
+              :issue_note => payload['object_attributes']['note'],
+              :repository => payload['repository']['name'],
+              :repository_url => payload['repository']['homepage'],
+              :gitlab_user => payload['user']['name'],
+              :gitlab_user_url => payload['user']['avatar_url'])
+      elsif payload['object_attributes']['noteable_type'] == 'Snippet'
+        I18n.t("gitlab_integration.note_snippet_referenced_comment",
+              :snippet_number => payload['snippet']['id'],
+              :snippet_title => payload['snippet']['title'],
+              :snippet_url => payload['object_attributes']['url'],
+              :snippet_note => payload['object_attributes']['note'],
+              :repository => payload['repository']['name'],
+              :repository_url => payload['repository']['homepage'],
+              :gitlab_user => payload['user']['name'],
+              :gitlab_user_url => payload['user']['avatar_url'])
+      else
+        return nil
+      end
     end
   end
 end
