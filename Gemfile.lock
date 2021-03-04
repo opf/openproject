@@ -982,7 +982,6 @@ DEPENDENCIES
   grids!
   html-pipeline (~> 2.14.0)
   htmldiff
-  i18n (~> 1.8.8)
   i18n-js (~> 3.8.0)
   json_spec (~> 1.1.4)
   ladle
