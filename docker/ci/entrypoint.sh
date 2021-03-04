@@ -73,7 +73,6 @@ if [ "$1" == "run-features" ]; then
 	shift
 	execute "cd frontend; npm install ; cd -"
 	execute "bundle exec rake assets:precompile"
-	execute "ls -lR frontend/assets/frontend"
 	execute "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
 	if ! execute "time bundle exec rake parallel:features" ; then
 		execute "cat tmp/parallel_summary.log"
