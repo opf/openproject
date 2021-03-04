@@ -42,7 +42,7 @@ We offer the premium functions of OpenProject (incl. boards) for two different O
 * For the OpenProject Enterprise cloud edition (hosted by us),
 * For the self-hosted (on-premises) OpenProject Enterprise on-premises edition
 
-If you want to run OpenProject on your own server the OpenProject Enterprise on-premises edition is the right option.
+If you want to run OpenProject on your own server, the OpenProject Enterprise on-premises edition is the right option.
 Have you already installed the [OpenProject Community edition](https://www.openproject.org/download-and-installation/)? If yes, you can request a trial license for the OpenProject Enterprise on-premises edition by clicking on the button "Free trial license" [here](https://www.openproject.org/de/enterprise-edition/) and test the Enterprise on-premises edition for 14 days for free.
 
 ### Can I have some users with premium features and some without?
@@ -77,7 +77,9 @@ Terms and conditions regarding GPLv3 are available at[ ](http://www.gnu.org/lice
 
 ### Is OpenProject free of charge?
 
-We offer three different versions of OpenProject. Please get an overview of the different OpenProject Editions [here](https://www.openproject.org/pricing/). The (on-premise) OpenProject Community edition is completely free. The Enterprise cloud and Enterprise on-premises edition offer premium features and support and thus we are charging for it. Nevertheless, we offer free 14 days trials for the Enterprise versions so that you can get to know their benefits. If you prefer to use the free OpenProject Community edition, you can follow these [installation instructions](https://www.openproject.org/download-and-installation/), please note that you need a Linux server to install the Community edition. It is always possible to upgrade from the Community to the Enterprise cloud and Enterprise on-premises edition – check out the premium features [here](https://www.openproject.org/enterprise-edition/#premium-features).
+We offer three different versions of OpenProject. Please get an overview of the different OpenProject Editions [here](https://www.openproject.org/pricing/#compare). 
+
+The (on-premise) OpenProject Community edition is completely free. The Enterprise cloud and Enterprise on-premises edition offer premium features, hosting and support and thus we are charging for it. Nevertheless, we offer free 14 days trials for the Enterprise versions so that you can get to know their benefits. If you prefer to use the free OpenProject Community edition, you can follow these [installation instructions](https://www.openproject.org/download-and-installation/), please note that you need a Linux server to install the Community edition. It is always possible to upgrade from the Community to the Enterprise cloud and Enterprise on-premises edition – check out the premium features [here](https://www.openproject.org/enterprise-edition/#premium-features).
 
 ### Can I have both users with the Enterprise cloud and others with the Enterprise on-premises Edition?
 
@@ -272,4 +274,4 @@ It does not expire. However, the certification training always covers the curren
 
 ### Where can I find out more about pricing?
 
-You can find the price calculator [here](https://www.openproject.org/pricing) 	and FAQ regarding pricing [here](https://www.openproject.org/pricing/#FAQ).
+You can find the price calculator [here](https://www.openproject.org/pricing) and FAQ regarding pricing [here](https://www.openproject.org/pricing/#FAQ).

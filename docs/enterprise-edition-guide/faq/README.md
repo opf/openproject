@@ -33,9 +33,18 @@ Please use the link "Manage subscription" in the email you received confirming y
 
 This is not possible, as the Premium features affect the whole OpenProject instance and not the individual users.
 
-## I didn't receive my license key / my Enterprise token
+## I didn't receive my license key / Enterprise token
 
 The Enterprise token is sent to the email address used to create the subscription. If you can't find it in the spam folder and if you already paid for the subscription please contact support.
+
+## I can't login via SSO to update my EE token. What do I do?
+
+Until this issue is fixed you can set the token manually via the console. Copy the new token and then do the following.
+`sudo openproject run console`
+Once in the console update the token like this:
+`EnterpriseToken.first.update encoded_token: "..."`
+Where `...` is the token you have copied earlier.
+After that you can quit the console by entering `exit`.
 
 ## Can I use my own domain name?
 

@@ -130,9 +130,9 @@ If the health check does not return satisfying results, have a look if the backg
 
 If the worker is not running please try a restart with `sudo openproject restart worker`. 
 If that doesn't help it could be that the worker is scaled to 0 for some reason, so please try `sudo openproject scale worker=1`.
-If that doesn't help either, please have a look at your logs, which are accessible with `sudo openproject logs`.
+If that doesn't help either, please have a look at your [logs](../operation/monitoring), which are accessible with `sudo openproject logs`.
 
-Another approach would be to restart OpenProject completely:  `sudo openproject restart`.
+Another approach would be to restart OpenProject completely, especially after changing the configuration of your SMTP server:  `sudo openproject restart`.
 
 ### How can I enable OpenProject on boot?
 
