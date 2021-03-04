@@ -52,6 +52,21 @@ feature 'Invite user modal', type: :feature, js: true do
                                              role: role
   end
 
+  shared_examples 'invites the principal to the project' do
+    it 'can invite a new placeholder' do
+      modal.run_all_steps
+
+      assignee_field.expect_active!
+      # TODO assignee field should contain the user name now
+      #assignee_field.expect_value principal.name
+      assignee_field.expect_value nil
+
+      new_member = project.reload.member_principals.find_by(user_id: added_principal.id)
+      expect(new_member).to be_present
+      expect(new_member.roles).to eq [role]
+    end
+  end
+
   describe 'inviting a non-project existing user' do
     describe 'through the assignee field' do
       let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
@@ -92,21 +107,8 @@ feature 'Invite user modal', type: :feature, js: true do
         context 'when the current user has permissions to create a user' do
           let(:permissions) { %i[view_work_packages edit_work_packages manage_members manage_user] }
 
-          it 'will create that user' do
-            modal.run_all_steps
-
-            assignee_field.expect_active!
-            # TODO assignee field should contain the user name now
-            #assignee_field.expect_value principal.name
-            assignee_field.expect_value nil
-
-            # But the user got created
-            new_user = User.find_by(mail: principal.mail)
-            expect(new_user).to be_present
-
-            new_member = project.reload.members.find_by(user_id: new_user.id)
-            expect(new_member).to be_present
-            expect(new_member.roles).to eq [role]
+          it_behaves_like 'invites the principal to the project' do
+            let(:added_principal) { User.find_by!(mail: principal.mail) }
           end
         end
       end
@@ -119,18 +121,8 @@ feature 'Invite user modal', type: :feature, js: true do
             context 'with permissions to manage placeholders' do
               let(:permissions) { %i[view_work_packages edit_work_packages manage_members manage_placeholder_user] }
 
-              it 'can invite a new placeholder' do
-                modal.run_all_steps
-
-                assignee_field.expect_active!
-                # TODO assignee field should contain the user name now
-                #assignee_field.expect_value principal.name
-                assignee_field.expect_value nil
-
-                new_placeholder = PlaceholderUser.find_by(name: 'MY NEW PLACEHOLDER')
-                new_member = project.reload.members.find_by(user_id: new_placeholder.id)
-                expect(new_member).to be_present
-                expect(new_member.roles).to eq [role]
+              it_behaves_like 'invites the principal to the project' do
+                let(:added_principal) { PlaceholderUser.find_by!(name: 'MY NEW PLACEHOLDER') }
               end
             end
 
@@ -145,17 +137,8 @@ feature 'Invite user modal', type: :feature, js: true do
           context 'with an existing placeholder' do
             let(:principal) { FactoryBot.create :placeholder_user }
 
-            it 'can invite an existing placeholder' do
-              modal.run_all_steps
-
-              assignee_field.expect_active!
-              # TODO assignee field should contain the user name now
-              #assignee_field.expect_value principal.name
-              assignee_field.expect_value nil
-
-              new_member = project.reload.members.find_by(user_id: principal.id)
-              expect(new_member).to be_present
-              expect(new_member.roles).to eq [role]
+            it_behaves_like 'invites the principal to the project' do
+              let(:added_principal) { principal }
             end
           end
         end
@@ -172,17 +155,8 @@ feature 'Invite user modal', type: :feature, js: true do
       describe 'inviting groups' do
         let(:principal) { FactoryBot.create :group, name: 'MY NEW GROUP' }
 
-        it 'can invite an existing group' do
-          modal.run_all_steps
-
-          assignee_field.expect_active!
-          # TODO assignee field should contain the user name now
-          #assignee_field.expect_value principal.name
-          assignee_field.expect_value nil
-
-          new_member = project.reload.members.find_by(user_id: principal.id)
-          expect(new_member).to be_present
-          expect(new_member.roles).to eq [role]
+        it_behaves_like 'invites the principal to the project' do
+          let(:added_principal) { principal }
         end
       end
     end
