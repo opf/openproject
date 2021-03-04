@@ -28,6 +28,7 @@
 
 require 'spec_helper'
 
+
 feature 'Invite user modal', type: :feature, js: true do
   shared_let(:project) { FactoryBot.create :project }
   shared_let(:work_package) { FactoryBot.create :work_package, project: project }
@@ -39,22 +40,132 @@ feature 'Invite user modal', type: :feature, js: true do
                       member_through_role: role
   end
 
-  let!(:non_project_user) do
-    FactoryBot.create :user,
-                      firstname: 'Nonproject',
-                      lastname: 'User'
-  end
-
   let!(:role) do
     FactoryBot.create :role,
                       name: 'Member',
                       permissions: permissions
   end
 
-  describe 'through the assignee field' do
+  let(:modal) do
+    ::Components::Users::InviteUserModal.new project: project,
+                                             principal: principal,
+                                             role: role
+  end
+
+  shared_examples 'invites the principal to the project' do
+    it 'will invite that principal to the project' do
+      modal.run_all_steps
+
+      assignee_field.expect_active!
+      # TODO assignee field should contain the user name now
+      #assignee_field.expect_value principal.name
+      assignee_field.expect_value nil
+
+      new_member = project.reload.member_principals.find_by(user_id: added_principal.id)
+      expect(new_member).to be_present
+      expect(new_member.roles).to eq [role]
+    end
+  end
+
+  describe 'inviting a non-project existing user' do
+    describe 'through the assignee field' do
+      let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
+      let(:assignee_field) { wp_page.edit_field :assignee }
+
+      before do
+        wp_page.visit!
+
+        assignee_field.activate!
+
+        find('.ng-dropdown-footer button', text: 'Invite', wait: 10).click
+      end
+
+      context 'with a non project user' do
+        let!(:principal) do
+          FactoryBot.create :user,
+                            firstname: 'Nonproject',
+                            lastname: 'User'
+        end
+        it 'can add an existing user to the project' do
+          modal.run_all_steps
+
+          # TODO assignee field should close and contain the user name now
+          #assignee_field.expect_value principal.name
+          assignee_field.expect_active!
+          assignee_field.expect_value nil
+
+          # But the user got created
+          new_member = project.reload.members.find_by(user_id: principal.id)
+          expect(new_member).to be_present
+          expect(new_member.roles).to eq [role]
+        end
+      end
+
+      context 'with a user to be invited' do
+        let(:principal) { FactoryBot.build :invited_user }
+
+        context 'when the current user has permissions to create a user' do
+          let(:permissions) { %i[view_work_packages edit_work_packages manage_members manage_user] }
+
+          it_behaves_like 'invites the principal to the project' do
+            let(:added_principal) { User.find_by!(mail: principal.mail) }
+          end
+        end
+      end
+
+      describe 'inviting placeholders' do
+        let(:principal) { FactoryBot.build :placeholder_user, name: 'MY NEW PLACEHOLDER' }
+
+        context 'system has enterprise', with_ee: %i[placeholder_users] do
+          describe 'create a new placeholder' do
+            context 'with permissions to manage placeholders' do
+              let(:permissions) { %i[view_work_packages edit_work_packages manage_members manage_placeholder_user] }
+
+              it_behaves_like 'invites the principal to the project' do
+                let(:added_principal) { PlaceholderUser.find_by!(name: 'MY NEW PLACEHOLDER') }
+              end
+            end
+
+            context 'without permissions to manage placeholders' do
+              let(:permissions) { %i[view_work_packages edit_work_packages manage_members manage_placeholder_user] }
+              it 'does not allow to invite a new placeholder' do
+                skip "TODO wait for permissions API"
+              end
+            end
+          end
+
+          context 'with an existing placeholder' do
+            let(:principal) { FactoryBot.create :placeholder_user }
+
+            it_behaves_like 'invites the principal to the project' do
+              let(:added_principal) { principal }
+            end
+          end
+        end
+
+        context 'system has no enterprise' do
+          it 'shows the modal with placeholder option disabled' do
+            modal.within_modal do
+              expect(page).to have_field 'Placeholder user', disabled: true
+            end
+          end
+        end
+      end
+
+      describe 'inviting groups' do
+        let(:principal) { FactoryBot.create :group, name: 'MY NEW GROUP' }
+
+        it_behaves_like 'invites the principal to the project' do
+          let(:added_principal) { principal }
+        end
+      end
+    end
+  end
+
+  context 'when the user has no permission to manage members' do
+    let(:permissions) { %i[view_work_packages edit_work_packages] }
     let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
     let(:assignee_field) { wp_page.edit_field :assignee }
-    let(:modal) { ::Components::Users::InviteUserModal.new }
 
     before do
       wp_page.visit!
@@ -63,39 +174,7 @@ feature 'Invite user modal', type: :feature, js: true do
     it 'can add an existing user to the project' do
       assignee_field.activate!
 
-      find('.ng-dropdown-footer button', text: 'Invite', wait: 10).click
-
-      modal.expect_open
-
-      # STEP 1: Project and type
-      modal.expect_title 'Invite user'
-      modal.autocomplete project.name
-      modal.select_type 'User'
-
-      modal.next
-
-      # STEP 2: User name
-      modal.autocomplete non_project_user.name
-      modal.next
-
-      # STEP 3: Role name
-      modal.autocomplete role.name
-      modal.next
-
-      # STEP 4: Invite message
-      modal.invitation_message 'Welcome user!'
-      modal.click_modal_button 'Review Invitation'
-
-      modal.within_modal do
-        expect(page).to have_text project.name
-        expect(page).to have_text non_project_user.name
-        expect(page).to have_text role.name
-        expect(page).to have_text 'Welcome user!'
-      end
-    end
-
-    context 'when the user has no permission to manage members' do
-      let(:permissions) { %i[view_work_packages edit_work_packages] }
+      expect(page).to have_no_selector('.ng-dropdown-footer', text: 'Invite')
     end
   end
 end

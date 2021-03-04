@@ -24,7 +24,7 @@ export class RoleSearchComponent extends UntilDestroyedMixin implements OnInit {
   public items$:Observable<any[]>;
 
   public text = {
-    noRolesFound: this.I18n.t('js.invite_user_modal.role_search.no_roles_found'),
+    noRolesFound: this.I18n.t('js.invite_user_modal.role.no_roles_found'),
   };
 
   constructor(
@@ -39,12 +39,12 @@ export class RoleSearchComponent extends UntilDestroyedMixin implements OnInit {
         .pipe(
           this.untilDestroyed(),
           debounceTime(200),
+          filter(input => typeof input === 'string'),
           map((input:string) => input.toLowerCase()),
           distinctUntilChanged(),
         ),
       this.roles$,
     ).pipe(
-      tap(console.log),
       map(([input, roles]:[string, any[]]) => roles.filter((role) => !input || role.name.toLowerCase().indexOf(input) !== -1))
     );
   }

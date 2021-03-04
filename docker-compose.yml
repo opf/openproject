@@ -103,6 +103,8 @@ services:
     stop_grace_period: "3s"
     volumes:
       - "pgdata-test:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_DB: openproject
       POSTGRES_USER: openproject

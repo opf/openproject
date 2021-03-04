@@ -5,10 +5,15 @@ import {
   Output,
   ElementRef,
 } from '@angular/core';
+import {Observable, of} from "rxjs";
+import {mapTo, switchMap} from "rxjs/operators";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {PrincipalType} from '../invite-user.component';
 import {RoleResource} from "core-app/modules/hal/resources/role-resource";
+import {PrincipalLike} from "core-app/modules/invite-user-modal/invite-user-modal.types";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {ProjectResource} from 'core-app/modules/hal/resources/project-resource';
+import {PrincipalType} from '../invite-user.component';
 
 @Component({
   selector: 'op-ium-summary',
@@ -17,14 +22,16 @@ import {RoleResource} from "core-app/modules/hal/resources/role-resource";
 })
 export class SummaryComponent {
   @Input() type:PrincipalType;
-  @Input() project:any = null;
+  @Input() project:ProjectResource;
   @Input() role:RoleResource;
-  @Input() principal:any = null;
+  @Input() principal:PrincipalLike;
   @Input() message:string = '';
 
   @Output() close = new EventEmitter<void>();
   @Output() back = new EventEmitter<void>();
   @Output() save = new EventEmitter();
+
+  public PrincipalType = PrincipalType;
 
   public text = {
     title: () => this.I18n.t('js.invite_user_modal.title.invite_principal_to_project', {
@@ -33,9 +40,9 @@ export class SummaryComponent {
     }),
     projectLabel: this.I18n.t('js.invite_user_modal.project.label'),
     principalLabel: {
-      user: this.I18n.t('js.invite_user_modal.principal.label.name_or_email'),
-      placeholder: this.I18n.t('js.invite_user_modal.principal.label.name'),
-      group: this.I18n.t('js.invite_user_modal.principal.label.name'),
+      User: this.I18n.t('js.invite_user_modal.principal.label.name_or_email'),
+      PlaceholderUser: this.I18n.t('js.invite_user_modal.principal.label.name'),
+      Group: this.I18n.t('js.invite_user_modal.principal.label.name'),
     },
     roleLabel: () => this.I18n.t('js.invite_user_modal.role.label', {
       project: this.project?.name,
@@ -52,36 +59,52 @@ export class SummaryComponent {
     readonly I18n:I18nService,
     readonly elementRef:ElementRef,
     readonly api:APIV3Service,
-  ) {}
-
-  async invite() {
-    const principal = await (async () => {
-      if (this.principal.id) {
-        return this.principal;
-      }
-
-      switch (this.type) {
-        case PrincipalType.User:
-          return this.api.users.post({
-            email: this.principal.name,
-            firstName: this.principal.email,
-            status: 'invited',
-          });
-        case PrincipalType.Placeholder:
-          return this.api.placeholder_users.post({ name: this.principal.name });
-      }
-    })();
-
-    return this.api.memberships.post({
-      principal,
-      project: this.project,
-      roles: [this.role],
-    });
+  ) {
   }
 
-  async onSubmit($e:Event) {
+  invite() {
+    return of(this.principal)
+      .pipe(
+        switchMap((principal:PrincipalLike) => this.createPrincipal(principal)),
+        switchMap((principal:HalResource) =>
+          this.api.memberships
+            .post({
+              principal,
+              project: this.project,
+              roles: [this.role],
+            })
+            .pipe(
+              mapTo(principal)
+            )
+        )
+      );
+  }
+
+  private createPrincipal(principal:PrincipalLike):Observable<HalResource> {
+    if (principal instanceof HalResource) {
+      return of(principal);
+    }
+
+    switch (this.type) {
+      case PrincipalType.User:
+        return this.api.users.post({
+          email: principal.name,
+          status: 'invited',
+        });
+      case PrincipalType.Placeholder:
+        return this.api.placeholder_users.post({ name: principal.name });
+      default:
+        throw new Error("Unsupported PrincipalType given");
+    }
+  }
+
+  onSubmit($e:Event) {
     $e.preventDefault();
 
-    this.save.emit({ principal: this.principal });
+    this
+      .invite()
+      .subscribe((principal) =>
+        this.save.emit({ principal })
+      );
   }
 }

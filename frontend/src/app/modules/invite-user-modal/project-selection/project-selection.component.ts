@@ -12,6 +12,8 @@ import {
   Validators,
 } from '@angular/forms';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {BannersService} from "core-app/modules/common/enterprise/banners.service";
+import {IOpOptionListOption} from "core-app/modules/common/option-list/option-list.component";
 import {PrincipalType} from '../invite-user.component';
 
 @Component({
@@ -37,21 +39,16 @@ export class ProjectSelectionComponent implements OnInit {
     nextButton: this.I18n.t('js.invite_user_modal.project.next_button'),
   };
 
-  public typeOptions = [
+  public typeOptions:IOpOptionListOption<string>[] = [
     {
-      value: 'user',
-      title: 'User',
-      description: 'Permissions based on the assigned role in the selected project'
+      value: PrincipalType.User,
+      title: this.I18n.t('js.invite_user_modal.type.user.title'),
+      description: this.I18n.t('js.invite_user_modal.type.user.description'),
     },
     {
-      value: 'group',
-      title: 'Group',
-      description: 'Permissions based on the assigned role in the selected project'
-    },
-    {
-      value: 'placeholder',
-      title: 'Placeholder',
-      description: 'Has no access to the proejct and no emails are sent out'
+      value: PrincipalType.Group,
+      title: this.I18n.t('js.invite_user_modal.type.group.title'),
+      description: this.I18n.t('js.invite_user_modal.type.group.description'),
     },
   ];
 
@@ -66,17 +63,34 @@ export class ProjectSelectionComponent implements OnInit {
   constructor(
     readonly I18n:I18nService,
     readonly elementRef:ElementRef,
+    readonly bannersService:BannersService,
   ) {}
 
   ngOnInit() {
     this.typeControl?.setValue(this.type);
     this.projectControl?.setValue(this.project);
+
+    this.typeOptions.push({
+      value: PrincipalType.Placeholder,
+      title: this.bannersService.eeShowBanners
+        ? this.I18n.t('js.invite_user_modal.type.placeholder.title_no_ee')
+        : this.I18n.t('js.invite_user_modal.type.placeholder.title'),
+      description: this.bannersService.eeShowBanners
+        ? this.I18n.t('js.invite_user_modal.type.placeholder.description_no_ee', {
+            eeHref: this.bannersService.getEnterPriseEditionUrl({
+              referrer: 'placeholder-users',
+              hash: 'placeholder-users',
+            }),
+          })
+        : this.I18n.t('js.invite_user_modal.type.placeholder.description'),
+      disabled: this.bannersService.eeShowBanners,
+    });
   }
 
   onSubmit($e:Event) {
     $e.preventDefault();
     if (this.projectAndTypeForm.invalid) {
-      this.projectAndTypeForm.markAllAsTouched();
+      this.projectAndTypeForm.markAsDirty();
       return;
     }
 

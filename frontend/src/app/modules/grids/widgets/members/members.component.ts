@@ -8,6 +8,7 @@ import {MembershipResource} from "core-app/modules/hal/resources/membership-reso
 import {RoleResource} from "core-app/modules/hal/resources/role-resource";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {Apiv3ListParameters} from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 const DISPLAYED_MEMBERS_LIMIT = 100;
 
@@ -24,7 +25,7 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
   };
 
   public totalMembers:number;
-  public entriesByRoles:{[roleId:string]:{role:RoleResource, users:UserResource[]}} = {};
+  public entriesByRoles:{[roleId:string]:{role:RoleResource, users:HalResource[]}} = {};
   private entriesLoaded = false;
   public membersAddable:boolean = false;
 

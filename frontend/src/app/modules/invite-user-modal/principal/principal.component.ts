@@ -3,7 +3,7 @@ import {
   OnInit,
   Input,
   Output,
-  EventEmitter,
+  EventEmitter, ChangeDetectorRef,
 } from '@angular/core';
 import {
   FormGroup,
@@ -12,6 +12,9 @@ import {
 } from '@angular/forms';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {PrincipalType} from '../invite-user.component';
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {PrincipalLike} from "core-app/modules/invite-user-modal/invite-user-modal.types";
+import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 
 @Component({
   selector: 'op-ium-principal',
@@ -19,13 +22,15 @@ import {PrincipalType} from '../invite-user.component';
   styleUrls: ['./principal.component.sass'],
 })
 export class PrincipalComponent implements OnInit {
-  @Input() principal:any = null;
-  @Input() project:any = null;
+  @Input('principal') storedPrincipal:PrincipalLike|null = null;
+  @Input() project:ProjectResource;
   @Input() type:PrincipalType;
 
   @Output() close = new EventEmitter<void>();
-  @Output() save = new EventEmitter<{ principal:any, isAlreadyMember:boolean }>();
+  @Output() save = new EventEmitter<{ principal:PrincipalLike, isAlreadyMember:boolean }>();
   @Output() back = new EventEmitter();
+
+  public PrincipalType = PrincipalType;
 
   public text = {
     title: () => this.I18n.t('js.invite_user_modal.title.invite_to_project', {
@@ -33,28 +38,19 @@ export class PrincipalComponent implements OnInit {
       project: this.project.name,
     }),
     label: {
-      user: this.I18n.t('js.invite_user_modal.principal.label.name_or_email'),
-      placeholder: this.I18n.t('js.invite_user_modal.principal.label.name'),
-      group: this.I18n.t('js.invite_user_modal.principal.label.name'),
+      User: this.I18n.t('js.invite_user_modal.principal.label.name_or_email'),
+      PlaceholderUser: this.I18n.t('js.invite_user_modal.principal.label.name'),
+      Group: this.I18n.t('js.invite_user_modal.principal.label.name'),
     },
-    inviteUser: () => this.I18n.t('js.invite_user_modal.principal.invite_user', {
-      email: this.principalControl?.value?.name,
-    }),
     changeUserSelection: this.I18n.t('js.invite_user_modal.principal.change_user_selection'),
     changePlaceholderSelection: this.I18n.t('js.invite_user_modal.principal.change_placeholder_selection'),
     changeGroupSelection: this.I18n.t('js.invite_user_modal.principal.change_group_selection'),
-    createNew: {
-      placeholder: () => this.I18n.t('js.invite_user_modal.principal.create_new_placeholder', {
-        name: this.principalControl?.value?.name
-      }),
-      group: () => this.I18n.t('js.invite_user_modal.principal.create_new_group', {
-        name: this.principalControl?.value?.name
-      }),
-    },
+    inviteUser: this.I18n.t('js.invite_user_modal.principal.invite_user'),
+    createNewPlaceholder: this.I18n.t('js.invite_user_modal.principal.create_new_placeholder'),
     required: {
-      user: this.I18n.t('js.invite_user_modal.principal.required.user'),
-      placeholder: this.I18n.t('js.invite_user_modal.principal.required.placeholder'),
-      group: this.I18n.t('js.invite_user_modal.principal.required.group'),
+      User: this.I18n.t('js.invite_user_modal.principal.required.user'),
+      PlaceholderUser: this.I18n.t('js.invite_user_modal.principal.required.placeholder'),
+      Group: this.I18n.t('js.invite_user_modal.principal.required.group'),
     },
     backButton: this.I18n.t('js.invite_user_modal.back'),
     nextButton: this.I18n.t('js.invite_user_modal.principal.next_button'),
@@ -68,8 +64,16 @@ export class PrincipalComponent implements OnInit {
     return this.principalForm.get('principal');
   }
 
+  get principal():PrincipalLike|undefined {
+    return this.principalControl?.value;
+  }
+
+  get hasPrincipalSelected() {
+    return !!this.principal;
+  }
+
   get isNewPrincipal() {
-    return typeof this.principalControl?.value === 'string';
+    return this.hasPrincipalSelected && !(this.principal instanceof HalResource);
   }
 
   get isMemberOfCurrentProject() {
@@ -79,10 +83,10 @@ export class PrincipalComponent implements OnInit {
   constructor(readonly I18n:I18nService) {}
 
   ngOnInit() {
-    this.principalControl?.setValue(this.principal);
+    this.principalControl?.setValue(this.storedPrincipal);
   }
 
-  createNewFromInput(input:string) {
+  createNewFromInput(input:PrincipalLike) {
     this.principalControl?.setValue(input);
   }
 
@@ -90,12 +94,12 @@ export class PrincipalComponent implements OnInit {
     $e.preventDefault();
 
     if (this.principalForm.invalid) {
-      this.principalForm.markAllAsTouched();
+      this.principalForm.markAsDirty();
       return;
     }
 
     this.save.emit({
-      principal: this.principalControl?.value,
+      principal: this.principal!,
       isAlreadyMember: this.isMemberOfCurrentProject,
     });
   }

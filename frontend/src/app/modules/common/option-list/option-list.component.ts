@@ -14,6 +14,7 @@ import {
 export interface IOpOptionListOption<T> {
   value:T;
   title:string;
+  disabled?:boolean;
   description?:string;
 }
 
@@ -43,6 +44,14 @@ export class OpOptionListComponent<T> implements ControlValueAccessor {
   set selected(value:IOpOptionListValue<T>) {
     this._selected = value;
     this.onChange(value);
+  }
+
+  getClassListForItem(option:IOpOptionListOption<T>) {
+    return {
+      'op-option-list--item': true,
+      'op-option-list--item_selected': this.selected === option.value,
+      'op-option-list--item_disabled': !!option.disabled,
+    };
   }
 
   onChange = (_:IOpOptionListValue<T>) => {};

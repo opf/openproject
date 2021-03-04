@@ -9,7 +9,7 @@ import {NewBoardModalComponent} from "core-app/modules/boards/new-board-modal/ne
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
-import {enterpriseDemoUrl, enterpriseEditionUrl} from "core-app/globals/constants.const";
+import {enterpriseDemoUrl} from "core-app/globals/constants.const";
 import {DomSanitizer} from "@angular/platform-browser";
 import {boardTeaserVideoURL} from "core-app/modules/boards/board-constants.const";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
@@ -99,7 +99,7 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
   }
 
   public eeLink() {
-    return enterpriseEditionUrl + '&op_referrer=boards';
+    return this.bannerService.getEnterPriseEditionUrl({ referrer: 'boards' });
   }
 
   public demoLink() {

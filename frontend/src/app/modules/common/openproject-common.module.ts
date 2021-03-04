@@ -79,11 +79,11 @@ import {AutofocusDirective} from './autofocus/autofocus.directive';
 import {ShowSectionDropdownComponent} from './hide-section/show-section-dropdown.component';
 import {SlideToggleComponent} from './slide-toggle/slide-toggle.component';
 import {DynamicBootstrapModule} from './dynamic-bootstrap/dynamic-bootstrap.module';
-import {OpPrincipalComponent} from './principal/op-principal.component';
 import {OpFormFieldComponent} from './form-field/form-field.component';
 import {OpFormBindingDirective} from './form-field/form-binding.directive';
 import {OpOptionListComponent} from './option-list/option-list.component';
 import {OpIconComponent} from './icon/icon.component';
+import {OpenprojectPrincipalRenderingModule} from "core-app/modules/principal/principal-rendering.module";
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
@@ -129,6 +129,7 @@ export function bootstrapModule(injector:Injector) {
     NgOptionHighlightModule,
 
     DynamicBootstrapModule,
+    OpenprojectPrincipalRenderingModule,
   ],
   exports: [
     // Re-export all commonly used
@@ -142,6 +143,7 @@ export function bootstrapModule(injector:Injector) {
     NgSelectModule,
     NgOptionHighlightModule,
     DynamicBootstrapModule,
+    OpenprojectPrincipalRenderingModule,
 
     OpDatePickerComponent,
     OpDateTimeComponent,
@@ -187,7 +189,6 @@ export function bootstrapModule(injector:Injector) {
     // filter
 
     SlideToggleComponent,
-    OpPrincipalComponent,
 
     OpFormFieldComponent,
     OpFormBindingDirective,
@@ -237,7 +238,6 @@ export function bootstrapModule(injector:Injector) {
 
     // User Avatar
     UserAvatarComponent,
-    OpPrincipalComponent,
 
     PersistentToggleComponent,
     HideSectionLinkComponent,

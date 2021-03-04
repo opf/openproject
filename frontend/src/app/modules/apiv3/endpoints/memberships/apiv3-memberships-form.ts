@@ -26,24 +26,39 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {UserResource} from "core-app/modules/hal/resources/user-resource";
-import {RoleResource} from "core-app/modules/hal/resources/role-resource";
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
+import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
+import {HalPayloadHelper} from "core-app/modules/hal/schemas/hal-payload.helper";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import {MembershipResource, MembershipResourceEmbedded} from "core-app/modules/hal/resources/membership-resource";
 
-export interface MembershipResourceLinks {
-  update(payload:unknown):Promise<unknown>;
-  updateImmediately(payload:unknown):Promise<unknown>;
-  delete():Promise<unknown>;
+export class Apiv3MembershipsForm extends APIv3FormResource {
+
+  /**
+   * We need to override the grid widget extraction
+   * to pass the correct payload to the API.
+   *
+   * @param resource
+   * @param schema
+   */
+  public static extractPayload(resource:MembershipResourceEmbedded):Object {
+    return {
+      _links: {
+        project: { href: resource.project.href },
+        principal: { href: resource.principal.href },
+        roles: resource.roles.map(role => ({ href: role.href })),
+      }
+    }
+  }
+
+  /**
+   * Extract payload for the form from the request and optional schema.
+   *
+   * @param request
+   * @param schema
+   */
+  public extractPayload(request:MembershipResourceEmbedded) {
+    return Apiv3MembershipsForm.extractPayload(request);
+  }
+
 }
-
-export interface MembershipResourceEmbedded {
-  principal:HalResource;
-  roles:RoleResource[];
-  project:ProjectResource;
-}
-
-export class MembershipResource extends HalResource {
-}
-
-export interface MembershipResource extends MembershipResourceLinks, MembershipResourceEmbedded {}
