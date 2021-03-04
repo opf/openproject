@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2020 the OpenProject GmbH
+// Copyright (C) 2012-2021 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
@@ -75,6 +75,8 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
   public canAddComment:boolean;
   public showAbove:boolean;
 
+  public htmlId = 'wp-comment-field';
+
   constructor(protected elementRef:ElementRef,
               protected injector:Injector,
               protected commentService:CommentService,
@@ -115,10 +117,6 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
 
     event.preventDefault();
     return false;
-  }
-
-  public get htmlId() {
-    return 'wp-comment-field';
   }
 
   public activate(withText?:string) {

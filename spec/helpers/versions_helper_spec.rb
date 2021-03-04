@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -59,7 +59,8 @@ describe VersionsHelper, type: :helper do
     context 'a version' do
       context 'with being allowed to see the version' do
         it 'does not create a link, without permission' do
-          expect(link_to_version(version)).to eq("#{test_project.name} - #{version.name}")
+          expect(link_to_version(version))
+            .to eq("#{test_project.name} - #{version.name}")
         end
       end
 
@@ -71,21 +72,22 @@ describe VersionsHelper, type: :helper do
         end
 
         it 'generates a link' do
-          expect(link_to_version(version)).to eq("<a href=\"/versions/#{version.id}\">#{test_project.name} - #{version.name}</a>")
+          expect(link_to_version(version))
+            .to be_html_eql("<a href=\"/versions/#{version.id}\" id=\"version-#{ERB::Util.url_encode(version.name)}\">#{test_project.name} - #{version.name}</a>")
         end
 
         it 'generates a link within a project' do
           @project = test_project
-          expect(link_to_version(version)).to eq("<a href=\"/versions/#{version.id}\">#{version.name}</a>")
+          expect(link_to_version(version))
+            .to be_html_eql("<a href=\"/versions/#{version.id}\" id=\"version-#{ERB::Util.url_encode(version.name)}\">#{version.name}</a>")
         end
       end
     end
 
-    describe 'an invalid version' do
-      let(:version) { Object }
-
-      it 'does not generate a link' do
-        expect(link_to_version(Object)).to be_empty
+    describe '#link_to_version_id' do
+      it 'generates an escaped id' do
+        expect(link_to_version_id(version))
+          .to eql("version-#{ERB::Util.url_encode(version.name)}")
       end
     end
   end
@@ -96,7 +98,8 @@ describe VersionsHelper, type: :helper do
     end
 
     it 'generates an option tag' do
-      expect(version_options_for_select([], version)).to eq("<option selected=\"selected\" value=\"#{version.id}\">#{version.name}</option>")
+      expect(version_options_for_select([],
+                                        version)).to eq("<option selected=\"selected\" value=\"#{version.id}\">#{version.name}</option>")
     end
   end
 end

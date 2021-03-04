@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -34,7 +34,7 @@ describe 'Wysiwyg paragraphs in lists behavior (Regression #28765)',
   let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { ::Components::WysiwygEditor.new }
 
-  let(:wiki_page) {
+  let(:wiki_page) do
     page = FactoryBot.build :wiki_page_with_content
     page.content.text = <<~MARKDOWN
       paragraph
@@ -100,7 +100,7 @@ describe 'Wysiwyg paragraphs in lists behavior (Regression #28765)',
     MARKDOWN
 
     page
-  }
+  end
 
   before do
     login_as(user)
@@ -111,7 +111,7 @@ describe 'Wysiwyg paragraphs in lists behavior (Regression #28765)',
   end
 
   it 'custom classes are placed correctly' do
-    editor.in_editor do |container, editable|
+    editor.in_editor do |_container, editable|
       expect(editable).to have_css('p.op-uc-p', count: 5)
       expect(editable).to have_css('h1.op-uc-h1', count: 1)
       expect(editable).to have_css('h2.op-uc-h2', count: 1)

@@ -5,22 +5,20 @@ sidebar_navigation:
 title: More Wiki functions
 description: Wiki settings in OpenProject.
 robots: index, follow
-keywords: wiki settings
+keywords: wiki settings, delete wiki, lock wiki, export wiki
 ---
 
 # More wiki functions
 
 In the wiki you have more functions to edit or configure your wiki page, e.g. to export pages, rename pages, change parent page, view the table of contents and more.
 
-| Feature                                           | Documentation for                                            |
+| Topic                                             | Content                                                      |
 | ------------------------------------------------- | ------------------------------------------------------------ |
-| [More wiki functions](#more-wiki-functions)       | How to open more wiki functions.                             |
 | [Lock a wiki page](#lock-a-wiki-page)             | How to lock and unlock a wiki page and prevent others from editing it. |
 | [Delete a wiki page](#delete-a-wiki-page)         | How to delete a wiki page.                                   |
-| [Show wiki page History](#show-wiki-page-history) | How to display changes to a wiki page.                       |
+| [Show wiki page history](#show-wiki-page-history) | How to display changes to a wiki page.                       |
 | [Export a wiki page](#export-a-wiki-page)         | How to export a wiki page.                                   |
 
-## More wiki functions
 
 To open further configuration settings, navigate to a wiki page and click on the **More** button on top of the wiki page.
 
@@ -28,7 +26,7 @@ In the drop down menu, select the corresponding menu item.
 
 ![more-wiki-functions](image-20201217112513540.png)
 
-### Lock a wiki page
+## Lock a wiki page
 
 To lock an existing wiki page and prevent others from editing the page, select the **More** button on top of the wiki page.
 
@@ -56,7 +54,7 @@ Please be aware that a deleted wiki page cannot easily be restored within the sy
 
 ![delete-wiki-page](image-20201217112756158.png)
 
-## Show wiki page History
+## Show wiki page history
 
 In some cases, you might want to know the latest change to a wiki page.  You can get information on the type of change as well as on the author using the **History** option. To display it, choose **History** in the [**More** functions](#more-wiki-functions) drop-down menu on top of a wiki page.
 

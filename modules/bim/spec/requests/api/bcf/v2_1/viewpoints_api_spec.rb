@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -204,13 +204,15 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
         expect(subject.status).to eq 200
         expect(subject.headers['Content-Type']).to eq 'image/jpeg'
 
-        expect(subject.headers["Cache-Control"]).to eq "public, max-age=604799"
+        max_age = OpenProject::Configuration.fog_download_url_expires_in - 10
+
+        expect(subject.headers["Cache-Control"]).to eq "public, max-age=#{max_age}"
         expect(subject.headers["Expires"]).to be_present
 
         expires_time = Time.parse response.headers["Expires"]
 
-        expect(expires_time < Time.now.utc + 604799).to be_truthy
-        expect(expires_time > Time.now.utc + 604799 - 60).to be_truthy
+        expect(expires_time < Time.now.utc + max_age).to be_truthy
+        expect(expires_time > Time.now.utc + max_age - 60).to be_truthy
       end
     end
 

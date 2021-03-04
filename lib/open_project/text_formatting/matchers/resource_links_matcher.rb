@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -78,7 +78,7 @@ module OpenProject::TextFormatting
 
       def self.regexp
         %r{
-          ([[[:space:]]\(,\-\[\>]|^) # Leading string
+          ([[[:space:]](,\-\[>]|^) # Leading string
           (!)? # Escaped marker
           (([a-z0-9\-_]+):)? # Project identifier
           (#{allowed_prefixes.join("|")})? # prefix
@@ -224,7 +224,7 @@ module OpenProject::TextFormatting
             break
           end
         end
-      rescue => e
+      rescue StandardError => e
         Rails.logger.error "Failed link resource handling for #{matched_string}: #{e}"
         Rails.logger.debug { "Backtrace:\n\t#{e.backtrace.join("\n\t")}" }
         # Keep the original string unmatched

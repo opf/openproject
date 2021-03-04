@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -35,7 +35,7 @@ module OpenProject
       # Checks whether the given user is authorized to login by calling
       # all registered callbacks. If all callbacks approve the user is authorized and may log in.
       def self.authorized?(auth_hash)
-        rejection = callbacks.find_map { |callback|
+        rejection = callbacks.find_map do |callback|
           d = callback.authorize auth_hash
 
           if d.is_a? Decision
@@ -43,7 +43,7 @@ module OpenProject
           else
             fail ArgumentError, 'Expecting Callback#authorize to return a Decision.'
           end
-        }
+        end
 
         rejection || Approval.new
       end
@@ -105,7 +105,7 @@ module OpenProject
       # @yieldparam user [User] User who has been logged in.
       # @yieldparam auth_hash [AuthHash] auth_hash OmniAuth authentication information
       #                                  including user info and credentials.
-      # @yieldparam context The context from which the callback is called, e.g. a Controller.                    
+      # @yieldparam context The context from which the callback is called, e.g. a Controller.
       def self.after_login(&block)
         add_after_login_callback AfterLoginBlockCallback.new(&block)
       end

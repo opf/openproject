@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -39,6 +39,11 @@ module Pages
         def expect_listed(*users)
           rows = page.all 'td.username'
           expect(rows.map(&:text)).to include(*users.map(&:login))
+        end
+
+        def expect_order(*users)
+          rows = page.all 'td.username'
+          expect(rows.map(&:text)).to eq(users.map(&:login))
         end
 
         def expect_non_listed
@@ -102,11 +107,9 @@ module Pages
 
         private
 
-        def within_user_row(user)
+        def within_user_row(user, &block)
           row = find('tr.user', text: user.login)
-          within row do
-            yield
-          end
+          within row, &block
         end
       end
     end

@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -25,7 +25,6 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-
 
 module Components
   class CostReportsBaseTable
@@ -55,6 +54,7 @@ module Components
     end
 
     def edit_time_entry(new_value, row)
+      SeleniumHubWaiter.wait
       page.find("#{row_selector(row)} .icon-edit").click
 
       time_logging_modal.is_visible true
@@ -62,31 +62,29 @@ module Components
       time_logging_modal.work_package_is_missing false
 
       time_logging_modal.perform_action 'Save'
-
-      sleep(3)
+      SeleniumHubWaiter.wait
 
       expect_action_icon 'edit', row
       expect_value new_value, row
     end
 
     def edit_cost_entry(new_value, row, cost_entry_id)
+      SeleniumHubWaiter.wait
       page.find("#{row_selector(row)} .icon-edit").click
 
       expect(page).to have_current_path('/cost_entries/' + cost_entry_id + '/edit')
 
+      SeleniumHubWaiter.wait
       fill_in('cost_entry_units', with: new_value)
       click_button 'Save'
       expect(page).to have_selector('.flash.notice')
-
-      sleep(3)
     end
 
     def delete_entry(row)
+      SeleniumHubWaiter.wait
       page.find("#{row_selector(row)} .icon-delete").click
 
       page.driver.browser.switch_to.alert.accept
-
-      sleep(3)
     end
 
     private

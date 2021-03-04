@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -45,8 +45,9 @@ end
 Hash.class_eval do
   def identical?(o)
     return false unless self.class === o
+
     (o.keys + keys).uniq.all? do |key|
-      (o[key].identical?(self[key]))
+      o[key].identical?(self[key])
     end
   end
 end
@@ -54,6 +55,7 @@ end
 Array.class_eval do
   def identical?(o)
     return false unless self.class === o
+
     all? do |ea|
       (o.any? { |other_each| other_each.identical?(ea) })
     end

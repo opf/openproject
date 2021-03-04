@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -40,13 +40,13 @@ module Bim
         resolved         = Status.find_by(name: I18n.t('seeders.bim.default_status_resolved'))
 
         {
-          types[I18n.t(:default_type_task)]                         => [new, in_progress, closed],
-          types[I18n.t(:default_type_milestone)]                    => [new, in_progress, closed],
-          types[I18n.t(:default_type_phase)]                        => [new, in_progress, closed],
-          types[I18n.t('seeders.bim.default_type_clash')]           => [new, in_progress, resolved, closed],
-          types[I18n.t('seeders.bim.default_type_issue')]           => [new, in_progress, resolved, closed],
-          types[I18n.t('seeders.bim.default_type_remark')]          => [new, in_progress, resolved, closed],
-          types[I18n.t('seeders.bim.default_type_request')]         => [new, in_progress, resolved, closed]
+          types[I18n.t(:default_type_task)] => [new, in_progress, closed],
+          types[I18n.t(:default_type_milestone)] => [new, in_progress, closed],
+          types[I18n.t(:default_type_phase)] => [new, in_progress, closed],
+          types[I18n.t('seeders.bim.default_type_clash')] => [new, in_progress, resolved, closed],
+          types[I18n.t('seeders.bim.default_type_issue')] => [new, in_progress, resolved, closed],
+          types[I18n.t('seeders.bim.default_type_remark')] => [new, in_progress, resolved, closed],
+          types[I18n.t('seeders.bim.default_type_request')] => [new, in_progress, resolved, closed]
         }
       end
 

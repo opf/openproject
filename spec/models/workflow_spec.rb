@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -39,7 +39,7 @@ describe Workflow, type: :model do
     let(:type_target) { FactoryBot.create(:type) }
 
     shared_examples_for 'copied workflow' do
-      before do Workflow.copy(type, role, type_target, role_target) end
+      before { Workflow.copy(type, role, type_target, role_target) }
 
       subject { Workflow.order(Arel.sql('id DESC')).first }
 
@@ -57,37 +57,37 @@ describe Workflow, type: :model do
     end
 
     describe 'workflow w/o author or assignee' do
-      let!(:workflow_src) {
+      let!(:workflow_src) do
         FactoryBot.create(:workflow,
-                           old_status: status_0,
-                           new_status: status_1,
-                           type_id: type.id,
-                           role: role)
-      }
+                          old_status: status_0,
+                          new_status: status_1,
+                          type_id: type.id,
+                          role: role)
+      end
       it_behaves_like 'copied workflow'
     end
 
     describe 'workflow with author' do
-      let!(:workflow_src) {
+      let!(:workflow_src) do
         FactoryBot.create(:workflow,
-                           old_status: status_0,
-                           new_status: status_1,
-                           type_id: type.id,
-                           role: role,
-                           author: true)
-      }
+                          old_status: status_0,
+                          new_status: status_1,
+                          type_id: type.id,
+                          role: role,
+                          author: true)
+      end
       it_behaves_like 'copied workflow'
     end
 
     describe 'workflow with assignee' do
-      let!(:workflow_src) {
+      let!(:workflow_src) do
         FactoryBot.create(:workflow,
-                           old_status: status_0,
-                           new_status: status_1,
-                           type_id: type.id,
-                           role: role,
-                           assignee: true)
-      }
+                          old_status: status_0,
+                          new_status: status_1,
+                          type_id: type.id,
+                          role: role,
+                          assignee: true)
+      end
       it_behaves_like 'copied workflow'
     end
   end

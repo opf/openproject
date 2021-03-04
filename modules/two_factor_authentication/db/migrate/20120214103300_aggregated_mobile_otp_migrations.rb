@@ -20,7 +20,8 @@ class AggregatedMobileOtpMigrations < ActiveRecord::Migration[5.0]
       add_column :users, :unverified_phone, :string
       User.reset_column_information
     end
-    Migration::MigrationUtils::SettingRenamer.rename("plugin_redmine_two_factor_authentication_authentication","plugin_openproject_two_factor_authentication")
+    Migration::MigrationUtils::SettingRenamer.rename("plugin_redmine_two_factor_authentication_authentication",
+                                                     "plugin_openproject_two_factor_authentication")
   end
 
   def down

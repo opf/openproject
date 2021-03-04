@@ -73,6 +73,10 @@ The results will be displayed accordingly in the work package list.
 
 ![filter-text](filter-text.png)
 
+<div class="alert alert-info" role="alert">
+**Good to know**: Filtering a work packages list will temporarily change the default work package type and default status according to your filters to make newly created work packages visible in the list.
+</div>
+
 ## Sort the work package list
 
 ### Automatic sorting of the work package list

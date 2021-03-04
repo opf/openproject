@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2020 the OpenProject GmbH
+// Copyright (C) 2012-2021 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
 import {Injectable, Injector} from "@angular/core";
 import {
@@ -112,6 +112,9 @@ export class APIV3Service {
   // /api/v3/users
   public readonly users = this.apiV3CustomEndpoint(Apiv3UsersPaths);
 
+  // /api/v3/placeholderUsers
+  public readonly placeholder_users = this.apiV3CollectionEndpoint('placeholder_users')
+
   // /api/v3/help_texts
   public readonly help_texts = this.apiV3CustomEndpoint(Apiv3HelpTextsPaths);
 
@@ -140,6 +143,12 @@ export class APIV3Service {
     } else {
       return this.projects.id(projectIdentifier);
     }
+  }
+
+  public collectionFromString(fullPath:string) {
+    const path = fullPath.replace(this.pathHelper.api.v3.apiV3Base + '/', '');
+
+    return this.apiV3CollectionEndpoint(path);
   }
 
   private apiV3CollectionEndpoint<V extends HalResource, T extends APIv3GettableResource<V>>(segment:string, resource?:Constructor<T>) {

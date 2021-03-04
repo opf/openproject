@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2020 the OpenProject GmbH
+// Copyright (C) 2012-2021 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
@@ -34,6 +34,7 @@ import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-
 import {BannersService} from "core-app/modules/common/enterprise/banners.service";
 import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import { CurrentProjectService } from 'core-app/components/projects/current-project.service';
 
 @Component({
   selector: '[query-filter]',
@@ -63,6 +64,7 @@ export class QueryFilterComponent implements OnInit {
   constructor(readonly wpTableFilters:WorkPackageViewFiltersService,
               readonly schemaCache:SchemaCacheService,
               readonly I18n:I18nService,
+              readonly currentProject:CurrentProjectService,
               readonly bannerService:BannersService) {
   }
 

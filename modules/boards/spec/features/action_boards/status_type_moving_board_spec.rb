@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -36,17 +36,18 @@ describe 'Status action board', type: :feature, js: true do
                       member_in_project: project,
                       member_through_role: role)
   end
-  let(:permissions) {
+  let(:permissions) do
     %i[show_board_views manage_board_views add_work_packages
        edit_work_packages view_work_packages manage_public_queries]
-  }
+  end
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
-
 
   let(:type_bug) { FactoryBot.create(:type_bug) }
   let(:type_task) { FactoryBot.create(:type_task) }
 
-  let(:project) { FactoryBot.create(:project, types: [type_task, type_bug], enabled_module_names: %i[work_package_tracking board_view]) }
+  let(:project) do
+    FactoryBot.create(:project, types: [type_task, type_bug], enabled_module_names: %i[work_package_tracking board_view])
+  end
   let(:board_index) { Pages::BoardIndex.new(project) }
 
   let!(:priority) { FactoryBot.create :default_priority }
@@ -68,35 +69,35 @@ describe 'Status action board', type: :feature, js: true do
                       status: closed_status
   end
 
-  let!(:workflow_task) {
+  let!(:workflow_task) do
     FactoryBot.create(:workflow,
                       type: type_task,
                       role: role,
                       old_status_id: open_status.id,
                       new_status_id: closed_status.id)
-  }
-  let!(:workflow_task_back) {
+  end
+  let!(:workflow_task_back) do
     FactoryBot.create(:workflow,
                       type: type_task,
                       role: role,
                       old_status_id: closed_status.id,
                       new_status_id: open_status.id)
-  }
+  end
 
-  let!(:workflow_bug) {
+  let!(:workflow_bug) do
     FactoryBot.create(:workflow,
                       type: type_bug,
                       role: role,
                       old_status_id: open_status.id,
                       new_status_id: closed_status.id)
-  }
-  let!(:workflow_bug_back) {
+  end
+  let!(:workflow_bug_back) do
     FactoryBot.create(:workflow,
                       type: type_bug,
                       role: role,
                       old_status_id: closed_status.id,
                       new_status_id: open_status.id)
-  }
+  end
 
   let(:filters) { ::Components::WorkPackages::Filters.new }
 

@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -35,6 +35,7 @@ module OpenProject::Patches::DeclarativeOption
     # Override Declarative::Option to avoid ruby 2.7.1 warnings about using the last argument as keyword parameter.
     def lambda_for_proc(value, options)
       return ->(context, **args) { context.instance_exec(**args, &value) } if options[:instance_exec]
+
       value
     end
   end
@@ -44,5 +45,6 @@ unless Declarative::Option.included_modules.include?(OpenProject::Patches::Decla
   if Gem.loaded_specs['declarative-option'].version > Gem::Version.create('0.1.0')
     raise "Check whether the patch to Declarative::Option is still necessary"
   end
-  Declarative::Option.send(:include, OpenProject::Patches::DeclarativeOption)
+
+  Declarative::Option.include OpenProject::Patches::DeclarativeOption
 end

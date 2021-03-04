@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -31,16 +31,17 @@
 # Scope to fetch all fields necessary to populated AggregatedJournal collections.
 # See the AggregatedJournal model class for a description.
 module Journal::Scopes
-  class AggregatedJournal
-    class << self
-      def fetch(journable: nil, sql: nil, until_version: nil)
+  module AggregatedJournal
+    extend ActiveSupport::Concern
+
+    class_methods do
+      def aggregated_journal(journable: nil, sql: nil, until_version: nil)
         journals_preselection = raw_journals_subselect(journable, sql, until_version)
 
         # We wrap the sql with a subselect so that outside of this class,
         # The fields native to journals (e.g. id, version) can be referenced, without
         # having to also use a CASE/COALESCE statement.
-        Journal
-          .from(select_sql(journals_preselection))
+        from(select_sql(journals_preselection))
           .select("DISTINCT *")
       end
 
@@ -104,7 +105,7 @@ module Journal::Scopes
       # customizable_journals/attachable_journals) represent the complete state of the journable at the given time.
       #
       # e.g. a group of 5 sequential journals without notes, belonging to the same user and created within the configured
-      # time difference between one journal and its succcessor
+      # time difference between one journal and its successor
       #
       #   Version 9
       #   Version 8
@@ -119,7 +120,7 @@ module Journal::Scopes
       # that all journals of the same group that are after the notes journal are also returned.
       #
       # e.g. a group of 5 sequential journals with only one note, belonging to the same user and created within the configured
-      # time difference between one journal and its succcessor
+      # time difference between one journal and its successor
       #
       #   Version 9
       #   Version 8
@@ -136,7 +137,7 @@ module Journal::Scopes
       # after it up to and including the maximum journal version of the group.
 
       # e.g. a group of 5 sequential journals with only one note, belonging to the same user and created within the configured
-      # time difference between one journal and its succcessor
+      # time difference between one journal and its successor
       #
       #   Version 9
       #   Version 8 (note)

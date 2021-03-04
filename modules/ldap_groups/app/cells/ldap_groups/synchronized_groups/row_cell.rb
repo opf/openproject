@@ -13,11 +13,15 @@ module LdapGroups
       end
 
       def auth_source
-        link_to synchronized_group.auth_source.name, edit_auth_source_path(synchronized_group.auth_source)
+        link_to synchronized_group.auth_source.name, edit_ldap_auth_source_path(synchronized_group.auth_source)
       end
 
       def group
         link_to synchronized_group.group.name, edit_group_path(synchronized_group.group)
+      end
+
+      def sync_users
+        checked_image synchronized_group.sync_users
       end
 
       def users

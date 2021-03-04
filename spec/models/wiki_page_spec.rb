@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -70,7 +70,9 @@ describe WikiPage, type: :model do
 
   describe '#nearest_main_item' do
     let(:child_page) { FactoryBot.create(:wiki_page, parent: wiki_page, wiki: wiki) }
-    let!(:child_page_wiki_menu_item) { FactoryBot.create(:wiki_menu_item, wiki: wiki, name: child_page.slug, parent: wiki_page.menu_item) }
+    let!(:child_page_wiki_menu_item) do
+      FactoryBot.create(:wiki_menu_item, wiki: wiki, name: child_page.slug, parent: wiki_page.menu_item)
+    end
     let(:grand_child_page) { FactoryBot.create(:wiki_page, parent: child_page, wiki: wiki) }
     let!(:grand_child_page_wiki_menu_item) { FactoryBot.create(:wiki_menu_item, wiki: wiki, name: grand_child_page.slug) }
 

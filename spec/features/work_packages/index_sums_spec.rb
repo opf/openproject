@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -118,11 +118,11 @@ RSpec.feature 'Work package index sums', js: true do
     # Add float cf column
     columns.add float_cf.name
     # Add overall costs column
-    columns.add 'Overall costs'
+    columns.add 'Overall costs', finicky: true
     # Add unit costs column
-    columns.add 'Unit costs'
+    columns.add 'Unit costs', finicky: true
     # Add labor costs column
-    columns.add 'Labor costs'
+    columns.add 'Labor costs', finicky: true
 
     # Trigger action from action menu dropdown
     modal.set_display_sums enable: true
@@ -132,7 +132,7 @@ RSpec.feature 'Work package index sums', js: true do
     # Expect the total sums row
     expect(page).to have_selector('.wp-table--sums-row', count: 1)
 
-    expect(page).to have_selector('.wp-table--sum-container', text: 'Sum')
+    expect(page).to have_selector('.wp-table--sum-container', text: 'Total sum')
     expect(page).to have_selector('.wp-table--sum-container', text: '25')
     expect(page).to have_selector('.wp-table--sum-container', text: '12')
     expect(page).to have_selector('.wp-table--sum-container', text: '13.2')
@@ -147,7 +147,7 @@ RSpec.feature 'Work package index sums', js: true do
     edit_field = wp_table.edit_field(work_package_1, :estimatedTime)
     edit_field.update '20'
 
-    expect(page).to have_selector('.wp-table--sum-container', text: 'Sum')
+    expect(page).to have_selector('.wp-table--sum-container', text: 'Total sum')
     expect(page).to have_selector('.wp-table--sum-container', text: '35')
     expect(page).to have_selector('.wp-table--sum-container', text: '12')
     expect(page).to have_selector('.wp-table--sum-container', text: '13.2')
@@ -181,15 +181,15 @@ RSpec.feature 'Work package index sums', js: true do
     expect(page).to have_selector(".wp-table--sum-container.customField#{float_cf.id}", text: '7.7')
 
     # Total sums row is unchanged
-    expect(page).to have_selector('tfoot .wp-table--sum-container', text: '35')
-    expect(page).to have_selector("tfoot .wp-table--sum-container.customField#{int_cf.id}", text: '12')
-    expect(page).to have_selector("tfoot .wp-table--sum-container.customField#{float_cf.id}", text: '13.2')
+    expect(page).to have_selector('tbody .wp-table--sum-container', text: '35')
+    expect(page).to have_selector("tbody .wp-table--sum-container.customField#{int_cf.id}", text: '12')
+    expect(page).to have_selector("tbody .wp-table--sum-container.customField#{float_cf.id}", text: '13.2')
     # Unit costs
-    expect(page).to have_selector('tfoot .wp-table--sum-container.materialCosts', text: '7.50')
+    expect(page).to have_selector('tbody .wp-table--sum-container.materialCosts', text: '7.50')
     # Overall costs
-    expect(page).to have_selector('tfoot .wp-table--sum-container.overallCosts', text: '22.50')
+    expect(page).to have_selector('tbody .wp-table--sum-container.overallCosts', text: '22.50')
     # Labor costs
-    expect(page).to have_selector('tfoot .wp-table--sum-container.laborCosts', text: '15.00')
+    expect(page).to have_selector('tbody .wp-table--sum-container.laborCosts', text: '15.00')
 
     # Collapsing groups will also hide the sums row
     page.find('.expander.icon-minus2', match: :first).click
@@ -197,7 +197,6 @@ RSpec.feature 'Work package index sums', js: true do
     page.find('.expander.icon-minus2', match: :first).click
 
     # Expect to have only the final sums
-    expect(page).to have_selector('tbody .wp-table--sums-row', count: 0)
-    expect(page).to have_selector('tfoot .wp-table--sums-row', count: 1)
+    expect(page).to have_selector('tbody .wp-table--sums-row', count: 1)
   end
 end

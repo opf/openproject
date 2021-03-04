@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2020 the OpenProject GmbH
+// Copyright (C) 2012-2021 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 /*jshint expr: true*/
 
-import {async, TestBed} from "@angular/core/testing";
+import { TestBed, waitForAsync } from "@angular/core/testing";
 import {States} from "core-components/states.service";
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
@@ -62,7 +62,7 @@ describe('WorkPackageViewIndentation service', function () {
     };
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     parentServiceSpy = jasmine.createSpyObj(
       'WorkPackageRelationHierarchyService',
       ['changeParent']

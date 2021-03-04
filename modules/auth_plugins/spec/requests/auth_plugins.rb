@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -30,7 +30,6 @@ require 'spec_helper'
 require 'open_project/auth_plugins'
 
 describe OpenProject::Plugins::AuthPlugin do
-
   class MockEngine
     extend OpenProject::Plugins::AuthPlugin
   end
@@ -86,12 +85,12 @@ describe OpenProject::Plugins::AuthPlugin do
     end
 
     it 'should register all strategies' do
-      expect(strategies.keys.to_a).to eq [:strategy_a, :strategy_b]
+      expect(strategies.keys.to_a).to eq %i[strategy_a strategy_b]
     end
 
     it 'should register register each strategy (i.e. middleware) only once' do
       expect(middlewares.size).to eq 2
-      expect(middlewares).to eq [:strategy_a, :strategy_b]
+      expect(middlewares).to eq %i[strategy_a strategy_b]
     end
 
     it 'should associate the correct providers with their respective strategies' do

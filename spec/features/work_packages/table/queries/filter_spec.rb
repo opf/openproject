@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -73,7 +73,9 @@ describe 'filter work packages', js: true do
 
   context 'by version in project' do
     let(:version) { FactoryBot.create :version, project: project }
-    let(:work_package_with_version) { FactoryBot.create :work_package, project: project, subject: 'With version', version: version }
+    let(:work_package_with_version) do
+      FactoryBot.create :work_package, project: project, subject: 'With version', version: version
+    end
     let(:work_package_without_version) { FactoryBot.create :work_package, subject: 'Without version', project: project }
 
     before do
@@ -214,7 +216,6 @@ describe 'filter work packages', js: true do
     end
 
     it 'allows filtering, saving and retrieving the saved filter' do
-
       # Wait for form to load
       filters.expect_loaded
 
@@ -293,7 +294,6 @@ describe 'filter work packages', js: true do
     end
 
     it 'allows filtering, saving and retrieving the saved filter' do
-
       # Wait for form to load
       filters.expect_loaded
 
@@ -337,7 +337,6 @@ describe 'filter work packages', js: true do
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_and
       wp_table.ensure_work_package_not_listed! work_package_plus
-
     end
   end
 
@@ -508,6 +507,30 @@ describe 'filter work packages', js: true do
 
       # Order should stay unchanged
       filters.expect_filter_order('Version', [version2.name, version1.name])
+    end
+  end
+
+  describe 'add parent WP filter' do
+    let(:wp_parent) { FactoryBot.create :work_package, project: project, subject: 'project' }
+    let(:wp_child1) { FactoryBot.create :work_package, project: project, subject: 'child 1', parent: wp_parent }
+    let(:wp_child2) { FactoryBot.create :work_package, project: project, subject: 'child 2', parent: wp_parent }
+    let(:wp_default) { FactoryBot.create :work_package, project: project, subject: 'default' }
+
+    it do
+      wp_parent
+      wp_child1
+      wp_child2
+      wp_default
+      wp_table.visit!
+      loading_indicator_saveguard
+      filters.expect_loaded
+      filters.open
+      filters.add_filter_by 'Parent', 'is', [wp_parent.subject]
+      loading_indicator_saveguard
+
+      # It should show the children of the selected parent
+      wp_table.expect_work_package_listed wp_child1, wp_child2
+      wp_table.ensure_work_package_not_listed! wp_default
     end
   end
 end

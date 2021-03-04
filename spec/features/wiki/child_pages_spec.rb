@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -56,6 +56,7 @@ describe 'wiki child pages', type: :feature, js: true do
 
     click_on 'Wiki page'
 
+    SeleniumHubWaiter.wait
     fill_in 'content_page_title', with: child_page_name
 
     find('.ck-content').set('The child page\'s content')
@@ -64,7 +65,7 @@ describe 'wiki child pages', type: :feature, js: true do
 
     # hierarchy displayed in the breadcrumb
     expect(page).to have_selector('#breadcrumb .breadcrumb',
-                                  text: "#{parent_page.title}")
+                                  text: parent_page.title.to_s)
 
     # hierarchy displayed in the sidebar
     expect(page).to have_selector('.pages-hierarchy',

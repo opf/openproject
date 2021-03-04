@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2020 the OpenProject GmbH
+// Copyright (C) 2012-2021 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -8,6 +8,7 @@
 // OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 // Copyright (C) 2006-2013 Jean-Philippe Lang
 // Copyright (C) 2010-2013 the ChiliProject Team
+//
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
 // as published by the Free Software Foundation; either version 2
@@ -23,7 +24,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
 
 import {GonService} from "core-app/modules/common/gon/gon.service";

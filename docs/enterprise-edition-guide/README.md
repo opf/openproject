@@ -1,3 +1,11 @@
+---
+sidebar_navigation:
+  title: Enterprise on-premises edition guide
+  priority: 999
+description: OpenProject Enterprise on-premises guide.
+robots: index, follow
+keywords: enterprise edition, enterprise on-premises, self-hosted version, server
+---
 # Enterprise on-premises edition guide
 
 Welcome to the OpenProject **Enterprise on-premises edition guide**.
@@ -20,4 +28,3 @@ The Enterprise on-premises edition builds on top of the free Community edition. 
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/YRF_bavXBts" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
- 

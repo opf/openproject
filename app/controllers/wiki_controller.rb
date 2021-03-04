@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -192,6 +192,7 @@ class WikiController < ApplicationController
   # rename a page
   def rename
     return render_403 unless editable?
+
     @page.redirect_existing_links = true
     # used to display the *original* title if some AR validation errors occur
     @original_title = @page.title
@@ -205,7 +206,8 @@ class WikiController < ApplicationController
           old_name: @page.title,
           new_name: attributes["title"],
           existing_caption: item.caption,
-          existing_identifier: item.name)
+          existing_identifier: item.name
+        )
 
         redirect_to_show
       elsif @page.update(attributes)
@@ -305,6 +307,7 @@ class WikiController < ApplicationController
         # Reassign children to another parent page
         reassign_to = @wiki.pages.find_by(id: params[:reassign_to_id].presence)
         return unless reassign_to
+
         @page.children.each do |child|
           child.update_attribute(:parent, reassign_to)
         end

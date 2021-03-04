@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -32,26 +32,25 @@ describe ::Users::DeleteService, type: :model do
   let(:input_user) { FactoryBot.build_stubbed(:user) }
   let(:project) { FactoryBot.build_stubbed(:project) }
 
-  let(:instance) { described_class.new(input_user, actor) }
+  let(:instance) { described_class.new(model: input_user, user: actor) }
 
   subject { instance.call }
 
   shared_examples 'deletes the user' do
     it do
       expect(input_user).to receive(:lock!)
-      expect(DeleteUserJob).to receive(:perform_later).with(input_user)
-      expect(subject).to eq true
+      expect(Principals::DeleteJob).to receive(:perform_later).with(input_user)
+      expect(subject).to be_success
     end
   end
 
   shared_examples 'does not delete the user' do
     it do
       expect(input_user).not_to receive(:lock!)
-      expect(DeleteUserJob).not_to receive(:perform_later)
-      expect(subject).to eq false
+      expect(Principals::DeleteJob).not_to receive(:perform_later)
+      expect(subject).not_to be_success
     end
   end
-
 
   context 'if deletion by admins allowed', with_settings: { users_deletable_by_admins: true } do
     context 'with admin user' do
@@ -76,8 +75,8 @@ describe ::Users::DeleteService, type: :model do
       it 'performs deletion' do
         actor.run_given do
           expect(input_user).to receive(:lock!)
-          expect(DeleteUserJob).to receive(:perform_later).with(input_user)
-          expect(subject).to eq true
+          expect(Principals::DeleteJob).to receive(:perform_later).with(input_user)
+          expect(subject).to be_success
         end
       end
     end

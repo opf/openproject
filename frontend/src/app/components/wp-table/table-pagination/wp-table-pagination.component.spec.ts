@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2020 the OpenProject GmbH
+// Copyright (C) 2012-2021 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -24,12 +24,12 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
 import {HttpClientModule} from '@angular/common/http';
 
 import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {async, inject, TestBed} from '@angular/core/testing';
+import { inject, TestBed, waitForAsync } from '@angular/core/testing';
 import {States} from 'core-components/states.service';
 import {PaginationInstance} from 'core-components/table-pagination/pagination-instance';
 import {IPaginationOptions, PaginationService} from 'core-components/table-pagination/pagination-service';
@@ -70,7 +70,7 @@ function pageString(element:JQuery) {
 
 describe('wpTablePagination Directive', () => {
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     window.OpenProject = new OpenProject();
 
     // noinspection JSIgnoredPromiseFromCall

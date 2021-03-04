@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -35,12 +35,12 @@ describe 'API v3 Work package resource' do
 
   let(:current_user) { FactoryBot.create(:admin) }
   let(:project) { FactoryBot.create(:project) }
-  let(:work_package) {
+  let(:work_package) do
     FactoryBot.create(:work_package,
-                       project: project,
-                       story_points: 8,
-                       remaining_hours: 5)
-  }
+                      project: project,
+                      story_points: 8,
+                      remaining_hours: 5)
+  end
   let(:wp_path) { "/api/v3/work_packages/#{work_package.id}" }
 
   before do
@@ -66,9 +66,9 @@ describe 'API v3 Work package resource' do
     end
 
     context 'backlogs deactivated' do
-      let(:project) {
+      let(:project) do
         FactoryBot.create(:project, disable_modules: 'backlogs')
-      }
+      end
 
       include_context 'query work package'
 

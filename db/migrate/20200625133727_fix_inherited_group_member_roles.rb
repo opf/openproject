@@ -10,7 +10,6 @@ class FixInheritedGroupMemberRoles < ActiveRecord::Migration[6.0]
       .includes(member: %i[principal member_roles])
       .where("#{Principal.table_name}.type" => 'Group')
       .find_each do |member_role|
-
       # Recreate member_roles for all group members
       member_role.send :add_role_to_group_users
     end

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -46,9 +47,11 @@ class RandomDataSeeder
     puts " #  %02d %-23s  #" % [WorkPackage.where(project_id: project.id).count, 'issues created.']
     puts " #  %02d %-23s  #" % [Message.joins(:board).where(boards: { project_id: project.id }).count, 'messages created.']
     puts " #  %02d %-23s  #" % [News.where(project_id: project.id).count, 'news created.']
-    puts " #  %02d %-23s  #" % [WikiContent.joins(page: [:wiki]).where('wikis.project_id = ?', project.id).count, 'wiki contents created.']
+    puts " #  %02d %-23s  #" % [WikiContent.joins(page: [:wiki]).where('wikis.project_id = ?', project.id).count,
+                                'wiki contents created.']
     puts " #  %02d %-23s  #" % [TimeEntry.where(project_id: project.id).count, 'time entries created.']
-    puts " #  %02d %-23s  #" % [Changeset.joins(:repository).where(repositories: { project_id: project.id }).count, 'changesets created.']
+    puts " #  %02d %-23s  #" % [Changeset.joins(:repository).where(repositories: { project_id: project.id }).count,
+                                'changesets created.']
     puts " ################################\n\n"
   end
 end

@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -52,7 +53,7 @@ module UsersHelper
   def full_user_status(user, include_num_failed_logins = false)
     user_status = ''
     unless user.active?
-      user_status = translate_user_status(user.status_name)
+      user_status = translate_user_status(user.status)
     end
     brute_force_status = ''
     if user.failed_too_many_recent_login_attempts?
@@ -77,18 +78,18 @@ module UsersHelper
 
   STATUS_CHANGE_ACTIONS = {
     # status, blocked    => [[button_title, button_name], ...]
-    [:active, false]     => [[:lock, 'lock']],
-    [:active, true]      => [[:reset_failed_logins, 'unlock'],
-                             [:lock, 'lock']],
-    [:locked, false]     => [[:unlock, 'unlock']],
-    [:locked, true]      => [[:unlock_and_reset_failed_logins, 'unlock']],
+    [:active, false] => [[:lock, 'lock']],
+    [:active, true] => [[:reset_failed_logins, 'unlock'],
+                        [:lock, 'lock']],
+    [:locked, false] => [[:unlock, 'unlock']],
+    [:locked, true] => [[:unlock_and_reset_failed_logins, 'unlock']],
     [:registered, false] => [[:activate, 'activate']],
-    [:registered, true]  => [[:activate_and_reset_failed_logins, 'activate']],
+    [:registered, true] => [[:activate_and_reset_failed_logins, 'activate']]
   }
 
   # Create buttons to lock/unlock a user and reset failed logins
   def build_change_user_status_action(user)
-    status = user.status_name.to_sym
+    status = user.status.to_sym
     blocked = !!user.failed_too_many_recent_login_attempts?
 
     result = ''.html_safe
@@ -140,5 +141,9 @@ module UsersHelper
 
   def user_name(user)
     user ? user.name : I18n.t('user.deleted')
+  end
+
+  def can_users_have_auth_source?
+    AuthSource.any? && !OpenProject::Configuration.disable_password_login?
   end
 end

@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -28,21 +28,21 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 2.7.1'
+ruby '~> 2.7.2'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.0.2'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 6.0.3.2'
+gem 'rails', '~> 6.1.0'
 gem 'responders', '~> 3.0'
 
 gem 'rdoc', '>= 2.4.2'
 
 # Maintain our own omniauth due to relative URL root issues
 # see upstream PR: https://github.com/omniauth/omniauth/pull/903
-gem 'omniauth', git: 'https://github.com/opf/omniauth', ref: 'fe862f986b2e846e291784d2caa3d90a658c67f0'
 gem 'doorkeeper', '~> 5.4.0'
+gem 'omniauth', git: 'https://github.com/opf/omniauth', ref: 'fe862f986b2e846e291784d2caa3d90a658c67f0'
 gem 'request_store', '~> 1.5.0'
 
 gem 'warden', '~> 1.2'
@@ -54,7 +54,7 @@ gem 'friendly_id', '~> 5.4.0'
 
 gem 'acts_as_list', '~> 1.0.1'
 gem 'acts_as_tree', '~> 2.9.0'
-gem 'awesome_nested_set', '~> 3.2.0'
+gem 'awesome_nested_set', '~> 3.3.0'
 gem 'rubytree', '~> 1.0.0'
 gem 'typed_dag', '~> 2.0.2'
 
@@ -64,7 +64,7 @@ gem 'addressable', '~> 2.7.0'
 gem "auto_strip_attributes", "~> 2.5"
 
 # Provide timezone info for TZInfo used by AR
-gem 'tzinfo-data', '~> 1.2020.1'
+gem 'tzinfo-data', '~> 1.2021.1'
 
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
@@ -83,7 +83,7 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 3.25.0'
+gem 'rouge', '~> 3.26.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 5.2.1'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -107,11 +107,11 @@ gem 'posix-spawn', '~> 0.3.13', require: false
 gem 'bcrypt', '~> 3.1.6'
 
 gem 'multi_json', '~> 1.15.0'
-gem 'oj', '~> 3.10.2'
+gem 'oj', '~> 3.11.0'
 
 gem 'daemons'
-gem 'delayed_job_active_record', '~> 4.1.4'
-gem 'delayed_cron_job', '~> 0.7.2'
+gem 'delayed_cron_job', '~> 0.7.4'
+gem 'delayed_job_active_record', '~> 4.1.5'
 
 gem 'rack-protection', '~> 2.1.0'
 
@@ -119,13 +119,13 @@ gem 'rack-protection', '~> 2.1.0'
 # It allows whitelisting, blacklisting, throttling, and tracking based
 # on arbitrary properties of the request.
 # https://github.com/kickstarter/rack-attack
-gem 'rack-attack', '~> 6.3.1'
+gem 'rack-attack', '~> 6.4.0'
 
 # CSP headers
 gem 'secure_headers', '~> 6.3.0'
 
 # Browser detection for incompatibility checks
-gem 'browser', '~> 5.1.0'
+gem 'browser', '~> 5.3.0'
 
 # Providing health checks
 gem 'okcomputer', '~> 1.18.1'
@@ -148,7 +148,7 @@ gem 'prawn-markup', '~> 0.3.0'
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.0.9'
 
-gem 'meta-tags', '~> 2.13.0'
+gem 'meta-tags', '~> 2.14.0'
 
 group :production do
   # we use dalli as standard memcache client
@@ -167,7 +167,7 @@ gem 'sprockets', '~> 3.7.0'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'puma', '~> 5.1.0' # used for development and optionally for production
+gem 'puma', '~> 5.2.0' # used for development and optionally for production
 
 gem 'nokogiri', '~> 1.11.0'
 
@@ -177,7 +177,7 @@ gem 'fog-aws'
 
 gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.84'
+gem 'aws-sdk-s3', '~> 1.87'
 
 gem 'openproject-token', '~> 2.1.1'
 
@@ -185,7 +185,7 @@ gem 'plaintext', '~> 0.3.2'
 
 gem 'rest-client', '~> 2.0'
 
-gem 'ruby-progressbar', '~> 1.10.0', require: false
+gem 'ruby-progressbar', '~> 1.11.0', require: false
 
 gem 'mini_magick', '~> 4.11.0', require: false
 
@@ -196,7 +196,7 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem 'test-prof', '~> 0.12.0'
+  gem 'test-prof', '~> 1.0.0'
 
   gem 'database_cleaner', '~> 1.8'
   gem 'rack_session_access'
@@ -214,16 +214,16 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.34.0'
+  gem 'capybara', '~> 3.35.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'selenium-webdriver', '~> 3.14'
-  gem 'webdrivers', '~> 4.4.1'
+  gem 'webdrivers', '~> 4.5.0'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
 
   # Mock backend requests (for ruby tests)
-  gem 'webmock', '~> 3.10.0', require: false
+  gem 'webmock', '~> 3.11', require: false
 
   # Mock selenium requests through proxy (for feature tests)
   gem 'puffing-billy', '~> 2.4.0'
@@ -231,7 +231,7 @@ group :test do
 
   gem 'equivalent-xml', '~> 0.6'
   gem 'json_spec', '~> 1.1.4'
-  gem 'shoulda-matchers', '~> 4.4', require: nil
+  gem 'shoulda-matchers', '~> 4.5', require: nil
 
   gem 'parallel_tests', '~> 3.1'
 end
@@ -241,7 +241,7 @@ group :ldap do
 end
 
 group :development do
-  gem 'listen', '~> 3.3.0' # Use for event-based reloaders
+  gem 'listen', '~> 3.4.0' # Use for event-based reloaders
 
   gem 'faker'
   gem 'letter_opener'
@@ -250,10 +250,12 @@ group :development do
   gem 'spring-commands-rspec'
 
   gem 'rubocop'
+  gem 'rubocop-rails'
+  gem 'rubocop-rspec'
 
   # Gems for living styleguide
-  gem 'sassc-rails'
   gem 'livingstyleguide', '~> 2.1.0'
+  gem 'sassc-rails'
 end
 
 group :development, :test do
@@ -271,17 +273,17 @@ group :development, :test do
   gem 'pry-byebug', '~> 3.9.0', platforms: [:mri]
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-rescue', '~> 1.5.2'
-  gem 'pry-stack_explorer', '~> 0.5.1'
+  gem 'pry-stack_explorer', '~> 0.6.0'
 
   # Dangerfile scanner on travis and locally
   gem 'danger', '~> 8.2.0'
 
   # Brakeman scanner
-  gem 'brakeman', '~> 4.10.0'
+  gem 'brakeman', '~> 5.0.0'
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.5.0', require: false
+gem 'bootsnap', '~> 1.6.0', require: false
 
 # API gems
 gem 'grape', '~> 1.5.0'
@@ -299,7 +301,7 @@ platforms :mri, :mingw, :x64_mingw do
   end
 
   # Support application loading when no database exists yet.
-  gem 'activerecord-nulldb-adapter', '~> 0.5.0'
+  gem 'activerecord-nulldb-adapter', '~> 0.7.0'
 
   # Have application level locks on the database to have a mutex shared between workers/hosts.
   # We e.g. employ this to safeguard the creation of journals.
@@ -307,14 +309,14 @@ platforms :mri, :mingw, :x64_mingw do
 end
 
 gem 'openproject-translations',
-  git: 'https://github.com/opf/openproject-translations.git',
-  branch: 'dev'
+    git: 'https://github.com/opf/openproject-translations.git',
+    branch: 'dev'
 
 gem 'newrelic_rpm', require: ENV.has_key?('NEW_RELIC_LICENSE_KEY')
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
-gemfiles = Dir.glob File.expand_path('../{Gemfile.plugins,Gemfile.modules,Gemfile.local,lib/plugins/*/Gemfile}',
-                                     __FILE__)
+gemfiles = Dir.glob File.expand_path('{Gemfile.plugins,Gemfile.modules,Gemfile.local,lib/plugins/*/Gemfile}',
+                                     __dir__)
 gemfiles << ENV['CUSTOM_PLUGIN_GEMFILE'] unless ENV['CUSTOM_PLUGIN_GEMFILE'].nil?
 gemfiles.each do |file|
   next unless File.readable?(file)

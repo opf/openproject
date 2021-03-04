@@ -1,10 +1,10 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2020 the OpenProject GmbH
+#Copyright (C) 2012-2021 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
@@ -49,7 +49,7 @@ sl:
   caption_labor: "Delo"
   caption_labor_costs: "Dejanski stroški dela"
   caption_material_costs: "Dejanski stroški enote"
-  budgets_title: "Proračun"
+  budgets_title: "Proračuni"
   events:
     budget: "Proračun urejen"
   help_click_to_edit: "Kliknite tukaj, za urejanje"
@@ -57,7 +57,7 @@ sl:
   help_override_rate: "Vnesite vrednost, da nadomestite privzeto stopnjo."
   label_budget: "Proračun"
   label_budget_new: "Nov proračun"
-  label_budget_plural: "Proračun"
+  label_budget_plural: "Proračuni"
   label_budget_id: "Proračun #%{id}"
   label_deliverable: "Proračun"
   label_example_placeholder: 'npr., %{decimal}'
@@ -67,4 +67,4 @@ sl:
   notice_no_budgets_available: "Proračuni niso na voljo."
   permission_edit_budgets: "Uredi proračun"
   permission_view_budgets: "Oglejte si proračune"
-  project_module_budgets: "Proračun"
+  project_module_budgets: "Proračuni"

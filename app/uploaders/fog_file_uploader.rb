@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -58,6 +58,16 @@ class FogFileUploader < CarrierWave::Uploader::Base
   end
 
   ##
+  # This is necessary for carrierwave to set the Content-Type in the S3 metadata for instance.
+  def fog_attributes
+    content_type = model.respond_to?(:content_type) ? model.content_type : ""
+
+    return super if content_type.blank?
+
+    super.merge "Content-Type": content_type
+  end
+
+  ##
   # Generates a download URL for this file.
   #
   # @param options [Hash] Options hash.
@@ -104,8 +114,7 @@ class FogFileUploader < CarrierWave::Uploader::Base
 
   def set_expires_at!(url_options, options:)
     if options[:expires_in].present?
-      # AWS allows at max < 604800 expires time
-      expires = [options[:expires_in], 604799].min
+      expires = [options[:expires_in], OpenProject::Configuration.fog_download_url_expires_in].min
       url_options[:expire_at] = ::Fog::Time.now + expires
     end
 

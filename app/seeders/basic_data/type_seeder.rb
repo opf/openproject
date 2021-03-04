@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -50,19 +51,19 @@ module BasicData
     # @return [Array<Hash>] List of attributes for each type.
     def data
       colors = Color.all
-      colors = colors.map { |c| { c.name =>  c.id } }.reduce({}, :merge)
+      colors = colors.map { |c| { c.name => c.id } }.reduce({}, :merge)
 
       type_table.map do |_name, values|
         color_id = colors[values[2]] || values[2]
 
         {
-          name:                 I18n.t(values[5]),
-          position:             values[0],
-          is_default:           values[1],
-          color_id:             color_id,
-          is_in_roadmap:        values[3],
-          is_milestone:         values[4],
-          description:          type_description(values[5])
+          name: I18n.t(values[5]),
+          position: values[0],
+          is_default: values[1],
+          color_id: color_id,
+          is_in_roadmap: values[3],
+          is_milestone: values[4],
+          description: type_description(values[5])
         }
       end
     end
@@ -80,7 +81,7 @@ module BasicData
 
       demo_data_for('type_configuration').each do |entry|
         if entry[:type] && I18n.t(entry[:type]) === I18n.t(type_name)
-          return entry[:description] ? entry[:description] : ''
+          return entry[:description] || ''
         else
           return ''
         end

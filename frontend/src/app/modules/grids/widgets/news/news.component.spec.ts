@@ -1,4 +1,4 @@
-import { ComponentFixture, fakeAsync, TestBed, tick, async } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { WidgetNewsComponent } from './news.component';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { TimezoneService } from 'core-app/components/datetime/timezone.service';
@@ -72,7 +72,7 @@ describe('shows news', () => {
   }));
 
 
-  it('should render the componenet successfully to show the news', async(() => {
+  it('should render the componenet successfully to show the news', waitForAsync(() => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       let newsItem = document.querySelector('li');
@@ -80,7 +80,7 @@ describe('shows news', () => {
     });
   }));
 
-  it('should Not add the no-results component into DOM', async(() => {
+  it('should Not add the no-results component into DOM', waitForAsync(() => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       let newsItem = document.querySelector('no-results');
@@ -88,7 +88,7 @@ describe('shows news', () => {
     });
   }));
 
-  it('should add the widget-header component into DOM', async(() => {
+  it('should add the widget-header component into DOM', waitForAsync(() => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       let newsItem = document.querySelector('widget-header');
@@ -96,7 +96,7 @@ describe('shows news', () => {
     });
   }));
 
-  it('should show summary of news', async(() => {
+  it('should show summary of news', waitForAsync(() => {
     fixture.detectChanges();
 
     fixture.whenStable().then(() => {
@@ -106,7 +106,7 @@ describe('shows news', () => {
     });
   }));
 
-  it('should Not add the user-avatar component into DOM', async(() => {
+  it('should Not add the user-avatar component into DOM', waitForAsync(() => {
     fixture.detectChanges();
 
     fixture.whenStable().then(() => {

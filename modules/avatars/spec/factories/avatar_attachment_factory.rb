@@ -6,7 +6,7 @@ FactoryBot.define do
     filename     { "avatar.jpg" }
     content_type { "image/jpeg" }
     file do
-      File.open(File.expand_path('../../fixtures/valid.jpg', __FILE__))
+      File.open(File.expand_path('../fixtures/valid.jpg', __dir__))
     end
   end
 end

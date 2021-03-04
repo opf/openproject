@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -26,6 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+require 'support/components/ng_select_autocomplete_helpers'
 require 'support/pages/page'
 
 module Pages
@@ -69,6 +70,7 @@ module Pages
     # @param as [String] The role as which the user should be added.
     def add_user!(user_name, as:)
       click_on 'Add member'
+      SeleniumHubWaiter.wait
 
       select_principal! user_name if user_name
       select_role! as if as
@@ -113,7 +115,7 @@ module Pages
     end
 
     def find_user(name)
-      find('tr', text: user_name_to_text(name))
+      find('tr', text: name)
     end
 
     def find_mail(mail)
@@ -121,13 +123,20 @@ module Pages
     end
 
     def find_group(name)
-      find('tr.group', text: user_name_to_text(name))
+      find('tr.group', text: name)
     end
 
     ##
     # Get contents of all cells sorted
-    def contents(column)
-      all("td.#{column}").map(&:text)
+    def contents(column, raw: false)
+      nodes =
+        if raw
+          all("td.#{column}")
+        else
+          all("td.#{column} a, td.#{column} span")
+        end
+
+      nodes.map(&:text)
     end
 
     def user_name_to_text(name)
@@ -225,7 +234,7 @@ module Pages
     end
 
     def go_to_page!(number)
-      find('.pagination a', text: number.to_s).click
+      find('.pagination--pages a', text: number.to_s).click
     end
   end
 end

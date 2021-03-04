@@ -1,12 +1,12 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2020 the OpenProject GmbH
+Copyright (C) 2012-2021 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
 
 OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2006-2013 Jean-Philippe Lang
 Copyright (C) 2010-2013 the ChiliProject Team
 
 This program is free software; you can redistribute it and/or
@@ -44,8 +44,8 @@ See docs/COPYRIGHT.rdoc for more details.
   <li class="toolbar-item">
     <%= link_to new_user_path,
         { class: 'button -alt-highlight',
-          aria: {label: t(:label_user_new)},
-          title: t(:label_user_new)} do %>
+          aria: { label: t(:label_user_new) },
+          title: t(:label_user_new) } do %>
       <%= op_icon('button--icon icon-add') %>
       <span class="button--text"><%= t('activerecord.models.user') %></span>
     <% end %>
@@ -53,6 +53,6 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= call_hook(:user_admin_action_menu) %>
 <% end %>
 
-<%= cell Users::UserFilterCell, params, groups: @groups, status: @status %>
+<%= rails_cell Users::UserFilterCell, params, groups: @groups, status: @status %>
 &nbsp;
-<%= cell Users::TableCell, @users, project: @project, current_user: current_user %>
+<%= rails_cell Users::TableCell, @users, project: @project, current_user: current_user %>

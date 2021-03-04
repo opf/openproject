@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -44,7 +44,7 @@ class CostQuery::SqlStatement < Report::SqlStatement
   # this is a hack to ensure that additional joins added by filters do not result
   # in additional columns being selected.
   def to_s
-    select(['entries.*']) if select == ['*'] && group_by.empty? && self.entry_union
+    select(['entries.*']) if select == ['*'] && group_by.empty? && entry_union
     super
   end
 
@@ -86,11 +86,12 @@ class CostQuery::SqlStatement < Report::SqlStatement
       query.select COMMON_FIELDS
       query.desc = "Subquery for #{table}"
       query.select({
-        count: 1, id: [model, :id], display_costs: 1,
-        real_costs: switch("#{table}.overridden_costs IS NULL" => [model, :costs], else: [model, :overridden_costs]),
-        week: iso_year_week(:spent_on, model),
-        singleton_value: 1 })
-      #FIXME: build this subquery from a sql_statement
+                     count: 1, id: [model, :id], display_costs: 1,
+                     real_costs: switch("#{table}.overridden_costs IS NULL" => [model, :costs], else: [model, :overridden_costs]),
+                     week: iso_year_week(:spent_on, model),
+                     singleton_value: 1
+                   })
+      # FIXME: build this subquery from a sql_statement
       query.from "(SELECT *, #{typed :text, model.model_name.to_s} AS type FROM #{table}) AS #{table}"
       send("unify_#{table}", query)
     end

@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -44,7 +44,7 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
       .to receive(:allowed_to?) do |permission, project|
         project == version.project && permissions.include?(permission)
       end
-    end
+  end
 
   let(:permissions) { [:manage_versions] }
 
@@ -143,7 +143,7 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
           .and_return([custom_field])
 
         allow(version)
-          .to receive(:"custom_value_for")
+          .to receive(:custom_value_for)
           .with(custom_field)
           .and_return(custom_value)
       end
@@ -270,7 +270,7 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
 
       context 'custom fields' do
         let(:version) do
-          FactoryBot.build_stubbed(:version).tap do |v|
+          FactoryBot.build_stubbed(:version).tap do |_v|
             # Use this to force the custom field to be defined before the former_cache_key is calculated
             custom_field
           end

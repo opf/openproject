@@ -65,7 +65,9 @@ class EditField
   def activate!(expect_open: true)
     retry_block do
       unless active?
+        SeleniumHubWaiter.wait
         scroll_to_and_click(display_element)
+        SeleniumHubWaiter.wait
       end
 
       if expect_open && !active?
@@ -144,7 +146,7 @@ class EditField
   ##
   # Set or select the given value.
   # For fields of type select, will check for an option with that value.
-  def unset_value(content, multi=false)
+  def unset_value(content, multi = false)
     scroll_to_element(input_element)
 
     if field_type.end_with?('-autocompleter')

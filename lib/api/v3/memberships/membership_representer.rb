@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -66,9 +66,12 @@ module API
         associated_resource :project
 
         associated_resource :principal,
-                            getter: ::API::V3::Principals::AssociatedSubclassLambda.getter(:principal),
-                            setter: ::API::V3::Principals::AssociatedSubclassLambda.setter(:user),
-                            link: ::API::V3::Principals::AssociatedSubclassLambda.link(:principal, getter: 'user_id')
+                            getter: ::API::V3::Principals::PrincipalRepresenterFactory
+                                      .create_getter_lambda(:principal),
+                            setter: ::API::V3::Principals::PrincipalRepresenterFactory
+                                      .create_setter_lambda(:user),
+                            link: ::API::V3::Principals::PrincipalRepresenterFactory
+                                    .create_link_lambda(:principal, getter: 'user_id')
 
         associated_resources :roles,
                              getter: ->(*) do

@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -30,7 +30,8 @@ require 'spec_helper'
 
 describe LdapAuthSource, type: :model do
   it 'should create' do
-    a = LdapAuthSource.new(name: 'My LDAP', host: 'ldap.example.net', port: 389, base_dn: 'dc=example,dc=net', attr_login: 'sAMAccountName')
+    a = LdapAuthSource.new(name: 'My LDAP', host: 'ldap.example.net', port: 389, base_dn: 'dc=example,dc=net',
+                           attr_login: 'sAMAccountName')
     expect(a.save).to eq true
   end
 
@@ -57,7 +58,8 @@ describe LdapAuthSource, type: :model do
   describe 'with live LDAP' do
     before(:all) do
       ldif = Rails.root.join('spec/fixtures/ldap/users.ldif')
-      @ldap_server = Ladle::Server.new(quiet: false, port: '12389', domain: 'dc=example,dc=com', ldif: ldif).start
+      @ldap_server = Ladle::Server.new(quiet: false, port: ParallelHelper.port_for_ldap.to_s, domain: 'dc=example,dc=com',
+                                       ldif: ldif).start
     end
 
     after(:all) do
@@ -67,7 +69,7 @@ describe LdapAuthSource, type: :model do
     # Ldap has three users aa729, bb459, cc414
     let(:ldap) do
       FactoryBot.create :ldap_auth_source,
-                        port: '12389',
+                        port: ParallelHelper.port_for_ldap.to_s,
                         account: 'uid=admin,ou=system',
                         account_password: 'secret',
                         base_dn: 'ou=people,dc=example,dc=com',

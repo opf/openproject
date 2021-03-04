@@ -4,7 +4,7 @@ sidebar_navigation:
   priority: 799
 description: Time tracking in OpenProject
 robots: index, follow
-keywords: time tracking, logging time
+keywords: time tracking, logging time, define rate, labor costs
 ---
 
 # Time tracking
@@ -24,6 +24,7 @@ Users can book their time or units spent on an activity within a project directl
 | [Delete time entries](#delete-time-entires)                  | How to delete time entries logged to a work package?         |
 | [Spent time widget on the My Page](#spent-time-widget-on-the-my-page) | How to easily track and display spent time in the spent time widget on the MyPage? |
 | [Track time with Toggl](./toggl-integration)                 | How to track spent time with Toggl integration?              |
+
 
 ## Logging time in the work package view
 
@@ -86,6 +87,4 @@ You can easily track spent time in the **spent time widget on the MyPage** and g
 See more information about the My spent time widget on the [MyPage](../../../getting-started/my-page/#my-spent-time-widget).
 
 ![spent time widget](image-20200211160311662.png)
-
-
 

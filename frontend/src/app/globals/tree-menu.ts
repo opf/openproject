@@ -1,12 +1,12 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2020 the OpenProject GmbH
+// Copyright (C) 2012-2021 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
 //
 // OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2006-2013 Jean-Philippe Lang
 // Copyright (C) 2010-2013 the ChiliProject Team
 //
 // This program is free software; you can redistribute it and/or
@@ -31,12 +31,15 @@
 
   $(function() {
     // set selected page for menu tree if provided.
-    $('[data-selected-page].tree-menu--container').each(function(_i:number, tree:HTMLElement) {
+    $('[data-selected-page]').closest('.tree-menu--container').each(function(_i:number, tree:HTMLElement) {
       let selectedPage = $(tree).data('selected-page');
+
       if (selectedPage) {
-       let selected = $('[slug=' + selectedPage + ']', tree);
+       let selected = $('[slug="' + selectedPage + '"]', tree);
        selected.toggleClass('-selected', true);
-       selected[0].scrollIntoView();
+       if (selected.length > 1) {
+         selected[0].scrollIntoView();
+       }
       }
     });
 

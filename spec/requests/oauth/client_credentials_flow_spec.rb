@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -35,7 +35,7 @@ describe 'OAuth client credentials flow', type: :request do
   let!(:application) { FactoryBot.create(:oauth_application, client_credentials_user_id: user_id, name: 'Cool API app!') }
   let(:client_secret) { application.plaintext_secret }
 
-  let(:access_token) {
+  let(:access_token) do
     response = post '/oauth/token',
                     grant_type: 'client_credentials',
                     scope: 'api_v3',
@@ -45,7 +45,7 @@ describe 'OAuth client credentials flow', type: :request do
     expect(response).to be_successful
     body = JSON.parse(response.body)
     body['access_token']
-  }
+  end
 
   subject do
     # Perform request with it

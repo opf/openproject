@@ -1,10 +1,10 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2020 the OpenProject GmbH
+#Copyright (C) 2012-2021 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
@@ -86,7 +86,7 @@ bg:
     caption_rate_history: "Оценете историята"
     clipboard:
       browser_error: "Вашият браузър не поддържа копиране в клипборд. Моля копирайте избрания текст ръчно."
-      copied_successful: "Копирането в клипборд е успешно!"
+      copied_successful: "Копирано успешно в клипборда!"
     chart:
       type: 'Тип на диаграмата'
       axis_criteria: 'Критерии за ос'
@@ -271,13 +271,13 @@ bg:
           text_new_features: "Read about new features and product updates."
           learn_about: "Learn more about the new features"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
     label_activate: "Activate"
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
@@ -363,7 +363,7 @@ bg:
     label_next: "Следващо"
     label_no_color: "No color"
     label_no_data: "Няма данни за показване"
-    label_no_due_date: "no finish date"
+    label_no_due_date: "без крайна дата"
     label_no_start_date: "няма начална дата"
     label_no_value: "Няма стойност"
     label_none: "none"
@@ -403,6 +403,7 @@ bg:
     label_public_query: "Публичен"
     label_sum: "Sum"
     label_sum_for: "Сума за"
+    label_total_sum: "Обща сума"
     label_subject: "Заглавие"
     label_this_week: "тази седмица"
     label_today: "Днес"
@@ -844,7 +845,7 @@ bg:
           automatic: 'Автоматично'
           manually: 'Ръчно'
           warning: 'Ще загубите предишното си сортиране, когато активирате автоматичния режим на сортиране.'
-        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Използвайте полето за въвеждане по-горе, за да добавите колони към изгледа на вашата таблица. Можете да плъзгате и пускате колоните, за да ги пренареждате."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'
@@ -940,8 +941,8 @@ bg:
         other: "%{count} work package children"
       hour:
         zero: "0 h"
-        one: "1 h"
-        other: "%{count} h"
+        one: ""
+        other: ""
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'

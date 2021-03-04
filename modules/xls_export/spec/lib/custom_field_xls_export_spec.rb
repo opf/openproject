@@ -7,12 +7,12 @@ describe "WorkPackageXlsExport Custom Fields" do
 
   let!(:custom_field) do
     FactoryBot.create(
-        :list_wp_custom_field,
-        name: "Ingredients",
-        multi_value: true,
-        types: [type],
-        projects: [project],
-        possible_values: ["ham", "onions", "pineapple", "mushrooms"]
+      :list_wp_custom_field,
+      name: "Ingredients",
+      multi_value: true,
+      types: [type],
+      projects: [project],
+      possible_values: ["ham", "onions", "pineapple", "mushrooms"]
     )
   end
 

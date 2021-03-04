@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -38,6 +38,7 @@ module Components
       include ::Components::NgSelectAutocompleteHelpers
 
       def open
+        SeleniumHubWaiter.wait
         retry_block do
           # Run in retry block because filters do nothing if not yet loaded
           filter_button.click
@@ -65,9 +66,8 @@ module Components
         input = page.find('#filter-by-text-input')
         input.hover
         input.click
+        SeleniumHubWaiter.wait
         input.set text
-
-        sleep 1
       end
 
       def expect_available_filter(name, present: true)
@@ -75,13 +75,18 @@ module Components
       end
 
       def expect_loaded
-        expect(filter_button).to have_selector('.badge', wait: 20)
+        SeleniumHubWaiter.wait
+        expect(filter_button).to have_selector('.badge', wait: 2)
       end
 
-      def add_filter_by(name, operator, value, selector = nil)
+      def add_filter(name)
         select_autocomplete page.find('.advanced-filters--add-filter-value'),
                             query: name,
                             results_selector: '.ng-dropdown-panel-items'
+      end
+
+      def add_filter_by(name, operator, value, selector = nil)
+        add_filter(name)
 
         set_filter(name, operator, value, selector)
       end

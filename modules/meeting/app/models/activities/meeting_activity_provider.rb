@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -109,7 +110,11 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
                    end
       end_time = start_time + event['meeting_duration'].to_f.hours
 
-      "#{I18n.t(:label_meeting)}: #{event['meeting_title']} (#{format_date start_time} #{format_time start_time, false}-#{format_time end_time, false})"
+      fstart_with = format_date start_time
+      fstart_without = format_time start_time, false
+      fend_without = format_time end_time, false
+
+      "#{I18n.t(:label_meeting)}: #{event['meeting_title']} (#{fstart_with} #{fstart_without}-#{fend_without})"
     else
       "#{event['meeting_content_type'].constantize.model_name.human}: #{event['meeting_title']}"
     end

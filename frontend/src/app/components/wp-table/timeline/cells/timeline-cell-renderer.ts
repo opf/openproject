@@ -48,7 +48,7 @@ export class TimelineCellRenderer {
   @InjectField() wpTableTimeline:WorkPackageViewTimelineService;
   @InjectField() TimezoneService:TimezoneService;
   @InjectField() schemaCache:SchemaCacheService;
-  @InjectField() readonly I18n:I18nService;
+  @InjectField() I18n!:I18nService;
 
   public text = {
     label_children_derived_duration: this.I18n.t('js.label_children_derived_duration')

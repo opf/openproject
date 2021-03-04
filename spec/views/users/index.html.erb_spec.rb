@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -29,13 +29,13 @@
 require 'spec_helper'
 
 describe 'users/index', type: :view do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let!(:user) { FactoryBot.create :user, firstname: "Scarlet", lastname: "Scallywag" }
 
   before do
     User.system # create system user which is active but should not count towards limit
 
-    assign(:users, [admin, user])
+    assign(:users, User.where(id: [admin.id, user.id]))
     assign(:status, "all")
     assign(:groups, Group.all)
 
@@ -56,7 +56,7 @@ describe 'users/index', type: :view do
 
   context "with an Enterprise token" do
     before do
-      allow(OpenProject::Enterprise).to receive(:token).and_return(Struct.new(:restrictions).new({active_user_count: 5}))
+      allow(OpenProject::Enterprise).to receive(:token).and_return(Struct.new(:restrictions).new({ active_user_count: 5 }))
     end
 
     it "shows the current number of active and allowed users" do

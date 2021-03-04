@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -90,10 +90,10 @@ class WorkPackage::PDFExport::WorkPackageToPdf < WorkPackage::Exporter::Base
 
   def make_attributes
     attrs = [
-      [:status, :priority],
-      [:author, :category],
-      [:created_at, :assigned_to],
-      [:updated_at, :due_date]
+      %i[status priority],
+      %i[author category],
+      %i[created_at assigned_to],
+      %i[updated_at due_date]
     ]
 
     attrs.map do |first, second|
@@ -192,7 +192,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < WorkPackage::Exporter::Base
       end
       newline!
 
-      for changeset in work_package.changesets
+      work_package.changesets.each do |changeset|
         pdf.font style: :bold, size: 8
         pdf.text(format_time(changeset.committed_on) + ' - ' + changeset.author.to_s)
         newline!
@@ -218,7 +218,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < WorkPackage::Exporter::Base
 
     newline!
 
-    for journal in work_package.journals.includes(:user).order("#{Journal.table_name}.created_at ASC")
+    work_package.journals.includes(:user).order("#{Journal.table_name}.created_at ASC").each do |journal|
       next if journal.initial?
 
       pdf.font style: :bold, size: 8
@@ -229,7 +229,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < WorkPackage::Exporter::Base
       journal.details.each do |detail|
         text = journal
           .render_detail(detail, no_html: true, only_path: false)
-          .gsub(/\((https?[^\)]+)\)$/, "(<link href='\\1'>\\1</link>)")
+          .gsub(/\((https?[^)]+)\)$/, "(<link href='\\1'>\\1</link>)")
 
         pdf.text('- ' + text, inline_format: true)
         newline!

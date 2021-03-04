@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -36,7 +36,7 @@ describe CustomActions::Actions::Notify, type: :model do
              FactoryBot.build_stubbed(:group)]
 
     allow(Principal)
-      .to receive_message_chain(:active_or_registered, :select, :order_by_name)
+      .to receive_message_chain(:not_locked, :select, :ordered_by_name)
             .and_return(users)
 
     [{ value: nil, label: '-' },
@@ -65,7 +65,7 @@ describe CustomActions::Actions::Notify, type: :model do
                       FactoryBot.build_stubbed(:user)]
 
         allow(Principal)
-          .to receive_message_chain(:active_or_registered, :select, :order_by_name, :where)
+          .to receive_message_chain(:not_locked, :select, :ordered_by_name, :where)
           .and_return(principals)
 
         instance.values = principals.map(&:id)

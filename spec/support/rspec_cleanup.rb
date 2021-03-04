@@ -19,6 +19,7 @@ RSpec.configure do |config|
     config.append_after(:suite) do
       [User, Project, WorkPackage].each do |cls|
         next if cls.count == 0
+
         raise <<-EOS
           Your specs left a #{cls} in the DB
           Did you use before(:all) instead of before

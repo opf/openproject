@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2020 the OpenProject GmbH
+// Copyright (C) 2012-2021 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
 import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output} from '@angular/core';
 import {CurrentProjectService} from "core-components/projects/current-project.service";
@@ -40,7 +40,6 @@ import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
   selector: 'version-autocompleter'
 })
 export class VersionAutocompleterComponent extends CreateAutocompleterComponent implements AfterViewInit {
-  @Input() public openDirectly:boolean = false;
   @Output() public onCreate = new EventEmitter<VersionResource>();
 
   constructor(readonly I18n:I18nService,

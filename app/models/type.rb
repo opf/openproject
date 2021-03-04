@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -31,7 +32,7 @@ class ::Type < ApplicationRecord
   extend Pagination::Model
 
   # Work Package attributes for this type
-  # and constraints to specifc attributes (by plugins).
+  # and constraints to specific attributes (by plugins).
   include ::Type::Attributes
   include ::Type::AttributeGroups
 
@@ -66,7 +67,7 @@ class ::Type < ApplicationRecord
 
   validates_inclusion_of :is_default, :is_milestone, in: [true, false]
 
-  scope_classes Types::Scopes::Milestone
+  scopes :milestone
 
   default_scope { order('position ASC') }
 
@@ -83,7 +84,7 @@ class ::Type < ApplicationRecord
 
   def self.statuses(types)
     workflow_table, status_table = [Workflow, Status].map(&:arel_table)
-    old_id_subselect, new_id_subselect = [:old_status_id, :new_status_id].map do |foreign_key|
+    old_id_subselect, new_id_subselect = %i[old_status_id new_status_id].map do |foreign_key|
       workflow_table.project(workflow_table[foreign_key]).where(workflow_table[:type_id].in(types))
     end
     Status.where(status_table[:id].in(old_id_subselect).or(status_table[:id].in(new_id_subselect)))

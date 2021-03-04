@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe WikiController, type: :controller do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
 
   describe 'actions' do
     before do
@@ -237,7 +237,7 @@ describe WikiController, type: :controller do
         end
       end
     end
-  end # describe 'actions'
+  end
 
   describe 'view related stuff' do
     render_views
@@ -472,7 +472,9 @@ describe WikiController, type: :controller do
                 # Expect to set back ref id
                 expect(flash[:_related_wiki_page_id]).to eq @page_with_content.id
 
-                assert_select "#content a[href='#{new_child_project_wiki_path(project_id: @project, id: @page_with_content.slug)}']", 'Wiki page'
+                path = new_child_project_wiki_path(project_id: @project, id: @page_with_content.slug)
+
+                assert_select "#content a[href='#{path}']", 'Wiki page'
               end
             end
 
@@ -512,7 +514,8 @@ describe WikiController, type: :controller do
 
               expect(response).to be_successful
 
-              assert_select ".toolbar-items a[href='#{new_child_project_wiki_path(project_id: @project, id: 'wiki')}']", 'Wiki page'
+              assert_select ".toolbar-items a[href='#{new_child_project_wiki_path(project_id: @project, id: 'wiki')}']", 
+'Wiki page'
             end
           end
 

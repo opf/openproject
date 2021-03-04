@@ -1,0 +1,4 @@
+<%= render partial:     'customizable/field',
+           collection:  @user.custom_field_values,
+           as:          :value,
+           locals:      { form: f, input_size: 'middle' } %>

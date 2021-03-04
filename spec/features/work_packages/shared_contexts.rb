@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -30,8 +30,10 @@
 # The status filter is loaded very late in the page setup.
 shared_context 'ensure wp details pane update done' do
   after do
-    raise "Expect to have a let called 'update_user' defining which user \
-           is doing the update".squish unless update_user
+    unless update_user
+      raise "Expect to have a let called 'update_user' defining which user \
+             is doing the update".squish
+    end
 
     # safeguard to ensure all backend queries
     # have been answered before starting a new spec

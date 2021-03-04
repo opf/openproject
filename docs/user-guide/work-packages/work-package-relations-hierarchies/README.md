@@ -9,9 +9,9 @@ keywords: relations, hierarchies, child, parent, blocked, includes, part of
 
 # Work package relations and hierarchies
 
-You can create work package hierarchies and relations.
+You can create work package relations and hierarchies.
 
-Hierarchies are a hierarchical relation (parent-child-relationship) vs. relations indicate any functional or timely relation (e.g. follows or proceeds, blocked by, part of, etc.)
+Relations indicate any functional or timely relation (e.g. follows or proceeds, blocked by, part of, etc.). Hierarchies are a hierarchical relation (parent-child relationship).
 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
@@ -45,21 +45,22 @@ You can select one of the following relations:
 
 The selected relation status will be automatically displayed in the  work package that you enter. For example if you select “Blocks” in the current work package A and specify work package B, work package B will automatically show that it is “Blocked by” A.
 
+
 ## Display relations in work package list (Premium feature)
 
 As a user of [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) or [Enterprise cloud](https://www.openproject.org/hosting/) you can display relations as columns in the work package list.
 
 This is useful if you want to get an overview of certain types of relationships between work packages. You can for example see which work packages are blocking other work packages.
 
-To add relation columns, open the columns modal and select a relation from the dropdown menu (e.g. “blocked by relations”).
+To add relation columns, open the columns modal and select a relation from the dropdown menu (e.g. "blocked by relations").
 
 ![Add-relation-column](Add-relation-column.png)
 
-The relations column shows the number of relations each work package has for the relation type (e.g. “blocked by”).
+The relations column shows the number of relations each work package has for the relation type (e.g. "blocked by").
 
 You can click on the number to display the work packages which have the relation type.
 
-![Relations_column](Relations_column.png)        
+![Relations_column](Relations_column.png)
 
 ## Work package hierarchies
 
@@ -110,3 +111,4 @@ You can also add a column with information about parent work packages:
 3. Click on **Apply** to display the new parent column in the work package list.
 
 ![parent](image-20200129145338301.png)
+

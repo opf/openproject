@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -132,12 +132,12 @@ module API
 
           def with_handled_create_errors
             yield
-          rescue ActiveRecord::RecordInvalid => error
-            raise ::API::Errors::ErrorBase.create_and_merge_errors(error.record.errors)
-          rescue StandardError => error
-            log_attachment_saving_error(error)
+          rescue ActiveRecord::RecordInvalid => e
+            raise ::API::Errors::ErrorBase.create_and_merge_errors(e.record.errors)
+          rescue StandardError => e
+            log_attachment_saving_error(e)
             message =
-              if error&.class&.to_s == 'Errno::EACCES'
+              if e&.class&.to_s == 'Errno::EACCES'
                 I18n.t('api_v3.errors.unable_to_create_attachment_permissions')
               else
                 I18n.t('api_v3.errors.unable_to_create_attachment')

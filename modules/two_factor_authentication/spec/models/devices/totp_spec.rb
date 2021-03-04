@@ -27,7 +27,7 @@ describe ::TwoFactorAuthentication::Device::Totp, with_2fa_ee: true, type: :mode
   describe 'token validation' do
     let(:totp) { subject.send :totp }
 
-    context 'drift', with_config: { :'2fa' =>  { otp_drift_window: 30 } } do
+    context 'drift', with_config: { '2fa': { otp_drift_window: 30 } } do
       it 'uses the drift window from configuration' do
         expect(subject.allowed_drift).to eq 30
       end

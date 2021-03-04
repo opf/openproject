@@ -21,7 +21,7 @@ In the overlay window, you can choose between several topics:
 - Edit Account information
 - Edit Billing Addresses
 - Edit or add payment methods
-- [View billing history and dowload invoices](../invoices-and-billing-history)
+- [View billing history and download invoices](../invoices-and-billing-history)
 
 ## Update existing subscriptions
 

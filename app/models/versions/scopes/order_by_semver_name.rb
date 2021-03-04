@@ -1,14 +1,14 @@
 #-- encoding: UTF-8
 
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -29,10 +29,12 @@
 #++
 
 module Versions::Scopes
-  class OrderBySemverName
-    class << self
-      def fetch
-        Version.reorder semver_sql, :name
+  module OrderBySemverName
+    extend ActiveSupport::Concern
+
+    class_methods do
+      def order_by_semver_name
+        reorder semver_sql, :name
       end
 
       # Returns an sql for ordering which:

@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -73,6 +73,7 @@ describe 'Meetings copy', type: :feature, js: true do
       expect(page)
         .to have_link 'Copy'
 
+      SeleniumHubWaiter.wait
       click_link 'Copy'
     end
 
@@ -87,6 +88,7 @@ describe 'Meetings copy', type: :feature, js: true do
     expect(page)
       .to have_field 'Time', with: "18:55"
 
+    SeleniumHubWaiter.wait
     click_button "Create"
 
     # Be on the new meeting's page with copied over attributes
@@ -115,12 +117,14 @@ describe 'Meetings copy', type: :feature, js: true do
       .to have_content "Attendees:"
 
     # Copies the agenda
+    SeleniumHubWaiter.wait
     click_link "Agenda"
 
     expect(page)
       .to have_content agenda_text
 
     # Adds an entry to the history
+    SeleniumHubWaiter.wait
     click_link "History"
 
     expect(page)

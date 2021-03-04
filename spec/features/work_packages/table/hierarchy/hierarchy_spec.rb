@@ -176,8 +176,8 @@ describe 'Work Package table hierarchy', js: true do
 
     let(:user) do
       FactoryBot.create :user,
-                         member_in_project: project,
-                         member_through_role: role
+                        member_in_project: project,
+                        member_through_role: role
     end
     let(:permissions) { %i(view_work_packages add_work_packages save_queries) }
     let(:role) { FactoryBot.create :role, permissions: permissions }
@@ -250,7 +250,7 @@ describe 'Work Package table hierarchy', js: true do
       hierarchy.toggle_row(root_assigned)
 
       # Sort descending
-      sort_by.update_criteria([ 'Assignee', descending: true])
+      sort_by.update_criteria(['Assignee', { descending: true }])
       loading_indicator_saveguard
       wp_table.expect_work_package_listed(root, root_assigned)
 

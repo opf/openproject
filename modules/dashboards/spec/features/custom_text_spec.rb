@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -50,7 +50,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
   let(:dashboard_page) do
     Pages::Dashboard.new(project)
   end
-  let(:image_fixture) { Rails.root.join('spec/fixtures/files/image.png') }
+  let(:image_fixture) { ::UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:editor) { ::Components::WysiwygEditor.new 'body' }
   let(:field) { TextEditorField.new(page, 'description', selector: '.inline-edit--active-field') }
 
@@ -104,7 +104,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
 
       # The drag_attachment is written in a way that it requires to be executed with page on body
       # so we cannot have it wrapped in the within block.
-      editor.drag_attachment image_fixture, 'Image uploaded'
+      editor.drag_attachment image_fixture.path, 'Image uploaded'
 
       within custom_text_widget.area do
         expect(page).to have_selector('attachment-list-item', text: 'image.png')

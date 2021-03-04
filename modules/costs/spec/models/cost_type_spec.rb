@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -30,11 +30,11 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
 describe CostType, type: :model do
   let(:klass) { CostType }
-  let(:cost_type) {
+  let(:cost_type) do
     klass.new name: 'ct1',
               unit: 'singular',
               unit_plural: 'plural'
-  }
+  end
   before do
     # as the spec_helper loads fixtures and they are probably needed by other tests
     # we delete them here so they do not interfere.

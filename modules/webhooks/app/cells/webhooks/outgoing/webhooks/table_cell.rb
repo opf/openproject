@@ -5,7 +5,7 @@ module ::Webhooks
         columns :name, :enabled, :selected_projects, :events, :description
 
         def initial_sort
-          [:id, :asc]
+          %i[id asc]
         end
 
         def target_controller
@@ -20,7 +20,7 @@ module ::Webhooks
           link_to({ controller: target_controller, action: :new },
                   class: 'webhooks--add-row wp-inline-create--add-link',
                   title: I18n.t('webhooks.outgoing.label_add_new')) do
-              op_icon('icon icon-add')
+            op_icon('icon icon-add')
           end
         end
 
@@ -30,11 +30,11 @@ module ::Webhooks
 
         def headers
           [
-              ['name', caption: I18n.t('attributes.name')],
-              ['enabled', caption: I18n.t(:label_active)],
-              ['selected_projects', caption: ::Webhooks::Webhook.human_attribute_name('projects')],
-              ['events', caption: I18n.t('webhooks.outgoing.label_event_resources')],
-              ['description', caption: I18n.t('attributes.description')]
+            ['name', { caption: I18n.t('attributes.name') }],
+            ['enabled', { caption: I18n.t(:label_active) }],
+            ['selected_projects', { caption: ::Webhooks::Webhook.human_attribute_name('projects') }],
+            ['events', { caption: I18n.t('webhooks.outgoing.label_event_resources') }],
+            ['description', { caption: I18n.t('attributes.description') }]
           ]
         end
       end

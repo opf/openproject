@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -41,13 +41,13 @@ class Widget::Filters::Heavy < Widget::Filters::Base
     values = filter.values.first.is_a?(Array) ? filter.values.first : filter.values
     opts = Array(values).empty? ? [] : values.map { |i| filter_class.label_for_value(i.to_i) }
     div = content_tag :div, id: "#{filter_class.underscore_name}_arg_1", class: 'advanced-filters--filter-value hidden' do
-      select_options = {  :"data-remote-url" => url_for(action: 'available_values'),
-                          :"data-initially-selected" => JSON::dump(Array(filter.values).flatten),
+      select_options = {  "data-remote-url": url_for(action: 'available_values'),
+                          "data-initially-selected": JSON::dump(Array(filter.values).flatten),
                           name: "values[#{filter_class.underscore_name}][]",
-                          :"data-loading" => '',
+                          "data-loading": '',
                           id: "#{filter_class.underscore_name}_arg_1_val",
                           class: 'advanced-filters--select filter-value',
-                          :"data-filter-name" => filter_class.underscore_name }
+                          "data-filter-name": filter_class.underscore_name }
       box = content_tag :select, select_options do
         render_widget Widget::Filters::Option, filter, to: '', content: opts
       end

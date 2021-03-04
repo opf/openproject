@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -39,7 +39,6 @@ describe ::API::Utilities::PageSizeHelper do
   describe '#maximum_page_size' do
     context 'when small values in per_page_options',
             with_settings: { per_page_options: '20,100' } do
-
       it 'uses the magical number 500' do
         expect(subject.maximum_page_size).to eq(500)
       end
@@ -47,7 +46,6 @@ describe ::API::Utilities::PageSizeHelper do
 
     context 'when larger values in per_page_options',
             with_settings: { per_page_options: '20,100,1000' } do
-
       it 'uses that value' do
         expect(subject.maximum_page_size).to eq(1000)
       end

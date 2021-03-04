@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -77,13 +77,12 @@ module OpenProject::PDFExport::ExportCard
           c.draw
         end
       end
-
     end
 
     def self.prune_empty_groups(groups, wp)
       # Prune rows in groups
-      groups.each do |gk, gv|
-        self.prune_empty_rows(gv["rows"], wp)
+      groups.each do |_gk, gv|
+        prune_empty_rows(gv["rows"], wp)
       end
 
       # Prune empty groups
@@ -105,13 +104,13 @@ module OpenProject::PDFExport::ExportCard
     end
 
     def self.is_empty_column(property_name, column, wp)
-      if wp.respond_to?(property_name)
-        value = wp.send(property_name)
-      elsif (field = locale_independent_custom_field(property_name, wp)) && !!field
-        value = field.value
-      else
-        value = ""
-      end
+      value = if wp.respond_to?(property_name)
+                wp.send(property_name)
+              elsif (field = locale_independent_custom_field(property_name, wp)) && !!field
+                field.value
+              else
+                ""
+              end
 
       value = "" if value.is_a?(Array) && value.empty?
       value = value.to_s if !value.is_a?(String)
@@ -120,7 +119,7 @@ module OpenProject::PDFExport::ExportCard
     end
 
     def self.is_existing_column?(property_name, wp)
-        wp.respond_to?(property_name) || is_existing_custom_field?(property_name, wp)
+      wp.respond_to?(property_name) || is_existing_custom_field?(property_name, wp)
     end
 
     def self.is_existing_custom_field?(property_name, wp)
@@ -130,7 +129,7 @@ module OpenProject::PDFExport::ExportCard
     def self.locale_independent_custom_field(property_name, wp)
       Setting.available_languages.each do |locale|
         I18n.with_locale(locale) do
-          if (fields = wp.custom_field_values.select {|cf| cf.custom_field.name == property_name} and fields.count > 0)
+          if fields = wp.custom_field_values.select { |cf| cf.custom_field.name == property_name } and fields.count > 0
             return fields.first
           end
         end

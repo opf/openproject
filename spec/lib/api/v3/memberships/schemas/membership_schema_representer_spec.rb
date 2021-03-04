@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -197,7 +197,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
           context 'if having no project' do
             it_behaves_like 'links to allowed values via collection link' do
               let(:href) do
-                statuses = [Principal::STATUSES[:locked].to_s]
+                statuses = [Principal.statuses[:locked].to_s]
                 filters = [{ 'status' => { 'operator' => '!', 'values' => statuses } }]
 
                 api_v3_paths.path_for(:principals, filters: filters)
@@ -210,7 +210,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
 
             it_behaves_like 'links to allowed values via collection link' do
               let(:href) do
-                statuses = [Principal::STATUSES[:locked].to_s]
+                statuses = [Principal.statuses[:locked].to_s]
                 status_filter = { 'status' => { 'operator' => '!', 'values' => statuses } }
                 member_filter = { 'member' => { 'operator' => '!', 'values' => [assigned_project.id.to_s] } }
 

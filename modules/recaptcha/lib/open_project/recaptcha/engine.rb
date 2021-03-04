@@ -24,16 +24,28 @@ module OpenProject::Recaptcha
 
     config.after_initialize do
       SecureHeaders::Configuration.named_append(:recaptcha) do |request|
-        { frame_src: %w(https://www.google.com/recaptcha/) }
+        if OpenProject::Recaptcha.use_hcaptcha?
+          value = %w(https://*.hcaptcha.com)
+          keys = %i(frame_src script_src style_src connect_src)
+
+          keys.index_with value
+        else
+          {
+            frame_src: %w(https://www.google.com/recaptcha/)
+          }
+        end
       end
 
-      OpenProject::Authentication::Stage.register(:recaptcha,
-                                                  nil,
-                                                  run_after_activation: true,
-                                                  active: -> {
-                                                    type = Setting.plugin_openproject_recaptcha[:recaptcha_type]
-                                                    type.present? && type.to_s != ::OpenProject::Recaptcha::TYPE_DISABLED
-                                                  }) do
+      OpenProject::Authentication::Stage.register(
+        :recaptcha,
+        nil,
+        run_after_activation: true,
+        active: -> {
+          type = Setting.plugin_openproject_recaptcha[:recaptcha_type]
+
+          type.present? && type.to_s != ::OpenProject::Recaptcha::TYPE_DISABLED
+        }
+      ) do
         recaptcha_request_path
       end
     end

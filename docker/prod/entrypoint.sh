@@ -52,17 +52,6 @@ if [ "$(id -u)" = '0' ]; then
 	  rm -f $APACHE_PIDFILE || true
 	fi
 
-	# Fix assets path if relative URL is used
-	relative_url_root_without_trailing_slash="$(echo $OPENPROJECT_RAILS__RELATIVE__URL__ROOT | sed 's:/*$::')"
-	if [ "$relative_url_root_without_trailing_slash" != "" ]; then
-		for file in $(egrep -lR "/assets/" "$APP_PATH/public"); do
-			# only the font paths in the CSSs need updating
-			sed -i "s|/assets/|${relative_url_root_without_trailing_slash}/assets/|g" $file
-			# the .gz is the one served by puma, so rebuild it
-			gzip --force --keep $file
-		done
-	fi
-
 	if [ ! -z "$ATTACHMENTS_STORAGE_PATH" ]; then
 		mkdir -p "$ATTACHMENTS_STORAGE_PATH"
 		chown -R "$APP_USER:$APP_USER" "$ATTACHMENTS_STORAGE_PATH"

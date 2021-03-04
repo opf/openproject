@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -88,35 +88,16 @@ describe WikiController, type: :controller do
   it 'should create page' do
     session[:user_id] = 2
     post :create, params: { project_id: 1,
-                           id: 'New page',
-                           content: { comments: 'Created the page',
-                                      text: "h1. New page\n\nThis is a new page",
-                                      page: { title: 'New page',
-                                              parent_id: '' } } }
+                            id: 'New page',
+                            content: { comments: 'Created the page',
+                                       text: "h1. New page\n\nThis is a new page",
+                                       page: { title: 'New page',
+                                               parent_id: '' } } }
     assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'new-page'
     page = wiki.find_page('New page')
     assert !page.new_record?
     refute_nil page.content
     assert_equal 'Created the page', page.content.last_journal.notes
-  end
-
-  it 'should create page with attachments' do
-    session[:user_id] = 2
-    assert_difference 'WikiPage.count' do
-      assert_difference 'Attachment.count' do
-        post :create, params: { project_id: 1,
-                               id: 'New page',
-                               content: { comments: 'Created the page',
-                                          text: "h1. New page\n\nThis is a new page",
-                                          lock_version: 0,
-                                          page: { title: 'Freshly created page',
-                                                  parent_id: '' } },
-                               attachments: { '1' => { 'file' => uploaded_test_file('testfile.txt', 'text/plain') } } }
-      end
-    end
-    page = wiki.find_page('Freshly created page')
-    assert_equal 1, page.attachments.count
-    assert_equal 'testfile.txt', page.attachments.first.filename
   end
 
   it 'should update page with failure' do
@@ -144,65 +125,19 @@ describe WikiController, type: :controller do
     assert_select 'input', attributes: { id: 'content_lock_version', value: '1' }
   end
 
-  # NOTE: this test seems to depend on other tests in suite
-  # because running whole suite is fine, but running only this test
-  # results in failure
-  it 'should update stale page should not raise an error' do
-    FactoryBot.create :wiki_content_journal,
-                      journable_id: 2,
-                      version: 1,
-                      data: FactoryBot.build(:journal_wiki_content_journal,
-                                              text: "h1. Another page\n\n\nthis is a link to ticket: #2")
-    session[:user_id] = 2
-    c = Wiki.find(1).find_page('Another page').content
-    c.text = 'Previous text'
-    c.save!
-    assert_equal 2, c.version
-
-    assert_no_difference 'WikiPage.count' do
-      assert_no_difference 'WikiContent.count' do
-        assert_no_difference 'Journal.count' do
-          put :update, params: { project_id: 1,
-                                 id: 'Another page',
-                                 content: {
-                                   comments: 'My comments',
-                                   text: 'Text should not be lost',
-                                   lock_version: 1,
-                                   page: { title: 'Another page',
-                                           parent_id: '' }
-                                 } }
-        end
-      end
-    end
-    assert_response :success
-    assert_template 'edit'
-    assert_select 'div',
-                  attributes: { class: /error/ },
-                  content: /Information has been updated by at least one other user in the meantime/
-    assert_select 'textarea',
-                  attributes: { name: 'content[text]' },
-                  content: /Text should not be lost/
-    assert_select 'input',
-                  attributes: { name: 'content[comments]', value: 'My comments' }
-
-    c.reload
-    assert_equal 'Previous text', c.text
-    assert_equal 2, c.version
-  end
-
   it 'should history' do
     FactoryBot.create :wiki_content_journal,
-                       journable_id: 1,
-                       data: FactoryBot.build(:journal_wiki_content_journal,
-                                               text: 'h1. CookBook documentation')
+                      journable_id: 1,
+                      data: FactoryBot.build(:journal_wiki_content_journal,
+                                             text: 'h1. CookBook documentation')
     FactoryBot.create :wiki_content_journal,
-                       journable_id: 1,
-                       data: FactoryBot.build(:journal_wiki_content_journal,
-                                               text: "h1. CookBook documentation\n\n\nSome updated [[documentation]] here...")
+                      journable_id: 1,
+                      data: FactoryBot.build(:journal_wiki_content_journal,
+                                             text: "h1. CookBook documentation\n\n\nSome updated [[documentation]] here...")
     FactoryBot.create :wiki_content_journal,
-                       journable_id: 1,
-                       data: FactoryBot.build(:journal_wiki_content_journal,
-                                               text: "h1. CookBook documentation\nSome updated [[documentation]] here...")
+                      journable_id: 1,
+                      data: FactoryBot.build(:journal_wiki_content_journal,
+                                             text: "h1. CookBook documentation\nSome updated [[documentation]] here...")
 
     get :history, params: { project_id: 1, id: 'CookBook documentation' }
     assert_response :success
@@ -214,9 +149,9 @@ describe WikiController, type: :controller do
 
   it 'should history with one version' do
     FactoryBot.create :wiki_content_journal,
-                       journable_id: 2,
-                       data: FactoryBot.build(:journal_wiki_content_journal,
-                                               text: "h1. Another page\n\n\nthis is a link to ticket: #2")
+                      journable_id: 2,
+                      data: FactoryBot.build(:journal_wiki_content_journal,
+                                             text: "h1. Another page\n\n\nthis is a link to ticket: #2")
     get :history, params: { project_id: 1, id: 'Another page' }
     assert_response :success
     assert_template 'history'
@@ -227,32 +162,33 @@ describe WikiController, type: :controller do
 
   it 'should diff' do
     journal_from = FactoryBot.create :wiki_content_journal,
-                                      journable_id: 1,
-                                      data: FactoryBot.build(:journal_wiki_content_journal,
-                                                              text: 'h1. CookBook documentation')
+                                     journable_id: 1,
+                                     data: FactoryBot.build(:journal_wiki_content_journal,
+                                                            text: 'h1. CookBook documentation')
     journal_to = FactoryBot.create :wiki_content_journal,
-                                    journable_id: 1,
-                                    data: FactoryBot.build(:journal_wiki_content_journal,
-                                                            text: "h1. CookBook documentation\n\n\nSome updated [[documentation]] here...")
+                                   journable_id: 1,
+                                   data: FactoryBot.build(:journal_wiki_content_journal,
+                                                          text: "h1. CookBook documentation\n\n\nSome updated [[documentation]] here...")
 
-    get :diff, params: { project_id: 1, id: 'CookBook documentation', version: journal_to.version, version_from: journal_from.version }
+    get :diff,
+        params: { project_id: 1, id: 'CookBook documentation', version: journal_to.version, version_from: journal_from.version }
     assert_response :success
     assert_template 'diff'
     assert_select 'ins', attributes: { class: 'diffins' },
-               content: /updated/
+                         content: /updated/
   end
 
   it 'should annotate' do
     FactoryBot.create :wiki_content_journal,
-                       journable_id: 1,
-                       data: FactoryBot.build(:journal_wiki_content_journal,
-                                               text: 'h1. CookBook documentation')
+                      journable_id: 1,
+                      data: FactoryBot.build(:journal_wiki_content_journal,
+                                             text: 'h1. CookBook documentation')
     journal_to = FactoryBot.create :wiki_content_journal,
-                                    journable_id: 1,
-                                    data: FactoryBot.build(:journal_wiki_content_journal,
-                                                            text: "h1. CookBook documentation\n\n\nSome [[documentation]] here...")
+                                   journable_id: 1,
+                                   data: FactoryBot.build(:journal_wiki_content_journal,
+                                                          text: "h1. CookBook documentation\n\n\nSome [[documentation]] here...")
 
-    get :annotate, params: { project_id: 1, id:  'CookBook documentation', version: journal_to.version }
+    get :annotate, params: { project_id: 1, id: 'CookBook documentation', version: journal_to.version }
     assert_response :success
     assert_template 'annotate'
     # Line 1
@@ -356,14 +292,14 @@ describe WikiController, type: :controller do
     assert_equal pages.first.content.updated_at, pages.first.updated_at
 
     assert_select 'ul', attributes: { class: 'pages-hierarchy' },
-                    child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/CookBook%20documentation' },
-                                                 content: 'CookBook documentation' },
-                             child: { tag: 'ul',
-                                      child: { tag: 'li',
-                                               child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Page%20with%20an%20inline%20image' },
-                                                        content: 'Page with an inline image' } } } },
-                    child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Another%20page' },
-                                                 content: 'Another page' } }
+                        child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/CookBook%20documentation' },
+                                                     content: 'CookBook documentation' },
+                                 child: { tag: 'ul',
+                                          child: { tag: 'li',
+                                                   child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Page%20with%20an%20inline%20image' },
+                                                            content: 'Page with an inline image' } } } },
+                        child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Another%20page' },
+                                                     content: 'Another page' } }
   end
 
   it 'should index should include atom link' do

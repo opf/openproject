@@ -9,7 +9,7 @@ keywords: calendar
 
 # Calendar
 
-The calendar shows all of the project’s work packages in calendar form. 
+The calendar shows all of the project's work packages in calendar form.
 
 | Topic                                                        | Content                                               |
 | ------------------------------------------------------------ | ----------------------------------------------------- |
@@ -17,6 +17,7 @@ The calendar shows all of the project’s work packages in calendar form.
 | [Filters in calendar](#filters-in-calendar)                  | How to filter in the calendar view.                   |
 | [Zen mode](#zen-mode)                                        | How to work distraction free in a calendar view.      |
 | [Project overarching calendar](#project-orverarching-calendar) | How to display more than one project in the calendar. |
+
 
 ## Calendar overview
 

@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -57,27 +57,27 @@ RSpec.feature 'Work package timeline labels',
   end
 
   let(:today) { Date.today.iso8601 }
-  let(:tomorrow) { Date.tomorrow.iso8601  }
-  let(:future) { (Date.today + 5).iso8601  }
+  let(:tomorrow) { Date.tomorrow.iso8601 }
+  let(:future) { (Date.today + 5).iso8601 }
 
   let(:work_package) do
     FactoryBot.create :work_package,
-                       project: project,
-                       type: type,
-                       assigned_to: user,
-                       start_date: today,
-                       due_date: tomorrow,
-                       subject: 'My subject',
-                       custom_field_values: { custom_field.id => custom_value_for('onions') }
+                      project: project,
+                      type: type,
+                      assigned_to: user,
+                      start_date: today,
+                      due_date: tomorrow,
+                      subject: 'My subject',
+                      custom_field_values: { custom_field.id => custom_value_for('onions') }
   end
 
   let(:milestone_work_package) do
     FactoryBot.create :work_package,
-                       project: project,
-                       type: milestone_type,
-                       start_date: future,
-                       due_date: future,
-                       subject: 'My milestone'
+                      project: project,
+                      type: milestone_type,
+                      start_date: future,
+                      due_date: future,
+                      subject: 'My milestone'
   end
 
   before do
@@ -117,7 +117,7 @@ RSpec.feature 'Work package timeline labels',
                                right: 'Type',
                                farRight: 'Status'
 
-    # Check overriden labels
+    # Check overridden labels
     row = wp_timeline.timeline_row work_package.id
     row.expect_labels left: user.name,
                       right: type.name.upcase,
@@ -166,7 +166,7 @@ RSpec.feature 'Work package timeline labels',
                                right: 'Finish date',
                                farRight: 'Subject'
 
-    # Check overriden labels
+    # Check overridden labels
     row = wp_timeline.timeline_row work_package.id
     row.expect_labels left: today,
                       right: tomorrow,
@@ -177,6 +177,5 @@ RSpec.feature 'Work package timeline labels',
     row.expect_labels left: nil,
                       right: future,
                       farRight: milestone_work_package.subject
-
   end
 end

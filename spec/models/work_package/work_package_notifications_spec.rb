@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -33,11 +34,11 @@ require 'spec_helper'
 # Tests that email notifications will be sent upon creating or changing a work package.
 describe WorkPackage, type: :model do
   describe 'email notifications' do
-    using_shared_fixtures :admin
+    shared_let(:admin) { FactoryBot.create :admin }
     let(:user) { admin }
     let(:current_user) { FactoryBot.create :admin }
     let(:project) { FactoryBot.create :project }
-    let!(:work_package) do
+    let(:work_package) do
       FactoryBot.create :work_package,
                         author: user,
                         subject: 'I can see you',
@@ -46,7 +47,10 @@ describe WorkPackage, type: :model do
 
     context 'after creation' do
       it "are sent to the work package's author" do
-        perform_enqueued_jobs
+        perform_enqueued_jobs do
+          work_package
+        end
+
         mail = ActionMailer::Base.deliveries.detect { |m| m.subject.include? 'I can see you' }
 
         expect(mail).to be_present
@@ -65,6 +69,10 @@ describe WorkPackage, type: :model do
         end
 
         it "are not sent to the work package's author" do
+          perform_enqueued_jobs do
+            work_package
+          end
+
           mail = ActionMailer::Base.deliveries.detect { |m| m.subject.include? 'I can see you' }
 
           expect(mail).not_to be_present
@@ -74,11 +82,12 @@ describe WorkPackage, type: :model do
 
     describe 'after update' do
       before do
-        work_package.update subject: 'the wind of change'
+        perform_enqueued_jobs do
+          work_package.update subject: 'the wind of change'
+        end
       end
 
       it "are sent to the work package's author" do
-        perform_enqueued_jobs
         mail = ActionMailer::Base.deliveries.detect { |m| m.subject.include? 'the wind of change' }
 
         expect(mail).to be_present

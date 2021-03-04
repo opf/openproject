@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -189,7 +189,7 @@ class Attachment < ApplicationRecord
     content_type || fallback
   end
 
-  def copy(&block)
+  def copy
     attachment = dup
     attachment.file = diskfile
 
@@ -267,12 +267,23 @@ class Attachment < ApplicationRecord
 
     # We need to do it like this because `file` is an uploader which expects a File (not a string)
     # to upload usually. But in this case the data has already been uploaded and we just point to it.
-    a[:file] = file_name
+    a[:file] = pending_direct_upload_filename(file_name)
 
     a.save!
     a.reload # necessary so that the fog file uploader path is correct
 
     a
+  end
+
+  class << self
+    private
+
+    # The name has to be in the same format as what Carrierwave will produce later on. If they are different,
+    # Carrierwave will alter the name (both local and remote) whenever the attachment is saved with the remote
+    # file loaded.
+    def pending_direct_upload_filename(file_name)
+      CarrierWave::SanitizedFile.new(nil).send(:sanitize, file_name)
+    end
   end
 
   def pending_direct_upload?

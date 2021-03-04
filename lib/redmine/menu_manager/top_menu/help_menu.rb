@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -88,15 +88,16 @@ module Redmine::MenuManager::TopMenu::HelpMenu
                   title: I18n.t('top_menu.help_and_support')
     end
     if EnterpriseToken.show_banners?
-      result << static_link_item(:upsale, href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=ee-upsale-help-menu")
+      result << static_link_item(:upsale,
+                                 href_suffix: "/?utm_source=unknown&utm_medium=op-instance&utm_campaign=ee-upsale-help-menu")
     end
     result << static_link_item(:user_guides)
-    result << content_tag(:li) {
+    result << content_tag(:li) do
       link_to I18n.t('label_videos'),
               OpenProject::Configuration.youtube_channel,
               title: I18n.t('label_videos'),
               target: '_blank'
-    }
+    end
     result << static_link_item(:shortcuts)
     result << static_link_item(:forums)
     result << static_link_item(:professional_support)
