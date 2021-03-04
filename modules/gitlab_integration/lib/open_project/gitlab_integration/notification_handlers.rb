@@ -219,7 +219,7 @@ module OpenProject::GitlabIntegration
         :commit_number => commit_id[0, 8],
         :commit_note => commit['message'],
         :commit_url => commit['url'],
-        :commit_timestamp => commit['timestamp']
+        :commit_timestamp => commit['timestamp'],
         :repository => payload['repository']['name'],
         :repository_url => payload['repository']['homepage'],
         :gitlab_user => payload['user_name'],
