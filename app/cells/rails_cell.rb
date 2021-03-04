@@ -6,7 +6,12 @@ class RailsCell < Cell::ViewModel
   include SecureHeaders::ViewHelpers
 
   # Delegate to action_view
-  delegates :action_view, :content_for
+  delegate :content_for,
+           :content_tag,
+           :tag_options,
+           to: :action_view
+
+  delegate :request, to: :controller
 
   self.view_paths = ['app/cells/views']
 
@@ -57,18 +62,14 @@ class RailsCell < Cell::ViewModel
   end
 
   def action_view
-    context[:action_view]
-  end
-
-  def protect_against_forgery?
-    controller.send(:protect_against_forgery?)
+    context[:action_view] || controller.view_context
   end
 
   def form_authenticity_token(*args)
     controller.send(:form_authenticity_token, *args)
   end
 
-  def request
-    controller.request
+  def protect_against_forgery?
+    controller.send(:protect_against_forgery?)
   end
 end

@@ -38,6 +38,6 @@
 
 <section class="admin--edit-section">
   <h2><%= t :label_user_plural %></h2>
-  <%= cell ::LdapGroups::Memberships::TableCell, @group.users %>
+  <%= rails_cell ::LdapGroups::Memberships::TableCell, @group.users %>
 </section>
 

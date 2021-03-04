@@ -73,6 +73,6 @@
     <% end %>
   </li>
 <% end %>
-  <%= cell ::LdapGroups::SynchronizedGroups::TableCell, @filter.groups, show_inline_create: false, deletable: false %>
+  <%= rails_cell ::LdapGroups::SynchronizedGroups::TableCell, @filter.groups, show_inline_create: false, deletable: false %>
 </section>
 

@@ -55,6 +55,6 @@ See docs/COPYRIGHT.rdoc for more details.
   end
 %>
 
-<%= cell PlaceholderUsers::PlaceholderUserFilterCell, params %>
+<%= rails_cell PlaceholderUsers::PlaceholderUserFilterCell, params %>
 &nbsp;
-<%= cell PlaceholderUsers::TableCell, @placeholder_users, project: @project, current_user: current_user %>
+<%= rails_cell PlaceholderUsers::TableCell, @placeholder_users, project: @project, current_user: current_user %>
