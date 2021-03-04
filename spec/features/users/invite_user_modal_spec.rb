@@ -53,7 +53,7 @@ feature 'Invite user modal', type: :feature, js: true do
   end
 
   shared_examples 'invites the principal to the project' do
-    it 'can invite a new placeholder' do
+    it 'will invite that principal to the project' do
       modal.run_all_steps
 
       assignee_field.expect_active!
