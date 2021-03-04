@@ -93,7 +93,7 @@ module OpenProject::GitlabIntegration
       # if the comment is not associated with a PR, ignore it
       #return unless payload['object_attributes']['noteable_type'] == "MergeRequest"
       #payload[:commits].each do |commit|
-      comment_on_referenced_work_packages payload['commits'], payload
+      push_hook_split_commits payload
       #end
       
     rescue => e
@@ -111,17 +111,35 @@ module OpenProject::GitlabIntegration
       raise e
     end
 
+    def self.push_hook_split_commits(payload)
+      return nil unless payload['object_kind'] == 'push'
+      payload[:commits].each do |commit|
+        text << commit['title'] + " - " + commit['message']
+        comment_on_referenced_work_packages text, payload, commit
+      end
+    end
+
     ##
     # Parses the text for links to WorkPackages and adds a comment
     # to those WorkPackages depending on the payload.
-    def self.comment_on_referenced_work_packages(text, payload)
+    def self.comment_on_referenced_work_packages(text, payload, commit = nil)
       user = User.find_by_id(payload['open_project_user_id'])
       wp_ids = extract_work_package_ids(text)
       wps = find_visible_work_packages(wp_ids, user)
-
       # We may get events for pull_request type that we don't support
       # such as review_requested.
-      notes = notes_for_payload(payload)
+      if payload['object_kind'] == 'push'
+        notes = notes_for_push_payload(commit, payload)
+      elsif payload['object_kind'] == 'issue'
+        notes = notes_for_issue_payload(payload)
+      elsif payload['object_kind'] == 'merge_request'
+        notes = notes_for_merge_request_payload(payload)
+      elsif payload['object_kind'] == 'note'
+        notes = notes_for_note_payload(payload)
+      else
+        return
+      end
+
       return if notes.nil?
 
       if payload['object_attributes']['state'] == 'opened' && payload['object_kind'] == 'merge_request'
@@ -180,22 +198,6 @@ module OpenProject::GitlabIntegration
       end
     end
 
-    ##
-    # Find a matching translation for the action specified in the payload.
-    def self.notes_for_payload(payload)
-      if payload['object_kind'] == 'push'
-        notes_for_push_payload(payload)
-      elsif payload['object_kind'] == 'issue'
-        notes_for_issue_payload(payload)
-      elsif payload['object_kind'] == 'merge_request'
-        notes_for_merge_request_payload(payload)
-      elsif payload['object_kind'] == 'note'
-        notes_for_note_payload(payload)
-      else
-        return nil
-      end
-    end
-
     def self.notes_for_issue_payload(payload)
       return nil unless payload['object_attributes']['action'] == 'open' || payload['object_attributes']['state'] == 'closed'
       I18n.t("gitlab_integration.issue_#{payload['object_attributes']['state']}_referenced_comment",
@@ -208,32 +210,21 @@ module OpenProject::GitlabIntegration
         :gitlab_user_url => payload['user']['avatar_url'])
     end
 
-    def self.notes_for_push_payload(payload)
-
+    def self.notes_for_push_payload(commit, payload)
       # a closed pull request which has been merged
       # deserves a different label :)
       #key = 'merged' if key == 'closed' && payload['object_attributes']['state'] == 'closed'
+      commit_id = payload['commit']['id']
+      I18n.t("gitlab_integration.push_single_commit_comment",
+        :commit_number => commit_id[0, 8],
+        :commit_note => commit['message'],
+        :commit_url => commit['url'],
+        :commit_timestamp => commit['timestamp']
+        :repository => payload['repository']['name'],
+        :repository_url => payload['repository']['homepage'],
+        :gitlab_user => payload['user_name'],
+        :gitlab_user_url => payload['user_avatar'])
 
-      return nil unless payload['total_commits_count'] > 0
-      if payload['total_commits_count'] == 1
-        I18n.t("gitlab_integration.push_single_commit_comment",
-          :commit_number => payload['commits']['id'],
-          :commit_note => payload['commits']['message'],
-          :commit_url => payload['commits']['url'],
-          :repository => payload['repository']['name'],
-          :repository_url => payload['repository']['homepage'],
-          :gitlab_user => payload['user_name'],
-          :gitlab_user_url => payload['user_avatar'])
-      else
-        I18n.t("gitlab_integration.push_multiple_commits_comment",
-          :commit_number => payload['commits']['id'],
-          :commit_note => payload['commits']['message'],
-          :commit_url => payload['commits']['url'],
-          :repository => payload['repository']['name'],
-          :repository_url => payload['repository']['homepage'],
-          :gitlab_user => payload['user_name'],
-          :gitlab_user_url => payload['user_avatar'])
-      end
     end
 
     def self.notes_for_merge_request_payload(payload)
