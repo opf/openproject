@@ -36,9 +36,11 @@ import {PrincipalHelper} from "./principal-helper";
 import PrincipalPluralType = PrincipalHelper.PrincipalPluralType;
 import {PrincipalLike, PrincipalRendererService} from "./principal-renderer.service";
 
+export const principalSelector = 'op-principal';
+
 @Component({
   template: '',
-  selector: 'op-principal',
+  selector: principalSelector,
   host: {'class': 'op-principal'}
 })
 export class OpPrincipalComponent implements OnInit {

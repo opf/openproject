@@ -48,7 +48,6 @@ import {TablePaginationComponent} from 'core-components/table-pagination/table-p
 import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
 import {ZenModeButtonComponent} from 'core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import {OPContextMenuComponent} from 'core-components/op-context-menu/op-context-menu.component';
-import {UserAvatarComponent} from 'core-components/user/user-avatar/user-avatar.component';
 import {EnterpriseBannerComponent} from 'core-components/enterprise-banner/enterprise-banner.component';
 import {EnterpriseBannerBootstrapComponent} from 'core-components/enterprise-banner/enterprise-banner-bootstrap.component';
 import {HomescreenNewFeaturesBlockComponent} from 'core-components/homescreen/blocks/new-features.component';
@@ -178,9 +177,6 @@ export function bootstrapModule(injector:Injector) {
 
     EditableToolbarTitleComponent,
 
-    // User Avatar
-    UserAvatarComponent,
-
     // Enterprise Edition
     EnterpriseBannerComponent,
 
@@ -235,9 +231,6 @@ export function bootstrapModule(injector:Injector) {
     ContentTabsComponent,
 
     EditableToolbarTitleComponent,
-
-    // User Avatar
-    UserAvatarComponent,
 
     PersistentToggleComponent,
     HideSectionLinkComponent,

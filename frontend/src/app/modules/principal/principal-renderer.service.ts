@@ -7,9 +7,9 @@ import {PrincipalHelper} from "./principal-helper";
 import PrincipalType = PrincipalHelper.PrincipalType;
 
 export interface PrincipalLike {
-  id:string;
+  id:string|null;
   name:string;
-  href:string;
+  href:string|null;
 }
 export interface AvatarOptions {
   classes:string;
@@ -57,7 +57,7 @@ export class PrincipalRendererService {
          name:boolean = true,
          avatar:false|AvatarOptions = { classes: 'avatar-medium' }):void {
 
-    const type = PrincipalHelper.typeFromHref(principal.href)!;
+    const type = PrincipalHelper.typeFromHref(principal.href || '')!;
 
     if (avatar) {
       const el = this.renderAvatar(principal, avatar, type);
