@@ -45,7 +45,10 @@ en:
       Merge request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): "%{mr_note}".
     note_issue_referenced_comment: >
       **Referenced in Issue:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in
-      Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): "%{issue_note}".
+      Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): \n"%{issue_note}".
+    note_issue_commented_comment: >
+      **Comment in Issue:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in
+      Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): \n"%{issue_note}".
     note_snippet_referenced_comment: >
       **Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in
       Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): "%{snippet_note}".

@@ -135,10 +135,13 @@ module OpenProject::GitlabIntegration
       elsif payload['object_kind'] == 'merge_request'
         notes = notes_for_merge_request_payload(payload)
       elsif payload['object_kind'] == 'note'
-        notes = notes_for_note_payload(payload)
-        if wps.empty? && payload['object_attributes'] == 'noteable_type'
-          wp_ids = extract_work_package_ids(payload['issue']['title'])
+        #notes = notes_for_note_payload(payload)
+        if wps.empty? && payload['object_attributes']['noteable_type'] == 'Issue'
+          wp_ids = extract_work_package_ids(payload['issue']['title'] + ' - ' + payload['object_attributes']['note'])
           wps = find_visible_work_packages(wp_ids, user)
+          notes = notes_for_note_payload(payload, 'comment')
+        else
+          notes = notes_for_note_payload(payload, 'reference')
         end
       else
         return
@@ -257,7 +260,7 @@ module OpenProject::GitlabIntegration
              :gitlab_user_url => payload['user']['avatar_url'])
     end
 
-    def self.notes_for_note_payload(payload)
+    def self.notes_for_note_payload(payload, note_type)
       #return nil unless payload['action'] == 'created'
       if payload['object_attributes']['noteable_type'] == 'Commit'
         commit_id = payload['commit']['id']
@@ -280,15 +283,27 @@ module OpenProject::GitlabIntegration
               :gitlab_user => payload['user']['name'],
               :gitlab_user_url => payload['user']['avatar_url'])
       elsif payload['object_attributes']['noteable_type'] == 'Issue'
-        I18n.t("gitlab_integration.note_issue_referenced_comment",
-              :issue_number => payload['issue']['iid'],
-              :issue_title => payload['issue']['title'],
-              :issue_url => payload['object_attributes']['url'],
-              :issue_note => payload['object_attributes']['note'],
-              :repository => payload['repository']['name'],
-              :repository_url => payload['repository']['homepage'],
-              :gitlab_user => payload['user']['name'],
-              :gitlab_user_url => payload['user']['avatar_url'])
+        if note_type == 'comment'
+          I18n.t("gitlab_integration.note_issue_commented_comment",
+                :issue_number => payload['issue']['iid'],
+                :issue_title => payload['issue']['title'],
+                :issue_url => payload['object_attributes']['url'],
+                :issue_note => payload['object_attributes']['note'],
+                :repository => payload['repository']['name'],
+                :repository_url => payload['repository']['homepage'],
+                :gitlab_user => payload['user']['name'],
+                :gitlab_user_url => payload['user']['avatar_url'])
+        elsif note_type == 'reference'
+          I18n.t("gitlab_integration.note_issue_referenced_comment",
+            :issue_number => payload['issue']['iid'],
+            :issue_title => payload['issue']['title'],
+            :issue_url => payload['object_attributes']['url'],
+            :issue_note => payload['object_attributes']['note'],
+            :repository => payload['repository']['name'],
+            :repository_url => payload['repository']['homepage'],
+            :gitlab_user => payload['user']['name'],
+            :gitlab_user_url => payload['user']['avatar_url'])
+        end
       elsif payload['object_attributes']['noteable_type'] == 'Snippet'
         I18n.t("gitlab_integration.note_snippet_referenced_comment",
               :snippet_number => payload['snippet']['id'],
