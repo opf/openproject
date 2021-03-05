@@ -70,3 +70,5 @@ Find out more about the behavior of groups as project members from a project adm
 Similar to users, groups have a profile page which shows their name and members. Each member of a group is only visible for users with the necessary permissions (e.g. user has permission to see this member in a common project or user is system administrator). 
 
 ![group-profile-page](image-20210302144820982.png)
+
+The profile page can be accessed via the group's [settings page](/#add-users-to-a-group-edit-or-remove-groups), via the overview page of projects the group is a member of and via [mentions](../../../user-guide/work-packages/edit-work-package/#-notification) of the group.
