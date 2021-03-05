@@ -51,7 +51,7 @@ module OpenProject::GitlabIntegration
     def self.merge_request_hook(payload)
       # Don't add comments on new pushes to the pull request => ignore synchronize.
       # Don't add comments about assignments and labels either.
-      
+      Rails.logger.debug "Detectado evento merge request"
       accepted_actions = %w[open]
       accepted_states = %w[closed merged]
       #return if ignored_actions.include? payload['action']
@@ -83,6 +83,7 @@ module OpenProject::GitlabIntegration
     def self.note_hook(payload)
       # if the comment is not associated with a PR, ignore it
       #return unless payload['object_attributes']['noteable_type'] == "MergeRequest"
+      Rails.logger.debug "Detectado evento note"
       comment_on_referenced_work_packages payload['object_attributes']['note'], payload
     rescue => e
       Rails.logger.error "Failed to handle note_hook event: #{e} #{e.message}"
@@ -93,6 +94,7 @@ module OpenProject::GitlabIntegration
       # if the comment is not associated with a PR, ignore it
       #return unless payload['object_attributes']['noteable_type'] == "MergeRequest"
       #payload[:commits].each do |commit|
+      Rails.logger.debug "Detectado evento push 0"
       push_hook_split_commits payload
       #end
       
@@ -104,6 +106,7 @@ module OpenProject::GitlabIntegration
     def self.issue_hook(payload)
       # if the comment is not associated with a PR, ignore it
       #return unless payload['object_attributes']['noteable_type'] == "MergeRequest"
+      Rails.logger.debug "Detectado evento issue"
       comment_on_referenced_work_packages payload['object_attributes']['title'] + ' - ' + payload['object_attributes']['description'], payload
       
     rescue => e
@@ -112,8 +115,9 @@ module OpenProject::GitlabIntegration
     end
 
     def self.push_hook_split_commits(payload)
+      Rails.logger.debug "Detectado evento push 1"
       return nil unless payload['object_kind'] == 'push'
-      Rails.logger.debug "Detectado evento push"
+      Rails.logger.debug "Confirmado evento push"
       payload[:commits].each do |commit|
         Rails.logger.debug "Detectado commit #{commit['title']}"
         text << commit['title'] + " - " + commit['message']
