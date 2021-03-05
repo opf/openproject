@@ -136,8 +136,12 @@ module OpenProject::GitlabIntegration
         notes = notes_for_merge_request_payload(payload)
       elsif payload['object_kind'] == 'note'
         #notes = notes_for_note_payload(payload)
-        if wps.empty? && payload['object_attributes']['noteable_type'] == 'Issue'
+        if wps.empty? && payload['object_attributes']['noteable_type'] == 'MergeRequest'
           wp_ids = extract_work_package_ids(payload['issue']['title'] + ' - ' + payload['object_attributes']['note'])
+          wps = find_visible_work_packages(wp_ids, user)
+          notes = notes_for_note_payload(payload, 'comment')
+        elsif wps.empty? && payload['object_attributes']['noteable_type'] == 'Issue'
+          wp_ids = extract_work_package_ids(payload['merge_request']['title'] + ' - ' + payload['object_attributes']['note'])
           wps = find_visible_work_packages(wp_ids, user)
           notes = notes_for_note_payload(payload, 'comment')
         else
@@ -273,15 +277,27 @@ module OpenProject::GitlabIntegration
               :gitlab_user => payload['user']['name'],
               :gitlab_user_url => payload['user']['avatar_url'])
       elsif payload['object_attributes']['noteable_type'] == 'MergeRequest'
-        I18n.t("gitlab_integration.note_mr_referenced_comment",
-              :mr_number => payload['merge_request']['id'],
-              :mr_title => payload['merge_request']['title'],
-              :mr_url => payload['object_attributes']['url'],
-              :mr_note => payload['object_attributes']['note'],
-              :repository => payload['repository']['name'],
-              :repository_url => payload['repository']['homepage'],
-              :gitlab_user => payload['user']['name'],
-              :gitlab_user_url => payload['user']['avatar_url'])
+        if note_type == 'comment'
+          I18n.t("gitlab_integration.note_mr_commented_comment",
+                :mr_number => payload['merge_request']['id'],
+                :mr_title => payload['merge_request']['title'],
+                :mr_url => payload['object_attributes']['url'],
+                :mr_note => payload['object_attributes']['note'],
+                :repository => payload['repository']['name'],
+                :repository_url => payload['repository']['homepage'],
+                :gitlab_user => payload['user']['name'],
+                :gitlab_user_url => payload['user']['avatar_url'])
+        elsif note_type == 'reference'
+          I18n.t("gitlab_integration.note_mr_referenced_comment",
+            :mr_number => payload['merge_request']['id'],
+            :mr_title => payload['merge_request']['title'],
+            :mr_url => payload['object_attributes']['url'],
+            :mr_note => payload['object_attributes']['note'],
+            :repository => payload['repository']['name'],
+            :repository_url => payload['repository']['homepage'],
+            :gitlab_user => payload['user']['name'],
+            :gitlab_user_url => payload['user']['avatar_url'])
+        end
       elsif payload['object_attributes']['noteable_type'] == 'Issue'
         if note_type == 'comment'
           I18n.t("gitlab_integration.note_issue_commented_comment",
