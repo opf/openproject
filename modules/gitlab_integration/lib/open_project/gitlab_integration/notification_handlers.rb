@@ -136,6 +136,10 @@ module OpenProject::GitlabIntegration
         notes = notes_for_merge_request_payload(payload)
       elsif payload['object_kind'] == 'note'
         notes = notes_for_note_payload(payload)
+        if wps.empty? && payload['object_attributes'] == 'noteable_type'
+          wp_ids = extract_work_package_ids(payload['issue']['title'])
+          wps = find_visible_work_packages(wp_ids, user)
+        end
       else
         return
       end
@@ -249,7 +253,7 @@ module OpenProject::GitlabIntegration
              :mr_url => payload['object_attributes']['url'],
              :repository => payload['repository']['name'],
              :repository_url => payload['repository']['url'],
-             :gitlab_user => payload['user']['username'],
+             :gitlab_user => payload['user']['name'],
              :gitlab_user_url => payload['user']['avatar_url'])
     end
 
