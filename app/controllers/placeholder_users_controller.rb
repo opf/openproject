@@ -42,7 +42,7 @@ class PlaceholderUsersController < ApplicationController
                                                  destroy]
 
   def index
-    @placeholder_users = PlaceholderUsers::PlaceholderUserFilterCell.filter params
+    @placeholder_users = PlaceholderUsers::PlaceholderUserFilterCell.query params
 
     respond_to do |format|
       format.html do
