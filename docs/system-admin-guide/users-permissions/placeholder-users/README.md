@@ -82,3 +82,13 @@ If you edit the placeholder user's role(s) don't forget to use the **Change** bu
 
 Placeholder users cannot be added to groups and cannot be assigned global roles. The avatar currently looks like that of users without a profile picture.
 In the future, additional changes and features for placeholder users will be implemented.
+
+## Placeholder user profile
+
+Similar to users, placeholder users have a profile page which shows their name and project memberships. 
+
+The projects are only visible for users who are allowed to see the project (e.g. user has permission to see this placeholder user in a common project or has a sufficient global role (e.g. system administrator)). 
+
+![image-20210305180853254](image-20210305180853254.png)
+
+The profile page can be accessed via the [placeholder user settings](#manage-placeholder-user-settings) and via the overview page of projects the placeholder user is a member of.
