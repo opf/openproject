@@ -246,7 +246,6 @@ module OpenProject::GitlabIntegration
         :repository_url => payload['repository']['homepage'],
         :gitlab_user => payload['user_name'],
         :gitlab_user_url => payload['user_avatar'])
-      Rails.logger.debug "Notepush after #{commit['id']}"
     end
 
     def self.notes_for_merge_request_payload(payload)
