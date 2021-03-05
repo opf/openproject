@@ -136,11 +136,11 @@ module OpenProject::GitlabIntegration
         notes = notes_for_merge_request_payload(payload)
       elsif payload['object_kind'] == 'note'
         #notes = notes_for_note_payload(payload)
-        if wps.empty? && payload['object_attributes']['noteable_type'] == 'MergeRequest'
+        if wps.empty? && payload['object_attributes']['noteable_type'] == 'Issue'
           wp_ids = extract_work_package_ids(payload['issue']['title'] + ' - ' + payload['object_attributes']['note'])
           wps = find_visible_work_packages(wp_ids, user)
           notes = notes_for_note_payload(payload, 'comment')
-        elsif wps.empty? && payload['object_attributes']['noteable_type'] == 'Issue'
+        elsif wps.empty? && payload['object_attributes']['noteable_type'] == 'MergeRequest'
           wp_ids = extract_work_package_ids(payload['merge_request']['title'] + ' - ' + payload['object_attributes']['note'])
           wps = find_visible_work_packages(wp_ids, user)
           notes = notes_for_note_payload(payload, 'comment')
