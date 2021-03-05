@@ -159,10 +159,14 @@ module OpenProject::GitlabIntegration
 
       return if notes.nil?
 
-      if payload['object_attributes']['state'] == 'opened' && payload['object_kind'] == 'merge_request'
-        attributes = { journal_notes: notes, status_id: 7 }
-      elsif payload['object_attributes']['state'] == 'merged' && payload['object_kind'] == 'merge_request'
-        attributes = { journal_notes: notes, status_id: 8 }
+      if payload['object_kind'] == 'merge_request'
+        if payload['object_attributes']['state'] == 'opened'
+          attributes = { journal_notes: notes, status_id: 7 }
+        elsif payload['object_attributes']['state'] == 'merged'
+          attributes = { journal_notes: notes, status_id: 8 }
+        else
+          attributes = { journal_notes: notes }
+        end
       else
         attributes = { journal_notes: notes }
       end
