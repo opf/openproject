@@ -109,6 +109,15 @@ This is not possible per se, there's no Ctrl+Z option or anything similar.
 
 Please use these resources to find out about the latest changes and re-do them manually: The [work package activity](../getting-started/work-packages-introduction/#activity-of-work-packages), the [history of the wiki page](../user-guide/wiki/more-wiki-functions/#show-wiki-page-history) or the [Activities module](../user-guide/activity).
 
+### How can I increase or decrease the number of users in OpenProject?
+
+You can invite new users in the system administration as long as you have enough licenses.
+
+For the Community Edition you can have as many users as you need for free. 
+If you are using Enterprise on-premises, please write an email to sales @ openproject.com.
+
+If you are using the Enterprise cloud, you can easily upgrade or downgrade the number of users by navigating to *Administration -> Billing -> Manage subscription* and choosing the new amount of users which you need in your system. Find out more [here](../cloud-edition-guide/manage-subscription).
+
 ### How can I change the day my week starts with, etc.?
 
 You can do this as a system administrator in the [System settings](../system-admin-guide/system-settings/display-settings/#time-and-date-formatting).
