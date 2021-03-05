@@ -32,9 +32,10 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 import {TimezoneService} from 'core-components/datetime/timezone.service';
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
+import {PrincipalRendererService} from "./principal-renderer.service";
+import {PrincipalLike} from "./principal-types";
 import {PrincipalHelper} from "./principal-helper";
 import PrincipalPluralType = PrincipalHelper.PrincipalPluralType;
-import {PrincipalLike, PrincipalRendererService} from "./principal-renderer.service";
 
 export const principalSelector = 'op-principal';
 

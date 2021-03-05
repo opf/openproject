@@ -14,7 +14,7 @@ import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-build
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {PrincipalLike} from "core-app/modules/invite-user-modal/invite-user-modal.types";
+import {PrincipalLike} from "core-app/modules/principal/principal-types";
 import {PrincipalType} from '../invite-user.component';
 
 @Component({

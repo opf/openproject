@@ -3,14 +3,10 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {ColorsService} from "core-app/modules/common/colors/colors.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
+import {PrincipalLike} from "./principal-types";
 import {PrincipalHelper} from "./principal-helper";
 import PrincipalType = PrincipalHelper.PrincipalType;
 
-export interface PrincipalLike {
-  id:string|null;
-  name:string;
-  href:string|null;
-}
 export interface AvatarOptions {
   classes:string;
 }
@@ -92,7 +88,7 @@ export class PrincipalRendererService {
     const image = new Image();
     image.className = avatar.classes;
     image.classList.add('avatar--fallback');
-    image.src = this.apiV3Service.users.id(principal.id).avatar.toString();
+    image.src = this.apiV3Service.users.id(principal.id || '').avatar.toString();
     image.title = principal.name;
     image.alt = principal.name;
     image.onload = function () {
@@ -113,11 +109,11 @@ export class PrincipalRendererService {
   private principalURL(principal:PrincipalLike, type:PrincipalType) {
     switch (type) {
       case 'group':
-        return this.pathHelper.groupPath(principal.id);
+        return this.pathHelper.groupPath(principal.id || '');
       case 'placeholder_user':
-        return this.pathHelper.placeholderUserPath(principal.id);
+        return this.pathHelper.placeholderUserPath(principal.id || '');
       case 'user':
-        return this.pathHelper.userPath(principal.id);
+        return this.pathHelper.userPath(principal.id || '');
     }
   }
 
