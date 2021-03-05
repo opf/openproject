@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {VersionResource} from "core-app/modules/hal/resources/version-resource";
-import {Observable} from "rxjs";
-import {CachableAPIV3Resource} from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
-import {MultiInputState} from "reactivestates";
-import {tap} from "rxjs/operators";
-import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
+import { VersionResource } from "core-app/modules/hal/resources/version-resource";
+import { Observable } from "rxjs";
+import { CachableAPIV3Resource } from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
+import { MultiInputState } from "reactivestates";
+import { tap } from "rxjs/operators";
+import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
 
 export class APIv3VersionPaths extends CachableAPIV3Resource<VersionResource> {
 

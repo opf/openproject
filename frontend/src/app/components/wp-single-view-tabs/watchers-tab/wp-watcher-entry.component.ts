@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, OnInit} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {WorkPackageWatchersTabComponent} from './watchers-tab.component';
-import {UserResource} from 'core-app/modules/hal/resources/user-resource';
+import { Component, Input, OnInit } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { WorkPackageWatchersTabComponent } from './watchers-tab.component';
+import { UserResource } from 'core-app/modules/hal/resources/user-resource';
 
 @Component({
   templateUrl: './wp-watcher-entry.html',

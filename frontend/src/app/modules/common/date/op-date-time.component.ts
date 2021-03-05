@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input} from '@angular/core';
-import {TimezoneService} from 'core-components/datetime/timezone.service';
+import { Component, Input } from '@angular/core';
+import { TimezoneService } from 'core-components/datetime/timezone.service';
 
 @Component({
   selector: 'op-date-time',

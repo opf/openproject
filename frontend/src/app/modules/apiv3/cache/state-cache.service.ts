@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {MultiInputState, State} from 'reactivestates';
-import {Observable} from "rxjs";
-import {auditTime, map, share, startWith, take} from "rxjs/operators";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import { MultiInputState, State } from 'reactivestates';
+import { Observable } from "rxjs";
+import { auditTime, map, share, startWith, take } from "rxjs/operators";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 
 export interface HasId {
   id:string|null;
@@ -39,7 +39,7 @@ export class StateCacheService<T> {
   protected cacheDurationInMs:number;
   protected multiState:MultiInputState<T>;
 
-  constructor(state:MultiInputState<T>, holdValuesForSeconds:number = 3600) {
+  constructor(state:MultiInputState<T>, holdValuesForSeconds = 3600) {
     this.multiState = state;
     this.cacheDurationInMs = holdValuesForSeconds * 1000;
   }
@@ -128,7 +128,7 @@ export class StateCacheService<T> {
         startWith([]),
         auditTime(250),
         map(() => {
-          let mapped:T[] = [];
+          const mapped:T[] = [];
           _.each(this.multiState.getValueOr({}), (state:State<T>) => {
             if (state.value) {
               mapped.push(state.value);

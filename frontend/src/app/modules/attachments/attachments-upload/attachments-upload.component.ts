@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {OnInit} from '@angular/core';
-import {UploadFile} from "core-components/api/op-file-upload/op-file-upload.service";
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { Component, ElementRef, Input, ViewChild , OnInit } from '@angular/core';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+
+import { UploadFile } from "core-components/api/op-file-upload/op-file-upload.service";
+import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 
 @Component({
   selector: 'attachments-upload',
@@ -44,7 +44,7 @@ export class AttachmentsUploadComponent implements OnInit {
 
   @ViewChild('hiddenFileInput') public filePicker:ElementRef;
 
-  public draggingOver:boolean = false;
+  public draggingOver = false;
   public text:any;
   public maxFileSize:number;
   public $element:JQuery;
@@ -83,10 +83,10 @@ export class AttachmentsUploadComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
 
-    let dfFiles = event.dataTransfer!.files;
-    let length:number = dfFiles ? dfFiles.length : 0;
+    const dfFiles = event.dataTransfer!.files;
+    const length:number = dfFiles ? dfFiles.length : 0;
 
-    let files:UploadFile[] = [];
+    const files:UploadFile[] = [];
     for (let i = 0; i < length; i++) {
       files.push(dfFiles[i]);
     }

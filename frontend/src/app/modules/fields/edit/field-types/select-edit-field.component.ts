@@ -26,18 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, OnInit} from '@angular/core';
-import {HalResourceSortingService} from 'core-app/modules/hal/services/hal-resource-sorting.service';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {EditFieldComponent} from '../edit-field.component';
-import {SelectAutocompleterRegisterService} from 'app/modules/fields/edit/field-types/select-autocompleter-register.service';
-import {from} from 'rxjs';
-import {map, tap} from 'rxjs/operators';
-import {HalResourceNotificationService} from 'core-app/modules/hal/services/hal-resource-notification.service';
-import {InjectField} from 'core-app/helpers/angular/inject-field.decorator';
-import {PermissionsService} from 'core-app/core/services/permissions/permissions.service';
-import {CreateAutocompleterComponent} from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component";
+import { Component, OnInit } from '@angular/core';
+import { HalResourceSortingService } from 'core-app/modules/hal/services/hal-resource-sorting.service';
+import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { EditFieldComponent } from '../edit-field.component';
+import { SelectAutocompleterRegisterService } from 'app/modules/fields/edit/field-types/select-autocompleter-register.service';
+import { from } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { HalResourceNotificationService } from 'core-app/modules/hal/services/hal-resource-notification.service';
+import { InjectField } from 'core-app/helpers/angular/inject-field.decorator';
+import { PermissionsService } from 'core-app/core/services/permissions/permissions.service';
+import { CreateAutocompleterComponent } from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component";
 
 export interface ValueOption {
   name:string;
@@ -70,7 +70,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     return _.find(this.valueOptions, o => o.$href === href)!;
   }
   public set selectedOption(val:ValueOption) {
-    let option = _.find(this.availableOptions, o => o.$href === val.$href);
+    const option = _.find(this.availableOptions, o => o.$href === val.$href);
 
     // Special case 'null' value, which angular
     // only understands in ng-options as an empty string.
@@ -124,8 +124,8 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   initializeShowAddButton() {
     if (this.schema.type === 'User') {
       this.permissionsService
-            .canInviteUsersToProject()
-            .subscribe(canInviteUsersToProject => this.showAddNewButton = canInviteUsersToProject);
+        .canInviteUsersToProject()
+        .subscribe(canInviteUsersToProject => this.showAddNewButton = canInviteUsersToProject);
     }
   }
 
@@ -135,7 +135,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   public autocompleterComponent() {
-    let type = this.schema.type;
+    const type = this.schema.type;
     return this.selectAutocompleterRegister.getAutocompleterOfAttribute(type) || CreateAutocompleterComponent;
   }
 
@@ -146,7 +146,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   protected loadValues(query?:string) {
-    let allowedValues = this.schema.allowedValues;
+    const allowedValues = this.schema.allowedValues;
 
     if (Array.isArray(allowedValues)) {
       this.setValues(allowedValues);

@@ -1,11 +1,11 @@
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {HttpClient, HttpParams} from "@angular/common/http";
-import {Component} from "@angular/core";
-import {URLParamsEncoder} from "core-app/modules/hal/services/url-params-encoder";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {UserAutocompleterComponent} from "core-app/modules/autocompleter/user-autocompleter/user-autocompleter.component";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { Component } from "@angular/core";
+import { URLParamsEncoder } from "core-app/modules/hal/services/url-params-encoder";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { UserAutocompleterComponent } from "core-app/modules/autocompleter/user-autocompleter/user-autocompleter.component";
 
 export const membersAutocompleterSelector = 'members-autocompleter';
 

@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectorRef, Component, ElementRef, Injector, Input} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
-import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
-import {OpModalService} from "core-app/modules/modal/modal.service";
-import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
+import { ChangeDetectorRef, Component, ElementRef, Injector, Input } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { OpContextMenuTrigger } from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import { OPContextMenuService } from 'core-components/op-context-menu/op-context-menu.service';
+import { OpModalService } from "core-app/modules/modal/modal.service";
+import { OpContextMenuItem } from "core-components/op-context-menu/op-context-menu.types";
 
 @Component({
   selector: 'icon-triggered-context-menu',
@@ -62,19 +62,19 @@ export class IconTriggeredContextMenuComponent extends OpContextMenuTrigger {
    * @param {Event} openerEvent
    */
   public positionArgs(evt:JQuery.TriggeredEvent) {
-    let additionalPositionArgs = {
+    const additionalPositionArgs = {
       my: 'right top',
       at: 'right bottom'
     };
 
-    let position = super.positionArgs(evt);
+    const position = super.positionArgs(evt);
     _.assign(position, additionalPositionArgs);
 
     return position;
   }
 
   private async buildItems() {
-    let items:OpContextMenuItem[] = [];
+    const items:OpContextMenuItem[] = [];
 
     // Add action specific menu entries
     if (this.menuItems) {

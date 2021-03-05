@@ -1,14 +1,14 @@
-import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {multiInput, MultiInputState, StatesGroup} from 'reactivestates';
-import {Injectable} from "@angular/core";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
-import {Observable} from "rxjs";
-import {map, take, tap} from "rxjs/operators";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import { RelationResource } from 'core-app/modules/hal/resources/relation-resource';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { multiInput, MultiInputState, StatesGroup } from 'reactivestates';
+import { Injectable } from "@angular/core";
+import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
+import { Observable } from "rxjs";
+import { map, take, tap } from "rxjs/operators";
+import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
 
 export type RelationsStateValue = { [relationId:string]:RelationResource };
 
@@ -41,7 +41,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * @param id The state to require
    * @param force Load the value anyway.
    */
-  public require(id:string, force:boolean = false):Promise<RelationsStateValue> {
+  public require(id:string, force = false):Promise<RelationsStateValue> {
     return this
       .requireAndStream(id, force)
       .pipe(
@@ -59,7 +59,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * @param id The state to require
    * @param force Load the value anyway.
    */
-  public requireAndStream(id:string, force:boolean = false):Observable<RelationsStateValue> {
+  public requireAndStream(id:string, force = false):Observable<RelationsStateValue> {
     // Refresh when stale or being forced
     if (this.stale(id) || force) {
       this.clearAndLoad(
@@ -156,8 +156,8 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   }
 
   public addCommonRelation(fromId:string,
-                           relationType:string,
-                           relatedWpId:string) {
+    relationType:string,
+    relatedWpId:string) {
     const params = {
       _links: {
         from: { href: this.apiV3Service.work_packages.id(fromId).toString() },
@@ -186,7 +186,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
         value[relation.id!] = relation;
         return value;
       }, () => {
-        let value:RelationsStateValue = {};
+        const value:RelationsStateValue = {};
         value[relation.id!] = relation;
         return value;
       });

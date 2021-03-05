@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {AttributeHelpTextsService} from './attribute-help-text.service';
+import { AttributeHelpTextsService } from './attribute-help-text.service';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -36,9 +36,9 @@ import {
   Input,
   OnInit
 } from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {OpModalService} from 'core-app/modules/modal/modal.service';
-import {AttributeHelpTextModal} from "core-app/modules/fields/help-texts/attribute-help-text.modal";
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { OpModalService } from 'core-app/modules/modal/modal.service';
+import { AttributeHelpTextModal } from "core-app/modules/fields/help-texts/attribute-help-text.modal";
 
 export const attributeHelpTextSelector = 'attribute-help-text';
 
@@ -57,7 +57,7 @@ export class AttributeHelpTextComponent implements OnInit {
   // Load single id entry if given
   @Input() public helpTextId?:string;
 
-  public exists:boolean = false;
+  public exists = false;
 
   readonly text = {
     open_dialog: this.I18n.t('js.help_texts.show_modal'),

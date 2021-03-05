@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {HTTPSupportedMethods} from "core-app/modules/hal/http/http.interfaces";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { HTTPSupportedMethods } from "core-app/modules/hal/http/http.interfaces";
+import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
 
 export interface HalLinkInterface {
   href:string|null;
@@ -98,7 +98,7 @@ export class HalLink implements HalLinkInterface {
 
     let href = _.clone(this.href) || '';
     _.each(templateValues, (value:string, key:string) => {
-      let regexp = new RegExp('{' + key + '}');
+      const regexp = new RegExp('{' + key + '}');
       href = href.replace(regexp, value);
     });
 

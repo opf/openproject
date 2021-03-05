@@ -25,14 +25,14 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
 
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {UserResource} from "core-app/modules/hal/resources/user-resource";
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {TimezoneService} from "core-components/datetime/timezone.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { UserResource } from "core-app/modules/hal/resources/user-resource";
+import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
+import { TimezoneService } from "core-components/datetime/timezone.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'revision-activity',
@@ -78,7 +78,7 @@ export class RevisionActivityComponent implements OnInit {
     link.title = this.revision;
     link.textContent = this.I18n.t(
       "js.label_committed_link",
-      {revision_identifier: formattedRevision}
+      { revision_identifier: formattedRevision }
     );
 
     this.revisionLink = this.I18n.t("js.label_committed_at",
@@ -103,7 +103,7 @@ export class RevisionActivityComponent implements OnInit {
           this.userActive = user.isActive;
           this.userAvatar = user.avatar;
           this.userPath = user.showUser.href;
-          this.userLabel = this.I18n.t('js.label_author', {user: this.userName});
+          this.userLabel = this.I18n.t('js.label_author', { user: this.userName });
           this.cdRef.detectChanges();
         });
     }

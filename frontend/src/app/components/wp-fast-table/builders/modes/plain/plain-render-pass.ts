@@ -1,7 +1,7 @@
-import {Injector} from '@angular/core';
-import {WorkPackageTable} from '../../../wp-fast-table';
-import {PrimaryRenderPass} from '../../primary-render-pass';
-import {SingleRowBuilder} from '../../rows/single-row-builder';
+import { Injector } from '@angular/core';
+import { WorkPackageTable } from '../../../wp-fast-table';
+import { PrimaryRenderPass } from '../../primary-render-pass';
+import { SingleRowBuilder } from '../../rows/single-row-builder';
 
 export class PlainRenderPass extends PrimaryRenderPass {
 
@@ -17,8 +17,8 @@ export class PlainRenderPass extends PrimaryRenderPass {
    */
   protected doRender():void {
     this.workPackageTable.originalRows.forEach((wpId:string) => {
-      let row = this.workPackageTable.originalRowIndex[wpId];
-      let [tr,] = this.rowBuilder.buildEmpty(row.object);
+      const row = this.workPackageTable.originalRowIndex[wpId];
+      const [tr,] = this.rowBuilder.buildEmpty(row.object);
       row.element = tr;
       this.appendRow(row.object, tr);
       this.tableBody.appendChild(tr);

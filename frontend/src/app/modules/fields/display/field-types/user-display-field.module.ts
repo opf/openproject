@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {UserAvatarRendererService} from "core-components/user/user-avatar/user-avatar-renderer.service";
+import { DisplayField } from "core-app/modules/fields/display/display-field.module";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { UserAvatarRendererService } from "core-components/user/user-avatar/user-avatar-renderer.service";
 
 export class UserDisplayField extends DisplayField {
   @InjectField() avatarRenderer:UserAvatarRendererService;

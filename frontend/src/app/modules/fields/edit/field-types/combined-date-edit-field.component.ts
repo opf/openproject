@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, OnDestroy, OnInit} from "@angular/core";
-import {TimezoneService} from "core-components/datetime/timezone.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
-import {OpModalService} from "core-app/modules/modal/modal.service";
-import {take} from "rxjs/operators";
-import {DateEditFieldComponent} from "core-app/modules/fields/edit/field-types/date-edit-field.component";
-import {OpModalComponent} from "core-app/modules/modal/modal.component";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { TimezoneService } from "core-components/datetime/timezone.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { DatePickerModal } from "core-components/datepicker/datepicker.modal";
+import { OpModalService } from "core-app/modules/modal/modal.service";
+import { take } from "rxjs/operators";
+import { DateEditFieldComponent } from "core-app/modules/fields/edit/field-types/date-edit-field.component";
+import { OpModalComponent } from "core-app/modules/modal/modal.component";
 
 @Component({
   template: `
@@ -46,7 +46,7 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
   @InjectField() readonly timezoneService:TimezoneService;
   @InjectField() opModalService:OpModalService;
 
-  dates:string = '';
+  dates = '';
   text_no_start_date = this.I18n.t('js.label_no_start_date');
   text_no_due_date = this.I18n.t('js.label_no_due_date');
 

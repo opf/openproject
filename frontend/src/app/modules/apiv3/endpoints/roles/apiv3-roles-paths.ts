@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {APIv3ResourceCollection, APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {Injector} from "@angular/core";
-import {RoleResource} from "core-app/modules/hal/resources/role-resource";
-import {APIv3RolePaths} from "core-app/modules/apiv3/endpoints/roles/apiv3-role-paths";
-import {Observable} from "rxjs";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {tap} from "rxjs/operators";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { APIv3ResourceCollection, APIv3ResourcePath } from "core-app/modules/apiv3/paths/apiv3-resource";
+import { Injector } from "@angular/core";
+import { RoleResource } from "core-app/modules/hal/resources/role-resource";
+import { APIv3RolePaths } from "core-app/modules/apiv3/endpoints/roles/apiv3-role-paths";
+import { Observable } from "rxjs";
+import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
+import { tap } from "rxjs/operators";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 export class APIv3RolesPaths extends APIv3ResourceCollection<RoleResource, APIv3RolePaths> {
   constructor(protected apiRoot:APIV3Service,

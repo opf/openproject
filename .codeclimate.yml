@@ -37,23 +37,13 @@ plugins:
     enabled: false
   eslint:
     enabled: true
-    checks:
-      no-unused-expressions:
-        enabled: false
+    channel: "eslint-7"
+    config:
+      config: frontend/.eslintrc.js
   csslint:
     enabled: true
   scsslint:
     enabled: true
-  tslint:
-    enabled: true
-    config: tslint.json
-    checks:
-      # Disable whitespace due to 3.7 incompatibiltiy with ? navigation
-      whitespace:
-        enabled: false
-      # Disable difference in import styles until we migrate to eslint
-      quotemark:
-        enabled: false
   fixme:
     enabled: true
 ratings:

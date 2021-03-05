@@ -26,19 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectorRef, Component, ElementRef, Inject, ViewChild} from "@angular/core";
-import {OpModalComponent} from "core-app/modules/modal/modal.component";
-import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
-import {OpModalLocalsMap} from "core-app/modules/modal/modal.types";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {BoardType} from "core-app/modules/boards/board/board";
-import {StateService} from "@uirouter/core";
-import {BoardService} from "core-app/modules/boards/board/board.service";
-import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
-import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {ITileViewEntry} from '../tile-view/tile-view.component';
-import {ImageHelpers} from "core-app/helpers/images/path-helper";
+import { ChangeDetectorRef, Component, ElementRef, Inject, ViewChild } from "@angular/core";
+import { OpModalComponent } from "core-app/modules/modal/modal.component";
+import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { OpModalLocalsMap } from "core-app/modules/modal/modal.types";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { BoardType } from "core-app/modules/boards/board/board";
+import { StateService } from "@uirouter/core";
+import { BoardService } from "core-app/modules/boards/board/board.service";
+import { BoardActionsRegistryService } from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
+import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { ITileViewEntry } from '../tile-view/tile-view.component';
+import { ImageHelpers } from "core-app/helpers/images/path-helper";
 import imagePath = ImageHelpers.imagePath;
 
 
@@ -48,7 +48,7 @@ import imagePath = ImageHelpers.imagePath;
 export class NewBoardModalComponent extends OpModalComponent {
   @ViewChild('actionAttributeSelect', { static: true }) actionAttributeSelect:ElementRef;
 
-  public showClose:boolean = true;
+  public showClose = true;
 
   public confirmed = false;
 

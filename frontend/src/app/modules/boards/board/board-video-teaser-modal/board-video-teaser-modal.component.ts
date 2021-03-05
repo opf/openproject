@@ -1,10 +1,10 @@
-import {ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit} from '@angular/core';
-import {OpModalLocalsMap} from 'core-app/modules/modal/modal.types';
-import {OpModalComponent} from 'core-app/modules/modal/modal.component';
-import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {boardTeaserVideoURL} from "core-app/modules/boards/board-constants.const";
-import {DomSanitizer} from "@angular/platform-browser";
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit } from '@angular/core';
+import { OpModalLocalsMap } from 'core-app/modules/modal/modal.types';
+import { OpModalComponent } from 'core-app/modules/modal/modal.component';
+import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { boardTeaserVideoURL } from "core-app/modules/boards/board-constants.const";
+import { DomSanitizer } from "@angular/platform-browser";
 
 
 @Component({
@@ -15,7 +15,7 @@ import {DomSanitizer} from "@angular/platform-browser";
            tabindex="0">
         <div class="op-modal--modal-header">
           <h3 [textContent]="text.title"></h3>
-          
+
           <a class="op-modal--modal-close-button">
             <i
               class="icon-close"

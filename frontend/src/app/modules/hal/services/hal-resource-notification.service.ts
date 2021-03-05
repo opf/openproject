@@ -26,17 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
-import {StateService} from '@uirouter/core';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {Injectable, Injector} from '@angular/core';
-import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
-import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {HttpErrorResponse} from "@angular/common/http";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import { ErrorResource } from 'core-app/modules/hal/resources/error-resource';
+import { StateService } from '@uirouter/core';
+import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { Injectable, Injector } from '@angular/core';
+import { LoadingIndicatorService } from 'core-app/modules/common/loading-indicator/loading-indicator.service';
+import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { HttpErrorResponse } from "@angular/common/http";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 
 @Injectable()
 export class HalResourceNotificationService {
@@ -51,8 +51,8 @@ export class HalResourceNotificationService {
   constructor(public injector:Injector) {
   }
 
-  public showSave(resource:HalResource, isCreate:boolean = false) {
-    let message:any = {
+  public showSave(resource:HalResource, isCreate = false) {
+    const message:any = {
       message: this.I18n.t('js.notice_successful_' + (isCreate ? 'create' : 'update')),
     };
 
@@ -166,7 +166,7 @@ export class HalResourceNotificationService {
   public showEditingBlockedError(attribute:string) {
     this.NotificationsService.addError(this.I18n.t(
       'js.hal.error.edit_prohibited',
-      {attribute: attribute}
+      { attribute: attribute }
     ));
   }
 
@@ -174,17 +174,17 @@ export class HalResourceNotificationService {
 
     if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:PropertyFormatError') {
 
-      let schema = this.schemaCache.of(resource).ofProperty(errorResource.details.attribute);
-      let attributeName = schema.name;
-      let attributeType = schema.type.toLowerCase();
-      let i18nString = 'js.hal.error.format.' + attributeType;
+      const schema = this.schemaCache.of(resource).ofProperty(errorResource.details.attribute);
+      const attributeName = schema.name;
+      const attributeType = schema.type.toLowerCase();
+      const i18nString = 'js.hal.error.format.' + attributeType;
 
       if (this.I18n.lookup(i18nString) === undefined) {
         return false;
       }
 
       this.NotificationsService.addError(this.I18n.t(i18nString,
-        {attribute: attributeName}));
+        { attribute: attributeName }));
 
       return true;
     }
@@ -192,7 +192,7 @@ export class HalResourceNotificationService {
   }
 
   protected showApiErrorMessages(errorResource:any) {
-    let messages = errorResource.errorMessages;
+    const messages = errorResource.errorMessages;
 
     if (messages.length > 1) {
       this.NotificationsService.addError('', messages);

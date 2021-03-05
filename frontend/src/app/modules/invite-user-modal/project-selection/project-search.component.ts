@@ -4,13 +4,13 @@ import {
   OnInit,
   ElementRef,
 } from '@angular/core';
-import {FormControl, NgControl} from "@angular/forms";
-import {Observable, Subject} from "rxjs";
-import {debounceTime, distinctUntilChanged, filter, map, switchMap, tap} from "rxjs/operators";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import { FormControl, NgControl } from "@angular/forms";
+import { Observable, Subject } from "rxjs";
+import { debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from "rxjs/operators";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { ApiV3FilterBuilder } from "core-components/api/api-v3/api-v3-filter-builder";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Component({
   selector: 'op-ium-project-search',

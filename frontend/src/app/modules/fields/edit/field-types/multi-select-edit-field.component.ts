@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {Component, OnInit, ViewChild} from "@angular/core";
-import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
-import {ValueOption} from "core-app/modules/fields/edit/field-types/select-edit-field.component";
-import {NgSelectComponent} from "@ng-select/ng-select";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { EditFieldComponent } from "core-app/modules/fields/edit/edit-field.component";
+import { ValueOption } from "core-app/modules/fields/edit/field-types/select-edit-field.component";
+import { NgSelectComponent } from "@ng-select/ng-select";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 @Component({
   templateUrl: './multi-select-edit-field.component.html'
@@ -54,7 +54,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   public appendTo:any = null;
   private hiddenOverflowContainer = '.__hidden_overflow_container';
 
-  public currentValueInvalid:boolean = false;
+  public currentValueInvalid = false;
   private nullOption:ValueOption;
   private _selectedOption:ValueOption[];
 
@@ -107,8 +107,8 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
    */
   public set selectedOption(val:ValueOption[]) {
     this._selectedOption = val;
-    let mapper = (val:ValueOption) => {
-      let option = _.find(this.availableOptions, o => o.$href === val.$href) || this.nullOption;
+    const mapper = (val:ValueOption) => {
+      const option = _.find(this.availableOptions, o => o.$href === val.$href) || this.nullOption;
 
       // Special case 'null' value, which angular
       // only understands in ng-options as an empty string.
@@ -141,7 +141,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   private openAutocompleteSelectField() {
     // The timeout takes care that the opening is added to the end of the current call stack.
     // Thus we can be sure that the autocompleter is rendered and ready to be opened.
-    let that = this;
+    const that = this;
     window.setTimeout(function () {
       that.ngSelectComponent.open();
     }, 0);
@@ -157,11 +157,11 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     return result || this.nullOption;
   }
 
-  private setValues(availableValues:any[], sortValuesByName:boolean = false) {
+  private setValues(availableValues:any[], sortValuesByName = false) {
     if (sortValuesByName) {
       availableValues.sort(function (a:any, b:any) {
-        let nameA = a.name.toLowerCase();
-        let nameB = b.name.toLowerCase();
+        const nameA = a.name.toLowerCase();
+        const nameB = b.name.toLowerCase();
         return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
       });
     }
@@ -185,7 +185,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   }
 
   private loadValues() {
-    let allowedValues = this.schema.allowedValues;
+    const allowedValues = this.schema.allowedValues;
     if (Array.isArray(allowedValues)) {
       this.setValues(allowedValues);
     } else if (this.schema.allowedValues) {
@@ -209,7 +209,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
         // (If value AND)
         // MultiSelect AND there is no value which href is not in the options hrefs
         (!_.some(this.value, (value:HalResource) => {
-          return _.some(this.availableOptions, (option) => (option.$href === value.$href))
+          return _.some(this.availableOptions, (option) => (option.$href === value.$href));
         }))
       );
     } else {

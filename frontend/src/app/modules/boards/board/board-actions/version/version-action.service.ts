@@ -1,19 +1,19 @@
-import {Injectable} from "@angular/core";
-import {Board} from "core-app/modules/boards/board/board";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {VersionResource} from "core-app/modules/hal/resources/version-resource";
-import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
-import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
-import {StateService} from "@uirouter/core";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {VersionBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/version/version-board-header.component";
-import {FormResource} from "core-app/modules/hal/resources/form-resource";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {CachedBoardActionService} from "core-app/modules/boards/board/board-actions/cached-board-action.service";
-import {ImageHelpers} from "core-app/helpers/images/path-helper";
-import {VersionAutocompleterComponent} from "core-app/modules/autocompleter/version-autocompleter/version-autocompleter.component";
+import { Injectable } from "@angular/core";
+import { Board } from "core-app/modules/boards/board/board";
+import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { BoardActionService } from "core-app/modules/boards/board/board-actions/board-action.service";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { VersionResource } from "core-app/modules/hal/resources/version-resource";
+import { OpContextMenuItem } from "core-components/op-context-menu/op-context-menu.types";
+import { LinkHandling } from "core-app/modules/common/link-handling/link-handling";
+import { StateService } from "@uirouter/core";
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { VersionBoardHeaderComponent } from "core-app/modules/boards/board/board-actions/version/version-board-header.component";
+import { FormResource } from "core-app/modules/hal/resources/form-resource";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { CachedBoardActionService } from "core-app/modules/boards/board/board-actions/cached-board-action.service";
+import { ImageHelpers } from "core-app/helpers/images/path-helper";
+import { VersionAutocompleterComponent } from "core-app/modules/autocompleter/version-autocompleter/version-autocompleter.component";
 
 @Injectable()
 export class BoardVersionActionService extends CachedBoardActionService {
@@ -131,7 +131,7 @@ export class BoardVersionActionService extends CachedBoardActionService {
       .patch({ status: newStatus })
       .subscribe(
         version => {
-        this.state.go('.', {}, { reload: true });
+          this.state.go('.', {}, { reload: true });
         },
         error => this.halNotification.handleRawError(error)
       );

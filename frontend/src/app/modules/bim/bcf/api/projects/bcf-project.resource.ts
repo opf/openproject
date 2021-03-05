@@ -1,4 +1,4 @@
-import {jsonMember, jsonObject} from "typedjson";
+import { jsonMember, jsonObject } from "typedjson";
 
 @jsonObject
 export class BcfProjectResource {

@@ -27,10 +27,10 @@
 //++
 
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {UserAvatarComponent} from "core-components/user/user-avatar/user-avatar.component";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {States} from "core-components/states.service";
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { UserAvatarComponent } from "core-components/user/user-avatar/user-avatar.component";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { States } from "core-components/states.service";
 
 describe('UserAvatar component test', () => {
   let app:UserAvatarComponent;

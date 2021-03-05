@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
-import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
-import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
-import {BannersService} from "core-app/modules/common/enterprise/banners.service";
-import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { QueryFilterResource } from 'core-app/modules/hal/resources/query-filter-resource';
+import { AngularTrackingHelpers } from 'core-components/angular/tracking-functions';
+import { QueryFilterInstanceResource } from "core-app/modules/hal/resources/query-filter-instance-resource";
+import { BannersService } from "core-app/modules/common/enterprise/banners.service";
+import { WorkPackageViewFiltersService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { CurrentProjectService } from 'core-app/components/projects/current-project.service';
 
 @Component({
@@ -41,14 +41,14 @@ import { CurrentProjectService } from 'core-app/components/projects/current-proj
   templateUrl: './query-filter.component.html'
 })
 export class QueryFilterComponent implements OnInit {
-  @Input() public shouldFocus:boolean = false;
+  @Input() public shouldFocus = false;
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new EventEmitter<QueryFilterResource>();
   @Output() public deactivateFilter = new EventEmitter<QueryFilterResource>();
 
   public availableOperators:any;
-  public showValuesInput:boolean = false;
-  public eeShowBanners:boolean = false;
+  public showValuesInput = false;
+  public eeShowBanners = false;
   public trackByHref = AngularTrackingHelpers.halHref;
   public compareByHref = AngularTrackingHelpers.compareByHref;
 

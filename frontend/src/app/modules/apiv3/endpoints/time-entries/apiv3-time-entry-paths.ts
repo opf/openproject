@@ -26,17 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
-import {CachableAPIV3Resource} from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
-import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
-import {MultiInputState} from "reactivestates";
-import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {Observable} from "rxjs";
-import {tap} from "rxjs/operators";
-import {Apiv3TimeEntriesPaths} from "core-app/modules/apiv3/endpoints/time-entries/apiv3-time-entries-paths";
-import {HalPayloadHelper} from "core-app/modules/hal/schemas/hal-payload.helper";
+import { TimeEntryResource } from "core-app/modules/hal/resources/time-entry-resource";
+import { CachableAPIV3Resource } from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
+import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
+import { MultiInputState } from "reactivestates";
+import { APIv3FormResource } from "core-app/modules/apiv3/forms/apiv3-form-resource";
+import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { Observable } from "rxjs";
+import { tap } from "rxjs/operators";
+import { Apiv3TimeEntriesPaths } from "core-app/modules/apiv3/endpoints/time-entries/apiv3-time-entries-paths";
+import { HalPayloadHelper } from "core-app/modules/hal/schemas/hal-payload.helper";
 
 export class Apiv3TimeEntryPaths extends CachableAPIV3Resource<TimeEntryResource> {
   // Static paths

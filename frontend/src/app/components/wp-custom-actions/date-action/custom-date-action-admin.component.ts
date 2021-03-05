@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ApplicationRef, ChangeDetectorRef, Component, ElementRef, OnInit} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import { ApplicationRef, ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 
 
 export const customDateActionAdminSelector = 'custom-date-action-admin';
@@ -48,8 +48,8 @@ export class CustomDateActionAdminComponent implements OnInit {
   private currentFieldValue = '%CURRENT_DATE%';
 
   public operators = [
-    {key: this.onKey, label: this.I18n.t('js.custom_actions.date.specific')},
-    {key: this.currentKey, label: this.I18n.t('js.custom_actions.date.current_date')}
+    { key: this.onKey, label: this.I18n.t('js.custom_actions.date.specific') },
+    { key: this.currentKey, label: this.I18n.t('js.custom_actions.date.current_date') }
   ];
 
   constructor(private elementRef:ElementRef,
@@ -93,9 +93,9 @@ export class CustomDateActionAdminComponent implements OnInit {
     // replace all square brackets by underscore
     // to match the label's for value
     return this.fieldName
-               .replace(/\[|\]/g, '_')
-               .replace('__', '_')
-               .replace(/_$/, '');
+      .replace(/\[|\]/g, '_')
+      .replace('__', '_')
+      .replace(/_$/, '');
   }
 
   updateField(val:string) {

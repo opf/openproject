@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectorRef, Component, ElementRef, OnInit} from "@angular/core";
-import {distinctUntilChanged} from "rxjs/operators";
-import {I18nService} from "app/modules/common/i18n/i18n.service";
-import {EnterpriseTrialService} from "app/components/enterprise/enterprise-trial.service";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {EEActiveTrialBase} from "core-components/enterprise/enterprise-active-trial/ee-active-trial.base";
-import {GonService} from "core-app/modules/common/gon/gon.service";
+import { ChangeDetectorRef, Component, ElementRef, OnInit } from "@angular/core";
+import { distinctUntilChanged } from "rxjs/operators";
+import { I18nService } from "app/modules/common/i18n/i18n.service";
+import { EnterpriseTrialService } from "app/components/enterprise/enterprise-trial.service";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { EEActiveTrialBase } from "core-components/enterprise/enterprise-active-trial/ee-active-trial.base";
+import { GonService } from "core-app/modules/common/gon/gon.service";
 
 @Component({
   selector: 'enterprise-active-trial',
@@ -75,7 +75,7 @@ export class EEActiveTrialComponent extends EEActiveTrialBase implements OnInit 
   }
 
   private initialize():void {
-    let eeTrialKey = this.Gon.get('ee_trial_key') as any;
+    const eeTrialKey = this.Gon.get('ee_trial_key') as any;
 
     if (eeTrialKey && !this.eeTrialService.userData$.hasValue()) {
       // after reload: get data from Augur using the trial key saved in gon

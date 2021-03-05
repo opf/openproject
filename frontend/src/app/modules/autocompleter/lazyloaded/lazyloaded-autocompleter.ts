@@ -182,10 +182,10 @@ export namespace LazyLoadedAutocompleter {
 
       // Rener the menu for the current page
       _renderMenuPage(this:any, ul:JQuery, items:IAutocompleteItem<T>[], page:number|null = null) {
-        let widget = this;
+        const widget = this;
         let rendered:number = items.length;
         let pageElements = items;
-        let max = ctrl.maxItemsPerPage;
+        const max = ctrl.maxItemsPerPage;
         if (page !== null) {
           pageElements = items.slice(page * max, (page * max) + max);
           rendered = Math.min(items.length, (page * max) + max);
@@ -226,7 +226,7 @@ export namespace LazyLoadedAutocompleter {
         // Call ui's own resize
         widget._resizeMenu();
 
-        container.position(jQuery.extend({of: widget.element}, widget.options.position));
+        container.position(jQuery.extend({ of: widget.element }, widget.options.position));
         if (widget.options.autoFocus) {
           menu.next(new jQuery.Event('mouseover'));
         }
@@ -251,7 +251,7 @@ export namespace LazyLoadedAutocompleter {
           .appendTo(ul);
 
         if (term !== '') {
-          (element as any).mark(term, {className: 'ui-autocomplete-match'});
+          (element as any).mark(term, { className: 'ui-autocomplete-match' });
         }
 
         return element;

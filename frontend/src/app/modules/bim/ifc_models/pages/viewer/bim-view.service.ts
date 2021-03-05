@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable, OnDestroy} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {Observable} from "rxjs";
-import {StateService, TransitionService} from "@uirouter/core";
-import {input} from "reactivestates";
-import {takeUntil} from "rxjs/operators";
+import { Injectable, OnDestroy } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { Observable } from "rxjs";
+import { StateService, TransitionService } from "@uirouter/core";
+import { input } from "reactivestates";
+import { takeUntil } from "rxjs/operators";
 
 
 export const bimListViewIdentifier = 'list';
@@ -90,18 +90,18 @@ export class BimViewService implements OnDestroy {
   public currentViewerState():BimViewState {
     if (this.state.includes('bim.partitioned.list')) {
       return this.state.params?.cards ?
-              bimListViewIdentifier :
-              bimTableViewIdentifier;
+        bimListViewIdentifier :
+        bimTableViewIdentifier;
     } else if (this.state.includes('bim.**.model')) {
       return bimViewerViewIdentifier;
     } else if (this.state.includes('bim.partitioned.show')) {
       return this.state.params?.cards || this.state.params?.cards == null ?
-              bimListViewIdentifier :
-              bimTableViewIdentifier;
+        bimListViewIdentifier :
+        bimTableViewIdentifier;
     } else {
       return this.state.params?.cards || this.state.params?.cards == null ?
-              bimSplitViewCardsIdentifier :
-              bimSplitViewListIdentifier;
+        bimSplitViewCardsIdentifier :
+        bimSplitViewListIdentifier;
     }
   }
 

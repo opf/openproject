@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, ViewChild} from "@angular/core";
-import {OpModalLocalsMap} from "core-app/modules/modal/modal.types";
-import {OpModalComponent} from "core-app/modules/modal/modal.component";
-import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, ViewChild } from "@angular/core";
+import { OpModalLocalsMap } from "core-app/modules/modal/modal.types";
+import { OpModalComponent } from "core-app/modules/modal/modal.component";
+import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   templateUrl: './code-block-macro.modal.html'
@@ -46,7 +46,7 @@ export class CodeBlockMacroModal extends OpModalComponent implements AfterViewIn
   public languageClass:string;
 
   // Language string, e.g, 'ruby'
-  public _language:string = '';
+  public _language = '';
   public content:string;
 
   // Codemirror instance

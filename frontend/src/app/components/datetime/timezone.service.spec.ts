@@ -28,21 +28,21 @@
 
 /*jshint expr: true*/
 
-import {TestBed} from '@angular/core/testing';
-import {HttpClientModule} from '@angular/common/http';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {TimezoneService} from 'core-components/datetime/timezone.service';
+import { TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { TimezoneService } from 'core-components/datetime/timezone.service';
 
 describe('TimezoneService', function () {
 
-  let TIME = '2013-02-08T09:30:26';
-  let DATE = '2013-02-08';
+  const TIME = '2013-02-08T09:30:26';
+  const DATE = '2013-02-08';
   let timezoneService:TimezoneService;
 
-  let compile = (timezone?:string) => {
-    let ConfigurationServiceStub = {
+  const compile = (timezone?:string) => {
+    const ConfigurationServiceStub = {
       isTimezoneSet: () => !!timezone,
       timezone: () => timezone
     };
@@ -89,7 +89,7 @@ describe('TimezoneService', function () {
     describe('Non-UTC timezone', function () {
 
       it('is in the given timezone' , function () {
-        let date = timezoneService.parseDatetime(TIME);
+        const date = timezoneService.parseDatetime(TIME);
         expect(date.format('HH:mm')).toEqual('01:30');
       });
 

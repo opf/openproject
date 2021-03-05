@@ -13,26 +13,26 @@ import {
   Optional,
   ViewChild
 } from '@angular/core';
-import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {WorkPackageViewColumnsService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
-import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { WorkPackageViewColumnsService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { WpTableConfigurationService } from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {
   ActiveTabInterface,
   TabComponent,
   TabInterface,
   TabPortalOutlet
 } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
-import {WorkPackageStatesInitializationService} from 'core-components/wp-list/wp-states-initialization.service';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
-import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
-import {OpModalComponent} from 'core-app/modules/modal/modal.component';
-import {OpModalLocalsMap} from 'core-app/modules/modal/modal.types';
-import {ComponentType} from "@angular/cdk/portal";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { WorkPackageStatesInitializationService } from 'core-components/wp-list/wp-states-initialization.service';
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { QueryFormResource } from 'core-app/modules/hal/resources/query-form-resource';
+import { LoadingIndicatorService } from 'core-app/modules/common/loading-indicator/loading-indicator.service';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { OpModalComponent } from 'core-app/modules/modal/modal.component';
+import { OpModalLocalsMap } from 'core-app/modules/modal/modal.types';
+import { ComponentType } from "@angular/cdk/portal";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
 
@@ -160,10 +160,10 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
       .load(query)
       .toPromise()
       .then(([form, _]) => {
-          this.wpStatesInitialization.updateStatesFromForm(query, form);
+        this.wpStatesInitialization.updateStatesFromForm(query, form);
 
-          return form;
-        })
+        return form;
+      })
       .catch((error) => this.notificationService.handleRawError(error));
   }
 }

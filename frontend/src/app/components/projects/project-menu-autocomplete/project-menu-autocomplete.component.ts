@@ -26,17 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
 import {
   IAutocompleteItem,
   ILazyAutocompleterBridge
 } from 'core-app/modules/autocompleter/lazyloaded/lazyloaded-autocompleter';
-import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
-import {LinkHandling} from 'core-app/modules/common/link-handling/link-handling';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {HttpClient} from "@angular/common/http";
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit} from "@angular/core";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
+import { keyCodes } from 'core-app/modules/common/keyCodes.enum';
+import { LinkHandling } from 'core-app/modules/common/link-handling/link-handling';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { HttpClient } from "@angular/common/http";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit } from "@angular/core";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
 
 export interface IProjectMenuEntry {
   id:number;
@@ -109,7 +109,7 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
   public open() {
     this.$element.find('.project-search-results').css('visibility', 'visible');
     this.loadProjects().then((results:IProjectMenuEntry[]) => {
-      let autocompleteValues = _.map(results, project => {
+      const autocompleteValues = _.map(results, project => {
         return { label: project.name, render: 'match', object: project } as ProjectAutocompleteItem;
       });
 
@@ -266,7 +266,7 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
    *
    */
   protected addClickHandler() {
-    var touchMoved:boolean = false;
+    var touchMoved = false;
     this.$element
       .find('.project-menu-autocomplete--results')
       .on('click', '.ui-menu-item a', (evt:JQuery.TriggeredEvent) => {
@@ -284,10 +284,10 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
           window.location.href = (evt.target as HTMLAnchorElement).href;
         }
       }).on('touchmove', '.ui-menu-item a', function () {
-      touchMoved = true;
-    }).on('touchstart', '.ui-menu-item a', function () {
-      touchMoved = false;
-    });
+        touchMoved = true;
+      }).on('touchstart', '.ui-menu-item a', function () {
+        touchMoved = false;
+      });
   }
 
   protected setupParams(autocompleteValues:ProjectAutocompleteItem[]) {
@@ -300,25 +300,25 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
     };
     params.position = {
       of: '.project-menu-autocomplete--input-container'
-    }
+    };
 
     return params;
   }
 
   private scrollCurrentProjectIntoView() {
-    let currentProject:HTMLElement|null = document.querySelector('.ui-menu-item-wrapper.selected');
+    const currentProject:HTMLElement|null = document.querySelector('.ui-menu-item-wrapper.selected');
 
     // It can happen that no project is selected yet initially.
     if (!currentProject) {
       return;
     }
 
-    let currentProjectHeight = currentProject.offsetHeight;
-    let scrollableContainer = document.getElementsByClassName('project-menu-autocomplete--results')[0];
+    const currentProjectHeight = currentProject.offsetHeight;
+    const scrollableContainer = document.getElementsByClassName('project-menu-autocomplete--results')[0];
 
     // Scroll current project to top of the list and
     // substract half the container width again to center it vertically
-    let scrollValue = currentProject.offsetTop -
+    const scrollValue = currentProject.offsetTop -
       (scrollableContainer as HTMLElement).offsetHeight / 2 +
       currentProjectHeight / 2;
 

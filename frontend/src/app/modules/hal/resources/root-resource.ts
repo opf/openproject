@@ -27,8 +27,8 @@
 //++
 
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {UserResource} from 'core-app/modules/hal/resources/user-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { UserResource } from 'core-app/modules/hal/resources/user-resource';
 
 export class RootResource extends HalResource {
 

@@ -26,18 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {ExpressionService} from "../../../../../../common/expression.service";
-import {ApplicationRef} from "@angular/core";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { DisplayField } from "core-app/modules/fields/display/display-field.module";
+import { ExpressionService } from "../../../../../../common/expression.service";
+import { ApplicationRef } from "@angular/core";
+import { DynamicBootstrapper } from "core-app/globals/dynamic-bootstrapper";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export class FormattableDisplayField extends DisplayField {
 
   @InjectField() readonly appRef:ApplicationRef;
 
   public render(element:HTMLElement, displayText:string, options:any = {}):void {
-    let div = document.createElement('div');
+    const div = document.createElement('div');
 
     div.classList.add(
       'read-value--html',

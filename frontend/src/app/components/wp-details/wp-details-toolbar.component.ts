@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {Component, Input} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { Component, Input } from '@angular/core';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 
 @Component({
   selector: 'wp-details-toolbar',
@@ -40,8 +40,8 @@ export class WorkPackageSplitViewToolbarComponent {
 
   public text = {
     button_more: this.I18n.t('js.button_more')
-  }
+  };
 
-constructor(readonly I18n:I18nService,
+  constructor(readonly I18n:I18nService,
             readonly halEditing:HalResourceEditingService) {}
 }

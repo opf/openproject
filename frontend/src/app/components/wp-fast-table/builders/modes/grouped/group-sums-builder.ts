@@ -1,12 +1,12 @@
-import {GroupObject} from 'core-app/modules/hal/resources/wp-collection-resource';
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {SingleRowBuilder} from "core-components/wp-fast-table/builders/rows/single-row-builder";
-import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
-import {groupedRowClassName} from "core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
+import { GroupObject } from 'core-app/modules/hal/resources/wp-collection-resource';
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { SingleRowBuilder } from "core-components/wp-fast-table/builders/rows/single-row-builder";
+import { IFieldSchema } from "core-app/modules/fields/field.base";
+import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { DisplayFieldService } from "core-app/modules/fields/display/display-field.service";
+import { groupedRowClassName } from "core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
 
 export class GroupSumsBuilder extends SingleRowBuilder {
 

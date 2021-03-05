@@ -26,19 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {take} from 'rxjs/operators';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageCreateComponent} from 'core-components/wp-new/wp-create.component';
-import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
+import { take } from 'rxjs/operators';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageCreateComponent } from 'core-components/wp-new/wp-create.component';
+import { WorkPackageRelationsService } from "core-components/wp-relations/wp-relations.service";
 
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {Directive} from "@angular/core";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
+import { Directive } from "@angular/core";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 @Directive()
 export class WorkPackageCopyController extends WorkPackageCreateComponent {
-  private __initialized_at:Number;
+  private __initialized_at:number;
   private copiedWorkPackageId:string;
 
   /** Are we in the copying substates ? */
@@ -83,7 +83,7 @@ export class WorkPackageCopyController extends WorkPackageCreateComponent {
   }
 
   private createCopyFrom(wp:WorkPackageResource) {
-    let sourceChangeset = this.halEditing.changeFor(wp) as WorkPackageChangeset;
+    const sourceChangeset = this.halEditing.changeFor(wp) as WorkPackageChangeset;
 
     return this.wpCreate
       .copyWorkPackage(sourceChangeset)

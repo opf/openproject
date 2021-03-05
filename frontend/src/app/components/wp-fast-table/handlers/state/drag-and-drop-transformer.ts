@@ -1,24 +1,24 @@
-import {Injector} from '@angular/core';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {take, takeUntil} from "rxjs/operators";
-import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
-import {TableDragActionsRegistryService} from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
-import {TableDragActionService} from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
-import {States} from "core-components/states.service";
-import {tableRowClassName} from "core-components/wp-fast-table/builders/rows/single-row-builder";
-import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
-import {DragAndDropHelpers} from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
-import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
-import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
-import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
-import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {isInsideCollapsedGroup} from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
-import {collapsedGroupClass} from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
+import { Injector } from '@angular/core';
+import { WorkPackageTable } from '../../wp-fast-table';
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { take, takeUntil } from "rxjs/operators";
+import { WorkPackageInlineCreateService } from "core-components/wp-inline-create/wp-inline-create.service";
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { WorkPackageViewSortByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
+import { TableDragActionsRegistryService } from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
+import { TableDragActionService } from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
+import { States } from "core-components/states.service";
+import { tableRowClassName } from "core-components/wp-fast-table/builders/rows/single-row-builder";
+import { DragAndDropService } from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
+import { DragAndDropHelpers } from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
+import { WorkPackageViewOrderService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
+import { RenderedWorkPackage } from "core-app/modules/work_packages/render-info/rendered-work-package.type";
+import { BrowserDetector } from "core-app/modules/common/browser/browser-detector.service";
+import { WorkPackagesListService } from "core-components/wp-list/wp-list.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { isInsideCollapsedGroup } from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
+import { collapsedGroupClass } from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
 
 export class DragAndDropTransformer {
 
@@ -93,7 +93,7 @@ export class DragAndDropTransformer {
           this.actionService.onNewOrder(newOrder);
 
           // Save the query when switching to manual
-          let query = this.querySpace.query.value;
+          const query = this.querySpace.query.value;
           if (query && this.wpTableSortBy.switchToManualSorting(query)) {
             await this.wpListService.save(query);
           }

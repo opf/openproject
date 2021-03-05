@@ -1,27 +1,27 @@
-import {Component, ElementRef, Injector, OnInit, QueryList, ViewChild, ViewChildren} from "@angular/core";
-import {forkJoin, Observable, of, Subscription} from "rxjs";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {BoardListComponent} from "core-app/modules/boards/board/board-list/board-list.component";
-import {StateService} from "@uirouter/core";
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {BoardListsService} from "core-app/modules/boards/board/board-list/board-lists.service";
-import {OpModalService} from "core-app/modules/modal/modal.service";
-import {BoardService} from "core-app/modules/boards/board/board.service";
-import {BannersService} from "core-app/modules/common/enterprise/banners.service";
-import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
-import {QueryUpdatedService} from "core-app/modules/boards/board/query-updated/query-updated.service";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {Board, BoardWidgetOption} from "core-app/modules/boards/board/board";
-import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
-import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
-import {BoardPartitionedPageComponent} from "core-app/modules/boards/board/board-partitioned-page/board-partitioned-page.component";
-import {AddListModalComponent} from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {BoardListCrossSelectionService} from "core-app/modules/boards/board/board-list/board-list-cross-selection.service";
-import {catchError, filter, map, switchMap, tap} from "rxjs/operators";
-import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { Component, ElementRef, Injector, OnInit, QueryList, ViewChild, ViewChildren } from "@angular/core";
+import { forkJoin, Observable, of, Subscription } from "rxjs";
+import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { BoardListComponent } from "core-app/modules/boards/board/board-list/board-list.component";
+import { StateService } from "@uirouter/core";
+import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { BoardListsService } from "core-app/modules/boards/board/board-list/board-lists.service";
+import { OpModalService } from "core-app/modules/modal/modal.service";
+import { BoardService } from "core-app/modules/boards/board/board.service";
+import { BannersService } from "core-app/modules/common/enterprise/banners.service";
+import { DragAndDropService } from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
+import { QueryUpdatedService } from "core-app/modules/boards/board/query-updated/query-updated.service";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { Board, BoardWidgetOption } from "core-app/modules/boards/board/board";
+import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
+import { GridWidgetResource } from "core-app/modules/hal/resources/grid-widget-resource";
+import { BoardPartitionedPageComponent } from "core-app/modules/boards/board/board-partitioned-page/board-partitioned-page.component";
+import { AddListModalComponent } from "core-app/modules/boards/board/add-list-modal/add-list-modal.component";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { BoardListCrossSelectionService } from "core-app/modules/boards/board/board-list/board-list-cross-selection.service";
+import { catchError, filter, map, switchMap, tap } from "rxjs/operators";
+import { BoardActionsRegistryService } from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 import { WorkPackageStatesInitializationService } from 'core-app/components/wp-list/wp-states-initialization.service';
 
 @Component({
@@ -113,8 +113,8 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
         filter(() => this.state.includes(this.state.current.data.baseRoute + '.details'))
       ).subscribe(selection => {
       // Update split screen
-      this.state.go(this.state.current.data.baseRoute + '.details', { workPackageId: selection.focusedWorkPackage });
-    });
+        this.state.go(this.state.current.data.baseRoute + '.details', { workPackageId: selection.focusedWorkPackage });
+      });
   }
 
   setAllowedBoardWidgets = (boardObservable:Observable<Board>) => {
@@ -123,7 +123,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     return boardObservable
       .pipe(
         switchMap(
-          board => this.getAllowedBoardWidgets(board).pipe(map(allowedBoardWidgets => ({board, allowedBoardWidgets}))),
+          board => this.getAllowedBoardWidgets(board).pipe(map(allowedBoardWidgets => ({ board, allowedBoardWidgets }))),
         ),
         map(result => {
           this.boardWidgets = result.allowedBoardWidgets;
@@ -131,12 +131,12 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
           return result.board;
         })
       );
-  }
+  };
 
   getAllowedBoardWidgets(board:Board) {
     if (board.queries?.length) {
       const queryRequests$ = board.queries.map(query => this.apiv3Service.queries
-        .find({filters: JSON.stringify(query.options.filters), pageSize: 0}, query.options.queryId as string)
+        .find({ filters: JSON.stringify(query.options.filters), pageSize: 0 }, query.options.queryId as string)
         .pipe(
           map(() => query),
           catchError(error => {
@@ -149,7 +149,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
       );
 
       return forkJoin([...queryRequests$])
-              .pipe(map(boardWidgets => boardWidgets.filter(boardWidget => !!boardWidget) as GridWidgetResource[]));
+        .pipe(map(boardWidgets => boardWidgets.filter(boardWidget => !!boardWidget) as GridWidgetResource[]));
     } else {
       return of([]);
     }

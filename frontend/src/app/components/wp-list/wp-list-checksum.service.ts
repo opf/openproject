@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {StateService, TransitionPromise} from '@uirouter/core';
-import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
-import {Injectable} from '@angular/core';
-import {WorkPackageViewPagination} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-pagination";
+import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { StateService, TransitionPromise } from '@uirouter/core';
+import { UrlParamsHelperService } from 'core-components/wp-query/url-params-helper';
+import { Injectable } from '@angular/core';
+import { WorkPackageViewPagination } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-pagination";
 
 @Injectable()
 export class WorkPackagesListChecksumService {
@@ -43,9 +43,9 @@ export class WorkPackagesListChecksumService {
   public visibleChecksum:string|null;
 
   public updateIfDifferent(query:QueryResource,
-                           pagination:WorkPackageViewPagination):Promise<unknown> {
+    pagination:WorkPackageViewPagination):Promise<unknown> {
 
-    let newQueryChecksum = this.getNewChecksum(query, pagination);
+    const newQueryChecksum = this.getNewChecksum(query, pagination);
     let routePromise:Promise<unknown> = Promise.resolve();
 
     if (this.isUninitialized()) {
@@ -64,7 +64,7 @@ export class WorkPackagesListChecksumService {
   }
 
   public update(query:QueryResource, pagination:WorkPackageViewPagination) {
-    let newQueryChecksum = this.getNewChecksum(query, pagination);
+    const newQueryChecksum = this.getNewChecksum(query, pagination);
 
     this.set(query.id, newQueryChecksum);
 
@@ -72,7 +72,7 @@ export class WorkPackagesListChecksumService {
   }
 
   public setToQuery(query:QueryResource, pagination:WorkPackageViewPagination) {
-    let newQueryChecksum = this.getNewChecksum(query, pagination);
+    const newQueryChecksum = this.getNewChecksum(query, pagination);
 
     this.set(query.id, newQueryChecksum);
 
@@ -80,15 +80,15 @@ export class WorkPackagesListChecksumService {
   }
 
   public isQueryOutdated(query:QueryResource,
-                         pagination:WorkPackageViewPagination) {
-    let newQueryChecksum = this.getNewChecksum(query, pagination);
+    pagination:WorkPackageViewPagination) {
+    const newQueryChecksum = this.getNewChecksum(query, pagination);
 
     return this.isOutdated(query.id, newQueryChecksum);
   }
 
   public executeIfOutdated(newId:string,
-                           newChecksum:string|null,
-                           callback:Function) {
+    newChecksum:string|null,
+    callback:Function) {
     if (this.isUninitialized() || this.isOutdated(newId, newChecksum)) {
       this.set(newId, newChecksum);
 

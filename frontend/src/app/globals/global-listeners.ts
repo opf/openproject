@@ -26,20 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {performAnchorHijacking} from "./global-listeners/link-hijacking";
-import {augmentedDatePicker} from "./global-listeners/augmented-date-picker";
-import {refreshOnFormChanges} from 'core-app/globals/global-listeners/refresh-on-form-changes';
-import {registerRequestForConfirmation} from "core-app/globals/global-listeners/request-for-confirmation";
-import {DeviceService} from "core-app/modules/common/browser/device.service";
-import {scrollHeaderOnMobile} from "core-app/globals/global-listeners/top-menu-scroll";
-import {setupToggableFieldsets} from "core-app/globals/global-listeners/toggable-fieldset";
-import {TopMenu} from "core-app/globals/global-listeners/top-menu";
-import {install_menu_logic} from "core-app/globals/global-listeners/action-menu";
-import {makeColorPreviews} from "core-app/globals/global-listeners/color-preview";
-import {dangerZoneValidation} from "core-app/globals/global-listeners/danger-zone-validation";
-import {setupServerResponse} from "core-app/globals/global-listeners/setup-server-response";
-import {listenToSettingChanges} from "core-app/globals/global-listeners/settings";
-import {detectOnboardingTour} from "core-app/globals/onboarding/onboarding_tour_trigger";
+import { performAnchorHijacking } from "./global-listeners/link-hijacking";
+import { augmentedDatePicker } from "./global-listeners/augmented-date-picker";
+import { refreshOnFormChanges } from 'core-app/globals/global-listeners/refresh-on-form-changes';
+import { registerRequestForConfirmation } from "core-app/globals/global-listeners/request-for-confirmation";
+import { DeviceService } from "core-app/modules/common/browser/device.service";
+import { scrollHeaderOnMobile } from "core-app/globals/global-listeners/top-menu-scroll";
+import { setupToggableFieldsets } from "core-app/globals/global-listeners/toggable-fieldset";
+import { TopMenu } from "core-app/globals/global-listeners/top-menu";
+import { install_menu_logic } from "core-app/globals/global-listeners/action-menu";
+import { makeColorPreviews } from "core-app/globals/global-listeners/color-preview";
+import { dangerZoneValidation } from "core-app/globals/global-listeners/danger-zone-validation";
+import { setupServerResponse } from "core-app/globals/global-listeners/setup-server-response";
+import { listenToSettingChanges } from "core-app/globals/global-listeners/settings";
+import { detectOnboardingTour } from "core-app/globals/onboarding/onboarding_tour_trigger";
 
 /**
  * A set of listeners that are relevant on every page to set sensible defaults
@@ -83,7 +83,7 @@ import {detectOnboardingTour} from "core-app/globals/onboarding/onboarding_tour_
 
     // Add to content if warnings displayed
     if (document.querySelector('.warning-bar--item')) {
-      let content = document.querySelector('#content') as HTMLElement;
+      const content = document.querySelector('#content') as HTMLElement;
       if (content) {
         content.style.marginBottom = '100px';
       }

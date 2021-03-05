@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {BehaviorSubject} from 'rxjs';
-import {auditTime} from 'rxjs/operators';
-import {Directive, ElementRef, Input, OnInit} from "@angular/core";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import { BehaviorSubject } from 'rxjs';
+import { auditTime } from 'rxjs/operators';
+import { Directive, ElementRef, Input, OnInit } from "@angular/core";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 
 // with courtesy of http://stackoverflow.com/a/29722694/3206935
 
@@ -45,8 +45,8 @@ export class FocusWithinDirective extends UntilDestroyedMixin implements OnInit 
 
 
   ngOnInit() {
-    let element = jQuery(this.elementRef.nativeElement);
-    let focusedObservable = new BehaviorSubject(false);
+    const element = jQuery(this.elementRef.nativeElement);
+    const focusedObservable = new BehaviorSubject(false);
 
     focusedObservable
       .pipe(
@@ -58,12 +58,12 @@ export class FocusWithinDirective extends UntilDestroyedMixin implements OnInit 
       });
 
 
-    let focusListener = function () {
+    const focusListener = function () {
       focusedObservable.next(true);
     };
     element[0].addEventListener('focus', focusListener, true);
 
-    let blurListener = function () {
+    const blurListener = function () {
       focusedObservable.next(false);
     };
     element[0].addEventListener('blur', blurListener, true);

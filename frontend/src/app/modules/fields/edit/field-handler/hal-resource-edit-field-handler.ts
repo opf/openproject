@@ -26,20 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {Injector} from '@angular/core';
-import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
-import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
-import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
-import {debugLog} from "core-app/helpers/debug_output";
-import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {Subject} from 'rxjs';
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { keyCodes } from 'core-app/modules/common/keyCodes.enum';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { Injector } from '@angular/core';
+import { FocusHelperService } from 'core-app/modules/common/focus/focus-helper';
+import { EditFieldHandler } from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
+import { ClickPositionMapper } from "core-app/modules/common/set-click-position/set-click-position";
+import { debugLog } from "core-app/helpers/debug_output";
+import { IFieldSchema } from "core-app/modules/fields/field.base";
+import { Subject } from 'rxjs';
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { EditForm } from "core-app/modules/fields/edit/edit-form/edit-form";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export class HalResourceEditFieldHandler extends EditFieldHandler {
   // Injections
@@ -136,7 +136,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
    * In an edit mode, we can't derive from a submit event wheteher the user pressed enter
    * (and on what field he did that).
    */
-  public handleUserKeydown(event:JQuery.TriggeredEvent, onlyCancel:boolean = false) {
+  public handleUserKeydown(event:JQuery.TriggeredEvent, onlyCancel = false) {
     // Only handle submission in edit mode
     if (this.inEditMode && !onlyCancel) {
       if (event.which === keyCodes.ENTER) {
@@ -175,7 +175,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   /**
    * Close the field, resetting it with its display value.
    */
-  public deactivate(focus:boolean = false) {
+  public deactivate(focus = false) {
     delete this.form.activeFields[this.fieldName];
     this.onDestroy.next();
     this.onDestroy.complete();
@@ -215,7 +215,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
       return '';
     } else {
       return this.I18n.t('js.inplace.errors.messages_on_field',
-        {messages: this.errors.join(' ')});
+        { messages: this.errors.join(' ') });
     }
   }
 

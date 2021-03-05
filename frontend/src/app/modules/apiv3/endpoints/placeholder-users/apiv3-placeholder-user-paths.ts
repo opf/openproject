@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {APIv3GettableResource} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {PlaceholderUserResource} from "core-app/modules/hal/resources/placeholder-user-resource";
-import {Observable} from "rxjs";
+import { APIv3GettableResource } from "core-app/modules/apiv3/paths/apiv3-resource";
+import { PlaceholderUserResource } from "core-app/modules/hal/resources/placeholder-user-resource";
+import { Observable } from "rxjs";
 
 export class Apiv3PlaceholderUserPaths extends APIv3GettableResource<PlaceholderUserResource> {
   /**

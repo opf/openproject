@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { AbstractWidgetComponent } from "app/modules/grids/widgets/abstract-widget.component";
 
 @Component({
   templateUrl: './wp-overview.component.html',

@@ -1,12 +1,12 @@
-import {Injector} from '@angular/core';
-import {States} from '../../states.service';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {tdClassName} from './cell-builder';
-import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
-import {QueryColumn} from '../../wp-query/query-column';
-import {WorkPackageRelationsService} from '../../wp-relations/wp-relations.service';
-import {WorkPackageViewRelationColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { Injector } from '@angular/core';
+import { States } from '../../states.service';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { tdClassName } from './cell-builder';
+import { RelationResource } from 'core-app/modules/hal/resources/relation-resource';
+import { QueryColumn } from '../../wp-query/query-column';
+import { WorkPackageRelationsService } from '../../wp-relations/wp-relations.service';
+import { WorkPackageViewRelationColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export const relationCellTdClassName = 'wp-table--relation-cell-td';
 export const relationCellIndicatorClassName = 'wp-table--relation-indicator';

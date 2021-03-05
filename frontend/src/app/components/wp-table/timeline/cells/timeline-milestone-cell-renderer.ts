@@ -1,11 +1,11 @@
 import * as moment from 'moment';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 import {
   calculatePositionValueForDayCountingPx,
   RenderInfo,
   timelineElementCssClass
 } from '../wp-timeline';
-import {CellDateMovement, LabelPosition, TimelineCellRenderer} from './timeline-cell-renderer';
+import { CellDateMovement, LabelPosition, TimelineCellRenderer } from './timeline-cell-renderer';
 import {
   classNameFarRightLabel,
   classNameHideOnHover,
@@ -19,7 +19,7 @@ import {
   WorkPackageCellLabels
 } from './wp-timeline-cell';
 import Moment = moment.Moment;
-import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
+import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 
 export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   public get type():string {
@@ -64,8 +64,8 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
    *
    */
   public assignDateValues(change:WorkPackageChangeset,
-                          labels:WorkPackageCellLabels,
-                          dates:any):void {
+    labels:WorkPackageCellLabels,
+    dates:any):void {
 
     this.assignDate(change, 'date', dates.date);
     this.updateLabels(true, labels, change);
@@ -75,12 +75,12 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
    * Handle movement by <delta> days of milestone.
    */
   public onDaysMoved(change:WorkPackageChangeset,
-                     dayUnderCursor:Moment,
-                     delta:number,
-                     direction:'left' | 'right' | 'both' | 'create' | 'dragright') {
+    dayUnderCursor:Moment,
+    delta:number,
+    direction:'left' | 'right' | 'both' | 'create' | 'dragright') {
 
     const initialDate = change.pristineResource.date;
-    let dates:CellDateMovement = {};
+    const dates:CellDateMovement = {};
 
     if (initialDate) {
       dates.date = moment(initialDate).add(delta, 'days');
@@ -90,10 +90,10 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   }
 
   public onMouseDown(ev:MouseEvent,
-                     dateForCreate:string | null,
-                     renderInfo:RenderInfo,
-                     labels:WorkPackageCellLabels,
-                     elem:HTMLElement):'left' | 'right' | 'both' | 'create' | 'dragright' {
+    dateForCreate:string | null,
+    renderInfo:RenderInfo,
+    labels:WorkPackageCellLabels,
+    elem:HTMLElement):'left' | 'right' | 'both' | 'create' | 'dragright' {
 
     // check for active selection mode
     if (renderInfo.viewParams.activeSelectionMode) {
@@ -150,7 +150,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
   getMarginLeftOfLeftSide(renderInfo:RenderInfo):number {
     const change = renderInfo.change;
-    let start = moment(change.projectedResource.date);
+    const start = moment(change.projectedResource.date);
     const offsetStart = start.diff(renderInfo.viewParams.dateDisplayStart, 'days');
     return calculatePositionValueForDayCountingPx(renderInfo.viewParams, offsetStart);
   }
@@ -229,8 +229,8 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   }
 
   protected updateLabels(activeDragNDrop:boolean,
-                         labels:WorkPackageCellLabels,
-                         change:WorkPackageChangeset) {
+    labels:WorkPackageCellLabels,
+    change:WorkPackageChangeset) {
 
     const labelConfiguration = this.wpTableTimeline.getNormalizedLabels(change.projectedResource);
 
@@ -258,9 +258,9 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   }
 
   protected renderLabel(change:WorkPackageChangeset,
-                        labels:WorkPackageCellLabels,
-                        position:LabelPosition|'leftHover'|'rightHover',
-                        attribute:string|null) {
+    labels:WorkPackageCellLabels,
+    position:LabelPosition|'leftHover'|'rightHover',
+    attribute:string|null) {
     // Normalize attribute
     if (attribute === 'startDate' || attribute === 'dueDate') {
       attribute = 'date';

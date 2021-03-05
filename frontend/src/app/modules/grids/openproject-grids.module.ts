@@ -26,46 +26,46 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injector, NgModule} from '@angular/core';
-import {DynamicModule} from 'ng-dynamic-component';
-import {HookService} from "core-app/modules/plugins/hook-service";
-import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
-import {OpenprojectModalModule} from "core-app/modules/modal/modal.module";
-import {OpenprojectCalendarModule} from "core-app/modules/calendar/openproject-calendar.module";
-import {BrowserModule} from '@angular/platform-browser';
-import {FormsModule} from '@angular/forms';
-import {DragDropModule} from '@angular/cdk/drag-drop';
-import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
-import {WidgetWpCalendarComponent} from "core-app/modules/grids/widgets/wp-calendar/wp-calendar.component.ts";
-import {WidgetTimeEntriesCurrentUserComponent} from "core-app/modules/grids/widgets/time-entries/current-user/time-entries-current-user.component";
-import {GridWidgetsService} from "core-app/modules/grids/widgets/widgets.service";
-import {GridComponent} from "core-app/modules/grids/grid/grid.component";
-import {AddGridWidgetModal} from "core-app/modules/grids/widgets/add/add.modal";
-import {WidgetDocumentsComponent} from "core-app/modules/grids/widgets/documents/documents.component";
-import {WidgetNewsComponent} from "core-app/modules/grids/widgets/news/news.component";
-import {WidgetWpTableComponent} from "core-app/modules/grids/widgets/wp-table/wp-table.component";
-import {WidgetMenuComponent} from "core-app/modules/grids/widgets/menu/widget-menu.component";
-import {WidgetWpTableMenuComponent} from "core-app/modules/grids/widgets/wp-table/wp-table-menu.component";
-import {GridInitializationService} from "core-app/modules/grids/grid/initialization.service";
-import {WidgetWpGraphComponent} from "core-app/modules/grids/widgets/wp-graph/wp-graph.component";
-import {WidgetWpGraphMenuComponent} from "core-app/modules/grids/widgets/wp-graph/wp-graph-menu.component";
-import {WidgetWpTableQuerySpaceComponent} from "core-app/modules/grids/widgets/wp-table/wp-table-qs.component";
-import {OpenprojectWorkPackageGraphsModule} from "core-app/modules/work-package-graphs/openproject-work-package-graphs.module";
-import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WidgetProjectDescriptionComponent} from "core-app/modules/grids/widgets/project-description/project-description.component";
-import {WidgetHeaderComponent} from "core-app/modules/grids/widgets/header/header.component";
-import {WidgetWpOverviewComponent} from "core-app/modules/grids/widgets/wp-overview/wp-overview.component";
-import {WidgetCustomTextComponent} from "core-app/modules/grids/widgets/custom-text/custom-text.component";
-import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
-import {WidgetProjectDetailsComponent} from "core-app/modules/grids/widgets/project-details/project-details.component";
-import {WidgetTimeEntriesProjectComponent} from "core-app/modules/grids/widgets/time-entries/project/time-entries-project.component";
-import {WidgetSubprojectsComponent} from "core-app/modules/grids/widgets/subprojects/subprojects.component";
-import {OpenprojectAttachmentsModule} from "core-app/modules/attachments/openproject-attachments.module";
-import {WidgetMembersComponent} from "core-app/modules/grids/widgets/members/members.component";
-import {WidgetProjectStatusComponent} from "core-app/modules/grids/widgets/project-status/project-status.component";
-import {OpenprojectTimeEntriesModule} from "core-app/modules/time_entries/openproject-time-entries.module";
-import {WidgetTimeEntriesCurrentUserMenuComponent} from "core-app/modules/grids/widgets/time-entries/current-user/time-entries-current-user-menu.component";
+import { Injector, NgModule } from '@angular/core';
+import { DynamicModule } from 'ng-dynamic-component';
+import { HookService } from "core-app/modules/plugins/hook-service";
+import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
+import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
+import { OpenprojectCalendarModule } from "core-app/modules/calendar/openproject-calendar.module";
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { OpenprojectWorkPackagesModule } from "core-app/modules/work_packages/openproject-work-packages.module";
+import { WidgetWpCalendarComponent } from "core-app/modules/grids/widgets/wp-calendar/wp-calendar.component.ts";
+import { WidgetTimeEntriesCurrentUserComponent } from "core-app/modules/grids/widgets/time-entries/current-user/time-entries-current-user.component";
+import { GridWidgetsService } from "core-app/modules/grids/widgets/widgets.service";
+import { GridComponent } from "core-app/modules/grids/grid/grid.component";
+import { AddGridWidgetModal } from "core-app/modules/grids/widgets/add/add.modal";
+import { WidgetDocumentsComponent } from "core-app/modules/grids/widgets/documents/documents.component";
+import { WidgetNewsComponent } from "core-app/modules/grids/widgets/news/news.component";
+import { WidgetWpTableComponent } from "core-app/modules/grids/widgets/wp-table/wp-table.component";
+import { WidgetMenuComponent } from "core-app/modules/grids/widgets/menu/widget-menu.component";
+import { WidgetWpTableMenuComponent } from "core-app/modules/grids/widgets/wp-table/wp-table-menu.component";
+import { GridInitializationService } from "core-app/modules/grids/grid/initialization.service";
+import { WidgetWpGraphComponent } from "core-app/modules/grids/widgets/wp-graph/wp-graph.component";
+import { WidgetWpGraphMenuComponent } from "core-app/modules/grids/widgets/wp-graph/wp-graph-menu.component";
+import { WidgetWpTableQuerySpaceComponent } from "core-app/modules/grids/widgets/wp-table/wp-table-qs.component";
+import { OpenprojectWorkPackageGraphsModule } from "core-app/modules/work-package-graphs/openproject-work-package-graphs.module";
+import { ApiV3FilterBuilder } from "core-components/api/api-v3/api-v3-filter-builder";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { WidgetProjectDescriptionComponent } from "core-app/modules/grids/widgets/project-description/project-description.component";
+import { WidgetHeaderComponent } from "core-app/modules/grids/widgets/header/header.component";
+import { WidgetWpOverviewComponent } from "core-app/modules/grids/widgets/wp-overview/wp-overview.component";
+import { WidgetCustomTextComponent } from "core-app/modules/grids/widgets/custom-text/custom-text.component";
+import { OpenprojectFieldsModule } from "core-app/modules/fields/openproject-fields.module";
+import { WidgetProjectDetailsComponent } from "core-app/modules/grids/widgets/project-details/project-details.component";
+import { WidgetTimeEntriesProjectComponent } from "core-app/modules/grids/widgets/time-entries/project/time-entries-project.component";
+import { WidgetSubprojectsComponent } from "core-app/modules/grids/widgets/subprojects/subprojects.component";
+import { OpenprojectAttachmentsModule } from "core-app/modules/attachments/openproject-attachments.module";
+import { WidgetMembersComponent } from "core-app/modules/grids/widgets/members/members.component";
+import { WidgetProjectStatusComponent } from "core-app/modules/grids/widgets/project-status/project-status.component";
+import { OpenprojectTimeEntriesModule } from "core-app/modules/time_entries/openproject-time-entries.module";
+import { WidgetTimeEntriesCurrentUserMenuComponent } from "core-app/modules/grids/widgets/time-entries/current-user/time-entries-current-user-menu.component";
 import { TimeEntriesCurrentUserConfigurationModalComponent } from './widgets/time-entries/current-user/time-entries-current-user-configuration.modal';
 
 @NgModule({
@@ -154,40 +154,40 @@ export function registerWidgets(injector:Injector) {
 
   hookService.register('gridWidgets', () => {
 
-    let defaultColumns = ["id", "project", "type", "subject"];
+    const defaultColumns = ["id", "project", "type", "subject"];
 
-    let assignedFilters = new ApiV3FilterBuilder();
+    const assignedFilters = new ApiV3FilterBuilder();
     assignedFilters.add('assignee', '=', ["me"]);
     assignedFilters.add('status', 'o', []);
 
-    let assignedProps = {
+    const assignedProps = {
       "columns[]": defaultColumns,
       "filters": assignedFilters.toJson()
     };
 
-    let accountableFilters = new ApiV3FilterBuilder();
+    const accountableFilters = new ApiV3FilterBuilder();
     accountableFilters.add('responsible', '=', ["me"]);
     accountableFilters.add('status', 'o', []);
 
-    let accountableProps = {
+    const accountableProps = {
       "columns[]": defaultColumns,
       "filters": accountableFilters.toJson()
     };
 
-    let createdFilters = new ApiV3FilterBuilder();
+    const createdFilters = new ApiV3FilterBuilder();
     createdFilters.add('author', '=', ["me"]);
     createdFilters.add('status', 'o', []);
 
-    let createdProps = {
+    const createdProps = {
       "columns[]": defaultColumns,
       "filters": createdFilters.toJson()
     };
 
-    let watchedFilters = new ApiV3FilterBuilder();
+    const watchedFilters = new ApiV3FilterBuilder();
     watchedFilters.add('watcher', '=', ["me"]);
     watchedFilters.add('status', 'o', []);
 
-    let watchedProps = {
+    const watchedProps = {
       "columns[]": defaultColumns,
       "filters": watchedFilters.toJson()
     };

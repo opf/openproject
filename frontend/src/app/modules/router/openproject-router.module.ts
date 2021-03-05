@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injector, NgModule} from '@angular/core';
-import {FirstRouteService} from "core-app/modules/router/first-route-service";
-import {UIRouterModule} from "@uirouter/angular";
-import {ApplicationBaseComponent} from "core-app/modules/router/base/application-base.component";
+import { Injector, NgModule } from '@angular/core';
+import { FirstRouteService } from "core-app/modules/router/first-route-service";
+import { UIRouterModule } from "@uirouter/angular";
+import { ApplicationBaseComponent } from "core-app/modules/router/base/application-base.component";
 import {
   initializeUiRouterListeners,
   OPENPROJECT_ROUTES,

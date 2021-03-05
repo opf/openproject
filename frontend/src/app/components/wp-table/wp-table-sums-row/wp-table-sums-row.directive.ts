@@ -26,22 +26,22 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {AfterViewInit, Directive, ElementRef, Injector, Input} from '@angular/core';
-import {takeUntil} from 'rxjs/operators';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
-import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
-import {States} from '../../states.service';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
-import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {QueryColumn} from "core-components/wp-query/query-column";
-import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
-import {WorkPackageViewSumService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sum.service";
-import {combineLatest} from "rxjs";
-import {GroupSumsBuilder} from "core-components/wp-fast-table/builders/modes/grouped/group-sums-builder";
-import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import { AfterViewInit, Directive, ElementRef, Injector, Input } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { SchemaResource } from 'core-app/modules/hal/resources/schema-resource';
+import { WorkPackageCollectionResource } from 'core-app/modules/hal/resources/wp-collection-resource';
+import { States } from '../../states.service';
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { DisplayFieldService } from "core-app/modules/fields/display/display-field.service";
+import { IFieldSchema } from "core-app/modules/fields/field.base";
+import { QueryColumn } from "core-components/wp-query/query-column";
+import { WorkPackageViewColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import { WorkPackageViewSumService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sum.service";
+import { combineLatest } from "rxjs";
+import { GroupSumsBuilder } from "core-components/wp-fast-table/builders/modes/grouped/group-sums-builder";
+import { WorkPackageTable } from "core-components/wp-fast-table/wp-fast-table";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 
 @Directive({
   selector: '[wpTableSumsRow]'
@@ -86,8 +86,8 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
           this.schemaCache
             .ensureLoaded(resource.sumsSchema.$href!)
             .then((schema:SchemaResource) => {
-            this.refresh(columns, resource, schema);
-          });
+              this.refresh(columns, resource, schema);
+            });
         } else {
           this.clear();
         }

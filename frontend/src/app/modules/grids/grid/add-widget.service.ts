@@ -1,16 +1,16 @@
-import {Injectable, Injector} from "@angular/core";
-import {OpModalService} from "core-app/modules/modal/modal.service";
-import {AddGridWidgetModal} from "app/modules/grids/widgets/add/add.modal";
-import {GridWidgetResource} from "app/modules/hal/resources/grid-widget-resource";
-import {GridArea} from "app/modules/grids/areas/grid-area";
-import {HalResourceService} from "app/modules/hal/services/hal-resource.service";
-import {GridWidgetArea} from "core-app/modules/grids/areas/grid-widget-area";
-import {GridAreaService} from "core-app/modules/grids/grid/area.service";
-import {GridDragAndDropService} from "core-app/modules/grids/grid/drag-and-drop.service";
-import {GridResizeService} from "core-app/modules/grids/grid/resize.service";
-import {GridMoveService} from "core-app/modules/grids/grid/move.service";
-import {GridGap} from "core-app/modules/grids/areas/grid-gap";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { Injectable, Injector } from "@angular/core";
+import { OpModalService } from "core-app/modules/modal/modal.service";
+import { AddGridWidgetModal } from "app/modules/grids/widgets/add/add.modal";
+import { GridWidgetResource } from "app/modules/hal/resources/grid-widget-resource";
+import { GridArea } from "app/modules/grids/areas/grid-area";
+import { HalResourceService } from "app/modules/hal/services/hal-resource.service";
+import { GridWidgetArea } from "core-app/modules/grids/areas/grid-widget-area";
+import { GridAreaService } from "core-app/modules/grids/grid/area.service";
+import { GridDragAndDropService } from "core-app/modules/grids/grid/drag-and-drop.service";
+import { GridResizeService } from "core-app/modules/grids/grid/resize.service";
+import { GridMoveService } from "core-app/modules/grids/grid/move.service";
+import { GridGap } from "core-app/modules/grids/areas/grid-gap";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 @Injectable()
 export class GridAddWidgetService {
@@ -43,7 +43,7 @@ export class GridAddWidgetService {
           this.addLine(area as GridGap);
         }
 
-        let newArea = new GridWidgetArea(widgetResource);
+        const newArea = new GridWidgetArea(widgetResource);
 
         this.setMaxWidth(newArea);
 
@@ -62,14 +62,14 @@ export class GridAddWidgetService {
     return new Promise<GridWidgetResource>((resolve, reject) => {
       const modal = this.opModalService.show(AddGridWidgetModal, this.injector, { schema: this.layout.schema });
       modal.closingEvent.subscribe((modal:AddGridWidgetModal) => {
-        let registered = modal.chosenWidget;
+        const registered = modal.chosenWidget;
 
         if (!registered) {
           reject();
           return;
         }
 
-        let source = {
+        const source = {
           _type: 'GridWidget',
           identifier: registered.identifier,
           startRow: area.startRow,
@@ -79,7 +79,7 @@ export class GridAddWidgetService {
           options: registered.properties || {}
         };
 
-        let resource = this.halResource.createHalResource(source) as GridWidgetResource;
+        const resource = this.halResource.createHalResource(source) as GridWidgetResource;
 
         resource.grid = this.layout.gridResource;
 

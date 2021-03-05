@@ -35,28 +35,28 @@ import {
   Input,
   OnInit
 } from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {distinctUntilChanged, map} from 'rxjs/operators';
-import {debugLog} from '../../../helpers/debug_output';
-import {CurrentProjectService} from '../../projects/current-project.service';
-import {States} from '../../states.service';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { distinctUntilChanged, map } from 'rxjs/operators';
+import { debugLog } from '../../../helpers/debug_output';
+import { CurrentProjectService } from '../../projects/current-project.service';
+import { States } from '../../states.service';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {DisplayFieldService} from 'core-app/modules/fields/display/display-field.service';
-import {DisplayField} from 'core-app/modules/fields/display/display-field.module';
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {HookService} from 'core-app/modules/plugins/hook-service';
-import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {Subject} from "rxjs";
-import {randomString} from "core-app/helpers/random-string";
-import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {ISchemaProxy} from "core-app/modules/hal/schemas/schema-proxy";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { DisplayFieldService } from 'core-app/modules/fields/display/display-field.service';
+import { DisplayField } from 'core-app/modules/fields/display/display-field.module';
+import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { HookService } from 'core-app/modules/plugins/hook-service';
+import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
+import { Subject } from "rxjs";
+import { randomString } from "core-app/helpers/random-string";
+import { BrowserDetector } from "core-app/modules/common/browser/browser-detector.service";
+import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { ISchemaProxy } from "core-app/modules/hal/schemas/schema-proxy";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 export interface FieldDescriptor {
   name:string;
@@ -94,7 +94,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   @Input() public workPackage:WorkPackageResource;
 
   /** Should we show the project field */
-  @Input() public showProject:boolean = false;
+  @Input() public showProject = false;
 
   // Grouped fields returned from API
   public groupedFields:GroupDescriptor[] = [];
@@ -129,7 +129,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     },
   };
 
-  protected firstTimeFocused:boolean = false;
+  protected firstTimeFocused = false;
 
   $element:JQuery;
 
@@ -259,9 +259,9 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   }
 
   public get projectContextText():string {
-    let id = this.workPackage.project.idFromLink;
-    let projectPath = this.PathHelper.projectPath(id);
-    let project = `<a href="${projectPath}">${this.workPackage.project.name}<a>`;
+    const id = this.workPackage.project.idFromLink;
+    const projectPath = this.PathHelper.projectPath(id);
+    const project = `<a href="${projectPath}">${this.workPackage.project.name}<a>`;
     return this.I18n.t('js.project.work_package_belongs_to', { projectname: project });
   }
 
@@ -278,7 +278,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     }
 
     return attributeGroups.map((group:any) => {
-      let groupId = this.getAttributesGroupId(group);
+      const groupId = this.getAttributesGroupId(group);
 
       if (group._type === 'WorkPackageFormAttributeGroup') {
         return {
@@ -339,7 +339,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    * combined 'start' and 'due' date field.
    */
   private getDateField(change:WorkPackageChangeset):FieldDescriptor {
-    let object:any = {
+    const object:any = {
       label: this.I18n.t('js.work_packages.properties.date'),
       multiple: false
     };
@@ -364,10 +364,10 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    * @returns {SchemaContext}
    */
   private contextFrom(workPackage:WorkPackageResource):ResourceContextChange {
-    let schema = this.schema(workPackage);
+    const schema = this.schema(workPackage);
 
     let schemaHref:string|null = null;
-    let projectHref:string|null = workPackage.project && workPackage.project.href;
+    const projectHref:string|null = workPackage.project && workPackage.project.href;
 
     if (schema.baseSchema) {
       schemaHref = schema.baseSchema.href;
@@ -393,7 +393,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   }
 
   private getAttributesGroupId(group:any):string {
-    let overflowingIdentifier = this.$element
+    const overflowingIdentifier = this.$element
       .find("[data-group-name=\'" + group.name + "\']")
       .data(overflowingContainerAttribute);
 

@@ -31,56 +31,56 @@ export type WorkPackageTableConfigurationObject = Partial<{ [field in keyof Work
 
 export class WorkPackageTableConfiguration {
   /** Render the table results, set to false when only wanting the table initialization */
-  public tableVisible:boolean = true;
+  public tableVisible = true;
 
   /** Render the table as compact style */
-  public compactTableStyle:boolean = false;
+  public compactTableStyle = false;
 
   /** Render the action column (last column) with the actions defined in the TableActionsService */
-  public actionsColumnEnabled:boolean = true;
+  public actionsColumnEnabled = true;
 
   /** Whether the work package context menu is enabled*/
-  public contextMenuEnabled:boolean = true;
+  public contextMenuEnabled = true;
 
   /** Whether the column dropdown menu is enabled*/
-  public columnMenuEnabled:boolean = true;
+  public columnMenuEnabled = true;
 
   /** Whether the query should be resolved using the current project identifier */
-  public projectContext:boolean = true;
+  public projectContext = true;
 
   /** Whether the embedded table should live within a specific project context (e.g., given by its parent) */
   public projectIdentifier:string|null = null;
 
   /** Whether inline create is enabled*/
-  public inlineCreateEnabled:boolean = true;
+  public inlineCreateEnabled = true;
 
   /** Whether the hierarchy toggler item in the subject column is enabled */
-  public hierarchyToggleEnabled:boolean = true;
+  public hierarchyToggleEnabled = true;
 
   /** Whether this table supports drag and drop */
-  public dragAndDropEnabled:boolean = false;
+  public dragAndDropEnabled = false;
 
   /** Whether this table is in an embedded context*/
-  public isEmbedded:boolean = false;
+  public isEmbedded = false;
 
   /** Whether the work packages shall be shown in cards instead of a table */
-  public isCardView:boolean = false;
+  public isCardView = false;
 
   /** Whether this table provides a UI for filters*/
-  public withFilters:boolean = false;
+  public withFilters = false;
 
   /** Whether the filters are expanded */
-  public filtersExpanded:boolean = false;
+  public filtersExpanded = false;
 
   /** Whether the button to open filters shall be visible*/
-  public showFilterButton:boolean = false;
+  public showFilterButton = false;
 
   /** Whether this table provides a UI for filters*/
   public filterButtonText:string = I18n.t("js.button_filter");
 
   constructor(providedConfig:WorkPackageTableConfigurationObject) {
     _.each(providedConfig, (value, k) => {
-      let key = (k as keyof WorkPackageTableConfiguration);
+      const key = (k as keyof WorkPackageTableConfiguration);
       (this as any)[key] = value;
     });
   }

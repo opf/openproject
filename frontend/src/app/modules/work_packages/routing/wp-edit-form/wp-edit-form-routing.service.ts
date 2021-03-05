@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Transition} from "@uirouter/core";
-import {Injectable} from "@angular/core";
-import {EditFormRoutingService} from "core-app/modules/fields/edit/edit-form/edit-form-routing.service";
+import { Transition } from "@uirouter/core";
+import { Injectable } from "@angular/core";
+import { EditFormRoutingService } from "core-app/modules/fields/edit/edit-form/edit-form-routing.service";
 
 @Injectable()
 export class WorkPackageEditFormRoutingService extends EditFormRoutingService {

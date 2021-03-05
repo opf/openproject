@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {AfterViewInit, Component, ElementRef, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
-import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
-import {TransitionService} from '@uirouter/core';
-import {MainMenuToggleService} from "core-components/main-menu/main-menu-toggle.service";
-import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {ResizeDelta} from "core-app/modules/common/resizer/resizer.component";
-import {fromEvent} from "rxjs";
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { TransitionService } from '@uirouter/core';
+import { MainMenuToggleService } from "core-components/main-menu/main-menu-toggle.service";
+import { BrowserDetector } from "core-app/modules/common/browser/browser-detector.service";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { ResizeDelta } from "core-app/modules/common/resizer/resizer.component";
+import { fromEvent } from "rxjs";
 
 @Component({
   selector: 'wp-resizer',
@@ -62,7 +62,7 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
   // Min-width this element is allowed to have
   private elementMinWidth = 530;
 
-  public moving:boolean = false;
+  public moving = false;
   public resizerClass = 'work-packages--resizer icon-resizer-vertical-lines';
 
   constructor(readonly toggleService:MainMenuToggleService,
@@ -77,7 +77,7 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
     this.resizingElement = <HTMLElement>document.getElementsByClassName(this.elementClass)[0];
 
     // Get initial width from local storage and apply
-    let localStorageValue = this.parseLocalStorageValue();
+    const localStorageValue = this.parseLocalStorageValue();
     this.elementWidth = localStorageValue ||
                         (this.resizingElement.offsetWidth < this.elementMinWidth ?
                           this.elementMinWidth :
@@ -129,15 +129,15 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
   resizeStart() {
     // In case we dragged the resizer farther than the element can actually grow,
     // we reset it to the actual width at the start of the new resizing
-    let localStorageValue = this.parseLocalStorageValue();
-    let actualElementWidth = this.resizingElement.offsetWidth;
+    const localStorageValue = this.parseLocalStorageValue();
+    const actualElementWidth = this.resizingElement.offsetWidth;
     if (localStorageValue && localStorageValue > actualElementWidth) {
       this.elementWidth = actualElementWidth;
     }
   }
 
   resizeEnd() {
-    let localStorageValue = this.parseLocalStorageValue();
+    const localStorageValue = this.parseLocalStorageValue();
     if (localStorageValue) {
       this.elementWidth = localStorageValue;
     }
@@ -177,8 +177,8 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
   }
 
   private parseLocalStorageValue():number|undefined {
-    let localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
-    let number = parseInt(localStorageValue || '', 10);
+    const localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
+    const number = parseInt(localStorageValue || '', 10);
 
     if (typeof number === 'number' && number !== NaN) {
       return number;
@@ -198,7 +198,7 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
     }
   }
 
-  private toggleColumns(element:HTMLElement, checkWidth:number = 750) {
+  private toggleColumns(element:HTMLElement, checkWidth = 750) {
     // Disable two column layout for MS Edge (#29941)
     if (element && !this.browserDetector.isEdge) {
       jQuery(element).toggleClass('-can-have-columns', element.offsetWidth > checkWidth);
@@ -206,14 +206,14 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
   }
 
   private toggleFullscreenColumns() {
-    let fullScreenLeftView = jQuery('.work-packages-full-view--split-left')[0];
+    const fullScreenLeftView = jQuery('.work-packages-full-view--split-left')[0];
     this.toggleColumns(fullScreenLeftView);
   }
 
   private manageErrorClass(shouldBePresent:boolean) {
-    if (shouldBePresent && !this.resizer.classList.contains('-error-font')) {
-       this.resizer.classList.add('-error-font');
-    }
+    if (shouldBePresent && !this.resizer.classList.contains('-error-font')) {
+      this.resizer.classList.add('-error-font');
+    }
 
     if (!shouldBePresent && this.resizer.classList.contains('-error-font')) {
       this.resizer.classList.remove('-error-font');

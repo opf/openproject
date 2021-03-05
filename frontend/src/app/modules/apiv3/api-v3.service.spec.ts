@@ -27,9 +27,9 @@
 //++
 
 import { TestBed, waitForAsync } from "@angular/core/testing";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {States} from "core-components/states.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { States } from "core-components/states.service";
 
 describe('APIv3Service', function() {
   let service:APIV3Service;

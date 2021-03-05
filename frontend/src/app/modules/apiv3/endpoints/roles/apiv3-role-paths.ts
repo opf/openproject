@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {RoleResource} from "core-app/modules/hal/resources/role-resource";
-import {CachableAPIV3Resource} from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
-import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
+import { RoleResource } from "core-app/modules/hal/resources/role-resource";
+import { CachableAPIV3Resource } from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
+import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
 
 export class APIv3RolePaths extends CachableAPIV3Resource<RoleResource> {
 

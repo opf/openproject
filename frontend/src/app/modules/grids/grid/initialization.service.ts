@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {GridResource} from "core-app/modules/hal/resources/grid-resource";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {switchMap} from "rxjs/operators";
+import { Injectable } from '@angular/core';
+import { GridResource } from "core-app/modules/hal/resources/grid-resource";
+import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { switchMap } from "rxjs/operators";
 
 @Injectable()
 export class GridInitializationService {
@@ -30,7 +30,7 @@ export class GridInitializationService {
   }
 
   private myPageForm(path:string):Promise<GridResource> {
-    let payload = {
+    const payload = {
       '_links': {
         'scope': {
           'href': path
@@ -45,8 +45,8 @@ export class GridInitializationService {
       .post(payload)
       .pipe(
         switchMap(form => {
-          let source = form.payload.$source;
-          let resource = this.halResourceService.createHalResource(source) as GridResource;
+          const source = form.payload.$source;
+          const resource = this.halResourceService.createHalResource(source) as GridResource;
 
           if (resource.widgets.length === 0) {
             resource.rowCount = 1;

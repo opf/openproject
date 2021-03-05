@@ -1,13 +1,13 @@
-import {Injectable, Injector} from "@angular/core";
-import {OpModalService} from "core-app/modules/modal/modal.service";
-import {HalResourceService} from "app/modules/hal/services/hal-resource.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { Injectable, Injector } from "@angular/core";
+import { OpModalService } from "core-app/modules/modal/modal.service";
+import { HalResourceService } from "app/modules/hal/services/hal-resource.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { TimeEntryResource } from 'core-app/modules/hal/resources/time-entry-resource';
 import { TimeEntryEditModal } from './edit.modal';
 import { take } from 'rxjs/operators';
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class TimeEntryEditService {
@@ -33,7 +33,7 @@ export class TimeEntryEditService {
             .subscribe(() => {
               if (modal.destroyedEntry) {
                 modal.destroyedEntry.delete().then(() => {
-                  resolve({entry: modal.destroyedEntry, action: 'destroy'});
+                  resolve({ entry: modal.destroyedEntry, action: 'destroy' });
                 });
               } else if (modal.modifiedEntry) {
                 resolve({ entry: modal.modifiedEntry, action: 'update' });
@@ -54,7 +54,7 @@ export class TimeEntryEditService {
       .post(entry)
       .toPromise()
       .then(form => {
-      return this.halEditing.edit<TimeEntryResource, ResourceChangeset<TimeEntryResource>>(entry, form);
-    });
+        return this.halEditing.edit<TimeEntryResource, ResourceChangeset<TimeEntryResource>>(entry, form);
+      });
   }
 }

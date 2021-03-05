@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ConfirmDialogModal, ConfirmDialogOptions} from "core-components/modals/confirm-dialog/confirm-dialog.modal";
-import {OpModalService} from "core-app/modules/modal/modal.service";
-import {Injectable, Injector} from "@angular/core";
+import { ConfirmDialogModal, ConfirmDialogOptions } from "core-components/modals/confirm-dialog/confirm-dialog.modal";
+import { OpModalService } from "core-app/modules/modal/modal.service";
+import { Injectable, Injector } from "@angular/core";
 
 @Injectable()
 export class ConfirmDialogService {

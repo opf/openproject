@@ -26,22 +26,22 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {States} from '../states.service';
-import {StateService, TransitionService} from '@uirouter/core';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from "@angular/core";
-import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
-import {MainMenuToggleService} from "core-components/main-menu/main-menu-toggle.service";
-import {MainMenuNavigationService} from "core-components/main-menu/main-menu-navigation.service";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
+import { States } from '../states.service';
+import { StateService, TransitionService } from '@uirouter/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { WorkPackageStaticQueriesService } from 'core-components/wp-query-select/wp-static-queries.service';
+import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { LinkHandling } from "core-app/modules/common/link-handling/link-handling";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { keyCodes } from 'core-app/modules/common/keyCodes.enum';
+import { MainMenuToggleService } from "core-components/main-menu/main-menu-toggle.service";
+import { MainMenuNavigationService } from "core-components/main-menu/main-menu-navigation.service";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 export type QueryCategory = 'starred'|'public'|'private'|'default';
 
@@ -157,7 +157,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
   }
 
   private transformQueries(collection:CollectionResource<QueryResource>) {
-    let loadedQueries:IAutocompleteItem[] = collection.elements
+    const loadedQueries:IAutocompleteItem[] = collection.elements
       .map(query => {
         return { label: query.name, query: query, query_props: null };
       });
@@ -171,7 +171,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
   // Sort every category array alphabetically, except the default queries
   private sortQueries(items:IAutocompleteItem[]):IAutocompleteItem[] {
     // Concat all categories in the right order
-    let categorized:{ [category:string]:IAutocompleteItem[] } = {
+    const categorized:{ [category:string]:IAutocompleteItem[] } = {
       // Starred / favored
       starred: [],
       // default
@@ -235,7 +235,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
         // To search an empty string would expand all categories again every time
         // Remember all previously hidden categories and set them again after updating the menu
         _.each(this.hiddenCategories, category => {
-          let thisCategory:string = jQuery(category).attr("category")!;
+          const thisCategory:string = jQuery(category).attr("category")!;
           this.expandCollapseCategory(thisCategory);
         });
 
@@ -307,7 +307,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
   }
 
   private defineJQueryQueryComplete() {
-    let thisComponent = this;
+    const thisComponent = this;
 
     jQuery.widget('custom.querycomplete', jQuery.ui.autocomplete, {
       _create: function (this:any) {
@@ -340,7 +340,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
           // Check if item has same category as previous item and if not insert a new category label in the list
           if (option.category !== currentCategory) {
             currentCategory = option.category!;
-            let label = thisComponent.labelFunction(currentCategory);
+            const label = thisComponent.labelFunction(currentCategory);
 
             ul.append(`<a tabindex="0" class="collapsible-menu--category-icon collapsible-menu--category-toggle" data-category="${currentCategory}" aria-hidden="true"></a>`);
             jQuery('<li>')
@@ -356,7 +356,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
 
         // Scroll to selected element if search is empty
         if (thisComponent.searchInput.val() === '') {
-          let selected = thisComponent.queryResultsContainer.find('.collapsible-menu--item.selected');
+          const selected = thisComponent.queryResultsContainer.find('.collapsible-menu--item.selected');
           if (selected.length > 0) {
             setTimeout(() => selected[0].scrollIntoView({ behavior: 'auto', block: 'center' }), 20);
           }
@@ -372,8 +372,8 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
     const params = this.getQueryParams(item);
     const currentId = this.$state.params.query_id;
     const currentProps = this.$state.params.query_props;
-    let onWorkPackagesPage:boolean = this.$state.includes('work-packages');
-    let onWorkPackagesReportPage:boolean = jQuery('body').hasClass('controller-work_packages/reports');
+    const onWorkPackagesPage:boolean = this.$state.includes('work-packages');
+    const onWorkPackagesReportPage:boolean = jQuery('body').hasClass('controller-work_packages/reports');
 
     // When the current ID is selected
     const currentIdSelected = params.query_id && (currentId || '').toString() === params.query_id.toString();
@@ -394,16 +394,16 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
 
   private labelFunction(category:QueryCategory):string {
     switch (category) {
-      case 'starred':
-        return this.text.scope_starred;
-      case 'public':
-        return this.text.scope_global;
-      case 'private':
-        return this.text.scope_private;
-      case 'default':
-        return this.text.scope_default;
-      default:
-        return '';
+    case 'starred':
+      return this.text.scope_starred;
+    case 'public':
+      return this.text.scope_global;
+    case 'private':
+      return this.text.scope_private;
+    case 'default':
+      return this.text.scope_default;
+    default:
+      return '';
     }
   }
 
@@ -441,7 +441,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
   }
 
   private getQueryParams(item:IAutocompleteItem) {
-    let val:{ query_id:string|null, query_props:string|null, projects?:string, projectPath?:string } = {
+    const val:{ query_id:string|null, query_props:string|null, projects?:string, projectPath?:string } = {
       query_id: item.query ? _.toString(item.query.id) : null,
       query_props: item.query ? null : item.query_props,
     };

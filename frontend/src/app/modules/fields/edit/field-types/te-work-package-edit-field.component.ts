@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component} from "@angular/core";
-import {WorkPackageEditFieldComponent} from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
-import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { Component } from "@angular/core";
+import { WorkPackageEditFieldComponent } from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
+import { ApiV3FilterBuilder } from "core-components/api/api-v3/api-v3-filter-builder";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 import {
   TimeEntryWorkPackageAutocompleterComponent,
   TimeEntryWorkPackageAutocompleterMode
@@ -55,7 +55,7 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
     if (this.referenceOutputs) {
       this.referenceOutputs['modeSwitch'] = (mode:TimeEntryWorkPackageAutocompleterMode) => {
         this.valuesLoaded = false;
-        let lastValue = this.requests.lastRequestedValue!;
+        const lastValue = this.requests.lastRequestedValue!;
 
         // Hack to provide a new value to "reset" the input.
         // Only the second input is actually processed as the input is debounced.
@@ -103,7 +103,7 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
   }
 
   protected allowedValuesFilter(query?:string):{} {
-    let filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
+    const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
 
     if ((this._autocompleterComponent as TimeEntryWorkPackageAutocompleterComponent).mode === 'recent') {
       filters.add('id', '=', this.recentWorkPackageIds);

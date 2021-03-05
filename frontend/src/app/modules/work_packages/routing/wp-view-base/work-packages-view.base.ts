@@ -26,35 +26,35 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectorRef, Directive, Injector, OnDestroy, OnInit} from '@angular/core';
-import {StateService, TransitionService} from '@uirouter/core';
-import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {filter, take, withLatestFrom} from 'rxjs/operators';
-import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageStaticQueriesService} from 'core-components/wp-query-select/wp-static-queries.service';
-import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
-import {States} from "core-components/states.service";
-import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
-import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
-import {WorkPackageViewGroupByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
-import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
-import {WorkPackageViewSumService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sum.service";
-import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
-import {WorkPackageViewPaginationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
-import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
-import {WorkPackagesListChecksumService} from "core-components/wp-list/wp-list-checksum.service";
-import {WorkPackageQueryStateService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-base.service";
-import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
-import {WorkPackageViewOrderService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
-import {WorkPackageViewDisplayRepresentationService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
-import {HalEvent, HalEventsService} from "core-app/modules/hal/services/hal-events.service";
-import {DeviceService} from "core-app/modules/common/browser/device.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import { ChangeDetectorRef, Directive, Injector, OnDestroy, OnInit } from '@angular/core';
+import { StateService, TransitionService } from '@uirouter/core';
+import { AuthorisationService } from 'core-app/modules/common/model-auth/model-auth.service';
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { filter, take, withLatestFrom } from 'rxjs/operators';
+import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { WorkPackageStaticQueriesService } from 'core-components/wp-query-select/wp-static-queries.service';
+import { WorkPackageViewHighlightingService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
+import { States } from "core-components/states.service";
+import { WorkPackageViewColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import { WorkPackageViewSortByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
+import { WorkPackageViewGroupByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
+import { WorkPackageViewFiltersService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
+import { WorkPackageViewSumService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sum.service";
+import { WorkPackageViewTimelineService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import { WorkPackageViewHierarchiesService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import { WorkPackageViewPaginationService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
+import { WorkPackagesListService } from "core-components/wp-list/wp-list.service";
+import { WorkPackagesListChecksumService } from "core-components/wp-list/wp-list-checksum.service";
+import { WorkPackageQueryStateService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-base.service";
+import { WorkPackageStatesInitializationService } from "core-components/wp-list/wp-states-initialization.service";
+import { WorkPackageViewOrderService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
+import { WorkPackageViewDisplayRepresentationService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import { HalEvent, HalEventsService } from "core-app/modules/hal/services/hal-events.service";
+import { DeviceService } from "core-app/modules/common/browser/device.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Directive()
 export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implements OnInit, OnDestroy {
@@ -114,11 +114,11 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
         this.untilDestroyed(),
         withLatestFrom(this.querySpace.query.values$())
       ).subscribe(([pagination, query]) => {
-      if (this.wpListChecksumService.isQueryOutdated(query, pagination)) {
-        this.wpListChecksumService.update(query, pagination);
-        this.refresh(true, false);
-      }
-    });
+        if (this.wpListChecksumService.isQueryOutdated(query, pagination)) {
+          this.wpListChecksumService.update(query, pagination);
+          this.refresh(true, false);
+        }
+      });
 
     this.setupChangeObserver(this.wpTableFilters, true);
     this.setupChangeObserver(this.wpTableGroupBy);
@@ -139,7 +139,7 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
    * @param service Work package query state service to listento
    * @param firstPage If the service requests a change, load the first page
    */
-  protected setupChangeObserver(service:WorkPackageQueryStateService<unknown>, firstPage:boolean = false) {
+  protected setupChangeObserver(service:WorkPackageQueryStateService<unknown>, firstPage = false) {
     const queryState = this.querySpace.query;
 
     service
@@ -208,7 +208,7 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
    * @return {boolean} whether any of these events should trigger the view reloading
    */
   protected filterRefreshEvents(events:HalEvent[]):boolean {
-    let rendered = new Set(this.querySpace.renderedWorkPackageIds.getValueOr([]));
+    const rendered = new Set(this.querySpace.renderedWorkPackageIds.getValueOr([]));
 
     for (let i = 0; i < events.length; i++) {
       const item = events[i];

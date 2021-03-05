@@ -26,16 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Output, EventEmitter, Input} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
-import {OpModalService} from "core-app/modules/modal/modal.service";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {Board} from "core-app/modules/boards/board/board";
-import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
-import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
-import {BoardService} from "core-app/modules/boards/board/board.service";
-import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
+import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { AuthorisationService } from 'core-app/modules/common/model-auth/model-auth.service';
+import { OpModalService } from "core-app/modules/modal/modal.service";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { Board } from "core-app/modules/boards/board/board";
+import { BoardActionsRegistryService } from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
+import { OpContextMenuItem } from "core-components/op-context-menu/op-context-menu.types";
+import { BoardService } from "core-app/modules/boards/board/board.service";
+import { BoardActionService } from "core-app/modules/boards/board/board-actions/board-action.service";
 
 @Component({
   selector: 'board-list-menu',
@@ -55,7 +55,7 @@ export class BoardListMenuComponent {
 
   public get menuItems() {
     return async () => {
-      let items:OpContextMenuItem[] = [
+      const items:OpContextMenuItem[] = [
         {
           disabled: !this.canDelete,
           linkText: this.I18n.t('js.boards.lists.delete'),

@@ -1,4 +1,4 @@
-import {waitForElement} from "core-app/globals/onboarding/helpers";
+import { waitForElement } from "core-app/globals/onboarding/helpers";
 
 export function wpOnboardingTourSteps():any[] {
   return [

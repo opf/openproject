@@ -30,7 +30,7 @@ import {
   AfterViewInit,
   Component,
 } from '@angular/core';
-import {CreateAutocompleterComponent} from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component.ts";
+import { CreateAutocompleterComponent } from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component.ts";
 
 @Component({
   templateUrl: '../create-autocompleter/create-autocompleter.component.html',

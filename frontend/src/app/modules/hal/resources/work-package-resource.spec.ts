@@ -27,27 +27,27 @@
 //++
 
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {Injector} from '@angular/core';
-import {States} from 'core-components/states.service';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {AttachmentCollectionResource} from 'core-app/modules/hal/resources/attachment-collection-resource';
-import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
-import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {StateService} from "@uirouter/core";
-import {OpenProjectFileUploadService} from "core-components/api/op-file-upload/op-file-upload.service";
-import {OpenProjectDirectFileUploadService} from "core-components/api/op-file-upload/op-direct-file-upload.service";
-import {WorkPackageCreateService} from 'core-app/components/wp-new/wp-create.service';
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
-import {TimezoneService} from "core-components/datetime/timezone.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { OpenprojectHalModule } from 'core-app/modules/hal/openproject-hal.module';
+import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { Injector } from '@angular/core';
+import { States } from 'core-components/states.service';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { SchemaCacheService } from 'core-components/schemas/schema-cache.service';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { AttachmentCollectionResource } from 'core-app/modules/hal/resources/attachment-collection-resource';
+import { LoadingIndicatorService } from 'core-app/modules/common/loading-indicator/loading-indicator.service';
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { StateService } from "@uirouter/core";
+import { OpenProjectFileUploadService } from "core-components/api/op-file-upload/op-file-upload.service";
+import { OpenProjectDirectFileUploadService } from "core-components/api/op-file-upload/op-direct-file-upload.service";
+import { WorkPackageCreateService } from 'core-app/components/wp-new/wp-create.service';
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { WorkPackagesActivityService } from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
+import { TimezoneService } from "core-components/datetime/timezone.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;
@@ -168,7 +168,7 @@ describe('WorkPackage', () => {
 
     describe('when the attachment is an attachment resource', () => {
       beforeEach(() => {
-        attachment.delete = jasmine.createSpy('delete').and.returnValue(Promise.resolve())
+        attachment.delete = jasmine.createSpy('delete').and.returnValue(Promise.resolve());
         spyOn(workPackage, 'updateAttachments');
       });
 
@@ -193,7 +193,7 @@ describe('WorkPackage', () => {
 
         beforeEach(() => {
           attachment.delete = jasmine.createSpy('delete')
-            .and.returnValue(Promise.reject({ foo: 'bar'}));
+            .and.returnValue(Promise.reject({ foo: 'bar' }));
 
           errorStub = spyOn(halResourceNotification, 'handleRawError');
         });

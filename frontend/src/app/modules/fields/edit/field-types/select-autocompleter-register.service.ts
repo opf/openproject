@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 interface SelectAutocompleterAssignment {
   attribute:string;
@@ -42,7 +42,7 @@ export class SelectAutocompleterRegisterService {
   }
 
   public getAutocompleterOfAttribute(attribute:string) {
-    let assignment = _.find(this._fields, field => field.attribute === attribute);
+    const assignment = _.find(this._fields, field => field.attribute === attribute);
     return assignment ? assignment.component : undefined;
   }
 }

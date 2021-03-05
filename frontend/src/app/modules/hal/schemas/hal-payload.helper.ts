@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { SchemaResource } from 'core-app/modules/hal/resources/schema-resource';
 
 export class HalPayloadHelper {
 
@@ -58,13 +58,13 @@ export class HalPayloadHelper {
    * @param schema The associated schema to determine writable state of attributes
    */
   static extractPayloadFromSchema<T extends HalResource = HalResource>(resource:T, schema:SchemaResource) {
-    let payload:any = {
+    const payload:any = {
       '_links': {}
     };
 
-    let nonLinkProperties = [];
+    const nonLinkProperties = [];
 
-    for (let key in schema) {
+    for (const key in schema) {
       if (schema.hasOwnProperty(key) && schema[key] && schema[key].writable) {
         if (resource.$links[key]) {
           if (Array.isArray(resource[key])) {

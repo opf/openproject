@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {NgSelectComponent} from "@ng-select/ng-select";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NgSelectComponent } from "@ng-select/ng-select";
 
 type SelectItem = { label:string, value:string, selected?:boolean };
 
@@ -57,7 +57,7 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
   public options:SelectItem[];
 
   /** Whether we're a multiselect */
-  public multiselect:boolean = false;
+  public multiselect = false;
 
   /** Get the selected options */
   public selected:SelectItem|SelectItem[];

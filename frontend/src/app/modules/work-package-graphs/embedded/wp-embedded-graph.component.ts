@@ -1,8 +1,8 @@
-import {Component, Input, SimpleChanges} from '@angular/core';
-import {WorkPackageTableConfiguration} from 'core-components/wp-table/wp-table-configuration';
-import {GroupObject} from 'core-app/modules/hal/resources/wp-collection-resource';
-import {ChartOptions, ChartType} from 'chart.js';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { Component, Input, SimpleChanges } from '@angular/core';
+import { WorkPackageTableConfiguration } from 'core-components/wp-table/wp-table-configuration';
+import { GroupObject } from 'core-app/modules/hal/resources/wp-collection-resource';
+import { ChartOptions, ChartType } from 'chart.js';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 export interface WorkPackageEmbeddedGraphDataset {
   label:string;
@@ -56,19 +56,21 @@ export class WorkPackageEmbeddedGraphComponent {
 
   private updateChartData() {
     let uniqLabels = _.uniq(this.datasets.reduce((array, dataset) => {
-      let groups = (dataset.groups || []).map((group) => group.value) as any;
+      const groups = (dataset.groups || []).map((group) => group.value) as any;
       return array.concat(groups);
     }, [])) as string[];
 
-    let labelCountMaps = this.datasets.map((dataset) => {
-      let countMap = (dataset.groups || []).reduce((hash, group) => {
+    const labelCountMaps = this.datasets.map((dataset) => {
+      const countMap = (dataset.groups || []).reduce((hash, group) => {
         hash[group.value] = group.count;
         return hash;
       }, {} as any);
 
       return {
         label: dataset.label,
-        data: uniqLabels.map((label) => { return countMap[label] || 0; })
+        data: uniqLabels.map((label) => {
+          return countMap[label] || 0;
+        })
       };
     });
 
@@ -90,7 +92,7 @@ export class WorkPackageEmbeddedGraphComponent {
   }
 
   protected setChartOptions() {
-    let defaults = {
+    const defaults = {
       responsive: true,
       maintainAspectRatio: false,
       legend: {
@@ -104,9 +106,9 @@ export class WorkPackageEmbeddedGraphComponent {
       }
     };
 
-    let chartTypeDefaults:ChartOptions = {scales:{}};
+    const chartTypeDefaults:ChartOptions = { scales:{} };
     if (this.chartType === 'horizontalBar' || this.chartType === 'bar' ) {
-     this.setChartAxesValues(chartTypeDefaults);
+      this.setChartAxesValues(chartTypeDefaults);
     }
 
     this.chartOptions = Object.assign({}, defaults, chartTypeDefaults, this.inputChartOptions);
@@ -118,7 +120,7 @@ export class WorkPackageEmbeddedGraphComponent {
 
   private setHeight() {
     if (this.chartType === 'horizontalBar' && this.datasets && this.datasets[0]) {
-      let labels:string[] = [];
+      const labels:string[] = [];
       this.datasets.forEach(d => d.groups!.forEach(g => {
         if (!labels.includes(g.value)) {
           labels.push(g.value);
@@ -143,7 +145,7 @@ export class WorkPackageEmbeddedGraphComponent {
   // function to set ticks of axis
   private setChartAxesValues(chartOptions:ChartOptions) {
 
-    let changeableValuesAxis = [{
+    const changeableValuesAxis = [{
       stacked: true,
       ticks: {
         callback: (value:number) => {
@@ -156,7 +158,7 @@ export class WorkPackageEmbeddedGraphComponent {
       }
     }];
 
-    let constantValuesAxis = [{
+    const constantValuesAxis = [{
       stacked: true
     }];
 
@@ -164,7 +166,7 @@ export class WorkPackageEmbeddedGraphComponent {
       if (this.chartType === 'bar') {
         chartOptions.scales.yAxes = changeableValuesAxis;
         chartOptions.scales.xAxes = constantValuesAxis;
-       } else if (this.chartType === 'horizontalBar') {
+      } else if (this.chartType === 'horizontalBar') {
         chartOptions.scales.xAxes = changeableValuesAxis;
         chartOptions.scales.yAxes = constantValuesAxis;
       }

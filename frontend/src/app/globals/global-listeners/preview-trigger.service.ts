@@ -27,9 +27,9 @@
 //++
 
 
-import {Injectable, Injector} from "@angular/core";
-import {OpModalService} from "core-app/modules/modal/modal.service";
-import {WpPreviewModal} from "core-components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
+import { Injectable, Injector } from "@angular/core";
+import { OpModalService } from "core-app/modules/modal/modal.service";
+import { WpPreviewModal } from "core-components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
 
 @Injectable({ providedIn: 'root' })
 export class PreviewTriggerService {
@@ -82,9 +82,9 @@ export class PreviewTriggerService {
 
     const previewElement = jQuery(this.modalElement.children[0]);
     if (previewElement && previewElement.offset()) {
-      let horizontalHover = e.pageX >= Math.floor(previewElement.offset()!.left) &&
+      const horizontalHover = e.pageX >= Math.floor(previewElement.offset()!.left) &&
                             e.pageX < previewElement.offset()!.left + previewElement.width()!;
-      let verticalHover = e.pageY >= Math.floor(previewElement.offset()!.top) &&
+      const verticalHover = e.pageY >= Math.floor(previewElement.offset()!.top) &&
                           e.pageY < previewElement.offset()!.top + previewElement.height()!;
       return horizontalHover && verticalHover;
     }

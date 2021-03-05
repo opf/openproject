@@ -1,11 +1,11 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, OnInit} from "@angular/core";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {TimeEntryEditService} from "core-app/modules/time_entries/edit/edit.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, OnInit } from "@angular/core";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { TimeEntryEditService } from "core-app/modules/time_entries/edit/edit.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { TimeEntryResource } from "core-app/modules/hal/resources/time-entry-resource";
 
 export const triggerActionsEntryComponentSelector = 'time-entry--trigger-actions-entry';
 
@@ -81,7 +81,7 @@ export class TriggerActionsEntryComponent {
   }
 
   protected loadEntry():Promise<TimeEntryResource> {
-    let timeEntryId = this.elementRef.nativeElement.dataset['entry'];
+    const timeEntryId = this.elementRef.nativeElement.dataset['entry'];
 
     return this
       .apiv3Service
