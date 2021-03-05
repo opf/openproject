@@ -232,7 +232,7 @@ module OpenProject::GitlabIntegration
       # a closed pull request which has been merged
       # deserves a different label :)
       #key = 'merged' if key == 'closed' && payload['object_attributes']['state'] == 'closed'
-      commit_id = payload['commit']['id']
+      commit_id = commit['id']
       I18n.t("gitlab_integration.push_single_commit_comment",
         :commit_number => commit_id[0, 8],
         :commit_note => commit['message'],
