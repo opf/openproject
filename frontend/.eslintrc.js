@@ -37,11 +37,11 @@ module.exports = {
          */
         "@angular-eslint/directive-selector": [
           "error",
-          { "type": "attribute", "prefix": "app", "style": "camelCase" }
+          { "type": "attribute", "prefix": "op", "style": "camelCase" }
         ],
         "@angular-eslint/component-selector": [
           "error",
-          { "type": "element", "prefix": "app", "style": "kebab-case" }
+          { "type": "element", "prefix": "op", "style": "kebab-case" }
         ],
         "@typescript-eslint/dot-notation": "off",
         "@typescript-eslint/naming-convention": "off",
