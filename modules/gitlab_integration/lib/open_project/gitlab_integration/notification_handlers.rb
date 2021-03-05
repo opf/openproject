@@ -113,7 +113,9 @@ module OpenProject::GitlabIntegration
 
     def self.push_hook_split_commits(payload)
       return nil unless payload['object_kind'] == 'push'
+      Rails.logger.debug "Detectado evento push"
       payload[:commits].each do |commit|
+        Rails.logger.debug "Detectado commit #{commit['title']}"
         text << commit['title'] + " - " + commit['message']
         comment_on_referenced_work_packages text, payload, commit
       end
