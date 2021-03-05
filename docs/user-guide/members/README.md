@@ -47,11 +47,3 @@ Members will have different roles with different permissions in a project. To fi
 ## Groups
 
 Members can be added to groups. A group can be added to a project. With this, all members will be have the corresponding role in this project. Find out how to [create and manage groups](../../system-admin-guide/#groups) in OpenProject.
-
-## Frequently asked questions (FAQ)
-
-### How can I increase or decrease the number of users in OpenProject?
-
-For the Community Edition you can have as many users as you need for free. If you are using the OpenProject Enterprise Edition, please write an email to sales @ openproject.com.
-
-If you are using the OpenProject Cloud Edition, you can easily upgrade or downgrade the number of users by selection -> Administration -> Billing -> Manage subscription and choose the new amount of users which you need in  your system.
