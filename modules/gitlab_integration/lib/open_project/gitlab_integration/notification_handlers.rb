@@ -120,7 +120,7 @@ module OpenProject::GitlabIntegration
       Rails.logger.debug "Confirmado evento push"
       payload[:commits].each do |commit|
         Rails.logger.debug "Detectado commit #{commit['title']}"
-        text << commit['title'] + " - " + commit['message']
+        text = commit['title'] + " - " + commit['message']
         comment_on_referenced_work_packages text, payload, commit
       end
     end
@@ -228,6 +228,7 @@ module OpenProject::GitlabIntegration
     end
 
     def self.notes_for_push_payload(commit, payload)
+      Rails.logger.debug "Notepush #{commit['title']}"
       # a closed pull request which has been merged
       # deserves a different label :)
       #key = 'merged' if key == 'closed' && payload['object_attributes']['state'] == 'closed'
