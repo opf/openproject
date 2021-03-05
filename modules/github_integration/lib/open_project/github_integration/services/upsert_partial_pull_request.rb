@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -25,7 +27,24 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-
-require 'spec_helper'
-
-Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].sort.each { |f| require f }
+module OpenProject::GithubIntegration::Services
+  ##
+  # Takes pull request data coming from GitHub webhook data and stores
+  # them as a `GithubPullRequest`.
+  # issue_comments webhooks don't give us the full PR data, but just a html_url.
+  # As described in [the docs](https://docs.github.com/en/rest/reference/issues#list-organization-issues-assigned-to-the-authenticated-user),
+  # pull request are considered to also be issues
+  #
+  # Returns the upserted partial `GithubPullRequest`.
+  class UpsertPartialPullRequest
+    def call(github_html_url:, number:, repository:, work_packages:)
+      GithubPullRequest.find_or_initialize_by(github_html_url: github_html_url)
+                       .update!(
+                         number: number,
+                         state: 'partial',
+                         repository: repository,
+                         work_packages: pr.work_packages | work_packages
+                       )
+    end
+  end
+end

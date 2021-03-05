@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -25,7 +27,35 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+module OpenProject::GithubIntegration::Services
+  ##
+  # Takes user data coming from GitHub webhook data and stores
+  # them as a `GithubUser`.
+  # If the `GithubUser` already exists, it is updated.
+  #
+  # Returns the upserted `GithubUser`.
+  #
+  # See: https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads#pull_request
+  class UpsertGithubUser
+    def call(params)
+      params = extract_params(params)
+      GithubUser.find_or_initialize_by(github_id: params.fetch(:github_id))
+                .tap { |u| u.update!(params) }
+    end
 
-require 'spec_helper'
+    private
 
-Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].sort.each { |f| require f }
+    ##
+    # Receives the input from the github webhook and translates them
+    # to our internal representation.
+    # See: https://docs.github.com/en/rest/reference/users
+    def extract_params(params)
+      {
+        github_id: params.fetch('id'),
+        github_login: params.fetch('login'),
+        github_html_url: params.fetch('html_url'),
+        github_avatar_url: params.fetch('avatar_url')
+      }
+    end
+  end
+end

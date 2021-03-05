@@ -26,6 +26,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require File.expand_path('../../../../spec_helper', __dir__)
 
-Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].sort.each { |f| require f }
+describe OpenProject::GithubIntegration::Services::UpsertPartialPullRequest do
+  xit 'needs to be tested' do
+  end
+end

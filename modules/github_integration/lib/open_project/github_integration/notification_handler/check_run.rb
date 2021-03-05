@@ -26,6 +26,33 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module OpenProject::GithubIntegration
+  module NotificationHandler
+    ##
+    # Handles GitHub issue comment notifications.
+    class CheckRun
+      def process(payload)
+        return unless associated_with_pr?(payload)
 
-Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].sort.each { |f| require f }
+        pull_request = find_pull_request(payload)
+        return unless pull_request
+
+        OpenProject::GithubIntegration::Services::UpsertCheckRun.new.call(
+          payload['check_run'],
+          pull_request: pull_request
+        )
+      end
+
+      private
+
+      def associated_with_pr?(payload)
+        payload['check_run']['pull_requests'].present?
+      end
+
+      def find_pull_request(payload)
+        github_id = payload['check_run']['pull_requests'].first['id']
+        GithubPullRequest.find_by(github_id: github_id)
+      end
+    end
+  end
+end

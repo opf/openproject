@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,6 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+class GithubUser < ApplicationRecord
+  has_many :github_pull_requests
+  belongs_to :user, optional: true
 
-Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].sort.each { |f| require f }
+  validates_presence_of :github_id,
+                        :github_login,
+                        :github_html_url,
+                        :github_avatar_url
+end

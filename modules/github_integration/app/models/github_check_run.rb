@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,6 +28,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+class GithubCheckRun < ApplicationRecord
+  STATES = %w[queued in_progress completed].freeze
+  CONCLUSIONS = %w[action_required cancelled failure neutral success skipped stale timed_out].freeze
 
-Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].sort.each { |f| require f }
+  belongs_to :github_pull_request
+
+  validates_presence_of :github_app_owner_avatar_url,
+                        :github_html_url,
+                        :github_id,
+                        :status
+  validates :status, inclusion: { in: STATES }
+  validates :conclusion, inclusion: { in: CONCLUSIONS }, allow_blank: true
+end

@@ -26,6 +26,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-
-Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].sort.each { |f| require f }
+require_relative './services/upsert_check_run'
+require_relative './services/upsert_github_user'
+require_relative './services/upsert_pull_request'
