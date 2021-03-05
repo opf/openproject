@@ -43,6 +43,8 @@ Members will have different roles with different permissions in a project. To fi
 
 <div class="glossary">A **role** is defined as a set of permissions defined by a unique name. Project members are assigned to a project by specifying a user's or group's name and the role(s) the user should assume in the project.
 </div>
+To assign work packages to a project member, the respective user's or placeholder user's role needs to be able to be assigned work packages. This is the default setting for default roles. You can check this setting in the [Roles and Permissions section](../../system-admin-guide/users-permissions/roles-permissions/#create-a-new-role) of the system administration.
+
 
 ## Groups
 
