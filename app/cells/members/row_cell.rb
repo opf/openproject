@@ -145,18 +145,22 @@ module Members
     end
 
     def principal_link
-      case Principal
-      when User
-        link_to principal.name, user_path(principal)
-      when Group
-        link_to principal.name, show_group_path(principal)
-      else
-        content_tag :span, principal.name
-      end
+      link_to principal.name, principal_show_path
     end
 
     def principal_class_name
       principal.model_name.singular
+    end
+
+    def principal_show_path
+      case principal
+      when User
+        user_path(principal)
+      when Group
+        show_group_path(principal)
+      else
+        placeholder_user_path(principal)
+      end
     end
 
     def user?

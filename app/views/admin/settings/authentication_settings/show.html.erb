@@ -49,7 +49,7 @@ See docs/COPYRIGHT.rdoc for more details.
     </fieldset>
 
     <% if OpenProject::Configuration.registration_footer.blank? %>
-      <%= cell Settings::NumericSettingCell, "invitation_expiration_days", unit: "days" %>
+      <%= rails_cell Settings::NumericSettingCell, "invitation_expiration_days", unit: "days" %>
 
       <fieldset class="form--fieldset">
         <fieldset id="registration_footer" class="form--fieldset">

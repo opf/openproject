@@ -53,7 +53,10 @@ export class I18nService {
   }
 
   public t(translateId:string, parameters?:{ [key:string]:any }):string {
-    return this._i18n.t(translateId, parameters);
+    // Avoid returning empty translation strings and fall back to english instead
+    // due to translation bugs
+    return this._i18n.t(translateId, parameters) ||
+      this._i18n.t(translateId, { ...parameters, locale: 'en' });
   }
 
   public lookup(translateId:string):boolean|undefined {

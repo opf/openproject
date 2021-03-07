@@ -42,7 +42,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% if @versions.any? %>
-  <%= cell Versions::TableCell, @versions, project: @project %>
+  <%= rails_cell Versions::TableCell, @versions, project: @project %>
 
   <% if @project.versions.any? %>
     <div class="generic-table--action-buttons">

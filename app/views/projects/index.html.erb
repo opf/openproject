@@ -80,7 +80,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= render partial: 'projects/filters/form', locals: { query: @query } %>
 
-<%= cell Projects::TableCell,
+<%= rails_cell Projects::TableCell,
          @projects,
          current_user: current_user,
          orders: @orders,
