@@ -58,7 +58,7 @@ en:
         
       %{issue_note}
     note_issue_commented_comment: >
-      **Comment in Issue:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in
+      **Commented in Issue:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in
       Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}):
       
       %{issue_note}

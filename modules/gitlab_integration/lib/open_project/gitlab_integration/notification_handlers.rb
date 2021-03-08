@@ -29,74 +29,30 @@
 module OpenProject::GitlabIntegration
 
   ##
-  # Handles github-related notifications.
+  # Handles gitlab-related notifications.
   module NotificationHandlers
 
-    ##
-    # Handles a pull_request webhook notification.
-    # The payload looks similar to this:
-    # { open_project_user_id: <the id of the OpenProject user in whose name the webhook is processed>,
-    #   github_event: 'pull_request',
-    #   github_delivery: <randomly generated ID idenfitying a single github notification>,
-    # Have a look at the github documentation about the next keys:
-    # http://developer.github.com/v3/activity/events/types/#pullrequestevent
-    #   action: 'opened' | 'closed' | 'synchronize' | 'reopened',
-    #   number: <pull request number>,
-    #   pull_request: <details of the pull request>
-    # We observed the following keys to appear. However they are not documented by github
-    #   sender: <the github user who opened a pull request> (might not appear on closed,
-    #           synchronized, or reopened - we habven't checked)
-    #   repository: <the repository in action>
-    # }
     def self.merge_request_hook(payload)
-      # Don't add comments on new pushes to the pull request => ignore synchronize.
-      # Don't add comments about assignments and labels either.
-      Rails.logger.debug "Detectado evento merge request"
       accepted_actions = %w[open]
       accepted_states = %w[closed merged]
-      #return if ignored_actions.include? payload['action']
-      #return unless accepted_actions.include? payload['object_attributes']['action']
       return unless (accepted_actions.include? payload['object_attributes']['action']) || (accepted_states.include? payload['object_attributes']['state'])
       comment_on_referenced_work_packages payload['object_attributes']['title'], payload
-      #comment_on_referenced_work_packages payload['object_attributes']['source']['description'], payload
+
     rescue => e
       Rails.logger.error "Failed to handle merge_request_hook event: #{e} #{e.message}"
       raise e
     end
 
-    ##
-    # Handles an issue_comment webhook notification.
-    # The payload looks similar to this:
-    # { open_project_user_id: <the id of the OpenProject user in whose name the webhook is processed>,
-    #   github_event: 'issue_comment',
-    #   github_delivery: <randomly generated ID idenfitying a single github notification>,
-    # Have a look at the github documentation about the next keys:
-    # http://developer.github.com/v3/activity/events/types/#pullrequestevent
-    #   action: 'created',
-    #   issue: <details of the pull request/github issue>
-    #   comment: <details of the created comment>
-    # We observed the following keys to appear. However they are not documented by github
-    #   sender: <the github user who opened a pull request> (might not appear on closed,
-    #           synchronized, or reopened - we habven't checked)
-    #   repository: <the repository in action>
-    # }
     def self.note_hook(payload)
-      # if the comment is not associated with a PR, ignore it
-      #return unless payload['object_attributes']['noteable_type'] == "MergeRequest"
-      Rails.logger.debug "Detectado evento note"
       comment_on_referenced_work_packages payload['object_attributes']['note'], payload
+
     rescue => e
       Rails.logger.error "Failed to handle note_hook event: #{e} #{e.message}"
       raise e
     end
 
     def self.push_hook(payload)
-      # if the comment is not associated with a PR, ignore it
-      #return unless payload['object_attributes']['noteable_type'] == "MergeRequest"
-      #payload[:commits].each do |commit|
-      Rails.logger.debug "Detectado evento push 0"
       push_hook_split_commits payload
-      #end
       
     rescue => e
       Rails.logger.error "Failed to handle push_hook event: #{e} #{e.message}"
@@ -104,9 +60,6 @@ module OpenProject::GitlabIntegration
     end
 
     def self.issue_hook(payload)
-      # if the comment is not associated with a PR, ignore it
-      #return unless payload['object_attributes']['noteable_type'] == "MergeRequest"
-      Rails.logger.debug "Detectado evento issue"
       comment_on_referenced_work_packages payload['object_attributes']['title'] + ' - ' + payload['object_attributes']['description'], payload
       
     rescue => e
@@ -115,25 +68,17 @@ module OpenProject::GitlabIntegration
     end
 
     def self.push_hook_split_commits(payload)
-      Rails.logger.debug "Detectado evento push 1"
       return nil unless payload['object_kind'] == 'push'
-      Rails.logger.debug "Confirmado evento push"
       payload[:commits].each do |commit|
-        Rails.logger.debug "Detectado commit #{commit['title']}"
         text = commit['title'] + " - " + commit['message']
         comment_on_referenced_work_packages text, payload, commit
       end
     end
 
-    ##
-    # Parses the text for links to WorkPackages and adds a comment
-    # to those WorkPackages depending on the payload.
     def self.comment_on_referenced_work_packages(text, payload, commit = nil)
       user = User.find_by_id(payload['open_project_user_id'])
       wp_ids = extract_work_package_ids(text)
       wps = find_visible_work_packages(wp_ids, user)
-      # We may get events for pull_request type that we don't support
-      # such as review_requested.
       if payload['object_kind'] == 'push'
         notes = notes_for_push_payload(commit, payload)
       elsif payload['object_kind'] == 'issue'
@@ -141,7 +86,6 @@ module OpenProject::GitlabIntegration
       elsif payload['object_kind'] == 'merge_request'
         notes = notes_for_merge_request_payload(payload)
       elsif payload['object_kind'] == 'note'
-        #notes = notes_for_note_payload(payload)
         if wps.empty? && payload['object_attributes']['noteable_type'] == 'Issue'
           wp_ids = extract_work_package_ids(payload['issue']['title'] + ' - ' + payload['object_attributes']['note'])
           wps = find_visible_work_packages(wp_ids, user)
@@ -232,10 +176,6 @@ module OpenProject::GitlabIntegration
     end
 
     def self.notes_for_push_payload(commit, payload)
-      Rails.logger.debug "Notepush #{commit['id']}"
-      # a closed pull request which has been merged
-      # deserves a different label :)
-      #key = 'merged' if key == 'closed' && payload['object_attributes']['state'] == 'closed'
       commit_id = commit['id']
       I18n.t("gitlab_integration.push_single_commit_comment",
         :commit_number => commit_id[0, 8],
@@ -258,10 +198,6 @@ module OpenProject::GitlabIntegration
         'referenced' => 'referenced'
       }[payload['object_attributes']['state']]
 
-      # a closed pull request which has been merged
-      # deserves a different label :)
-      #key = 'merged' if key == 'closed' && payload['object_attributes']['state'] == 'closed'
-
       return nil unless key
 
       I18n.t("gitlab_integration.merge_request_#{key}_comment",
@@ -275,7 +211,6 @@ module OpenProject::GitlabIntegration
     end
 
     def self.notes_for_note_payload(payload, note_type)
-      #return nil unless payload['action'] == 'created'
       if payload['object_attributes']['noteable_type'] == 'Commit'
         commit_id = payload['commit']['id']
         I18n.t("gitlab_integration.note_commit_referenced_comment",

@@ -28,24 +28,19 @@
 
 module OpenProject::GitlabIntegration
   class HookHandler
-    # List of the github events we can handle.
+    # List of the gitlab events we can handle.
     KNOWN_EVENTS = %w[push_hook issue_hook note_hook merge_request_hook].freeze
 
-    # A github webhook happened.
+    # A gitlab webhook happened.
     # We need to check validity of the data and send a Notification
     # which we process in our NotificationHandler.
     def process(hook, request, params, user)
       event_type = request.env['HTTP_X_GITLAB_EVENT']
       event_type.gsub!(' ','_')
       event_type = event_type.to_s.downcase
-      #event_delivery = request.env['HTTP_X_GITHUB_DELIVERY']
 
-      #Rails.logger.debug "Received github webhook #{event_type} (#{event_delivery})"
-      Rails.logger.level = 0
       Rails.logger.debug "Received gitlab webhook #{event_type}"
 
-      #return 404 unless KNOWN_EVENTS.include?(event_type) && event_delivery
-      #return 200
       return 404 unless KNOWN_EVENTS.include?(event_type)
       return 403 unless user.present?
 
@@ -53,8 +48,7 @@ module OpenProject::GitlabIntegration
                 .permit!
                 .to_h
                 .merge('open_project_user_id' => user.id,
-                       'gitlab_event' => event_type)#,
-                       #'github_delivery' => event_delivery)
+                       'gitlab_event' => event_type)
 
       OpenProject::Notifications.send(event_name(event_type), payload)
 

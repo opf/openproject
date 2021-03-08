@@ -26,18 +26,60 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-de:
+en:
   gitlab_integration:
     merge_request_opened_comment: >
-      **PR Geöffnet:** "Pull request %{pr_number} “%{pr_title}”":%{pr_url} in "%{repository}":%{repository_url}
-      wurde von "%{github_user}":%{github_user_url} geöffnet.
+      **MR Opened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url})
+      has been opened by [%{gitlab_user}](%{gitlab_user_url}).
     merge_request_closed_comment: >
-      **PR Geschlossen:** "Pull request %{pr_number} “%{pr_title}”":%{pr_url} in "%{repository}":%{repository_url}
-      wurde von "%{github_user}":%{github_user_url} geschlossen.
+      **MR Closed:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url})
+      has been closed by [%{gitlab_user}](%{gitlab_user_url}).
     merge_request_merged_comment: >
-      **PR Merged:** "Pull request %{pr_number} “%{pr_title}”":%{pr_url} in "%{repository}":%{repository_url}
-      wurde von "%{github_user}":%{github_user_url} gemerged.
-    merge_request_referenced_comment: >
-      **Referenziert in PR:** ""%{github_user}":%{github_user_url} hat dieses Arbeitspaket in
-      Pull Request %{pr_number} “%{pr_title}”":%{pr_url} in "%{repository}":%{repository_url}
-      referenziert.
+      **MR Merged:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url})
+      has been merged by [%{gitlab_user}](%{gitlab_user_url}).
+    note_commit_referenced_comment: >
+      **Referenced in Commit:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in
+      a Commit Note [%{commit_id}](%{commit_url}) on [%{repository}](%{repository_url}):
+       
+      %{commit_note}
+    note_mr_referenced_comment: >
+      **Referenced in MR:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in
+      Merge request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}):
+      
+      %{mr_note}
+    note_mr_commented_comment: >
+      **Commented in MR:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in
+      Merge request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}):
+      
+      %{mr_note}
+    note_issue_referenced_comment: >
+      **Referenced in Issue:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in
+      Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}):
+        
+      %{issue_note}
+    note_issue_commented_comment: >
+      **Commented in Issue:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in
+      Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}):
+      
+      %{issue_note}
+    note_snippet_referenced_comment: >
+      **Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in
+      Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}):
+        
+      %{snippet_note}
+    issue_opened_referenced_comment: >
+      **Issue Opened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url})
+      has been opened by [%{gitlab_user}](%{gitlab_user_url}).
+    issue_closed_referenced_comment: >
+      **Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url})
+      has been closed by [%{gitlab_user}](%{gitlab_user_url}).
+    push_single_commit_comment: >
+      **Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) 
+      to [%{repository}](%{repository_url}) at %{commit_timestamp}:
+        
+      %{commit_note}
+    push_multiple_commits_comment: >
+      **Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed multiple commits [%{commit_number}](%{commit_url}) 
+      to [%{repository}](%{repository_url}) at %{commit_timestamp}:
+        
+      %{commit_note}

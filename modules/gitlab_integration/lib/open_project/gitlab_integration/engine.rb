@@ -37,7 +37,7 @@ module OpenProject::GitlabIntegration
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-gitlab_integration',
-             :author_url => 'http://finn.de',
+             :author_url => 'https://github.com/btey/openproject',
              bundled: true
 
 
