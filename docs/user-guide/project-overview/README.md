@@ -69,7 +69,7 @@ You can also add files to be displayed or attached to your project overview.
 
 ### Project members widget
 
-You can add a widget which displays all project members and their corresponding role for this project at the project overview page.
+You can add a widget which displays all project members and their corresponding role for this project at the project overview page. This includes groups and placeholder users.
 
 ![project members](image-20191112134827557.png)
 
