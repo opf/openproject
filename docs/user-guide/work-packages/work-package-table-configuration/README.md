@@ -67,8 +67,9 @@ To add a filter criteria, click the **+ Add filter:** button in the grey filter 
 You can add as many filter criteria as needed. 
 Also, you can filter by [custom fields](../../../system-admin-guide/custom-fields) if you set this in the custom field configuration.
 <div class="alert alert-info" role="alert">
-**Good to know**: Filtering a work packages list will temporarily change the default work package type and default status according to your filters to make newly created work packages visible in the list.
+**Good to know**: Filtering a work packages list will temporarily change the default work package type and default status to the values used in the filters to make newly created work packages visible in the list.
 </div>
+
 
 ### Filtering by text
 If you want to search for specific text in the subject, description or comments of a work package, type in the **Filter by text** the expression you want to filter for.
