@@ -12,15 +12,29 @@ A **role** is a set of **permissions** that can be assigned to any project membe
 
 When creating a role, the "Global role" field can be ticked, making it a **Global role** that can be assigned to a [users details](../users/#manage-user-settings) and applied across all projects.
 
+
+| Topic                                           | Content                                                      |
+| ----------------------------------------------- | ------------------------------------------------------------ |
+| [Permissions](#permissions)                     | What are permissions and how can I access the permissions report? |
+| [Create a new role](#create-a-new-role)         | How to create a new (global) role.                           |
+| [Edit and remove roles](#edit-and-remove-roles) | How to change and delete existing roles.                     |
+| [Global roles](#global-roles)                   | Which global roles are there and what are their significances? |
+
 ## Permissions
 
-The permissions are pre-defined in the system, and cannot be changed. They define what actions a role can carry out. If a user has more than one role, including global and project roles, a permission is granted if it is assigned to any of those roles.
+The permissions are predefined in the system, and cannot be changed. They define what actions a role can carry out. If a user has more than one role (including global and project roles), a permission is granted if it is assigned to any of those roles.
 
-All permissions are shown by OpenProject module in the [create a new role](#create-a-new-role) page.
+All permissions are shown sorted by OpenProject module in the [create a new role](#create-a-new-role) page or when clicking on an existing role.
+
+### Permissions report
+
+On the bottom of the roles list page there is a link to the **Permissions report**. This shows a grid of existing roles (horizontally) against permissions (vertically); the intersections are ticked if the role has the permission.
+
+A "Check/uncheck all" tick box is shown on each role or permission to allow bulk change. **Be careful, this cannot be undone**. If you make a mistake do not save the report.
 
 ### Project Modules
 
-If a [project module](../../../user-guide/projects/project-settings/modules/) is not enabled for a specific project it is not shown in that project's menu whether the user has permission for that module or not.
+Note: If a [project module](../../../user-guide/projects/project-settings/modules/) is not enabled for a specific project it is not shown in that project's menu whether the user has permission for that module or not.
 
 ## Create a new role
 
@@ -36,6 +50,7 @@ Complete the following as required:
 
 1. **Role name** - must be entered and be a new name.
 2. **Global Role** - this role applies to all projects, and can only be assigned in the [user details](../users/#manage-user-settings). Once saved, the decision to make a role a "global role" can't be reverted.
+   Ticking this box will show the available [global roles](#global-roles) and hide the regular permission options.
 3. **Work packages...** - tick to allow work packages to be assigned to a user with this role. This does not appear for global roles.
 4. **Copy workflow from** - select an existing role. The respective [workflows](../../manage-work-packages/work-package-workflows) will be copied to the role to be created.
 5. **Permissions** for this role - you can specify the permissions per OpenProject module. Click the arrow next to the module name to expand or compress the permissions list.
@@ -54,8 +69,21 @@ To remove an existing role click on the delete icon next to a role in the list (
 
 ![Sys-admin-edit-roles](Sys-admin-edit-roles.png)
 
-## Permissions report
 
-On the bottom of the roles list page there is a link to the **Permissions report**. This shows a grid of existing roles (horizontally) against permissions (vertically); the intersections are ticked if the role has the permission.
 
-A "Check/uncheck all" tick is shown on each role or permission to allow bulk change. Be careful, this cannot be undone. If you make a mistake do not save the report.
+## Global roles
+
+To create a global role tick the box "Global Role" when [creating a new role](#create-a-new-role). 
+
+![global-roles-in-openproject](image-20210308171607279.png)
+
+You can choose between these global roles:
+
+- **Create project**: Assign this role to users to enable them to create new projects without being system administrator. 
+- **Create and edit users**: Assign this role to users who should be able to create or invite new users and edit their profiles in a limited way. 
+  Users with this role can see all users of your OpenProject instance and can add users and edit name, user-name email address and language of a user. They can't delete or lock users. They can only see and add users to projects where they have permissions to see project members.
+  The user profile will look like this for them (user name and email address were redacted): ![create-and-edit-users-role](image-20210308180635158.png)
+- **Create, edit and delete placeholder users**: Assign this role to users (e.g. project admins) who should be able to manage [placeholder users](../placeholder-users). 
+  Users with this role can see all placeholder users in your OpenProject instance and can create, edit and delete placeholder users. They can only see and add placeholder users to projects where they have permissions to see project members.
+  A placeholder user's profile will look like this for them: ![create-edit-and-delete-placeholder-users-role](image-20210308192119584.png)
+- **Administrator**: Technically, the system administrator is also a global role. However, it can't be configured and is assigned to a user in another way. Find out more [here](../users/#general-settings).
