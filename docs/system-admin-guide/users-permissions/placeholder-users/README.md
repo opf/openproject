@@ -9,10 +9,12 @@ keywords: placeholder user, example, wildcard, place holder
 
 # Placeholder users (Premium feature)
 
-As an admin of [OpenProject Enterprise on-premises](https://www.openproject.org/enterprise-edition/) or [OpenProject Enterprise cloud](https://www.openproject.org/hosting/) you can add placeholder users to your instance. Placeholder users can be used to plan a project with or for users who haven't been added to that project yet. This way you can set up projects before staffing them.
+In [OpenProject Enterprise on-premises](https://www.openproject.org/enterprise-edition/) and [OpenProject Enterprise cloud](https://www.openproject.org/hosting/) you can add placeholder users to your instance. They can be created without an email address and do not need license seats.
+
+Placeholder users can be used to plan a project with or for users who haven't been added to that project yet. This way you can set up projects before staffing them.
 Another use case would be to include customers, vendors or partners in your planning without them knowing it.
 
-The peculiarity of placeholder users is that they can be created without an email address and do not need license seats.
+Placeholder users can be managed by system admins and by users with the [role](../roles-permissions/#global-roles) "Create, edit and delete placeholder users".
 
 
 | Topic                                                        | Content                                              |
@@ -23,8 +25,8 @@ The peculiarity of placeholder users is that they can be created without an emai
 
 
 
-
 ## Placeholder user list
+
 To manage placeholder users navigate to *Administration -> Users & Permissions -> Placeholder users*. The placeholder user list gives you an overview of all placeholder users with their names and creation dates. From here you can also [add](#create-placeholder-users) placeholder users, [edit](#manage-placeholder-user-settings) them and [delete](#delete-placeholder-users) them.
 
 The column headers can be clicked to toggle sort direction. Arrows indicate sort order, up for ascending (a-z/0-9) and down for descending (z-a/9-0).
