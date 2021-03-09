@@ -32,6 +32,6 @@ class Queries::PlaceholderUsers::Orders::DefaultOrder < Queries::BaseOrder
   self.model = PlaceholderUser
 
   def self.key
-    /\A(id|name)\z/
+    /\A(id|name|created_at|updated_at)\z/
   end
 end

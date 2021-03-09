@@ -175,7 +175,7 @@ export class SentryReporter implements ErrorReporter {
   private filterEvent(event:SentryEvent):SentryEvent|null {
     const unsupportedBrowser = document.body.classList.contains('-unsupported-browser');
     if (unsupportedBrowser) {
-      console.warn("Browser is not supported, skipping sentry reporting completely.")
+      console.warn("Browser is not supported, skipping sentry reporting completely.");
       return null;
     }
 
