@@ -62,12 +62,12 @@ describe Members::CreateContract do
       end
     end
 
-    describe '#manageable_projects' do
+    describe '#assignable_projects' do
       context 'as a user without permission' do
         let(:current_user) { FactoryBot.build_stubbed :user }
 
         it 'is empty' do
-          expect(contract.manageable_projects).to be_empty
+          expect(contract.assignable_projects).to be_empty
         end
       end
 
@@ -81,7 +81,7 @@ describe Members::CreateContract do
         end
 
         it 'returns the one project' do
-          expect(contract.manageable_projects.to_a).to eq [project1]
+          expect(contract.assignable_projects.to_a).to eq [project1]
         end
       end
     end

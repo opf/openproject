@@ -29,7 +29,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <% roles = Role.givable %>
 <% projects = ::Members::CreateContract
   .new(nil, current_user)
-  .manageable_projects
+  .assignable_projects
   .order(Arel.sql('lft')) %>
 <% memberships = @individual_principal.memberships.visible(current_user) %>
 
