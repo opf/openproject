@@ -80,7 +80,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   def visible_types
     @visible_types ||= begin
       if User.current.allowed_to?(:add_work_packages, @project, global: !in_project_context?)
-        in_project_context? ? @project.types : Type.default
+        in_project_context? ? @project.types : Type.all
       else
         Type.none
       end
@@ -90,9 +90,13 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   def work_package_create_link(type_id, type_name)
     content_tag(:li) do
       if in_project_context?
-        link_to type_name, new_project_work_packages_path(project_id: @project.identifier, type: type_id)
+        link_to type_name,
+                new_project_work_packages_path(project_id: @project.identifier, type: type_id),
+                class: "__hl_inline_type_#{type_id}"
       else
-        link_to type_name, new_work_packages_path(type: type_id)
+        link_to type_name,
+                new_work_packages_path(type: type_id),
+                class: "__hl_inline_type_#{type_id}"
       end
     end
   end
