@@ -12,12 +12,15 @@ jobs:
     outputs:
       latest_release_branch: ${{ steps.find_latest_release.outputs.branch }}
     steps:
-    - uses: actions/checkout@v2
     - id: find_latest_release
       run: |
-        BRANCH="$(git branch -a --sort=-committerdate | grep remotes\/origin\/release\/ | head -1)"
-        BRANCH="${BRANCH/\*/}"
-        BRANCH="${BRANCH/remotes\/origin\//}"
+        BRANCH=$(
+          curl \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            https://api.github.com/repos/${{ github.repository }}/branches?protected=true | \
+            jq -r .[].name | grep "release/" | sort -r | head -1
+        )
         if [ "$BRANCH" = "" ]; then
           echo "Invalid release branch found: $BRANCH"
           exit 1
