@@ -39,7 +39,7 @@ For self-hosted versions of OpenProject you can change this limit in the [work p
 
 **Columns**
 
-The exported file will follow the columns that you activated for the work packages table. With it, you can control the columns that will be contained in various formats. Please make sure to [save](../work-package-table-configuration/#save-work-package-views) the view you configured, as saving is a necessary precondition to keep the selected columns in the export.
+The exported file will display the columns that you activated for the work package table. With it, you can control the columns that will be contained in various formats. Please make sure to [save](../work-package-table-configuration/#save-work-package-views) the view you configured, as saving is a necessary precondition to keep the selected columns in the export.
 
 Some formats such as PDF will limit the number of columns available due to limitations of the PDF rendering engine to avoid overflowing the available space.
 
@@ -87,6 +87,3 @@ OpenProject can export the table into a comma-separated CSV. This file will be U
 ## Atom (XML) export
 
 OpenProject can export the table into a XML-based atom format. This file will be UTF-8 encoded.
-
-
-

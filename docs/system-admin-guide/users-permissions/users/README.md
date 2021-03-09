@@ -124,7 +124,7 @@ On the General tab the following fields are shown:
 2. **User consent** - if this has been [configured](../settings/#user-consent) (i.e. if the box next to "Consent required" is ticked) the consent status is shown here.
 3. **Authentication** - the content of this section depends on the type of [authentication method](#authentication) being used (e.g. password, OpenID, Kerberos, etc.)
 4. **Email notifications** - this defaults from the [Email notification settings](../../email/#email-notifications-settings). Users can change this on their Profile page.
-5. **Preferences** - users can change these on their Profile page. Time zone defaults from chosen language. "Auto-hide success notifications" means that they will automatically be removed after some seconds, not that there are no success notifications at all.
+5. **Preferences** - users can change these on their Profile page. Time zone defaults from chosen language. "Auto-hide success notifications" means that notifications will automatically be removed after some seconds, not that there are no success notifications at all.
 6. Do not forget to **Save** your changes.
 
 ![administration-user-settings-manage-user](image-20210302092958881.png)

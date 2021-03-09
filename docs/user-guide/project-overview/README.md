@@ -189,7 +189,7 @@ The widget lists all **open** and all **closed** work packages according to this
 
 ### Work package table widget
 
-The work package table widget includes a work package table to the project overview. The work package table can be filtered, grouped, sorted according to the [work package table configuration](../work-packages/work-package-table-configuration/), e.g. display only work packages with the priority "High".
+The work package table widget includes a work package table to the project overview. The work package table can be filtered, grouped, sorted according to the [work package table configuration](../work-packages/work-package-table-configuration/), e.g. to display only work packages with the priority "High".
 
 ![work package table widget](image-20191112152119523.png)
 

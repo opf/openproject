@@ -28,9 +28,9 @@ All permissions are shown sorted by OpenProject module in the [create a new role
 
 ### Permissions report
 
-On the bottom of the roles list page there is a link to the **Permissions report**. This shows a grid of existing roles (horizontally) against permissions (vertically); the intersections are ticked if the role has the permission.
+On the bottom of the roles list page there is a link to the **Permissions report**. This shows a grid of existing roles (columns) against permissions (rows); the intersections are ticked if the role has the permission.
 
-A "Check/uncheck all" tick box is shown on each role or permission to allow bulk change. **Be careful, this cannot be undone**. If you make a mistake do not save the report.
+A "Check/uncheck all" tick box is shown on each role or permission to allow bulk change. **Be careful, this cannot be undone**. If you make a mistake, do not save the report.
 
 ### Project Modules
 
@@ -81,7 +81,7 @@ You can choose between these global roles:
 
 - **Create project**: Assign this role to users to enable them to create new projects without being system administrator. 
 - **Create and edit users**: Assign this role to users who should be able to create or invite new users and edit their profiles in a limited way. 
-  Users with this role can see all users of your OpenProject instance and can add users and edit name, user-name email address and language of a user. They can't delete or lock users. They can only see and add users to projects where they have permissions to see project members.
+  Users with this role can see all users of your OpenProject instance and can add users and edit the name, username, email address and language of a user. They can't delete or lock users. They can only see and add users to projects where they have permissions to see project members.
   The user profile will look like this for them (user name and email address were redacted): ![create-and-edit-users-role](image-20210308180635158.png)
 - **Create, edit and delete placeholder users**: Assign this role to users (e.g. project admins) who should be able to manage [placeholder users](../placeholder-users). 
   Users with this role can see all placeholder users in your OpenProject instance and can create, edit and delete placeholder users. They can only see and add placeholder users to projects where they have permissions to see project members.

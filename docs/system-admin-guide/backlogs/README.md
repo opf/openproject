@@ -14,7 +14,7 @@ Navigate to *Administration* -> *Backlogs* -> *Settings* to set up your backlogs
 
 You can configure the following in the backlogs settings:
 
-1. Set the work package types which should be used as **story types**. Hold Ctrl. to choose several types. The story types will appear in the Backlogs view (product backlog, wish list, sprint) and can be created, prioritized directly in the Backlogs view, e.g. EPIC, FEATURE, BUG.
+1. Set the work package types which should be used as **story types**. Hold Ctrl (or Cmd on Mac) to choose several types. The story types will appear in the Backlogs view (product backlog, wish list, sprint) and can be created, prioritized directly in the Backlogs view, e.g. EPIC, FEATURE, BUG.
 2. Set the **task type**. The task type will appear in the task board to manage in your daily stand ups.
    Please note: You can't use a work package type as story type *and* as task type.
 3. Define to show **burn-down** or **burn-up** **chart**.
