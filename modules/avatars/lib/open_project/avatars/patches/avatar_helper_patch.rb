@@ -88,7 +88,7 @@ AvatarHelper.class_eval do
       tag_options = merge_image_options(user, opts)
       tag_options[:class] << ' avatar--gravatar-image avatar--fallback'
 
-      content_tag 'user-avatar',
+      content_tag 'op-principal',
                   '',
                   'data-class-list': tag_options[:class],
                   'data-user-id': user.id,
@@ -115,7 +115,7 @@ AvatarHelper.class_eval do
     def local_avatar_image_tag(user, options = {})
       tag_options = merge_image_options(user, options)
 
-      content_tag 'user-avatar',
+      content_tag 'op-principal',
                   '',
                   'data-class-list': tag_options[:class],
                   'data-user-id': user.id,
@@ -151,7 +151,7 @@ AvatarHelper.class_eval do
     tag_options = merge_image_options(user, options)
     tag_options[:class] << ' avatar-default'
 
-    content_tag 'user-avatar',
+    content_tag 'op-principal',
                 '',
                 'data-class-list': tag_options[:class],
                 'data-user-name': user.name,

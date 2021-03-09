@@ -106,11 +106,11 @@ describe('shows news', () => {
     });
   }));
 
-  it('should Not add the user-avatar component into DOM', waitForAsync(() => {
+  it('should Not add the op-principal component into DOM', waitForAsync(() => {
     fixture.detectChanges();
 
     fixture.whenStable().then(() => {
-      const newsItem = document.querySelector('user-avatar');
+      const newsItem = document.querySelector('op-principal');
       expect(document.contains(newsItem)).toBeTruthy();
 
     });
