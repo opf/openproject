@@ -1,4 +1,4 @@
-name: Translations
+name: Core / Translations
 on:
   schedule:
     - cron: '0 3 * * *' # Daily at 03:00
@@ -23,12 +23,15 @@ jobs:
           exit 1
         fi
         echo "::set-output name=branch::${BRANCH}"
+
   crowdin:
     needs: setup
     timeout-minutes: 20
     strategy:
       matrix:
-        branch: [dev, ${{needs.setup.outputs.latest_release_branch}}]
+        branch:
+          - dev
+          - "${{ needs.setup.outputs.latest_release_branch }}"
     steps:
       - uses: actions/checkout@v2
         ref: ${{ matrix.branch }}
