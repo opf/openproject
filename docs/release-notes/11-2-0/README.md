@@ -27,26 +27,26 @@ In the upcoming release we will continue working on this concept,  i.e. creating
 
 ## Extended filter options by parent and ID
 
-The work package filters are extended by new work package  attributes. You are now able to also select the Parent as a filter  option either by entering the name or ID of the parent work package.  This way you can easily see all direct related children of a work  package.
+The work package filters are extended by new work package  attributes. You are now able to also select the parent as a filter option either by entering the name or ID of the parent work package. This way you can easily see all direct related children of a work package.
 
 ![filter-parent](filter-parent.png)
 
 Furthermore, you can filter the work package table by ID to include (or exclude) only these work packages in the list.
 
 ![Filter-ID](Filter-ID.png)
- For example, choose those work packages you want to discuss in a meeting or that needs to be displayed on the project overview by filtering for  exact these IDs.
+ For example, choose those work packages you want to discuss in a meeting or that needs to be displayed on the project overview by filtering for exactly these IDs.
 
 ![filter-ID-meetings-example](filter-ID-meetings-example.png)
 
 ## Distribution of user administration
 
-The user administration is now distributed to non-admins by a new  global role for more fine-grained user management. This way it is  possible for non-admins to manage and invite users without having full  admin privileges.
+The user administration is now distributed to non-admins by a new  global role for more fine-grained user management. This way it is possible for non-admins to manage and invite users without having full admin privileges.
 
 ![distribution-of-user-admin](distribution-of-user-admin.png)
 
 ## UI and UX improvements and various bug fixes
 
-Furthermore, with 11.2 we have implemented various UI and UX  improvements for OpenProject. We harmonized the navigation for the time  and costs module so that it is consistent with the other navigation.  Also, we adapted the background colors of sum rows and group rows in the work package list so that it is easier to understand. We introduce a  group show page (similar to the users show page) in order to link this  page in case of mentioning a group and be also available for non-admins.
+Furthermore, with 11.2 we have implemented various UI and UX  improvements for OpenProject. We harmonized the navigation for the time and costs module so that it is consistent with the other navigation.  Also, we adapted the background colors of sum rows and group rows in the work package list so that it is easier to understand. We introduced a group show page (similar to the users show page) in order to link this page in case of mentioning a group and be also available for non-admins.
 
 ### All bug fixes and changes
 

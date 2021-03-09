@@ -20,9 +20,9 @@ Release date: 2021-03-09
 
 * Extended filter options by parent and ID
 * Distribution of user administration
-* Harmonized navigation for the time  and costs module
+* Harmonized navigation for the time and costs module
 * Adapted background colors of sum rows and group rows in the work package list
-* Introducing a  group show page
+* Introducing a group show page
 
 #### Premium features:
 
