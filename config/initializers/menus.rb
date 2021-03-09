@@ -83,6 +83,10 @@ Redmine::MenuManager.map :quick_add_menu do |menu|
             icon: 'icon3 icon-user-plus',
             html: {
               'invite-user-modal-augment': 'invite-user-modal-augment'
+            },
+            if: Proc.new { User.current.allowed_to_globally?(:manage_user) ||
+              User.current.allowed_to_globally?(:manage_placeholder_user) ||
+              User.current.allowed_to_globally?(:manage_members)
             }
 end
 
