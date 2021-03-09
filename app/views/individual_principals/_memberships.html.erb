@@ -27,10 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% roles = Role.givable %>
-<% projects = Project
-  .active
-  .where(id: Project.allowed_to(current_user, :manage_members))
-  .order(Arel.sql('lft')) %>
+<% projects = ::Members::CreateContract.manageable_projects(current_user).order(Arel.sql('lft')) %>
 <% memberships = @individual_principal.memberships.visible(current_user) %>
 
 <div class="grid-block">

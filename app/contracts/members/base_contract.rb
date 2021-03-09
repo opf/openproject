@@ -40,6 +40,12 @@ module Members
     validate :project_set
     validate :project_manageable
 
+    def self.manageable_projects(current_user)
+      Project
+        .active
+        .where(id: Project.allowed_to(current_user, :manage_members))
+    end
+
     private
 
     def user_allowed_to_manage
