@@ -465,7 +465,7 @@ GEM
     fastimage (2.2.3)
     ffi (1.15.0)
     flamegraph (0.9.5)
-    fog-aws (3.8.0)
+    fog-aws (3.9.0)
       fog-core (~> 2.1)
       fog-json (~> 1.1)
       fog-xml (~> 0.1)
