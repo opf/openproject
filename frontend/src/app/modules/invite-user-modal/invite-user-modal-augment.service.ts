@@ -71,6 +71,11 @@ export class OpInviteUserModalAugmentService {
 
     modal
       .closingEvent
-      .subscribe(() => window.location.reload());
+      .subscribe((modal) => {
+        // Just reload the page for now if we saved anything
+        if (modal.data) {
+          window.location.reload();
+        }
+      });
   }
 }
