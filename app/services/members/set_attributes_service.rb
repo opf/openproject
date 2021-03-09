@@ -33,9 +33,19 @@ module Members
     private
 
     def set_attributes(params)
-      model.assign_roles(params.delete(:role_ids)) if params[:role_ids]
+      assign_roles(params)
 
       super
+    end
+
+    def assign_roles(params)
+      return unless params[:role_ids]
+
+      role_ids = params
+        .delete(:role_ids)
+        .select(&:present?)
+
+      model.assign_roles(role_ids)
     end
   end
 end
