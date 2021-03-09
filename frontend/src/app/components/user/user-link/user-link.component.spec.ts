@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2020 the OpenProject GmbH
+// Copyright (C) 2012-2021 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -24,11 +24,11 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
 import {UserLinkComponent} from './user-link.component';
 
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {UserResource} from '../../../modules/hal/resources/user-resource';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
@@ -47,7 +47,7 @@ describe('UserLinkComponent component test', () => {
   let element:HTMLElement;
   let user:UserResource;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
 
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
@@ -67,7 +67,7 @@ describe('UserLinkComponent component test', () => {
 
   describe('inner element', function() {
     describe('with the uer having the showUserPath attribute', function() {
-      beforeEach(async(() => {
+      beforeEach(waitForAsync(() => {
         user = {
           name: 'First Last',
           showUserPath: '/users/1'
@@ -87,7 +87,7 @@ describe('UserLinkComponent component test', () => {
     });
 
     describe('with the user not having the showUserPath attribute', function() {
-      beforeEach(async(() => {
+      beforeEach(waitForAsync(() => {
         user = {
           name: 'First Last',
           showUserPath: null

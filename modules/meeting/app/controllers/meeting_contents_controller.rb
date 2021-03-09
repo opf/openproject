@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -61,18 +61,17 @@ class MeetingContentsController < ApplicationController
 
   def update
     (render_403; return) unless @content.editable? # TODO: not tested!
-    @content.attributes = content_params
-    @content.author = User.current
+    @content.attributes = content_params.merge(author: User.current)
     @content.attach_files(permitted_params.attachments.to_h)
-    if @content.save
-      flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting
+
+    if !@content.lock_version_changed?
+      if @content.save
+        flash[:notice] = I18n.t(:notice_successful_update)
+        redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting
+      end
+    else
+      render_conflict
     end
-  rescue ActiveRecord::StaleObjectError
-    # Optimistic locking exception
-    flash.now[:error] = I18n.t(:notice_locking_conflict)
-    params[:tab] ||= 'minutes' if @meeting.agenda.present? && @meeting.agenda.locked?
-    render 'meetings/show'
   end
 
   def history
@@ -135,6 +134,12 @@ class MeetingContentsController < ApplicationController
     @author = User.current
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def render_conflict
+    flash.now[:error] = I18n.t(:notice_locking_conflict)
+    params[:tab] ||= 'minutes' if @meeting.agenda.present? && @meeting.agenda.locked?
+    render 'meetings/show'
   end
 
   def content_params

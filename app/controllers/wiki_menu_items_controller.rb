@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -137,7 +138,8 @@ class WikiMenuItemsController < ApplicationController
   private
 
   def wiki_menu_item_params
-    @wiki_menu_item_params ||= params.require(:menu_items_wiki_menu_item).permit(:name, :title, :navigatable_id, :parent_id, :setting, :new_wiki_page, :index_page)
+    @wiki_menu_item_params ||= params.require(:menu_items_wiki_menu_item).permit(:name, :title, :navigatable_id, :parent_id,
+                                                                                 :setting, :new_wiki_page, :index_page)
   end
 
   def get_data_from_params(params)
@@ -157,7 +159,7 @@ class WikiMenuItemsController < ApplicationController
                                       @wiki_menu_item.parent.id
                                     else
                                       @page.nearest_main_item.try :id
-    end
+                                    end
   end
 
   def assign_wiki_menu_item_params(menu_item)
@@ -181,7 +183,7 @@ class WikiMenuItemsController < ApplicationController
                   item.tap { |item| item.parent_id = nil }
                 else
                   wiki.wiki_menu_items.build(name: page.slug, title: page.title)
-    end
+                end
 
     menu_item.options = options
     menu_item.save

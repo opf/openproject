@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -38,12 +38,15 @@ describe WorkPackage, type: :model do
   end
 
   let(:project2) { FactoryBot.create(:project_with_types, types: project.types) }
-  let(:work_package) {
+  let(:work_package) do
     FactoryBot.create(:work_package, project: project,
-                                      type: project.types.first,
-                                      author: user)
-  }
-  let!(:cost_entry) { FactoryBot.create(:cost_entry, work_package: work_package, project: project, units: 3, spent_on: Date.today, user: user, comments: 'test entry') }
+                                     type: project.types.first,
+                                     author: user)
+  end
+  let!(:cost_entry) do
+    FactoryBot.create(:cost_entry, work_package: work_package, project: project, units: 3, spent_on: Date.today, user: user,
+                                   comments: 'test entry')
+  end
   let!(:budget) { FactoryBot.create(:budget, project: project) }
 
   def move_to_project(work_package, project)

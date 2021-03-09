@@ -1,7 +1,7 @@
 import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2020 the OpenProject GmbH
+// Copyright (C) 2012-2021 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@ import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-// ++
+//++
 import * as moment from 'moment';
 import {InputState, MultiInputState} from 'reactivestates';
 import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";

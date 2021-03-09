@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -35,20 +35,22 @@ module Components
       def sort_via_header(name, selector: nil, descending: false)
         text = descending ? 'Sort descending' : 'Sort ascending'
 
+        SeleniumHubWaiter.wait
         open_table_column_context_menu(name, selector)
+        SeleniumHubWaiter.wait
 
         within_column_context_menu do
           click_link text
         end
       end
 
-      def update_criteria(first, second=nil, third=nil)
+      def update_criteria(first, second = nil, third = nil)
         open_modal
+        SeleniumHubWaiter.wait
 
         [first, second, third]
           .compact
           .each_with_index do |entry, i|
-
           column, direction = entry
           update_nth_criteria(i, column, descending: descending?(direction))
         end
@@ -56,13 +58,13 @@ module Components
         apply_changes
       end
 
-      def expect_criteria(first, second=nil, third=nil)
+      def expect_criteria(first, second = nil, third = nil)
         open_modal
+        SeleniumHubWaiter.wait
 
         [first, second, third]
           .compact
           .each_with_index do |entry, i|
-
           column, direction = entry
           page.within(".modal-sorting-row-#{i}") do
             expect(page).to have_selector("#modal-sorting-attribute-#{i} option", text: column)
@@ -117,10 +119,8 @@ module Components
         page.find(".generic-table--sort-header ##{id}").click
       end
 
-      def within_column_context_menu
-        page.within('#column-context-menu') do
-          yield
-        end
+      def within_column_context_menu(&block)
+        page.within('#column-context-menu', &block)
       end
     end
   end

@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -31,9 +32,9 @@ class CustomStylesController < ApplicationController
   layout 'admin'
   menu_item :custom_style
 
-  before_action :require_admin, except: [:logo_download, :favicon_download, :touch_icon_download]
-  before_action :require_ee_token, except: [:upsale, :logo_download, :favicon_download, :touch_icon_download]
-  skip_before_action :check_if_login_required, only: [:logo_download, :favicon_download, :touch_icon_download]
+  before_action :require_admin, except: %i[logo_download favicon_download touch_icon_download]
+  before_action :require_ee_token, except: %i[upsale logo_download favicon_download touch_icon_download]
+  skip_before_action :check_if_login_required, only: %i[logo_download favicon_download touch_icon_download]
 
   def show
     @custom_style = CustomStyle.current || CustomStyle.new
@@ -123,7 +124,10 @@ class CustomStylesController < ApplicationController
 
   def options_for_theme_select
     options = OpenProject::CustomStyles::ColorThemes.themes.map { |val| val[:theme] }
-    options << [t('admin.custom_styles.color_theme_custom'), '', selected: true, disabled: true] unless @current_theme.present?
+    unless @current_theme.present?
+      options << [t('admin.custom_styles.color_theme_custom'), '',
+                  { selected: true, disabled: true }]
+    end
 
     options
   end

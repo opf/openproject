@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -47,18 +47,17 @@ module API
               fail ::API::Errors::InvalidUserStatusTransition
             end
           end
+
+          def authorize_user_cru_allowed
+            authorize_by_with_raise(current_user.allowed_to_globally?(:manage_user))
+          end
         end
 
         resources :users do
-          helpers ::API::V3::Users::CreateUser
-
-          post do
-            authorize_admin
-            create_user(request_body, current_user)
-          end
+          post &::API::V3::Utilities::Endpoints::Create.new(model: User).mount
 
           get do
-            authorize_admin
+            authorize_user_cru_allowed
 
             query = ParamsToQueryService.new(User, current_user).call(params)
 
@@ -77,9 +76,7 @@ module API
           params do
             requires :id, desc: 'User\'s id'
           end
-          route_param :id  do
-            helpers ::API::V3::Users::UpdateUser
-
+          route_param :id do
             after_validation do
               @user =
                 if params[:id] == 'me'
@@ -89,22 +86,9 @@ module API
                 end
             end
 
-            get do
-              UserRepresenter.new(@user, current_user: current_user)
-            end
-
-            patch do
-              authorize_admin
-              update_user(request_body, current_user)
-            end
-
-            delete do
-              if ::Users::DeleteService.new(@user, current_user).call
-                status 202
-              else
-                fail ::API::Errors::Unauthorized
-              end
-            end
+            get &::API::V3::Utilities::Endpoints::Show.new(model: User).mount
+            patch &::API::V3::Utilities::Endpoints::Update.new(model: User).mount
+            delete &::API::V3::Utilities::Endpoints::Delete.new(model: User, success_status: 202).mount
 
             namespace :lock do
               # Authenticate lock transitions

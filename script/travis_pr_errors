@@ -15,7 +15,7 @@ begin
   response = RestClient.get "https://api.github.com/repos/opf/openproject/pulls?state=open&head=opf:#{branch_name}"
   json = JSON.parse(response)
   pr_number = json.first['number']
-rescue => e
+rescue StandardError => e
   warn "Failed to get PR number from #{branch_name}: #{e} #{e.message}"
 end
 
@@ -46,4 +46,3 @@ end
 specs = results.flatten.join(" ")
 
 puts "Errors\n\n#{specs}"
-

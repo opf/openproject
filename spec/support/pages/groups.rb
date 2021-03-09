@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -40,9 +40,13 @@ module Pages
     end
 
     def add_user_to_group!(user_name, group_name)
-      visit_page unless current_page?
+      unless current_page?
+        visit_page
+        SeleniumHubWaiter.wait
+      end
 
       edit_group! group_name
+      SeleniumHubWaiter.wait
       group(group_name).add_user! user_name
     end
 
@@ -90,6 +94,7 @@ module Pages
 
     def add_to_project!(project_name, as:)
       open_projects_tab!
+      SeleniumHubWaiter.wait
       select_project! project_name
       Array(as).each { |role| check role }
       click_on 'Add'
@@ -97,6 +102,7 @@ module Pages
 
     def remove_from_project!(name)
       open_projects_tab!
+      SeleniumHubWaiter.wait
       find_project(name).find('a[data-method=delete]').click
     end
 
@@ -114,6 +120,7 @@ module Pages
 
     def add_user!(user_name)
       open_users_tab!
+      SeleniumHubWaiter.wait
 
       container = page.find('.new-group-members--autocomplete')
       select_autocomplete container,
@@ -123,6 +130,8 @@ module Pages
 
     def remove_user!(user_name)
       open_users_tab!
+      SeleniumHubWaiter.wait
+
       find_user(user_name).find('a[data-method=delete]').click
     end
 

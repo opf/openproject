@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -33,7 +33,7 @@ class MessagesController < ApplicationController
   default_search_scope :messages
   model_object Message, scope: Forum
   before_action :find_object_and_scope
-  before_action :authorize, except: [:edit, :update, :destroy]
+  before_action :authorize, except: %i[edit update destroy]
 
   include AttachmentsHelper
   include PaginationHelper
@@ -67,7 +67,7 @@ class MessagesController < ApplicationController
     @message = Messages::SetAttributesService
       .new(user: current_user,
            model: Message.new,
-           contract_class: NoopContract)
+           contract_class: EmptyContract)
       .call(forum: @forum)
       .result
   end

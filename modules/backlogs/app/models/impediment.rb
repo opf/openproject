@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -59,7 +59,10 @@ class Impediment < Task
       errors.add :blocks_ids, :must_block_at_least_one_work_package
     else
       other_version_ids = WorkPackage.where(id: blocks_ids).pluck(:version_id).uniq
-      errors.add :blocks_ids, :can_only_contain_work_packages_of_current_sprint if other_version_ids.size != 1 || other_version_ids[0] != version_id
+      if other_version_ids.size != 1 || other_version_ids[0] != version_id
+        errors.add :blocks_ids,
+                   :can_only_contain_work_packages_of_current_sprint
+      end
     end
   end
 end

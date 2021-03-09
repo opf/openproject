@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -66,14 +66,16 @@ describe WikiContent, type: :model do
   describe '#save (create)' do
     let(:content) { FactoryBot.build(:wiki_content, page: page) }
 
-    it 'sends mails to the wiki`s watchers and project all watchers', with_settings: { notified_events: ['wiki_content_added'] } do
+    it 'sends mails to the wiki`s watchers and project all watchers',
+       with_settings: { notified_events: ['wiki_content_added'] } do
       wiki_watcher
       project_watcher
 
-      expect {
-        content.save!
-        perform_enqueued_jobs
-      }
+      expect do
+        perform_enqueued_jobs do
+          content.save!
+        end
+      end
         .to change { ActionMailer::Base.deliveries.size }
         .by(2)
     end
@@ -86,15 +88,13 @@ describe WikiContent, type: :model do
       wiki_watcher
       project_watcher
 
-      content
-      perform_enqueued_jobs
-
       content.text = 'My new content'
 
-      expect {
-        content.save!
-        perform_enqueued_jobs
-      }
+      expect do
+        perform_enqueued_jobs do
+          content.save!
+        end
+      end
         .to change { ActionMailer::Base.deliveries.size }
         .by(3)
     end

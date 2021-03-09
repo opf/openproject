@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -65,7 +66,7 @@ describe WikiContent, type: :model do
   it 'should fetch history' do
     wiki_content_journal = FactoryBot.create(:wiki_content_journal,
                                              journable: @page.content)
-    wiki_content_journal.data.update_attributes(page_id: @page.id, text: '')
+    wiki_content_journal.data.update(page_id: @page.id, text: '')
 
     assert !@page.content.journals.empty?
     @page.content.journals.each do |journal|

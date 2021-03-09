@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Multi-value custom fields creation', type: :feature, js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
 
   def drag_and_drop(handle, to)
     scroll_to_element(handle)
@@ -60,6 +60,7 @@ describe 'Multi-value custom fields creation', type: :feature, js: true do
     # Create CF
     click_on 'Create a new custom field'
 
+    SeleniumHubWaiter.wait
     fill_in 'custom_field_name', with: 'My List CF'
     select 'List', from: 'custom_field_field_format'
 
@@ -68,17 +69,20 @@ describe 'Multi-value custom fields creation', type: :feature, js: true do
 
     # Add new row
     find('#add-custom-option').click
+    SeleniumHubWaiter.wait
     expect(page).to have_selector('input#custom_field_custom_options_attributes_1_value')
     fill_in 'custom_field_custom_options_attributes_1_value', with: 'B'
 
     # Add new row
     find('#add-custom-option').click
+    SeleniumHubWaiter.wait
     expect(page).to have_selector('input#custom_field_custom_options_attributes_2_value')
     fill_in 'custom_field_custom_options_attributes_2_value', with: 'C'
 
     click_on 'Save'
 
     # Edit again
+    SeleniumHubWaiter.wait
     page.find('a', text: 'My List CF').click
     expect(page).to have_selector('input#custom_field_custom_options_attributes_0_value[value=A]')
     expect(page).to have_selector('input#custom_field_custom_options_attributes_1_value[value=B]')

@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -35,9 +35,9 @@ describe API::V3, type: :request do
 
     let(:response_401) do
       {
-        '_type'           => 'Error',
+        '_type' => 'Error',
         'errorIdentifier' => 'urn:openproject-org:api:v3:errors:Unauthenticated',
-        'message'         => expected_message
+        'message' => expected_message
       }
     end
 
@@ -127,7 +127,6 @@ describe API::V3, type: :request do
           it 'should return the correct content type header' do
             expect(last_response.headers['Content-Type']).to eq 'application/hal+json; charset=utf-8'
           end
-
 
           it 'should return the WWW-Authenticate header' do
             expect(last_response.header['WWW-Authenticate'])

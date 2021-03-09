@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -34,7 +34,7 @@ describe SystemUser, type: :model do
   describe '#grant_privileges' do
     before do
       expect(system_user.admin).to be_falsey
-      expect(system_user.status).to eq(User::STATUSES[:active])
+      expect(system_user).to be_active
       system_user.grant_privileges
     end
 
@@ -59,18 +59,18 @@ describe SystemUser, type: :model do
     let(:project) { FactoryBot.create(:project_with_types, public: false) }
     let(:user) { FactoryBot.build(:user) }
     let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
-    let(:member) {
+    let(:member) do
       FactoryBot.build(:member, project: project,
-                                 roles: [role],
-                                 principal: user)
-    }
+                                roles: [role],
+                                principal: user)
+    end
     let(:status) { FactoryBot.create(:status) }
-    let(:issue) {
+    let(:issue) do
       FactoryBot.build(:work_package, type: project.types.first,
-                                       author: user,
-                                       project: project,
-                                       status: status)
-    }
+                                      author: user,
+                                      project: project,
+                                      status: status)
+    end
 
     before do
       issue.save!

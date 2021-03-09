@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -164,6 +164,7 @@ module RbCommonHelper
 
   def date_string_with_milliseconds(d, add = 0)
     return '' if d.blank?
+
     d.strftime('%B %d, %Y %H:%M:%S') + '.' + (d.to_f % 1 + add).to_s.split('.')[1]
   end
 
@@ -228,7 +229,7 @@ module RbCommonHelper
   end
 
   def all_workflows
-    @all_workflows ||= Workflow.includes([:new_status, :old_status])
+    @all_workflows ||= Workflow.includes(%i[new_status old_status])
                        .where(role_id: User.current.roles_for_project(@project).map(&:id),
                               type_id: story_types.map(&:id))
   end

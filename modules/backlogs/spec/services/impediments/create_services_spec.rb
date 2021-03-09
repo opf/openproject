@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -135,7 +135,11 @@ describe Impediments::CreateService do
 
       it_should_behave_like 'impediment creation with no blocking relationship'
       it { expect(subject).to be_new_record }
-      it { expect(subject.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint, scope: [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
+      it {
+        expect(subject.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint,
+                                                              scope: %i[activerecord errors models work_package attributes
+                                                                        blocks_ids])
+      }
     end
 
     describe 'WITH the story being non existent' do
@@ -152,7 +156,11 @@ describe Impediments::CreateService do
 
       it_should_behave_like 'impediment creation with no blocking relationship'
       it { expect(subject).to be_new_record }
-      it { expect(subject.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint, scope: [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
+      it {
+        expect(subject.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint,
+                                                              scope: %i[activerecord errors models work_package attributes
+                                                                        blocks_ids])
+      }
     end
   end
 
@@ -170,6 +178,10 @@ describe Impediments::CreateService do
 
     it_should_behave_like 'impediment creation with no blocking relationship'
     it { expect(subject).to be_new_record }
-    it { expect(subject.errors[:blocks_ids]).to include I18n.t(:must_block_at_least_one_work_package, scope: [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
+    it {
+      expect(subject.errors[:blocks_ids]).to include I18n.t(:must_block_at_least_one_work_package,
+                                                            scope: %i[activerecord errors models work_package attributes
+                                                                      blocks_ids])
+    }
   end
 end

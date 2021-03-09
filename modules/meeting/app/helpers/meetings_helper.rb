@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -43,7 +43,7 @@ module MeetingsHelper
   end
 
   # This renders a journal entry with a header and details
-  def render_journal_details(journal, header_label = :label_updated_time_by, model = nil, options = {})
+  def render_journal_details(journal, header_label = :label_updated_time_by, _model = nil, options = {})
     header = <<-HTML
       <div class="profile-wrap">
         #{avatar(journal.user)}
@@ -57,11 +57,11 @@ module MeetingsHelper
 
     if journal.details.any?
       details = content_tag 'ul', class: 'details journal-attributes' do
-        journal.details.map { |detail|
+        journal.details.map do |detail|
           if d = journal.render_detail(detail, cache: options[:cache])
             content_tag('li', d.html_safe)
           end
-        }.compact.join(' ').html_safe
+        end.compact.join(' ').html_safe
       end
     end
 

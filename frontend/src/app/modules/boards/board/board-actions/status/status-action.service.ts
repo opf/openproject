@@ -20,9 +20,7 @@ export class BoardStatusActionService extends CachedBoardActionService {
 
   image = ImageHelpers.imagePath('board_creation_modal/status.svg');
 
-  public get localizedName() {
-    return this.I18n.t('js.work_packages.properties.status');
-  }
+  localizedName = this.I18n.t('js.work_packages.properties.status');
 
   headerComponent() {
     return StatusBoardHeaderComponent;

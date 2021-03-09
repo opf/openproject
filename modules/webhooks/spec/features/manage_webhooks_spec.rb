@@ -24,6 +24,7 @@ describe 'Manage webhooks through UI', type: :feature, js: true do
 
       # Visit inline create
       find('.wp-inline-create--add-link').click
+      SeleniumHubWaiter.wait
 
       # Fill in elements
       fill_in 'webhook_name', with: 'My webhook'
@@ -50,9 +51,11 @@ describe 'Manage webhooks through UI', type: :feature, js: true do
       expect(page).to have_selector('.webhooks--outgoing-webhook-row .events', text: 'Work packages')
       expect(page).to have_selector('.webhooks--outgoing-webhook-row .description', text: webhook.description)
 
+      SeleniumHubWaiter.wait
       # Edit this webhook
       find(".webhooks--outgoing-webhook-row-#{webhook.id} .icon-edit").click
 
+      SeleniumHubWaiter.wait
       # Check the other event
       find('.form--check-box[value="work_package:created"]').set false
       find('.form--check-box[value="work_package:updated"]').set true
@@ -69,6 +72,7 @@ describe 'Manage webhooks through UI', type: :feature, js: true do
       expect(webhook.projects.all).to eq [project]
       expect(webhook.all_projects).to be_falsey
 
+      SeleniumHubWaiter.wait
       # Delete webhook
       find(".webhooks--outgoing-webhook-row-#{webhook.id} .icon-delete").click
       page.driver.browser.switch_to.alert.accept
@@ -83,6 +87,7 @@ describe 'Manage webhooks through UI', type: :feature, js: true do
 
       it 'shows the delivery' do
         visit admin_outgoing_webhooks_path
+        SeleniumHubWaiter.wait
         find('.webhooks--outgoing-webhook-row .name a', text: 'testing').click
 
         expect(page).to have_selector('.on-off-status.-enabled')
@@ -90,6 +95,7 @@ describe 'Manage webhooks through UI', type: :feature, js: true do
         expect(page).to have_selector('td.response_code', text: '200')
 
         # Open modal
+        SeleniumHubWaiter.wait
         find('td.response_body a', text: 'Show').click
 
         page.within('.webhooks--response-body-modal') do

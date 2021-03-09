@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'WorkPackage-Visibility', type: :model do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:anonymous) { FactoryBot.create(:anonymous) }
   let(:user) { FactoryBot.create(:user) }
   let(:public_project) { FactoryBot.create(:project, public: true) }
@@ -63,9 +63,9 @@ describe 'WorkPackage-Visibility', type: :model do
 
     it 'is visible for members of the project, with the view_work_packages permissison' do
       FactoryBot.create(:member,
-                         user: user,
-                         project: private_project,
-                         role_ids: [view_work_packages.id])
+                        user: user,
+                        project: private_project,
+                        role_ids: [view_work_packages.id])
 
       expect(WorkPackage.visible(user)).to match_array [subject]
     end
@@ -74,10 +74,10 @@ describe 'WorkPackage-Visibility', type: :model do
       subject
 
       FactoryBot.create(:member,
-                         user: user,
-                         project: private_project,
-                         role_ids: [view_work_packages.id,
-                                    view_work_packages_role2.id])
+                        user: user,
+                        project: private_project,
+                        role_ids: [view_work_packages.id,
+                                   view_work_packages_role2.id])
 
       expect(WorkPackage.visible(user).pluck(:id)).to match_array [subject.id]
     end
@@ -89,9 +89,9 @@ describe 'WorkPackage-Visibility', type: :model do
     it 'is not visible for members of the project, without the view_work_packages permissison' do
       no_permission = FactoryBot.create(:role, permissions: [:no_permission])
       FactoryBot.create(:member,
-                         user: user,
-                         project: private_project,
-                         role_ids: [no_permission.id])
+                        user: user,
+                        project: private_project,
+                        role_ids: [no_permission.id])
 
       expect(WorkPackage.visible(user)).to match_array []
     end

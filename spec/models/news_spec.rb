@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -27,18 +28,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 require 'spec_helper'
-require File.expand_path('../../support/shared/become_member', __FILE__)
+require File.expand_path('../support/shared/become_member', __dir__)
 
 require 'support/shared/acts_as_watchable'
 
 describe News, type: :model do
   include BecomeMember
 
-  let(:project) {
+  let(:project) do
     project = FactoryBot.create(:public_project)
     project.enabled_modules << EnabledModule.new(name: 'news')
     project.reload
-  }
+  end
 
   let!(:news) { FactoryBot.create(:news, project: project) }
   let(:permissions) { [] }
@@ -112,13 +113,13 @@ describe News, type: :model do
            with_settings: { notified_events: %w(news_added) } do
     it 'sends email notifications when created' do
       FactoryBot.create(:user,
-                         member_in_project: project,
-                         member_through_role: role)
+                        member_in_project: project,
+                        member_through_role: role)
       project.members.reload
 
-      FactoryBot.create(:news, project: project)
-
-      perform_enqueued_jobs
+      perform_enqueued_jobs do
+        FactoryBot.create(:news, project: project)
+      end
       expect(ActionMailer::Base.deliveries.size).to eq(1)
     end
   end

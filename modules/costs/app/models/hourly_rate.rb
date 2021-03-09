@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -27,7 +27,7 @@
 #++
 
 class HourlyRate < Rate
-  validates_uniqueness_of :valid_from, scope: [:user_id, :project_id]
+  validates_uniqueness_of :valid_from, scope: %i[user_id project_id]
   validates_presence_of :user_id, :project_id, :valid_from
   validate :change_of_user_only_on_first_creation
 
@@ -99,7 +99,7 @@ class HourlyRate < Rate
 
   def change_of_user_only_on_first_creation
     # Only allow change of project and user on first creation
-    return if self.new_record?
+    return if new_record?
 
     errors.add :project_id, :invalid if project_id_changed?
     errors.add :user_id, :invalid if user_id_changed?

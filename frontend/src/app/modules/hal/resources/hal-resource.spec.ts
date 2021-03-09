@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2020 the OpenProject GmbH
+// Copyright (C) 2012-2021 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@
 //++
 
 import {Injector} from '@angular/core';
-import {async, TestBed} from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {HalLink, HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
 import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
@@ -47,7 +47,7 @@ describe('HalResource', () => {
   class OtherResource extends HalResource {
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
       imports: [

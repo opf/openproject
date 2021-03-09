@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -156,7 +156,6 @@ describe ::API::V3::WorkPackages::EagerLoading::CustomValue do
       expect(wrapped.first.available_custom_fields).to include(for_all_type_cf)
     end
   end
-
 
   describe '#usages returning an is_for_all custom field within multiple projects (Regression #28452)' do
     let!(:for_all_type_cf) do

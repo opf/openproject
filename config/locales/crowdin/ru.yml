@@ -1,10 +1,10 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2020 the OpenProject GmbH
+#Copyright (C) 2012-2021 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
@@ -121,9 +121,6 @@ ru:
       onthefly_register: |
         Отмеченный флажок разрешает OpenProject при первой аутентификации создавать новых пользователей из их LDAP записей.
         Для аутентификации существующих в OpenProject учетных записей через LDAP не отмечайте!
-      onthefly_group_sync: |
-        Если вы включите синхронизацию групп для этого подключения LDAP, пользователи также будут автоматически созданы
-        в OpenProject для синхронизированных групп. Без него в группе будут добавлены только существующие учетные записи в OpenProject.
     connection_encryption: 'Шифрование подключения'
     system_account: 'Системный аккаунт'
     system_account_legend: |
@@ -242,6 +239,14 @@ ru:
       no_results_title_text: Этот пользователь в настоящее время не является членом какой-либо группы.
     memberships:
       no_results_title_text: Этот пользователь в данный момент в проекте не участвует.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -522,6 +527,7 @@ ru:
         confirmation: "не совпадает со значением поля %{attribute}."
         could_not_be_copied: "%{dependency} не может быть скопировано (полностью)."
         does_not_exist: "не существует."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "не доступен."
         error_readonly: "запись не разрешена."
         empty: "не может быть пустым."
@@ -537,6 +543,7 @@ ru:
         invalid_url: 'не является допустимым URL-адресом.'
         invalid_url_scheme: 'не является поддерживаемым протоколом (разрешены следующие: %{allowed_schemes}).'
         less_than_or_equal_to: "должно быть меньше или равно %{count}."
+        not_deletable: "не может быть удален."
         not_current_user: "не является текущим пользователем."
         not_a_date: "не является допустимой датой."
         not_a_datetime: "дата и время не являются допустимыми."
@@ -725,6 +732,7 @@ ru:
       status: "Состояние группы работ"
       member: "Участник"
       news: "Новости"
+      placeholder_user: "Пользователь-заполнитель"
       project: "Проект"
       query: "Настраиваемый запрос"
       role:
@@ -1161,7 +1169,7 @@ ru:
   error_menu_item_not_saved: Пункт меню не может быть сохранен
   error_wiki_root_menu_item_conflict: >
     Невозможно переименовать "%{old_name}" в "%{new_name}" из-за конфликта между получающимся и существующим пунктами меню "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Ошибка внешней аутентификации. Пожалуйста, попробуйте еще раз."
+  error_external_authentication_failed: "Произошла ошибка во время внешней аутентификации. Пожалуйста, попробуйте еще раз."
   error_attribute_not_highlightable: "Атрибуты не выделяются: %{attributes}"
   events:
     project: 'Проект отредактирован'
@@ -1362,6 +1370,7 @@ ru:
   label_custom_field_plural: "Настраиваемые поля"
   label_custom_field_default_type: "Пустой тип"
   label_custom_style: "Дизайн"
+  label_database_version: "Версия PostgreSQL"
   label_date: "Дата"
   label_date_and_time: "Дата и время"
   label_date_from: "От"
@@ -1520,6 +1529,7 @@ ru:
   label_my_account_data: "Данные моей учетной записи"
   label_my_projects: "Мои проекты"
   label_my_queries: "Мои пользовательские запросы"
+  label_name: "Имя"
   label_never: "Никогда"
   label_new: "Новое"
   label_new_features: "Новые особенности"
@@ -1569,6 +1579,9 @@ ru:
   label_permissions: "Разрешения"
   label_permissions_report: "Отчёт о разрешениях"
   label_personalize_page: "Персонализация страницы"
+  label_placeholder_user: "Пользователь-заполнитель"
+  label_placeholder_user_new: "Новый пользователь-заполнитель"
+  label_placeholder_user_plural: "Пользователи-заполнители"
   label_planning: "Планирование"
   label_please_login: "Пожалуйста, войдите в систему"
   label_plugins: "Плагины"
@@ -1767,28 +1780,28 @@ ru:
   label_workflow_summary: "Сводка"
   label_x_closed_work_packages_abbr:
     zero: "0 закрытых"
-    one: "1 закрыто"
-    few: "%{count} закрыто"
-    many: "%{count} закрыто"
-    other: "%{count} закрыто"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_x_comments:
     zero: "нет комментариев"
-    one: "1 комментарий"
-    few: "%{count} комментариев"
-    many: "%{count} комментариев"
-    other: "%{count} комментариев"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_x_open_work_packages_abbr:
     zero: "0 открытых"
-    one: "1 открыт"
-    few: "%{count} открыто"
-    many: "%{count} открыто"
-    other: "%{count} открыто"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_x_projects:
     zero: "нет проектов"
-    one: "1 проект"
-    few: "%{count} проектов"
-    many: "%{count} проектов"
-    other: "%{count} проектов"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_yesterday: "вчера"
   label_role_type: "Тип"
   label_member_role: "Роль проекта"
@@ -1885,6 +1898,7 @@ ru:
   notice_email_sent: "На адрес %{value} было отправлено письмо"
   notice_failed_to_save_work_packages: "Не удалось сохранить %{count} пакет(-ов) работ из %{total},  выбрано: %{ids}."
   notice_failed_to_save_members: "Не удалось сохранить участника(-ов): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Страница, к которой Вы обратились, не существует или была удалена."
   notice_forced_logout: "Вы автоматически вышли из системы после %{ttl_time} минут бездействия."
   notice_internal_server_error: "На странице, к которой Вы пытаетесь получить доступ, возникла ошибка. Если ошибка повторится, пожалуйста, свяжитесь со своим %{app_title} администратором."
@@ -1950,6 +1964,8 @@ ru:
   permission_add_work_packages: "Добавление пакетов работ"
   permission_add_messages: "Написать сообщения"
   permission_add_project: "Создать проект"
+  permission_manage_user: "Создание и редактирование пользователей"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Создать подпроект"
   permission_add_work_package_watchers: "Добавить наблюдателей"
   permission_assign_versions: "Назначить версии"
@@ -2267,7 +2283,6 @@ ru:
   setting_welcome_text: "Текст приветствия"
   setting_welcome_title: "Заголовок приветствия"
   setting_welcome_on_homescreen: "Показывать приветствие на домашней странице"
-  setting_work_package_group_assignment: "Разрешить назначения группам"
   setting_work_package_list_default_highlighting_mode: "Способ выделения по умолчанию"
   setting_work_package_list_default_highlighted_attributes: "Выделенные встроенные атрибуты по умолчанию"
   settings:

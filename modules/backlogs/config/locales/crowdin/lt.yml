@@ -1,10 +1,10 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2020 the OpenProject GmbH
+#Copyright (C) 2012-2021 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
@@ -99,6 +99,7 @@ lt:
   backlogs_empty_title: "Nėra versijų, skirtų naudoti darbų sąrašuose"
   backlogs_empty_action_text: "Norėdami pradėti naudoti darbų sąrašus, sukurkite naują versiją ir priskirkite ją darbų sąrašo stulpeliui."
   button_edit_wiki: "Redaguoti wiki puslapį"
+  error_backlogs_task_cannot_be_story: "Neteisingi nustatymai. Pasirinktas užduoties tipas negali būti kartu ir istorijos tipu."
   error_intro_plural: "Rastos tokios klaidos:"
   error_intro_singular: "Rasta tokia klaida:"
   error_outro: "Prašome pataisyti aukščiau nurodytas klaidas prieš pateikiant dar kartą."

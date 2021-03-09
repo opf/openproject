@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -42,6 +42,12 @@ describe 'Members widget on dashboard', type: :feature, js: true do
   end
   let!(:no_view_member_user) do
     FactoryBot.create :user, lastname: "No_View", member_in_project: project, member_through_role: no_view_member_role
+  end
+  let!(:placeholder_user) do
+    FactoryBot.create :placeholder_user,
+                      lastname: "Placeholder user",
+                      member_in_project: project,
+                      member_through_role: no_view_member_role
   end
   let!(:invisible_user) do
     FactoryBot.create :user, lastname: "Invisible", member_in_project: other_project, member_through_role: role
@@ -89,6 +95,8 @@ describe 'Members widget on dashboard', type: :feature, js: true do
         .to have_content no_view_member_role
       expect(page)
         .to have_content no_view_member_user.name
+      expect(page)
+        .to have_content placeholder_user.name
     end
   end
 

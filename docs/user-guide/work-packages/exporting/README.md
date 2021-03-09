@@ -15,7 +15,7 @@ You can export work packages from your OpenProject instance to other formats usi
 
 ## How to trigger an export
 
-To export a work packages list or card view to another format, visit the *work packages* module or a saved view and click on the settings icon in the top right. Trigger the *Export* dialog from the dropdown menu that opens.
+To export a work packages list or card view to another format, visit the *Work packages* module or a saved view and click on the settings icon in the top right. Trigger the **Export** dialog from the dropdown menu that opens.
 
 ![Exporting from the table](export-gantt-chart.png)
 
@@ -32,14 +32,14 @@ This will open a dialog similar to the following screenshot, where you can selec
 From the work packages module, all work packages that are included in the filter list will be exported. Up to a total of 500 work packages can be exported at once.
 
 <div class="alert alert-info" role="alert">
-
 **Note**: If you need to export more than 500 items, filter the work packages appropriately to export multiple files.
-
 </div>
+For self-hosted versions of OpenProject you can change this limit in the [work package settings](../../../system-admin-guide/manage-work-packages/work-package-settings/) in the system administration.
+
 
 **Columns**
 
-The exported file will follow the columns that you activated for the work packages table. With it, you can control the columns that will be contained in various formats.
+The exported file will display the columns that you activated for the work package table. With it, you can control the columns that will be contained in various formats. Please make sure to [save](../work-package-table-configuration/#save-work-package-views) the view you configured, as saving is a necessary precondition to keep the selected columns in the export.
 
 Some formats such as PDF will limit the number of columns available due to limitations of the PDF rendering engine to avoid overflowing the available space.
 
@@ -67,9 +67,7 @@ OpenProject can export the table for Microsoft Excel with the following options:
 - **XLS with relations** Same as XLS, but with additional columns to list each work package relation in a separate row with the relation target and its ID and relation type included in the export
 
 <div class="alert alert-info" role="alert">
-
 **Note**: To open XLS exported files into Microsoft Excel, ensure you set the encoding to UTF-8. Excel will not auto-detect the encoding or ask you to specify it, but simply open with a wrong encoding under Microsoft Windows.
-
 </div>
 
 
@@ -81,9 +79,7 @@ OpenProject can export the table into a comma-separated CSV. This file will be U
 
 
 <div class="alert alert-info" role="alert">
-
 **Note**: To open CSV exported files into Microsoft Excel, ensure you set the encoding to UTF-8. Excel will not auto-detect the encoding or ask you to specify it, but simply open with a wrong encoding under Microsoft Windows.
-
 </div>
 
 
@@ -91,6 +87,3 @@ OpenProject can export the table into a comma-separated CSV. This file will be U
 ## Atom (XML) export
 
 OpenProject can export the table into a XML-based atom format. This file will be UTF-8 encoded.
-
-
-

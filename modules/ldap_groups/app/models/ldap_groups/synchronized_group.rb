@@ -32,7 +32,7 @@ module LdapGroups
 
       self.class.transaction do
         # create synchronized group memberships
-        memberships = new_users.map { |user| { group_id: self.id, user_id: user_id(user) } }
+        memberships = new_users.map { |user| { group_id: id, user_id: user_id(user) } }
         # Bulk insert the memberships to improve performance
         ::LdapGroups::Membership.insert_all memberships
 
@@ -58,7 +58,8 @@ module LdapGroups
           users.delete users.where(user_id: users_to_remove).select(:id)
           group.users.delete group.users.where(id: users_to_remove).select(:id)
         else
-          raise ArgumentError, "Expected collection of Users or User IDs, got collection of #{users_to_remove.map(&:class).map(&:name).uniq.join(", ")}"
+          raise ArgumentError,
+                "Expected collection of Users or User IDs, got collection of #{users_to_remove.map(&:class).map(&:name).uniq.join(', ')}"
         end
       end
     end

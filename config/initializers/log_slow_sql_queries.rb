@@ -17,10 +17,10 @@ OpenProject::Application.configure do
         duration: duration,
         time: start.iso8601,
         cached: !!data[:cache],
-        sql: data[:sql],
+        sql: data[:sql]
       }
 
-      sql_log_string = data[:sql].strip.gsub(/(^([\s]+)?$\n)/, "")
+      sql_log_string = data[:sql].strip.gsub(/(^(\s+)?$\n)/, "")
       OpenProject.logger.warn "Encountered slow SQL (#{payload[:duration]} ms): #{sql_log_string}",
                               payload: payload,
                               # Hash of the query for reference/fingerprinting

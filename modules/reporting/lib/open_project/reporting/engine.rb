@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -37,17 +37,16 @@ module OpenProject::Reporting
     register 'openproject-reporting',
              author_url: 'https://www.openproject.com',
              bundled: true do
+      view_actions = %i[index show drill_down available_values display_report_list]
+      edit_actions = %i[create update rename destroy]
 
-      view_actions = [:index, :show, :drill_down, :available_values, :display_report_list]
-      edit_actions = [:create, :update, :rename, :destroy]
-
-      #register reporting_module including permissions
+      # register reporting_module including permissions
       project_module :costs do
         permission :save_cost_reports, { cost_reports: edit_actions }
         permission :save_private_cost_reports, { cost_reports: edit_actions }
       end
 
-      #register additional permissions for viewing time and cost entries through the CostReportsController
+      # register additional permissions for viewing time and cost entries through the CostReportsController
       view_actions.each do |action|
         OpenProject::AccessControl.permission(:view_time_entries).actions << "cost_reports/#{action}"
         OpenProject::AccessControl.permission(:view_own_time_entries).actions << "cost_reports/#{action}"
@@ -55,7 +54,7 @@ module OpenProject::Reporting
         OpenProject::AccessControl.permission(:view_own_cost_entries).actions << "cost_reports/#{action}"
       end
 
-      #menu extensions
+      # menu extensions
       menu :top_menu,
            :cost_reports_global,
            { controller: '/cost_reports', action: 'index', project_id: nil },
@@ -67,7 +66,7 @@ module OpenProject::Reporting
                  User.current.allowed_to?(:view_own_time_entries, nil, global: true) ||
                  User.current.allowed_to?(:view_cost_entries, nil, global: true) ||
                  User.current.allowed_to?(:view_own_cost_entries, nil, global: true)
-               )
+             )
            }
 
       menu :project_menu,
@@ -78,6 +77,14 @@ module OpenProject::Reporting
            caption: :cost_reports_title,
            if: Proc.new { |project| project.module_enabled?(:costs) },
            icon: 'icon2 icon-cost-reports'
+
+      menu :project_menu,
+           :costs_menu,
+           { controller: '/cost_reports', action: 'index' },
+           param: :project_id,
+           if: Proc.new { |project| project.module_enabled?(:costs) },
+           partial: '/cost_reports/report_menu',
+           parent: :costs
     end
 
     initializer "reporting.register_hooks" do

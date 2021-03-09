@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -57,7 +57,7 @@ module API
         resources :watchers do
           helpers do
             def watchers_collection
-              watchers = @work_package.watcher_users.active_or_registered
+              watchers = @work_package.watcher_users.merge(Principal.not_locked)
               self_link = api_v3_paths.work_package_watchers(@work_package.id)
               Users::UserCollectionRepresenter.new(watchers,
                                                    self_link: self_link,
@@ -89,8 +89,8 @@ module API
             user = User.find user_id
 
             Services::CreateWatcher.new(@work_package, user).run(
-              success: -> (result) { status(200) unless result[:created] },
-              failure: -> (watcher) {
+              success: ->(result) { status(200) unless result[:created] },
+              failure: ->(watcher) {
                 raise ::API::Errors::ErrorBase.create_and_merge_errors(watcher.errors)
               }
             )

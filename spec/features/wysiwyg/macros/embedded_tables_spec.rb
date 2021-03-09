@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -30,11 +30,13 @@ require 'spec_helper'
 
 describe 'Wysiwyg embedded work package tables',
          type: :feature, js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:user) { admin }
   let(:type_task) { FactoryBot.create :type_task }
   let(:type_bug) { FactoryBot.create :type_bug }
-  let(:project) { FactoryBot.create(:project, types: [type_task, type_bug], enabled_module_names: %w[wiki work_package_tracking]) }
+  let(:project) do
+    FactoryBot.create(:project, types: [type_task, type_bug], enabled_module_names: %w[wiki work_package_tracking])
+  end
   let(:editor) { ::Components::WysiwygEditor.new }
   let!(:wp_task) { FactoryBot.create(:work_package, project: project, type: type_task) }
   let!(:wp_bug) { FactoryBot.create(:work_package, project: project, type: type_bug) }

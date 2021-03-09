@@ -2,7 +2,7 @@
 <% default_device = @user.otp_devices.get_default %>
 
 <section class="admin--edit-section">
-    <%= cell ::Components::OnOffStatusCell,
+    <%= rails_cell ::Components::OnOffStatusCell,
              is_on: default_device.present?,
              on_text: t('two_factor_authentication.label_2fa_enabled'),
              on_description: t('two_factor_authentication.admin.text_2fa_enabled'),
@@ -54,6 +54,6 @@
       <% end %>
   <% end %>
 
-  <%= cell ::TwoFactorAuthentication::Devices::TableCell, devices, admin_table: true || @user != User.current %>
+  <%= rails_cell ::TwoFactorAuthentication::Devices::TableCell, devices, admin_table: true || @user != User.current %>
   </div>
 </section>

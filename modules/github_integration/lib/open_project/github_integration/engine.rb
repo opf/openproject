@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -37,9 +37,8 @@ module OpenProject::GithubIntegration
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-github_integration',
-             :author_url => 'http://finn.de',
+             author_url: 'https://www.openproject.org/',
              bundled: true
-
 
     initializer 'github.register_hook' do
       ::OpenProject::Webhooks.register_hook 'github' do |hook, environment, params, user|
@@ -53,6 +52,5 @@ module OpenProject::GithubIntegration
       ::OpenProject::Notifications.subscribe('github.issue_comment',
                                              &NotificationHandlers.method(:issue_comment))
     end
-
   end
 end

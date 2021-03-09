@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -34,7 +34,7 @@ describe ::API::V3::Queries::QueryRepresenter do
   let(:query) { FactoryBot.build_stubbed(:query, project: project) }
   let(:unpersisted_query) { FactoryBot.build(:query, project: project, user: other_user) }
   let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:user) { double('current_user', allowed_to?: true, admin: true, admin?: true, active?: true) }
+  let(:user) { double('current_user', allowed_to_globally?: true, allowed_to?: true, admin: true, admin?: true, active?: true) }
   let(:other_user) { FactoryBot.build_stubbed(:user) }
   let(:embed_links) { true }
   let(:representer) do
@@ -90,7 +90,8 @@ describe ::API::V3::Queries::QueryRepresenter do
 
         context 'with params' do
           let(:representer) do
-            described_class.new(query, current_user: user, embed_links: embed_links, params: { "filters" => "something", "id" => "234" })
+            described_class.new(query, current_user: user, embed_links: embed_links,
+                                       params: { "filters" => "something", "id" => "234" })
           end
 
           it_behaves_like 'has a titled link' do
@@ -462,7 +463,7 @@ describe ::API::V3::Queries::QueryRepresenter do
       context 'with sort_by' do
         let(:query) do
           FactoryBot.build_stubbed(:query,
-                                    sort_criteria: [['subject', 'asc'], ['assigned_to', 'desc']])
+                                   sort_criteria: [['subject', 'asc'], ['assigned_to', 'desc']])
         end
 
         it 'has an array of sortBy' do
@@ -764,7 +765,7 @@ describe ::API::V3::Queries::QueryRepresenter do
       describe 'with sort criteria' do
         let(:query) do
           FactoryBot.build_stubbed(:query,
-                                    sort_criteria: [['subject', 'asc'], ['assigned_to', 'desc']])
+                                   sort_criteria: [['subject', 'asc'], ['assigned_to', 'desc']])
         end
 
         it 'has the sort criteria embedded' do

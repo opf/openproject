@@ -1,0 +1,15 @@
+<% if can_users_have_auth_source? %>
+  <div class="form--field">
+    <%= f.collection_select :auth_source_id,
+                            AuthSource.all,
+                            :id,
+                            :name,
+                            label: :'activerecord.attributes.user.auth_source',
+                            container_class: '-middle',
+                            include_blank: t(:label_internal) %>
+  </div>
+
+  <div class="form--field" id="new_user_login" style="display: none;">
+    <%= f.text_field :login, required: true, size: 25, disabled: true %>
+  </div>
+<% end %>

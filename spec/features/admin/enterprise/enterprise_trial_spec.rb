@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -30,8 +30,7 @@ require 'spec_helper'
 
 describe 'Enterprise trial management',
          type: :feature,
-         driver: :firefox_billy do
-
+         driver: :chrome_billy do
   let(:admin) { FactoryBot.create(:admin) }
 
   let(:trial_id) { '1b6486b4-5a30-4042-8714-99d7c8e6b637' }

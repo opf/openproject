@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -35,13 +36,13 @@ module API
       class TypesByProjectAPI < ::API::OpenProjectAPI
         resources :types do
           after_validation do
-            authorize_any [:view_work_packages, :manage_types], projects: @project
+            authorize_any %i[view_work_packages manage_types], projects: @project
           end
 
           get do
             types = @project.types
             TypeCollectionRepresenter.new(types,
-                                          self_link:api_v3_paths.types_by_project(@project.id),
+                                          self_link: api_v3_paths.types_by_project(@project.id),
                                           current_user: current_user)
           end
         end

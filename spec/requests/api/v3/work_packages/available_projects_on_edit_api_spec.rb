@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -33,8 +33,8 @@ describe 'API::V3::WorkPackages::AvailableProjectsOnEditAPI', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:edit_role) do
-    FactoryBot.create(:role, permissions: [:edit_work_packages,
-                                            :view_work_packages])
+    FactoryBot.create(:role, permissions: %i[edit_work_packages
+                                             view_work_packages])
   end
   let(:move_role) do
     FactoryBot.create(:role, permissions: [:move_work_packages])
@@ -44,13 +44,13 @@ describe 'API::V3::WorkPackages::AvailableProjectsOnEditAPI', type: :request do
   let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:user) do
     user = FactoryBot.create(:user,
-                              member_in_project: project,
-                              member_through_role: edit_role)
+                             member_in_project: project,
+                             member_through_role: edit_role)
 
     FactoryBot.create(:member,
-                       user: user,
-                       project: target_project,
-                       roles: [move_role])
+                      user: user,
+                      project: target_project,
+                      roles: [move_role])
 
     user
   end

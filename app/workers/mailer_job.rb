@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -38,10 +39,6 @@
 # as opposed to using `ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper`.
 # We want it to run in an `ApplicationJob` because of the shared setup required
 # such as reloading the mailer configuration and resetting the request store.
-#
-# This class is automatically used whenever you call
-#
-# UserMailer.method(*args).deliver_later
 class MailerJob < ApplicationJob
   queue_as { ActionMailer::Base.deliver_later_queue_name }
 
@@ -52,8 +49,8 @@ class MailerJob < ApplicationJob
   # retry_on will be ignored
   rescue_from StandardError, with: :handle_exception_with_mailer_class
 
-  def perform(mailer, mail_method, delivery_method, *args)
-    mailer.constantize.public_send(mail_method, *args).send(delivery_method)
+  def perform(mailer, mail_method, delivery, args:)
+    mailer.constantize.public_send(mail_method, *args).send(delivery)
   end
 
   private

@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -76,18 +76,18 @@ shared_examples_for 'time entry contract' do
         .and_return(work_package_visible)
     end
 
-    allow(TimeEntryActivity::Scopes::ActiveInProject)
-      .to receive(:fetch)
+    allow(TimeEntryActivity)
+      .to receive(:active_in_project)
       .and_return(TimeEntryActivity.none)
 
     of_user_and_day_scope = double('of_user_and_day_scope')
 
-    allow(TimeEntry::Scopes::OfUserAndDay)
-      .to receive(:fetch)
+    allow(TimeEntry)
+      .to receive(:of_user_and_day)
       .and_return(TimeEntry.none)
 
-    allow(TimeEntry::Scopes::OfUserAndDay)
-      .to receive(:fetch)
+    allow(TimeEntry)
+      .to receive(:of_user_and_day)
       .with(time_entry.user, time_entry_spent_on, excluding: time_entry)
       .and_return(of_user_and_day_scope)
 
@@ -96,8 +96,8 @@ shared_examples_for 'time entry contract' do
       .with(:hours)
       .and_return(time_entry_day_sum)
 
-    allow(TimeEntryActivity::Scopes::ActiveInProject)
-      .to receive(:fetch)
+    allow(TimeEntryActivity)
+      .to receive(:active_in_project)
       .with(time_entry_project)
       .and_return(activities_scope)
   end

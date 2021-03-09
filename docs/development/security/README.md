@@ -1,4 +1,4 @@
-## Statement on Security
+## Statement on security
 
 At its core, OpenProject is an open-source software that is [developed and published on GitHub](https://github.com/opf/openproject). Every change to the OpenProject code base ends up in an open repository accessible to everyone. This results in a transparent software where every commit can be traced back to the contributor.
 
@@ -28,13 +28,13 @@ Please include a description on how to reproduce the issue if possible. Our secu
 
 
 
-## OpenProject Security features
+## OpenProject security features
 
-### Authentication.
+### Authentication
 
 OpenProject administrators can enforce [authentication mechanisms and password rules]() to ensure users choose secure passwords according to current industry standards. Passwords stored by OpenProject are securely stored using salted bcrypt. Alternatively, external authentication providers and protocols (such as LDAP, SAML) can be enforced to avoid using and exposing passwords within OpenProject.
 
-### User management and access control.
+### User management and access control
 
 Administrators are provided with [fine-grained role-based access control mechanisms]() to ensure that users are only seeing and accessing the data they are allowed to on an individual project level.
 

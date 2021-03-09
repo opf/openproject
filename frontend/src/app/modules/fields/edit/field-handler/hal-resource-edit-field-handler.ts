@@ -1,6 +1,6 @@
-// -- copyright
+//-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2020 the OpenProject GmbH
+// Copyright (C) 2012-2021 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -24,7 +24,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
 import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
@@ -45,7 +45,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   // Injections
   @InjectField() FocusHelper:FocusHelperService;
   @InjectField() ConfigurationService:ConfigurationService;
-  @InjectField() I18n:I18nService;
+  @InjectField() I18n!:I18nService;
 
   // Subject to fire when user demanded activation
   public $onUserActivate = new Subject<void>();
@@ -66,6 +66,9 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
     if (withErrors !== undefined) {
       this.setErrors(withErrors);
     }
+
+    this.htmlId = `wp-${this.resource.id}-inline-edit--field-${this.fieldName}`;
+    this.fieldLabel = this.schema.name || this.fieldName;
   }
 
   /**
@@ -82,10 +85,6 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
 
   public get inFlight() {
     return this.form.change.inFlight;
-  }
-
-  public get active() {
-    return true;
   }
 
   public focus(setClickOffset?:number) {
@@ -211,21 +210,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
     return this.form.change.projectedResource.project;
   }
 
-  /**
-   * Return a unique ID for this edit field
-   */
-  public get htmlId() {
-    return `wp-${this.resource.id}-inline-edit--field-${this.fieldName}`;
-  }
-
-  /**
-   * Return the field label
-   */
-  public get fieldLabel() {
-    return this.schema.name || this.fieldName;
-  }
-
-  public get errorMessageOnLabel() {
+  public errorMessageOnLabel() {
     if (!this.isErrorenous) {
       return '';
     } else {

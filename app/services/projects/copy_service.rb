@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -109,14 +109,16 @@ module Projects
     end
 
     def cleanup_target_project_params(_source, _target, target_project_params)
-      if (parent_id = target_project_params[:parent_id]) && (parent = Project.find_by(id: parent_id))
-        target_project_params.delete(:parent_id) unless user.allowed_to?(:add_subprojects, parent)
+      if (parent_id = target_project_params[:parent_id]) && (parent = Project.find_by(id: parent_id)) && !user.allowed_to?(
+        :add_subprojects, parent
+      )
+        target_project_params.delete(:parent_id)
       end
     end
 
-    def cleanup_target_project_attributes(source, target, target_project_params)
-      if target.parent
-        target.parent = nil unless user.allowed_to?(:add_subprojects, target.parent)
+    def cleanup_target_project_attributes(_source, target, _target_project_params)
+      if target.parent && !user.allowed_to?(:add_subprojects, target.parent)
+        target.parent = nil
       end
     end
 

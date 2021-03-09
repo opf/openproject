@@ -4,7 +4,7 @@ sidebar_navigation:
   priority: 650
 description: Manage members in OpenProject.
 robots: index, follow
-keywords: members
+keywords: members, project participants
 ---
 
 # Manage members
@@ -21,37 +21,36 @@ keywords: members
 
 ## Add members
 
-Find out how to [add existing members](../../getting-started/invite-members/#add-existing-members) to join a project or [invite new team members](../../getting-started/invite-members/#invite-new-members).
+Find out [here](../../getting-started/invite-members/#add-existing-members) how to add existing users to a project and [here](../../getting-started/invite-members/#invite-new-members) how to invite new users to join a project.
 
 ## Edit members
 
-To change the role of a member within a project, select the corresponding project and open the Members menu.
+To change the role of a member within a project, select the corresponding project and open the Members module.
 
-To edit an existing member of a project, click the **Edit icon** in the list next to the member on the  right. Choose the new role and press the blue **Change button** so save your changes.
+To edit an existing member of a project, click the **Edit icon** in the list next to the member on the right. Choose the new role and press the blue **Change button** so save your changes.
 
-![edit members](image-20200325095723130.png)
+![edit-project-members](image-20210305183845729.png)
+
+
 
 ## Remove members
 
-To remove members from a project, [select the project](../projects/#select-a-project) where you want to remove the members. In the project menu on the left, select the **Members** menu item. In the members list, click on the **bin** **icon** at the very right in a line of the member name.
+To remove members from a project, [select the project](../projects/#select-a-project) for which you want to remove the members. In the project menu on the left, select the **Members** module. In the members list, click the trash can icon at the right end of the row with the corresponding member name.
 
-![remove-members](1566225631212.png)
+![remove-project-members](image-20210305184318093.png)
+
+
 
 ## Roles and permissions
 
 Members will have different roles with different permissions in a project. To find out how to configure roles and permissions click [here](../../system-admin-guide/#roles-permissions).
 
-<div class="glossary">A **role** is defined as a set of permissions defined by a unique name. Project members are assigned to a project by specifying a user's or group's name and the role(s) the user should assume in the project.
+<div class="glossary">A **role** is defined as a set of permissions defined by a unique name. Project members are assigned to a project by specifying a user's, group's or placeholder user's name and the role(s) they should assume in the project.
 </div>
+
+To assign work packages to a project member, the respective user's or placeholder user's role needs to be able to be assigned work packages. This is the default setting for default roles. You can check this setting in the [Roles and Permissions section](../../system-admin-guide/users-permissions/roles-permissions/#create-a-new-role) of the system administration.
+
 
 ## Groups
 
-Members can be added to groups. A group can be added to a project. With this, all members will be have the corresponding role in this project. Find out how to [create and manage groups](../../system-admin-guide/#groups) in OpenProject.
-
-## Frequently asked questions (FAQ)
-
-### How can I increase or decrease the number of users in OpenProject?
-
-For the Community Edition you can have as many users as you need for free. If you are using the OpenProject Enterprise Edition, please write an email to sales @ openproject.com.
-
-If you are using the OpenProject Cloud Edition, you can easily upgrade or downgrade the number of users by selection -> Administration -> Billing -> Manage subscription and choose the new amount of users which you need in  your system.
+Users can be added to groups. A group can be added to a project. With this, all users within a group will have the corresponding role in this project. Find out how to create and manage groups in OpenProject [here](../../system-admin-guide/users-permissions/groups).

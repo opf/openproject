@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -31,16 +31,16 @@ require 'spec_helper'
 describe CategoriesController, type: :controller do
   let(:user) { FactoryBot.create(:user) }
   let(:project) { FactoryBot.create(:project) }
-  let(:role) {
+  let(:role) do
     FactoryBot.create(:role,
-                       permissions: [:manage_categories])
-  }
-  let(:member) {
+                      permissions: [:manage_categories])
+  end
+  let(:member) do
     FactoryBot.create(:member,
-                       project: project,
-                       principal: user,
-                       roles: [role])
-  }
+                      project: project,
+                      principal: user,
+                      roles: [role])
+  end
 
   before do
     member
@@ -92,16 +92,15 @@ describe CategoriesController, type: :controller do
   end
 
   describe '#edit' do
-    let(:category) {
+    let(:category) do
       FactoryBot.create(:category,
-                         project: project)
-    }
+                        project: project)
+    end
 
     subject { response }
     before do
       get :edit, params: { id: category_id }
     end
-
 
     context 'valid category' do
       let(:category_id) { category.id }
@@ -119,10 +118,10 @@ describe CategoriesController, type: :controller do
     let(:name) { 'Testing' }
 
     context 'valid category' do
-      let(:category) {
+      let(:category) do
         FactoryBot.create(:category,
-                           project: project)
-      }
+                          project: project)
+      end
 
       before do
         post :update,
@@ -161,17 +160,17 @@ describe CategoriesController, type: :controller do
   end
 
   describe '#destroy' do
-    let(:category) {
+    let(:category) do
       FactoryBot.create(:category,
-                         project: project)
-    }
-    let(:work_package) {
+                        project: project)
+    end
+    let(:work_package) do
       FactoryBot.create(:work_package,
-                         project: project,
-                         category: category)
-    }
+                        project: project,
+                        category: category)
+    end
 
-    before do category end
+    before { category }
 
     shared_examples_for :delete do
       subject { Category.find_by(id: category.id) }
@@ -210,10 +209,10 @@ describe CategoriesController, type: :controller do
     end
 
     describe '#reassign' do
-      let(:target) {
+      let(:target) do
         FactoryBot.create(:category,
-                           project: project)
-      }
+                          project: project)
+      end
       before do
         work_package
 

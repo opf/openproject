@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -47,12 +48,13 @@ module LegacyAssertionsAndHelpers
   def initialize_attachments
     Attachment.all.each do |a|
       if a.file.filename.nil?
-        begin # existing file under `spec/fixtures/files`
+        # existing file under `spec/fixtures/files`
+        begin
           a.file = uploaded_test_file a.disk_filename, a.attributes['content_type'],
                                       original_filename: a.attributes['filename']
-        rescue # imaginary file: create it on-the-fly
+        rescue StandardError # imaginary file: create it on-the-fly
           a.file = LegacyFileHelpers.mock_uploaded_file name: a.attributes['filename'],
-                                                  content_type: a.attributes['content_type']
+                                                        content_type: a.attributes['content_type']
         end
 
         a.save!
@@ -82,47 +84,12 @@ module LegacyAssertionsAndHelpers
     file
   end
 
-  def save_and_open_page
-    body = response.body
-
-    body.gsub!('/assets', '../../public/assets')
-
-    FileUtils.mkdir_p(Rails.root.join('tmp/pages'))
-
-    page_path = Rails.root.join("tmp/pages/#{SecureRandom.hex(16)}.html").to_s
-    File.open(page_path, 'w') do |f| f.write(body) end
-
-    Launchy.open(page_path)
-
-    begin
-      binding.pry
-    rescue NoMethodError
-      debugger
-    end
-
-    FileUtils.rm(page_path)
-  end
-
-  # Use a temporary directory for attachment related tests
-  def set_tmp_attachments_directory
-    attachments_path = Rails.root.join('tmp/test/attachments')
-    FileUtils.mkdir_p(attachments_path)
-    Attachment.storage_path = attachments_path.to_s
-  end
-
   def with_settings(options, &_block)
     saved_settings = options.keys.inject({}) { |h, k| h[k] = Setting[k].dup; h }
-    options.each do |k, v| Setting[k] = v end
+    options.each { |k, v| Setting[k] = v }
     yield
   ensure
     saved_settings.each { |k, v| Setting[k] = v }
-  end
-
-  def change_user_password(login, new_password)
-    user = User.find_by_login(login)
-    user.password = new_password
-    user.password_confirmation = new_password
-    user.save!
   end
 
   # Shoulda macros
@@ -139,15 +106,6 @@ module LegacyAssertionsAndHelpers
   def should_render_404
     should respond_with :not_found
     should render_template 'common/error'
-  end
-
-  def should_create_a_new_user(&block)
-    # it "create a new user" do
-    user = instance_eval &block
-    assert user
-    assert_kind_of User, user
-    assert !user.new_record?
-    # end
   end
 
   def should_respond_with_content_type(content_type)
@@ -176,15 +134,15 @@ module LegacyAssertionsAndHelpers
       return false if !!ENV['CI']
 
       @test_ldap = Net::LDAP.new(host: '127.0.0.1', port: 389)
-      return @test_ldap.bind
+      @test_ldap.bind
     rescue Exception => e
       # LDAP is not listening
-      return nil
+      nil
     end
 
     # Returns the path to the test +vendor+ repository
     def repository_path(vendor)
-      File.join(Rails.root.to_s.gsub(%r{config\/\.\.}, ''), "/tmp/test/#{vendor.downcase}_repository")
+      File.join(Rails.root.to_s.gsub(%r{config/\.\.}, ''), "/tmp/test/#{vendor.downcase}_repository")
     end
 
     # Returns the url of the subversion test repository
@@ -415,10 +373,9 @@ module LegacyAssertionsAndHelpers
   #
   # @param [String] url Request
   def should_respond_with_content_type_based_on_url(url)
-    case
-    when url.match(/xml/i)
+    if url.match(/xml/i)
       should_respond_with_content_type 'application/xml'
-    when url.match(/json/i)
+    elsif url.match(/json/i)
       should_respond_with_content_type 'application/json'
     else
       raise "Unknown content type for should_respond_with_content_type_based_on_url: #{url}"
@@ -432,10 +389,9 @@ module LegacyAssertionsAndHelpers
   #
   # @param [String] url Request
   def should_be_a_valid_response_string_based_on_url(url)
-    case
-    when url.match(/xml/i)
+    if url.match(/xml/i)
       should_be_a_valid_xml_string
-    when url.match(/json/i)
+    elsif url.match(/json/i)
       should_be_a_valid_json_string
     else
       raise "Unknown content type for should_be_a_valid_response_based_on_url: #{url}"

@@ -15,12 +15,12 @@ ar:
       file_invalid: "ملف BCF غير صالح"
     x_bcf_issues:
       zero: 'لا توجد مشاكل BCF'
-      zero: '%{count} BCF issues'
-      one: 'One BCF issue'
-      two: '%{count} BCF issues'
-      few: '%{count} BCF issues'
-      many: '%{count} BCF issues'
-      other: '%{count} BCF issues'
+      zero: ''
+      one: ''
+      two: ''
+      few: ''
+      many: ''
+      other: ''
     bcf_xml:
       xml_file: 'BCF XML File'
       import_title: 'Import'

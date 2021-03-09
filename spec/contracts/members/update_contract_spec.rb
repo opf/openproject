@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -28,8 +28,12 @@
 
 require 'spec_helper'
 require_relative './shared_contract_examples'
+require 'contracts/shared/model_contract_shared_context'
+
 
 describe Members::UpdateContract do
+  include_context 'ModelContract shared context'
+
   it_behaves_like 'member contract' do
     let(:member) do
       FactoryBot.build_stubbed(:member,
@@ -38,7 +42,7 @@ describe Members::UpdateContract do
                                principal: member_principal)
     end
 
-    subject(:contract) { described_class.new(member, current_user) }
+    let(:contract) { described_class.new(member, current_user) }
 
     describe 'validation' do
       context 'if the principal is changed' do
@@ -46,9 +50,7 @@ describe Members::UpdateContract do
           member.principal = FactoryBot.build_stubbed(:user)
         end
 
-        it 'is invalid' do
-          expect_valid(false, user_id: %i(error_readonly))
-        end
+        it_behaves_like 'contract is invalid', user_id: :error_readonly
       end
 
       context 'if the project is changed' do
@@ -56,17 +58,13 @@ describe Members::UpdateContract do
           member.project = FactoryBot.build_stubbed(:project)
         end
 
-        it 'is invalid' do
-          expect_valid(false, project_id: %i(error_readonly))
-        end
+        it_behaves_like 'contract is invalid', project_id: :error_readonly
       end
 
       context 'if the principal is a locked user' do
         let(:member_principal) { FactoryBot.build_stubbed(:locked_user) }
 
-        it 'is valid' do
-          expect_valid(true)
-        end
+        it_behaves_like 'contract is valid'
       end
     end
   end

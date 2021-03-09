@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -44,10 +44,14 @@ module Bim
         colors = color_names.collect { |name| colors_by_name[name].id }
 
         [
-          { name: I18n.t(:default_status_new),              color_id: colors[0],  is_closed: false, is_default: true,  position: 1 },
-          { name: I18n.t(:default_status_in_progress),      color_id: colors[1],  is_closed: false, is_default: false, position: 2 },
-          { name: I18n.t('seeders.bim.default_status_resolved'),         color_id: colors[2], is_closed: false, is_default: false, position: 3 },
-          { name: I18n.t(:default_status_closed),           color_id: colors[3], is_closed: true, is_default: false, position: 4 },
+          { name: I18n.t(:default_status_new),              color_id: colors[0],  is_closed: false, is_default: true,
+            position: 1 },
+          { name: I18n.t(:default_status_in_progress),      color_id: colors[1],  is_closed: false, is_default: false,
+            position: 2 },
+          { name: I18n.t('seeders.bim.default_status_resolved'), color_id: colors[2], is_closed: false,
+            is_default: false, position: 3 },
+          { name: I18n.t(:default_status_closed), color_id: colors[3], is_closed: true, is_default: false,
+            position: 4 }
         ]
       end
     end

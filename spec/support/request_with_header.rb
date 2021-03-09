@@ -7,10 +7,7 @@ RSpec.configure do |c|
     end
   end
 
-  c.before(:each, type: :request, content_type: :json) do |ex|
+  c.before(:each, type: :request, content_type: :json) do |_ex|
     header('Content-Type', 'application/json')
   end
 end
-
-
-

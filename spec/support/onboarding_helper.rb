@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -29,13 +29,13 @@
 require 'spec_helper'
 
 module OnboardingHelper
-  def step_through_onboarding_wp_tour project, wp
+  def step_through_onboarding_wp_tour(project, wp)
     expect(page).not_to have_selector('.loading-indicator')
-    expect(page).to have_text  'This is the Work package list'
+    expect(page).to have_text 'This is the Work package list'
 
     next_button.click
     expect(page).to have_current_path project_work_package_path(project, wp.id, 'activity')
-    expect(page).to have_text  'Within the Work package details you find all relevant information'
+    expect(page).to have_text 'Within the Work package details you find all relevant information'
 
     next_button.click
     expect(page).to have_text 'With the arrow you can navigate back to the work package list.'

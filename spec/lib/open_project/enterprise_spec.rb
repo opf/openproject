@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -29,18 +29,21 @@
 require 'spec_helper'
 require 'open_project/passwords'
 
-describe OpenProject::Enterprise, :with_clean_fixture do
+describe OpenProject::Enterprise do
   describe "#user_limit_reached?" do
     let(:user_limit) { 2 }
     let(:builtin_user_count) { 2 }
+    # create 3 built-in users, only 2 of which are active
+    # Also create a placeholder user which will not count against the limit
+    let!(:system_user) { User.system }
+    let!(:anonymous_user) { User.anonymous }
+    let!(:deleted_user) { DeletedUser.first } # locked, not active
+    let!(:placeholder_user) { FactoryBot.create(:placeholder_user) }
 
     before do
-      # create 3 built-in users, only 2 of which are active
-      User.system
-      User.anonymous
-      DeletedUser.first # locked, not active
-
-      allow(OpenProject::Enterprise).to receive(:user_limit).and_return(user_limit)
+      allow(OpenProject::Enterprise)
+        .to receive(:user_limit)
+        .and_return(user_limit)
     end
 
     context "with fewer active users than the limit allows" do

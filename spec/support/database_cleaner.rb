@@ -1,5 +1,4 @@
 RSpec.configure do |config|
-
   # Since Rails 5.1., we can force the application server and capybara to share the same connection,
   # which results in database_cleaner no longer being necessary.
   # This will only work with a server that works in single mode (e.g., Puma)

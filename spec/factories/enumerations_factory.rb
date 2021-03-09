@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -39,7 +39,7 @@ FactoryBot.define do
   end
 
   factory :activity, class: TimeEntryActivity do
-    sequence(:name) do |i| "Activity #{i}" end
+    sequence(:name) { |i| "Activity #{i}" }
     active { true }
     is_default { false }
 
@@ -52,7 +52,7 @@ FactoryBot.define do
   end
 
   factory :priority, class: IssuePriority do
-    sequence(:name) do |i| "Priority #{i}" end
+    sequence(:name) { |i| "Priority #{i}" }
     active { true }
 
     factory :priority_low do
@@ -60,7 +60,7 @@ FactoryBot.define do
 
       # reuse existing priority with the given name
       # this prevents a validation error (name has to be unique)
-      initialize_with do IssuePriority.find_or_create_by(name: name) end
+      initialize_with { IssuePriority.find_or_create_by(name: name) }
 
       factory :priority_normal do
         name { 'Normal' }

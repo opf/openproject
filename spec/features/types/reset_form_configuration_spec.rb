@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Reset form configuration', type: :feature, js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:type) { FactoryBot.create :type }
 
   let(:project) { FactoryBot.create :project, types: [type] }
@@ -63,12 +63,13 @@ describe 'Reset form configuration', type: :feature, js: true do
       form.save_changes
       expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
 
+      SeleniumHubWaiter.wait
       form.reset_button.click
       dialog.expect_open
       dialog.confirm
 
       # Wait for page reload
-      sleep 1
+      SeleniumHubWaiter.wait
 
       expect(page).to have_no_selector('.group-head', text: 'NEW GROUP')
       expect(page).to have_no_selector('.group-head', text: 'OTHER')
@@ -76,10 +77,10 @@ describe 'Reset form configuration', type: :feature, js: true do
 
       expect(type.custom_field_ids).to be_empty
 
-      new_group = type.attribute_groups.detect { |g| g.key == 'New Group'}
+      new_group = type.attribute_groups.detect { |g| g.key == 'New Group' }
       expect(new_group).not_to be_present
 
-      other_group = type.attribute_groups.detect { |g| g.key == :other}
+      other_group = type.attribute_groups.detect { |g| g.key == :other }
       expect(other_group).not_to be_present
     end
   end

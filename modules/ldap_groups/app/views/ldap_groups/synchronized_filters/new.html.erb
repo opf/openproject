@@ -1,8 +1,6 @@
 <% local_assigns[:additional_breadcrumb] = t('ldap_groups.synchronized_filters.add_new') %>
 <% html_title(t(:label_administration), t('ldap_groups.synchronized_filters.add_new')) -%>
 
-<%= error_messages_for @filter %>
-
 <%= toolbar title: t('ldap_groups.synchronized_filters.add_new') %>
 
 <%= labelled_tabular_form_for @filter,

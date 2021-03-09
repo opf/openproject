@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -29,6 +29,10 @@
 require 'rack_session_access/capybara'
 
 module AuthenticationHelpers
+  def self.included(base)
+    base.extend(ClassMethods)
+  end
+
   def login_as(user)
     if is_a? RSpec::Rails::FeatureExampleGroup
       # If we want to mock having finished the login process
@@ -54,6 +58,18 @@ module AuthenticationHelpers
 
   def logout
     visit signout_path
+  end
+
+  module ClassMethods
+    # Sets the current user.
+    # Will make the return value available in the specs as current_user (using a let block)
+    # and treat that user as the one currently being logged in
+    # @block [Proc] The user to log in.
+    def current_user(&block)
+      let(:current_user, &block)
+
+      before { login_as current_user }
+    end
   end
 end
 

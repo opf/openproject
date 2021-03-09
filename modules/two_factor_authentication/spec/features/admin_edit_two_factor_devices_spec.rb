@@ -1,18 +1,16 @@
 require_relative '../spec_helper'
 
 describe 'Admin 2FA management', with_2fa_ee: true, type: :feature,
-         with_config: {:'2fa' => {active_strategies: [:developer, :totp]}},
-         js: true do
+                                 with_config: { '2fa': { active_strategies: %i[developer totp] } },
+                                 js: true do
   let(:dialog) { ::Components::PasswordConfirmationDialog.new }
-  let(:user_password) {'admin!' * 4}
+  let(:user_password) { 'admin!' * 4 }
   let(:other_user) { FactoryBot.create :user, login: 'bob' }
   let(:admin) do
     FactoryBot.create(:admin,
-                       password: user_password,
-                       password_confirmation: user_password,
-    )
+                      password: user_password,
+                      password_confirmation: user_password)
   end
-
 
   before do
     login_as admin
@@ -33,18 +31,22 @@ describe 'Admin 2FA management', with_2fa_ee: true, type: :feature,
     visit edit_user_path(other_user, tab: :two_factor_authentication)
 
     # Visit empty index
-    expect(page).to have_selector('.generic-table--empty-row', text: I18n.t('two_factor_authentication.admin.no_devices_for_user'))
+    expect(page).to have_selector('.generic-table--empty-row',
+                                  text: I18n.t('two_factor_authentication.admin.no_devices_for_user'))
     expect(page).to have_selector('.on-off-status.-disabled')
 
     # Visit inline create
     find('.button', text: I18n.t('two_factor_authentication.admin.button_register_mobile_phone_for_user')).click
 
+    SeleniumHubWaiter.wait
     # Try to save with invalid phone number
     fill_in 'device_phone_number', with: 'invalid!'
     click_button I18n.t(:button_continue)
 
     # Enter valid phone number
     expect(page).to have_selector('#errorExplanation', text: 'Phone number must be of format +XX XXXXXXXXX')
+
+    SeleniumHubWaiter.wait
     fill_in 'device_phone_number', with: '+49 123456789'
     click_button I18n.t(:button_continue)
 
@@ -52,6 +54,7 @@ describe 'Admin 2FA management', with_2fa_ee: true, type: :feature,
     expect(page).to have_selector('.mobile-otp--two-factor-device-row td .icon-yes', count: 2)
     expect(page).to have_selector('.on-off-status.-enabled')
 
+    SeleniumHubWaiter.wait
     # Delete the one
     find('.two-factor--delete-button').click
     dialog.confirm_flow_with user_password, should_fail: false
@@ -79,4 +82,3 @@ describe 'Admin 2FA management', with_2fa_ee: true, type: :feature,
     end
   end
 end
-

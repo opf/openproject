@@ -7,13 +7,13 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Sns, with_2fa_ee
     let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, channel: channel }
     let(:channel) { :sms }
 
-    let(:params) {
+    let(:params) do
       {
         region: 'eu-west-1',
         access_key_id: 'foobar',
         secret_access_key: 'foobar key'
       }
-    }
+    end
 
     before do
       allow(OpenProject::Configuration)
@@ -66,7 +66,8 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Sns, with_2fa_ee
           expect(api)
             .to receive(:publish)
             .with(phone_number: phone.gsub(' ', ''),
-                  message: I18n.t('two_factor_authentication.text_otp_delivery_message_sms', app_title: Setting.app_title, token: 1234))
+                  message: I18n.t('two_factor_authentication.text_otp_delivery_message_sms', app_title: Setting.app_title,
+                                                                                             token: 1234))
             .and_return(api_result)
         end
 

@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -43,22 +43,6 @@ describe User, type: :model do
                                     author: user,
                                     project: project,
                                     status: status)
-  end
-
-  describe '.not_builtin' do
-    let!(:anonymous_user) { FactoryBot.create(:anonymous) }
-    let!(:system_user) { FactoryBot.create(:system) }
-    let!(:deleted_user) { FactoryBot.create(:deleted_user) }
-    let!(:user) { FactoryBot.create(:user) }
-
-    subject { described_class.not_builtin }
-
-    it 'returns only actual users', :aggregate_failures do
-      expect(subject).to include(user)
-      expect(subject).not_to include(anonymous_user)
-      expect(subject).not_to include(system_user)
-      expect(subject).not_to include(deleted_user)
-    end
   end
 
   describe 'a user with a long login (<= 256 chars)' do
@@ -108,7 +92,6 @@ describe User, type: :model do
     end
   end
 
-
   describe 'a user with and overly long firstname (> 256 chars)' do
     it 'is invalid' do
       user.firstname = 'a' * 257
@@ -124,7 +107,6 @@ describe User, type: :model do
       expect(user.save).to be_falsey
     end
   end
-
 
   describe 'login whitespace' do
     before do
@@ -209,33 +191,6 @@ describe User, type: :model do
       it 'may not be stored in the database' do
         expect(user.save).to be_falsey
       end
-    end
-  end
-
-  describe '#assigned_issues' do
-    before do
-      user.save!
-    end
-
-    describe 'WHEN the user has an issue assigned' do
-      before do
-        member.save!
-
-        issue.assigned_to = user
-        issue.save!
-      end
-
-      it { expect(user.assigned_issues).to eq([issue]) }
-    end
-
-    describe 'WHEN the user has no issue assigned' do
-      before do
-        member.save!
-
-        issue.save!
-      end
-
-      it { expect(user.assigned_issues).to eq([]) }
     end
   end
 
@@ -380,7 +335,10 @@ describe User, type: :model do
     end
 
     it { expect(@u.valid?).to be_falsey }
-    it { expect(@u.errors[:password]).to include I18n.t('activerecord.errors.messages.too_short', count: Setting.password_min_length.to_i) }
+    it {
+      expect(@u.errors[:password]).to include I18n.t('activerecord.errors.messages.too_short',
+                                                     count: Setting.password_min_length.to_i)
+    }
   end
 
   describe '#random_password' do
@@ -488,7 +446,9 @@ describe User, type: :model do
   end
 
   describe '.default_admin_account_deleted_or_changed?' do
-    let(:default_admin) { FactoryBot.build(:user, login: 'admin', password: 'admin', password_confirmation: 'admin', admin: true) }
+    let(:default_admin) do
+      FactoryBot.build(:user, login: 'admin', password: 'admin', password_confirmation: 'admin', admin: true)
+    end
 
     before do
       Setting.password_min_length = 5
@@ -522,7 +482,7 @@ describe User, type: :model do
 
     context 'default admin account was disabled' do
       before do
-        default_admin.status = User::STATUSES[:locked]
+        default_admin.status = User.statuses[:locked]
         default_admin.save
       end
 
@@ -576,7 +536,7 @@ describe User, type: :model do
     end
 
     it 'is false for an inactive user' do
-      user.status = User::STATUSES[:locked]
+      user.status = User.statuses[:locked]
       user.mail_notification = 'all'
       expect(user.notify_about?({})).to be_falsey
     end

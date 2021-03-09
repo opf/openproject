@@ -34,7 +34,7 @@ export class TriggerActionsEntryComponent {
   @InjectField() readonly apiv3Service:APIV3Service;
   @InjectField() readonly notificationsService:NotificationsService;
   @InjectField() readonly elementRef:ElementRef;
-  @InjectField() readonly i18n:I18nService;
+  @InjectField() i18n!:I18nService;
   @InjectField() readonly cdRef:ChangeDetectorRef;
 
   public text = {

@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -26,7 +26,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-
 module OpenProject::PDFExport::ExportCard
   class GroupElement
     include OpenProject::PDFExport::Exceptions
@@ -42,7 +41,7 @@ module OpenProject::PDFExport::ExportCard
       current_y_offset = 0
       row_heights = @orientation[:row_heights]
 
-      @rows_config.each_with_index do |(r_key, r_value), i|
+      @rows_config.each_with_index do |(_r_key, r_value), i|
         current_y_offset += (row_heights[i - 1]) if i > 0
         row_orientation = {
           y_offset: @orientation[:height] - current_y_offset,
@@ -70,11 +69,10 @@ module OpenProject::PDFExport::ExportCard
           row.draw
         end
 
-        if (@config["has_border"] or false)
+        if @config["has_border"] or false
           @pdf.stroke_bounds
         end
       end
-
     end
   end
 end

@@ -4,7 +4,7 @@ module Webhooks
       layout 'admin'
 
       before_action :require_admin
-      before_action :find_webhook, only: [:show, :edit, :update, :destroy]
+      before_action :find_webhook, only: %i[show edit update destroy]
 
       menu_item :plugin_webhooks
 
@@ -13,6 +13,7 @@ module Webhooks
       end
 
       def show; end
+
       def edit; end
 
       def new
@@ -70,7 +71,6 @@ module Webhooks
           .require(:webhook)
           .permit(:name, :description, :url, :secret, :enabled,
                   :project_ids, selected_project_ids: [], events: [])
-
       end
 
       def show_local_breadcrumb

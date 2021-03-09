@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -34,7 +34,7 @@ describe AccountController, type: :controller do
     User.current = nil
   end
 
-  context 'GET #omniauth_login', with_settings: { self_registration: Setting::SelfRegistration.automatic} do
+  context 'GET #omniauth_login', with_settings: { self_registration: Setting::SelfRegistration.automatic } do
     describe 'with on-the-fly registration' do
       context 'providing all required fields' do
         let(:omniauth_hash) do
@@ -44,8 +44,7 @@ describe AccountController, type: :controller do
             info: { name: 'foo',
                     email: 'foo@bar.com',
                     first_name: 'foo',
-                    last_name: 'bar'
-            }
+                    last_name: 'bar' }
           )
         end
 
@@ -109,8 +108,7 @@ describe AccountController, type: :controller do
             uid: 'foo',
             info: { email: 'whattheheck@example.com',
                     first_name: 'what',
-                    last_name: 'theheck'
-            },
+                    last_name: 'theheck' },
             extra: { raw_info: {
               real_uid: 'bar@example.org',
               first_name: 'foo',
@@ -164,7 +162,7 @@ describe AccountController, type: :controller do
             provider: 'google',
             uid: '123545',
             info: { name: 'foo', email: 'foo@bar.com' }
-          # first_name and last_name not set
+            # first_name and last_name not set
           )
         end
 
@@ -184,7 +182,8 @@ describe AccountController, type: :controller do
 
           auth_source_registration = omniauth_hash.merge(
             omniauth: true,
-            timestamp: Time.new)
+            timestamp: Time.new
+          )
           session[:auth_source_registration] = auth_source_registration
           post :register,
                params: {
@@ -208,7 +207,8 @@ describe AccountController, type: :controller do
           before do
             session[:auth_source_registration] = omniauth_hash.merge(
               omniauth: true,
-              timestamp: Time.new - 42.days)
+              timestamp: Time.new - 42.days
+            )
           end
 
           it 'does not register the user when providing all the missing fields' do
@@ -252,8 +252,7 @@ describe AccountController, type: :controller do
             info: { name: 'foo',
                     email: 'foo@bar.com',
                     first_name: 'foo',
-                    last_name: 'bar'
-            }
+                    last_name: 'bar' }
           )
         end
 
@@ -281,14 +280,13 @@ describe AccountController, type: :controller do
           uid: '123545',
           info: { name: 'foo',
                   last_name: 'bar',
-                  email: 'foo@bar.com'
-          }
+                  email: 'foo@bar.com' }
         )
       end
 
       let(:user) do
         FactoryBot.build(:user, force_password_change: false,
-                                 identity_url: 'google:123545')
+                                identity_url: 'google:123545')
       end
 
       before do
@@ -502,8 +500,7 @@ describe AccountController, type: :controller do
           provider: 'google',
           # id is deliberately missing here to make the auth_hash invalid
           info: { name: 'foo',
-                  email: 'foo@bar.com'
-          }
+                  email: 'foo@bar.com' }
         )
       end
 

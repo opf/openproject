@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -29,23 +29,20 @@
 #++
 
 module Projects::Scopes
-  class VisibleWithActivatedTimeActivity
-    class << self
-      def fetch(activity)
+  module VisibleWithActivatedTimeActivity
+    extend ActiveSupport::Concern
+
+    class_methods do
+      def visible_with_activated_time_activity(activity)
         allowed_scope
-          .where(id: activated_projects(activity).select(:id))
+          .where(id: activated_time_activity(activity).select(:id))
       end
 
       private
 
-      def activated_projects(activity)
-        Project.activated_time_activity(activity)
-      end
-
       def allowed_scope
-        Project
-          .where(id: Project.allowed_to(User.current, :view_time_entries).select(:id))
-          .or(Project.where(id: Project.allowed_to(User.current, :view_own_time_entries).select(:id)))
+        where(id: allowed_to(User.current, :view_time_entries).select(:id))
+          .or(where(id: Project.allowed_to(User.current, :view_own_time_entries).select(:id)))
       end
     end
   end

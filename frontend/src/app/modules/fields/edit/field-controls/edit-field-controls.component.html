@@ -1,5 +1,5 @@
 <div class="inplace-edit--dashboard">
-  <div class="inplace-edit--controls" *ngIf="field.handler.active">
+  <div class="inplace-edit--controls">
     <accessible-by-keyboard (execute)="save()"
                             [attr.disabled]="(field.required && field.isEmpty()) || undefined"
                             [linkTitle]="saveTitle"

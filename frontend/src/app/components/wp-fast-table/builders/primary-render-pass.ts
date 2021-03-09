@@ -40,7 +40,7 @@ export abstract class PrimaryRenderPass {
 
   @InjectField() halEditing:HalResourceEditingService;
   @InjectField() states:States;
-  @InjectField() I18n:I18nService;
+  @InjectField() I18n!:I18nService;
 
   /** The rendered order of rows of work package IDs or <null>, if not a work package row */
   public renderedOrder:RowRenderInfo[];

@@ -64,14 +64,6 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
     return false;
   }
 
-  public userPath(user:UserResource) {
-    return this.pathHelper.userPath(user.id!);
-  }
-
-  public userName(user:UserResource) {
-    return user.name;
-  }
-
   public get noMembers() {
     return this.entriesLoaded && !Object.keys(this.entriesByRoles).length;
   }
@@ -95,10 +87,6 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
     return Object.values(this.entriesByRoles);
   }
 
-  public isGroup(principal:UserResource) {
-    return this.apiV3Service.groups.id(principal.id!).toString() === principal.href;
-  }
-
   private partitionEntriesByRole(memberships:MembershipResource[]) {
     memberships.forEach(membership => {
       membership.roles.forEach((role) => {
@@ -114,7 +102,7 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
   private sortUsersByName() {
     Object.values(this.entriesByRoles).forEach(entry => {
       entry.users.sort((a, b) => {
-        return this.userName(a).localeCompare(this.userName(b));
+        return a.name.localeCompare(b.name);
       });
     });
   }

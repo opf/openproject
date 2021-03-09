@@ -22,7 +22,7 @@ describe 'Add an attachment to a meeting (agenda)', js: true do
   end
 
   let(:attachments) { ::Components::Attachments.new }
-  let(:image_fixture) { Rails.root.join('spec/fixtures/files/image.png') }
+  let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:editor) { Components::WysiwygEditor.new }
 
   before do
@@ -42,7 +42,7 @@ describe 'Add an attachment to a meeting (agenda)', js: true do
 
         editor.expect_button 'Insert image'
 
-        editor.drag_attachment image_fixture, 'Some image caption'
+        editor.drag_attachment image_fixture.path, 'Some image caption'
 
         click_on "Save"
 
@@ -64,13 +64,13 @@ describe 'Add an attachment to a meeting (agenda)', js: true do
       ##
       # Attach file manually
       expect(page).to have_no_selector('.work-package--attachments--filename')
-      attachments.attach_file_on_input(image_fixture)
+      attachments.attach_file_on_input(image_fixture.path)
       expect(page).not_to have_selector('notification-upload-progress')
       expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', wait: 5)
 
       ##
       # and via drag & drop
-      attachments.drag_and_drop_file(container, Rails.root.join('spec/fixtures/files/image.png'))
+      attachments.drag_and_drop_file(container, image_fixture.path)
       expect(page).not_to have_selector('notification-upload-progress')
       expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', count: 2, wait: 5)
     end

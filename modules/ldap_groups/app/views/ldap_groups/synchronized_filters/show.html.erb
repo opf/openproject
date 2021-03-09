@@ -33,6 +33,22 @@
           <span><%= @filter.group_name_attribute %></span>
         </div>
       </div>
+      <div class="attributes-key-value--key"><%= @filter.class.human_attribute_name(:base_dn) %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value">
+          <%= @filter.used_base_dn %>
+        </div>
+      </div>
+      <div class="attributes-key-value--key"><%= @filter.class.human_attribute_name(:sync_users) %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value">
+          <% if @filter.sync_users %>
+            <%= checked_image @filter.sync_users %>
+          <% else %>
+            <%= t(:general_text_no) %>
+          <% end %>
+        </div>
+      </div>
       <div class="attributes-key-value--key"><%= @filter.class.human_attribute_name(:filter_string) %></div>
       <div class="attributes-key-value--value-container">
         <div class="attributes-key-value--value">
@@ -57,6 +73,6 @@
     <% end %>
   </li>
 <% end %>
-  <%= cell ::LdapGroups::SynchronizedGroups::TableCell, @filter.groups, show_inline_create: false, deletable: false %>
+  <%= rails_cell ::LdapGroups::SynchronizedGroups::TableCell, @filter.groups, show_inline_create: false, deletable: false %>
 </section>
 

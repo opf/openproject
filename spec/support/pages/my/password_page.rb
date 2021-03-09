@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -36,9 +36,8 @@ module Pages
       end
 
       def change_password(old_password, new_password, confirmation = new_password)
-        # use find and set with id to prevent ambiguous match I get with fill_in
-        page.find('#password').set(old_password)
-
+        SeleniumHubWaiter.wait
+        page.fill_in('password', with: old_password, match: :prefer_exact)
         page.fill_in('new_password', with: new_password)
         page.fill_in('new_password_confirmation', with: confirmation)
 
