@@ -520,7 +520,7 @@ GEM
     httpclient (2.8.3)
     i18n (1.8.9)
       concurrent-ruby (~> 1.0)
-    i18n-js (3.8.0)
+    i18n-js (3.8.1)
       i18n (>= 0.6.6)
     icalendar (2.7.0)
       ice_cube (~> 0.16)
