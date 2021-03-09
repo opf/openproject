@@ -79,10 +79,10 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
 
   def visible_types
     @visible_types ||= begin
-      if User.current.allowed_to?(:add_work_packages, @project, in_project_context?)
+      if User.current.allowed_to?(:add_work_packages, @project, global: !in_project_context?)
         in_project_context? ? @project.types : Type.default
       else
-        []
+        Type.none
       end
     end
   end
