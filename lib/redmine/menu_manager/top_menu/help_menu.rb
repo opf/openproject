@@ -35,8 +35,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
 
     OpenProject::Cache.fetch(cache_key) do
       if OpenProject::Static::Links.help_link_overridden?
-        render_menu_node(item)
-        content_tag('li', render_single_menu_node(item), class: 'help-menu--overridden-link')
+        content_tag('li', render_single_menu_node(item), class: 'overridden-help-menu')
       else
         render_help_dropdown
       end
