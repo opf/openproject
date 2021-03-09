@@ -44,8 +44,68 @@ feature 'Quick-add menu', js: true, selenium: true do
       quick_add.expect_user_invite present: false
       quick_add.expect_no_work_package_types
 
-      quick_add.click_link 'Add project'
+      quick_add.click_link 'Project'
       expect(page).to have_current_path new_project_path
+    end
+  end
+
+  context 'with a user and manage_members in one project' do
+    let!(:project) { FactoryBot.create :project }
+    let(:invite_modal) { ::Components::Users::InviteUserModal.new project: project, role: nil, principal: nil }
+
+    current_user do
+      FactoryBot.create :user,
+                        member_in_project: project,
+                        member_with_permissions: %i[manage_members]
+    end
+
+    it 'shows the user invite screen' do
+      visit home_path
+
+      quick_add.expect_visible
+      quick_add.toggle
+      quick_add.expect_add_project present: false
+      quick_add.expect_no_work_package_types
+      quick_add.expect_user_invite
+
+      quick_add.click_link 'Invite user'
+      invite_modal.expect_open
+    end
+  end
+
+  context 'with a project with one of two work package types' do
+    let!(:type_bug) { FactoryBot.create :type_bug }
+    let!(:other_type) { FactoryBot.create :type_task }
+    let!(:project) { FactoryBot.create :project, types: [type_bug] }
+
+    current_user do
+      FactoryBot.create :user,
+                        member_in_project: project,
+                        member_with_permissions: %i[add_work_packages]
+    end
+
+    it 'shows both types outside and the one within' do
+      visit project_path(project)
+
+      quick_add.expect_visible
+      quick_add.toggle
+      quick_add.expect_add_project present: false
+      quick_add.expect_user_invite present: false
+      quick_add.expect_work_package_type type_bug.name
+      quick_add.click_link type_bug.name
+
+      expect(page)
+        .to have_current_path new_project_work_packages_path(project_id: project, type: type_bug.id)
+
+      visit home_path
+
+      quick_add.expect_visible
+      quick_add.toggle
+      quick_add.expect_work_package_type type_bug.name
+      quick_add.expect_work_package_type other_type.name
+
+      quick_add.click_link other_type.name
+      expect(page).to have_current_path new_work_packages_path(type: other_type.id)
     end
   end
 

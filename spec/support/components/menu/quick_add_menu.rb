@@ -46,12 +46,14 @@ module Components
       expect_link 'Invite user', present: present
     end
 
-    def expect_work_package_type(name, present: true)
+    def expect_work_package_type(*names, present: true)
       within_dropdown do
-        expect(page).to have_text 'Work packages'
+        expect(page).to have_text 'WORK PACKAGES'
       end
 
-      expect_link name, present: present
+      names.each do |name|
+        expect_link name, present: present
+      end
     end
 
     def expect_no_work_package_types
@@ -62,7 +64,7 @@ module Components
 
     def click_link(matcher)
       within_dropdown do
-        click_link matcher
+        page.click_link matcher
       end
     end
 
