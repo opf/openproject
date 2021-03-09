@@ -71,7 +71,7 @@ Redmine::MenuManager.map :quick_add_menu do |menu|
             Proc.new { |project|
               { controller: '/projects', action: :new, id: nil, parent_id: project&.id }
             },
-            caption: Project.model_name.human,
+            caption: ->(*) { Project.model_name.human },
             icon: "icon-add icon3",
             html: {
               aria: { label: I18n.t(:label_project_new) },
@@ -80,7 +80,7 @@ Redmine::MenuManager.map :quick_add_menu do |menu|
             if: Proc.new { User.current.allowed_to_globally?(:add_project) }
 
   menu.push :invite_user,
-            '#',
+            nil,
             caption: :label_invite_user,
             icon: 'icon3 icon-user-plus',
             html: {
