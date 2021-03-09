@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {APIv3GettableResource, APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {Apiv3RelationsPaths} from "core-app/modules/apiv3/endpoints/relations/apiv3-relations-paths";
-import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
-import {Observable} from "rxjs";
-import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
-import {CachableAPIV3Resource} from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
-import {APIV3WorkPackagesPaths} from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-packages-paths";
-import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
+import { APIv3GettableResource, APIv3ResourcePath } from "core-app/modules/apiv3/paths/apiv3-resource";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { Apiv3RelationsPaths } from "core-app/modules/apiv3/endpoints/relations/apiv3-relations-paths";
+import { WorkPackageCollectionResource } from "core-app/modules/hal/resources/wp-collection-resource";
+import { Observable } from "rxjs";
+import { ApiV3FilterBuilder } from "core-components/api/api-v3/api-v3-filter-builder";
+import { CachableAPIV3Resource } from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
+import { APIV3WorkPackagesPaths } from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-packages-paths";
+import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
 
 export class APIV3WorkPackagePaths extends CachableAPIV3Resource<WorkPackageResource> {
 

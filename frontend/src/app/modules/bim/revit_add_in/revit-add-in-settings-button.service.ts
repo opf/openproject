@@ -1,5 +1,5 @@
-import {Injectable, Injector} from '@angular/core';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { Injectable, Injector } from '@angular/core';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 /*
  * This service conditionally creates two settings buttons (on the user menu and on

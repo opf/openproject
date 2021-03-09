@@ -1,4 +1,4 @@
-import {TimelineViewParameters} from "../wp-timeline";
+import { TimelineViewParameters } from "../wp-timeline";
 export const timelineStaticElementCssClassname = "wp-timeline--static-element";
 
 export abstract class TimelineStaticElement {

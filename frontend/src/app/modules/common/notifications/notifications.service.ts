@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {input, State} from 'reactivestates';
-import {Injectable} from '@angular/core';
-import {UploadInProgress} from "core-components/api/op-file-upload/op-file-upload.service";
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { input, State } from 'reactivestates';
+import { Injectable } from '@angular/core';
+import { UploadInProgress } from "core-components/api/op-file-upload/op-file-upload.service";
 
 export function removeSuccessFlashMessages() {
   jQuery('.flash.notice').remove();
@@ -71,7 +71,7 @@ export class NotificationsService {
     removeSuccessFlashMessages();
 
     this.stack.doModify((current) => {
-      let nextValue = [notification].concat(current);
+      const nextValue = [notification].concat(current);
       _.remove(nextValue, (n, i) =>
         i > 0 && (n.type === 'success' || n.type === 'error')
       );
@@ -91,7 +91,7 @@ export class NotificationsService {
       errors = [errors];
     }
 
-    let notification:INotification = this.createNotification(message, 'error');
+    const notification:INotification = this.createNotification(message, 'error');
     notification.data = errors;
 
     return this.add(notification);
@@ -139,7 +139,7 @@ export class NotificationsService {
       throw new Error('Cannot create an upload notification without uploads!');
     }
 
-    let notification = this.createNotification(message, 'upload');
+    const notification = this.createNotification(message, 'upload');
     notification.data = uploads;
 
     return notification;

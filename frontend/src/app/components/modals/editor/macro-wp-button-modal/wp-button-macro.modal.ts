@@ -34,14 +34,14 @@ import {
   Inject,
   ViewChild
 } from "@angular/core";
-import {OpModalLocalsMap} from "core-app/modules/modal/modal.types";
-import {OpModalComponent} from "core-app/modules/modal/modal.component";
-import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {TypeResource} from "core-app/modules/hal/resources/type-resource";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {FormResource} from "core-app/modules/hal/resources/form-resource";
+import { OpModalLocalsMap } from "core-app/modules/modal/modal.types";
+import { OpModalComponent } from "core-app/modules/modal/modal.component";
+import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { TypeResource } from "core-app/modules/hal/resources/type-resource";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { FormResource } from "core-app/modules/hal/resources/form-resource";
 
 @Component({
   templateUrl: './wp-button-macro.modal.html'
@@ -57,8 +57,8 @@ export class WpButtonMacroModal extends OpModalComponent implements AfterViewIni
   public buttonStyle:boolean;
 
   public availableTypes:TypeResource[];
-  public type:string = '';
-  public classes:string = '';
+  public type = '';
+  public classes = '';
 
   @ViewChild('typeSelect', { static: true }) typeSelect:ElementRef;
 

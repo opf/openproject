@@ -1,19 +1,19 @@
-import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
-import {OpModalLocalsMap} from 'core-app/modules/modal/modal.types';
-import {OpModalComponent} from 'core-app/modules/modal/modal.component';
-import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
-import {Observable, timer} from "rxjs";
-import {switchMap, takeWhile} from "rxjs/operators";
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { OpModalLocalsMap } from 'core-app/modules/modal/modal.types';
+import { OpModalComponent } from 'core-app/modules/modal/modal.component';
+import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Observable, timer } from "rxjs";
+import { switchMap, takeWhile } from "rxjs/operators";
 import {
   LoadingIndicatorService,
   withDelayedLoadingIndicator
 } from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {JobStatusEnum, JobStatusInterface} from "core-app/modules/job-status/job-status.interface";
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { JobStatusEnum, JobStatusInterface } from "core-app/modules/job-status/job-status.interface";
+import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 
 @Component({
@@ -92,24 +92,24 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
         this.untilDestroyed(),
         withDelayedLoadingIndicator(this.loadingIndicator.getter('modal')),
       ).subscribe(
-      response => this.onResponse(response),
-      error => this.handleError(error),
-      () => this.isLoading = false
-    );
+        response => this.onResponse(response),
+        error => this.handleError(error),
+        () => this.isLoading = false
+      );
   }
 
   private iconForStatus():string|null {
     switch (this.status) {
-      case "cancelled":
-      case "failure":
-      case "error":
-        return 'icon-error';
-        break;
-      case "success":
-        return "icon-checkmark";
-        break;
-      default:
-        return null;
+    case "cancelled":
+    case "failure":
+    case "error":
+      return 'icon-error';
+      break;
+    case "success":
+      return "icon-checkmark";
+      break;
+    default:
+      return null;
     }
   }
 
@@ -122,13 +122,13 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
   }
 
   private onResponse(response:HttpResponse<JobStatusInterface>) {
-    let body = response.body;
+    const body = response.body;
 
     if (!body) {
       throw new Error(response as any);
     }
 
-    let status = this.status = body.status;
+    const status = this.status = body.status;
 
     this.message = body.message ||
       this.I18n.t(`js.job_status.generic_messages.${status}`, { defaultValue: status });

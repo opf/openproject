@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injector} from "@angular/core";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {HttpClient} from "@angular/common/http";
-import {SimpleResource} from "core-app/modules/apiv3/paths/path-resources";
+import { Injector } from "@angular/core";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { HttpClient } from "@angular/common/http";
+import { SimpleResource } from "core-app/modules/apiv3/paths/path-resources";
 
 export type QueryOrder = { [wpId:string]:number };
 
@@ -63,7 +63,7 @@ export class APIV3QueryOrder extends SimpleResource {
   }
 
   public delete(id:string, ...wpIds:string[]) {
-    let delta:QueryOrder = {};
+    const delta:QueryOrder = {};
     wpIds.forEach(id => delta[id] = -1);
 
     return this.update(delta);

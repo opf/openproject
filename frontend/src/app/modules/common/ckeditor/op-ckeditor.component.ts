@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import {
   CKEditorSetupService,
   ICKEditorContext,
   ICKEditorInstance
 } from "core-app/modules/common/ckeditor/ckeditor-setup.service";
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
+import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
 
 declare module 'codemirror';
 
@@ -124,7 +124,7 @@ export class OpCkeditorComponent implements OnInit {
         resolve(this.getRawData());
       } catch (e) {
         console.error(`Failed to save CKEditor content: ${e}.`);
-        let error = this.I18n.t(
+        const error = this.I18n.t(
           'js.editor.error_saving_failed',
           { error: e || this.I18n.t('js.error.internal') }
         );

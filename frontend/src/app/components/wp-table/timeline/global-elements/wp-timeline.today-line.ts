@@ -27,8 +27,8 @@
 //++
 
 import * as moment from 'moment';
-import {calculatePositionValueForDayCount, TimelineViewParameters} from '../wp-timeline';
-import {TimelineStaticElement} from './timeline-static-element';
+import { calculatePositionValueForDayCount, TimelineViewParameters } from '../wp-timeline';
+import { TimelineStaticElement } from './timeline-static-element';
 
 
 export class TodayLineElement extends TimelineStaticElement {

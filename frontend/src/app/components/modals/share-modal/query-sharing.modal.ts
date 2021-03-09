@@ -26,18 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackagesListService} from '../../wp-list/wp-list.service';
-import {States} from '../../states.service';
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {OpModalComponent} from "core-app/modules/modal/modal.component";
-import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
-import {OpModalLocalsMap} from "core-app/modules/modal/modal.types";
-import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from "@angular/core";
-import {QuerySharingChange} from "core-components/modals/share-modal/query-sharing-form.component";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { WorkPackagesListService } from '../../wp-list/wp-list.service';
+import { States } from '../../states.service';
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { OpModalComponent } from "core-app/modules/modal/modal.component";
+import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { OpModalLocalsMap } from "core-app/modules/modal/modal.types";
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
+import { QuerySharingChange } from "core-components/modals/share-modal/query-sharing-form.component";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
 
 @Component({
   templateUrl: './query-sharing.modal.html'
@@ -96,7 +96,7 @@ export class QuerySharingModal extends OpModalComponent implements OnInit {
     }
 
     this.isBusy = true;
-    let promises = [];
+    const promises = [];
 
     if (this.query.public !== this.isPublic) {
       this.query.public = this.isPublic;

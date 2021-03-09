@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {OpModalService} from "core-app/modules/modal/modal.service";
-import {Injectable, Injector} from "@angular/core";
-import {WpButtonMacroModal} from "core-components/modals/editor/macro-wp-button-modal/wp-button-macro.modal";
-import {WikiIncludePageMacroModal} from "core-components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal";
-import {CodeBlockMacroModal} from "core-components/modals/editor/macro-code-block-modal/code-block-macro.modal";
-import {ChildPagesMacroModal} from "core-components/modals/editor/macro-child-pages-modal/child-pages-macro.modal";
+import { OpModalService } from "core-app/modules/modal/modal.service";
+import { Injectable, Injector } from "@angular/core";
+import { WpButtonMacroModal } from "core-components/modals/editor/macro-wp-button-modal/wp-button-macro.modal";
+import { WikiIncludePageMacroModal } from "core-components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal";
+import { CodeBlockMacroModal } from "core-components/modals/editor/macro-code-block-modal/code-block-macro.modal";
+import { ChildPagesMacroModal } from "core-components/modals/editor/macro-child-pages-modal/child-pages-macro.modal";
 
 @Injectable()
 export class EditorMacrosService {
@@ -49,7 +49,7 @@ export class EditorMacrosService {
       const modal = this.opModalService.show(WpButtonMacroModal, this.injector, { type: typeName, classes: classes });
       modal.closingEvent.subscribe((modal:WpButtonMacroModal) => {
         if (modal.changed) {
-          resolve({type: modal.type, classes: modal.classes});
+          resolve({ type: modal.type, classes: modal.classes });
         }
       });
     });
@@ -80,13 +80,13 @@ export class EditorMacrosService {
       const modal = this.opModalService.show(CodeBlockMacroModal, this.injector, { content: content, languageClass: languageClass });
       modal.closingEvent.subscribe((modal:CodeBlockMacroModal) => {
         if (modal.changed) {
-          resolve({languageClass: modal.languageClass, content: modal.content});
+          resolve({ languageClass: modal.languageClass, content: modal.content });
         }
       });
     });
   }
 
-   /**
+  /**
    * Show a modal to edit the child pages macro.
    * Used from within ckeditor.
    */

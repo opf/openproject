@@ -1,4 +1,4 @@
-import {demoProjectName, preventClickHandler, scrumDemoProjectName} from "core-app/globals/onboarding/helpers";
+import { demoProjectName, preventClickHandler, scrumDemoProjectName } from "core-app/globals/onboarding/helpers";
 
 export function homescreenOnboardingTourSteps() {
   return [

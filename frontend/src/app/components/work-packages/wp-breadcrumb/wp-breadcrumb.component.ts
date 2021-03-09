@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import { Component, Input } from '@angular/core';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 
 @Component({
   templateUrl: './wp-breadcrumb.html',
@@ -46,7 +46,7 @@ export class WorkPackageBreadcrumbComponent {
   constructor(private I18n:I18nService) {
   }
 
-  public inputActive:boolean = false;
+  public inputActive = false;
 
   public get hierarchyCount() {
     return this.workPackage.ancestors.length;

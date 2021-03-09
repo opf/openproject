@@ -1,8 +1,8 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {WorkPackageWatchersService} from 'core-app/components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { WorkPackageWatchersService } from 'core-app/components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   templateUrl: './wp-relations-count.html',
@@ -11,7 +11,7 @@ import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 })
 export class WorkPackageWatchersCountComponent extends UntilDestroyedMixin implements OnInit {
   @Input('wpId') wpId:string;
-  public count:number = 0;
+  public count = 0;
 
   constructor(protected apiV3Service:APIV3Service,
               protected wpWatcherService:WorkPackageWatchersService,
@@ -28,12 +28,12 @@ export class WorkPackageWatchersCountComponent extends UntilDestroyedMixin imple
       .pipe(
         this.untilDestroyed()
       ).subscribe((workPackage) => {
-      this.wpWatcherService
-        .require(workPackage)
-        .then((watchers:HalResource[]) => {
-          this.count = watchers.length;
-          this.cdRef.detectChanges();
-        });
-    });
+        this.wpWatcherService
+          .require(workPackage)
+          .then((watchers:HalResource[]) => {
+            this.count = watchers.length;
+            this.cdRef.detectChanges();
+          });
+      });
   }
 }

@@ -1,19 +1,19 @@
-import {Injector} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {DisplayFieldContext, DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {MultipleLinesCustomOptionsDisplayField} from "core-app/modules/fields/display/field-types/multiple-lines-custom-options-display-field.module";
-import {ProgressTextDisplayField} from "core-app/modules/fields/display/field-types/progress-text-display-field.module";
-import {MultipleLinesUserFieldModule} from "core-app/modules/fields/display/field-types/multiple-lines-user-display-field.module";
-import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {ISchemaProxy} from "core-app/modules/hal/schemas/schema-proxy";
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {DateDisplayField} from "core-app/modules/fields/display/field-types/date-display-field.module";
+import { Injector } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { IFieldSchema } from "core-app/modules/fields/field.base";
+import { DisplayFieldContext, DisplayFieldService } from "core-app/modules/fields/display/display-field.service";
+import { DisplayField } from "core-app/modules/fields/display/display-field.module";
+import { MultipleLinesCustomOptionsDisplayField } from "core-app/modules/fields/display/field-types/multiple-lines-custom-options-display-field.module";
+import { ProgressTextDisplayField } from "core-app/modules/fields/display/field-types/progress-text-display-field.module";
+import { MultipleLinesUserFieldModule } from "core-app/modules/fields/display/field-types/multiple-lines-user-display-field.module";
+import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { ISchemaProxy } from "core-app/modules/hal/schemas/schema-proxy";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { DateDisplayField } from "core-app/modules/fields/display/field-types/date-display-field.module";
 
 export const editableClassName = '-editable';
 export const requiredClassName = '-required';
@@ -39,9 +39,9 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   }
 
   public render(resource:T,
-                name:string,
-                change:ResourceChangeset<T>|null,
-                placeholder?:string):HTMLSpanElement {
+    name:string,
+    change:ResourceChangeset<T>|null,
+    placeholder?:string):HTMLSpanElement {
 
     const [field, span] = this.renderFieldValue(resource, name, change, placeholder);
 
@@ -55,9 +55,9 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   }
 
   public renderFieldValue(resource:T,
-                          requestedAttribute:string,
-                          change:ResourceChangeset<T>|null,
-                          placeholder?:string):[DisplayField|null, HTMLSpanElement] {
+    requestedAttribute:string,
+    change:ResourceChangeset<T>|null,
+    placeholder?:string):[DisplayField|null, HTMLSpanElement] {
     const span = document.createElement('span');
     const schema = this.schema(resource, change);
     const attributeName = this.attributeName(requestedAttribute, schema);
@@ -82,9 +82,9 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   }
 
   public getField(resource:T,
-                  fieldSchema:IFieldSchema,
-                  attributeName:string,
-                  change:ResourceChangeset<T>|null):DisplayField {
+    fieldSchema:IFieldSchema,
+    attributeName:string,
+    change:ResourceChangeset<T>|null):DisplayField {
     let field = this.fieldCache[attributeName];
 
     if (!field) {
@@ -98,7 +98,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   }
 
   private getFieldForCurrentContext(resource:T, attributeName:string, fieldSchema:IFieldSchema):DisplayField {
-    const context:DisplayFieldContext = {container: this.container, injector: this.injector, options: this.options};
+    const context:DisplayFieldContext = { container: this.container, injector: this.injector, options: this.options };
 
     // We handle multi value fields differently in the single view context
     const isCustomMultiLinesField = ['[]CustomOption'].indexOf(fieldSchema.type) >= 0;
@@ -167,7 +167,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
 
   private getAriaLabel(field:DisplayField, schema:SchemaResource):string {
     let titleContent;
-    let labelContent = this.getLabelContent(field);
+    const labelContent = this.getLabelContent(field);
 
     if (field.isFormattable && !field.isEmpty()) {
       try {
@@ -182,7 +182,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     }
 
     if (field.writable && schema.isAttributeEditable(field.name)) {
-      return this.I18n.t('js.inplace.button_edit', {attribute: `${field.displayName} ${titleContent}`});
+      return this.I18n.t('js.inplace.button_edit', { attribute: `${field.displayName} ${titleContent}` });
     } else {
       return `${field.displayName} ${titleContent}`;
     }
@@ -213,14 +213,14 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
 
   private getDefaultPlaceholder(fieldSchema:IFieldSchema):string {
     if (fieldSchema.type === 'Formattable') {
-      return this.I18n.t('js.work_packages.placeholders.formattable', {name: fieldSchema.name});
+      return this.I18n.t('js.work_packages.placeholders.formattable', { name: fieldSchema.name });
     }
 
     return cellEmptyPlaceholder;
   }
 
   private schema(resource:T, change:ResourceChangeset<T>|null) {
-    if (!!change) {
+    if (change) {
       return change.schema;
     } else if (this.halEditing.typedState(resource).hasValue()) {
       return this.halEditing.typedState(resource).value!.schema;

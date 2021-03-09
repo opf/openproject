@@ -26,17 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {NgModule} from '@angular/core';
-import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
-import {OpenprojectModalModule} from "core-app/modules/modal/modal.module";
-import {EnterpriseTrialService} from "core-components/enterprise/enterprise-trial.service";
-import {EnterpriseBaseComponent} from "core-components/enterprise/enterprise-base.component";
-import {EnterpriseTrialModal} from "core-components/enterprise/enterprise-modal/enterprise-trial.modal";
-import {EETrialFormComponent} from "core-components/enterprise/enterprise-modal/enterprise-trial-form/ee-trial-form.component";
-import {EETrialWaitingComponent} from "core-components/enterprise/enterprise-trial-waiting/ee-trial-waiting.component";
-import {EEActiveTrialComponent} from "core-components/enterprise/enterprise-active-trial/ee-active-trial.component";
-import {EEActiveSavedTrialComponent} from "core-components/enterprise/enterprise-active-trial/ee-active-saved-trial.component";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { NgModule } from '@angular/core';
+import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
+import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
+import { EnterpriseTrialService } from "core-components/enterprise/enterprise-trial.service";
+import { EnterpriseBaseComponent } from "core-components/enterprise/enterprise-base.component";
+import { EnterpriseTrialModal } from "core-components/enterprise/enterprise-modal/enterprise-trial.modal";
+import { EETrialFormComponent } from "core-components/enterprise/enterprise-modal/enterprise-trial-form/ee-trial-form.component";
+import { EETrialWaitingComponent } from "core-components/enterprise/enterprise-trial-waiting/ee-trial-waiting.component";
+import { EEActiveTrialComponent } from "core-components/enterprise/enterprise-active-trial/ee-active-trial.component";
+import { EEActiveSavedTrialComponent } from "core-components/enterprise/enterprise-active-trial/ee-active-saved-trial.component";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   imports: [

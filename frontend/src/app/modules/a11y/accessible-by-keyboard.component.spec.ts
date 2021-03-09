@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {AccessibleByKeyboardComponent} from "core-app/modules/a11y/accessible-by-keyboard.component";
+import { AccessibleByKeyboardComponent } from "core-app/modules/a11y/accessible-by-keyboard.component";
 
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 
 describe('accessibleByKeyboard component', () => {

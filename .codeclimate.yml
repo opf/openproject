@@ -27,7 +27,7 @@ checks:
 plugins:
   rubocop:
     enabled: true
-    channel: rubocop-1-10-0
+    channel: rubocop-1-11-0
   # Codeclimate uses brakeman 4.3.1 which does not support rails 6
   # Check https://docs.codeclimate.com/docs/brakeman for updates.
   brakeman:
@@ -37,23 +37,13 @@ plugins:
     enabled: false
   eslint:
     enabled: true
-    checks:
-      no-unused-expressions:
-        enabled: false
+    channel: "eslint-7"
+    config:
+      config: frontend/.eslintrc.js
   csslint:
     enabled: true
   scsslint:
     enabled: true
-  tslint:
-    enabled: true
-    config: tslint.json
-    checks:
-      # Disable whitespace due to 3.7 incompatibiltiy with ? navigation
-      whitespace:
-        enabled: false
-      # Disable difference in import styles until we migrate to eslint
-      quotemark:
-        enabled: false
   fixme:
     enabled: true
 ratings:

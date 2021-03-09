@@ -1,10 +1,10 @@
-import {Injectable} from "@angular/core";
-import {Board} from "core-app/modules/boards/board/board";
-import {StatusResource} from "core-app/modules/hal/resources/status-resource";
-import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
-import {CachedBoardActionService} from "core-app/modules/boards/board/board-actions/cached-board-action.service";
-import {StatusBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/status/status-board-header.component";
-import {ImageHelpers} from "core-app/helpers/images/path-helper";
+import { Injectable } from "@angular/core";
+import { Board } from "core-app/modules/boards/board/board";
+import { StatusResource } from "core-app/modules/hal/resources/status-resource";
+import { BoardActionService } from "core-app/modules/boards/board/board-actions/board-action.service";
+import { CachedBoardActionService } from "core-app/modules/boards/board/board-actions/cached-board-action.service";
+import { StatusBoardHeaderComponent } from "core-app/modules/boards/board/board-actions/status/status-board-header.component";
+import { ImageHelpers } from "core-app/helpers/images/path-helper";
 
 @Injectable()
 export class BoardStatusActionService extends CachedBoardActionService {

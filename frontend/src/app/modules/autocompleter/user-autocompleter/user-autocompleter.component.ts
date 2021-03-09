@@ -26,18 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {ApiV3FilterBuilder, FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
-import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/helpers/rxjs/debounced-input-switchmap";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {NgSelectComponent} from "@ng-select/ng-select";
-import {UserResource} from "core-app/modules/hal/resources/user-resource";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { ApiV3FilterBuilder, FilterOperator } from "core-components/api/api-v3/api-v3-filter-builder";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { DebouncedRequestSwitchmap, errorNotificationHandler } from "core-app/helpers/rxjs/debounced-input-switchmap";
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { NgSelectComponent } from "@ng-select/ng-select";
+import { UserResource } from "core-app/modules/hal/resources/user-resource";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 export const usersAutocompleterSelector = 'user-autocompleter';
 
@@ -50,13 +50,13 @@ export class UserAutocompleterComponent implements OnInit {
 
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
   @Output() public onChange = new EventEmitter<void>();
-  @Input() public clearAfterSelection:boolean = false;
+  @Input() public clearAfterSelection = false;
 
   // Load all users as default
   @Input() public url:string = this.apiV3Service.users.path;
-  @Input() public allowEmpty:boolean = false;
-  @Input() public appendTo:string = '';
-  @Input() public multiple:boolean = false;
+  @Input() public allowEmpty = false;
+  @Input() public appendTo = '';
+  @Input() public multiple = false;
 
   @Input() public initialSelection:number|null = null;
 
@@ -92,7 +92,7 @@ export class UserAutocompleterComponent implements OnInit {
       this.setInitialSelection();
     }
 
-    let filterInput  = this.elementRef.nativeElement.dataset['additionalFilter'];
+    const filterInput  = this.elementRef.nativeElement.dataset['additionalFilter'];
     if (filterInput) {
       JSON.parse(filterInput).forEach((filter:{selector:string; operator:FilterOperator, values:string[]}) => {
         this.inputFilters.add(filter['selector'], filter['operator'], filter['values']);
@@ -144,7 +144,7 @@ export class UserAutocompleterComponent implements OnInit {
   protected getAvailableUsers(url:string, searchTerm:any):Observable<{[key:string]:string|null}[]> {
     // Need to clone the filters to not add additional filters on every
     // search term being processed.
-    let searchFilters = this.inputFilters.clone();
+    const searchFilters = this.inputFilters.clone();
 
     if (searchTerm && searchTerm.length) {
       searchFilters.add('name', '~', [searchTerm]);
@@ -154,12 +154,12 @@ export class UserAutocompleterComponent implements OnInit {
       .get(url, { filters: searchFilters.toJson() })
       .pipe(
         map(res => {
-          let options = res.elements.map((el:any) => {
-            return {name: el.name, id: el.id, href: el.href, avatar: el.avatar};
+          const options = res.elements.map((el:any) => {
+            return { name: el.name, id: el.id, href: el.href, avatar: el.avatar };
           });
 
           if (this.allowEmpty) {
-            options.unshift({name: this.I18n.t('js.timelines.filter.noneSelection'), href: null, id: null});
+            options.unshift({ name: this.I18n.t('js.timelines.filter.noneSelection'), href: null, id: null });
           }
 
           return options;

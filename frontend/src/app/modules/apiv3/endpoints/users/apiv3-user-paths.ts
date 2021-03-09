@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {UserResource} from "core-app/modules/hal/resources/user-resource";
-import {MultiInputState} from "reactivestates";
-import {CachableAPIV3Resource} from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
-import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
+import { UserResource } from "core-app/modules/hal/resources/user-resource";
+import { MultiInputState } from "reactivestates";
+import { CachableAPIV3Resource } from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
+import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
 
 export class APIv3UserPaths extends CachableAPIV3Resource<UserResource> {
 

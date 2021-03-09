@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ChangeDetectionStrategy, Input, EventEmitter, Output} from '@angular/core';
-import {GridAreaService} from "core-app/modules/grids/grid/area.service";
+import { Component, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
+import { GridAreaService } from "core-app/modules/grids/grid/area.service";
 
 @Component({
   selector: 'widget-header',
@@ -37,7 +37,7 @@ import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 })
 export class WidgetHeaderComponent {
   @Input() name:string;
-  @Input() editable:boolean = true;
+  @Input() editable = true;
   @Output() onRenamed = new EventEmitter<string>();
 
   constructor(readonly layout:GridAreaService) {

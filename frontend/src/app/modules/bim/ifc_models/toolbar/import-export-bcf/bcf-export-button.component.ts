@@ -26,17 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, OnDestroy, OnInit, Injector} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {BcfPathHelperService} from "core-app/modules/bim/bcf/helper/bcf-path-helper.service";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
-import {StateService} from "@uirouter/core";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {WpTableExportModal} from "core-components/modals/export-modal/wp-table-export.modal";
-import {OpModalService} from "core-app/modules/modal/modal.service";
+import { Component, OnDestroy, OnInit, Injector } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { BcfPathHelperService } from "core-app/modules/bim/bcf/helper/bcf-path-helper.service";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
+import { StateService } from "@uirouter/core";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { WpTableExportModal } from "core-components/modals/export-modal/wp-table-export.modal";
+import { OpModalService } from "core-app/modules/modal/modal.service";
 
 @Component({
   template: `
@@ -78,8 +78,8 @@ export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnI
       .subscribe((query) => {
         this.query = query;
 
-        let projectIdentifier = this.currentProject.identifier;
-        let filters = this.queryUrlParamsHelper.buildV3GetFilters(this.query.filters);
+        const projectIdentifier = this.currentProject.identifier;
+        const filters = this.queryUrlParamsHelper.buildV3GetFilters(this.query.filters);
         this.exportLink = this.bcfPathHelper.projectExportIssuesPath(
           projectIdentifier!,
           JSON.stringify(filters)

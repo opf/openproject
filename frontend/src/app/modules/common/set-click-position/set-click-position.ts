@@ -1,5 +1,5 @@
 
-import {debugLog} from '../../../helpers/debug_output';
+import { debugLog } from '../../../helpers/debug_output';
 export namespace ClickPositionMapper {
 
   /**
@@ -31,7 +31,7 @@ export namespace ClickPositionMapper {
           .caretRangeFromPoint(evt.clientX!, evt.clientY!)
           .startOffset;
       } else if (originalEvt.rangeParent) {
-        let range = document.createRange();
+        const range = document.createRange();
         range.setStart(originalEvt.rangeParent, originalEvt.rangeOffset);
         return range.startOffset;
       }

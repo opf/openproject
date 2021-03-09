@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit} from "@angular/core";
-import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
-import {OpModalLocalsMap} from "core-app/modules/modal/modal.types";
-import {OpModalComponent} from "core-app/modules/modal/modal.component";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit } from "@angular/core";
+import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { OpModalLocalsMap } from "core-app/modules/modal/modal.types";
+import { OpModalComponent } from "core-app/modules/modal/modal.component";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   templateUrl: './dynamic-content.modal.html'
@@ -39,7 +39,7 @@ export class DynamicContentModal extends OpModalComponent implements OnInit, OnD
   // override superclass
   // Allowing outside clicks to close the modal leads to the user involuntarily closing
   // the modal when removing error messages or clicking on labels e.g. in the registration modal.
-  public closeOnOutsideClick:boolean = false;
+  public closeOnOutsideClick = false;
 
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
@@ -66,8 +66,8 @@ export class DynamicContentModal extends OpModalComponent implements OnInit, OnD
       .on('click.opdynamicmodal',
         '.op-modal--close-button, [dynamic-content-modal-close-button]',
         (evt:JQuery.TriggeredEvent) => {
-        this.closeMe(evt);
-      });
+          this.closeMe(evt);
+        });
   }
 
   ngOnDestroy() {

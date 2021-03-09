@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {APIv3GettableResource} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {GridResource} from "core-app/modules/hal/resources/grid-resource";
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {Observable} from "rxjs";
-import {Apiv3GridForm} from "core-app/modules/apiv3/endpoints/grids/apiv3-grid-form";
+import { APIv3GettableResource } from "core-app/modules/apiv3/paths/apiv3-resource";
+import { GridResource } from "core-app/modules/hal/resources/grid-resource";
+import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { Observable } from "rxjs";
+import { Apiv3GridForm } from "core-app/modules/apiv3/endpoints/grids/apiv3-grid-form";
 
 export class Apiv3GridPaths extends APIv3GettableResource<GridResource> {
   // Static paths
@@ -42,7 +42,7 @@ export class Apiv3GridPaths extends APIv3GettableResource<GridResource> {
    * @param schema
    */
   public patch(resource:GridResource|Object, schema:SchemaResource|null = null):Observable<GridResource> {
-    let payload = this.form.extractPayload(resource, schema);
+    const payload = this.form.extractPayload(resource, schema);
 
     return this
       .halResourceService

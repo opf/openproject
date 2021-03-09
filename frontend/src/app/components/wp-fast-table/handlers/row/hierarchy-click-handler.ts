@@ -1,11 +1,11 @@
-import {Injector} from '@angular/core';
-import {States} from '../../../states.service';
-import {tableRowClassName} from '../../builders/rows/single-row-builder';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {ClickOrEnterHandler} from '../click-or-enter-handler';
-import {TableEventComponent, TableEventHandler} from "core-components/wp-fast-table/handlers/table-handler-registry";
-import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { Injector } from '@angular/core';
+import { States } from '../../../states.service';
+import { tableRowClassName } from '../../builders/rows/single-row-builder';
+import { WorkPackageTable } from '../../wp-fast-table';
+import { ClickOrEnterHandler } from '../click-or-enter-handler';
+import { TableEventComponent, TableEventHandler } from "core-components/wp-fast-table/handlers/table-handler-registry";
+import { WorkPackageViewHierarchiesService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export class HierarchyClickHandler extends ClickOrEnterHandler implements TableEventHandler {
   // Injections
@@ -29,11 +29,11 @@ export class HierarchyClickHandler extends ClickOrEnterHandler implements TableE
   }
 
   public processEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):boolean {
-    let target = jQuery(evt.target);
+    const target = jQuery(evt.target);
 
     // Locate the row from event
-    let element = target.closest(`.${tableRowClassName}`);
-    let wpId = element.data('workPackageId');
+    const element = target.closest(`.${tableRowClassName}`);
+    const wpId = element.data('workPackageId');
 
     this.wpTableHierarchies.toggle(wpId);
 

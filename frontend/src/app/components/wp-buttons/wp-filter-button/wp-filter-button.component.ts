@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
-import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
-import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
+import { AbstractWorkPackageButtonComponent } from 'core-components/wp-buttons/wp-buttons.module';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { WorkPackageFiltersService } from 'core-components/filters/wp-filters/wp-filters.service';
+import { WorkPackageViewFiltersService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
+import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 
 @Component({
   selector: 'wp-filter-button',
@@ -40,10 +40,10 @@ import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
 })
 export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonComponent implements OnInit {
   public count:number;
-  public initialized:boolean = false;
+  public initialized = false;
 
-  public buttonId:string = 'work-packages-filter-toggle-button';
-  public iconClass:string = 'icon-filter';
+  public buttonId = 'work-packages-filter-toggle-button';
+  public iconClass = 'icon-filter';
 
   constructor(readonly I18n:I18nService,
               protected cdRef:ChangeDetectorRef,

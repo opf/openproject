@@ -6,11 +6,11 @@ import {
   InjectionToken,
   Injector
 } from '@angular/core';
-import {ComponentPortal, ComponentType, DomPortalOutlet, PortalInjector} from '@angular/cdk/portal';
-import {TransitionService} from '@uirouter/core';
-import {OpModalComponent} from 'core-app/modules/modal/modal.component';
-import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
-import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
+import { ComponentPortal, ComponentType, DomPortalOutlet, PortalInjector } from '@angular/cdk/portal';
+import { TransitionService } from '@uirouter/core';
+import { OpModalComponent } from 'core-app/modules/modal/modal.component';
+import { keyCodes } from 'core-app/modules/common/keyCodes.enum';
+import { FocusHelperService } from 'core-app/modules/common/focus/focus-helper';
 
 export const OpModalLocalsToken = new InjectionToken<any>('OP_MODAL_LOCALS');
 
@@ -24,7 +24,7 @@ export class OpModalService {
   private bodyPortalHost:DomPortalOutlet;
 
   // Remember when we're opening a new modal to avoid the outside click bubbling up.
-  private opening:boolean = false;
+  private opening = false;
 
   constructor(private componentFactoryResolver:ComponentFactoryResolver,
               readonly FocusHelper:FocusHelperService,
@@ -75,7 +75,7 @@ export class OpModalService {
     modal:ComponentType<T>,
     injector:Injector|'global',
     locals:any = {},
-    notFullScreen:boolean = false, // TODO: Remove this option once `WpPreviewModal` is not a modal anymore
+    notFullScreen = false, // TODO: Remove this option once `WpPreviewModal` is not a modal anymore
   ):T {
     this.close();
 

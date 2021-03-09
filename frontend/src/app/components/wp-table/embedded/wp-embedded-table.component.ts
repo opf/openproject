@@ -1,17 +1,17 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {WorkPackageViewTimelineService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service';
-import {WorkPackageViewPaginationService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service';
-import {OpTableActionFactory} from 'core-components/wp-table/table-actions/table-action';
-import {OpTableActionsService} from 'core-components/wp-table/table-actions/table-actions.service';
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
-import {OpModalService} from 'core-app/modules/modal/modal.service';
-import {WorkPackageEmbeddedBaseComponent} from "core-components/wp-table/embedded/wp-embedded-base.component";
-import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
-import {distinctUntilChanged, map, take, withLatestFrom} from "rxjs/operators";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { WorkPackageViewTimelineService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service';
+import { WorkPackageViewPaginationService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service';
+import { OpTableActionFactory } from 'core-components/wp-table/table-actions/table-action';
+import { OpTableActionsService } from 'core-components/wp-table/table-actions/table-actions.service';
+import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { WpTableConfigurationModalComponent } from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
+import { OpModalService } from 'core-app/modules/modal/modal.service';
+import { WorkPackageEmbeddedBaseComponent } from "core-components/wp-table/embedded/wp-embedded-base.component";
+import { QueryFormResource } from "core-app/modules/hal/resources/query-form-resource";
+import { distinctUntilChanged, map, take, withLatestFrom } from "rxjs/operators";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { KeepTabService } from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'wp-embedded-table',
@@ -21,7 +21,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   @Input('queryId') public queryId?:string;
   @Input('queryProps') public queryProps:any = {};
   @Input() public tableActions:OpTableActionFactory[] = [];
-  @Input() public externalHeight:boolean = false;
+  @Input() public externalHeight = false;
 
   /** Inform about loading errors */
   @Output() public onError = new EventEmitter<string>();
@@ -68,13 +68,13 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
         const pagination = this.wpTablePagination.paginationObject;
         const params = this.urlParamsHelper.buildV3GetQueryFromQueryResource(query, pagination);
 
-      this.loadingIndicator =
+        this.loadingIndicator =
         this
           .wpListService
           .loadQueryFromExisting(query, params, this.queryProjectScope)
           .toPromise()
           .then((query) => this.initializeStates(query));
-    });
+      });
   }
 
   public openConfigurationModal(onUpdated:() => void) {
@@ -133,7 +133,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
         .catch(() => this.formPromise = undefined);
   }
 
-  public loadQuery(visible:boolean = true, firstPage:boolean = false):Promise<QueryResource|void> {
+  public loadQuery(visible = true, firstPage = false):Promise<QueryResource|void> {
     // Ensure we are loading the form.
     this.formPromise = undefined;
 

@@ -1,7 +1,7 @@
-import {WorkPackageCardViewComponent} from "core-components/wp-card-view/wp-card-view.component";
-import {CardClickHandler} from "core-components/wp-card-view/event-handler/click-handler";
-import {CardDblClickHandler} from "core-components/wp-card-view/event-handler/double-click-handler";
-import {CardRightClickHandler} from "core-components/wp-card-view/event-handler/right-click-handler";
+import { WorkPackageCardViewComponent } from "core-components/wp-card-view/wp-card-view.component";
+import { CardClickHandler } from "core-components/wp-card-view/event-handler/click-handler";
+import { CardDblClickHandler } from "core-components/wp-card-view/event-handler/double-click-handler";
+import { CardRightClickHandler } from "core-components/wp-card-view/event-handler/right-click-handler";
 import {
   WorkPackageViewEventHandler,
   WorkPackageViewHandlerRegistry

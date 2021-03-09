@@ -26,19 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackagesListService} from '../../wp-list/wp-list.service';
-import {States} from '../../states.service';
-import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from "@angular/core";
-import {OpModalComponent} from "core-app/modules/modal/modal.component";
-import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
-import {OpModalLocalsMap} from "core-app/modules/modal/modal.types";
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import {StateService} from '@uirouter/core';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageService} from "core-components/work-packages/work-package.service";
-import {BackRoutingService} from "core-app/modules/common/back-routing/back-routing.service";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { WorkPackagesListService } from '../../wp-list/wp-list.service';
+import { States } from '../../states.service';
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
+import { OpModalComponent } from "core-app/modules/modal/modal.component";
+import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { OpModalLocalsMap } from "core-app/modules/modal/modal.types";
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageViewFocusService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { StateService } from '@uirouter/core';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { WorkPackageService } from "core-components/work-packages/work-package.service";
+import { BackRoutingService } from "core-app/modules/common/back-routing/back-routing.service";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Component({
   templateUrl: './wp-destroy.modal.html'
@@ -93,10 +93,10 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
     }
 
     this.text.title = this.I18n.t('js.modals.destroy_work_package.title', { label: this.workPackageLabel }),
-      this.text.text = this.I18n.t('js.modals.destroy_work_package.text', {
-        label: this.workPackageLabel,
-        count: this.workPackages.length
-      });
+    this.text.text = this.I18n.t('js.modals.destroy_work_package.text', {
+      label: this.workPackageLabel,
+      count: this.workPackages.length
+    });
 
     this.text.childCount = (wp:WorkPackageResource) => {
       const count = this.children(wp).length;
@@ -106,7 +106,7 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
     this.text.hasChildren = (wp:WorkPackageResource) =>
       this.I18n.t('js.modals.destroy_work_package.has_children', { childUnits: this.text.childCount(wp) }),
 
-      this.text.deletesChildren = this.I18n.t('js.modals.destroy_work_package.deletes_children');
+    this.text.deletesChildren = this.I18n.t('js.modals.destroy_work_package.deletes_children');
   }
 
   public get blockedDueToUnconfirmedChildren() {
@@ -114,10 +114,10 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
   }
 
   public get mustConfirmChildren() {
-    let result = false;
+    const result = false;
 
     if (this.singleWorkPackage && this.singleWorkPackageChildren) {
-      let result = this.singleWorkPackageChildren.length > 0;
+      const result = this.singleWorkPackageChildren.length > 0;
     }
 
     return result || !!_.find(this.workPackages, wp =>

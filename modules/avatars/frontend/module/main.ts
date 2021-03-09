@@ -24,18 +24,18 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 
-import {Injector, NgModule} from '@angular/core';
-import {CommonModule} from "@angular/common";
-import {AvatarUploadFormComponent} from "./avatar-upload-form/avatar-upload-form.component";
-import {HookService} from "../../hook-service";
+import { Injector, NgModule } from '@angular/core';
+import { CommonModule } from "@angular/common";
+import { AvatarUploadFormComponent } from "./avatar-upload-form/avatar-upload-form.component";
+import { HookService } from "../../hook-service";
 
 @NgModule({
-    imports: [
-      CommonModule,
-    ],
-    declarations: [
-        AvatarUploadFormComponent
-    ]
+  imports: [
+    CommonModule,
+  ],
+  declarations: [
+    AvatarUploadFormComponent
+  ]
 })
 export class PluginModule {
   constructor(injector:Injector) {

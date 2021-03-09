@@ -28,13 +28,13 @@ export function listenToSettingChanges() {
   });
 
   /* Javascript for Settings::TextSettingCell */
-  let langSelectSwitchData = function (select:any) {
-    let self = jQuery(select);
-    let id:string = self.attr("id") || '';
-    let settingName = id.replace('lang-for-', '');
-    let newLang = self.val();
-    let textArea = jQuery(`#settings-${settingName}`);
-    let editor = textArea.siblings('ckeditor-augmented-textarea').data('editor');
+  const langSelectSwitchData = function (select:any) {
+    const self = jQuery(select);
+    const id:string = self.attr("id") || '';
+    const settingName = id.replace('lang-for-', '');
+    const newLang = self.val();
+    const textArea = jQuery(`#settings-${settingName}`);
+    const editor = textArea.siblings('ckeditor-augmented-textarea').data('editor');
 
     return { id: id, settingName: settingName, newLang: newLang, textArea: textArea, editor: editor };
   };
@@ -47,14 +47,14 @@ export function listenToSettingChanges() {
   //     is overwritten.
   jQuery(".lang-select-switch")
     .focus(function () {
-      let data = langSelectSwitchData(this);
+      const data = langSelectSwitchData(this);
 
       jQuery(`#${data.id}-${data.newLang}`).val(data.editor.getData());
     })
     .change(function () {
-      let data = langSelectSwitchData(this);
+      const data = langSelectSwitchData(this);
 
-      let storedValue = jQuery(`#${data.id}-${data.newLang}`).val();
+      const storedValue = jQuery(`#${data.id}-${data.newLang}`).val();
 
       data.editor.setData(storedValue);
       data.textArea.attr('name', `settings[${data.settingName}][${data.newLang}]`);

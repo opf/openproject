@@ -1,15 +1,15 @@
-import {Component, EventEmitter, Inject, OnInit, Optional, Output} from '@angular/core';
-import {OpEditingPortalSchemaToken} from "core-app/modules/fields/edit/edit-field.component";
-import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {NgSelectComponent} from "@ng-select/ng-select";
-import {SelectEditFieldComponent} from "core-app/modules/fields/edit/field-types/select-edit-field.component";
-import {MultiSelectEditFieldComponent} from "core-app/modules/fields/edit/field-types/multi-select-edit-field.component";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {PermissionsService} from "core-app/core/services/permissions/permissions.service";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {OpModalService} from "core-app/modules/modal/modal.service";
-import {InviteUserModalComponent} from "core-app/modules/invite-user-modal/invite-user.component";
+import { Component, EventEmitter, Inject, OnInit, Optional, Output } from '@angular/core';
+import { OpEditingPortalSchemaToken } from "core-app/modules/fields/edit/edit-field.component";
+import { IFieldSchema } from "core-app/modules/fields/field.base";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { NgSelectComponent } from "@ng-select/ng-select";
+import { SelectEditFieldComponent } from "core-app/modules/fields/edit/field-types/select-edit-field.component";
+import { MultiSelectEditFieldComponent } from "core-app/modules/fields/edit/field-types/multi-select-edit-field.component";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { PermissionsService } from "core-app/core/services/permissions/permissions.service";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { OpModalService } from "core-app/modules/modal/modal.service";
+import { InviteUserModalComponent } from "core-app/modules/invite-user-modal/invite-user.component";
 
 @Component({
   selector: 'op-invite-user-button',

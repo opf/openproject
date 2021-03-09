@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { GlobalEditFormChangesTrackerService } from './global-edit-form-changes-tracker.service';
-import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
+import { EditFormComponent } from "core-app/modules/fields/edit/edit-form/edit-form.component";
 
 describe('GlobalEditFormChangesTrackerService', () => {
   let service:GlobalEditFormChangesTrackerService;

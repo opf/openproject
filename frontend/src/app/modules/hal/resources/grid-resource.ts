@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
-import {Attachable} from "core-app/modules/hal/resources/mixins/attachable-mixin";
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { GridWidgetResource } from "core-app/modules/hal/resources/grid-widget-resource";
+import { Attachable } from "core-app/modules/hal/resources/mixins/attachable-mixin";
 
 export interface GridResourceLinks {
   update(payload:unknown):Promise<unknown>;
@@ -48,12 +48,12 @@ export class GridBaseResource extends HalResource {
     this.widgets = this
       .widgets
       .map((widget:Object) => {
-        let widgetResource = new GridWidgetResource( this.injector,
-                                                     widget,
-                                                     true,
-                                                     this.halInitializer,
-                                                     'GridWidget'
-                                                   );
+        const widgetResource = new GridWidgetResource( this.injector,
+          widget,
+          true,
+          this.halInitializer,
+          'GridWidget'
+        );
 
         widgetResource.grid = this;
 

@@ -26,21 +26,21 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Directive, ElementRef, Injector, Input} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {AuthorisationService} from 'core-app/modules/common/model-auth/model-auth.service';
-import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
-import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
-import {States} from 'core-components/states.service';
-import {WorkPackagesListService} from 'core-components/wp-list/wp-list.service';
-import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {OpModalService} from "core-app/modules/modal/modal.service";
-import {WpTableExportModal} from "core-components/modals/export-modal/wp-table-export.modal";
-import {SaveQueryModal} from "core-components/modals/save-modal/save-query.modal";
-import {QuerySharingModal} from "core-components/modals/share-modal/query-sharing.modal";
-import {WpTableConfigurationModalComponent} from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { Directive, ElementRef, Injector, Input } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { AuthorisationService } from 'core-app/modules/common/model-auth/model-auth.service';
+import { OpContextMenuTrigger } from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import { OPContextMenuService } from 'core-components/op-context-menu/op-context-menu.service';
+import { States } from 'core-components/states.service';
+import { WorkPackagesListService } from 'core-components/wp-list/wp-list.service';
+import { QueryFormResource } from 'core-app/modules/hal/resources/query-form-resource';
+import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { OpModalService } from "core-app/modules/modal/modal.service";
+import { WpTableExportModal } from "core-components/modals/export-modal/wp-table-export.modal";
+import { SaveQueryModal } from "core-components/modals/save-modal/save-query.modal";
+import { QuerySharingModal } from "core-components/modals/share-modal/query-sharing.modal";
+import { WpTableConfigurationModalComponent } from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {
   selectableTitleIdentifier,
   triggerEditingEvent
@@ -110,12 +110,12 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
    * @param {Event} openerEvent
    */
   public positionArgs(evt:JQuery.TriggeredEvent) {
-    let additionalPositionArgs = {
+    const additionalPositionArgs = {
       my: 'right top',
       at: 'right bottom'
     };
 
-    let position = super.positionArgs(evt);
+    const position = super.positionArgs(evt);
     _.assign(position, additionalPositionArgs);
 
     return position;

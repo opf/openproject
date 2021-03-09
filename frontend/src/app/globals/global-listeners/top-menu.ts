@@ -104,8 +104,8 @@ export class TopMenu {
   }
 
   closeOnBodyClick() {
-    let self = this;
-    let wrapper = document.getElementById('wrapper');
+    const self = this;
+    const wrapper = document.getElementById('wrapper');
 
     if (!wrapper) {
       return;

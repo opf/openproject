@@ -1,5 +1,5 @@
-import {debugLog, timeOutput} from "core-app/helpers/debug_output";
-import {QueryOrder} from "core-app/modules/apiv3/endpoints/queries/apiv3-query-order";
+import { debugLog, timeOutput } from "core-app/helpers/debug_output";
+import { QueryOrder } from "core-app/modules/apiv3/endpoints/queries/apiv3-query-order";
 
 // min allowed position
 export const MIN_ORDER = -2147483647;
@@ -92,7 +92,7 @@ export class ReorderDeltaBuilder {
    * but try to keep relative positions alive
    */
   private rebuildPositions() {
-    let [min, max] = this.minMaxPositions;
+    const [min, max] = this.minMaxPositions;
     this.redistribute(min, max);
   }
 
@@ -242,8 +242,8 @@ export class ReorderDeltaBuilder {
   private reorderedInsert() {
     // Get the current distance between orders
     // Both must be set by now due to +buildUpPredecessorPosition+ having run.
-    let min = this.firstPosition!;
-    let max = this.lastPosition!;
+    const min = this.firstPosition!;
+    const max = this.lastPosition!;
 
     this.redistribute(min, max);
   }
@@ -292,11 +292,11 @@ export class ReorderDeltaBuilder {
   private get minMaxPositions():[number, number] {
     let min:number = MAX_ORDER;
     let max:number = MIN_ORDER;
-    let any:boolean = false;
+    let any = false;
 
     for (let i = this.order.length - 1; i >= 0; i--) {
-      let wpId = this.order[i];
-      let position = this.livePosition(wpId);
+      const wpId = this.order[i];
+      const position = this.livePosition(wpId);
 
       if (position !== undefined) {
         min = Math.min(position, min);
@@ -327,8 +327,8 @@ export class ReorderDeltaBuilder {
    */
   private get lastPosition():number|undefined {
     for (let i = this.order.length - 1; i >= 0; i--) {
-      let wpId = this.order[i];
-      let position = this.livePosition(wpId);
+      const wpId = this.order[i];
+      const position = this.livePosition(wpId);
 
       // Return the first set position.
       if (position !== undefined) {

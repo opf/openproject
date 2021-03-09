@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++    Ng1FieldControlsWrapper,
 
-import {Component, ElementRef} from "@angular/core";
-import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
+import { Component, ElementRef } from "@angular/core";
+import { WorkPackageTableConfigurationObject } from "core-components/wp-table/wp-table-configuration";
 
 export const wpEmbeddedTableMacroSelector = 'macro.embedded-table';
 

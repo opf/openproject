@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {ActivityPanelBaseController} from 'core-components/wp-single-view-tabs/activity-panel/activity-base.controller';
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {ActivityEntryInfo} from 'core-components/wp-single-view-tabs/activity-panel/activity-entry-info';
-import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { ActivityPanelBaseController } from 'core-components/wp-single-view-tabs/activity-panel/activity-base.controller';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { ActivityEntryInfo } from 'core-components/wp-single-view-tabs/activity-panel/activity-entry-info';
+import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
 
 @Component({
   selector: 'newest-activity-on-overview',
@@ -58,17 +58,17 @@ export class NewestActivityOnOverviewComponent extends ActivityPanelBaseControll
     this.latestActivityInfo = this.latestActivities();
   }
 
-  private latestActivities(visible:number = 3) {
+  private latestActivities(visible = 3) {
 
     if (this.reverse) {
       // In reverse, we already get reversed entries from API.
       // So simply take the first three
-      let segment = this.unfilteredActivities.slice(0, visible);
+      const segment = this.unfilteredActivities.slice(0, visible);
       return segment.map((el:HalResource, i:number) => this.info(el, i));
     } else {
       // In ascending sort, take the last three items
-      let segment = this.unfilteredActivities.slice(-visible);
-      let startIndex = this.unfilteredActivities.length - segment.length;
+      const segment = this.unfilteredActivities.slice(-visible);
+      const startIndex = this.unfilteredActivities.length - segment.length;
       return segment.map((el:HalResource, i:number) => this.info(el, startIndex + i));
     }
   }

@@ -26,26 +26,26 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectorRef, Directive, Injector, OnInit, ViewChild} from '@angular/core';
-import {StateService, Transition} from '@uirouter/core';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {States} from '../states.service';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {RootResource} from 'core-app/modules/hal/resources/root-resource';
-import {WorkPackageCreateService} from './wp-create.service';
-import {takeWhile} from 'rxjs/operators';
-import {OpTitleService} from 'core-components/html/op-title.service';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
-import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {WorkPackageViewFocusService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
-import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { ChangeDetectorRef, Directive, Injector, OnInit, ViewChild } from '@angular/core';
+import { StateService, Transition } from '@uirouter/core';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { States } from '../states.service';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { RootResource } from 'core-app/modules/hal/resources/root-resource';
+import { WorkPackageCreateService } from './wp-create.service';
+import { takeWhile } from 'rxjs/operators';
+import { OpTitleService } from 'core-components/html/op-title.service';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { WorkPackageViewFiltersService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
+import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
+import { WorkPackageViewFocusService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
+import { EditFormComponent } from "core-app/modules/fields/edit/edit-form/edit-form.component";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import * as URI from 'urijs';
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {splitViewRoute} from "core-app/modules/work_packages/routing/split-view-routes.helper";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {HalSource, HalSourceLinks} from "core-app/modules/hal/resources/hal-resource";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { splitViewRoute } from "core-app/modules/work_packages/routing/split-view-routes.helper";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { HalSource, HalSourceLinks } from "core-app/modules/hal/resources/hal-resource";
 
 @Directive()
 export class WorkPackageCreateComponent extends UntilDestroyedMixin implements OnInit {
@@ -99,7 +99,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
   }
 
   public onSaved(params:{ savedResource:WorkPackageResource, isInitial:boolean }) {
-    let { savedResource, isInitial } = params;
+    const { savedResource, isInitial } = params;
 
     this.editForm?.cancel(false);
 
@@ -150,7 +150,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
           this.apiV3Service.root.get().subscribe((root:RootResource) => {
             if (!root.user) {
               // Not logged in
-              let url = URI(this.pathHelper.loginPath());
+              const url = URI(this.pathHelper.loginPath());
               url.search({ back_url: url });
               window.location.href = url.toString();
             }
@@ -170,7 +170,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
   }
 
   protected createdWorkPackage() {
-    let defaults:HalSource = {
+    const defaults:HalSource = {
       _links: {}
     };
 

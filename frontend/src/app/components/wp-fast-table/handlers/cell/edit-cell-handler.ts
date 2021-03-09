@@ -1,16 +1,16 @@
-import {Injector} from '@angular/core';
-import {debugLog} from '../../../../helpers/debug_output';
-import {States} from '../../../states.service';
-import {displayClassName, editableClassName, readOnlyClassName} from 'core-app/modules/fields/display/display-field-renderer';
+import { Injector } from '@angular/core';
+import { debugLog } from '../../../../helpers/debug_output';
+import { States } from '../../../states.service';
+import { displayClassName, editableClassName, readOnlyClassName } from 'core-app/modules/fields/display/display-field-renderer';
 
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {tableRowClassName} from '../../builders/rows/single-row-builder';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {ClickOrEnterHandler} from '../click-or-enter-handler';
-import {TableEventComponent, TableEventHandler} from '../table-handler-registry';
-import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { tableRowClassName } from '../../builders/rows/single-row-builder';
+import { WorkPackageTable } from '../../wp-fast-table';
+import { ClickOrEnterHandler } from '../click-or-enter-handler';
+import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
+import { ClickPositionMapper } from "core-app/modules/common/set-click-position/set-click-position";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { EditFieldHandler } from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 
 export class EditCellHandler extends ClickOrEnterHandler implements TableEventHandler {
 
@@ -41,9 +41,9 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     evt.preventDefault();
 
     // Locate the cell from event
-    let target = jQuery(evt.target).closest(`.${displayClassName}`);
+    const target = jQuery(evt.target).closest(`.${displayClassName}`);
     // Get the target field name
-    let fieldName = target.data('fieldName');
+    const fieldName = target.data('fieldName');
 
     if (!fieldName) {
       debugLog('Click handled by cell not a field? ', evt.target);

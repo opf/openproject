@@ -1,8 +1,8 @@
-import {Injectable} from "@angular/core";
-import {Observable, Subject} from "rxjs";
-import {buffer, debounceTime, filter} from "rxjs/operators";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {ResourceChangesetCommit} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { Injectable } from "@angular/core";
+import { Observable, Subject } from "rxjs";
+import { buffer, debounceTime, filter } from "rxjs/operators";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { ResourceChangesetCommit } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 
 export interface HalEvent {
   id:string;

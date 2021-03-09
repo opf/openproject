@@ -35,25 +35,25 @@ import {
   ElementRef,
   NgZone
 } from "@angular/core";
-import {take} from "rxjs/operators";
-import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
-import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
+import { take } from "rxjs/operators";
+import { CausedUpdatesService } from "core-app/modules/boards/board/caused-updates/caused-updates.service";
+import { DragAndDropService } from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {
   WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation
 } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
-import {WorkPackageTableConfigurationObject} from "core-components/wp-table/wp-table-configuration";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {DeviceService} from "core-app/modules/common/browser/device.service";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {StateService} from "@uirouter/core";
-import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
+import { WorkPackageTableConfigurationObject } from "core-components/wp-table/wp-table-configuration";
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { DeviceService } from "core-app/modules/common/browser/device.service";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { WorkPackageViewFiltersService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { StateService } from "@uirouter/core";
+import { KeepTabService } from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
 
 @Component({
   selector: 'wp-list-view',
@@ -76,13 +76,13 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   };
 
   /** Switch between list and card view */
-  showTableView:boolean = true;
+  showTableView = true;
 
   /** Determine when query is initially loaded */
   tableInformationLoaded = false;
 
   /** If loaded list of work packages is empty */
-  noResults:boolean = false;
+  noResults = false;
 
   /** Whether we should render a blocked view */
   showResultOverlay$ = this.wpViewFilters.incomplete$;
@@ -135,11 +135,11 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
         // The header of the table hides the scrolledIntoView element
         // so we scrollIntoView the previous element, if any
         if (selectedRow && selectedRow.previousSibling) {
-          selectedRow.previousSibling.scrollIntoView({block: "start"});
+          selectedRow.previousSibling.scrollIntoView({ block: "start" });
         }
 
         if (selectedCard) {
-          selectedCard.scrollIntoView({block: "start"});
+          selectedCard.scrollIntoView({ block: "start" });
         }
       }, 0);
     });

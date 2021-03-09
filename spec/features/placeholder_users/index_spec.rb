@@ -33,17 +33,17 @@ describe 'index placeholder users', type: :feature do
   let!(:anonymous) { FactoryBot.create :anonymous }
   let!(:placeholder_user_1) do
     FactoryBot.create(:placeholder_user,
-                      name: 'One',
+                      name: 'B',
                       created_at: 3.minute.ago)
   end
   let!(:placeholder_user_2) do
     FactoryBot.create(:placeholder_user,
-                      name: 'Two',
+                      name: 'A',
                       created_at: 2.minute.ago)
   end
   let!(:placeholder_user_3) do
     FactoryBot.create(:placeholder_user,
-                      name: 'Three',
+                      name: 'C',
                       created_at: 1.minute.ago)
   end
   let(:index_page) { Pages::Admin::PlaceholderUsers::Index.new }
@@ -58,11 +58,17 @@ describe 'index placeholder users', type: :feature do
       # so first ones created are on top.
       index_page.expect_listed(placeholder_user_1, placeholder_user_2, placeholder_user_3)
 
-      index_page.order_by('Created on')
-      index_page.expect_listed(placeholder_user_3, placeholder_user_2, placeholder_user_1)
+      index_page.order_by('Name')
+      index_page.expect_ordered(placeholder_user_2, placeholder_user_1, placeholder_user_3)
+
+      index_page.order_by('Name')
+      index_page.expect_ordered(placeholder_user_3, placeholder_user_1, placeholder_user_2)
 
       index_page.order_by('Created on')
-      index_page.expect_listed(placeholder_user_1, placeholder_user_2, placeholder_user_3)
+      index_page.expect_ordered(placeholder_user_3, placeholder_user_2, placeholder_user_1)
+
+      index_page.order_by('Created on')
+      index_page.expect_ordered(placeholder_user_1, placeholder_user_2, placeholder_user_3)
 
       index_page.filter_by_name(placeholder_user_3.name)
       index_page.expect_listed(placeholder_user_3)

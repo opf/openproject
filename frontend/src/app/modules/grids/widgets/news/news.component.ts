@@ -5,8 +5,8 @@ import { PathHelperService } from "core-app/modules/common/path-helper/path-help
 import { TimezoneService } from "core-components/datetime/timezone.service";
 import { NewsResource } from "core-app/modules/hal/resources/news-resource";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {Apiv3ListParameters} from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { Apiv3ListParameters } from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
 
 @Component({
   templateUrl: './news.component.html',
@@ -17,7 +17,7 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
     at: this.i18n.t('js.grid.widgets.news.at'),
     noResults: this.i18n.t('js.grid.widgets.news.no_results'),
     addedBy: (news:NewsResource) => this.i18n.t('js.label_added_time_by',
-      { author: this.newsAuthorName(news), age: this.newsCreated(news), authorLink: this.newsAuthorPath(news)})
+      { author: this.newsAuthorName(news), age: this.newsCreated(news), authorLink: this.newsAuthorPath(news) })
   };
 
   public entries:NewsResource[] = [];
@@ -86,7 +86,7 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
   }
 
   private get newsDmParams() {
-    let params:Apiv3ListParameters = {
+    const params:Apiv3ListParameters = {
       sortBy: [['created_at', 'desc']],
       pageSize: 3
     };

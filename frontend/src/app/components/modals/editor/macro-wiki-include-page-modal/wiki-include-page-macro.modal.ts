@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, ViewChild} from "@angular/core";
-import {OpModalComponent} from "core-app/modules/modal/modal.component";
-import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
-import {OpModalLocalsMap} from "core-app/modules/modal/modal.types";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, ViewChild } from "@angular/core";
+import { OpModalComponent } from "core-app/modules/modal/modal.component";
+import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { OpModalLocalsMap } from "core-app/modules/modal/modal.types";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   templateUrl: './wiki-include-page-macro.modal.html'
@@ -43,7 +43,7 @@ export class WikiIncludePageMacroModal extends OpModalComponent implements After
   public closeOnOutsideClick = true;
 
   public selectedPage:string;
-  public page:string = '';
+  public page = '';
 
   @ViewChild('selectedPageInput', { static: true }) selectedPageInput:ElementRef;
 

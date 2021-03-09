@@ -41,6 +41,11 @@ module Pages
           expect(rows.map(&:text)).to include(*placeholder_users.map(&:name))
         end
 
+        def expect_ordered(*placeholder_users)
+          rows = page.all 'td.name'
+          expect(rows.map(&:text)).to eq(placeholder_users.map(&:name))
+        end
+
         def expect_not_listed(*users)
           rows = page.all 'td.name'
           expect(rows.map(&:text)).to_not include(*users.map(&:name))

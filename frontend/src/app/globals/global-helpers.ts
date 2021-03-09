@@ -42,7 +42,13 @@ export class GlobalHelpers {
   public toggleCheckboxesBySelector(selector:any) {
     const boxes = jQuery(selector);
     var all_checked = true;
-    for (let i = 0; i < boxes.length; i++) { if (boxes[i].checked === false) { all_checked = false; } }
-    for (let i = 0; i < boxes.length; i++) { boxes[i].checked = !all_checked; }
+    for (let i = 0; i < boxes.length; i++) {
+      if (boxes[i].checked === false) {
+        all_checked = false;
+      }
+    }
+    for (let i = 0; i < boxes.length; i++) {
+      boxes[i].checked = !all_checked;
+    }
   }
 }

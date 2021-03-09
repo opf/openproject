@@ -26,23 +26,23 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageViewColumnsService} from './wp-view-columns.service';
-import {WorkPackageViewBaseService} from './wp-view-base.service';
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
-import {WorkPackageViewRelationColumns} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-relation-columns";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {RelationsStateValue, WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
-import {Injectable} from "@angular/core";
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageViewColumnsService } from './wp-view-columns.service';
+import { WorkPackageViewBaseService } from './wp-view-base.service';
+import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { RelationResource } from 'core-app/modules/hal/resources/relation-resource';
+import { WorkPackageViewRelationColumns } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-relation-columns";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { RelationsStateValue, WorkPackageRelationsService } from "core-components/wp-relations/wp-relations.service";
+import { Injectable } from "@angular/core";
 import {
   QueryColumn,
   queryColumnTypes,
   RelationQueryColumn,
   TypeRelationQueryColumn
 } from "core-components/wp-query/query-column";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 export type RelationColumnType = 'toType'|'ofType';
 
@@ -69,8 +69,8 @@ export class WorkPackageViewRelationColumnsService extends WorkPackageViewBaseSe
    * @param relation
    */
   public relationsToExtendFor(workPackage:WorkPackageResource,
-                              relations:RelationsStateValue|undefined,
-                              eachCallback:(relation:RelationResource, column:QueryColumn, type:RelationColumnType) => void) {
+    relations:RelationsStateValue|undefined,
+    eachCallback:(relation:RelationResource, column:QueryColumn, type:RelationColumnType) => void) {
     // Only if any relation columns or stored expansion state exist
     if (!(this.wpTableColumns.hasRelationColumns() && this.lastUpdatedState.hasValue())) {
       return;
@@ -136,12 +136,12 @@ export class WorkPackageViewRelationColumnsService extends WorkPackageViewBaseSe
 
   public relationColumnType(column:QueryColumn):RelationColumnType|null {
     switch (column._type) {
-      case queryColumnTypes.RELATION_TO_TYPE:
-        return 'toType';
-      case queryColumnTypes.RELATION_OF_TYPE:
-        return 'ofType';
-      default:
-        return null;
+    case queryColumnTypes.RELATION_TO_TYPE:
+      return 'toType';
+    case queryColumnTypes.RELATION_OF_TYPE:
+      return 'ofType';
+    default:
+      return null;
     }
   }
 

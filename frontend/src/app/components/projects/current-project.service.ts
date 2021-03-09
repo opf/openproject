@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from "@angular/core";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { Injectable } from "@angular/core";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable({ providedIn: 'root' })
 export class CurrentProjectService {

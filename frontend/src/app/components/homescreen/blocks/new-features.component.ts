@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component} from '@angular/core';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {DomSanitizer} from "@angular/platform-browser";
-import {BcfRestApi} from "core-app/modules/bim/bcf/bcf-constants.const";
-import {ImageHelpers} from "core-app/helpers/images/path-helper";
+import { Component } from '@angular/core';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { DomSanitizer } from "@angular/platform-browser";
+import { BcfRestApi } from "core-app/modules/bim/bcf/bcf-constants.const";
+import { ImageHelpers } from "core-app/helpers/images/path-helper";
 import imagePath = ImageHelpers.imagePath;
 
 export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block';
@@ -75,7 +75,7 @@ export class HomescreenNewFeaturesBlockComponent {
   }
 
   public get teaserWebsiteUrl() {
-    let url = this.translated('learn_about_link');
+    const url = this.translated('learn_about_link');
     return this.domSanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
@@ -84,10 +84,10 @@ export class HomescreenNewFeaturesBlockComponent {
   }
 
   private translated(key:string):string {
-    return this.i18n.t(this.i18nBase + this.i18nPrefix + '.' + key, { list_styling_class: 'widget-box--arrow-links', bcf_api_link: BcfRestApi});
+    return this.i18n.t(this.i18nBase + this.i18nPrefix + '.' + key, { list_styling_class: 'widget-box--arrow-links', bcf_api_link: BcfRestApi });
   }
 
-  private i18nBase:string = 'js.homescreen.blocks.new_features.';
+  private i18nBase = 'js.homescreen.blocks.new_features.';
 
   private get i18nPrefix():string {
     return this.isStandardEdition ? "standard" : "bim";

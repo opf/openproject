@@ -34,7 +34,7 @@ export class OpOptionListComponent<T> implements ControlValueAccessor {
   @HostBinding('class.op-option-list') className = true;
 
   @Input() options:IOpOptionListOption<T>[] = [];
-  @Input() name:string = `op-option-list-${+(new Date())}`;
+  @Input() name = `op-option-list-${+(new Date())}`;
   @Output() selectedChange = new EventEmitter<T>();
 
   private _selected:IOpOptionListValue<T> = null;

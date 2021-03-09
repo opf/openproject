@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {NgModule} from '@angular/core';
-import {UIRouterModule} from "@uirouter/angular";
+import { NgModule } from '@angular/core';
+import { UIRouterModule } from "@uirouter/angular";
 import {
   REPORTING_ROUTES,
 } from "core-app/modules/reporting/openproject-reporting.routes";
-import {ReportingPageComponent} from "core-app/modules/reporting/reporting-page/reporting-page.component";
+import { ReportingPageComponent } from "core-app/modules/reporting/reporting-page/reporting-page.component";
 
 @NgModule({
   imports: [

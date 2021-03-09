@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageOverviewTabComponent} from 'core-components/wp-single-view-tabs/overview-tab/overview-tab.component';
-import {WorkPackageActivityTabComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-tab.component';
-import {WorkPackageRelationsTabComponent} from 'core-components/wp-single-view-tabs/relations-tab/relations-tab.component';
-import {WorkPackageWatchersTabComponent} from 'core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
-import {WorkPackageNewSplitViewComponent} from 'core-components/wp-new/wp-new-split-view.component';
-import {Ng2StateDeclaration} from "@uirouter/angular";
-import {ComponentType} from "@angular/cdk/overlay";
-import {WorkPackageCopySplitViewComponent} from "core-components/wp-copy/wp-copy-split-view.component";
+import { WorkPackageOverviewTabComponent } from 'core-components/wp-single-view-tabs/overview-tab/overview-tab.component';
+import { WorkPackageActivityTabComponent } from 'core-components/wp-single-view-tabs/activity-panel/activity-tab.component';
+import { WorkPackageRelationsTabComponent } from 'core-components/wp-single-view-tabs/relations-tab/relations-tab.component';
+import { WorkPackageWatchersTabComponent } from 'core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
+import { WorkPackageNewSplitViewComponent } from 'core-components/wp-new/wp-new-split-view.component';
+import { Ng2StateDeclaration } from "@uirouter/angular";
+import { ComponentType } from "@angular/cdk/overlay";
+import { WorkPackageCopySplitViewComponent } from "core-components/wp-copy/wp-copy-split-view.component";
 
 /**
  * Return a set of routes for a split view mounted under the given base route,
@@ -55,15 +55,15 @@ import {WorkPackageCopySplitViewComponent} from "core-components/wp-copy/wp-copy
  * @param showComponent The split view component to mount
  */
 export function makeSplitViewRoutes(baseRoute:string,
-                                    menuItemClass:string|undefined,
-                                    showComponent:ComponentType<any>,
-                                    newComponent:ComponentType<any> = WorkPackageNewSplitViewComponent,
-                                    makeFullWidth?:boolean,
-                                    routeName = baseRoute):Ng2StateDeclaration[] {
+  menuItemClass:string|undefined,
+  showComponent:ComponentType<any>,
+  newComponent:ComponentType<any> = WorkPackageNewSplitViewComponent,
+  makeFullWidth?:boolean,
+  routeName = baseRoute):Ng2StateDeclaration[] {
   // makeFullWidth configuration
   const views:any = makeFullWidth ?
-                  {'content-left@^.^': { component: showComponent }} :
-                  {'content-right@^.^': { component: showComponent }};
+    { 'content-left@^.^': { component: showComponent } } :
+    { 'content-right@^.^': { component: showComponent } };
   const partition = makeFullWidth ? '-left-only' : '-split';
 
   return [

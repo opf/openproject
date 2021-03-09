@@ -1,22 +1,22 @@
-import {Injector} from "@angular/core";
+import { Injector } from "@angular/core";
 import {
   WorkPackageAction,
   WorkPackageContextMenuHelperService
 } from "core-components/wp-table/context-menu-helper/wp-context-menu-helper.service";
-import {States} from "core-components/states.service";
-import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
-import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
-import {OpContextMenuHandler} from "core-components/op-context-menu/op-context-menu-handler";
-import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
-import {OpContextMenuItem, OpContextMenuLocalsMap} from "core-components/op-context-menu/op-context-menu.types";
-import {PERMITTED_CONTEXT_MENU_ACTIONS} from "core-components/op-context-menu/wp-context-menu/wp-static-context-menu-actions";
-import {OpModalService} from "core-app/modules/modal/modal.service";
-import {WpDestroyModal} from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
-import {StateService} from "@uirouter/core";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {TimeEntryCreateService} from "core-app/modules/time_entries/create/create.service";
-import {splitViewRoute} from "core-app/modules/work_packages/routing/split-view-routes.helper";
+import { States } from "core-components/states.service";
+import { WorkPackageRelationsHierarchyService } from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
+import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { LinkHandling } from "core-app/modules/common/link-handling/link-handling";
+import { OpContextMenuHandler } from "core-components/op-context-menu/op-context-menu-handler";
+import { OPContextMenuService } from "core-components/op-context-menu/op-context-menu.service";
+import { OpContextMenuItem, OpContextMenuLocalsMap } from "core-components/op-context-menu/op-context-menu.types";
+import { PERMITTED_CONTEXT_MENU_ACTIONS } from "core-components/op-context-menu/wp-context-menu/wp-static-context-menu-actions";
+import { OpModalService } from "core-app/modules/modal/modal.service";
+import { WpDestroyModal } from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
+import { StateService } from "@uirouter/core";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { TimeEntryCreateService } from "core-app/modules/time_entries/create/create.service";
+import { splitViewRoute } from "core-app/modules/work_packages/routing/split-view-routes.helper";
 
 export class WorkPackageViewContextMenu extends OpContextMenuHandler {
 
@@ -54,7 +54,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   }
 
   public positionArgs(evt:JQuery.TriggeredEvent) {
-    let position = super.positionArgs(evt);
+    const position = super.positionArgs(evt);
     _.assign(position, this.additionalPositionArgs);
 
     return position;
@@ -64,39 +64,39 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     const link = action.link;
 
     switch (action.key) {
-      case 'delete':
-        this.deleteSelectedWorkPackages();
-        break;
+    case 'delete':
+      this.deleteSelectedWorkPackages();
+      break;
 
-      case 'edit':
-        this.editSelectedWorkPackages(link!);
-        break;
+    case 'edit':
+      this.editSelectedWorkPackages(link!);
+      break;
 
-      case 'copy':
-        this.copySelectedWorkPackages(link!);
-        break;
+    case 'copy':
+      this.copySelectedWorkPackages(link!);
+      break;
 
-      case 'relation-new-child':
-        this.wpRelationsHierarchyService.addNewChildWp(this.baseRoute, this.workPackage);
-        break;
+    case 'relation-new-child':
+      this.wpRelationsHierarchyService.addNewChildWp(this.baseRoute, this.workPackage);
+      break;
 
-      case 'log_time':
-        this.logTimeForSelectedWorkPackage();
-        break;
+    case 'log_time':
+      this.logTimeForSelectedWorkPackage();
+      break;
 
-      default:
-        window.location.href = link!;
-        break;
+    default:
+      window.location.href = link!;
+      break;
     }
   }
 
   private deleteSelectedWorkPackages() {
-    let selected = this.getSelectedWorkPackages();
+    const selected = this.getSelectedWorkPackages();
     this.opModalService.show(WpDestroyModal, this.injector, { workPackages: selected });
   }
 
   private editSelectedWorkPackages(link:any) {
-    let selected = this.getSelectedWorkPackages();
+    const selected = this.getSelectedWorkPackages();
 
     if (selected.length > 1) {
       window.location.href = link;
@@ -105,14 +105,14 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   }
 
   private copySelectedWorkPackages(link:any) {
-    let selected = this.getSelectedWorkPackages();
+    const selected = this.getSelectedWorkPackages();
 
     if (selected.length > 1) {
       window.location.href = link;
       return;
     }
 
-    let params = {
+    const params = {
       copiedFromWorkPackageId: selected[0].id
     };
 
@@ -128,7 +128,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   }
 
   private getSelectedWorkPackages() {
-    let selectedWorkPackages = this.wpTableSelection.getSelectedWorkPackages();
+    const selectedWorkPackages = this.wpTableSelection.getSelectedWorkPackages();
 
     if (selectedWorkPackages.length === 0) {
       return [this.workPackage];
@@ -142,7 +142,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   }
 
   protected buildItems():OpContextMenuItem[] {
-    let items = this.permittedActions.map((action:WorkPackageAction) => {
+    const items = this.permittedActions.map((action:WorkPackageAction) => {
       return {
         class: undefined as string|undefined,
         disabled: false,

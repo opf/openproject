@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from '@angular/core';
-import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
+import { Injectable } from '@angular/core';
+import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
 
 export const DEFAULT_PAGINATION_OPTIONS = {
   maxVisiblePageOptions: 6,

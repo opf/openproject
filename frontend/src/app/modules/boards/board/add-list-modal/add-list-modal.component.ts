@@ -26,23 +26,23 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit} from "@angular/core";
-import {OpModalLocalsMap} from "core-app/modules/modal/modal.types";
-import {OpModalComponent} from "core-app/modules/modal/modal.component";
-import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {Board} from "core-app/modules/boards/board/board";
-import {StateService} from "@uirouter/core";
-import {BoardService} from "core-app/modules/boards/board/board.service";
-import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
-import {BoardActionService} from "core-app/modules/boards/board/board-actions/board-action.service";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
-import {CreateAutocompleterComponent} from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component.ts";
-import {of} from "rxjs";
-import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/helpers/rxjs/debounced-input-switchmap";
-import {ValueOption} from "core-app/modules/fields/edit/field-types/select-edit-field.component";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
+import { OpModalLocalsMap } from "core-app/modules/modal/modal.types";
+import { OpModalComponent } from "core-app/modules/modal/modal.component";
+import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { Board } from "core-app/modules/boards/board/board";
+import { StateService } from "@uirouter/core";
+import { BoardService } from "core-app/modules/boards/board/board.service";
+import { BoardActionsRegistryService } from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
+import { BoardActionService } from "core-app/modules/boards/board/board-actions/board-action.service";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
+import { CreateAutocompleterComponent } from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component.ts";
+import { of } from "rxjs";
+import { DebouncedRequestSwitchmap, errorNotificationHandler } from "core-app/helpers/rxjs/debounced-input-switchmap";
+import { ValueOption } from "core-app/modules/fields/edit/field-types/select-edit-field.component";
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
 
 @Component({
   templateUrl: './add-list-modal.html'
@@ -107,7 +107,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   availableValues:any;
 
   /** Whether the no results warning is displayed */
-  showWarning:boolean = false;
+  showWarning = false;
 
   constructor(readonly elementRef:ElementRef,
               @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
@@ -138,21 +138,19 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
       .subscribe((values:unknown[]) => {
         let hasMember = false;
         if (values.length === 0) {
-            if (this.requests.lastRequestedValue !== undefined && this.requests.lastRequestedValue !== '') {
+          if (this.requests.lastRequestedValue !== undefined && this.requests.lastRequestedValue !== '') {
             hasMember = true;
-          }
-          else {
+          } else {
             hasMember = false;
           }
-        }
-        else {
-            hasMember = false;
+        } else {
+          hasMember = false;
         }
         this.actionService
-        .warningTextWhenNoOptionsAvailable(hasMember)
-        .then((text) => {
-          this.warningText = text;
-        });
+          .warningTextWhenNoOptionsAvailable(hasMember)
+          .then((text) => {
+            this.warningText = text;
+          });
         this.availableValues = values;
         this.showWarning = this.requests.lastRequestedValue !== undefined && (values.length === 0);
         this.cdRef.detectChanges();

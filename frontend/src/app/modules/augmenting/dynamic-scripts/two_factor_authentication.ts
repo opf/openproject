@@ -27,22 +27,22 @@ jQuery(function ($) {
   $('.ajax_form').submit(function() {
     $('#submit_otp').find("input").attr('disabled', 'disabled');
     var form = $(this),
-        submit_button = form.find("input[type=submit]");
+      submit_button = form.find("input[type=submit]");
     $.ajax({ url: form.attr('action'),
-             type: 'post',
-             data: form.serialize(),
-             beforeSend: function() {
-               submit_button.attr('disabled', 'disabled');
-               submit_button.toggleClass('submitting');
-               $('.flash.notice').toggle();
-             },
-             complete: function(response) {
-               submit_button.removeAttr('disabled');
-               $('#submit_otp').find("input").removeAttr('disabled');
-               $('.flash.notice a').html(response.responseText);
-               $('form#resend_otp, #toggle_resend_form, .flash.notice').toggle();
-               submit_button.toggleClass('submitting');
-             }
+      type: 'post',
+      data: form.serialize(),
+      beforeSend: function() {
+        submit_button.attr('disabled', 'disabled');
+        submit_button.toggleClass('submitting');
+        $('.flash.notice').toggle();
+      },
+      complete: function(response) {
+        submit_button.removeAttr('disabled');
+        $('#submit_otp').find("input").removeAttr('disabled');
+        $('.flash.notice a').html(response.responseText);
+        $('form#resend_otp, #toggle_resend_form, .flash.notice').toggle();
+        submit_button.toggleClass('submitting');
+      }
     });
     return false;
   });
@@ -53,7 +53,9 @@ jQuery(function ($) {
 
   if ($('#download_2fa_backup_codes').length) {
     var text = '';
-    $('.two-factor-authentication--backup-codes li').each(function() { text += this.textContent + "\n"; });
+    $('.two-factor-authentication--backup-codes li').each(function() {
+      text += this.textContent + "\n";
+    });
     var element = $('#download_2fa_backup_codes');
     element.attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
     element.attr('download', 'backup-codes.txt');

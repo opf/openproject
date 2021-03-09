@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {DisplayFieldContext} from "core-app/modules/fields/display/display-field.service";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import { DisplayFieldContext } from "core-app/modules/fields/display/display-field.service";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 
 export interface IFieldSchema {
   type:string;

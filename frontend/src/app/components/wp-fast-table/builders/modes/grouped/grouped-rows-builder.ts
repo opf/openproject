@@ -1,20 +1,20 @@
-import {Injector} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {States} from '../../../../states.service';
-import {WorkPackageTable} from '../../../wp-fast-table';
-import {tableRowClassName} from '../../rows/single-row-builder';
-import {RowsBuilder} from '../rows-builder';
-import {GroupHeaderBuilder} from './group-header-builder';
-import {GroupedRenderPass} from './grouped-render-pass';
-import {groupedRowClassName, groupIdentifier} from './grouped-rows-helpers';
-import {GroupObject} from 'core-app/modules/hal/resources/wp-collection-resource';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { Injector } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { States } from '../../../../states.service';
+import { WorkPackageTable } from '../../../wp-fast-table';
+import { tableRowClassName } from '../../rows/single-row-builder';
+import { RowsBuilder } from '../rows-builder';
+import { GroupHeaderBuilder } from './group-header-builder';
+import { GroupedRenderPass } from './grouped-render-pass';
+import { groupedRowClassName, groupIdentifier } from './grouped-rows-helpers';
+import { GroupObject } from 'core-app/modules/hal/resources/wp-collection-resource';
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {
   collapsedRowClass,
   rowGroupClassName
 } from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
-import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { WorkPackageViewColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export class GroupedRowsBuilder extends RowsBuilder {
 
@@ -76,11 +76,11 @@ export class GroupedRowsBuilder extends RowsBuilder {
     jQuery(this.workPackageTable.tableAndTimelineContainer)
       .find(`.${rowGroupClassName}`)
       .each((i:number, oldRow:Element) => {
-        let groupIndex = jQuery(oldRow).data('groupIndex');
-        let group = groups[groupIndex];
+        const groupIndex = jQuery(oldRow).data('groupIndex');
+        const group = groups[groupIndex];
 
         // Refresh the group header
-        let newRow = builder.buildGroupRow(group, this.colspan);
+        const newRow = builder.buildGroupRow(group, this.colspan);
 
         if (oldRow.parentNode) {
           oldRow.parentNode.replaceChild(newRow, oldRow);
@@ -88,7 +88,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
 
         // Set expansion state of contained rows
         const affected = jQuery(this.workPackageTable.tableAndTimelineContainer)
-                          .find(`.${groupedRowClassName(groupIndex)}`);
+          .find(`.${groupedRowClassName(groupIndex)}`);
         affected.toggleClass(collapsedRowClass, !!group.collapsed);
 
         // Update the hidden section of the rendered state

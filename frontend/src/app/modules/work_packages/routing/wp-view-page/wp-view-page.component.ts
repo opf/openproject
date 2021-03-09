@@ -26,38 +26,38 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectionStrategy, Component, OnInit} from "@angular/core";
-import {take} from "rxjs/operators";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
+import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { take } from "rxjs/operators";
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { QueryParamListenerService } from "core-components/wp-query/query-param-listener.service";
 import {
   PartitionedQuerySpacePageComponent,
-  ToolbarButtonComponentDefinition
+  ToolbarButtonComponentDefinition,
 } from "core-app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
-import {WorkPackageCreateButtonComponent} from "core-components/wp-buttons/wp-create-button/wp-create-button.component";
-import {WorkPackageFilterButtonComponent} from "core-components/wp-buttons/wp-filter-button/wp-filter-button.component";
-import {WorkPackageViewToggleButton} from "core-components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component";
-import {WorkPackageDetailsViewButtonComponent} from "core-components/wp-buttons/wp-details-view-button/wp-details-view-button.component";
-import {WorkPackageTimelineButtonComponent} from "core-components/wp-buttons/wp-timeline-toggle-button/wp-timeline-toggle-button.component";
-import {ZenModeButtonComponent} from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
-import {WorkPackageSettingsButtonComponent} from "core-components/wp-buttons/wp-settings-button/wp-settings-button.component";
-import {of} from "rxjs";
-import {WorkPackageFoldToggleButtonComponent} from "core-components/wp-buttons/wp-fold-toggle-button/wp-fold-toggle-button.component";
+import { WorkPackageCreateButtonComponent } from "core-components/wp-buttons/wp-create-button/wp-create-button.component";
+import { WorkPackageFilterButtonComponent } from "core-components/wp-buttons/wp-filter-button/wp-filter-button.component";
+import { WorkPackageViewToggleButton } from "core-components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component";
+import { WorkPackageDetailsViewButtonComponent } from "core-components/wp-buttons/wp-details-view-button/wp-details-view-button.component";
+import { WorkPackageTimelineButtonComponent } from "core-components/wp-buttons/wp-timeline-toggle-button/wp-timeline-toggle-button.component";
+import { ZenModeButtonComponent } from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
+import { WorkPackageSettingsButtonComponent } from "core-components/wp-buttons/wp-settings-button/wp-settings-button.component";
+import { of } from "rxjs";
+import { WorkPackageFoldToggleButtonComponent } from "core-components/wp-buttons/wp-fold-toggle-button/wp-fold-toggle-button.component";
 
 @Component({
   selector: 'wp-view-page',
   templateUrl: '../../../work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
   styleUrls: [
     // Absolute paths do not work for styleURLs :-(
-    '../partitioned-query-space-page/partitioned-query-space-page.component.sass'
+    '../partitioned-query-space-page/partitioned-query-space-page.component.sass',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     /** We need to provide the wpNotification service here to get correct save notifications for WP resources */
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
-    QueryParamListenerService
-  ]
+    QueryParamListenerService,
+  ],
 })
 export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageComponent implements OnInit {
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
@@ -65,37 +65,37 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
       component: WorkPackageCreateButtonComponent,
       inputs: {
         stateName$: of("work-packages.partitioned.list.new"),
-        allowed: ['work_packages.createWorkPackage']
-      }
+        allowed: ['work_packages.createWorkPackage'],
+      },
     },
     {
-      component: WorkPackageFilterButtonComponent
+      component: WorkPackageFilterButtonComponent,
     },
     {
       component: WorkPackageViewToggleButton,
-      containerClasses: 'hidden-for-mobile'
+      containerClasses: 'hidden-for-mobile',
     },
     {
       component: WorkPackageFoldToggleButtonComponent,
       show: () => {
         return !!(this.currentQuery && this.currentQuery.groupBy);
-      }
+      },
     },
     {
       component: WorkPackageDetailsViewButtonComponent,
-      containerClasses: 'hidden-for-mobile'
+      containerClasses: 'hidden-for-mobile',
     },
     {
       component: WorkPackageTimelineButtonComponent,
-      containerClasses: 'hidden-for-mobile -no-spacing'
+      containerClasses: 'hidden-for-mobile -no-spacing',
     },
     {
       component: ZenModeButtonComponent,
-      containerClasses: 'hidden-for-mobile'
+      containerClasses: 'hidden-for-mobile',
     },
     {
-      component: WorkPackageSettingsButtonComponent
-    }
+      component: WorkPackageSettingsButtonComponent,
+    },
   ];
 
   ngOnInit() {

@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable, Injector} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
-import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {BoardInlineAddAutocompleterComponent} from "core-app/modules/boards/board/inline-add/board-inline-add-autocompleter.component";
-import {GonService} from "core-app/modules/common/gon/gon.service";
+import { Injectable, Injector } from '@angular/core';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageRelationsHierarchyService } from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
+import { WorkPackageInlineCreateService } from "core-components/wp-inline-create/wp-inline-create.service";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { BoardInlineAddAutocompleterComponent } from "core-app/modules/boards/board/inline-add/board-inline-add-autocompleter.component";
+import { GonService } from "core-app/modules/common/gon/gon.service";
 
 @Injectable()
 export class BoardInlineCreateService extends WorkPackageInlineCreateService {

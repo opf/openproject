@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-resource';
-import {HalLink} from 'core-app/modules/hal/hal-link/hal-link';
-import {Injectable} from '@angular/core';
-import {PaginationService} from 'core-components/table-pagination/pagination-service';
-import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
-import {ApiV3Filter, FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
+import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { QuerySortByResource } from 'core-app/modules/hal/resources/query-sort-by-resource';
+import { HalLink } from 'core-app/modules/hal/hal-link/hal-link';
+import { Injectable } from '@angular/core';
+import { PaginationService } from 'core-components/table-pagination/pagination-service';
+import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import { ApiV3Filter, FilterOperator } from "core-components/api/api-v3/api-v3-filter-builder";
 
 @Injectable({ providedIn: 'root' })
 export class UrlParamsHelperService {
@@ -46,10 +46,14 @@ export class UrlParamsHelperService {
       return undefined;
     }
 
-    let parts:string[] = [];
+    const parts:string[] = [];
     _.each(params, (value, key) => {
-      if (!value) return;
-      if (!Array.isArray(value)) value = [value];
+      if (!value) {
+        return;
+      }
+      if (!Array.isArray(value)) {
+        value = [value];
+      }
 
       _.each(value, (v) => {
         if (v !== null && typeof v === 'object') {
@@ -91,7 +95,7 @@ export class UrlParamsHelperService {
   }
 
   private encodeSums(paramsData:any, query:QueryResource) {
-    if (!!query.sums) {
+    if (query.sums) {
       paramsData.s = query.sums;
     }
     return paramsData;
@@ -118,7 +122,7 @@ export class UrlParamsHelperService {
       paramsData.t = query
         .sortBy
         .map(function (sort:QuerySortByResource) {
-          return sort.id!.replace('-', ':')
+          return sort.id!.replace('-', ':');
         })
         .join();
     }
@@ -146,7 +150,7 @@ export class UrlParamsHelperService {
   }
 
   private encodeTimelineVisible(paramsData:any, query:QueryResource) {
-    if (!!query.timelineVisible) {
+    if (query.timelineVisible) {
       paramsData.tv = query.timelineVisible;
 
       if (!_.isEmpty(query.timelineLabels)) {
@@ -175,14 +179,14 @@ export class UrlParamsHelperService {
     if (properties.c) {
       queryData["columns[]"] = properties.c.map((column:any) => column);
     }
-    if (!!properties.s) {
+    if (properties.s) {
       queryData.showSums = properties.s;
     }
 
     queryData.timelineVisible = properties.tv;
 
-    if (!!properties.tv) {
-      if (!!properties.tll) {
+    if (properties.tv) {
+      if (properties.tll) {
         queryData.timelineLabels = properties.tll;
       }
 
@@ -214,7 +218,7 @@ export class UrlParamsHelperService {
       var filters = properties.f.map(function (urlFilter:any) {
         var attributes = {
           operator: decodeURIComponent(urlFilter.o)
-        }
+        };
         if (urlFilter.v) {
           // the array check is only there for backwards compatibility reasons.
           // Nowadays, it will always be an array;
@@ -253,7 +257,7 @@ export class UrlParamsHelperService {
     queryData.showSums = query.sums;
     queryData.timelineVisible = !!query.timelineVisible;
 
-    if (!!query.timelineVisible) {
+    if (query.timelineVisible) {
       queryData.timelineZoomLevel = query.timelineZoomLevel;
       queryData.timelineLabels = JSON.stringify(query.timelineLabels);
     }
@@ -303,7 +307,7 @@ export class UrlParamsHelperService {
       return query.columns.map((column:any) => column.id || column.idFromLink);
     } else if (query._links.columns) {
       return query._links.columns.map((column:HalLink) => {
-        let id = column.href!;
+        const id = column.href!;
 
         return this.idFromHref(id);
       });
@@ -311,10 +315,10 @@ export class UrlParamsHelperService {
   }
 
   public buildV3GetFilters(filters:QueryFilterInstanceResource[], replacements = {}):ApiV3Filter[] {
-    let newFilters = filters.map((filter:QueryFilterInstanceResource) => {
-      let id = this.buildV3GetFilterIdFromFilter(filter);
-      let operator = this.buildV3GetOperatorIdFromFilter(filter);
-      let values = this.buildV3GetValuesFromFilter(filter).map(value => {
+    const newFilters = filters.map((filter:QueryFilterInstanceResource) => {
+      const id = this.buildV3GetFilterIdFromFilter(filter);
+      const operator = this.buildV3GetOperatorIdFromFilter(filter);
+      const values = this.buildV3GetValuesFromFilter(filter).map(value => {
         _.each(replacements, (val:string, key:string) => {
           value = value.replace(`{${key}}`, val);
         });
@@ -336,7 +340,7 @@ export class UrlParamsHelperService {
   }
 
   public buildV3GetFilterIdFromFilter(filter:QueryFilterInstanceResource) {
-    let href = filter.filter ? filter.filter.$href : filter._links.filter.href;
+    const href = filter.filter ? filter.filter.$href : filter._links.filter.href;
 
     return this.idFromHref(href);
   }
@@ -345,7 +349,7 @@ export class UrlParamsHelperService {
     if (filter.operator) {
       return filter.operator.id || filter.operator.idFromLink;
     } else {
-      let href = filter._links.operator.href;
+      const href = filter._links.operator.href;
 
       return this.idFromHref(href);
     }
@@ -361,14 +365,14 @@ export class UrlParamsHelperService {
   }
 
   private buildV3GetSortByFromQuery(query:QueryResource) {
-    let sortBys = query.sortBy ? query.sortBy : query._links.sortBy;
-    let sortByIds = sortBys.map((sort:QuerySortByResource) => {
+    const sortBys = query.sortBy ? query.sortBy : query._links.sortBy;
+    const sortByIds = sortBys.map((sort:QuerySortByResource) => {
       if (sort.id) {
         return sort.id;
       } else {
-        let href = sort.href!;
+        const href = sort.href!;
 
-        let id = this.idFromHref(href);
+        const id = this.idFromHref(href);
 
         return id;
       }
@@ -378,7 +382,7 @@ export class UrlParamsHelperService {
   }
 
   private idFromHref(href:string) {
-    let id = href.substring(href.lastIndexOf('/') + 1, href.length);
+    const id = href.substring(href.lastIndexOf('/') + 1, href.length);
 
     return decodeURIComponent(id);
   }

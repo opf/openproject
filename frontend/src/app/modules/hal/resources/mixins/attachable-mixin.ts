@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {AttachmentCollectionResource} from 'core-app/modules/hal/resources/attachment-collection-resource';
-import {OpenProjectFileUploadService, UploadFile} from 'core-components/api/op-file-upload/op-file-upload.service';
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
-import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {HttpErrorResponse} from "@angular/common/http";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { AttachmentCollectionResource } from 'core-app/modules/hal/resources/attachment-collection-resource';
+import { OpenProjectFileUploadService, UploadFile } from 'core-components/api/op-file-upload/op-file-upload.service';
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { HttpErrorResponse } from "@angular/common/http";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 import { OpenProjectDirectFileUploadService } from 'core-app/components/api/op-file-upload/op-direct-file-upload.service';
 
 type Constructor<T = {}> = new (...args:any[]) => T;
@@ -100,7 +100,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
       if (attachment.$isHal) {
         return attachment.delete()
           .then(() => {
-            if (!!this.attachmentsBackend) {
+            if (this.attachmentsBackend) {
               this.updateAttachments();
             } else {
               this.attachments.count = Math.max(this.attachments.count - 1, 0);
@@ -135,7 +135,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
      * Return an updated AttachmentCollectionResource.
      */
     public uploadAttachments(files:UploadFile[]):Promise<string|{ response:HalResource, uploadUrl:string }[]> {
-      const {uploads, finished} = this.performUpload(files);
+      const { uploads, finished } = this.performUpload(files);
 
       const message = I18n.t('js.label_upload_notification');
       const notification = this.NotificationsService.addAttachmentUpload(message, uploads);
@@ -158,7 +158,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
 
           if (error.error instanceof ErrorEvent) {
             // A client-side or network error occurred.
-            message = this.I18n.t('js.error_attachment_upload', {error: error});
+            message = this.I18n.t('js.error_attachment_upload', { error: error });
           } else if (_.get(error, 'error._type') === 'Error') {
             message = error.error.message;
           } else {
@@ -229,7 +229,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
 
       super.$initialize(source);
 
-      let attachments = this.attachments || {$source: {}, elements: []};
+      const attachments = this.attachments || { $source: {}, elements: [] };
       this.attachments = new AttachmentCollectionResource(
         this.injector,
         attachments,

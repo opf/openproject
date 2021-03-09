@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output} from '@angular/core';
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {VersionResource} from "core-app/modules/hal/resources/version-resource";
-import {CreateAutocompleterComponent} from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component.ts";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { VersionResource } from "core-app/modules/hal/resources/version-resource";
+import { CreateAutocompleterComponent } from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component.ts";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   templateUrl: '../create-autocompleter/create-autocompleter.component.html',
@@ -95,7 +95,7 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
   }
 
   private getVersionPayload(name:string) {
-    let payload:any = {};
+    const payload:any = {};
     payload['name'] = name;
     payload['_links'] = {
       definingProject: {

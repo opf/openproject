@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
+import { DisplayField } from "core-app/modules/fields/display/display-field.module";
 
 export class PlainFormattableDisplayField extends DisplayField {
   public get value() {

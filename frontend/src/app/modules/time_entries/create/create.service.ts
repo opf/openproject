@@ -10,8 +10,8 @@ import { HalResourceEditingService } from "core-app/modules/fields/edit/services
 import { Moment } from 'moment';
 import { TimeEntryCreateModal } from "core-app/modules/time_entries/create/create.modal";
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class TimeEntryCreateService {
@@ -25,7 +25,7 @@ export class TimeEntryCreateService {
     readonly i18n:I18nService) {
   }
 
-  public create(date:Moment, wp?:WorkPackageResource, showWorkPackageField:boolean = true) {
+  public create(date:Moment, wp?:WorkPackageResource, showWorkPackageField = true) {
     return new Promise<{ entry:TimeEntryResource, action:'create' }>((resolve, reject) => {
       this
         .createNewTimeEntry(date, wp)
@@ -47,7 +47,7 @@ export class TimeEntryCreateService {
   }
 
   public createNewTimeEntry(date:Moment, wp?:WorkPackageResource) {
-    let payload:any = {
+    const payload:any = {
       spentOn: date.format('YYYY-MM-DD')
     };
 
@@ -66,18 +66,18 @@ export class TimeEntryCreateService {
       .post(payload)
       .toPromise()
       .then(form => {
-      return this.fromCreateForm(form);
-    });
+        return this.fromCreateForm(form);
+      });
   }
 
   public fromCreateForm(form:FormResource):ResourceChangeset {
-    let entry = this.initializeNewResource(form);
+    const entry = this.initializeNewResource(form);
 
     return this.halEditing.edit<TimeEntryResource, ResourceChangeset<TimeEntryResource>>(entry, form);
   }
 
   private initializeNewResource(form:FormResource) {
-    let entry = this.halResource.createHalResourceOfType<TimeEntryResource>('TimeEntry', form.payload.$plain());
+    const entry = this.halResource.createHalResourceOfType<TimeEntryResource>('TimeEntry', form.payload.$plain());
 
     entry.$links['schema'] = { href: 'new' };
 

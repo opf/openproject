@@ -1,6 +1,6 @@
-import {Component} from "@angular/core";
-import {GRID_PROVIDERS} from "core-app/modules/grids/grid/grid.component";
-import {GridPageComponent} from "core-app/modules/grids/grid/page/grid-page.component";
+import { Component } from "@angular/core";
+import { GRID_PROVIDERS } from "core-app/modules/grids/grid/grid.component";
+import { GridPageComponent } from "core-app/modules/grids/grid/page/grid-page.component";
 
 @Component({
   templateUrl: '../grids/grid/page/grid-page.component.html',

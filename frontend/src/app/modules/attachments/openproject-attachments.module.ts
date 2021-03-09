@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-common.module';
-import {AttachmentsComponent} from "core-app/modules/attachments/attachments.component";
-import {AttachmentListComponent} from "core-app/modules/attachments/attachment-list/attachment-list.component";
-import {AttachmentListItemComponent} from "core-app/modules/attachments/attachment-list/attachment-list-item.component";
-import {AttachmentsUploadComponent} from "core-app/modules/attachments/attachments-upload/attachments-upload.component";
+import { OpenprojectCommonModule } from 'core-app/modules/common/openproject-common.module';
+import { AttachmentsComponent } from "core-app/modules/attachments/attachments.component";
+import { AttachmentListComponent } from "core-app/modules/attachments/attachment-list/attachment-list.component";
+import { AttachmentListItemComponent } from "core-app/modules/attachments/attachment-list/attachment-list-item.component";
+import { AttachmentsUploadComponent } from "core-app/modules/attachments/attachments-upload/attachments-upload.component";
 
 @NgModule({
   imports: [

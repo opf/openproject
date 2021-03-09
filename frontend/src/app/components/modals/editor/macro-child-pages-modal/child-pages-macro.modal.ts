@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, ViewChild} from "@angular/core";
-import {OpModalComponent} from "core-app/modules/modal/modal.component";
-import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
-import {OpModalLocalsMap} from "core-app/modules/modal/modal.types";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, ViewChild } from "@angular/core";
+import { OpModalComponent } from "core-app/modules/modal/modal.component";
+import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { OpModalLocalsMap } from "core-app/modules/modal/modal.types";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   templateUrl: './child-pages-macro.modal.html'
@@ -44,8 +44,8 @@ export class ChildPagesMacroModal extends OpModalComponent implements AfterViewI
 
   public selectedPage:string;
   public selectedIncludeParent:boolean;
-  public page:string = '';
-  public includeParent:boolean = false;
+  public page = '';
+  public includeParent = false;
 
   @ViewChild('selectedPageInput', { static: true }) selectedPageInput:ElementRef;
 

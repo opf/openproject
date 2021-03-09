@@ -27,21 +27,21 @@
 //++
 
 
-import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
-import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
-import {Component, Input, Output} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import { QueryFilterResource } from 'core-app/modules/hal/resources/query-filter-resource';
+import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import { Component, Input, Output } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { DebouncedEventEmitter } from 'core-components/angular/debounced-event-emitter';
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 
 @Component({
   selector: 'filter-integer-value',
   templateUrl: './filter-integer-value.component.html'
 })
 export class FilterIntegerValueComponent extends UntilDestroyedMixin {
-  @Input() public shouldFocus:boolean = false;
+  @Input() public shouldFocus = false;
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 
@@ -66,13 +66,13 @@ export class FilterIntegerValueComponent extends UntilDestroyedMixin {
 
   public get unit() {
     switch ((this.schema.filter.allowedValues as QueryFilterResource[])[0].id) {
-      case 'startDate':
-      case 'dueDate':
-      case 'updatedAt':
-      case 'createdAt':
-        return this.I18n.t('js.work_packages.time_relative.days');
-      default:
-        return '';
+    case 'startDate':
+    case 'dueDate':
+    case 'updatedAt':
+    case 'createdAt':
+      return this.I18n.t('js.work_packages.time_relative.days');
+    default:
+      return '';
     }
   }
 

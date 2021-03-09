@@ -36,12 +36,12 @@ import {
   OnDestroy,
   OnInit
 } from "@angular/core";
-import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {Field, IFieldSchema} from "core-app/modules/fields/field.base";
-import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {CurrentProjectService} from 'core-components/projects/current-project.service';
+import { EditFieldHandler } from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { Field, IFieldSchema } from "core-app/modules/fields/field.base";
+import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { CurrentProjectService } from 'core-components/projects/current-project.service';
 
 export const OpEditingPortalSchemaToken = new InjectionToken('editing-portal--schema');
 export const OpEditingPortalHandlerToken = new InjectionToken('editing-portal--handler');

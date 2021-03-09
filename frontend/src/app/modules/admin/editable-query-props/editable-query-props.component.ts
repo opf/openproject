@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit} from "@angular/core";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {ExternalQueryConfigurationService} from "core-components/wp-table/external-configuration/external-query-configuration.service";
-import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit } from "@angular/core";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { ExternalQueryConfigurationService } from "core-components/wp-table/external-configuration/external-query-configuration.service";
+import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
 
 export const editableQueryPropsSelector = 'editable-query-props';
 
@@ -13,7 +13,7 @@ export const editableQueryPropsSelector = 'editable-query-props';
 export class EditableQueryPropsComponent implements OnInit {
   id:string|null;
   name:string|null;
-  urlParams:boolean = false;
+  urlParams = false;
 
   queryProps:string;
 

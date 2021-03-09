@@ -26,17 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {Apiv3GroupPaths} from "core-app/modules/apiv3/endpoints/groups/apiv3-group-paths";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {Observable} from "rxjs";
+import { APIv3ResourceCollection } from "core-app/modules/apiv3/paths/apiv3-resource";
+import { Apiv3GroupPaths } from "core-app/modules/apiv3/endpoints/groups/apiv3-group-paths";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { Observable } from "rxjs";
 import {
   Apiv3ListParameters,
   Apiv3ListResourceInterface,
   listParamsString
 } from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {GroupResource} from 'core-app/modules/hal/resources/group-resource';
+import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
+import { GroupResource } from 'core-app/modules/hal/resources/group-resource';
 
 export class Apiv3GroupsPaths
   extends APIv3ResourceCollection<GroupResource, Apiv3GroupPaths>

@@ -1,17 +1,17 @@
-import {Injector} from '@angular/core';
-import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {PrimaryRenderPass, RowRenderInfo} from '../primary-render-pass';
-import {relationGroupClass, RelationRowBuilder} from './relation-row-builder';
-import {QueryColumn} from 'core-components/wp-query/query-column';
-import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
-import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
-import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import { Injector } from '@angular/core';
+import { RelationResource } from 'core-app/modules/hal/resources/relation-resource';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { PrimaryRenderPass, RowRenderInfo } from '../primary-render-pass';
+import { relationGroupClass, RelationRowBuilder } from './relation-row-builder';
+import { QueryColumn } from 'core-components/wp-query/query-column';
+import { WorkPackageRelationsService } from "core-components/wp-relations/wp-relations.service";
+import { WorkPackageTable } from "core-components/wp-fast-table/wp-fast-table";
+import { WorkPackageViewColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import {
   RelationColumnType,
   WorkPackageViewRelationColumnsService
 } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export interface RelationRenderInfo extends RowRenderInfo {
   data:{
@@ -103,8 +103,8 @@ export class RelationsRenderPass {
   }
 
   public refreshRelationRow(renderedRow:RelationRenderInfo,
-                            workPackage:WorkPackageResource,
-                            oldRow:JQuery) {
+    workPackage:WorkPackageResource,
+    oldRow:JQuery) {
     const newRow = this.relationRowBuilder.refreshRow(workPackage, oldRow);
     this.relationRowBuilder.appendRelationLabel(newRow,
       renderedRow.belongsTo!,

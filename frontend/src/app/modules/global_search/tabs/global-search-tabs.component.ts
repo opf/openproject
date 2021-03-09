@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, OnDestroy} from '@angular/core';
-import {GlobalSearchService} from "core-app/modules/global_search/services/global-search.service";
-import {Subscription} from "rxjs";
-import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component";
+import { Component, OnDestroy } from '@angular/core';
+import { GlobalSearchService } from "core-app/modules/global_search/services/global-search.service";
+import { Subscription } from "rxjs";
+import { ScrollableTabsComponent } from "core-app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component";
 
 export const globalSearchTabsSelector = 'global-search-tabs';
 

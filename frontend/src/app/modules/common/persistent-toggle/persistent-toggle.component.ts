@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, OnInit} from "@angular/core";
+import { Component, ElementRef, OnInit } from "@angular/core";
 
 export const persistentToggleSelector = 'persistent-toggle';
 
@@ -40,7 +40,7 @@ export class PersistentToggleComponent implements OnInit {
   private identifier:string;
 
   /** Is hidden */
-  private isHidden:boolean = false;
+  private isHidden = false;
 
   /** Element reference */
   private $element:JQuery;
