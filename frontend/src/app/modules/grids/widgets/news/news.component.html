@@ -18,6 +18,7 @@
         <op-principal
           *ngIf="news.author"
           [principal]="news.author"
+          [hide-name]="true"
           avatar-classes="avatar news-author-avatar hidden-for-mobile"
         ></op-principal>
         <div>

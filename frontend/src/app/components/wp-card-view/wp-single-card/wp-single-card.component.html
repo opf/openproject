@@ -65,7 +65,8 @@
     <op-principal
       *ngIf="workPackage.assignee"
       [principal]="workPackage.assignee"
-      data-class-list="avatar-mini"
+      [hide-name]="true"
+      class-list="avatar-mini"
       class="wp-card--assignee"
     ></op-principal>
   </div>

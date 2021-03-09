@@ -22,7 +22,7 @@ export class PrincipalRendererService {
 
   renderMultiple(container:HTMLElement,
                  users:PrincipalLike[],
-                 renderName:boolean = true,
+                 hideName:boolean = false,
                  multiLine:boolean = false) {
 
     const span = document.createElement('span');
@@ -34,7 +34,7 @@ export class PrincipalRendererService {
         avatar.classList.add('user-avatar--multi-line');
       }
 
-      this.render(avatar, users[i], renderName);
+      this.render(avatar, users[i], hideName);
 
       if (!multiLine && i < users.length - 1) {
         const sep = document.createElement('span');
@@ -50,7 +50,7 @@ export class PrincipalRendererService {
 
   render(container:HTMLElement,
          principal:PrincipalLike,
-         name:boolean = true,
+         hideName:boolean = false,
          avatar:false|AvatarOptions = { classes: 'avatar-medium' }):void {
 
     const type = PrincipalHelper.typeFromHref(principal.href || '')!;
@@ -60,7 +60,7 @@ export class PrincipalRendererService {
       container.appendChild(el);
     }
 
-    if (name) {
+    if (!hideName) {
       const el = this.renderName(principal, type);
       container.appendChild(el);
     }

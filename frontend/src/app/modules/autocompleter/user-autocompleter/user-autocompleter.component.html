@@ -14,7 +14,8 @@
     <op-principal
       *ngIf="item && item.href"
       [principal]="item"
-      data-class-list="avatar-mini"
+      [hide-name]="true"
+      class-list="avatar-mini"
     ></op-principal>
     {{ item.name }}
   </ng-template>

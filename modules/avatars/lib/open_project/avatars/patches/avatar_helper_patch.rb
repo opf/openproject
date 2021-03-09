@@ -91,8 +91,10 @@ AvatarHelper.class_eval do
       content_tag 'op-principal',
                   '',
                   'data-class-list': tag_options[:class],
-                  'data-user-id': user.id,
-                  'data-user-name': user.name
+                  'data-principal-id': user.id,
+                  'data-principal-name': user.name,
+                  'data-principal-type': 'user',
+                  'data-hide-name': 'true'
     end
 
     def build_gravatar_image_url(user, options = {})
@@ -118,8 +120,10 @@ AvatarHelper.class_eval do
       content_tag 'op-principal',
                   '',
                   'data-class-list': tag_options[:class],
-                  'data-user-id': user.id,
-                  'data-user-name': user.name
+                  'data-principal-id': user.id,
+                  'data-principal-name': user.name,
+                  'data-principal-type': 'user',
+                  'data-hide-name': 'true'
     end
 
     def merge_image_options(user, options)
@@ -154,8 +158,9 @@ AvatarHelper.class_eval do
     content_tag 'op-principal',
                 '',
                 'data-class-list': tag_options[:class],
-                'data-user-name': user.name,
-                'data-use-fallback': 'true'
+                'data-hide-name': 'true',
+                'data-principal-name': user.name,
+                'data-principal-type': 'user'
   end
 
   prepend InstanceMethods

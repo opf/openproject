@@ -47,8 +47,8 @@ export const principalSelector = 'op-principal';
 export class OpPrincipalComponent implements OnInit {
   /** If coming from angular, pass a principal resource if available */
   @Input() principal:PrincipalLike;
-  @Input() renderAvatar:boolean = true;
-  @Input() renderName:boolean = true;
+  @Input() hideAvatar:boolean = false;
+  @Input() hideName:boolean = false;
   @Input() avatarClasses:string = '';
 
   public constructor(readonly elementRef:ElementRef,
@@ -65,16 +65,16 @@ export class OpPrincipalComponent implements OnInit {
 
     if (!this.principal) {
       this.principal = this.principalFromDataset(element);
-      this.renderAvatar = element.dataset.renderAvatar === 'true';
-      this.renderName = element.dataset.renderName === 'true';
-      this.avatarClasses = element.dataset.avatarClasses ?? '';
+      this.hideAvatar = element.dataset.hideAvatar === 'true';
+      this.hideName = element.dataset.hideName === 'true';
+      this.avatarClasses = element.dataset.classList ?? '';
     }
 
     this.principalRenderer.render(
       element,
       this.principal,
-      this.renderName,
-      this.renderAvatar ? { classes: this.avatarClasses } : false
+      this.hideName,
+      this.hideAvatar ? false : { classes: this.avatarClasses },
     );
   }
 

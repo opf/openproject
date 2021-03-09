@@ -2,7 +2,8 @@
   <op-principal
     *ngIf="user.id"
     [principal]="user"
-    data-class-list="avatar-mini"
+    [hide-name]="true"
+    class-list="avatar-mini"
   ></op-principal>
   <h2 class="editable-toolbar-title--fixed">
     <small [textContent]="text.assignee"></small>

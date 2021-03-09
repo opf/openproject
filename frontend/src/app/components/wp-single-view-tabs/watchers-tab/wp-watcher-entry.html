@@ -3,8 +3,9 @@
     <span [ngClass]="{'deleting': deleting }">
       <a [attr.href]="watcher.showUser.href">
         <op-principal
-          [attr.data-user-name]="watcher.name"
-          [attr.data-user-id]="watcher.id"
+          [attr.data-principal-id]="watcher.id"
+          data-hide-name="true"
+          data-principal-type="user"
           data-class-list="avatar-mini"
         ></op-principal>
         <span class="work-package--watcher-name" [textContent]="watcher.name"></span>

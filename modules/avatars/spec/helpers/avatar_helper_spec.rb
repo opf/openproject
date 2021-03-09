@@ -23,8 +23,10 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
   end
 
   def local_expected_user_avatar_tag(user)
-    tag_options = { 'data-user-id': user.id,
-                    'data-user-name': user.name,
+    tag_options = { 'data-principal-id': user.id,
+                    'data-principal-name': user.name,
+                    'data-hide-name': 'true',
+                    'data-principal-type': 'user',
                     'data-class-list': 'avatar' }
 
     content_tag 'op-principal', '', tag_options
@@ -35,16 +37,20 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
   end
 
   def default_expected_user_avatar_tag(user)
-    tag_options = { 'data-use-fallback': "true",
-                    'data-user-name': user.name,
+    tag_options = { 'data-hide-name': 'true',
+                    'data-principal-id': user.id,
+                    'data-principal-name': user.name,
+                    'data-principal-type': 'user',
                     'data-class-list': 'avatar avatar-default' }
 
     content_tag 'op-principal', '', tag_options
   end
 
   def gravatar_expected_user_avatar_tag(_digest, _options = {})
-    tag_options = { 'data-user-id': user.id,
-                    'data-user-name': user.name,
+    tag_options = { 'data-principal-id': user.id,
+                    'data-principal-name': user.name,
+                    'data-hide-name': 'true',
+                    'data-principal-type': 'user',
                     'data-class-list': 'avatar avatar--gravatar-image avatar--fallback' }
 
     content_tag 'op-principal', '', tag_options
