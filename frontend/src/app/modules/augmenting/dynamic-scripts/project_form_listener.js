@@ -126,9 +126,19 @@
       }
     }
 
+    function expandAdvancedOnParams() {
+      const fieldset = document.getElementById('advanced-settings');
+      let params = new URLSearchParams(location.search);
+
+      if (params.has('parent_id')) {
+        fieldset.querySelector('.form--fieldset-legend').click();
+      }
+    }
+
     observeProjectIdentifier();
     observeProjectName();
     observeTemplateChanges();
+    expandAdvancedOnParams();
     focusOnName();
   });
 }(jQuery));

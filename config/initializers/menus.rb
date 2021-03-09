@@ -68,7 +68,9 @@ end
 
 Redmine::MenuManager.map :quick_add_menu do |menu|
   menu.push :new_project,
-            { controller: '/projects', action: :new },
+            Proc.new { |project|
+              { controller: '/projects', action: :new, id: nil, parent_id: project&.id }
+            },
             caption: Project.model_name.human,
             icon: "icon-add icon3",
             html: {

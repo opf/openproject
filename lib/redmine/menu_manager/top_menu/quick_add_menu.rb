@@ -48,7 +48,8 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
         class: 'quick-add-menu--button'
       },
       items: first_level_menu_items_for(:quick_add_menu),
-      options: { drop_down_id: 'quick-add-menu' }
+      options: { drop_down_id: 'quick-add-menu' },
+      project: @project
     ) do
       work_package_quick_add_items
       # Return nil as the yield result is concat as well
@@ -79,12 +80,12 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
 
   def visible_types
     @visible_types ||= begin
-      if User.current.allowed_to?(:add_work_packages, @project, global: !in_project_context?)
-        in_project_context? ? @project.types : Type.all
-      else
-        Type.none
-      end
-    end
+                         if User.current.allowed_to?(:add_work_packages, @project, global: !in_project_context?)
+                           in_project_context? ? @project.types : Type.all
+                         else
+                           Type.none
+                         end
+                       end
   end
 
   def work_package_create_link(type_id, type_name)

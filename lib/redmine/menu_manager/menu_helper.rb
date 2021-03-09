@@ -80,13 +80,13 @@ module Redmine::MenuManager::MenuHelper
   # Render a dropdown menu item with the given MenuItem children.
   # Caller may add additional items through the optional block.
   # Remaining options are passed through to +render_menu_dropdown+.
-  def render_menu_dropdown_with_items(label:, label_options:, items:, options: {})
+  def render_menu_dropdown_with_items(label:, label_options:, items:, options: {}, project: nil)
     selected = any_item_selected?(items)
     label_node = render_drop_down_label_node(label, selected, label_options)
 
     render_menu_dropdown(label_node, options) do
       items.each do |item|
-        concat render_menu_node(item)
+        concat render_menu_node(item, project)
       end
 
       concat(yield) if block_given?

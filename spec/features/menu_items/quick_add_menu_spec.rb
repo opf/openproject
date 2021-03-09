@@ -33,7 +33,7 @@ feature 'Quick-add menu', js: true, selenium: true do
 
 
   context 'as a logged in user with add_project permission' do
-    current_user { FactoryBot.create :user, global_permission: %[add_project] }
+    current_user { FactoryBot.create :user, global_permission: %i[add_project] }
 
     it 'shows the add project option' do
       visit home_path
@@ -46,6 +46,28 @@ feature 'Quick-add menu', js: true, selenium: true do
 
       quick_add.click_link 'Project'
       expect(page).to have_current_path new_project_path
+    end
+
+    context 'with an existing project' do
+      let(:project) { FactoryBot.create :project }
+      current_user do
+        FactoryBot.create :user,
+                          member_in_project: project,
+                          member_with_permissions: %i[add_project view_project add_subprojects]
+      end
+
+      it 'moves to a form with parent_id set' do
+        visit project_path(project)
+
+        quick_add.expect_visible
+        quick_add.toggle
+        quick_add.expect_add_project
+
+        quick_add.click_link 'Project'
+        expect(page).to have_current_path new_project_path(parent_id: project.id)
+
+        expect(page).to have_select('project_parent_id', selected: project.name, visible: true)
+      end
     end
   end
 
