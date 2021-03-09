@@ -34,10 +34,12 @@ jobs:
           - "${{ needs.setup.outputs.latest_release_branch }}"
     steps:
       - uses: actions/checkout@v2
-        ref: ${{ matrix.branch }}
-        fetch-depth: 1
+        with:
+          ref: ${{ matrix.branch }}
+          fetch-depth: 1
       - uses: ruby/setup-ruby@v1
-        bundler-cache: true
+        with:
+          bundler-cache: true
       - name: run
         env:
           DATABASE_URL: 'nulldb://nohost'
