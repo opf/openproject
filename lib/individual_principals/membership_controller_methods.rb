@@ -24,23 +24,19 @@ module IndividualPrincipals
     end
 
     def destroy
-      @membership = @individual_principal.memberships.find(params[:id])
-      tab = redirected_to_tab(@membership)
+      call = ::Members::DeleteService
+        .new(model: @membership, user: current_user)
+        .call
 
-      if @membership.deletable? && request.delete?
-        @membership.destroy
-        @membership = nil
-
-        flash[:notice] = I18n.t(:notice_successful_delete)
-      end
-
-      redirect_to edit_polymorphic_path(@individual_principal, tab: tab)
+      respond_with_service_call call, message: :notice_successful_delete
     end
 
     private
 
     def find_membership
       @membership = Member.visible(current_user).find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render_404
     end
 
     def respond_with_service_call(call, message:)
