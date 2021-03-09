@@ -41,15 +41,15 @@ After clicking on a group's name, you can **change the group name**, **add or re
 
 ### Add users to a group
 
-Click the **Users** tab. Select the users you want to add to this group from the "New user" drop-down list. Click the blue **Add** button. Users already in the group are not shown in the list. Click the "X" against the user to remove that user from the group.
+Click the **Users** tab. Select the users you want to add to this group from the "New user" drop-down list. Click the blue **Add** button. Users already in the group are not shown in the list. Click the "X" next to a user to remove that user from the group.
 
-![Sys-admin-add-users-groups](Sys-admin-add-users-groups.gif)
+![add-users-to-group](image-20210302095755016.png)
 
 Adding a user to a group also adds that user to the member list of *all* projects in which this group was assigned a [role](../roles-permissions) (e.g. Member).
 
 Removing a user from a group removes the role from that user in any project using that group. If the user has no other roles (i.e. who were only added as a member of this group and not individually) they are removed from the respective project completely.
 
-### Add projects to a group
+### Add a group to projects
 
 Click the **Projects** tab. Select the projects you want to add this group to from the "New project" drop-down list. Tick the roles that you want the group to have. Click the blue **Add** button. Users in the group are added to that project's members using the role selected.
 
@@ -61,6 +61,14 @@ Deleting a group removes the role from the members of any project using that gro
 
 ## Impact of groups on project members
 
-Groups have the following impact on a [project members list](../../../getting-started/invite-members) and the [user details](../users). Changes in groups, project members or users may affect the other two.
+Groups impact [project members lists](../../../getting-started/invite-members) and [user details](../users). Changes in groups, project members or users may affect the other two.
 
-Find out more about the behavior of groups as project members from a project admin's perspective [here](../../../getting-started/invite-members/#behavior-of-groups-as-project-members
+Find out more about the behavior of groups as project members from a project admin's perspective [here](../../../getting-started/invite-members/#behavior-of-groups-as-project-members). 
+
+## Group profile
+
+Similar to users, groups have a profile page which shows their name and members. Each member of a group is only visible for users with the necessary permissions (e.g. user has permission to see this member in a common project or user is system administrator). 
+
+![group-profile-page](image-20210302144820982.png)
+
+The profile page can be accessed via the group's [settings page](/#add-users-to-a-group-edit-or-remove-groups), via the overview page of projects the group is a member of and via [mentions](../../../user-guide/work-packages/edit-work-package/#-notification) of the group.
