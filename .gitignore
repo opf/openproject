@@ -44,6 +44,9 @@ npm-debug.log*
 # Ignore Visual Studio Code files
 /.vscode
 
+# Ignore Ctags files
+/tags
+
 # Ignore RubyMine files
 /.idea
 /frontend/.idea

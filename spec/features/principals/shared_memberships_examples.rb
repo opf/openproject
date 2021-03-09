@@ -81,6 +81,25 @@ shared_examples 'global user principal membership management flows' do |permissi
     end
   end
 
+  context 'as user with global and project permissions, but not manage_members' do
+    current_user do
+      FactoryBot.create :user,
+                        global_permission: permission,
+                        member_in_project: project,
+                        member_with_permissions: %i[view_work_packages]
+    end
+
+    it 'does not allow to select that project' do
+      principal_page.visit!
+      principal_page.open_projects_tab!
+
+      expect(page).to have_no_selector('tr.member')
+      expect(page).to have_text 'There is currently nothing to display.'
+      expect(page).to have_no_text project.name
+      expect(page).to have_no_text project2.name
+    end
+  end
+
   context 'as user without global permission' do
     current_user { FactoryBot.create :user }
 
