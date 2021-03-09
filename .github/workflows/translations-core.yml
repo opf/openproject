@@ -13,13 +13,13 @@ jobs:
       latest_release_branch: ${{ steps.find_latest_release.outputs.branch }}
     steps:
     - id: find_latest_release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
       run: |
-        BRANCH=$(
-          curl \
-            -H "Accept: application/vnd.github.v3+json" \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            https://api.github.com/repos/${{ github.repository }}/branches?protected=true | \
-            jq -r .[].name | grep "release/" | sort -r | head -1
+        BRANCH=$(curl -H "Authorization: token $GITHUB_TOKEN" \
+          https://api.github.com/repos/$GITHUB_REPOSITORY/branches?protected=true | \
+          jq -r .[].name | grep "release/" | sort -r | head -1
         )
         if [ "$BRANCH" = "" ]; then
           echo "Invalid release branch found: $BRANCH"
