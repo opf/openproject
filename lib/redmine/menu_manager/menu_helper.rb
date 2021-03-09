@@ -270,6 +270,8 @@ module Redmine::MenuManager::MenuHelper
     engine = node_engine(node)
 
     case node.url(project)
+    when NilClass
+      '#'
     when Hash
       engine.url_for(project.nil? ? node.url(project) : { node.param => project }.merge(node.url(project)))
     when Symbol
@@ -326,7 +328,10 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def node_action_allowed?(node, project, user)
-    user&.allowed_to?(node.url(project), project)
+    url = node.url(project)
+    return true unless url
+
+    user&.allowed_to?(url, project)
   end
 
   def visible_node?(menu, node)

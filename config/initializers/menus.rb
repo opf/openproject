@@ -80,7 +80,7 @@ Redmine::MenuManager.map :quick_add_menu do |menu|
             if: Proc.new { User.current.allowed_to_globally?(:add_project) }
 
   menu.push :invite_user,
-            '#',
+            nil,
             caption: :label_invite_user,
             icon: 'icon3 icon-user-plus',
             html: {
