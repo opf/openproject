@@ -31,82 +31,46 @@ import {Inject, Injectable, Injector} from "@angular/core";
 import {DOCUMENT} from "@angular/common";
 import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-content.modal";
 import {OpModalService} from "core-app/modules/modal/modal.service";
+import {InviteUserModalComponent} from "core-app/modules/invite-user-modal/invite-user.component";
+import {CurrentProjectService} from "core-components/projects/current-project.service";
+import ClickEvent = JQuery.ClickEvent;
 
-const iframeSelector = '.iframe-target-wrapper';
+const attributeSelector = '[invite-user-modal-augment]';
 
 /**
- * This service takes modals that are rendered by the rails backend,
- * and re-renders them with the angular op-modal service
+ * This service triggers user-invite modals to clicks on elements
+ * with the attribute [invite-user-modal-augment] set.
  */
 @Injectable({ providedIn: 'root' })
-export class OpModalWrapperAugmentService {
+export class OpInviteUserModalAugmentService {
 
   constructor(@Inject(DOCUMENT) protected documentElement:Document,
-              protected injector:Injector,
-              protected opModalService:OpModalService) {
+              protected opModalService:OpModalService,
+              protected currentProjectService:CurrentProjectService) {
   }
 
   /**
    * Create initial listeners for Rails-rendered modals
    */
   public setupListener() {
-    const matches = this.documentElement.querySelectorAll('section[data-augmented-model-wrapper]');
+    const matches = this.documentElement.querySelectorAll(attributeSelector);
     for (let i = 0; i < matches.length; ++i) {
-      this.wrapElement(jQuery(matches[i]) as JQuery);
+      const el = matches[i] as HTMLElement;
+      el.addEventListener('click', this.spawnModal.bind(this));
     }
   }
 
-  /**
-   * Wrap a section[data-augmented-modal-wrapper] element
-   */
-  public wrapElement(element:JQuery) {
-    // Find activation link
-    const activationSelector = element.data('activationSelector') || '.modal-delivery-element--activation-link';
-    const activationLink = jQuery(activationSelector);
+  private spawnModal(event:ClickEvent) {
+    event.preventDefault();
 
-    const initializeNow = element.data('modalInitializeNow');
-
-    if (initializeNow) {
-      this.show(element);
-    } else {
-      activationLink.click((evt:JQuery.TriggeredEvent) => {
-        this.show(element);
-        evt.preventDefault();
-      });
-    }
-  }
-
-  private show(element:JQuery) {
-    // Set modal class name
-    const modalClassName = element.data('modalClassName');
-    // Append CSP-whitelisted IFrame for onboarding
-    const iframeUrl = element.data('modalIframeUrl');
-
-    // Set template from wrapped element
-    const wrappedElement = element.find('.modal-delivery-element');
-    let modalBody = wrappedElement.html();
-
-    if (iframeUrl) {
-      modalBody = this.appendIframe(modalBody, iframeUrl);
-    }
-
-    this.opModalService.show(
-      DynamicContentModal,
-      this.injector,
-      {
-        modalBody: modalBody,
-        modalClassName: modalClassName
-      }
+    const modal = this.opModalService.show(
+      InviteUserModalComponent,
+      'global',
+      { projectId: this.currentProjectService.id }
     );
-  }
 
-  private appendIframe(body:string, url:string) {
-    let subdom = jQuery(body);
-    let iframe = jQuery('<iframe frameborder="0" height="400" allowfullscreen>></iframe>');
-    iframe.attr('src', url);
-
-    subdom.find(iframeSelector).append(iframe);
-
-    return subdom.html();
+    modal
+      .closingEvent
+      .subscribe(() => window.location.reload());
   }
 }

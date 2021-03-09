@@ -82,7 +82,7 @@ Redmine::MenuManager.map :quick_add_menu do |menu|
             caption: :label_invite_user,
             icon: 'icon3 icon-user-plus',
             html: {
-              'invite-user-entry': 'invite-user-entry'
+              'invite-user-modal-augment': 'invite-user-modal-augment'
             }
 end
 
