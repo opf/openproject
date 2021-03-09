@@ -1,11 +1,26 @@
 module IndividualPrincipals
   module MembershipControllerMethods
-    def update
-      update_or_create(request.patch?, :notice_successful_update)
+    extend ActiveSupport::Concern
+
+    included do
+      before_action :find_membership, only: %i[update destroy]
     end
 
     def create
-      update_or_create(request.post?, :notice_successful_create)
+      membership_params = permitted_params.membership.merge(principal: @individual_principal)
+      call = ::Members::CreateService
+        .new(user: current_user)
+        .call(membership_params)
+
+      respond_with_service_call call, message: :notice_successful_create
+    end
+
+    def update
+      call = ::Members::UpdateService
+        .new(model: @membership, user: current_user)
+        .call(permitted_params.membership)
+
+      respond_with_service_call call, message: :notice_successful_update
     end
 
     def destroy
@@ -24,20 +39,18 @@ module IndividualPrincipals
 
     private
 
-    def update_or_create(save_record, message)
-      @membership = params[:id].present? ? Member.find(params[:id]) : Member.new(principal: @individual_principal, project: nil)
+    def find_membership
+      @membership = Member.visible(current_user).find(params[:id])
+    end
 
-      result = ::Members::EditMembershipService
-                   .new(@membership, save: save_record, current_user: current_user)
-                   .call(attributes: permitted_params.membership)
-
-      if result.success?
+    def respond_with_service_call(call, message:)
+      if call.success?
         flash[:notice] = I18n.t(message)
       else
-        flash[:error] = result.errors.full_messages.join("\n")
+        flash[:error] = call.errors.full_messages.join("\n")
       end
 
-      redirect_to edit_polymorphic_path(@individual_principal, tab: redirected_to_tab(@membership))
+      redirect_to edit_polymorphic_path(@individual_principal, tab: redirected_to_tab(call.result))
     end
   end
 end
