@@ -1,0 +1,49 @@
+name: Translations
+on:
+  schedule:
+    - cron: '0 3 * * *' # Daily at 03:00
+  push:
+    branches:
+      - feature/translations-with-github-action
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      latest_release_branch: ${{ steps.find_latest_release.outputs.branch }}
+    steps:
+    - uses: actions/checkout@v2
+    - id: find_latest_release
+      run: |
+        BRANCH="$(git branch -a --sort=-committerdate | grep remotes\/origin\/release\/ | head -1)"
+        BRANCH="${BRANCH/\*/}"
+        BRANCH="${BRANCH/remotes\/origin\//}"
+        if [ "$BRANCH" = "" ]; then
+          echo "Invalid release branch found: $BRANCH"
+          exit 1
+        fi
+        echo "::set-output name=branch::${BRANCH}"
+  crowdin:
+    needs: setup
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        branch: [dev, ${{needs.setup.outputs.latest_release_branch}}]
+    steps:
+      - uses: actions/checkout@v2
+        ref: ${{ matrix.branch }}
+        fetch-depth: 1
+      - uses: ruby/setup-ruby@v1
+        bundler-cache: true
+      - name: run
+        env:
+          DATABASE_URL: 'nulldb://nohost'
+          OPENPROJECT_CROWDIN_PROJECT: ${{ secrets.OPENPROJECT_CROWDIN_PROJECT }}
+          OPENPROJECT_CROWDIN_API_KEY: ${{ secrets.OPENPROJECT_CROWDIN_API_KEY }}
+        run: |
+          bundle exec rake db:create
+          echo "Updating combined translations"
+          bundle exec rake translations:update
+          git add "**/*.yml"
+          git diff --staged
+          # git diff --staged --exit-code --quiet || ( git commit -m "update locales from crowdin [ci skip]" && git pull --rebase && git push origin $BRANCH )
