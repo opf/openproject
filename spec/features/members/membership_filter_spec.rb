@@ -39,7 +39,7 @@ feature 'group memberships through groups page', type: :feature, js: true do
                       mail: 'foo@example.org',
                       member_in_project: project,
                       member_through_role: role,
-                      preference: FactoryBot.build(:user_preference, hide_mail: false)
+                      preferences: { hide_mail: false }
   end
 
   let!(:hannibal) do
@@ -49,7 +49,7 @@ feature 'group memberships through groups page', type: :feature, js: true do
                       mail: 'foo@example.com',
                       member_in_project: project,
                       member_through_role: role,
-                      preference: FactoryBot.build(:user_preference, hide_mail: true)
+                      preferences: { hide_mail: true }
   end
   let(:role) { FactoryBot.create(:role, permissions: %i(add_work_packages)) }
   let(:members_page) { Pages::Members.new project.identifier }

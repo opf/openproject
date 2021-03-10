@@ -43,7 +43,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
                       firstname: 'Peter',
                       lastname: 'Pan',
                       mail: 'foo@example.org',
-                      preference: FactoryBot.build(:user_preference, hide_mail: false)
+                      preferences: { hide_mail: false }
   end
   let!(:hannibal) do
     FactoryBot.create :user,
@@ -51,7 +51,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
                       firstname: 'Hannibal',
                       lastname: 'Smith',
                       mail: 'boo@bar.org',
-                      preference: FactoryBot.build(:user_preference, hide_mail: true)
+                      preferences: { hide_mail: true }
   end
   let!(:developer_placeholder) { FactoryBot.create :placeholder_user, name: 'Developer 1' }
   let!(:crash) do
