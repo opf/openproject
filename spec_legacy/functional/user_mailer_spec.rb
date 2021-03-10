@@ -45,9 +45,7 @@ describe UserMailer, type: :mailer do
   end
 
   it 'should test mail sends a simple greeting' do
-    user = FactoryBot.create(:admin, mail: 'foo@bar.de')
-
-    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
+    user = FactoryBot.create(:admin, mail: 'foo@bar.de', preferences: { no_self_notified: false })
 
     mail = UserMailer.test_mail(user)
     assert mail.deliver_now
@@ -149,8 +147,7 @@ describe UserMailer, type: :mailer do
 
   it 'sends plain text mail' do
     Setting.plain_text_mail = 1
-    user = FactoryBot.create(:user)
-    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
+    user = FactoryBot.create(:user, preferences: { no_self_notified: false })
     issue = FactoryBot.create(:work_package)
     UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
     mail = ActionMailer::Base.deliveries.last
@@ -161,8 +158,7 @@ describe UserMailer, type: :mailer do
 
   it 'sends html mail' do
     Setting.plain_text_mail = 0
-    user = FactoryBot.create(:user)
-    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
+    user = FactoryBot.create(:user, preferences: { no_self_notified: false })
     issue = FactoryBot.create(:work_package)
     UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
     mail = ActionMailer::Base.deliveries.last
@@ -173,8 +169,7 @@ describe UserMailer, type: :mailer do
 
   context 'with mail_from set', with_settings: { mail_from: 'Redmine app <redmine@example.net>' } do
     it 'should mail from with phrase' do
-      user = FactoryBot.create(:user)
-      FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
+      user = FactoryBot.create(:user, preferences: { no_self_notified: false })
       UserMailer.test_mail(user).deliver_now
       mail = ActionMailer::Base.deliveries.last
       refute_nil mail
@@ -223,8 +218,7 @@ describe UserMailer, type: :mailer do
   end
 
   it 'should message posted message id' do
-    user = FactoryBot.create(:user)
-    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
+    user = FactoryBot.create(:user, preferences: { no_self_notified: false })
     message = FactoryBot.create(:message)
     UserMailer.message_posted(user, message, user).deliver_now
     mail = ActionMailer::Base.deliveries.last
@@ -238,8 +232,7 @@ describe UserMailer, type: :mailer do
   end
 
   it 'should reply posted message id' do
-    user = FactoryBot.create(:user)
-    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
+    user = FactoryBot.create(:user, preferences: { no_self_notified: false })
     parent  = FactoryBot.create(:message)
     message = FactoryBot.create(:message, parent: parent)
     UserMailer.message_posted(user, message, user).deliver_now
@@ -258,8 +251,7 @@ describe UserMailer, type: :mailer do
           with_settings: { available_languages: ['en', 'de'], default_language: 'de' } do
     it 'should change mail language depending on recipient language' do
       issue = FactoryBot.create(:work_package)
-      user  = FactoryBot.create(:user, mail: 'foo@bar.de', language: 'de')
-      FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
+      user  = FactoryBot.create(:user, mail: 'foo@bar.de', language: 'de', preferences: { no_self_notified: false })
 
       I18n.locale = 'en'
       assert UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
@@ -276,8 +268,7 @@ describe UserMailer, type: :mailer do
       # 2. Setting.default_language
       # 3. I18n.default_locale
       issue = FactoryBot.create(:work_package)
-      user  = FactoryBot.create(:user, mail: 'foo@bar.de', language: '') # (auto)
-      FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
+      user  = FactoryBot.create(:user, mail: 'foo@bar.de', language: '', preferences: { no_self_notified: false }) # (auto)
 
       I18n.locale = 'de'
       assert UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
