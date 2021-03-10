@@ -160,6 +160,7 @@ AvatarHelper.class_eval do
                 'data-class-list': tag_options[:class],
                 'data-hide-name': 'true',
                 'data-principal-name': user.name,
+                'data-principal-id': user.id,
                 'data-principal-type': 'user'
   end
 
