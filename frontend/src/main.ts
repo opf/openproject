@@ -41,12 +41,7 @@ whenDebugging(() => {
 });
 
 // Import the correct locale early on
-Promise.all([
-  // untyped module cannot be dynamically imported
-  // @ts-ignore
-  import(/* webpackChunkName: "default-locale" */ `./locales/en.js`),
-  import(/* webpackChunkName: "locale" */ `./locales/${I18n.locale}.js`),
-])
+import(/* webpackChunkName: "locale" */ `./locales/${I18n.locale}.js`)
   .then(() => {
     jQuery(function () {
       // Due to the behaviour of the Edge browser we need to wait for 'DOM ready'
