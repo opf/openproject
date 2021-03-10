@@ -4,10 +4,8 @@
      (mouseleave)="blur()">
   <op-principal
     *ngIf="userName"
-    [attr.data-principal-id]="userId"
-    data-hide-name="true"
-    data-principal-type="user"
-    data-class-list="avatar"
+    [principal]="user"
+    [hideName]="true"
   ></op-principal>
 
   <span class="user">

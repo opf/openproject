@@ -74,7 +74,7 @@ export class OpPrincipalComponent implements OnInit {
       element,
       this.principal,
       this.hideName,
-      this.hideAvatar ? false : { classes: this.avatarClasses },
+      this.hideAvatar ? false : { classes: this.avatarClasses + ' avatar' },
     );
   }
 
