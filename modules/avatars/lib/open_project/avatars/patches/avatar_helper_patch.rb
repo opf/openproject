@@ -158,10 +158,10 @@ AvatarHelper.class_eval do
     content_tag 'op-principal',
                 '',
                 'data-class-list': tag_options[:class],
-                'data-hide-name': 'true',
                 'data-principal-name': user.name,
                 'data-principal-id': user.id,
-                'data-principal-type': 'user'
+                'data-principal-type': 'user',
+                'data-hide-name': 'true'
   end
 
   prepend InstanceMethods
