@@ -1,3 +1,5 @@
+require 'open_project/patches'
+
 module OpenProject::Patches::CarrierwaveSanitizedFile
   extend ActiveSupport::Concern
 
