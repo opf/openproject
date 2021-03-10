@@ -38,11 +38,11 @@ class UserPreference < ApplicationRecord
   after_initialize :init_other_preferences
 
   def [](attr_name)
-    attribute_present?(attr_name) ? super : others[attr_name]
+    respond_to?(attr_name) ? super : others[attr_name]
   end
 
   def []=(attr_name, value)
-    attribute_present?(attr_name) ? super : others[attr_name] = value
+    respond_to?(attr_name) ? super : others[attr_name] = value
   end
 
   def comments_sorting
