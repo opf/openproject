@@ -8,11 +8,47 @@ release_date: 2021-03-09
 
 # OpenProject 11.2.0
 
-We released [OpenProject 11.2.0](https://community.openproject.com/versions/1461).
-The release contains several bug fixes and we recommend updating to the newest version.
+Release date: 2021-03-09
 
-<!--more-->
-#### Bug fixes and changes
+We released [OpenProject 11.2.0](https://community.openproject.com/versions/1461).
+This new release will bring many new features and bug fixes that will improve classical as well as agile project management. 
+
+## Placeholder users (premium feature)
+
+A new concept of placeholder users has been introduced with 11.2. Within the *Administration* -> *Users and permissions* you are now able to create placeholder users without an email address and without taking away any license seats.
+
+![add-placeholder-users](add-placeholder-users.png)
+
+These preliminary users can then be added to projects. You can plan  with these resources and already assign tasks to them. This is  especially helpful when setting up a project template. Later, you can  then replace the placeholder users with real users in a project.
+
+![assign-placeholder-users](assign-placeholder-users.png)
+
+In the upcoming release we will continue working on this concept,  i.e. creating a visual distinction between real users and placeholder  users.
+
+## Extended filter options by parent and ID
+
+The work package filters are extended by new work package  attributes. You are now able to also select the parent as a filter option either by entering the name or ID of the parent work package. This way you can easily see all direct related children of a work package.
+
+![filter-parent](filter-parent.png)
+
+Furthermore, you can filter the work package table by ID to include (or exclude) only these work packages in the list.
+
+![Filter-ID](Filter-ID.png)
+ For example, choose those work packages you want to discuss in a meeting or that needs to be displayed on the project overview by filtering for exactly these IDs.
+
+![filter-ID-meetings-example](filter-ID-meetings-example.png)
+
+## Distribution of user administration
+
+The user administration is now distributed to non-admins by a new  global role for more fine-grained user management. This way it is possible for non-admins to manage and invite users without having full admin privileges.
+
+![distribution-of-user-admin](distribution-of-user-admin.png)
+
+## UI and UX improvements and various bug fixes
+
+Furthermore, with 11.2 we have implemented various UI and UX  improvements for OpenProject. We harmonized the navigation for the time and costs module so that it is consistent with the other navigation.  Also, we adapted the background colors of sum rows and group rows in the work package list so that it is easier to understand. We introduced a group show page (similar to the users show page) in order to link this page in case of mentioning a group and be also available for non-admins.
+
+### All bug fixes and changes
 
 - Changed: Make the cost reporting navigation consistent with the other modules \[[#32928](https://community.openproject.com/wp/32928)\]
 - Changed: Add work package filter for child work packages \[[#33163](https://community.openproject.com/wp/33163)\]
@@ -58,9 +94,37 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Trying to sort placeholder users by name leads to Error 500 \[[#36517](https://community.openproject.com/wp/36517)\]
 - Epic: Support for placeholder users that do not have an email address yet \[[#35933](https://community.openproject.com/wp/35933)\]
 
-#### Contributions
-A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
+## Installation and Updates
 
-Special thanks for reporting and finding bugs go to
+To use OpenProject 11.2 right away, create a free trial instance for our [OpenProject Enterprise cloud.](https://start.openproject.com/)
 
-Rémi Schillinger, Sander Kleijwegt, Tibor Budai
+Prefer to run OpenProject 11.2 in your own infrastructure?
+ Here you can find the [Installation guidelines](https://docs.openproject.org/installation-and-operations) for OpenProject.
+
+Want to upgrade from a Community version to try out the Enterprise premium features? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/enterprise-edition/)
+
+## Migrating to OpenProject 11.2
+
+Follow the [upgrade guide for the packaged installation or Docker installation](https://docs.openproject.org/installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 11.2.
+
+We update hosted OpenProject environments (Enterprise cloud) automatically.
+
+## Support
+
+You will find useful information in the OpenProject [Documentation](https://docs.openproject.org) or you can post your questions in the [Forum](https://community.openproject.org/projects/openproject/boards).
+
+## Credits
+
+Special thanks go to all OpenProject contributors without whom this release would not have been possible:
+
+- All the developers, designers, project managers who have contributed to OpenProject. Special thanks for reporting and finding bugs go to
+
+  Rémi Schillinger, Sander Kleijwegt, Tibor Budai.
+
+- Special thanks for this release go to Mercedes-AMG for sponsoring features.
+
+- Thank you for the updates of our documentation, cugu, txsing, luzpaz, Amandine-Malo, marcelotm23, ivangriggs, Siltes, loganwedwards.
+
+- Every dedicated user who has [reported bugs](https://docs.openproject.org/development/report-a-bug/) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+
+- All the dedicated users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).
