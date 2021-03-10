@@ -66,6 +66,23 @@ describe WikiPage, type: :model do
         expect(wiki_page.slug).to eq('dot')
       end
     end
+
+    context 'when only having a ! for the title' do
+      let(:wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki, title: '!') }
+
+      it 'creates a non empty slug' do
+        expect(wiki_page.slug).to eq('bang')
+      end
+    end
+
+    context 'when only having a { for the title' do
+      let(:wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki, title: '{') }
+
+      it 'fails to create' do
+        expect { wiki_page }
+          .to raise_error(ActiveRecord::RecordInvalid)
+      end
+    end
   end
 
   describe '#nearest_main_item' do
