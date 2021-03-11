@@ -30,8 +30,8 @@
 
 module PlaceholderUsers
   class CreateContract < BaseContract
-    include RequiresEnterpriseGuard
-    self.enterprise_action = :placeholder_users
+    #include RequiresEnterpriseGuard
+    #self.enterprise_action = :placeholder_users
 
     attribute :type
 

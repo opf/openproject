@@ -76,13 +76,6 @@ module LdapGroups
       render_404
     end
 
-    def check_ee
-      unless EnterpriseToken.allows_to?(:ldap_groups)
-        render template: 'ldap_groups/synchronized_groups/upsale'
-        false
-      end
-    end
-
     def permitted_params
       params
         .require(:synchronized_filter)
