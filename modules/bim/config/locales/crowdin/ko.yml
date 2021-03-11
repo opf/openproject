@@ -15,7 +15,7 @@ ko:
       file_invalid: "잘못된 BCF 파일"
     x_bcf_issues:
       zero: 'BCF 이슈 없음'
-      other: '%{count}개 BCF 이슈'
+      other: ''
     bcf_xml:
       xml_file: 'BCF XML 파일'
       import_title: '가져오기'

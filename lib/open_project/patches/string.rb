@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -38,13 +39,13 @@ module OpenProject
           s = $1
         else
           # 230: 2.5
-          s.gsub!(%r{^(\d+):(\d+)$}) do $1.to_i + $2.to_i / 60.0 end
+          s.gsub!(%r{^(\d+):(\d+)$}) { $1.to_i + $2.to_i / 60.0 }
           # 2h30, 2h, 30m => 2.5, 2, 0.5
-          s.gsub!(%r{^((\d+)\s*(h|hours?))?\s*((\d+)\s*(m|min)?)?$}) { |m| ($1 || $4) ? ($2.to_i + $5.to_i / 60.0) : m[0] }
+          s.gsub!(%r{^((\d+)\s*(h|hours?))?\s*((\d+)\s*(m|min)?)?$}) { |m| $1 || $4 ? ($2.to_i + $5.to_i / 60.0) : m[0] }
         end
         # 2,5 => 2.5
         s.gsub!(',', '.')
-        begin; Kernel.Float(s); rescue; nil; end
+        begin; Kernel.Float(s); rescue StandardError; nil; end
       end
 
       # TODO: Check if this can be deleted
@@ -55,5 +56,5 @@ module OpenProject
   end
 end
 
-String.send(:include, OpenProject::Patches::String)
-String.send(:include, Redmine::Diff::Diffable)
+String.include OpenProject::Patches::String
+String.include Redmine::Diff::Diffable

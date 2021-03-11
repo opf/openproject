@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -54,7 +54,7 @@ describe OpenProject::JournalFormatter::Attachment do
   let(:key) { "attachments_#{attachment.id}" }
 
   describe '#render' do
-    describe 'WITH the first value beeing nil, and the second an id as string' do
+    describe 'WITH the first value being nil, and the second an id as string' do
       it 'adds an attachment added text' do
         link = "#{Setting.protocol}://#{Setting.host_name}/api/v3/attachments/#{attachment.id}/content"
         expect(instance.render(key, [nil, attachment.id.to_s]))
@@ -80,7 +80,7 @@ describe OpenProject::JournalFormatter::Attachment do
       end
     end
 
-    describe 'WITH the first value beeing an id as string, and the second nil' do
+    describe 'WITH the first value being an id as string, and the second nil' do
       let(:expected) do
         I18n.t(:text_journal_deleted,
                label: "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>",
@@ -90,7 +90,7 @@ describe OpenProject::JournalFormatter::Attachment do
       it { expect(instance.render(key, [attachment.id.to_s, nil])).to eq(expected) }
     end
 
-    describe "WITH the first value beeing nil, and the second an id as a string
+    describe "WITH the first value being nil, and the second an id as a string
               WITH specifying not to output html" do
       let(:expected) do
         I18n.t(:text_journal_added,
@@ -101,7 +101,7 @@ describe OpenProject::JournalFormatter::Attachment do
       it { expect(instance.render(key, [nil, attachment.id.to_s], no_html: true)).to eq(expected) }
     end
 
-    describe "WITH the first value beeing an id as string, and the second nil,
+    describe "WITH the first value being an id as string, and the second nil,
               WITH specifying not to output html" do
       let(:expected) do
         I18n.t(:text_journal_deleted,

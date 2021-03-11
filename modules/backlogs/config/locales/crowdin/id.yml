@@ -1,10 +1,10 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2020 the OpenProject GmbH
+#Copyright (C) 2012-2021 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
@@ -45,7 +45,7 @@ id:
   backlogs:
     add_new_story: "Cerita baru "
     any: "apapun"
-    backlog_settings: "Backlogs settings"
+    backlog_settings: "Pengaturan Backlog"
     burndown_graph: "Grafik Burndown"
     card_paper_size: "Ukuran kertas untuk pencetakan kartu"
     chart_options: "Bagan pilihan"
@@ -99,6 +99,7 @@ id:
   backlogs_empty_title: "Ada versi yang didefinisikan untuk digunakan dalam backlogs"
   backlogs_empty_action_text: "Untuk memulai dengan backlogs, membuat versi baru, dan menetapkannya ke kolom backlogs."
   button_edit_wiki: "Edit halaman wiki"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
   error_intro_plural: "Kesalahan berikut ini ditemui:"
   error_intro_singular: "Kesalahan berikut ini ditemui:"
   error_outro: "Perbaiki kesalahan di atas sebelum mengirimkannya lagi."

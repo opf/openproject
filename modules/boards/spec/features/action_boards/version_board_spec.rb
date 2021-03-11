@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -109,8 +109,8 @@ describe 'Version action board', type: :feature, js: true do
         queries = board.contained_queries
         expect(queries.count).to eq(2)
 
-        open = queries.detect { |q| q.name == 'Open version'}
-        second_open = queries.detect { |q| q.name == 'A second version'}
+        open = queries.detect { |q| q.name == 'Open version' }
+        second_open = queries.detect { |q| q.name == 'A second version' }
 
         expect(open.name).to eq 'Open version'
         expect(second_open.name).to eq 'A second version'
@@ -311,7 +311,7 @@ describe 'Version action board', type: :feature, js: true do
     let(:no_version_edit_role) { FactoryBot.create(:role, permissions: no_version_edit_permissions) }
     let(:no_version_edit_permissions) do
       %i[show_board_views manage_board_views add_work_packages manage_versions
-       edit_work_packages view_work_packages manage_public_queries]
+         edit_work_packages view_work_packages manage_public_queries]
     end
 
     it 'can not move cards or add cards' do

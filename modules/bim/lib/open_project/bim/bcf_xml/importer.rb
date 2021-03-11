@@ -83,10 +83,8 @@ module OpenProject::Bim::BcfXml
     end
 
     def treat_invalid_people(options)
-      if aggregations.invalid_people.any?
-        unless options[:invalid_people_action] == 'anonymize'
-          raise StandardError.new 'Invalid people found in import. Use valid email addresses.'
-        end
+      if aggregations.invalid_people.any? && !(options[:invalid_people_action] == 'anonymize')
+        raise StandardError.new 'Invalid people found in import. Use valid email addresses.'
       end
     end
 

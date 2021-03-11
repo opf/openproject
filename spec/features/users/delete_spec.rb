@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -36,11 +36,11 @@ describe 'user deletion: ', type: :feature, js: true do
   end
 
   context 'regular user' do
-    let(:user_password) {'bob!' * 4}
+    let(:user_password) { 'bob!' * 4 }
     let(:current_user) do
       FactoryBot.create(:user,
-                         password: user_password,
-                         password_confirmation: user_password)
+                        password: user_password,
+                        password_confirmation: user_password)
     end
 
     it 'can delete their own account', js: true do
@@ -66,13 +66,29 @@ describe 'user deletion: ', type: :feature, js: true do
     end
   end
 
+  context 'user with global add role' do
+    let!(:user) { FactoryBot.create :user }
+    let(:current_user) { FactoryBot.create :user, global_permission: :manage_user }
+
+    it 'can not delete even if settings allow it', js: true do
+      Setting.users_deletable_by_admins = 1
+      visit edit_user_path(user)
+
+      expect(page).to have_content "#{user.firstname} #{user.lastname}"
+      expect(page).to_not have_content 'Delete account'
+
+      visit deletion_info_user_path(user)
+      expect(page).to have_text 'Error 404'
+    end
+  end
+
   context 'admin user' do
     let!(:user) { FactoryBot.create :user }
     let(:user_password) { 'admin! * 4' }
     let(:current_user) do
       FactoryBot.create(:admin,
-                         password: user_password,
-                         password_confirmation: user_password)
+                        password: user_password,
+                        password_confirmation: user_password)
     end
 
     it 'can delete other users if the setting permitts it', selenium: true do
@@ -82,11 +98,14 @@ describe 'user deletion: ', type: :feature, js: true do
       expect(page).to have_content "#{user.firstname} #{user.lastname}"
 
       click_on 'Delete'
+
+      SeleniumHubWaiter.wait
       fill_in 'login_verification', with: user.login
       click_on 'Delete'
 
       dialog.confirm_flow_with 'wrong', should_fail: true
-      
+
+      SeleniumHubWaiter.wait
       fill_in 'login_verification', with: user.login
       click_on 'Delete'
 
@@ -112,7 +131,7 @@ describe 'user deletion: ', type: :feature, js: true do
       find(:css, "#settings_users_deletable_by_admins").set(true)
       find(:css, "#settings_users_deletable_by_self").set(true)
 
-      click_on  'Save'
+      click_on 'Save'
 
       expect(Setting.users_deletable_by_admins?).to eq true
       expect(Setting.users_deletable_by_self?).to eq true

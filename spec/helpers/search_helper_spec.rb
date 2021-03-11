@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -58,7 +58,9 @@ describe 'search/index', type: :helper do
     context 'with multiple tokens' do
       let(:tokens) { %w(token another) }
       let(:title) { 'This is a token and another token.' }
-      let(:expected_title) { 'This is a <span class="search-highlight token-0">token</span> and <span class="search-highlight token-1">another</span> <span class="search-highlight token-0">token</span>.' }
+      let(:expected_title) do
+        'This is a <span class="search-highlight token-0">token</span> and <span class="search-highlight token-1">another</span> <span class="search-highlight token-0">token</span>.'
+      end
 
       it { is_expected.to eq expected_title }
     end
@@ -78,7 +80,9 @@ describe 'search/index', type: :helper do
     context 'with multibyte title' do
       let(:tokens) { %w(token) }
       let(:title) { ('й' * 200) + ' token ' + ('й' * 200) }
-      let(:expected_title) { ('й' * 45) + ' ... ' + ('й' * 44) + ' <span class="search-highlight token-0">token</span> ' + ('й' * 44) + ' ... ' + ('й' * 45) }
+      let(:expected_title) do
+        ('й' * 45) + ' ... ' + ('й' * 44) + ' <span class="search-highlight token-0">token</span> ' + ('й' * 44) + ' ... ' + ('й' * 45)
+      end
 
       it { is_expected.to eq expected_title }
     end

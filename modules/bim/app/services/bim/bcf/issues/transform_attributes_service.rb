@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -127,7 +127,7 @@ module Bim::Bcf
         if import_options[:unknown_statuses_action] == 'use_default'
           ::Status.default
         elsif import_options[:unknown_statuses_action] == 'chose' &&
-          import_options[:unknown_statuses_chose_ids].any?
+              import_options[:unknown_statuses_chose_ids].any?
           ::Status.find_by(id: import_options[:unknown_statuses_chose_ids].first)
         elsif status_name
           Status::InexistentStatus.new
@@ -138,7 +138,7 @@ module Bim::Bcf
         if import_options[:unknown_priorities_action] == 'use_default'
           # NOP The 'use_default' case gets already covered by OP.
         elsif import_options[:unknown_priorities_action] == 'chose' &&
-          import_options[:unknown_priorities_chose_ids].any?
+              import_options[:unknown_priorities_chose_ids].any?
           ::IssuePriority.find_by(id: import_options[:unknown_priorities_chose_ids].first)
         elsif priority_name
           Priority::InexistentPriority.new
@@ -151,7 +151,7 @@ module Bim::Bcf
         if import_options[:unknown_types_action] == 'use_default'
           types.default&.first
         elsif import_options[:unknown_types_action] == 'chose' &&
-          import_options[:unknown_types_chose_ids].any?
+              import_options[:unknown_types_chose_ids].any?
           types.find_by(id: import_options[:unknown_types_chose_ids].first)
         elsif type_name
           Type::InexistentType.new

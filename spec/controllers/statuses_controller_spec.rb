@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe StatusesController, type: :controller do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:status) { FactoryBot.create(:status) }
+  shared_let(:user) { FactoryBot.create(:admin) }
+  shared_let(:status) { FactoryBot.create(:status) }
 
-  before do allow(User).to receive(:current).and_return user end
+  before { login_as(user) }
 
   shared_examples_for :response do
     subject { response }
@@ -59,7 +59,7 @@ describe StatusesController, type: :controller do
   describe '#index' do
     let(:template) { 'index' }
 
-    before do get :index end
+    before { get :index }
 
     it_behaves_like :response
   end
@@ -67,7 +67,7 @@ describe StatusesController, type: :controller do
   describe '#new' do
     let(:template) { 'new' }
 
-    before do get :new end
+    before { get :new }
 
     it_behaves_like :response
   end
@@ -89,10 +89,10 @@ describe StatusesController, type: :controller do
     let(:template) { 'edit' }
 
     context 'default' do
-      let!(:status_default) {
+      let!(:status_default) do
         FactoryBot.create(:status,
-                           is_default: true)
-      }
+                          is_default: true)
+      end
 
       before do
         get :edit,
@@ -105,8 +105,9 @@ describe StatusesController, type: :controller do
         render_views
 
         it do
-        assert_select 'p',
-                        {content: Status.human_attribute_name(:is_default)}, false
+          assert_select 'p',
+                        { content: Status.human_attribute_name(:is_default) },
+                        false
         end
       end
     end
@@ -124,8 +125,8 @@ describe StatusesController, type: :controller do
         render_views
 
         it do
-        assert_select 'div',
-                     content: Status.human_attribute_name(:is_default)
+          assert_select 'div',
+                        content: Status.human_attribute_name(:is_default)
         end
       end
     end
@@ -160,21 +161,23 @@ describe StatusesController, type: :controller do
 
     context 'unused' do
       before do
-        status
-
         delete :destroy, params: { id: status.id }
       end
 
       it_behaves_like :destroyed
 
       it_behaves_like :redirect
+
+      after do
+        Status.delete_all
+      end
     end
 
     context 'used' do
-      let(:work_package) {
+      let(:work_package) do
         FactoryBot.create(:work_package,
-                           status: status)
-      }
+                          status: status)
+      end
 
       before do
         work_package
@@ -188,10 +191,10 @@ describe StatusesController, type: :controller do
     end
 
     context 'default' do
-      let!(:status_default) {
+      let!(:status_default) do
         FactoryBot.create(:status,
-                           is_default: true)
-      }
+                          is_default: true)
+      end
 
       before do
         delete :destroy, params: { id: status_default.id }

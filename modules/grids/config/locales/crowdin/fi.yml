@@ -4,7 +4,7 @@ fi:
   activerecord:
     attributes:
       grids/grid:
-        page: "Page"
+        page: "sivu"
         row_count: "Number of rows"
         column_count: "Number of columns"
         widgets: "Widgets"

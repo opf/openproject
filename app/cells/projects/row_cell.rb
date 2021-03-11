@@ -123,7 +123,7 @@ module Projects
     def custom_field(name)
       table.project_custom_fields.fetch(name)
     end
-    
+
     def additional_css_class(column)
       case column
       when :name

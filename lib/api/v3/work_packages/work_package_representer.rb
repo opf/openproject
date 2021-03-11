@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -432,14 +432,18 @@ module API
                             representer: ::API::V3::Users::UserRepresenter
 
         associated_resource :responsible,
-                            getter: ::API::V3::Principals::AssociatedSubclassLambda.getter(:responsible),
+                            getter: ::API::V3::Principals::PrincipalRepresenterFactory
+                                      .create_getter_lambda(:responsible),
                             setter: PrincipalSetter.lambda(:responsible),
-                            link: ::API::V3::Principals::AssociatedSubclassLambda.link(:responsible)
+                            link: ::API::V3::Principals::PrincipalRepresenterFactory
+                                    .create_link_lambda(:responsible)
 
         associated_resource :assignee,
-                            getter: ::API::V3::Principals::AssociatedSubclassLambda.getter(:assigned_to),
+                            getter: ::API::V3::Principals::PrincipalRepresenterFactory
+                                      .create_getter_lambda(:assigned_to),
                             setter: PrincipalSetter.lambda(:assigned_to, :assignee),
-                            link: ::API::V3::Principals::AssociatedSubclassLambda.link(:assigned_to)
+                            link: ::API::V3::Principals::PrincipalRepresenterFactory
+                                    .create_link_lambda(:assigned_to)
 
         associated_resource :version,
                             v3_path: :version,

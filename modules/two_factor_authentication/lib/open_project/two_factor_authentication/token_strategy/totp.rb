@@ -1,9 +1,8 @@
 require 'rotp'
 
 module OpenProject::TwoFactorAuthentication
-module TokenStrategy
+  module TokenStrategy
     class Totp < Base
-
       def verify(input_token)
         result = device.verify_token input_token
 

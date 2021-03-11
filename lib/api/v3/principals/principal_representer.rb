@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -39,19 +39,10 @@ module API
         include API::Decorators::DateProperty
         include ::API::Caching::CachedRepresenter
 
-        def self.create(user, current_user:)
-          new(user, current_user: current_user)
-        end
-
-        def initialize(user, current_user:)
-          super(user, current_user: current_user)
-        end
-
         self_link
 
         link :memberships,
              cache_if: -> { current_user_allowed_to_see_members? } do
-
           filters = [
             {
               principal: {
@@ -88,8 +79,8 @@ module API
         end
 
         def current_user_allowed_to_see_members?
-          current_user.allowed_to?(:view_members, nil, global: true) ||
-            current_user.allowed_to?(:manage_members, nil, global: true)
+          current_user.allowed_to_globally?(:view_members) ||
+            current_user.allowed_to_globally?(:manage_members)
         end
       end
     end

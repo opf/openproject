@@ -69,7 +69,7 @@ If you click the dots on the lower right hand corner in a widget you can change 
 You can configure the view of a work package widget to have the information included that you need.
 
 <div class="glossary">
-**Work package** is a subset of a project that can be assigned to users for execution, such as Tasks, Bugs, User Storys, Milestones, and more. Work packages have a type, an ID and a subject and may have additional attributes, such as assignee, responsible, story points or target version. Work packages are displayed in a projects timeline (unless they are filtered out in the timeline configuration) - either as milestone or as phase. In order to use the work packages, the work package module has to be activated in the project settings.
+**Work package** is a subset of a project that can be assigned to users for execution, such as Tasks, Bugs, User Stories, Milestones, and more. Work packages have a type, an ID and a subject and may have additional attributes, such as assignee, responsible, story points or target version. Work packages are displayed in a projects timeline (unless they are filtered out in the timeline configuration) - either as milestone or as phase. In order to use the work packages, the work package module has to be activated in the project settings.
 </div>
 ​          
 

@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -54,16 +54,11 @@ describe "updating a cost report's cost type", type: :feature, js: true do
   it 'works' do
     report_page.visit!
     report_page.save(as: 'My Query', public: true)
-
+    SeleniumHubWaiter.wait
     report_page.switch_to_type cost_type.name
-
     click_on "Save"
 
     click_on "My Query"
-
-    option = all("[name=unit]").last
-
-    expect(option).to be_checked
-    expect(option.value).to eq cost_type.id.to_s
+    expect(page).to have_field(cost_type.name, checked: true)
   end
 end

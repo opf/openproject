@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -34,7 +34,6 @@ describe 'user self registration', type: :feature, js: true do
 
   context 'with "manual account activation"',
           with_settings: { self_registration: Setting::SelfRegistration.manual.to_s } do
-
     it 'allows self registration on login page (Regression #28076)' do
       visit signin_path
 
@@ -62,14 +61,13 @@ describe 'user self registration', type: :feature, js: true do
       within '.top-menu-items-right .menu_root' do
         click_link 'Sign in'
 
-        # Wait until click handler has been initialized
-        sleep(0.1)
-
+        SeleniumHubWaiter.wait
         click_link 'Create a new account'
       end
 
       # deliberately inserting a wrong password confirmation
       within '.registration-modal' do
+        SeleniumHubWaiter.wait
         fill_in 'Username', with: 'heidi'
         fill_in 'First name', with: 'Heidi'
         fill_in 'Last name', with: 'Switzerland'
@@ -87,6 +85,7 @@ describe 'user self registration', type: :feature, js: true do
       within '.registration-modal' do
         # Cannot use 'Password' here as the error message on 'Confirmation' is part of the label
         # and contains the string 'Password' as well
+        SeleniumHubWaiter.wait
         fill_in 'user_password', with: 'test123=321test'
         fill_in 'Confirmation', with: 'test123=321test'
 
@@ -96,7 +95,7 @@ describe 'user self registration', type: :feature, js: true do
       expect(page)
         .to have_content('Your account was created and is now pending administrator approval.')
 
-      registered_user = User.find_by(status: Principal::STATUSES[:registered])
+      registered_user = User.find_by(status: Principal.statuses[:registered])
 
       # Trying unsuccessfully to login
       login_with 'heidi', 'test123=321test'

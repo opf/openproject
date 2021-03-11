@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -39,20 +39,20 @@ describe 'Outgoing webhooks administration', type: :routing do
 
   it 'route to show' do
     expect(get('/admin/webhooks/1')).to route_to(controller: 'webhooks/outgoing/admin',
-                                                  action: 'show',
-                                                  webhook_id: '1')
+                                                 action: 'show',
+                                                 webhook_id: '1')
   end
 
   it 'route to edit' do
     expect(get('/admin/webhooks/1/edit')).to route_to(controller: 'webhooks/outgoing/admin',
-                                                                action: 'edit',
-                                                                webhook_id: '1')
+                                                      action: 'edit',
+                                                      webhook_id: '1')
   end
 
   it 'route to PUT update' do
     expect(put('/admin/webhooks/1')).to route_to(controller: 'webhooks/outgoing/admin',
-                                                              action: 'update',
-                                                              webhook_id: '1')
+                                                 action: 'update',
+                                                 webhook_id: '1')
   end
 
   it 'route to DELETE destroy' do

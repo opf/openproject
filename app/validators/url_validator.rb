@@ -14,9 +14,10 @@ class UrlValidator < ActiveModel::EachValidator
 
   def parse(value)
     url = URI.parse(value)
-  rescue => e
+  rescue StandardError => e
     nil
   end
+
   def allowed_protocols
     options.fetch(:allowed_protocols, %w(http https))
   end

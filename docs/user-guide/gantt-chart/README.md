@@ -9,7 +9,9 @@ keywords: gantt chart, timeline, project plan, gantchart
 
 # Gantt charts
 
-<div class="glossary">The **Gantt chart** in OpenProject displays the work packages in a timeline. You can collaboratively create and manage your project plan. Have your project timelines available for all team members and share up-to-date information with stakeholders. You can add start and finish date and adapt it with drag and drop in the Gantt chart. Also, you can add dependencies, predecessor or follower within the Gantt chart.</div>
+<div class="glossary">
+The **Gantt chart** in OpenProject displays the work packages in a timeline. You can collaboratively create and manage your project plan. Have your project timelines available for all team members and share up-to-date information with stakeholders. You can add start and finish dates and adapt it with drag and drop in the Gantt chart. Also, you can add dependencies, predecessor or follower within the Gantt chart.
+</div>
 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -18,7 +20,7 @@ keywords: gantt chart, timeline, project plan, gantchart
 | [Relations in the Gantt chart](#relations-in-the-gantt-chart) | Create and display dependencies in the Gantt chart.          |
 | [Understanding the colours and lines in the Gantt chart](#understanding-the-colours-and-lines-in-the-gantt-chart) | What do the clamps, lines and symbols in the Gantt chart mean? |
 | [Gantt chart configuration](#gantt-chart-configuration)      | How to configure the view of your Gantt chart, e.g. add labels? |
-| [Synchronize data between OpenProject and Excel](#synchronize-data-between-openproject-an-excel) | How to synchronize data from OpenProject to Excel?           |
+| [Synchronize data between OpenProject and Excel](#synchronize-data-between-openproject-and-excel) | How to synchronize data from OpenProject to Excel?           |
 | [Gantt chart views](#gantt-chart-views)                      | How to zoom in and out and activate the Zen mode?            |
 
 
@@ -47,7 +49,7 @@ To **change the order of an item** in the Gantt chart, click the **drag and drop
 ### How to change the duration of an element in the Gantt chart?
 
 To change the duration of a work package in the Gantt chart view, hover over the work package in the Gantt chart and use the little arrows on its ends to adjust the start date or finish date. This will shorten or prolong its duration.
-To move a work package on the time line just click on it and drag and drop it to the desired point of time. This will change its startd and finish date.
+To move a work package on the time line just click on it and drag and drop it to the desired point of time. This will change its start and finish date.
 
 ## Relations in the Gantt chart
 
@@ -67,14 +69,14 @@ Select the item to which you want to create a dependency. The precede and follow
 To find out about **how work packages behave**, when you move their predecessor or follower or change the date of a child work package please read our guide for the [Automatic and manual scheduling mode](scheduling).
 
 ## Understanding the colours and lines in the Gantt chart
+
 - A **blue line** connects two work packages, they are predecessor and follower.
 - The **vertical red dotted line** indicates today's date.
 - A **black clamp** indicates the duration from the start date of a work packages earliest starting child until the end date of a work packages latest ending child.
-- A **red clamp** indicates the same as the black clamp, with an important difference: The clamp turns red if the dates derived from the children are before or after the manually scheduled dates (of this parent work package). 
+- A **red clamp** indicates the same as the black clamp, with an important difference: The clamp turns red if the dates derived from the children are before or after the manually scheduled dates (of this parent work package).
   The clambs are black in case the derived dates are within the set dates (of this parent).
 - A **diamond symbol** stands for a milestone.
 - A **bar** stands for work packages like phases and tasks.
-
 
 
 
@@ -97,7 +99,7 @@ To export the data from your Gantt chart there are several possibilities:
 
 * [Export via the work package view](../work-packages/edit-work-package/#export-work-packages)
 * [Print (e.g. to PDF)](#how-to-print-a-gantt-chart)
-* [Synchronize data from OpenProject to Excel](#synchronize-data-from-OpenProject-to-Excel) <-> MS Project
+* [Synchronize data from OpenProject to Excel](#synchronize-data-between-OpenProject-and-Excel) <-> MS Project
 
 ### How to print a Gantt chart?
 
@@ -123,7 +125,7 @@ For other browsers, please simply follow the browser's printing instruction to o
 
 ## Synchronize data between OpenProject and Excel
 
-You can synchronize your work package data between OpenProject and Excel (two-way synchronization). By extension you could import MS Project files – by saving them as Excel files and importing them into OpenProject. You can download a free Excel synchronization template to do this.
+You can synchronize your work package data between OpenProject and Excel (two-way synchronization). By extension you could import MS Project files - by saving them as Excel files and importing them into OpenProject. You can download a free Excel synchronization template to do this.
 
 Follow our [Step by step guide how to synchronize your Excel Sheet with OpenProject](../integrations/Excel Synchronization).
 
@@ -146,3 +148,6 @@ Select the **auto zoom button** on top of the Gantt chart to have the best view 
 The zen mode gives you more space to focus on the tasks at hand. It's almost like activating the full screen view in your browser. To exit press the *Esc* key or click on the **zen mode** symbol again.
 
 ![image-20201007164653327](image-20201007164653327.png)
+
+
+

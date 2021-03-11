@@ -2,15 +2,14 @@ require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
 describe 'Generate 2FA backup codes', with_2fa_ee: true, type: :feature,
-         with_config: {:'2fa' => {active_strategies: [:developer]}},
-         js: true do
-  let(:user_password) {'bob!' * 4}
+                                      with_config: { '2fa': { active_strategies: [:developer] } },
+                                      js: true do
+  let(:user_password) { 'bob!' * 4 }
   let(:user) do
     FactoryBot.create(:user,
-                       login: 'bob',
-                       password: user_password,
-                       password_confirmation: user_password,
-    )
+                      login: 'bob',
+                      password: user_password,
+                      password_confirmation: user_password)
   end
   let(:dialog) { ::Components::PasswordConfirmationDialog.new }
 
@@ -45,4 +44,3 @@ describe 'Generate 2FA backup codes', with_2fa_ee: true, type: :feature,
     end
   end
 end
-

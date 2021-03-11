@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -28,14 +28,13 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe DocumentsMailer do
-
-  let(:user) {
+  let(:user) do
     FactoryBot.create(:user, firstname: 'Test', lastname: "User", mail: 'test@test.com')
-  }
+  end
   let(:project) { FactoryBot.create(:project, name: "TestProject") }
-  let(:document) {
-    FactoryBot.create(:document, project: project, description: "Test Description", title: "Test Title" )
-  }
+  let(:document) do
+    FactoryBot.create(:document, project: project, description: "Test Description", title: "Test Title")
+  end
   let(:mail) { DocumentsMailer.document_added(user, document) }
 
   describe "document added-mail" do
@@ -52,10 +51,5 @@ describe DocumentsMailer do
       expect(mail.body.encoded).to match(document.description)
       expect(mail.body.encoded).to match(document.title)
     end
-
   end
-
-
-
-
 end

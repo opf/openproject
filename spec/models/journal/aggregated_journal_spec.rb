@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -31,7 +31,7 @@
 require 'spec_helper'
 
 RSpec::Matchers.define :be_equivalent_to_journal do |expected|
-  ignored_attributes = [:notes_id, :notes_version]
+  ignored_attributes = %i[notes_id notes_version]
 
   match do |actual|
     expected_attributes = get_normalized_attributes expected
@@ -130,10 +130,10 @@ describe Journal::AggregatedJournal, type: :model do
       end
 
       it 'returns the single journal for both original journals' do
-        expect(described_class.containing_journal work_package.journals.first)
+        expect(described_class.containing_journal(work_package.journals.first))
           .to be_equivalent_to_journal subject.first
 
-        expect(described_class.containing_journal work_package.journals.second)
+        expect(described_class.containing_journal(work_package.journals.second))
           .to be_equivalent_to_journal subject.first
       end
 
@@ -173,15 +173,15 @@ describe Journal::AggregatedJournal, type: :model do
           end
 
           it 'returns the same aggregated journal for the first two originals' do
-            expect(described_class.containing_journal work_package.journals.first)
+            expect(described_class.containing_journal(work_package.journals.first))
               .to be_equivalent_to_journal subject.first
 
-            expect(described_class.containing_journal work_package.journals.second)
+            expect(described_class.containing_journal(work_package.journals.second))
               .to be_equivalent_to_journal subject.first
           end
 
           it 'returns a different aggregated journal for the last original' do
-            expect(described_class.containing_journal work_package.journals.last)
+            expect(described_class.containing_journal(work_package.journals.last))
               .to be_equivalent_to_journal subject.second
           end
         end

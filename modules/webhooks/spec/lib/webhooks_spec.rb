@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -26,8 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../spec_helper', __FILE__)
-
+require File.expand_path('../spec_helper', __dir__)
 
 describe OpenProject::Webhooks do
   describe '.register_hook' do
@@ -53,11 +52,10 @@ describe OpenProject::Webhooks do
   end
 
   describe '.unregister_hook' do
-    let(:probe) { lambda{} }
+    let(:probe) { lambda {} }
 
     before do
       OpenProject::Webhooks.register_hook('testhook2', &probe)
-
     end
 
     it 'should result in the hook no longer being found' do
@@ -65,5 +63,4 @@ describe OpenProject::Webhooks do
       expect(OpenProject::Webhooks.find('testhook2')).to be_nil
     end
   end
-
 end

@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -32,9 +32,9 @@ class RbStoriesController < RbApplicationController
   # This is a constant here because we will recruit it elsewhere to whitelist
   # attributes. This is necessary for now as we still directly use `attributes=`
   # in non-controller code.
-  PERMITTED_PARAMS = [:id, :status_id, :version_id,
-                      :story_points, :type_id, :subject, :author_id,
-                      :sprint_id]
+  PERMITTED_PARAMS = %i[id status_id version_id
+                        story_points type_id subject author_id
+                        sprint_id]
 
   def create
     call = Stories::CreateService

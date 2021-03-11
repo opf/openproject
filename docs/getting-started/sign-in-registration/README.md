@@ -109,9 +109,7 @@ You are then asked to enter you email address with which you have registered to 
 You will then receive an email with a link to reset your password.
 
 <div class="alert alert-info" role="alert">
-
-**Note**: If you have [signed-in with a Google account](#sign-in-with-a-google-account), your are not able to reset your password at this point.
-
+**Note**: If you have [signed-in with a Google account](#sign-in-with-a-google-account), you are not able to reset your password at this point.
 </div>
 
 ## Frequently asked questions (FAQ)

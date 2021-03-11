@@ -21,7 +21,7 @@ echo "create database assets; create user assets with encrypted password 'p4ssw0
 sleep 5
 
 # dump schema
-DATABASE_URL=postgres://assets:p4ssw0rd@127.0.0.1/assets RAILS_ENV=production bundle exec rake db:migrate db:schema:dump db:schema:cache:dump db:structure:dump
+DATABASE_URL=postgres://assets:p4ssw0rd@127.0.0.1/assets RAILS_ENV=production bundle exec rake db:migrate db:schema:dump db:schema:cache:dump
 
 # precompile assets
 DATABASE_URL=postgres://assets:p4ssw0rd@127.0.0.1/assets RAILS_ENV=production bundle exec rake assets:precompile

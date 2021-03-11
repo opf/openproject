@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -174,7 +174,7 @@ describe VersionsController, type: :controller do
 
     it { expect(response).to be_successful }
     it { expect(response).to render_template('show') }
-    it {assert_select 'h2', content: version2.name }
+    it { assert_select 'h2', content: version2.name }
 
     subject { assigns(:version) }
     it { is_expected.to eq(version2) }
@@ -191,7 +191,7 @@ describe VersionsController, type: :controller do
   end
 
   describe '#create' do
-    context 'with vaild attributes' do
+    context 'with valid attributes' do
       before do
         login_as(user)
         post :create, params: { project_id: project.id, version: { name: 'test_add_version' } }

@@ -2,7 +2,6 @@ class ModelReorganization < ActiveRecord::Migration[5.0]
   def self.up
     # Add devices table
     create_table "two_factor_authentication_devices" do |t|
-
       t.string "type"
 
       # Whether this is the default strategy
@@ -19,7 +18,7 @@ class ModelReorganization < ActiveRecord::Migration[5.0]
       t.string "phone_number",  null: true
 
       # User-given identifier for this device
-      t.string "identifier",  null: false
+      t.string "identifier", null: false
 
       # Default rails timestamps
       t.timestamps
@@ -69,7 +68,6 @@ class ModelReorganization < ActiveRecord::Migration[5.0]
         .where(active: true)
         .includes(:user)
         .find_each do |device|
-
         device.user.update_columns(unverified_phone: device.phone_number, default_otp_channel: device.channel)
       end
     end

@@ -8,7 +8,7 @@ module OpenProject::TwoFactorAuthentication
         active_strategies.detect { |s| s.supported_channels.include? channel.to_sym }
       end
 
-      #validate_configuration
+      # validate_configuration
       def validate_configuration!
         validate_active_strategies!
       end
@@ -134,7 +134,7 @@ module OpenProject::TwoFactorAuthentication
           totp: I18n.t("activerecord.models.two_factor_authentication/device/totp"),
           sns: I18n.t("activerecord.models.two_factor_authentication/device/sms"),
           restdt: I18n.t("activerecord.models.two_factor_authentication/device/restdt"),
-          message_bird: I18n.t("activerecord.models.two_factor_authentication/device/sms"),
+          message_bird: I18n.t("activerecord.models.two_factor_authentication/device/sms")
         }
       end
 

@@ -55,7 +55,7 @@ module OpenProject::TwoFactorAuthentication
       end
 
       def submit
-        aws_params = self.configuration_params.slice :region, :access_key_id, :secret_access_key
+        aws_params = configuration_params.slice :region, :access_key_id, :secret_access_key
         sns = ::Aws::SNS::Client.new aws_params
 
         sns.set_sms_attributes(
@@ -65,7 +65,7 @@ module OpenProject::TwoFactorAuthentication
             'DefaultSMSType' => 'Transactional',
 
             # Set sender ID name (may not be supported in all countries)
-            'DefaultSenderID' => self.configuration_params.fetch(:sender_id, 'OpenProject')
+            'DefaultSenderID' => configuration_params.fetch(:sender_id, 'OpenProject')
           }
         )
 
@@ -80,9 +80,11 @@ module OpenProject::TwoFactorAuthentication
         end
 
         raise result
-      rescue => e
-        Rails.logger.error { "[2FA] SNS delivery failed for user #{user.login} " \
-                            "(Error: #{e})" }
+      rescue StandardError => e
+        Rails.logger.error do
+          "[2FA] SNS delivery failed for user #{user.login} " \
+                            "(Error: #{e})"
+        end
 
         raise I18n.t('two_factor_authentication.sns.delivery_failed')
       end

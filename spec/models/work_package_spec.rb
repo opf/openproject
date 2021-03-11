@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -128,13 +128,9 @@ describe WorkPackage, type: :model do
       context 'group_assignment' do
         let(:group) { FactoryBot.create(:group) }
 
-        before do
-          allow(Setting).to receive(:work_package_group_assignment).and_return(true)
-        end
-
         subject do
           FactoryBot.create(:work_package,
-                             assigned_to: group).assigned_to
+                            assigned_to: group).assigned_to
         end
 
         it { is_expected.to eq(group) }
@@ -146,8 +142,8 @@ describe WorkPackage, type: :model do
     let(:user_2) { FactoryBot.create(:user, member_in_project: project) }
     let(:category) do
       FactoryBot.create(:category,
-                         project: project,
-                         assigned_to: user_2)
+                        project: project,
+                        assigned_to: user_2)
     end
 
     before do
@@ -158,34 +154,6 @@ describe WorkPackage, type: :model do
     subject { work_package.assigned_to }
 
     it { is_expected.to eq(category.assigned_to) }
-  end
-
-  describe '#assignable_assignees' do
-    let(:value) { double('value') }
-
-    before do
-      allow(stub_work_package.project).to receive(:possible_assignees).and_return(value)
-    end
-
-    subject { stub_work_package.assignable_assignees }
-
-    it 'calls project#possible_assignees and returns the value' do
-      is_expected.to eql(value)
-    end
-  end
-
-  describe '#assignable_responsibles' do
-    let(:value) { double('value') }
-
-    before do
-      allow(stub_work_package.project).to receive(:possible_responsibles).and_return(value)
-    end
-
-    subject { stub_work_package.assignable_responsibles }
-
-    it 'calls project#possible_responsibles and returns the value' do
-      is_expected.to eql(value)
-    end
   end
 
   describe 'responsible' do
@@ -199,9 +167,7 @@ describe WorkPackage, type: :model do
 
     subject { work_package.valid? }
 
-    context 'with assignable groups' do
-      before { allow(Setting).to receive(:work_package_group_assignment?).and_return(true) }
-
+    context 'with group assigned' do
       include_context 'assign group as responsible'
 
       it { is_expected.to be_truthy }
@@ -865,63 +831,6 @@ describe WorkPackage, type: :model do
       it 'should have a duration of one' do
         expect(work_package.duration).to eq(1)
       end
-    end
-  end
-
-  describe 'custom fields' do
-    let(:included_cf) { FactoryBot.build(:work_package_custom_field) }
-    let(:other_cf) { FactoryBot.build(:work_package_custom_field) }
-
-    before do
-      included_cf.save
-      other_cf.save
-
-      project.work_package_custom_fields << included_cf
-      type.custom_fields << included_cf
-    end
-
-    it 'says to respond to valid custom field accessors' do
-      expect(work_package.respond_to?(included_cf.accessor_name)).to be_truthy
-    end
-
-    it 'really responds to valid custom field accessors' do
-      expect(work_package.send(included_cf.accessor_name)).to eql(nil)
-    end
-
-    it 'says to not respond to foreign custom field accessors' do
-      expect(work_package.respond_to?(other_cf.accessor_name)).to be_falsey
-    end
-
-    it 'does really not respond to foreign custom field accessors' do
-      expect { work_package.send(other_cf.accessor_name) }.to raise_error(NoMethodError)
-    end
-
-    it 'should not duplicate error messages when invalid' do
-      cf1 = FactoryBot.create(:work_package_custom_field, is_required: true)
-      cf2 = FactoryBot.create(:work_package_custom_field, is_required: true)
-
-      # create work_package with one required custom field
-      work_package = FactoryBot.create :work_package
-      work_package.reload
-      work_package.project.work_package_custom_fields << cf1
-      work_package.type.custom_fields << cf1
-
-      # set that custom field with a value, should be fine
-      work_package.custom_field_values = { cf1.id => 'test' }
-      work_package.save!
-      work_package.reload
-
-      # now give the work_package another required custom field, but don't assign a value
-      work_package.project.work_package_custom_fields << cf2
-      work_package.type.custom_fields << cf2
-      work_package.custom_field_values # #custom_field_values needs to be touched
-
-      # that should not be valid
-      expect(work_package).not_to be_valid
-
-      # assert that there is only one error
-      expect(work_package.errors.size).to eq 1
-      expect(work_package.errors["custom_field_#{cf2.id}"].size).to eq 1
     end
   end
 

@@ -10,7 +10,7 @@ module OpenProject
         class DoorkeeperOAuth < ::Warden::Strategies::Base
           def valid?
             @token = ::Doorkeeper::OAuth::Token.authenticate(decorated_request, *Doorkeeper.configuration.access_token_methods)
-            @token&.accessible? && @token.acceptable?(scope)
+            @token&.accessible? && @token&.acceptable?(scope)
           end
 
           def authenticate!

@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -40,6 +41,7 @@ class AccountController < ApplicationController
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_action :check_if_login_required
 
+  before_action :apply_csp_appends, only: %i[login]
   before_action :disable_api
   before_action :check_auth_source_sso_failure, only: :auth_source_sso_failed
 
@@ -77,6 +79,7 @@ class AccountController < ApplicationController
     if params[:token]
       @token = ::Token::Recovery.find_by_plaintext_value(params[:token])
       redirect_to(home_url) && return unless @token and !@token.expired?
+
       @user = @token.user
       if request.post?
         call = ::Users::ChangePasswordService.new(current_user: @user, session: session).call(params)
@@ -105,7 +108,7 @@ class AccountController < ApplicationController
       end
 
       unless user.change_password_allowed?
-        # user uses an external authentification
+        # user uses an external authentication
         Rails.logger.error "Password cannot be changed for user: #{mail}"
         return
       end
@@ -116,7 +119,7 @@ class AccountController < ApplicationController
         UserMailer.password_lost(token).deliver_later
         flash[:notice] = I18n.t(:notice_account_lost_email_sent)
         redirect_to action: 'login', back_url: home_url
-        return
+        nil
       end
     end
   end
@@ -277,7 +280,7 @@ class AccountController < ApplicationController
     show_sso_error_for user
 
     flash.now[:error] = I18n.t(:error_auth_source_sso_failed, value: failure[:login]) +
-      ": " + String(flash.now[:error])
+                        ": " + String(flash.now[:error])
 
     render action: 'login', back_url: failure[:back_url]
   end
@@ -413,10 +416,13 @@ class AccountController < ApplicationController
           account_inactive(user, flash_now: true)
         elsif user.force_password_change
           return if redirect_if_password_change_not_allowed(user)
+
           render_password_change(user, I18n.t(:notice_account_new_password_forced), show_user_name: true)
         elsif user.password_expired?
           return if redirect_if_password_change_not_allowed(user)
-          render_password_change(user, I18n.t(:notice_account_password_expired, days: Setting.password_days_valid.to_i), show_user_name: true)
+
+          render_password_change(user, I18n.t(:notice_account_password_expired, days: Setting.password_days_valid.to_i),
+                                 show_user_name: true)
         else
           flash_and_log_invalid_credentials
         end
@@ -546,7 +552,7 @@ class AccountController < ApplicationController
     end
   end
 
-  def invited_account_not_activated(user)
+  def invited_account_not_activated(_user)
     flash_error_message(log_reason: 'invited, NOT ACTIVATED', flash_now: false) do
       'account.error_inactive_activation_by_mail'
     end
@@ -571,5 +577,12 @@ class AccountController < ApplicationController
     flash[:error] = I18n.t(:notice_account_invalid_token)
 
     redirect_to home_url
+  end
+
+  def apply_csp_appends
+    appends = flash[:_csp_appends]
+    return unless appends
+
+    append_content_security_policy_directives(appends)
   end
 end

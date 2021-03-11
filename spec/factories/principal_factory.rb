@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -33,6 +33,9 @@ FactoryBot.define do
       member_in_projects { nil }
       member_through_role { nil }
       member_with_permissions { nil }
+
+      global_role { nil }
+      global_permission { nil }
     end
 
     # necessary as we have created_on instead of created_at for which factory girl would
@@ -40,14 +43,29 @@ FactoryBot.define do
     created_at { Time.now }
     updated_at { Time.now }
 
-    callback(:after_build) do |user, evaluator| # this is also done after :create
+    callback(:after_build) do |principal, evaluator| # this is also done after :create
       (projects = evaluator.member_in_projects || [])
       projects << evaluator.member_in_project if evaluator.member_in_project
       if !projects.empty?
-        role = evaluator.member_through_role || FactoryBot.build(:role, permissions: evaluator.member_with_permissions || [:view_work_packages, :edit_work_packages])
+        role = evaluator.member_through_role || FactoryBot.build(:role,
+                                                                 permissions: evaluator.member_with_permissions || %i[
+                                                                   view_work_packages edit_work_packages
+                                                                 ])
         projects.each do |project|
-          project.add_member! user, role if project
+          project.add_member! principal, role if project
         end
+      end
+    end
+
+    callback(:after_create) do |principal, evaluator|
+      if evaluator.global_permission || evaluator.global_role
+        permissions = Array(evaluator.global_permission)
+        global_role = evaluator.global_role || FactoryBot.create(:global_role, permissions: permissions)
+
+        FactoryBot.create(:global_member,
+                          principal: principal,
+                          roles: [global_role])
+
       end
     end
   end

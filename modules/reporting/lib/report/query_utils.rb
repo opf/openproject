@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -42,6 +42,7 @@ module Report::QueryUtils
   # @return [Object] Quoted version
   def quote_string(str)
     return str unless str.respond_to? :to_str
+
     engine.reporting_connection.quote_string(str)
   end
 
@@ -111,6 +112,7 @@ module Report::QueryUtils
   # @return [String] The table name.
   def table_name_for(object)
     return object.table_name if object.respond_to? :table_name
+
     object.to_s.tableize
   end
 
@@ -133,6 +135,7 @@ module Report::QueryUtils
     return arg if arg.is_a? String and arg =~ /\.| |\(.*\)/
     return table_name_for(arg.first || default_table) + '.' << arg.last.to_s if arg.is_a? Array and arg.size == 2
     return arg.to_s unless default_table
+
     field_name_for [default_table, arg]
   end
 
@@ -155,14 +158,14 @@ module Report::QueryUtils
   # @param [Hash] options Condition => Result.
   # @return [String] Case statement.
   def switch(options)
-    desc = "#{__method__} #{options.inspect[1..-2]}".gsub(/(Cost|Time)Entry\([^\)]*\)/, '\1Entry')
+    desc = "#{__method__} #{options.inspect[1..-2]}".gsub(/(Cost|Time)Entry\([^)]*\)/, '\1Entry')
     options = options.with_indifferent_access
     else_part = options.delete :else
     "-- #{desc}\n\t" \
-    "CASE #{options.map { |k, v|
+    "CASE #{options.map do |k, v|
       "\n\t\tWHEN #{field_name_for k}\n\t\t" \
     "THEN #{field_name_for v}"
-    }.join(', ')}\n\t\tELSE #{field_name_for else_part}\n\tEND"
+    end.join(', ')}\n\t\tELSE #{field_name_for else_part}\n\tEND"
   end
 
   ##

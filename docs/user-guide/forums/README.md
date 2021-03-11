@@ -109,7 +109,7 @@ To unwatch a forum in order to not be informed via e-mail about new messages and
 
 ### Unwatch a message
 
-The same applys to **unwatch a message**. Just select the message first which you do not want to watch any longerand click the **Unwatch** button.
+The same applies to **unwatch a message**. Just select the message first which you do not want to watch any longerand click the **Unwatch** button.
 
 ## Edit a forum message
 
@@ -139,7 +139,7 @@ Enter a name and description for the new forum. Press the blue **Create** button
 
 ## Manage forums
 
-If you wan to change the order of the forums in your project, want to edit a forum, or delete a form, go to the -> *Forums* overview list in your project.
+If you want to change the order of the forums in your project, want to edit a forum, or delete a form, go to the -> *Forums* overview list in your project.
 
 1. Click the **arrows (up or down) to change the order** of the forums and sort them differently in the forum list in your project.
 2. Click the **edit icon to change the name or description** of your form.

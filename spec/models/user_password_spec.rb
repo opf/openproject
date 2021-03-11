@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -61,13 +61,13 @@ describe UserPassword, type: :model do
   end
 
   describe '#rehash_as_active' do
-    let(:password) {
+    let(:password) do
       pass = FactoryBot.build(:legacy_sha1_password, user: user, plain_password: 'adminAdmin!')
       expect(pass).to receive(:salt_and_hash_password!).and_return nil
 
       pass.save!
       pass
-    }
+    end
 
     before do
       password
@@ -76,9 +76,9 @@ describe UserPassword, type: :model do
 
     it 'rehashed the password when correct' do
       expect(user.current_password).to be_a(UserPassword::SHA1)
-      expect {
+      expect do
         password.matches_plaintext?('adminAdmin!')
-      }.to_not change { user.passwords.count }
+      end.to_not change { user.passwords.count }
 
       expect(user.current_password).to be_a(UserPassword::Bcrypt)
       expect(user.current_password.hashed_password).to start_with '$2a$'

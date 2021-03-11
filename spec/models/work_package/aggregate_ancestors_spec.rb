@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -35,38 +35,38 @@ describe WorkPackage::Ancestors, type: :model do
 
   let!(:root_work_package) do
     FactoryBot.create :work_package,
-                       project: project
+                      project: project
   end
 
   let!(:intermediate) do
     FactoryBot.create :work_package,
-                       parent: root_work_package,
-                       project: project
+                      parent: root_work_package,
+                      project: project
   end
   let!(:intermediate_project2) do
     FactoryBot.create :work_package,
-                       parent: root_work_package,
-                       project: project2
+                      parent: root_work_package,
+                      project: project2
   end
   let!(:leaf) do
     FactoryBot.create :work_package,
-                       parent: intermediate,
-                       project: project
+                      parent: intermediate,
+                      project: project
   end
   let!(:leaf_project2) do
     FactoryBot.create :work_package,
-                       parent: intermediate_project2,
-                       project: project
+                      parent: intermediate_project2,
+                      project: project
   end
 
   let(:view_role) do
     FactoryBot.build(:role,
-                      permissions: [:view_work_packages])
+                     permissions: [:view_work_packages])
   end
 
   let(:none_role) do
     FactoryBot.build(:role,
-                      permissions: [])
+                     permissions: [])
   end
 
   let(:leaf_ids) { [leaf.id, leaf_project2.id] }
@@ -82,9 +82,9 @@ describe WorkPackage::Ancestors, type: :model do
   context 'with permission in the first project' do
     before do
       FactoryBot.create :member,
-                         user: user,
-                         project: project,
-                         roles: [view_role]
+                        user: user,
+                        project: project,
+                        roles: [view_role]
     end
 
     describe 'fetching from db' do
@@ -120,9 +120,9 @@ describe WorkPackage::Ancestors, type: :model do
     context 'and permission in second project' do
       before do
         FactoryBot.create :member,
-                           user: user,
-                           project: project2,
-                           roles: [view_role]
+                          user: user,
+                          project: project2,
+                          roles: [view_role]
       end
 
       describe 'leaf ids' do
@@ -142,9 +142,9 @@ describe WorkPackage::Ancestors, type: :model do
   context 'no permissions' do
     before do
       FactoryBot.create :member,
-                         user: user,
-                         project: project,
-                         roles: [none_role]
+                        user: user,
+                        project: project,
+                        roles: [none_role]
     end
 
     describe 'leaf ids' do

@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -42,8 +43,8 @@ describe Member, type: :model do
   it 'should create' do
     member = Member.new.tap do |m|
       m.attributes = { project_id: @project.id,
-                             user_id: FactoryBot.create(:user).id,
-                             role_ids: [@role.id] }
+                       user_id: FactoryBot.create(:user).id,
+                       role_ids: [@role.id] }
     end
     assert member.save
     member.reload
@@ -66,30 +67,6 @@ describe Member, type: :model do
     @member.role_ids = [@role.id, FactoryBot.create(:role).id]
     assert @member.save
     assert_equal 2, @member.reload.roles.size
-  end
-
-  it 'should validate' do
-    members = []
-    user_id = FactoryBot.create(:user).id
-    2.times do
-      members << Member.new.tap do |m|
-        m.attributes = { project_id: @project.id,
-                               user_id: user_id,
-                               role_ids: [@role.id] }
-      end
-    end
-
-    assert members.first.save
-    # same user can't have more than one membership for a project
-    assert !members.last.save
-
-    member = Member.new.tap do |m|
-      m.attributes = { project_id: @project,
-                             user_id: FactoryBot.create(:user).id,
-                             role_ids: [] }
-    end
-    # must have one role at least
-    assert !member.save
   end
 
   it 'should destroy' do
@@ -122,7 +99,7 @@ describe Member, type: :model do
       Watcher.create!(watchable: FactoryBot.create(:wiki, project: @private_project), user: @watcher_user)
       @private_project.reload # to access @private_project.wiki
       Watcher.create!(watchable: FactoryBot.create(:wiki_page, wiki: @private_project.wiki), user: @watcher_user)
-      @private_role = FactoryBot.create :role, permissions: [:view_wiki_pages, :view_work_packages]
+      @private_role = FactoryBot.create :role, permissions: %i[view_wiki_pages view_work_packages]
 
       @private_project.public = false
       @private_project.save
@@ -132,8 +109,8 @@ describe Member, type: :model do
       before do
         (@member = Member.new.tap do |m|
           m.attributes = { project_id: @private_project.id,
-                                 user_id: @watcher_user.id,
-                                 role_ids: [@private_role.id, FactoryBot.create(:role).id] }
+                           user_id: @watcher_user.id,
+                           role_ids: [@private_role.id, FactoryBot.create(:role).id] }
         end).save!
       end
 
@@ -162,8 +139,8 @@ describe Member, type: :model do
         @group = FactoryBot.create :group, members: @watcher_user
         @member = (Member.new.tap do |m|
           m.attributes = { project_id: @private_project.id,
-                                 user_id: @group.id,
-                                 role_ids: [@private_role.id, FactoryBot.create(:role).id] }
+                           user_id: @group.id,
+                           role_ids: [@private_role.id, FactoryBot.create(:role).id] }
         end)
 
         @group.members << @member

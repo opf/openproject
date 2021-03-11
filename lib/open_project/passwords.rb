@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -41,8 +41,8 @@ module OpenProject
     module Evaluator
       RULES = { 'uppercase' => /.*[A-Z].*/u,
                 'lowercase' => /.*[a-z].*/u,
-                'special'   => /.*[^\da-zA-Z].*/u,
-                'numeric'   => /.*\d.*/u }
+                'special' => /.*[^\da-zA-Z].*/u,
+                'numeric' => /.*\d.*/u }
       # Check whether password conforms to password complexity settings.
       # Checks complexity rules and password length.
       def self.conforming?(password)
@@ -58,7 +58,7 @@ module OpenProject
         end
         unless password_long_enough(password)
           errors << I18n.t(:too_short,
-                           scope: [:activerecord, :errors, :messages],
+                           scope: %i[activerecord errors messages],
                            count: OpenProject::Passwords::Evaluator.min_length)
         end
         errors
@@ -114,8 +114,6 @@ module OpenProject
                count: OpenProject::Passwords::Evaluator.min_length)
       end
 
-      private
-
       # Returns the number of active rules password adheres to.
       def self.size_active_rules_adhered_by(password)
         active_rules.count do |name|
@@ -127,13 +125,13 @@ module OpenProject
       def self.active_rules_list
         active_rules.map do |rule|
           I18n.t(rule.to_sym,
-                 scope: [:activerecord, :errors, :models, :user, :attributes, :password])
+                 scope: %i[activerecord errors models user attributes password])
         end
       end
 
       def self.rules_description_locale(rules)
         I18n.t(:weak,
-               scope: [:activerecord, :errors, :models, :user, :attributes, :password],
+               scope: %i[activerecord errors models user attributes password],
                rules: rules,
                min_count: min_adhered_rules,
                all_count: active_rules.size)

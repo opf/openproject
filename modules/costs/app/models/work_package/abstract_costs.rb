@@ -1,7 +1,6 @@
 class WorkPackage
   class AbstractCosts
-    attr_reader :user
-    attr_reader :project
+    attr_reader :user, :project
 
     def initialize(user: User.current, project: nil)
       @user = user

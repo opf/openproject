@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -99,7 +100,7 @@ class SysController < ActionController::Base
     unless Setting.sys_api_enabled? && params[:key].to_s == Setting.sys_api_key
       render plain: 'Access denied. Repository management WS is disabled or key is invalid.',
              status: 403
-      return false
+      false
     end
   end
 
@@ -125,6 +126,7 @@ class SysController < ActionController::Base
       render plain: "Project ##{@project.id} does not have a repository.", status: 404
     else
       return true if @repository.scm.storage_available?
+
       render plain: 'repositories.storage.not_available', status: 400
     end
 
@@ -150,12 +152,13 @@ class SysController < ActionController::Base
     unless Setting.repository_authentication_caching_enabled?
       return user_login(username, password)
     end
+
     user = nil
     user_id = Rails.cache.fetch(OpenProject::RepositoryAuthentication::CACHE_PREFIX + Digest::SHA1.hexdigest("#{username}#{password}"),
-                                expires_in: OpenProject::RepositoryAuthentication::CACHE_EXPIRES_AFTER) {
+                                expires_in: OpenProject::RepositoryAuthentication::CACHE_EXPIRES_AFTER) do
       user = user_login(username, password)
       user ? user.id.to_s : '-1'
-    }
+    end
 
     return nil if user_id.blank? or user_id == '-1'
 

@@ -17,8 +17,8 @@ module LdapGroups
 
       def headers
         [
-            ['user', caption: ::LdapGroups::Membership.human_attribute_name('user')],
-            ['added', caption: ::LdapGroups::Membership.human_attribute_name('created_at')]
+          ['user', { caption: ::LdapGroups::Membership.human_attribute_name('user') }],
+          ['added', { caption: ::LdapGroups::Membership.human_attribute_name('created_at') }]
         ]
       end
     end

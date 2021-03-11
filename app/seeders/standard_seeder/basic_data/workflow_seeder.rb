@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -50,13 +50,17 @@ module StandardSeeder
         rejected         = Status.find_by(name: I18n.t(:default_status_rejected))
 
         {
-          types[I18n.t(:default_type_task)]       => [new, in_progress, on_hold, rejected, closed],
-          types[I18n.t(:default_type_milestone)]  => [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
-          types[I18n.t(:default_type_phase)]      => [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
-          types[I18n.t(:default_type_feature)]    => [new, in_specification, specified, in_progress, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
-          types[I18n.t(:default_type_epic)]       => [new, in_specification, specified, in_progress, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
-          types[I18n.t(:default_type_user_story)] => [new, in_specification, specified, in_progress, developed, in_testing, tested, test_failed, on_hold, rejected, closed],
-          types[I18n.t(:default_type_bug)]        => [new, confirmed, in_progress, developed, in_testing, tested, test_failed, on_hold, rejected, closed]
+          types[I18n.t(:default_type_task)] => [new, in_progress, on_hold, rejected, closed],
+          types[I18n.t(:default_type_milestone)] => [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
+          types[I18n.t(:default_type_phase)] => [new, to_be_scheduled, scheduled, in_progress, on_hold, rejected, closed],
+          types[I18n.t(:default_type_feature)] => [new, in_specification, specified, in_progress, developed, in_testing,
+                                                   tested, test_failed, on_hold, rejected, closed],
+          types[I18n.t(:default_type_epic)] => [new, in_specification, specified, in_progress, developed, in_testing,
+                                                tested, test_failed, on_hold, rejected, closed],
+          types[I18n.t(:default_type_user_story)] => [new, in_specification, specified, in_progress, developed, in_testing,
+                                                      tested, test_failed, on_hold, rejected, closed],
+          types[I18n.t(:default_type_bug)] => [new, confirmed, in_progress, developed, in_testing, tested, test_failed,
+                                               on_hold, rejected, closed]
         }
       end
 

@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -52,17 +52,20 @@ class Queries::WorkPackages::Filter::PrincipalLoader
   end
 
   def principal_values
-    if project
-      project.principals.sort
-    else
-      user_or_principal = Setting.work_package_group_assignment? ? Principal : User
-      user_or_principal.active_or_registered.in_visible_project.sort
-    end
+    @options ||= principals.map { |s| [s.name, s.id.to_s] }.sort
   end
 
   private
 
+  def principals
+    if project
+      project.principals.sort
+    else
+      Principal.not_locked.in_visible_project.sort
+    end
+  end
+
   def principals_by_class
-    @principals_by_class ||= principal_values.group_by(&:class)
+    @principals_by_class ||= principals.group_by(&:class)
   end
 end

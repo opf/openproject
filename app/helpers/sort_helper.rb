@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -125,12 +126,17 @@ module SortHelper
         .compact
     end
 
-    def map_each
-      to_a.map { |criteria| yield criteria }
+    def to_query_hash
+      criteria_with_direction
+        .to_h
+    end
+
+    def map_each(&block)
+      to_a.map(&block)
     end
 
     def add!(key, asc)
-      @criteria.delete_if do |k, _o| k == key end
+      @criteria.delete_if { |k, _o| k == key }
       @criteria = [[key, asc]] + @criteria
       normalize!
     end
@@ -157,10 +163,10 @@ module SortHelper
 
     def normalize!
       @criteria ||= []
-      @criteria = @criteria.map { |s|
+      @criteria = @criteria.map do |s|
         s = s.to_a
         [s.first, !(s.last == false || s.last == 'desc')]
-      }
+      end
 
       if @available_criteria
         @criteria = @criteria.select { |k, _o| @available_criteria.has_key?(k) }
@@ -188,7 +194,11 @@ module SortHelper
     end
 
     def to_json_param
-      JSON::dump(@criteria.map { |k, o| [k, o ? 'asc' : 'desc'] })
+      JSON::dump(criteria_with_direction)
+    end
+
+    def criteria_with_direction
+      @criteria.map { |k, o| [k, o ? :asc : :desc] }
     end
 
     def to_sort_param
@@ -331,13 +341,11 @@ module SortHelper
     end
   end
 
-  def within_sort_header_tag_hierarchy(options, classes)
+  def within_sort_header_tag_hierarchy(options, classes, &block)
     content_tag 'th', options do
       content_tag 'div', class: 'generic-table--sort-header-outer' do
         content_tag 'div', class: 'generic-table--sort-header' do
-          content_tag 'span', class: classes do
-            yield
-          end
+          content_tag 'span', class: classes, &block
         end
       end
     end

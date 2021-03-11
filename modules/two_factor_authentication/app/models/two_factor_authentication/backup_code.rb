@@ -3,7 +3,6 @@ require_dependency 'token/hashed_token'
 module TwoFactorAuthentication
   class BackupCode < ::Token::HashedToken
     class << self
-
       def regenerate!(user)
         backup_codes = []
 

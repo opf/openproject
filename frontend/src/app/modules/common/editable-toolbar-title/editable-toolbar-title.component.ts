@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2020 the OpenProject GmbH
+// Copyright (C) 2012-2021 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -67,7 +67,7 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   public selectableTitleIdentifier = selectableTitleIdentifier;
 
   @InjectField() protected readonly elementRef:ElementRef;
-  @InjectField() protected readonly I18n:I18nService;
+  @InjectField() I18n!:I18nService;
 
   public text = {
     click_to_edit: this.I18n.t('js.work_packages.query.click_to_edit_query_name'),

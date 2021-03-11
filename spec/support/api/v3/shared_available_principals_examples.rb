@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -32,10 +32,14 @@ shared_examples_for 'available principals' do |principals|
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_through_role: role)
   end
   let(:other_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_through_role: role)
   end
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:project) { FactoryBot.create(:project) }
@@ -44,6 +48,11 @@ shared_examples_for 'available principals' do |principals|
     project.add_member! group, FactoryBot.create(:role)
     group
   end
+  let(:placeholder_user) do
+    FactoryBot.create(:placeholder_user,
+                      member_in_project: project,
+                      member_through_role: role)
+  end
   let(:permissions) { [:view_work_packages] }
 
   shared_context "request available #{principals}" do
@@ -51,7 +60,7 @@ shared_examples_for 'available principals' do |principals|
   end
 
   before do
-    allow(User).to receive(:current).and_return(current_user)
+    login_as(current_user)
   end
 
   describe 'response' do
@@ -81,23 +90,15 @@ shared_examples_for 'available principals' do |principals|
     describe 'groups' do
       let!(:users) { [group] }
 
-      context 'with work_package_group_assignment' do
-        before do
-          allow(Setting).to receive(:work_package_group_assignment?).and_return(true)
-        end
+      # current user and group
+      it_behaves_like "returns available #{principals}", 2, 2, 'Group'
+    end
 
-        # current user and group
-        it_behaves_like "returns available #{principals}", 2, 2, 'Group'
-      end
+    describe 'placeholder users' do
+      let!(:users) { [placeholder_user] }
 
-      context 'without work_package_group_assignment' do
-        before do
-          allow(Setting).to receive(:work_package_group_assignment?).and_return(false)
-        end
-
-        # Only the current user
-        it_behaves_like "returns available #{principals}", 1, 1, 'User'
-      end
+      # current user and placeholder user
+      it_behaves_like "returns available #{principals}", 2, 2, 'PlaceholderUser'
     end
   end
 

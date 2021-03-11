@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -348,7 +348,12 @@ describe OpenProject::TextFormatting,
             let(:expected) do
               <<~EXPECTED
                 <p class="op-uc-p">
-                  Link to <span title="Group #{linked_project_member_group.name}" class="user-mention">#{linked_project_member_group.name}</span>
+                  Link to
+                  <a class="user-mention op-uc-link"
+                     href="/groups/#{linked_project_member_group.id}"
+                     title="Group #{linked_project_member_group.name}">
+                    #{linked_project_member_group.name}
+                  </a>
                 </p>
               EXPECTED
             end
@@ -389,10 +394,11 @@ describe OpenProject::TextFormatting,
             let(:expected) do
               <<~EXPECTED
                 <p class="op-uc-p">
-                  <span class='user-mention'
-                        title='Group #{linked_project_member_group.name}'>
+                  <a class="user-mention op-uc-link"
+                     href="/groups/#{linked_project_member_group.id}"
+                     title="Group #{linked_project_member_group.name}">
                     #{linked_project_member_group.name}
-                  </span>
+                  </a>
                 </p>
               EXPECTED
             end

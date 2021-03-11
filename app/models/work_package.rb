@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -117,10 +117,10 @@ class WorkPackage < ApplicationRecord
     where(author_id: author.id)
   }
 
-  scope_classes WorkPackages::Scopes::ForScheduling,
-                WorkPackages::Scopes::IncludeSpentTime,
-                WorkPackages::Scopes::IncludeDerivedDates,
-                WorkPackages::Scopes::LeftJoinSelfAndDescendants
+  scopes :for_scheduling,
+         :include_derived_dates,
+         :include_spent_time,
+         :left_join_self_and_descendants
 
   acts_as_watchable
 
@@ -216,7 +216,7 @@ class WorkPackage < ApplicationRecord
   def visible_relations(user)
     # This duplicates chaining
     #  .relations.visible
-    # The duplication is made necessary to achive a performant sql query on MySQL.
+    # The duplication is made necessary to achieve a performant sql query on MySQL.
     # Chaining would result in
     #   WHERE (relations.from_id = [ID] OR relations.to_id = [ID])
     #   AND relations.from_id IN (SELECT [IDs OF VISIBLE WORK_PACKAGES])
@@ -252,16 +252,6 @@ class WorkPackage < ApplicationRecord
       work_package: self
     )
     time_entries.build(attributes)
-  end
-
-  # Users/groups the work_package can be assigned to
-  def assignable_assignees
-    project.possible_assignees
-  end
-
-  # Users the work_package can be assigned to
-  def assignable_responsibles
-    project.possible_responsibles
   end
 
   # Versions that the work_package can be assigned to
@@ -364,6 +354,7 @@ class WorkPackage < ApplicationRecord
   # Overrides attributes= so that type_id gets assigned first
   def attributes=(new_attributes)
     return if new_attributes.nil?
+
     new_type_id = new_attributes['type_id'] || new_attributes[:type_id]
     if new_type_id
       self.type_id = new_type_id
@@ -383,6 +374,7 @@ class WorkPackage < ApplicationRecord
   # Is the amount of work done less than it should for the finish date
   def behind_schedule?
     return false if start_date.nil? || due_date.nil?
+
     done_date = start_date + (duration * done_ratio / 100).floor
     done_date <= Date.today
   end
@@ -693,9 +685,10 @@ class WorkPackage < ApplicationRecord
     related = [author]
 
     [responsible, assigned_to].each do |user|
-      if user.is_a?(Group)
+      case user
+      when Group
         related += user.users
-      else
+      when User
         related << user
       end
     end

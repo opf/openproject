@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -54,7 +54,6 @@ describe 'adding a new budget', type: :feature, js: true do
     let!(:cost_type_2) do
       FactoryBot.create :cost_type, name: 'Foobar', unit: 'bar', unit_plural: 'bars'
     end
-
 
     it 'can switch between them' do
       visit projects_budgets_path(project)
@@ -137,14 +136,12 @@ describe 'adding a new budget', type: :feature, js: true do
         budget_page.expect_planned_costs! type: :labor, row: 1, expected: '125.002,50 EUR'
         budget_page.expect_planned_costs! type: :labor, row: 2, expected: '12,50 EUR'
 
-
         fields = page
           .all('input.budget-item-value')
           .select { |node| node.value.present? }
           .map(&:value)
 
         expect(fields).to contain_exactly '3,50', '1.000,50', '5.000,10', '0,50'
-
       end
     end
 

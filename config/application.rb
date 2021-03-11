@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -34,7 +35,10 @@ require 'active_support'
 require 'active_support/dependencies'
 require 'core_extensions'
 
-ActiveSupport::Deprecation.silenced = Rails.env.production? && !ENV['OPENPROJECT_SHOW_DEPRECATIONS']
+# Silence deprecations early on for testing on CI and production
+ActiveSupport::Deprecation.silenced =
+  (Rails.env.production? && !ENV['OPENPROJECT_SHOW_DEPRECATIONS']) ||
+  (Rails.env.test? && ENV['CI'])
 
 if defined?(Bundler)
   # lib directory has to be added to the load path so that
@@ -44,7 +48,7 @@ if defined?(Bundler)
   #
   # require 'open_project/plugins'
   #
-  # to ensure the code to be loaded. So we provide a compaibility
+  # to ensure the code to be loaded. So we provide a compatibility
   # layer here. One might remove this later.
   $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
   require 'open_project/plugins'

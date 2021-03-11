@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -35,7 +35,6 @@ module OpenProject::Documents
     register 'openproject-documents',
              author_url: "http://www.openproject.com",
              bundled: true do
-
       menu :project_menu,
            :documents,
            { controller: '/documents', action: 'index' },
@@ -45,10 +44,10 @@ module OpenProject::Documents
            icon: 'icon2 icon-notes'
 
       project_module :documents do |_map|
-        permission :view_documents, documents: [:index, :show, :download]
+        permission :view_documents, documents: %i[index show download]
         permission :manage_documents, {
-          documents: [:new, :create, :edit, :update, :destroy, :add_attachment]
-          }, require: :loggedin
+          documents: %i[new create edit update destroy add_attachment]
+        }, require: :loggedin
       end
 
       Redmine::Notifiable.all << Redmine::Notifiable.new('document_added')
@@ -58,7 +57,7 @@ module OpenProject::Documents
 
     activity_provider :documents, class_name: 'Activities::DocumentActivityProvider', default: false
 
-    patches [:CustomFieldsHelper, :Project]
+    patches %i[CustomFieldsHelper Project]
 
     add_api_path :documents do
       "#{root}/documents"

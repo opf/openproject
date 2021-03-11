@@ -22,7 +22,7 @@ module OpenProject::Bim::BcfXml
     # Initial markup file as basic BCF compliant xml
     def build_markup_document
       Nokogiri::XML::Builder
-        .new(:encoding => 'UTF-8') do |xml|
+        .new(encoding: 'UTF-8') do |xml|
           xml.comment created_by_comment
           xml.send(root_node,
                    "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",

@@ -1,10 +1,10 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2020 the OpenProject GmbH
+#Copyright (C) 2012-2021 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
@@ -78,7 +78,7 @@ cs:
     is_active: aktuálně zobrazené
     is_inactive: v současné době nejsou zobrazeny
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'V tomto zobrazení můžete vytvořit vlastní nápovědné texty pro zobrazení atributů. Pokud je definováno, mohou být tyto texty zobrazeny klepnutím na ikonu nápovědy vedle jejího atributu.'
     label_plural: 'Texty nápovědy atributu'
     show_preview: 'Náhled textu'
@@ -122,9 +122,6 @@ cs:
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Šifrování připojení'
     system_account: 'Systémový účet'
     system_account_legend: |
@@ -195,7 +192,7 @@ cs:
       Zadejte seznam názvů, které budou ignorovány při zpracování příloh pro příchozí poštu (např. podpisy nebo ikony). Zadejte jeden název souboru na řádek.
   projects:
     delete:
-      scheduled: "Odstranění bylo naplánováno a je dokončeno na pozadí. Výsledek vám bude oznámen."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Projekt nelze odstranit: %{errors}"
       failed: "Smazání projektu %{name} selhalo"
       failed_text: "Požadavek na smazání projektu %{name} se nezdařil. Projekt zůstal archivován."
@@ -243,6 +240,14 @@ cs:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Tento uživatel není v současné době členem projektu.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -523,6 +528,7 @@ cs:
         confirmation: "neshoduje se s %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "neexistuje."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         empty: "nemůže být prázdné."
@@ -538,6 +544,7 @@ cs:
         invalid_url: 'není platná adresa URL.'
         invalid_url_scheme: 'není podporovaný protokol (povoleny: %{allowed_schemes}).'
         less_than_or_equal_to: "musí být menší než nebo rovno %{count}."
+        not_deletable: "cannot be deleted."
         not_current_user: "není aktuální uživatel."
         not_a_date: "není platné datum."
         not_a_datetime: "není platný čas."
@@ -726,6 +733,7 @@ cs:
       status: "Stav pracovního balíčku"
       member: "Člen"
       news: "Novinky"
+      placeholder_user: "Placeholder user"
       project: "Projekt"
       query: "Vlastní dotaz"
       role:
@@ -1162,7 +1170,7 @@ cs:
   error_menu_item_not_saved: Menu item could not be saved
   error_wiki_root_menu_item_conflict: >
     Nelze přejmenovat "%{old_name}" na "%{new_name}" kvůli konfliktu výsledné položky nabídky s existující položkou nabídky "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Vyskytla sa chyba během externí autentifikace. Prosím zkuste to znova."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Atribut není zvýrazněn: %{attributes}"
   events:
     project: 'Projekt upraven'
@@ -1363,6 +1371,7 @@ cs:
   label_custom_field_plural: "Vlastní pole"
   label_custom_field_default_type: "Prázdný typ"
   label_custom_style: "Design"
+  label_database_version: "PostgreSQL version"
   label_date: "Datum"
   label_date_and_time: "Datum a čas"
   label_date_from: "Od"
@@ -1521,6 +1530,7 @@ cs:
   label_my_account_data: "Data mého účtu"
   label_my_projects: "Moje projekty"
   label_my_queries: "Moje vlastní dotazy"
+  label_name: "Jméno"
   label_never: "Nikdy"
   label_new: "Nové"
   label_new_features: "Nové funkce"
@@ -1570,6 +1580,9 @@ cs:
   label_permissions: "Práva"
   label_permissions_report: "Přehled oprávnění"
   label_personalize_page: "Přizpůsobit tuto stránku"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Plánování"
   label_please_login: "Přihlaste se prosím"
   label_plugins: "Pluginy"
@@ -1768,28 +1781,28 @@ cs:
   label_workflow_summary: "Souhrn"
   label_x_closed_work_packages_abbr:
     zero: "0 uzavřeno"
-    one: "1 uzavřen"
-    few: "%{count} uzavřeny"
-    many: "%{count} uzavřeny"
-    other: "%{count} uzavřeny"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_x_comments:
     zero: "žádné komentáře"
-    one: "1 komentář"
-    few: "%{count} komentářů"
-    many: "%{count} komentářů"
-    other: "%{count} komentářů"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_x_open_work_packages_abbr:
     zero: "0 otevřených"
-    one: "1 otevřený"
-    few: "%{count} otevřených"
-    many: "%{count} otevřených"
-    other: "%{count} otevřených"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_x_projects:
     zero: "Žádné projekty"
-    one: "1 projekt"
-    few: "%{count} projektů"
-    many: "%{count} projektů"
-    other: "%{count} projektů"
+    one: ""
+    few: ""
+    many: ""
+    other: ""
   label_yesterday: "včera"
   label_role_type: "Typ"
   label_member_role: "Projektová role"
@@ -1886,6 +1899,7 @@ cs:
   notice_email_sent: "Email zaslán na %{value}"
   notice_failed_to_save_work_packages: "Nepodařilo se uložit %{count} pracovních balíčků z %{total} vybraných: %{ids}."
   notice_failed_to_save_members: "Nepodařilo se uložit člena(y): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Stránka, kterou se snažíte získat přístup, neexistuje nebo byla odstraněna."
   notice_forced_logout: "Byli jste automaticky odhlášeni po %{ttl_time} minutách nečinnosti."
   notice_internal_server_error: "Nastala chyba na stránce, ke které se pokoušíte přistoupit. Pokud přetrváváte problémy, obraťte se na správce %{app_title}."
@@ -1951,6 +1965,8 @@ cs:
   permission_add_work_packages: "Přidat pracovní balíčky"
   permission_add_messages: "Odesílat zprávy"
   permission_add_project: "Vytvořit projekt"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Vytvořit podprojekty"
   permission_add_work_package_watchers: "Přidat sledující"
   permission_assign_versions: "Přiřadit verze"
@@ -2152,7 +2168,7 @@ cs:
       username: "Uživatelské jméno repositáře"
     truncated: "Omlouváme se, museli jsme zredukovat tento adresář na %{limit} soubory. %{truncated} položek bylo ze seznamu vynecháno."
     named_repository: "%{vendor_name} repozitář"
-    update_settings_successful: "Nastavení bylo úspěšně uloženo."
+    update_settings_successful: "The settings have been successfully saved."
     url: "URL do repozitáře"
     warnings:
       cannot_annotate: "Tento soubor nelze přiřadit poznámce."
@@ -2270,7 +2286,6 @@ cs:
   setting_welcome_text: "Text uvítacího bloku"
   setting_welcome_title: "Název uvítacího bloku"
   setting_welcome_on_homescreen: "Zobrazit uvítací blok na domovské obrazovce"
-  setting_work_package_group_assignment: "Povolit přiřazení do skupin"
   setting_work_package_list_default_highlighting_mode: "Výchozí režim zvýraznění"
   setting_work_package_list_default_highlighted_attributes: "Výchozí inline zvýrazněné atributy"
   settings:

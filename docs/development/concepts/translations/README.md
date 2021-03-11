@@ -6,7 +6,7 @@ robots: index, follow
 keywords: translations, I18n, localization, locales, languages
 ---
 
-# Development Concept: Translations
+# Development concept: Translations
 
 OpenProject is currently being translated in over 40 languages. We use a cloud translation service called [Crowdin](https://crowdin.com/project/openproject) for allowing the community and professional translators to contribute translations to OpenProject.
 

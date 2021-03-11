@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -32,33 +32,32 @@ require 'spec_helper'
 
 describe 'Wysiwyg child pages spec',
          type: :feature, js: true do
-
-  let(:project) {
+  let(:project) do
     FactoryBot.create :project,
                       enabled_module_names: %w[wiki]
-  }
+  end
   let(:role) { FactoryBot.create(:role, permissions: %i[view_wiki_pages edit_wiki_pages]) }
-  let(:user) {
+  let(:user) do
     FactoryBot.create(:user, member_in_project: project, member_through_role: role)
-  }
+  end
 
-  let(:wiki_page) {
+  let(:wiki_page) do
     FactoryBot.create :wiki_page,
                       title: 'Test',
                       content: FactoryBot.build(:wiki_content, text: '# My page')
-  }
+  end
 
-  let(:parent_page) {
+  let(:parent_page) do
     FactoryBot.create :wiki_page,
                       title: 'Parent page',
                       content: FactoryBot.build(:wiki_content, text: '# parent page')
-  }
+  end
 
-  let(:child_page) {
+  let(:child_page) do
     FactoryBot.create :wiki_page,
                       title: 'Child page',
                       content: FactoryBot.build(:wiki_content, text: '# child page')
-  }
+  end
 
   before do
     login_as(user)
@@ -70,7 +69,6 @@ describe 'Wysiwyg child pages spec',
     child_page.save!
     project.wiki.save!
   end
-
 
   let(:editor) { ::Components::WysiwygEditor.new }
 
@@ -129,6 +127,7 @@ describe 'Wysiwyg child pages spec',
           expect(page).not_to have_selector('.pages-hierarchy', text: 'Parent page')
           expect(page).to have_selector('h1', text: 'My page')
 
+          SeleniumHubWaiter.wait
           find('.toolbar .icon-edit').click
         end
 
@@ -161,9 +160,9 @@ describe 'Wysiwyg child pages spec',
           expect(page).to have_selector('.pages-hierarchy', text: 'Parent page')
           expect(page).to have_selector('h1', text: 'My page')
 
+          SeleniumHubWaiter.wait
           find('.toolbar .icon-edit').click
         end
-
       end
     end
   end

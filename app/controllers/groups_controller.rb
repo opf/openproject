@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -33,7 +34,7 @@ class GroupsController < ApplicationController
 
   helper_method :gon
 
-  before_action :require_admin
+  before_action :require_admin, except: %i[show]
   before_action :find_group, only: %i[destroy show create_memberships destroy_membership
                                       edit_membership add_users]
 
@@ -44,7 +45,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  do render xml: @groups end
+      format.xml { render xml: @groups }
     end
   end
 
@@ -52,8 +53,11 @@ class GroupsController < ApplicationController
   # GET /groups/1.xml
   def show
     respond_to do |format|
-      format.html # show.html.erb
-      format.xml  do render xml: @group end
+      format.html do
+        @group_users = group_members
+        render layout: 'no_menu'
+      end
+      format.xml { render xml: @group }
     end
   end
 
@@ -64,7 +68,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  do render xml: @group end
+      format.xml  { render xml: @group }
     end
   end
 
@@ -83,11 +87,11 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.save
         flash[:notice] = I18n.t(:notice_successful_create)
-        format.html do redirect_to(groups_path) end
-        format.xml  do render xml: @group, status: :created, location: @group end
+        format.html { redirect_to(groups_path) }
+        format.xml  { render xml: @group, status: :created, location: @group }
       else
-        format.html do render action: 'new' end
-        format.xml  do render xml: @group.errors, status: :unprocessable_entity end
+        format.html { render action: :new }
+        format.xml  { render xml: @group.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -100,11 +104,11 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.update(permitted_params.group)
         flash[:notice] = I18n.t(:notice_successful_update)
-        format.html do redirect_to(groups_path) end
-        format.xml  do head :ok end
+        format.html { redirect_to(groups_path) }
+        format.xml  { head :ok }
       else
-        format.html do render action: 'edit' end
-        format.xml  do render xml: @group.errors, status: :unprocessable_entity end
+        format.html { render action: 'edit' }
+        format.xml  { render xml: @group.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -112,12 +116,14 @@ class GroupsController < ApplicationController
   # DELETE /groups/1
   # DELETE /groups/1.xml
   def destroy
-    @group.destroy
+    ::Principals::DeleteJob.perform_later(@group)
 
     respond_to do |format|
-      flash[:notice] = I18n.t(:notice_successful_delete)
-      format.html do redirect_to(groups_url) end
-      format.xml  do head :ok end
+      format.html do
+        flash[:info] = I18n.t(:notice_deletion_scheduled)
+        redirect_to(action: :index)
+      end
+      format.xml { head 202 }
     end
   end
 
@@ -181,8 +187,21 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
   end
 
+  def group_members
+    if visible_group_members?
+      @group.users
+    else
+      User.none
+    end
+  end
+
+  def visible_group_members?
+    current_user.allowed_to_globally?(:manage_members) ||
+      Group.in_project(Project.allowed_to(current_user, :view_members)).exists?
+  end
+
   def default_breadcrumb
-    if action_name == 'index'
+    if action_name == 'index' || !current_user.admin?
       t('label_group_plural')
     else
       ActionController::Base.helpers.link_to(t('label_group_plural'), groups_path)

@@ -4,8 +4,8 @@ import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
-import {interval, Observable, timer} from "rxjs";
-import {map, switchMap, takeUntil, takeWhile} from "rxjs/operators";
+import {Observable, timer} from "rxjs";
+import {switchMap, takeWhile} from "rxjs/operators";
 import {
   LoadingIndicatorService,
   withDelayedLoadingIndicator
@@ -151,11 +151,20 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
     }
   }
 
-  private handleDownload(downloadUrl?:string) {
-    if (downloadUrl !== undefined) {
-      this.downloadHref = downloadUrl;
-      // Click download link manually
-      setTimeout(() => this.downloadLink.nativeElement.click(), 50);
+  private handleDownload(redirectionUrl?:string) {
+    if (redirectionUrl !== undefined) {
+      // Get the file url from the redirectionUrl
+      this.httpClient
+        .get(redirectionUrl, {
+          observe: 'response',
+          responseType: 'text'
+        })
+        .subscribe(response => {
+          this.downloadHref = response.url;
+
+          this.cdRef.detectChanges();
+          this.downloadLink.nativeElement.click();
+        });
     }
   }
 

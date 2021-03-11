@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -43,25 +43,25 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
   let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:available_watcher) do
     FactoryBot.create :user,
-                       firstname: 'Something',
-                       lastname: 'Strange',
-                       member_in_project: project,
-                       member_through_role: view_work_packages_role
+                      firstname: 'Something',
+                      lastname: 'Strange',
+                      member_in_project: project,
+                      member_through_role: view_work_packages_role
   end
 
   let(:watching_user) do
     FactoryBot.create :user,
-                       member_in_project: project,
-                       member_through_role: view_work_packages_role
+                      member_in_project: project,
+                      member_through_role: view_work_packages_role
   end
   let(:existing_watcher) do
     FactoryBot.create(:watcher, watchable: work_package, user: watching_user)
   end
 
   let!(:watching_blocked_user) do
-    FactoryBot.create :user, 
+    FactoryBot.create :user,
                       login: 'lockedUser',
-                      mail: 'lockedUser@gmail.com',  
+                      mail: 'lockedUser@gmail.com',
                       member_in_project: project,
                       member_through_role: view_work_packages_role
   end
@@ -242,7 +242,7 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
     let(:permissions) { %i[add_work_package_watchers view_work_packages] }
     let(:available_watchers_path) { api_v3_paths.available_watchers work_package.id }
     let(:returned_user_ids) do
-      JSON.parse(subject.body)['_embedded']['elements'].map {|user| user['id'] }
+      JSON.parse(subject.body)['_embedded']['elements'].map { |user| user['id'] }
     end
 
     before do

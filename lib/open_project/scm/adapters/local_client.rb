@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -181,7 +182,7 @@ module OpenProject
           Open3.popen3(client_command, *args, opts, &block)
         rescue Exceptions::SCMError => e
           raise e
-        rescue => e
+        rescue StandardError => e
           error_msg = "SCM command for `#{client_command}` failed: #{strip_credential(e.message)}"
           logger.error(error_msg)
           raise Exceptions::CommandFailed.new(client_command, error_msg)
@@ -198,16 +199,17 @@ module OpenProject
         # with a placeholder
         def strip_credential(cmd)
           q = Redmine::Platform.mswin? ? '"' : "'"
-          cmd.to_s.gsub(/(\-\-(password|username))\s+(#{q}[^#{q}]+#{q}|[^#{q}]\S+)/, '\\1 xxxx')
+          cmd.to_s.gsub(/(--(password|username))\s+(#{q}[^#{q}]+#{q}|[^#{q}]\S+)/, '\\1 xxxx')
         end
 
         def scm_encode(to, from, str)
           return nil if str.nil?
           return str if to == from
+
           begin
             str.to_s.encode(to, from)
-          rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError => err
-            logger.error("failed to convert from #{from} to #{to}. #{err}")
+          rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError => e
+            logger.error("failed to convert from #{from} to #{to}. #{e}")
             nil
           end
         end
@@ -256,13 +258,11 @@ module OpenProject
         # being ~25% slower than shelling out to du
         def count_storage_fallback
           ::Find.find(local_repository_path).inject(0) do |sum, f|
-            begin
-              sum + File.stat(f).size
-            rescue SystemCallError
-              # File.stat raises for permission and access errors,
-              # we won't be able to get this file's size.
-              sum
-            end
+            sum + File.stat(f).size
+          rescue SystemCallError
+            # File.stat raises for permission and access errors,
+            # we won't be able to get this file's size.
+            sum
           end
         end
       end

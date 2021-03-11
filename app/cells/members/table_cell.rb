@@ -1,11 +1,11 @@
 module Members
   class TableCell < ::TableCell
-    options :authorize_update, :available_roles
-    columns :lastname, :firstname, :mail, :roles, :groups, :status
-    sortable_columns :lastname, :firstname, :mail
+    options :authorize_update, :available_roles, :is_filtered
+    columns :name, :mail, :roles, :groups, :status
+    sortable_columns :name, :mail, :status
 
     def initial_sort
-      [:lastname, :desc]
+      %i[name asc]
     end
 
     def headers
@@ -27,6 +27,14 @@ module Members
 
     def join_users(query)
       query.joins(:principal).references(:principal)
+    end
+
+    def empty_row_message
+      if is_filtered
+        I18n.t :notice_no_principals_found
+      else
+        I18n.t :'members.index.no_results_title_text'
+      end
     end
   end
 end

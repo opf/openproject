@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -34,7 +34,7 @@ describe 'Show viewpoint in model viewer',
          js: true do
   let(:project) do
     FactoryBot.create(:project,
-                      enabled_module_names: [:bim, :work_package_tracking],
+                      enabled_module_names: %i[bim work_package_tracking],
                       parent: parent_project)
   end
   let(:parent_project) { nil }
@@ -63,9 +63,9 @@ describe 'Show viewpoint in model viewer',
       model_tree.expect_checked 'minimal'
       model_tree.all_checkboxes.each do |label, checkbox|
         if label.text == 'minimal' || label.text == 'LUB_Segment_new:S_WHG_Ess:7243035'
-          expect(checkbox.checked?).to eq(true)
+          expect(checkbox).to be_checked
         else
-          expect(checkbox.checked?).to eq(false)
+          expect(checkbox).to_not be_checked
         end
       end
     end
@@ -99,7 +99,7 @@ describe 'Show viewpoint in model viewer',
 
   context 'when in work packages details view' do
     let(:wp_details) { ::Pages::SplitWorkPackage.new(work_package, project) }
-    
+
     shared_examples "moves to the BCF page" do
       it 'moves to the bcf page' do
         wp_details.visit!

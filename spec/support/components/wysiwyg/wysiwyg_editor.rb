@@ -71,7 +71,7 @@ module Components
     ##
     # Create an image fixture with the optional caption
     def drag_attachment(image_fixture, caption = 'Some caption')
-      in_editor do |container, editable|
+      in_editor do |_container, editable|
         sleep 0.5
         editable.base.send_keys(:enter, 'some text', :enter, :enter)
 
@@ -80,7 +80,6 @@ module Components
 
         expect(page)
           .to have_selector('figure img[src^="/api/v3/attachments/"]', count: images.length + 1, wait: 10)
-
 
         expect(page).not_to have_selector('notification-upload-progress')
         sleep 0.5
@@ -112,7 +111,7 @@ module Components
 
     def refocus
       editor_element.first('*').click
-    rescue => e
+    rescue StandardError => e
       warn "Failed to refocus on first editor element #{e}"
     end
 

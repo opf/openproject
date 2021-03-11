@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -28,13 +28,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackages::Scopes::IncludeSpentTime
-  class << self
-    def fetch(user, work_package = nil)
+module WorkPackages::Scopes::IncludeSpentTime
+  extend ActiveSupport::Concern
+
+  class_methods do
+    def include_spent_time(user, work_package = nil)
       query = join_time_entries(user)
 
-      scope = WorkPackage
-              .left_join_self_and_descendants(user, work_package)
+      scope = left_join_self_and_descendants(user, work_package)
               .joins(query.join_sources)
               .group(:id)
               .select('SUM(time_entries.hours) AS hours')
@@ -63,7 +64,7 @@ class WorkPackages::Scopes::IncludeSpentTime
     end
 
     def wp_table
-      @wp_table ||= WorkPackage.arel_table
+      @wp_table ||= arel_table
     end
 
     def wp_descendants

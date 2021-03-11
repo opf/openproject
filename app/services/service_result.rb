@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -107,7 +107,7 @@ class ServiceResult
   # Collect all present errors for the given result
   # and dependent results.
   #
-  # Returns a map of the service reuslt to the error object
+  # Returns a map of the service result to the error object
   def results_with_errors(include_self: true)
     results =
       if include_self
@@ -118,7 +118,6 @@ class ServiceResult
 
     results.reject { |call| call.errors.empty? }
   end
-
 
   def self_and_dependent
     [self] + dependent_results
@@ -191,7 +190,6 @@ class ServiceResult
       end
   end
 
-
   def get_message_type
     if message_type.present?
       message_type.to_sym
@@ -207,7 +205,7 @@ class ServiceResult
   end
 
   def merge_errors!(other)
-    self.errors.merge! other.errors
+    errors.merge! other.errors
   end
 
   def merge_dependent!(other)

@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -31,14 +31,13 @@ module Report::Validation
     def validate_dates(*values)
       values = values.flatten
       return true if values.empty?
+
       values.flatten.all? do |val|
-        begin
-          !!val.to_dateish
-        rescue ArgumentError
-          errors[:date] << val
-          validate_dates(values - [val])
-          false
-        end
+        !!val.to_dateish
+      rescue ArgumentError
+        errors[:date] << val
+        validate_dates(values - [val])
+        false
       end
     end
   end

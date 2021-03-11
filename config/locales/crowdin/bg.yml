@@ -1,10 +1,10 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2020 the OpenProject GmbH
+#Copyright (C) 2012-2021 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
@@ -122,9 +122,6 @@ bg:
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Connection encryption'
     system_account: 'System account'
     system_account_legend: |
@@ -195,7 +192,7 @@ bg:
       Specify a list of names to ignore when processing attachments for incoming mails (e.g., signatures or icons). Enter one filename per line.
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is perfomed in the background. You will be notified of the result."
+      scheduled: "Изтриването е планирано и се извършва във фонов режим. Ще бъдете уведомени за резултата."
       schedule_failed: "Project cannot be deleted: %{errors}"
       failed: "Deletion of project %{name} has failed"
       failed_text: "The request to delete project %{name} has failed. The project was left archived."
@@ -243,6 +240,14 @@ bg:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Този потребител в момента не е член на проекта.
+  placeholder_users:
+    deletion_info:
+      heading: "Изтриване на потребител на заместител %{name}"
+      data_consequences: >
+        Всички повторения на потребителя на резервоар (напр. Като правоприемник, отговорник или други потребителски стойности) ще бъдат преназначени към акаунт, наречен „Изтрит потребител“.
+        Тъй като данните от всеки изтрит акаунт се пренасочват към този акаунт, няма да е възможно да се разграничат данните, създадени от потребителя, от данните на друг изтрит акаунт.
+      irreversible: "Това действие е необратимо"
+      confirmation: "Въведете името на заместителя %{name}, за да потвърдите изтриването."
   prioritiies:
     edit:
       priority_color_text: |
@@ -521,6 +526,7 @@ bg:
         confirmation: "не съвпада с %{attribute}."
         could_not_be_copied: "%{dependency} не може да бъде (напълно) копирана."
         does_not_exist: "не съществува."
+        error_enterprise_only: "се предлага само в OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         empty: "не може да бъде празно."
@@ -536,7 +542,8 @@ bg:
         invalid_url: 'невалиден URL адрес.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "трябва да бъде по-малка или равна на %{count}."
-        not_current_user: "is not the current user."
+        not_deletable: "не може да бъде изтрито."
+        not_current_user: "не е текущият потребител."
         not_a_date: "is not a valid date."
         not_a_datetime: "is not a valid date time."
         not_a_number: "не е число."
@@ -720,6 +727,7 @@ bg:
       status: "Статус на работен пакет"
       member: "Член"
       news: "Новини"
+      placeholder_user: "Потребител на заместител"
       project: "Проект"
       query: "Потребителска заявка"
       role:
@@ -1130,7 +1138,7 @@ bg:
   error_menu_item_not_saved: Елементът от менюто не може да бъде записан
   error_wiki_root_menu_item_conflict: >
     Can't rename "%{old_name}" to "%{new_name}" due to a conflict in the resulting menu item with the existing menu item "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Възникна грешка при външно удостовяряване. Моля, опитайте отново."
+  error_external_authentication_failed: "Възникна грешка по време на външно удостоверяване. Моля, опитайте отново."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
     project: 'Проекта е редактиран'
@@ -1198,7 +1206,7 @@ bg:
       forums: "Форум на Общността"
       newsletter: "Security alerts / Newsletter"
   image_conversion:
-    imagemagick: 'Imagemagick'
+    imagemagick: 'Магия на изображението'
   journals:
     changes_retracted: "The changes were retracted."
   links:
@@ -1331,6 +1339,7 @@ bg:
   label_custom_field_plural: "допълнителни полета"
   label_custom_field_default_type: "Празен тип"
   label_custom_style: "Дизайн"
+  label_database_version: "Версия на PostgreSQL"
   label_date: "Дата"
   label_date_and_time: "Дата и час"
   label_date_from: "От"
@@ -1489,6 +1498,7 @@ bg:
   label_my_account_data: "Данни за моят акаунт"
   label_my_projects: "Моите проекти"
   label_my_queries: "Моите потребителски заявки"
+  label_name: "Име"
   label_never: "Никога"
   label_new: "Нов"
   label_new_features: "New features"
@@ -1538,6 +1548,9 @@ bg:
   label_permissions: "Права"
   label_permissions_report: "Доклади за права"
   label_personalize_page: "Персонализирай тази страница"
+  label_placeholder_user: "Потребител на заместител"
+  label_placeholder_user_new: "Нов потребител на заместител"
+  label_placeholder_user_plural: "Потребители на резервни части"
   label_planning: "Планиране"
   label_please_login: "Моля влез в профила си"
   label_plugins: "Плъгини"
@@ -1736,20 +1749,20 @@ bg:
   label_workflow_summary: "Обобщение"
   label_x_closed_work_packages_abbr:
     zero: "0 closed"
-    one: "1 затворен"
-    other: "%{count} затворени"
+    one: ""
+    other: ""
   label_x_comments:
     zero: "no comments"
-    one: "1 коментар"
-    other: "%{count} коментари"
+    one: ""
+    other: ""
   label_x_open_work_packages_abbr:
     zero: "0 open"
-    one: "1 отворен"
-    other: "%{count} отворени"
+    one: ""
+    other: ""
   label_x_projects:
     zero: "no projects"
-    one: "1 проект"
-    other: "%{count} проекти"
+    one: ""
+    other: ""
   label_yesterday: "вчера"
   label_role_type: "Тип"
   label_member_role: "Project Role"
@@ -1847,6 +1860,7 @@ bg:
   notice_email_sent: "Имейл е изпратен до %{value}"
   notice_failed_to_save_work_packages: "Неуспешно записване на %{count} работни пакети от %{total} избрани: %{ids}."
   notice_failed_to_save_members: "Неуспешно записване на членовете: %{errors}."
+  notice_deletion_scheduled: "Изтриването е планирано и се извършва асинхронно."
   notice_file_not_found: "Несъществуваща или преместена страница."
   notice_forced_logout: "Вие автоматично излязохте след %{ttl_time} минути на неактивност."
   notice_internal_server_error: "Възникна грешка в страницата, до която се опитвате да получите достъп. Ако продължавате да имате проблеми свържете %{app_title} администратор за съдействие."
@@ -1910,6 +1924,8 @@ bg:
   permission_add_work_packages: "Add work packages"
   permission_add_messages: "Post messages"
   permission_add_project: "Създаване на проект"
+  permission_manage_user: "Създавайте и редактирайте потребители"
+  permission_manage_placeholder_user: "Създавайте, редактирайте и изтривайте потребители на резервни части"
   permission_add_subprojects: "Създаване на подпроекти"
   permission_add_work_package_watchers: "Добавяне на наблюдатели"
   permission_assign_versions: "Assign versions"
@@ -2111,7 +2127,7 @@ bg:
       username: "Repository username"
     truncated: "Sorry, we had to truncate this directory to %{limit} files. %{truncated} entries were omitted from the list."
     named_repository: "%{vendor_name} repository"
-    update_settings_successful: "The settings have been sucessfully saved."
+    update_settings_successful: "Настройките са запазени успешно."
     url: "URL to repository"
     warnings:
       cannot_annotate: "This file cannot be annotated."
@@ -2229,7 +2245,6 @@ bg:
   setting_welcome_text: "Welcome block text"
   setting_welcome_title: "Welcome block title"
   setting_welcome_on_homescreen: "Display welcome block on homescreen"
-  setting_work_package_group_assignment: "Allow assignment to groups"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   settings:
@@ -2628,7 +2643,7 @@ bg:
       code_403: "You are not authorized to access this resource."
       code_404: "The requested resource could not be found."
       code_409: "Could not update the resource because of conflicting modifications."
-      code_500: "An internal error has occured."
+      code_500: "Възникна вътрешна грешка."
       expected:
         date: "ГГГГ-ММ-ДД (само за дата ISO 8601)"
         duration: "ISO 8601 продължителност"

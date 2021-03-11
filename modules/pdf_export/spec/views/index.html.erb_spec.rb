@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -26,10 +26,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-
 require 'spec_helper'
 
-describe 'export_card_configurations/index', :type => :view do
+describe 'export_card_configurations/index', type: :view do
   let(:config1) { FactoryBot.build(:export_card_configuration, name: "Config 1") }
   let(:config2) { FactoryBot.build(:export_card_configuration, name: "Config 2") }
 
@@ -45,5 +44,4 @@ describe 'export_card_configurations/index', :type => :view do
     expect(rendered).to have_selector("a", text: config1.name)
     expect(rendered).to have_selector("a", text: config2.name)
   end
-
 end

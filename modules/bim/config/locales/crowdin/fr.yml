@@ -15,8 +15,8 @@ fr:
       file_invalid: "Fichier BCF invalide"
     x_bcf_issues:
       zero: 'Aucun problème BCF'
-      one: 'Un problème BCF'
-      other: '%{count} problèmes BCF'
+      one: ''
+      other: ''
     bcf_xml:
       xml_file: 'Fichier XML BCF'
       import_title: 'Importer'

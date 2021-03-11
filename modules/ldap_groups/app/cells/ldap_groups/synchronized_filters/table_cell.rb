@@ -1,8 +1,7 @@
-
 module LdapGroups
   module SynchronizedFilters
     class TableCell < ::TableCell
-      columns :name, :auth_source, :groups
+      columns :name, :auth_source, :groups, :sync_users
 
       def initial_sort
         %i[id asc]
@@ -26,9 +25,10 @@ module LdapGroups
 
       def headers
         [
-            ['name', caption: ::LdapGroups::SynchronizedFilter.human_attribute_name('name')],
-            ['auth_source', caption: ::LdapGroups::SynchronizedFilter.human_attribute_name('auth_source')],
-            ['groups', caption: I18n.t('ldap_groups.synchronized_filters.plural')]
+          ['name', { caption: ::LdapGroups::SynchronizedFilter.human_attribute_name('name') }],
+          ['auth_source', { caption: ::LdapGroups::SynchronizedFilter.human_attribute_name('auth_source') }],
+          ['groups', { caption: I18n.t('ldap_groups.synchronized_groups.plural') }],
+          ['sync_users', { caption: ::LdapGroups::SynchronizedFilter.human_attribute_name('sync_users') }]
         ]
       end
     end

@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -43,7 +43,8 @@ module Entry
       end
 
       def calculate(type, *args)
-        a, b = TimeEntry.calculate(type, *args), CostEntry.calculate(type, *args)
+        a = TimeEntry.calculate(type, *args)
+        b = CostEntry.calculate(type, *args)
         case type
         when :sum, :count then a + b
         when :avg then (a + b) / 2
@@ -54,13 +55,14 @@ module Entry
       end
 
       undef_method :create, :update, :delete, :destroy, :new, :update_counters,
-          :increment_counter, :decrement_counter
+                   :increment_counter, :decrement_counter
 
       %w[update_all destroy_all delete_all].each do |meth|
         define_method(meth) { |*args| send_all(meth, *args) }
       end
 
       private
+
       def all(*args)
         ActiveSupport::Deprecation.warn('Passing arguments is deprecated') if args.any?
         find_many :all # *args
@@ -72,9 +74,12 @@ module Entry
       end
 
       def find_initial(options)         find_one  :find_initial,  options end
+
       def find_last(options)            find_one  :find_last,     options end
+
       def find_every(options)           find_many :find_every,    options end
-      def find_from_ids(args, options)  find_many :find_from_ids, options end
+
+      def find_from_ids(_args, options) find_many :find_from_ids, options end
 
       def find_one(*args)
         TimeEntry.send(*args) || CostEntry.send(*args)

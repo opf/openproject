@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -63,15 +63,17 @@ class WithDirectUploads
   end
 
   def around(example)
-    example.metadata[:driver] = :firefox_billy
+    example.metadata[:driver] = :chrome_billy
 
     csp_config = SecureHeaders::Configuration.instance_variable_get("@default_config").csp
     csp_config.connect_src = ["'self'", "test-bucket.s3.amazonaws.com"]
+    csp_config.form_action = ["'self'", "test-bucket.s3.amazonaws.com"]
 
     begin
       example.run
     ensure
       csp_config.connect_src = %w('self')
+      csp_config.form_action = %w('self')
     end
   end
 
@@ -96,7 +98,7 @@ class WithDirectUploads
     proxy.stub("https://" + OpenProject::Configuration.remote_storage_upload_host + ":443/", method: 'options').and_return(
       headers: {
         'Access-Control-Allow-Methods' => 'POST',
-        'Access-Control-Allow-Origin'  => '*'
+        'Access-Control-Allow-Origin' => '*'
       },
       code: 200
     )
@@ -111,7 +113,7 @@ class WithDirectUploads
   def stub_with_redirect
     proxy
       .stub("https://" + OpenProject::Configuration.remote_storage_upload_host + ":443/", method: 'post')
-      .and_return(Proc.new { |params, headers, body, url, method|
+      .and_return(Proc.new do |_params, _headers, body, _url, _method|
         key = body.scan(/key"\s*([^\s]+)\s/m).flatten.first
         redirect_url = body.scan(/success_action_redirect"\s*(http[^\s]+)\s/m).flatten.first
         ok = body =~ /X-Amz-Signature/ # check that the expected post to AWS was made with the form fields
@@ -121,24 +123,24 @@ class WithDirectUploads
           headers: {
             'Location' => ok ? redirect_url + '?key=' + CGI.escape(key) : nil,
             'Access-Control-Allow-Methods' => 'POST',
-            'Access-Control-Allow-Origin'  => '*'
+            'Access-Control-Allow-Origin' => '*'
           }
         }
-      })
+      end)
   end
 
   def stub_with_status
     proxy
       .stub("https://" + OpenProject::Configuration.remote_storage_upload_host + ":443/", method: 'post')
-      .and_return(Proc.new { |params, headers, body, url, method|
+      .and_return(Proc.new do |_params, _headers, body, _url, _method|
         {
-          code: (body =~ /X-Amz-Signature/) ? 201 : 403, # check that the expected post to AWS was made with the form fields
+          code: body =~ /X-Amz-Signature/ ? 201 : 403, # check that the expected post to AWS was made with the form fields
           headers: {
             'Access-Control-Allow-Methods' => 'POST',
-            'Access-Control-Allow-Origin'  => '*'
+            'Access-Control-Allow-Origin' => '*'
           }
         }
-      })
+      end)
   end
 
   def stub_uploader

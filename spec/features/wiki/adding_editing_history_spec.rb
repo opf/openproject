@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -79,19 +79,23 @@ describe 'wiki pages', type: :feature, js: true do
     expect(page).to have_selector('.wiki-content', text: content_first_version)
 
     within '.toolbar-items' do
+      SeleniumHubWaiter.wait
       click_on "Edit"
     end
 
     find('.ck-content').set(content_second_version)
 
+    SeleniumHubWaiter.wait
     click_button 'Save'
     expect(page).to have_selector('.wiki-content', text: content_second_version)
 
     within '.toolbar-items' do
+      SeleniumHubWaiter.wait
       click_on 'More'
       click_on 'History'
     end
 
+    SeleniumHubWaiter.wait
     click_on 'View differences'
 
     within '.text-diff' do
@@ -99,16 +103,19 @@ describe 'wiki pages', type: :feature, js: true do
       expect(page).to have_selector('del.diffmod', text: 'first')
     end
 
+    SeleniumHubWaiter.wait
     # Go back to history
     find('.button', text: 'History').click
 
     # Click on first version
     # to determine text (Regression test #31531)
+    SeleniumHubWaiter.wait
     find('td.id a', text: 1).click
 
     expect(page).to have_selector('.wiki-version--details', text: 'Version 1/2')
     expect(page).to have_selector('.wiki-content', text: content_first_version)
 
+    SeleniumHubWaiter.wait
     find('.button', text: 'Next').click
 
     expect(page).to have_selector('.wiki-version--details', text: 'Version 2/2')

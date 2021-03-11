@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -144,7 +144,7 @@ describe 'Switching work package view',
       expect(url).not_to match(/query_props=.+/)
 
       # Since the query is unchanged, the WPs will be displayed as list on larger screens again
-      page.driver.browser.manage.window.resize_to(680, 1080)
+      page.driver.browser.manage.window.resize_to(700, 1080)
       page.driver.browser.navigate.refresh
       wp_table.expect_work_package_listed wp_1, wp_2
       wp_table.expect_work_package_order wp_1, wp_2

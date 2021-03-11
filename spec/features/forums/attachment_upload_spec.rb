@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -42,7 +42,7 @@ describe 'Upload attachment to forum message', js: true do
   end
   let(:project) { forum.project }
   let(:attachments) { ::Components::Attachments.new }
-  let(:image_fixture) { Rails.root.join('spec/fixtures/files/image.png') }
+  let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:editor) { ::Components::WysiwygEditor.new }
   let(:index_page) { Pages::Messages::Index.new(forum.project) }
 
@@ -58,7 +58,7 @@ describe 'Upload attachment to forum message', js: true do
     create_page.set_subject 'A new message'
 
     # adding an image
-    editor.drag_attachment image_fixture, 'Image uploaded on creation'
+    editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png')
     expect(page).not_to have_selector('notification-upload-progress')
@@ -78,7 +78,7 @@ describe 'Upload attachment to forum message', js: true do
 
     editor.type_slowly("A spacer text")
 
-    editor.drag_attachment image_fixture, 'Image uploaded the second time'
+    editor.drag_attachment image_fixture.path, 'Image uploaded the second time'
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
     expect(page).not_to have_selector('notification-upload-progress')

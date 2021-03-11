@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -43,11 +43,9 @@ class Wikis::Annotate
       d.each_slice(3) do |s|
         sign = s[0]
         line = s[1]
-        if sign == '+' && positions[line] && positions[line] != -1
-          if @lines[positions[line]][0].nil?
-            @lines[positions[line]][0] = current.version
-            @lines[positions[line]][1] = current.data.author
-          end
+        if sign == '+' && positions[line] && positions[line] != -1 && @lines[positions[line]][0].nil?
+          @lines[positions[line]][0] = current.version
+          @lines[positions[line]][1] = current.data.author
         end
       end
       d.each_slice(3) do |s|
