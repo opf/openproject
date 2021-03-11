@@ -38,11 +38,11 @@ class UserPreference < ApplicationRecord
   after_initialize :init_other_preferences
 
   def [](attr_name)
-    attribute_present?(attr_name) ? super : others[attr_name]
+    attribute?(attr_name) ? super : others[attr_name]
   end
 
   def []=(attr_name, value)
-    attribute_present?(attr_name) ? super : others[attr_name] = value
+    attribute?(attr_name) ? super : others[attr_name] = value
   end
 
   def comments_sorting
@@ -103,6 +103,11 @@ class UserPreference < ApplicationRecord
   end
 
   private
+
+  def attribute?(name)
+    attr = name.to_sym
+    has_attribute?(attr) || attr == :user || attr == :user_id
+  end
 
   def to_boolean(value)
     ActiveRecord::Type::Boolean.new.cast(value)
