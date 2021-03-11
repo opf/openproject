@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -32,7 +32,7 @@ describe WorkPackage, type: :model do
   describe '#overdue' do
     let(:work_package) do
       FactoryBot.create(:work_package,
-                         due_date: due_date)
+                        due_date: due_date)
     end
 
     shared_examples_for 'overdue' do
@@ -75,7 +75,7 @@ describe WorkPackage, type: :model do
       let(:due_date) { 1.day.ago.to_date }
       let(:status) do
         FactoryBot.create(:status,
-                           is_closed: true)
+                          is_closed: true)
       end
 
       before do
@@ -89,9 +89,9 @@ describe WorkPackage, type: :model do
   describe '#behind_schedule?' do
     let(:work_package) do
       FactoryBot.create(:work_package,
-                         start_date: start_date,
-                         due_date: due_date,
-                         done_ratio: done_ratio)
+                        start_date: start_date,
+                        due_date: due_date,
+                        done_ratio: done_ratio)
     end
 
     shared_examples_for 'behind schedule' do

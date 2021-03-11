@@ -18,6 +18,7 @@ module Components
     end
 
     def search(query, submit: false)
+      SeleniumHubWaiter.wait
       input.set ''
       input.hover
       input.click
@@ -30,6 +31,7 @@ module Components
 
     def submit_with_enter
       input.send_keys :enter
+      SeleniumHubWaiter.wait
     end
 
     def expect_open
@@ -65,17 +67,17 @@ module Components
 
     def expect_work_package_marked(wp)
       expect(page)
-        .to have_selector('.ng-option-marked', text: "#{wp.subject}", wait: 10)
+        .to have_selector('.ng-option-marked', text: wp.subject.to_s, wait: 10)
     end
 
     def expect_work_package_option(wp)
       expect(page)
-        .to have_selector('.global-search--option', text: "#{wp.subject}", wait: 10)
+        .to have_selector('.global-search--option', text: wp.subject.to_s, wait: 10)
     end
 
     def expect_no_work_package_option(wp)
       expect(page)
-        .not_to have_selector('.global-search--option', text: "#{wp.subject}")
+        .to have_no_selector('.global-search--option', text: wp.subject.to_s)
     end
 
     def click_work_package(wp)
@@ -83,11 +85,12 @@ module Components
     end
 
     def find_work_package(wp)
-      find_option "#{wp.subject}"
+      find_option wp.subject.to_s
     end
 
     def find_option(text)
-      page.find('.global-search--wp-subject', text: text, wait: 10)
+      expect(page).to have_selector('.global-search--wp-subject', text: text, wait: 10)
+      find('.global-search--wp-subject', text: text)
     end
 
     def cancel

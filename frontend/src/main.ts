@@ -41,7 +41,12 @@ whenDebugging(() => {
 });
 
 // Import the correct locale early on
-import(`./locales/${I18n.locale}.js`)
+Promise.all([
+  // untyped module cannot be dynamically imported
+  // @ts-ignore
+  import(/* webpackChunkName: "default-locale" */ `./locales/en.js`),
+  import(/* webpackChunkName: "locale" */ `./locales/${I18n.locale}.js`),
+])
   .then(() => {
     jQuery(function () {
       // Due to the behaviour of the Edge browser we need to wait for 'DOM ready'
@@ -51,4 +56,4 @@ import(`./locales/${I18n.locale}.js`)
           jQuery('body').addClass('__ng2-bootstrap-has-run');
         });
     });
-});
+  });

@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -50,11 +50,11 @@ describe ::API::Decorators::LinkObject do
     describe 'parsing' do
       subject { represented }
 
-      let(:parsed_hash) {
+      let(:parsed_hash) do
         {
           'href' => '/api/v3/foos/42'
         }
-      }
+      end
 
       it 'parses the id from the URL' do
         representer.from_hash parsed_hash
@@ -62,29 +62,30 @@ describe ::API::Decorators::LinkObject do
       end
 
       context 'wrong namespace' do
-        let(:parsed_hash) {
+        let(:parsed_hash) do
           {
             'href' => '/api/v3/bars/42'
           }
-        }
+        end
 
         it 'throws an error' do
           expect { representer.from_hash parsed_hash }.to raise_error(
-            ::API::Errors::InvalidResourceLink)
+            ::API::Errors::InvalidResourceLink
+          )
         end
       end
     end
   end
 
   context 'full constructor call' do
-    let(:representer) {
+    let(:representer) do
       described_class.new(represented,
                           property_name: :foo,
                           path: :foo_path,
                           namespace: 'fuhs',
                           getter: :getter,
                           setter: :'setter=')
-    }
+    end
 
     before do
       represented.getter = 1
@@ -100,11 +101,11 @@ describe ::API::Decorators::LinkObject do
     describe 'parsing' do
       subject { represented }
 
-      let(:parsed_hash) {
+      let(:parsed_hash) do
         {
           'href' => '/api/v3/fuhs/42'
         }
-      }
+      end
 
       it 'parses the id from the URL' do
         representer.from_hash parsed_hash
@@ -112,15 +113,16 @@ describe ::API::Decorators::LinkObject do
       end
 
       context 'wrong namespace' do
-        let(:parsed_hash) {
+        let(:parsed_hash) do
           {
             'href' => '/api/v3/foos/42'
           }
-        }
+        end
 
         it 'throws an error' do
           expect { representer.from_hash parsed_hash }.to raise_error(
-                                                            ::API::Errors::InvalidResourceLink)
+            ::API::Errors::InvalidResourceLink
+          )
         end
       end
     end

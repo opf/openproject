@@ -24,9 +24,7 @@ export class BoardSubtasksActionService extends BoardActionService {
 
   image = ImageHelpers.imagePath('board_creation_modal/parent-child.svg');
 
-  public get localizedName() {
-    return this.I18n.t('js.boards.board_type.action_type.subtasks');
-  }
+  localizedName = this.I18n.t('js.boards.board_type.action_type.subtasks');
 
   public headerComponent() {
     return SubtasksBoardHeaderComponent;

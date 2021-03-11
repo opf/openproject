@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -27,7 +27,7 @@
 #++
 
 module Entry
-  [TimeEntry, CostEntry].each do |e| e.send :include, self end
+  [TimeEntry, CostEntry].each { |e| e.send :include, self }
 
   class Delegator < ApplicationRecord
     self.abstract_class = true
@@ -65,9 +65,9 @@ module Entry
 
       def find_last(options)            find_one :find_last,     options end
 
-      def find_every(options)           find_many :find_every,    options end
+      def find_every(options)           find_many :find_every, options end
 
-      def find_from_ids(_args, options)  find_many :find_from_ids, options end
+      def find_from_ids(_args, options) find_many :find_from_ids, options end
 
       def find_one(*args)
         TimeEntry.send(*args) || CostEntry.send(*args)

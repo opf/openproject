@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -28,9 +28,9 @@
 
 OpenProject::Application.routes.draw do
   scope 'projects/:project_id', as: 'projects' do
-    resources :cost_entries, controller: 'costlog', only: [:new, :create]
+    resources :cost_entries, controller: 'costlog', only: %i[new create]
 
-    resources :hourly_rates, only: [:show, :edit, :update] do
+    resources :hourly_rates, only: %i[show edit update] do
       post :set_rate, on: :member
     end
   end
@@ -39,9 +39,9 @@ OpenProject::Application.routes.draw do
     resources :cost_entries, controller: 'costlog', only: %i[new]
   end
 
-  resources :cost_entries, controller: 'costlog', only: [:edit, :update, :destroy]
+  resources :cost_entries, controller: 'costlog', only: %i[edit update destroy]
 
-  resources :cost_types, only: [:index, :new, :edit, :update, :create, :destroy] do
+  resources :cost_types, only: %i[index new edit update create destroy] do
     member do
       # TODO: check if this can be replaced with update method
       put :set_rate
@@ -50,5 +50,5 @@ OpenProject::Application.routes.draw do
   end
 
   # TODO: this is a duplicate from a route defined under project/:project_id, check whether we really want to do that
-  resources :hourly_rates, only: [:edit, :update]
+  resources :hourly_rates, only: %i[edit update]
 end

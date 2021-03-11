@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -52,7 +52,7 @@ module OpenProject::TextFormatting
 
             begin
               macro_class.apply(macro, result: result, context: context)
-            rescue => e
+            rescue StandardError => e
               Rails.logger.error("Failed to insert macro #{macro_class}: #{e} - #{e.message}")
               macro.replace macro_error_placeholder(macro_class, e.message)
             ensure
@@ -69,7 +69,8 @@ module OpenProject::TextFormatting
 
       def macro_error_placeholder(macro_class, message)
         ApplicationController.helpers.content_tag :macro,
-                                                  "#{I18n.t(:macro_execution_error, macro_name: macro_class.identifier)} (#{message})",
+                                                  "#{I18n.t(:macro_execution_error,
+                                                            macro_name: macro_class.identifier)} (#{message})",
                                                   class: 'macro-unavailable',
                                                   data: { macro_name: macro_class.identifier }
       end

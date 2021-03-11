@@ -14,7 +14,7 @@ All the script needs is docker and the mysql command installed. It will start co
 
 ### Create a backup
 
-First, you will need to create a backup to get the MySQL database dump. Please see our seperate guide on [Backing up](https://docs.openproject.org/installation-and-operations/operation/backing-up/). In a packaged installation, the following command will output a full backup to `/var/db/openproject/backup`:
+First, you will need to create a backup to get the MySQL database dump. Please see our separate guide on [Backing up](https://docs.openproject.org/installation-and-operations/operation/backing-up/). In a packaged installation, the following command will output a full backup to `/var/db/openproject/backup`:
 
 ```bash
 openproject run backup

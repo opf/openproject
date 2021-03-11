@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -32,11 +33,11 @@ require 'ostruct'
 describe CustomFieldFormBuilder do
   include Capybara::RSpecMatchers
 
-  let(:helper) { ActionView::Base.new(ActionView::LookupContext.new('')) }
+  let(:helper) { ActionView::Base.new(ActionView::LookupContext.new(''), {}, @controller) }
   let(:builder) { described_class.new(:user, resource, helper, {}) }
 
   describe '#custom_field' do
-    let(:options) { {class: 'custom-class'} }
+    let(:options) { { class: 'custom-class' } }
 
     let(:custom_field) do
       FactoryBot.build_stubbed(:custom_field)
@@ -187,7 +188,7 @@ describe CustomFieldFormBuilder do
                   id="user#{custom_field.id}"
                   name="user[#{custom_field.id}]"
                   no_label="true"><option
-                  value=\"\"></option>
+                  value=\"\" label=\" \"></option>
                   <option value=\"#{custom_option.id}\">my_option</option></select>
         }).at_path('select')
       end
@@ -236,8 +237,8 @@ describe CustomFieldFormBuilder do
         resource.custom_field.field_format = 'user'
         resource.customized = project
         allow(project)
-          .to receive(:users)
-                .and_return([user1, user2])
+          .to(receive(:principals))
+          .and_return([user1, user2])
       end
 
       it_behaves_like 'wrapped in container', 'select-container' do
@@ -250,7 +251,7 @@ describe CustomFieldFormBuilder do
                   id="user#{resource.custom_field_id}"
                   name="user[#{resource.custom_field_id}]"
                   no_label="true">
-            <option value=\"\"></option>
+            <option value=\"\" label=\" \"></option>
             <option value="#{user1.id}">#{user1.name}</option>
             <option value="#{user2.id}">#{user2.name}</option>
           </select>
@@ -300,7 +301,7 @@ describe CustomFieldFormBuilder do
                   id="user#{resource.custom_field_id}"
                   name="user[#{resource.custom_field_id}]"
                   no_label="true">
-            <option value=\"\"></option>
+            <option value=\"\" label=\" \"></option>
             <option value="#{version1.id}">#{version1.name}</option>
             <option value="#{version2.id}">#{version2.name}</option>
           </select>

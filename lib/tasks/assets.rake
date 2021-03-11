@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -38,15 +39,18 @@ Rake::Task['assets:precompile']
 namespace :assets do
   # In this task, set prerequisites for the assets:precompile task
   task compile_environment: :prepare_op do
+    # Turn the yarn:install taks into a noop.
+    Rake::Task['yarn:install']
+      .clear
+
     Rake::Task['assets:environment'].invoke
   end
 
   desc 'Prepare locales and angular assets'
-  task prepare_op: [:export_locales, :angular]
+  task prepare_op: %i[export_locales angular]
 
   desc 'Compile assets with webpack'
   task :angular do
-
     # We skip angular compilation if backend was requested
     # but frontend was not explicitly set
     if ENV['RECOMPILE_RAILS_ASSETS'] == 'true' && ENV['RECOMPILE_ANGULAR_ASSETS'] != 'true'

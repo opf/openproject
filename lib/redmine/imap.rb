@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -72,7 +73,7 @@ module Redmine
         raise "Message was not successfully handled." unless MailHandler.receive(msg, options)
 
         message_received(message_id, imap, imap_options)
-      rescue => e
+      rescue StandardError => e
         Rails.logger.error { "Message #{message_id} resulted in error #{e} #{e.message}" }
         message_error(message_id, imap, imap_options)
       end
@@ -84,7 +85,7 @@ module Redmine
           imap.copy(message_id, imap_options[:move_on_success])
         end
 
-        imap.store(message_id, '+FLAGS', [:Seen, :Deleted])
+        imap.store(message_id, '+FLAGS', %i[Seen Deleted])
       end
 
       def message_error(message_id, imap, imap_options)

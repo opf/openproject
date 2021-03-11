@@ -18,6 +18,14 @@
       <%= t('ldap_groups.synchronized_filters.form.group_name_attribute_text') %>
     </div>
   </div>
+
+  <div class="form--field -required">
+    <%= f.check_box :sync_users,
+                     container_class: '-middle' %>
+    <div class="form--field-instructions">
+      <%= t('ldap_groups.synchronized_groups.form.sync_users_text') %>
+    </div>
+  </div>
 </fieldset>
 
 <fieldset class="form--fieldset">
@@ -31,6 +39,15 @@
                  container_class: '-middle' %>
     <div class="form--field-instructions">
       <%= t('ldap_groups.synchronized_groups.form.auth_source_text') %>
+    </div>
+  </div>
+
+  <div class="form--field">
+    <%= f.text_field :base_dn,
+                     required: false,
+                     container_class: '-middle' %>
+    <div class="form--field-instructions">
+      <%= t('ldap_groups.synchronized_filters.form.base_dn_text') %>
     </div>
   </div>
 </fieldset>

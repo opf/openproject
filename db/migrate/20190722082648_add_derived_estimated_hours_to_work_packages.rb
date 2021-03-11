@@ -2,7 +2,7 @@ class AddDerivedEstimatedHoursToWorkPackages < ActiveRecord::Migration[5.2]
   class WorkPackageWithRelations < ActiveRecord::Base
     self.table_name = "work_packages"
 
-    scope :with_children, ->(*args) do
+    scope :with_children, ->(*_args) do
       rel = "relations"
       wp = "work_packages"
 

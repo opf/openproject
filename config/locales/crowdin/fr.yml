@@ -1,10 +1,10 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2020 the OpenProject GmbH
+#Copyright (C) 2012-2021 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
@@ -78,7 +78,7 @@ fr:
     is_active: actuellement affiché
     is_inactive: actuellement non affiché
   attribute_help_texts:
-    note_public: 'Tous les textes et images que vous ajoutez à ce champ sont visibles publiquement pour tous les utilisateurs connectés !'
+    note_public: 'Tout texte et toutes les images que vous ajoutez à ce champ sont visibles publiquement à tous les utilisateurs connectés !'
     text_overview: 'Dans cette vue, vous pouvez créer des textes d’aide personnalisés pour l''affichage des attributs. Lorsqu''ils sont définis, ces textes peuvent être affichés en cliquant sur l’icône d’aide à côté de l''attribut correspondant.'
     label_plural: 'Attribut d’aide de texte'
     show_preview: 'Texte d’aperçu'
@@ -122,9 +122,6 @@ fr:
         Si vous cochez cette case, OpenProject créera automatiquement de nouveaux utilisateurs à partir de leurs entrées LDAP
         lorsqu'ils s'authentifieront pour la première fois avec OpenProject.
         Laissez ceci non coché pour permettre uniquement aux comptes existants dans OpenProject de s'authentifier via LDAP!
-      onthefly_group_sync: |
-        Si vous activez la synchronisation de groupe pour cette connexion LDAP, les utilisateurs seront également créés automatiquement
-        dans OpenProject pour les groupes synchronisés. Sans cela, seuls les comptes existants dans OpenProject seront ajoutés aux groupes.
     connection_encryption: 'Cryptage de la connexion'
     system_account: 'Compte système'
     system_account_legend: |
@@ -195,7 +192,7 @@ fr:
       Spécifiez une liste de noms à ignorer lors du traitement des pièces jointes aux messages entrants (par exemple, signatures ou icônes). Entrez un nom de fichier par ligne.
   projects:
     delete:
-      scheduled: "La suppression a été planifiée et est exécutée en arrière-plan. Vous serez informé du résultat."
+      scheduled: "La suppression a été planifiée et est effectuée en arrière-plan. Vous serez notifié du résultat."
       schedule_failed: "Le projet ne peut pas être supprimé : %{errors}"
       failed: "La suppression du projet %{name} a échoué"
       failed_text: "La demande de suppression du projet %{name} a échoué. Le projet a été archivé."
@@ -243,6 +240,14 @@ fr:
       no_results_title_text: Cet utilisateur n'est actuellement membre d'aucun groupe.
     memberships:
       no_results_title_text: Cet utilisateur n'est membre d'aucun projet pour le moment.
+  placeholder_users:
+    deletion_info:
+      heading: "Supprimer le placeholder utilisateur %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -520,6 +525,7 @@ fr:
         confirmation: "ne correspond pas à %{attribute}."
         could_not_be_copied: "%{dependency} n'a pas pu être copié (entièrement)."
         does_not_exist: "n'existe pas."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "est interdit d'accès."
         error_readonly: "a tenté d'être écrit mais n'est pas accessible en écriture."
         empty: "ne peut pas être vide."
@@ -535,6 +541,7 @@ fr:
         invalid_url: 'n’est pas une URL valide.'
         invalid_url_scheme: 'n’est pas un protocole pris en charge (autorisés : %{allowed_schemes}).'
         less_than_or_equal_to: "doit être inférieur ou égal à %{count}."
+        not_deletable: "ne peut pas être supprimé"
         not_current_user: "n'est pas l'utilisateur actuel."
         not_a_date: "n'est pas une date valide."
         not_a_datetime: "n'est pas une heure valide."
@@ -719,6 +726,7 @@ fr:
       status: "Statut du lot de travaux"
       member: "Membre"
       news: "Actualités"
+      placeholder_user: "Placeholder user"
       project: "Projet"
       query: "Requête personnalisée"
       role:
@@ -1129,7 +1137,7 @@ fr:
   error_menu_item_not_saved: L'élément de menu n'a pas pu être sauvegardé
   error_wiki_root_menu_item_conflict: >
     Impossible de renommer "%{old_name}" en "%{new_name}" en raison d’un conflit dans l’élément de menu résultant avec l’élément de menu existant "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Une erreur s'est produite lors de l'authentification externe. Veuillez essayer de nouveau."
+  error_external_authentication_failed: "Une erreur s'est produite lors de l'authentification externe. Veuillez réessayer."
   error_attribute_not_highlightable: "Attribut(s) ne pouvant pas être mis en surbrillance: %{attributes}"
   events:
     project: 'Projet édité'
@@ -1330,6 +1338,7 @@ fr:
   label_custom_field_plural: "Champs personnalisés"
   label_custom_field_default_type: "Type défaut"
   label_custom_style: "Apparence"
+  label_database_version: "Version de PostgreSQL"
   label_date: "date"
   label_date_and_time: "Date et heure"
   label_date_from: "De"
@@ -1488,6 +1497,7 @@ fr:
   label_my_account_data: "Info sur mon compte"
   label_my_projects: "Mes projets"
   label_my_queries: "Mes requêtes personnalisées"
+  label_name: "Nom"
   label_never: "Jamais"
   label_new: "nouveau"
   label_new_features: "Nouvelles fonctionnalités"
@@ -1537,6 +1547,9 @@ fr:
   label_permissions: "Autorisations"
   label_permissions_report: "Rapport d'autorisations"
   label_personalize_page: "Personaliser cette page"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Planification"
   label_please_login: "Veuillez vous connecter"
   label_plugins: "Plugins"
@@ -1735,20 +1748,20 @@ fr:
   label_workflow_summary: "Résumé"
   label_x_closed_work_packages_abbr:
     zero: "0 clôturé"
-    one: "1 clôturé"
-    other: "%{count} clôturé(s)"
+    one: ""
+    other: ""
   label_x_comments:
     zero: "aucun commentaire"
-    one: "1 commentaire"
-    other: "%{count} commentaires"
+    one: ""
+    other: ""
   label_x_open_work_packages_abbr:
     zero: "0 ouvert"
-    one: "un ouvert"
-    other: "%{count} ouverts"
+    one: ""
+    other: ""
   label_x_projects:
     zero: "aucun projet"
-    one: "1 projet"
-    other: "%{count} projets"
+    one: ""
+    other: ""
   label_yesterday: "hier"
   label_role_type: "Type"
   label_member_role: "Rôle du projet"
@@ -1846,6 +1859,7 @@ fr:
   notice_email_sent: "Un courriel a été envoyé à %{value}"
   notice_failed_to_save_work_packages: "Échec lors de l'enregistrement de %{count} lot(s) de travaux sur %{total} sélectionnés: %{ids}."
   notice_failed_to_save_members: "Échec de sauvegarde du ou des membres: %{errors}."
+  notice_deletion_scheduled: "La suppression a été planifiée et est effectuée de manière asynchrone."
   notice_file_not_found: "La page à laquelle vous essayez d'accéder n'existe pas ou a été supprimée."
   notice_forced_logout: "Vous avez été déconnecté après %{ttl_time} minutes d'inactivité."
   notice_internal_server_error: "Une erreur est survenue sur la page à laquelle vous essayez d'accéder. Si le problème persiste, veuillez contacter votre administrateur %{app_title} pour assistance."
@@ -1909,6 +1923,8 @@ fr:
   permission_add_work_packages: "Ajouter des lots de travaux"
   permission_add_messages: "Poster des messages"
   permission_add_project: "Créer un projet"
+  permission_manage_user: "Créer et éditer des utilisateurs"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Créer des sous-projets"
   permission_add_work_package_watchers: "Ajouter des observateurs"
   permission_assign_versions: "Assigner les versions"
@@ -2110,7 +2126,7 @@ fr:
       username: "Nom d'utilisateur du dépôt"
     truncated: "Désolés, nous avons été obligés de tronquer ce répertoire pour les fichiers %{limit}. %{truncated} entrées ont été omises de la liste."
     named_repository: "dépôt %{vendor_name}"
-    update_settings_successful: "Les paramètres ont bien été enregistrés."
+    update_settings_successful: "Les paramètres ont été enregistrés avec succès."
     url: "URL du dépôt"
     warnings:
       cannot_annotate: "Ce fichier ne peut pas être annoté."
@@ -2228,7 +2244,6 @@ fr:
   setting_welcome_text: "Bloc de texte de bienvenue"
   setting_welcome_title: "Bloc de titre de bienvenue"
   setting_welcome_on_homescreen: "Afficher le bloc de bienvenue sur l'écran d'accueil"
-  setting_work_package_group_assignment: "Autoriser l'assignation à des groupes"
   setting_work_package_list_default_highlighting_mode: "Mode de surbrillance par défaut"
   setting_work_package_list_default_highlighted_attributes: "Attributs en ligne mis en surbrillance par défaut"
   settings:

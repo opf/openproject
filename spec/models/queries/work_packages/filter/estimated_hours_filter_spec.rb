@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -48,9 +48,9 @@ describe Queries::WorkPackages::Filter::EstimatedHoursFilter, type: :model do
     it_behaves_like 'non ar filter'
 
     describe '#where' do
-      let!(:work_package_zero_hour) {FactoryBot.create(:work_package, estimated_hours: 0)}
-      let!(:work_package_no_hours) {FactoryBot.create(:work_package, estimated_hours: nil)}
-      let!(:work_package_with_hours) {FactoryBot.create(:work_package, estimated_hours: 1)}
+      let!(:work_package_zero_hour) { FactoryBot.create(:work_package, estimated_hours: 0) }
+      let!(:work_package_no_hours) { FactoryBot.create(:work_package, estimated_hours: nil) }
+      let!(:work_package_with_hours) { FactoryBot.create(:work_package, estimated_hours: 1) }
 
       context 'with the operator being "none"' do
         before do
@@ -62,5 +62,4 @@ describe Queries::WorkPackages::Filter::EstimatedHoursFilter, type: :model do
       end
     end
   end
-  
 end

@@ -1,10 +1,10 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2020 the OpenProject GmbH
+#Copyright (C) 2012-2021 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
@@ -69,6 +69,7 @@ ko:
   label_inactive: "«비활성»"
   label_no: "아니요"
   label_none: "(데이터 없음)"
+  label_no_reports: "There are no cost reports yet."
   label_report: "보고서"
   label_yes: "예"
   load_query_question: "보고서에는 %{size}개 테이블 셀이 있고 렌더링하는 데 시간이 걸릴 수 있습니다. 렌더링하시겠습니까?"

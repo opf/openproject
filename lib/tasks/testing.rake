@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -37,24 +38,22 @@ end
 task('spec:legacy').clear
 
 namespace :spec do
-  begin
-    require 'rspec/core/rake_task'
+  require 'rspec/core/rake_task'
 
-    desc 'Run the code examples in spec_legacy'
-    task legacy: %w(legacy:unit legacy:functional legacy:integration)
-    namespace :legacy do
-      %w(unit functional integration).each do |type|
-        desc "Run the code examples in spec_legacy/#{type}"
-        RSpec::Core::RakeTask.new(type => 'spec:prepare') do |t|
-          t.pattern = "spec_legacy/#{type}/**/*_spec.rb"
-          t.rspec_opts = '-I spec_legacy'
-        end
+  desc 'Run the code examples in spec_legacy'
+  task legacy: %w(legacy:unit legacy:functional legacy:integration)
+  namespace :legacy do
+    %w(unit functional integration).each do |type|
+      desc "Run the code examples in spec_legacy/#{type}"
+      RSpec::Core::RakeTask.new(type => 'spec:prepare') do |t|
+        t.pattern = "spec_legacy/#{type}/**/*_spec.rb"
+        t.rspec_opts = '-I spec_legacy'
       end
     end
-  rescue LoadError
-    # when you bundle without development and test (e.g. to create a deployment
-    # artefact) still all tasks get loaded. To avoid an error we rescue here.
   end
+rescue LoadError
+  # when you bundle without development and test (e.g. to create a deployment
+  # artefact) still all tasks get loaded. To avoid an error we rescue here.
 end
 
 %w(spec).each do |type|

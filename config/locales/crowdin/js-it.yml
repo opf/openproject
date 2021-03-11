@@ -1,10 +1,10 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2020 the OpenProject GmbH
+#Copyright (C) 2012-2021 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
@@ -86,7 +86,7 @@ it:
     caption_rate_history: "Cronologia tariffe"
     clipboard:
       browser_error: "Il tuo browser non supporta la copia negli appunti. Copia il testo selezionato manualmente."
-      copied_successful: "Copia negli appunti completata con successo!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Tipo di grafico'
       axis_criteria: 'Criteri dell''asse'
@@ -271,13 +271,13 @@ it:
           text_new_features: "Informati sulle nuove funzionalità e sugli aggiornamenti dei prodotti."
           learn_about: "Scopri di più sulle nuove funzionalità"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              La versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li><b>Stili migliorati</b>  per l'editor WYSIWYG.</li> <li>Visualizzazione diretta del <b>nome utente sulle @notifiche</b> durante la modifica.</li> <li>Profilo di autenticazione esteso con un fornitore <b>OpenID Connect.</b></li> <li>Visualizza un progetto <b>tappe aggregate</b> in una singola riga nel grafico Gantt.</li> <li><b>Pulsante "Comprimi Tutto" per i gruppi</b> nella lista delle macro attività.</li> <li><b>Ottimizzazione per la stampa,</b> ad esempio delle pagine wiki, tramite la funzione di stampa del browser.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              La versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li><b>Stili migliorati</b>  per l'editor WYSIWYG.</li> <li>Visualizzazione diretta del <b>nome utente sulle @notifiche</b> durante la modifica.</li> <li>Profilo di autenticazione esteso con un fornitore <b>OpenID Connect.</b></li> <li>Visualizza un progetto <b>tappe aggregate</b> in una singola riga nel grafico Gantt.</li> <li><b>Pulsante "Comprimi Tutto" per i gruppi</b> nella lista delle macro attività.</li> <li><b>Ottimizzazione per la stampa,</b> ad esempio delle pagine wiki, tramite la funzione di stampa del browser.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
     label_activate: "Attiva"
     label_add_column_after: "Aggiungi colonna dopo"
     label_add_column_before: "Aggiungi colonna prima"
@@ -403,6 +403,7 @@ it:
     label_public_query: "Pubblico"
     label_sum: "Somma"
     label_sum_for: "Somma per"
+    label_total_sum: "Total sum"
     label_subject: "Soggetto"
     label_this_week: "questa settimana"
     label_today: "Oggi"
@@ -844,7 +845,7 @@ it:
           automatic: 'Automatico'
           manually: 'Manuale'
           warning: 'Perderai il tuo ordinamento precedente quando attivi la modalità di ordinamento automatico.'
-        columns_help_text: "Utilizza l'input sopra per aggiungere colonne alla visualizzazione della tabella. È possibile trascinare e rilasciare le colonne per riordinarle."
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Vuoi che alcune macro-attività si distinguano dalla massa?'
           relation_columns: 'Vuoi visualizzare le relazioni nell''elenco di macro-attività?'
@@ -940,8 +941,8 @@ it:
         other: "%{count} macro-attività subordinate"
       hour:
         zero: "0 o"
-        one: "1 o"
-        other: "%{count} o"
+        one: ""
+        other: ""
     zen_mode:
       button_activate: 'Attiva modalità zen'
       button_deactivate: 'Disattiva modalità zen'

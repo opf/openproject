@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -35,50 +35,50 @@ describe Impediment, type: :model do
   let(:type_task) { @type_task ||= FactoryBot.create(:type_task) }
   let(:issue_priority) { @issue_priority ||= FactoryBot.create(:priority, is_default: true) }
   let(:status) { FactoryBot.create(:status) }
-  let(:task) {
+  let(:task) do
     FactoryBot.build(:task, type: type_task,
-                             project: project,
-                             author: user,
-                             priority: issue_priority,
-                             status: status)
-  }
-  let(:feature) {
+                            project: project,
+                            author: user,
+                            priority: issue_priority,
+                            status: status)
+  end
+  let(:feature) do
     FactoryBot.build(:work_package, type: type_feature,
-                                     project: project,
-                                     author: user,
-                                     priority: issue_priority,
-                                     status: status)
-  }
+                                    project: project,
+                                    author: user,
+                                    priority: issue_priority,
+                                    status: status)
+  end
   let(:version) { FactoryBot.create(:version, project: project) }
 
   let(:project) do
     unless @project
       @project = FactoryBot.build(:project, types: [type_feature, type_task])
       @project.members = [FactoryBot.build(:member, principal: user,
-                                                     project: @project,
-                                                     roles: [role])]
+                                                    project: @project,
+                                                    roles: [role])]
     end
     @project
   end
 
-  let(:impediment) {
+  let(:impediment) do
     FactoryBot.build(:impediment, author: user,
-                                   version: version,
-                                   assigned_to: user,
-                                   priority: issue_priority,
-                                   project: project,
-                                   type: type_task,
-                                   status: status)
-  }
+                                  version: version,
+                                  assigned_to: user,
+                                  priority: issue_priority,
+                                  project: project,
+                                  type: type_task,
+                                  status: status)
+  end
 
   before(:each) do
     allow(Setting)
       .to receive(:plugin_openproject_backlogs)
       .and_return({ 'points_burn_direction' => 'down',
-                    'wiki_template'         => '',
-                    'card_spec'             => 'Sattleford VM-5040',
-                    'story_types'           => [type_feature.id.to_s],
-                    'task_type'             => type_task.id.to_s })
+                    'wiki_template' => '',
+                    'card_spec' => 'Sattleford VM-5040',
+                    'story_types' => [type_feature.id.to_s],
+                    'task_type' => type_task.id.to_s })
 
     login_as user
   end

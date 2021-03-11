@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -33,13 +33,13 @@ class HourlyRatesController < ApplicationController
   helper :hourly_rates
   include HourlyRatesHelper
 
-  before_action :find_user, only: [:show, :edit, :update, :set_rate]
+  before_action :find_user, only: %i[show edit update set_rate]
 
-  before_action :find_optional_project, only: [:show, :edit, :update]
+  before_action :find_optional_project, only: %i[show edit update]
   before_action :find_project, only: [:set_rate]
 
   # #show, #edit have their own authorization
-  before_action :authorize, except: [:show, :edit, :update]
+  before_action :authorize, except: %i[show edit update]
 
   # TODO: this should be an index
   def show
@@ -140,7 +140,8 @@ class HourlyRatesController < ApplicationController
     if rate.save
       if request.xhr?
         render :update do |page|
-          page.replace_html "rate_for_#{@user.id}", link_to(number_to_currency(rate.rate), action: 'edit', id: @user, project_id: @project)
+          page.replace_html "rate_for_#{@user.id}",
+                            link_to(number_to_currency(rate.rate), action: 'edit', id: @user, project_id: @project)
         end
       else
         flash[:notice] = t(:notice_successful_update)

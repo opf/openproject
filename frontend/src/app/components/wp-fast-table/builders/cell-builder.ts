@@ -1,6 +1,5 @@
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {
-  displayClassName,
   DisplayFieldRenderer,
   editFieldContainerClass
 } from "core-app/modules/fields/display/display-field-renderer";

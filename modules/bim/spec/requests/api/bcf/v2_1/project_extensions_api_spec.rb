@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -75,7 +75,7 @@ describe 'BCF 2.1 project extensions resource', type: :request, content_type: :j
     let(:current_user) do
       FactoryBot.create(:user,
                         member_in_project: project,
-                        member_with_permissions: [:view_project, :edit_project, :manage_bcf, :view_members])
+                        member_with_permissions: %i[view_project edit_project manage_bcf view_members])
     end
 
     let(:other_user) do

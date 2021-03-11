@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -77,16 +77,16 @@ describe :DateTimeFormatter do
 
     it 'rejects parsing non ISO date formats' do
       bad_format = date.strftime('%d.%m.%Y')
-      expect {
+      expect do
         subject.parse_date(bad_format, 'prop')
-      }.to raise_error(API::Errors::PropertyFormatError)
+      end.to raise_error(API::Errors::PropertyFormatError)
     end
 
     it 'rejects parsing ISO 8601 date + time formats' do
       bad_format = datetime.iso8601
-      expect {
+      expect do
         subject.parse_date(bad_format, 'prop')
-      }.to raise_error(API::Errors::PropertyFormatError)
+      end.to raise_error(API::Errors::PropertyFormatError)
     end
 
     it_behaves_like 'can parse nil' do
@@ -147,21 +147,21 @@ describe :DateTimeFormatter do
     end
 
     it 'rejects parsing non sense' do
-      expect {
+      expect do
         subject.parse_duration_to_hours('foo', 'prop')
-      }.to raise_error(API::Errors::PropertyFormatError)
+      end.to raise_error(API::Errors::PropertyFormatError)
     end
 
     it 'rejects parsing pure number strings' do
-      expect {
+      expect do
         subject.parse_duration_to_hours('5', 'prop')
-      }.to raise_error(API::Errors::PropertyFormatError)
+      end.to raise_error(API::Errors::PropertyFormatError)
     end
 
     it 'rejects parsing pure numbers' do
-      expect {
+      expect do
         subject.parse_duration_to_hours(5, 'prop')
-      }.to raise_error(API::Errors::PropertyFormatError)
+      end.to raise_error(API::Errors::PropertyFormatError)
     end
 
     it_behaves_like 'can parse nil' do

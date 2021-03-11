@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -100,7 +101,7 @@ module DevelopmentData
       print_status '.'
 
       cfs
-    rescue => e
+    rescue StandardError => e
       binding.pry
     end
 

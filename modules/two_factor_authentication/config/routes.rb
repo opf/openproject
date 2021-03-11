@@ -1,5 +1,4 @@
 OpenProject::Application::routes.draw do
-
   namespace 'two_factor_authentication' do
     get :request, to: 'authentication#request_otp'
     post :confirm, to: 'authentication#confirm_otp'
@@ -16,18 +15,17 @@ OpenProject::Application::routes.draw do
           controller: 'two_factor_authentication/forced_registration/two_factor_devices' do
       get :new, action: :new, as: 'new_forced_2fa_device'
       post :register, action: :register, as: 'register_forced_2fa_device'
-      match '/:device_id/confirm', action: :confirm, via: [:get, :post], as: 'confirm_forced_2fa_device'
+      match '/:device_id/confirm', action: :confirm, via: %i[get post], as: 'confirm_forced_2fa_device'
     end
   end
 
-  resources :users do
+  resources :users, only: [] do
     member do
       resources :two_factor_devices,
                 param: :device_id,
                 controller: 'two_factor_authentication/users/two_factor_devices',
                 as: 'user_2fa_devices',
-                only: [:new, :create, :destroy] do
-
+                only: %i[new create destroy] do
         # Register new device ( 'create' )
         post :register, on: :collection
 
@@ -40,12 +38,11 @@ OpenProject::Application::routes.draw do
     end
   end
 
-
   scope 'my' do
     resource :backup_codes,
              controller: 'two_factor_authentication/my/backup_codes',
              as: 'my_2fa_backup_codes',
-             only: [:show, :create]
+             only: %i[show create]
 
     resource :remember_cookie,
              controller: 'two_factor_authentication/my/remember_cookie',
@@ -56,7 +53,7 @@ OpenProject::Application::routes.draw do
               controller: 'two_factor_authentication/my/two_factor_devices',
               param: :device_id,
               as: 'my_2fa_devices',
-              only: [:index, :new, :destroy] do
+              only: %i[index new destroy] do
       # Register new device ( 'create' )
       post :register, on: :collection
 

@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -30,8 +30,10 @@
 #
 
 module WorkPackages::Scopes
-  class ForScheduling
-    class << self
+  module ForScheduling
+    extend ActiveSupport::Concern
+
+    class_methods do
       # Fetches all work packages that need to be evaluated for eventual rescheduling after a related (i.e. follows/precedes
       # and hierarchy) work package is modified or created.
       #
@@ -74,8 +76,8 @@ module WorkPackages::Scopes
       #
       # @param work_packages WorkPackage[] A set of work packages for which the set of related work packages that might
       # be subject to reschedule is fetched.
-      def fetch(work_packages)
-        return WorkPackage.none if work_packages.empty?
+      def for_scheduling(work_packages)
+        return none if work_packages.empty?
 
         sql = <<~SQL
           WITH
@@ -88,8 +90,7 @@ module WorkPackages::Scopes
               NOT to_schedule.manually
         SQL
 
-        WorkPackage
-          .where("id IN (#{sql})")
+        where("id IN (#{sql})")
           .where.not(id: work_packages)
       end
 
@@ -119,45 +120,45 @@ module WorkPackages::Scopes
         values = work_packages.map { |wp| "(#{wp.id}, false)" }.join(', ')
 
         <<~SQL
-          to_schedule (id, manually) AS (
-            SELECT * FROM (VALUES#{values}) AS t(id, manually)
+             to_schedule (id, manually) AS (
+               SELECT * FROM (VALUES#{values}) AS t(id, manually)
 
-            UNION
+               UNION
 
-            SELECT
-              CASE
-                WHEN relations.to_id = to_schedule.id
-                THEN relations.from_id
-                ELSE relations.to_id
-              END id,
-              (work_packages.schedule_manually OR COALESCE(descendants.schedule_manually, false)) manually
-            FROM
-              to_schedule
-            JOIN
-              relations
-              ON NOT to_schedule.manually
-              AND (#{relations_condition_sql})
-              AND
-                ((relations.to_id = to_schedule.id)
-                OR (relations.from_id = to_schedule.id AND relations.follows = 0))
-            LEFT JOIN work_packages
-              ON (CASE
-                WHEN relations.to_id = to_schedule.id
-                THEN relations.from_id
-                ELSE relations.to_id
-                END) = work_packages.id
-            LEFT JOIN (
-              SELECT
-                relations.from_id,
-                bool_and(COALESCE(work_packages.schedule_manually, false)) schedule_manually
-              FROM relations relations
-              JOIN work_packages
-              ON
-                work_packages.id = relations.to_id
-                AND relations.follows = 0 AND #{relations_condition_sql(transitive: true)}
-              GROUP BY relations.from_id
-					  ) descendants ON work_packages.id = descendants.from_id
-          )
+               SELECT
+                 CASE
+                   WHEN relations.to_id = to_schedule.id
+                   THEN relations.from_id
+                   ELSE relations.to_id
+                 END id,
+                 (work_packages.schedule_manually OR COALESCE(descendants.schedule_manually, false)) manually
+               FROM
+                 to_schedule
+               JOIN
+                 relations
+                 ON NOT to_schedule.manually
+                 AND (#{relations_condition_sql})
+                 AND
+                   ((relations.to_id = to_schedule.id)
+                   OR (relations.from_id = to_schedule.id AND relations.follows = 0))
+               LEFT JOIN work_packages
+                 ON (CASE
+                   WHEN relations.to_id = to_schedule.id
+                   THEN relations.from_id
+                   ELSE relations.to_id
+                   END) = work_packages.id
+               LEFT JOIN (
+                 SELECT
+                   relations.from_id,
+                   bool_and(COALESCE(work_packages.schedule_manually, false)) schedule_manually
+                 FROM relations relations
+                 JOIN work_packages
+                 ON
+                   work_packages.id = relations.to_id
+                   AND relations.follows = 0 AND #{relations_condition_sql(transitive: true)}
+                 GROUP BY relations.from_id
+          ) descendants ON work_packages.id = descendants.from_id
+             )
         SQL
       end
 

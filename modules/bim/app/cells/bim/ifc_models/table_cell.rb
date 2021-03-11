@@ -26,12 +26,12 @@ module Bim
 
       def headers
         [
-          ['title', caption: IfcModel.human_attribute_name(:title)],
-          ['is_default', caption: IfcModel.human_attribute_name(:is_default)],
-          ['created_at', caption: IfcModel.human_attribute_name(:created_at)],
-          ['updated_at', caption: IfcModel.human_attribute_name(:updated_at)],
-          ['uploader', caption: IfcModel.human_attribute_name(:uploader)],
-          ['processing', caption: I18n.t('ifc_models.processing_state.label')]
+          ['title', { caption: IfcModel.human_attribute_name(:title) }],
+          ['is_default', { caption: IfcModel.human_attribute_name(:is_default) }],
+          ['created_at', { caption: IfcModel.human_attribute_name(:created_at) }],
+          ['updated_at', { caption: IfcModel.human_attribute_name(:updated_at) }],
+          ['uploader', { caption: IfcModel.human_attribute_name(:uploader) }],
+          ['processing', { caption: I18n.t('ifc_models.processing_state.label') }]
         ]
       end
     end

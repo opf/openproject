@@ -15,8 +15,8 @@ nl:
       file_invalid: "BCF-bestand ongeldig"
     x_bcf_issues:
       zero: 'Geen BCF-kwesties'
-      one: 'One BCF issue'
-      other: '%{count} BCF issues'
+      one: ''
+      other: ''
     bcf_xml:
       xml_file: 'BCF XML bestand'
       import_title: 'Import'

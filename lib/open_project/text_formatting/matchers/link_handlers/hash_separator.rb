@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -31,7 +31,6 @@
 module OpenProject::TextFormatting::Matchers
   module LinkHandlers
     class HashSeparator < Base
-
       def self.allowed_prefixes
         %w(version message project user group document meeting)
       end
@@ -108,7 +107,9 @@ module OpenProject::TextFormatting::Matchers
       def render_user
         user = User.find_by(id: oid)
         if user
-          link_to_user(user, only_path: context[:only_path], class: 'user-mention')
+          link_to_user(user,
+                       only_path: context[:only_path],
+                       class: 'user-mention')
         end
       end
 
@@ -116,10 +117,9 @@ module OpenProject::TextFormatting::Matchers
         group = Group.find_by(id: oid)
 
         if group
-          content_tag :span,
-                      group.name,
-                      title: I18n.t(:label_group_named, name: group.name),
-                      class: 'user-mention'
+          link_to_group(group,
+                        only_path: context[:only_path],
+                        class: 'user-mention')
         end
       end
     end

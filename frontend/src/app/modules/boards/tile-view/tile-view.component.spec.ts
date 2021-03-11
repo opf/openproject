@@ -1,4 +1,4 @@
-import {ComponentFixture, TestBed, async} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {TileViewComponent} from './tile-view.component';

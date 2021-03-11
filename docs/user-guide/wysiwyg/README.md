@@ -11,14 +11,17 @@ keywords: WYSIWYG, CKEditor, Links to OpenProject resources
 Starting with version 8.0.0, OpenProject features a quasi-WYSIWYG editor, powered by [CKSource CKEditor5](https://ckeditor5.github.io/). The underlying format is GitHub-flavored CommonMark ([GFM](https://github.github.com/gfm/)). All previous textile-based content will be migrated when upgrading to OpenProject 8.0.
 
 <div class="alert alert-info" role="alert">
-**Please note:** In some resources such as work packages or comments, the editor does not exhibit all functionality such as macros or image upload.
+**Please note:** 
+In some resources such as work packages or comments, the editor does not exhibit all functionality such as macros or image upload.
+In the work package split screen view (details view) you may have to use the three vertical dots to access additional features of the editor.
 </div>
+
 
 
 
 | Topic                                                        | Content                                                  |
 | ------------------------------------------------------------ | -------------------------------------------------------- |
-| [Basic formating](#basic-formatting)                         | Basic formatting elements in the WYSIWYG editor          |
+| [Basic formatting](#basic-formatting)                        | Basic formatting elements in the WYSIWYG editor          |
 | [Image handling](#image-handling)                            | How to add images in the WYSIWYG editor?                 |
 | [Macros](#macros)                                            | Available macros in the WYSIWYG editor                   |
 | [Links to OpenProject resources](#links-to-openproject-resources) | How to link to resources like wikis, projects, meetings? |

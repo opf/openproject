@@ -1,10 +1,10 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2020 the OpenProject GmbH
+#Copyright (C) 2012-2021 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
@@ -30,7 +30,7 @@ ja:
         description: "説明"
         spent: "使用済"
         status: "ステータス"
-        subject: "題名"
+        subject: "タイトル"
         type: "コスト種類"
         labor_budget: "計画作業員コスト"
         material_budget: "計画単価"
@@ -63,7 +63,7 @@ ja:
   label_example_placeholder: '例： %{decimal}'
   label_view_all_budgets: "全ての予算を表示"
   label_yes: "はい"
-  notice_budget_conflict: "作業項目は同一プロジェクトである必要があります。"
+  notice_budget_conflict: "ワークパッケージは同一プロジェクトである必要があります。"
   notice_no_budgets_available: "予算がありません。"
   permission_edit_budgets: "予算の編集"
   permission_view_budgets: "予算の表示"

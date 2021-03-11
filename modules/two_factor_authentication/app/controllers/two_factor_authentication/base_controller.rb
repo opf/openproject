@@ -1,13 +1,12 @@
 module ::TwoFactorAuthentication
   class BaseController < ApplicationController
-
     # Ensure 2FA authentication is enabled
     before_action :ensure_enabled_2fa
 
     # Locate the user we're editing
     prepend_before_action :find_user
 
-    before_action :find_device, only: [:confirm, :make_default, :destroy]
+    before_action :find_device, only: %i[confirm make_default destroy]
 
     layout 'no_menu'
 
@@ -61,6 +60,7 @@ module ::TwoFactorAuthentication
         request_device_confirmation_token
       elsif request.post?
         return unless ensure_token_parameter
+
         validate_device_token
       else
         head 405
@@ -73,10 +73,10 @@ module ::TwoFactorAuthentication
     # Request (if needed) the token for entering
     def request_device_confirmation_token
       request_token_for_device(
-          @device,
-          confirm_path: url_for(action: :confirm, device_id: @device.id),
-          title: I18n.t('two_factor_authentication.devices.confirm_device'),
-          message: I18n.t('two_factor_authentication.devices.text_confirm_to_complete_html', identifier: @device.identifier)
+        @device,
+        confirm_path: url_for(action: :confirm, device_id: @device.id),
+        title: I18n.t('two_factor_authentication.devices.confirm_device'),
+        message: I18n.t('two_factor_authentication.devices.text_confirm_to_complete_html', identifier: @device.identifier)
       )
     end
 

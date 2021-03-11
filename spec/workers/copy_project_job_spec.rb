@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -32,7 +32,7 @@ describe CopyProjectJob, type: :model do
   let(:project) { FactoryBot.create(:project, public: false) }
   let(:user) { FactoryBot.create(:user) }
   let(:role) { FactoryBot.create(:role, permissions: [:copy_projects]) }
-  let(:params) { {name: 'Copy', identifier: 'copy'} }
+  let(:params) { { name: 'Copy', identifier: 'copy' } }
   let(:maildouble) { double('Mail::Message', deliver: true) }
 
   before do
@@ -57,10 +57,9 @@ describe CopyProjectJob, type: :model do
       end
 
       copy_job.perform user_id: user_de.id,
-                  source_project_id: source_project.id,
-                  target_project_params: {},
-                  associations_to_copy: []
-
+                       source_project_id: source_project.id,
+                       target_project_params: {},
+                       associations_to_copy: []
     end
   end
 
@@ -88,8 +87,10 @@ describe CopyProjectJob, type: :model do
       CopyProjectJob.new(job_args).tap(&:perform_now)
     end
 
-    let(:params) { {name: 'Copy', identifier: 'copy', type_ids: [type.id], work_package_custom_field_ids: [custom_field.id]} }
-    let(:expected_error_message) { "#{WorkPackage.model_name.human} '#{work_package.type.name} ##{work_package.id}: #{work_package.subject}': #{custom_field.name} #{I18n.t('errors.messages.blank')}." }
+    let(:params) { { name: 'Copy', identifier: 'copy', type_ids: [type.id], work_package_custom_field_ids: [custom_field.id] } }
+    let(:expected_error_message) do
+      "#{WorkPackage.model_name.human} '#{work_package.type.name} ##{work_package.id}: #{work_package.subject}': #{custom_field.name} #{I18n.t('errors.messages.blank')}."
+    end
 
     before do
       source_project.work_package_custom_fields << custom_field
@@ -162,7 +163,7 @@ describe CopyProjectJob, type: :model do
       end
     end
 
-    let(:params) { {name: 'Copy', identifier: 'copy'} }
+    let(:params) { { name: 'Copy', identifier: 'copy' } }
 
     before do
       allow(User).to receive(:current).and_return(admin)

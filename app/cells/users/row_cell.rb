@@ -8,7 +8,7 @@ module Users
     end
 
     def row_css_class
-      status = %w(anon active registered locked)[user.status]
+      status = user.status
       blocked = "blocked" if user.failed_too_many_recent_login_attempts?
 
       ["user", status, blocked].compact.join(" ")
@@ -42,7 +42,13 @@ module Users
     end
 
     def status_link
-      change_user_status_links user unless user.id == table.current_user.id
+      # Don't show for current user
+      return if user.id == table.current_user.id
+
+      # Don't show if non-admin
+      return unless table.current_user.admin?
+
+      change_user_status_links user
     end
 
     def column_css_class(column)

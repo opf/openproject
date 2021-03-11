@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -30,9 +31,9 @@
 class DocumentsController < ApplicationController
   default_search_scope :documents
   model_object Document
-  before_action :find_project_by_project_id, only: [:index, :new, :create]
-  before_action :find_model_object, except: [:index, :new, :create]
-  before_action :find_project_from_association, except: [:index, :new, :create]
+  before_action :find_project_by_project_id, only: %i[index new create]
+  before_action :find_model_object, except: %i[index new create]
+  before_action :find_project_from_association, except: %i[index new create]
   before_action :authorize
 
   def index
@@ -41,11 +42,11 @@ class DocumentsController < ApplicationController
     @grouped =
       case @group_by
       when 'date'
-        documents.group_by {|d| d.updated_at.to_date }
+        documents.group_by { |d| d.updated_at.to_date }
       when 'title'
-        documents.group_by {|d| d.title.first.upcase}
+        documents.group_by { |d| d.title.first.upcase }
       when 'author'
-        documents.with_attachments.group_by {|d| d.attachments.last.author}
+        documents.with_attachments.group_by { |d| d.attachments.last.author }
       else
         documents.includes(:category).group_by(&:category)
       end

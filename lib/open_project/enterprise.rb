@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -46,7 +46,7 @@ module OpenProject
       end
 
       def active_user_count
-        User.not_builtin.active.count
+        User.human.active.count
       end
 
       ##
@@ -61,7 +61,7 @@ module OpenProject
       # While the active user limit has not been reached yet it would be reached
       # if all registered and invited users were to activate their accounts.
       def imminent_user_limit?
-        User.not_builtin.active_or_registered.count >= user_limit if user_limit
+        User.human.not_locked.count >= user_limit if user_limit
       end
 
       def fail_fast?

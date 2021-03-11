@@ -1,10 +1,10 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2020 the OpenProject GmbH
+#Copyright (C) 2012-2021 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
@@ -86,7 +86,7 @@ zh-TW:
     caption_rate_history: "Rate history"
     clipboard:
       browser_error: "您的瀏覽器不支援複製到剪貼簿。請手動複製選取的文字。"
-      copied_successful: "成功複製到剪貼簿上!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: '圖表類型'
       axis_criteria: 'Axis criteria'
@@ -270,13 +270,13 @@ zh-TW:
           text_new_features: "Read about new features and product updates."
           learn_about: "瞭解更多新功能的資訊"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
     label_activate: "啟用"
     label_add_column_after: "在後面增加一欄"
     label_add_column_before: "在前面增加一欄"
@@ -402,6 +402,7 @@ zh-TW:
     label_public_query: "公開"
     label_sum: "總和"
     label_sum_for: "總和"
+    label_total_sum: "Total sum"
     label_subject: "主題"
     label_this_week: "本週"
     label_today: "今日"
@@ -843,7 +844,7 @@ zh-TW:
           automatic: '自動'
           manually: '手動'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
-        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: '需要某些工作包才能從大眾中脫穎而出？'
           relation_columns: '需要檢視工作項目清單的關係嗎'
@@ -937,7 +938,7 @@ zh-TW:
         other: "%{count} 個子工作項目"
       hour:
         zero: "0 h"
-        other: "%{count} 小時"
+        other: ""
     zen_mode:
       button_activate: '啟動 zen 模式'
       button_deactivate: '停用 zen 模式'

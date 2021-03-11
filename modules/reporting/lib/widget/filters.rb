@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -35,8 +35,8 @@ class Widget::Filters < ::Widget::Base
       add_filter_label = label_tag 'add_filter_select', I18n.t(:label_filter_add),
                                    class: 'advanced-filters--add-filter-label'
       add_filter_label += label_tag 'add_filter_select', I18n.t('js.filter.description.text_open_filter') + ' ' +
-                                   I18n.t('js.filter.description.text_close_filter'),
-                                   class: 'hidden-for-sighted'
+                                                         I18n.t('js.filter.description.text_close_filter'),
+                                    class: 'hidden-for-sighted'
 
       add_filter_value = content_tag :div, class: 'advanced-filters--add-filter-value' do
         select_tag 'add_filter_select',
@@ -67,8 +67,8 @@ class Widget::Filters < ::Widget::Base
     engine::Filter.all.select(&:selectable?).map do |filter|
       opts = { id: "filter_#{filter.underscore_name}",
                class: "#{filter.underscore_name} advanced-filters--filter",
-               :"data-filter-name" => filter.underscore_name }
-      active_instance = active_filters.detect { |f| f.class == filter }
+               "data-filter-name": filter.underscore_name }
+      active_instance = active_filters.detect { |f| f.instance_of?(filter) }
       if active_instance
         opts[:"data-selected"] = true
       else
@@ -97,12 +97,10 @@ class Widget::Filters < ::Widget::Base
       else
         render_widget MultiValues, f, to: html, lazy: true
       end
+    elsif f_cls.is_multiple_choice?
+      render_widget MultiChoice, f, to: html
     else
-      if f_cls.is_multiple_choice?
-        render_widget MultiChoice, f, to: html
-      else
-        render_widget MultiValues, f, to: html, lazy: true
-      end
+      render_widget MultiValues, f, to: html, lazy: true
     end
     render_widget RemoveButton, f, to: html
   end

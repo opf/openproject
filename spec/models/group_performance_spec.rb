@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -54,7 +54,8 @@ describe Group, type: :model do
         type: project.types.first,
         author: user,
         project: project,
-        status: status)
+        status: status
+      )
 
       work_packages.first.tap do |wp|
         wp.assigned_to = group
@@ -77,7 +78,7 @@ describe Group, type: :model do
 
         puts "Destroying group ..."
         start = Time.now.to_i
-        group.destroy
+        Principals::DeleteJob.perform_now group
         @seconds = Time.now.to_i - start
 
         puts "Destroyed group in #{@seconds} seconds"

@@ -62,6 +62,7 @@ module ::TwoFactorAuthentication
           request_device_confirmation_token
         else
           return unless ensure_token_parameter
+
           validate_device_token
         end
       end
@@ -108,8 +109,8 @@ module ::TwoFactorAuthentication
         # Overrides the base controller to active the device
         # without prior confirmation.
         permitted_device_params.merge(
-            user: @user,
-            active: true
+          user: @user,
+          active: true
         )
       end
 

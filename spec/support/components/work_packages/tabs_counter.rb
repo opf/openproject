@@ -15,7 +15,7 @@ module Components
 
       # Check value of counter for the given tab
       def expect_counter(tab, content)
-        expect(tab).to have_selector('.wp-tabs-count', text: "#{content}")
+        expect(tab).to have_selector('.wp-tabs-count', text: content.to_s)
       end
 
       # Counter should not be displayed, if there are no relations or watchers

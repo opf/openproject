@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -35,28 +36,21 @@
 # As we do not write to the repository, we don't need this kind
 # of isolation.
 def with_filesystem_repository(vendor, command = nil, &block)
-  repo_dir = File.join(Rails.root, 'tmp', 'test', "#{vendor}_repository")
+  repo_dir = Dir.mktmpdir("#{vendor}_repository")
   fixture = File.join(Rails.root, "spec/fixtures/repositories/#{vendor}_repository.tar.gz")
 
-  before(:all) do
-    ['tar', command].compact.each do |cmd|
-      begin
-        # Avoid `which`, as it's not POSIX
-        Open3.capture2e(cmd, '--version')
-      rescue Errno::ENOENT
-        skip "#{cmd} was not found in PATH. Skipping local repository specs"
-      end
-    end
-
-    # Create repository
-    FileUtils.mkdir_p repo_dir
-    system "tar -xzf #{fixture} -C #{repo_dir}"
+  ['tar', command].compact.each do |cmd|
+    # Avoid `which`, as it's not POSIX
+    Open3.capture2e(cmd, '--version')
+  rescue Errno::ENOENT
+    skip "#{cmd} was not found in PATH. Skipping local repository specs"
   end
 
   after(:all) do
     FileUtils.remove_dir repo_dir
   end
 
+  system "tar -xzf #{fixture} -C #{repo_dir}"
   block.call(repo_dir)
 end
 

@@ -15,10 +15,10 @@ pl:
       file_invalid: "Nieprawidłowy plik BCF"
     x_bcf_issues:
       zero: 'Brak problemów BCF'
-      one: 'Jeden problem BCF'
-      few: '%{count} problemy BCF'
-      many: '%{count} problemów BCF'
-      other: '%{count} problemów BCF'
+      one: ''
+      few: ''
+      many: ''
+      other: ''
     bcf_xml:
       xml_file: 'Plik BCF-XML'
       import_title: 'Importuj'

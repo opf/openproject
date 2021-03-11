@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -34,7 +34,7 @@ module OpenProject::GithubIntegration
     # A github webhook happened.
     # We need to check validity of the data and send a Notification
     # which we process in our NotificationHandler.
-    def process(hook, request, params, user)
+    def process(_hook, request, params, user)
       event_type = request.env['HTTP_X_GITHUB_EVENT']
       event_delivery = request.env['HTTP_X_GITHUB_DELIVERY']
 
@@ -52,7 +52,7 @@ module OpenProject::GithubIntegration
 
       OpenProject::Notifications.send(event_name(event_type), payload)
 
-      return 200
+      200
     end
 
     private def event_name(github_event_name)

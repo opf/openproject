@@ -19,9 +19,9 @@ module OpenProject::XlsExport
     initializer 'xls_export.register_hooks' do
       # don't use require_dependency to not reload hooks in development mode
 
-      require 'open_project/xls_export/hooks/cost_report_hook.rb'
+      require 'open_project/xls_export/hooks/cost_report_hook'
 
-      require 'open_project/xls_export/hooks/work_package_hook.rb'
+      require 'open_project/xls_export/hooks/work_package_hook'
     end
 
     initializer 'xls_export.register_mimetypes' do

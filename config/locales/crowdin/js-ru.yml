@@ -1,10 +1,10 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2020 the OpenProject GmbH
+#Copyright (C) 2012-2021 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
@@ -270,13 +270,13 @@ ru:
           text_new_features: "Читайте о новых возможностях и обновлениях продуктов."
           learn_about: "Подробнее о новых функциях"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li><b>Улучшенные стили</b>  WYSIWYG редактора.</li> <li>Прямое отображение <b>имени пользователя для @notifications</b> при редактировании.</li> <li>Профиль расширенной аутентификации с <b>провайдером OpenID Connect.</b></li> <li>Проект Отображения <b>этапов агрегировал</b> в одной строке на диаграмме Гантта.</li> <li><b>Свернуть всю кнопку для групп</b> в списке пакетов работ.</li> <li><b>Оптимизация для печати,</b> например вики-страницы, с помощью функции печати браузера.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li><b>Улучшенные стили</b>  WYSIWYG редактора.</li> <li>Прямое отображение <b>имени пользователя для @notifications</b> при редактировании.</li> <li>Профиль расширенной аутентификации с <b>провайдером OpenID Connect.</b></li> <li>Проект Отображения <b>этапов агрегировал</b> в одной строке на диаграмме Гантта.</li> <li><b>Свернуть всю кнопку для групп</b> в списке пакетов работ.</li> <li><b>Оптимизация для печати,</b> например вики-страницы, с помощью функции печати браузера.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
     label_activate: "Активировать"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"
@@ -402,6 +402,7 @@ ru:
     label_public_query: "Общий"
     label_sum: "Сумма"
     label_sum_for: "Сумма для"
+    label_total_sum: "Общая сумма"
     label_subject: "Тема"
     label_this_week: "на этой неделе"
     label_today: "Сегодня"
@@ -843,7 +844,7 @@ ru:
           automatic: 'Автоматически'
           manually: 'Вручную'
           warning: 'При активации режима автоматического упорядования вы потеряете свою предыдущую сортировку.'
-        columns_help_text: "С помощью поля ввода выше можно добавлять столбцы в табличное представление. Для изменения порядка столбцов перетаскивайте их мышью."
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Хотите выделить некоторые пакеты работ из общей массы?'
           relation_columns: 'Нужно видеть отношения в списке пакетов работ?'
@@ -943,10 +944,10 @@ ru:
         other: "пакет работ с %{count} дочерними"
       hour:
         zero: "0 ч"
-        one: "1 ч."
-        few: "%{count} ч."
-        many: "%{count} ч."
-        other: "%{count} ч."
+        one: ""
+        few: ""
+        many: ""
+        other: ""
     zen_mode:
       button_activate: 'Включить дзен-режим'
       button_deactivate: 'Отключить дзен-режим'

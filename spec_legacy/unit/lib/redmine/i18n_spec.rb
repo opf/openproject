@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -40,13 +41,13 @@ describe Redmine::I18n do
     Setting.date_format = ''
     valid_languages.each do |lang|
       set_language_if_valid lang
-      expect {
+      expect do
         format_date(Date.today)
         format_time(Time.now)
         format_time(Time.now, false)
         refute_equal 'default', ::I18n.l(Date.today, format: :default), "date.formats.default missing in #{lang}"
         refute_equal 'time',    ::I18n.l(Time.now, format: :time),      "time.formats.time missing in #{lang}"
-      }.not_to raise_error
+      end.not_to raise_error
       assert I18n.t('date.day_names').is_a?(Array)
       assert_equal 7, I18n.t('date.day_names').size
 
@@ -102,9 +103,9 @@ describe Redmine::I18n do
   it 'should number to human size for each language' do
     valid_languages.each do |lang|
       set_language_if_valid lang
-      expect {
+      expect do
         number_to_human_size(1024 * 1024 * 4)
-      }.not_to raise_error
+      end.not_to raise_error
     end
   end
 

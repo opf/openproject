@@ -22,7 +22,8 @@ describe ::TwoFactorAuthentication::AuthenticationController, with_2fa_ee: true,
     it_behaves_like 'immediate success login'
   end
 
-  describe 'with no active strategy, but 2FA enforced as configuration', with_config: { '2fa' => { active_strategies: [], enforced: true } } do
+  describe 'with no active strategy, but 2FA enforced as configuration',
+           with_config: { '2fa' => { active_strategies: [], enforced: true } } do
     before do
       allow(OpenProject::TwoFactorAuthentication::TokenStrategyManager)
         .to receive(:add_default_strategy?)
@@ -81,7 +82,7 @@ describe ::TwoFactorAuthentication::AuthenticationController, with_2fa_ee: true,
     end
   end
 
-  describe 'with two active strategy', with_config: { '2fa' => { active_strategies: [:developer, :totp] } } do
+  describe 'with two active strategy', with_config: { '2fa' => { active_strategies: %i[developer totp] } } do
     context 'with a totp device' do
       let!(:device) { FactoryBot.create :two_factor_authentication_device_totp, user: user, channel: :totp }
       it_behaves_like '2FA TOTP request success'

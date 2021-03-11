@@ -138,7 +138,7 @@ You can just reset these changes if you want to commit something or pull the lat
 
 ## Debugging
 
-It's common to just start a debugger whithin ruby code using `binding.pry`.
+It's common to just start a debugger within ruby code using `binding.pry`.
 This **does not work** with the application running as shown above.
 
 If you want to be able to do that, you can, however, simply run the following:
@@ -152,3 +152,20 @@ If the backend container is already running, it will be stopped.
 Instead it will be started in the foreground.
 This way you can debug using pry just as if you had started the server locally using `rails s`.
 You can stop it simply with Ctrl + C too.
+
+## Updates
+
+When a dependency of the image or the base image itself is changed you may need
+rebuild the image. For instance when the Ruby version is updated you may run into
+an error like the following when running `bin/compose setup`:
+
+```
+Creating core_backend_run ... done
+Your Ruby version is 2.7.1, but your Gemfile specified ~> 2.7.2
+```
+
+This means that the current image is out-dated. You can update it like this:
+
+```
+bin/comose build --pull
+```

@@ -14,6 +14,7 @@ describe 'custom fields', js: true do
       cf_page.visit!
 
       click_on "Create a new custom field"
+      SeleniumHubWaiter.wait
     end
 
     it "creates a new float custom field" do

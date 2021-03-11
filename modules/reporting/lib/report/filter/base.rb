@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -105,7 +105,7 @@ class Report::Filter
 
     def self.inherited(klass)
       if base?
-        self.dont_display!
+        dont_display!
         klass.display!
       end
       super
@@ -187,7 +187,7 @@ class Report::Filter
         arity = operator.arity
         query_values = [*transformed_values].compact
         # if there is just the nil it might be actually intendet to be there
-        query_values.unshift nil if Array(self.values).size == 1 && Array(self.values).first.nil?
+        query_values.unshift nil if Array(values).size == 1 && Array(values).first.nil?
         query_values = query_values[0, arity] if query_values and arity >= 0 and arity != query_values.size
         operator.modify(query, field, *query_values) unless field.empty?
       end

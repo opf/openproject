@@ -23,7 +23,7 @@ export class WorkPackageTable {
   @InjectField() querySpace:IsolatedQuerySpace;
   @InjectField() apiV3Service:APIV3Service;
   @InjectField() states:States;
-  @InjectField() I18n:I18nService;
+  @InjectField() I18n!:I18nService;
   @InjectField() workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService;
 
   public originalRows:string[] = [];

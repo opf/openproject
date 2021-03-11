@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -57,9 +57,9 @@ describe 'API v3 Work package form resource', type: :request do
       it_behaves_like 'API V3 formattable', '_embedded/payload/description' do
         let(:format) { 'markdown' }
         let(:raw) { defined?(raw_value) ? raw_value : work_package.description.to_s }
-        let(:html) {
+        let(:html) do
           defined?(html_value) ? html_value : ('<p class="op-uc-p">' + work_package.description.to_s + '</p>')
-        }
+        end
       end
     end
 
@@ -76,9 +76,9 @@ describe 'API v3 Work package form resource', type: :request do
         let(:error_path) { "_embedded/validationErrors/#{property}" }
         let(:error_id) { 'urn:openproject-org:api:v3:errors:PropertyConstraintViolation'.to_json }
 
-        let(:error_body) {
+        let(:error_body) do
           parse_json(subject.body)['_embedded']['validationErrors'][property]
-        }
+        end
 
         it { expect(subject.body).to have_json_path(error_path) }
         it {

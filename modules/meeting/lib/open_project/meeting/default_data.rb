@@ -17,17 +17,17 @@ module OpenProject
       end
 
       def member_permissions
-        [
-          :create_meetings,
-          :edit_meetings,
-          :delete_meetings,
-          :view_meetings,
-          :create_meeting_agendas,
-          :close_meeting_agendas,
-          :send_meeting_agendas_notification,
-          :send_meeting_agendas_icalendar,
-          :create_meeting_minutes,
-          :send_meeting_minutes_notification
+        %i[
+          create_meetings
+          edit_meetings
+          delete_meetings
+          view_meetings
+          create_meeting_agendas
+          close_meeting_agendas
+          send_meeting_agendas_notification
+          send_meeting_agendas_icalendar
+          create_meeting_minutes
+          send_meeting_minutes_notification
         ]
       end
 

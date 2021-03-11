@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -33,9 +33,19 @@ module Members
     private
 
     def set_attributes(params)
-      model.assign_roles(params.delete(:role_ids)) if params[:role_ids]
+      assign_roles(params)
 
       super
+    end
+
+    def assign_roles(params)
+      return unless params[:role_ids]
+
+      role_ids = params
+        .delete(:role_ids)
+        .select(&:present?)
+
+      model.assign_roles(role_ids)
     end
   end
 end

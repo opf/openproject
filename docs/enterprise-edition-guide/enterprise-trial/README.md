@@ -1,10 +1,10 @@
 ---
 sidebar_navigation:
-  title: Enterprise Edition trial
+  title: Enterprise on-premises trial
   priority: 999
 description: Create an OpenProject Enterprise Edition trial installation.
 robots: index, follow
-keywords: Enterprise Edition trial
+keywords: Enterprise Edition trial, EOP
 ---
 # Create an Enterprise on-premises edition trial
 

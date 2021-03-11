@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'filter me value', js: true do
-  let(:status) { FactoryBot.create :default_status}
+  let(:status) { FactoryBot.create :default_status }
   let!(:priority) { FactoryBot.create :default_priority }
   let(:project) { FactoryBot.create :project, public: true }
   let(:role) { FactoryBot.create :existing_role, permissions: [:view_work_packages] }
@@ -51,9 +51,9 @@ describe 'filter me value', js: true do
     context 'as anonymous', with_settings: { login_required?: false } do
       let(:assignee_query) do
         query = FactoryBot.create(:query,
-                                   name: 'Assignee Query',
-                                   project: project,
-                                   user: user)
+                                  name: 'Assignee Query',
+                                  project: project,
+                                  user: user)
 
         query.add_filter('assigned_to_id', '=', ['me'])
         query.save!(validate: false)
@@ -131,32 +131,32 @@ describe 'filter me value', js: true do
     let(:type_task) { FactoryBot.create(:type_task, custom_fields: [custom_field]) }
     let(:project) do
       FactoryBot.create(:project,
-                         types: [type_task],
-                         work_package_custom_fields: [custom_field])
+                        types: [type_task],
+                        work_package_custom_fields: [custom_field])
     end
 
     let(:cf_accessor) { "cf_#{custom_field.id}" }
     let(:cf_accessor_frontend) { "customField#{custom_field.id}" }
     let(:wp_admin) do
       FactoryBot.create :work_package,
-                         type: type_task,
-                         project: project,
-                         custom_field_values: { custom_field.id => admin.id }
+                        type: type_task,
+                        project: project,
+                        custom_field_values: { custom_field.id => admin.id }
     end
 
     let(:wp_user) do
       FactoryBot.create :work_package,
-                         type: type_task,
-                         project: project,
-                         custom_field_values: { custom_field.id => user.id }
+                        type: type_task,
+                        project: project,
+                        custom_field_values: { custom_field.id => user.id }
     end
 
     context 'as anonymous', with_settings: { login_required?: false } do
       let(:assignee_query) do
         query = FactoryBot.create(:query,
-                                   name: 'CF user Query',
-                                   project: project,
-                                   user: user)
+                                  name: 'CF user Query',
+                                  project: project,
+                                  user: user)
 
         query.add_filter(cf_accessor, '=', ['me'])
         query.save!(validate: false)

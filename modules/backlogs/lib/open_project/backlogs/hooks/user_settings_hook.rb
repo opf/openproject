@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -27,7 +27,6 @@
 #++
 
 class OpenProject::Backlogs::Hooks::UserSettingsHook < Redmine::Hook::ViewListener
-
   # Updates the backlogs settings before saving the user
   #
   # Context:
@@ -37,12 +36,14 @@ class OpenProject::Backlogs::Hooks::UserSettingsHook < Redmine::Hook::ViewListen
   def service_update_user_before_save(context = {})
     params = context[:params]
     user = context[:user]
-    return unless params[:backlogs]
 
-    versions_default_fold_state = params.dig(:backlogs, :versions_default_fold_state) || 'open'
+    backlogs_params = params.delete(:backlogs)
+    return unless backlogs_params
+
+    versions_default_fold_state = backlogs_params[:versions_default_fold_state] || 'open'
     user.backlogs_preference(:versions_default_fold_state, versions_default_fold_state)
 
-    color = params.dig(:backlogs, :task_color) || ''
+    color = backlogs_params[:task_color] || ''
     if color == '' || color.match(/^#[A-Fa-f0-9]{6}$/)
       user.backlogs_preference(:task_color, color)
     end

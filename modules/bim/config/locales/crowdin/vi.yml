@@ -15,7 +15,7 @@ vi:
       file_invalid: "Tệp BCF không hợp lệ"
     x_bcf_issues:
       zero: 'Không có vấn đề BCF'
-      other: '%{count} vấn đề trong BCF'
+      other: ''
     bcf_xml:
       xml_file: 'Tệp BCF XML'
       import_title: 'Nhập'

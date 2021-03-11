@@ -12,13 +12,11 @@ import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
 @Injectable()
 export class CustomTextEditFieldService extends EditFieldHandler {
   public fieldName = 'text';
-  public inEdit = false;
-  public inEditMode = false;
-  public inFlight = false;
 
   public valueChanged$:BehaviorSubject<string>;
 
   public changeset:ResourceChangeset;
+  public active:boolean;
 
   constructor(protected elementRef:ElementRef,
               protected injector:Injector,
@@ -26,8 +24,6 @@ export class CustomTextEditFieldService extends EditFieldHandler {
               protected schemaCache:SchemaCacheService) {
     super();
   }
-
-  errorMessageOnLabel:string;
 
   onFocusOut():void {
     // interface
@@ -92,17 +88,21 @@ export class CustomTextEditFieldService extends EditFieldHandler {
     this.deactivate();
   }
 
-  public get active() {
-    return this.inEdit;
-  }
-
-  public activate(withText?:string) {
-    this.inEdit = true;
-  }
-
   deactivate():void {
     this.changeset.clear();
-    this.inEdit = false;
+    this.active = false;
+  }
+
+  activate() {
+    this.active = true;
+  }
+
+  get inEditMode():boolean {
+    return false;
+  }
+
+  get inFlight():boolean {
+    return this.changeset.inFlight;
   }
 
   focus():void {
@@ -133,16 +133,16 @@ export class CustomTextEditFieldService extends EditFieldHandler {
   private initializeChangeset(value:GridWidgetResource) {
     let schemaHref = 'customtext-schema';
     let resourceSource = {
-                           text: value.options.text,
-                           getEditorTypeFor: () => 'full',
-                           canAddAttachments: value.grid.canAddAttachments,
-                           uploadAttachments: (files:UploadFile[]) => value.grid.uploadAttachments(files),
-                           _links: {
-                             schema: {
-                               href: schemaHref
-                             }
-                           }
-                         };
+      text: value.options.text,
+      getEditorTypeFor: () => 'full',
+      canAddAttachments: value.grid.canAddAttachments,
+      uploadAttachments: (files:UploadFile[]) => value.grid.uploadAttachments(files),
+      _links: {
+        schema: {
+          href: schemaHref
+        }
+      }
+    };
 
     let resource = this.halResource.createHalResource(resourceSource, true);
 

@@ -6,7 +6,7 @@ robots: index, follow
 keywords: permissions, roles, RBAC
 ---
 
-# Development Concept: Permissions
+# Development concept: Permissions
 
 OpenProject is very flexible when it comes to authorization and granting permissions to users. The OpenProject application uses a Role-based access control (RBAC) approach to grant individual users permissions to projects.
 
@@ -73,7 +73,7 @@ While not the case throughout the application, permissions:
  * should be applied to scopes whenever fetching a set of records. Even when only fetching an individual record it is best to apply a scope checking the visibility before the `find` instead of fetching the record first and then check for the visibility.
  * needs unfortunately to be checked in the view/representers whenever an attribute is visible for one group of users but not for another.
  * should **not** be checked in the controller layer unless an explicit 403 response needs to be returned.
- 
+
 ### Controller `before_action`
 
 If the permission should be tested for a specific controller action, it will suffice to call the `before_action :authorize` to handle authorization.

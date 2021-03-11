@@ -92,7 +92,7 @@ Copy and paste all data accordingly from your existing Excel list to this sheet.
 
 
 **Download workpackages**: intitially downloads all work packages from the selected project (and query).
- **Upload / update work packages**: makes changes to the  work packges, e.g. adding new work packages or changing any information. This option needs to be chosen in order to initially import and  existing Excel list.
+ **Upload / update work packages**: makes changes to the  work packages, e.g. adding new work packages or changing any information. This option needs to be chosen in order to initially import and  existing Excel list.
  **Show chosen project**: Opens the settings to adapt URL, API key, project or query ID.
 
 Congratulations! You can now synchronize your data between Excel and OpenProject.
@@ -103,7 +103,7 @@ Congratulations! You can now synchronize your data between Excel and OpenProject
 
 12. To synchronize hierarchies (Parent and child relations), insert the column **Parent** within the header of the Excel Sheet as described above (screen 10).
 
-To add or edit a new parent-child relation, you have two possibilites:
+To add or edit a new parent-child relation, you have two possibilities:
 
 **A)** You can add a child to a work package when you  enter 4 empty spaces (press 4x Shift) before typing the subject of the  child work package.
 

@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -32,7 +32,7 @@ describe 'random password generation',
          with_config: { session_store: :active_record_store },
          type: :feature,
          js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
 
   let(:auth_source) { FactoryBot.build :dummy_auth_source }
   let(:old_password) { 'old_Password!123' }
@@ -186,7 +186,6 @@ describe 'random password generation',
               password_min_length: 4
             },
             js: true do
-
       it 'enforces those rules' do
         # Change to valid password according to spec
         user_page.change_password(old_password, 'password')

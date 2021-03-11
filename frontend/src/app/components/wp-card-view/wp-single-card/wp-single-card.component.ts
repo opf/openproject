@@ -103,6 +103,10 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     return wp.project?.name;
   }
 
+  public fullWorkPackageLink(wp:WorkPackageResource) {
+    return this.$state.href('work-packages.show', { workPackageId: wp.id });
+  }
+
   public cardHighlightingClass(wp:WorkPackageResource) {
     return this.cardHighlighting(wp);
   }

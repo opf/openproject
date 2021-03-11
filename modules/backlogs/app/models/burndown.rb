@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -27,7 +27,7 @@
 #++
 
 class Burndown
-  def initialize(sprint, project, burn_direction = nil)
+  def initialize(sprint, project, _burn_direction = nil)
     @sprint_id = sprint.id
 
     make_date_series sprint
@@ -43,12 +43,7 @@ class Burndown
     determine_max
   end
 
-  attr_reader :days
-  attr_reader :sprint_id
-  attr_reader :max
-
-  attr_reader :story_points
-  attr_reader :story_points_ideal
+  attr_reader :days, :sprint_id, :max, :story_points, :story_points_ideal
 
   def series(_select = :active)
     @available_series

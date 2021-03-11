@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -30,9 +30,13 @@
 
 # Find a user account by matching case-insensitive.
 module Users::Scopes
-  class FindByLogin
-    def self.fetch(login)
-      User.where(["LOWER(login) = ?", login.to_s.downcase]).first
+  module FindByLogin
+    extend ActiveSupport::Concern
+
+    class_methods do
+      def self.find_by_login(login)
+        where(["LOWER(login) = ?", login.to_s.downcase]).first
+      end
     end
   end
 end

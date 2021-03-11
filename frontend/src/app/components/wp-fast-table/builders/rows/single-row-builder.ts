@@ -27,7 +27,7 @@ export class SingleRowBuilder {
   // Injections
   @InjectField() wpTableSelection:WorkPackageViewSelectionService;
   @InjectField() wpTableColumns:WorkPackageViewColumnsService;
-  @InjectField() I18n:I18nService;
+  @InjectField() I18n!:I18nService;
 
   // Cell builder instance
   protected cellBuilder = new CellBuilder(this.injector);
@@ -152,7 +152,10 @@ export class SingleRowBuilder {
 
       // Treat internal columns specially
       // and skip the replacement of the column if this is being edited.
-      if (column.id.startsWith('__internal') || this.isColumnBeingEdited(workPackage, column)) {
+      // But only do that, if the column existed before. Sometimes, e.g. when lacking permissions
+      // the column was not correctly created (with the intended classes). This code then
+      // increases the robustness.
+      if ((column.id.startsWith('__internal') || this.isColumnBeingEdited(workPackage, column)) && oldTd.length) {
         newCells.push(oldTd[0]);
         return;
       }

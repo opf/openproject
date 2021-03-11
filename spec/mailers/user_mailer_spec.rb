@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -508,9 +509,9 @@ describe UserMailer, type: :mailer do
 
     describe 'html mail' do
       let(:expected_translation) do
-        I18n.t(:done_ratio, scope: [:activerecord,
-                                    :attributes,
-                                    :work_package])
+        I18n.t(:done_ratio, scope: %i[activerecord
+                                      attributes
+                                      work_package])
       end
       let(:expected_prefix) { "<li><strong>#{expected_translation}</strong>" }
 
@@ -519,7 +520,9 @@ describe UserMailer, type: :mailer do
       end
 
       context 'changed done ratio' do
-        let(:expected) { "#{expected_prefix} changed from <i title=\"40\">40</i> <br/><strong>to</strong> <i title=\"100\">100</i>" }
+        let(:expected) do
+          "#{expected_prefix} changed from <i title=\"40\">40</i> <br/><strong>to</strong> <i title=\"100\">100</i>"
+        end
 
         before do
           allow(journal).to receive(:details).and_return('done_ratio' => [40, 100])
@@ -531,7 +534,9 @@ describe UserMailer, type: :mailer do
       end
 
       context 'new done ratio' do
-        let(:expected) { "#{expected_prefix} changed from <i title=\"0\">0</i> <br/><strong>to</strong> <i title=\"100\">100</i>" }
+        let(:expected) do
+          "#{expected_prefix} changed from <i title=\"0\">0</i> <br/><strong>to</strong> <i title=\"100\">100</i>"
+        end
 
         before do
           allow(journal).to receive(:details).and_return('done_ratio' => [nil, 100])

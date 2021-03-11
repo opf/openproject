@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -32,21 +32,21 @@ describe WorkPackage, 'acts_as_searchable', type: :model do
   include BecomeMember
 
   let(:wp_subject) { 'the quick brown fox jumps over the lazy dog' }
-  let(:project) {
+  let(:project) do
     FactoryBot.create(:project,
-                       public: false)
-  }
-  let(:work_package) {
+                      public: false)
+  end
+  let(:work_package) do
     FactoryBot.create(:work_package,
-                       subject: wp_subject,
-                       project: project)
-  }
+                      subject: wp_subject,
+                      project: project)
+  end
   let(:user) { FactoryBot.create(:user) }
 
   describe '#search' do
     describe "w/ the user being logged in
               w/ searching for a matching string
-              w/ beeing member with the appropriate permission" do
+              w/ being member with the appropriate permission" do
       before do
         work_package
         allow(User).to receive(:current).and_return user
@@ -60,7 +60,7 @@ describe WorkPackage, 'acts_as_searchable', type: :model do
     end
 
     describe "w/ the user being logged in
-              w/ beeing member with the appropriate permission
+              w/ being member with the appropriate permission
               w/ searching for matching string
               w/ searching with an offset" do
       # this offset recreates the way the time is transformed in the controller

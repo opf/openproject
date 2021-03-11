@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -34,8 +34,8 @@ describe 'My notifications spec', type: :feature, js: true do
 
   let(:user) do
     FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_through_role: role)
+                      member_in_project: project,
+                      member_through_role: role)
   end
 
   before do
@@ -43,6 +43,7 @@ describe 'My notifications spec', type: :feature, js: true do
     visit my_account_path
 
     click_on 'Email notifications'
+    SeleniumHubWaiter.wait
   end
 
   it 'allows to select a project to receive notifications for (Regression #28519)' do
@@ -53,12 +54,13 @@ describe 'My notifications spec', type: :feature, js: true do
     find("#notified_project_ids_#{project.id}", wait: 5).set true
 
     click_on 'Save'
+    SeleniumHubWaiter.wait
+
     expect(page).to have_selector('.flash.notice')
 
     user.reload
     expect(user.mail_notification).to eq(User::USER_MAIL_OPTION_SELECTED.first)
     expect(user.notified_projects_ids).to eq [project.id]
-
 
     select 'No events', from: 'Send email notifications'
     click_on 'Save'
