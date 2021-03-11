@@ -163,6 +163,13 @@ module API
             "#{work_package(work_package_id)}/available_relation_candidates"
           end
 
+          index :capability
+          show :capability
+
+          def self.capabilities_contexts_global
+            "#{capabilities}/contexts/global"
+          end
+
           index :category
           show :category
 

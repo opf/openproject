@@ -156,6 +156,17 @@ describe ::API::V3::Utilities::PathHelper do
     end
   end
 
+  context 'capabilities paths' do
+    it_behaves_like 'index', :capability
+    it_behaves_like 'show', :capability
+
+    describe '#capabilties_contexts_global' do
+      subject { helper.capabilities_contexts_global }
+
+      it_behaves_like 'api v3 path', '/capabilities/contexts/global'
+    end
+  end
+
   context 'configuration paths' do
     describe '#configuration' do
       subject { helper.configuration }
