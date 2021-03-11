@@ -28,11 +28,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Capabilities
-      class CapabilityCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
-      end
-    end
+# Turn it to something independent of a member
+# and possibly prevent instantiating somehow
+class Capability < Member
+  alias_method :context, :project
+
+  def context_id
+    project_id
+  end
+
+  def principal_id
+    user_id
   end
 end

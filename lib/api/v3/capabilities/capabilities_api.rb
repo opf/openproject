@@ -37,12 +37,12 @@ module API
             end
 
             def raw_capabilities
-              @raw_capabilities ||= RolePermission.find_by_sql <<~SQL
-                SELECT
+              capabilities_sql = <<~SQL
+                (SELECT
                   role_permissions.permission,
                   permission_maps.permission_map,
-                  members.user_id principal_id,
-                  members.project_id context_id
+                  members.user_id user_id,
+                  members.project_id project_id
                 FROM "roles"
                 INNER JOIN "role_permissions" ON "role_permissions"."role_id" = "roles"."id"
                 LEFT OUTER JOIN "member_roles" ON "member_roles".role_id = roles.id
@@ -51,36 +51,50 @@ module API
                   (SELECT * FROM (VALUES ('manage_user', 'users/create'),
                                          ('manage_user', 'users/update'),
                                          ('manage_members', 'memberships/create')) AS t(permission, permission_map)) AS permission_maps
-                  ON permission_maps.permission = role_permissions.permission
-                ORDER BY permission_maps.permission_map ASC
+                  ON permission_maps.permission = role_permissions.permission) capabilities
               SQL
+
+              @raw_capabilities ||= Capability
+                                      .select('capabilities.*')
+                                      .from(capabilities_sql)
+                                      .includes(:project, :principal)
+                                      .order(permission_map: :asc)
+              #.pluck('capabilities.permission', 'capabilities.permission_map', 'capabilities.principal_id', 'capabilities.context_id')
+              #.zip([:permission, :permission_map, :principal_id, :context_id])
+# <<~SQL
+#                ORDER BY permission_maps.permission_map ASC
+#              SQL
             end
 
             def capabilities
-              projects = Project.find(raw_capabilities.map(&:context_id).compact).group_by(&:id).transform_values(&:first)
-              principals = Principal.find(raw_capabilities.map(&:principal_id).compact).group_by(&:id).transform_values(&:first)
+              #projects = Project.find(raw_capabilities.map(&:project_id).compact).group_by(&:id).transform_values(&:first)
+              #principals = Principal.find(raw_capabilities.map(&:user_id).compact).group_by(&:id).transform_values(&:first)
 
-              raw_capabilities.map do |raw|
-                capability_class.new(raw.permission_map,
-                                     raw.principal_id,
-                                     raw.context_id,
-                                     principals[raw.principal_id],
-                                     projects[raw.context_id])
-              end
+              #raw_capabilities.map do |raw|
+              #  capability_class.new(raw.permission_map,
+              #                       raw.principal_id,
+              #                       raw.context_id,
+              #                       principals[raw.principal_id],
+              #                       projects[raw.context_id])
+              #end
+              raw_capabilities
             end
           end
 
-          get do
-            # TODO: fix pagination
+          #get do
+          #  # TODO: fix pagination
 
 
-            Capabilities::CapabilityCollectionRepresenter
-              .new(capabilities,
-                   self_link: api_v3_paths.capabilities,
-                   current_user: current_user,
-                   page: 1,
-                   per_page: 50)
-          end
+          #  Capabilities::CapabilityCollectionRepresenter
+          #    .new(capabilities,
+          #         self_link: api_v3_paths.capabilities,
+          #         current_user: current_user,
+          #         page: 1,
+          #         per_page: 50)
+          #end
+
+          get &::API::V3::Utilities::Endpoints::Index.new(model: Capability)
+                                                     .mount
 
           namespace :contexts do
             mount API::V3::Capabilities::Contexts::GlobalAPI

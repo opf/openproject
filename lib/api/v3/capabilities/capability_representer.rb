@@ -35,9 +35,11 @@ module API
         include API::Decorators::LinkedResource
 
         # TODO: encode context and user
-        self_link title_getter: ->(*) { false }
+        self_link id_attribute: :permission_map,
+                  title_getter: ->(*) { false }
 
-        property :id
+        property :permission_map,
+                 as: :id
 
         associated_resource :context,
                             getter: ::API::V3::Capabilities::ContextRepresenterFactory
