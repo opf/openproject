@@ -59,6 +59,9 @@ Note: in this section, the `<dbusername>`, `<dbhost>` and `<dbname>` variables t
 the values that are contained in the `DATABASE_URL` setting of your
 installation.
 
+> _If you are moving OpenProject to a new server and want to import the backup there, this
+will be the `DATABASE_URL` of your **new** installation on that server._
+
 First, ensure the connection details about your database is the one you want to restore
 
 ```bash
