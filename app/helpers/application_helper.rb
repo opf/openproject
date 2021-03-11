@@ -428,9 +428,21 @@ module ApplicationHelper
     when 6
       '6' # Saturday
     else
-      # use language (pass a blank string into the JSON object,
-      # as the datepicker implementation checks for numbers in
-      # /frontend/app/misc/datepicker-defaults.js:34)
+      # use language default (pass a blank string) and moment.js will reuse existing info
+      # /frontend/src/main.ts
+      ''
+    end
+  end
+
+  def locale_first_week_of_year
+    case Setting.first_week_of_year.to_i
+    when 1
+      '1' # Monday
+    when 4
+      '4' # Thursday
+    else
+      # use language default (pass a blank string) and moment.js will reuse existing info
+      # /frontend/src/main.ts
       ''
     end
   end

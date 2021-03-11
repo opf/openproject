@@ -26,11 +26,23 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
 export function initializeLocale() {
   const meta = document.querySelector('meta[name=openproject_initializer]') as HTMLMetaElement;
-  I18n.locale = meta.dataset.locale || 'en';
-  I18n.firstDayOfWeek = parseInt(meta.dataset.firstDayOfWeek!, 10);
+  const locale = meta.dataset.locale || 'en';
+  const firstDayOfWeek = parseInt(meta.dataset.firstDayOfWeek || '', 10);
+  const firstWeekOfYear = parseInt(meta.dataset.firstWeekOfYear || '', 10);
+
+  I18n.locale = locale;
+  I18n.firstDayOfWeek = firstDayOfWeek;
+
+  if (typeof firstDayOfWeek === 'number' && typeof firstWeekOfYear === 'number') {
+    moment.updateLocale(locale, {
+      week: {
+        dow: firstDayOfWeek,
+        doy: 7 + firstDayOfWeek - firstWeekOfYear,
+      },
+    });
+  }
 
   // Override the default pluralization function to allow
   // "other" to be used as a fallback for "one" in languages where one is not set
