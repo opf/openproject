@@ -47,13 +47,13 @@ FactoryBot.define do
     first_login { false if User.table_exists? and User.columns.map(&:name).include? 'first_login' }
 
     callback(:after_build) do |user, evaluator|
-      Hash(evaluator.preferences).each do |key, val|
+      evaluator.preferences.each do |key, val|
         user.pref[key] = val
       end
     end
 
-    callback(:after_create) do |user, _|
-      user.pref.save if user.pref.changed?
+    callback(:after_create) do |user, evaluator|
+      user.pref.save unless evaluator.preferences&.empty?
     end
 
     factory :admin do
