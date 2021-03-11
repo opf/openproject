@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -34,7 +34,7 @@ describe Rack::Deflater, type: :request do
   let(:text) { 'text' }
 
   it 'produces an identical eTag whether content is deflated or not' do
-    # Using the api_v3_paths.configuaration because of the endpoint's simplicity.
+    # Using the api_v3_paths.configuration because of the endpoint's simplicity.
     # It could be any endpoint really.
     get api_v3_paths.configuration
 
@@ -43,7 +43,7 @@ describe Rack::Deflater, type: :request do
     etag = last_response.headers['Etag']
     content_length = last_response.headers['Content-Length'].to_i
 
-    header "Accept-Encoding",  "gzip"
+    header "Accept-Encoding", "gzip"
     get api_v3_paths.configuration
 
     expect(last_response.headers['Etag']).to eql etag

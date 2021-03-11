@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -125,8 +125,8 @@ class Enumeration < ApplicationRecord
     destroy_without_reassign
   end
 
-  def <=>(enumeration)
-    position <=> enumeration.position
+  def <=>(other)
+    position <=> other.position
   end
 
   def to_s; name end
@@ -144,8 +144,8 @@ class Enumeration < ApplicationRecord
   def self.same_custom_values?(new, previous)
     previous.custom_field_values.each do |custom_value|
       if new &&
-        new['custom_field_values'] &&
-        custom_value.value != new['custom_field_values'][custom_value.custom_field_id.to_s]
+         new['custom_field_values'] &&
+         custom_value.value != new['custom_field_values'][custom_value.custom_field_id.to_s]
         return false
       end
     end

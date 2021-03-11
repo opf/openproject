@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -36,7 +36,7 @@ describe 'Deletion', type: :feature do
   let(:delete_button) { 'a.icon-delete' }
   let(:confirm_deletion_button) { 'input[type="submit"]' }
 
-  before do allow(User).to receive(:current).and_return current_user end
+  before { allow(User).to receive(:current).and_return current_user }
 
   shared_context 'delete category' do
     before do
@@ -61,11 +61,11 @@ describe 'Deletion', type: :feature do
   end
 
   describe 'with work package' do
-    let!(:work_package) {
+    let!(:work_package) do
       FactoryBot.create :work_package,
-                         project: category.project,
-                         category: category
-    }
+                        project: category.project,
+                        category: category
+    end
 
     include_context 'delete category'
 

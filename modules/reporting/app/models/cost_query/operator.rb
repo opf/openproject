@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -29,26 +29,28 @@
 class CostQuery::Operator < Report::Operator
   # Operators from Redmine
   new "c", arity: 0, label: :label_closed do
-    def modify(query, field, *values)
+    def modify(query, field, *_values)
       raise "wrong field" if field.to_s.split('.').last != "status_id"
+
       query.where "(#{Status.table_name}.is_closed = #{quoted_true})"
       query
     end
   end
 
   new "o", arity: 0, label: :label_open do
-    def modify(query, field, *values)
+    def modify(query, field, *_values)
       raise "wrong field" if field.to_s.split('.').last != "status_id"
+
       query.where "(#{Status.table_name}.is_closed = #{quoted_false})"
       query
     end
   end
 
-  new "=_child_projects", validate: :integers, label:  :label_is_project_with_subprojects do
+  new "=_child_projects", validate: :integers, label: :label_is_project_with_subprojects do
     def modify(query, field, *values)
       p_ids = []
       values.each do |value|
-        p_ids += ([value] << Project.find(value).descendants.map{ |p| p.id })
+        p_ids += ([value] << Project.find(value).descendants.map { |p| p.id })
       end
       "=".to_operator.modify query, field, p_ids
     rescue ActiveRecord::RecordNotFound
@@ -56,11 +58,11 @@ class CostQuery::Operator < Report::Operator
     end
   end
 
-  new "!_child_projects", validate: :integers, label:  :label_is_not_project_with_subprojects do
+  new "!_child_projects", validate: :integers, label: :label_is_not_project_with_subprojects do
     def modify(query, field, *values)
       p_ids = []
       values.each do |value|
-        p_ids += ([value] << Project.find(value).descendants.map{ |p| p.id })
+        p_ids += ([value] << Project.find(value).descendants.map { |p| p.id })
       end
       "!".to_operator.modify query, field, p_ids
     rescue ActiveRecord::RecordNotFound

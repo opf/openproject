@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -38,34 +39,34 @@ module OpenProject
 
     # Configuration default values
     @defaults = {
-      'edition'                 => 'standard',
-      'attachments_storage'      => 'file',
+      'edition' => 'standard',
+      'attachments_storage' => 'file',
       'attachments_storage_path' => nil,
       'attachments_grace_period' => 180,
-      'autologin_cookie_name'   => 'autologin',
-      'autologin_cookie_path'   => '/',
+      'autologin_cookie_name' => 'autologin',
+      'autologin_cookie_path' => '/',
       'autologin_cookie_secure' => false,
-      'database_cipher_key'     => nil,
+      'database_cipher_key' => nil,
       # only applicable in conjunction with fog (effectively S3) attachments
       # which will be uploaded directly to the cloud storage rather than via OpenProject's
       # server process.
-      'direct_uploads'          => true,
+      'direct_uploads' => true,
       'fog_download_url_expires_in' => 21600, # 6h by default as 6 hours is max in S3 when using IAM roles
       'show_community_links' => true,
       'log_level' => 'info',
-      'scm_git_command'         => nil,
-      'scm_subversion_command'  => nil,
+      'scm_git_command' => nil,
+      'scm_subversion_command' => nil,
       'scm_local_checkout_path' => 'repositories', # relative to OpenProject directory
-      'disable_browser_cache'   => true,
+      'disable_browser_cache' => true,
       # default cache_store is :file_store in production and :memory_store in development
-      'rails_cache_store'       => nil,
+      'rails_cache_store' => nil,
       'cache_expires_in_seconds' => nil,
       'cache_namespace' => nil,
       # use dalli defaults for memcache
-      'cache_memcache_server'   => nil,
+      'cache_memcache_server' => nil,
       # where to store session data
-      'session_store'           => :cache_store,
-      'session_cookie_name'     => '_open_project_session',
+      'session_store' => :cache_store,
+      'session_cookie_name' => '_open_project_session',
       # Destroy all sessions for current_user on logout
       'drop_old_sessions_on_logout' => true,
       # Destroy all sessions for current_user on login
@@ -78,7 +79,7 @@ module OpenProject
       'enable_internal_assets_server' => false,
 
       # Additional / overridden help links
-      'force_help_link'         => nil,
+      'force_help_link' => nil,
       'force_formatting_help_link' => nil,
 
       # Impressum link to be set, nil by default (= hidden)
@@ -181,6 +182,7 @@ module OpenProject
 
       # Allow override of LDAP options
       'ldap_auth_source_tls_options' => nil,
+      'ldap_force_no_page' => false,
 
       # Slow query logging threshold in ms
       'sql_slow_query_threshold' => 2000
@@ -214,7 +216,7 @@ module OpenProject
       # exists
       def override_config!(config, source = default_override_source)
         config.keys.select { |key| source.include? key.upcase }
-              .each   { |key| config[key] = extract_value key, source[key.upcase] }
+              .each { |key| config[key] = extract_value key, source[key.upcase] }
 
         config.deep_merge! merge_config(config, source)
       end
@@ -290,20 +292,25 @@ module OpenProject
       def configure_cache(application_config)
         return unless override_cache_config? application_config
 
-        # rails defaults to :file_store, use :dalli when :memcaches is configured in configuration.yml
+        # rails defaults to :file_store, use :mem_cache_store when :memcache is configured in configuration.yml
+        # Also use :mem_cache_store for when :dalli_store is configured
         cache_store = @config['rails_cache_store'].try(:to_sym)
-        if cache_store == :memcache
-          cache_config = [:dalli_store]
+
+        case cache_store
+        when :memcache, :dalli_store
+          cache_config = [:mem_cache_store]
           cache_config << @config['cache_memcache_server'] \
             if @config['cache_memcache_server']
         # default to :file_store
-        elsif cache_store.nil? || cache_store == :file_store
+        when NilClass, :file_store
           cache_config = [:file_store, Rails.root.join('tmp/cache')]
         else
           cache_config = [cache_store]
         end
+
         parameters = cache_parameters(@config)
         cache_config << parameters if parameters.size > 0
+
         application_config.cache_store = cache_config
       end
 
@@ -500,8 +507,8 @@ module OpenProject
 
       def cache_parameters(config)
         mapping = {
-          'cache_expires_in_seconds' => [:expires_in, :to_i],
-          'cache_namespace' => [:namespace, :to_s]
+          'cache_expires_in_seconds' => %i[expires_in to_i],
+          'cache_namespace' => %i[namespace to_s]
         }
         parameters = {}
         mapping.each_pair do |from, to|

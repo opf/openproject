@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -56,7 +56,6 @@ describe 'Custom fields reporting', type: :feature, js: true do
                       project: project,
                       hours: 2.50
   end
-
 
   def custom_value_for(cf, str)
     cf.custom_options.find { |co| co.value == str }.try(:id)
@@ -130,7 +129,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
 
       # Expect row of work package
       within('#result-table') do
-        expect(page).to have_selector('a.issue', text: "#{work_package.type.to_s} ##{work_package.id}")
+        expect(page).to have_selector('a.issue', text: "#{work_package.type} ##{work_package.id}")
         expect(page).to have_selector('th.inner', text: 'First option')
         expect(page).to have_no_selector('th.inner', text: 'Second option')
 
@@ -159,7 +158,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
       let!(:work_package2) do
         FactoryBot.create :work_package,
                           project: project,
-                          custom_values: { custom_field_2.id => custom_value_for(custom_field_2, 'A')}
+                          custom_values: { custom_field_2.id => custom_value_for(custom_field_2, 'A') }
       end
 
       let!(:time_entry1) do
@@ -191,7 +190,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
 
         # Expect row of work package
         within('#result-table') do
-          expect(page).to have_selector('a.issue', text: "#{work_package.type.to_s} ##{work_package.id}")
+          expect(page).to have_selector('a.issue', text: "#{work_package.type} ##{work_package.id}")
           expect(page).to have_selector('th.inner', text: '1')
           expect(page).to have_no_selector('th.inner', text: 'invalid!')
         end
@@ -224,7 +223,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
 
       # Expect row of work package
       within('#result-table') do
-        expect(page).to have_selector('a.issue', text: "#{work_package.type.to_s} ##{work_package.id}")
+        expect(page).to have_selector('a.issue', text: "#{work_package.type} ##{work_package.id}")
         expect(page).to have_selector('th.inner', text: 'foo')
         expect(page).to have_no_selector('th.inner', text: 'None')
 

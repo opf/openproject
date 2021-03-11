@@ -1,7 +1,6 @@
 module OpenProject::TwoFactorAuthentication
   module TokenStrategy
     class Developer < Base
-
       def self.validate!
         if Rails.env.production?
           raise "You're trying to use the developer strategy in production. Don't!"
@@ -13,7 +12,7 @@ module OpenProject::TwoFactorAuthentication
       end
 
       def self.supported_channels
-        [:sms, :voice]
+        %i[sms voice]
       end
 
       def self.mobile_token?

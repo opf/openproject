@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -28,18 +28,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Returns all follows relationships of work package ancestors or work package unless
-# the ancestor or a work package between the ancestor and self is manually scheduled.
 module Relations::Scopes
-  class FollowsNonManualAncestors
-    class << self
-      def fetch(work_package)
-        ancestor_relations_non_manual = Relation
-                                          .hierarchy_or_reflexive
+  module FollowsNonManualAncestors
+    extend ActiveSupport::Concern
+
+    class_methods do
+      # Returns all follows relationships of work package ancestors or work package unless
+      # the ancestor or a work package between the ancestor and self is manually scheduled.
+      def follows_non_manual_ancestors(work_package)
+        ancestor_relations_non_manual = hierarchy_or_reflexive
                                           .where(to_id: work_package.id)
                                           .where.not(from_id: from_manual_ancestors(work_package).select(:from_id))
-        Relation
-          .where(from_id: ancestor_relations_non_manual.select(:from_id))
+
+        where(from_id: ancestor_relations_non_manual.select(:from_id))
           .follows
       end
 
@@ -48,8 +49,7 @@ module Relations::Scopes
       def from_manual_ancestors(work_package)
         manually_schedule_ancestors = work_package.ancestors.where(schedule_manually: true)
 
-        Relation
-          .hierarchy_or_reflexive
+        hierarchy_or_reflexive
           .where(to_id: manually_schedule_ancestors.select(:id))
       end
     end

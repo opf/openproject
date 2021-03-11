@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -55,9 +56,9 @@ module OpenProject::NestedSet::RebuildPatch
       scope = lambda { |_node| }
       if acts_as_nested_set_options[:scope]
         scope = lambda { |node|
-          scope_column_names.inject('') {|str, column_name|
+          scope_column_names.inject('') do |str, column_name|
             str << "AND #{connection.quote_column_name(column_name)} = #{connection.quote(node.send(column_name.to_sym))} "
-          }
+          end
         }
       end
 
@@ -76,15 +77,15 @@ module OpenProject::NestedSet::RebuildPatch
                            quoted_right_column_name,
                            acts_as_nested_set_options[:order]].compact.join(', '))
 
-        children.each do |n| set_left_and_rights.call(n) end
+        children.each { |n| set_left_and_rights.call(n) }
 
         # set right
         node[right_column_name] = indices[scope.call(node)] += 1
 
-        changes = node.changes.inject({}) { |hash, (attribute, _values)|
+        changes = node.changes.inject({}) do |hash, (attribute, _values)|
           hash[attribute] = node.send(attribute.to_s)
           hash
-        }
+        end
 
         where(id: node.id).update_all(changes) unless changes.empty?
       }

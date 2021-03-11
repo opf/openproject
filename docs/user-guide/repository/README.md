@@ -21,7 +21,7 @@ keywords: svn, git, repository management
 
 An important part of working on a project as a team is sharing files and source code. Keeping track of the latest versions can sometimes be a challenge. Therefore, OpenProject provides two types of version control systems (Git and Subversion) which – after being properly configured – can be used to store relevant data in the different projects.
 
-In OpenProject you can view the files under *Repository*. Please keep in mind that from your OpenProject website you can only view or download the files. For commiting new files you need an SVN- or Git-client.
+In OpenProject you can view the files under *Repository*. Please keep in mind that from your OpenProject website you can only view or download the files. For committing new files you need an SVN- or Git-client.
 
 In order to be able to edit files and to upload the updated versions to repository, you need to check out your repository. The following steps assume you have configured your OpenProject repository to work with subversion (but many of the options are very similar or identical when using Git). Please check out the repository and save it locally through an SVN client of your choice.
 

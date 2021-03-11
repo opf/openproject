@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -31,7 +31,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 describe CostQuery, type: :model, reporting_query_helper: true do
   minimal_query
 
-  let!(:project1){ FactoryBot.create(:project_with_types) }
+  let!(:project1) { FactoryBot.create(:project_with_types) }
   let!(:work_package1) { FactoryBot.create(:work_package, project: project1) }
   let!(:time_entry1) { FactoryBot.create(:time_entry, work_package: work_package1, project: project1) }
   let!(:time_entry2) { FactoryBot.create(:time_entry, work_package: work_package1, project: project1) }
@@ -52,10 +52,10 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       sql_result = @query.result
 
       expect(sql_result.size).to eq(2)
-      #for each project the number of entries should be correct
+      # for each project the number of entries should be correct
       sql_count = []
       sql_result.each do |sub_result|
-        #project should be the outmost group_by
+        # project should be the outmost group_by
         expect(sub_result.fields).to include(:project_id)
         sql_count.push sub_result.count
       end
@@ -69,10 +69,10 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
       sql_result = @query.result
       expect(sql_result.size).to eq(2)
-      #for each user the number of entries should be correct
+      # for each user the number of entries should be correct
       sql_count = []
       sql_result.each do |sub_result|
-        #project should be the outmost group_by
+        # project should be the outmost group_by
         expect(sub_result.fields).to include(:user_id)
         sql_count.push sub_result.count
       end

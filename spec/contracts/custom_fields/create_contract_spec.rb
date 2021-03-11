@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -29,28 +29,15 @@
 #++
 
 require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
 describe CustomFields::CreateContract do
+  include_context 'ModelContract shared context'
+
   let(:cf) { FactoryBot.build :project_custom_field }
   let(:contract) do
     described_class.new(cf, current_user, options: { changed_by_system: [] })
   end
 
-  describe 'as admin' do
-    let(:current_user) { FactoryBot.build_stubbed :admin }
-
-    it 'validates the contract' do
-      expect(contract.validate).to eq(true)
-    end
-  end
-
-  describe 'as regular user' do
-    let(:current_user) { FactoryBot.build_stubbed :user }
-
-    it 'invalidates the contract' do
-      expect(contract.validate).to eq(false)
-      expect(contract.errors.symbols_for(:base))
-        .to match_array [:error_unauthorized]
-    end
-  end
+  it_behaves_like 'contract is valid for active admins and invalid for regular users'
 end

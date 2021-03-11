@@ -1,16 +1,15 @@
 require_relative '../spec_helper'
 
 describe 'My Account 2FA configuration', with_2fa_ee: true, type: :feature,
-         with_config: {:'2fa' => {active_strategies: [:developer, :totp]}},
-         js: true do
+                                         with_config: { '2fa': { active_strategies: %i[developer totp] } },
+                                         js: true do
   let(:dialog) { ::Components::PasswordConfirmationDialog.new }
-  let(:user_password) {'bob!' * 4}
+  let(:user_password) { 'bob!' * 4 }
   let(:user) do
     FactoryBot.create(:user,
-                       login: 'bob',
-                       password: user_password,
-                       password_confirmation: user_password,
-    )
+                      login: 'bob',
+                      password: user_password,
+                      password_confirmation: user_password)
   end
 
   before do
@@ -18,7 +17,6 @@ describe 'My Account 2FA configuration', with_2fa_ee: true, type: :feature,
   end
 
   it 'allows 2FA device management' do
-
     # Visit empty index
     visit my_2fa_devices_path
     expect(page).to have_selector('.generic-table--empty-row', text: I18n.t('two_factor_authentication.devices.not_existing'))
@@ -55,7 +53,8 @@ describe 'My Account 2FA configuration', with_2fa_ee: true, type: :feature,
 
     expect(page).to have_selector('h2', text: I18n.t('two_factor_authentication.devices.confirm_device'))
     expect(page).to have_selector('input#otp')
-    expect(page).to have_selector('.flash.error', text: I18n.t('two_factor_authentication.devices.registration_failed_token_invalid'))
+    expect(page).to have_selector('.flash.error',
+                                  text: I18n.t('two_factor_authentication.devices.registration_failed_token_invalid'))
 
     # Fill in correct token
     fill_in 'otp', with: sms_token
@@ -136,4 +135,3 @@ describe 'My Account 2FA configuration', with_2fa_ee: true, type: :feature,
     expect(user.otp_devices.count).to eq 0
   end
 end
-

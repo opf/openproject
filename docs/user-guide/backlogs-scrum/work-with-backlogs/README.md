@@ -76,7 +76,7 @@ In a sprint, you can directly document necessary effort as story points. The ove
 
 <div class="glossary">
 
-**Story points** are definded as numbers assigned to a work package used to estimate (relatively) the size of the work.
+**Story points** are defined as numbers assigned to a work package used to estimate (relatively) the size of the work.
 
 </div>
 

@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -28,56 +29,48 @@
 #++
 
 require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
+require_relative 'shared_contract_examples'
 
 describe Users::CreateContract do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  include_context 'ModelContract shared context'
 
-  subject(:contract) { described_class.new(user, current_user) }
-
-  def expect_valid(valid, symbols = {})
-    expect(contract.validate).to eq(valid)
-
-    symbols.each do |key, arr|
-      expect(contract.errors.symbols_for(key)).to match_array arr
+  it_behaves_like 'user contract' do
+    let(:user) { User.new(attributes) }
+    let(:contract) { described_class.new(user, current_user) }
+    let(:attributes) do
+      {
+        firstname: user_firstname,
+        lastname: user_lastname,
+        login: user_login,
+        mail: user_mail,
+        password: user_password,
+        password_confirmation: user_password_confirmation
+      }
     end
-  end
 
-  shared_examples 'is valid' do
-    it 'is valid' do
-      expect_valid(true)
-    end
-  end
+    context 'when admin' do
+      let(:current_user) { FactoryBot.build_stubbed(:admin) }
 
-  context 'when admin' do
-    let(:current_user) { FactoryBot.build_stubbed(:admin) }
+      it_behaves_like 'contract is valid'
 
-    it_behaves_like 'is valid'
-
-    describe 'requires a password set when active' do
-      before do
-        user.password = nil
-        user.activate
-      end
-
-      it 'is invalid' do
-        expect_valid(false, password: %i(blank))
-      end
-
-      context 'when password is set' do
+      describe 'requires a password set when active' do
         before do
-          user.password = user.password_confirmation = 'password!password!'
+          user.password = nil
+          user.password_confirmation = nil
+          user.activate
         end
 
-        it_behaves_like 'is valid'
+        it_behaves_like 'contract is invalid', password: :blank
+
+        context 'when password is set' do
+          before do
+            user.password = user.password_confirmation = 'password!password!'
+          end
+
+          it_behaves_like 'contract is valid'
+        end
       end
-    end
-  end
-
-  context 'when not admin' do
-    let(:current_user) { FactoryBot.build_stubbed(:user) }
-
-    it 'is invalid' do
-      expect_valid(false, base: %i(error_unauthorized))
     end
   end
 end

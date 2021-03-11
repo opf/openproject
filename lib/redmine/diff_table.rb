@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -45,24 +45,22 @@ module Redmine
     # Function for add a line of this Diff
     # Returns false when the diff ends
     def add_line(line)
-      unless @parsing
-        if line =~ /^(---|\+\+\+) (.*)$/
-          @file_name = $2
-        elsif line =~ /^@@ (\+|\-)(\d+)(,\d+)? (\+|\-)(\d+)(,\d+)? @@/
-          @line_num_l = $2.to_i
-          @line_num_r = $5.to_i
-          @parsing = true
-        end
-      else
-        if line =~ /^[^\+\-\s@\\]/
+      if @parsing
+        if line =~ /^[^+\-\s@\\]/
           @parsing = false
           return false
-        elsif line =~ /^@@ (\+|\-)(\d+)(,\d+)? (\+|\-)(\d+)(,\d+)? @@/
+        elsif line =~ /^@@ (\+|-)(\d+)(,\d+)? (\+|-)(\d+)(,\d+)? @@/
           @line_num_l = $2.to_i
           @line_num_r = $5.to_i
         else
           parse_line(line, @type)
         end
+      elsif line =~ /^(---|\+\+\+) (.*)$/
+        @file_name = $2
+      elsif line =~ /^@@ (\+|-)(\d+)(,\d+)? (\+|-)(\d+)(,\d+)? @@/
+        @line_num_l = $2.to_i
+        @line_num_r = $5.to_i
+        @parsing = true
       end
       true
     end
@@ -143,7 +141,7 @@ module Redmine
       if @added > 0 && @added == @removed
         @added.times do |i|
           line = self[-(1 + i)]
-          removed = (@type == 'sbs') ? line : self[-(1 + @added + i)]
+          removed = @type == 'sbs' ? line : self[-(1 + @added + i)]
           offsets = offsets(removed.line_left, line.line_right)
           removed.offsets = line.offsets = offsets
         end

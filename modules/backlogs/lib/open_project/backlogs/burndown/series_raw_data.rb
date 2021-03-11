@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -35,9 +35,7 @@ module OpenProject::Backlogs::Burndown
       super(*args)
     end
 
-    attr_reader :collect
-    attr_reader :sprint
-    attr_reader :project
+    attr_reader :collect, :sprint, :project
 
     def collect_names
       @names ||= @collect.to_a.map(&:last).flatten
@@ -85,6 +83,7 @@ module OpenProject::Backlogs::Burndown
 
     def data_for_dates(dates)
       return [] if dates.empty?
+
       query_string = <<-SQL
       SELECT
         date_journals.date,
@@ -114,7 +113,7 @@ module OpenProject::Backlogs::Burndown
     def authoritative_journal_for_date(dates)
       raise 'dates must not be empty!' if dates.empty?
 
-      query = <<-SQL
+      <<-SQL
       SELECT
         d.date,
         j.journable_id,
@@ -154,16 +153,14 @@ module OpenProject::Backlogs::Burndown
       GROUP BY d.date, j.journable_id
       ORDER BY j.journable_id, d.date, version
       SQL
-
-      query
     end
 
     def dates_of_interest_join_table(dates)
       raise 'dates must not be empty!' if dates.empty?
 
-      @date_join ||= dates.map { |date|
+      @date_join ||= dates.map do |date|
         "SELECT CAST('#{date}' AS DATE) AS date"
-      }.join(' UNION ')
+      end.join(' UNION ')
     end
 
     def and_status_query

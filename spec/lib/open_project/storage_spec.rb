@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -73,11 +73,11 @@ describe OpenProject::Storage do
   context 'with SCM configuration' do
     include_context 'with tmpdir'
 
-    let(:config) {
+    let(:config) do
       {
         git: { manages: File.join(tmpdir, 'git') }
       }
-    }
+    end
     let(:enabled_scms) { %w[git] }
     let(:returned_fs_info) { [{ id: 1, free: 1234 }] }
 
@@ -118,8 +118,7 @@ describe OpenProject::Storage do
             .to eq(1 => { labels: [I18n.t(:label_managed_repositories_vendor, vendor: 'Git')],
                           data: returned_fs_info[0] },
                    2 => { labels: [I18n.t('attributes.attachments')],
-                          data: returned_fs_info[1] }
-                  )
+                          data: returned_fs_info[1] })
         end
       end
     end

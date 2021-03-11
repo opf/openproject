@@ -1,10 +1,10 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2020 the OpenProject GmbH
+#Copyright (C) 2012-2021 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
@@ -78,7 +78,7 @@ sv:
     is_active: visas för tillfället
     is_inactive: visas ej för tillfället
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'I den här vyn kan du skapa anpassade hjälptexter för attributvyn. När den är definierad kan dessa texter visas genom att klicka på hjälpikonen bredvid dess tillhörande attribut.'
     label_plural: 'Hjälptexter för attribut'
     show_preview: 'Förhandsgranska text'
@@ -122,9 +122,6 @@ sv:
         Om du kryssar i den här rutan kommer OpenProject automatiskt att skapa nya användare från sina LDAP-poster
         när de först autentiserar med OpenProject.
         Lämna detta avmarkerat för att endast tillåta befintliga konton i OpenProject att autentisera via LDAP!
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Kryptering av anslutning'
     system_account: 'Systemkonto'
     system_account_legend: |
@@ -195,7 +192,7 @@ sv:
       Specificera en lista med namn att ignorera när bilagor för inkommande e-post bearbetas (t. ex. signaturer och ikoner). Ange ett filnamn per rad.
   projects:
     delete:
-      scheduled: "Radering har schemalagts och utförs i bakgrunden. Du kommer bli notifierad om resultatet."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Projektet kan inte tas bort: %{errors}"
       failed: "Borttagning av projekt %{name} misslyckades"
       failed_text: "Begäran om att ta bort projekt %{name} misslyckades. Projektet lämnades arkiverat."
@@ -243,6 +240,14 @@ sv:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Denna användare är för närvarande inte medlem i något projekt.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -520,6 +525,7 @@ sv:
         confirmation: "matchar inte %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "finns inte."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "åtkomst nekas."
         error_readonly: "försökte skrivas men är inte skrivbart."
         empty: "kan inte vara tomt."
@@ -535,6 +541,7 @@ sv:
         invalid_url: 'är inte ett giltigt URL.'
         invalid_url_scheme: 'är inte ett tillåtet protokoll (tillåtna: %{allowed_schemes}).'
         less_than_or_equal_to: "måste vara mindre än eller lika med %{count}."
+        not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "är inte är ett giltigt datum."
         not_a_datetime: "är inte en giltig datumtid."
@@ -719,6 +726,7 @@ sv:
       status: "Arbetspaketstatus"
       member: "Medlem"
       news: "Nyheter"
+      placeholder_user: "Placeholder user"
       project: "Projekt"
       query: "Anpassad fråga"
       role:
@@ -1129,7 +1137,7 @@ sv:
   error_menu_item_not_saved: Menyobjektet kunde inte sparas
   error_wiki_root_menu_item_conflict: >
     Kan inte ändra från "%{old_name}" till "%{new_name}" på grund av en konflikt med det befintliga menyalternativet "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Ett fel uppstod under extern autentisering. Försök igen."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribut(en) kan inte markeras: %{attributes}"
   events:
     project: 'Projektet redigerades'
@@ -1330,6 +1338,7 @@ sv:
   label_custom_field_plural: "Anpassade fält"
   label_custom_field_default_type: "Tom typ"
   label_custom_style: "Design"
+  label_database_version: "PostgreSQL version"
   label_date: "Datum"
   label_date_and_time: "Datum och tid"
   label_date_from: "Från"
@@ -1488,6 +1497,7 @@ sv:
   label_my_account_data: "Min kontoinformation"
   label_my_projects: "Mina projekt"
   label_my_queries: "Min anpassade frågor"
+  label_name: "Namn"
   label_never: "Aldrig"
   label_new: "Ny"
   label_new_features: "Nya funktioner"
@@ -1537,6 +1547,9 @@ sv:
   label_permissions: "Behörigheter"
   label_permissions_report: "Rapport över behörigheter"
   label_personalize_page: "Anpassa den här sidan"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Planering"
   label_please_login: "Vänligen logga in"
   label_plugins: "Insticksprogram"
@@ -1735,20 +1748,20 @@ sv:
   label_workflow_summary: "Sammanfattning"
   label_x_closed_work_packages_abbr:
     zero: "0 closed"
-    one: "en stängd"
-    other: "%{count} stängda"
+    one: ""
+    other: ""
   label_x_comments:
     zero: "no comments"
-    one: "En kommentar"
-    other: "%{count} kommentarer"
+    one: ""
+    other: ""
   label_x_open_work_packages_abbr:
     zero: "0 open"
-    one: "en öppen"
-    other: "%{count} öppnade"
+    one: ""
+    other: ""
   label_x_projects:
     zero: "no projects"
-    one: "Ett projekt"
-    other: "%{count} projekt"
+    one: ""
+    other: ""
   label_yesterday: "igår"
   label_role_type: "Typ"
   label_member_role: "Projektroll"
@@ -1846,6 +1859,7 @@ sv:
   notice_email_sent: "Ett E-postmeddelande skickades till %{value}"
   notice_failed_to_save_work_packages: "Det gick inte att spara %{count} arbetspaket av %{total} valt: %{ids}."
   notice_failed_to_save_members: "Det gick inte att spara medlem(mar): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Sidan du försökte komma åt existerar inte eller har tagits bort."
   notice_forced_logout: "Du har blivit automatiskt utloggad efter %{ttl_time} minuter av inaktivitet."
   notice_internal_server_error: "Det uppstod ett fel på sidan du försökte komma åt. Om du fortsatt har problem kontakta administratören för %{app_title} för att få hjälp."
@@ -1909,6 +1923,8 @@ sv:
   permission_add_work_packages: "Lägg till arbetspaket"
   permission_add_messages: "Publicera meddelanden"
   permission_add_project: "Skapa projekt"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Skapa delprojekt"
   permission_add_work_package_watchers: "Lägg till bevakare"
   permission_assign_versions: "Tilldela versioner"
@@ -2108,7 +2124,7 @@ sv:
       username: "Användarnamn för arkiv"
     truncated: "Tyvärr behövde katalogen minskas till %{limit} filer. %{truncated} filer utelämnades från listan."
     named_repository: "%{vendor_name} databas"
-    update_settings_successful: "Inställningarna har sparats."
+    update_settings_successful: "The settings have been successfully saved."
     url: "URL till arkiv"
     warnings:
       cannot_annotate: "Den här filen kan inte kommenteras."
@@ -2226,7 +2242,6 @@ sv:
   setting_welcome_text: "Textblock för välkomstmeddelande"
   setting_welcome_title: "Textblock för välkomsttitel"
   setting_welcome_on_homescreen: "Visa välkomstblocket på hemsidan"
-  setting_work_package_group_assignment: "Tillåt tilldelning till grupper"
   setting_work_package_list_default_highlighting_mode: "Standardläge för markering"
   setting_work_package_list_default_highlighted_attributes: "Standardattribut för inline-markering"
   settings:

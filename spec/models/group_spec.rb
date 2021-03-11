@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -30,19 +30,17 @@ require 'spec_helper'
 require_relative '../support/shared/become_member'
 
 describe Group, type: :model do
-  include BecomeMember
-
   let(:group) { FactoryBot.create(:group) }
   let(:user) { FactoryBot.create(:user) }
   let(:watcher) { FactoryBot.create :user }
   let(:project) { FactoryBot.create(:project_with_types) }
   let(:status) { FactoryBot.create(:status) }
-  let(:package) {
+  let(:package) do
     FactoryBot.build(:work_package, type: project.types.first,
-                     author: user,
-                     project: project,
-                     status: status)
-  }
+                                    author: user,
+                                    project: project,
+                                    status: status)
+  end
 
   it 'should create' do
     g = Group.new(lastname: 'New group')
@@ -79,18 +77,9 @@ describe Group, type: :model do
     let!(:member) { FactoryBot.create :member, project: project, principal: group, role_ids: role_ids }
     let!(:group) { FactoryBot.create(:group, members: user) }
 
-
     it 'should roles removed when removing group membership' do
       expect(user).to be_member_of project
-      member.destroy
-      user.reload
-      project.reload
-      expect(user).not_to be_member_of project
-    end
-
-    it 'should roles removed when removing user from group' do
-      expect(user).to be_member_of project
-      group.destroy
+      Principals::DeleteJob.perform_now group
       user.reload
       project.reload
       expect(user).not_to be_member_of project
@@ -101,7 +90,7 @@ describe Group, type: :model do
       member = FactoryBot.build :member
       roles = FactoryBot.create_list :role, 2
       role_ids = roles.map(&:id)
-      member.attributes = {principal: group, role_ids: role_ids}
+      member.attributes = { principal: group, role_ids: role_ids }
       member.save!
 
       member.role_ids = [role_ids.first]
@@ -115,50 +104,6 @@ describe Group, type: :model do
 
       member.role_ids = [role_ids.first]
       expect(user.reload.roles_for_project(member.project).map(&:id).sort).to eq([role_ids.first])
-    end
-  end
-
-  describe '#destroy' do
-    describe 'work packages assigned to the group' do
-      let(:group) { FactoryBot.create(:group, members: [user, watcher]) }
-      before do
-        become_member_with_permissions project, group, [:view_work_packages]
-        package.assigned_to = group
-
-        package.save!
-      end
-
-      it 'should reassign the work package to nobody' do
-        group.destroy
-
-        package.reload
-
-        expect(package.assigned_to).to eq(DeletedUser.first)
-      end
-
-      it 'should update all journals to have the deleted user as assigned' do
-        group.destroy
-
-        package.reload
-
-        expect(package.journals.all? { |j| j.data.assigned_to_id == DeletedUser.first.id }).to be_truthy
-      end
-
-      describe 'watchers' do
-        before do
-          package.watcher_users << watcher
-        end
-
-        context 'with user only in project through group' do
-          it 'should remove the watcher' do
-            group.destroy
-            package.reload
-            project.reload
-
-            expect(package.watchers).to be_empty
-          end
-        end
-      end
     end
   end
 
@@ -184,10 +129,14 @@ describe Group, type: :model do
        build_preference
        create_preference
        create_preference!}.each do |method|
-
       it "should not respond to #{method}" do
         expect(group).to_not respond_to method
       end
     end
+  end
+
+  describe '#groupname' do
+    it { expect(group).to validate_presence_of :groupname }
+    it { expect(group).to validate_uniqueness_of :groupname }
   end
 end

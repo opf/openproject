@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -35,11 +35,11 @@ module OpenProject::Backlogs::Patches::VersionsControllerPatch
       helper :version_settings
 
       # Find project explicitly on update and edit
-      skip_before_action :find_project_from_association, only: [:edit, :update]
-      skip_before_action :find_model_object, only: [:edit, :update]
-      prepend_before_action :find_project_and_version, only: [:edit, :update]
+      skip_before_action :find_project_from_association, only: %i[edit update]
+      skip_before_action :find_model_object, only: %i[edit update]
+      prepend_before_action :find_project_and_version, only: %i[edit update]
 
-      before_action :add_project_to_version_settings_attributes, only: [:update, :create]
+      before_action :add_project_to_version_settings_attributes, only: %i[update create]
 
       before_action :whitelist_update_params, only: :update
 
@@ -80,4 +80,4 @@ module OpenProject::Backlogs::Patches::VersionsControllerPatch
   end
 end
 
-VersionsController.send(:include, OpenProject::Backlogs::Patches::VersionsControllerPatch)
+VersionsController.include OpenProject::Backlogs::Patches::VersionsControllerPatch

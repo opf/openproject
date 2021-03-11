@@ -33,7 +33,6 @@ module OpenProject::Avatars
                menu_item: :user_avatars
              },
              bundled: true do
-
       add_menu_item :my_menu, :avatar,
                     { controller: '/avatars/my_avatar', action: 'show' },
                     caption: ->(*) { I18n.t('avatars.label_avatar') },
@@ -52,9 +51,9 @@ module OpenProject::Avatars
     add_tab_entry :user,
                   name: 'avatar',
                   partial: 'avatars/users/avatar_tab',
-                  path: ->(params) { tab_edit_user_path(params[:user], tab: :avatar) },
+                  path: ->(params) { edit_user_path(params[:user], tab: :avatar) },
                   label: :label_avatar,
-                  only_if: ->(*) { ::OpenProject::Avatars::AvatarManager.avatars_enabled? }
+                  only_if: ->(*) { User.current.admin? && ::OpenProject::Avatars::AvatarManager.avatars_enabled? }
 
     initializer 'patch avatar helper' do
       # This is required to be an initializer,

@@ -273,7 +273,7 @@ Now, the Passenger gem is installed and integrated into apache.
 [openproject@ubuntu] passenger-install-apache2-module
 ```
 
-If you are running on a Virtual Private Server, you need to make sure you have atleast 1024mb of RAM before running the `passenger-install-apache2-module`.
+If you are running on a Virtual Private Server, you need to make sure you have at least 1024mb of RAM before running the `passenger-install-apache2-module`.
 
 Follow the instructions passenger provides.
 The passenger installer will ask you the question in "Which languages are you

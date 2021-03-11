@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -26,10 +26,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require Rails.root.join("db","migrate","migration_utils","migration_squasher").to_s
+require Rails.root.join("db", "migrate", "migration_utils", "migration_squasher").to_s
 # This migration aggregates the migrations detailed in MIGRATION_FILES
 class ToV710AggregatedBacklogsMigrations < ActiveRecord::Migration[5.1]
-
   MIGRATION_FILES = <<-MIGRATIONS
     20111014073606_aggregated_backlogs_migrations.rb
     20130625094113_add_backlogs_column_to_work_package.rb
@@ -62,10 +61,10 @@ class ToV710AggregatedBacklogsMigrations < ActiveRecord::Migration[5.1]
       add_column :work_package_journals, :remaining_hours, :float
 
       add_index :work_package_journals,
-                [:fixed_version_id,
-                 :status_id,
-                 :project_id,
-                 :type_id],
+                %i[fixed_version_id
+                   status_id
+                   project_id
+                   type_id],
                 name: 'work_package_journal_on_burndown_attributes'
     end
   end

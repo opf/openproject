@@ -1,0 +1,55 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2021 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% [:private, :public].each do |report_type| %>
+  <div class="tree-menu--container" data-selected-page="<%= @query ? @query.name : '' %>">
+    <ul class="pages-hierarchy -with-hierarchy collapsible-menu--container">
+      <li class="-hierarchy-expanded">
+        <span class="tree-menu--item">
+          <span class="tree-menu--hierarchy-span">
+            <a tabindex="0" role="button" class="tree-menu--hierarchy-indicator collapsible-menu--category-toggle">
+              <span aria-hidden="true" class="tree-menu--hierarchy-indicator-icon"></span>
+              <span class="tree-menu--hierarchy-indicator-expanded hidden-for-sighted">
+                <%= t("label_expanded_click_to_collapse") %></span>
+              <span class="tree-menu--hierarchy-indicator-collapsed hidden-for-sighted">
+                <%= t("label_collapsed_click_to_show") %></span>
+            </a>
+          </span>
+          <a id='<%= "#{report_type}_sidebar_report_category" %>'
+             class="tree-menu--title ellipsis ui-autocomplete--category collapsible-menu--category-toggle">
+            <%= t(:"label_#{report_type}_report_plural") %>
+          </a>
+        </span>
+
+        <%= render :partial => "cost_reports/report_list", :locals => { :report_type => report_type } %>
+      </li>
+    </ul>
+  </div>
+<% end %>
+

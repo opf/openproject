@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -41,38 +42,38 @@ shared_examples 'WatcherNotificationMailer' do |watcher_notification_job|
   end
 
   describe 'watcher setup' do
-    let(:work_package) {
+    let(:work_package) do
       work_package = FactoryBot.build_stubbed(:work_package)
       journal = FactoryBot.build_stubbed(:work_package_journal)
 
       allow(work_package).to receive(:journals).and_return([journal])
       work_package
-    }
+    end
 
     let(:watcher_changer) do
       FactoryBot.build_stubbed(:user,
-                                mail_notification: watching_setting,
-                                preference: user_pref)
+                               mail_notification: watching_setting,
+                               preference: user_pref)
     end
 
     let(:watching_setting) { 'all' }
     let(:self_notified) { true }
-    let(:watching_user) {
+    let(:watching_user) do
       FactoryBot.build_stubbed(:user,
-                                mail_notification: watching_setting,
-                                preference: user_pref)
-    }
-    let(:user_pref) {
+                               mail_notification: watching_setting,
+                               preference: user_pref)
+    end
+    let(:user_pref) do
       pref = FactoryBot.build_stubbed(:user_preference)
 
       allow(pref).to receive(:self_notified?).and_return(self_notified)
 
       pref
-    }
+    end
 
     let(:watcher) do
       FactoryBot.build_stubbed(:watcher, user: watching_user,
-                                          watchable: work_package)
+                                         watchable: work_package)
     end
 
     shared_examples_for 'notifies the added watcher for' do |setting|

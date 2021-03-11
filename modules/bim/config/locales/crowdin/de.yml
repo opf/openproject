@@ -15,8 +15,8 @@ de:
       file_invalid: "BCF-Datei ungültig"
     x_bcf_issues:
       zero: 'Keine BCF-Fälle'
-      one: 'Ein BCF-Fall'
-      other: '%{count} BCF-Fälle'
+      one: ''
+      other: ''
     bcf_xml:
       xml_file: 'BCF-XML Datei'
       import_title: 'Import'
@@ -36,7 +36,7 @@ de:
         no_permission_to_add_members: 'Sie haben nicht genügend Berechtigungen, um Mitglieder zum Projekt hinzuzufügen.'
         contact_project_admin: 'Kontaktieren Sie Ihren Projektadministrator, um sie als Mitglieder hinzuzufügen und starten Sie diesen Import erneut.'
         continue_anyways: 'Möchten Sie trotzdem fortfahren und den Importvorgang abschließen?'
-        description: "Geben Sie eine BCF-XML v2.1 Datei für den Import in dieses Projekt an. Sie können dessen Inhalt vor dem Importvorgang prüfen."
+        description: "Geben Sie eine BCF-XML v2.1 Datei für den Import in dieses Projekt an. Sie können deren Inhalt vor dem Importvorgang prüfen."
         invalid_types_found: 'Ungültige Typen in BCF-Themen gefunden'
         invalid_statuses_found: 'Ungültige Statusnamen gefunden'
         invalid_priorities_found: 'Ungültige Prioritäten gefunden'

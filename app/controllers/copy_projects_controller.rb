@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -71,10 +72,10 @@ class CopyProjectsController < ApplicationController
     "copy_from_#{from}"
   end
 
-  def project_copy(nucleous, contract = Projects::CreateContract)
+  def project_copy(nucleus, contract = Projects::CreateContract)
     Projects::SetAttributesService
       .new(user: current_user,
-           model: nucleous,
+           model: nucleus,
            contract_class: contract)
       .call(params[:project] ? permitted_params.project : {})
   end

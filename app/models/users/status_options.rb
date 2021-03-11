@@ -14,18 +14,18 @@ module Users
     end
 
     def user_count_by_status(extra: {})
-      counts = User.not_builtin.group(:status).count.to_hash
+      counts = User.user.group(:status).count.to_hash
 
       counts
         .merge(symbolic_user_counts)
         .merge(extra)
         .reject { |_, v| v.nil? } # remove nil counts to support dropping counts via extra
         .map do |k, v|
-          known_status = Principal::STATUSES.detect { |_, i| i == k }
+          known_status = Principal.statuses.detect { |_, i| i == k }
           if known_status
-            [known_status.first, v]
+            [known_status.first.to_sym, v]
           else
-            [k, v]
+            [k.to_sym, v]
           end
         end
         .to_h
@@ -33,9 +33,9 @@ module Users
 
     def symbolic_user_counts
       {
-        blocked: User.not_builtin.blocked.count, # not_builtin to skip DeletedUser
-        all: User.not_builtin.count,
-        active: User.not_builtin.active.not_blocked.count # not_builtin to skip Anonymous and System users
+        blocked: User.user.blocked.count, # User.user scope to skip DeletedUser
+        all: User.user.count,
+        active: User.user.active.not_blocked.count # User.user to skip Anonymous and System users
       }
     end
   end

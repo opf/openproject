@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2020 the OpenProject GmbH
+// Copyright (C) 2012-2021 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {async, TestBed} from "@angular/core/testing";
+import { TestBed, waitForAsync } from "@angular/core/testing";
 import {BcfApiService} from "core-app/modules/bim/bcf/api/bcf-api.service";
 import {BcfResourceCollectionPath, BcfResourcePath} from "core-app/modules/bim/bcf/api/bcf-path-resources";
 import {BcfTopicPaths} from "core-app/modules/bim/bcf/api/topics/bcf-topic.paths";
@@ -34,7 +34,7 @@ import {BcfTopicPaths} from "core-app/modules/bim/bcf/api/topics/bcf-topic.paths
 describe('BcfApiService', function () {
   let service:BcfApiService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
       providers: [

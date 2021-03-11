@@ -1,12 +1,12 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2020 the OpenProject GmbH
+Copyright (C) 2012-2021 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
 
 OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2006-2013 Jean-Philippe Lang
 Copyright (C) 2010-2013 the ChiliProject Team
 
 This program is free software; you can redistribute it and/or
@@ -32,8 +32,6 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% html_title t(:label_member_plural) -%>
 
-<% any_members = @members.any? %>
-
 <%= toolbar title: t(:label_member_plural) do %>
   <% if authorize_for(:members, :new) %>
     <li class="toolbar-item">
@@ -47,16 +45,14 @@ See docs/COPYRIGHT.rdoc for more details.
       </button>
     </li>
   <% end %>
-  <% if any_members %>
-    <li class="toolbar-item">
-      <button id="filter-member-button"
-              focus
-              title="<%= I18n.t(:description_filter) %>"
-              class="toggle-member-filter-link button">
-        <%= op_icon('button--icon icon-filter') %>
-      </button>
-    </li>
-  <% end %>
+  <li class="toolbar-item">
+    <button id="filter-member-button"
+            focus
+            title="<%= I18n.t(:description_filter) %>"
+            class="toggle-member-filter-link button">
+      <%= op_icon('button--icon icon-filter') %>
+    </button>
+  </li>
 <% end %>
 
 <%= error_messages_for 'member' %>
@@ -74,14 +70,8 @@ See docs/COPYRIGHT.rdoc for more details.
 </div>
 
 <div>
-  <%= cell Members::UserFilterCell, params, @members_filter_options %>
-  <% if any_members %>
-    <%= cell Members::TableCell, @members, @members_table_options %>
-  <% elsif @is_filtered %>
-    <%= no_results_box custom_title: t(:notice_no_principals_found) %>
-  <% else %>
-    <%= no_results_box %>
-  <% end %>
+  <%= rails_cell Members::UserFilterCell, params, @members_filter_options %>
+  <%= rails_cell Members::TableCell, @members, @members_table_options %>
 </div>
 
 

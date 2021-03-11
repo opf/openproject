@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -54,10 +54,10 @@ describe 'Subtasks action board', type: :feature, js: true do
   end
 
   context 'without the manage_subtasks permission' do
-    let(:permissions) {
+    let(:permissions) do
       %i[show_board_views manage_board_views add_work_packages
-       edit_work_packages view_work_packages manage_public_queries]
-    }
+         edit_work_packages view_work_packages manage_public_queries]
+    end
 
     it 'does not allow to move work packages' do
       board_index.visit!
@@ -78,10 +78,10 @@ describe 'Subtasks action board', type: :feature, js: true do
   context 'with all permissions' do
     let!(:other_wp) { FactoryBot.create :work_package, project: project, subject: 'Other WP', status: open_status }
 
-    let(:permissions) {
+    let(:permissions) do
       %i[show_board_views manage_board_views add_work_packages
-       edit_work_packages view_work_packages manage_public_queries manage_subtasks]
-    }
+         edit_work_packages view_work_packages manage_public_queries manage_subtasks]
+    end
 
     it 'allows management of subtasks work packages' do
       board_index.visit!

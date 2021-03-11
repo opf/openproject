@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -69,15 +69,15 @@ describe 'Work package relations tab', js: true, selenium: true do
 
     let!(:relation_1) do
       FactoryBot.create :relation,
-                         from: work_package,
-                         to: to_1,
-                         relation_type: Relation::TYPE_FOLLOWS
+                        from: work_package,
+                        to: to_1,
+                        relation_type: Relation::TYPE_FOLLOWS
     end
     let!(:relation_2) do
       FactoryBot.create :relation,
-                         from: work_package,
-                         to: to_2,
-                         relation_type: Relation::TYPE_RELATES
+                        from: work_package,
+                        to: to_2,
+                        relation_type: Relation::TYPE_RELATES
     end
 
     let(:toggle_btn_selector) { '#wp-relation-group-by-toggle' }
@@ -154,8 +154,8 @@ describe 'Work package relations tab', js: true, selenium: true do
 
     let(:user) do
       FactoryBot.create :user,
-                         member_in_project: project,
-                         member_through_role: user_role
+                        member_in_project: project,
+                        member_through_role: user_role
     end
 
     context 'as view-only user, with parent set' do
@@ -257,7 +257,7 @@ describe 'Work package relations tab', js: true, selenium: true do
           relations.hover_action(relatable, :info)
           created_row = relations.find_row(relatable)
 
-          find'.wp-relation--description-read-value'
+          find '.wp-relation--description-read-value'
         end
 
         created_row.find('.wp-relation--description-read-value',

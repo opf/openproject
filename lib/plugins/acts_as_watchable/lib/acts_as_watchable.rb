@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -109,18 +109,15 @@ module Redmine
         # because while they have the right to be added as watchers having
         # them pop up in every project would be weird.
         def possible_watcher_users
-          # In rails 6, for reasons I did not look into, a different sql is produced
-          # when issuing
-          #   User.active_or_registered.allowed_members(self.class.acts_as_watchable_permission, project)
-          # compared to
-          #   User.allowed_members(self.class.acts_as_watchable_permission, project).active_or_registered
-          scope = if project.public?
-                    User.allowed(self.class.acts_as_watchable_permission, project)
-                  else
-                    User.allowed_members(self.class.acts_as_watchable_permission, project)
-                  end
+          active_scope = Principal.not_locked.user
 
-          scope.active_or_registered
+          allowed_scope = if project.public?
+                            User.allowed(self.class.acts_as_watchable_permission, project)
+                          else
+                            User.allowed_members(self.class.acts_as_watchable_permission, project)
+                          end
+
+          active_scope.where(id: allowed_scope)
         end
 
         # Returns an array of users that are proposed as watchers

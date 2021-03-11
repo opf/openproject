@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -35,11 +35,7 @@ describe Bim::Bcf::API::V2_1::ProjectExtensions::Representer, 'rendering' do
   let(:status) { FactoryBot.build_stubbed(:status) }
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:project) do
-    FactoryBot.build_stubbed(:project).tap do |p|
-      allow(p)
-        .to receive(:possible_assignees)
-        .and_return([user])
-    end
+    FactoryBot.build_stubbed(:project)
   end
   let(:work_package) { FactoryBot.build_stubbed(:stubbed_work_package, project: project) }
   let(:priority) { FactoryBot.build_stubbed(:priority) }
@@ -50,7 +46,8 @@ describe Bim::Bcf::API::V2_1::ProjectExtensions::Representer, 'rendering' do
            model: work_package,
            assignable_types: [type_task],
            assignable_priorities: [priority],
-           assignable_statuses: [status])
+           assignable_statuses: [status],
+           assignable_assignees: [user])
   end
   let(:instance) { described_class.new(contract) }
   let(:subject) { instance.to_json }

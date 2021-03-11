@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -97,7 +97,6 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     project_work_packages.expect_work_package_listed(work_package)
     project_html_title.expect_first_segment 'All open'
 
-
     # Visit query with project wp
     project_work_packages.visit_query query
     project_work_packages.expect_work_package_listed(work_package)
@@ -154,14 +153,13 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     page404.expect_and_dismiss_notification type: :error, message: I18n.t('api_v3.errors.code_404')
   end
 
-
   # Regression #29994
   scenario 'access the work package views directly from a non-angular view' do
     visit project_path(project)
 
     find('#main-menu-work-packages ~ .toggler').click
-    expect(page).to have_selector('.wp-query-menu--search-ul')
-    find('.wp-query-menu--item-link', text: query.name).click
+    expect(page).to have_selector('.collapsible-menu--search-ul')
+    find('.collapsible-menu--item-link', text: query.name).click
 
     expect(page).not_to have_selector('.title-container', text: 'Overview')
     expect(page).to have_field('editable-toolbar-title', with: query.name)
@@ -202,8 +200,8 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     wp_display.expect_state 'Gantt'
 
     # Click on All open
-    find('.wp-query-menu--item-link', text: 'All open').click
-   
+    find('.collapsible-menu--item-link', text: 'All open').click
+
     if OpenProject::Configuration.bim?
       wp_display.expect_state 'Cards'
     else

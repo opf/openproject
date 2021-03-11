@@ -26,14 +26,13 @@
     <li class="advanced-filters--spacer"></li>
 
     <ng-container *ngFor="let filter of filters; trackBy: trackByName ; let index = index">
-      <li *ngIf="isFilterAvailable(filter.id)"
+      <li *ngIf="isFilterAvailable(filter)"
           id="filter_{{filter.id}}"
           query-filter
           [shouldFocus]="index == focusElementIndex"
           [filter]="filter"
           (deactivateFilter)="deactivateFilter($event)"
           (filterChanged)="filtersChanged.emit(filters)"
-          [hidden]="isHiddenFilter(filter)"
           class="advanced-filters--filter">
       </li>
     </ng-container>

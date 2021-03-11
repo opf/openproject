@@ -1,10 +1,10 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2020 the OpenProject GmbH
+#Copyright (C) 2012-2021 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
@@ -99,6 +99,7 @@ ca:
   backlogs_empty_title: "No hi ha versions definides per a ser utilitzades als backlogs"
   backlogs_empty_action_text: "Per a introduir-se als backlogs, generi una nova versio i assigni-la a la columna bakclogs."
   button_edit_wiki: "Editar pàgina wiki"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
   error_intro_plural: "S'han produït els següents errors:"
   error_intro_singular: "S'ha produït el següent error:"
   error_outro: "Corregiu els errors anteriors abans d'enviar-lo una altra vegada."

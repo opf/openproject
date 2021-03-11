@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -61,7 +61,6 @@ describe 'Impediments on taskboard',
                                       edit_work_packages
                                       manage_subtasks
                                       assign_versions))
-
   end
   let!(:current_user) do
     FactoryBot.create(:user,
@@ -139,7 +138,8 @@ describe 'Impediments on taskboard',
     expect(page)
       .to have_selector('div.impediment.error', text: 'Other sprint impediment')
     expect(page)
-      .to have_selector('#msgBox', text: "IDs of blocked work packages can only contain IDs of work packages in the current sprint.")
+      .to have_selector('#msgBox',
+                        text: "IDs of blocked work packages can only contain IDs of work packages in the current sprint.")
 
     click_on 'OK'
 
@@ -156,7 +156,8 @@ describe 'Impediments on taskboard',
     expect(page)
       .to have_selector('div.impediment.error', text: 'Invalid id impediment')
     expect(page)
-      .to have_selector('#msgBox', text: "IDs of blocked work packages can only contain IDs of work packages in the current sprint.")
+      .to have_selector('#msgBox',
+                        text: "IDs of blocked work packages can only contain IDs of work packages in the current sprint.")
     click_on 'OK'
 
     # Attempt to create a new impediment without specifying the blocked story/task

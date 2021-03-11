@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -28,30 +28,46 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'model_contract'
-
 module Users
   class BaseContract < ::ModelContract
-    attribute :type
-    attribute :login
+    attribute :login,
+              writeable: ->(*) { user.allowed_to_globally?(:manage_user) && model.id != user.id }
     attribute :firstname
     attribute :lastname
     attribute :name
     attribute :mail
-    attribute :admin
+    attribute :admin,
+              writeable: ->(*) { user.admin? && model.id != user.id }
     attribute :language
 
-    attribute :auth_source_id
-    attribute :identity_url
-    attribute :password
+    attribute :auth_source_id,
+              writeable: ->(*) { user.allowed_to_globally?(:manage_user) }
+
+    attribute :identity_url,
+              writeable: ->(*) { user.admin? }
+
+    attribute :force_password_change,
+              writeable: ->(*) { user.admin? }
 
     def self.model
       User
     end
 
+    validate :password_writable
     validate :existing_auth_source
 
     private
+
+    ##
+    # User#password is not an ActiveModel property,
+    # but just an accessor, so we need to identify it being written there.
+    # It is only present when freshly written
+    def password_writable
+      # Only admins or the user themselves can set the password
+      return if user.admin? || user.id == model.id
+
+      errors.add :password, :error_readonly if model.password.present?
+    end
 
     def existing_auth_source
       if auth_source_id && AuthSource.find_by_unique(auth_source_id).nil?

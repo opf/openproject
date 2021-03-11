@@ -15,10 +15,10 @@ sl:
       file_invalid: "BCF datoteka ni veljavna"
     x_bcf_issues:
       zero: 'Ni BCF napak'
-      one: "%{count} BCF napaka\n"
-      two: '%{count} BCF napaki'
-      few: '%{count} BCF napak'
-      other: '%{count} BCF napak'
+      one: ''
+      two: ''
+      few: ''
+      other: ''
     bcf_xml:
       xml_file: 'BCF XML datoteka'
       import_title: 'Uvozi'
@@ -103,7 +103,7 @@ sl:
           snapshot_data_blank: "navesti je treba snapshot_data."
           unsupported_key: "Vključena je nepodprta lastnost json."
         bim/bcf/issue:
-          uuid_already_taken: "Te izdaje BCF ni mogoče uvoziti, saj je že ena z istim GUID-om. Ali je morda ta BCF problem že uvožen v drug projekt?"
+          uuid_already_taken: "Te izdaje BCF ni mogoče uvoziti, saj je že ena z istim GUID-om. Ali je bil morda ta BCF problem že uvožen v drug projekt?"
   ifc_models:
     label_ifc_models: 'model IFC'
     label_new_ifc_model: 'Nov IFC model'
@@ -116,7 +116,7 @@ sl:
       check_2: 'Preverite, ali je vsaj en model IFC nastavljen na "Privzeto".'
     no_results: "V tem projektu ni bil naložen noben model IFC."
     processing_state:
-      label: 'Obdelujem?'
+      label: 'Obdelovanje?'
       in_progress: 'V teku'
       completed: 'Zaključeno'
     processing_notice:

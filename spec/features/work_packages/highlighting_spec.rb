@@ -10,7 +10,9 @@ describe 'Work Package highlighting fields',
   let(:status1) { FactoryBot.create :status, color: FactoryBot.create(:color, hexcode: '#FF0000') } # rgba(255, 0, 0, 1)
   let(:status2) { FactoryBot.create :status, color: FactoryBot.create(:color, hexcode: '#F0F0F0') } # rgba(240, 240, 240, 1)
 
-  let(:priority1) { FactoryBot.create :issue_priority, color: FactoryBot.create(:color, hexcode: '#123456') } #rgba(18, 52, 86, 1)
+  let(:priority1) do
+    FactoryBot.create :issue_priority, color: FactoryBot.create(:color, hexcode: '#123456')
+  end
   let(:priority_no_color) { FactoryBot.create :issue_priority, color: nil }
 
   let!(:wp_1) do
@@ -47,7 +49,6 @@ describe 'Work Package highlighting fields',
   end
 
   before do
-
     # Ensure Rails and Capybara caches are cleared
     Rails.cache.clear
     Capybara.reset!

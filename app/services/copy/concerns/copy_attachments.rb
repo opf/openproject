@@ -1,7 +1,6 @@
 module Copy
   module Concerns
     module CopyAttachments
-
       ##
       # Tries to copy the given attachment between containers
       def copy_attachments(from_container, to_container_id)

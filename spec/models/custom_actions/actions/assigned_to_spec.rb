@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -32,21 +32,11 @@ describe CustomActions::Actions::AssignedTo, type: :model do
   let(:key) { :assigned_to }
   let(:type) { :associated_property }
   let(:allowed_values) do
-    users = []
-
-    if !Setting.work_package_group_assignment?
-      users = [FactoryBot.build_stubbed(:user),
-               FactoryBot.build_stubbed(:user)]
-      allow(User)
-        .to receive_message_chain(:active_or_registered, :select, :order_by_name)
-        .and_return(users)
-    else
-      users = [FactoryBot.build_stubbed(:user),
-               FactoryBot.build_stubbed(:group)]
-      allow(Principal)
-        .to receive_message_chain(:active_or_registered, :select, :order_by_name)
-        .and_return(users)
-    end
+    users = [FactoryBot.build_stubbed(:user),
+             FactoryBot.build_stubbed(:group)]
+    allow(Principal)
+      .to receive_message_chain(:not_locked, :select, :ordered_by_name)
+      .and_return(users)
 
     [{ value: nil, label: '-' },
      { value: 'current_user', label: '(Assign to executing user)' },
@@ -56,22 +46,11 @@ describe CustomActions::Actions::AssignedTo, type: :model do
   it_behaves_like 'base custom action'
   it_behaves_like 'associated custom action' do
     describe '#allowed_values' do
-      context 'group assignment disabled', with_settings: { work_package_group_assignment?: false } do
-        it 'is the list of all users' do
-          allowed_values
+      it 'is the list of all users' do
+        allowed_values
 
-          expect(instance.allowed_values)
-            .to eql(allowed_values)
-        end
-      end
-
-      context 'group assignment enabled', with_settings: { work_package_group_assignment?: true } do
-        it 'is the list of all users' do
-          allowed_values
-
-          expect(instance.allowed_values)
-            .to eql(allowed_values)
-        end
+        expect(instance.allowed_values)
+          .to eql(allowed_values)
       end
     end
   end

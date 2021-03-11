@@ -46,10 +46,10 @@
         </edit-form-portal>
       </div>
     </div>
-    <div *ngIf="!active && (isComment || isBcfComment)"
-          class="message wiki op-uc-container"
-          [innerHtml]="postedComment">
-    </div>
+    <op-dynamic-bootstrap *ngIf="!active && (isComment || isBcfComment)"
+                          [HTML]="postedComment"
+                          class="message wiki op-uc-container">
+    </op-dynamic-bootstrap>
     <ul class="work-package-details-activities-messages" *ngIf="!isInitial">
       <li *ngFor="let detail of details">
         <span class="message" [innerHtml]="detail"></span>

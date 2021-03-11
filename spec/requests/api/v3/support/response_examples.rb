@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 shared_examples_for 'error response' do |code, id, provided_message = nil|
-  let(:expected_message) {
+  let(:expected_message) do
     provided_message || message
-  }
+  end
 
   it 'has the expected status code' do
     expect(last_response.status).to eq(code)
@@ -52,7 +52,7 @@ shared_examples_for 'error response' do |code, id, provided_message = nil|
       it { expect(subject['message']).to include(expected_message) }
 
       it 'includes punctuation' do
-        expect(subject['message']).to match(/(\.|\?|\!)\z/)
+        expect(subject['message']).to match(/(\.|\?|!)\z/)
       end
     end
   end
@@ -210,8 +210,10 @@ shared_examples_for 'multiple errors of the same type with messages' do
   end
 
   before do
-    raise "Need to have 'message' defined to state\
-           which message is expected".squish unless defined?(message)
+    unless defined?(message)
+      raise "Need to have 'message' defined to state\
+             which message is expected".squish
+    end
   end
 
   it { expect(actual_messages).to match_array(Array(message)) }

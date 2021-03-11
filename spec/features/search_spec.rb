@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -31,7 +31,7 @@ require 'spec_helper'
 describe 'Search', type: :feature, js: true, with_settings: { per_page_options: '5' }, with_mail: false do
   include ::Components::NgSelectAutocompleteHelpers
 
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:user) { admin }
   let(:project) { FactoryBot.create :project }
   let(:searchable) { true }
@@ -304,8 +304,8 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
         table.expect_work_package_subject(work_packages[0].subject)
         # ... for type: string
         global_search.search custom_field_string_value, submit: true
-        table.ensure_work_package_not_listed! work_packages[0]
         table.expect_work_package_subject(work_packages[1].subject)
+        table.ensure_work_package_not_listed! work_packages[0]
 
         # Change to project scope to include subprojects
         global_search.search other_work_package.subject
@@ -420,23 +420,23 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
       global_search.expect_global_scope_marked
       global_search.submit_in_global_scope
 
-      table.ensure_work_package_not_listed! wp_2
       table.expect_work_package_listed(wp_1, wp_3)
+      table.ensure_work_package_not_listed! wp_2
 
       global_search.search "# Bar"
       global_search.find_option "Foo # Bar"
       global_search.find_option "Foo &# Bar"
       global_search.submit_in_global_scope
-      table.ensure_work_package_not_listed! wp_1
       table.expect_work_package_listed(wp_2)
+      table.ensure_work_package_not_listed! wp_1
 
       global_search.search "&"
       # Bug in ng-select causes highlights to break up entities
       global_search.find_option "Foo && Bar"
       global_search.find_option "Foo &# Bar"
       global_search.submit_in_global_scope
-      table.ensure_work_package_not_listed! wp_2
       table.expect_work_package_listed(wp_1, wp_3)
+      table.ensure_work_package_not_listed! wp_2
     end
   end
 end

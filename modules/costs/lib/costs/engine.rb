@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -89,6 +89,7 @@ module Costs
       menu :admin_menu,
            :cost_types,
            { controller: '/cost_types', action: 'index' },
+           if: ->(*) { User.current.admin? },
            parent: :admin_costs,
            caption: :label_cost_type_plural
     end
@@ -103,7 +104,8 @@ module Costs
     add_tab_entry :user,
                   name: 'rates',
                   partial: 'users/rates',
-                  path: ->(params) { tab_edit_user_path(params[:user], tab: :rates) },
+                  path: ->(params) { edit_user_path(params[:user], tab: :rates) },
+                  only_if: ->(*) { User.current.admin? },
                   label: :caption_rate_history
 
     add_api_path :cost_entry do |id|

@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -29,30 +29,34 @@
 require 'spec_helper'
 
 describe DeprecatedAlias do
-  let(:clazz) {
+  let(:clazz) do
     Class.new do
       extend DeprecatedAlias
 
       def secret_key
-        @secret_key ||= 'happiness'
+        'happiness'
       end
       deprecated_alias :special_key, :secret_key
     end
-  }
+  end
 
   subject(:object) { clazz.new }
 
-  let(:deprecation_warning) {
-    'special_key is deprecated and will be removed in a future OpenProject version. ' +
-      'Please use secret_key instead.'
-  }
+  let(:deprecation_warning) do
+    <<~MSG
+      special_key is deprecated and will be removed in a future OpenProject version.
+
+      Please use secret_key instead.
+
+    MSG
+  end
 
   before do
     expect(ActiveSupport::Deprecation).to receive(:warn)
       .with(deprecation_warning, an_instance_of(Array))
   end
 
-  it 'should alias the method' do
+  it 'aliases the method' do
     expect(object.special_key).to eq('happiness')
   end
 end

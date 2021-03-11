@@ -46,11 +46,13 @@
           [ngClass]="typeHighlightingClass(workPackage)">
     </span>
     <a class="wp-card--id"
+       [href]="fullWorkPackageLink(workPackage)"
        [ngClass]="uiStateLinkClass"
-       (accessibleClick)="emitStateLinkClicked(workPackage)">
+       (accessibleClick)="emitStateLinkClicked(workPackage)"
+       [accessibleClickSkipModifiers]="true">
       #{{workPackage.id}}
     </a>
-    <span [textContent]="wpSubject(workPackage)" 
+    <span [textContent]="wpSubject(workPackage)"
           class="wp-card--subject">
     </span>
     <img *ngIf="this.cardCoverImageShown(workPackage)" 

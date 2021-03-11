@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -58,7 +58,7 @@ describe 'Projects', type: :feature do
     end
 
     context 'work_packages module disabled',
-            with_settings: { default_projects_modules: %q(wiki) } do
+            with_settings: { default_projects_modules: 'wiki' } do
       it 'creates a project and redirects to settings' do
         click_on 'New project'
 
@@ -76,7 +76,9 @@ describe 'Projects', type: :feature do
 
     it 'can create a subproject' do
       click_on 'Foo project'
+      SeleniumHubWaiter.wait
       click_on 'Project settings'
+      SeleniumHubWaiter.wait
       click_on 'New subproject'
 
       fill_in 'project[name]', with: 'Foo child'
@@ -95,8 +97,6 @@ describe 'Projects', type: :feature do
       expect(page).to have_content 'Identifier has already been taken'
       expect(current_path).to eq '/projects'
     end
-
-
   end
 
   describe 'project types' do
@@ -152,7 +152,9 @@ describe 'Projects', type: :feature do
     it 'updates the project identifier' do
       visit projects_path
       click_on project.name
+      SeleniumHubWaiter.wait
       click_on 'Project settings'
+      SeleniumHubWaiter.wait
       click_on 'Edit'
 
       expect(page).to have_content "CHANGE THE PROJECT'S IDENTIFIER"
@@ -181,14 +183,14 @@ describe 'Projects', type: :feature do
     let(:project) { FactoryBot.build(:project, name: 'Foo project', identifier: 'foo-project') }
     let!(:optional_custom_field) do
       FactoryBot.create(:custom_field, name: 'Optional Foo',
-                                        type: ProjectCustomField,
-                                        is_for_all: true)
+                                       type: ProjectCustomField,
+                                       is_for_all: true)
     end
     let!(:required_custom_field) do
       FactoryBot.create(:custom_field, name: 'Required Foo',
-                                        type: ProjectCustomField,
-                                        is_for_all: true,
-                                        is_required: true)
+                                       type: ProjectCustomField,
+                                       is_for_all: true,
+                                       is_required: true)
     end
 
     it 'seperates optional and required custom fields for new' do

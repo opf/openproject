@@ -1,4 +1,4 @@
-# Accessibility Checklist
+# Accessibility checklist
 
 Web sites should be:
 

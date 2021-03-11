@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -32,7 +32,6 @@ require 'fileutils'
 module ::OpenProject::Plugins
   module FrontendLinking
     class Generator
-
       attr_reader :openproject_plugins
 
       def initialize
@@ -90,10 +89,8 @@ module ::OpenProject::Plugins
       # Regenerate the frontend plugin module orchestrating the linked frontends
       def generate_plugin_module(plugins)
         file_register = Rails.root.join('frontend', 'src', 'app', 'modules', 'plugins', 'linked-plugins.module.ts')
-        template_file = File.read(File.expand_path('../linked-plugins.module.ts.erb', __FILE__))
-        template = ::ERB.new template_file,
-                             nil,
-                             '-'
+        template_file = File.read(File.expand_path('linked-plugins.module.ts.erb', __dir__))
+        template = ::ERB.new template_file, trim_mode: '-'
 
         puts "Regenerating frontend plugin registry #{file_register}."
         context = ::OpenProject::Plugins::FrontendLinking::ErbContext.new plugins

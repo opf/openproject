@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -27,6 +27,7 @@
 #++
 
 # encoding: UTF-8
+
 class Report::Transformer
   attr_reader :query
 
@@ -47,9 +48,11 @@ class Report::Transformer
   def column_first
     @column_first ||= begin
       # reverse since we fake recursion ↓↓↓
-      list, all_fields = restructured.reverse, @all_fields.dup
+      list = restructured.reverse
+      all_fields = @all_fields.dup
       result = list.inject(@ungrouped) do |aggregate, (current_fields, type)|
-        fields, all_fields = all_fields, all_fields - current_fields
+        fields = all_fields
+        all_fields = all_fields - current_fields
         aggregate.grouped_by fields, type, current_fields
       end
       result or query.result
@@ -60,7 +63,9 @@ class Report::Transformer
   # Important side effect: it sets @ungrouped, @all_fields.
   # @return [Array<Array<Array<String,Symbol>, Symbol>>] Group by fields + types (:row or :column)
   def restructured
-    rows, columns, current = [], [], query.chain
+    rows = []
+    columns = []
+    current = query.chain
     @all_fields = []
     until current.filter?
       @ungrouped = current.result if current.responsible_for_sql?

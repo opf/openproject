@@ -1,13 +1,14 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -36,6 +37,7 @@ module Redmine
 
       def link_to(name, options = {})
         return if Setting.table_exists? && !Setting.feeds_enabled? && name == 'Atom'
+
         url = { format: name.to_s.downcase }.merge(options.delete(:url) || {})
         caption = options.delete(:caption) || name
         html_options = { class: "icon icon-#{name.to_s.downcase}", rel: 'nofollow' }.merge(options)

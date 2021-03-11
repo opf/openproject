@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2020 the OpenProject GmbH
+// Copyright (C) 2012-2021 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -32,6 +32,7 @@ import {ConfigurationService} from 'core-app/modules/common/config/configuration
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {
+  ApplicationRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -91,13 +92,16 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
               readonly apiV3Service:APIV3Service,
               readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService,
-              readonly ngZone:NgZone) {
+              readonly ngZone:NgZone,
+              protected appRef:ApplicationRef) {
     super(elementRef, injector);
   }
 
   public ngOnInit() {
     super.ngOnInit();
 
+
+    this.htmlId = `user_activity_edit_field_${this.activityNo}`;
     this.updateCommentText();
     this.isComment = this.activity._type === 'Activity::Comment';
     this.isBcfComment = this.activity._type === 'Activity::BcfComment';
@@ -216,10 +220,6 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     return this.userName + ' wrote:\n' + quoted;
   }
 
-  public get htmlId() {
-    return `user_activity_edit_field_${this.activityNo}`;
-  }
-
   deactivate(focus:boolean):void {
     super.deactivate(focus);
 
@@ -229,6 +229,6 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   private updateCommentText() {
-    this.postedComment = this.sanitization.bypassSecurityTrustHtml(this.activity.comment.html);
+    this.postedComment = this.activity.comment.html;
   }
 }

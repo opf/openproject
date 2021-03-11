@@ -5,12 +5,12 @@ module IfcModelsHelper
     gon.ifc_models = {
       models: gon_ifc_model_models(all_converted_models),
       shown_models: gon_ifc_shown_models(all_converted_models, shown_models),
-      projects: [{id: @project.identifier, name: @project.name}],
+      projects: [{ id: @project.identifier, name: @project.name }],
       xkt_attachment_ids: gon_ifc_model_xkt_attachment_ids(all_converted_models),
       metadata_attachment_ids: gon_ifc_model_metadata_attachment_ids(all_converted_models),
       permissions: {
         manage_ifc_models: User.current.allowed_to?(:manage_ifc_models, @project),
-        manage_bcf: User.current.allowed_to?(:manage_bcf, @project),
+        manage_bcf: User.current.allowed_to?(:manage_bcf, @project)
       }
     }
   end

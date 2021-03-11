@@ -6,15 +6,15 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Restdt, with_2fa
     let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, channel: channel }
 
     let(:service_url) { 'https://example.org/foobar' }
-    let(:params) {
+    let(:params) do
       {
         service_url: service_url,
         username: 'foobar',
         password: 'password!'
       }
-    }
+    end
 
-    let(:base_request) {
+    let(:base_request) do
       {
         user: 'foobar',
         pass: 'password!',
@@ -23,7 +23,7 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Restdt, with_2fa
         txt: '1234',
         output: 'plain'
       }
-    }
+    end
 
     before do
       allow(OpenProject::Configuration)

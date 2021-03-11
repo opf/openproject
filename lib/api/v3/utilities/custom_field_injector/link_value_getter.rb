@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -33,14 +33,14 @@ module API
     module Utilities
       class CustomFieldInjector
         module LinkValueGetter
-          def self.new(custom_field, path_method)
+          def self.link_for(custom_field)
             ->(*) do
               next unless represented.available_custom_fields.include?(custom_field)
 
               # we can't use the generated accessor (e.g. represented.send :custom_field_1) here,
               # because we need to generate a link even if the id does not belong to an existing
               # object (that behaviour is only required for form payloads)
-              values = Methods.link_value_getter_values represented, custom_field, path_method
+              values = Methods.link_value_getter_values represented, custom_field
 
               if custom_field.multi_value?
                 values
@@ -58,23 +58,42 @@ module API
 
             module_function
 
-            def link_value_getter_values(represented, custom_field, path_method)
+            def link_value_getter_values(represented, custom_field)
               Array(represented.custom_value_for(custom_field)).flat_map do |custom_value|
                 if custom_value && custom_value.value.present?
                   title = link_value_title(custom_value)
 
-                  # only use ids for url
-                  href = if custom_value.value.to_i.to_s == custom_value.value
-                           api_v3_paths.send(path_method, custom_value.value)
-                         end
                   [{
                     title: title,
-                    href: href
+                    href: link_value_href(custom_field, custom_value)
                   }]
                 else
                   []
                 end
               end
+            end
+
+            def link_value_href(custom_field, custom_value)
+              # only use ids for url
+              return unless custom_value.value.to_i.to_s == custom_value.value
+
+              path_method = link_value_path_method(custom_field, custom_value)
+              api_v3_paths.send(path_method, custom_value.value)
+            end
+
+            def link_value_path_method(custom_field, custom_value)
+              case custom_field.field_format
+              when 'user'
+                derive_principal_path_method(custom_value)
+              when 'list'
+                :custom_option
+              else
+                custom_field.field_format
+              end
+            end
+
+            def derive_principal_path_method(custom_value)
+              API::V3::Principals::PrincipalRepresenterFactory.v3_path(custom_value.typed_value)
             end
 
             def link_value_title(custom_value)

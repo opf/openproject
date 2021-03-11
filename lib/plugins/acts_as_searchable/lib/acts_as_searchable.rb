@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -59,7 +59,10 @@ module Redmine
           searchable_options[:order_column] ||= searchable_options[:date_column]
 
           # Permission needed to search this model
-          searchable_options[:permission] = "view_#{name.underscore.pluralize}".to_sym unless searchable_options.has_key?(:permission)
+          unless searchable_options.has_key?(:permission)
+            searchable_options[:permission] =
+              "view_#{name.underscore.pluralize}".to_sym
+          end
 
           # Should we search custom fields on this model ?
           searchable_options[:search_custom_fields] = !reflect_on_association(:custom_values).nil?

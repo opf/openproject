@@ -15,8 +15,8 @@ el:
       file_invalid: "Το αρχείο BCF δεν είναι έγκυρο"
     x_bcf_issues:
       zero: 'Δεν υπάρχουν ζητήματα BCF'
-      one: 'Ένα BCF ζήτημα'
-      other: '%{count} BCF ζητήματα'
+      one: ''
+      other: ''
     bcf_xml:
       xml_file: 'BCF XML Αρχείο'
       import_title: 'Εισαγωγή'

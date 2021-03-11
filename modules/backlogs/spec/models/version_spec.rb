@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -34,16 +34,16 @@ describe Version, type: :model do
   describe 'rebuild positions' do
     def build_work_package(options = {})
       FactoryBot.build(:work_package, options.reverse_merge(version_id: version.id,
-                                                             priority_id:      priority.id,
-                                                             project_id:       project.id,
-                                                             status_id:        status.id))
+                                                            priority_id: priority.id,
+                                                            project_id: project.id,
+                                                            status_id: status.id))
     end
 
     def create_work_package(options = {})
       build_work_package(options).tap(&:save!)
     end
 
-    let(:status)   { FactoryBot.create(:status)    }
+    let(:status)   { FactoryBot.create(:status) }
     let(:priority) { FactoryBot.create(:priority_normal) }
     let(:project)  { FactoryBot.create(:project, name: 'Project 1', types: [epic_type, story_type, task_type, other_type]) }
 
@@ -54,7 +54,7 @@ describe Version, type: :model do
 
     let(:version) { FactoryBot.create(:version, project_id: project.id, name: 'Version') }
 
-    using_shared_fixtures :admin
+    shared_let(:admin) { FactoryBot.create :admin }
 
     def move_to_project(work_package, project)
       service = WorkPackages::MoveService.new(work_package, admin)
@@ -76,7 +76,8 @@ describe Version, type: :model do
 
       # Enable and configure backlogs
       project.enabled_module_names = project.enabled_module_names + ['backlogs']
-      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [epic_type.id, story_type.id], 'task_type' => task_type.id })
+      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [epic_type.id, story_type.id],
+                                                                           'task_type' => task_type.id })
 
       # Otherwise the type id's from the previous test are still active
       WorkPackage.instance_variable_set(:@backlogs_types, nil)
@@ -92,8 +93,10 @@ describe Version, type: :model do
       project2.reload
 
       work_package1 = FactoryBot.create(:work_package, type_id: task_type.id, status_id: status.id, project_id: project.id)
-      work_package2 = FactoryBot.create(:work_package, parent_id: work_package1.id, type_id: task_type.id, status_id: status.id, project_id: project.id)
-      work_package3 = FactoryBot.create(:work_package, parent_id: work_package2.id, type_id: task_type.id, status_id: status.id, project_id: project.id)
+      work_package2 = FactoryBot.create(:work_package, parent_id: work_package1.id, type_id: task_type.id, status_id: status.id,
+                                                       project_id: project.id)
+      work_package3 = FactoryBot.create(:work_package, parent_id: work_package2.id, type_id: task_type.id, status_id: status.id,
+                                                       project_id: project.id)
 
       work_package1.reload
       work_package1.version_id = version.id

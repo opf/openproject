@@ -22,7 +22,7 @@ This guide describes how to fix the data once this has happened.
 Backup scripts are by default created via the [built in OpenProject command](../../operation/backing-up). 
 When not following the default, the database or the OpenProject server itself may have been backed up. 
 This guide only covers the proceedings for the the built in backup command. 
-But the reader might deduce the steps neccessary to restore accordingly for a custom backup from this guide.
+But the reader might deduce the steps necessary to restore accordingly for a custom backup from this guide.
 
 As a result of this step, a second database, not the database OpenProject is currently connecting to, will contain the data of the backup.
 
@@ -42,7 +42,7 @@ $ openproject config:get DATABASE_URL
 postgres://openproject:L0BuQvlagjmxdOl6785kqwsKnfCEx1dv@127.0.0.1:45432/openproject
 ```
 
-### 1.2 Create auxillary database
+### 1.2 Create auxiliary database
 
 Using this connection string, the following command will create the database the backup will be restored to (named `openproject_backup` in this example):
 
@@ -70,7 +70,7 @@ Example:
 $ su postgres -c createdb -O openproject openproject_backup
 ```
 
-### 1.3 Restore backup to auxillary database
+### 1.3 Restore backup to auxiliary database
 
 Next, that newly created database will receive the data from a backup file which typically can be found in `/var/db/openproject/backup`
 
@@ -100,7 +100,7 @@ Example:
 $ pg_restore -d "postgres://openproject:L0BuQvlagjmxdOl6785kqwsKnfCEx1dv@127.0.0.1:45432/openproject_backup" /var/db/openproject/backup/postgresql-dump-20191119210038.pgdump` 
 ```
 
-That command will restore the contents of the backup file into the auxillary database.
+That command will restore the contents of the backup file into the auxiliary database.
 
 ## 2. Run the script to fix the database entries
 
@@ -127,7 +127,7 @@ Done.
 
 ## 3. Cleanup
 
-The database containing the backup data can be removed once the script has finished (again, **ensure to reference the auxillary database for the drop command**):
+The database containing the backup data can be removed once the script has finished (again, **ensure to reference the auxiliary database for the drop command**):
 
 ```bash
 $ psql "postgres://<dbusername>:<dbpassword>@<dbhost>:<dbport>/<dbname>" -c 'DROP DATABASE <new_dbname>'

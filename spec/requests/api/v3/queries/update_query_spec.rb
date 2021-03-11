@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -134,7 +134,7 @@ describe "PATCH /api/v3/queries/:id", type: :request do
 
       expect(query.group_by_column.name).to eq :assigned_to
       expect(query.sort_criteria).to eq [["id", "desc"], ["assigned_to", "asc"]]
-      expect(query.columns.map(&:name)).to eq [:id, :subject, :status, :assigned_to]
+      expect(query.columns.map(&:name)).to eq %i[id subject status assigned_to]
       expect(query.project).to eq project
       expect(query.is_public).to eq true
       expect(query.display_sums).to eq false

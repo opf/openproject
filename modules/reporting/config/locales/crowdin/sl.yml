@@ -1,10 +1,10 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2020 the OpenProject GmbH
+#Copyright (C) 2012-2021 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-#Copyright (C) 2006-2017 Jean-Philippe Lang
+#Copyright (C) 2006-2013 Jean-Philippe Lang
 #Copyright (C) 2010-2013 the ChiliProject Team
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License
@@ -48,7 +48,7 @@ sl:
   label_month_reporting: "Mesec (porabljeno)"
   label_new_report: "Novo stroškovno poročilo"
   label_open: "odpri"
-  label_operator: "Operater"
+  label_operator: "Operator"
   label_private_report_plural: "Zasebno stroškovno poročilo"
   label_progress_bar_explanation: "Generiram poročilo..."
   label_public_report_plural: "Javno stroškovno poročilo"
@@ -62,13 +62,14 @@ sl:
   label_year_reporting: "Leto (Porabljeno)"
   label_count: "Šteti"
   label_filter: "Filtriraj"
-  label_filter_add: "Dodajte filter"
+  label_filter_add: "Dodaj filter"
   label_filter_plural: "Filtri"
   label_group_by: "Razvrsti po"
   label_group_by_add: "Dodajte atribut Group-by"
   label_inactive: "«neaktiven»"
   label_no: "Ne"
   label_none: "(ni podatkov)"
+  label_no_reports: "Trenutno še ni stroškovnih poročil."
   label_report: "Poročilo"
   label_yes: "Da"
   load_query_question: "Poročilo bo imelo %{size} celice tabel zato lahko traja nekaj časa, da se upodobi. \nAli še vedno želite poskusiti upodabljanje?"

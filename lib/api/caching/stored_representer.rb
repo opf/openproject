@@ -5,7 +5,7 @@ module API
         @json = json
       end
 
-      def to_json
+      def to_json(*_args)
         @json
       end
     end

@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -121,10 +121,10 @@ module OpenProject::Plugins
         self.class.config.to_prepare do
           klass_name = args.last
           patch = begin
-                    "#{plugin_module}::Patches::#{args[0..-2].join('::')}::#{klass_name}Patch".constantize
-                  rescue NameError
-                    "#{plugin_module}::Patches::#{klass_name}Patch".constantize
-                  end
+            "#{plugin_module}::Patches::#{args[0..-2].join('::')}::#{klass_name}Patch".constantize
+          rescue NameError
+            "#{plugin_module}::Patches::#{klass_name}Patch".constantize
+          end
           qualified_class_name = args.map(&:to_s).join('::')
           klass = qualified_class_name.to_s.constantize
           klass.send(:include, patch) unless klass.included_modules.include?(patch)
@@ -242,8 +242,7 @@ module OpenProject::Plugins
       end
 
       def add_api_attribute(on:,
-                            writable_for: [:create, :update],
-                            ar_name:,
+                            ar_name:, writable_for: %i[create update],
                             writeable: true,
                             &block)
         config.to_prepare do

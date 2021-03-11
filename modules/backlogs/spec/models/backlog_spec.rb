@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -33,8 +33,8 @@ describe Backlog, type: :model do
 
   before(:each) do
     @feature = FactoryBot.create(:type_feature)
-    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types'           => [@feature.id.to_s],
-                                                                         'task_type'             => '0' })
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [@feature.id.to_s],
+                                                                         'task_type' => '0' })
     @status = FactoryBot.create(:status)
   end
 
@@ -43,7 +43,8 @@ describe Backlog, type: :model do
       describe 'WITH one open version defined in the project' do
         before(:each) do
           @project = project
-          @work_packages = [FactoryBot.create(:work_package, subject: 'work_package1', project: @project, type: @feature, status: @status)]
+          @work_packages = [FactoryBot.create(:work_package, subject: 'work_package1', project: @project, type: @feature,
+                                                             status: @status)]
           @version = FactoryBot.create(:version, project: project, work_packages: @work_packages)
           @version_settings = @version.version_settings.create(display: VersionSetting::DISPLAY_RIGHT, project: project)
         end

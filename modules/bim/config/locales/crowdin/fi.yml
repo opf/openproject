@@ -7,7 +7,7 @@ fi:
     label_imported_failed: 'Failed imports of BCF topics'
     label_imported_successfully: 'Successfully imported BCF topics'
     issues: "Issues"
-    recommended: 'recommended'
+    recommended: 'suositellut'
     not_recommended: 'not recommended'
     no_viewpoints: 'No viewpoints'
     new_badge: "Uusi"
@@ -15,8 +15,8 @@ fi:
       file_invalid: "BCF file invalid"
     x_bcf_issues:
       zero: 'No BCF issues'
-      one: 'One BCF issue'
-      other: '%{count} BCF issues'
+      one: ''
+      other: ''
     bcf_xml:
       xml_file: 'BCF XML File'
       import_title: 'Import'

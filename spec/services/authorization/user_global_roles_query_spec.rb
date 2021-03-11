@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -38,16 +38,16 @@ describe Authorization::UserGlobalRolesQuery do
   let(:role2) { FactoryBot.build(:role) }
   let(:anonymous_role) { FactoryBot.build(:anonymous_role) }
   let(:non_member) { FactoryBot.build(:non_member) }
-  let(:member) {
+  let(:member) do
     FactoryBot.build(:member, project: project,
-                               roles: [role],
-                               principal: user)
-  }
-  let(:member2) {
+                              roles: [role],
+                              principal: user)
+  end
+  let(:member2) do
     FactoryBot.build(:member, project: project2,
-                               roles: [role2],
-                               principal: user)
-  }
+                              roles: [role2],
+                              principal: user)
+  end
   let(:global_permission) { OpenProject::AccessControl.permissions.find { |p| p.global? } }
   let(:global_role) do
     FactoryBot.build(:global_role,
