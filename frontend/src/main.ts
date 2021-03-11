@@ -1,7 +1,6 @@
 import { OpenProjectModule } from 'core-app/angular4-modules';
 import { enableProdMode } from '@angular/core';
 import * as jQuery from "jquery";
-import * as moment from "moment";
 import { environment } from './environments/environment';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { SentryReporter } from "core-app/sentry/sentry-reporter";

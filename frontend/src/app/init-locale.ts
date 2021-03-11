@@ -26,6 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
+import * as moment from "moment";
+
 export function initializeLocale() {
   const meta = document.querySelector('meta[name=openproject_initializer]') as HTMLMetaElement;
   const locale = meta.dataset.locale || 'en';
@@ -35,12 +37,12 @@ export function initializeLocale() {
   I18n.locale = locale;
   I18n.firstDayOfWeek = firstDayOfWeek;
 
-  if (typeof firstDayOfWeek === 'number' && typeof firstWeekOfYear === 'number') {
+  if (!isNaN(firstDayOfWeek) && !isNaN(firstWeekOfYear)) {
     moment.updateLocale(locale, {
       week: {
         dow: firstDayOfWeek,
-        doy: 7 + firstDayOfWeek - firstWeekOfYear,
-      },
+        doy: 7 + firstDayOfWeek - firstWeekOfYear
+      }
     });
   }
 
