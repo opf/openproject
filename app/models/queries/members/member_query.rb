@@ -33,7 +33,7 @@ class Queries::Members::MemberQuery < Queries::BaseQuery
 
   def results
     super
-      .includes(:roles, :principal, :member_roles)
+      .includes(:roles, { principal: :preference }, :member_roles)
   end
 
   def default_scope

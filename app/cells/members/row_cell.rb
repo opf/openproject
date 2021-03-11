@@ -25,6 +25,7 @@ module Members
 
     def mail
       return unless user?
+      return if principal.pref.hide_mail
 
       link = mail_to(principal.mail)
 

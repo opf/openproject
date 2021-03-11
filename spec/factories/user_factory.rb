@@ -35,12 +35,26 @@ FactoryBot.define do
     password { 'adminADMIN!' }
     password_confirmation { 'adminADMIN!' }
 
+    transient do
+      preferences { {} }
+    end
+
     mail_notification { OpenProject::VERSION::MAJOR > 0 ? 'all' : true }
 
     language { 'en' }
     status { User.statuses[:active] }
     admin { false }
     first_login { false if User.table_exists? and User.columns.map(&:name).include? 'first_login' }
+
+    callback(:after_build) do |user, evaluator|
+      evaluator.preferences.each do |key, val|
+        user.pref[key] = val
+      end
+    end
+
+    callback(:after_create) do |user, evaluator|
+      user.pref.save unless evaluator.preferences&.empty?
+    end
 
     factory :admin do
       firstname { 'OpenProject' }
