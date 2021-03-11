@@ -33,8 +33,15 @@ module API
     module Capabilities
       class CapabilityRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
+        include API::Caching::CachedRepresenter
 
-        # TODO: encode context and user
+        cached_representer({}) #key_parts: %i[project context]
+
+        def json_key_part_represented
+          [represented.permission_map]#, represented.project, represented.context]
+        end
+
+                           # TODO: encode context and user
         self_link id_attribute: :permission_map,
                   title_getter: ->(*) { false }
 

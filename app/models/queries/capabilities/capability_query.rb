@@ -33,7 +33,7 @@ class Queries::Capabilities::CapabilityQuery < Queries::BaseQuery
 
   def results
     super
-      .includes(:project, :principal)
+      .includes(:context, :principal)
       .reorder(permission_map: :asc)
   end
 
@@ -42,7 +42,7 @@ class Queries::Capabilities::CapabilityQuery < Queries::BaseQuery
                 (SELECT
                   role_permissions.permission,
                   permission_maps.permission_map,
-                  members.user_id user_id,
+                  members.user_id principal_id,
                   members.project_id project_id
                 FROM "roles"
                 INNER JOIN "role_permissions" ON "role_permissions"."role_id" = "roles"."id"
@@ -59,4 +59,20 @@ class Queries::Capabilities::CapabilityQuery < Queries::BaseQuery
       .select('capabilities.*')
       .from(capabilities_sql)
   end
+
+  private
+
+  #def apply_orders(scope)
+  #  orders.each do |order|
+  #    scope = scope.merge(order.scope)
+  #  end
+
+  #  scope
+
+  #  # To get deterministic results, especially when paginating (limit + offset)
+  #  # an order needs to be prepended that is ensured to be
+  #  # different between all elements.
+  #  # Without such a criteria, results can occur on multiple pages.
+  #  #already_ordered_by_id?(scope) ? scope : scope.order(id: :desc)
+  #end
 end

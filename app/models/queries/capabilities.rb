@@ -28,33 +28,25 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Turn it to something independent of a member
-# and possibly prevent instantiating somehow
-class Capability < Member#ApplicationRecord
-  #include ActiveModel::Model
-  #include ActiveRecord::Associations
-  #extend ActiveRecord::AttributeMethods::ClassMethods
-  #include ActiveRecord::AttributeMethods
-  #include ActiveRecord::ModelSchema
+module Queries::Capabilities
+  query = Queries::Capabilities::CapabilityQuery
+  #filter_ns = Queries::Members::Filters
 
-  #self.pluralize_table_names = true
-  #self.abstract_class = true
+  #Queries::Register.filter query, filter_ns::NameFilter
+  #Queries::Register.filter query, filter_ns::AnyNameAttributeFilter
+  #Queries::Register.filter query, filter_ns::ProjectFilter
+  #Queries::Register.filter query, filter_ns::StatusFilter
+  #Queries::Register.filter query, filter_ns::BlockedFilter
+  #Queries::Register.filter query, filter_ns::GroupFilter
+  #Queries::Register.filter query, filter_ns::RoleFilter
+  #Queries::Register.filter query, filter_ns::PrincipalFilter
+  #Queries::Register.filter query, filter_ns::CreatedAtFilter
+  #Queries::Register.filter query, filter_ns::UpdatedAtFilter
 
-  belongs_to :context, class_name: 'Project'
-  belongs_to :principal#, foreign_key: :principal_id
+  order_ns = Queries::Capabilities::Orders
 
-  self.table_name = 'members'
-
-  attr_accessor :id,
-                :permission
-
-  #alias_method :context, :project
-
-  #def context_id
-  #  project_id
-  #end
-
-  #def principal_id
-  #  user_id
-  #end
+  Queries::Register.order query, order_ns::IdOrder
+  #Queries::Register.order query, order_ns::NameOrder
+  #Queries::Register.order query, order_ns::EmailOrder
+  #Queries::Register.order query, order_ns::StatusOrder
 end
