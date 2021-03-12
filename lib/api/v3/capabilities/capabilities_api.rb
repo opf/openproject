@@ -66,18 +66,69 @@ module API
 #              SQL
             end
 
-            def capabilities
-              #projects = Project.find(raw_capabilities.map(&:project_id).compact).group_by(&:id).transform_values(&:first)
-              #principals = Principal.find(raw_capabilities.map(&:user_id).compact).group_by(&:id).transform_values(&:first)
+            def capabilities_sql
+              <<~SQL
+                WITH
 
-              #raw_capabilities.map do |raw|
-              #  capability_class.new(raw.permission_map,
-              #                       raw.principal_id,
-              #                       raw.context_id,
-              #                       principals[raw.principal_id],
-              #                       projects[raw.context_id])
-              #end
-              raw_capabilities
+                all_elements AS (SELECT capabilities.* FROM (SELECT
+                    permission_maps.permission_map,
+                    members.user_id principal_id,
+                    members.project_id project_id
+                  FROM "roles"
+                  INNER JOIN "role_permissions" ON "role_permissions"."role_id" = "roles"."id"
+                  LEFT OUTER JOIN "member_roles" ON "member_roles".role_id = roles.id
+                  LEFT OUTER JOIN "members" ON members.id = member_roles.member_id
+                  JOIN
+                    (SELECT * FROM (VALUES ('manage_user', 'users/create'),
+                                           ('manage_user', 'users/update'),
+                                           ('manage_members', 'memberships/create')) AS t(permission, permission_map)) AS permission_maps
+                    ON permission_maps.permission = role_permissions.permission) capabilities),
+
+                raw AS (SELECT * FROM all_elements
+                 ORDER BY "permission_map" ASC LIMIT 50 OFFSET 1
+                ),
+
+                elements_json AS (SELECT
+                  json_build_object('_links',
+                    json_build_object(
+                    'self', json_build_object('href', (CASE
+                                                       WHEN project_id IS NULL THEN 'api/v3/capabilities/' || permission_map || '/g-' || principal_id
+                                                       ELSE 'api/v3/capabilities/' || permission_map || '/p' || project_id || '-' || principal_id
+                                                       END)),
+                      'context', json_build_object('href', (CASE
+                                                            WHEN project_id IS NULL THEN 'api/v3/capabilities/contexts/global'
+                                                            ELSE 'api/v3/projects/' || project_id
+                                                            END)),
+                    -- TODO: differentiate between various principals
+                    'principal', json_build_object('href', 'api/v3/users/' || principal_id)),
+                  'id', (CASE
+                         WHEN project_id IS NULL THEN permission_map || '/g-' || principal_id
+                         ELSE permission_map || '/p' || project_id || '-' || principal_id
+                         END)
+                  ) representation
+                    FROM raw
+                  ),
+
+                  collection AS (SELECT
+                    json_build_object(
+                      '_type', 'Collection',
+                      'perPage', 50,
+                      'offset', 1,
+                      'count', COUNT(*),
+                      'total', (SELECT COUNT(*) from all_elements),
+                      '_embedded', json_build_object(
+                        'elements', array_agg(representation)
+                      )
+                    ) json
+                    FROM elements_json
+                  )
+
+                SELECT json FROM collection
+              SQL
+            end
+
+            def capabilities
+              ::Capability.connection.select_one capabilities_sql
             end
           end
 
@@ -93,8 +144,11 @@ module API
           #         per_page: 50)
           #end
 
-          get &::API::V3::Utilities::Endpoints::Index.new(model: Capability)
-                                                     .mount
+          #get &::API::V3::Utilities::Endpoints::Index.new(model: Capability)
+          #                                           .mount
+          get do
+            capabilities['json']
+          end
 
           namespace :contexts do
             mount API::V3::Capabilities::Contexts::GlobalAPI
