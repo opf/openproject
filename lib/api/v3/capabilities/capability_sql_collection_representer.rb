@@ -37,8 +37,8 @@ module API
         }.with_indifferent_access
 
         class << self
-          def association_links_joins(_select)
-            ''
+          def joins(_select, scope)
+            scope
           end
 
           def select_sql(replace_map, _select)

@@ -32,14 +32,20 @@ module API
   module V3
     module Utilities
       class SqlRepresenterWalker
+        include API::Utilities::PageSizeHelper
+
         def initialize(scope,
+                       current_user:,
+                       page_size:,
+                       offset:,
                        embed: {},
-                       select: {},
-                       current_user:)
+                       select: {})
           self.scope = scope
           self.current_user = current_user
           self.embed = embed
           self.select = select
+          self.page_size = page_size
+          self.offset = offset
         end
 
         def walk(start)
@@ -52,7 +58,7 @@ module API
           # Turn this into something where the scope is passed in and can then be modified by the
           # representers
           embedded_depth_first([], start) do |_, stack, current_representer|
-            joins << current_representer.association_links_joins(select_for(stack))
+            self.scope = current_representer.joins(select_for(stack), scope)
           end
 
           # TODO move the from part into the collection representer.
@@ -60,15 +66,13 @@ module API
           # It will probably also have to return eventual CTEs.
           # To handle the complexity there, a simple data object should be returned
           # consisting of select, from and CTEs
-          #
-          #{joins.join(' ')}
           self.sql = <<~SQL
             WITH all_elements AS (
               #{scope.to_sql}
             ),
 
             page_elements AS (
-              SELECT * FROM all_elements LIMIT 50 OFFSET 0
+              SELECT * FROM all_elements LIMIT #{resulting_page_size(page_size)} OFFSET #{to_i_or_nil(offset) || 0}
             )
 
             SELECT
@@ -90,7 +94,9 @@ module API
                       :current_user,
                       :embed,
                       :select,
-                      :sql
+                      :sql,
+                      :page_size,
+                      :offset
 
         def embedded_depth_first(stack, current_representer, &block)
           up_map = {}

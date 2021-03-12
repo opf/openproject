@@ -31,163 +31,7 @@
 module API
   module V3
     module Capabilities
-      class CapabilitySqlRepresenter
-        extend ::API::V3::Utilities::PathHelper
-
-        class_attribute :properties,
-                        :association_links,
-                        :links
-
-        class << self
-          # Properties
-          # TODO: extract into class
-          def properties_sql(select)
-
-            properties
-              .slice(*cleaned_selects(select))
-              .map do |name, options|
-              representation = if options[:representation]
-                                 options[:representation].call
-                               else
-                                 "#{options[:column]}"
-                               end
-
-              "'#{name}', #{representation}"
-            end.join(', ')
-          end
-
-          def property(name,
-                       column: name,
-                       representation: nil,
-                       render_if: nil)
-            self.properties ||= {}
-
-            properties[name] = { column: column, render_if: render_if, representation: representation }
-          end
-
-          def properties_conditions
-            properties
-              .select { |_, options| options[:render_if] }
-              .map do |name, options|
-              "- CASE WHEN #{options[:render_if].call} THEN '' ELSE '#{name}' END"
-            end.join(' ')
-          end
-
-          # TODO: turn association_link into separate class so that
-          # instances can be generated here
-          def association_link(name, column: name, path: nil, join:, title: nil, href: nil)
-            self.association_links ||= {}
-
-            association_links[name] = { column: column,
-                                        path: path,
-                                        join: join,
-                                        title: title,
-                                        href: href }
-          end
-
-          def association_links_joins(select)
-            self.association_links ||= {}
-
-            association_links
-              .slice(*cleaned_selects(select))
-              .map do |name, link|
-              if link[:join].is_a?(Symbol)
-                "LEFT OUTER JOIN #{link[:join]} #{name} ON #{name}.id = work_packages.#{link[:column]}_id"
-              else
-                "LEFT OUTER JOIN #{link[:join][:table]} #{name} ON #{link[:join][:condition]} AND #{name}.id = work_packages.#{link[:column]}_id"
-              end
-            end
-              .join(' ')
-          end
-
-          def association_links_selects(select)
-            self.association_links ||= {}
-
-            association_links
-              .slice(*cleaned_selects(select))
-              .map do |name, link|
-              path_name = link[:path] ? link[:path][:api] : name
-              title = link[:title] ? link[:title].call : "#{name}.name"
-              column = link[:column] ? link[:column].call : "#{name}.id"
-
-              href = link[:href] ? link[:href].call : "format('#{api_v3_paths.send(path_name, '%s')}', #{column})"
-
-              <<-SQL
-               '#{name}', CASE
-                          WHEN #{column} IS NOT NULL
-                          THEN
-                          json_build_object('href', #{href},
-                                            'title', #{title})
-                          ELSE
-                          json_build_object('href', NULL,
-                                            'title', NULL)
-                          END
-              SQL
-            end
-              .join(', ')
-          end
-
-          def link(name, column: nil, path: nil, title: nil, href: nil)
-            self.links ||= {}
-
-            links[name] = { column: column,
-                            path: path,
-                            title: title,
-                            href: href }
-          end
-
-          def links_selects(select)
-            self.links ||= {}
-
-            links
-              .slice(*cleaned_selects(select))
-              .map do |name, link|
-              path_name = link[:path] ? link[:path][:api] : name
-              title = link[:title] ? link[:title].call : "#{name}.name"
-              column = link[:column] ? link[:column].call : name
-
-              href = link[:href] ? link[:href].call : "format('#{api_v3_paths.send(path_name, '%s')}', #{column})"
-
-              link_attributes = ["'href'", href]
-
-              if title
-                link_attributes += ["'title'", title]
-              end
-
-              <<-SQL
-               '#{name}', json_build_object(#{link_attributes.join(', ')})
-              SQL
-            end
-              .join(', ')
-          end
-
-          def combined_links_selects(select)
-            links_selects(select) +
-              association_links_selects(select)
-
-          end
-
-          def select_sql(_replace_map, select)
-            <<~SELECT
-              json_build_object(
-                #{properties_sql(select)},
-                '_links',
-                  json_build_object(#{combined_links_selects(select)})
-              )
-            SELECT
-          end
-
-          private
-
-          def cleaned_selects(select)
-            # TODO: throw error on non supported select
-            select
-              .symbolize_keys
-              .select { |_, v| v.empty? }
-              .keys
-          end
-        end
-
+      class CapabilitySqlRepresenter < API::Decorators::SqlRepresenter
         property :id,
                  representation: -> {
                    <<~SQL
@@ -210,7 +54,6 @@ module API
              },
              title: -> { nil }
 
-        # TODO: add title
         link :context,
              href: -> {
                <<~SQL
@@ -220,16 +63,50 @@ module API
                  END
                SQL
              },
-             title: -> { nil }
+             title: -> {
+               <<~SQL
+                 CASE
+                 WHEN project_id IS NULL THEN '#{I18n.t('activerecord.errors.models.capability.context.global')}'
+                 ELSE context_name
+                 END
+               SQL
+             },
+             join: { table: :projects,
+                     condition: "contexts.id = capabilities.project_id",
+                     select: ['contexts.name context_name'] }
 
-        # TODO: differentiate between different principals, add title
         link :principal,
              href: -> {
                <<~SQL
-                 format('#{api_v3_paths.user('%s')}', principal_id)
+                 CASE principal_type
+                 WHEN 'Group' THEN format('#{api_v3_paths.group('%s')}', principal_id)
+                 WHEN 'PlaceholderUser' THEN format('#{api_v3_paths.placeholder_user('%s')}', principal_id)
+                 ELSE format('#{api_v3_paths.user('%s')}', principal_id)
+                 END
                SQL
              },
-             title: -> { nil }
+             title: -> {
+               join_string = if Setting.user_format == :lastname_coma_firstname
+                               " || ', ' || "
+                             else
+                               " || ' ' || "
+                             end
+
+               <<~SQL
+                 CASE principal_type
+                 WHEN 'Group' THEN lastname
+                 WHEN 'PlaceholderUser' THEN lastname
+                 ELSE #{User::USER_FORMATS_STRUCTURE[Setting.user_format].map { |p| p }.join(join_string)}
+                 END
+               SQL
+             },
+             join: { table: :users,
+                     condition: "principals.id = capabilities.principal_id",
+                     select: ['principals.firstname',
+                              'principals.lastname',
+                              'principals.login',
+                              'principals.mail',
+                              'principals.type principal_type'] }
       end
     end
   end

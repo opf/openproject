@@ -90,28 +90,15 @@ module API
             end
           end
 
-          #get do
-          #  # TODO: fix pagination
-
-
-          #  Capabilities::CapabilityCollectionRepresenter
-          #    .new(capabilities,
-          #         self_link: api_v3_paths.capabilities,
-          #         current_user: current_user,
-          #         page: 1,
-          #         per_page: 50)
-          #end
-
-          #get &::API::V3::Utilities::Endpoints::Index.new(model: Capability)
-          #                                           .mount
           get do
             ::API::V3::Utilities::SqlRepresenterWalker
               .new(::Queries::Capabilities::CapabilityQuery.new(user: current_user).results,
                    embed: { 'elements' => {} },
                    select: { 'elements' => { 'id' => {}, 'self' => {}, 'context' => {}, 'principal' => {} } },
-                   current_user: current_user)
+                   current_user: current_user,
+                   page_size: params[:pageSize],
+                   offset: params[:offset])
               .walk(API::V3::Capabilities::CapabilitySqlCollectionRepresenter)
-            #capabilities['json']
           end
 
           namespace :contexts do
