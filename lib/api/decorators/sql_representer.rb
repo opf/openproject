@@ -40,14 +40,12 @@ module API
       class << self
         # Properties
         def properties_sql(select)
-
-          properties
-            .slice(*cleaned_selects(select))
+          selected_properties(select)
             .map do |name, options|
             representation = if options[:representation]
                                options[:representation].call
                              else
-                               "#{options[:column]}"
+                               options[:column]
                              end
 
             "'#{name}', #{representation}"
@@ -63,73 +61,18 @@ module API
           properties[name] = { column: column, render_if: render_if, representation: representation }
         end
 
-        def properties_conditions
-          properties
-            .select { |_, options| options[:render_if] }
-            .map do |name, options|
-            "- CASE WHEN #{options[:render_if].call} THEN '' ELSE '#{name}' END"
-          end.join(' ')
-        end
-
-        # TODO: turn association_link into separate class so that
-        # instances can be generated here
-        def association_link(name, column: name, path: nil, join:, title: nil, href: nil)
-          self.association_links ||= {}
-
-          association_links[name] = { column: column,
-                                      path: path,
-                                      join: join,
-                                      title: title,
-                                      href: href }
-        end
-
         def joins(select, scope)
-          self.association_links ||= {}
           self.links ||= {}
 
-          (links.merge(association_links))
-            .slice(*cleaned_selects(select))
+          selected_links(select)
             .select { |_, link| link[:join] }
             .map do |name, link|
-            column = link[:column] ? link[:column].call : "#{name}_id"
-
-            join = if link[:join].is_a?(Symbol)
-                     "LEFT OUTER JOIN #{link[:join]} #{name.to_s.pluralize} ON #{column} = #{scope.table_name}.#{link[:column]}"
-                   else
-                     "LEFT OUTER JOIN #{link[:join][:table]} #{name.to_s.pluralize} ON #{link[:join][:condition]}"
-                   end
+            join = "LEFT OUTER JOIN #{link[:join][:table]} #{name.to_s.pluralize} ON #{link[:join][:condition]}"
 
             scope = scope.joins(join).select(link[:join][:select])
           end
 
           scope
-        end
-
-        def association_links_selects(select)
-          self.association_links ||= {}
-
-          association_links
-            .slice(*cleaned_selects(select))
-            .map do |name, link|
-            path_name = link[:path] ? link[:path][:api] : name
-            title = link[:title] ? link[:title].call : "#{name}.name"
-            column = link[:column] ? link[:column].call : "#{name}.id"
-
-            href = link[:href] ? link[:href].call : "format('#{api_v3_paths.send(path_name, '%s')}', #{column})"
-
-            <<-SQL
-             '#{name}', CASE
-                        WHEN #{column} IS NOT NULL
-                        THEN
-                        json_build_object('href', #{href},
-                                          'title', #{title})
-                        ELSE
-                        json_build_object('href', NULL,
-                                          'title', NULL)
-                        END
-            SQL
-          end
-            .join(', ')
         end
 
         def link(name, column: nil, path: nil, title: nil, href: nil, join: nil)
@@ -143,10 +86,7 @@ module API
         end
 
         def links_selects(select)
-          self.links ||= {}
-
-          links
-            .slice(*cleaned_selects(select))
+          selected_links(select)
             .map do |name, link|
             path_name = link[:path] ? link[:path][:api] : name
             title = link[:title] ? link[:title].call : "#{name}.name"
@@ -167,23 +107,27 @@ module API
             .join(', ')
         end
 
-        def combined_links_selects(select)
-          links_selects(select) +
-            association_links_selects(select)
-
-        end
-
         def select_sql(_replace_map, select)
           <<~SELECT
             json_build_object(
               #{properties_sql(select)},
               '_links',
-                json_build_object(#{combined_links_selects(select)})
+                json_build_object(#{links_selects(select)})
             )
           SELECT
         end
 
         private
+
+        def selected_links(select)
+          (links || {})
+            .slice(*cleaned_selects(select))
+        end
+
+        def selected_properties(select)
+          (properties || {})
+            .slice(*cleaned_selects(select))
+        end
 
         def cleaned_selects(select)
           # TODO: throw error on non supported select
