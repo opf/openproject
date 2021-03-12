@@ -107,7 +107,7 @@ module API
             .join(', ')
         end
 
-        def select_sql(_replace_map, select)
+        def select_sql(_replace_map, select, walker_result)
           <<~SELECT
             json_build_object(
               #{properties_sql(select)},
@@ -115,6 +115,10 @@ module API
                 json_build_object(#{links_selects(select)})
             )
           SELECT
+        end
+
+        def ctes(_scope)
+          {}
         end
 
         private

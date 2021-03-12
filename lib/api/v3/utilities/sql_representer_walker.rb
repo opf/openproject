@@ -49,37 +49,23 @@ module API
         end
 
         def walk(start)
-          selects = embedded_depth_first([], start) do |map, stack, current_representer|
-            current_representer.select_sql(map, select_for(stack))
+          result = SqlWalkerResults.new(scope,
+                                        page_size: resulting_page_size(page_size),
+                                        offset: (to_i_or_nil(offset) || 1) - 1)
+
+          result.selects = embedded_depth_first([], start) do |map, stack, current_representer|
+            current_representer.select_sql(map, select_for(stack), result)
           end
 
-          joins = []
-
-          # Turn this into something where the scope is passed in and can then be modified by the
-          # representers
           embedded_depth_first([], start) do |_, stack, current_representer|
-            self.scope = current_representer.joins(select_for(stack), scope)
+            result.scope = current_representer.joins(select_for(stack), result.scope)
           end
 
-          # TODO move the from part into the collection representer.
-          # For that, the from part will have to be returned together with the selects.
-          # It will probably also have to return eventual CTEs.
-          # To handle the complexity there, a simple data object should be returned
-          # consisting of select, from and CTEs
-          self.sql = <<~SQL
-            WITH all_elements AS (
-              #{scope.to_sql}
-            ),
+          embedded_depth_first([], start) do |_, _, current_representer|
+            result.ctes.merge!(current_representer.ctes(result))
+          end
 
-            page_elements AS (
-              SELECT * FROM all_elements LIMIT #{resulting_page_size(page_size)} OFFSET #{to_i_or_nil(offset) || 0}
-            )
-
-            SELECT
-              #{selects} AS json
-            FROM
-              page_elements
-          SQL
+          self.sql = start.to_sql(result)
 
           self
         end

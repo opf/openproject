@@ -155,7 +155,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
           .at_path('count')
 
         expect(subject.body)
-          .to be_json_eql("users/update/g-#{other_user.id}".to_json)
+          .to be_json_eql("users/create/g-#{other_user.id}".to_json)
           .at_path('_embedded/elements/0/id')
       end
     end
