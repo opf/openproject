@@ -31,61 +31,19 @@ module API
     module Capabilities
       class CapabilitiesAPI < ::API::OpenProjectAPI
         resources :capabilities do
+          helpers API::Utilities::PageSizeHelper
+
           helpers do
-            def capability_class
-              @capability_class ||= Struct.new(:id, :principal_id, :context_id, :principal, :context)
-            end
-
-            def raw_capabilities
-              capabilities_sql = <<~SQL
-                (SELECT
-                  role_permissions.permission,
-                  permission_maps.permission_map,
-                  members.user_id user_id,
-                  members.project_id project_id
-                FROM "roles"
-                INNER JOIN "role_permissions" ON "role_permissions"."role_id" = "roles"."id"
-                LEFT OUTER JOIN "member_roles" ON "member_roles".role_id = roles.id
-                LEFT OUTER JOIN "members" ON members.id = member_roles.member_id
-                JOIN
-                  (SELECT * FROM (VALUES ('manage_user', 'users/create'),
-                                         ('manage_user', 'users/update'),
-                                         ('manage_members', 'memberships/create')) AS t(permission, permission_map)) AS permission_maps
-                  ON permission_maps.permission = role_permissions.permission) capabilities
-              SQL
-
-              @raw_capabilities ||= Capability
-                                      .select('capabilities.*')
-                                      .from(capabilities_sql)
-                                      .includes(:project, :principal)
-                                      .order(permission_map: :asc)
-              #.pluck('capabilities.permission', 'capabilities.permission_map', 'capabilities.principal_id', 'capabilities.context_id')
-              #.zip([:permission, :permission_map, :principal_id, :context_id])
-# <<~SQL
-#                ORDER BY permission_maps.permission_map ASC
-#              SQL
-            end
-
             def capabilities_sql
               <<~SQL
                 WITH
 
-                all_elements AS (SELECT capabilities.* FROM (SELECT
-                    permission_maps.permission_map,
-                    members.user_id principal_id,
-                    members.project_id project_id
-                  FROM "roles"
-                  INNER JOIN "role_permissions" ON "role_permissions"."role_id" = "roles"."id"
-                  LEFT OUTER JOIN "member_roles" ON "member_roles".role_id = roles.id
-                  LEFT OUTER JOIN "members" ON members.id = member_roles.member_id
-                  JOIN
-                    (SELECT * FROM (VALUES ('manage_user', 'users/create'),
-                                           ('manage_user', 'users/update'),
-                                           ('manage_members', 'memberships/create')) AS t(permission, permission_map)) AS permission_maps
-                    ON permission_maps.permission = role_permissions.permission) capabilities),
+                all_elements AS (
+                  #{::Queries::Capabilities::CapabilityQuery.new(user: current_user).results.to_sql}
+                ),
 
-                raw AS (SELECT * FROM all_elements
-                 ORDER BY "permission_map" ASC LIMIT 50 OFFSET 1
+                page_elements AS (
+                  SELECT * FROM all_elements LIMIT #{resulting_page_size(params[:pageSize])} OFFSET #{to_i_or_nil(params[:offset]) || 0}
                 ),
 
                 elements_json AS (SELECT
@@ -106,14 +64,14 @@ module API
                          ELSE permission_map || '/p' || project_id || '-' || principal_id
                          END)
                   ) representation
-                    FROM raw
+                    FROM page_elements
                   ),
 
                   collection AS (SELECT
                     json_build_object(
                       '_type', 'Collection',
-                      'perPage', 50,
-                      'offset', 1,
+                      'perPage', #{resulting_page_size(params[:pageSize])},
+                      'offset', #{(to_i_or_nil(params[:offset]) || 0) + 1},
                       'count', COUNT(*),
                       'total', (SELECT COUNT(*) from all_elements),
                       '_embedded', json_build_object(

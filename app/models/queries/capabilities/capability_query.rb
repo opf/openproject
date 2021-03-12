@@ -33,26 +33,26 @@ class Queries::Capabilities::CapabilityQuery < Queries::BaseQuery
 
   def results
     super
-      .includes(:context, :principal)
+    #.includes(:context, :principal)
       .reorder(permission_map: :asc)
   end
 
   def default_scope
     capabilities_sql = <<~SQL
-                (SELECT
-                  role_permissions.permission,
-                  permission_maps.permission_map,
-                  members.user_id principal_id,
-                  members.project_id project_id
-                FROM "roles"
-                INNER JOIN "role_permissions" ON "role_permissions"."role_id" = "roles"."id"
-                LEFT OUTER JOIN "member_roles" ON "member_roles".role_id = roles.id
-                LEFT OUTER JOIN "members" ON members.id = member_roles.member_id
-                JOIN
-                  (SELECT * FROM (VALUES ('manage_user', 'users/create'),
-                                         ('manage_user', 'users/update'),
-                                         ('manage_members', 'memberships/create')) AS t(permission, permission_map)) AS permission_maps
-                  ON permission_maps.permission = role_permissions.permission) capabilities
+      (SELECT
+        role_permissions.permission,
+        permission_maps.permission_map,
+        members.user_id principal_id,
+        members.project_id project_id
+      FROM "roles"
+      INNER JOIN "role_permissions" ON "role_permissions"."role_id" = "roles"."id"
+      LEFT OUTER JOIN "member_roles" ON "member_roles".role_id = roles.id
+      LEFT OUTER JOIN "members" ON members.id = member_roles.member_id
+      JOIN
+        (SELECT * FROM (VALUES ('manage_user', 'users/create'),
+                               ('manage_user', 'users/update'),
+                               ('manage_members', 'memberships/create')) AS t(permission, permission_map)) AS permission_maps
+        ON permission_maps.permission = role_permissions.permission) capabilities
     SQL
 
     Capability

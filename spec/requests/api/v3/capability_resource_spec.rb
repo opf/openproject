@@ -92,15 +92,15 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
           .at_path('total')
 
         expect(subject.body)
-          .to be_json_eql('memberships/create'.to_json)
+          .to be_json_eql("memberships/create/p#{project.id}-#{other_user.id}".to_json)
           .at_path('_embedded/elements/0/id')
 
         expect(subject.body)
-          .to be_json_eql('users/create'.to_json)
+          .to be_json_eql("users/create/g-#{other_user.id}".to_json)
           .at_path('_embedded/elements/1/id')
 
         expect(subject.body)
-          .to be_json_eql('users/update'.to_json)
+          .to be_json_eql("users/update/g-#{other_user.id}".to_json)
           .at_path('_embedded/elements/2/id')
       end
     end
@@ -138,27 +138,27 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
     #  end
     #end
 
-    #context 'with pageSize, offset and sortBy' do
-    #  let(:path) { "#{api_v3_paths.path_for(:memberships, sort_by: [%i(id asc)])}&pageSize=1&offset=2" }
+    context 'with pageSize, offset and sortBy' do
+      let(:path) { "#{api_v3_paths.path_for(:capabilities, sort_by: [%i(id asc)])}&pageSize=1&offset=2" }
 
-    #  it 'returns a slice of the visible memberships' do
-    #    expect(subject.body)
-    #      .to be_json_eql('Collection'.to_json)
-    #            .at_path('_type')
+      it 'returns a slice of the visible memberships' do
+        expect(subject.body)
+          .to be_json_eql('Collection'.to_json)
+          .at_path('_type')
 
-    #    expect(subject.body)
-    #      .to be_json_eql('2')
-    #            .at_path('total')
+        expect(subject.body)
+          .to be_json_eql('3')
+          .at_path('total')
 
-    #    expect(subject.body)
-    #      .to be_json_eql('1')
-    #            .at_path('count')
+        expect(subject.body)
+          .to be_json_eql('1')
+          .at_path('count')
 
-    #    expect(subject.body)
-    #      .to be_json_eql(other_member.id.to_json)
-    #            .at_path('_embedded/elements/0/id')
-    #  end
-    #end
+        expect(subject.body)
+          .to be_json_eql("users/update/g-#{other_user.id}".to_json)
+          .at_path('_embedded/elements/0/id')
+      end
+    end
 
     #context 'with a group' do
     #  let(:group) { FactoryBot.create(:group) }
