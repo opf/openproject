@@ -64,22 +64,22 @@ module API
                          ELSE permission_map || '/p' || project_id || '-' || principal_id
                          END)
                   ) representation
-                    FROM page_elements
-                  ),
+                  FROM page_elements
+                ),
 
-                  collection AS (SELECT
-                    json_build_object(
-                      '_type', 'Collection',
-                      'perPage', #{resulting_page_size(params[:pageSize])},
-                      'offset', #{(to_i_or_nil(params[:offset]) || 0) + 1},
-                      'count', COUNT(*),
-                      'total', (SELECT COUNT(*) from all_elements),
-                      '_embedded', json_build_object(
-                        'elements', array_agg(representation)
-                      )
-                    ) json
-                    FROM elements_json
-                  )
+                collection AS (SELECT
+                  json_build_object(
+                    '_type', 'Collection',
+                    'perPage', #{resulting_page_size(params[:pageSize])},
+                    'offset', #{(to_i_or_nil(params[:offset]) || 0) + 1},
+                    'count', COUNT(*),
+                    'total', (SELECT COUNT(*) from all_elements),
+                    '_embedded', json_build_object(
+                      'elements', array_agg(representation)
+                    )
+                  ) json
+                  FROM elements_json
+                )
 
                 SELECT json FROM collection
               SQL
@@ -105,7 +105,13 @@ module API
           #get &::API::V3::Utilities::Endpoints::Index.new(model: Capability)
           #                                           .mount
           get do
-            capabilities['json']
+            ::API::V3::Utilities::SqlRepresenterWalker
+              .new(::Queries::Capabilities::CapabilityQuery.new(user: current_user).results,
+                   embed: { 'elements' => {} },
+                   select: { 'elements' => { 'id' => {}, 'self' => {}, 'context' => {}, 'principal' => {} } },
+                   current_user: current_user)
+              .walk(API::V3::Capabilities::CapabilitySqlCollectionRepresenter)
+            #capabilities['json']
           end
 
           namespace :contexts do
