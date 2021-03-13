@@ -14,3 +14,7 @@ If you need help developing a client library you can [contact us](mailto:support
 ## Excel
 
 * [OpenProjectExcel](https://github.com/opf/OpenProjectExcel): Synchronization between Excel-sheets and OpenProject.
+
+## Go
+
+* [Go-OpenProject](https://github.com/manuelbcd/go-openproject): "OpenProject client library written in Go. Community and PRs are more than welcome."
