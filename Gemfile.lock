@@ -297,6 +297,9 @@ GEM
     aws-sigv4 (1.2.3)
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.16)
+    benchmark-ips (2.8.4)
+    benchmark-memory (0.1.2)
+      memory_profiler (~> 0.9)
     bindata (2.4.8)
     binding_of_caller (1.0.0)
       debug_inspector (>= 0.0.1)
@@ -506,6 +509,7 @@ GEM
       rack (>= 1.3.0)
       rack-accept
     gravatar_image_tag (1.2.0)
+    hal_presenter (1.6.0)
     hashdiff (1.0.1)
     hashery (2.1.2)
     hashie (3.6.0)
@@ -537,6 +541,9 @@ GEM
     json_spec (1.1.5)
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
+    kalibera (0.1.1)
+      memoist (~> 0.11.0)
+      rbzip2 (~> 0.2.0)
     kgio (2.11.3)
     kramdown (2.3.0)
       rexml
@@ -573,6 +580,8 @@ GEM
       mini_mime (>= 0.1.1)
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
+    memoist (0.11.0)
+    memory_profiler (0.9.14)
     messagebird-rest (1.4.2)
     meta-tags (2.14.0)
       actionpack (>= 3.2.0, < 6.2)
@@ -743,6 +752,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     rbtree3 (0.6.0)
+    rbzip2 (0.2.0)
     rchardet (1.8.0)
     rdoc (6.3.0)
     recaptcha (5.7.0)
@@ -948,6 +958,8 @@ DEPENDENCIES
   aws-sdk-core (~> 3.107)
   aws-sdk-s3 (~> 1.87)
   bcrypt (~> 3.1.6)
+  benchmark-ips
+  benchmark-memory
   bootsnap (~> 1.7.0)
   brakeman (~> 5.0.0)
   browser (~> 5.3.0)
@@ -985,10 +997,12 @@ DEPENDENCIES
   gon (~> 6.4.0)
   grape (~> 1.5.0)
   grids!
+  hal_presenter (~> 1.6)
   html-pipeline (~> 2.14.0)
   htmldiff
   i18n-js (~> 3.8.0)
   json_spec (~> 1.1.4)
+  kalibera
   ladle
   launchy (~> 2.5.0)
   letter_opener

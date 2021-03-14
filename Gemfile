@@ -281,6 +281,10 @@ group :development, :test do
   # Brakeman scanner
   gem 'brakeman', '~> 5.0.0'
   gem 'danger-brakeman'
+
+  gem 'benchmark-ips'
+  gem 'kalibera'
+  gem 'benchmark-memory', require: 'benchmark/memory'
 end
 
 gem 'bootsnap', '~> 1.7.0', require: false
@@ -323,3 +327,5 @@ gemfiles.each do |file|
 
   eval_gemfile(file)
 end
+
+gem "hal_presenter", "~> 1.6"
