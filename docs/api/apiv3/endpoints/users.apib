@@ -101,8 +101,9 @@ Please note that custom fields are not yet supported by the api although the bac
 ## View user [GET]
 
 + Parameters
-    + id (required, integer or `me`, `1`) ... User id. Use `me` to reference current user, if any.
-
+  
++ id (required, integer or `me`, `1`) ... User id. Use `me` to reference current user, if any.
+  
 + Response 200 (application/hal+json)
 
     [User][]
@@ -121,14 +122,105 @@ Please note that custom fields are not yet supported by the api although the bac
                 "message": "The specified user does not exist or you do not have permission to view them."
             }
 
+## Create User [POST]
+
+Creates a new user. Only administrators and users with manage_users global permission are allowed to do so.
+When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
+
+Valid values for `status`:
+
+1) "active" - In this case a password has to be provided in addition to the other attributes.
+2) "invited" - In this case nothing but the email address is required. The rest is optional. An invitation will be sent to the user.
+
++ Request Create User (application/json)
+
+  + Body
+
+        {
+            "login": "h.wurst",
+            "email": "h.wurst@openproject.com",
+            "firstName": "Hans",
+            "lastName": "Wurst",
+            "admin": false,
+            "language": "de",
+            "status": "active",
+            "password": "hunter5"
+        }
+
++ Request Invite User (application/json)
+
+  + Body
+
+        {
+            "email": "h.wurst@openproject.com",
+            "firstName": "Hanz",
+            "status": "invited"
+        }
+
++ Response 201
+
+  [User][]
+
++ Response 400 (application/hal+json)
+
+  Occurs when the client did not send a valid JSON object in the request body.
+
+  + Body
+
+        {
+            "_type": "Error",
+             "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+            "message": "The request body was not a single JSON object."
+        }
+
++ Response 403 (application/hal+json)
+
+  Returned if the client does not have sufficient permissions.
+
+  **Required permission:** Administrator
+
+  + Body
+
+        {
+            "_type": "Error",
+            "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+            "message": "You are not allowed to create new users."
+        }
+
++ Response 422 (application/hal+json)
+
+  Returned if:
+
+  * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+  + Body
+
+        {
+            "_type": "Error",
+            "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+            "message": "The email address is already taken.",
+            "_embedded": {
+                "details": {
+                    "attribute": "email"
+                }
+            }
+        }
+
+## 
+
+
+
+
+
 ## Update user [PATCH]
 
 Updates the user's writable attributes.
 When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
 
 + Parameters
-    + id (required, integer, `1`) ... User id
-
+  
++ id (required, integer, `1`) ... User id
+  
 + Request Update User (application/json)
 
     + Body
@@ -212,8 +304,9 @@ When calling this endpoint the client provides a single object, containing at le
 Permanently deletes the specified user account.
 
 + Parameters
-    + id (required, integer, `1`) ... User id
-
+  
++ id (required, integer, `1`) ... User id
+  
 + Response 202
 
     Returned if the account was deleted successfully.
@@ -255,8 +348,9 @@ Permanently deletes the specified user account.
 ## Set Lock [POST]
 
 + Parameters
-    + id (required, integer, `1`) ... User id
-
+  
++ id (required, integer, `1`) ... User id
+  
 + Response 200 (application/hal+json)
 
     [User][]
@@ -304,8 +398,9 @@ Permanently deletes the specified user account.
 ## Remove Lock [DELETE]
 
 + Parameters
-    + id (required, integer, `1`) ... User id
-
+  
++ id (required, integer, `1`) ... User id
+  
 + Response 200 (application/hal+json)
 
     [User][]
@@ -457,86 +552,302 @@ Lists users. Only administrators or users with manage_users global permission ha
                 "message": "You are not allowed to list users."
             }
 
-## Create User [POST]
+## View user schema [GET]
 
-Creates a new user. Only administrators and users with manage_users global permission are allowed to do so.
-When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
++ Response 200 (application/hal+json)
 
-Valid values for `status`:
+  + Body
 
-1) "active" - In this case a password has to be provided in addition to the other attributes.
-2) "invited" - In this case nothing but the email address is required. The rest is optional. An invitation will be sent to the user.
-
-+ Request Create User (application/json)
-
-    + Body
-
-            {
-                "login": "h.wurst",
-                "email": "h.wurst@openproject.com",
-                "firstName": "Hans",
-                "lastName": "Wurst",
-                "admin": false,
-                "language": "de",
-                "status": "active",
-                "password": "hunter5"
+    ```json
+    {
+        "_type": "Schema",
+        "_dependencies": [],
+        "id": {
+            "type": "Integer",
+            "name": "ID",
+            "required": true,
+            "hasDefault": false,
+            "writable": false,
+            "options": {}
+        },
+        "login": {
+            "type": "String",
+            "name": "Username",
+            "required": true,
+            "hasDefault": false,
+            "writable": true,
+            "minLength": 1,
+            "maxLength": 255,
+            "options": {}
+        },
+        "admin": {
+            "type": "Boolean",
+            "name": "Administrator",
+            "required": false,
+            "hasDefault": false,
+            "writable": true,
+            "options": {}
+        },
+        "mail": {
+            "type": "String",
+            "name": "Email",
+            "required": true,
+            "hasDefault": false,
+            "writable": true,
+            "minLength": 1,
+            "maxLength": 255,
+            "options": {}
+        },
+        "firstName": {
+            "type": "String",
+            "name": "First name",
+            "required": true,
+            "hasDefault": false,
+            "writable": false,
+            "minLength": 1,
+            "maxLength": 255,
+            "options": {}
+        },
+        "lastName": {
+            "type": "String",
+            "name": "Last name",
+            "required": true,
+            "hasDefault": false,
+            "writable": false,
+            "minLength": 1,
+            "maxLength": 255,
+            "options": {}
+        },
+        "avatar": {
+            "type": "String",
+            "name": "Avatar",
+            "required": false,
+            "hasDefault": false,
+            "writable": false,
+            "options": {}
+        },
+        "status": {
+            "type": "String",
+            "name": "Status",
+            "required": false,
+            "hasDefault": false,
+            "writable": true,
+            "options": {}
+        },
+        "identityUrl": {
+            "type": "String",
+            "name": "Identity url",
+            "required": false,
+            "hasDefault": false,
+            "writable": true,
+            "options": {}
+        },
+        "language": {
+            "type": "String",
+            "name": "Language",
+            "required": false,
+            "hasDefault": false,
+            "writable": true,
+            "options": {}
+        },
+        "password": {
+            "type": "Password",
+            "name": "Password",
+            "required": false,
+            "hasDefault": false,
+            "writable": false,
+            "options": {}
+        },
+        "createdAt": {
+            "type": "DateTime",
+            "name": "Created on",
+            "required": true,
+            "hasDefault": false,
+            "writable": false,
+            "options": {}
+        },
+        "updatedAt": {
+            "type": "DateTime",
+            "name": "Updated on",
+            "required": true,
+            "hasDefault": false,
+            "writable": false,
+            "options": {}
+        },
+        "_links": {
+            "self": {
+                "href": "/api/v3/users/schema"
             }
+        }
+    }
+    ```
 
-+ Request Invite User (application/json)
+## User create form [/api/v3/users/form]
 
-    + Body
+This endpoint returns a form allowing a guided creation of new users.
 
-            {
-                "email": "h.wurst@openproject.com",
-                "firstName": "Hanz",
-                "status": "invited"
+For more details and all possible responses see the general specification of [Forms](/api/forms).
+
+## Users create form [POST]
+
++ Request Create user form
+
+  + Body
+
+        {
+            "mail": "foo@example.com",
+            "status": "invited"
+        }
+
++ Response 200 (application/hal+json)
+
+  + Body
+
+        {
+            "_type": "Form",
+            "_embedded": {
+                "payload": {
+                    "mail": "foo@example.com",
+                    "status": "invited"
+                },
+                "schema": {
+                    "_type": "Schema",
+                    TODO
+                },
+                "validationErrors": {
+                    "user": {
+                        "_type": "Error",
+                        "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                        "message": "User has already been taken.",
+                        "_embedded": {
+                            "details": {
+                                "attribute": "user"
+                            }
+                        }
+                    }
+                }
+            },
+            "_links": {
+                "self": {
+                    "href": "/api/v3/memberships/form",
+                    "method": "post"
+                },
+                "validate": {
+                    "href": "/api/v3/memberships/form",
+                    "method": "post"
+                }
             }
-
-+ Response 201
-
-    [User][]
+        }
 
 + Response 400 (application/hal+json)
 
-    Occurs when the client did not send a valid JSON object in the request body.
+  Occurs when the client did not send a valid JSON object in the request body.
 
-    + Body
+  + Body
 
-            {
-                "_type": "Error",
-                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
-                "message": "The request body was not a single JSON object."
-            }
+        {
+            "_type": "Error",
+             "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+            "message": "The request body was not a single JSON object."
+        }
 
 + Response 403 (application/hal+json)
 
-    Returned if the client does not have sufficient permissions.
+  Returned if the client does not have sufficient permissions.
 
-    **Required permission:** Administrator
+  **Required permission:** manage_user global permission
 
-    + Body
+  + Body
 
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
-                "message": "You are not allowed to create new users."
-            }
+        {
+            "_type": "Error",
+            "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+            "message": "You are not authorized to access this resource."
+        }
 
-+ Response 422 (application/hal+json)
+## User update form [/api/v3/users/{id}/form]
 
-    Returned if:
+This endpoint returns a form allowing a guided modification of existing users.
+The returned payload part of the form will be contain a merge between the already existing properties' values (as long as they are writeable) and the provided values with the later having precedence.
 
-    * a constraint for a property was violated (`PropertyConstraintViolation`)
+For more details and all possible responses see the general specification of [Forms](/api/forms).
 
-    + Body
+## User update form [POST]
 
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
-                "message": "The email address is already taken.",
-                "_embedded": {
-                    "details": {
-                        "attribute": "email"
-                    }
++ Request Update user form
+
+  + Body
+
+        {
+            "firstname": "Matthew"
+        }
+
++ Response 200 (application/hal+json)
+
+  + Body
+
+        {
+            "_type": "Form",
+            "_embedded": {
+                "payload": {
+                    "login": "m_user",
+                    "firstName": "Matthew",
+                    "lastname": "Mercer",
+                    "mail": "matt@example.com"
+                },
+                "schema": {
+                    "_type": "Schema",
+                    "_dependencies": [],
+                    "id": {
+                        "type": "Integer",
+                        "name": "ID",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": false
+                    },
+                    TODO
+                    "_links": {}
+                },
+                "validationErrors": {}
+            },
+            "_links": {
+                "self": {
+                    "href": "/api/v3/users/5/form",
+                    "method": "post"
+                },
+                "validate": {
+                    "href": "/api/v3/users/5/form",
+                    "method": "post"
+                },
+                "commit": {
+                    "href": "/api/v3/users/5",
+                    "method": "patch"
                 }
             }
+        }
+
++ Response 400 (application/hal+json)
+
+  Occurs when the client did not send a valid JSON object in the request body.
+
+  + Body
+
+        {
+            "_type": "Error",
+             "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+            "message": "The request body was not a single JSON object."
+        }
+
++ Response 403 (application/hal+json)
+
+  Returned if the client does not have sufficient permissions.
+
+  **Required permission:** manage_user global permission
+
+  + Body
+
+        {
+            "_type": "Error",
+            "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+            "message": "You are not authorized to access this resource."
+        }

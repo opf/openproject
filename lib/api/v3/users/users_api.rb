@@ -73,6 +73,9 @@ module API
             end
           end
 
+          mount ::API::V3::Users::Schemas::UserSchemaAPI
+          mount ::API::V3::Users::CreateFormAPI
+
           params do
             requires :id, desc: 'User\'s id'
           end
@@ -89,6 +92,8 @@ module API
             get &::API::V3::Utilities::Endpoints::Show.new(model: User).mount
             patch &::API::V3::Utilities::Endpoints::Update.new(model: User).mount
             delete &::API::V3::Utilities::Endpoints::Delete.new(model: User, success_status: 202).mount
+
+            mount ::API::V3::Projects::UpdateFormAPI
 
             namespace :lock do
               # Authenticate lock transitions

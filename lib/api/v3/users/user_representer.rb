@@ -40,7 +40,7 @@ module API
         self_link
 
         link :showUser do
-          next if represented.locked?
+          next if represented.new_record? || represented.locked?
 
           {
             href: api_v3_paths.show_user(represented.id),
@@ -130,7 +130,7 @@ module API
 
         property :mail,
                  as: :email,
-                 cache_if: -> { !represented.pref.hide_mail || current_user_is_admin_or_self }
+                 cache_if: -> { represented.new_record? || !represented.pref.hide_mail || current_user_is_admin_or_self }
 
         property :avatar,
                  exec_context: :decorator,

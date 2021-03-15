@@ -56,6 +56,8 @@ module Users
     validate :password_writable
     validate :existing_auth_source
 
+    delegate :available_custom_fields, to: :model
+
     private
 
     ##
