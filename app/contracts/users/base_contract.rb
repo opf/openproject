@@ -58,6 +58,10 @@ module Users
 
     delegate :available_custom_fields, to: :model
 
+    def assignable_custom_field_values(custom_field)
+      custom_field.possible_values
+    end
+
     private
 
     ##
