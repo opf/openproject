@@ -47,10 +47,8 @@ module Components
 
     protected
 
-    def within_pagination
-      within('.pagination') do
-        yield
-      end
+    def within_pagination(&block)
+      within('.pagination', &block)
     end
   end
 end

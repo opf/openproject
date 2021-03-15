@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe Principals::Scopes::PossibleAssignee, type: :model, with_clean_fixture: true do
+describe Principals::Scopes::PossibleAssignee, type: :model do
   let(:project) { FactoryBot.create(:project) }
   let(:other_project) { FactoryBot.create(:project) }
   let(:role_assignable) { true }
@@ -58,8 +58,8 @@ describe Principals::Scopes::PossibleAssignee, type: :model, with_clean_fixture:
                       member_through_role: role)
   end
 
-  describe '.fetch' do
-    subject { described_class.fetch(project) }
+  describe '.possible_assignee' do
+    subject { Principal.possible_assignee(project) }
 
     context 'with the role being assignable' do
       context 'with the user status being active' do

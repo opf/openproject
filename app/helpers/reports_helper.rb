@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -32,7 +33,9 @@ module ReportsHelper
 
   def aggregate(data, criteria)
     data&.inject(0) do |sum, row|
-      match = criteria&.all? { |k, v| row[k].to_s == v.to_s || (k == 'closed' && row[k] == ActiveRecord::Type::Boolean.new.cast(v)) }
+      match = criteria&.all? do |k, v|
+        row[k].to_s == v.to_s || (k == 'closed' && row[k] == ActiveRecord::Type::Boolean.new.cast(v))
+      end
 
       sum += row['total'].to_i if match
 

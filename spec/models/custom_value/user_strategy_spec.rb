@@ -47,7 +47,7 @@ describe CustomValue::UserStrategy do
       let(:value) { user }
 
       it 'returns the user and sets it for later retrieval' do
-        expect(User)
+        expect(Principal)
           .to_not receive(:find_by)
 
         expect(subject.parse_value(value)).to eql user.id.to_s
@@ -60,7 +60,7 @@ describe CustomValue::UserStrategy do
       let(:value) { user.id.to_s }
 
       it 'returns the string and has to later find the user' do
-        allow(User)
+        allow(Principal)
           .to receive(:find_by)
           .with(id: user.id.to_s)
           .and_return(user)
@@ -75,7 +75,7 @@ describe CustomValue::UserStrategy do
       let(:value) { '' }
 
       it 'is nil and does not look for the user' do
-        expect(User)
+        expect(Principal)
           .to_not receive(:find_by)
 
         expect(subject.parse_value(value)).to be_nil
@@ -88,7 +88,7 @@ describe CustomValue::UserStrategy do
       let(:value) { nil }
 
       it 'is nil and does not look for the user' do
-        expect(User)
+        expect(Principal)
           .to_not receive(:find_by)
 
         expect(subject.parse_value(value)).to be_nil
@@ -107,7 +107,7 @@ describe CustomValue::UserStrategy do
       it 'is the user to_s (without db access)' do
         instance.parse_value(value)
 
-        expect(User)
+        expect(Principal)
           .to_not receive(:find_by)
 
         expect(subject).to eql value.to_s
@@ -118,7 +118,7 @@ describe CustomValue::UserStrategy do
       let(:value) { user.id.to_s }
 
       it 'is the user to_s (with db access)' do
-        allow(User)
+        allow(Principal)
           .to receive(:find_by)
           .with(id: user.id.to_s)
           .and_return(user)

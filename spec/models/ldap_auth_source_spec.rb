@@ -30,7 +30,8 @@ require 'spec_helper'
 
 describe LdapAuthSource, type: :model do
   it 'should create' do
-    a = LdapAuthSource.new(name: 'My LDAP', host: 'ldap.example.net', port: 389, base_dn: 'dc=example,dc=net', attr_login: 'sAMAccountName')
+    a = LdapAuthSource.new(name: 'My LDAP', host: 'ldap.example.net', port: 389, base_dn: 'dc=example,dc=net',
+                           attr_login: 'sAMAccountName')
     expect(a.save).to eq true
   end
 
@@ -57,7 +58,8 @@ describe LdapAuthSource, type: :model do
   describe 'with live LDAP' do
     before(:all) do
       ldif = Rails.root.join('spec/fixtures/ldap/users.ldif')
-      @ldap_server = Ladle::Server.new(quiet: false, port: ParallelHelper.port_for_ldap.to_s, domain: 'dc=example,dc=com', ldif: ldif).start
+      @ldap_server = Ladle::Server.new(quiet: false, port: ParallelHelper.port_for_ldap.to_s, domain: 'dc=example,dc=com',
+                                       ldif: ldif).start
     end
 
     after(:all) do
@@ -67,7 +69,7 @@ describe LdapAuthSource, type: :model do
     # Ldap has three users aa729, bb459, cc414
     let(:ldap) do
       FactoryBot.create :ldap_auth_source,
-        port: ParallelHelper.port_for_ldap.to_s,
+                        port: ParallelHelper.port_for_ldap.to_s,
                         account: 'uid=admin,ou=system',
                         account_password: 'secret',
                         base_dn: 'ou=people,dc=example,dc=com',

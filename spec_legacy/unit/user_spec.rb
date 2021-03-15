@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -155,7 +156,8 @@ describe User, type: :model do
     end
 
     it 'should select the exact matching user first' do
-      case_sensitive_user = FactoryBot.create(:user, login: 'changed', password: 'adminADMIN!', password_confirmation: 'adminADMIN!')
+      case_sensitive_user = FactoryBot.create(:user, login: 'changed', password: 'adminADMIN!',
+                                                     password_confirmation: 'adminADMIN!')
       # bypass validations to make it appear like existing data
       case_sensitive_user.update_attribute(:login, 'ADMIN')
 

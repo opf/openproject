@@ -39,9 +39,7 @@ class ParamsToQueryService
     query = new_query
 
     query = apply_filters(query, params)
-    query = apply_order(query, params)
-
-    query
+    apply_order(query, params)
   end
 
   private

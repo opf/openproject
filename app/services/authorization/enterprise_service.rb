@@ -31,20 +31,23 @@
 class Authorization::EnterpriseService
   attr_accessor :token
 
-  GUARDED_ACTIONS = %i(define_custom_style
-                       multiselect_custom_fields
-                       edit_attribute_groups
-                       work_package_query_relation_columns
-                       attribute_help_texts
-                       two_factor_authentication
-                       ldap_groups
-                       custom_fields_in_projects_list
-                       custom_actions
-                       conditional_highlighting
-                       readonly_work_packages
-                       attachment_filters
-                       board_view
-                       grid_widget_wp_graph).freeze
+  GUARDED_ACTIONS = %i(
+    define_custom_style
+    multiselect_custom_fields
+    edit_attribute_groups
+    work_package_query_relation_columns
+    attribute_help_texts
+    two_factor_authentication
+    ldap_groups
+    custom_fields_in_projects_list
+    custom_actions
+    conditional_highlighting
+    readonly_work_packages
+    attachment_filters
+    board_view
+    grid_widget_wp_graph
+    placeholder_users
+  ).freeze
 
   def initialize(token)
     self.token = token

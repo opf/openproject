@@ -41,8 +41,8 @@ gem 'rdoc', '>= 2.4.2'
 
 # Maintain our own omniauth due to relative URL root issues
 # see upstream PR: https://github.com/omniauth/omniauth/pull/903
-gem 'omniauth', git: 'https://github.com/opf/omniauth', ref: 'fe862f986b2e846e291784d2caa3d90a658c67f0'
 gem 'doorkeeper', '~> 5.4.0'
+gem 'omniauth', git: 'https://github.com/opf/omniauth', ref: 'fe862f986b2e846e291784d2caa3d90a658c67f0'
 gem 'request_store', '~> 1.5.0'
 
 gem 'warden', '~> 1.2'
@@ -110,8 +110,8 @@ gem 'multi_json', '~> 1.15.0'
 gem 'oj', '~> 3.11.0'
 
 gem 'daemons'
-gem 'delayed_job_active_record', '~> 4.1.5'
 gem 'delayed_cron_job', '~> 0.7.4'
+gem 'delayed_job_active_record', '~> 4.1.5'
 
 gem 'rack-protection', '~> 2.1.0'
 
@@ -250,10 +250,12 @@ group :development do
   gem 'spring-commands-rspec'
 
   gem 'rubocop'
+  gem 'rubocop-rails'
+  gem 'rubocop-rspec'
 
   # Gems for living styleguide
-  gem 'sassc-rails'
   gem 'livingstyleguide', '~> 2.1.0'
+  gem 'sassc-rails'
 end
 
 group :development, :test do
@@ -307,14 +309,14 @@ platforms :mri, :mingw, :x64_mingw do
 end
 
 gem 'openproject-translations',
-  git: 'https://github.com/opf/openproject-translations.git',
-  branch: 'dev'
+    git: 'https://github.com/opf/openproject-translations.git',
+    branch: 'dev'
 
 gem 'newrelic_rpm', require: ENV.has_key?('NEW_RELIC_LICENSE_KEY')
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
-gemfiles = Dir.glob File.expand_path('../{Gemfile.plugins,Gemfile.modules,Gemfile.local,lib/plugins/*/Gemfile}',
-                                     __FILE__)
+gemfiles = Dir.glob File.expand_path('{Gemfile.plugins,Gemfile.modules,Gemfile.local,lib/plugins/*/Gemfile}',
+                                     __dir__)
 gemfiles << ENV['CUSTOM_PLUGIN_GEMFILE'] unless ENV['CUSTOM_PLUGIN_GEMFILE'].nil?
 gemfiles.each do |file|
   next unless File.readable?(file)

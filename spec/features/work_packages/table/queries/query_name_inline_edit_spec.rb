@@ -38,8 +38,8 @@ describe 'Query name inline edit', js: true do
   let(:type) { project.types.first }
   let(:role) do
     FactoryBot.create(:role,
-                      permissions: [:view_work_packages,
-                                    :save_queries])
+                      permissions: %i[view_work_packages
+                                      save_queries])
   end
 
   let(:work_package) do

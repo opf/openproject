@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::BaseServices::BaseCallable, type: :model do
   let(:test_service) do
     Class.new(::BaseServices::BaseCallable) do
-      def perform(params)
+      def perform(_params)
         state.test = 'foo'
         ServiceResult.new(success: true, result: 'something')
       end
@@ -44,7 +44,7 @@ describe ::BaseServices::BaseCallable, type: :model do
 
   let(:test_service2) do
     Class.new(::BaseServices::BaseCallable) do
-      def perform(params)
+      def perform(_params)
         state.test2 = 'foo'
         ServiceResult.new(success: true, result: 'something')
       end

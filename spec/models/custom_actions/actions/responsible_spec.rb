@@ -33,10 +33,10 @@ describe CustomActions::Actions::Responsible, type: :model do
   let(:type) { :associated_property }
   let(:allowed_values) do
     principals = [FactoryBot.build_stubbed(:user),
-             FactoryBot.build_stubbed(:group)]
+                  FactoryBot.build_stubbed(:group)]
 
     allow(User)
-      .to receive_message_chain(:not_locked, :select, :order_by_name)
+      .to receive_message_chain(:not_locked, :select, :ordered_by_name)
             .and_return(principals)
 
     [{ value: nil, label: '-' },

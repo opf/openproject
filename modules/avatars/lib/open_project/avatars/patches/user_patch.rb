@@ -48,10 +48,10 @@ module OpenProject::Avatars
           return @local_avatar_attachment if @local_avatar_attachment_calculated
 
           @local_avatar_attachment_calculated ||= begin
-                                                    @local_avatar_attachment = attachments.find_by_description('avatar')
+            @local_avatar_attachment = attachments.find_by_description('avatar')
 
-                                                    true
-                                                  end
+            true
+          end
 
           @local_avatar_attachment
         end

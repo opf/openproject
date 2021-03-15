@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -228,6 +229,7 @@ module OpenProject
           popen3(cmd) do |io, _|
             io.each_line do |line|
               next unless line =~ %r{^\s*(\d+)\s*(\S+)\s(.*)$}
+
               blame.add_line($3.rstrip, Revision.new(identifier: $1.to_i, author: $2.strip))
             end
           end
@@ -353,7 +355,6 @@ module OpenProject
             path
           end
         end
-
 
         ##
         # Builds the full git arguments from the parameters

@@ -271,13 +271,13 @@ ko:
           text_new_features: "새로운 기능 및 제품 업데이트에 대해 읽어보십시오."
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>WYSIWYG 편집기의 <b>개선된 스타일링</b> .</li> <li>편집 시 <b>@notifications에 대한 사용자 이름</b> 직접 표시.</li> <li><b>OpenID Connect 공급자</b>의 확장된 인증 프로필.</li> <li>Gantt 차트에서 단일 행으로 <b>집계된 프로젝트 마일스톤</b> 표시.</li> <li>작업 패키지 목록에서 <b>그룹에 대한 모든 버튼 축소</b>.</li> <li>wiki 페이지 등 브라우저 인쇄 기능을 통해 <b>인쇄 최적화</b>.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>WYSIWYG 편집기의 <b>개선된 스타일링</b> .</li> <li>편집 시 <b>@notifications에 대한 사용자 이름</b> 직접 표시.</li> <li><b>OpenID Connect 공급자</b>의 확장된 인증 프로필.</li> <li>Gantt 차트에서 단일 행으로 <b>집계된 프로젝트 마일스톤</b> 표시.</li> <li>작업 패키지 목록에서 <b>그룹에 대한 모든 버튼 축소</b>.</li> <li>wiki 페이지 등 브라우저 인쇄 기능을 통해 <b>인쇄 최적화</b>.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
     label_activate: "활성화"
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"
@@ -845,7 +845,7 @@ ko:
           automatic: '자동'
           manually: '수동'
           warning: '자동 정렬 모드를 활성화하면 이전 정렬이 손실됩니다.'
-        columns_help_text: "위 입력을 사용하여 테이블 보기에 열을 추가하세요. 열을 끌어다 놓아 순서를 바꿀 수 있습니다."
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: '나머지 작업 중에 확연히 두드러지는 특정 작업 패키지가 필요합니까?'
           relation_columns: '작업 패키지 목록에서 관계를 표시해야 합니까?'

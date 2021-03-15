@@ -1,4 +1,4 @@
-FROM ruby:2.7.2-buster
+FROM ruby:2.7-buster
 MAINTAINER operations@openproject.com
 
 ENV USER=dev
@@ -18,7 +18,7 @@ ENV NODE_VERSION="12.18.3"
 ENV BUNDLER_VERSION="2.1.4"
 ENV BUNDLE_WITHOUT="development:production:docker"
 ENV OPENPROJECT_DISABLE_DEV_ASSET_PROXY=1
-ENV CAPYBARA_DYNAMIC_HOSTNAME=0
+ENV CAPYBARA_DYNAMIC_BIND_IP=1
 ENV CAPYBARA_DOWNLOADED_FILE_DIR=/tmp
 # disable deprecations and other warnings in output
 ENV RUBYOPT="-W0"

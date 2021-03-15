@@ -66,7 +66,7 @@ describe Members::Scopes::NotLocked, type: :model do
   end
 
   describe '.fetch' do
-    subject { described_class.fetch }
+    subject { Member.not_locked }
 
     it 'returns only actual users and groups' do
       expect(subject)

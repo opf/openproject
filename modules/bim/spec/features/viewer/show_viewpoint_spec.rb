@@ -34,7 +34,7 @@ describe 'Show viewpoint in model viewer',
          js: true do
   let(:project) do
     FactoryBot.create(:project,
-                      enabled_module_names: [:bim, :work_package_tracking],
+                      enabled_module_names: %i[bim work_package_tracking],
                       parent: parent_project)
   end
   let(:parent_project) { nil }
@@ -62,10 +62,10 @@ describe 'Show viewpoint in model viewer',
       model_tree.expand_tree
       model_tree.expect_checked 'minimal'
       model_tree.all_checkboxes.each do |label, checkbox|
-        if label.text == 'minimal' || label.text == 'LUB_Segment_new:S_WHG_Ess:7243035'
-          expect(checkbox).to be_checked
-        else
-          expect(checkbox).to_not be_checked
+        retry_block do
+          if (label.text == 'minimal' || label.text == 'LUB_Segment_new:S_WHG_Ess:7243035') != checkbox.checked?
+            raise 'Checkbox checked status is wrong'
+          end
         end
       end
     end
@@ -99,7 +99,7 @@ describe 'Show viewpoint in model viewer',
 
   context 'when in work packages details view' do
     let(:wp_details) { ::Pages::SplitWorkPackage.new(work_package, project) }
-    
+
     shared_examples "moves to the BCF page" do
       it 'moves to the bcf page' do
         wp_details.visit!

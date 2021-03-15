@@ -36,16 +36,16 @@ describe User, 'allowed_to?' do
   let(:role) { FactoryBot.build(:role) }
   let(:role2) { FactoryBot.build(:role) }
   let(:anonymous_role) { FactoryBot.build(:anonymous_role) }
-  let(:member) {
+  let(:member) do
     FactoryBot.build(:member, project: project,
-                               roles: [role],
-                               principal: user)
-  }
-  let(:member2) {
+                              roles: [role],
+                              principal: user)
+  end
+  let(:member2) do
     FactoryBot.build(:member, project: project2,
-                               roles: [role2],
-                               principal: user)
-  }
+                              roles: [role2],
+                              principal: user)
+  end
   let(:global_permission) { OpenProject::AccessControl.permissions.find { |p| p.global? } }
   let(:global_role) { FactoryBot.build(:global_role, permissions: [global_permission.name]) }
   let(:global_member) do
@@ -413,7 +413,6 @@ describe User, 'allowed_to?' do
     context "w/o the user being member in a project
              w/ the user having the global role
              w/ the global role having the necessary permission" do
-
       before do
         project.save!
 
@@ -576,7 +575,6 @@ describe User, 'allowed_to?' do
     context "w/o the user being member in a project
              w/ the user having a global role
              w/o the global role having the necessary permission" do
-
       before do
         global_role.permissions = []
         global_role.save!
@@ -592,7 +590,6 @@ describe User, 'allowed_to?' do
     context "w/o the user being member in a project
              w/o the user having the global role
              w/ the global role having the necessary permission" do
-
       before do
         global_role.save!
       end
@@ -655,9 +652,9 @@ describe User, 'allowed_to?' do
 
   context 'w/ preloaded permissions' do
     it_behaves_like 'w/ inquiring for project' do
-      let(:final_setup_step) {
+      let(:final_setup_step) do
         user.preload_projects_allowed_to(permission)
-      }
+      end
     end
   end
 end

@@ -60,7 +60,6 @@ describe 'Backlogs in backlog view',
                                       manage_versions
                                       update_sprints
                                       assign_versions))
-
   end
   let!(:current_user) do
     FactoryBot.create(:user,

@@ -466,6 +466,5 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
           .at_path('_links/customFields')
       end
     end
-
   end
 end

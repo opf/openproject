@@ -31,8 +31,8 @@ fi:
       color_theme: "Väriteema"
       color_theme_custom: "(Mukautettu)"
       colors:
-        alternative-color: "Alternative"
-        content-link-color: "Link font"
+        alternative-color: "Vaihtoehtoinen"
+        content-link-color: "Linkin kirjasin"
         primary-color: "Primary"
         primary-color-dark: "Primary (dark)"
         header-bg-color: "Header background"
@@ -122,9 +122,6 @@ fi:
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Connection encryption'
     system_account: 'System account'
     system_account_legend: |
@@ -151,7 +148,7 @@ fi:
     index:
       no_results_title_text: Tällä hetkellä ei ole värejä.
       no_results_content_text: Luo uusi väri
-    label_no_color: 'No color'
+    label_no_color: 'Ei väriä'
   custom_actions:
     actions:
       name: 'Toiminnot'
@@ -243,6 +240,14 @@ fi:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Tämä käyttäjä ei ole projektin jäsen.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -398,7 +403,7 @@ fi:
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximum active users"
       grids/grid:
-        page: "Page"
+        page: "sivu"
         row_count: "Number of rows"
         column_count: "Number of columns"
         widgets: "Widgets"
@@ -503,7 +508,7 @@ fi:
       'doorkeeper/application':
         uid: "Client ID"
         secret: "Client secret"
-        owner: "Owner"
+        owner: "Omistaja"
         redirect_uri: "Redirect URI"
         client_credentials_user_id: "Client Credentials User ID"
         scopes: "Scopes"
@@ -521,6 +526,7 @@ fi:
         confirmation: "ei vastaa %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "ei ole olemassa."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         empty: "ei voi olla tyhjä."
@@ -721,6 +727,7 @@ fi:
       status: "Tehtävän tila"
       member: "Jäsen"
       news: "Uutiset"
+      placeholder_user: "Placeholder user"
       project: "Projekti"
       query: "Mukautettu haku"
       role:
@@ -858,7 +865,7 @@ fi:
   button_unlock: "Poista lukitus"
   button_unwatch: "Älä seuraa"
   button_update: "Päivitä"
-  button_upgrade: "Upgrade"
+  button_upgrade: "Päivitä"
   button_upload: "Lähetä"
   button_view: "Näytä"
   button_watch: "Seuraa"
@@ -1037,7 +1044,7 @@ fi:
   default_type: "Tehtävä"
   default_type_bug: "Virhe"
   default_type_deliverable: "Suorite"
-  default_type_epic: "Epic"
+  default_type_epic: "Eeppinen"
   default_type_feature: "Ominaisuus"
   default_type_milestone: "Milestone"
   default_type_phase: "Vaihe"
@@ -1054,7 +1061,7 @@ fi:
   description_current_position: "You are here: "
   description_date_from: "Syötä aloituspäivämäärä"
   description_date_to: "Syötä päättymispäivä"
-  description_enter_number: "Enter number"
+  description_enter_number: "Syötä numero"
   description_enter_text: "Enter text"
   description_filter: "Suodata"
   description_filter_toggle: "Show/Hide filter"
@@ -1134,11 +1141,11 @@ fi:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Project edited'
+    project: 'Projektia muokattu'
     changeset: 'Changeset edited'
-    message: Message edited
+    message: Viestiä muokattu
     news: Uutiset
-    reply: Replied
+    reply: Vastattu
     time_entry: 'Timelog edited'
     wiki_page: 'Wiki-sivu päivitetty'
     work_package_closed: 'Tehtävä suljettu'
@@ -1332,6 +1339,7 @@ fi:
   label_custom_field_plural: "Mukautetut kentät"
   label_custom_field_default_type: "Tyhjä tyyppi"
   label_custom_style: "Ulkoasu"
+  label_database_version: "PostgreSQL version"
   label_date: "Päivämäärä"
   label_date_and_time: "Päivämäärä ja aika"
   label_date_from: "Alkaen"
@@ -1490,6 +1498,7 @@ fi:
   label_my_account_data: "Tilini tiedot"
   label_my_projects: "Omat projektit"
   label_my_queries: "Omat hakuni"
+  label_name: "Nimi"
   label_never: "Ei koskaan"
   label_new: "Uusi"
   label_new_features: "Uudet ominaisuudet"
@@ -1539,6 +1548,9 @@ fi:
   label_permissions: "Oikeudet"
   label_permissions_report: "Käyttöoikeudet-raportti"
   label_personalize_page: "Personoi tämä sivu"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Suunnittelu"
   label_please_login: "Kirjaudu sisään"
   label_plugins: "Laajennukset"
@@ -1848,6 +1860,7 @@ fi:
   notice_email_sent: "Sähköposti on lähetty osoitteeseen %{value}"
   notice_failed_to_save_work_packages: "Failed to save %{count} work package(s) on %{total} selected: %{ids}."
   notice_failed_to_save_members: "Jäsentä tai jäseniä ei voitu tallentaa: %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Hakemaasi sivua ei löytynyt tai se on poistettu."
   notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."
   notice_internal_server_error: "Tapahtui virhe. Jos ongelma jatkuu, ota yhteys %{app_title} ylläpitoon."
@@ -1911,6 +1924,8 @@ fi:
   permission_add_work_packages: "Lisää tehtävä"
   permission_add_messages: "Jätä viesti"
   permission_add_project: "Luo projekti"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Luoda aliprojekteja"
   permission_add_work_package_watchers: "Lisää seuraajia"
   permission_assign_versions: "Assign versions"
@@ -2442,8 +2457,8 @@ fi:
         compare_absolute: "Compare current planning to %{date}"
       time_relative:
         days: "päivää"
-        weeks: "weeks"
-        months: "months"
+        weeks: "viikkoa"
+        months: "kuukautta"
       exclude_own_work_packages: "Hide work packages from this project"
       exclude_reporters: "Hide other projects"
       exclude_empty: "Hide empty projects"
@@ -2522,9 +2537,9 @@ fi:
       out: "Loitonna"
       days: "Päivää"
       weeks: "Viikkoa"
-      months: "Months"
+      months: "Kuukautta"
       quarters: "Quarters"
-      years: "Years"
+      years: "Vuotta"
   title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
   title_enterprise_upgrade: "Upgrade to unlock more users."
   tooltip_user_default_timezone: >
@@ -2580,7 +2595,7 @@ fi:
   version_status_open: "avoin"
   note: Huomautus
   note_password_login_disabled: "Password login has been disabled by %{configuration}."
-  warning: Warning
+  warning: Varoitus
   warning_attachments_not_saved: "%{count} tiedostoa ei voitu tallentaa."
   warning_imminent_user_limit: >
     You invited more users than are supported by your current plan. Invited users may not be able to join your OpenProject environment. Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users in order to allow invited and registered users to join.
@@ -2603,9 +2618,9 @@ fi:
       text_html: >
         Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
   menu_item: "Menu item"
-  menu_item_setting: "Visibility"
+  menu_item_setting: "Näkyvyys"
   wiki_menu_item_for: "Menu item for wikipage \"%{title}\""
-  wiki_menu_item_setting: "Visibility"
+  wiki_menu_item_setting: "Näkyvyys"
   wiki_menu_item_new_main_item_explanation: >
     Sinä olet poistat vain tärkeimmät wiki valikosta. Sinun täytyy nyt valita wiki sivu joista tärkein uusi kohde luodaan. Poistaa wiki wiki moduuli voidaan kytkeä pois päältä hankkeen ylläpitäjät.
   wiki_menu_item_delete_not_permitted: Wiki valikosta vain wiki sivu voi olla Poistetaan.

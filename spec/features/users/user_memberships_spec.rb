@@ -27,94 +27,19 @@
 #++
 
 require 'spec_helper'
+require_relative '../principals/shared_memberships_examples'
 
 feature 'user memberships through user page', type: :feature, js: true do
-  let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
-  let!(:project2) { FactoryBot.create :project, name: 'Project 2', identifier: 'project2' }
-  let(:admin) { FactoryBot.create :admin, firstname: 'Foobar', lastname: 'Blabla' }
+  include_context 'principal membership management context'
 
-  let!(:manager)   { FactoryBot.create :role, name: 'Manager' }
-  let!(:developer) { FactoryBot.create :role, name: 'Developer' }
+  shared_let(:principal) { FactoryBot.create :user, firstname: 'Foobar', lastname: 'Blabla' }
+  shared_let(:principal_page) { Pages::Admin::IndividualPrincipals::Edit.new(principal) }
 
-  let(:user_page) { Pages::Admin::Users::Edit.new(admin.id) }
+  context 'as admin' do
+    current_user { FactoryBot.create :admin }
 
-  before do
-    login_as(admin)
-
-    user_page.visit!
-    user_page.open_projects_tab!
+    it_behaves_like 'principal membership management flows'
   end
 
-  scenario 'handles role modification flow' do
-    SeleniumHubWaiter.wait
-    user_page.add_to_project! project.name, as: 'Manager'
-
-    member = admin.memberships.where(project_id: project.id).first
-    SeleniumHubWaiter.wait
-    user_page.edit_roles!(member, %w(Manager Developer))
-
-    # Modify roles
-    user_page.expect_project(project.name)
-    user_page.expect_roles(project.name, %w(Manager Developer))
-
-    user_page.expect_no_membership(project2.name)
-
-    # Remove all roles
-    user_page.expect_project(project.name)
-    SeleniumHubWaiter.wait
-    user_page.edit_roles!(member, %w())
-
-    expect(page).to have_selector('.flash.error', text: 'Roles need to be assigned.')
-
-    # Remove the user from the project
-    user_page.remove_from_project!(project.name)
-    user_page.expect_no_membership(project.name)
-
-    # Re-add the user
-    SeleniumHubWaiter.wait
-    user_page.add_to_project! project.name, as: %w(Manager Developer)
-
-    user_page.expect_project(project.name)
-    user_page.expect_roles(project.name, %w(Manager Developer))
-  end
-
-  context 'when user has an inherited role' do
-    let(:group) { FactoryBot.create :group, lastname: 'A-Team' }
-    let(:group_page) { Pages::Groups.new.group(group.id) }
-
-    before do
-      group.add_members! admin
-    end
-
-    scenario 'it can remove all other roles' do
-      user_page.expect_no_membership(project.name)
-
-      group_page.visit!
-      SeleniumHubWaiter.wait
-      group_page.add_to_project! project.name, as: 'Manager'
-      expect(page).to have_text 'Successful update'
-
-      user_page.visit!
-      user_page.open_projects_tab!
-
-      # Expect inherited membership
-      user_page.expect_project(project.name)
-      user_page.expect_roles(project.name, %w(Manager))
-
-      # Remove all roles
-      member = admin.memberships.where(project_id: project.id).first
-      SeleniumHubWaiter.wait
-      user_page.edit_roles!(member, %w())
-
-      # Keeps inherited role
-      user_page.expect_project(project.name)
-      user_page.expect_roles(project.name, %w(Manager))
-
-      # Extend roles
-      SeleniumHubWaiter.wait
-      user_page.edit_roles!(member, %w(Developer))
-      user_page.expect_project(project.name)
-      user_page.expect_roles(project.name, %w(Manager Developer))
-    end
-  end
+  it_behaves_like 'global user principal membership management flows', :manage_user
 end

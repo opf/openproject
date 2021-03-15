@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -79,7 +80,7 @@ class AuthSource < ApplicationRecord
       begin
         Rails.logger.debug { "Authenticating '#{login}' against '#{source.name}'" }
         attrs = source.authenticate(login, password)
-      rescue => e
+      rescue StandardError => e
         Rails.logger.error "Error during authentication: #{e.message}"
         attrs = nil
       end
@@ -93,7 +94,7 @@ class AuthSource < ApplicationRecord
       begin
         Rails.logger.debug { "Looking up '#{login}' in '#{source.name}'" }
         attrs = source.find_user login
-      rescue => e
+      rescue StandardError => e
         Rails.logger.error "Error during authentication: #{e.message}"
         attrs = nil
       end

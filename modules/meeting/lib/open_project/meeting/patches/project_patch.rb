@@ -38,4 +38,4 @@ module OpenProject::Meeting
   end
 end
 
-Project.send(:include, OpenProject::Meeting::Patches::ProjectPatch)
+Project.include OpenProject::Meeting::Patches::ProjectPatch

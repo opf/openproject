@@ -157,7 +157,11 @@ class BudgetsController < ApplicationController
 
     if cost_type && params[:units].present?
       volume = Rate.parse_number_string_to_number(params[:units])
-      @costs = volume * cost_type.rate_at(params[:fixed_date]).rate rescue 0.0
+      @costs = begin
+        volume * cost_type.rate_at(params[:fixed_date]).rate
+      rescue StandardError
+        0.0
+      end
       @unit = volume == 1.0 ? cost_type.unit : cost_type.unit_plural
     else
       @costs = 0.0
@@ -177,7 +181,11 @@ class BudgetsController < ApplicationController
 
     if user && params[:hours]
       hours = Rate.parse_number_string_to_number(params[:hours])
-      @costs = hours * user.rate_at(params[:fixed_date], @project).rate rescue 0.0
+      @costs = begin
+        hours * user.rate_at(params[:fixed_date], @project).rate
+      rescue StandardError
+        0.0
+      end
     else
       @costs = 0.0
     end

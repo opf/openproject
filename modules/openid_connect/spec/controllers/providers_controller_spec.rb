@@ -160,7 +160,6 @@ describe ::OpenIDConnect::ProvidersController, type: :controller do
         "providers" => { "azure" => { "identifier" => "IDENTIFIER", "secret" => "SECRET" } }
       }
     } do
-
       it 'removes the provider' do
         delete :destroy, params: { id: "azure" }
         expect(response).to be_redirect

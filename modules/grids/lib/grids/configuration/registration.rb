@@ -38,7 +38,7 @@ module Grids::Configuration
       private
 
       def macroed_getter_setter(name, type = :single)
-        private_name = :"_#{name.to_s}"
+        private_name = :"_#{name}"
 
         class_attribute private_name
 

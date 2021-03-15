@@ -29,13 +29,13 @@
 require 'spec_helper'
 
 describe OpenProject::Acts::Watchable::Routes do
-  let(:request) {
+  let(:request) do
     Struct.new(:type, :id) do
       def path_parameters
         { object_id: id, object_type: type }
       end
     end.new(type, id)
-  }
+  end
 
   describe 'matches?' do
     shared_examples_for 'watched model' do

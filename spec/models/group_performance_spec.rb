@@ -54,7 +54,8 @@ describe Group, type: :model do
         type: project.types.first,
         author: user,
         project: project,
-        status: status)
+        status: status
+      )
 
       work_packages.first.tap do |wp|
         wp.assigned_to = group
@@ -77,7 +78,7 @@ describe Group, type: :model do
 
         puts "Destroying group ..."
         start = Time.now.to_i
-        group.destroy
+        Principals::DeleteJob.perform_now group
         @seconds = Time.now.to_i - start
 
         puts "Destroyed group in #{@seconds} seconds"

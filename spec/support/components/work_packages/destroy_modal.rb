@@ -42,7 +42,8 @@ module Components
             wp = wps.first
             expect(page).to have_selector('strong', text: "#{wp.type.name} ##{wp.id} #{wp.subject}")
           else
-            expect(page).to have_selector('.danger-zone--warning', text: 'Are you sure you want to delete the following work packages ?')
+            expect(page).to have_selector('.danger-zone--warning',
+                                          text: 'Are you sure you want to delete the following work packages ?')
             wps.each do |wp|
               expect(page).to have_selector('li', text: "##{wp.id} #{wp.subject}")
             end

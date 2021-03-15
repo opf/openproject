@@ -34,7 +34,7 @@ require 'services/base_services/behaves_like_update_service'
 describe Projects::UpdateService, type: :model do
   it_behaves_like 'BaseServices update service' do
     let!(:model_instance) do
-      FactoryBot.build_stubbed(:project, status: project_status).tap do |p|
+      FactoryBot.build_stubbed(:project, status: project_status).tap do |_p|
         project_status.clear_changes_information
       end
     end

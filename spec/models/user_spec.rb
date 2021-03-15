@@ -92,7 +92,6 @@ describe User, type: :model do
     end
   end
 
-
   describe 'a user with and overly long firstname (> 256 chars)' do
     it 'is invalid' do
       user.firstname = 'a' * 257
@@ -108,7 +107,6 @@ describe User, type: :model do
       expect(user.save).to be_falsey
     end
   end
-
 
   describe 'login whitespace' do
     before do
@@ -337,7 +335,10 @@ describe User, type: :model do
     end
 
     it { expect(@u.valid?).to be_falsey }
-    it { expect(@u.errors[:password]).to include I18n.t('activerecord.errors.messages.too_short', count: Setting.password_min_length.to_i) }
+    it {
+      expect(@u.errors[:password]).to include I18n.t('activerecord.errors.messages.too_short',
+                                                     count: Setting.password_min_length.to_i)
+    }
   end
 
   describe '#random_password' do
@@ -445,7 +446,9 @@ describe User, type: :model do
   end
 
   describe '.default_admin_account_deleted_or_changed?' do
-    let(:default_admin) { FactoryBot.build(:user, login: 'admin', password: 'admin', password_confirmation: 'admin', admin: true) }
+    let(:default_admin) do
+      FactoryBot.build(:user, login: 'admin', password: 'admin', password_confirmation: 'admin', admin: true)
+    end
 
     before do
       Setting.password_min_length = 5

@@ -55,7 +55,7 @@ describe Projects::Scopes::VisibleWithActivatedTimeActivity, type: :model do
   end
 
   describe '.fetch' do
-    subject { described_class.fetch(activity) }
+    subject { Project.visible_with_activated_time_activity(activity) }
 
     context 'without project specific overrides' do
       context 'and being active' do

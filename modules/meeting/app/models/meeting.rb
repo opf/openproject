@@ -38,9 +38,9 @@ class Meeting < ApplicationRecord
   has_many :contents, -> { readonly }, class_name: 'MeetingContent'
   has_many :participants, dependent: :destroy, class_name: 'MeetingParticipant'
 
-  default_scope {
+  default_scope do
     order("#{Meeting.table_name}.start_time DESC")
-  }
+  end
   scope :from_tomorrow, -> { where(['start_time >= ?', Date.tomorrow.beginning_of_day]) }
   scope :with_users_by_date, -> {
     order("#{Meeting.table_name}.title ASC")
@@ -50,19 +50,19 @@ class Meeting < ApplicationRecord
   acts_as_watchable
 
   acts_as_searchable columns: ["#{table_name}.title", "#{MeetingContent.table_name}.text"],
-                     include: [:contents, :project],
+                     include: %i[contents project],
                      references: :meeting_contents,
                      date_column: "#{table_name}.created_at"
 
   acts_as_journalized
   acts_as_event title: Proc.new { |o|
-      "#{I18n.t(:label_meeting)}: #{o.title} \
+                         "#{I18n.t(:label_meeting)}: #{o.title} \
         #{format_date o.start_time} \
         #{format_time o.start_time, false}-#{format_time o.end_time, false})"
-    },
-    url: Proc.new { |o| { controller: '/meetings', action: 'show', id: o } },
-    author: Proc.new(&:user),
-    description: ''
+                       },
+                url: Proc.new { |o| { controller: '/meetings', action: 'show', id: o } },
+                author: Proc.new(&:user),
+                description: ''
 
   register_on_journal_formatter(:plaintext, 'title')
   register_on_journal_formatter(:fraction, 'duration')
@@ -88,10 +88,6 @@ class Meeting < ApplicationRecord
   before_save :add_new_participants_as_watcher
 
   after_initialize :set_initial_values
-
-  User.before_destroy do |user|
-    Meeting.where(['author_id = ?', user.id]).update_all ['author_id = ?', DeletedUser.first.id]
-  end
 
   ##
   # Return the computed start_time when changed
@@ -126,7 +122,7 @@ class Meeting < ApplicationRecord
   def author=(user)
     super
     # Don't add the author as participant if we already have some through nested attributes
-    participants.build(user: user, invited: true) if self.new_record? && participants.empty? && user
+    participants.build(user: user, invited: true) if new_record? && participants.empty? && user
   end
 
   # Returns true if usr or current user is allowed to view the meeting
@@ -227,8 +223,8 @@ class Meeting < ApplicationRecord
     if parse_start_time?
       errors.add :start_date, :not_an_iso_date if parsed_start_date.nil?
       errors.add :start_time_hour, :invalid_time_format if parsed_start_time_hour.nil?
-    else
-      errors.add :start_time, :invalid if start_time.nil?
+    elsif start_time.nil?
+      errors.add :start_time, :invalid
     end
   end
 

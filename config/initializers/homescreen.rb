@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -98,9 +99,9 @@ OpenProject::Static::Homescreen.manage :links do |links|
 
   if impressum_link = link_hash[:impressum]
     links.push({
-      label: impressum_link[:label],
-      url: impressum_link[:href],
-      icon: 'icon-context icon-info1'
-    })
+                 label: impressum_link[:label],
+                 url: impressum_link[:href],
+                 icon: 'icon-context icon-info1'
+               })
   end
 end

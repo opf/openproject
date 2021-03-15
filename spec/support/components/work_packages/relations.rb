@@ -174,6 +174,7 @@ module Components
       def openChildrenAutocompleter
         retry_block do
           next if page.has_selector?('.wp-relations--children .ng-input input')
+
           SeleniumHubWaiter.wait
           find('.wp-inline-create--reference-link', text: I18n.t('js.relation_buttons.add_existing_child')).click
 

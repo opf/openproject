@@ -121,7 +121,9 @@ Press the blue **Save** button to apply your changes.
 If you want to set a project to public, you can do so by ticking the box next to "Public" in the [project settings](project-settings) *->Information*.
 
 Setting a project to public will make it accessible to all people within your OpenProject instance. 
-(Should your instance be [accessible without authentication](../../system-admin-guide/authentication/authentication-settings) this option will make the project visible to the general public outside your users, too)
+
+(Should your instance be [accessible without authentication](../../system-admin-guide/authentication/authentication-settings) this option will make the project visible to the general public outside your registered users, too)
+
 
 
 ### Create a project template
@@ -208,9 +210,11 @@ To get an overview of all your projects, select the **View all projects** option
 
 You will then get a list of all your projects in OpenProject. You can use this projects overview to **create a multi project status dashboard** if you include your own [project custom fields](../../system-admin-guide/custom-fields/custom-fields-projects/), e.g. custom status options, Accountable, Project duration, and more.
 
-With the horizontal **three dots** icons at the right of the list you can open **further features**, such as [creating a new subproject](#create-a-subproject), [project settings](project-settings), [archiving a project](#archive-a-project), [copying](#copy-a-project) and [deleting a project](#delete-a-project). Please note that you have to be a System Administrator in OpenProject to access these features.
+**Please note:** Project custom fields are a premium feature and will only be displayed here for Enterprise on-premises and Enterprise cloud.
 
-With the **arrow** you can display the **project description**.
+With the **arrow** on the right you can display the **project description**.
+
+With the horizontal **three dots** icon on the right side of the list you can open **further features**, such as [creating a new subproject](#create-a-subproject), [project settings](project-settings), [archiving a project](#archive-a-project), [copying](#copy-a-project) and [deleting a project](#delete-a-project). Please note that you have to be a System Administrator in OpenProject to access these features.
 
 ![projects-overview-view-all-projects](image-20210204171811255.png)
 

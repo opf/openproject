@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -32,15 +33,15 @@ require 'spec_helper'
 describe DeliverWorkPackageNotificationJob, type: :model do
   let(:project) { FactoryBot.create(:project) }
   let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
-  let(:recipient) {
+  let(:recipient) do
     FactoryBot.create(:user, member_in_project: project, member_through_role: role)
-  }
+  end
   let(:author) { FactoryBot.create(:user) }
-  let(:work_package) {
+  let(:work_package) do
     FactoryBot.create(:work_package,
-                       project: project,
-                       author: author)
-  }
+                      project: project,
+                      author: author)
+  end
   let(:journal) { work_package.journals.first }
   let(:instance) { described_class.new }
   subject { instance.perform(journal.id, recipient.id, author.id) }

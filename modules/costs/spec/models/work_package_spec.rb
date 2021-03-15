@@ -38,12 +38,15 @@ describe WorkPackage, type: :model do
   end
 
   let(:project2) { FactoryBot.create(:project_with_types, types: project.types) }
-  let(:work_package) {
+  let(:work_package) do
     FactoryBot.create(:work_package, project: project,
-                                      type: project.types.first,
-                                      author: user)
-  }
-  let!(:cost_entry) { FactoryBot.create(:cost_entry, work_package: work_package, project: project, units: 3, spent_on: Date.today, user: user, comments: 'test entry') }
+                                     type: project.types.first,
+                                     author: user)
+  end
+  let!(:cost_entry) do
+    FactoryBot.create(:cost_entry, work_package: work_package, project: project, units: 3, spent_on: Date.today, user: user,
+                                   comments: 'test entry')
+  end
   let!(:budget) { FactoryBot.create(:budget, project: project) }
 
   def move_to_project(work_package, project)

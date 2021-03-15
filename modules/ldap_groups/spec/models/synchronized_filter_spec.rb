@@ -1,0 +1,28 @@
+require 'spec_helper'
+
+describe LdapGroups::SynchronizedFilter, type: :model do
+  describe '#used_base_dn' do
+    let(:auth_source) { FactoryBot.build :ldap_auth_source, base_dn: 'dc=example,dc=com' }
+    let(:filter) { FactoryBot.build :ldap_synchronized_filter, auth_source: auth_source }
+
+    it 'validates the end of the base dn matches the auth_source' do
+      filter.base_dn = nil
+      expect(filter.base_dn).to eq(nil)
+      expect(filter.used_base_dn).to eq(auth_source.base_dn)
+    end
+  end
+
+  describe '#base_dn' do
+    let(:auth_source) { FactoryBot.build :ldap_auth_source, base_dn: 'dc=example,dc=com' }
+    let(:filter) { FactoryBot.build :ldap_synchronized_filter, auth_source: auth_source }
+
+    it 'validates the end of the base dn matches the auth_source' do
+      filter.base_dn = nil
+      expect(filter).to be_valid
+
+      filter.base_dn = 'dc=something,dc=else'
+      expect(filter).not_to be_valid
+      expect(filter.errors.details[:base_dn]).to contain_exactly(error: :must_contain_base_dn)
+    end
+  end
+end

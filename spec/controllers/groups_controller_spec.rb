@@ -37,7 +37,7 @@ describe GroupsController, type: :controller do
   end
 
   context 'as admin' do
-    using_shared_fixtures :admin
+    shared_let(:admin) { FactoryBot.create :admin }
     let(:current_user) { admin }
 
     it 'should index' do
@@ -82,6 +82,9 @@ describe GroupsController, type: :controller do
 
     it 'should destroy' do
       delete :destroy, params: { id: group.id }
+
+      perform_enqueued_jobs
+
       expect { group.reload }.to raise_error ActiveRecord::RecordNotFound
 
       expect(response).to redirect_to groups_path
@@ -177,9 +180,9 @@ describe GroupsController, type: :controller do
     end
 
     it 'should forbid create' do
-      expect {
+      expect do
         post :create, params: { group: { lastname: 'New group' } }
-      }.not_to change { Group.count }
+      end.not_to change { Group.count }
 
       expect(response).not_to be_successful
       expect(response.status).to eq 403

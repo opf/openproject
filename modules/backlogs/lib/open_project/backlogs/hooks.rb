@@ -40,7 +40,8 @@ module OpenProject::Backlogs::Hooks
 
       if User.current.allowed_to?(:edit_wiki_pages, project)
         snippet += '<span id="edit_wiki_page_action">'
-        snippet += link_to I18n.t(:button_edit_wiki), { controller: '/rb_wikis', action: 'edit', project_id: project.id, sprint_id: version.id }, class: 'icon icon-edit'
+        snippet += link_to I18n.t(:button_edit_wiki),
+                           { controller: '/rb_wikis', action: 'edit', project_id: project.id, sprint_id: version.id }, class: 'icon icon-edit'
         snippet += '</span>'
 
         # This wouldn't be necesary if the schedules plugin didn't disable the
@@ -63,7 +64,9 @@ module OpenProject::Backlogs::Hooks
           user: context[:user],
           color: context[:user].backlogs_preference(:task_color),
           versions_default_fold_state:
-            context[:user].backlogs_preference(:versions_default_fold_state) })
+            context[:user].backlogs_preference(:versions_default_fold_state)
+        }
+      )
     end
 
     def controller_work_package_new_after_save(context = {})
@@ -84,7 +87,7 @@ module OpenProject::Backlogs::Hooks
 
         if params[:copy_tasks]
           params[:copy_tasks] += ':' if params[:copy_tasks] !~ /:/
-          action, id = *(params[:copy_tasks].split(/:/))
+          action, id = *params[:copy_tasks].split(/:/)
 
           story = (id.nil? ? nil : Story.find(Integer(id)))
 
@@ -94,17 +97,16 @@ module OpenProject::Backlogs::Hooks
             when 'open'
               tasks = tasks.select { |t| !t.closed? }
             when 'all', 'none'
-            #
             else
               raise "Unexpected value #{params[:copy_tasks]}"
             end
 
-            tasks.each {|t|
+            tasks.each do |t|
               nt = Task.new
               nt.copy_from(t)
               nt.parent_id = work_package.id
               nt.save
-            }
+            end
           end
         end
       end

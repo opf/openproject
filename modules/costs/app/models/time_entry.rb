@@ -48,12 +48,12 @@ class TimeEntry < ApplicationRecord
   scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
 
   include ::Scopes::Scoped
-  extend ::TimeEntry::TimeEntryScopes
+  extend ::TimeEntries::TimeEntryScopes
   include Entry::Costs
   include Entry::SplashedDates
 
-  scope_classes TimeEntry::Scopes::OfUserAndDay,
-                TimeEntry::Scopes::Visible
+  scopes :of_user_and_day,
+         :visible
 
   # TODO: move into service
   before_save :update_costs
@@ -61,7 +61,7 @@ class TimeEntry < ApplicationRecord
   def self.update_all(updates, conditions = nil, options = {})
     # instead of a update_all, perform an individual update during work_package#move
     # to trigger the update of the costs based on new rates
-    if conditions.respond_to?(:keys) && conditions.keys == [:work_package_id] && updates =~ /^project_id = ([\d]+)$/
+    if conditions.respond_to?(:keys) && conditions.keys == [:work_package_id] && updates =~ /^project_id = (\d+)$/
       project_id = $1
       time_entries = TimeEntry.where(conditions)
       time_entries.each do |entry|

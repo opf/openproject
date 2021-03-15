@@ -47,20 +47,14 @@ module API
 
         LINK_FORMATS = %w(list user version).freeze
 
-        PATH_METHOD_MAP = {
-          'user' => :user,
-          'version' => :version,
-          'list' => :custom_option
-        }.freeze
-
         NAMESPACE_MAP = {
-          'user' => 'users',
+          'user' => ['users', 'groups', 'placeholder_users'],
           'version' => 'versions',
           'list' => 'custom_options'
         }.freeze
 
         REPRESENTER_MAP = {
-          'user' => '::API::V3::Users::UserRepresenter',
+          'user' => '::API::V3::Principals::PrincipalRepresenterFactory',
           'version' => '::API::V3::Versions::VersionRepresenter',
           'list' => '::API::V3::CustomOptions::CustomOptionRepresenter'
         }.freeze
@@ -193,15 +187,11 @@ module API
                         options: cf_options(custom_field)
         end
 
-        def path_method_for(custom_field)
-          PATH_METHOD_MAP[custom_field.field_format]
-        end
-
         def inject_link_value(custom_field)
           name = property_name(custom_field.id)
           expected_namespace = NAMESPACE_MAP[custom_field.field_format]
 
-          link = link_value_getter_for(custom_field, path_method_for(custom_field))
+          link = LinkValueGetter.link_for custom_field
           setter = link_value_setter_for(custom_field, name, expected_namespace)
           getter = embedded_link_value_getter(custom_field)
 
@@ -216,10 +206,6 @@ module API
                       link: link,
                       setter: setter,
                       getter: getter)
-        end
-
-        def link_value_getter_for(custom_field, path_method)
-          LinkValueGetter.new custom_field, path_method
         end
 
         def link_value_setter_for(custom_field, property, expected_namespace)
@@ -244,7 +230,7 @@ module API
         end
 
         def embedded_link_value_getter(custom_field)
-          klass = representer_class(custom_field)
+          representer_class = derive_representer_class(custom_field)
 
           proc do
             # Do not embed list or multi values as their links contain all the
@@ -257,8 +243,8 @@ module API
 
             next unless value
 
-            klass
-              .new(value, current_user: current_user)
+            representer_class
+              .create(value, current_user: current_user)
           end
         end
 
@@ -345,7 +331,7 @@ module API
           end
         end
 
-        def representer_class(custom_field)
+        def derive_representer_class(custom_field)
           REPRESENTER_MAP[custom_field.field_format]
             .constantize
         end
@@ -361,9 +347,12 @@ module API
         end
 
         def allowed_users_static_filters
-          [{ status: { operator: '!',
-                       values: [Principal.statuses[:locked].to_s] } },
-           { type: { operator: '=', values: ['User'] } }]
+          [
+            { status: { operator: '!',
+                        values: [Principal.statuses[:locked].to_s] } },
+            { type: { operator: '=',
+                      values: %w[User Group PlaceholderUser] } }
+          ]
         end
 
         module RepresenterClass

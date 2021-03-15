@@ -32,7 +32,7 @@ require 'spec_helper'
 
 describe ::Type, type: :model do
   let(:type) { FactoryBot.build(:type) }
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
 
   before do
     # Clear up the request store cache for all_work_package_attributes

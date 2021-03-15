@@ -102,7 +102,7 @@ describe Projects::SetAttributesService, type: :model do
       end
 
       context 'identifier default value' do
-        context 'with a default identifier configured', with_settings: {sequential_project_identifiers: true} do
+        context 'with a default identifier configured', with_settings: { sequential_project_identifiers: true } do
           context 'with an identifier provided' do
             let(:call_attributes) do
               {
@@ -128,7 +128,7 @@ describe Projects::SetAttributesService, type: :model do
           end
         end
 
-        context 'without a default identifier configured', with_settings: {sequential_project_identifiers: false} do
+        context 'without a default identifier configured', with_settings: { sequential_project_identifiers: false } do
           context 'with an identifier provided' do
             let(:call_attributes) do
               {

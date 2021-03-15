@@ -143,8 +143,10 @@ form.project-filters
   .generic-table--header-outer:hover
     background: initial
 
-  td.name a
-    white-space: nowrap
+  td.name
+    @include text-shortener
+    a
+      white-space: nowrap
 
   td.project--hierarchy
     white-space: nowrap

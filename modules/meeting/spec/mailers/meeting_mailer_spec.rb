@@ -82,7 +82,7 @@ describe MeetingMailer, type: :mailer do
         expect(mail.text_part.body).to include('GMT+09:00')
         expect(mail.html_part.body).to include('Tokyo')
         expect(mail.html_part.body).to include('GMT+09:00')
-        
+
         expect(mail.to).to match_array([watcher1.mail])
       end
     end
@@ -91,9 +91,9 @@ describe MeetingMailer, type: :mailer do
   def check_meeting_mail_content(body)
     expect(body).to include(meeting.project.name)
     expect(body).to include(meeting.title)
-    expect(body).to include(i18n.format_date meeting.start_date)
-    expect(body).to include(i18n.format_time meeting.start_time, false)
-    expect(body).to include(i18n.format_time meeting.end_time, false)
+    expect(body).to include(i18n.format_date(meeting.start_date))
+    expect(body).to include(i18n.format_time(meeting.start_time, false))
+    expect(body).to include(i18n.format_time(meeting.end_time, false))
     expect(body).to include(meeting.participants[0].name)
     expect(body).to include(meeting.participants[1].name)
   end

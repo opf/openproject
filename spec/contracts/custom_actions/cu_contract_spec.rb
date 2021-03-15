@@ -29,27 +29,28 @@
 #++
 
 require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
 describe CustomActions::CuContract do
+  include_context 'ModelContract shared context'
+  
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:action) do
     FactoryBot.build_stubbed(:custom_action, actions:
                               [CustomActions::Actions::AssignedTo.new])
   end
-  let(:instance) { described_class.new(action) }
+  let(:contract) { described_class.new(action) }
 
   describe 'name' do
     it 'is writable' do
       action.name = 'blubs'
 
-      expect(instance.validate)
-        .to be_truthy
+      expect_contract_valid
     end
     it 'needs to be set' do
       action.name = nil
 
-      expect(instance.validate)
-        .to be_falsey
+      expect_contract_invalid
     end
   end
 
@@ -57,8 +58,7 @@ describe CustomActions::CuContract do
     it 'is writable' do
       action.description = 'blubs'
 
-      expect(instance.validate)
-        .to be_truthy
+      expect_contract_valid
     end
   end
 
@@ -68,26 +68,19 @@ describe CustomActions::CuContract do
 
       action.actions = [responsible_action]
 
-      expect(instance.validate)
-        .to be_truthy
+      expect_contract_valid
     end
 
     it 'needs to have one' do
       action.actions = []
 
-      instance.validate
-
-      expect(instance.errors.symbols_for(:actions))
-        .to eql [:empty]
+      expect_contract_invalid actions: :empty
     end
 
     it 'requires a value if the action requires one' do
       action.actions = [CustomActions::Actions::Status.new([])]
 
-      instance.validate
-
-      expect(instance.errors.symbols_for(:actions))
-        .to eql [:empty]
+      expect_contract_invalid actions: :empty
     end
 
     it 'allows only the allowed values' do
@@ -95,23 +88,17 @@ describe CustomActions::CuContract do
       allow(status_action)
         .to receive(:allowed_values)
         .and_return([{ value: nil, label: '-' },
-                     { value: 1, label: 'some status'}])
+                     { value: 1, label: 'some status' }])
 
       action.actions = [status_action]
 
-      instance.validate
-
-      expect(instance.errors.symbols_for(:actions))
-        .to eql [:inclusion]
+      expect_contract_invalid actions: :inclusion
     end
 
     it 'is not allowed to have an inexistent action' do
       action.actions = [CustomActions::Actions::Inexistent.new]
 
-      instance.validate
-
-      expect(instance.errors.symbols_for(:actions))
-        .to eql [:does_not_exist]
+      expect_contract_invalid actions: :does_not_exist
     end
   end
 
@@ -119,7 +106,7 @@ describe CustomActions::CuContract do
     it 'is writable' do
       action.conditions = [double('some bogus condition', key: 'some', values: 'bogus', validate: true)]
 
-      expect(instance.validate)
+      expect(contract.validate)
         .to be_truthy
     end
 
@@ -128,23 +115,17 @@ describe CustomActions::CuContract do
       allow(status_condition)
         .to receive(:allowed_values)
         .and_return([{ value: nil, label: '-' },
-                     { value: 1, label: 'some status'}])
+                     { value: 1, label: 'some status' }])
 
       action.conditions = [status_condition]
 
-      instance.validate
-
-      expect(instance.errors.symbols_for(:conditions))
-        .to eql [:inclusion]
+      expect_contract_invalid conditions: :inclusion
     end
 
     it 'is not allowed to have an inexistent condition' do
       action.conditions = [CustomActions::Conditions::Inexistent.new]
 
-      instance.validate
-
-      expect(instance.errors.symbols_for(:conditions))
-        .to eql [:does_not_exist]
+      expect_contract_invalid conditions: :does_not_exist
     end
   end
 end

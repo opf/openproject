@@ -54,7 +54,7 @@ module BudgetsHelper
         Budget.human_attribute_name(:updated_at),
         Budget.human_attribute_name(:description)
       ]
-      csv << headers.map { |c| begin; c.to_s.encode('UTF-8'); rescue; c.to_s; end }
+      csv << headers.map { |c| begin; c.to_s.encode('UTF-8'); rescue StandardError; c.to_s; end }
       # csv lines
       budgets.each do |budget|
         fields = [
@@ -70,7 +70,7 @@ module BudgetsHelper
           format_time(budget.updated_at),
           budget.description
         ]
-        csv << fields.map { |c| begin; c.to_s.encode('UTF-8'); rescue; c.to_s; end }
+        csv << fields.map { |c| begin; c.to_s.encode('UTF-8'); rescue StandardError; c.to_s; end }
       end
     end
   end

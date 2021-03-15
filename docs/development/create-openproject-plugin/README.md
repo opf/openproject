@@ -38,6 +38,10 @@ Once you've done that install it via
 bundle install
 ```
 
+### Production
+
+To use your plugin in production you have to add it to your [docker](../../installation-and-operations/installation/docker/#openproject-plugins) container or install it in the [packaged installation](../../installation-and-operations/configuration/plugins/#adding-plugins-debrpm-packages).
+
 ## Start coding
 
 You may have a look at some existing OpenProject plugins to get inspiration. It is possible to add new routes, views, models, … and/or overwrite existing ones.

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -27,8 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 module DemoData
   class QueryBuilder < ::Seeder
-    attr_reader :config
-    attr_reader :project
+    attr_reader :config, :project
 
     def initialize(config, project)
       @config = config

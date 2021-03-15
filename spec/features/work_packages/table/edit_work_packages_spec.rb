@@ -3,37 +3,37 @@ require 'spec_helper'
 describe 'Inline editing work packages', js: true do
   let(:manager_role) do
     FactoryBot.create :role,
-                       permissions: [:view_work_packages,
-                                     :edit_work_packages]
+                      permissions: %i[view_work_packages
+                                      edit_work_packages]
   end
   let(:manager) do
     FactoryBot.create :user,
-                       firstname:           'Manager',
-                       lastname:            'Guy',
-                       member_in_project:   project,
-                       member_through_role: manager_role
+                      firstname: 'Manager',
+                      lastname: 'Guy',
+                      member_in_project: project,
+                      member_through_role: manager_role
   end
   let(:type) { FactoryBot.create :type }
   let(:status1) { FactoryBot.create :status }
   let(:status2) { FactoryBot.create :status }
 
   let(:project) { FactoryBot.create(:project, types: [type]) }
-  let(:work_package) {
+  let(:work_package) do
     FactoryBot.create(:work_package,
-                       project: project,
-                       type:    type,
-                       status:  status1,
-                       subject: 'Foobar')
-  }
+                      project: project,
+                      type: type,
+                      status: status1,
+                      subject: 'Foobar')
+  end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   let(:workflow) do
     FactoryBot.create :workflow,
-                       type_id:    type.id,
-                       old_status: status1,
-                       new_status: status2,
-                       role:       manager_role
+                      type_id: type.id,
+                      old_status: status1,
+                      new_status: status2,
+                      role: manager_role
   end
   let(:version) { FactoryBot.create :version, project: project }
   let(:category) { FactoryBot.create :category, project: project }
@@ -116,34 +116,34 @@ describe 'Inline editing work packages', js: true do
   end
 
   context 'custom field' do
-    let(:custom_fields) {
+    let(:custom_fields) do
       fields = [
         FactoryBot.create(
           :work_package_custom_field,
-          field_format:    'list',
+          field_format: 'list',
           possible_values: %w(foo bar xyz),
-          is_required:     true,
-          is_for_all:      false
+          is_required: true,
+          is_for_all: false
         ),
         FactoryBot.create(
           :work_package_custom_field,
           field_format: 'string',
-          is_required:  true,
-          is_for_all:   false
+          is_required: true,
+          is_for_all: false
         )
       ]
 
       fields
-    }
+    end
     let(:type) { FactoryBot.create(:type_task, custom_fields: custom_fields) }
     let(:project) { FactoryBot.create(:project, types: [type]) }
-    let(:work_package) {
+    let(:work_package) do
       FactoryBot.create(:work_package,
-                         subject: 'Foobar',
-                         status:  status1,
-                         type:    type,
-                         project: project)
-    }
+                        subject: 'Foobar',
+                        status: status1,
+                        type: type,
+                        project: project)
+    end
 
     before do
       work_package
@@ -169,7 +169,7 @@ describe 'Inline editing work packages', js: true do
       cf_list_name = custom_fields.first.name
       cf_text_name = custom_fields.last.name
       wp_table.expect_notification(
-        type:    :error,
+        type: :error,
         message: "#{cf_list_name} can't be blank.\n#{cf_text_name} can't be blank."
       )
 

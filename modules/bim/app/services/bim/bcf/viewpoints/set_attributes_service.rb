@@ -91,7 +91,7 @@ module Bim::Bcf
       end
 
       def snapshot_url_parts
-        snapshot_base_64.match(/\Adata:([-\w]+\/[-\w\+\.]+)?;base64,(.*)/m) || []
+        snapshot_base_64.match(/\Adata:([-\w]+\/[-\w+.]+)?;base64,(.*)/m) || []
       end
     end
   end

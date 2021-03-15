@@ -35,7 +35,7 @@ describe 'OAuth client credentials flow', type: :request do
   let!(:application) { FactoryBot.create(:oauth_application, client_credentials_user_id: user_id, name: 'Cool API app!') }
   let(:client_secret) { application.plaintext_secret }
 
-  let(:access_token) {
+  let(:access_token) do
     response = post '/oauth/token',
                     grant_type: 'client_credentials',
                     scope: 'api_v3',
@@ -45,7 +45,7 @@ describe 'OAuth client credentials flow', type: :request do
     expect(response).to be_successful
     body = JSON.parse(response.body)
     body['access_token']
-  }
+  end
 
   subject do
     # Perform request with it

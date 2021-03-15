@@ -99,6 +99,7 @@ zh-TW:
   backlogs_empty_title: "未定義要在積壓事項中使用的版本"
   backlogs_empty_action_text: "要開始積壓事項, 請創建一個新版本並將其分配給積壓事項列。"
   button_edit_wiki: "編輯 Wiki 頁面"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
   error_intro_plural: "發生以下的錯誤:"
   error_intro_singular: "發生以下的錯誤:"
   error_outro: "請在再次送出前更正前面的錯誤。"

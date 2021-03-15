@@ -37,11 +37,11 @@ id:
         primary-color-dark: "Primer (gelap)"
         header-bg-color: "Latar Belakang Header"
         header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
+        header-item-font-color: "Bentuk huruf Judul"
         header-item-font-hover-color: "Header font on hover"
         header-border-bottom-color: "Header border"
-        main-menu-bg-color: "Main menu background"
-        main-menu-bg-selected-background: "Main menu when selected"
+        main-menu-bg-color: "latar belakang menu utama"
+        main-menu-bg-selected-background: "Menu utama ketika dipilih"
         main-menu-bg-hover-background: "Main menu on hover"
         main-menu-font-color: "Main menu font"
         main-menu-selected-font-color: "Main menu font when selected"
@@ -122,15 +122,12 @@ id:
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Enkripsi sambungan'
     system_account: 'System account'
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
       Please specify the bind credentials for that system user in the following section.
-    ldap_details: 'LDAP details'
+    ldap_details: 'detil dari LDAP'
     user_settings: 'Attribute mapping'
     user_settings_legend: |
       The following fields are related to how users are created in OpenProject from LDAP entries and
@@ -243,11 +240,19 @@ id:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: This user is currently not a member of a project.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        Klik untuk menetapkan atau merubah warna dari prioritas ini
+        Ini dapat digunakan untuk menyorot paket pekerjaan dalam tabel
   reportings:
     index:
       no_results_title_text: There are currently no status reportings.
@@ -274,8 +279,8 @@ id:
       form_configuration: "Form configuration"
       projects: "Project"
       enabled_projects: "Proyek-proyek yang diaktifkan"
-      edit_query: "Edit table"
-      query_group_placeholder: "Give the table a name"
+      edit_query: "Merubah tabel"
+      query_group_placeholder: "Berikan nama untuk table"
       reset: "Disetel ulang ke kondisi bawaan"
       type_color_text: |
         Klik untuk menetapkan atau mengubah warna tipe ini. warna yang dipilah akan membedakan paket kerja.
@@ -349,8 +354,8 @@ id:
       announcements:
         show_until: "Display until"
       attachment:
-        attachment_content: "Attachment content"
-        attachment_file_name: "Attachment file name"
+        attachment_content: "Isi dari lampiran"
+        attachment_file_name: "Nama file dari lampiran"
         downloads: "Download"
         file: "File"
         filename: "File"
@@ -499,12 +504,12 @@ id:
         type: "Tipe"
         watcher: "Pemantau"
       'doorkeeper/application':
-        uid: "Client ID"
+        uid: "ID Pelanggan"
         secret: "Client secret"
-        owner: "Owner"
+        owner: "Pemilik"
         redirect_uri: "Redirect URI"
         client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
+        scopes: "Cakupan"
         confidential: "Confidential"
     errors:
       messages:
@@ -519,6 +524,7 @@ id:
         confirmation: "tidak sesuai dengan %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "tidak ditemukan."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         empty: "harus di isi."
@@ -717,6 +723,7 @@ id:
       status: "Status Work Package"
       member: "Member"
       news: "News"
+      placeholder_user: "Placeholder user"
       project: "Project"
       query: "Query kustom"
       role:
@@ -773,7 +780,7 @@ id:
     #kept for backwards compatibility
     issue: "Paket-Penugasan"
     lastname: "Nama belakang"
-    login: "Username"
+    login: "Nama pengguna"
     mail: "Email"
     name: "Nama"
     password: "Password"
@@ -1136,7 +1143,7 @@ id:
       pdf: "PDF"
       pdf_with_descriptions: "PDF disertai deskripsi"
       pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_with_attachments: "PDF dengan lampiran"
     image:
       omitted: "Image not exported."
   extraction:
@@ -1157,7 +1164,7 @@ id:
   general_text_yes: "yes"
   general_text_No: "No"
   general_text_Yes: "Yes"
-  general_text_true: "true"
+  general_text_true: " benar"
   general_text_false: "false"
   gui_validation_error: "1 error"
   gui_validation_error_plural: "%{count} error"
@@ -1315,6 +1322,7 @@ id:
   label_custom_field_plural: "Isian kustom"
   label_custom_field_default_type: "Tipe kosong"
   label_custom_style: "Rancangan"
+  label_database_version: "PostgreSQL version"
   label_date: "Tanggal"
   label_date_and_time: "Tanggal dan waktu"
   label_date_from: "Dari"
@@ -1473,6 +1481,7 @@ id:
   label_my_account_data: "Data akun saya"
   label_my_projects: "Project saya"
   label_my_queries: "Query kustom saya"
+  label_name: "Nama"
   label_never: "Never"
   label_new: "Baru"
   label_new_features: "New features"
@@ -1508,7 +1517,7 @@ id:
   label_other: "Lainnya"
   label_overall_activity: "Keseluruhan Activity"
   label_overview: "Tinjauan"
-  label_page_title: "Page title"
+  label_page_title: "Judul Halaman"
   label_part_of: "bagian dari"
   label_password_lost: "Lupa password?"
   label_password_rule_lowercase: "Huruf kecil"
@@ -1522,6 +1531,9 @@ id:
   label_permissions: "Hak akses"
   label_permissions_report: "Laporan"
   label_personalize_page: "Personalisasi halaman"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Perencanaan"
   label_please_login: "Silakan login"
   label_plugins: "Plugin"
@@ -1722,7 +1734,7 @@ id:
     zero: "0 closed"
     other: ""
   label_x_comments:
-    zero: "no comments"
+    zero: "tak ada komentar"
     other: ""
   label_x_open_work_packages_abbr:
     zero: "0 open"
@@ -1827,6 +1839,7 @@ id:
   notice_email_sent: "Email telah dikirim ke %{value}"
   notice_failed_to_save_work_packages: "Gagal menyimpan %{count} Paket-Penugasan untuk %{total} yang terpilih: %{ids}."
   notice_failed_to_save_members: "Gagal menyimpan member : %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Halaman yang Anda akses sudah dihapus atau dipindahkan."
   notice_forced_logout: "Anda secara otomatis telah Logout setelah %{ttl_time} menit tanpa aktivitas."
   notice_internal_server_error: "Error pada halaman yang Anda akses. Jika Anda tetap mengalami masalah hubungi administrator %{app_title} untuk bantuan."
@@ -1889,6 +1902,8 @@ id:
   permission_add_work_packages: "Tambah Paket-Penugasan"
   permission_add_messages: "Kirim pesan"
   permission_add_project: "Buat Project"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Buat Sub Project"
   permission_add_work_package_watchers: "Tambah pemantau"
   permission_assign_versions: "Assign versions"
@@ -2685,7 +2700,7 @@ id:
         client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
         register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
         default_scopes: ""
-    client_id: "Client ID"
+    client_id: "ID Pelanggan"
     client_secret_notice: >
       This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.
     authorization_dialog:

@@ -32,7 +32,6 @@ describe OpenProject::TextFormatting,
          'Meeting links',
          # Speeds up the spec by avoiding event mailers to be procssed
          with_settings: { notified_events: [] } do
-
   include ActionView::Helpers::UrlHelper # soft-dependency
   include ActionView::Context
   include OpenProject::StaticRouting::UrlHelpers

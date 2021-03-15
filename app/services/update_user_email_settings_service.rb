@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -57,10 +58,10 @@ UpdateUserEmailSettingsService = Struct.new(:user) do
   end
 
   def set_notified_project_ids(notified_project_ids)
-    if user.mail_notification == 'selected'
-      user.notified_project_ids = notified_project_ids
-    else
-      user.notified_project_ids = []
-    end
+    user.notified_project_ids = if user.mail_notification == 'selected'
+                                  notified_project_ids
+                                else
+                                  []
+                                end
   end
 end

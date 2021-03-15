@@ -37,11 +37,7 @@ module TwoFactorAuthentication
     def identifier
       value = read_attribute(:identifier)
 
-      if value
-        value
-      else
-        default_identifier
-      end
+      value || default_identifier
     end
 
     def redacted_identifier
@@ -69,7 +65,7 @@ module TwoFactorAuthentication
 
       Device.transaction do
         Device.where(user_id: user_id).update_all(default: false)
-        self.update_column(:default, true)
+        update_column(:default, true)
         return true
       end
     end
@@ -91,7 +87,7 @@ module TwoFactorAuthentication
 
     def self.available_channels_in_strategy
       strategy_class = manager.get_strategy(device_type)
-      strategy_class.supported_channels & self.supported_channels
+      strategy_class.supported_channels & supported_channels
     end
 
     private

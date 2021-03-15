@@ -34,24 +34,23 @@ describe ApplicationHelper do
   include ActionDispatch::Routing
   include Rails.application.routes.url_helpers
 
-
-  describe ".format_text"  do
+  describe ".format_text" do
     let(:project) { FactoryBot.create :valid_project }
     let(:identifier) { project.identifier }
-    let(:role) {
-      FactoryBot.create(:role, permissions: [
-      :view_work_packages, :edit_work_packages, :view_documents, :browse_repository, :view_changesets, :view_wiki_pages
-      ])
-    }
-    let(:project_member) {
+    let(:role) do
+      FactoryBot.create(:role, permissions: %i[
+                          view_work_packages edit_work_packages view_documents browse_repository view_changesets view_wiki_pages
+                        ])
+    end
+    let(:project_member) do
       FactoryBot.create :user, member_in_project: project,
-                                member_through_role: role
-    }
-    let(:document) {
+                               member_through_role: role
+    end
+    let(:document) do
       FactoryBot.create :document,
-                                          title: 'Test document',
-                                          project: project
-    }
+                        title: 'Test document',
+                        project: project
+    end
 
     before do
       @project = project
@@ -63,11 +62,11 @@ describe ApplicationHelper do
     end
 
     context "Simple Document links" do
-      let(:document_link) {
+      let(:document_link) do
         link_to('Test document',
                 { controller: 'documents', action: 'show', id: document.id },
                 class: 'document op-uc-link')
-      }
+      end
 
       context "Plain link" do
         subject { format_text("document##{document.id}") }
@@ -106,13 +105,17 @@ describe ApplicationHelper do
       context "By id and given project" do
         subject { format_text("#{identifier}:document##{document.id}", project: the_other_project) }
 
-        it { is_expected.to eq("<p class=\"op-uc-p\"><a class=\"document op-uc-link\" href=\"/documents/#{document.id}\">Test document</a></p>") }
+        it {
+          is_expected.to eq("<p class=\"op-uc-p\"><a class=\"document op-uc-link\" href=\"/documents/#{document.id}\">Test document</a></p>")
+        }
       end
 
       context "By name and given project" do
         subject { format_text("#{identifier}:document:\"#{document.title}\"", project: the_other_project) }
 
-        it { is_expected.to eq("<p class=\"op-uc-p\"><a class=\"document op-uc-link\" href=\"/documents/#{document.id}\">Test document</a></p>") }
+        it {
+          is_expected.to eq("<p class=\"op-uc-p\"><a class=\"document op-uc-link\" href=\"/documents/#{document.id}\">Test document</a></p>")
+        }
       end
 
       context "Invalid link" do

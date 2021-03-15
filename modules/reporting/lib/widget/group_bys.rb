@@ -30,7 +30,8 @@ class Widget::GroupBys < Widget::Base
   def render_options(group_by_ary)
     group_by_ary.sort_by(&:label).map do |group_by|
       next unless group_by.selectable?
-      content_tag :option, value: group_by.underscore_name, :'data-label' => "#{CGI::escapeHTML(h(group_by.label))}" do
+
+      content_tag :option, value: group_by.underscore_name, 'data-label': CGI::escapeHTML(h(group_by.label)).to_s do
         h(group_by.label)
       end
     end.join.html_safe
@@ -47,7 +48,7 @@ class Widget::GroupBys < Widget::Base
       container = content_tag :div,
                               id: "group-by--#{type}",
                               class: 'group-by--container grid-block',
-                              :'data-initially-selected' => initially_selected.to_json.gsub('"', "'") do
+                              'data-initially-selected': initially_selected.to_json.gsub('"', "'") do
         out = content_tag :span, class: 'group-by--caption grid-content shrink' do
           content_tag :span do
             I18n.t(:"label_#{type}")
@@ -59,7 +60,7 @@ class Widget::GroupBys < Widget::Base
         out += content_tag :span,
                            class: 'group-by--control grid-content shrink' do
           label = label_tag "group-by--add-#{type}",
-                            I18n.t(:"label_group_by_add") + ' ' +
+                            I18n.t(:label_group_by_add) + ' ' +
                             I18n.t('js.filter.description.text_open_filter'),
                             class: 'hidden-for-sighted'
 

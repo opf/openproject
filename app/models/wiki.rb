@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -82,7 +83,7 @@ class Wiki < ApplicationRecord
   #   Wiki.find_page("foo:bar")
   def self.find_page(title, options = {})
     project = options[:project]
-    if title.to_s =~ %r{\A([^\:]+)\:(.*)\z}
+    if title.to_s =~ %r{\A([^:]+):(.*)\z}
       project_identifier = $1
       title = $2
       project = Project.find_by(identifier: project_identifier) || Project.find_by(name: project_identifier)
@@ -96,9 +97,9 @@ class Wiki < ApplicationRecord
   end
 
   def create_menu_item_for_start_page
-    wiki_menu_item = wiki_menu_items.find_or_initialize_by(title: start_page) { |item|
+    wiki_menu_item = wiki_menu_items.find_or_initialize_by(title: start_page) do |item|
       item.name = 'wiki'
-    }
+    end
     wiki_menu_item.new_wiki_page = true
     wiki_menu_item.index_page = true
 

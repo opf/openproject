@@ -42,4 +42,4 @@ module OpenProject::XlsExport::Patches
   end
 end
 
-CostReportsController.send(:include, OpenProject::XlsExport::Patches::CostReportsControllerPatch)
+CostReportsController.include OpenProject::XlsExport::Patches::CostReportsControllerPatch

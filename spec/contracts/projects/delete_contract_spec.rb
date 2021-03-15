@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,37 +29,13 @@
 #++
 
 require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
 describe Projects::DeleteContract do
+  include_context 'ModelContract shared context'
+
   let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:contract) { described_class.new(project, current_user) }
 
-  subject(:contract) { described_class.new(project, current_user) }
-
-  def expect_valid(valid, symbols = {})
-    expect(contract.validate).to eq(valid)
-
-    symbols.each do |key, arr|
-      expect(contract.errors.symbols_for(key)).to match_array arr
-    end
-  end
-
-  shared_examples 'is valid' do
-  end
-
-  context 'when user is admin' do
-    let(:current_user) { FactoryBot.build_stubbed :admin }
-
-    it 'is valid' do
-      expect_valid(true)
-    end
-  end
-
-  context 'when user is not admin' do
-    let(:current_user) { FactoryBot.build_stubbed :user }
-    let(:permissions) { [] }
-
-    it 'is invalid' do
-      expect_valid(false, base: %i(error_unauthorized))
-    end
-  end
+  it_behaves_like 'contract is valid for active admins and invalid for regular users'
 end

@@ -22,7 +22,7 @@ module TwoFactorAuthentication
       return true if manager.enforced?
 
       # Otherwise, only enabled if active and a device is present for the user
-      return manager.enabled? && device.present?
+      manager.enabled? && device.present?
     end
 
     ##
@@ -30,7 +30,8 @@ module TwoFactorAuthentication
     # device during the login flow.
     def needs_registration?
       return false unless manager.enforced?
-      return device.nil?
+
+      device.nil?
     end
 
     ##
@@ -45,7 +46,7 @@ module TwoFactorAuthentication
       strategy.transmit
 
       ServiceResult.new(success: true, result: strategy.transmit_success_message)
-    rescue => e
+    rescue StandardError => e
       Rails.logger.error "[2FA plugin] Error during token request to user##{user.id}: #{e}"
 
       result = ServiceResult.new(success: false)
@@ -65,7 +66,7 @@ module TwoFactorAuthentication
       result = strategy.verify input_token
 
       ServiceResult.new(success: result)
-    rescue => e
+    rescue StandardError => e
       Rails.logger.error "[2FA plugin] Error during token validation for user##{user.id}: #{e}"
 
       result = ServiceResult.new(success: false)

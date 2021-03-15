@@ -43,15 +43,15 @@ RSpec.feature 'Work package timeline hierarchies', js: true, selenium: true do
 
   let!(:wp_root) do
     FactoryBot.create :work_package,
-                       project: project
+                      project: project
   end
 
   let!(:wp_leaf) do
     FactoryBot.create :work_package,
-                       project: project,
-                       parent: wp_root,
-                       start_date: Date.today,
-                       due_date: (Date.today + 5.days)
+                      project: project,
+                      parent: wp_root,
+                      start_date: Date.today,
+                      due_date: (Date.today + 5.days)
   end
 
   let!(:query) do
@@ -91,15 +91,15 @@ RSpec.feature 'Work package timeline hierarchies', js: true, selenium: true do
   context 'with a relation being rendered to a hidden row' do
     let!(:wp_other) do
       FactoryBot.create :work_package,
-                         project: project,
-                         start_date: Date.today + 5.days,
-                         due_date: (Date.today + 10.days)
+                        project: project,
+                        start_date: Date.today + 5.days,
+                        due_date: (Date.today + 10.days)
     end
     let!(:relation) do
       FactoryBot.create(:relation,
-                         from: wp_leaf,
-                         to: wp_other,
-                         relation_type: Relation::TYPE_FOLLOWS)
+                        from: wp_leaf,
+                        to: wp_other,
+                        relation_type: Relation::TYPE_FOLLOWS)
     end
 
     it 'does not render the relation when hierarchy is collapsed' do

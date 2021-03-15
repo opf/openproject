@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -29,8 +30,7 @@ module DemoData
   class VersionBuilder
     include ::DemoData::References
 
-    attr_reader :config
-    attr_reader :project
+    attr_reader :config, :project
 
     def initialize(config, project)
       @config = config
@@ -55,8 +55,8 @@ module DemoData
 
     def version
       version = Version.create!(
-        name:    config[:name],
-        status:  config[:status],
+        name: config[:name],
+        status: config[:status],
         sharing: config[:sharing],
         project: project
       )

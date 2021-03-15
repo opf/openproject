@@ -30,13 +30,9 @@ module Scopes::Scoped
   extend ActiveSupport::Concern
 
   included do
-    def self.scope_classes(*classes)
+    def self.scopes(*classes)
       classes.each do |klass|
-        scope = klass.name.demodulize.underscore
-
-        define_singleton_method(scope) do |*args|
-          klass.fetch(*args)
-        end
+        include "#{name.pluralize}::Scopes::#{klass.to_s.camelize}".constantize
       end
     end
   end

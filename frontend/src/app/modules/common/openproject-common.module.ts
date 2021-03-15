@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {FormsModule} from "@angular/forms";
-import {Injector, NgModule} from "@angular/core";
+import {FormsModule} from '@angular/forms';
+import {Injector, NgModule} from '@angular/core';
 
 import {AuthoringComponent} from 'core-app/modules/common/authoring/authoring.component';
 import {OpDateTimeComponent} from 'core-app/modules/common/date/op-date-time.component';
@@ -35,55 +35,58 @@ import {OpIcon} from 'core-app/modules/common/icon/op-icon';
 import {NotificationComponent} from 'core-app/modules/common/notifications/notification.component';
 import {NotificationsContainerComponent} from 'core-app/modules/common/notifications/notifications-container.component';
 import {UploadProgressComponent} from 'core-app/modules/common/notifications/upload-progress.component';
-import {OpDatePickerComponent} from "core-app/modules/common/op-date-picker/op-date-picker.component";
-import {FocusWithinDirective} from "core-app/modules/common/focus/focus-within.directive";
-import {OpenprojectAccessibilityModule} from "core-app/modules/a11y/openproject-a11y.module";
-import {FocusDirective} from "core-app/modules/common/focus/focus.directive";
-import {HighlightColDirective} from "core-app/modules/common/highlight-col/highlight-col.directive";
-import {CopyToClipboardDirective} from "core-app/modules/common/copy-to-clipboard/copy-to-clipboard.directive";
-import {highlightColBootstrap} from "./highlight-col/highlight-col.directive";
-import {HookService} from "../plugins/hook-service";
-import {ColorsAutocompleter} from "core-app/modules/common/colors/colors-autocompleter.component";
-import {ResizerComponent} from "core-app/modules/common/resizer/resizer.component";
+import {OpDatePickerComponent} from 'core-app/modules/common/op-date-picker/op-date-picker.component';
+import {FocusWithinDirective} from 'core-app/modules/common/focus/focus-within.directive';
+import {OpenprojectAccessibilityModule} from 'core-app/modules/a11y/openproject-a11y.module';
+import {FocusDirective} from 'core-app/modules/common/focus/focus.directive';
+import {HighlightColDirective} from 'core-app/modules/common/highlight-col/highlight-col.directive';
+import {CopyToClipboardDirective} from 'core-app/modules/common/copy-to-clipboard/copy-to-clipboard.directive';
+import {highlightColBootstrap} from './highlight-col/highlight-col.directive';
+import {HookService} from '../plugins/hook-service';
+import {ColorsAutocompleter} from 'core-app/modules/common/colors/colors-autocompleter.component';
+import {ResizerComponent} from 'core-app/modules/common/resizer/resizer.component';
 import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
 import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
 import {ZenModeButtonComponent} from 'core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import {OPContextMenuComponent} from 'core-components/op-context-menu/op-context-menu.component';
-import {StateService, UIRouterModule} from "@uirouter/angular";
-import {PortalModule} from "@angular/cdk/portal";
-import {CommonModule} from "@angular/common";
-import {CollapsibleSectionComponent} from "core-app/modules/common/collapsible-section/collapsible-section.component";
-import {NoResultsComponent} from "core-app/modules/common/no-results/no-results.component";
-import {DragDropModule} from "@angular/cdk/drag-drop";
-import {UserAutocompleterComponent} from "app/modules/common/autocomplete/user-autocompleter.component";
-import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component";
-import {ContentTabsComponent} from "core-app/modules/common/tabs/content-tabs/content-tabs.component";
-import {EditableToolbarTitleComponent} from "core-app/modules/common/editable-toolbar-title/editable-toolbar-title.component";
-import {UserAvatarComponent} from "core-components/user/user-avatar/user-avatar.component";
-import {EnterpriseBannerComponent} from "core-components/enterprise-banner/enterprise-banner.component";
-import {EnterpriseBannerBootstrapComponent} from "core-components/enterprise-banner/enterprise-banner-bootstrap.component";
-import {DynamicModule} from "ng-dynamic-component";
-import {VersionAutocompleterComponent} from "core-app/modules/common/autocomplete/version-autocompleter.component";
-import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
-import {HomescreenNewFeaturesBlockComponent} from "core-components/homescreen/blocks/new-features.component";
-import {BoardVideoTeaserModalComponent} from "core-app/modules/boards/board/board-video-teaser-modal/board-video-teaser-modal.component";
-import {PersistentToggleComponent} from "core-app/modules/common/persistent-toggle/persistent-toggle.component";
-import {AutocompleteSelectDecorationComponent} from "core-app/modules/common/autocomplete/autocomplete-select-decoration.component";
-import {AddSectionDropdownComponent} from "core-app/modules/common/hide-section/add-section-dropdown/add-section-dropdown.component";
-import {HideSectionLinkComponent} from "core-app/modules/common/hide-section/hide-section-link/hide-section-link.component";
+import {StateService, UIRouterModule} from '@uirouter/angular';
+import {PortalModule} from '@angular/cdk/portal';
+import {CommonModule} from '@angular/common';
+import {CollapsibleSectionComponent} from 'core-app/modules/common/collapsible-section/collapsible-section.component';
+import {NoResultsComponent} from 'core-app/modules/common/no-results/no-results.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {UserAutocompleterComponent} from 'app/modules/common/autocomplete/user-autocompleter.component';
+import {ScrollableTabsComponent} from 'core-app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component';
+import {ContentTabsComponent} from 'core-app/modules/common/tabs/content-tabs/content-tabs.component';
+import {EditableToolbarTitleComponent} from 'core-app/modules/common/editable-toolbar-title/editable-toolbar-title.component';
+import {UserAvatarComponent} from 'core-components/user/user-avatar/user-avatar.component';
+import {EnterpriseBannerComponent} from 'core-components/enterprise-banner/enterprise-banner.component';
+import {EnterpriseBannerBootstrapComponent} from 'core-components/enterprise-banner/enterprise-banner-bootstrap.component';
+import {DynamicModule} from 'ng-dynamic-component';
+import {VersionAutocompleterComponent} from 'core-app/modules/common/autocomplete/version-autocompleter.component';
+import {CreateAutocompleterComponent} from 'core-app/modules/common/autocomplete/create-autocompleter.component';
+import {HomescreenNewFeaturesBlockComponent} from 'core-components/homescreen/blocks/new-features.component';
+import {BoardVideoTeaserModalComponent} from 'core-app/modules/boards/board/board-video-teaser-modal/board-video-teaser-modal.component';
+import {PersistentToggleComponent} from 'core-app/modules/common/persistent-toggle/persistent-toggle.component';
+import {AutocompleteSelectDecorationComponent} from 'core-app/modules/common/autocomplete/autocomplete-select-decoration.component';
+import {AddSectionDropdownComponent} from 'core-app/modules/common/hide-section/add-section-dropdown/add-section-dropdown.component';
+import {HideSectionLinkComponent} from 'core-app/modules/common/hide-section/hide-section-link/hide-section-link.component';
 import {RemoteFieldUpdaterComponent} from 'core-app/modules/common/remote-field-updater/remote-field-updater.component';
-import {AutofocusDirective} from "core-app/modules/common/autofocus/autofocus.directive";
-import {ShowSectionDropdownComponent} from "core-app/modules/common/hide-section/show-section-dropdown.component";
-import {IconTriggeredContextMenuComponent} from "core-components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component";
-import {NgSelectModule} from "@ng-select/ng-select";
-import {NgOptionHighlightModule} from "@ng-select/ng-option-highlight";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {CurrentUserService} from "core-components/user/current-user.service";
-import {WorkPackageAutocompleterComponent} from "core-app/modules/common/autocomplete/wp-autocompleter.component";
-import {TimeEntryWorkPackageAutocompleterComponent} from "core-app/modules/common/autocomplete/te-work-package-autocompleter.component";
-import {DraggableAutocompleteComponent} from "core-app/modules/common/draggable-autocomplete/draggable-autocomplete.component";
-import {DragulaModule} from "ng2-dragula";
-import {SlideToggleComponent} from "core-app/modules/common/slide-toggle/slide-toggle.component";
+import {AutofocusDirective} from 'core-app/modules/common/autofocus/autofocus.directive';
+import {ShowSectionDropdownComponent} from 'core-app/modules/common/hide-section/show-section-dropdown.component';
+import {IconTriggeredContextMenuComponent} from 'core-components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component';
+import {NgSelectModule} from '@ng-select/ng-select';
+import {NgOptionHighlightModule} from '@ng-select/ng-option-highlight';
+import {CurrentProjectService} from 'core-components/projects/current-project.service';
+import {CurrentUserService} from 'core-components/user/current-user.service';
+import {WorkPackageAutocompleterComponent} from 'core-app/modules/common/autocomplete/wp-autocompleter.component';
+import {TimeEntryWorkPackageAutocompleterComponent} from 'core-app/modules/common/autocomplete/te-work-package-autocompleter.component';
+import {DraggableAutocompleteComponent} from 'core-app/modules/common/draggable-autocomplete/draggable-autocomplete.component';
+import {DragulaModule} from 'ng2-dragula';
+import {SlideToggleComponent} from 'core-app/modules/common/slide-toggle/slide-toggle.component';
+import {DynamicBootstrapModule} from 'core-app/modules/common/dynamic-bootstrap/dynamic-bootstrap.module';
+import {PrincipalRendererService} from "core-app/modules/common/principal/principal-renderer.service";
+import {OpPrincipalComponent} from "core-app/modules/common/principal/op-principal.component";
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
@@ -133,6 +136,8 @@ export function bootstrapModule(injector:Injector) {
       WorkPackageAutocompleterComponent,
       TimeEntryWorkPackageAutocompleterComponent,
       CreateAutocompleterComponent]),
+
+    DynamicBootstrapModule,
   ],
   exports: [
     // Re-export all commonly used
@@ -145,6 +150,7 @@ export function bootstrapModule(injector:Injector) {
     OpenprojectAccessibilityModule,
     NgSelectModule,
     NgOptionHighlightModule,
+    DynamicBootstrapModule,
 
     OpDatePickerComponent,
     OpDateTimeComponent,
@@ -197,6 +203,7 @@ export function bootstrapModule(injector:Injector) {
     // filter
 
     SlideToggleComponent,
+    OpPrincipalComponent,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -246,6 +253,7 @@ export function bootstrapModule(injector:Injector) {
 
     // User Avatar
     UserAvatarComponent,
+    OpPrincipalComponent,
 
     PersistentToggleComponent,
     AutocompleteSelectDecorationComponent,

@@ -6,7 +6,7 @@ module ::TwoFactorAuthentication
 
       before_action :set_user_variables
 
-      before_action :find_device, except: [:new, :index, :register]
+      before_action :find_device, except: %i[new index register]
 
       # Remmeber token functionality
       include ::TwoFactorAuthentication::RememberToken
@@ -14,7 +14,7 @@ module ::TwoFactorAuthentication
       # Password confirmation helpers and actions
       include PasswordConfirmation
       before_action :check_password_confirmation,
-                    only: [:make_default, :destroy]
+                    only: %i[make_default destroy]
 
       # Delete remember token on destroy
       before_action :clear_remember_token!, only: [:destroy]
@@ -39,7 +39,7 @@ module ::TwoFactorAuthentication
           Rails.logger.info "User ##{current_user.id} registered a new (unconfirmed) device #{@device_type}."
           redirect_to action: :confirm, device_id: @device.id
         else
-          Rails.logger.warn {"User ##{current_user.id} failed to register a device #{@device_type}."}
+          Rails.logger.warn { "User ##{current_user.id} failed to register a device #{@device_type}." }
           render 'two_factor_authentication/two_factor_devices/new'
         end
       end
@@ -51,6 +51,7 @@ module ::TwoFactorAuthentication
           request_device_confirmation_token
         else
           return unless ensure_token_parameter
+
           validate_device_token
         end
       end
@@ -61,10 +62,10 @@ module ::TwoFactorAuthentication
       # Request (if needed) the token for entering
       def request_device_confirmation_token
         request_token_for_device(
-            @device,
-            confirm_path: url_for(action: :confirm, device_id: @device.id),
-            title: I18n.t('two_factor_authentication.devices.confirm_device'),
-            message: I18n.t('two_factor_authentication.devices.text_confirm_to_complete_html', identifier: @device.identifier)
+          @device,
+          confirm_path: url_for(action: :confirm, device_id: @device.id),
+          title: I18n.t('two_factor_authentication.devices.confirm_device'),
+          message: I18n.t('two_factor_authentication.devices.text_confirm_to_complete_html', identifier: @device.identifier)
         )
       end
 

@@ -6,7 +6,7 @@ robots: index, follow
 keywords: development concepts, HAL, JSON, hal resources, API requests
 ---
 
-# Development Concept: HAL resources
+# Development concept: HAL resources
 
 HAL resources are the frontend counterpart to the `HAL+JSON` API of OpenProject. They are class instance of the JSON resources with action links being turned into callable functions to perform requests.
 

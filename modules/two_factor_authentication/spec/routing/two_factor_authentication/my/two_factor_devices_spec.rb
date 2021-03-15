@@ -61,7 +61,7 @@ describe 'users 2fa devices', type: :routing do
 
   it 'route to DELETE destroy' do
     expect(delete('/my/two_factor_devices/1')).to route_to(controller: 'two_factor_authentication/my/two_factor_devices',
-                                                         action: 'destroy',
-                                                         device_id: '1')
+                                                           action: 'destroy',
+                                                           device_id: '1')
   end
 end

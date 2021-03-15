@@ -26,9 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-
 class ExportCardConfiguration < ApplicationRecord
-
   class RowsYamlValidator < ActiveModel::Validator
     REQUIRED_GROUP_KEYS = ["rows"]
     VALID_GROUP_KEYS = ["rows", "has_border", "height"]
@@ -39,8 +37,8 @@ class ExportCardConfiguration < ApplicationRecord
     # VALID_MODEL_PROPERTIES = [""]
     REQUIRED_COLUMN_KEYS = []
     VALID_COLUMN_KEYS = ["has_label", "min_font_size", "max_font_size",
-      "font_size", "font_style", "text_align", "minimum_lines", "render_if_empty",
-      "width", "indented", "custom_label", "has_count"]
+                         "font_size", "font_style", "text_align", "minimum_lines", "render_if_empty",
+                         "width", "indented", "custom_label", "has_count"]
     NUMERIC_COLUMN_VALUE = ["min_font_size", "max_font_size", "font_size", "minimum_lines"]
 
     def raise_yaml_error
@@ -54,15 +52,18 @@ class ExportCardConfiguration < ApplicationRecord
         hash.assert_valid_keys valid_keys
       rescue ArgumentError => e
         # Small hack alert: Catch a raise error again but with localised text
-        raise ArgumentError, "#{I18n.t('validation_error_uknown_key')} '#{e.message.split(": ")[1]}'"
+        raise ArgumentError, "#{I18n.t('validation_error_uknown_key')} '#{e.message.split(': ')[1]}'"
       end
 
       pending_keys = required_keys - hash.keys
-      raise(ArgumentError, "#{I18n.t('validation_error_required_keys_not_present')} #{pending_keys.join(", ")}") unless pending_keys.empty?
+      unless pending_keys.empty?
+        raise(ArgumentError,
+              "#{I18n.t('validation_error_required_keys_not_present')} #{pending_keys.join(', ')}")
+      end
     end
 
     def check_valid_value_type(value, type)
-      raise(ArgumentError, "#{I18n.t('validation_error_yaml_is_badly_formed')}") unless value.is_a?type
+      raise(ArgumentError, I18n.t('validation_error_yaml_is_badly_formed').to_s) unless value.is_a? type
     end
 
     def validate(record)
@@ -73,20 +74,20 @@ class ExportCardConfiguration < ApplicationRecord
         end
       rescue Psych::SyntaxError => e
         record.errors[:rows] << I18n.t('validation_error_yaml_is_badly_formed')
-          return false
+        return false
       end
 
       begin
         groups = YAML::load(record.rows)
-        groups.each do |gk, gv|
+        groups.each do |_gk, gv|
           assert_required_keys(gv, VALID_GROUP_KEYS, REQUIRED_GROUP_KEYS)
           raise_yaml_error if !gv["rows"].is_a?(Hash)
-          gv["rows"].each do |rk, rv|
+          gv["rows"].each do |_rk, rv|
             assert_required_keys(rv, VALID_ROW_KEYS, REQUIRED_ROW_KEYS)
             raise_yaml_error if !rv["columns"].is_a?(Hash)
-            rv["columns"].each do |ck, cv|
+            rv["columns"].each do |_ck, cv|
               assert_required_keys(cv, VALID_COLUMN_KEYS, REQUIRED_COLUMN_KEYS)
-              cv.map{|cname, cvalue | check_valid_value_type(cvalue, Numeric) if NUMERIC_COLUMN_VALUE.include?(cname)}
+              cv.map { |cname, cvalue| check_valid_value_type(cvalue, Numeric) if NUMERIC_COLUMN_VALUE.include?(cname) }
             end
           end
         end
@@ -111,12 +112,12 @@ class ExportCardConfiguration < ApplicationRecord
   end
 
   def activate
-    self.update!({active: true})
+    update!({ active: true })
   end
 
   def deactivate
-    if !self.is_default?
-      self.update!({active: false})
+    if !is_default?
+      update!({ active: false })
     else
       false
     end
@@ -133,22 +134,23 @@ class ExportCardConfiguration < ApplicationRecord
   def rows_hash
     config = YAML::load(rows)
     raise BadlyFormedExportCardConfigurationError.new(I18n.t('validation_error_yaml_is_badly_formed')) if !config.is_a?(Hash)
+
     config
   end
 
   def is_default?
-    self.name.downcase == "default"
+    name.downcase == "default"
   end
 
   def can_delete?
-    !self.is_default?
+    !is_default?
   end
 
   def can_activate?
-    !self.active
+    !active
   end
 
   def can_deactivate?
-    self.active && !is_default?
+    active && !is_default?
   end
 end

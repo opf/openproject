@@ -34,8 +34,7 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
 
   def allowed_values
     @allowed_values ||= begin
-      values = principal_loader.user_values + principal_loader.group_values
-      me_allowed_value + values.sort
+      me_allowed_value + principal_loader.principal_values
     end
   end
 

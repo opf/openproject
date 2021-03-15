@@ -7,6 +7,7 @@ module OpenProject::TwoFactorAuthentication
         if configuration_params.nil?
           raise ArgumentError, 'Missing configuration hash'
         end
+
         validate_params configuration_params
       end
 
@@ -19,7 +20,7 @@ module OpenProject::TwoFactorAuthentication
       end
 
       def self.supported_channels
-        [:sms, :voice]
+        %i[sms voice]
       end
 
       private
@@ -36,7 +37,6 @@ module OpenProject::TwoFactorAuthentication
           }
         }
       end
-
 
       def send_sms
         Rails.logger.info { "[2FA] REST DT delivery sending SMS request for #{user.login}" }
@@ -69,7 +69,7 @@ module OpenProject::TwoFactorAuthentication
       # Stored format: +xx yyy yyy yyyy (optional whitespacing)
       def build_user_phone
         phone = device.phone_number
-        phone.gsub!(/[\+]/, '00')
+        phone.gsub!(/\+/, '00')
         phone.gsub!(/\s/, '')
 
         phone
@@ -92,8 +92,10 @@ module OpenProject::TwoFactorAuthentication
           return
         end
 
-        Rails.logger.error { "[2FA] REST DT delivery failed for user #{user.login} " \
-                            "(Error #{response.body})" }
+        Rails.logger.error do
+          "[2FA] REST DT delivery failed for user #{user.login} " \
+                            "(Error #{response.body})"
+        end
 
         raise I18n.t('two_factor_authentication.restdt.delivery_failed_with_code', code: code)
       end

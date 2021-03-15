@@ -26,22 +26,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-
 class ExportCardConfigurationsController < ApplicationController
   layout 'admin'
 
   before_action :require_admin
-  before_action :load_config, only: [:show, :update, :edit, :destroy, :activate, :deactivate]
+  before_action :load_config, only: %i[show update edit destroy activate deactivate]
   before_action :load_configs, only: [:index]
 
-  def index
-  end
+  def index; end
 
-  def show
-  end
+  def show; end
 
-  def edit
-  end
+  def edit; end
 
   def new
     @config = ExportCardConfiguration.new

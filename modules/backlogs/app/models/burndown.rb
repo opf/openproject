@@ -27,7 +27,7 @@
 #++
 
 class Burndown
-  def initialize(sprint, project, burn_direction = nil)
+  def initialize(sprint, project, _burn_direction = nil)
     @sprint_id = sprint.id
 
     make_date_series sprint
@@ -43,12 +43,7 @@ class Burndown
     determine_max
   end
 
-  attr_reader :days
-  attr_reader :sprint_id
-  attr_reader :max
-
-  attr_reader :story_points
-  attr_reader :story_points_ideal
+  attr_reader :days, :sprint_id, :max, :story_points, :story_points_ideal
 
   def series(_select = :active)
     @available_series

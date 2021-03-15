@@ -97,6 +97,6 @@ register_chrome 'en', name: :chrome_billy do |options, capabilities|
 end
 
 # Register Revit add in
-register_chrome 'en', name: :chrome_revit_add_in do |options, capabilities|
+register_chrome 'en', name: :chrome_revit_add_in do |options, _capabilities|
   options.add_argument("user-agent='foo bar Revit'")
 end

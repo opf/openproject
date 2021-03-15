@@ -29,13 +29,13 @@
 require 'spec_helper'
 
 describe 'users/index', type: :view do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let!(:user) { FactoryBot.create :user, firstname: "Scarlet", lastname: "Scallywag" }
 
   before do
     User.system # create system user which is active but should not count towards limit
 
-    assign(:users, [admin, user])
+    assign(:users, User.where(id: [admin.id, user.id]))
     assign(:status, "all")
     assign(:groups, Group.all)
 
@@ -56,7 +56,7 @@ describe 'users/index', type: :view do
 
   context "with an Enterprise token" do
     before do
-      allow(OpenProject::Enterprise).to receive(:token).and_return(Struct.new(:restrictions).new({active_user_count: 5}))
+      allow(OpenProject::Enterprise).to receive(:token).and_return(Struct.new(:restrictions).new({ active_user_count: 5 }))
     end
 
     it "shows the current number of active and allowed users" do

@@ -28,12 +28,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Returns users sorted by their creation date. Inheriting classes are
-# excluded.
 module Users::Scopes
-  class Newest
-    def self.fetch
-      User.user.order(created_at: :desc)
+  module Newest
+    extend ActiveSupport::Concern
+
+    class_methods do
+      # Returns users sorted by their creation date. Inheriting classes are
+      # excluded.
+      def newest
+        user.order(created_at: :desc)
+      end
     end
   end
 end

@@ -99,6 +99,7 @@ sk:
   backlogs_empty_title: "Nie sú definované žiadne verzie pre rozpracovanosť"
   backlogs_empty_action_text: "Ak chcete používať rozpracovanosť, vytvorte novú verziu a priraďte ju do stĺpca rozpracovanosti."
   button_edit_wiki: "Upraviť stránku wiki"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
   error_intro_plural: "The following errors were encountered:"
   error_intro_singular: "The following error was encountered:"
   error_outro: "Please correct the above errors before submitting again."

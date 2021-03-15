@@ -4,8 +4,8 @@ require 'features/page_objects/notification'
 describe 'edit work package', js: true do
   let(:dev_role) do
     FactoryBot.create :role,
-                      permissions: [:view_work_packages,
-                                    :add_work_packages]
+                      permissions: %i[view_work_packages
+                                      add_work_packages]
   end
   let(:dev) do
     FactoryBot.create :user,
@@ -16,8 +16,8 @@ describe 'edit work package', js: true do
   end
   let(:manager_role) do
     FactoryBot.create :role,
-                      permissions: [:view_work_packages,
-                                    :edit_work_packages]
+                      permissions: %i[view_work_packages
+                                      edit_work_packages]
   end
   let(:manager) do
     FactoryBot.create :admin,
@@ -198,8 +198,8 @@ describe 'edit work package', js: true do
         :work_package_custom_field,
         field_format: 'string',
         default_value: nil,
-        is_required:  true,
-        is_for_all:   true
+        is_required: true,
+        is_for_all: true
       )
     end
     let!(:type2) { FactoryBot.create(:type, custom_fields: [custom_field]) }

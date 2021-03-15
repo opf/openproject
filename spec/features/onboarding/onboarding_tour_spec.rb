@@ -30,8 +30,14 @@ require 'spec_helper'
 
 describe 'onboarding tour for new users', js: true do
   let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create :project, name: 'Demo project', identifier: 'demo-project', public: true, enabled_module_names: %w[work_package_tracking wiki] }
-  let(:scrum_project) {FactoryBot.create :project, name: 'Scrum project', identifier: 'your-scrum-project', public: true, enabled_module_names: %w[work_package_tracking] }
+  let(:project) do
+    FactoryBot.create :project, name: 'Demo project', identifier: 'demo-project', public: true,
+                                enabled_module_names: %w[work_package_tracking wiki]
+  end
+  let(:scrum_project) do
+    FactoryBot.create :project, name: 'Scrum project', identifier: 'your-scrum-project', public: true,
+                                enabled_module_names: %w[work_package_tracking]
+  end
   let!(:wp_1) { FactoryBot.create(:work_package, project: project) }
   let(:next_button) { find('.enjoyhint_next_btn') }
 
@@ -48,7 +54,7 @@ describe 'onboarding tour for new users', js: true do
       expect(page).to have_text 'Please select your language'
 
       # SeleniumHubWaiter.wait
-      select 'Deutsch', :from => 'user_language'
+      select 'Deutsch', from: 'user_language'
       click_button 'Save'
 
       expect(page).to have_text 'Projekt auswählen'
@@ -60,7 +66,7 @@ describe 'onboarding tour for new users', js: true do
         visit home_path first_time_user: true
 
         # SeleniumHubWaiter.wait
-        select 'English', :from => 'user_language'
+        select 'English', from: 'user_language'
         click_button 'Save'
       end
 
@@ -76,7 +82,7 @@ describe 'onboarding tour for new users', js: true do
         visit home_path first_time_user: true
 
         # SeleniumHubWaiter.wait
-        select 'English', :from => 'user_language'
+        select 'English', from: 'user_language'
         click_button 'Save'
         SeleniumHubWaiter.wait
       end
@@ -121,5 +127,3 @@ describe 'onboarding tour for new users', js: true do
     end
   end
 end
-
-

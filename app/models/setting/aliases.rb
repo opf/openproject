@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,11 +29,9 @@
 #++
 
 class Setting
-
   ##
   # Shorthand to common setting aliases to avoid checking values
   module Aliases
-
     ##
     # Whether the application is configured to use or force SSL output
     # for cookie storage et al.

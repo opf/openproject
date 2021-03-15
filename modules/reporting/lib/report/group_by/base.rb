@@ -69,7 +69,7 @@ class Report::GroupBy
 
     def select_fields
       # + (parent ? parent.select_fields : [])
-      self.class.select_fields ? self.class.select_fields : group_fields
+      self.class.select_fields || group_fields
     end
 
     ##

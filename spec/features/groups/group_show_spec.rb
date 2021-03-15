@@ -37,7 +37,7 @@ feature 'group show page', type: :feature do
   end
 
   context 'as an admin' do
-    using_shared_fixtures :admin
+    shared_let(:admin) { FactoryBot.create :admin }
     let(:current_user) { admin }
 
     scenario 'I can visit the group page' do

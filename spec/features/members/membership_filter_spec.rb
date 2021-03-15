@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 feature 'group memberships through groups page', type: :feature, js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
 
   let!(:peter) do
@@ -39,7 +39,6 @@ feature 'group memberships through groups page', type: :feature, js: true do
                       mail: 'foo@example.org',
                       member_in_project: project,
                       member_through_role: role
-
   end
 
   let!(:hannibal) do
@@ -49,7 +48,6 @@ feature 'group memberships through groups page', type: :feature, js: true do
                       mail: 'foo@example.com',
                       member_in_project: project,
                       member_through_role: role
-
   end
   let(:role) { FactoryBot.create(:role, permissions: %i(add_work_packages)) }
   let(:members_page) { Pages::Members.new project.identifier }

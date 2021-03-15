@@ -78,8 +78,8 @@ module ProjectsHelper
     if User.current.allowed_to? :add_subprojects, project
       [t(:label_subproject_new),
        new_project_path(parent_id: project.id),
-       class: 'icon-context icon-add',
-       title: t(:label_subproject_new)]
+       { class: 'icon-context icon-add',
+         title: t(:label_subproject_new) }]
     end
   end
 
@@ -87,8 +87,8 @@ module ProjectsHelper
     if User.current.allowed_to?({ controller: '/project_settings/generic', action: 'show' }, project)
       [t(:label_project_settings),
        { controller: '/project_settings/generic', action: 'show', id: project },
-       class: 'icon-context icon-settings',
-       title: t(:label_project_settings)]
+       { class: 'icon-context icon-settings',
+         title: t(:label_project_settings) }]
     end
   end
 
@@ -96,10 +96,10 @@ module ProjectsHelper
     if User.current.admin? && project.active?
       [t(:button_archive),
        archive_project_path(project, status: params[:status]),
-       data: { confirm: t('project.archive.are_you_sure', name: project.name) },
-       method: :put,
-       class: 'icon-context icon-locked',
-       title: t(:button_archive)]
+       { data: { confirm: t('project.archive.are_you_sure', name: project.name) },
+         method: :put,
+         class: 'icon-context icon-locked',
+         title: t(:button_archive) }]
     end
   end
 
@@ -107,9 +107,9 @@ module ProjectsHelper
     if User.current.admin? && !project.active? && (project.parent.nil? || project.parent.active?)
       [t(:button_unarchive),
        unarchive_project_path(project, status: params[:status]),
-       method: :put,
-       class: 'icon-context icon-unlocked',
-       title: t(:button_unarchive)]
+       { method: :put,
+         class: 'icon-context icon-unlocked',
+         title: t(:button_unarchive) }]
     end
   end
 
@@ -117,8 +117,8 @@ module ProjectsHelper
     if User.current.allowed_to?(:copy_projects, project) && !project.archived?
       [t(:button_copy),
        copy_from_project_path(project, :admin),
-       class: 'icon-context icon-copy',
-       title: t(:button_copy)]
+       { class: 'icon-context icon-copy',
+         title: t(:button_copy) }]
     end
   end
 
@@ -126,8 +126,8 @@ module ProjectsHelper
     if User.current.admin
       [t(:button_delete),
        confirm_destroy_project_path(project),
-       class: 'icon-context icon-delete',
-       title: t(:button_delete)]
+       { class: 'icon-context icon-delete',
+         title: t(:button_delete) }]
     end
   end
 

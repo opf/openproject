@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -37,24 +38,22 @@ end
 task('spec:legacy').clear
 
 namespace :spec do
-  begin
-    require 'rspec/core/rake_task'
+  require 'rspec/core/rake_task'
 
-    desc 'Run the code examples in spec_legacy'
-    task legacy: %w(legacy:unit legacy:functional legacy:integration)
-    namespace :legacy do
-      %w(unit functional integration).each do |type|
-        desc "Run the code examples in spec_legacy/#{type}"
-        RSpec::Core::RakeTask.new(type => 'spec:prepare') do |t|
-          t.pattern = "spec_legacy/#{type}/**/*_spec.rb"
-          t.rspec_opts = '-I spec_legacy'
-        end
+  desc 'Run the code examples in spec_legacy'
+  task legacy: %w(legacy:unit legacy:functional legacy:integration)
+  namespace :legacy do
+    %w(unit functional integration).each do |type|
+      desc "Run the code examples in spec_legacy/#{type}"
+      RSpec::Core::RakeTask.new(type => 'spec:prepare') do |t|
+        t.pattern = "spec_legacy/#{type}/**/*_spec.rb"
+        t.rspec_opts = '-I spec_legacy'
       end
     end
-  rescue LoadError
-    # when you bundle without development and test (e.g. to create a deployment
-    # artefact) still all tasks get loaded. To avoid an error we rescue here.
   end
+rescue LoadError
+  # when you bundle without development and test (e.g. to create a deployment
+  # artefact) still all tasks get loaded. To avoid an error we rescue here.
 end
 
 %w(spec).each do |type|

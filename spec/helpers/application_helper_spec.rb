@@ -57,7 +57,9 @@ describe ApplicationHelper, type: :helper do
         OpenProject::Footer.content = nil
       end
 
-      it { expect(footer_content).to eq(I18n.t(:text_powered_by, link: link_to(OpenProject::Info.app_name, OpenProject::Info.url))) }
+      it {
+        expect(footer_content).to eq(I18n.t(:text_powered_by, link: link_to(OpenProject::Info.app_name, OpenProject::Info.url)))
+      }
     end
 
     context 'string as additional footer content' do
@@ -66,8 +68,11 @@ describe ApplicationHelper, type: :helper do
         OpenProject::Footer.add_content('openproject', 'footer')
       end
 
-      it { expect(footer_content.include?(I18n.t(:text_powered_by, link: link_to(OpenProject::Info.app_name, OpenProject::Info.url)))).to be_truthy  }
-      it { expect(footer_content.include?("<span class=\"footer_openproject\">footer</span>")).to be_truthy  }
+      it {
+        expect(footer_content.include?(I18n.t(:text_powered_by,
+                                              link: link_to(OpenProject::Info.app_name, OpenProject::Info.url)))).to be_truthy
+      }
+      it { expect(footer_content.include?("<span class=\"footer_openproject\">footer</span>")).to be_truthy }
     end
 
     context 'proc as additional footer content' do
@@ -76,7 +81,9 @@ describe ApplicationHelper, type: :helper do
         OpenProject::Footer.add_content('openproject', Proc.new { Date.parse(Time.now.to_s) })
       end
 
-      it { expect(footer_content.include?("<span class=\"footer_openproject\">#{Date.parse(Time.now.to_s)}</span>")).to be_truthy  }
+      it {
+        expect(footer_content.include?("<span class=\"footer_openproject\">#{Date.parse(Time.now.to_s)}</span>")).to be_truthy
+      }
     end
 
     context 'proc which returns nothing' do
@@ -91,19 +98,19 @@ describe ApplicationHelper, type: :helper do
 
   describe '.link_to_if_authorized' do
     let(:project) { FactoryBot.create :valid_project }
-    let(:project_member) {
+    let(:project_member) do
       FactoryBot.create :user,
-                         member_in_project: project,
-                         member_through_role: FactoryBot.create(:role,
-                                                                 permissions: [:view_work_packages, :edit_work_packages,
-                                                                               :browse_repository, :view_changesets, :view_wiki_pages])
-    }
-    let(:issue) {
+                        member_in_project: project,
+                        member_through_role: FactoryBot.create(:role,
+                                                               permissions: %i[view_work_packages edit_work_packages
+                                                                               browse_repository view_changesets view_wiki_pages])
+    end
+    let(:issue) do
       FactoryBot.create :work_package,
-                         project: project,
-                         author: project_member,
-                         type: project.types.first
-    }
+                        project: project,
+                        author: project_member,
+                        type: project.types.first
+    end
 
     context 'if user is authorized' do
       before do
@@ -111,7 +118,8 @@ describe ApplicationHelper, type: :helper do
         @response = link_to_if_authorized('link_content', {
                                             controller: 'work_packages',
                                             action: 'show',
-                                            id: issue },
+                                            id: issue
+                                          },
                                           class: 'fancy_css_class')
       end
 
@@ -128,7 +136,8 @@ describe ApplicationHelper, type: :helper do
         @response = link_to_if_authorized('link_content', {
                                             controller: 'work_packages',
                                             action: 'show',
-                                            id: issue },
+                                            id: issue
+                                          },
                                           class: 'fancy_css_class')
       end
 
@@ -157,7 +166,9 @@ describe ApplicationHelper, type: :helper do
       before do
         @links = other_formats_links { |f| f.link_to 'Atom', url: { controller: :projects, action: :index } }
       end
-      it { expect(@links).to be_html_eql("<p class=\"other-formats\">Also available in:<span><a class=\"icon icon-atom\" href=\"/projects.atom\" rel=\"nofollow\">Atom</a></span></p>") }
+      it {
+        expect(@links).to be_html_eql("<p class=\"other-formats\">Also available in:<span><a class=\"icon icon-atom\" href=\"/projects.atom\" rel=\"nofollow\">Atom</a></span></p>")
+      }
     end
 
     context 'link given but disabled' do
@@ -184,19 +195,19 @@ describe ApplicationHelper, type: :helper do
       context 'right now' do
         let(:time) { Time.now }
 
-        it { is_expected.to match /^\<a/ }
+        it { is_expected.to match /^<a/ }
         it { is_expected.to match /less than a minute/ }
         it { is_expected.to be_html_safe }
       end
 
       context 'some time ago' do
-        let(:time) {
+        let(:time) do
           Timecop.travel(2.weeks.ago) do
             Time.now
           end
-        }
+        end
 
-        it { is_expected.to match /^\<a/ }
+        it { is_expected.to match /^<a/ }
         it { is_expected.to match /14 days/ }
         it { is_expected.to be_html_safe }
       end
@@ -206,21 +217,21 @@ describe ApplicationHelper, type: :helper do
       context 'right now' do
         let(:time) { Time.now }
 
-        it { is_expected.to match /^\<time/ }
-        it { is_expected.to match /datetime=\"#{Regexp.escape(time.xmlschema)}\"/ }
+        it { is_expected.to match /^<time/ }
+        it { is_expected.to match /datetime="#{Regexp.escape(time.xmlschema)}"/ }
         it { is_expected.to match /less than a minute/ }
         it { is_expected.to be_html_safe }
       end
 
       context 'some time ago' do
-        let(:time) {
+        let(:time) do
           Timecop.travel(1.week.ago) do
             Time.now
           end
-        }
+        end
 
-        it { is_expected.to match /^\<time/ }
-        it { is_expected.to match /datetime=\"#{Regexp.escape(time.xmlschema)}\"/ }
+        it { is_expected.to match /^<time/ }
+        it { is_expected.to match /datetime="#{Regexp.escape(time.xmlschema)}"/ }
         it { is_expected.to match /7 days/ }
         it { is_expected.to be_html_safe }
       end

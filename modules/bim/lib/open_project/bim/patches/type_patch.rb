@@ -26,7 +26,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-
 ##
 # We do not want the bcf_thumbnail to show up in the work package full view as we already have the BCF Viewpoint gallery
 # there. To achieve that we need to change how the default form configuration is set up. The default simply shall not

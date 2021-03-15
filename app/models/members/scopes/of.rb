@@ -28,11 +28,15 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Find all members of a project
 module Members::Scopes
-  class Of
-    def self.fetch(project)
-      Member.where(project_id: project)
+  module Of
+    extend ActiveSupport::Concern
+
+    class_methods do
+      # Find all members of a project
+      def of(project)
+        where(project_id: project)
+      end
     end
   end
 end

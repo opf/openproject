@@ -43,17 +43,19 @@ module Report::InheritedAttribute
       define_singleton_method(name) do |*values|
         # FIXME: I'm ugly
         return get_inherited_attribute(name, default, list, uniq) if values.empty?
+
         if list
           old = instance_variable_get("@#{name}") if merge
           old ||= []
           return set_inherited_attribute(name, values.map(&map) + old)
         end
         raise ArgumentError, "wrong number of arguments (#{values.size} for 1)" if values.size > 1
+
         set_inherited_attribute name, map.call(values.first)
       end
       define_method(name) { |*values| self.class.send(name, *values) }
     end
-    end
+  end
 
   def define_singleton_method(name, &block)
     singleton_class.send :attr_writer, name
@@ -63,6 +65,7 @@ module Report::InheritedAttribute
 
   def get_inherited_attribute(name, default = nil, list = false, uniq = false)
     return get_inherited_attribute(name, default, list, false).uniq if list and uniq
+
     result = instance_variable_get("@#{name}")
     super_result = superclass.get_inherited_attribute(name, default, list) if inherit? name
     if result.nil?

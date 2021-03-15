@@ -119,12 +119,10 @@ module Type::AttributeGroups
   def default_attribute_groups
     values = work_package_attributes_by_default_group_key
 
-    groups = default_groups.keys.each_with_object([]) do |groupkey, array|
+    default_groups.keys.each_with_object([]) do |groupkey, array|
       members = values[groupkey]
       array << [groupkey, members] if members.present?
     end
-
-    groups
   end
 
   def reload(*args)

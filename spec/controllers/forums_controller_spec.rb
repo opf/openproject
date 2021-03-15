@@ -38,7 +38,6 @@ describe ForumsController, type: :controller do
   end
 
   describe '#index' do
-
     context 'public project' do
       let(:project) { FactoryBot.create(:public_project) }
       let!(:role) { FactoryBot.create(:non_member) }
@@ -160,16 +159,16 @@ describe ForumsController, type: :controller do
 
   describe '#move' do
     let(:project) { FactoryBot.create(:project) }
-    let!(:forum_1) {
+    let!(:forum_1) do
       FactoryBot.create(:forum,
-                         project: project,
-                         position: 1)
-    }
-    let!(:forum_2) {
+                        project: project,
+                        position: 1)
+    end
+    let!(:forum_2) do
       FactoryBot.create(:forum,
-                         project: project,
-                         position: 2)
-    }
+                        project: project,
+                        position: 2)
+    end
 
     before do
       allow(@controller).to receive(:authorize).and_return(true)
@@ -198,10 +197,10 @@ describe ForumsController, type: :controller do
   end
 
   describe '#update' do
-    let!(:forum) {
+    let!(:forum) do
       FactoryBot.create(:forum, name: 'Forum name',
-                                 description: 'Forum description')
-    }
+                                description: 'Forum description')
+    end
 
     before do
       expect(@controller).to receive(:authorize)
@@ -257,22 +256,22 @@ describe ForumsController, type: :controller do
   describe '#sticky' do
     let!(:message1) { FactoryBot.create(:message, forum: forum) }
     let!(:message2) { FactoryBot.create(:message, forum: forum) }
-    let!(:sticked_message1) {
+    let!(:sticked_message1) do
       FactoryBot.create(:message, forum_id: forum.id,
-                                   subject: 'How to',
-                                   content: 'How to install this cool app',
-                                   sticky: '1',
-                                   sticked_on: Time.now - 2.minute)
-    }
+                                  subject: 'How to',
+                                  content: 'How to install this cool app',
+                                  sticky: '1',
+                                  sticked_on: Time.now - 2.minute)
+    end
 
-    let!(:sticked_message2) {
+    let!(:sticked_message2) do
       FactoryBot.create(:message, forum_id: forum.id,
-                                   subject: 'FAQ',
-                                   content: 'Frequestly asked question',
-                                   sticky: '1',
-                                   sticked_on:
+                                  subject: 'FAQ',
+                                  content: 'Frequestly asked question',
+                                  sticky: '1',
+                                  sticked_on:
                                    Time.now - 1.minute)
-    }
+    end
 
     describe 'all sticky messages' do
       before do

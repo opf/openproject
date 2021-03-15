@@ -19,7 +19,6 @@ describe OpenProject::AuthSaml do
       OpenProject::AuthSaml.configuration
     end
 
-
     context(
       "with configuration",
       with_config: {

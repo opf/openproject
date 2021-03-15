@@ -1,10 +1,9 @@
-# OPENPROJECT DEVELOPMENT STYLE GUIDE
+# OpenProject development style guide - frontend
 
-# FRONTEND
-## Code Format
+## Code format
 OpenProject follows the [AirBnB's style guide](https://github.com/airbnb/javascript) regarding to the code format.  
 
-## Development Patterns
+## Development patterns
 ### Angularized
 OpenProject follows the [Angular's style guide](https://angular.io/guide/styleguide) patterns. 
 
@@ -142,7 +141,7 @@ Angular also follows the unidirectional data flow pattern in the view to improve
 *   Increases coding pleasure and productivity.
 
 
-### Components Architecture
+### Components architecture
 Mental mindset to build clearer apps based on the differentiation between Container Components (CC), Presentational Components (PC) and Services.
 
 #### Services
@@ -163,8 +162,8 @@ Are state and logic containers.
 *   Encourages Declarative Programming
 *   Testability: easier to test because there are no side effects (pure).
 
-#### Container Components (CC)
-Represent a feature that interacts with the state. This could be a page (routed component) but also standalone components (e.g., sign-in button (tied to the AuthService)).
+#### Container components (CC)
+Represent a feature that interacts with the state. This could be a page (routed component) but also standalone components (e.g. sign-in button (tied to the AuthService)).
 
 ##### Responsibilities
 *   Inject the State Services (Stores).
@@ -190,7 +189,7 @@ Pages, components that are routed, are usually container components since the ne
 *   Code is easier to understand and reason about.
 *   Increases coding pleasure and productivity.
 
-#### Presentational Components
+#### Presentational components
 Are the building blocks of the UI.
 
 ##### Responsibilities

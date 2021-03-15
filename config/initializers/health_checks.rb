@@ -48,6 +48,7 @@ class PumaCheck < OkComputer::Check
 
   def stats
     return nil unless applicable?
+
     server = Puma::Server.current
     return nil if server.nil?
 

@@ -176,10 +176,10 @@ describe WorkPackages::SetScheduleService do
 
     it 'returns only the original and the changed work packages' do
       expected_to_change = if defined?(unchanged)
-        expected.keys - unchanged
-      else
-        expected.keys
-      end
+                             expected.keys - unchanged
+                           else
+                             expected.keys
+                           end
 
       expected_to_change << work_package
 

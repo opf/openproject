@@ -42,10 +42,10 @@ describe 'Status action board', type: :feature, js: true do
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
-  let(:permissions) {
+  let(:permissions) do
     %i[show_board_views manage_board_views add_work_packages
        edit_work_packages view_work_packages manage_public_queries]
-  }
+  end
 
   let!(:priority) { FactoryBot.create :default_priority }
   let!(:open_status) { FactoryBot.create :default_status, name: 'Open' }
@@ -55,27 +55,27 @@ describe 'Status action board', type: :feature, js: true do
 
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
-  let!(:workflow_type) {
+  let!(:workflow_type) do
     FactoryBot.create(:workflow,
                       type: type,
                       role: role,
                       old_status_id: open_status.id,
                       new_status_id: closed_status.id)
-  }
-  let!(:workflow_type_back) {
+  end
+  let!(:workflow_type_back) do
     FactoryBot.create(:workflow,
                       type: type,
                       role: role,
                       old_status_id: other_status.id,
                       new_status_id: open_status.id)
-  }
-  let!(:workflow_type_back_open) {
+  end
+  let!(:workflow_type_back_open) do
     FactoryBot.create(:workflow,
                       type: type,
                       role: role,
                       old_status_id: closed_status.id,
                       new_status_id: open_status.id)
-  }
+  end
 
   before do
     with_enterprise_token :board_view

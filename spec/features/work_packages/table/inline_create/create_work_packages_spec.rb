@@ -151,7 +151,7 @@ describe 'inline create work package', js: true do
 
     it_behaves_like 'inline create work package' do
       let(:callback) do
-        ->() {
+        -> {
           # Set project
           project_field = wp_table.edit_field(nil, :project)
           project_field.expect_active!
@@ -179,7 +179,7 @@ describe 'inline create work package', js: true do
 
     it_behaves_like 'inline create work package' do
       let(:callback) do
-        ->() {}
+        -> {}
       end
     end
 

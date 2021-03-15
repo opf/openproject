@@ -44,12 +44,13 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= call_hook(:view_users_form, user: @user, form: f) %>
 </section>
 
-<% if current_user.admin? %>
-  <% if Setting.consent_required? %>
-    <%= render partial: "users/consent" %>
-  <% end %>
+<% if Setting.consent_required? %>
+  <%= render partial: "users/consent" %>
+<% end %>
 
-  <%= render partial: 'users/form/authentication', locals: { f: f } %>
+<%= render partial: 'users/form/authentication/form', locals: { f: f } %>
+
+<% if current_user.admin? %>
   <%= render partial: 'users/form/mail_notifications', locals: { f: f } %>
   <%= render partial: 'users/form/preferences', locals: { f: f } %>
 <% end %>

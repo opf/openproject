@@ -41,7 +41,6 @@ module Bim
 
       menu_item :ifc_models
 
-
       def show; end
 
       private

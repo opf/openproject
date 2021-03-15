@@ -99,6 +99,7 @@ nl:
   backlogs_empty_title: "Er zijn geen versies gedefinieerd om te worden gebruikt in de backlogs"
   backlogs_empty_action_text: "Om te beginnen met backlogs, maak een nieuwe versie en ken deze toe aan een backlog kolom."
   button_edit_wiki: "Wikipagina bewerken"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
   error_intro_plural: "De volgende fouten zijn opgetreden:"
   error_intro_singular: "De volgende fout is opgetreden:"
   error_outro: "Los de bovenstaande fouten op voordat u opnieuw verzendt."

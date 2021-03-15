@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -63,7 +64,7 @@ class AdminController < ApplicationController
     begin
       @test = UserMailer.test_mail(User.current).deliver_now
       flash[:notice] = I18n.t(:notice_email_sent, value: User.current.mail)
-    rescue => e
+    rescue StandardError => e
       flash[:error] = I18n.t(:notice_email_error, value: Redmine::CodesetUtil.replace_invalid_utf8(e.message.dup))
     end
     ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
@@ -81,7 +82,7 @@ class AdminController < ApplicationController
   end
 
   def info
-    @db_adapter_name = ActiveRecord::Base.connection.adapter_name
+    @db_version = OpenProject::Database.version
     @checklist = [
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
       [:text_database_allows_tsv, OpenProject::Database.allows_tsv?]
@@ -131,7 +132,7 @@ class AdminController < ApplicationController
 
   def image_conversion_libs_available?
     Open3.capture2e('convert', '-version').first.include?('ImageMagick')
-  rescue
+  rescue StandardError
     false
   end
 

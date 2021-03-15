@@ -31,7 +31,6 @@
 require_relative 'base'
 
 class Tables::Attachments < Tables::Base
-  # rubocop:disable Metrics/AbcSize
   def self.table(migration)
     create_table migration do |t|
       t.integer :container_id, default: 0, null: false
@@ -52,5 +51,4 @@ class Tables::Attachments < Tables::Base
       t.index :created_on, name: 'index_attachments_on_created_on'
     end
   end
-  # rubocop:enable Metrics/AbcSize
 end

@@ -42,7 +42,7 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
     content_tag 'user-avatar', '', tag_options
   end
 
-  def gravatar_expected_user_avatar_tag(digest, options = {})
+  def gravatar_expected_user_avatar_tag(_digest, _options = {})
     tag_options = { 'data-user-id': user.id,
                     'data-user-name': user.name,
                     'data-class-list': 'avatar avatar--gravatar-image avatar--fallback' }

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -77,13 +78,13 @@ module UsersHelper
 
   STATUS_CHANGE_ACTIONS = {
     # status, blocked    => [[button_title, button_name], ...]
-    [:active, false]     => [[:lock, 'lock']],
-    [:active, true]      => [[:reset_failed_logins, 'unlock'],
-                             [:lock, 'lock']],
-    [:locked, false]     => [[:unlock, 'unlock']],
-    [:locked, true]      => [[:unlock_and_reset_failed_logins, 'unlock']],
+    [:active, false] => [[:lock, 'lock']],
+    [:active, true] => [[:reset_failed_logins, 'unlock'],
+                        [:lock, 'lock']],
+    [:locked, false] => [[:unlock, 'unlock']],
+    [:locked, true] => [[:unlock_and_reset_failed_logins, 'unlock']],
     [:registered, false] => [[:activate, 'activate']],
-    [:registered, true]  => [[:activate_and_reset_failed_logins, 'activate']],
+    [:registered, true] => [[:activate_and_reset_failed_logins, 'activate']]
   }
 
   # Create buttons to lock/unlock a user and reset failed logins
@@ -140,5 +141,9 @@ module UsersHelper
 
   def user_name(user)
     user ? user.name : I18n.t('user.deleted')
+  end
+
+  def can_users_have_auth_source?
+    AuthSource.any? && !OpenProject::Configuration.disable_password_login?
   end
 end

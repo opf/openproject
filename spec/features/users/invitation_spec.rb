@@ -54,12 +54,12 @@ feature 'invitation spec', type: :feature, js: true do
   end
 
   context 'as admin' do
-    using_shared_fixtures :admin
+    shared_let(:admin) { FactoryBot.create :admin }
     let(:current_user) { admin }
   end
 
   context 'as global user' do
-    using_shared_fixtures :global_add_user
-    let(:current_user) { global_add_user }
+    shared_let(:global_manage_user) { FactoryBot.create :user, global_permission: :manage_user }
+    let(:current_user) { global_manage_user }
   end
 end

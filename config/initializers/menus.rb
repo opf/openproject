@@ -76,7 +76,7 @@ Redmine::MenuManager.map :account_menu do |menu|
             if: Proc.new { User.current.logged? }
   menu.push :administration,
             { controller: '/admin', action: 'index' },
-            if: Proc.new { User.current.admin? || User.current.allowed_to_globally?(:add_user) }
+            if: Proc.new { User.current.allowed_to_globally?(:manage_placeholder_user) || User.current.allowed_to_globally?(:manage_user) }
   menu.push :logout,
             :signout_path,
             if: Proc.new { User.current.logged? }
@@ -132,8 +132,14 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :users,
             { controller: '/users' },
-            if: Proc.new { !User.current.admin? && User.current.allowed_to?(:add_user, nil, global: true) },
+            if: Proc.new { !User.current.admin? && User.current.allowed_to_globally?(:manage_user) },
             caption: :label_user_plural,
+            icon: 'icon2 icon-group'
+
+  menu.push :placeholder_users,
+            { controller: '/placeholder_users' },
+            if: Proc.new { !User.current.admin? && User.current.allowed_to_globally?(:manage_placeholder_user) },
+            caption: :label_placeholder_user_plural,
             icon: 'icon2 icon-group'
 
   menu.push :users_and_permissions,
@@ -152,6 +158,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/users' },
             if: Proc.new { User.current.admin? },
             caption: :label_user_plural,
+            parent: :users_and_permissions
+
+  menu.push :placeholder_users,
+            { controller: '/placeholder_users' },
+            if: Proc.new { User.current.admin? },
+            caption: :label_placeholder_user_plural,
             parent: :users_and_permissions
 
   menu.push :groups,
@@ -338,13 +350,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :admin_costs
 
   menu.push :admin_backlogs,
-            { controller: '/settings', action: 'plugin', id: :openproject_backlogs },
+            { controller: '/backlogs_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_backlogs,
             icon: 'icon2 icon-backlogs'
 
   menu.push :backlogs_settings,
-            { controller: '/settings', action: 'plugin', id: :openproject_backlogs },
+            { controller: '/backlogs_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_setting_plural,
             parent: :admin_backlogs
@@ -370,7 +382,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-view-timeline',
             html: {
               id: 'main-menu-work-packages',
-              :'wp-query-menu' => 'wp-query-menu'
+              'wp-query-menu': 'wp-query-menu'
             }
 
   menu.push :work_packages_query_select,

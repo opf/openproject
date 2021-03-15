@@ -33,13 +33,17 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
   include API::V3::Utilities::PathHelper
 
   let(:query) do
-    query = FactoryBot.build_stubbed(:query)
-    allow(query)
-      .to receive(:results)
-      .and_return(results)
+    FactoryBot.build_stubbed(:query).tap do |query|
+      allow(query)
+        .to receive(:results)
+        .and_return(results)
 
-    query
+      allow(query)
+        .to receive(:manually_sorted?)
+        .and_return(query_manually_sorted)
+    end
   end
+  let(:query_manually_sorted) { false }
 
   let(:results) do
     results = double('results')
@@ -81,7 +85,6 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
                :per_page,
                :embed_schemas,
                :current_user) do
-
       def initialize(work_packages,
                      self_link:,
                      query:,
@@ -112,7 +115,6 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
                :query,
                :sums,
                :current_user) do
-
       def initialize(group,
                      count,
                      query:,
@@ -392,6 +394,33 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
           it 'is that value' do
             expect(subject.query[:pageSize])
               .to be(100)
+          end
+        end
+
+        context 'with the query sorted manually', with_settings: { forced_single_page_size: 42 } do
+          let(:query_manually_sorted) { true }
+
+          it 'is the setting value' do
+            expect(subject.query[:pageSize])
+              .to be(42)
+          end
+
+          context 'with a provided value' do
+            let(:params) { { 'pageSize' => 100 } }
+
+            it 'is the setting value' do
+              expect(subject.query[:pageSize])
+                .to be(42)
+            end
+          end
+
+          context 'with a provided value of 0' do
+            let(:params) { { 'pageSize' => 0 } }
+
+            it 'is the provided value' do
+              expect(subject.query[:pageSize])
+                .to be(0)
+            end
           end
         end
       end

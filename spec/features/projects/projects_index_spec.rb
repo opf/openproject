@@ -33,7 +33,7 @@ describe 'Projects index page',
          clear_cache: true,
          js: true,
          with_settings: { login_required?: false } do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
 
   let!(:manager)   { FactoryBot.create :role, name: 'Manager' }
   let!(:developer) { FactoryBot.create :role, name: 'Developer' }
@@ -265,8 +265,8 @@ describe 'Projects index page',
 
       # Results should be filtered and ordered ASC by name
       expect(page).to have_text(development_project.name)
-      expect(page).to have_no_text(project.name)        # as it filtered away
-      expect(page).to have_text('Next')                  # as the result set is larger than 1
+      expect(page).to have_no_text(project.name) # as it filtered away
+      expect(page).to have_text('Next') # as the result set is larger than 1
       expect(page).to have_no_text(public_project.name) # as it is on the second page
 
       # Changing the page size to 5 and back to 1 should not change the filters (which we test later on the second page)
@@ -302,7 +302,7 @@ describe 'Projects index page',
       expect(page).to have_text(public_project.name)
       expect(page).to have_no_text(development_project.name) # as it is on the second page
       expect(page).to have_no_text(project.name)             # as it filtered away
-      expect(page).to have_text('Next')                       # as the result set is larger than 1
+      expect(page).to have_text('Next') # as the result set is larger than 1
     end
   end
 
@@ -508,7 +508,6 @@ describe 'Projects index page',
         expect(page).to have_text(gray_project.name)
         expect(page).to have_text(no_status_project.name)
       end
-
     end
 
     feature 'other filter types' do

@@ -106,20 +106,21 @@ describe 'API v3 Principals resource', type: :request do
         .to eql(200)
     end
 
-    it_behaves_like 'API V3 collection response', 4, 4, 'User' do
+    it_behaves_like 'API V3 collection response', 4, 4 do
       let(:response) { last_response }
 
-      # The order_by_name scope currently has a bug in that it does not correctly handle
-      # null values (no first names for group and placeholder users) in the db.
-      # A user would expect placeholder and user to be sorted the other way around.
-      it 'has the group as the last and the placeholder as the second to last element' do
+      it 'has the group as the last and the placeholder as the second to last element', :aggregate_failures do
         is_expected
           .to be_json_eql('PlaceholderUser'.to_json)
-          .at_path('_embedded/elements/2/_type')
+          .at_path('_embedded/elements/0/_type')
 
         is_expected
           .to be_json_eql('Group'.to_json)
-          .at_path('_embedded/elements/3/_type')
+          .at_path('_embedded/elements/1/_type')
+
+        is_expected
+            .to be_json_eql('User'.to_json)
+                    .at_path('_embedded/elements/2/_type')
       end
     end
 
@@ -128,7 +129,7 @@ describe 'API v3 Principals resource', type: :request do
         [{ member: { operator: '=', values: [project.id.to_s] } }]
       end
 
-      it_behaves_like 'API V3 collection response', 3, 3, 'User' do
+      it_behaves_like 'API V3 collection response', 3, 3 do
         let(:response) { last_response }
       end
     end
@@ -138,7 +139,7 @@ describe 'API v3 Principals resource', type: :request do
         [{ type: { operator: '=', values: ['User'] } }]
       end
 
-      it_behaves_like 'API V3 collection response', 2, 2, 'User' do
+      it_behaves_like 'API V3 collection response', 2, 2, nil do
         let(:response) { last_response }
       end
     end

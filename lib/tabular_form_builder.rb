@@ -261,7 +261,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  def label_for_field_for(options, label_options, field)
+  def label_for_field_for(options, label_options, _field)
     label_options[:for] = options[:for]
   end
 

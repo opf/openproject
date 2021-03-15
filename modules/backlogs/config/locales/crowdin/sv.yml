@@ -99,6 +99,7 @@ sv:
   backlogs_empty_title: "Inga versioner är definierade för att användas i backlog"
   backlogs_empty_action_text: "För att komma igång med backlogs, skapa en ny version och tilldela den till en kolumn för backlogs."
   button_edit_wiki: "Redigera wiki-sidor"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
   error_intro_plural: "Följande fel uppstod:"
   error_intro_singular: "Följande fel uppstod:"
   error_outro: "Vänligen korrigera ovanstående fel innan du skickar in igen."

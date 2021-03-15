@@ -28,6 +28,7 @@
 
 import {Injectable} from '@angular/core';
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
+import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 class Apiv3Paths {
   readonly apiV3Base:string;
@@ -224,8 +225,24 @@ export class PathHelperService {
     return `${this.staticBase}/users`;
   }
 
+  public groupsPath() {
+    return `${this.staticBase}/groups`;
+  }
+
+  public placeholderUsersPath() {
+    return `${this.staticBase}/placeholder_users`;
+  }
+
   public userPath(id:string|number) {
     return `${this.usersPath()}/${id}`;
+  }
+
+  public placeholderUserPath(id:string|number) {
+    return `${this.placeholderUsersPath()}/${id}`;
+  }
+
+  public groupPath(id:string|number) {
+    return `${this.groupsPath()}/${id}`;
   }
 
   public versionsPath() {

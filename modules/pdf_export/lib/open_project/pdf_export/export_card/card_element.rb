@@ -50,9 +50,9 @@ module OpenProject::PDFExport::ExportCard
       current_y_offset = text_padding
 
       # Initialize groups
-      @groups_config.each_with_index do |(g_key, g_value), i|
+      @groups_config.each_with_index do |(_g_key, g_value), i|
         row_count = g_value["rows"].count
-        row_heights = all_heights[:row_heights].reject {|row| row[:group] != i}.map{|row| row[:height]}
+        row_heights = all_heights[:row_heights].reject { |row| row[:group] != i }.map { |row| row[:height] }
         group_height = all_heights[:group_heights][i]
         group_orientation = {
           y_offset: @orientation[:height] - current_y_offset,
@@ -75,11 +75,11 @@ module OpenProject::PDFExport::ExportCard
       group_heights = Array.new
       row_heights = Array.new
 
-      groups.each_with_index do |(gk, gv), i|
+      groups.each_with_index do |(_gk, gv), i|
         enforced_group_height = gv["height"] || -1
         used_group_height = 0
 
-        gv["rows"].each do |rk, rv|
+        gv["rows"].each do |_rk, rv|
           # The + 1 on the height is needed as prawn does not seem to render
           # when the string to render has the same size as the row height.
           if rv["height"]
@@ -101,6 +101,7 @@ module OpenProject::PDFExport::ExportCard
       available = @orientation[:height] - (@orientation[:group_padding] * 2)
       diff = available - heights[:group_heights].sum
       return false if diff >= 0
+
       diff *= -1
 
       rows = heights[:row_heights]
@@ -108,8 +109,8 @@ module OpenProject::PDFExport::ExportCard
 
       priorities = *(0..rows.count - 1)
         .zip(rows.map { |row| row[:priority] or 10 })
-        .sort {|x,y| y[1] <=> x[1]}
-        .map {|x| x[0]}
+        .sort { |x, y| y[1] <=> x[1] }
+        .map { |x| x[0] }
 
       priorities.each do |p|
         to_reduce = rows[p]
@@ -132,7 +133,7 @@ module OpenProject::PDFExport::ExportCard
 
       # Look through each of the row's columns for the column with the largest minimum height
       largest = 0
-      row["columns"].each do |rk, rv|
+      row["columns"].each do |_rk, rv|
         min_lines = rv["minimum_lines"] || 1
         font_size = rv["min_font_size"] || rv["font_size"] || 10
         min_col_height = (@pdf.font.height_at(font_size) * min_lines).floor
@@ -155,7 +156,6 @@ module OpenProject::PDFExport::ExportCard
 
         @pdf.stroke_bounds
       end
-
     end
   end
 end

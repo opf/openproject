@@ -95,7 +95,7 @@ export class QueryFilterInstanceResource extends HalResource {
   public isTemplated() {
     let flag = false;
     (this.values as any[]).find((value:any) => {
-      const href:string = value?.href || value || '';
+      const href:string = value?.href || value.toString() || '';
       flag = href.includes('{id}');
     });
     return flag;

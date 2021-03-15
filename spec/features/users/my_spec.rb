@@ -98,7 +98,7 @@ describe 'my',
         end
 
         context 'as admin' do
-          using_shared_fixtures :admin
+          shared_let(:admin) { FactoryBot.create :admin }
           let(:user) { admin }
 
           it 'requires the password' do

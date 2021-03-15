@@ -45,7 +45,7 @@ describe "CostQuery::Validation", type: :model do
 
   it "should allow for multiple validations" do
     obj = CostQuery::SomeBase.new
-    obj.register_validations([:integers, :dates])
+    obj.register_validations(%i[integers dates])
     expect(obj.validations.size).to eq(2)
   end
 
@@ -59,14 +59,14 @@ describe "CostQuery::Validation", type: :model do
   it "should have no errors set when we try to validate something valid" do
     obj = CostQuery::SomeBase.new
     obj.register_validation(:integers)
-    expect(obj.validate(1,2,3,4)).to be_truthy
+    expect(obj.validate(1, 2, 3, 4)).to be_truthy
     expect(obj.errors[:int].size).to eq(0)
   end
 
   it "should validate integers correctly" do
     obj = CostQuery::SomeBase.new
     obj.register_validation(:integers)
-    expect(obj.validate(1,2,3,4)).to be_truthy
+    expect(obj.validate(1, 2, 3, 4)).to be_truthy
     expect(obj.errors[:int].size).to eq(0)
     expect(obj.validate("I ain't gonna work on Maggies Farm no more")).to be_falsey
     expect(obj.errors[:int].size).to eq(1)

@@ -1197,7 +1197,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
   #
   # Trying to set parent of C to B failed because parent relation is requested before change is saved.
   describe 'Changing parent to a new one that has the same parent as the current element (Regression #27746)' do
-    using_shared_fixtures :admin
+    shared_let(:admin) { FactoryBot.create :admin }
     let(:user) { admin }
 
     let(:project) { FactoryBot.create :project }

@@ -57,27 +57,27 @@ RSpec.feature 'Work package timeline labels',
   end
 
   let(:today) { Date.today.iso8601 }
-  let(:tomorrow) { Date.tomorrow.iso8601  }
-  let(:future) { (Date.today + 5).iso8601  }
+  let(:tomorrow) { Date.tomorrow.iso8601 }
+  let(:future) { (Date.today + 5).iso8601 }
 
   let(:work_package) do
     FactoryBot.create :work_package,
-                       project: project,
-                       type: type,
-                       assigned_to: user,
-                       start_date: today,
-                       due_date: tomorrow,
-                       subject: 'My subject',
-                       custom_field_values: { custom_field.id => custom_value_for('onions') }
+                      project: project,
+                      type: type,
+                      assigned_to: user,
+                      start_date: today,
+                      due_date: tomorrow,
+                      subject: 'My subject',
+                      custom_field_values: { custom_field.id => custom_value_for('onions') }
   end
 
   let(:milestone_work_package) do
     FactoryBot.create :work_package,
-                       project: project,
-                       type: milestone_type,
-                       start_date: future,
-                       due_date: future,
-                       subject: 'My milestone'
+                      project: project,
+                      type: milestone_type,
+                      start_date: future,
+                      due_date: future,
+                      subject: 'My milestone'
   end
 
   before do
@@ -177,6 +177,5 @@ RSpec.feature 'Work package timeline labels',
     row.expect_labels left: nil,
                       right: future,
                       farRight: milestone_work_package.subject
-
   end
 end

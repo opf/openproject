@@ -61,7 +61,7 @@ shared_examples 'it supports direct uploads' do
         expect(subject.status).to eq(404)
       end
     end
-    
+
     context 'with remote AWS storage', with_direct_uploads: true do
       before do
         request!
@@ -415,13 +415,15 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
           expect(subject.headers['Content-Type'])
             .to eql mock_file.content_type
 
-          expect(subject.headers["Cache-Control"]).to eq "public, max-age=604799"
+          max_age = OpenProject::Configuration.fog_download_url_expires_in.to_i - 10
+
+          expect(subject.headers["Cache-Control"]).to eq "public, max-age=#{max_age}"
           expect(subject.headers["Expires"]).to be_present
 
           expires_time = Time.parse response.headers["Expires"]
 
-          expect(expires_time < Time.now.utc + 604799).to be_truthy
-          expect(expires_time > Time.now.utc + 604799 - 60).to be_truthy
+          expect(expires_time < Time.now.utc + max_age).to be_truthy
+          expect(expires_time > Time.now.utc + max_age - 60).to be_truthy
         end
 
         it 'sends the file in binary' do
@@ -472,13 +474,15 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
           expect(subject.headers['Location'])
             .to eql external_url
 
-          expect(subject.headers["Cache-Control"]).to eq "public, max-age=604799"
+          max_age = OpenProject::Configuration.fog_download_url_expires_in.to_i - 10
+
+          expect(subject.headers["Cache-Control"]).to eq "public, max-age=#{max_age}"
           expect(subject.headers["Expires"]).to be_present
 
           expires_time = Time.parse response.headers["Expires"]
 
-          expect(expires_time < Time.now.utc + 604799).to be_truthy
-          expect(expires_time > Time.now.utc + 604799 - 60).to be_truthy
+          expect(expires_time < Time.now.utc + max_age).to be_truthy
+          expect(expires_time > Time.now.utc + max_age - 60).to be_truthy
         end
       end
     end

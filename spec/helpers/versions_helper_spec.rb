@@ -98,7 +98,8 @@ describe VersionsHelper, type: :helper do
     end
 
     it 'generates an option tag' do
-      expect(version_options_for_select([], version)).to eq("<option selected=\"selected\" value=\"#{version.id}\">#{version.name}</option>")
+      expect(version_options_for_select([],
+                                        version)).to eq("<option selected=\"selected\" value=\"#{version.id}\">#{version.name}</option>")
     end
   end
 end

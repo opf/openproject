@@ -66,24 +66,24 @@ namespace 'openproject' do
     SQL
 
     entries = begin
-                connection = ActiveRecord::Base
-                             .establish_connection(ENV['BACKUP_DATABASE_URL'])
-                             .connection
+      connection = ActiveRecord::Base
+                   .establish_connection(ENV['BACKUP_DATABASE_URL'])
+                   .connection
 
-                if connection.select_all(check_statement).any?
-                  connection.select_all(select_statement)
-                end
-              rescue PG::ConnectionBad, ActiveRecord::NoDatabaseError, LoadError => e
-                puts <<~MSG
+      if connection.select_all(check_statement).any?
+        connection.select_all(select_statement)
+      end
+    rescue PG::ConnectionBad, ActiveRecord::NoDatabaseError, LoadError => e
+      puts <<~MSG
 
-                  The 'BACKUP_DATABASE_URL' environment variable is incorrect. The script cannot connect to the backup database:
-                  #{e.message}
+        The 'BACKUP_DATABASE_URL' environment variable is incorrect. The script cannot connect to the backup database:
+        #{e.message}
 
-                MSG
-                next
-              ensure
-                connection&.close
-              end
+      MSG
+      next
+    ensure
+      connection&.close
+    end
 
     if entries.nil? || entries.empty?
       puts <<~MSG

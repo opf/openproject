@@ -99,6 +99,7 @@ pt:
   backlogs_empty_title: "Não há versões definidas para serem usadas nos backlogs"
   backlogs_empty_action_text: "Para iniciar com backlogs, crie uma nova versão e atribua a uma coluna de backlogs."
   button_edit_wiki: "Editar página wiki"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
   error_intro_plural: "Foram encontrados os seguintes erros :"
   error_intro_singular: "Foi encontrado o seguinte erro:"
   error_outro: "Por favor, corrija os erros acima antes de enviar novamente."

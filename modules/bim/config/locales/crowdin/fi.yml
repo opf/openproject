@@ -7,7 +7,7 @@ fi:
     label_imported_failed: 'Failed imports of BCF topics'
     label_imported_successfully: 'Successfully imported BCF topics'
     issues: "Issues"
-    recommended: 'recommended'
+    recommended: 'suositellut'
     not_recommended: 'not recommended'
     no_viewpoints: 'No viewpoints'
     new_badge: "Uusi"

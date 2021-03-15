@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -38,14 +39,11 @@ def with_filesystem_repository(vendor, command = nil, &block)
   repo_dir = Dir.mktmpdir("#{vendor}_repository")
   fixture = File.join(Rails.root, "spec/fixtures/repositories/#{vendor}_repository.tar.gz")
 
-
   ['tar', command].compact.each do |cmd|
-    begin
-      # Avoid `which`, as it's not POSIX
-      Open3.capture2e(cmd, '--version')
-    rescue Errno::ENOENT
-      skip "#{cmd} was not found in PATH. Skipping local repository specs"
-    end
+    # Avoid `which`, as it's not POSIX
+    Open3.capture2e(cmd, '--version')
+  rescue Errno::ENOENT
+    skip "#{cmd} was not found in PATH. Skipping local repository specs"
   end
 
   after(:all) do

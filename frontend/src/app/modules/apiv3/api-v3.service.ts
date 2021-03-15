@@ -112,6 +112,9 @@ export class APIV3Service {
   // /api/v3/users
   public readonly users = this.apiV3CustomEndpoint(Apiv3UsersPaths);
 
+  // /api/v3/placeholderUsers
+  public readonly placeholder_users = this.apiV3CollectionEndpoint('placeholder_users')
+
   // /api/v3/help_texts
   public readonly help_texts = this.apiV3CustomEndpoint(Apiv3HelpTextsPaths);
 
@@ -140,6 +143,12 @@ export class APIV3Service {
     } else {
       return this.projects.id(projectIdentifier);
     }
+  }
+
+  public collectionFromString(fullPath:string) {
+    const path = fullPath.replace(this.pathHelper.api.v3.apiV3Base + '/', '');
+
+    return this.apiV3CollectionEndpoint(path);
   }
 
   private apiV3CollectionEndpoint<V extends HalResource, T extends APIv3GettableResource<V>>(segment:string, resource?:Constructor<T>) {
