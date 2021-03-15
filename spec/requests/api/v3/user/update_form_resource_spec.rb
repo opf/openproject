@@ -71,10 +71,6 @@ describe ::API::V3::Users::UpdateFormAPI, content_type: :json do
         expect(response.body).to be_json_eql('Form'.to_json).at_path('_type')
 
         expect(body)
-          .to be_json_eql('active'.to_json)
-                .at_path('_embedded/payload/status')
-
-        expect(body)
           .to be_json_eql(user.mail.to_json)
                 .at_path('_embedded/payload/email')
 
@@ -92,6 +88,34 @@ describe ::API::V3::Users::UpdateFormAPI, content_type: :json do
       end
     end
 
+    describe 'with a non-writable status' do
+      let(:payload) do
+        {
+          "status": 'locked'
+        }
+      end
+
+      it 'returns an invalid form', :aggregate_failures do
+        expect(response.status).to eq(200)
+        expect(response.body).to be_json_eql('Form'.to_json).at_path('_type')
+
+        expect(subject.body)
+          .to have_json_size(1)
+                .at_path('_embedded/validationErrors')
+
+        expect(subject.body)
+          .to have_json_path('_embedded/validationErrors/status')
+
+        expect(body)
+          .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyIsReadOnly'.to_json)
+                .at_path('_embedded/validationErrors/status/errorIdentifier')
+
+        # Does not change the user's status
+        user.reload
+        expect(user.status).to eq 'active'
+      end
+    end
+
     describe 'with an empty firstname' do
       let(:payload) do
         {
@@ -102,10 +126,6 @@ describe ::API::V3::Users::UpdateFormAPI, content_type: :json do
       it 'returns an invalid form', :aggregate_failures do
         expect(response.status).to eq(200)
         expect(response.body).to be_json_eql('Form'.to_json).at_path('_type')
-
-        expect(body)
-          .to be_json_eql('active'.to_json)
-                .at_path('_embedded/payload/status')
 
         expect(body)
           .to be_json_eql(user.mail.to_json)
