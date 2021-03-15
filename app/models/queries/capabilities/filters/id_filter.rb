@@ -28,13 +28,46 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Capabilities
-  query = Queries::Capabilities::CapabilityQuery
-  filter_ns = Queries::Capabilities::Filters
+class Queries::Capabilities::Filters::IdFilter < Queries::Capabilities::Filters::CapabilityFilter
+  def type
+    :string
+  end
 
-  Queries::Register.filter query, filter_ns::IdFilter
+  def where
+    case operator
+    when '='
+      value_conditions.join(' OR ')
+    when '!'
+      "NOT #{value_conditions.join(' AND NOT ')}"
+    end
+  end
 
-  order_ns = Queries::Capabilities::Orders
+  def split_values
+    values.map do |value|
+      matches = value.match(/(\w+\/\w+)\/(\w)(\d*)-(\d+)/)
 
-  Queries::Register.order query, order_ns::IdOrder
+      if matches
+        {
+          permission_map: matches[1],
+          context_key: matches[2],
+          context_id: matches[3],
+          principal_id: matches[4]
+        }
+      end
+    end
+  end
+
+  def value_conditions
+    split_values.map do |value|
+      conditions = ["permission_map = '#{value[:permission_map]}' AND principal_id = #{value[:principal_id]}"]
+
+      conditions << if value[:context_id]
+                      ["project_id = #{value[:context_id]}"]
+                    else
+                      ["project_id IS NULL"]
+                    end
+
+      "(#{conditions.join(' AND ')})"
+    end
+  end
 end

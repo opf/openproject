@@ -51,13 +51,21 @@ module API
             requires :principal, type: Integer, desc: 'The principal identifier'
           end
           namespace ':namespace/:action/:context-:principal' do
-            after_validation do
+            helpers do
+              def scope
+                ::Queries::Capabilities::CapabilityQuery.new(user: current_user)
+                                                        .where('id', '=', "#{params[:namespace]}/#{params[:action]}/#{params[:context]}-#{params[:principal]}}")
+                                                        .results
+              end
+            end
 
+            after_validation do
+              raise ::API::Errors::NotFound.new unless scope.exists?
             end
 
             get do
               ::API::V3::Utilities::SqlRepresenterWalker
-                .new(::Queries::Capabilities::CapabilityQuery.new(user: current_user).results.limit(1),
+                .new(scope.limit(1),
                      embed: { },
                      select: { 'id' => {}, '_type' => {}, 'self' => {}, 'context' => {}, 'principal' => {} },
                      current_user: current_user)

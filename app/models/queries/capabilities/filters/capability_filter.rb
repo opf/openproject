@@ -28,13 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Capabilities
-  query = Queries::Capabilities::CapabilityQuery
-  filter_ns = Queries::Capabilities::Filters
+class Queries::Capabilities::Filters::CapabilityFilter < Queries::Filters::Base
+  self.model = Capability
 
-  Queries::Register.filter query, filter_ns::IdFilter
-
-  order_ns = Queries::Capabilities::Orders
-
-  Queries::Register.order query, order_ns::IdOrder
+  def human_name
+    Capability.human_attribute_name(name)
+  end
 end

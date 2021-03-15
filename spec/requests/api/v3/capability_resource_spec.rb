@@ -309,7 +309,6 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
 
   describe 'GET /api/v3/capabilities/:id' do
     let(:path) { api_v3_paths.capability("memberships/create/p#{project.id}-#{other_user.id}") }
-    #let(:path) { api_v3_paths.capability("memberships/create") }#"/create/p#{project.id}-#{other_user.id}") }
 
     let(:setup) do
       other_user_member
@@ -336,24 +335,13 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
         .at_path('id')
     end
 
-    #context 'if querying an invisible member' do
-    #  let(:path) { api_v3_paths.membership(invisible_member.id) }
+    context 'if querying a non existing capability' do
+      let(:path) { api_v3_paths.capability("foo/bar/p#{project.id}-#{other_user.id}") }
 
-    #  let(:members) { [own_member, invisible_member] }
-
-    #  it 'returns 404 NOT FOUND' do
-    #    expect(subject.status)
-    #      .to eql(404)
-    #  end
-    #end
-
-    #context 'without the necessary permissions' do
-    #  let(:permissions) { [] }
-
-    #  it 'returns 404 NOT FOUND' do
-    #    expect(subject.status)
-    #      .to eql(404)
-    #  end
-    #end
+      it 'returns 404 NOT FOUND' do
+        expect(subject.status)
+          .to eql(404)
+      end
+    end
   end
 end
