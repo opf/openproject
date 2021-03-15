@@ -93,7 +93,7 @@ module API
             patch &::API::V3::Utilities::Endpoints::Update.new(model: User).mount
             delete &::API::V3::Utilities::Endpoints::Delete.new(model: User, success_status: 202).mount
 
-            mount ::API::V3::Projects::UpdateFormAPI
+            mount ::API::V3::Users::UpdateFormAPI
 
             namespace :lock do
               # Authenticate lock transitions

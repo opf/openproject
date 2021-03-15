@@ -707,33 +707,139 @@ For more details and all possible responses see the general specification of [Fo
             "_type": "Form",
             "_embedded": {
                 "payload": {
-                    "mail": "foo@example.com",
-                    "status": "invited"
+                    "name": "bar @example.com",
+                    "_links": {}
                 },
                 "schema": {
                     "_type": "Schema",
-                    TODO
+                    "_dependencies": [],
+                    "id": {
+                        "type": "Integer",
+                        "name": "ID",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": false,
+                        "options": {}
+                    },
+                    "login": {
+                        "type": "String",
+                        "name": "Username",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": true,
+                        "minLength": 1,
+                        "maxLength": 255,
+                        "options": {}
+                    },
+                    "admin": {
+                        "type": "Boolean",
+                        "name": "Administrator",
+                        "required": false,
+                        "hasDefault": false,
+                        "writable": true,
+                        "options": {}
+                    },
+                    "mail": {
+                        "type": "String",
+                        "name": "Email",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": true,
+                        "minLength": 1,
+                        "maxLength": 255,
+                        "options": {}
+                    },
+                    "firstName": {
+                        "type": "String",
+                        "name": "First name",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": false,
+                        "minLength": 1,
+                        "maxLength": 255,
+                        "options": {}
+                    },
+                    "lastName": {
+                        "type": "String",
+                        "name": "Last name",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": false,
+                        "minLength": 1,
+                        "maxLength": 255,
+                        "options": {}
+                    },
+                    "avatar": {
+                        "type": "String",
+                        "name": "Avatar",
+                        "required": false,
+                        "hasDefault": false,
+                        "writable": false,
+                        "options": {}
+                    },
+                    "status": {
+                        "type": "String",
+                        "name": "Status",
+                        "required": false,
+                        "hasDefault": false,
+                        "writable": true,
+                        "options": {}
+                    },
+                    "identityUrl": {
+                        "type": "String",
+                        "name": "Identity url",
+                        "required": false,
+                        "hasDefault": false,
+                        "writable": true,
+                        "options": {}
+                    },
+                    "language": {
+                        "type": "String",
+                        "name": "Language",
+                        "required": false,
+                        "hasDefault": false,
+                        "writable": true,
+                        "options": {}
+                    },
+                    "password": {
+                        "type": "Password",
+                        "name": "Password",
+                        "required": false,
+                        "hasDefault": false,
+                        "writable": false,
+                        "options": {}
+                    },
+                    "createdAt": {
+                        "type": "DateTime",
+                        "name": "Created on",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": false,
+                        "options": {}
+                    },
+                    "updatedAt": {
+                        "type": "DateTime",
+                        "name": "Updated on",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": false,
+                        "options": {}
+                    },
+                    "_links": {}
                 },
-                "validationErrors": {
-                    "user": {
-                        "_type": "Error",
-                        "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
-                        "message": "User has already been taken.",
-                        "_embedded": {
-                            "details": {
-                                "attribute": "user"
-                            }
-                        }
-                    }
-                }
+                "validationErrors": {}
             },
             "_links": {
                 "self": {
-                    "href": "/api/v3/memberships/form",
+                    "href": "/api/v3/users/form",
                     "method": "post"
                 },
                 "validate": {
-                    "href": "/api/v3/memberships/form",
+                    "href": "/api/v3/users/form",
+                    "method": "post"
+                },
+                "commit": {
+                    "href": "/api/v3/users",
                     "method": "post"
                 }
             }
@@ -790,10 +896,13 @@ For more details and all possible responses see the general specification of [Fo
             "_type": "Form",
             "_embedded": {
                 "payload": {
-                    "login": "m_user",
-                    "firstName": "Matthew",
-                    "lastname": "Mercer",
-                    "mail": "matt@example.com"
+                    "name": "Matthew Mercer",
+                    "login": "matt@example.com",
+                    "admin": false,
+                    "email": "matt@example.com",
+                    "identityUrl": null,
+                    "language": "en",
+                    "_links": {}
                 },
                 "schema": {
                     "_type": "Schema",
@@ -803,24 +912,128 @@ For more details and all possible responses see the general specification of [Fo
                         "name": "ID",
                         "required": true,
                         "hasDefault": false,
-                        "writable": false
+                        "writable": false,
+                        "options": {}
                     },
-                    TODO
+                    "login": {
+                        "type": "String",
+                        "name": "Username",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": true,
+                        "minLength": 1,
+                        "maxLength": 255,
+                        "options": {}
+                    },
+                    "admin": {
+                        "type": "Boolean",
+                        "name": "Administrator",
+                        "required": false,
+                        "hasDefault": false,
+                        "writable": true,
+                        "options": {}
+                    },
+                    "mail": {
+                        "type": "String",
+                        "name": "Email",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": true,
+                        "minLength": 1,
+                        "maxLength": 255,
+                        "options": {}
+                    },
+                    "firstName": {
+                        "type": "String",
+                        "name": "First name",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": false,
+                        "minLength": 1,
+                        "maxLength": 255,
+                        "options": {}
+                    },
+                    "lastName": {
+                        "type": "String",
+                        "name": "Last name",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": false,
+                        "minLength": 1,
+                        "maxLength": 255,
+                        "options": {}
+                    },
+                    "avatar": {
+                        "type": "String",
+                        "name": "Avatar",
+                        "required": false,
+                        "hasDefault": false,
+                        "writable": false,
+                        "options": {}
+                    },
+                    "status": {
+                        "type": "String",
+                        "name": "Status",
+                        "required": false,
+                        "hasDefault": false,
+                        "writable": false,
+                        "options": {}
+                    },
+                    "identityUrl": {
+                        "type": "String",
+                        "name": "Identity url",
+                        "required": false,
+                        "hasDefault": false,
+                        "writable": true,
+                        "options": {}
+                    },
+                    "language": {
+                        "type": "String",
+                        "name": "Language",
+                        "required": false,
+                        "hasDefault": false,
+                        "writable": true,
+                        "options": {}
+                    },
+                    "password": {
+                        "type": "Password",
+                        "name": "Password",
+                        "required": false,
+                        "hasDefault": false,
+                        "writable": false,
+                        "options": {}
+                    },
+                    "createdAt": {
+                        "type": "DateTime",
+                        "name": "Created on",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": false,
+                        "options": {}
+                    },
+                    "updatedAt": {
+                        "type": "DateTime",
+                        "name": "Updated on",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": false,
+                        "options": {}
+                    },
                     "_links": {}
                 },
                 "validationErrors": {}
             },
             "_links": {
                 "self": {
-                    "href": "/api/v3/users/5/form",
+                    "href": "/api/v3/users/70917/form",
                     "method": "post"
                 },
                 "validate": {
-                    "href": "/api/v3/users/5/form",
+                    "href": "/api/v3/users/70917/form",
                     "method": "post"
                 },
                 "commit": {
-                    "href": "/api/v3/users/5",
+                    "href": "/api/v3/users/70917",
                     "method": "patch"
                 }
             }
