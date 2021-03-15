@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,15 +26,29 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Capabilities
-  query = Queries::Capabilities::CapabilityQuery
-  filter_ns = Queries::Capabilities::Filters
+class Queries::Capabilities::Filters::ContextFilter < Queries::Capabilities::Filters::CapabilityFilter
+  include Queries::Capabilities::Filters::ParsedFilterMixin
 
-  Queries::Register.filter query, filter_ns::IdFilter
-  Queries::Register.filter query, filter_ns::PrincipalIdFilter
-  Queries::Register.filter query, filter_ns::ContextFilter
+  private
 
-  order_ns = Queries::Capabilities::Orders
+  def split_values
+    values.map do |value|
+      if (matches = value.match(/\A([gp])(\d*)\z/))
+        {
+          context_key: matches[1],
+          context_id: matches[2]
+        }
+      end
+    end
+  end
 
-  Queries::Register.order query, order_ns::IdOrder
+  def value_conditions
+    split_values.map do |value|
+      if value[:context_id].present?
+        "project_id = #{value[:context_id]}"
+      else
+        "project_id IS NULL"
+      end
+    end
+  end
 end

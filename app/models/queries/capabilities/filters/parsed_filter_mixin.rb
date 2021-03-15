@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,15 +26,38 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Capabilities
-  query = Queries::Capabilities::CapabilityQuery
-  filter_ns = Queries::Capabilities::Filters
+module Queries::Capabilities::Filters::ParsedFilterMixin
+  def type
+    :string
+  end
 
-  Queries::Register.filter query, filter_ns::IdFilter
-  Queries::Register.filter query, filter_ns::PrincipalIdFilter
-  Queries::Register.filter query, filter_ns::ContextFilter
+  def where
+    case operator
+    when '='
+      value_conditions.join(' OR ')
+    when '!'
+      "NOT #{value_conditions.join(' AND NOT ')}"
+    end
+  end
 
-  order_ns = Queries::Capabilities::Orders
+  def available_operators
+    [Queries::Operators::Equals,
+     Queries::Operators::NotEquals]
+  end
 
-  Queries::Register.order query, order_ns::IdOrder
+  private
+
+  def split_values
+    raise NotImplementedError
+  end
+
+  def value_conditions
+    raise NotImplementedError
+  end
+
+  def validate_values
+    super
+
+    errors.add(:values, "malformed value") if split_values.any?(&:nil?)
+  end
 end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,15 +26,57 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Capabilities
-  query = Queries::Capabilities::CapabilityQuery
-  filter_ns = Queries::Capabilities::Filters
+require 'spec_helper'
 
-  Queries::Register.filter query, filter_ns::IdFilter
-  Queries::Register.filter query, filter_ns::PrincipalIdFilter
-  Queries::Register.filter query, filter_ns::ContextFilter
+describe Queries::Capabilities::Filters::ContextFilter, type: :model do
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :context }
+    let(:type) { :string }
+    let(:model) { Capability }
+    let(:attribute) { :context }
+    let(:values) { ['p3'] }
 
-  order_ns = Queries::Capabilities::Orders
+    describe '#available_operators' do
+      it 'supports = and !' do
+        expect(instance.available_operators)
+          .to eql [Queries::Operators::Equals, Queries::Operators::NotEquals]
+      end
+    end
 
-  Queries::Register.order query, order_ns::IdOrder
+    describe '#valid?' do
+      context 'without values' do
+        let(:values) { [] }
+
+        it 'is invalid' do
+          expect(instance)
+            .to be_invalid
+        end
+      end
+
+      context 'with valid value' do
+        it 'is valid' do
+          expect(instance)
+            .to be_valid
+        end
+      end
+
+      context 'with multiple valid values' do
+        let(:values) { ['p3', 'g'] }
+
+        it 'is valid' do
+          expect(instance)
+            .to be_valid
+        end
+      end
+
+      context 'with malfomed values' do
+        let(:values) { ["a5"] }
+
+        it 'is invalid' do
+          expect(instance)
+            .to be_invalid
+        end
+      end
+    end
+  end
 end

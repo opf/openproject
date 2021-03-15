@@ -219,108 +219,57 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
       end
     end
 
-    #context 'filtering by project' do
-    #  let(:members) { [own_member, other_member, invisible_member, own_other_member] }
+    context 'filtering by project context' do
+      let(:other_project) { FactoryBot.create(:project) }
+      let(:other_user_other_member) do
+        FactoryBot.create(:member,
+                          principal: other_user,
+                          roles: [role],
+                          project: other_project)
+      end
 
-    #  let(:own_other_member) do
-    #    FactoryBot.create(:member,
-    #                      roles: [FactoryBot.create(:role, permissions: permissions)],
-    #                      project: other_project,
-    #                      user: current_user)
-    #  end
+      let(:filters) do
+        [{ 'context' => {
+          'operator' => '=',
+          'values' => ["p#{other_project.id}"]
+        } }]
+      end
 
-    #  let(:other_project) { FactoryBot.create(:project) }
+      let(:setup) do
+        other_user_global_member
+        other_user_member
+        other_user_other_member
+      end
 
-    #  let(:filters) do
-    #    [{ 'project' => {
-    #      'operator' => '=',
-    #      'values' => [other_project.id]
-    #    } }]
-    #  end
+      it 'contains only the filtered capabilities in the response' do
+        expect(subject.body)
+          .to be_json_eql('3')
+          .at_path('total')
 
-    #  it 'contains only the filtered memberships in the response' do
-    #    expect(subject.body)
-    #      .to be_json_eql('1')
-    #            .at_path('total')
+        expect(subject.body)
+          .to be_json_eql(api_v3_paths.project(other_project.id).to_json)
+          .at_path('_embedded/elements/0/_links/context/href')
+      end
+    end
 
-    #    expect(subject.body)
-    #      .to be_json_eql(own_other_member.id.to_json)
-    #            .at_path('_embedded/elements/0/id')
-    #  end
-    #end
+    context 'filtering by global context' do
+      let(:filters) do
+        [{ 'context' => {
+          'operator' => '=',
+          'values' => ["g"]
+        } }]
+      end
 
-    #context 'filtering by principal' do
-    #  let(:group) { FactoryBot.create(:group) }
-    #  let(:group_member) do
-    #    FactoryBot.create(:member,
-    #                      roles: [FactoryBot.create(:role)],
-    #                      principal: group,
-    #                      project: project)
-    #  end
-    #  let(:members) { [own_member, other_member, group_member, invisible_member] }
+      it 'contains only the filtered capabilities in the response' do
+        expect(subject.body)
+          .to be_json_eql('3')
+          .at_path('total')
 
-    #  let(:filters) do
-    #    [{ 'principal' => {
-    #      'operator' => '=',
-    #      'values' => [group.id.to_s, current_user.id.to_s]
-    #    } }]
-    #  end
-
-    #  it 'contains only the filtered members in the response' do
-    #    expect(subject.body)
-    #      .to be_json_eql('2')
-    #            .at_path('total')
-
-    #    expect(subject.body)
-    #      .to be_json_eql(own_member.id.to_json)
-    #            .at_path('_embedded/elements/0/id')
-
-    #    expect(subject.body)
-    #      .to be_json_eql(group_member.id.to_json)
-    #            .at_path('_embedded/elements/1/id')
-    #  end
-    #end
-
-    #context 'with the outdated created_on sort by (renamed to created_at)' do
-    #  let(:path) { "#{api_v3_paths.path_for(:memberships, sort_by: [%i(created_on desc)])}&pageSize=1&offset=2" }
-
-    #  it 'is still supported and returns a slice of the visible memberships' do
-    #    expect(subject.body)
-    #      .to be_json_eql('Collection'.to_json)
-    #            .at_path('_type')
-
-    #    expect(subject.body)
-    #      .to be_json_eql('2')
-    #            .at_path('total')
-
-    #    expect(subject.body)
-    #      .to be_json_eql('1')
-    #            .at_path('count')
-
-    #    expect(subject.body)
-    #      .to be_json_eql(own_member.id.to_json)
-    #            .at_path('_embedded/elements/0/id')
-    #  end
-    #end
-
-    #context 'invalid filter' do
-    #  let(:members) { [own_member] }
-
-    #  let(:filters) do
-    #    [{ 'bogus' => {
-    #      'operator' => '=',
-    #      'values' => ['1']
-    #    } }]
-    #  end
-
-    #  it 'returns an error' do
-    #    expect(subject.status).to eq(400)
-
-    #    expect(subject.body)
-    #      .to be_json_eql('urn:openproject-org:api:v3:errors:InvalidQuery'.to_json)
-    #            .at_path('errorIdentifier')
-    #  end
-    #end
+        expect(subject.body)
+          .to be_json_eql(api_v3_paths.capabilities_contexts_global.to_json)
+          .at_path('_embedded/elements/0/_links/context/href')
+      end
+    end
 
     #context 'without permissions' do
     #  let(:permissions) { [] }

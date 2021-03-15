@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -29,29 +27,13 @@
 #++
 
 class Queries::Capabilities::Filters::IdFilter < Queries::Capabilities::Filters::CapabilityFilter
-  def type
-    :string
-  end
-
-  def where
-    case operator
-    when '='
-      value_conditions.join(' OR ')
-    when '!'
-      "NOT #{value_conditions.join(' AND NOT ')}"
-    end
-  end
-
-  def available_operators
-    [Queries::Operators::Equals,
-     Queries::Operators::NotEquals]
-  end
+  include Queries::Capabilities::Filters::ParsedFilterMixin
 
   private
 
   def split_values
     values.map do |value|
-      if (matches = value.match(/\A(\w+\/\w+)\/(\w)(\d*)-(\d+)\z/))
+      if (matches = value.match(/\A(\w+\/\w+)\/([pg])(\d*)-(\d+)\z/))
         {
           permission_map: matches[1],
           context_key: matches[2],
@@ -66,7 +48,7 @@ class Queries::Capabilities::Filters::IdFilter < Queries::Capabilities::Filters:
     split_values.map do |value|
       conditions = ["permission_map = '#{value[:permission_map]}' AND principal_id = #{value[:principal_id]}"]
 
-      conditions << if value[:context_id]
+      conditions << if value[:context_id].present?
                       ["project_id = #{value[:context_id]}"]
                     else
                       ["project_id IS NULL"]
@@ -74,11 +56,5 @@ class Queries::Capabilities::Filters::IdFilter < Queries::Capabilities::Filters:
 
       "(#{conditions.join(' AND ')})"
     end
-  end
-
-  def validate_values
-    super
-
-    errors.add(:values, "malformed id value") if split_values.any?(&:nil?)
   end
 end
