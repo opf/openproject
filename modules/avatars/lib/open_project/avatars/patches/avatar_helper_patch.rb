@@ -90,7 +90,8 @@ AvatarHelper.class_eval do
 
       content_tag 'op-principal',
                   '',
-                  'data-class-list': tag_options[:class],
+                  'data-avatar-classes': tag_options[:class],
+                  'data-principal-size': tag_options[:size],
                   'data-principal-id': user.id,
                   'data-principal-name': user.name,
                   'data-principal-type': 'user',
@@ -119,15 +120,19 @@ AvatarHelper.class_eval do
 
       content_tag 'op-principal',
                   '',
-                  'data-class-list': tag_options[:class],
+                  'data-avatar-classes': tag_options[:class],
                   'data-principal-id': user.id,
                   'data-principal-name': user.name,
                   'data-principal-type': 'user',
+                  'data-principal-size': tag_options[:size],
                   'data-hide-name': 'true'
     end
 
     def merge_image_options(user, options)
-      default_options = { class: 'avatar' }
+      default_options = {
+        class: '',
+        size: 'default',
+      }
       default_options[:title] = h(user.name) if user.respond_to?(:name)
 
       options.reverse_merge(default_options)
@@ -153,11 +158,11 @@ AvatarHelper.class_eval do
 
   def build_default_avatar_image_tag(user, options = {})
     tag_options = merge_image_options(user, options)
-    tag_options[:class] << ' avatar-default'
 
     content_tag 'op-principal',
                 '',
-                'data-class-list': tag_options[:class],
+                'data-avatar-classes': tag_options[:class],
+                'data-principal-size': tag_options[:size],
                 'data-principal-name': user.name,
                 'data-principal-id': user.id,
                 'data-principal-type': 'user',

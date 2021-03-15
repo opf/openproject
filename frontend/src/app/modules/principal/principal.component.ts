@@ -32,7 +32,10 @@ import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper
 import {TimezoneService} from 'core-components/datetime/timezone.service';
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
-import {PrincipalRendererService} from "./principal-renderer.service";
+import {
+  PrincipalRendererService,
+  AvatarSize,
+} from "./principal-renderer.service";
 import {PrincipalLike} from "./principal-types";
 import {PrincipalHelper} from "./principal-helper";
 import PrincipalPluralType = PrincipalHelper.PrincipalPluralType;
@@ -47,9 +50,11 @@ export const principalSelector = 'op-principal';
 export class OpPrincipalComponent implements OnInit {
   /** If coming from angular, pass a principal resource if available */
   @Input() principal:PrincipalLike;
-  @Input() hideAvatar:boolean = false;
-  @Input() hideName:boolean = false;
-  @Input() avatarClasses:string = '';
+  @Input('hide-avatar') hideAvatar:boolean = false;
+  @Input('hide-name') hideName:boolean = false;
+  @Input() link:boolean = true;
+  @Input() size:AvatarSize = 'default';
+  @Input('avatar-classes') avatarClasses:string = '';
 
   public constructor(readonly elementRef:ElementRef,
                      readonly PathHelper:PathHelperService,
@@ -67,27 +72,37 @@ export class OpPrincipalComponent implements OnInit {
       this.principal = this.principalFromDataset(element);
       this.hideAvatar = element.dataset.hideAvatar === 'true';
       this.hideName = element.dataset.hideName === 'true';
-      this.avatarClasses = element.dataset.classList ?? '';
+      this.link = element.dataset.link === 'true';
+      this.size = element.dataset.size ?? 'default';
+      this.avatarClasses = element.dataset.avatarClasses ?? '';
     }
 
     this.principalRenderer.render(
       element,
       this.principal,
-      this.hideName,
-      this.hideAvatar ? false : { classes: this.avatarClasses + ' avatar' },
+      {
+        hide: this.hideName,
+        link: this.link,
+      },
+      {
+        hide: this.hideAvatar,
+        size: this.size,
+        classes: this.avatarClasses,
+      },
     );
   }
 
   private principalFromDataset(element:HTMLElement) {
     const id = element.dataset.principalId!;
+    const name = element.dataset.principalName!;
     const type = element.dataset.principalType;
     const plural = type + 's' as PrincipalPluralType;
     const href = this.apiV3Service[plural].id(id).toString();
 
     return {
-      id: id,
-      name: element.dataset.principalName!,
-      href: href
+      id,
+      name,
+      href,
     }
   }
 }

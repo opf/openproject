@@ -74,6 +74,12 @@ export class MultipleUserFieldModule extends ResourcesDisplayField {
 
   public renderAbridgedValues(element:HTMLElement, values:UserResource[]) {
     const valueForDisplay = _.take(values, 2);
-    this.principalRenderer.renderMultiple(element, valueForDisplay);
+    this.principalRenderer.renderMultiple(
+      element,
+      valueForDisplay,
+      { hide: false, link: false },
+      { hide: false, size: 'medium' },
+      false,
+    );
   }
 }

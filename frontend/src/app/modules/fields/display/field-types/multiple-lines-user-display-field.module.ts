@@ -49,6 +49,12 @@ export class MultipleLinesUserFieldModule extends ResourcesDisplayField {
   }
 
   protected renderValues(values:UserResource[], element:HTMLElement) {
-    this.principalRenderer.renderMultiple(element, values, false, true);
+    this.principalRenderer.renderMultiple(
+      element,
+      values,
+      { hide: false, link: false },
+      { hide: false, size: 'medium' },
+      true,
+    );
   }
 }

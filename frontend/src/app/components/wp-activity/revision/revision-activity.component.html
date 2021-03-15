@@ -9,16 +9,16 @@
   <op-principal
     *ngIf="activity.author && userName"
     [attr.data-principal-id]="userId"
-    data-hide-name="true"
+    [attr.data-principal-name]="userName"
     data-principal-type="user"
-    data-class-list="avatar"
+    data-hide-name="true"
   ></op-principal>
 
   <op-principal
     *ngIf="!activity.author && userName"
-    data-hide-name="true"
+    [attr.data-principal-name]="userName"
     data-principal-type="user"
-    data-class-list="avatar"
+    data-hide-name="true"
   ></op-principal>
 
   <span class="user" *ngIf="userActive">

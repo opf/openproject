@@ -66,11 +66,7 @@ class EditField
     retry_block do
       unless active?
         SeleniumHubWaiter.wait
-        # TODO: this feels wrong.
-        # The problem is that the eventlistener is on the parent, but there are also children that respond to clicks,
-        # and if we are not specific enough capybara somehow triggers clicks on the child instead.
-        parent = display_element.first(:xpath, ".//..")
-        scroll_to_and_click(parent)
+        scroll_to_and_click(display_element)
         SeleniumHubWaiter.wait
       end
 
