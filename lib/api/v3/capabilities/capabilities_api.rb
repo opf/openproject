@@ -33,9 +33,21 @@ module API
         resources :capabilities do
           helpers API::Utilities::PageSizeHelper
 
+          helpers do
+            def query
+              @query = ParamsToQueryService
+                       .new(Capability, current_user)
+                       .call(params)
+            end
+          end
+
+          after_validation do
+            raise ::API::Errors::InvalidQuery.new(query.errors.full_messages) if query.invalid?
+          end
+
           get do
             ::API::V3::Utilities::SqlRepresenterWalker
-              .new(::Queries::Capabilities::CapabilityQuery.new(user: current_user).results,
+              .new(query.results,
                    embed: { 'elements' => {} },
                    select: { 'elements' => { 'id' => {}, '_type' => {}, 'self' => {}, 'context' => {}, 'principal' => {} } },
                    current_user: current_user,
@@ -69,7 +81,7 @@ module API
             get do
               ::API::V3::Utilities::SqlRepresenterWalker
                 .new(scope.limit(1),
-                     embed: { },
+                     embed: {},
                      select: { 'id' => {}, '_type' => {}, 'self' => {}, 'context' => {}, 'principal' => {} },
                      current_user: current_user)
                 .walk(API::V3::Capabilities::CapabilitySqlRepresenter)

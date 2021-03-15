@@ -28,14 +28,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Capabilities::Filters::CapabilityFilter < Queries::Filters::Base
-  self.model = Capability
+require 'spec_helper'
 
-  def human_name
-    Capability.human_attribute_name(name)
-  end
-
-  def where
-    operator_strategy.sql_for_field(values, 'capabilities', self.class.key)
+describe Queries::Capabilities::Filters::PrincipalIdFilter, type: :model do
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :principal_id }
+    let(:type) { :integer }
+    let(:model) { Capability }
+    let(:attribute) { :principal_id }
+    let(:values) { ['5'] }
   end
 end

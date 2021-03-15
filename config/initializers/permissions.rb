@@ -81,7 +81,8 @@ OpenProject::AccessControl.map do |map|
 
     map.permission :edit_project,
                    edit_project_hash,
-                   require: :member
+                   require: :member,
+                   contract_actions: { projects: %i[update] }
 
     map.permission :select_project_modules,
                    { projects: :modules },
@@ -91,10 +92,11 @@ OpenProject::AccessControl.map do |map|
                    { members: %i[index new create update destroy autocomplete_for_member] },
                    require: :member,
                    dependencies: :view_members,
-                   contract_actions: { members: %i[create read update destroy] }
+                   contract_actions: { members: %i[create update destroy] }
 
     map.permission :view_members,
-                   { members: [:index] }
+                   { members: [:index] },
+                   contract_actions: { members: %i[read] }
 
     map.permission :manage_versions,
                    {

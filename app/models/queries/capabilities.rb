@@ -33,6 +33,7 @@ module Queries::Capabilities
   filter_ns = Queries::Capabilities::Filters
 
   Queries::Register.filter query, filter_ns::IdFilter
+  Queries::Register.filter query, filter_ns::PrincipalIdFilter
 
   order_ns = Queries::Capabilities::Orders
 

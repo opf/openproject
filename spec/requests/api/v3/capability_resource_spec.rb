@@ -88,7 +88,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
           .at_path('_type')
 
         expect(subject.body)
-          .to be_json_eql('7')
+          .to be_json_eql('6')
           .at_path('total')
 
         expect(subject.body)
@@ -97,16 +97,16 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
 
         expect(subject.body)
           .to be_json_eql("users/create/g-#{other_user.id}".to_json)
-          .at_path('_embedded/elements/4/id')
+          .at_path('_embedded/elements/3/id')
 
         expect(subject.body)
           .to be_json_eql("users/update/g-#{other_user.id}".to_json)
-          .at_path('_embedded/elements/6/id')
+          .at_path('_embedded/elements/5/id')
       end
     end
 
     context 'with pageSize, offset and sortBy' do
-      let(:path) { "#{api_v3_paths.path_for(:capabilities, sort_by: [%i(id asc)])}&pageSize=1&offset=5" }
+      let(:path) { "#{api_v3_paths.path_for(:capabilities, sort_by: [%i(id asc)])}&pageSize=1&offset=4" }
 
       it 'returns a slice of the visible memberships' do
         expect(subject.body)
@@ -114,7 +114,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
           .at_path('_type')
 
         expect(subject.body)
-          .to be_json_eql('7')
+          .to be_json_eql('6')
           .at_path('total')
 
         expect(subject.body)
@@ -141,7 +141,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
           .at_path('_type')
 
         expect(subject.body)
-          .to be_json_eql('4')
+          .to be_json_eql('3')
           .at_path('total')
 
         expect(subject.body)
@@ -166,7 +166,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
           .at_path('_type')
 
         expect(subject.body)
-          .to be_json_eql('4')
+          .to be_json_eql('3')
           .at_path('total')
 
         expect(subject.body)
@@ -175,24 +175,49 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
       end
     end
 
-    #context 'filtering by user name' do
-    #  let(:filters) do
-    #    [{ 'any_name_attribute' => {
-    #      'operator' => '~',
-    #      'values' => [other_member.principal.login]
-    #    } }]
-    #  end
+    context 'filtering by principal id' do
+      let(:current_user_permissions) { %i[manage_members] }
+      let(:filters) do
+        [{ 'principalId' => {
+          'operator' => '=',
+          'values' => [current_user.id.to_s]
+        } }]
+      end
 
-    #  it 'contains only the filtered member in the response' do
-    #    expect(subject.body)
-    #      .to be_json_eql('1')
-    #            .at_path('total')
+      it 'contains only the filtered capabilities in the response' do
+        expect(subject.body)
+          .to be_json_eql('3')
+          .at_path('total')
 
-    #    expect(subject.body)
-    #      .to be_json_eql(other_member.id.to_json)
-    #            .at_path('_embedded/elements/0/id')
-    #  end
-    #end
+        expect(subject.body)
+          .to be_json_eql(api_v3_paths.user(current_user.id).to_json)
+          .at_path('_embedded/elements/0/_links/principal/href')
+      end
+    end
+
+    context 'invalid filter' do
+      let(:filters) do
+        [{ 'bogus' => {
+          'operator' => '=',
+          'values' => [current_user.id.to_s]
+        } }]
+      end
+
+      it 'returns 400' do
+        expect(subject.status)
+          .to be 400
+      end
+
+      it 'communicates the error message' do
+        expect(subject.body)
+          .to be_json_eql('Error'.to_json)
+          .at_path('_type')
+
+        expect(subject.body)
+          .to be_json_eql('urn:openproject-org:api:v3:errors:InvalidQuery'.to_json)
+          .at_path('errorIdentifier')
+      end
+    end
 
     #context 'filtering by project' do
     #  let(:members) { [own_member, other_member, invisible_member, own_other_member] }
@@ -325,7 +350,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
         .to eql(200)
     end
 
-    it 'returns the member' do
+    it 'returns the capability' do
       expect(subject.body)
         .to be_json_eql('Capability'.to_json)
         .at_path('_type')
