@@ -85,6 +85,7 @@ describe 'Members widget on dashboard', type: :feature, js: true do
     within area do
       expect(page)
         .to have_content role.name
+      byebug
       expect(page)
         .to have_content manager_user.name
       expect(page)

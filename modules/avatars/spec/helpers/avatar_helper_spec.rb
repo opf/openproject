@@ -25,9 +25,9 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
   def local_expected_user_avatar_tag(user)
     tag_options = { 'data-principal-id': user.id,
                     'data-principal-name': user.name,
-                    'data-hide-name': 'true',
                     'data-principal-type': 'user',
-                    'data-avatar-classes': 'avatar' }
+                    'data-hide-name': 'true',
+                    'data-size': 'default' }
 
     content_tag 'op-principal', '', tag_options
   end
@@ -60,7 +60,7 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
   def gravatar_expected_image_tag(digest, options = {})
     tag_options = options.reverse_merge(title: user.name,
                                         alt: 'Gravatar',
-                                        class: 'avatar avatar--gravatar-image avatar--fallback').delete_if { |key, value| value.nil? || key == :ssl }
+                                        class: 'avatar--gravatar-image avatar--fallback').delete_if { |key, value| value.nil? || key == :ssl }
 
     image_tag gravatar_expected_url(digest, options), tag_options
   end
