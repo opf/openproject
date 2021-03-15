@@ -26,17 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, OnInit} from "@angular/core";
-import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {EditFieldComponent} from "../edit-field.component";
-import {CreateAutocompleterComponent} from "core-app/modules/common/autocomplete/create-autocompleter.component";
-import {SelectAutocompleterRegisterService} from "app/modules/fields/edit/field-types/select-autocompleter-register.service";
-import {from} from 'rxjs';
-import {map, tap} from 'rxjs/operators';
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { Component, OnInit } from '@angular/core';
+import { HalResourceSortingService } from 'core-app/modules/hal/services/hal-resource-sorting.service';
+import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { EditFieldComponent } from '../edit-field.component';
+import { SelectAutocompleterRegisterService } from 'app/modules/fields/edit/field-types/select-autocompleter-register.service';
+import { from } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { HalResourceNotificationService } from 'core-app/modules/hal/services/hal-resource-notification.service';
+import { InjectField } from 'core-app/helpers/angular/inject-field.decorator';
+import { PermissionsService } from 'core-app/core/services/permissions/permissions.service';
+import { CreateAutocompleterComponent } from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component";
+import { EditFormComponent } from "core-app/modules/fields/edit/edit-form/edit-form.component";
+import { StateService } from "@uirouter/core";
 
 export interface ValueOption {
   name:string;
@@ -44,29 +47,21 @@ export interface ValueOption {
 }
 
 @Component({
-  templateUrl: './select-edit-field.component.html'
+  templateUrl: './select-edit-field.component.html',
 })
 export class SelectEditFieldComponent extends EditFieldComponent implements OnInit {
   @InjectField() selectAutocompleterRegister:SelectAutocompleterRegisterService;
   @InjectField() halNotification:HalResourceNotificationService;
   @InjectField() halSorting:HalResourceSortingService;
+  @InjectField() permissionsService:PermissionsService;
+  @InjectField() editFormComponent:EditFormComponent;
+  @InjectField() $state:StateService
+
 
   public availableOptions:any[];
   public valueOptions:ValueOption[];
-  protected valuesLoaded = false;
-
   public text:{ [key:string]:string };
-
   public appendTo:any = null;
-  private hiddenOverflowContainer = '.__hidden_overflow_container';
-
-  /** Remember the values loading promise which changes as soon as the changeset is updated
-   * (e.g., project or type is changed).
-   */
-  private valuesLoadingPromise:Promise<unknown>;
-
-  protected _autocompleterComponent:CreateAutocompleterComponent;
-
   public referenceOutputs:{ [key:string]:Function } = {
     onCreate: (newElement:HalResource) => this.onCreate(newElement),
     onChange: (value:HalResource) => this.onChange(value),
@@ -75,27 +70,31 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     onClose: () => this.onClose(),
     onAfterViewInit: (component:CreateAutocompleterComponent) => this._autocompleterComponent = component
   };
-
-  protected initialize() {
-    this.text = {
-      requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
-      placeholder: this.I18n.t('js.placeholders.default')
-    };
-
-    this.valuesLoadingPromise = this.change.getForm().then(() => {
-      return this.initialValueLoading();
-    });
+  public get selectedOption() {
+    const href = this.value ? this.value.$href : null;
+    return _.find(this.valueOptions, o => o.$href === href)!;
   }
+  public set selectedOption(val:ValueOption) {
+    const option = _.find(this.availableOptions, o => o.$href === val.$href);
 
-  protected initialValueLoading() {
-    this.valuesLoaded = false;
-    return this.loadValues().toPromise();
-  }
+    // Special case 'null' value, which angular
+    // only understands in ng-options as an empty string.
+    if (option && option.$href === '') {
+      option.$href = null;
+    }
 
-  public autocompleterComponent() {
-    let type = this.schema.type;
-    return this.selectAutocompleterRegister.getAutocompleterOfAttribute(type) || CreateAutocompleterComponent;
+    this.value = option;
   }
+  public showAddNewButton:boolean;
+
+  protected valuesLoaded = false;
+  protected _autocompleterComponent:CreateAutocompleterComponent;
+
+  private hiddenOverflowContainer = '.__hidden_overflow_container';
+  /** Remember the values loading promise which changes as soon as the changeset is updated
+   * (e.g., project or type is changed).
+   */
+  private valuesLoadingPromise:Promise<unknown>;
 
   public ngOnInit() {
     super.ngOnInit();
@@ -111,23 +110,39 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
           this._autocompleterComponent.openDirectly = true;
         });
       });
+
+    this._syncUrlParamsOnChangeIfNeeded(this.handler.fieldName, this.editFormComponent.editMode);
   }
 
-  public get selectedOption() {
-    const href = this.value ? this.value.$href : null;
-    return _.find(this.valueOptions, o => o.$href === href)!;
+  protected initialize() {
+    this.text = {
+      requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
+      placeholder: this.I18n.t('js.placeholders.default')
+    };
+
+    this.valuesLoadingPromise = this.change.getForm().then(() => {
+      return this.initialValueLoading();
+    });
+
+    this.initializeShowAddButton();
   }
 
-  public set selectedOption(val:ValueOption) {
-    let option = _.find(this.availableOptions, o => o.$href === val.$href);
-
-    // Special case 'null' value, which angular
-    // only understands in ng-options as an empty string.
-    if (option && option.$href === '') {
-      option.$href = null;
+  initializeShowAddButton() {
+    if (this.schema.type === 'User') {
+      this.permissionsService
+        .canInviteUsersToProject()
+        .subscribe(canInviteUsersToProject => this.showAddNewButton = canInviteUsersToProject);
     }
+  }
 
-    this.value = option;
+  protected initialValueLoading() {
+    this.valuesLoaded = false;
+    return this.loadValues().toPromise();
+  }
+
+  public autocompleterComponent() {
+    const type = this.schema.type;
+    return this.selectAutocompleterRegister.getAutocompleterOfAttribute(type) || CreateAutocompleterComponent;
   }
 
   private setValues(availableValues:HalResource[]) {
@@ -137,7 +152,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   protected loadValues(query?:string) {
-    let allowedValues = this.schema.allowedValues;
+    const allowedValues = this.schema.allowedValues;
 
     if (Array.isArray(allowedValues)) {
       this.setValues(allowedValues);
@@ -269,5 +284,19 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   private getEmptyOption():ValueOption|undefined {
     return _.find(this.availableOptions, el => el.name === this.text.placeholder);
+  }
+
+  private _syncUrlParamsOnChangeIfNeeded(fieldName:string, editMode:boolean) {
+    // Work package type changes need to be synced with the type url param
+    // in order to keep the form changes (changeset) between route/state changes
+    if (fieldName === 'type' && editMode) {
+      this.handler.registerOnBeforeSubmit(() => {
+        const newType = this.value?.$source?.id;
+
+        if (newType) {
+          this.$state.go('.', { type: newType }, { notify: false });
+        }
+      });
+    }
   }
 }
