@@ -44,6 +44,7 @@ require 'open3'
 
 class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
   include WorkPackage::PDFExport::Common
+  include WorkPackage::PDFExport::Formattable
   include WorkPackage::PDFExport::Attachments
 
   attr_accessor :pdf,
@@ -182,7 +183,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
     widths.map { |w| w * ratio }
   end
 
-  def description_colspan
+  def formattable_colspan
     valid_export_columns.size
   end
 
@@ -212,7 +213,9 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
       write_attributes!(work_package)
 
       if options[:show_descriptions]
-        write_description!(work_package, false)
+        write_formattable! work_package,
+                           markdown: work_package.description,
+                           label: WorkPackage.human_attribute_name(:description)
       end
 
       if options[:show_attachments] && work_package.attachments.exists?
