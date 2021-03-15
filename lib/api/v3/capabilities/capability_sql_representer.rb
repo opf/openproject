@@ -32,6 +32,13 @@ module API
   module V3
     module Capabilities
       class CapabilitySqlRepresenter < API::Decorators::SqlRepresenter
+        property :_type,
+                 representation: -> {
+                   <<~SQL
+                     'Capability'
+                   SQL
+                 }
+
         property :id,
                  representation: -> {
                    <<~SQL

@@ -47,7 +47,8 @@ OpenProject::AccessControl.map do |map|
     map.permission :add_project,
                    { projects: %i[new create] },
                    require: :loggedin,
-                   global: true
+                   global: true,
+                   contract_actions: { projects: %i[create] }
 
     map.permission :manage_user,
                    {
@@ -56,7 +57,8 @@ OpenProject::AccessControl.map do |map|
                      admin: %i[index]
                    },
                    require: :loggedin,
-                   global: true
+                   global: true,
+                   contract_actions: { users: %i[create read update] }
 
     map.permission :manage_placeholder_user,
                    {
@@ -65,7 +67,8 @@ OpenProject::AccessControl.map do |map|
                      admin: %i[index]
                    },
                    require: :loggedin,
-                   global: true
+                   global: true,
+                   contract_actions: { placeholder_users: %i[create read update] }
 
     map.permission :view_project,
                    { projects: [:show],
@@ -87,7 +90,8 @@ OpenProject::AccessControl.map do |map|
     map.permission :manage_members,
                    { members: %i[index new create update destroy autocomplete_for_member] },
                    require: :member,
-                   dependencies: :view_members
+                   dependencies: :view_members,
+                   contract_actions: { members: %i[create read update destroy] }
 
     map.permission :view_members,
                    { members: [:index] }
@@ -115,7 +119,6 @@ OpenProject::AccessControl.map do |map|
   end
 
   map.project_module :work_package_tracking, order: 90 do |wpt|
-    # Issues
     wpt.permission :view_work_packages,
                    versions: %i[index show status_by],
                    journals: %i[index diff],

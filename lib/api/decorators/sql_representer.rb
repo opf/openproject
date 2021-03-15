@@ -121,6 +121,27 @@ module API
           {}
         end
 
+        def to_sql(walker_result)
+          ctes = walker_result.ctes.map do |key, sql|
+            <<~SQL
+              #{key} AS (
+                #{sql}
+              )
+            SQL
+          end
+
+          ctes_sql = ctes.any? ? "WITH #{ctes.join(', ')}" : ""
+
+          <<~SQL
+            #{ctes_sql}
+
+            SELECT
+              #{walker_result.selects} AS json
+            FROM
+              (#{walker_result.scope.to_sql}) element
+          SQL
+        end
+
         private
 
         def selected_links(select)

@@ -36,8 +36,8 @@ module API
 
         def initialize(scope,
                        current_user:,
-                       page_size:,
-                       offset:,
+                       page_size: nil,
+                       offset: nil,
                        embed: {},
                        select: {})
           self.scope = scope

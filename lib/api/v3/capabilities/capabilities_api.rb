@@ -33,73 +33,38 @@ module API
         resources :capabilities do
           helpers API::Utilities::PageSizeHelper
 
-          helpers do
-            def capabilities_sql
-              <<~SQL
-                WITH
-
-                all_elements AS (
-                  #{::Queries::Capabilities::CapabilityQuery.new(user: current_user).results.to_sql}
-                ),
-
-                page_elements AS (
-                  SELECT * FROM all_elements LIMIT #{resulting_page_size(params[:pageSize])} OFFSET #{to_i_or_nil(params[:offset]) || 0}
-                ),
-
-                elements_json AS (SELECT
-                  json_build_object('_links',
-                    json_build_object(
-                    'self', json_build_object('href', (CASE
-                                                       WHEN project_id IS NULL THEN 'api/v3/capabilities/' || permission_map || '/g-' || principal_id
-                                                       ELSE 'api/v3/capabilities/' || permission_map || '/p' || project_id || '-' || principal_id
-                                                       END)),
-                      'context', json_build_object('href', (CASE
-                                                            WHEN project_id IS NULL THEN 'api/v3/capabilities/contexts/global'
-                                                            ELSE 'api/v3/projects/' || project_id
-                                                            END)),
-                    -- TODO: differentiate between various principals
-                    'principal', json_build_object('href', 'api/v3/users/' || principal_id)),
-                  'id', (CASE
-                         WHEN project_id IS NULL THEN permission_map || '/g-' || principal_id
-                         ELSE permission_map || '/p' || project_id || '-' || principal_id
-                         END)
-                  ) representation
-                  FROM page_elements
-                ),
-
-                collection AS (SELECT
-                  json_build_object(
-                    '_type', 'Collection',
-                    'perPage', #{resulting_page_size(params[:pageSize])},
-                    'offset', #{(to_i_or_nil(params[:offset]) || 0) + 1},
-                    'count', COUNT(*),
-                    'total', (SELECT COUNT(*) from all_elements),
-                    '_embedded', json_build_object(
-                      'elements', array_agg(representation)
-                    )
-                  ) json
-                  FROM elements_json
-                )
-
-                SELECT json FROM collection
-              SQL
-            end
-
-            def capabilities
-              ::Capability.connection.select_one capabilities_sql
-            end
-          end
-
           get do
             ::API::V3::Utilities::SqlRepresenterWalker
               .new(::Queries::Capabilities::CapabilityQuery.new(user: current_user).results,
                    embed: { 'elements' => {} },
-                   select: { 'elements' => { 'id' => {}, 'self' => {}, 'context' => {}, 'principal' => {} } },
+                   select: { 'elements' => { 'id' => {}, '_type' => {}, 'self' => {}, 'context' => {}, 'principal' => {} } },
                    current_user: current_user,
                    page_size: params[:pageSize],
                    offset: params[:offset])
               .walk(API::V3::Capabilities::CapabilitySqlCollectionRepresenter)
           end
+
+          params do
+            requires :namespace, type: String, desc: 'The action namespace identifier'
+            requires :action, type: String, desc: 'The action identifier'
+            requires :context, type: String, desc: 'The context identifier'
+            requires :principal, type: Integer, desc: 'The principal identifier'
+          end
+          namespace ':namespace/:action/:context-:principal' do
+            after_validation do
+
+            end
+
+            get do
+              ::API::V3::Utilities::SqlRepresenterWalker
+                .new(::Queries::Capabilities::CapabilityQuery.new(user: current_user).results.limit(1),
+                     embed: { },
+                     select: { 'id' => {}, '_type' => {}, 'self' => {}, 'context' => {}, 'principal' => {} },
+                     current_user: current_user)
+                .walk(API::V3::Capabilities::CapabilitySqlRepresenter)
+            end
+          end
+
 
           namespace :contexts do
             mount API::V3::Capabilities::Contexts::GlobalAPI

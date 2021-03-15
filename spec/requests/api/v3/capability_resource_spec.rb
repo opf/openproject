@@ -88,7 +88,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
           .at_path('_type')
 
         expect(subject.body)
-          .to be_json_eql('3')
+          .to be_json_eql('7')
           .at_path('total')
 
         expect(subject.body)
@@ -97,49 +97,16 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
 
         expect(subject.body)
           .to be_json_eql("users/create/g-#{other_user.id}".to_json)
-          .at_path('_embedded/elements/1/id')
+          .at_path('_embedded/elements/4/id')
 
         expect(subject.body)
           .to be_json_eql("users/update/g-#{other_user.id}".to_json)
-          .at_path('_embedded/elements/2/id')
+          .at_path('_embedded/elements/6/id')
       end
     end
 
-    #context 'as an admin' do
-    #  let(:current_user) { admin }
-
-    #  it 'returns a collection of memberships containing only the visible ones', :aggregate_failures do
-    #    expect(subject.status).to eq(200)
-
-    #    expect(subject.body)
-    #      .to be_json_eql('Collection'.to_json)
-    #            .at_path('_type')
-
-    #    # the one membership stems from the membership the user has himself
-    #    expect(subject.body)
-    #      .to be_json_eql('4')
-    #            .at_path('total')
-
-    #    expect(subject.body)
-    #      .to be_json_eql(own_member.id.to_json)
-    #            .at_path('_embedded/elements/0/id')
-
-    #    expect(subject.body)
-    #      .to be_json_eql(other_member.id.to_json)
-    #            .at_path('_embedded/elements/1/id')
-
-    #    expect(subject.body)
-    #      .to be_json_eql(invisible_member.id.to_json)
-    #            .at_path('_embedded/elements/2/id')
-
-    #    expect(subject.body)
-    #      .to be_json_eql(global_member.id.to_json)
-    #            .at_path('_embedded/elements/3/id')
-    #  end
-    #end
-
     context 'with pageSize, offset and sortBy' do
-      let(:path) { "#{api_v3_paths.path_for(:capabilities, sort_by: [%i(id asc)])}&pageSize=1&offset=2" }
+      let(:path) { "#{api_v3_paths.path_for(:capabilities, sort_by: [%i(id asc)])}&pageSize=1&offset=5" }
 
       it 'returns a slice of the visible memberships' do
         expect(subject.body)
@@ -147,7 +114,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
           .at_path('_type')
 
         expect(subject.body)
-          .to be_json_eql('3')
+          .to be_json_eql('7')
           .at_path('total')
 
         expect(subject.body)
@@ -160,65 +127,53 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
       end
     end
 
-    #context 'with a group' do
-    #  let(:group) { FactoryBot.create(:group) }
-    #  let(:group_member) do
-    #    FactoryBot.create(:member,
-    #                      roles: [FactoryBot.create(:role)],
-    #                      project: project,
-    #                      principal: group)
-    #  end
-    #  let(:members) { [own_member, group_member] }
+    context 'with a group' do
+      let(:other_user) { group }
+      let(:group) { FactoryBot.create(:group) }
 
-    #  it 'returns that group membership together with the rest of them' do
-    #    expect(subject.body)
-    #      .to be_json_eql('Collection'.to_json)
-    #            .at_path('_type')
+      let(:setup) do
+        other_user_member
+      end
 
-    #    expect(subject.body)
-    #      .to be_json_eql('2')
-    #            .at_path('total')
+      it 'returns a collection of capabilities' do
+        expect(subject.body)
+          .to be_json_eql('Collection'.to_json)
+          .at_path('_type')
 
-    #    expect(subject.body)
-    #      .to be_json_eql(own_member.id.to_json)
-    #            .at_path('_embedded/elements/0/id')
+        expect(subject.body)
+          .to be_json_eql('4')
+          .at_path('total')
 
-    #    expect(subject.body)
-    #      .to be_json_eql(group_member.id.to_json)
-    #            .at_path('_embedded/elements/1/id')
-    #  end
-    #end
+        expect(subject.body)
+          .to be_json_eql("memberships/create/p#{project.id}-#{other_user.id}".to_json)
+          .at_path('_embedded/elements/0/id')
+      end
+    end
 
-    #context 'with a placeholder_user' do
-    #  let(:placeholder_user) do
-    #    FactoryBot.create(:placeholder_user)
-    #  end
-    #  let(:placeholder_member) do
-    #    FactoryBot.create(:member,
-    #                      roles: [FactoryBot.create(:role)],
-    #                      project: project,
-    #                      principal: placeholder_user)
-    #  end
-    #  let(:members) { [own_member, placeholder_member] }
+    context 'with a placeholder_user' do
+      let(:other_user) { placeholder_user }
+      let(:placeholder_user) do
+        FactoryBot.create(:placeholder_user)
+      end
 
-    #  it 'returns that placeholder user membership together with the rest of them' do
-    #    expect(subject.body)
-    #      .to be_json_eql('Collection'.to_json)
-    #            .at_path('_type')
+      let(:setup) do
+        other_user_member
+      end
 
-    #    expect(subject.body)
-    #      .to be_json_eql('2')
-    #            .at_path('total')
+      it 'returns a collection of capabilities' do
+        expect(subject.body)
+          .to be_json_eql('Collection'.to_json)
+          .at_path('_type')
 
-    #    expect(subject.body)
-    #      .to be_json_eql(own_member.id.to_json)
-    #            .at_path('_embedded/elements/0/id')
+        expect(subject.body)
+          .to be_json_eql('4')
+          .at_path('total')
 
-    #    expect(subject.body)
-    #      .to be_json_eql(placeholder_member.id.to_json)
-    #            .at_path('_embedded/elements/1/id')
-    #  end
-    #end
+        expect(subject.body)
+          .to be_json_eql("memberships/create/p#{project.id}-#{other_user.id}".to_json)
+          .at_path('_embedded/elements/0/id')
+      end
+    end
 
     #context 'filtering by user name' do
     #  let(:filters) do
@@ -352,52 +307,53 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
     #end
   end
 
-  #describe 'GET /api/v3/memberships/:id' do
-  #  let(:path) { api_v3_paths.membership(other_member.id) }
+  describe 'GET /api/v3/capabilities/:id' do
+    let(:path) { api_v3_paths.capability("memberships/create/p#{project.id}-#{other_user.id}") }
+    #let(:path) { api_v3_paths.capability("memberships/create") }#"/create/p#{project.id}-#{other_user.id}") }
 
-  #  let(:members) { [own_member, other_member] }
+    let(:setup) do
+      other_user_member
+    end
 
-  #  before do
-  #    members
+    before do
+      setup
 
-  #    login_as(current_user)
+      get path
+    end
 
-  #    get path
-  #  end
+    it 'returns 200 OK' do
+      expect(subject.status)
+        .to eql(200)
+    end
 
-  #  it 'returns 200 OK' do
-  #    expect(subject.status)
-  #      .to eql(200)
-  #  end
+    it 'returns the member' do
+      expect(subject.body)
+        .to be_json_eql('Capability'.to_json)
+        .at_path('_type')
 
-  #  it 'returns the member' do
-  #    expect(subject.body)
-  #      .to be_json_eql('Membership'.to_json)
-  #            .at_path('_type')
+      expect(subject.body)
+        .to be_json_eql("memberships/create/p#{project.id}-#{other_user.id}".to_json)
+        .at_path('id')
+    end
 
-  #    expect(subject.body)
-  #      .to be_json_eql(other_member.id.to_json)
-  #            .at_path('id')
-  #  end
+    #context 'if querying an invisible member' do
+    #  let(:path) { api_v3_paths.membership(invisible_member.id) }
 
-  #  context 'if querying an invisible member' do
-  #    let(:path) { api_v3_paths.membership(invisible_member.id) }
+    #  let(:members) { [own_member, invisible_member] }
 
-  #    let(:members) { [own_member, invisible_member] }
+    #  it 'returns 404 NOT FOUND' do
+    #    expect(subject.status)
+    #      .to eql(404)
+    #  end
+    #end
 
-  #    it 'returns 404 NOT FOUND' do
-  #      expect(subject.status)
-  #        .to eql(404)
-  #    end
-  #  end
+    #context 'without the necessary permissions' do
+    #  let(:permissions) { [] }
 
-  #  context 'without the necessary permissions' do
-  #    let(:permissions) { [] }
-
-  #    it 'returns 404 NOT FOUND' do
-  #      expect(subject.status)
-  #        .to eql(404)
-  #    end
-  #  end
-  #end
+    #  it 'returns 404 NOT FOUND' do
+    #    expect(subject.status)
+    #      .to eql(404)
+    #  end
+    #end
+  end
 end

@@ -71,13 +71,13 @@ module OpenProject
       # Returns the actions that are allowed by the permission of given name
       def allowed_actions(permission_name)
         perm = permission(permission_name)
-        perm ? perm.actions : []
+        perm ? perm.controller_actions : []
       end
 
       def allow_actions(action_hash)
         action = "#{action_hash[:controller]}/#{action_hash[:action]}"
 
-        permissions.select { |p| p.actions.include? action }
+        permissions.select { |p| p.controller_actions.include? action }
       end
 
       def public_permissions
@@ -115,6 +115,14 @@ module OpenProject
         @permissions.select { |p| p.project_module.nil? || modules.include?(p.project_module.to_s) }
       end
 
+      def contract_actions_map
+        @contract_actions_map ||= permissions.each_with_object({}) do |p, hash|
+          next unless p.contract_actions.any?
+
+          hash[p.name] = p.contract_actions
+        end
+      end
+
       def remove_modules_permissions(module_name)
         permissions = @permissions
 
@@ -130,6 +138,7 @@ module OpenProject
         @public_permissions = nil
         @members_only_permissions = nil
         @loggedin_only_permissions = nil
+        @contract_actions_map = nil
       end
     end
   end
