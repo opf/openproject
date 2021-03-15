@@ -86,7 +86,11 @@ AvatarHelper.class_eval do
       opts = options.merge(gravatar: default_gravatar_options)
 
       tag_options = merge_image_options(user, opts)
-      tag_options[:class] << ' avatar--gravatar-image avatar--fallback'
+      tag_options[:class] = [
+        tag_options[:class],
+        'avatar--gravatar-image',
+        'avatar--fallback'
+      ].reject(&:empty?).join(' ')
 
       content_tag 'op-principal',
                   '',

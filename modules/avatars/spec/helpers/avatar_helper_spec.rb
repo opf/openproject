@@ -27,6 +27,7 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
                     'data-principal-name': user.name,
                     'data-principal-type': 'user',
                     'data-hide-name': 'true',
+                    'data-avatar-classes': '',
                     'data-size': 'default' }
 
     content_tag 'op-principal', '', tag_options
@@ -41,6 +42,7 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
                     'data-principal-id': user.id,
                     'data-principal-name': user.name,
                     'data-principal-type': 'user',
+                    'data-avatar-classes': '',
                     'data-size': 'default'}
 
     content_tag 'op-principal', '', tag_options
