@@ -340,7 +340,16 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
 
       it 'returns 404 NOT FOUND' do
         expect(subject.status)
-          .to eql(404)
+          .to be 404
+      end
+    end
+
+    context 'if querying with malformed id' do
+      let(:path) { api_v3_paths.capability("foo/bar/baz-5") }
+
+      it 'returns 404 NOT FOUND' do
+        expect(subject.status)
+          .to be 404
       end
     end
   end

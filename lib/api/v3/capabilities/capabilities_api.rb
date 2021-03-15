@@ -53,8 +53,11 @@ module API
           namespace ':namespace/:action/:context-:principal' do
             helpers do
               def scope
+                # It doesn't really make sense to deconstruct the id only to rebuild it here.
+                # I haven't managed to get grape to match parameters including slashes.
+                id = "#{params[:namespace]}/#{params[:action]}/#{params[:context]}-#{params[:principal]}"
                 ::Queries::Capabilities::CapabilityQuery.new(user: current_user)
-                                                        .where('id', '=', "#{params[:namespace]}/#{params[:action]}/#{params[:context]}-#{params[:principal]}}")
+                                                        .where('id', '=', id)
                                                         .results
               end
             end

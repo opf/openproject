@@ -28,57 +28,57 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Capabilities::Filters::IdFilter < Queries::Capabilities::Filters::CapabilityFilter
-  def type
-    :string
-  end
+require 'spec_helper'
 
-  def where
-    case operator
-    when '='
-      value_conditions.join(' OR ')
-    when '!'
-      "NOT #{value_conditions.join(' AND NOT ')}"
-    end
-  end
+describe Queries::Capabilities::Filters::IdFilter, type: :model do
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :id }
+    let(:type) { :string }
+    let(:model) { Capability }
+    let(:attribute) { :id }
+    let(:values) { ['memberships/create/p3-5'] }
 
-  def available_operators
-    [Queries::Operators::Equals,
-     Queries::Operators::NotEquals]
-  end
-
-  private
-
-  def split_values
-    values.map do |value|
-      if (matches = value.match(/\A(\w+\/\w+)\/(\w)(\d*)-(\d+)\z/))
-        {
-          permission_map: matches[1],
-          context_key: matches[2],
-          context_id: matches[3],
-          principal_id: matches[4]
-        }
+    describe '#available_operators' do
+      it 'supports = and !' do
+        expect(instance.available_operators)
+          .to eql [Queries::Operators::Equals, Queries::Operators::NotEquals]
       end
     end
-  end
 
-  def value_conditions
-    split_values.map do |value|
-      conditions = ["permission_map = '#{value[:permission_map]}' AND principal_id = #{value[:principal_id]}"]
+    describe '#valid?' do
+      context 'without values' do
+        let(:values) { [] }
 
-      conditions << if value[:context_id]
-                      ["project_id = #{value[:context_id]}"]
-                    else
-                      ["project_id IS NULL"]
-                    end
+        it 'is invalid' do
+          expect(instance)
+            .to be_invalid
+        end
+      end
 
-      "(#{conditions.join(' AND ')})"
+      context 'with valid value' do
+        it 'is valid' do
+          expect(instance)
+            .to be_valid
+        end
+      end
+
+      context 'with multiple valid values' do
+        let(:values) { ['memberships/create/p3-5', 'users/create/g-5'] }
+
+        it 'is valid' do
+          expect(instance)
+            .to be_valid
+        end
+      end
+
+      context 'with malfomed values' do
+        let(:values) { ["foo/bar/baz-5"] }
+
+        it 'is invalid' do
+          expect(instance)
+            .to be_invalid
+        end
+      end
     end
-  end
-
-  def validate_values
-    super
-
-    errors.add(:values, "malformed id value") if split_values.any?(&:nil?)
   end
 end
