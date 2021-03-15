@@ -1,0 +1,81 @@
+<div class="inline-label ng-select-container">
+
+  <ng-select #ngSelectInstance
+        [(ngModel)]="model"
+        [items]="results$ | async"
+        [ngClass]="classes"
+        [virtualScroll]="true"
+        [typeahead]="searchInput$"
+        [clearOnBackspace]="clearOnBackspace"
+        [clearSearchOnAdd]="clearSearchOnAdd"
+        [hideSelected]="hideSelected"
+        [appendTo]="appendTo"
+        [multiple]="multiple"
+        [loading]="isLoading"
+        [addTag]="addTag"
+        [virtualScroll]="virtualScroll"
+        [required]="required"
+        [clearable]="clearable"
+        [closeOnSelect]="closeOnSelect"
+        [openOnEnter]="openOnEnter"
+        [disabled]="disabled"
+        [name]="name"
+        bindLabel="name"
+        [bindValue]="bindValue"
+        [markFirst]="markFirst"
+        [notFoundText]="notFoundText"
+        [typeToSearchText]="typeToSearchText"
+        [addTagText]="addTagText"
+        [loadingText]="loadingText"
+        [clearAllText]="clearAllText"
+        [appearance]="appearance"
+        [dropdownPosition]="dropdownPosition"
+        [selectOnTab]="selectOnTab"
+        [isOpen]="isOpen"
+        [maxSelectedItems]="maxSelectedItems"
+        [placeholder]="placeholder"
+        [groupBy]="groupBy"
+        [groupValue]="groupValue"
+        [bufferAmount]="bufferAmount"
+        [selectableGroup]="selectableGroup"
+        [searchable]="searchable"
+        [selectableGroupAsModel]="selectableGroupAsModel"
+        [trackByFn]="trackByFn"
+        [labelForId]="labelForId"
+        [inputAttrs]="inputAttrs"
+        [tabIndex]="tabIndex"
+        [readonly]="readonly"
+        [searchWhileComposing]="searchWhileComposing"
+        [minTermLength]="minTermLength"
+        [editableSearchTerm]="editableSearchTerm"
+        [keyDownFn]="keyDownFn"
+
+        (change)="changed($event)"
+        (open)="opened($event)"
+        (close)="closed($event)"
+        (blur)="blured($event)"
+        (focus)="focused($event)"
+        (clear)="cleared($event)"
+        (keydown)="keydown($event)"
+        (scroll)="scrolled($event)"
+        (scrollToEnd)="scrolledToEnd($event)"
+        (add)="added($event)"
+        (remove)="removed($event)"
+        >
+          <ng-container 
+            *ngTemplateOutlet="contentTemplate ? contentTemplate: defaultContent">    
+          </ng-container>
+  </ng-select>
+</div>
+
+
+<ng-template #defaultContent>
+    
+  <ng-template ng-label-tmp let-item="item">
+    {{item.type.name }} #{{ item.id }} {{ item.subject }}
+  </ng-template>
+  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+    {{item.type.name }} #{{ item.id }} {{ item.subject }}
+  </ng-template>
+  
+</ng-template>
