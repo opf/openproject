@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-export PGBIN="$(pg_config --bindir)"
+export PGBIN="/usr/lib/postgresql/$POSTGRES_VERSION/bin"
 export JOBS="${CI_JOBS:=$(nproc)}"
 # for parallel rspec
 export PARALLEL_TEST_PROCESSORS=$JOBS
@@ -11,7 +11,7 @@ if [ $(id -u) -eq 0 ]; then
 	if [ ! -d "/tmp/nulldb" ]; then
 		su - postgres -c "$PGBIN/initdb -E UTF8 -D /tmp/nulldb"
 		su - postgres -c "$PGBIN/pg_ctl -D /tmp/nulldb -l /dev/null -w start"
-		echo "create database app; create user app with superuser encrypted password 'p4ssw0rd'; grant all privileges on database app to app;" | su - postgres -c psql
+		echo "create database app; create user app with superuser encrypted password 'p4ssw0rd'; grant all privileges on database app to app;" | su - postgres -c $PGBIN/psql
 	fi
 
 	mkdir -p /usr/local/bundle
