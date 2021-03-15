@@ -47,6 +47,7 @@ module Constants
       message: 'post',
       firstname: 'firstName',
       lastname: 'lastName',
+      member: 'membership'
     }.freeze
 
     # Conversions that are unidirectional (from the API to AR)

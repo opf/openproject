@@ -69,12 +69,7 @@ class Queries::Capabilities::CapabilityQuery < Queries::BaseQuery
   end
 
   def v3_name(name)
-    # TODO: There is a already a class for translations
-    if name.to_s == 'members'
-      'memberships'
-    else
-      name
-    end
+    API::Utilities::PropertyNameConverter.from_ar_name(name.to_s.singularize).pluralize
   end
 
   #def apply_orders(scope)
