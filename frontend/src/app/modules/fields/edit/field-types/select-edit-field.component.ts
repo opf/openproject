@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, OnInit} from "@angular/core";
+import {Component, InjectFlags, OnInit} from "@angular/core";
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
@@ -52,8 +52,8 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   @InjectField() selectAutocompleterRegister:SelectAutocompleterRegisterService;
   @InjectField() halNotification:HalResourceNotificationService;
   @InjectField() halSorting:HalResourceSortingService;
-  @InjectField() editFormComponent:EditFormComponent;
   @InjectField() $state:StateService;
+  @InjectField(EditFormComponent, null, InjectFlags.Optional) editFormComponent:EditFormComponent;
 
   public availableOptions:any[];
   public valueOptions:ValueOption[];
@@ -116,7 +116,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
         });
       });
 
-    this._syncUrlParamsOnChangeIfNeeded(this.handler.fieldName, this.editFormComponent.editMode);
+    this._syncUrlParamsOnChangeIfNeeded(this.handler.fieldName, this.editFormComponent?.editMode);
   }
 
   public get selectedOption() {
