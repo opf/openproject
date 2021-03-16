@@ -41,7 +41,7 @@ RSpec.feature 'Work package index view' do
     visit project_path(project)
 
     within('#content') do
-      expect(page).to have_content('TEST FAILURE TEST')
+      expect(page).to have_content('Overview')
     end
 
     within('#main-menu') do
