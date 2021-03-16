@@ -17,4 +17,4 @@ If you need help developing a client library you can [contact us](mailto:support
 
 ## Go
 
-* [Go-OpenProject](https://github.com/manuelbcd/go-openproject): "OpenProject client library written in Go. Community and PRs are more than welcome."
+* [Go-OpenProject](https://github.com/manuelbcd/go-openproject): OpenProject client library written in Go. Community, issues and PRs are more than welcome.
