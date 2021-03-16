@@ -11,6 +11,9 @@ services:
     environment:
       RSPEC_RETRY_RETRY_COUNT: "${CI_RETRY_COUNT:-3}"
       JOBS: "${CI_JOBS:-8}"
+      OPENPROJECT_ENABLE_CAPYBARA_SCREENSHOT_S3_UPLOADS: "true"
+      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+      AWS_ACCESS_KEY_SECRET: "${AWS_SECRET_ACCESS_KEY}"
     tmpfs:
       - "/tmp"
     volumes:
