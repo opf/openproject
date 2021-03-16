@@ -46,6 +46,8 @@ npm-debug.log*
 
 # Ignore Ctags files
 /tags
+/tags.lock
+/tags.temp
 
 # Ignore RubyMine files
 /.idea

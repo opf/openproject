@@ -11,10 +11,12 @@
            [appendTo]="appendTo"
            [multiple]="multiple" >
   <ng-template ng-option-tmp let-item="item" let-index="index">
-    <user-avatar *ngIf="item && item.href"
-                 [user]="item"
-                 data-class-list="avatar-mini">
-    </user-avatar>
+    <op-principal
+      *ngIf="item && item.href"
+      [principal]="item"
+      [hide-name]="true"
+      size="mini"
+    ></op-principal>
     {{ item.name }}
   </ng-template>
 </ng-select>
