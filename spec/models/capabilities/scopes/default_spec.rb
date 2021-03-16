@@ -44,7 +44,8 @@ describe Capabilities::Scopes::Default, type: :model do
   let(:global_role) do
     FactoryBot.create(:global_role, permissions: global_permissions)
   end
-  let!(:user) { FactoryBot.create(:user) }
+  let(:user_admin) { false }
+  let!(:user) { FactoryBot.create(:user, admin: user_admin) }
   let(:global_member) do
     FactoryBot.create(:global_member,
                       principal: user,
@@ -60,6 +61,7 @@ describe Capabilities::Scopes::Default, type: :model do
     FactoryBot.create(:non_member,
                       permissions: non_member_permissions)
   end
+  let(:members) { [] }
 
   shared_examples_for 'consists of contract actions' do
     it 'includes the expected' do
@@ -172,7 +174,26 @@ describe Capabilities::Scopes::Default, type: :model do
       end
     end
 
-    # TODO: administrators should have every capability in every project
+    context 'with an admin' do
+      let(:user_admin) { true }
+
+      it_behaves_like 'consists of contract actions' do
+        let(:expected) do
+          # This complicated and programmatic way is chosen so that the test can deal with additional actions being defined
+          item = ->(namespace, action, global) {
+            ["#{API::Utilities::PropertyNameConverter.from_ar_name(namespace.to_s.singularize).pluralize}/#{action}",
+             user.id,
+             global ? nil : project.id]
+          }
+
+          OpenProject::AccessControl
+            .contract_actions_map
+            .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global]) } } }
+            .flatten(2)
+        end
+      end
+    end
+
     # TODO: factor in enabled modules? yes
   end
 end

@@ -33,7 +33,6 @@ class Queries::Capabilities::CapabilityQuery < Queries::BaseQuery
 
   def results
     super
-    #.includes(:context, :principal)
       .reorder('permission_map ASC', 'principal_id ASC', 'capabilities.context_id ASC')
   end
 

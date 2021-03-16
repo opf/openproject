@@ -41,25 +41,26 @@ module Capabilities::Scopes
             permission_maps.permission_map,
             users.id principal_id,
             projects.id context_id
-          FROM "roles"
-          JOIN "role_permissions" ON "role_permissions"."role_id" = "roles"."id"
-          JOIN
-            (SELECT * FROM (VALUES #{action_map}) AS t(permission, permission_map)) AS permission_maps
-            ON permission_maps.permission = role_permissions.permission
-          LEFT OUTER JOIN "member_roles" ON "member_roles".role_id = roles.id
+          FROM
+            (SELECT * FROM (VALUES #{action_map}) AS t(permission, permission_map, global)) AS permission_maps
+          LEFT OUTER JOIN "role_permissions" ON "role_permissions"."permission" = "permission_maps"."permission"
+          LEFT OUTER JOIN "roles" ON "roles".id = "role_permissions".role_id
+          LEFT OUTER JOIN "member_roles" ON "member_roles".role_id = "roles".id
           LEFT OUTER JOIN "members" ON members.id = member_roles.member_id
-          LEFT OUTER JOIN "projects"
-            ON "projects".id = members.project_id
-            OR "roles".builtin = #{Role::BUILTIN_NON_MEMBER}
           JOIN "users"
             ON "users".id = members.user_id
+            OR "roles".builtin = #{Role::BUILTIN_NON_MEMBER}
+            OR "users".admin = true
+          LEFT OUTER JOIN "projects"
+            ON "projects".id = members.project_id
             OR "roles".builtin = #{Role::BUILTIN_NON_MEMBER}
               AND ("projects".public = true OR EXISTS (SELECT 1
                                                        FROM members
                                                        WHERE members.project_id = projects.id
                                                        AND members.user_id = users.id
                                                        LIMIT 1))
-            OR "roles".type = 'GlobalRole'
+            OR "users".admin = true AND NOT "permission_maps".global
+           WHERE projects.id IS NOT NULL OR "permission_maps".global
           ) capabilities
         SQL
 
@@ -73,9 +74,17 @@ module Capabilities::Scopes
       def action_map
         OpenProject::AccessControl
           .contract_actions_map
-          .map { |k, v| v.map { |vk, vv| vv.map { |vvv| "('#{k}', '#{action_v3_name(vk)}/#{vvv}')" } } }
+          .map { |permission, v| map_actions(permission, v[:actions], v[:global]) }
           .flatten
           .join(', ')
+      end
+
+      def map_actions(permission, actions, global)
+        actions.map { |namespace, actions| actions.map { |action| action_value(permission, namespace, action, global) } }
+      end
+
+      def action_value(permission, namespace, action, global)
+        "('#{permission}', '#{action_v3_name(namespace)}/#{action}', #{global})"
       end
 
       def action_v3_name(name)
