@@ -62,7 +62,7 @@ describe 'Cancel editing work package', js: true do
   end
 
   def move_to_home_page(alert: true)
-    find('.home-link').click
+    find('.op-logo--link').click
 
     page.driver.browser.switch_to.alert.accept if alert
     expect(page).to have_selector('#projects-menu', text: 'Select a project')
@@ -153,7 +153,7 @@ describe 'Cancel editing work package', js: true do
     expect(wp_page).not_to have_alert_dialog
 
     # Visiting another page does not create alert
-    find('.home-link').click
+    find('.op-logo--link').click
     expect(wp_page).not_to have_alert_dialog
   end
 

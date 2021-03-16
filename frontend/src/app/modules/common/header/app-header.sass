@@ -1,0 +1,32 @@
+.op-app-header
+  display: grid
+  grid-template-columns: 1fr auto 1fr
+  grid-template-rows: auto
+  grid-template-areas: "start center end"
+  background-color: var(--header-bg-color)
+  height: var(--header-height)
+  padding: 0
+  position: relative
+  z-index: 22
+  border-bottom-style: solid
+  border-bottom-width: var(--header-border-bottom-width)
+  border-bottom-color: var(--header-border-bottom-color)
+
+  &--start,
+  &--center,
+  &--end
+    display: flex
+
+  &--start
+    grid-area: start
+    justify-content: flex-start
+
+  &--center
+    grid-area: center
+    justify-content: center
+
+  &--end
+    grid-area: end
+    justify-content: flex-end
+
+  &--button

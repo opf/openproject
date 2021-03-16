@@ -42,15 +42,11 @@ See docs/COPYRIGHT.rdoc for more details.
 </head>
 <body>
   <div id="wrapper">
-    <div id="top-menu">
-      <div id="header">
-        <div id="top-menu-items">
-          <div id="logo" class="hidden-for-mobile">
-            <%= link_to(I18n.t('label_home'), home_url, class: 'home-link') %>
-          </div>
-        </div>
+    <header class="op-app-header">
+      <div class="op-app-header--center op-logo">
+        <%= link_to(I18n.t('label_home'), home_url, class: 'op-logo--link') %>
       </div>
-    </div>
+    </header>
     <%= yield %>
   </div>
 </body>
