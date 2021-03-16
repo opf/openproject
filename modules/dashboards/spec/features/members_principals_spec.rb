@@ -80,7 +80,6 @@ describe 'Dashboard page members', type: :feature, js: true, with_mail: false do
     members_block = page.find('.widget-box', text: 'MEMBERS')
 
     within(members_block) do
-      byebug
       user_link = find('op-principal a', text: user.name)
       expect(user_link['href']).to end_with user_path(user.id)
 
