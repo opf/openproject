@@ -39,21 +39,20 @@ class Queries::Capabilities::CapabilityQuery < Queries::BaseQuery
   def default_scope
     Capability
       .default
+      .distinct
   end
+
+  validate :minimum_filters_set
 
   private
 
-  #def apply_orders(scope)
-  #  orders.each do |order|
-  #    scope = scope.merge(order.scope)
-  #  end
+  def minimum_filters_set
+    any_required = filters.any? do |filter|
+      [Queries::Capabilities::Filters::PrincipalIdFilter,
+       Queries::Capabilities::Filters::ContextFilter,
+       Queries::Capabilities::Filters::IdFilter].include?(filter.class) && filter.operator == '='
+    end
 
-  #  scope
-
-  #  # To get deterministic results, especially when paginating (limit + offset)
-  #  # an order needs to be prepended that is ensured to be
-  #  # different between all elements.
-  #  # Without such a criteria, results can occur on multiple pages.
-  #  #already_ordered_by_id?(scope) ? scope : scope.order(id: :desc)
-  #end
+    errors.add(:filters, I18n.t('activerecord.errors.models.capability.query.filters.minimum')) unless any_required
+  end
 end

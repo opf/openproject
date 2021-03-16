@@ -78,35 +78,49 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
     end
 
     context 'without params' do
-      it 'responds 200 OK' do
-        expect(subject.status).to eq(200)
+      it 'responds 400 Bad Request' do
+        expect(subject.status).to eq(400)
       end
 
-      it 'returns a collection of capabilities' do
+      it 'communicates that either a context or a principal filter is required' do
         expect(subject.body)
-          .to be_json_eql('Collection'.to_json)
+          .to be_json_eql('Error'.to_json)
           .at_path('_type')
 
         expect(subject.body)
-          .to be_json_eql('6')
-          .at_path('total')
-
-        expect(subject.body)
-          .to be_json_eql("memberships/create/p#{project.id}-#{other_user.id}".to_json)
-          .at_path('_embedded/elements/0/id')
-
-        expect(subject.body)
-          .to be_json_eql("users/create/g-#{other_user.id}".to_json)
-          .at_path('_embedded/elements/3/id')
-
-        expect(subject.body)
-          .to be_json_eql("users/update/g-#{other_user.id}".to_json)
-          .at_path('_embedded/elements/5/id')
+          .to be_json_eql('urn:openproject-org:api:v3:errors:InvalidQuery'.to_json)
+          .at_path('errorIdentifier')
       end
     end
 
-    context 'with pageSize, offset and sortBy' do
-      let(:path) { "#{api_v3_paths.path_for(:capabilities, sort_by: [%i(id asc)])}&pageSize=1&offset=4" }
+    context 'when filtering by principal id (with a user)' do
+      let(:current_user_permissions) { %i[manage_members] }
+      let(:filters) do
+        [{ 'principalId' => {
+          'operator' => '=',
+          'values' => [current_user.id.to_s]
+        } }]
+      end
+
+      it 'contains only the filtered capabilities in the response' do
+        expect(subject.body)
+          .to be_json_eql('3')
+          .at_path('total')
+
+        expect(subject.body)
+          .to be_json_eql(api_v3_paths.user(current_user.id).to_json)
+          .at_path('_embedded/elements/0/_links/principal/href')
+      end
+    end
+
+    context 'with pageSize, offset and sortBy and filter' do
+      let(:filters) do
+        [{ 'principalId' => {
+          'operator' => '=',
+          'values' => [other_user.id.to_s]
+        } }]
+      end
+      let(:path) { "#{api_v3_paths.path_for(:capabilities, filters: filters, sort_by: [%i(id asc)])}&pageSize=1&offset=4" }
 
       it 'returns a slice of the visible memberships' do
         expect(subject.body)
@@ -127,7 +141,13 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
       end
     end
 
-    context 'with a group' do
+    context 'when filtering by principal id (group)' do
+      let(:filters) do
+        [{ 'principalId' => {
+          'operator' => '=',
+          'values' => [group.id.to_s]
+        } }]
+      end
       let(:other_user) { group }
       let(:group) { FactoryBot.create(:group) }
 
@@ -150,7 +170,13 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
       end
     end
 
-    context 'with a placeholder_user' do
+    context 'when filtering by principal id (placeholder user)' do
+      let(:filters) do
+        [{ 'principalId' => {
+          'operator' => '=',
+          'values' => [placeholder_user.id.to_s]
+        } }]
+      end
       let(:other_user) { placeholder_user }
       let(:placeholder_user) do
         FactoryBot.create(:placeholder_user)
@@ -175,23 +201,27 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
       end
     end
 
-    context 'filtering by principal id' do
+    context 'when filtering by principal id (with a user) but with the not operator' do
       let(:current_user_permissions) { %i[manage_members] }
       let(:filters) do
         [{ 'principalId' => {
-          'operator' => '=',
+          'operator' => '!',
           'values' => [current_user.id.to_s]
         } }]
       end
 
-      it 'contains only the filtered capabilities in the response' do
+      it 'responds 400 Bad Request' do
+        expect(subject.status).to eq(400)
+      end
+
+      it 'communicates that either a context or a principal filter is required' do
         expect(subject.body)
-          .to be_json_eql('3')
-          .at_path('total')
+          .to be_json_eql('Error'.to_json)
+          .at_path('_type')
 
         expect(subject.body)
-          .to be_json_eql(api_v3_paths.user(current_user.id).to_json)
-          .at_path('_embedded/elements/0/_links/principal/href')
+          .to be_json_eql('urn:openproject-org:api:v3:errors:InvalidQuery'.to_json)
+          .at_path('errorIdentifier')
       end
     end
 
@@ -219,7 +249,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
       end
     end
 
-    context 'filtering by project context' do
+    context 'when filtering by project context' do
       let(:other_project) { FactoryBot.create(:project) }
       let(:other_user_other_member) do
         FactoryBot.create(:member,
@@ -252,7 +282,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
       end
     end
 
-    context 'filtering by global context' do
+    context 'when filtering by global context' do
       let(:filters) do
         [{ 'context' => {
           'operator' => '=',

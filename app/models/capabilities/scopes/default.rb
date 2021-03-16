@@ -37,7 +37,7 @@ module Capabilities::Scopes
       # leads to having that permission in the global context as well. Hopefully, this is not necessary to be added.
       def default
         capabilities_sql = <<~SQL
-          (SELECT DISTINCT
+          (SELECT
             permission_maps.permission_map,
             users.id principal_id,
             projects.id context_id
@@ -64,8 +64,7 @@ module Capabilities::Scopes
           ) capabilities
         SQL
 
-        Capability
-          .select('capabilities.*')
+        select('capabilities.*')
           .from(capabilities_sql)
       end
 

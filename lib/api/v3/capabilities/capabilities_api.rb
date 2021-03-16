@@ -35,17 +35,15 @@ module API
 
           helpers do
             def query
-              @query = ParamsToQueryService
-                       .new(Capability, current_user)
-                       .call(params)
+              @query ||= ParamsToQueryService
+                         .new(Capability, current_user)
+                         .call(params)
             end
           end
 
-          after_validation do
-            raise ::API::Errors::InvalidQuery.new(query.errors.full_messages) if query.invalid?
-          end
-
           get do
+            raise ::API::Errors::InvalidQuery.new(query.errors.full_messages) if query.invalid?
+
             ::API::V3::Utilities::SqlRepresenterWalker
               .new(query.results,
                    embed: { 'elements' => {} },
