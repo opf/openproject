@@ -32,7 +32,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   def render_quick_add_menu
     return unless show_quick_add_menu?
 
-    content_tag :ul, class: 'menu_root account-nav quick-add-menu' do
+    content_tag :ul, class: 'quick-add-menu' do
       render_quick_add_dropdown
     end
   end
@@ -60,7 +60,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   def work_package_quick_add_items
     return unless visible_types.any?
 
-    concat content_tag(:hr, '', class: 'top-menu-dropdown--separator')
+    concat content_tag(:hr, '', class: 'op-app-header-dropdown--separator')
     concat work_package_type_heading
 
     visible_types
@@ -74,7 +74,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
     content_tag(:li) do
       content_tag :span,
                   I18n.t(:label_work_package_plural),
-                  class: 'top-menu-dropdown--headline'
+                  class: 'op-app-header-dropdown--headline'
     end
   end
 

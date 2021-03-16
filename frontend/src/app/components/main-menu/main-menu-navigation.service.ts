@@ -37,7 +37,6 @@ export class MainMenuNavigationService {
             .addClass('open')
             .find('li > a:first, .tree-menu--title:first').first().focus();
 
-          console.log("Activating " + targetLi.data('name'));
           that.navigationEvents$.next(targetLi.data('name'));
         }
         return false;

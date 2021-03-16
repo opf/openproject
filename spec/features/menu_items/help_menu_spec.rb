@@ -56,7 +56,7 @@ feature 'Help menu items' do
       visit home_path
 
       expect(help_item[:href]).to eq(custom_url)
-      expect(page).to have_no_selector('.top-menu-help .top-menu-dropdown--link', visible: false)
+      expect(page).to have_no_selector('.top-menu-help .op-app-header-dropdown--link', visible: false)
     end
   end
 end

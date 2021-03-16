@@ -40,11 +40,14 @@ export const mainMenuToggleSelector = 'main-menu-toggle';
   selector: mainMenuToggleSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div *ngIf="this.currentProject.id !== null || this.deviceService.isMobile" id="main-menu-toggle"
-         aria-haspopup="true"
-         [attr.title]="toggleTitle"
-         (accessibleClick)="toggleService.toggleNavigation($event)"
-         tabindex="0">
+    <div
+      *ngIf="this.currentProject.id !== null || this.deviceService.isMobile"
+      id="main-menu-toggle"
+      aria-haspopup="true"
+      [attr.title]="toggleTitle"
+      (accessibleClick)="toggleService.toggleNavigation($event)"
+      tabindex="0"
+    >
       <a icon="icon-hamburger">
         <i class="icon-hamburger" aria-hidden="true"></i>
       </a>
