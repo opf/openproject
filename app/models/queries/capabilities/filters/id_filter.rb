@@ -49,9 +49,9 @@ class Queries::Capabilities::Filters::IdFilter < Queries::Capabilities::Filters:
       conditions = ["permission_map = '#{value[:permission_map]}' AND principal_id = #{value[:principal_id]}"]
 
       conditions << if value[:context_id].present?
-                      ["project_id = #{value[:context_id]}"]
+                      ["context_id = #{value[:context_id]}"]
                     else
-                      ["project_id IS NULL"]
+                      ["context_id IS NULL"]
                     end
 
       "(#{conditions.join(' AND ')})"

@@ -45,9 +45,9 @@ class Queries::Capabilities::Filters::ContextFilter < Queries::Capabilities::Fil
   def value_conditions
     split_values.map do |value|
       if value[:context_id].present?
-        "project_id = #{value[:context_id]}"
+        "context_id = #{value[:context_id]}"
       else
-        "project_id IS NULL"
+        "context_id IS NULL"
       end
     end
   end

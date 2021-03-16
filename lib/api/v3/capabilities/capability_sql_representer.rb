@@ -43,8 +43,8 @@ module API
                  representation: -> {
                    <<~SQL
                      CASE
-                     WHEN project_id IS NULL THEN permission_map || '/g-' || principal_id
-                     ELSE permission_map || '/p' || project_id || '-' || principal_id
+                     WHEN context_id IS NULL THEN permission_map || '/g-' || principal_id
+                     ELSE permission_map || '/p' || context_id || '-' || principal_id
                      END
                    SQL
                  }
@@ -54,8 +54,8 @@ module API
              column: -> {
                <<~SQL
                  CASE
-                 WHEN project_id IS NULL THEN permission_map || '/g-' || principal_id
-                 ELSE permission_map || '/p' || project_id || '-' || principal_id
+                 WHEN context_id IS NULL THEN permission_map || '/g-' || principal_id
+                 ELSE permission_map || '/p' || context_id || '-' || principal_id
                  END
                SQL
              },
@@ -65,21 +65,21 @@ module API
              href: -> {
                <<~SQL
                  CASE
-                 WHEN project_id IS NULL THEN '#{api_v3_paths.capabilities_contexts_global}'
-                 ELSE format('#{api_v3_paths.project('%s')}', project_id)
+                 WHEN context_id IS NULL THEN '#{api_v3_paths.capabilities_contexts_global}'
+                 ELSE format('#{api_v3_paths.project('%s')}', context_id)
                  END
                SQL
              },
              title: -> {
                <<~SQL
                  CASE
-                 WHEN project_id IS NULL THEN '#{I18n.t('activerecord.errors.models.capability.context.global')}'
+                 WHEN context_id IS NULL THEN '#{I18n.t('activerecord.errors.models.capability.context.global')}'
                  ELSE context_name
                  END
                SQL
              },
              join: { table: :projects,
-                     condition: "contexts.id = capabilities.project_id",
+                     condition: "contexts.id = capabilities.context_id",
                      select: ['contexts.name context_name'] }
 
         link :principal,

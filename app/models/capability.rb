@@ -28,17 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Turn it to something independent of a member
+# TODO: Turn it to something independent of a member
 # and possibly prevent instantiating somehow
 class Capability < Member#ApplicationRecord
-  #include ActiveModel::Model
-  #include ActiveRecord::Associations
-  #extend ActiveRecord::AttributeMethods::ClassMethods
-  #include ActiveRecord::AttributeMethods
-  #include ActiveRecord::ModelSchema
+  include Scopes::Scoped
 
-  #self.pluralize_table_names = true
-  #self.abstract_class = true
+  scopes :default
 
   belongs_to :context, class_name: 'Project'
   belongs_to :principal#, foreign_key: :principal_id
@@ -47,14 +42,4 @@ class Capability < Member#ApplicationRecord
 
   attr_accessor :id,
                 :permission
-
-  #alias_method :context, :project
-
-  #def context_id
-  #  project_id
-  #end
-
-  #def principal_id
-  #  user_id
-  #end
 end

@@ -34,43 +34,15 @@ class Queries::Capabilities::CapabilityQuery < Queries::BaseQuery
   def results
     super
     #.includes(:context, :principal)
-      .reorder('permission_map ASC', 'principal_id ASC', 'capabilities.project_id ASC')
+      .reorder('permission_map ASC', 'principal_id ASC', 'capabilities.context_id ASC')
   end
 
   def default_scope
-    capabilities_sql = <<~SQL
-      (SELECT
-        role_permissions.permission,
-        permission_maps.permission_map,
-        members.user_id principal_id,
-        members.project_id project_id
-      FROM "roles"
-      INNER JOIN "role_permissions" ON "role_permissions"."role_id" = "roles"."id"
-      LEFT OUTER JOIN "member_roles" ON "member_roles".role_id = roles.id
-      LEFT OUTER JOIN "members" ON members.id = member_roles.member_id
-      JOIN
-        (SELECT * FROM (VALUES #{action_map}) AS t(permission, permission_map)) AS permission_maps
-        ON permission_maps.permission = role_permissions.permission) capabilities
-    SQL
-
     Capability
-      .select('capabilities.*')
-      .from(capabilities_sql)
+      .default
   end
 
   private
-
-  def action_map
-    OpenProject::AccessControl
-      .contract_actions_map
-      .map { |k, v| v.map { |vk, vv| vv.map { |vvv| "('#{k}', '#{v3_name(vk)}/#{vvv}')" } } }
-      .flatten
-      .join(', ')
-  end
-
-  def v3_name(name)
-    API::Utilities::PropertyNameConverter.from_ar_name(name.to_s.singularize).pluralize
-  end
 
   #def apply_orders(scope)
   #  orders.each do |order|
