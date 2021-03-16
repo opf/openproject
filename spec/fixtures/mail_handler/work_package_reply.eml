@@ -1,0 +1,108 @@
+Date: Tue, 16 Mar 2021 15:17:04 +0100
+To: notifications@openproject.com
+From: user@example.org
+Message-ID: <openproject.work_package-70917-34540.20210302144105@openproject.com>
+References: <openproject.work_package-70917-34540.20210215121742@openproject.com>
+Subject: test - new Task #34540: asdf
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_6050bdd0cb97_2257939a8755e5";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-OpenProject-Project: test
+X-OpenProject-Issue-Id: 34540
+X-OpenProject-Issue-Author: admin
+X-OpenProject-Type: WorkPackage
+X-OpenProject-Issue-Assignee: reader
+
+
+----==_mimepart_6050bdd0cb97_2257939a8755e5
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+
+
+
+
+Work package #34540 has been updated by admin lastname.
+
+  Assignee set to reader reader
+
+
+----------------------------------------
+
+Task #34540: asdf
+http://localhost:3000/work_packages/34540
+
+Author: admin lastname
+Status: new
+Priority: Medium
+Assignee: reader reader
+Accountable:
+Category:
+Version: test version
+Start date:
+Finish date:
+Estimated time:
+Module:
+Onboarding Activity:
+Ordered by:
+Prio board:
+
+
+
+
+
+--
+You have received this notification because you have either subscribed to it, or are involved in it.
+To change your notification preferences, please click here: https://community.openproject.org/my/mail_notifications
+
+----==_mimepart_6050bdd0cb97_2257939a8755e5
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <body>
+      <span class="header"></span>
+
+      Work package #34540 has been updated by admin lastname.
+<ul>
+    <li><strong>Assignee</strong> set to <i title="reader reader">reader reader</i></li>
+</ul>
+
+<hr />
+
+<h1><a href="http://localhost:3000/work_packages/34540">Task #34540: asdf</a></h1>
+
+<ul>
+  <li>Author: admin lastname</li>
+  <li>Status: new</li>
+  <li>Priority: Medium</li>
+  <li>Assignee: reader reader</li>
+  <li>Accountable: </li>
+  <li>Category: </li>
+  <li>Version: test version</li>
+  <li>Start date: </li>
+  <li>Finish date: </li>
+  <li>Estimated time: </li>
+
+
+    <li>Module: </li>
+    <li>Onboarding Activity: </li>
+    <li>Ordered by: </li>
+    <li>Prio board: </li>
+</ul>
+
+
+
+
+
+      <hr />
+      <span class="footer"><p class="op-uc-p">You have received this notification because you have either subscribed to it, or are involved in it.<br>
+To change your notification preferences, please click here: <a href="https://community.openproject.org/my/mail_notifications" class="op-uc-link">https://community.openproject.org/my/mail_notifications</a></p></span>
+  </body>
+</html>
+
+----==_mimepart_6050bdd0cb97_2257939a8755e5--
