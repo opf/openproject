@@ -53,12 +53,14 @@ module API
                  min_length: 1,
                  max_length: 255
 
-          schema :first_name,
+          schema :firstname,
+                 as: :firstName,
                  type: 'String',
                  min_length: 1,
                  max_length: 255
 
-          schema :last_name,
+          schema :lastname,
+                 as: :lastName,
                  type: 'String',
                  min_length: 1,
                  max_length: 255
