@@ -53,9 +53,7 @@ module Constants
     # This can be used to still support renamed filters/sort_by, like for created/updatedOn.
     WELL_KNOWN_API_TO_AR_CONVERSIONS = {
       created_on: 'created_at',
-      updated_on: 'updated_at',
-      firstName: 'firstname',
-      lastName: 'lastname',
+      updated_on: 'updated_at'
     }.freeze
 
     class << self
