@@ -576,127 +576,145 @@ Lists users. Only administrators or users with manage_users global permission ha
 
     ```json
     {
-        "_type": "Schema",
-        "_dependencies": [],
-        "id": {
-            "type": "Integer",
-            "name": "ID",
-            "required": true,
-            "hasDefault": false,
-            "writable": false,
-            "options": {}
-        },
-        "login": {
-            "type": "String",
-            "name": "Username",
-            "required": true,
-            "hasDefault": false,
-            "writable": true,
-            "minLength": 1,
-            "maxLength": 255,
-            "options": {}
-        },
-        "admin": {
-            "type": "Boolean",
-            "name": "Administrator",
-            "required": false,
-            "hasDefault": false,
-            "writable": true,
-            "options": {}
-        },
-        "mail": {
-            "type": "String",
-            "name": "Email",
-            "required": true,
-            "hasDefault": false,
-            "writable": true,
-            "minLength": 1,
-            "maxLength": 255,
-            "options": {}
-        },
-        "firstName": {
-            "type": "String",
-            "name": "First name",
-            "required": true,
-            "hasDefault": false,
-            "writable": false,
-            "minLength": 1,
-            "maxLength": 255,
-            "options": {}
-        },
-        "lastName": {
-            "type": "String",
-            "name": "Last name",
-            "required": true,
-            "hasDefault": false,
-            "writable": false,
-            "minLength": 1,
-            "maxLength": 255,
-            "options": {}
-        },
-        "avatar": {
-            "type": "String",
-            "name": "Avatar",
-            "required": false,
-            "hasDefault": false,
-            "writable": false,
-            "options": {}
-        },
-        "status": {
-            "type": "String",
-            "name": "Status",
-            "required": false,
-            "hasDefault": false,
-            "writable": true,
-            "options": {}
-        },
-        "identityUrl": {
-            "type": "String",
-            "name": "Identity url",
-            "required": false,
-            "hasDefault": false,
-            "writable": true,
-            "options": {}
-        },
-        "language": {
-            "type": "String",
-            "name": "Language",
-            "required": false,
-            "hasDefault": false,
-            "writable": true,
-            "options": {}
-        },
-        "password": {
-            "type": "Password",
-            "name": "Password",
-            "required": false,
-            "hasDefault": false,
-            "writable": false,
-            "options": {}
-        },
-        "createdAt": {
-            "type": "DateTime",
-            "name": "Created on",
-            "required": true,
-            "hasDefault": false,
-            "writable": false,
-            "options": {}
-        },
-        "updatedAt": {
-            "type": "DateTime",
-            "name": "Updated on",
-            "required": true,
-            "hasDefault": false,
-            "writable": false,
-            "options": {}
-        },
-        "_links": {
-            "self": {
-                "href": "/api/v3/users/schema"
-            }
+      "_type": "Schema",
+      "_dependencies": [],
+      "id": {
+        "type": "Integer",
+        "name": "ID",
+        "required": true,
+        "hasDefault": false,
+        "writable": false,
+        "options": {}
+      },
+      "login": {
+        "type": "String",
+        "name": "Username",
+        "required": true,
+        "hasDefault": false,
+        "writable": true,
+        "minLength": 1,
+        "maxLength": 255,
+        "options": {}
+      },
+      "admin": {
+        "type": "Boolean",
+        "name": "Administrator",
+        "required": false,
+        "hasDefault": false,
+        "writable": true,
+        "options": {}
+      },
+      "mail": {
+        "type": "String",
+        "name": "Email",
+        "required": true,
+        "hasDefault": false,
+        "writable": true,
+        "minLength": 1,
+        "maxLength": 255,
+        "options": {}
+      },
+      "firstName": {
+        "type": "String",
+        "name": "First name",
+        "required": true,
+        "hasDefault": false,
+        "writable": false,
+        "minLength": 1,
+        "maxLength": 255,
+        "options": {}
+      },
+      "lastName": {
+        "type": "String",
+        "name": "Last name",
+        "required": true,
+        "hasDefault": false,
+        "writable": false,
+        "minLength": 1,
+        "maxLength": 255,
+        "options": {}
+      },
+      "avatar": {
+        "type": "String",
+        "name": "Avatar",
+        "required": false,
+        "hasDefault": false,
+        "writable": false,
+        "options": {}
+      },
+      "status": {
+        "type": "String",
+        "name": "Status",
+        "required": false,
+        "hasDefault": false,
+        "writable": true,
+        "options": {}
+      },
+      "identityUrl": {
+        "type": "String",
+        "name": "Identity url",
+        "required": false,
+        "hasDefault": false,
+        "writable": true,
+        "options": {}
+      },
+      "language": {
+        "type": "String",
+        "name": "Language",
+        "required": false,
+        "hasDefault": false,
+        "writable": true,
+        "options": {}
+      },
+      "password": {
+        "type": "Password",
+        "name": "Password",
+        "required": false,
+        "hasDefault": false,
+        "writable": false,
+        "options": {}
+      },
+      "createdAt": {
+        "type": "DateTime",
+        "name": "Created on",
+        "required": true,
+        "hasDefault": false,
+        "writable": false,
+        "options": {}
+      },
+      "updatedAt": {
+        "type": "DateTime",
+        "name": "Updated on",
+        "required": true,
+        "hasDefault": false,
+        "writable": false,
+        "options": {}
+      },
+      "customField1": {
+        "type": "String",
+        "name": "User String CF",
+        "required": false,
+        "hasDefault": false,
+        "writable": true
+      },
+      "customField2": {
+        "type": "CustomOption",
+        "name": "User List cf",
+        "required": false,
+        "hasDefault": false,
+        "writable": true
+      },
+      "_links": {
+        "self": {
+          "href": "/api/v3/users/schema"
         }
+      }
     }
     ```
+
+The schema above and the requests below use two exemplary custom fields that extend the schema response. Depending on your instance and custom field configuration, the response will look somewhat different.
+
+
 
 ## User create form [/api/v3/users/form]
 
@@ -712,7 +730,13 @@ For more details and all possible responses see the general specification of [Fo
 
         {
             "mail": "foo@example.com",
-            "status": "invited"
+            "status": "invited",
+            "customField1": "Custom field text value",
+            "_links" {
+              "customField2" : {
+                "href": "/api/v3/custom_options/123"
+              }
+            }
         }
 
 + Response 200 (application/hal+json)
@@ -720,145 +744,198 @@ For more details and all possible responses see the general specification of [Fo
   + Body
 
         {
-            "_type": "Form",
-            "_embedded": {
-                "payload": {
-                    "name": "bar @example.com",
-                    "_links": {}
-                },
-                "schema": {
-                    "_type": "Schema",
-                    "_dependencies": [],
-                    "id": {
-                        "type": "Integer",
-                        "name": "ID",
-                        "required": true,
-                        "hasDefault": false,
-                        "writable": false,
-                        "options": {}
-                    },
-                    "login": {
-                        "type": "String",
-                        "name": "Username",
-                        "required": true,
-                        "hasDefault": false,
-                        "writable": true,
-                        "minLength": 1,
-                        "maxLength": 255,
-                        "options": {}
-                    },
-                    "admin": {
-                        "type": "Boolean",
-                        "name": "Administrator",
-                        "required": false,
-                        "hasDefault": false,
-                        "writable": true,
-                        "options": {}
-                    },
-                    "mail": {
-                        "type": "String",
-                        "name": "Email",
-                        "required": true,
-                        "hasDefault": false,
-                        "writable": true,
-                        "minLength": 1,
-                        "maxLength": 255,
-                        "options": {}
-                    },
-                    "firstName": {
-                        "type": "String",
-                        "name": "First name",
-                        "required": true,
-                        "hasDefault": false,
-                        "writable": false,
-                        "minLength": 1,
-                        "maxLength": 255,
-                        "options": {}
-                    },
-                    "lastName": {
-                        "type": "String",
-                        "name": "Last name",
-                        "required": true,
-                        "hasDefault": false,
-                        "writable": false,
-                        "minLength": 1,
-                        "maxLength": 255,
-                        "options": {}
-                    },
-                    "avatar": {
-                        "type": "String",
-                        "name": "Avatar",
-                        "required": false,
-                        "hasDefault": false,
-                        "writable": false,
-                        "options": {}
-                    },
-                    "status": {
-                        "type": "String",
-                        "name": "Status",
-                        "required": false,
-                        "hasDefault": false,
-                        "writable": true,
-                        "options": {}
-                    },
-                    "identityUrl": {
-                        "type": "String",
-                        "name": "Identity url",
-                        "required": false,
-                        "hasDefault": false,
-                        "writable": true,
-                        "options": {}
-                    },
-                    "language": {
-                        "type": "String",
-                        "name": "Language",
-                        "required": false,
-                        "hasDefault": false,
-                        "writable": true,
-                        "options": {}
-                    },
-                    "password": {
-                        "type": "Password",
-                        "name": "Password",
-                        "required": false,
-                        "hasDefault": false,
-                        "writable": false,
-                        "options": {}
-                    },
-                    "createdAt": {
-                        "type": "DateTime",
-                        "name": "Created on",
-                        "required": true,
-                        "hasDefault": false,
-                        "writable": false,
-                        "options": {}
-                    },
-                    "updatedAt": {
-                        "type": "DateTime",
-                        "name": "Updated on",
-                        "required": true,
-                        "hasDefault": false,
-                        "writable": false,
-                        "options": {}
-                    },
-                    "_links": {}
-                },
-                "validationErrors": {}
+          "_type": "Form",
+          "_embedded": {
+            "payload": {
+              "firstName": "bar",
+              "lastname": " @example.com",
+              "_links": {}
             },
-            "_links": {
-                "self": {
-                    "href": "/api/v3/users/form",
-                    "method": "post"
+            "schema": {
+              "_type": "Schema",
+              "_dependencies": [],
+              "id": {
+                "type": "Integer",
+                "name": "ID",
+                "required": true,
+                "hasDefault": false,
+                "writable": false,
+                "options": {}
+              },
+              "login": {
+                "type": "String",
+                "name": "Username",
+                "required": true,
+                "hasDefault": false,
+                "writable": true,
+                "minLength": 1,
+                "maxLength": 255,
+                "options": {}
+              },
+              "admin": {
+                "type": "Boolean",
+                "name": "Administrator",
+                "required": false,
+                "hasDefault": false,
+                "writable": true,
+                "options": {}
+              },
+              "mail": {
+                "type": "String",
+                "name": "Email",
+                "required": true,
+                "hasDefault": false,
+                "writable": true,
+                "minLength": 1,
+                "maxLength": 255,
+                "options": {}
+              },
+              "firstName": {
+                "type": "String",
+                "name": "First name",
+                "required": true,
+                "hasDefault": false,
+                "writable": false,
+                "minLength": 1,
+                "maxLength": 255,
+                "options": {}
+              },
+              "lastName": {
+                "type": "String",
+                "name": "Last name",
+                "required": true,
+                "hasDefault": false,
+                "writable": false,
+                "minLength": 1,
+                "maxLength": 255,
+                "options": {}
+              },
+              "avatar": {
+                "type": "String",
+                "name": "Avatar",
+                "required": false,
+                "hasDefault": false,
+                "writable": false,
+                "options": {}
+              },
+              "status": {
+                "type": "String",
+                "name": "Status",
+                "required": false,
+                "hasDefault": false,
+                "writable": true,
+                "options": {}
+              },
+              "identityUrl": {
+                "type": "String",
+                "name": "Identity url",
+                "required": false,
+                "hasDefault": false,
+                "writable": true,
+                "options": {}
+              },
+              "language": {
+                "type": "String",
+                "name": "Language",
+                "required": false,
+                "hasDefault": false,
+                "writable": true,
+                "options": {}
+              },
+              "password": {
+                "type": "Password",
+                "name": "Password",
+                "required": false,
+                "hasDefault": false,
+                "writable": false,
+                "options": {}
+              },
+              "createdAt": {
+                "type": "DateTime",
+                "name": "Created on",
+                "required": true,
+                "hasDefault": false,
+                "writable": false,
+                "options": {}
+              },
+              "updatedAt": {
+                "type": "DateTime",
+                "name": "Updated on",
+                "required": true,
+                "hasDefault": false,
+                "writable": false,
+                "options": {}
+              },
+              "customField1": {
+                "type": "String",
+                "name": "User String CF",
+                "required": false,
+                "hasDefault": false,
+                "writable": true,
+                "visibility": "default"
+              },
+              "customField2": {
+                "type": "CustomOption",
+                "name": "User List cf",
+                "required": false,
+                "hasDefault": false,
+                "writable": true,
+                "visibility": "default",
+                "_embedded": {
+                  "allowedValues": [{
+                      "_type": "CustomOption",
+                      "id": 123,
+                      "value": "abc",
+                      "_links": {
+                        "self": {
+                          "href": "/api/v3/custom_options/123",
+                          "title": "abc"
+                        }
+                      }
+                    },
+                    {
+                      "_type": "CustomOption",
+                      "id": 124,
+                      "value": "foo",
+                      "_links": {
+                        "self": {
+                          "href": "/api/v3/custom_options/124",
+                          "title": "foo"
+                        }
+                      }
+                    }
+                  ]
                 },
-                "validate": {
-                    "href": "/api/v3/users/form",
-                    "method": "post"
-                },
-                "commit": {
-                    "href": "/api/v3/users",
-                    "method": "post"
+                "_links": {
+                  "allowedValues": [{
+                      "href": "/api/v3/custom_options/123",
+                      "title": "abc"
+                    },
+                    {
+                      "href": "/api/v3/custom_options/124",
+                      "title": "foo"
+                    }
+                  ]
                 }
+              },
+              "_links": {}
+            },
+            "validationErrors": {}
+          },
+          "_links": {
+            "self": {
+              "href": "/api/v3/users/form",
+              "method": "post"
+            },
+            "validate": {
+              "href": "/api/v3/users/form",
+              "method": "post"
+            },
+            "commit": {
+              "href": "/api/v3/users",
+              "method": "post"
             }
+          }
         }
 
 + Response 400 (application/hal+json)
@@ -886,6 +963,10 @@ For more details and all possible responses see the general specification of [Fo
             "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
             "message": "You are not authorized to access this resource."
         }
+
+
+
+
 
 ## User update form [/api/v3/users/{id}/form]
 
@@ -901,7 +982,13 @@ For more details and all possible responses see the general specification of [Fo
   + Body
 
         {
-            "firstname": "Matthew"
+            "firstName": "Matthew"
+            "customField1": "An exemplary text custom field value",
+            "_links" {
+              "customField2" : {
+                "href": "/api/v3/custom_options/123"
+              }
+            }
         }
 
 + Response 200 (application/hal+json)
@@ -909,152 +996,210 @@ For more details and all possible responses see the general specification of [Fo
   + Body
 
         {
-            "_type": "Form",
-            "_embedded": {
-                "payload": {
-                    "name": "Matthew Mercer",
-                    "login": "matt@example.com",
-                    "admin": false,
-                    "email": "matt@example.com",
-                    "identityUrl": null,
-                    "language": "en",
-                    "_links": {}
-                },
-                "schema": {
-                    "_type": "Schema",
-                    "_dependencies": [],
-                    "id": {
-                        "type": "Integer",
-                        "name": "ID",
-                        "required": true,
-                        "hasDefault": false,
-                        "writable": false,
-                        "options": {}
-                    },
-                    "login": {
-                        "type": "String",
-                        "name": "Username",
-                        "required": true,
-                        "hasDefault": false,
-                        "writable": true,
-                        "minLength": 1,
-                        "maxLength": 255,
-                        "options": {}
-                    },
-                    "admin": {
-                        "type": "Boolean",
-                        "name": "Administrator",
-                        "required": false,
-                        "hasDefault": false,
-                        "writable": true,
-                        "options": {}
-                    },
-                    "mail": {
-                        "type": "String",
-                        "name": "Email",
-                        "required": true,
-                        "hasDefault": false,
-                        "writable": true,
-                        "minLength": 1,
-                        "maxLength": 255,
-                        "options": {}
-                    },
-                    "firstName": {
-                        "type": "String",
-                        "name": "First name",
-                        "required": true,
-                        "hasDefault": false,
-                        "writable": false,
-                        "minLength": 1,
-                        "maxLength": 255,
-                        "options": {}
-                    },
-                    "lastName": {
-                        "type": "String",
-                        "name": "Last name",
-                        "required": true,
-                        "hasDefault": false,
-                        "writable": false,
-                        "minLength": 1,
-                        "maxLength": 255,
-                        "options": {}
-                    },
-                    "avatar": {
-                        "type": "String",
-                        "name": "Avatar",
-                        "required": false,
-                        "hasDefault": false,
-                        "writable": false,
-                        "options": {}
-                    },
-                    "status": {
-                        "type": "String",
-                        "name": "Status",
-                        "required": false,
-                        "hasDefault": false,
-                        "writable": false,
-                        "options": {}
-                    },
-                    "identityUrl": {
-                        "type": "String",
-                        "name": "Identity url",
-                        "required": false,
-                        "hasDefault": false,
-                        "writable": true,
-                        "options": {}
-                    },
-                    "language": {
-                        "type": "String",
-                        "name": "Language",
-                        "required": false,
-                        "hasDefault": false,
-                        "writable": true,
-                        "options": {}
-                    },
-                    "password": {
-                        "type": "Password",
-                        "name": "Password",
-                        "required": false,
-                        "hasDefault": false,
-                        "writable": false,
-                        "options": {}
-                    },
-                    "createdAt": {
-                        "type": "DateTime",
-                        "name": "Created on",
-                        "required": true,
-                        "hasDefault": false,
-                        "writable": false,
-                        "options": {}
-                    },
-                    "updatedAt": {
-                        "type": "DateTime",
-                        "name": "Updated on",
-                        "required": true,
-                        "hasDefault": false,
-                        "writable": false,
-                        "options": {}
-                    },
-                    "_links": {}
-                },
-                "validationErrors": {}
-            },
-            "_links": {
-                "self": {
-                    "href": "/api/v3/users/70917/form",
-                    "method": "post"
-                },
-                "validate": {
-                    "href": "/api/v3/users/70917/form",
-                    "method": "post"
-                },
-                "commit": {
-                    "href": "/api/v3/users/70917",
-                    "method": "patch"
+          "_type": "Form",
+          "_embedded": {
+            "payload": {
+              "firstName": "Matthew",
+              "lastName": "Mercer",
+              "login": "matt@example.com",
+              "admin": false,
+              "email": "matt@example.com",
+              "identityUrl": null,
+              "language": "en",
+              "customField1": "An exemplary text custom field value",
+              "_links" {
+                "customField2" : {
+                  "href": "/api/v3/custom_options/123"
                 }
+              }
+            },
+            "schema": {
+              "_type": "Schema",
+              "_dependencies": [],
+              "id": {
+                "type": "Integer",
+                "name": "ID",
+                "required": true,
+                "hasDefault": false,
+                "writable": false,
+                "options": {}
+              },
+              "login": {
+                "type": "String",
+                "name": "Username",
+                "required": true,
+                "hasDefault": false,
+                "writable": true,
+                "minLength": 1,
+                "maxLength": 255,
+                "options": {}
+              },
+              "admin": {
+                "type": "Boolean",
+                "name": "Administrator",
+                "required": false,
+                "hasDefault": false,
+                "writable": true,
+                "options": {}
+              },
+              "mail": {
+                "type": "String",
+                "name": "Email",
+                "required": true,
+                "hasDefault": false,
+                "writable": true,
+                "minLength": 1,
+                "maxLength": 255,
+                "options": {}
+              },
+              "firstName": {
+                "type": "String",
+                "name": "First name",
+                "required": true,
+                "hasDefault": false,
+                "writable": false,
+                "minLength": 1,
+                "maxLength": 255,
+                "options": {}
+              },
+              "lastName": {
+                "type": "String",
+                "name": "Last name",
+                "required": true,
+                "hasDefault": false,
+                "writable": false,
+                "minLength": 1,
+                "maxLength": 255,
+                "options": {}
+              },
+              "avatar": {
+                "type": "String",
+                "name": "Avatar",
+                "required": false,
+                "hasDefault": false,
+                "writable": false,
+                "options": {}
+              },
+              "status": {
+                "type": "String",
+                "name": "Status",
+                "required": false,
+                "hasDefault": false,
+                "writable": false,
+                "options": {}
+              },
+              "identityUrl": {
+                "type": "String",
+                "name": "Identity url",
+                "required": false,
+                "hasDefault": false,
+                "writable": true,
+                "options": {}
+              },
+              "language": {
+                "type": "String",
+                "name": "Language",
+                "required": false,
+                "hasDefault": false,
+                "writable": true,
+                "options": {}
+              },
+              "password": {
+                "type": "Password",
+                "name": "Password",
+                "required": false,
+                "hasDefault": false,
+                "writable": false,
+                "options": {}
+              },
+              "createdAt": {
+                "type": "DateTime",
+                "name": "Created on",
+                "required": true,
+                "hasDefault": false,
+                "writable": false,
+                "options": {}
+              },
+              "updatedAt": {
+                "type": "DateTime",
+                "name": "Updated on",
+                "required": true,
+                "hasDefault": false,
+                "writable": false,
+                "options": {}
+              },
+              "customField1": {
+                "type": "String",
+                "name": "User String CF",
+                "required": false,
+                "hasDefault": false,
+                "writable": true,
+                "visibility": "default"
+              },
+              "customField2": {
+                "type": "CustomOption",
+                "name": "User List cf",
+                "required": false,
+                "hasDefault": false,
+                "writable": true,
+                "visibility": "default",
+                "_embedded": {
+                  "allowedValues": [{
+                      "_type": "CustomOption",
+                      "id": 123,
+                      "value": "abc",
+                      "_links": {
+                        "self": {
+                          "href": "/api/v3/custom_options/123",
+                          "title": "abc"
+                        }
+                      }
+                    },
+                    {
+                      "_type": "CustomOption",
+                      "id": 124,
+                      "value": "foo",
+                      "_links": {
+                        "self": {
+                          "href": "/api/v3/custom_options/124",
+                          "title": "foo"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "_links": {
+                  "allowedValues": [{
+                      "href": "/api/v3/custom_options/123",
+                      "title": "abc"
+                    },
+                    {
+                      "href": "/api/v3/custom_options/124",
+                      "title": "foo"
+                    }
+                  ]
+                }
+              },
+              "_links": {}
+            },
+            "validationErrors": {}
+          },
+          "_links": {
+            "self": {
+              "href": "/api/v3/users/70917/form",
+              "method": "post"
+            },
+            "validate": {
+              "href": "/api/v3/users/70917/form",
+              "method": "post"
+            },
+            "commit": {
+              "href": "/api/v3/users/70917",
+              "method": "patch"
             }
+          }
         }
-
+  
 + Response 400 (application/hal+json)
 
   Occurs when the client did not send a valid JSON object in the request body.
@@ -1080,3 +1225,19 @@ For more details and all possible responses see the general specification of [Fo
             "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
             "message": "You are not authorized to access this resource."
         }
+
++ Response 404 (application/hal+json)
+
+  Returned if the request user can not be found.
+
+  *Note: A client without sufficient permissions shall not be able to test for the existence of
+  a membership. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+  + Body
+
+        {
+            "_type": "Error",
+            "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+            "message": "The requested resource could not be found."
+        }
+
