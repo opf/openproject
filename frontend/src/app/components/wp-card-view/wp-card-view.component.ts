@@ -140,7 +140,7 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
           return !!events.find(event => wpIds.indexOf(event.id) !== -1);
         })
       ).subscribe(() => {
-        this.workPackages = this.wpViewOrder.orderedWorkPackages();
+        this.workPackages = this.workPackages.map(wp => this.states.workPackages.get(wp.id!).getValueOr(wp));
         this.cdRef.detectChanges();
       });
 

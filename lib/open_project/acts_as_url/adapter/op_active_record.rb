@@ -42,9 +42,18 @@ module OpenProject
         def modify_base_url
           super
 
-          if base_url.empty? && instance.send(settings.attribute_to_urlify).to_s == '.'
-            self.base_url = 'dot'
-          end
+          modify_base_url_custom_rules if base_url.empty?
+        end
+
+        def modify_base_url_custom_rules
+          replacement = case instance.send(settings.attribute_to_urlify).to_s
+                        when '.'
+                          'dot'
+                        when '!'
+                          'bang'
+                        end
+
+          self.base_url = replacement if replacement
         end
       end
     end

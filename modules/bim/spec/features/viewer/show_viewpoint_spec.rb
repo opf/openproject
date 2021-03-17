@@ -61,10 +61,11 @@ describe 'Show viewpoint in model viewer',
       model_tree.select_sidebar_tab 'Objects'
       model_tree.expand_tree
       model_tree.expect_checked 'minimal'
-      model_tree.all_checkboxes.each do |label, checkbox|
-        retry_block do
-          if (label.text == 'minimal' || label.text == 'LUB_Segment_new:S_WHG_Ess:7243035') != checkbox.checked?
-            raise 'Checkbox checked status is wrong'
+      retry_block do
+        model_tree.all_checkboxes.each do |label, checkbox|
+          expect_checked = (label.text == 'minimal' || label.text == 'LUB_Segment_new:S_WHG_Ess:7243035')
+          if expect_checked != checkbox.checked?
+            raise "Expected #{label} to be #{expect_checked ? 'checked' : 'unchecked'}, but wasn't."
           end
         end
       end
