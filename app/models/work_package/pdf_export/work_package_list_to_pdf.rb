@@ -131,9 +131,11 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
     # We need to clear the page after the first one
     setup_page!
 
-    batch_file = render_work_packages(work_packages_batch(batch_index),
-                         first: first,
-                         filename: "pdf_batch_#{batch_index}") do
+    batch_file = render_work_packages(
+      work_packages_batch(batch_index),
+      first: first,
+      filename: "pdf_batch_#{batch_index}"
+    ) do
       write_footers!
     end
 
@@ -251,10 +253,10 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
 
   def work_packages_batch(batch_index)
     query
-        .results
-        .work_packages
-        .page(batch_index)
-        .per_page(@work_packages_per_batch)
+      .results
+      .work_packages
+      .page(batch_index)
+      .per_page(@work_packages_per_batch)
   end
 
   def write_attributes!(work_package)
@@ -312,8 +314,8 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
 
   def make_custom_field_value(work_package, column)
     values = work_package
-             .custom_values
-             .select { |v| v.custom_field_id == column.custom_field.id }
+      .custom_values
+      .select { |v| v.custom_field_id == column.custom_field.id }
 
     pdf.make_cell values.map(&:formatted_value).join(', '),
                   padding: cell_padding
