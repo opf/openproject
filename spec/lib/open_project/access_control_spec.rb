@@ -222,7 +222,9 @@ describe OpenProject::AccessControl do
 
     it 'contains all contract actions grouped by the permission' do
       expect(subject.contract_actions_map)
-        .to eql(global2: { baz: [:destroy] }, proj0: { foo: :create }, proj2: { bar: %i[create read] })
+        .to eql(global2: { actions: { baz: [:destroy] }, global: true, module: :mixed_module },
+                proj0: { actions: { foo: :create }, global: false, module: nil },
+                proj2: { actions: { bar: %i[create read] }, global: false, module: :project_module })
     end
   end
 end

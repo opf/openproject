@@ -42,7 +42,7 @@ module Capabilities::Scopes
             users.id principal_id,
             projects.id context_id
           FROM
-            (SELECT * FROM (VALUES #{action_map}) AS t(permission, permission_map, global)) AS permission_maps
+            (SELECT * FROM (VALUES #{action_map}) AS t(permission, permission_map, global, module)) AS permission_maps
           LEFT OUTER JOIN "role_permissions" ON "role_permissions"."permission" = "permission_maps"."permission"
           LEFT OUTER JOIN "roles" ON "roles".id = "role_permissions".role_id
           LEFT OUTER JOIN "member_roles" ON "member_roles".role_id = "roles".id
@@ -60,7 +60,10 @@ module Capabilities::Scopes
                                                        AND members.user_id = users.id
                                                        LIMIT 1))
             OR "users".admin = true AND NOT "permission_maps".global
-           WHERE projects.id IS NOT NULL OR "permission_maps".global
+           LEFT OUTER JOIN enabled_modules
+             ON enabled_modules.project_id = projects.id
+             AND permission_maps.module = enabled_modules.name
+           WHERE (projects.id IS NOT NULL AND (enabled_modules.project_id IS NOT NULL OR "permission_maps".module IS NULL)) OR "permission_maps".global
           ) capabilities
         SQL
 
@@ -73,17 +76,19 @@ module Capabilities::Scopes
       def action_map
         OpenProject::AccessControl
           .contract_actions_map
-          .map { |permission, v| map_actions(permission, v[:actions], v[:global]) }
+          .map { |permission, v| map_actions(permission, v[:actions], v[:global], v[:module]) }
           .flatten
           .join(', ')
       end
 
-      def map_actions(permission, actions, global)
-        actions.map { |namespace, actions| actions.map { |action| action_value(permission, namespace, action, global) } }
+      def map_actions(permission, actions, global, module_name)
+        actions.map do |namespace, actions|
+          actions.map { |action| action_value(permission, namespace, action, global, module_name) }
+        end
       end
 
-      def action_value(permission, namespace, action, global)
-        "('#{permission}', '#{action_v3_name(namespace)}/#{action}', #{global})"
+      def action_value(permission, namespace, action, global, module_name)
+        "('#{permission}', '#{action_v3_name(namespace)}/#{action}', #{global}, #{module_name ? "'#{module_name}'" : 'NULL'})"
       end
 
       def action_v3_name(name)

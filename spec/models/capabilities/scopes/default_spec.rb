@@ -194,6 +194,33 @@ describe Capabilities::Scopes::Default, type: :model do
       end
     end
 
+    context 'with an admin but with modules deactivated' do
+      let(:user_admin) { true }
+
+      before do
+        project.enabled_modules = []
+      end
+
+      it_behaves_like 'consists of contract actions' do
+        let(:expected) do
+          # This complicated and programmatic way is chosen so that the test can deal with additional actions being defined
+          item = ->(namespace, action, global) {
+            return if namespace == :work_packages
+
+            ["#{API::Utilities::PropertyNameConverter.from_ar_name(namespace.to_s.singularize).pluralize}/#{action}",
+             user.id,
+             global ? nil : project.id]
+          }
+
+          OpenProject::AccessControl
+            .contract_actions_map
+            .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global]) } } }
+            .flatten(2)
+            .compact
+        end
+      end
+    end
+
     # TODO: factor in enabled modules? yes
   end
 end

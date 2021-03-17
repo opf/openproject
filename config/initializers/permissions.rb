@@ -122,11 +122,14 @@ OpenProject::AccessControl.map do |map|
 
   map.project_module :work_package_tracking, order: 90 do |wpt|
     wpt.permission :view_work_packages,
-                   versions: %i[index show status_by],
-                   journals: %i[index diff],
-                   work_packages: %i[show index],
-                   work_packages_api: [:get],
-                   'work_packages/reports': %i[report report_details]
+                   {
+                     versions: %i[index show status_by],
+                     journals: %i[index diff],
+                     work_packages: %i[show index],
+                     work_packages_api: [:get],
+                     'work_packages/reports': %i[report report_details]
+                   },
+                   contract_actions: { work_packages: %i[read] }
 
     wpt.permission :add_work_packages,
                    {}

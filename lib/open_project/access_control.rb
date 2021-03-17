@@ -119,7 +119,7 @@ module OpenProject
         @contract_actions_map ||= permissions.each_with_object({}) do |p, hash|
           next unless p.contract_actions.any?
 
-          hash[p.name] = { actions: p.contract_actions, global: p.global? }
+          hash[p.name] = { actions: p.contract_actions, global: p.global?, module: p.project_module }
         end
       end
 
