@@ -32,7 +32,7 @@ require 'spec_helper'
 
 describe Capabilities::Scopes::Default, type: :model do
   # we focus on the non current user capabilities to make the tests easier to understand
-  subject(:scope) { Capability.default.where(["capabilities.principal_id = ?", user.id]) }
+  subject(:scope) { Capability.default.where(principal_id: user.id) }
 
   let(:permissions) { %i[] }
   let(:global_permissions) { %i[] }
@@ -79,7 +79,7 @@ describe Capabilities::Scopes::Default, type: :model do
 
   shared_examples_for 'consists of contract actions' do
     it 'includes the expected for the scoped to user' do
-      expect(scope.pluck(:permission_map, :principal_id, :context_id))
+      expect(scope.pluck(:action, :principal_id, :context_id))
         .to match_array(expected)
     end
   end

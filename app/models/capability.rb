@@ -28,18 +28,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# TODO: Turn it to something independent of a member
-# and possibly prevent instantiating somehow
-class Capability < Member#ApplicationRecord
+class Capability < ApplicationRecord
+  include Tableless
   include Scopes::Scoped
 
   scopes :default
 
+  default_scope { default }
+
   belongs_to :context, class_name: 'Project'
-  belongs_to :principal#, foreign_key: :principal_id
+  belongs_to :principal
 
-  self.table_name = 'members'
-
-  attr_accessor :id,
-                :permission
+  attribute :action, :text, default: nil
+  attribute :context_id, :integer, default: nil
+  attribute :principal_id, :integer, default: nil
 end

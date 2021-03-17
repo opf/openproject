@@ -35,7 +35,7 @@ class Queries::Capabilities::Filters::IdFilter < Queries::Capabilities::Filters:
     values.map do |value|
       if (matches = value.match(/\A(\w+\/\w+)\/([pg])(\d*)-(\d+)\z/))
         {
-          permission_map: matches[1],
+          action: matches[1],
           context_key: matches[2],
           context_id: matches[3],
           principal_id: matches[4]
@@ -46,7 +46,7 @@ class Queries::Capabilities::Filters::IdFilter < Queries::Capabilities::Filters:
 
   def value_conditions
     split_values.map do |value|
-      conditions = ["permission_map = '#{value[:permission_map]}' AND principal_id = #{value[:principal_id]}"]
+      conditions = ["action = '#{value[:action]}' AND principal_id = #{value[:principal_id]}"]
 
       conditions << if value[:context_id].present?
                       ["context_id = #{value[:context_id]}"]

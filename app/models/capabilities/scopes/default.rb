@@ -38,11 +38,11 @@ module Capabilities::Scopes
       def default
         capabilities_sql = <<~SQL
           (SELECT
-            permission_maps.permission_map,
+            permission_maps.action,
             users.id principal_id,
             projects.id context_id
           FROM
-            (SELECT * FROM (VALUES #{action_map}) AS t(permission, permission_map, global, module)) AS permission_maps
+            (SELECT * FROM (VALUES #{action_map}) AS t(permission, action, global, module)) AS permission_maps
           LEFT OUTER JOIN "role_permissions" ON "role_permissions"."permission" = "permission_maps"."permission"
           LEFT OUTER JOIN "roles" ON "roles".id = "role_permissions".role_id
           LEFT OUTER JOIN "member_roles" ON "member_roles".role_id = "roles".id
@@ -84,16 +84,23 @@ module Capabilities::Scopes
 
       def map_actions(permission, actions, global, module_name)
         actions.map do |namespace, actions|
-          actions.map { |action| action_value(permission, namespace, action, global, module_name) }
-        end
-      end
+          actions.map do |action|
+            values = [quote_string(permission),
+                      quote_string("#{action_v3_name(namespace)}/#{action}"),
+                      global,
+                      module_name ? quote_string(module_name) : 'NULL'].join(', ')
 
-      def action_value(permission, namespace, action, global, module_name)
-        "('#{permission}', '#{action_v3_name(namespace)}/#{action}', #{global}, #{module_name ? "'#{module_name}'" : 'NULL'})"
+            "(#{values})"
+          end
+        end
       end
 
       def action_v3_name(name)
         API::Utilities::PropertyNameConverter.from_ar_name(name.to_s.singularize).pluralize
+      end
+
+      def quote_string(string)
+        ActiveRecord::Base.connection.quote(string.to_s)
       end
     end
   end

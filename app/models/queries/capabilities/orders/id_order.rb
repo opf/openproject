@@ -36,6 +36,6 @@ class Queries::Capabilities::Orders::IdOrder < Queries::BaseOrder
   end
 
   def name
-    :permission_map
+    :action
   end
 end

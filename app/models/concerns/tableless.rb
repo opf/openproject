@@ -26,33 +26,32 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Capabilities::CapabilityQuery < Queries::BaseQuery
-  def self.model
-    Capability
+module Tableless
+  extend ActiveSupport::Concern
+
+  def persisted?
+    false
   end
 
-  def results
-    super
-      .reorder('action ASC', 'principal_id ASC', 'capabilities.context_id ASC')
-  end
-
-  def default_scope
-    Capability
-      .default
-      .distinct
-  end
-
-  validate :minimum_filters_set
-
-  private
-
-  def minimum_filters_set
-    any_required = filters.any? do |filter|
-      [Queries::Capabilities::Filters::PrincipalIdFilter,
-       Queries::Capabilities::Filters::ContextFilter,
-       Queries::Capabilities::Filters::IdFilter].include?(filter.class) && filter.operator == '='
+  class_methods do
+    def attribute_names
+      @attribute_names ||= attribute_types.keys
     end
 
-    errors.add(:filters, I18n.t('activerecord.errors.models.capability.query.filters.minimum')) unless any_required
+    def load_schema!
+      @columns_hash ||= Hash.new
+
+      # From active_record/attributes.rb
+      attributes_to_define_after_schema_loads.each do |name, (type, options)|
+        if type.is_a?(Symbol)
+          type = ActiveRecord::Type.lookup(type, **options.except(:default))
+        end
+
+        define_attribute(name, type, **options.slice(:default))
+
+        # Improve Model#inspect output
+        @columns_hash[name.to_s] = ActiveRecord::ConnectionAdapters::Column.new(name.to_s, options[:default])
+      end
+    end
   end
 end

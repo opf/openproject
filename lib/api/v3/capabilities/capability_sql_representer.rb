@@ -43,19 +43,19 @@ module API
                  representation: -> {
                    <<~SQL
                      CASE
-                     WHEN context_id IS NULL THEN permission_map || '/g-' || principal_id
-                     ELSE permission_map || '/p' || context_id || '-' || principal_id
+                     WHEN context_id IS NULL THEN action || '/g-' || principal_id
+                     ELSE action || '/p' || context_id || '-' || principal_id
                      END
                    SQL
                  }
 
         link :self,
-             path: { api: :capability, params: %w(permission_map) },
+             path: { api: :capability, params: %w(action) },
              column: -> {
                <<~SQL
                  CASE
-                 WHEN context_id IS NULL THEN permission_map || '/g-' || principal_id
-                 ELSE permission_map || '/p' || context_id || '-' || principal_id
+                 WHEN context_id IS NULL THEN action || '/g-' || principal_id
+                 ELSE action || '/p' || context_id || '-' || principal_id
                  END
                SQL
              },
