@@ -1,5 +1,5 @@
 # openproject-gitlab-integration
-OpenProject module for integration with Gitlab
+OpenProject module for integration with Gitlab (latest release tested is 13.9.3)
 
 This plugin is based on the current plugin to integrate Github with OpenProject (https://docs.openproject.org/system-admin-guide/github-integration).
 
@@ -68,7 +68,25 @@ A typical workflow on Gitlab side would be:
 
 ## Configuration
 
-You will have to configure both OpenProject and Gitlab for the integration to work.
+You will have to configure both OpenProject and Gitlab for the integration to work. But first you must modify **Gemfile.lock** and **Gemfile.modules** so that OpenProject detects the new module.
+
+Add the following in **Gemfile.lock**:
+```
+PATH
+  remote: modules/gitlab_integration
+  specs:
+    openproject-gitlab_integration (1.0.0)
+      openproject-webhooks
+```
+
+Add the following in **Gemfile.modules**:
+```
+group :opf_plugins do
+...
+  gem 'openproject-gitlab_integration',        path: 'modules/gitlab_integration'
+...
+end
+```
 
 ### OpenProject
 
