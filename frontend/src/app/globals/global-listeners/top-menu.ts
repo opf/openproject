@@ -104,30 +104,28 @@ export class TopMenu {
   }
 
   closeOnBodyClick() {
-    const self = this;
     const wrapper = document.getElementById('wrapper');
-
     if (!wrapper) {
       return;
     }
 
-    wrapper.addEventListener('click', function (evt) {
-      if (self.menuIsOpen && !self.openDropdowns()[0].contains(evt.target as HTMLElement)) {
-        self.closing();
+    wrapper.addEventListener('click', (evt) => {
+      if (this.menuIsOpen && !this.openDropdowns()[0].contains(evt.target as HTMLElement)) {
+        this.closing();
       }
     }, true);
   }
 
   openDropdowns() {
-    return this.dropdowns().filter("op-app-menu--item_open-dropdown");
+    return this.menuContainer.find(".op-app-menu--item_dropdown-open");
   }
 
   dropdowns() {
-    return this.menuContainer.find("op-app-menu--item_has-dropdown");
+    return this.menuContainer.find(".op-app-menu--item_has-dropdown");
   }
 
   withHeadingFoldOutAtBorder() {
-    var menu_start_position;
+    let menu_start_position;
     if (this.menuContainer.next().get(0) !== undefined && (this.menuContainer.next().get(0).tagName === 'H2')) {
       menu_start_position = this.menuContainer.next().innerHeight()! + this.menuContainer.next().position().top;
       this.menuContainer.find(".op-app-menu--body").css({ top: menu_start_position });
@@ -141,10 +139,9 @@ export class TopMenu {
   }
 
   setupDropdownClick() {
-    var self = this;
-    this.dropdowns().each(function (ix, it) {
-      jQuery(it).click(function () {
-        self.toggleClick(jQuery(this));
+    this.dropdowns().each((ix, it) => {
+      jQuery(it).click(() => {
+        this.toggleClick(jQuery(it));
         return false;
       });
       jQuery(it).on('touchstart', function (e) {
@@ -155,7 +152,7 @@ export class TopMenu {
           return true;
         }
         e.preventDefault();
-        jQuery(this).click();
+        jQuery(it).click();
         return false;
       });
     });
@@ -183,10 +180,9 @@ export class TopMenu {
   }
 
   closeOtherItems(dropdown:JQuery) {
-    var self = this;
-    this.openDropdowns().each(function (ix, it) {
+    this.openDropdowns().each((ix, it) => {
       if (jQuery(it) !== jQuery(dropdown)) {
-        self.close(jQuery(it), true);
+        this.close(jQuery(it), true);
       }
     });
   }
@@ -206,14 +202,14 @@ export class TopMenu {
   }
 
   slideDown(dropdown:JQuery, callback:any) {
-    var toDrop = dropdown.find("> ul");
-    dropdown.addClass("open");
+    const toDrop = dropdown.find(".op-app-menu--dropdown");
+    dropdown.addClass("op-app-menu--item_dropdown-open");
     toDrop.slideDown(ANIMATION_RATE_MS, callback).attr("aria-expanded", "true");
   }
 
   slideUp(dropdown:JQuery, immediate:any) {
-    var toDrop = jQuery(dropdown).find("> ul");
-    dropdown.removeClass("open");
+    const toDrop = jQuery(dropdown).find(".op-app-menu--dropdown");
+    dropdown.removeClass("op-app-menu--item_dropdown-open");
 
     if (immediate) {
       toDrop.hide();
@@ -243,7 +239,7 @@ export class TopMenu {
   registerEventHandlers() {
     const toggler = jQuery("#main-menu-toggle");
 
-    this.menuContainer.on("closeDropDown", (event) => {
+    this.menuContainer.on("closeDropDown", (event: Event) => {
       this.close(jQuery(event.target));
     }).on("openDropDown", (event) => {
       this.open(jQuery(event.target));

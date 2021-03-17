@@ -131,7 +131,7 @@ import { detectOnboardingTour } from "core-app/globals/onboarding/onboarding_tou
     setupToggableFieldsets();
 
     // Top menu click handling
-    new TopMenu(jQuery('#top-menu-items'));
+    new TopMenu(jQuery('.op-app-header'));
 
     // Action menu logic
     jQuery('.project-actions, .toolbar-items').each(function (idx:number, menu:HTMLElement) {
