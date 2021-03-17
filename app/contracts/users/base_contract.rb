@@ -53,7 +53,7 @@ module Users
       User
     end
 
-    validate :password_writable
+    validate :validate_password_writable
     validate :existing_auth_source
 
     delegate :available_custom_fields, to: :model
@@ -62,15 +62,28 @@ module Users
       custom_field.possible_values
     end
 
+    def reduce_writable_attributes(attributes)
+      super.tap do |writable|
+        writable << 'password' if password_writable?
+      end
+    end
+
     private
+
+    ##
+    # Password is not a regular attribute so it bypasses
+    # attribute writable checks
+    def password_writable?
+      user.admin? || user.id == model.id
+    end
 
     ##
     # User#password is not an ActiveModel property,
     # but just an accessor, so we need to identify it being written there.
     # It is only present when freshly written
-    def password_writable
+    def validate_password_writable
       # Only admins or the user themselves can set the password
-      return if user.admin? || user.id == model.id
+      return if password_writable?
 
       errors.add :password, :error_readonly if model.password.present?
     end
