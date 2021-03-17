@@ -44,15 +44,20 @@ import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
 import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
 
 @Directive({
-  selector: '[wpTableSumsRow]'
+  selector: '[wpTableSumsRow]',
+  host: {
+    '[class.-hidden]': 'isHidden'
+  },
 })
 export class WorkPackageTableSumsRowController implements AfterViewInit {
 
   @Input('wpTableSumsRow-table') workPackageTable:WorkPackageTable;
 
+  public isHidden = true;
+
   private text:{ sum:string };
 
-  private $element:JQuery;
+  private element:HTMLTableRowElement;
 
   private groupSumsBuilder:GroupSumsBuilder;
 
@@ -71,7 +76,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
   }
 
   ngAfterViewInit():void {
-    this.$element = jQuery(this.elementRef.nativeElement);
+    this.element = this.elementRef.nativeElement;
 
     combineLatest([
       this.wpTableColumns.live$(),
@@ -82,6 +87,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
         takeUntil(this.querySpace.stopAllSubscriptions)
       )
       .subscribe(([columns, sum, resource]) => {
+        this.isHidden = !sum;
         if (sum && resource.sumsSchema) {
           this.schemaCache
             .ensureLoaded(resource.sumsSchema.$href!)
@@ -95,7 +101,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
   }
 
   private clear() {
-    this.$element.empty();
+    this.element.innerHTML = '';
   }
 
   private refresh(columns:QueryColumn[], resource:WorkPackageCollectionResource, schema:SchemaResource) {
@@ -106,6 +112,6 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
   private render(columns:QueryColumn[], resource:WorkPackageCollectionResource, schema:SchemaResource) {
     this.groupSumsBuilder = new GroupSumsBuilder(this.injector, this.workPackageTable);
     this.groupSumsBuilder.text = this.text;
-    this.groupSumsBuilder.renderColumns(resource.totalSums!, this.elementRef.nativeElement);
+    this.groupSumsBuilder.renderColumns(resource.totalSums!, this.element);
   }
 }
