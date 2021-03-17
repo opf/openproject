@@ -45,15 +45,15 @@ module Redmine::MenuManager::TopMenu::HelpMenu
   def render_help_dropdown
     link_to_help_pop_up = link_to '',
                                   title: I18n.t(:label_help),
-                                  class: 'op-app-header-dropdown--link',
+                                  class: 'op-app-menu--item-action',
                                   aria: { haspopup: 'true' } do
-      op_icon('icon-help top-menu-help--icon')
+      op_icon('icon-help op-app-help--icon')
     end
 
     render_menu_dropdown(
       link_to_help_pop_up,
-      menu_item_class: 'hidden-for-mobile top-menu-help',
-      drop_down_class: 'top-menu-help--dropdown'
+      menu_item_class: 'op-app-help hidden-for-mobile',
+      drop_down_class: 'op-app-menu--dropdown'
     ) do
       result = ''.html_safe
       render_onboarding result

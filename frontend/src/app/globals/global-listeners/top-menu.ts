@@ -56,7 +56,7 @@ export class TopMenu {
   }
 
   accessibility() {
-    jQuery(".drop-down > ul").attr("aria-expanded", "false");
+    jQuery(".op-app-menu--dropdown").attr("aria-expanded", "false");
   }
 
   toggleClick(dropdown:JQuery) {
@@ -119,24 +119,24 @@ export class TopMenu {
   }
 
   openDropdowns() {
-    return this.dropdowns().filter(".open");
+    return this.dropdowns().filter("op-app-menu--item_open-dropdown");
   }
 
   dropdowns() {
-    return this.menuContainer.find("li.drop-down");
+    return this.menuContainer.find("op-app-menu--item_has-dropdown");
   }
 
   withHeadingFoldOutAtBorder() {
     var menu_start_position;
     if (this.menuContainer.next().get(0) !== undefined && (this.menuContainer.next().get(0).tagName === 'H2')) {
       menu_start_position = this.menuContainer.next().innerHeight()! + this.menuContainer.next().position().top;
-      this.menuContainer.find("ul.menu-drop-down-container").css({ top: menu_start_position });
+      this.menuContainer.find(".op-app-menu--body").css({ top: menu_start_position });
     } else if (this.menuContainer.next().hasClass("wiki-content") &&
       this.menuContainer.next().children().next().first().get(0) !== undefined &&
       this.menuContainer.next().children().next().first().get(0).tagName === 'H1') {
       var wiki_heading = this.menuContainer.next().children().next().first();
       menu_start_position = wiki_heading.innerHeight()! + wiki_heading.position().top;
-      this.menuContainer.find("ul.menu-drop-down-container").css({ top: menu_start_position });
+      this.menuContainer.find(".op-app-menu--body").css({ top: menu_start_position });
     }
   }
 
@@ -151,7 +151,7 @@ export class TopMenu {
         // This shall avoid the hover event is fired,
         // which would otherwise lead to menu being closed directly after its opened.
         // Ignore clicks from within the dropdown
-        if (jQuery(e.target).closest('.menu-drop-down-container').length) {
+        if (jQuery(e.target).closest('.op-app-menu--body').length) {
           return true;
         }
         e.preventDefault();
