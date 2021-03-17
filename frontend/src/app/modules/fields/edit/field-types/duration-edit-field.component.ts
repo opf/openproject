@@ -34,6 +34,7 @@ import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
 
 @Component({
   template: `
+    VALUE: {{value}}
     <input type="number"
            step="0.01"
            class="inline-edit--field"
