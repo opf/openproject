@@ -30,6 +30,8 @@
 
 module Users
   class BaseContract < ::ModelContract
+    include AssignableCustomFieldValues
+
     attribute :login,
               writeable: ->(*) { user.allowed_to_globally?(:manage_user) && model.id != user.id }
     attribute :firstname
@@ -57,10 +59,6 @@ module Users
     validate :existing_auth_source
 
     delegate :available_custom_fields, to: :model
-
-    def assignable_custom_field_values(custom_field)
-      custom_field.possible_values
-    end
 
     def reduce_writable_attributes(attributes)
       super.tap do |writable|
