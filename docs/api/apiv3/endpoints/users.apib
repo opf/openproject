@@ -16,7 +16,12 @@
 | auth_source | Link to the user's auth source (endpoint not yet implemented)                                                                                                        | AuthSource        |                       | READ / WRITE         | **Permission**: Administrator                                 |
 | members     | Link to collection of all the user's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions. | MemberCollection  |                       | READ                 | **Permission**: view members or manage members in any project |
 
+Depending on custom fields defined for users, additional links might exist.
+
+
+
 ## Local Properties
+
 | Property     | Description                                               | Type     | Constraints                                          | Supported operations | Condition                                                                             |
 | :----------: | --------------------------------------------------------- | -------- | ---------------------------------------------------- | -------------------- | -----------------------------------------------------------                           |
 | id           | User's id                                                 | Integer  | x > 0                                                | READ                 |                                                                                       |
@@ -33,6 +38,10 @@
 | identity_url | User's identity_url for OmniAuth authentication           | String   |                                                      | READ / WRITE         | **Permission**: Administrator                                                         |
 | createdAt    | Time of creation                                          | DateTime |                                                      | READ                 |                                                                                       |
 | updatedAt    | Time of the most recent change to the user                | DateTime |                                                      | READ                 |                                                                                       |
+
+Depending on custom fields defined for users, additional properties might exist.
+
+
 
 The `status` of a user can be one of:
 
@@ -56,7 +65,7 @@ users except for admins or the user themselves.
 
 Please note that custom fields are not yet supported by the api although the backend supports them.
 
-## User [/api/v3/users/{id}]
+## View user [/api/v3/users/{id}]
 
 + Model
     + Body
@@ -106,7 +115,7 @@ Please note that custom fields are not yet supported by the api although the bac
   
 + Response 200 (application/hal+json)
 
-    [User][]
+    [View user][]
 
 + Response 404 (application/hal+json)
 
@@ -121,6 +130,8 @@ Please note that custom fields are not yet supported by the api although the bac
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
                 "message": "The specified user does not exist or you do not have permission to view them."
             }
+
+## Create User [/api/v3/users]
 
 ## Create User [POST]
 
@@ -159,7 +170,7 @@ Valid values for `status`:
 
 + Response 201
 
-  [User][]
+  [View user][]
 
 + Response 400 (application/hal+json)
 
@@ -212,6 +223,8 @@ Valid values for `status`:
 
 
 
+## Update User [/api/v3/users/{id}]
+
 ## Update user [PATCH]
 
 Updates the user's writable attributes.
@@ -236,7 +249,7 @@ When calling this endpoint the client provides a single object, containing at le
 
 + Response 200
 
-    [User][]
+    [View user][]
 
 + Response 400 (application/hal+json)
 
@@ -299,6 +312,8 @@ When calling this endpoint the client provides a single object, containing at le
                 }
             }
 
+## Delete User [/api/v3/users/{id}]
+
 ## Delete user [DELETE]
 
 Permanently deletes the specified user account.
@@ -342,10 +357,9 @@ Permanently deletes the specified user account.
                 "message": "The specified user does not exist."
             }
 
+## Lock user [/api/v3/users/{id}/lock]
 
-## User Account Locking [/api/v3/users/{id}/lock]
-
-## Set Lock [POST]
+## Lock user [POST]
 
 + Parameters
   
@@ -353,7 +367,7 @@ Permanently deletes the specified user account.
   
 + Response 200 (application/hal+json)
 
-    [User][]
+    [View user][]
 
 + Response 400 (application/hal+json)
 
@@ -395,7 +409,9 @@ Permanently deletes the specified user account.
                 "message": "The specified user does not exist."
             }
 
-## Remove Lock [DELETE]
+## Unlock user [/api/v3/users/{id}/lock]
+
+## Unlock user [DELETE]
 
 + Parameters
   
@@ -403,7 +419,7 @@ Permanently deletes the specified user account.
   
 + Response 200 (application/hal+json)
 
-    [User][]
+    [View user][]
 
 + Response 400 (application/hal+json)
 
@@ -552,7 +568,7 @@ Lists users. Only administrators or users with manage_users global permission ha
                 "message": "You are not allowed to list users."
             }
 
-## View user schema [GET]
+## View user schema [/api/v3/users/schemas]
 
 + Response 200 (application/hal+json)
 
