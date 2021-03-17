@@ -37,6 +37,7 @@ import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
     <input type="number"
            step="0.01"
            class="inline-edit--field"
+           lang="de"
            #input
            [attr.aria-required]="required"
            [ngModel]="formatter(value)"
