@@ -301,14 +301,24 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
       end
     end
 
-    #context 'without permissions' do
-    #  let(:permissions) { [] }
-    #  it 'is empty' do
-    #    expect(subject.body)
-    #      .to be_json_eql('0')
-    #            .at_path('total')
-    #  end
-    #end
+    context 'without permissions' do
+      current_user do
+        FactoryBot.create(:user)
+      end
+
+      let(:filters) do
+        [{ 'context' => {
+          'operator' => '=',
+          'values' => ["g"]
+        } }]
+      end
+
+      it 'is empty' do
+        expect(subject.body)
+          .to be_json_eql('0')
+          .at_path('total')
+      end
+    end
   end
 
   describe 'GET /api/v3/capabilities/:id' do
@@ -350,6 +360,17 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
 
     context 'if querying with malformed id' do
       let(:path) { api_v3_paths.capability("foo/bar/baz-5") }
+
+      it 'returns 404 NOT FOUND' do
+        expect(subject.status)
+          .to be 404
+      end
+    end
+
+    context 'if querying for an invisible user' do
+      current_user do
+        FactoryBot.create(:user)
+      end
 
       it 'returns 404 NOT FOUND' do
         expect(subject.status)
