@@ -31,13 +31,15 @@
 require 'spec_helper'
 
 describe Capabilities::Scopes::Default, type: :model do
-  subject(:scope) { Capability.default }
+  # we focus on the non current user capabilities to make the tests easier to understand
+  subject(:scope) { Capability.default.where(["capabilities.principal_id = ?", user.id]) }
 
   let(:permissions) { %i[] }
   let(:global_permissions) { %i[] }
   let(:non_member_permissions) { %i[] }
   let(:project_public) { false }
-  let!(:project) { FactoryBot.create(:project, public: project_public) }
+  let(:project_active) { true }
+  let!(:project) { FactoryBot.create(:project, public: project_public, active: project_active) }
   let(:role) do
     FactoryBot.create(:role, permissions: permissions)
   end
@@ -45,6 +47,7 @@ describe Capabilities::Scopes::Default, type: :model do
     FactoryBot.create(:global_role, permissions: global_permissions)
   end
   let(:user_admin) { false }
+  let(:current_user_admin) { true }
   let!(:user) { FactoryBot.create(:user, admin: user_admin) }
   let(:global_member) do
     FactoryBot.create(:global_member,
@@ -61,30 +64,39 @@ describe Capabilities::Scopes::Default, type: :model do
     FactoryBot.create(:non_member,
                       permissions: non_member_permissions)
   end
+  let(:own_role) { FactoryBot.create(:role, permissions: [] )}
+  let(:own_member) do
+    FactoryBot.create(:member,
+                      principal: current_user,
+                      roles: [own_role],
+                      project: project)
+  end
   let(:members) { [] }
 
+  current_user do
+    FactoryBot.create(:user, admin: current_user_admin)
+  end
+
   shared_examples_for 'consists of contract actions' do
-    it 'includes the expected' do
+    it 'includes the expected for the scoped to user' do
       expect(scope.pluck(:permission_map, :principal_id, :context_id))
         .to match_array(expected)
     end
   end
 
   shared_examples_for 'is empty' do
-    it 'is empty' do
+    it 'is empty for the scoped to user' do
       expect(scope)
         .to be_empty
     end
   end
 
-  describe '.fetch' do
+  describe '.default' do
     before do
       members
     end
 
     context 'without any members and non member roles' do
-      let(:members) { [] }
-
       it_behaves_like 'is empty'
     end
 
@@ -145,7 +157,9 @@ describe Capabilities::Scopes::Default, type: :model do
 
         it_behaves_like 'consists of contract actions' do
           let(:expected) do
-            [['memberships/read', user.id, project.id]]
+            [
+              ['memberships/read', user.id, project.id]
+            ]
           end
         end
       end
@@ -157,7 +171,9 @@ describe Capabilities::Scopes::Default, type: :model do
 
       it_behaves_like 'consists of contract actions' do
         let(:expected) do
-          [['memberships/read', user.id, project.id]]
+          [
+            ['memberships/read', user.id, project.id]
+          ]
         end
       end
     end
@@ -169,7 +185,9 @@ describe Capabilities::Scopes::Default, type: :model do
 
       it_behaves_like 'consists of contract actions' do
         let(:expected) do
-          [['memberships/read', user.id, project.id]]
+          [
+            ['memberships/read', user.id, project.id]
+          ]
         end
       end
     end
@@ -221,6 +239,41 @@ describe Capabilities::Scopes::Default, type: :model do
       end
     end
 
-    # TODO: factor in enabled modules? yes
+    context 'without the current user being member in a project' do
+      let(:permissions) { %i[manage_members] }
+      let(:global_permissions) { %i[manage_user] }
+      let(:members) { [member, global_member] }
+      let(:current_user_admin) { false }
+
+      it_behaves_like 'is empty'
+    end
+
+    context 'with the current user being member in a project' do
+      let(:permissions) { %i[manage_members] }
+      let(:global_permissions) { %i[manage_user] }
+      let(:members) { [own_member, member, global_member] }
+      let(:current_user_admin) { false }
+
+      it_behaves_like 'consists of contract actions' do
+        let(:expected) do
+          [
+            ['memberships/create', user.id, project.id],
+            ['memberships/destroy', user.id, project.id],
+            ['memberships/update', user.id, project.id],
+            ['users/create', user.id, nil],
+            ['users/read', user.id, nil],
+            ['users/update', user.id, nil]
+          ]
+        end
+      end
+    end
+
+    context 'with a member with an action permission and the project being archived' do
+      let(:permissions) { %i[manage_members] }
+      let(:members) { [member] }
+      let(:project_active) { false }
+
+      it_behaves_like 'is empty'
+    end
   end
 end

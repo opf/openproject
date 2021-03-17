@@ -47,19 +47,20 @@ module Capabilities::Scopes
           LEFT OUTER JOIN "roles" ON "roles".id = "role_permissions".role_id
           LEFT OUTER JOIN "member_roles" ON "member_roles".role_id = "roles".id
           LEFT OUTER JOIN "members" ON members.id = member_roles.member_id
-          JOIN "users"
+          JOIN (#{Principal.visible.not_builtin.to_sql}) users
             ON "users".id = members.user_id
             OR "roles".builtin = #{Role::BUILTIN_NON_MEMBER}
             OR "users".admin = true
           LEFT OUTER JOIN "projects"
-            ON "projects".id = members.project_id
-            OR "roles".builtin = #{Role::BUILTIN_NON_MEMBER}
-              AND ("projects".public = true OR EXISTS (SELECT 1
-                                                       FROM members
-                                                       WHERE members.project_id = projects.id
-                                                       AND members.user_id = users.id
-                                                       LIMIT 1))
-            OR "users".admin = true AND NOT "permission_maps".global
+            ON "projects".active = true
+            AND ("projects".id = members.project_id
+                 OR "roles".builtin = #{Role::BUILTIN_NON_MEMBER}
+                   AND ("projects".public = true OR EXISTS (SELECT 1
+                                                            FROM members
+                                                            WHERE members.project_id = projects.id
+                                                            AND members.user_id = users.id
+                                                            LIMIT 1))
+                 OR "users".admin = true AND NOT "permission_maps".global)
            LEFT OUTER JOIN enabled_modules
              ON enabled_modules.project_id = projects.id
              AND permission_maps.module = enabled_modules.name
