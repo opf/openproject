@@ -62,7 +62,6 @@ module API
                  render_nil: true
 
         property :name,
-                 skip_render: ->(*) { is_a?(User) },
                  render_nil: true
 
         date_time_property :created_at,

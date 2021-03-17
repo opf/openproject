@@ -36,7 +36,6 @@ module Users
               writeable: ->(*) { user.allowed_to_globally?(:manage_user) && model.id != user.id }
     attribute :firstname
     attribute :lastname
-    attribute :name
     attribute :mail
     attribute :admin,
               writeable: ->(*) { user.admin? && model.id != user.id }

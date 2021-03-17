@@ -53,6 +53,11 @@ module API
                  min_length: 1,
                  max_length: 255
 
+          schema :name,
+                 type: 'String',
+                 required: false,
+                 writable: false
+
           schema :firstname,
                  as: :firstName,
                  type: 'String',
