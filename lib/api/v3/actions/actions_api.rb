@@ -31,31 +31,12 @@ module API
     module Actions
       class ActionsAPI < ::API::OpenProjectAPI
         resources :actions do
-          helpers API::Utilities::PageSizeHelper
-
-          helpers do
-            def query
-              @query ||= ParamsToQueryService
-                           .new(Action, current_user)
-                           .call(params)
-            end
-          end
-
-          get do
-            raise ::API::Errors::InvalidQuery.new(query.errors.full_messages) if query.invalid?
-
-            ::API::V3::Utilities::SqlRepresenterWalker
-              .new(query.results,
-                   embed: { 'elements' => {} },
-                   select: { 'elements' => { 'id' => {}, '_type' => {}, 'self' => {} } },
-                   current_user: current_user,
-                   page_size: params[:pageSize],
-                   offset: params[:offset])
-              .walk(API::V3::Actions::ActionSqlCollectionRepresenter)
-          end
+          get &API::V3::Utilities::Endpoints::SqlIndex
+                 .new(model: Action)
+                 .mount
 
           params do
-            requires :id, type: String, desc: 'The action identifier which will include slashes'
+            requires :id, type: String, desc: 'The action identifier'
           end
           namespace '*id' do
             helpers do

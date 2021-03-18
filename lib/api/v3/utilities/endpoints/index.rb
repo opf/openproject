@@ -31,8 +31,6 @@ module API
     module Utilities
       module Endpoints
         class Index < API::Utilities::Endpoints::Index
-          include ::API::Utilities::PageSizeHelper
-
           def mount
             index = self
 

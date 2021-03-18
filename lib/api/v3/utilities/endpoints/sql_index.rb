@@ -28,41 +28,29 @@
 
 module API
   module V3
-    module Capabilities
-      class CapabilitiesAPI < ::API::OpenProjectAPI
-        resources :capabilities do
-          get &API::V3::Utilities::Endpoints::SqlIndex
-                 .new(model: Capability)
-                 .mount
+    module Utilities
+      module Endpoints
+        class SqlIndex < Index
+          private
 
-          namespace :contexts do
-            mount API::V3::Capabilities::Contexts::GlobalAPI
+          def render_paginated_success(results, params, self_path)
+            ::API::V3::Utilities::SqlRepresenterWalker
+              .new(results,
+                   embed: { 'elements' => {} },
+                   #select: { 'elements' => { 'id' => {}, '_type' => {}, 'self' => {} } },
+                   select: { 'elements' => { '*' => {} } },
+                   current_user: User.current,
+                   page_size: params[:pageSize],
+                   offset: params[:offset])
+              .walk(deduce_render_representer)
           end
 
-          params do
-            requires :id, type: String, desc: 'The capability identifier'
+          def paginated_representer?
+            true
           end
-          namespace '*id' do
-            helpers do
-              def scope
-                ::Queries::Capabilities::CapabilityQuery.new(user: current_user)
-                                                        .where('id', '=', params[:id])
-                                                        .results
-              end
-            end
 
-            after_validation do
-              raise ::API::Errors::NotFound.new unless scope.exists?
-            end
-
-            get do
-              ::API::V3::Utilities::SqlRepresenterWalker
-                .new(scope.limit(1),
-                     embed: {},
-                     select: { 'id' => {}, '_type' => {}, 'self' => {}, 'action' => {}, 'context' => {}, 'principal' => {} },
-                     current_user: current_user)
-                .walk(API::V3::Capabilities::CapabilitySqlRepresenter)
-            end
+          def deduce_render_representer
+            "::API::V3::#{deduce_api_namespace}::#{api_name}SqlCollectionRepresenter".constantize
           end
         end
       end

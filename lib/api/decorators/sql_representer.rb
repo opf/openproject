@@ -145,13 +145,21 @@ module API
         private
 
         def selected_links(select)
-          (links || {})
-            .slice(*cleaned_selects(select))
+          selected(select, links || {})
         end
 
         def selected_properties(select)
-          (properties || {})
-            .slice(*cleaned_selects(select))
+          selected(select, properties || {})
+        end
+
+        def selected(select, list)
+          selects = cleaned_selects(select)
+
+          if selects.include?(:*)
+            list
+          else
+            list.slice(*cleaned_selects(select))
+          end
         end
 
         def cleaned_selects(select)
