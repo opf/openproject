@@ -112,7 +112,13 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path'
   end
 
+  context 'actions paths' do
+    it_behaves_like 'index', :action
+    it_behaves_like 'show', :action
+  end
+
   context 'activities paths' do
+    it_behaves_like 'index', :activities
     it_behaves_like 'show', :activity
   end
 

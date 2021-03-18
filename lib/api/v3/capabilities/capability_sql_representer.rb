@@ -61,6 +61,10 @@ module API
              },
              title: -> { nil }
 
+        link :action,
+             path: { api: :action, params: %w(action) },
+             title: -> { nil }
+
         link :context,
              href: -> {
                <<~SQL

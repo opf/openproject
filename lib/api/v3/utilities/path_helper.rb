@@ -97,9 +97,11 @@ module API
             "#{root_path}api/v3"
           end
 
-          def self.activity(id)
-            "#{root}/activities/#{id}"
-          end
+          index :action
+          show :action
+
+          index :activity
+          show :activity
 
           index :attachment
           show :attachment

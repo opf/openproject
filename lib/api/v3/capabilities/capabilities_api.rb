@@ -47,7 +47,7 @@ module API
             ::API::V3::Utilities::SqlRepresenterWalker
               .new(query.results,
                    embed: { 'elements' => {} },
-                   select: { 'elements' => { 'id' => {}, '_type' => {}, 'self' => {}, 'context' => {}, 'principal' => {} } },
+                   select: { 'elements' => { 'id' => {}, '_type' => {}, 'self' => {}, 'action' => {}, 'context' => {}, 'principal' => {} } },
                    current_user: current_user,
                    page_size: params[:pageSize],
                    offset: params[:offset])
@@ -80,7 +80,7 @@ module API
               ::API::V3::Utilities::SqlRepresenterWalker
                 .new(scope.limit(1),
                      embed: {},
-                     select: { 'id' => {}, '_type' => {}, 'self' => {}, 'context' => {}, 'principal' => {} },
+                     select: { 'id' => {}, '_type' => {}, 'self' => {}, 'action' => {},  'context' => {}, 'principal' => {} },
                      current_user: current_user)
                 .walk(API::V3::Capabilities::CapabilitySqlRepresenter)
             end
