@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,29 +28,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Capabilities::Filters::ContextFilter < Queries::Capabilities::Filters::CapabilityFilter
-  include Queries::Filters::Shared::ParsedFilter
+class Action < ApplicationRecord
+  include Tableless
+  include Scopes::Scoped
 
-  private
+  scopes :default
 
-  def split_values
-    values.map do |value|
-      if (matches = value.match(/\A([gp])(\d*)\z/))
-        {
-          context_key: matches[1],
-          context_id: matches[2]
-        }
-      end
-    end
-  end
+  default_scope { default }
 
-  def value_conditions
-    split_values.map do |value|
-      if value[:context_id].present?
-        "context_id = #{value[:context_id]}"
-      else
-        "context_id IS NULL"
-      end
-    end
-  end
+  attribute :id, :text, default: nil
+  attribute :permission, :text, default: nil
+  attribute :global, :boolean, default: false
+  attribute :module, :text, default: false
 end

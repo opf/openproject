@@ -27,7 +27,7 @@
 #++
 
 class Queries::Capabilities::Filters::IdFilter < Queries::Capabilities::Filters::CapabilityFilter
-  include Queries::Capabilities::Filters::ParsedFilterMixin
+  include Queries::Filters::Shared::ParsedFilter
 
   private
 

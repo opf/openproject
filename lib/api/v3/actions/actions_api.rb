@@ -28,16 +28,16 @@
 
 module API
   module V3
-    module Capabilities
-      class CapabilitiesAPI < ::API::OpenProjectAPI
-        resources :capabilities do
+    module Actions
+      class ActionsAPI < ::API::OpenProjectAPI
+        resources :actions do
           helpers API::Utilities::PageSizeHelper
 
           helpers do
             def query
               @query ||= ParamsToQueryService
-                         .new(Capability, current_user)
-                         .call(params)
+                           .new(Action, current_user)
+                           .call(params)
             end
           end
 
@@ -47,22 +47,22 @@ module API
             ::API::V3::Utilities::SqlRepresenterWalker
               .new(query.results,
                    embed: { 'elements' => {} },
-                   select: { 'elements' => { 'id' => {}, '_type' => {}, 'self' => {}, 'action' => {}, 'context' => {}, 'principal' => {} } },
+                   select: { 'elements' => { 'id' => {}, '_type' => {}, 'self' => {} } },
                    current_user: current_user,
                    page_size: params[:pageSize],
                    offset: params[:offset])
-              .walk(API::V3::Capabilities::CapabilitySqlCollectionRepresenter)
+              .walk(API::V3::Actions::ActionSqlCollectionRepresenter)
           end
 
           params do
-            requires :id, type: String, desc: 'The capability identifier which will include slashes'
+            requires :id, type: String, desc: 'The action identifier which will include slashes'
           end
           namespace '*id' do
             helpers do
               def scope
-                ::Queries::Capabilities::CapabilityQuery.new(user: current_user)
-                                                        .where('id', '=', params[:id])
-                                                        .results
+                ::Queries::Actions::ActionQuery.new(user: current_user)
+                                               .where('id', '=', params[:id])
+                                               .results
               end
             end
 
@@ -74,14 +74,10 @@ module API
               ::API::V3::Utilities::SqlRepresenterWalker
                 .new(scope.limit(1),
                      embed: {},
-                     select: { 'id' => {}, '_type' => {}, 'self' => {}, 'action' => {}, 'context' => {}, 'principal' => {} },
+                     select: { 'id' => {}, '_type' => {}, 'self' => {} },
                      current_user: current_user)
-                .walk(API::V3::Capabilities::CapabilitySqlRepresenter)
+                .walk(API::V3::Actions::ActionSqlRepresenter)
             end
-          end
-
-          namespace :contexts do
-            mount API::V3::Capabilities::Contexts::GlobalAPI
           end
         end
       end

@@ -26,17 +26,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Capabilities::Filters::ContextFilter < Queries::Capabilities::Filters::CapabilityFilter
-  include Queries::Filters::Shared::ParsedFilter
+class Queries::Actions::Filters::IdFilter < Queries::Actions::Filters::ActionFilter
+  include ::Queries::Filters::Shared::ParsedFilter
 
   private
 
   def split_values
     values.map do |value|
-      if (matches = value.match(/\A([gp])(\d*)\z/))
+      if (matches = value.match(/\A(\w+\/\w+)\z/))
         {
-          context_key: matches[1],
-          context_id: matches[2]
+          action: matches[1]
         }
       end
     end
@@ -44,11 +43,7 @@ class Queries::Capabilities::Filters::ContextFilter < Queries::Capabilities::Fil
 
   def value_conditions
     split_values.map do |value|
-      if value[:context_id].present?
-        "context_id = #{value[:context_id]}"
-      else
-        "context_id IS NULL"
-      end
+      "id = '#{value[:action]}'"
     end
   end
 end

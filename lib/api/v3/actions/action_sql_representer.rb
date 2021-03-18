@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -26,28 +26,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Capabilities::Filters::ContextFilter < Queries::Capabilities::Filters::CapabilityFilter
-  include Queries::Filters::Shared::ParsedFilter
+module API
+  module V3
+    module Actions
+      class ActionSqlRepresenter < API::Decorators::SqlRepresenter
+        property :_type,
+                 representation: -> { "'Action'" }
 
-  private
+        property :id
 
-  def split_values
-    values.map do |value|
-      if (matches = value.match(/\A([gp])(\d*)\z/))
-        {
-          context_key: matches[1],
-          context_id: matches[2]
-        }
-      end
-    end
-  end
-
-  def value_conditions
-    split_values.map do |value|
-      if value[:context_id].present?
-        "context_id = #{value[:context_id]}"
-      else
-        "context_id IS NULL"
+        link :self,
+             path: { api: :action, params: %w(action) },
+             column: -> { :id },
+             title: -> { nil }
       end
     end
   end

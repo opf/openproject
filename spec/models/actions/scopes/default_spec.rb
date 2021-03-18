@@ -26,29 +26,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Capabilities::Filters::ContextFilter < Queries::Capabilities::Filters::CapabilityFilter
-  include Queries::Filters::Shared::ParsedFilter
+require 'spec_helper'
 
-  private
+describe Actions::Scopes::Default, type: :model do
+  subject(:scope) { Action.default }
 
-  def split_values
-    values.map do |value|
-      if (matches = value.match(/\A([gp])(\d*)\z/))
-        {
-          context_key: matches[1],
-          context_id: matches[2]
-        }
-      end
+  describe '.default' do
+    let(:expected) do
+      # This complicated and programmatic way is chosen so that the test can deal with additional actions being defined
+      item = ->(permission, namespace, action, global, module_name) {
+        ["#{API::Utilities::PropertyNameConverter.from_ar_name(namespace.to_s.singularize).pluralize}/#{action}",
+         permission.to_s,
+         global,
+         module_name&.to_s]
+      }
+
+      OpenProject::AccessControl
+        .contract_actions_map
+        .map do |permission, v|
+          v[:actions].map { |vk, vv| vv.map { |vvv| item.call(permission, vk, vvv, v[:global], v[:module]) } }
+        end.flatten(2)
     end
-  end
 
-  def value_conditions
-    split_values.map do |value|
-      if value[:context_id].present?
-        "context_id = #{value[:context_id]}"
-      else
-        "context_id IS NULL"
-      end
+    it 'contains all actions' do
+      expect(scope.pluck(:id, :permission, :global, :module))
+        .to match_array(expected)
     end
   end
 end

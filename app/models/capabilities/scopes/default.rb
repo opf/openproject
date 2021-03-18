@@ -38,12 +38,12 @@ module Capabilities::Scopes
       def default
         capabilities_sql = <<~SQL
           (SELECT
-            permission_maps.action,
+            actions.id "action",
             users.id principal_id,
             projects.id context_id
           FROM
-            (SELECT * FROM (VALUES #{action_map}) AS t(permission, action, global, module)) AS permission_maps
-          LEFT OUTER JOIN "role_permissions" ON "role_permissions"."permission" = "permission_maps"."permission"
+            (#{Action.default.to_sql}) actions
+          LEFT OUTER JOIN "role_permissions" ON "role_permissions"."permission" = "actions"."permission"
           LEFT OUTER JOIN "roles" ON "roles".id = "role_permissions".role_id
           LEFT OUTER JOIN "member_roles" ON "member_roles".role_id = "roles".id
           LEFT OUTER JOIN "members" ON members.id = member_roles.member_id
@@ -60,47 +60,16 @@ module Capabilities::Scopes
                                                             WHERE members.project_id = projects.id
                                                             AND members.user_id = users.id
                                                             LIMIT 1))
-                 OR "users".admin = true AND NOT "permission_maps".global)
+                 OR "users".admin = true AND NOT "actions".global)
            LEFT OUTER JOIN enabled_modules
              ON enabled_modules.project_id = projects.id
-             AND permission_maps.module = enabled_modules.name
-           WHERE (projects.id IS NOT NULL AND (enabled_modules.project_id IS NOT NULL OR "permission_maps".module IS NULL)) OR "permission_maps".global
+             AND actions.module = enabled_modules.name
+           WHERE (projects.id IS NOT NULL AND (enabled_modules.project_id IS NOT NULL OR "actions".module IS NULL)) OR "actions".global
           ) capabilities
         SQL
 
         select('capabilities.*')
           .from(capabilities_sql)
-      end
-
-      private
-
-      def action_map
-        OpenProject::AccessControl
-          .contract_actions_map
-          .map { |permission, v| map_actions(permission, v[:actions], v[:global], v[:module]) }
-          .flatten
-          .join(', ')
-      end
-
-      def map_actions(permission, actions, global, module_name)
-        actions.map do |namespace, actions|
-          actions.map do |action|
-            values = [quote_string(permission),
-                      quote_string("#{action_v3_name(namespace)}/#{action}"),
-                      global,
-                      module_name ? quote_string(module_name) : 'NULL'].join(', ')
-
-            "(#{values})"
-          end
-        end
-      end
-
-      def action_v3_name(name)
-        API::Utilities::PropertyNameConverter.from_ar_name(name.to_s.singularize).pluralize
-      end
-
-      def quote_string(string)
-        ActiveRecord::Base.connection.quote(string.to_s)
       end
     end
   end

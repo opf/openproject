@@ -42,6 +42,7 @@ module API
         transform_eprops
       end
 
+      mount ::API::V3::Actions::ActionsAPI
       mount ::API::V3::Activities::ActivitiesAPI
       mount ::API::V3::Attachments::AttachmentsAPI
       mount ::API::V3::Capabilities::CapabilitiesAPI
