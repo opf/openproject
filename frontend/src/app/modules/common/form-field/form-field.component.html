@@ -1,5 +1,8 @@
 <label class="op-form-field--label-wrap">
-  <div class="op-form-field--label">
+  <div
+    class="op-form-field--label"
+    *ngIf="label"
+  >
     {{ label }}
     <span *ngIf="required" class="op-form-field--label-indicator">*</span>
   </div>
