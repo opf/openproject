@@ -31,7 +31,7 @@ export class MessageComponent implements OnInit {
   @Output() back = new EventEmitter<void>();
   @Output() save = new EventEmitter<{message:string}>();
 
-  @ViewChild('input') input;
+  @ViewChild('input') input: ElementRef;
 
   public text = {
     title: () => this.I18n.t('js.invite_user_modal.title.invite_principal_to_project', {
