@@ -40,9 +40,6 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   public Steps = Steps;
   public step = Steps.ProjectSelection;
 
-  /* Close on escape? */
-  public closeOnEscape = true;
-
   /* Close on outside click */
   public closeOnOutsideClick = true;
 
