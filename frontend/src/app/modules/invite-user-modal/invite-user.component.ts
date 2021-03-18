@@ -54,6 +54,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   public principal:HalResource|null = null;
   public role:RoleResource|null = null;
   public message = '';
+  public createdNewPrincipal = false;
 
   constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
@@ -105,6 +106,9 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   }
 
   onSuccessfulSubmission($event:{ principal:HalResource }) {
+    if (this.principal !== $event.principal && this.type === PrincipalType.User) {
+      this.createdNewPrincipal = true;
+    }
     this.principal = $event.principal;
     this.goTo(Steps.Success);
   }
