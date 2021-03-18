@@ -5,6 +5,7 @@ import {
   EventEmitter,
   Output,
   ElementRef,
+  ViewChild,
 } from '@angular/core';
 import {
   FormControl,
@@ -29,6 +30,8 @@ export class MessageComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
   @Output() back = new EventEmitter<void>();
   @Output() save = new EventEmitter<{message:string}>();
+
+  @ViewChild('input') input;
 
   public text = {
     title: () => this.I18n.t('js.invite_user_modal.title.invite_principal_to_project', {
@@ -56,6 +59,10 @@ export class MessageComponent implements OnInit {
 
   ngOnInit() {
     this.messageControl?.setValue(this.message);
+  }
+
+  ngAfterViewInit() {
+    this.input.nativeElement.focus();
   }
 
   onSubmit($e:Event) {
