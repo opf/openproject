@@ -1,6 +1,6 @@
 
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild, TemplateRef, ContentChild} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
@@ -20,9 +20,9 @@ import { APIV3WorkPackagePaths } from 'core-app/modules/apiv3/endpoints/work_pac
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 import { UntilDestroyedMixin } from 'core-app/helpers/angular/until-destroyed.mixin';
 import { GroupValueFn } from '@ng-select/ng-select/lib/ng-select.component';
-import {
-  TemplateRef
-} from "@angular/core";
+import { OpAutocompleterOptionTemplateDirective } from "./Directives/op-autocompleter-option-template.directive";
+import { OpAutocompleterLabelTemplateDirective } from "./Directives/op-autocompleter-label-template.directive";
+
 export interface Conditions {name:string; operator:FilterOperator; values:unknown[]|boolean; }
 
 @Component({
@@ -46,7 +46,7 @@ export class GeneralAutocompleterComponent extends UntilDestroyedMixin implement
   @Input() public searchable?:boolean = true;
   @Input() public clearable?:boolean = true;
   @Input() public addTag?:boolean = false;
-  @Input() public isOpen?:boolean = true;
+  @Input() public isOpen?:boolean = false;
   @Input() public clearSearchOnAdd?:boolean = true;
   @Input() public classes?:string;
   @Input() public multiple?:boolean = false;
@@ -85,7 +85,8 @@ export class GeneralAutocompleterComponent extends UntilDestroyedMixin implement
   @Input() public minTermLength ? = 0;
   @Input() public editableSearchTerm?:boolean = false;
   @Input() public keyDownFn ? = (_:KeyboardEvent) => true;
-  @Input() public contentTemplate:TemplateRef<any>;
+  @Input() public hasDefaultContent:boolean;
+  @Input() public typeahead?:Subject<string>;
 
   @Output() public onOpen = new EventEmitter<any>();
   @Output() public onClose = new EventEmitter<any>();
@@ -107,7 +108,7 @@ export class GeneralAutocompleterComponent extends UntilDestroyedMixin implement
   public results$:Observable<HalResource[]> = this.searchInput$.pipe(
     debounceTime(250),
     distinctUntilChanged(),
-    tap(() => this.isLoading = true),
+    tap(() => this.isOpen = true),
     switchMap(queryString => this.loadAvailable(queryString))
   );
 
@@ -121,6 +122,12 @@ export class GeneralAutocompleterComponent extends UntilDestroyedMixin implement
 
   @ViewChild('ngSelectInstance', { static: true }) ngSelectInstance:NgSelectComponent;
 
+  @ContentChild(OpAutocompleterOptionTemplateDirective, { read: TemplateRef })
+  optionTemplate:TemplateRef<any>;
+
+  @ContentChild(OpAutocompleterLabelTemplateDirective, { read: TemplateRef })
+  labelTemplate:TemplateRef<any>;
+
   constructor(readonly halResourceService:HalResourceService,
               readonly halSorting:HalResourceSortingService,
               readonly apiV3Service:APIV3Service,
@@ -132,7 +139,7 @@ export class GeneralAutocompleterComponent extends UntilDestroyedMixin implement
   }
 
   ngOnInit() {
-   this.initialization();
+    this.initialization();
     this.requests.input$.next('');
   }
 
@@ -159,7 +166,7 @@ export class GeneralAutocompleterComponent extends UntilDestroyedMixin implement
 
   public loadAvailable(matching:string):Observable<HalResource[]> {
     const filters:ApiV3FilterBuilder = this.createFilters(this.conditions ?? [], matching);
-    //this.isLoading = true;
+
     if (matching === null || matching.length === 0) {
       this.isLoading = false;
       return of([]);
@@ -168,7 +175,9 @@ export class GeneralAutocompleterComponent extends UntilDestroyedMixin implement
       APIv3ResourceCollection<UserResource|WorkPackageResource, APIv3UserPaths|APIV3WorkPackagePaths>)
       .filtered(filters).get()
       .pipe(map(collection => collection.elements));
-        filteredData.subscribe(() => this.isLoading = false);
+
+      filteredData.subscribe(() => this.isLoading = false);
+
     return filteredData;
   }
 

@@ -1,5 +1,4 @@
 <div class="inline-label ng-select-container">
-
   <ng-select #ngSelectInstance
         [(ngModel)]="model"
         [items]="results$ | async"
@@ -62,20 +61,46 @@
         (add)="added($event)"
         (remove)="removed($event)"
         >
-          <ng-container 
-            *ngTemplateOutlet="contentTemplate ? contentTemplate: defaultContent">    
-          </ng-container>
+        
+          <ng-template ng-label-tmp let-item="item">
+            <ng-container [ngTemplateOutlet]="hasDefaultContent ? defaultLabel : labelTemplate" [ngTemplateOutletContext]="{$implicit:item}">
+            </ng-container>
+          </ng-template>
+
+          <ng-template ng-option-tmp let-item="item">
+            <ng-container [ngTemplateOutlet]="hasDefaultContent ? defaultOption : optionTemplate" [ngTemplateOutletContext]="{$implicit:item}">
+            </ng-container>
+          </ng-template>
   </ng-select>
 </div>
 
 
-<ng-template #defaultContent>
-    
-  <ng-template ng-label-tmp let-item="item">
+<ng-template let-item  #defaultOption [ngSwitch]="resource">
+
+  <ng-container *ngSwitchCase="'work_packages'">
+    <user-avatar 
+    [user]="item.author"
+    data-class-list="avatar global-search-author-avatar hidden-for-mobile">
+    </user-avatar>
     {{item.type.name }} #{{ item.id }} {{ item.subject }}
-  </ng-template>
-  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'user'">
+   
+  </ng-container>
+
+</ng-template>
+
+
+
+<ng-template let-item  #defaultLabel [ngSwitch]="resource">
+
+  <ng-container *ngSwitchCase="'work_packages'">
     {{item.type.name }} #{{ item.id }} {{ item.subject }}
-  </ng-template>
-  
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'user'">
+   
+  </ng-container>
+
 </ng-template>

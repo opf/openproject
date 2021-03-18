@@ -168,6 +168,9 @@ import {BackButtonComponent} from "core-app/modules/common/back-routing/back-but
 import {DatePickerModal} from "core-components/datepicker/datepicker.modal";
 import {WorkPackagesTableComponent} from "core-components/wp-table/wp-table.component";
 import {WorkPackageGroupToggleDropdownMenuDirective} from "core-components/op-context-menu/handlers/wp-group-toggle-dropdown-menu.directive";
+import {GeneralAutocompleterComponent} from "core-app/modules/common/autocomplete/op-autocompleter/op-autocompleter.component";
+import {OpAutocompleterOptionTemplateDirective} from "core-app/modules/common/autocomplete/op-autocompleter/Directives/op-autocompleter-option-template.directive";
+import {OpAutocompleterLabelTemplateDirective} from "core-app/modules/common/autocomplete/op-autocompleter/Directives/op-autocompleter-label-template.directive";
 
 @NgModule({
   imports: [
@@ -333,6 +336,9 @@ import {WorkPackageGroupToggleDropdownMenuDirective} from "core-components/op-co
     WorkPackageRelationsHierarchyComponent,
     WorkPackageRelationsAutocomplete,
     WorkPackageBreadcrumbParentComponent,
+    GeneralAutocompleterComponent,
+    OpAutocompleterOptionTemplateDirective,
+    OpAutocompleterLabelTemplateDirective,
 
     // Split view
     WorkPackageDetailsViewButtonComponent,
