@@ -33,7 +33,7 @@ ruby '~> 2.7.2'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.0.2'
-gem 'activerecord-session_store', '~> 1.1.0'
+gem 'activerecord-session_store', '~> 2.0.0'
 gem 'rails', '~> 6.1.3'
 gem 'responders', '~> 3.0'
 
@@ -177,7 +177,7 @@ gem 'fog-aws'
 
 gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.87'
+gem 'aws-sdk-s3', '~> 1.91'
 
 gem 'openproject-token', '~> 2.1.1'
 
@@ -202,7 +202,7 @@ group :test do
   gem 'rack_session_access'
   gem 'rspec', '~> 3.10.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 4.1.0', group: :development
+  gem 'rspec-rails', '~> 5.0.0', group: :development
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
