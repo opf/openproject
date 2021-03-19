@@ -43,26 +43,9 @@ module API
             requires :id, type: String, desc: 'The capability identifier'
           end
           namespace '*id' do
-            helpers do
-              def scope
-                ::Queries::Capabilities::CapabilityQuery.new(user: current_user)
-                                                        .where('id', '=', params[:id])
-                                                        .results
-              end
-            end
-
-            after_validation do
-              raise ::API::Errors::NotFound.new unless scope.exists?
-            end
-
-            get do
-              ::API::V3::Utilities::SqlRepresenterWalker
-                .new(scope.limit(1),
-                     embed: {},
-                     select: { 'id' => {}, '_type' => {}, 'self' => {}, 'action' => {}, 'context' => {}, 'principal' => {} },
-                     current_user: current_user)
-                .walk(API::V3::Capabilities::CapabilitySqlRepresenter)
-            end
+            get &API::V3::Utilities::Endpoints::SqlShow
+                   .new(model: Capability)
+                   .mount
           end
         end
       end
