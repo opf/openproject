@@ -90,6 +90,16 @@ class UserMailer < BaseMailer
     end
   end
 
+  def backup_ready(user)
+    User.execute_as user do
+      @download_url = admin_backups_url
+
+      with_locale_for(user) do
+        mail to: user.mail, subject: I18n.t("mail_subjbect_backup_ready")
+      end
+    end
+  end
+
   def password_lost(token)
     return unless token.user # token's can have no user
 

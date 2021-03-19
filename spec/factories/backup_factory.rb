@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,17 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module Errors
-    class Conflict < ErrorBase
-      identifier 'UpdateConflict'
-      code 409
-
-      def initialize(*args)
-        opts = args.last.is_a?(Hash) ? args.last : {}
-
-        super opts[:message] || I18n.t('api_v3.errors.code_409')
-      end
-    end
+FactoryBot.define do
+  factory :backup, class: Backup do
   end
 end

@@ -28,17 +28,28 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module Errors
-    class Conflict < ErrorBase
-      identifier 'UpdateConflict'
-      code 409
+module Backups
+  class CreateService < ::BaseServices::Create
+    def initialize(user:, include_attachments: true, contract_class: ::Backups::CreateContract)
+      super user: user, contract_class: contract_class
 
-      def initialize(*args)
-        opts = args.last.is_a?(Hash) ? args.last : {}
+      @include_attachments = include_attachments
+    end
 
-        super opts[:message] || I18n.t('api_v3.errors.code_409')
+    def include_attachments?
+      @include_attachments
+    end
+
+    def after_perform(call)
+      if call.success?
+        BackupJob.perform_later(
+          backup: call.result,
+          user: user,
+          include_attachments: include_attachments?
+        )
       end
+
+      call
     end
   end
 end

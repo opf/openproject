@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -29,15 +27,24 @@
 #++
 
 module API
-  module Errors
-    class Conflict < ErrorBase
-      identifier 'UpdateConflict'
-      code 409
+  module V3
+    module Backups
+      class BackupRepresenter < ::API::Decorators::Single
+        include API::Decorators::LinkedResource
+        include API::Caching::CachedRepresenter
 
-      def initialize(*args)
-        opts = args.last.is_a?(Hash) ? args.last : {}
+        property :job_status_id, getter: ->(*) { job_status.job_id }
 
-        super opts[:message] || I18n.t('api_v3.errors.code_409')
+        link :job_status do
+          {
+            title: "Backup job status",
+            href: api_v3_paths.job_status(represented.job_status.job_id)
+          }
+        end
+
+        def _type
+          'Backup'
+        end
       end
     end
   end

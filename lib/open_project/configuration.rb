@@ -46,6 +46,7 @@ module OpenProject
       'autologin_cookie_name' => 'autologin',
       'autologin_cookie_path' => '/',
       'autologin_cookie_secure' => false,
+      'backup_daily_limit' => 3,
       'database_cipher_key' => nil,
       # only applicable in conjunction with fog (effectively S3) attachments
       # which will be uploaded directly to the cloud storage rather than via OpenProject's

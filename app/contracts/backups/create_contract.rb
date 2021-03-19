@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,17 +26,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module Errors
-    class Conflict < ErrorBase
-      identifier 'UpdateConflict'
-      code 409
+module Backups
+  class CreateContract < ::ModelContract
+    include SingleTableInheritanceModelContract
 
-      def initialize(*args)
-        opts = args.last.is_a?(Hash) ? args.last : {}
+    validate :validate_user_allowed_to_create_backup
 
-        super opts[:message] || I18n.t('api_v3.errors.code_409')
-      end
+    private
+
+    def validate_user_allowed_to_create_backup
+      errors.add :base, :error_unauthorized unless user_allowed_to_create_backup?
+    end
+
+    def user_allowed_to_create_backup?
+      user.allowed_to_globally? Backup.permission
     end
   end
 end

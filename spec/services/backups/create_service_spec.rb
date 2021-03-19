@@ -28,17 +28,42 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module Errors
-    class Conflict < ErrorBase
-      identifier 'UpdateConflict'
-      code 409
+require 'spec_helper'
+require 'services/base_services/behaves_like_create_service'
 
-      def initialize(*args)
-        opts = args.last.is_a?(Hash) ? args.last : {}
+describe Backups::CreateService, type: :model do
+  it_behaves_like 'BaseServices create service'
 
-        super opts[:message] || I18n.t('api_v3.errors.code_409')
+  let(:user) { FactoryBot.build_stubbed :admin }
+  let(:service) { Backups::CreateService.new user: user }
+
+  context "with right permissions" do
+    context "with no further options" do
+      it "enqueues a BackupJob which includes attachments" do
+        expect { service.call }.to have_enqueued_job(BackupJob).with do |args|
+          expect(args["include_attachments"]).to eq true
+        end
       end
+    end
+
+    context "with include_attachments: false" do
+      let(:service) { Backups::CreateService.new user: user, include_attachments: false }
+
+      it "enqueues a BackupJob which does not include attachments" do
+        expect(BackupJob)
+          .to receive(:perform_later)
+          .with(hash_including(include_attachments: false, user: user))
+
+        expect(service.call).to be_success
+      end
+    end
+  end
+
+  context "with missing permission" do
+    let(:user) { FactoryBot.build_stubbed :user }
+
+    it "does not enqueue a BackupJob" do
+      expect { expect(service.call).to be_failure }.not_to have_enqueued_job(BackupJob)
     end
   end
 end

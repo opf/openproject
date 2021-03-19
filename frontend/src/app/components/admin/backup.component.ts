@@ -1,0 +1,103 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, ElementRef, Injector } from '@angular/core';
+import { InjectField } from 'core-app/helpers/angular/inject-field.decorator';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
+import { OpenProjectBackupService } from '../api/op-backup/op-backup.service';
+import { OpModalService } from '../op-modals/op-modal.service';
+import { JobStatusModal } from "core-app/modules/job-status/job-status-modal/job-status.modal";
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+
+export const backupSelector = 'backup';
+
+@Component({
+  selector: backupSelector,
+  templateUrl: './backup.component.html',
+  styleUrls: ['./backup.component.sass']
+})
+export class BackupComponent {
+  public text = {
+    info: this.i18n.t('js.backup.info'),
+    note: this.i18n.t('js.backup.note'),
+    title: this.i18n.t('js.backup.title'),
+    lastBackup: this.i18n.t('js.backup.last_backup'),
+    lastBackupFrom: this.i18n.t('js.backup.last_backup_from'),
+    includeAttachments: this.i18n.t('js.backup.include_attachments'),
+    options: this.i18n.t('js.backup.options'),
+    downloadBackup: this.i18n.t('js.backup.download_backup'),
+    requestBackup: this.i18n.t('js.backup.request_backup'),
+  };
+
+  public jobStatusId:string = this.elementRef.nativeElement.dataset['jobStatusId'];
+  public lastBackupDate:string = this.elementRef.nativeElement.dataset['lastBackupDate'];
+  public lastBackupAttachmentId:string = this.elementRef.nativeElement.dataset['lastBackupAttachmentId'];
+
+  public isInProgress:boolean = false;
+  public includeAttachments:boolean = true;
+
+  @InjectField() opBackup:OpenProjectBackupService;
+
+  constructor(
+    readonly elementRef:ElementRef,
+    public injector:Injector,
+    protected i18n:I18nService,
+    protected notificationsService:NotificationsService,
+    protected opModalService:OpModalService,
+    protected pathHelper:PathHelperService
+  ) {
+  }
+
+  public isDownloadReady():boolean {
+    return this.jobStatusId !== undefined && this.jobStatusId !== "";
+  }
+
+  public getDownloadUrl():string {
+    return this.pathHelper.attachmentDownloadPath(this.lastBackupAttachmentId, undefined);
+  }
+
+  public triggerBackup(event?:JQuery.TriggeredEvent) {
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+    this.opBackup
+      .triggerBackup(this.includeAttachments)
+      .toPromise()
+      .then((resp:any) => {
+        this.jobStatusId = resp.jobStatusId;
+        this.opModalService.show(JobStatusModal, 'global', { jobId: resp.jobStatusId });
+      })
+      .catch((error:HttpErrorResponse) => {
+        this.notificationsService.addError(error.error);
+      });
+  }
+}

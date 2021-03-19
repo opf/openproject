@@ -28,16 +28,15 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module Errors
-    class Conflict < ErrorBase
-      identifier 'UpdateConflict'
-      code 409
+module SingleTableInheritanceModelContract
+  extend ActiveSupport::Concern
 
-      def initialize(*args)
-        opts = args.last.is_a?(Hash) ? args.last : {}
+  included do
+    attribute model.inheritance_column
 
-        super opts[:message] || I18n.t('api_v3.errors.code_409')
+    validate do
+      if model.type != model.class.sti_name
+        errors.add :type, :error_readonly # as in users should not be passing this
       end
     end
   end

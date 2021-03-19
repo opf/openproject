@@ -28,17 +28,28 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module Errors
-    class Conflict < ErrorBase
-      identifier 'UpdateConflict'
-      code 409
+class Admin::BackupsController < ApplicationController
+  layout 'admin'
 
-      def initialize(*args)
-        opts = args.last.is_a?(Hash) ? args.last : {}
+  before_action :require_admin
 
-        super opts[:message] || I18n.t('api_v3.errors.code_409')
-      end
+  menu_item :backups
+
+  def show
+    last_backup = Backup.last
+
+    if last_backup
+      @job_status_id = last_backup.job_status.job_id
+      @last_backup_date = I18n.localize(last_backup.updated_at)
+      @last_backup_attachment_id = last_backup.attachments.first.id
     end
+  end
+
+  def default_breadcrumb
+    t(:label_backup)
+  end
+
+  def show_local_breadcrumb
+    true
   end
 end

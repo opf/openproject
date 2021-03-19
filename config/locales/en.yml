@@ -1330,6 +1330,7 @@ en:
   label_available_project_versions: 'Available versions'
   label_available_project_repositories: 'Available repositories'
   label_api_documentation: "API documentation"
+  label_backup: "Backup"
   label_between: "between"
   label_blocked_by: "blocked by"
   label_blocks: "blocks"
@@ -1857,6 +1858,7 @@ en:
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Your account information"
   mail_body_account_information_external: "You can use your %{value} account to log in."
+  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
   mail_body_lost_password: "To change your password, click on the following link:"
   mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
@@ -1873,6 +1875,7 @@ en:
   mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} account activation request"
+  mail_subject_backup_ready: "Your backup is ready"
   mail_subject_lost_password: "Your %{value} password"
   mail_subject_register: "Your %{value} account activation"
   mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
@@ -2800,6 +2803,7 @@ en:
       code_403: "You are not authorized to access this resource."
       code_404: "The requested resource could not be found."
       code_409: "Could not update the resource because of conflicting modifications."
+      code_429: "Too many requests. Please try again later."
       code_500: "An internal error has occurred."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"

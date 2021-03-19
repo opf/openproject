@@ -335,6 +335,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             last: true,
             icon: 'icon2 icon-plugins'
 
+  menu.push :backups,
+            { controller: '/admin/backups', action: 'show' },
+            if: Proc.new { User.current.admin? },
+            caption: :label_backup,
+            last: true,
+            icon: 'icon2 icon-save'
+
   menu.push :info,
             { controller: '/admin', action: 'info' },
             if: Proc.new { User.current.admin? },

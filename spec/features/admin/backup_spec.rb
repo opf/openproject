@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,17 +26,37 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module Errors
-    class Conflict < ErrorBase
-      identifier 'UpdateConflict'
-      code 409
+require 'spec_helper'
 
-      def initialize(*args)
-        opts = args.last.is_a?(Hash) ? args.last : {}
+describe 'backup', type: :feature, js: true do
+  let(:current_user) { FactoryBot.create :admin }
 
-        super opts[:message] || I18n.t('api_v3.errors.code_409')
-      end
+  before do
+    @download_list = DownloadList.new
+
+    login_as current_user
+  end
+
+  after do
+    DownloadList.clear
+  end
+
+  subject { @download_list.refresh_from(page).latest_download.to_s }
+
+  it "can be downloaded" do
+    visit '/admin/backups'
+
+    click_on "Request backup"
+
+    expect(page).to have_content I18n.t('js.job_status.generic_messages.in_queue'), wait: 10
+
+    begin
+      perform_enqueued_jobs
+    rescue StandardError
+      # nothing
     end
+
+    expect(page).to have_text "The export has completed successfully"
+    expect(subject).to end_with ".zip"
   end
 end

@@ -399,6 +399,7 @@ OpenProject::Application.routes.draw do
       resource :mail_notifications, controller: '/admin/settings/mail_notifications_settings', only: %i[show update]
       resource :work_packages, controller: '/admin/settings/work_packages_settings', only: %i[show update]
       resource :users, controller: '/admin/settings/users_settings', only: %i[show update]
+      resource :backups, controller: '/admin/settings/backups', only: %i[show]
 
       # Redirect /settings to general settings
       get '/', to: redirect('/admin/settings/general')
