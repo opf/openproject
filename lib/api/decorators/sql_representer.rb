@@ -33,12 +33,11 @@ module API
     class SqlRepresenter
       extend ::API::V3::Utilities::PathHelper
 
-      class_attribute :properties,
-                      :association_links,
-                      :links
-
       class << self
-        # Properties
+        def properties
+          @properties ||= {}
+        end
+
         def properties_sql(select)
           selected_properties(select)
             .map do |name, options|
@@ -56,14 +55,14 @@ module API
                      column: name,
                      representation: nil,
                      render_if: nil)
-          self.properties ||= {}
-
           properties[name] = { column: column, render_if: render_if, representation: representation }
         end
 
-        def joins(select, scope)
-          self.links ||= {}
+        def links
+          @links ||= {}
+        end
 
+        def joins(select, scope)
           selected_links(select)
             .select { |_, link| link[:join] }
             .map do |name, link|
@@ -76,8 +75,6 @@ module API
         end
 
         def link(name, column: nil, path: nil, title: nil, href: nil, join: nil)
-          self.links ||= {}
-
           links[name] = { column: column,
                           path: path,
                           title: title,
@@ -145,29 +142,37 @@ module API
         private
 
         def selected_links(select)
-          selected(select, links || {})
+          selected(select, links)
         end
 
         def selected_properties(select)
-          selected(select, properties || {})
+          selected(select, properties)
         end
 
         def selected(select, list)
           selects = cleaned_selects(select)
 
+          ensure_valid_selects(selects)
+
           if selects.include?(:*)
             list
           else
-            list.slice(*cleaned_selects(select))
+            list.slice(*selects)
           end
         end
 
         def cleaned_selects(select)
-          # TODO: throw error on non supported select
           select
             .symbolize_keys
             .select { |_, v| v.empty? }
             .keys
+        end
+
+        def ensure_valid_selects(requested)
+          supported = links.keys + properties.keys + [:*]
+          invalid = requested - supported
+
+          raise API::Errors::InvalidSignal.new(invalid, supported, :select) if invalid.any?
         end
       end
     end

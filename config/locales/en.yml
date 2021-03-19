@@ -2805,6 +2805,9 @@ en:
       invalid_json: "The request could not be parsed as JSON."
       invalid_relation: "The relation is invalid."
       invalid_resource: "For property '%{property}' a link like '%{expected}' is expected, but got '%{actual}'."
+      invalid_signal:
+        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
+        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "The current user account status does not allow this operation."
       missing_content_type: "not specified"
       missing_request_body: "There was no request body."
