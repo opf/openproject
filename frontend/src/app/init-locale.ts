@@ -26,31 +26,25 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { UserResource } from 'core-app/modules/hal/resources/user-resource';
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input } from "@angular/core";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
-import { UserAvatarRendererService } from "core-components/user/user-avatar/user-avatar-renderer.service";
 
-export const userAvatarSelector = 'user-avatar';
+export function initializeLocale() {
+  const meta = document.querySelector('meta[name=openproject_initializer]') as HTMLMetaElement;
+  I18n.locale = meta.dataset.locale || 'en';
+  I18n.firstDayOfWeek = parseInt(meta.dataset.firstDayOfWeek!, 10);
 
-@Component({
-  selector: userAvatarSelector,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: ''
-})
-export class UserAvatarComponent implements AfterViewInit {
-  /** If coming from angular, pass a user resource if available */
-  @Input() public user?:UserResource;
+  // Override the default pluralization function to allow
+  // "other" to be used as a fallback for "one" in languages where one is not set
+  // (japanese, for example)
+  I18n.pluralization["default"] = function (count:number) {
+    switch (count) {
+      case 0:
+        return ["zero", "other"];
+      case 1:
+        return ["one", "other"];
+      default:
+        return ["other"];
+    }
+  };
 
-  constructor(protected elementRef:ElementRef,
-              protected avatarRenderer:UserAvatarRendererService,
-              protected pathHelper:PathHelperService) {
-  }
-
-  public ngAfterViewInit() {
-    const element = this.elementRef.nativeElement;
-    const user = this.user || { name: element.dataset.userName!, id: element.dataset.userId };
-    this.avatarRenderer.render(element, user, false, element.dataset.classList);
-  }
+  return import(/* webpackChunkName: "locale" */ `../locales/${I18n.locale}.js`);
 }
-

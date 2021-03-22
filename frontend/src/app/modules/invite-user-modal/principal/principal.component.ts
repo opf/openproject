@@ -11,10 +11,10 @@ import {
   Validators,
 } from '@angular/forms';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {PrincipalType} from '../invite-user.component';
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {PrincipalLike} from "core-app/modules/invite-user-modal/invite-user-modal.types";
+import {PrincipalLike} from "core-app/modules/principal/principal-types";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import {PrincipalType} from '../invite-user.component';
 
 @Component({
   selector: 'op-ium-principal',

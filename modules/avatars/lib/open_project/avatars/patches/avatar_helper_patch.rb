@@ -86,13 +86,20 @@ AvatarHelper.class_eval do
       opts = options.merge(gravatar: default_gravatar_options)
 
       tag_options = merge_image_options(user, opts)
-      tag_options[:class] << ' avatar--gravatar-image avatar--fallback'
+      tag_options[:class] = [
+        tag_options[:class],
+        'avatar--gravatar-image',
+        'avatar--fallback'
+      ].reject(&:empty?).join(' ')
 
-      content_tag 'user-avatar',
+      content_tag 'op-principal',
                   '',
-                  'data-class-list': tag_options[:class],
-                  'data-user-id': user.id,
-                  'data-user-name': user.name
+                  'data-avatar-classes': tag_options[:class],
+                  'data-size': tag_options[:size],
+                  'data-principal-id': user.id,
+                  'data-principal-name': user.name,
+                  'data-principal-type': 'user',
+                  'data-hide-name': 'true'
     end
 
     def build_gravatar_image_url(user, options = {})
@@ -115,15 +122,21 @@ AvatarHelper.class_eval do
     def local_avatar_image_tag(user, options = {})
       tag_options = merge_image_options(user, options)
 
-      content_tag 'user-avatar',
+      content_tag 'op-principal',
                   '',
-                  'data-class-list': tag_options[:class],
-                  'data-user-id': user.id,
-                  'data-user-name': user.name
+                  'data-avatar-classes': tag_options[:class],
+                  'data-principal-id': user.id,
+                  'data-principal-name': user.name,
+                  'data-principal-type': 'user',
+                  'data-size': tag_options[:size],
+                  'data-hide-name': 'true'
     end
 
     def merge_image_options(user, options)
-      default_options = { class: 'avatar' }
+      default_options = {
+        class: '',
+        size: 'default'
+      }
       default_options[:title] = h(user.name) if user.respond_to?(:name)
 
       options.reverse_merge(default_options)
@@ -149,13 +162,15 @@ AvatarHelper.class_eval do
 
   def build_default_avatar_image_tag(user, options = {})
     tag_options = merge_image_options(user, options)
-    tag_options[:class] << ' avatar-default'
 
-    content_tag 'user-avatar',
+    content_tag 'op-principal',
                 '',
-                'data-class-list': tag_options[:class],
-                'data-user-name': user.name,
-                'data-use-fallback': 'true'
+                'data-avatar-classes': tag_options[:class],
+                'data-size': tag_options[:size],
+                'data-principal-name': user.name,
+                'data-principal-id': user.id,
+                'data-principal-type': 'user',
+                'data-hide-name': 'true'
   end
 
   prepend InstanceMethods

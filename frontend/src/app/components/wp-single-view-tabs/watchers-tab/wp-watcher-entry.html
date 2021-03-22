@@ -2,10 +2,13 @@
   <span class="form--selected-value">
     <span [ngClass]="{'deleting': deleting }">
       <a [attr.href]="watcher.showUser.href">
-        <user-avatar [attr.data-user-name]="watcher.name"
-                     [attr.data-user-id]="watcher.id"
-                     data-class-list="avatar-mini">
-        </user-avatar>
+        <op-principal
+          [attr.data-principal-id]="watcher.id"
+          [attr.data-principal-name]="watcher.name"
+          data-principal-type="user"
+          data-hide-name="true"
+          data-size="avatar-mini"
+        ></op-principal>
         <span class="work-package--watcher-name" [textContent]="watcher.name"></span>
       </a>
     </span>

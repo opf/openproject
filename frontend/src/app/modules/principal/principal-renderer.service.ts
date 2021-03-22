@@ -3,16 +3,21 @@ import {PathHelperService} from "core-app/modules/common/path-helper/path-helper
 import {ColorsService} from "core-app/modules/common/colors/colors.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 
+import {PrincipalLike} from "./principal-types";
 import {PrincipalHelper} from "./principal-helper";
 import PrincipalType = PrincipalHelper.PrincipalType;
 
-export interface PrincipalLike {
-  id:string;
-  name:string;
-  href:string;
-}
+export type AvatarSize = 'default'|'medium'|'mini';
+
 export interface AvatarOptions {
-  classes:string;
+  hide: boolean,
+  size: AvatarSize,
+  classes?: string,
+}
+
+export interface NameOptions {
+  hide: boolean,
+  link: boolean,
 }
 
 @Injectable({ providedIn: 'root' })
@@ -26,73 +31,79 @@ export class PrincipalRendererService {
 
   renderMultiple(container:HTMLElement,
                  users:PrincipalLike[],
-                 renderName:boolean = true,
+                 name: NameOptions = { hide: false, link: false },
+                 avatar:AvatarOptions = { hide: false, size: 'default' },
                  multiLine:boolean = false) {
-
-    const span = document.createElement('span');
-
+    const list = document.createElement('span');
 
     for (let i = 0; i < users.length; i++) {
-      const avatar = document.createElement('span');
+      const userElement = document.createElement('span');
       if (multiLine) {
-        avatar.classList.add('user-avatar--multi-line');
+        userElement.classList.add('user-avatar--multi-line');
       }
 
-      this.render(avatar, users[i], renderName);
+      this.render(userElement, users[i], name, avatar);
+
+      list.appendChild(userElement);
 
       if (!multiLine && i < users.length - 1) {
         const sep = document.createElement('span');
         sep.textContent = ', ';
-        avatar.appendChild(sep);
+        list.appendChild(sep);
       }
-
-      span.appendChild(avatar);
     }
 
-    container.appendChild(span);
+    container.appendChild(list);
   }
 
-  render(container:HTMLElement,
-         principal:PrincipalLike,
-         name:boolean = true,
-         avatar:false|AvatarOptions = { classes: 'avatar-medium' }):void {
+  render(
+    container:HTMLElement,
+    principal:PrincipalLike,
+    name: NameOptions = { hide: false, link: true },
+    avatar:AvatarOptions = { hide: false, size: 'default' },
+  ):void {
+    const type = PrincipalHelper.typeFromHref(principal.href || '')!;
+    container.classList.add('op-principal');
 
-    const type = PrincipalHelper.typeFromHref(principal.href)!;
-
-    if (avatar) {
+    if (!avatar.hide) {
       const el = this.renderAvatar(principal, avatar, type);
       container.appendChild(el);
     }
 
-    if (name) {
-      const el = this.renderName(principal, type);
+    if (!name.hide) {
+      const el = this.renderName(principal, type, name.link);
       container.appendChild(el);
     }
   }
 
-  private renderAvatar(principal:PrincipalLike, avatar:AvatarOptions, type:PrincipalType) {
+  private renderAvatar(principal:PrincipalLike, options:AvatarOptions, type:PrincipalType) {
     const userInitials = this.getInitials(principal.name);
     const colorCode = this.colors.toHsl(principal.name);
 
+    console.log('rendering avatar', options, userInitials);
+
     let fallback = document.createElement('div');
-    fallback.className = avatar.classes;
-    fallback.classList.add('avatar-default');
+    fallback.className = options.classes || '';
+    fallback.classList.add('avatar');
+    fallback.classList.add(`avatar-${options.size}`);
+    fallback.classList.add('avatar--fallback');
     fallback.textContent = userInitials;
     fallback.style.background = colorCode;
 
     // Image avatars are only supported for users
     if (type === 'user') {
-      this.renderUserAvatar(principal, fallback, avatar);
+      this.renderUserAvatar(principal, fallback, options);
     }
 
     return fallback;
   }
 
-  private renderUserAvatar(principal:PrincipalLike, fallback:HTMLElement, avatar:AvatarOptions) {
+  private renderUserAvatar(principal:PrincipalLike, fallback:HTMLElement, options:AvatarOptions) {
     const image = new Image();
-    image.className = avatar.classes;
-    image.classList.add('avatar--fallback');
-    image.src = this.apiV3Service.users.id(principal.id).avatar.toString();
+    image.className = options.classes || '';
+    image.classList.add('avatar');
+    image.classList.add(`avatar-${options.size}`);
+    image.src = this.apiV3Service.users.id(principal.id || '').avatar.toString();
     image.title = principal.name;
     image.alt = principal.name;
     image.onload = function () {
@@ -101,23 +112,29 @@ export class PrincipalRendererService {
     };
   }
 
-  private renderName(principal:PrincipalLike, type:PrincipalType) {
-    const link = document.createElement('a');
-    link.textContent = principal.name;
-    link.href = this.principalURL(principal, type);
-    link.target = '_blank';
+  private renderName(principal:PrincipalLike, type:PrincipalType, asLink = true) {
+    if (asLink) {
+      const link = document.createElement('a');
+      link.textContent = principal.name;
+      link.href = this.principalURL(principal, type);
+      link.target = '_blank';
 
-    return link;
+      return link;
+    }
+
+    const span = document.createElement('span');
+    span.textContent = principal.name;
+    return span;
   }
 
   private principalURL(principal:PrincipalLike, type:PrincipalType) {
     switch (type) {
       case 'group':
-        return this.pathHelper.groupPath(principal.id);
+        return this.pathHelper.groupPath(principal.id || '');
       case 'placeholder_user':
-        return this.pathHelper.placeholderUserPath(principal.id);
+        return this.pathHelper.placeholderUserPath(principal.id || '');
       case 'user':
-        return this.pathHelper.userPath(principal.id);
+        return this.pathHelper.userPath(principal.id || '');
     }
   }
 

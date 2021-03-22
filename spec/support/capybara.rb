@@ -35,14 +35,14 @@ Capybara::Screenshot.prune_strategy = :keep_last_run
 Capybara.server = :puma, { Silent: false }
 
 # Set up S3 uploads if desired
-if ENV['OPENPROJECT_ENABLE_CAPYBARA_SCREENSHOT_S3_UPLOADS'] && ENV['AWS_ACCESS_KEY_ID']
+if ENV['CAPYBARA_AWS_ACCESS_KEY_ID']
   Capybara::Screenshot.s3_configuration = {
     s3_client_credentials: {
-      access_key_id: ENV.fetch('AWS_ACCESS_KEY_ID'),
-      secret_access_key: ENV.fetch('AWS_ACCESS_KEY_SECRET'),
-      region: ENV.fetch('AWS_REGION', 'eu-west-1')
+      access_key_id: ENV.fetch('CAPYBARA_AWS_ACCESS_KEY_ID'),
+      secret_access_key: ENV.fetch('CAPYBARA_AWS_SECRET_ACCESS_KEY'),
+      region: ENV.fetch('CAPYBARA_AWS_REGION', 'eu-west-1')
     },
-    bucket_name: ENV.fetch('S3_BUCKET_NAME', 'openproject-travis-logs')
+    bucket_name: ENV.fetch('CAPYBARA_AWS_BUCKET', 'openproject-ci-public-logs')
   }
 end
 

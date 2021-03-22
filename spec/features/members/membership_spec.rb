@@ -42,14 +42,16 @@ feature 'Administrating memberships via the project settings', type: :feature, j
                       status: User.statuses[:active],
                       firstname: 'Peter',
                       lastname: 'Pan',
-                      mail: 'foo@example.org'
+                      mail: 'foo@example.org',
+                      preferences: { hide_mail: false }
   end
   let!(:hannibal) do
     FactoryBot.create :user,
                       status: User.statuses[:invited],
                       firstname: 'Hannibal',
                       lastname: 'Smith',
-                      mail: 'boo@bar.org'
+                      mail: 'boo@bar.org',
+                      preferences: { hide_mail: true }
   end
   let!(:developer_placeholder) { FactoryBot.create :placeholder_user, name: 'Developer 1' }
   let!(:crash) do
@@ -99,7 +101,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
       SeleniumHubWaiter.wait
       members_page.sort_by 'email'
       members_page.expect_sorted_by 'email'
-      expect(members_page.contents('email')).to eq [hannibal.mail, peter.mail]
+      expect(members_page.contents('email')).to eq [peter.mail]
 
       SeleniumHubWaiter.wait
       members_page.sort_by 'status'

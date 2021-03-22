@@ -1,6 +1,4 @@
-if Gem.loaded_specs["carrierwave"].version > Gem::Version.new('1.3.2')
-  raise "Check if these patches of Carrierwave are still required"
-end
+require 'open_project/patches'
 
 module OpenProject::Patches::CarrierwaveSanitizedFile
   extend ActiveSupport::Concern
@@ -16,4 +14,6 @@ module OpenProject::Patches::CarrierwaveSanitizedFile
   end
 end
 
-CarrierWave::SanitizedFile.include OpenProject::Patches::CarrierwaveSanitizedFile
+OpenProject::Patches.patch_gem_version 'carrierwave', '1.3.2' do
+  CarrierWave::SanitizedFile.include OpenProject::Patches::CarrierwaveSanitizedFile
+end
