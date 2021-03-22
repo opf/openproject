@@ -51,12 +51,13 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
   @Input() public name = '';
   @Input() public required = false;
   @Input() public size = 20;
-  @Input() public focus = false;
+  // TODO: Does this focus work? It raises an error...
+  //@Input() public focus = false;
   @Input() public disabled = false;
 
   @ViewChild('dateInput') dateInput:ElementRef;
 
-  private datePickerInstance:DatePicker;
+  protected datePickerInstance:DatePicker;
 
   public constructor(private elementRef:ElementRef,
                      private ConfigurationService:ConfigurationService,
@@ -97,23 +98,23 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
     }
   }
 
-  private isEmpty():boolean {
+  protected isEmpty():boolean {
     return this.currentValue.trim() === '';
   }
 
-  private get currentValue():string {
+  protected get currentValue():string {
     return this.inputElement?.value || '';
   }
 
-  private get inputElement():HTMLInputElement {
-    return this.dateInput.nativeElement;
+  protected get inputElement():HTMLInputElement {
+    return this.dateInput?.nativeElement;
   }
 
-  private inputIsValidDate():boolean {
+  protected inputIsValidDate():boolean {
     return this.currentValue.match(/\d{4}-\d{2}-\d{2}/) !== null;
   }
 
-  private initializeDatepicker() {
+  protected initializeDatepicker() {
     const options:any = {
       allowInput: true,
       appendTo: this.appendTo,

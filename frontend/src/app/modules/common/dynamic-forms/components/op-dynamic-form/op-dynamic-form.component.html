@@ -1,0 +1,10 @@
+<div class="op-form--container" *ngIf="(dynamicForm$ | async) as dynamicForm">
+  <form [formGroup]="form">
+    <formly-form [form]="form" [model]="dynamicForm?.model" [fields]="dynamicForm?.fields">
+    </formly-form>
+
+    <button type="submit" color="primary">
+      Submit
+    </button>
+  </form>
+</div>
