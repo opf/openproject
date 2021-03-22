@@ -45,8 +45,9 @@ describe Capabilities::Scopes::Default, type: :model do
     FactoryBot.create(:global_role, permissions: global_permissions)
   end
   let(:user_admin) { false }
+  let(:user_status) { Principal.statuses[:active] }
   let(:current_user_admin) { true }
-  let!(:user) { FactoryBot.create(:user, admin: user_admin) }
+  let!(:user) { FactoryBot.create(:user, admin: user_admin, status: user_status) }
   let(:global_member) do
     FactoryBot.create(:global_member,
                       principal: user,
@@ -142,6 +143,22 @@ describe Capabilities::Scopes::Default, type: :model do
       end
     end
 
+    context 'with a lgobal member with an action permission and the user being locked' do
+      let(:permissions) { %i[manage_members] }
+      let(:members) { [member] }
+      let(:user_status) { Principal.statuses[:locked] }
+
+      it_behaves_like 'is empty'
+    end
+
+    context 'with a member with an action permission and the user being locked' do
+      let(:permissions) { %i[manage_members] }
+      let(:members) { [member] }
+      let(:user_status) { Principal.statuses[:locked] }
+
+      it_behaves_like 'is empty'
+    end
+
     context 'with the non member role with an action permission' do
       let(:non_member_permissions) { %i[view_members] }
       let(:members) { [non_member_role] }
@@ -190,6 +207,15 @@ describe Capabilities::Scopes::Default, type: :model do
       end
     end
 
+    context 'with the non member role with an action permission and the user being locked' do
+      let(:non_member_permissions) { %i[view_members] }
+      let(:members) { [non_member_role] }
+      let(:project_public) { true }
+      let(:user_status) { Principal.statuses[:locked] }
+
+      it_behaves_like 'is empty'
+    end
+
     context 'with an admin' do
       let(:user_admin) { true }
 
@@ -235,6 +261,13 @@ describe Capabilities::Scopes::Default, type: :model do
             .compact
         end
       end
+    end
+
+    context 'with an admin but being locked' do
+      let(:user_admin) { true }
+      let(:user_status) { Principal.statuses[:locked] }
+
+      it_behaves_like 'is empty'
     end
 
     context 'without the current user being member in a project' do

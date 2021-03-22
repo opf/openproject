@@ -32,7 +32,6 @@ module Capabilities::Scopes
   module Default
     extend ActiveSupport::Concern
 
-    # TODO: locked users have no capabilities
     class_methods do
       # Currently, this does not reflect the behaviour present in the backend that every permission in at least one project
       # leads to having that permission in the global context as well. Hopefully, this is not necessary to be added.
@@ -64,7 +63,7 @@ module Capabilities::Scopes
           LEFT OUTER JOIN "roles" ON "roles".id = "role_permissions".role_id
           LEFT OUTER JOIN "member_roles" ON "member_roles".role_id = "roles".id
           LEFT OUTER JOIN "members" ON members.id = member_roles.member_id
-          JOIN (#{Principal.visible.not_builtin.to_sql}) users
+          JOIN (#{Principal.visible.not_builtin.not_locked.to_sql}) users
             ON "users".id = members.user_id
           LEFT OUTER JOIN "projects"
             ON "projects".id = members.project_id
@@ -83,7 +82,7 @@ module Capabilities::Scopes
             users.id principal_id,
             projects.id context_id
           FROM (#{Action.default.to_sql}) actions
-          JOIN (#{Principal.visible.not_builtin.to_sql}) users
+          JOIN (#{Principal.visible.not_builtin.not_locked.to_sql}) users
             ON "users".admin = true
           LEFT OUTER JOIN "projects"
             ON "projects".active = true
@@ -104,7 +103,7 @@ module Capabilities::Scopes
           FROM (#{Action.default.to_sql}) actions
           JOIN "role_permissions" ON "role_permissions"."permission" = "actions"."permission"
           JOIN "roles" ON "roles".id = "role_permissions".role_id AND roles.builtin = #{Role::BUILTIN_NON_MEMBER}
-          JOIN (#{Principal.visible.not_builtin.to_sql}) users
+          JOIN (#{Principal.visible.not_builtin.not_locked.to_sql}) users
             ON 1 = 1
           JOIN "projects"
             ON "projects".active = true
