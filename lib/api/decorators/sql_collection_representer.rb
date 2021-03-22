@@ -39,7 +39,8 @@ module API
         def ctes(walker_result)
           {
             all_elements: walker_result.scope.to_sql,
-            page_elements: "SELECT * FROM all_elements LIMIT #{walker_result.page_size} OFFSET #{walker_result.offset}"
+            page_elements: "SELECT * FROM all_elements LIMIT #{sql_limit(walker_result)} OFFSET #{sql_offset(walker_result)}",
+            total: "SELECT COUNT(*) from all_elements"
           }
         end
 
@@ -48,9 +49,39 @@ module API
             json_build_object(
               '_type', 'Collection',
               'count', COUNT(*),
-              'total', (SELECT COUNT(*) from all_elements),
-              'perPage', #{walker_result.page_size},
-              'offset', #{walker_result.offset + 1},
+              'total', (SELECT * from total),
+              'pageSize', #{walker_result.page_size},
+              'offset', #{walker_result.offset},
+              '_links', json_strip_nulls(json_build_object(
+                'self', json_build_object(
+                  'href', '%<self_href>s'
+                ),
+                'jumpTo', json_build_object(
+                  'href', '%<jump_to_href>s',
+                  'templated', true
+                ),
+                'changeSize', json_build_object(
+                  'href', '%<change_size_href>s',
+                  'templated', true
+                ),
+                'previousByOffset',
+                  CASE WHEN #{walker_result.offset} > 1 THEN
+                    json_build_object(
+                      'href', '%<previous_by_offset_href>s'
+                    )
+                  ELSE
+                    NULL
+                  END,
+                'nextByOffset',
+                  CASE WHEN #{walker_result.offset * walker_result.page_size} < (SELECT * FROM total) THEN
+                    json_build_object(
+                      'href', '%<next_by_offset_href>s'
+                    )
+                  ELSE
+                    NULL
+                  END
+                )
+              ),
               '_embedded', json_build_object(
                 'elements', json_agg(
                   %<elements>s
@@ -59,7 +90,7 @@ module API
             )
           SELECT
 
-          sql % replace_map.symbolize_keys
+          sql % replace_map.symbolize_keys.merge(links_map(walker_result))
         end
 
         def to_sql(walker_result)
@@ -79,6 +110,34 @@ module API
             FROM
               page_elements
           SQL
+        end
+
+        private
+
+        def links_map(walker_result)
+          {
+            self_href: full_self_path(walker_result),
+            jump_to_href: full_self_path(walker_result, offset: '{offset}'),
+            change_size_href: full_self_path(walker_result, pageSize: '{size}'),
+            previous_by_offset_href: full_self_path(walker_result, offset: walker_result.offset - 1),
+            next_by_offset_href: full_self_path(walker_result, offset: walker_result.offset + 1)
+          }
+        end
+
+        def full_self_path(walker_results, overrides = {})
+          "#{walker_results.self_path}?#{href_query(walker_results, overrides)}"
+        end
+
+        def href_query(walker_results, overrides)
+          walker_results.url_query.merge(overrides).to_query
+        end
+
+        def sql_offset(walker_result)
+          (walker_result.offset - 1) * walker_result.page_size
+        end
+
+        def sql_limit(walker_result)
+          walker_result.page_size
         end
       end
     end

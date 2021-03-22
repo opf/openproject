@@ -32,19 +32,27 @@ module API
   module V3
     module Utilities
       class SqlWalkerResults
-        def initialize(scope, page_size:, offset:)
+        def initialize(scope, url_query:, self_path: nil)
           self.scope = scope
           self.ctes = {}
-          self.page_size = page_size
-          self.offset = offset
+          self.self_path = self_path
+          self.url_query = url_query
         end
 
         attr_accessor :scope,
                       :sql,
-                      :page_size,
-                      :offset,
                       :selects,
-                      :ctes
+                      :ctes,
+                      :self_path,
+                      :url_query
+
+        def page_size
+          url_query[:pageSize]
+        end
+
+        def offset
+          url_query[:offset]
+        end
       end
     end
   end

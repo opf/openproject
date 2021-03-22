@@ -33,15 +33,16 @@ module API
         class SqlIndex < Index
           private
 
-          def render_paginated_success(results, params, self_path)
+          def render_paginated_success(results, query, params, self_path)
+            resulting_params = calculate_resulting_params(query, params)
+
             ::API::V3::Utilities::SqlRepresenterWalker
               .new(results,
                    embed: { 'elements' => {} },
-                   #select: { 'elements' => { 'id' => {}, '_type' => {}, 'self' => {} } },
                    select: { 'elements' => { '*' => {} } },
                    current_user: User.current,
-                   page_size: params[:pageSize],
-                   offset: params[:offset])
+                   self_path: self_path,
+                   url_query: resulting_params)
               .walk(deduce_render_representer)
           end
 

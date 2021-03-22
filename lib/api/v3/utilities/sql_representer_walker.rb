@@ -36,22 +36,22 @@ module API
 
         def initialize(scope,
                        current_user:,
-                       page_size: nil,
-                       offset: nil,
+                       url_query: {},
                        embed: {},
-                       select: {})
+                       select: {},
+                       self_path: nil)
           self.scope = scope
           self.current_user = current_user
           self.embed = embed
           self.select = select
-          self.page_size = page_size
-          self.offset = offset
+          self.self_path = self_path
+          self.url_query = url_query
         end
 
         def walk(start)
           result = SqlWalkerResults.new(scope,
-                                        page_size: resulting_page_size(page_size),
-                                        offset: (to_i_or_nil(offset) || 1) - 1)
+                                        url_query: url_query,
+                                        self_path: self_path)
 
           result.selects = embedded_depth_first([], start) do |map, stack, current_representer|
             current_representer.select_sql(map, select_for(stack), result)
@@ -81,8 +81,8 @@ module API
                       :embed,
                       :select,
                       :sql,
-                      :page_size,
-                      :offset
+                      :url_query,
+                      :self_path
 
         def embedded_depth_first(stack, current_representer, &block)
           up_map = {}

@@ -73,18 +73,21 @@ module API
             results = merge_scopes(base_scope, query.results)
 
             if paginated_representer?
-              render_paginated_success(results, params, self_path)
+              render_paginated_success(results, query, params, self_path)
             else
               render_unpaginated_success(results, self_path)
             end
           end
 
-          def render_paginated_success(results, params, self_path)
+          def render_paginated_success(results, query, params, self_path)
+            resulting_params = calculate_resulting_params(query, params)
+
             render_representer
               .new(results,
                    self_link: self_path,
-                   page: to_i_or_nil(params[:offset]),
-                   per_page: resolve_page_size(params[:pageSize]),
+                   query: resulting_params,
+                   page: resulting_params[:offset],
+                   per_page: resulting_params[:pageSize],
                    current_user: User.current)
           end
 
@@ -93,6 +96,19 @@ module API
               .new(results,
                    self_link: self_path,
                    current_user: User.current)
+          end
+
+          def calculate_resulting_params(query, provided_params)
+            calculate_default_params(query).merge(provided_params.slice('offset', 'pageSize').symbolize_keys).tap do |params|
+              params[:offset] = to_i_or_nil(params[:offset])
+              params[:pageSize] = to_i_or_nil(params[:pageSize])
+            end
+          end
+
+          def calculate_default_params(query)
+            ::API::Decorators::QueryParamsRepresenter
+              .new(query)
+              .to_h
           end
 
           def paginated_representer?

@@ -114,13 +114,24 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
     end
 
     context 'with pageSize, offset and sortBy and filter' do
+      def expect_self_link(link, overrides = {})
+        href = JSON.parse(subject.body).dig('_links', link, 'href').split('?')
+        expected_path_params = Rack::Utils.parse_nested_query(path.split('?').last)
+
+        expect(href.first)
+          .to eql(api_v3_paths.capabilities)
+
+        expect(Rack::Utils.parse_nested_query(href.last))
+          .to eql(expected_path_params.merge(overrides))
+      end
+
       let(:filters) do
-        [{ 'principalId' => {
+        [{ 'principal' => {
           'operator' => '=',
           'values' => [other_user.id.to_s]
         } }]
       end
-      let(:path) { "#{api_v3_paths.path_for(:capabilities, filters: filters, sort_by: [%i(id asc)])}&pageSize=1&offset=4" }
+      let(:path) { "#{api_v3_paths.path_for(:capabilities, filters: filters, sort_by: [%i(id asc)])}&pageSize=2&offset=2" }
 
       it 'returns a slice of the visible memberships' do
         expect(subject.body)
@@ -132,12 +143,20 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
           .at_path('total')
 
         expect(subject.body)
-          .to be_json_eql('1')
+          .to be_json_eql('2')
           .at_path('count')
 
         expect(subject.body)
           .to be_json_eql("users/create/g-#{other_user.id}".to_json)
-          .at_path('_embedded/elements/0/id')
+          .at_path('_embedded/elements/1/id')
+      end
+
+      it 'includes links for self and jumping' do
+        expect_self_link('self')
+        expect_self_link('jumpTo', 'offset' => '{offset}')
+        expect_self_link('changeSize', 'pageSize' => '{size}')
+        expect_self_link('previousByOffset', 'offset' => '1')
+        expect_self_link('nextByOffset', 'offset' => '3')
       end
     end
 
