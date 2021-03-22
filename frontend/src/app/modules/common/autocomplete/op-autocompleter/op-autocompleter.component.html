@@ -63,14 +63,15 @@
         >
         
           <ng-template ng-label-tmp let-item="item">
-            <ng-container [ngTemplateOutlet]="hasDefaultContent ? defaultLabel : labelTemplate" [ngTemplateOutletContext]="{$implicit:item}">
+            <ng-container [ngTemplateOutlet]="labelTemplate ? labelTemplate : defaultLabel" [ngTemplateOutletContext]="{$implicit:item}">
             </ng-container>
           </ng-template>
 
-          <ng-template ng-option-tmp let-item="item">
-            <ng-container [ngTemplateOutlet]="hasDefaultContent ? defaultOption : optionTemplate" [ngTemplateOutletContext]="{$implicit:item}">
+          <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+            <ng-container [ngTemplateOutlet]="optionTemplate ? optionTemplate : defaultOption" [ngTemplateOutletContext]="{$implicit:item}">
             </ng-container>
           </ng-template>
+
   </ng-select>
 </div>
 
@@ -78,11 +79,33 @@
 <ng-template let-item  #defaultOption [ngSwitch]="resource">
 
   <ng-container *ngSwitchCase="'work_packages'">
-    <user-avatar 
-    [user]="item.author"
-    data-class-list="avatar global-search-author-avatar hidden-for-mobile">
-    </user-avatar>
-    {{item.type.name }} #{{ item.id }} {{ item.subject }}
+    
+    <div class="op-autocompleter--option-wrapper">
+      <user-avatar 
+      [user]="item.author"
+      data-class-list="avatar op-autocompleter-author-avatar hidden-for-mobile">
+      </user-avatar>
+
+      <span class="op-autocompleter-wp-subject"> 
+      {{item.subject}} 
+      </span>
+
+      <div class="op-autocompleter--wp-content">
+        <span [textContent]="item.project.name" 
+        class="op-autocompleter--wp-project">
+        </span>
+
+        <a class="op-autocompleter--wp-id"
+          [ngClass]="uiStateLinkClass">
+        #{{item.id}}
+        </a>
+        <span [textContent]="item.status.name"
+          [ngClass]="highlighting('status',item.status.id)"
+          class="op-autocompleter--wp-status">
+        </span>
+
+      </div>
+    </div>
   </ng-container>
 
   <ng-container *ngSwitchCase="'user'">

@@ -84,6 +84,9 @@ import {TimeEntryWorkPackageAutocompleterComponent} from "core-app/modules/commo
 import {DraggableAutocompleteComponent} from "core-app/modules/common/draggable-autocomplete/draggable-autocomplete.component";
 import {DragulaModule} from "ng2-dragula";
 import {SlideToggleComponent} from "core-app/modules/common/slide-toggle/slide-toggle.component";
+import {OpAutocompleterComponent} from "core-app/modules/common/autocomplete/op-autocompleter/op-autocompleter.component";
+import {OpAutocompleterOptionTemplateDirective} from "core-app/modules/common/autocomplete/op-autocompleter/Directives/op-autocompleter-option-template.directive";
+import {OpAutocompleterLabelTemplateDirective} from "core-app/modules/common/autocomplete/op-autocompleter/Directives/op-autocompleter-label-template.directive";
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
@@ -197,6 +200,11 @@ export function bootstrapModule(injector:Injector) {
     // filter
 
     SlideToggleComponent,
+
+    // Autocompleter
+    OpAutocompleterComponent,
+    OpAutocompleterOptionTemplateDirective,
+    OpAutocompleterLabelTemplateDirective,
   ],
   declarations: [
     OpDatePickerComponent,
@@ -264,6 +272,9 @@ export function bootstrapModule(injector:Injector) {
     WorkPackageAutocompleterComponent,
     TimeEntryWorkPackageAutocompleterComponent,
     DraggableAutocompleteComponent,
+    OpAutocompleterComponent,
+    OpAutocompleterOptionTemplateDirective,
+    OpAutocompleterLabelTemplateDirective,
 
     HomescreenNewFeaturesBlockComponent,
     BoardVideoTeaserModalComponent,

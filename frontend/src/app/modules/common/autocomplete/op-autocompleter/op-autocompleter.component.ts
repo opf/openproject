@@ -22,6 +22,9 @@ import { UntilDestroyedMixin } from 'core-app/helpers/angular/until-destroyed.mi
 import { GroupValueFn } from '@ng-select/ng-select/lib/ng-select.component';
 import { OpAutocompleterOptionTemplateDirective } from "./Directives/op-autocompleter-option-template.directive";
 import { OpAutocompleterLabelTemplateDirective } from "./Directives/op-autocompleter-label-template.directive";
+import { OPAutocompleterService } from "./Services/op-autocompleter.service";
+import {dataType} from 'core-app/modules/common/dataType.enum';
+import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 
 export interface Conditions {name:string; operator:FilterOperator; values:unknown[]|boolean; }
 
@@ -29,14 +32,15 @@ export interface Conditions {name:string; operator:FilterOperator; values:unknow
   selector: 'op-autocompleter',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl:'./op-autocompleter.component.html',
-  styleUrls: ['./op-autocompleter.component.sass']
+  styleUrls: ['./op-autocompleter.component.sass'],
+  providers: [OPAutocompleterService]
 })
 
 
-export class GeneralAutocompleterComponent extends UntilDestroyedMixin implements AfterContentInit {
+export class OpAutocompleterComponent extends UntilDestroyedMixin {
 
   @Input() public conditions?:Conditions[];
-  @Input() public resource:'work_packages' | 'users';
+  @Input() public resource:dataType;
   @Input() public model?:any;
   @Input() public searchKey?:string;
   @Input() public defaultOpen?:boolean = false;
@@ -109,13 +113,7 @@ export class GeneralAutocompleterComponent extends UntilDestroyedMixin implement
     debounceTime(250),
     distinctUntilChanged(),
     tap(() => this.isOpen = true),
-    switchMap(queryString => this.loadAvailable(queryString))
-  );
-
-  public requests = new DebouncedRequestSwitchmap<string>(
-    (searchTerm:string) =>  this.loadAvailable(searchTerm) ,
-    errorNotificationHandler(this.halNotification),
-    true
+    switchMap(queryString => this.opAutocompleterService.loadData(queryString, this.resource, this.conditions, this.searchKey))
   );
 
   public isLoading = false;
@@ -131,27 +129,12 @@ export class GeneralAutocompleterComponent extends UntilDestroyedMixin implement
   constructor(readonly halResourceService:HalResourceService,
               readonly halSorting:HalResourceSortingService,
               readonly apiV3Service:APIV3Service,
+              readonly opAutocompleterService:OPAutocompleterService,
               readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService,
               protected currentProject:CurrentProjectService,
               readonly halNotification:HalResourceNotificationService) {
                 super();
-  }
-
-  ngOnInit() {
-    this.initialization();
-    this.requests.input$.next('');
-  }
-
-  initialization() {
-    this
-    .requests
-    .output$.pipe(
-      this.untilDestroyed()
-    )
-    .subscribe((values:HalResource[]) => {
-      this.cdRef.detectChanges();
-    });
   }
 
   ngAfterContentInit():void {
@@ -162,35 +145,6 @@ export class GeneralAutocompleterComponent extends UntilDestroyedMixin implement
     setTimeout(() => {
       this.ngSelectInstance.focus();
     }, 25);
-  }
-
-  public loadAvailable(matching:string):Observable<HalResource[]> {
-    const filters:ApiV3FilterBuilder = this.createFilters(this.conditions ?? [], matching);
-
-    if (matching === null || matching.length === 0) {
-      this.isLoading = false;
-      return of([]);
-    }
-    const filteredData = (this.apiV3Service[this.resource] as
-      APIv3ResourceCollection<UserResource|WorkPackageResource, APIv3UserPaths|APIV3WorkPackagePaths>)
-      .filtered(filters).get()
-      .pipe(map(collection => collection.elements));
-
-      filteredData.subscribe(() => this.isLoading = false);
-
-    return filteredData;
-  }
-
-  protected createFilters(conditions:Conditions[], matching:string) {
-    const filters = new ApiV3FilterBuilder();
-
-    for (const condition of conditions) {
-      filters.add(condition.name, condition.operator, condition.values);
-    }
-    if (matching) {
-      filters.add(this.searchKey ?? '', '**', [matching]);
-    }
-    return filters;
   }
 
   public repositionDropdown() {
@@ -246,5 +200,7 @@ export class GeneralAutocompleterComponent extends UntilDestroyedMixin implement
   public scrolledToEnd(val:any) {
     this.onScrollToEnd.emit(val);
   }
-
+  public highlighting(property:string, id:string) {
+    return Highlighting.inlineClass(property, id);
+  }
 }
