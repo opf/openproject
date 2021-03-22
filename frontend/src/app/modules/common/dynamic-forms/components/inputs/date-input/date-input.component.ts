@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FieldType } from "@ngx-formly/core";
 import * as moment from "moment";
 import { TimezoneService } from "core-components/datetime/timezone.service";
@@ -8,16 +8,12 @@ import { TimezoneService } from "core-components/datetime/timezone.service";
   templateUrl: './date-input.component.html',
   styleUrls: ['./date-input.component.scss'],
 })
-export class DateInputComponent  extends FieldType implements OnInit {
+export class DateInputComponent  extends FieldType {
 
   constructor(
     private _timezoneService:TimezoneService
   ) {
     super();
-  }
-
-  ngOnInit(): void {
-    console.log('ngOnInit', this.formControl)
   }
 
   public parser(data:any) {
