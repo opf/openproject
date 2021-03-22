@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
+import { TextFieldModule } from '@angular/cdk/text-field'; 
 import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
 import { InviteUserModalComponent } from "./invite-user.component";
 import { ProjectSelectionComponent } from "./project-selection/project-selection.component";
@@ -21,6 +22,7 @@ import { InviteUserButtonComponent } from "core-app/modules/invite-user-modal/bu
     OpenprojectModalModule,
     NgSelectModule,
     ReactiveFormsModule,
+    TextFieldModule,
   ],
   exports: [
     InviteUserButtonComponent,

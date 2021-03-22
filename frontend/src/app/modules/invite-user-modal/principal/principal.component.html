@@ -18,7 +18,7 @@
         (createNew)="createNewFromInput($event)"
       ></op-ium-principal-search>
 
-      <div
+      <p
         *ngIf="isNewPrincipal && type === PrincipalType.User"
         slot="input"
       >
@@ -27,9 +27,9 @@
           class="op-link"
           (click)="principalControl?.setValue(null)"
           >{{ text.changeUserSelection }}</button>
-      </div>
+      </p>
 
-      <div
+      <p
         *ngIf="isNewPrincipal && type === PrincipalType.Placeholder"
         slot="input"
       >
@@ -38,7 +38,7 @@
           class="op-link"
           (click)="principalControl?.setValue(null)"
         >{{ text.changePlaceholderSelection }}</button>
-      </div>
+      </p>
 
       <div
         slot="errors"
