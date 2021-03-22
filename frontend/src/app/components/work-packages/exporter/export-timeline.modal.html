@@ -18,11 +18,7 @@
         <select class="form--select"
               [(ngModel)]="config.zoomLevel"
               (change)="updatePreview()">
-          <option [textContent]="zooms[0].label" [ngValue]="zooms[0].level"></option>
-          <option [textContent]="zooms[1].label" [ngValue]="zooms[1].level"></option>
-          <option [textContent]="zooms[2].label" [ngValue]="zooms[2].level"></option>
-          <option [textContent]="zooms[3].label" [ngValue]="zooms[3].level"></option>
-          <option [textContent]="zooms[4].label" [ngValue]="zooms[4].level"></option>
+          <option *ngFor="let zoom of zooms" [textContent]="zoom.label" [ngValue]="zoom.level"></option>
         </select>
         <button class="button -alt-highlight save-timeline-pdf" (click)="savePdf()">
           <op-icon icon-classes="button--icon icon-save" class="op-icon--wrapper" ng-reflect-icon-classes="button--icon icon-save">

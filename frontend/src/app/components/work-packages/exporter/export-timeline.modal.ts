@@ -1,4 +1,5 @@
 import {ChangeDetectorRef, Component, ElementRef, Inject, OnInit, SecurityContext, ViewChild} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
 import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
