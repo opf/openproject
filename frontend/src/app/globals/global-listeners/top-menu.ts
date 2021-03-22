@@ -140,7 +140,7 @@ export class TopMenu {
 
   setupDropdownClick() {
     this.dropdowns().each((ix, it) => {
-      jQuery(it).click(() => {
+      jQuery(it).find('.op-app-menu--item-action').click(() => {
         this.toggleClick(jQuery(it));
         return false;
       });
@@ -159,7 +159,7 @@ export class TopMenu {
   }
 
   isOpen(dropdown:JQuery) {
-    return dropdown.filter(".open").length === 1;
+    return dropdown.filter(".op-app-menu--item_dropdown-open").length === 1;
   }
 
   isClosed(dropdown:JQuery) {
@@ -240,7 +240,7 @@ export class TopMenu {
     const toggler = jQuery("#main-menu-toggle");
 
     this.menuContainer.on("closeDropDown", (event: Event) => {
-      this.close(jQuery(event.target));
+      this.close(jQuery(event.target)());
     }).on("openDropDown", (event) => {
       this.open(jQuery(event.target));
     }).on("closeMenu", () => {

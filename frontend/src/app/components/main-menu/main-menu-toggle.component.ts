@@ -27,31 +27,33 @@
 //++
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { MainMenuToggleService } from './main-menu-toggle.service';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { DeviceService } from "app/modules/common/browser/device.service";
 import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { MainMenuToggleService } from './main-menu-toggle.service';
 
 export const mainMenuToggleSelector = 'main-menu-toggle';
 
 @Component({
   selector: mainMenuToggleSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class: 'op-app-menu',
+  },
   template: `
-    <div
+    <button
       *ngIf="this.currentProject.id !== null || this.deviceService.isMobile"
+      class="op-app-menu--item-action"
       id="main-menu-toggle"
       aria-haspopup="true"
+      type="button"
       [attr.title]="toggleTitle"
-      (accessibleClick)="toggleService.toggleNavigation($event)"
-      tabindex="0"
+      (click)="toggleService.toggleNavigation($event)"
     >
-      <a icon="icon-hamburger">
-        <i class="icon-hamburger" aria-hidden="true"></i>
-      </a>
-    </div>
+      <op-icon class="icon-hamburger" aria-hidden="true"></op-icon>
+    </button>
   `
 })
 

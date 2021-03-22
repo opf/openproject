@@ -113,7 +113,7 @@ module Redmine::MenuManager::MenuHelper
   def render_drop_down_label_node(label, selected, options = {})
     options[:title] ||= selected ? t(:description_current_position) + label : label
     options[:aria] = { haspopup: 'true' }
-    options[:class] = "op-app-menu--item-link #{options[:class]} #{selected ? 'selected' : ''}"
+    options[:class] = "op-app-menu--item-action #{options[:class]} #{selected ? 'selected' : ''}"
 
     link_to('', options) do
       concat(op_icon(options[:icon])) if options[:icon]

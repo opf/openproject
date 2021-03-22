@@ -32,7 +32,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   def render_quick_add_menu
     return unless show_quick_add_menu?
 
-    content_tag :ul, class: 'quick-add-menu' do
+    content_tag :ul, class: 'op-app-menu' do
       render_quick_add_dropdown
     end
   end
@@ -44,8 +44,8 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
       label: '',
       label_options: {
         title: I18n.t('menus.quick_add.label'),
-        icon: 'icon-add quick-add-menu--icon',
-        class: 'quick-add-menu--button'
+        icon: 'icon-add',
+        class: ''
       },
       items: first_level_menu_items_for(:quick_add_menu),
       options: { drop_down_id: 'quick-add-menu' },

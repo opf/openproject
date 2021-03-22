@@ -1,9 +1,17 @@
 .op-app-menu
   list-style: none
   display: flex
+  margin: 0
+  height: 100%
+
+  &_drop-left .op-app-menu--dropdown
+    left: 0
+    right: auto
 
   &--item
     display: flex
+    position: relative
+    height: 100%
 
   &--item-action
     background: transparent 
