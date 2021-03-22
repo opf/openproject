@@ -84,6 +84,7 @@ module Redmine::MenuManager::MenuHelper
     selected = any_item_selected?(items)
     label_node = render_drop_down_label_node(label, selected, label_options)
 
+    options[:drop_down_class] = 'op-menu ' + options.fetch(:drop_down_class, '')
     render_menu_dropdown(label_node, options) do
       items.each do |item|
         concat render_menu_node(item, project)

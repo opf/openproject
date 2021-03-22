@@ -240,9 +240,9 @@ export class TopMenu {
     const toggler = jQuery("#main-menu-toggle");
 
     this.menuContainer.on("closeDropDown", (event: Event) => {
-      this.close(jQuery(event.target)());
+      this.close(jQuery(event.target as HTMLElement));
     }).on("openDropDown", (event) => {
-      this.open(jQuery(event.target));
+      this.open(jQuery(event.target as HTMLElement));
     }).on("closeMenu", () => {
       this.closing();
     }).on("openMenu", () => {

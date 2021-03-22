@@ -75,7 +75,7 @@ module Redmine::MenuManager::TopMenuHelper
 
   def render_direct_login
     link = link_to signin_path,
-                   class: 'op-app-menu--item-action',
+                   class: 'op-app-menu--item-action login',
                    title: I18n.t(:label_login) do
       concat('<span class="button--dropdown-text hidden-for-mobile">'.concat(I18n.t(:label_login)).concat('</span>').html_safe)
       concat('<i class="icon2 icon-user hidden-for-desktop"></i>'.html_safe)

@@ -60,7 +60,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   def work_package_quick_add_items
     return unless visible_types.any?
 
-    concat content_tag(:hr, '', class: 'op-app-header-dropdown--separator')
+    concat content_tag(:hr, '', class: 'op-menu--separator')
     concat work_package_type_heading
 
     visible_types
@@ -71,10 +71,10 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   end
 
   def work_package_type_heading
-    content_tag(:li) do
+    content_tag(:li, class: 'op-menu--item') do
       content_tag :span,
                   I18n.t(:label_work_package_plural),
-                  class: 'op-app-header-dropdown--headline'
+                  class: 'op-menu--headline'
     end
   end
 
@@ -89,15 +89,15 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   end
 
   def work_package_create_link(type_id, type_name)
-    content_tag(:li) do
+    content_tag(:li, class: 'op-menu--item') do
       if in_project_context?
         link_to type_name,
                 new_project_work_packages_path(project_id: @project.identifier, type: type_id),
-                class: "__hl_inline_type_#{type_id}"
+                class: "__hl_inline_type_#{type_id} op-menu--item-action"
       else
         link_to type_name,
                 new_work_packages_path(type: type_id),
-                class: "__hl_inline_type_#{type_id}"
+                class: "__hl_inline_type_#{type_id} op-menu--item-action"
       end
     end
   end

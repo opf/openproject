@@ -89,7 +89,7 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
-    this.dropdownMenu = this.$element.parents('li.drop-down');
+    this.dropdownMenu = this.$element.parents('li.op-app-menu--item_has-dropdown');
     this.input = this.$element.find('.project-menu-autocomplete--input');
     this.noResults = this.$element.find('.project-menu-autocomplete--no-results');
 
