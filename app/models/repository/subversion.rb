@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -98,34 +99,38 @@ class Repository::Subversion < Repository
       db_revision = latest_changeset&.revision&.to_i
 
       # first revision to fetch
-      identifier_from  = db_revision ? db_revision + 1 : scm.start_revision
+      identifier_from = db_revision ? db_revision + 1 : scm.start_revision
 
       # latest revision in the repository
       scm_revision = scm_info.lastrev.identifier.to_i
       if db_revision.nil? || db_revision < scm_revision
         Rails.logger.debug { "Fetching changesets for repository #{url}" }
-        while (identifier_from <= scm_revision)
+        while identifier_from <= scm_revision
           # loads changesets by batches of 200
           identifier_to = [identifier_from + 199, scm_revision].min
           revisions = scm.revisions('', identifier_to, identifier_from, with_paths: true)
-          revisions.reverse_each do |revision|
-            transaction do
-              changeset = Changeset.create(repository: self,
-                                           revision: revision.identifier,
-                                           committer: revision.author,
-                                           committed_on: revision.time,
-                                           comments: revision.message)
+          unless revisions.nil?
+            revisions.reverse_each do |revision|
+              transaction do
+                changeset = Changeset.create(repository: self,
+                                             revision: revision.identifier,
+                                             committer: revision.author,
+                                             committed_on: revision.time,
+                                             comments: revision.message)
 
-              revision.paths.each do |change|
-                changeset.create_change(change)
-              end unless changeset.new_record?
+                unless changeset.new_record?
+                  revision.paths.each do |change|
+                    changeset.create_change(change)
+                  end
+                end
+              end
             end
-          end unless revisions.nil?
+          end
           identifier_from = identifier_to + 1
         end
       end
     end
-  rescue => e
+  rescue StandardError => e
     Rails.logger.error("Failed to fetch changesets from repository: #{e.message}")
   end
 

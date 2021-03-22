@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 feature 'members pagination', type: :feature, js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
 
   let!(:peter) { FactoryBot.create :user, firstname: 'Peter', lastname: 'Pan' }
@@ -52,10 +52,13 @@ feature 'members pagination', type: :feature, js: true do
     members_page.set_items_per_page! 2
 
     members_page.visit!
+    SeleniumHubWaiter.wait
+    expect(members_page).to have_user 'Alice Alison' # members are sorted by last name desc
     members_page.add_user! 'Peter Pan', as: 'Manager'
 
+    SeleniumHubWaiter.wait
     members_page.go_to_page! 2
-    expect(members_page).to have_user 'Alice Alison' # members are sorted by last name desc
+    expect(members_page).to have_user 'Peter Pan'
   end
 
   scenario 'Paginating after removing a member' do
@@ -63,22 +66,27 @@ feature 'members pagination', type: :feature, js: true do
     members_page.set_items_per_page! 1
 
     members_page.visit!
-    members_page.remove_user! 'Peter Pan'
+    SeleniumHubWaiter.wait
+    members_page.remove_user! 'Alice Alison'
     expect(members_page).to have_user 'Bob Bobbit'
 
+    SeleniumHubWaiter.wait
     members_page.go_to_page! 2
-    expect(members_page).to have_user 'Alice Alison'
+    expect(members_page).to have_user 'Peter Pan'
   end
 
   scenario 'Paginating after updating a member' do
     members_page.set_items_per_page! 1
 
     members_page.visit!
+    SeleniumHubWaiter.wait
+    members_page.go_to_page! 2
     members_page.edit_user! 'Bob Bobbit', add_roles: ['Developer']
     expect(page).to have_text 'Successful update'
     expect(members_page).to have_user 'Bob Bobbit', roles: ['Developer', 'Manager']
 
-    members_page.go_to_page! 2
+    SeleniumHubWaiter.wait
+    members_page.go_to_page! 1
     expect(members_page).to have_user 'Alice Alison'
   end
 end

@@ -31,24 +31,24 @@ OpenProject::Application.routes.draw do
     scope 'projects/:project_id', as: 'project' do
       resources :backlogs,         controller: :rb_master_backlogs,  only: :index
 
-      resources :sprints,          controller: :rb_sprints,          only: [:show, :update] do
+      resources :sprints,          controller: :rb_sprints,          only: %i[show update] do
         resource :query,            controller: :rb_queries,          only: :show
 
         resource :taskboard,        controller: :rb_taskboards,       only: :show
 
-        resource :wiki,             controller: :rb_wikis,            only: [:show, :edit]
+        resource :wiki,             controller: :rb_wikis,            only: %i[show edit]
 
         resource :burndown_chart,   controller: :rb_burndown_charts,  only: :show
 
-        resources :impediments,      controller: :rb_impediments,      only: [:create, :update]
+        resources :impediments,      controller: :rb_impediments,      only: %i[create update]
 
-        resources :tasks,            controller: :rb_tasks,            only: [:create, :update]
+        resources :tasks,            controller: :rb_tasks,            only: %i[create update]
 
-        resources :export_card_configurations, controller: :rb_export_card_configurations, only: [:index, :show] do
-          resources :stories,          controller: :rb_stories,          only: [:index]
+        resources :export_card_configurations, controller: :rb_export_card_configurations, only: %i[index show] do
+          resources :stories, controller: :rb_stories, only: [:index]
         end
 
-        resources :stories,          controller: :rb_stories,          only: [:create, :update]
+        resources :stories, controller: :rb_stories, only: %i[create update]
       end
 
       resource :query, controller: :rb_queries, only: :show
@@ -58,5 +58,12 @@ OpenProject::Application.routes.draw do
   get 'projects/:project_id/versions/:id/edit' => 'version_settings#edit'
   post 'projects/:id/project_done_statuses' => 'projects#project_done_statuses'
   post 'projects/:id/rebuild_positions' => 'projects#rebuild_positions'
-  get 'projects/:id/settings/backlogs', controller: 'backlogs_settings', action: 'show', as: 'settings_backlogs'
+  get 'projects/:id/settings/backlogs', controller: 'backlogs_project_settings', action: 'show', as: 'settings_backlogs'
+
+  scope 'admin' do
+    resource :backlogs,
+             only: %i[show update],
+             controller: :backlogs_settings,
+             as: 'admin_backlogs_settings'
+  end
 end

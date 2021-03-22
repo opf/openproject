@@ -40,9 +40,11 @@ class Story < WorkPackage
     end
 
     candidates.each do |story|
-      last_rank = stories_by_version[story.version_id].size > 0 ?
-                     stories_by_version[story.version_id].last.rank :
-                     0
+      last_rank = if stories_by_version[story.version_id].size > 0
+                    stories_by_version[story.version_id].last.rank
+                  else
+                    0
+                  end
 
       story.rank = last_rank + 1
       stories_by_version[story.version_id] << story
@@ -59,7 +61,7 @@ class Story < WorkPackage
     Story.where(Story.condition(project_id, sprint_id))
          .joins(:status)
          .order(Arel.sql(Story::ORDER))
-         .offset(rank -1)
+         .offset(rank - 1)
          .first
   end
 
@@ -76,11 +78,13 @@ class Story < WorkPackage
 
   def tasks_and_subtasks
     return [] unless Task.type
+
     descendants.where(type_id: Task.type)
   end
 
   def direct_tasks_and_subtasks
     return [] unless Task.type
+
     children.where(type_id: Task.type).map { |t| [t] + t.descendants }.flatten
   end
 
@@ -100,7 +104,7 @@ class Story < WorkPackage
     p = Integer(p)
     if p >= 0
       update_attribute(:story_points, p)
-      return
+      nil
     end
   end
 
@@ -130,7 +134,9 @@ class Story < WorkPackage
 
   def rank
     if position.blank?
-      extras = ["and ((#{WorkPackage.table_name}.position is NULL and #{WorkPackage.table_name}.id <= ?) or not #{WorkPackage.table_name}.position is NULL)", id]
+      extras = [
+        "and ((#{WorkPackage.table_name}.position is NULL and #{WorkPackage.table_name}.id <= ?) or not #{WorkPackage.table_name}.position is NULL)", id
+      ]
     else
       extras = ["and not #{WorkPackage.table_name}.position is NULL and #{WorkPackage.table_name}.position <= ?", position]
     end
@@ -140,8 +146,6 @@ class Story < WorkPackage
               .count
     @rank
   end
-
-  private
 
   def self.condition(project_id, sprint_ids, extras = [])
     c = ['project_id = ? AND type_id in (?) AND version_id in (?)',

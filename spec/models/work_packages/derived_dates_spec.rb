@@ -82,7 +82,7 @@ describe WorkPackage, 'derived dates', type: :model do
       let(:child_start_date) { nil }
       let(:other_child_start_date) { nil }
 
-      it 'the derived_start_date is the minumum of the due dates' do
+      it 'the derived_start_date is the minimum of the due dates' do
         expect(subject.derived_start_date).to eql child_due_date
       end
 

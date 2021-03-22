@@ -28,7 +28,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-
 class Queries::WorkPackages::Filter::FilterConfiguration
   attr_accessor(:filter_class, :filter_name, :operator)
 

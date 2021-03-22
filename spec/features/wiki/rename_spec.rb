@@ -49,9 +49,11 @@ describe 'Wiki page', type: :feature, js: true do
   it 'allows renaming' do
     visit project_wiki_path(project, wiki_page)
 
+    SeleniumHubWaiter.wait
     click_link 'More'
     click_link 'Rename'
 
+    SeleniumHubWaiter.wait
     fill_in 'Title', with: rename_name
 
     click_button 'Rename'

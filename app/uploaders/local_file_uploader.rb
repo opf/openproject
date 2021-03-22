@@ -39,7 +39,6 @@ class LocalFileUploader < CarrierWave::Uploader::Base
   after :store, :delete_tmp_dir
   after :store, :delete_old_tmp_file
 
-
   def copy_to(attachment)
     attachment.file = local_file
   end

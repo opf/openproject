@@ -10,7 +10,6 @@ describe 'Work Package table parent column', js: true do
     login_as(user)
   end
 
-
   let!(:parent) { FactoryBot.create(:work_package, project: project) }
   let!(:child) { FactoryBot.create(:work_package, project: project, parent: parent) }
 

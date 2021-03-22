@@ -53,7 +53,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <section class="hide-section" data-section-name="notified_projects" <%= @user.mail_notification == 'selected' ? '' : 'hidden' %>>
   <div id="notified-projects" class="form--field -no-label">
       <div class="form--field-container -vertical">
-        <% @user.projects.each do |project| %>
+        <% @user.projects.distinct.each do |project| %>
           <label class="form--label-with-check-box">
             <%= styled_check_box_tag 'notified_project_ids[]',
                                      project.id,

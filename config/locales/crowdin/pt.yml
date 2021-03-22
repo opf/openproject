@@ -78,7 +78,7 @@ pt:
     is_active: atualmente exibido
     is_inactive: não exibido atualmente
   attribute_help_texts:
-    note_public: 'Qualquer texto e imagens que você adicionar a este campo ficará publicamente visível para todos os usuários autenticados!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'Neste modo de exibição, você pode criar textos de ajuda personalizada para a exibição de atributos. Quando definido, estes textos podem ser mostrados, clicando no ícone de ajuda ao lado de seu atributo relacionado.'
     label_plural: 'Textos de ajuda do atributo'
     show_preview: 'Pré-visualização de texto'
@@ -121,9 +121,6 @@ pt:
         Se você marcar esta caixa, o OpenProject irá automaticamente criar novos usuários a partir de suas entradas LDAP
         quando eles forem autenticados pela primeira vez com o OpenProject.
         Deixe isso desmarcado para permitir que apenas contas existentes no OpenProject possam se autenticar através do LDAP!
-      onthefly_group_sync: |
-        Se você habilitar a sincronização em grupo para esta conexão LDAP, os usuários também serão automaticamente criados
-        no OpenProject para o grupos sincronizados. Sem isso, apenas as contas existentes no OpenProjectserão adicionados aos grupos.
     connection_encryption: 'Criptografia de Conexão'
     system_account: 'Conta do sistema'
     system_account_legend: |
@@ -194,7 +191,7 @@ pt:
       Especifique uma lista de nomes para ignorar quando processar anexos para mensagens recebidas (por exemplo, assinaturas ou ícones). Digite um nome de arquivo por linha.
   projects:
     delete:
-      scheduled: "Exclusão foi agendada e será realizada em segundo plano. Você será notificado do resultado."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Projeto não pode ser excluído: %{errors}"
       failed: "Exclusão do projeto %{name} falhou"
       failed_text: "A solicitação para excluir o projeto %{name} falhou. O projeto foi arquivado."
@@ -242,6 +239,14 @@ pt:
       no_results_title_text: No momento, este usuário não é membro de nenhum grupo.
     memberships:
       no_results_title_text: Atualmente, este usuário não é um membro de um projeto.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -519,6 +524,7 @@ pt:
         confirmation: "não coincide com %{attribute}."
         could_not_be_copied: "%{dependency} não pôde ser copiado (completamente)."
         does_not_exist: "não existe."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "não pode ser acessado."
         error_readonly: "tentou escrever, mas não é gravável."
         empty: "não pode ser vazio."
@@ -534,6 +540,7 @@ pt:
         invalid_url: 'não é um URL válido.'
         invalid_url_scheme: 'não é um protocolo suportado (permitidos: %{allowed_schemes}).'
         less_than_or_equal_to: "deve ser menor ou igual a %{count}."
+        not_deletable: "cannot be deleted."
         not_current_user: "não é o usuário atual."
         not_a_date: "não é uma data válida."
         not_a_datetime: "não é uma data/hora válida."
@@ -718,6 +725,7 @@ pt:
       status: "Situação do pacote de trabalho"
       member: "Membro"
       news: "Notícias"
+      placeholder_user: "Placeholder user"
       project: "Projeto"
       query: "Consulta personalizada"
       role:
@@ -767,7 +775,7 @@ pt:
     firstname: "Nome"
     group: "Grupo"
     groups: "Grupos"
-    groupname: "Nome do grupo"
+    name: "Nome"
     id: "ID"
     is_default: "Valor padrão"
     is_for_all: "Para todos os projetos"
@@ -777,7 +785,6 @@ pt:
     lastname: "Sobrenome"
     login: "Nome de usuário"
     mail: "E-mail"
-    name: "Nome"
     password: "Senha"
     priority: "Prioridade"
     project: "Projeto"
@@ -1128,7 +1135,7 @@ pt:
   error_menu_item_not_saved: Item de menu não pôde ser salvo
   error_wiki_root_menu_item_conflict: >
     Não é possível renomear de"%{old_name}" para "%{new_name}" devido a um conflito no item de menu resultante com o item de menu existente "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Ocorreu um erro durante a autenticação externa. Por favor, tente novamente."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Atributo(s) não destacado(s): %{attributes}"
   events:
     project: 'Projeto editado'
@@ -1329,6 +1336,7 @@ pt:
   label_custom_field_plural: "Campos personalizados"
   label_custom_field_default_type: "Tipo vazio"
   label_custom_style: "Design"
+  label_database_version: "PostgreSQL version"
   label_date: "Data"
   label_date_and_time: "Data e hora"
   label_date_from: "De"
@@ -1487,6 +1495,7 @@ pt:
   label_my_account_data: "Dados da minha conta"
   label_my_projects: "Meus projetos"
   label_my_queries: "Minhas consultas personalizadas"
+  label_name: "Nome"
   label_never: "Nunca"
   label_new: "Novo"
   label_new_features: "Novos recursos"
@@ -1536,6 +1545,9 @@ pt:
   label_permissions: "Permissões"
   label_permissions_report: "Relatório de permissões"
   label_personalize_page: "Personalizar esta página"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Planejamento"
   label_please_login: "Por favor, efetue o login"
   label_plugins: "Plugins"
@@ -1844,6 +1856,7 @@ pt:
   notice_email_sent: "Um e-mail foi enviado para %{value}"
   notice_failed_to_save_work_packages: "Falha ao salvar %{count} pacote(s) de trabalho de um total de %{total} selecionado: %{ids}."
   notice_failed_to_save_members: "Falha ao salvar o(s) membro(s): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "A página que você estava tentando acessar não existe ou foi removida."
   notice_forced_logout: "Você foi automaticamente desconectado após %{ttl_time} minutos de inatividade."
   notice_internal_server_error: "Ocorreu um erro na página que você está tentando acessar. Se você continuar a ter problemas, por favor contate o %{app_title} administrador para obter assistência."
@@ -1907,6 +1920,8 @@ pt:
   permission_add_work_packages: "Adicionar pacotes de trabalho"
   permission_add_messages: "Postar mensagens"
   permission_add_project: "Criar Projeto"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Criar subprojetos"
   permission_add_work_package_watchers: "Adicionar observadores"
   permission_assign_versions: "Atribuir versões"
@@ -2108,7 +2123,7 @@ pt:
       username: "Nome de usuário do repositório"
     truncated: "Pedimos desculpa, mas tivemos que truncar este diretório em %{limit} arquivos. %{truncated} entradas foram omitidas da lista."
     named_repository: "repositório %{vendor_name}"
-    update_settings_successful: "Configurações atualizadas com sucesso."
+    update_settings_successful: "The settings have been successfully saved."
     url: "URL para repositório"
     warnings:
       cannot_annotate: "Este arquivo não pode ser anotado."
@@ -2226,7 +2241,6 @@ pt:
   setting_welcome_text: "Texto do bloco de boas-vindas"
   setting_welcome_title: "Título do bloco de boas-vindas"
   setting_welcome_on_homescreen: "Exibir bloco de boas-vindas na tela inicial"
-  setting_work_package_group_assignment: "Permitir a atribuição a grupos"
   setting_work_package_list_default_highlighting_mode: "Modo de destaque padrão"
   setting_work_package_list_default_highlighted_attributes: "Atributos embutidos com destaque padrão"
   settings:

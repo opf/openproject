@@ -43,4 +43,3 @@ module OpenProject::Meeting::Patches::SettingSeederPatch
     end
   end
 end
-

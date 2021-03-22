@@ -86,7 +86,7 @@ zh-CN:
     caption_rate_history: "费率历史记录"
     clipboard:
       browser_error: "您的浏览器不支持复制到剪贴板，请手动复制选定的文本。"
-      copied_successful: "成功复制到剪贴板!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: '图表类型'
       axis_criteria: '轴条件'
@@ -271,13 +271,13 @@ zh-CN:
           text_new_features: "了解新功能和产品更新。"
           learn_about: "详细了解新功能"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              此版本包含多项新功能和改进：<br> <ul class="%{list_styling_class}"> <li><b>改进了 WYSIWYG 编辑器的样式</b>。</li> <li>编辑时可直接显示 <b>@notifications 用户名</b>。</li> <li>通过添加一个 <b>OpenID Connect 提供商</b>扩展了 身份验证配置文件。</li> <li>在甘特图中以单行显示项目<b>完整的里程碑</b>。</li> <li><b>收起工作包列表中各组的所有按钮</b>。</li> <li>通过浏览器打印功能<b>优化了打印</b>，例如 wiki 页面的打印。</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              此版本包含多项新功能和改进：<br> <ul class="%{list_styling_class}"> <li><b>改进了 WYSIWYG 编辑器的样式</b>。</li> <li>编辑时可直接显示 <b>@notifications 用户名</b>。</li> <li>通过添加一个 <b>OpenID Connect 提供商</b>扩展了 身份验证配置文件。</li> <li>在甘特图中以单行显示项目<b>完整的里程碑</b>。</li> <li><b>收起工作包列表中各组的所有按钮</b>。</li> <li>通过浏览器打印功能<b>优化了打印</b>，例如 wiki 页面的打印。</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
     label_activate: "激活"
     label_add_column_after: "之后添加列"
     label_add_column_before: "在之前添加列"
@@ -845,7 +845,7 @@ zh-CN:
           automatic: '自动'
           manually: '手动'
           warning: '激活自动排序模式时，您将丢失以前的排序结果。'
-        columns_help_text: "使用上面的输入向表视图添加列。 您可以拖放列来为它们重新排序。"
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: '需要特定的工作包以脱颖而出？'
           relation_columns: '需要查看工作包列表中的关系吗？'

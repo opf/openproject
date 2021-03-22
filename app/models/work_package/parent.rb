@@ -113,7 +113,7 @@ module WorkPackage::Parent
 
   def reload(*args)
     @parent_object = nil
-    # The is_leaf resetting stems fro typed_dag_defaults.rb where it was impossible to add
+    # The is_leaf resetting stems from typed_dag_defaults.rb where it was impossible to add
     # another #reload method without interfering with the virtual attribute handling defined here.
     reset_is_leaf
 

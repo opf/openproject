@@ -1,4 +1,4 @@
-import {waitForElement} from "core-app/globals/onboarding/helpers";
+import { waitForElement } from "core-app/globals/onboarding/helpers";
 
 export function boardTourSteps() {
   return [
@@ -21,7 +21,7 @@ export function boardTourSteps() {
       'timeout': function () {
         return new Promise(function (resolve) {
           waitForElement('.wp-card', '#content', function () {
-            resolve();
+            resolve(undefined);
           });
         });
       }

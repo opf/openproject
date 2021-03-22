@@ -53,13 +53,16 @@ feature 'Wiki activities' do
     editor.set_markdown('First content')
 
     click_button 'Save'
+    expect(page).to have_text("Successful creation")
 
     # alter the page
+    SeleniumHubWaiter.wait
     click_link 'Edit'
 
     editor.set_markdown('Second content')
 
     click_button 'Save'
+    expect(page).to have_text("Successful update")
 
     # After creating and altering the page, there
     # will be two activities to see

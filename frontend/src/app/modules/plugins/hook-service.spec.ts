@@ -28,7 +28,7 @@
 
 /*jshint expr: true*/
 
-import {HookService} from "core-app/modules/plugins/hook-service";
+import { HookService } from "core-app/modules/plugins/hook-service";
 
 describe('HookService', function() {
   let service:HookService = new HookService();

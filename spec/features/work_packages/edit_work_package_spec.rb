@@ -4,8 +4,8 @@ require 'features/page_objects/notification'
 describe 'edit work package', js: true do
   let(:dev_role) do
     FactoryBot.create :role,
-                      permissions: [:view_work_packages,
-                                    :add_work_packages]
+                      permissions: %i[view_work_packages
+                                      add_work_packages]
   end
   let(:dev) do
     FactoryBot.create :user,
@@ -16,13 +16,18 @@ describe 'edit work package', js: true do
   end
   let(:manager_role) do
     FactoryBot.create :role,
-                      permissions: [:view_work_packages,
-                                    :edit_work_packages]
+                      permissions: %i[view_work_packages
+                                      edit_work_packages]
   end
   let(:manager) do
     FactoryBot.create :admin,
                       firstname: 'Manager',
                       lastname: 'Guy',
+                      member_in_project: project,
+                      member_through_role: manager_role
+  end
+  let(:placeholder_user) do
+    FactoryBot.create :placeholder_user,
                       member_in_project: project,
                       member_through_role: manager_role
   end
@@ -176,14 +181,25 @@ describe 'edit work package', js: true do
     expect(work_package.assigned_to).to be_nil
   end
 
+  it 'allows selecting placeholder users for assignee and responsible' do
+    wp_page.update_attributes assignee: placeholder_user.name,
+                              responsible: placeholder_user.name
+
+    wp_page.expect_attributes assignee: placeholder_user.name,
+                              responsible: placeholder_user.name
+
+    wp_page.expect_activity_message("Assignee set to #{placeholder_user.name}")
+    wp_page.expect_activity_message("Accountable set to #{placeholder_user.name}")
+  end
+
   context 'switching to custom field with required CF' do
     let(:custom_field) do
       FactoryBot.create(
         :work_package_custom_field,
         field_format: 'string',
         default_value: nil,
-        is_required:  true,
-        is_for_all:   true
+        is_required: true,
+        is_for_all: true
       )
     end
     let!(:type2) { FactoryBot.create(:type, custom_fields: [custom_field]) }

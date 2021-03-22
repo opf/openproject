@@ -1,8 +1,8 @@
-import {Injector} from '@angular/core';
-import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {ContextMenuHandler} from './context-menu-handler';
-import {TableEventComponent} from "core-components/wp-fast-table/handlers/table-handler-registry";
+import { Injector } from '@angular/core';
+import { keyCodes } from 'core-app/modules/common/keyCodes.enum';
+import { WorkPackageTable } from '../../wp-fast-table';
+import { ContextMenuHandler } from './context-menu-handler';
+import { TableEventComponent } from "core-components/wp-fast-table/handlers/table-handler-registry";
 
 export class ContextMenuKeyboardHandler extends ContextMenuHandler {
 
@@ -23,7 +23,7 @@ export class ContextMenuKeyboardHandler extends ContextMenuHandler {
       return false;
     }
 
-    let target = jQuery(evt.target);
+    const target = jQuery(evt.target);
 
     if (!(evt.keyCode === keyCodes.F10 && evt.shiftKey && evt.altKey)) {
       return true;
@@ -37,7 +37,7 @@ export class ContextMenuKeyboardHandler extends ContextMenuHandler {
     const wpId = element.data('workPackageId');
 
     // Set position args to open at element
-    let position = { my: 'left top', at: 'left bottom', of: target };
+    const position = { my: 'left top', at: 'left bottom', of: target };
 
     super.openContextMenu(component.workPackageTable, evt, wpId, position);
 

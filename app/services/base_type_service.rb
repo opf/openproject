@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -31,8 +32,7 @@ class BaseTypeService
   include Shared::BlockService
   include Contracted
 
-  attr_accessor :contract_class
-  attr_accessor :type, :user
+  attr_accessor :contract_class, :type, :user
 
   def initialize(type, user)
     self.type = type
@@ -74,7 +74,7 @@ class BaseTypeService
     ServiceResult.new(success: success,
                       errors: errors,
                       result: type)
-  rescue => e
+  rescue StandardError => e
     ServiceResult.new(success: false).tap do |result|
       result.errors.add(:base, e.message)
     end

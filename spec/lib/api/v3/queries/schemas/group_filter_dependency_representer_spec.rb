@@ -70,7 +70,6 @@ describe ::API::V3::Queries::Schemas::GroupFilterDependencyRepresenter, clear_ca
             [{ type: { operator: '=', values: ['Group'] } },
              { member: { operator: '=', values: [project.id.to_s] } }]
           end
-          let(:group_assignment_enabled) { true }
 
           context "for operator 'Queries::Operators::Equals'" do
             let(:operator) { Queries::Operators::Equals }

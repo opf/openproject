@@ -31,11 +31,11 @@ require 'spec_helper'
 describe WorkPackage, type: :model do
   let(:work_package) do
     FactoryBot.create(:work_package, project: project,
-                                      status: status)
+                                     status: status)
   end
   let(:work_package2) do
     FactoryBot.create(:work_package, project: project2,
-                                      status: status)
+                                     status: status)
   end
   let(:user) { FactoryBot.create(:user) }
 
@@ -135,7 +135,7 @@ describe WorkPackage, type: :model do
       time_entry
     end
 
-    describe 'w/o a cleanup beeing necessary' do
+    describe 'w/o a cleanup being necessary' do
       let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required([work_package], user, action: 'reassign') }
 
       before do

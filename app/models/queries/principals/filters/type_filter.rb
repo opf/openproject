@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -29,8 +30,8 @@
 
 class Queries::Principals::Filters::TypeFilter < Queries::Principals::Filters::PrincipalFilter
   def allowed_values
-    [[Group.to_s, Group.to_s],
-     [User.to_s, User.to_s]]
+    [User, Group, PlaceholderUser]
+      .map { |x| [x.to_s, x.to_s] }
   end
 
   def type

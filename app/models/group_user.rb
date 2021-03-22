@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,5 +29,7 @@
 #++
 
 class GroupUser < ApplicationRecord
-  self.table_name = "#{table_name_prefix}group_users#{table_name_suffix}"
+  belongs_to :group,
+             touch: true
+  belongs_to :user
 end

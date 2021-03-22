@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -29,7 +30,7 @@
 
 ENV['RAILS_ENV'] = 'test'
 
-require File.expand_path('../../config/environment', __FILE__)
+require File.expand_path('../config/environment', __dir__)
 
 require 'fileutils'
 require 'rspec/mocks'
@@ -51,6 +52,10 @@ RSpec.configure do |config|
 
   config.use_transactional_fixtures = true
   config.use_instantiated_fixtures  = false
+
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
 
   config.include LegacyAssertionsAndHelpers
   config.include ActiveSupport::Testing::Assertions

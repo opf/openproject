@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {States} from 'core-components/states.service';
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { States } from 'core-components/states.service';
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
 
 @Component({
   selector: 'attachment-list-item',
@@ -41,7 +41,7 @@ export class AttachmentListItemComponent {
   @Input() public resource:HalResource;
   @Input() public attachment:any;
   @Input() public index:any;
-  @Input() destroyImmediately:boolean = true;
+  @Input() destroyImmediately = true;
 
   @Output() public removeAttachment = new EventEmitter<void>();
 

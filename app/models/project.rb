@@ -43,69 +43,16 @@ class Project < ApplicationRecord
   RESERVED_IDENTIFIERS = %w(new).freeze
 
   has_many :members, -> {
+    # TODO: check whether this should
+    # remaint to be limited to User only
     includes(:principal, :roles)
-      .where(
-        "#{Principal.table_name}.type='User' AND (
-          #{User.table_name}.status=#{Principal::STATUSES[:active]} OR
-          #{User.table_name}.status=#{Principal::STATUSES[:invited]}
-        )"
-      )
+      .merge(Principal.not_locked.user)
       .references(:principal, :roles)
   }
 
-  has_many :possible_assignee_members, -> {
-    includes(:principal, :roles)
-      .where(Project.possible_principles_condition)
-      .references(:principals, :roles)
-  }, class_name: 'Member'
-  # Read only
-  has_many :possible_assignees,
-           ->(object) {
-             # Have to reference members and roles again although
-             # possible_assignee_members does already specify it to be able to use the
-             # Project.possible_principles_condition there
-             #
-             # The .where(members_users: { project_id: object.id })
-             # part is an optimization preventing to have all the members joined
-             includes(members: :roles)
-               .where(members_users: { project_id: object.id })
-               .references(:roles)
-               .merge(Principal.order_by_name)
-           },
-           through: :possible_assignee_members,
-           source: :principal
-  has_many :possible_responsible_members, -> {
-    includes(:principal, :roles)
-      .where(Project.possible_principles_condition)
-      .references(:principals, :roles)
-  }, class_name: 'Member'
-  # Read only
-  has_many :possible_responsibles,
-           ->(object) {
-             # Have to reference members and roles again although
-             # possible_responsible_members does already specify it to be able to use
-             # the Project.possible_principles_condition there
-             #
-             # The .where(members_users: { project_id: object.id })
-             # part is an optimization preventing to have all the members joined
-             includes(members: :roles)
-               .where(members_users: { project_id: object.id })
-               .references(:roles)
-               .merge(Principal.order_by_name)
-           },
-           through: :possible_responsible_members,
-           source: :principal
   has_many :memberships, class_name: 'Member'
   has_many :member_principals,
-           -> {
-             includes(:principal)
-               .references(:principals)
-               .where("#{Principal.table_name}.type='Group' OR " +
-               "(#{Principal.table_name}.type='User' AND " +
-               "(#{Principal.table_name}.status=#{Principal::STATUSES[:active]} OR " +
-               "#{Principal.table_name}.status=#{Principal::STATUSES[:registered]} OR " +
-               "#{Principal.table_name}.status=#{Principal::STATUSES[:invited]}))")
-           },
+           -> { not_locked },
            class_name: 'Member'
   has_many :users, through: :members, source: :principal
   has_many :principals, through: :member_principals, source: :principal
@@ -187,8 +134,8 @@ class Project < ApplicationRecord
   scope :newest, -> { order(created_at: :desc) }
   scope :active, -> { where(active: true) }
 
-  scope_classes Projects::Scopes::ActivatedTimeActivity,
-                Projects::Scopes::VisibleWithActivatedTimeActivity
+  scopes :activated_time_activity,
+         :visible_with_activated_time_activity
 
   def visible?(user = User.current)
     active? and (public? or user.admin? or user.member_of?(self))
@@ -211,10 +158,6 @@ class Project < ApplicationRecord
     visible.like(query)
   end
 
-  def possible_members(criteria, limit)
-    Principal.active_or_registered.like(criteria).not_in_project(self).limit(limit)
-  end
-
   def add_member(user, roles)
     members.build.tap do |m|
       m.principal = user
@@ -230,7 +173,7 @@ class Project < ApplicationRecord
   # Returns all projects the user is allowed to see.
   #
   # Employs the :view_project permission to perform the
-  # authorization check as the permissino is public, meaning it is granted
+  # authorization check as the permission is public, meaning it is granted
   # to everybody having at least one role in a project regardless of the
   # role's permissions.
   def self.visible_by(user = User.current)
@@ -347,7 +290,7 @@ class Project < ApplicationRecord
   end
 
   # Returns an array of all custom fields enabled for project issues
-  # (explictly associated custom fields and custom fields enabled for all projects)
+  # (explicitly associated custom fields and custom fields enabled for all projects)
   #
   # Supports the :include option.
   def all_work_package_custom_fields(options = {})
@@ -368,8 +311,8 @@ class Project < ApplicationRecord
     self
   end
 
-  def <=>(project)
-    name.downcase <=> project.name.downcase
+  def <=>(other)
+    name.downcase <=> other.name.downcase
   end
 
   def to_s
@@ -396,7 +339,11 @@ class Project < ApplicationRecord
   def enabled_module_names=(module_names)
     if module_names&.is_a?(Array)
       module_names = module_names.map(&:to_s).reject(&:blank?)
-      self.enabled_modules = module_names.map { |name| enabled_modules.detect { |mod| mod.name == name } || EnabledModule.new(name: name) }
+      self.enabled_modules = module_names.map do |name|
+        enabled_modules.detect do |mod|
+          mod.name == name
+        end || EnabledModule.new(name: name)
+      end
     else
       enabled_modules.clear
     end
@@ -518,21 +465,6 @@ class Project < ApplicationRecord
     @actions_allowed ||= allowed_permissions
                          .map { |permission| OpenProject::AccessControl.allowed_actions(permission) }
                          .flatten
-  end
-
-  def self.possible_principles_condition
-    condition = if Setting.work_package_group_assignment?
-                  ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group']
-                else
-                  ["(#{Principal.table_name}.type=?)", 'User']
-                end
-
-    condition[0] += " AND (#{User.table_name}.status=? OR #{User.table_name}.status=?) AND roles.assignable = ?"
-    condition << Principal::STATUSES[:active]
-    condition << Principal::STATUSES[:invited]
-    condition << true
-
-    sanitize_sql_array condition
   end
 
   protected

@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component} from "@angular/core";
-import {SelectEditFieldComponent, ValueOption} from './select-edit-field.component';
-import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/helpers/rxjs/debounced-input-switchmap";
+import { Component } from "@angular/core";
+import { SelectEditFieldComponent, ValueOption } from './select-edit-field.component';
+import { ApiV3FilterBuilder } from "core-components/api/api-v3/api-v3-filter-builder";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { DebouncedRequestSwitchmap, errorNotificationHandler } from "core-app/helpers/rxjs/debounced-input-switchmap";
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -69,7 +69,7 @@ export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
     let filterParams = super.allowedValuesFilter(query);
 
     if (query) {
-      let filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
+      const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
 
       filters.add('subjectOrId', '**', [query]);
 
@@ -82,8 +82,8 @@ export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
   protected mapAllowedValue(value:WorkPackageResource|ValueOption):ValueOption {
     if ((value as WorkPackageResource).id) {
 
-      let prefix = (value as WorkPackageResource).type ? `${(value as WorkPackageResource).type.name} ` : '';
-      let suffix = (value as WorkPackageResource).subject || value.name;
+      const prefix = (value as WorkPackageResource).type ? `${(value as WorkPackageResource).type.name} ` : '';
+      const suffix = (value as WorkPackageResource).subject || value.name;
 
       return {
         name: `${prefix}#${ (value as WorkPackageResource).id } ${suffix}`,

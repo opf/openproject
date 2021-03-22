@@ -32,26 +32,25 @@ describe ::Users::DeleteService, type: :model do
   let(:input_user) { FactoryBot.build_stubbed(:user) }
   let(:project) { FactoryBot.build_stubbed(:project) }
 
-  let(:instance) { described_class.new(input_user, actor) }
+  let(:instance) { described_class.new(model: input_user, user: actor) }
 
   subject { instance.call }
 
   shared_examples 'deletes the user' do
     it do
       expect(input_user).to receive(:lock!)
-      expect(DeleteUserJob).to receive(:perform_later).with(input_user)
-      expect(subject).to eq true
+      expect(Principals::DeleteJob).to receive(:perform_later).with(input_user)
+      expect(subject).to be_success
     end
   end
 
   shared_examples 'does not delete the user' do
     it do
       expect(input_user).not_to receive(:lock!)
-      expect(DeleteUserJob).not_to receive(:perform_later)
-      expect(subject).to eq false
+      expect(Principals::DeleteJob).not_to receive(:perform_later)
+      expect(subject).not_to be_success
     end
   end
-
 
   context 'if deletion by admins allowed', with_settings: { users_deletable_by_admins: true } do
     context 'with admin user' do
@@ -76,8 +75,8 @@ describe ::Users::DeleteService, type: :model do
       it 'performs deletion' do
         actor.run_given do
           expect(input_user).to receive(:lock!)
-          expect(DeleteUserJob).to receive(:perform_later).with(input_user)
-          expect(subject).to eq true
+          expect(Principals::DeleteJob).to receive(:perform_later).with(input_user)
+          expect(subject).to be_success
         end
       end
     end

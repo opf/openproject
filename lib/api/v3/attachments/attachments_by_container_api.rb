@@ -132,12 +132,12 @@ module API
 
           def with_handled_create_errors
             yield
-          rescue ActiveRecord::RecordInvalid => error
-            raise ::API::Errors::ErrorBase.create_and_merge_errors(error.record.errors)
-          rescue StandardError => error
-            log_attachment_saving_error(error)
+          rescue ActiveRecord::RecordInvalid => e
+            raise ::API::Errors::ErrorBase.create_and_merge_errors(e.record.errors)
+          rescue StandardError => e
+            log_attachment_saving_error(e)
             message =
-              if error&.class&.to_s == 'Errno::EACCES'
+              if e&.class&.to_s == 'Errno::EACCES'
                 I18n.t('api_v3.errors.unable_to_create_attachment_permissions')
               else
                 I18n.t('api_v3.errors.unable_to_create_attachment')

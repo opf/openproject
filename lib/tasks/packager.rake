@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -29,7 +30,6 @@
 
 require 'open3'
 namespace :packager do
-
   def shell_setup(cmd, raise_on_error: true)
     out_and_err, status = Open3.capture2e(ENV['APP_NAME'], *cmd)
 
@@ -47,7 +47,6 @@ namespace :packager do
   # avoids to load the environment multiple times.
   # Removes older assets
   task postinstall: [:environment, 'assets:clean', 'setup:scm'] do
-
     # We need to precompile assets when either
     # 1. packager requested it
     # 2. user requested frontend compilation with RECOMPILE_ANGULAR_ASSETS

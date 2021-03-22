@@ -32,10 +32,9 @@
 module OpenProject
   module Patches
     module DeliveryJob
-      #include ::JobStatus::ApplicationJobWithStatus
+      # include ::JobStatus::ApplicationJobWithStatus
     end
   end
 end
 
-ActionMailer::MailDeliveryJob.send(:include, ::JobStatus::ApplicationJobWithStatus)
-
+ActionMailer::MailDeliveryJob.include ::JobStatus::ApplicationJobWithStatus

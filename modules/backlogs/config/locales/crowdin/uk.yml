@@ -99,6 +99,7 @@ uk:
   backlogs_empty_title: "Не визначено жодних версій для використання у backlogs"
   backlogs_empty_action_text: "Щоб розпочати роботу з backlogs, створіть нову версію та призначте її у стовпці backlogs."
   button_edit_wiki: "Редагувати wiki-сторінку"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
   error_intro_plural: "Сталися такі помилки:"
   error_intro_singular: "Сталася така помилка:"
   error_outro: "Виправте наведені вище помилки перед повторним поданням."

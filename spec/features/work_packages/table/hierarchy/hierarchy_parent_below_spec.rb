@@ -65,7 +65,6 @@ describe 'Work Package table hierarchy parent below', js: true do
       wp_table.visit_query query
       wp_table.expect_work_package_listed(child, parent, grandparent)
 
-
       # Double order result from regression
       # wp_table.expect_work_package_order(child.id, parent.id, grandparent.id, grandparent.id)
       wp_table.expect_work_package_order(grandparent.id, parent.id, child.id)
@@ -157,12 +156,12 @@ describe 'Work Package table hierarchy parent below', js: true do
       wp_table.expect_work_package_listed(child, parent)
 
       expect(page).to have_selector('.wp-table--hierarchy-indicator-icon')
-      
+
       split_page = wp_table.open_split_view(parent)
       split_page.visit_tab!("relations")
       relations.remove_child(child)
       loading_indicator_saveguard
-      
+
       expect(page).to have_no_selector('.wp-table--hierarchy-indicator-icon')
     end
   end

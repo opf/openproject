@@ -39,8 +39,8 @@ shared_examples_for 'wiki page contract' do
   end
   let(:page_wiki) { FactoryBot.build_stubbed(:wiki) }
   let(:page_author) { current_user }
-  let(:page_title) { 'Wiki title'}
-  let(:page_slug) { 'wiki slug'}
+  let(:page_title) { 'Wiki title' }
+  let(:page_slug) { 'wiki slug' }
   let(:page_protected) { false }
   let(:page_parent) { nil }
   let(:page_text) { 'Wiki text' }

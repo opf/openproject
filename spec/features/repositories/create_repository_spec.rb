@@ -79,14 +79,16 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
   describe 'with submitted vendor form' do
     before do
       settings_page.visit_repository_settings
+      SeleniumHubWaiter.wait
       find("option[value='#{vendor}']").select_option
+      SeleniumHubWaiter.wait
     end
 
     shared_examples 'has only the type which is selected' do |type, vendor|
       it 'should display one type' do
         # There seems to be an issue with how the
         # select is accessed after the async form loading
-        # Thus we explitly find it here to allow some wait
+        # Thus we explicitly find it here to allow some wait
         # even though it is available in let
         scm_vendor = find(scm_vendor_input_css)
         expect(scm_vendor.value).to eq(vendor)

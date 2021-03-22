@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -69,19 +70,20 @@ describe OpenProject::ContentTypeDetector do
   end
 
   it 'returns content type of file if it is an acceptable type' do
-    allow(MIME::Types).to receive(:type_for).and_return([MIME::Type.new('application/mp4'), MIME::Type.new('video/mp4'), MIME::Type.new('audio/mp4')])
+    allow(MIME::Types).to receive(:type_for).and_return([MIME::Type.new('application/mp4'), MIME::Type.new('video/mp4'),
+                                                         MIME::Type.new('audio/mp4')])
     allow(::Open3).to receive(:capture2).and_return(['video/mp4', 0])
     @filename = 'my_file.mp4'
     assert_equal 'video/mp4', OpenProject::ContentTypeDetector.new(@filename).detect
   end
 
   it 'returns the default when exitcode > 0' do
-    allow(MIME::Types).to receive(:type_for).and_return([MIME::Type.new('application/mp4'), MIME::Type.new('video/mp4'), MIME::Type.new('audio/mp4')])
+    allow(MIME::Types).to receive(:type_for).and_return([MIME::Type.new('application/mp4'), MIME::Type.new('video/mp4'),
+                                                         MIME::Type.new('audio/mp4')])
     allow(::Open3).to receive(:capture2).and_return(['', 1])
     @filename = 'my_file.mp4'
     assert_equal 'application/binary', OpenProject::ContentTypeDetector.new(@filename).detect
   end
-
 
   it 'finds the right type in the list via the file command' do
     @filename = "#{Dir.tmpdir}/something.hahalolnotreal"

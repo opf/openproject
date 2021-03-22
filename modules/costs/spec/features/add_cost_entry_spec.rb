@@ -29,55 +29,59 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
 describe 'Work Package cost fields', type: :feature, js: true do
-  let(:type_task) { FactoryBot.create(:type_task) }
-  let!(:status) { FactoryBot.create(:status, is_default: true) }
-  let!(:priority) { FactoryBot.create(:priority, is_default: true) }
-  let!(:project) {
+  shared_let(:type_task) { FactoryBot.create(:type_task) }
+  shared_let(:status) { FactoryBot.create(:status, is_default: true) }
+  shared_let(:priority) { FactoryBot.create(:priority, is_default: true) }
+  shared_let(:project) do
     FactoryBot.create(:project, types: [type_task])
-  }
-  let(:user) { FactoryBot.create :user,
-                                 member_in_project: project,
-                                 member_through_role: role }
-  let(:role) { FactoryBot.create :role, permissions: [:view_work_packages,
-                                                      :delete_work_packages,
-                                                      :log_costs,
-                                                      :view_cost_rates,
-                                                      :edit_cost_entries,
-                                                      :view_cost_entries] }
-  let!(:cost_type1) {
+  end
+  shared_let(:role) do
+    FactoryBot.create :role, permissions: %i[view_work_packages
+                                             delete_work_packages
+                                             log_costs
+                                             view_cost_rates
+                                             edit_cost_entries
+                                             view_cost_entries]
+  end
+  shared_let(:user) do
+    FactoryBot.create :user,
+                      member_in_project: project,
+                      member_through_role: role
+  end
+  shared_let(:cost_type1) do
     type = FactoryBot.create :cost_type, name: 'A', unit: 'A single', unit_plural: 'A plural'
     FactoryBot.create :cost_rate, cost_type: type, rate: 1.00
     type
-  }
+  end
 
-  let!(:cost_type2) {
+  shared_let(:cost_type2) do
     type = FactoryBot.create :cost_type, name: 'B', unit: 'B single', unit_plural: 'B plural'
     FactoryBot.create :cost_rate, cost_type: type, rate: 2.00
     type
-  }
+  end
 
-  let!(:work_package) { FactoryBot.create :work_package, project: project, status: status, type: type_task }
-  let(:full_view) { ::Pages::FullWorkPackage.new(work_package, project) }
+  shared_let(:work_package) { FactoryBot.create :work_package, project: project, status: status, type: type_task }
+  shared_let(:full_view) { ::Pages::FullWorkPackage.new(work_package, project) }
 
   before do
-    login_as(user)
+    login_as user
   end
 
   it 'does not show read-only fields' do
     full_view.visit!
     # Go to add cost entry page
+    SeleniumHubWaiter.wait
     find('#action-show-more-dropdown-menu .button').click
     find('.menu-item', text: 'Log unit costs').click
 
+    SeleniumHubWaiter.wait
     # Set single value, should update suffix
     select 'A', from: 'cost_entry_cost_type_id'
     fill_in 'cost_entry_units', with: '1'
-    sleep 1
     expect(page).to have_selector('#cost_entry_unit_name', text: 'A single')
     expect(page).to have_selector('#cost_entry_costs', text: '1.00 EUR')
 
     fill_in 'cost_entry_units', with: '2'
-    sleep 1
     expect(page).to have_selector('#cost_entry_unit_name', text: 'A plural')
     expect(page).to have_selector('#cost_entry_costs', text: '2.00 EUR')
 
@@ -88,6 +92,7 @@ describe 'Work Package cost fields', type: :feature, js: true do
 
     # Override costs
     find('#cost_entry_costs').click
+    SeleniumHubWaiter.wait
     fill_in 'cost_entry_costs_edit', with: '15.52'
 
     click_on 'Save'
@@ -112,9 +117,11 @@ describe 'Work Package cost fields', type: :feature, js: true do
       full_view.visit!
 
       # Go to add cost entry page
+      SeleniumHubWaiter.wait
       find('#action-show-more-dropdown-menu .button').click
       find('.menu-item', text: I18n.t(:button_log_costs)).click
 
+      SeleniumHubWaiter.wait
       fill_in 'cost_entry_units', with: '1,42'
       select 'B', from: 'cost_entry_cost_type_id'
       expect(page).to have_selector('#cost_entry_unit_name', text: 'B plural')
@@ -122,6 +129,7 @@ describe 'Work Package cost fields', type: :feature, js: true do
 
       # Override costs
       find('#cost_entry_costs').click
+      SeleniumHubWaiter.wait
       fill_in 'cost_entry_costs_edit', with: '1.350,25'
 
       click_on I18n.t(:button_save)
@@ -139,9 +147,11 @@ describe 'Work Package cost fields', type: :feature, js: true do
       expect(page).to have_selector('#cost_entry_costs', text: '1.350,25 EUR')
 
       # Toggle the cost button
+      SeleniumHubWaiter.wait
       find('#cost_entry_costs').click
 
       # Update the costs in german locale
+      SeleniumHubWaiter.wait
       fill_in 'cost_entry_costs_edit', with: '55.000,55'
       click_on I18n.t(:button_save)
 
@@ -150,6 +160,29 @@ describe 'Work Package cost fields', type: :feature, js: true do
       expect(entry.units).to eq(1.42)
       expect(entry.costs).to eq(2.84)
       expect(entry.real_costs).to eq(55000.55)
+    end
+  end
+
+  context 'with an additional placeholder user in the project' do
+    let!(:placeholder_user) do
+      FactoryBot.create :placeholder_user,
+                        member_in_project: project,
+                        member_through_role: role
+    end
+
+    it 'does not allow to select them (Regression #36353)' do
+      expect(placeholder_user).to be_present
+      expect(Principal.possible_assignee(project).to_a).to include placeholder_user
+      full_view.visit!
+
+      # Go to add cost entry page
+      SeleniumHubWaiter.wait
+      find('#action-show-more-dropdown-menu .button').click
+      find('.menu-item', text: I18n.t(:button_log_costs)).click
+
+      SeleniumHubWaiter.wait
+      expect(page).to have_no_selector('#cost_entry_user_id option', text: placeholder_user.name, visible: :all)
+      expect(page).to have_selector('#cost_entry_user_id option', text: user.name, visible: :all)
     end
   end
 end

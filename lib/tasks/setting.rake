@@ -35,7 +35,7 @@ namespace :setting do
       if setting.nil?
         Setting.create! name: key, value: value
       else
-        setting.update_attributes! value: value
+        setting.update! value: value
       end
     end
   end

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -98,7 +99,7 @@ module OpenProject
                calculated_type_matches.first
              else
                type_from_file_command || SENSIBLE_DEFAULT
-      end.to_s
+             end.to_s
     end
 
     private

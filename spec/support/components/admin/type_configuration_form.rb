@@ -128,6 +128,8 @@ module Components
       end
 
       def add_query_group(name, relation_filter, expect: true)
+        SeleniumHubWaiter.wait
+
         add_button_dropdown.click
         add_table_button.click
 
@@ -166,6 +168,8 @@ module Components
       end
 
       def edit_query_group(name)
+        SeleniumHubWaiter.wait
+
         group = find_group(name)
         group.find('.type-form-query-group--edit-button').click
       end
@@ -207,10 +211,10 @@ module Components
       end
 
       def expect_no_attribute(attribute, group)
-        expect(find_group(group)).not_to have_selector("#{attribute_selector(attribute)}")
+        expect(find_group(group)).not_to have_selector(attribute_selector(attribute).to_s)
       end
 
-      def expect_group(label, translation, *attributes)
+      def expect_group(_label, translation, *attributes)
         expect(find_group(translation)).to have_selector(".group-edit-handler", text: translation.upcase)
 
         within find_group(translation) do

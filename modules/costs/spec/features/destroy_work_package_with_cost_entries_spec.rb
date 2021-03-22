@@ -37,10 +37,10 @@ describe 'Deleting time entries', type: :feature, js: true do
   end
   let(:role) do
     FactoryBot.create :role,
-                      permissions: [:view_work_packages,
-                                    :delete_work_packages,
-                                    :edit_cost_entries,
-                                    :view_cost_entries]
+                      permissions: %i[view_work_packages
+                                      delete_work_packages
+                                      edit_cost_entries
+                                      view_cost_entries]
   end
   let(:work_package) { FactoryBot.create :work_package }
   let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
@@ -74,6 +74,7 @@ describe 'Deleting time entries', type: :feature, js: true do
     wp_page = Pages::FullWorkPackage.new(work_package)
     wp_page.visit!
 
+    SeleniumHubWaiter.wait
     find('#action-show-more-dropdown-menu').click
 
     click_link(I18n.t('js.button_delete'))
@@ -81,8 +82,8 @@ describe 'Deleting time entries', type: :feature, js: true do
     destroy_modal.expect_listed(work_package)
     destroy_modal.confirm_deletion
 
+    SeleniumHubWaiter.wait
     choose 'to_do_action_reassign'
-    sleep 1
     fill_in 'to_do_reassign_to_id', with: other_work_package.id
 
     click_button(I18n.t('button_delete'))

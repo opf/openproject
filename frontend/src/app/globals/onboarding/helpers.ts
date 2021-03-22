@@ -19,9 +19,9 @@ export function waitForElement(element:string, container:string, execFunction:Fu
 }
 
 export function demoProjectsLinks() {
-  let demoProjects = [];
-  let demoProjectsLink = jQuery(".widget-box.welcome a:contains(" + demoProjectName + ")");
-  let scrumDemoProjectsLink = jQuery(".widget-box.welcome a:contains(" + scrumDemoProjectName + ")");
+  const demoProjects = [];
+  const demoProjectsLink = jQuery(".widget-box.welcome a:contains(" + demoProjectName + ")");
+  const scrumDemoProjectsLink = jQuery(".widget-box.welcome a:contains(" + scrumDemoProjectName + ")");
 
   if (demoProjectsLink.length) {
     demoProjects.push(demoProjectsLink);

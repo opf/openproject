@@ -37,75 +37,75 @@ describe 'OpenProject child pages macro' do
     # no-op
   end
 
-  let(:project) {
+  let(:project) do
     FactoryBot.create :valid_project,
                       enabled_module_names: %w[wiki]
-  }
-  let(:member_project) {
+  end
+  let(:member_project) do
     FactoryBot.create :valid_project,
                       identifier: 'member-project',
                       enabled_module_names: %w[wiki]
-  }
-  let(:invisible_project) {
+  end
+  let(:invisible_project) do
     FactoryBot.create :valid_project,
                       identifier: 'other-project',
                       enabled_module_names: %w[wiki]
-  }
+  end
   let(:role) { FactoryBot.create(:role, permissions: [:view_wiki_pages]) }
-  let(:user) {
+  let(:user) do
     FactoryBot.create(:user, member_in_projects: [project, member_project], member_through_role: role)
-  }
+  end
 
-  let(:current_page) {
+  let(:current_page) do
     FactoryBot.create :wiki_page,
                       title: 'Current page',
                       wiki: project.wiki,
                       content: FactoryBot.build(:wiki_content, text: input)
-  }
+  end
 
-  let(:middle_page) {
+  let(:middle_page) do
     FactoryBot.create :wiki_page,
                       title: 'Node from same project',
                       wiki: project.wiki,
                       parent_id: current_page.id,
                       content: FactoryBot.build(:wiki_content, text: '# Node Page from same project')
-  }
+  end
 
-  let(:node_page_invisible_project) {
+  let(:node_page_invisible_project) do
     FactoryBot.create :wiki_page,
                       title: 'Node page from invisible project',
                       wiki: invisible_project.wiki,
                       content: FactoryBot.build(:wiki_content, text: '# Page from invisible project')
-  }
+  end
 
-  let(:leaf_page) {
+  let(:leaf_page) do
     FactoryBot.create :wiki_page,
                       title: 'Leaf page from same project',
                       parent_id: middle_page.id,
                       wiki: project.wiki,
                       content: FactoryBot.build(:wiki_content, text: '# Leaf page from same project')
-  }
+  end
 
-  let(:leaf_page_invisible_project) {
+  let(:leaf_page_invisible_project) do
     FactoryBot.create :wiki_page,
                       title: 'Leaf page from invisible project',
                       parent_id: node_page_invisible_project.id,
                       wiki: invisible_project.wiki,
                       content: FactoryBot.build(:wiki_content, text: '# Leaf page from invisible project')
-  }
+  end
 
-  let(:leaf_page_member_project) {
+  let(:leaf_page_member_project) do
     FactoryBot.create :wiki_page,
                       title: 'Leaf page from member project',
                       wiki: member_project.wiki,
                       content: FactoryBot.build(:wiki_content, text: '# Leaf page from member project')
-  }
+  end
 
   before do
     login_as(user)
   end
 
-  let(:input) { }
+  let(:input) {}
   subject { format_text(current_page.content, :text) }
 
   before do
@@ -173,7 +173,9 @@ describe 'OpenProject child pages macro' do
   end
 
   context 'when referencing page from a member project' do
-    let(:input) { '<macro class="child_pages" data-page="member-project:leaf-page-from-member-project" data-include-parent="true"></macro>' }
+    let(:input) do
+      '<macro class="child_pages" data-page="member-project:leaf-page-from-member-project" data-include-parent="true"></macro>'
+    end
     before { leaf_page_member_project }
     it { is_expected.to match(leaf_page_member_project.title) }
   end

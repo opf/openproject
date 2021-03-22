@@ -29,10 +29,12 @@
 #++
 
 module Versions::Scopes
-  class OrderBySemverName
-    class << self
-      def fetch
-        Version.reorder semver_sql, :name
+  module OrderBySemverName
+    extend ActiveSupport::Concern
+
+    class_methods do
+      def order_by_semver_name
+        reorder semver_sql, :name
       end
 
       # Returns an sql for ordering which:

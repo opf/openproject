@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Ng2StateDeclaration, UIRouter} from "@uirouter/angular";
-import {BoardsRootComponent} from "core-app/modules/boards/boards-root/boards-root.component";
-import {BoardsIndexPageComponent} from "core-app/modules/boards/index-page/boards-index-page.component";
-import {BoardPartitionedPageComponent} from "core-app/modules/boards/board/board-partitioned-page/board-partitioned-page.component";
-import {BoardListContainerComponent} from "core-app/modules/boards/board/board-partitioned-page/board-list-container.component";
-import {makeSplitViewRoutes} from "core-app/modules/work_packages/routing/split-view-routes.template";
-import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
+import { Ng2StateDeclaration, UIRouter } from "@uirouter/angular";
+import { BoardsRootComponent } from "core-app/modules/boards/boards-root/boards-root.component";
+import { BoardsIndexPageComponent } from "core-app/modules/boards/index-page/boards-index-page.component";
+import { BoardPartitionedPageComponent } from "core-app/modules/boards/board/board-partitioned-page/board-partitioned-page.component";
+import { BoardListContainerComponent } from "core-app/modules/boards/board/board-partitioned-page/board-list-container.component";
+import { makeSplitViewRoutes } from "core-app/modules/work_packages/routing/split-view-routes.template";
+import { WorkPackageSplitViewComponent } from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 
 export const menuItemClass = 'board-view-menu-item';
 

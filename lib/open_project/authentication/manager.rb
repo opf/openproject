@@ -61,7 +61,7 @@ module OpenProject
         def update!(opts, &block)
           self.store = opts[:store] if opts.include? :store
           self.realm = opts[:realm] if opts.include? :realm
-          self.strategies = block.call self.strategies if block_given?
+          self.strategies = block.call strategies if block_given?
         end
       end
 

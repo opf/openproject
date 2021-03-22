@@ -26,17 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {input} from 'reactivestates';
-import {HelpTextResource} from 'core-app/modules/hal/resources/help-text-resource';
-import {Injectable} from '@angular/core';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {Observable} from "rxjs";
-import {APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {take} from "rxjs/operators";
+import { input } from 'reactivestates';
+import { HelpTextResource } from 'core-app/modules/hal/resources/help-text-resource';
+import { Injectable } from '@angular/core';
+import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { Observable } from "rxjs";
+import { APIv3ResourceCollection } from "core-app/modules/apiv3/paths/apiv3-resource";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { take } from "rxjs/operators";
 
 @Injectable({ providedIn: 'root' })
 export class AttributeHelpTextsService {
@@ -52,13 +52,13 @@ export class AttributeHelpTextsService {
    * @param scope
    */
   public require(attribute:string, scope:string):Promise<HelpTextResource|undefined> {
-      this.load();
+    this.load();
 
-      return new Promise<HelpTextResource|undefined>((resolve, reject) => {
-        this.helpTexts
-          .valuesPromise()
-          .then(() => resolve(this.find(attribute, scope)));
-       });
+    return new Promise<HelpTextResource|undefined>((resolve, reject) => {
+      this.helpTexts
+        .valuesPromise()
+        .then(() => resolve(this.find(attribute, scope)));
+    });
   }
 
   /**

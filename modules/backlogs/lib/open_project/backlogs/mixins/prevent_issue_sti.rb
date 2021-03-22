@@ -35,7 +35,7 @@ module OpenProject::Backlogs::Mixins
     end
 
     # Overrides ActiveRecord::Inheritance::ClassMethods#find_sti_classes
-    # so that stories are instantiated correctly despite sti_name beeing "WorkPackage"
+    # so that stories are instantiated correctly despite sti_name being "WorkPackage"
     def find_sti_class(type_name)
       type_name = to_s if type_name == 'WorkPackage'
 

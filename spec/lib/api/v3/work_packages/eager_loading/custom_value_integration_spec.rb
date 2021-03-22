@@ -157,7 +157,6 @@ describe ::API::V3::WorkPackages::EagerLoading::CustomValue do
     end
   end
 
-
   describe '#usages returning an is_for_all custom field within multiple projects (Regression #28452)' do
     let!(:for_all_type_cf) do
       FactoryBot.create(:list_wp_custom_field, is_for_all: true).tap do |cf|

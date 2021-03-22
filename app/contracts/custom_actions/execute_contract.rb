@@ -29,7 +29,7 @@
 #++
 
 module CustomActions
-  class ExecuteContract < ModelContract
+  class ExecuteContract < BaseContract
     property :lock_version
     property :work_package_id
 

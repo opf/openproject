@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   scope :admin do
     namespace :openid_connect do
-      resources :providers, only: [:index, :new, :create, :edit, :update, :destroy]
+      resources :providers, only: %i[index new create edit update destroy]
     end
   end
 end

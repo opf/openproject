@@ -51,7 +51,7 @@ module OpenProject::TextFormatting
       include OpenProject::StaticRouting::UrlHelpers
 
       def self.regexp
-        /(!)?(\[\[([^\]\n\|]+)(\|([^\]\n\|]+))?\]\])/
+        /(!)?(\[\[([^\]\n|]+)(\|([^\]\n|]+))?\]\])/
       end
 
       def self.process_match(m, matched_string, context)
@@ -96,7 +96,7 @@ module OpenProject::TextFormatting
         @context = context
 
         # Check if linking project exists
-        if page =~ /\A([^\:]+)\:(.*)\z/
+        if page =~ /\A([^:]+):(.*)\z/
           @project = Project.find_by(identifier: $1) || Project.find_by(name: $1)
           @page = $2
           @title ||= $1 if @page.blank?

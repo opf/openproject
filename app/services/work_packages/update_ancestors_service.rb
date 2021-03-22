@@ -177,7 +177,7 @@ class WorkPackages::UpdateAncestorsService
   def leaves_for_work_package(work_package)
     @leaves ||= Hash.new do |hash, wp|
       hash[wp] = related_for_work_package(wp, :leaves).each do |leaf|
-        # Mimick work package by implementing the closed? interface
+        # Mimic work package by implementing the closed? interface
         leaf.send(:'closed?=', leaf.is_closed)
       end
     end
@@ -234,7 +234,7 @@ class WorkPackages::UpdateAncestorsService
   end
 
   def selected_descendants_attributes
-    # By having the id in here, we can avoid DISTINCT queries sqashing duplicate values
+    # By having the id in here, we can avoid DISTINCT queries squashing duplicate values
     %i(id estimated_hours)
   end
 

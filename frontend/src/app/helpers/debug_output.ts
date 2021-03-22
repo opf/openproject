@@ -1,4 +1,4 @@
-import {environment} from '../../environments/environment';
+import { environment } from '../../environments/environment';
 
 /**
  * Execute the callback when DEBUG is defined

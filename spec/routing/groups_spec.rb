@@ -45,9 +45,9 @@ describe 'groups routes', type: :routing do
   }
 
   it {
-    is_expected.to route(:get, '/admin/groups/4').to(controller: 'groups',
-                                                     action: 'show',
-                                                     id: '4')
+    is_expected.to route(:get, '/groups/4').to(controller: 'groups',
+                                               action: 'show',
+                                               id: '4')
   }
 
   it {

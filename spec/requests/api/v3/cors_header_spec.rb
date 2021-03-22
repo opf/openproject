@@ -38,10 +38,8 @@ describe 'API v3 CORS headers',
 
   context 'with setting enabled',
           with_settings: { apiv3_cors_enabled: true } do
-
     context 'with allowed origin set to specific values',
             with_settings: { apiv3_cors_origins: %w[https://foo.example.com bla.test] } do
-
       it 'outputs CORS headers', :aggregate_failures do
         options '/api/v3',
                 nil,

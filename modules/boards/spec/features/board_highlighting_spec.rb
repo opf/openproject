@@ -42,17 +42,17 @@ describe 'Work Package boards spec', type: :feature, js: true do
 
   let!(:wp) do
     FactoryBot.create(:work_package,
-                       project: project,
-                       type: type,
-                       priority: priority,
-                       status: open_status)
+                      project: project,
+                      type: type,
+                      priority: priority,
+                      status: open_status)
   end
   let!(:wp2) do
     FactoryBot.create(:work_package,
-                       project: project,
-                       type: type2,
-                       priority: priority2,
-                       status: open_status)
+                      project: project,
+                      type: type2,
+                      priority: priority2,
+                      status: open_status)
   end
 
   let!(:priority) { FactoryBot.create :priority, color: color }

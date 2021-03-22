@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectorRef, Component, ElementRef, Input, OnInit} from '@angular/core';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {filter} from "rxjs/operators";
-import {States} from "core-components/states.service";
-import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import { ChangeDetectorRef, Component, ElementRef, Input, OnInit } from '@angular/core';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { filter } from "rxjs/operators";
+import { States } from "core-components/states.service";
+import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Component({
   selector: 'attachment-list',
@@ -40,7 +40,7 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
 })
 export class AttachmentListComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public resource:HalResource;
-  @Input() public destroyImmediately:boolean = true;
+  @Input() public destroyImmediately = true;
 
   trackByHref = AngularTrackingHelpers.trackByHref;
 
@@ -95,7 +95,7 @@ export class AttachmentListComponent extends UntilDestroyedMixin implements OnIn
     // Keep the same object as we would otherwise loose the connection to the
     // resource's attachments array. That way, attachments added after removing one would not be displayed.
     // This is bad design.
-    let newAttachments = this.attachments.filter((el) => el !== attachment);
+    const newAttachments = this.attachments.filter((el) => el !== attachment);
     this.attachments.length = 0;
     this.attachments.push(...newAttachments);
 

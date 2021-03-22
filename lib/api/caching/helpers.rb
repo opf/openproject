@@ -14,10 +14,10 @@ module API
         # Save serialization since we're only dealing with strings here
         args[:raw] = true
 
-        json = Rails.cache.fetch(key, args) {
+        json = Rails.cache.fetch(key, args) do
           result = yield
           result.to_json
-        }
+        end
 
         ::API::Caching::StoredRepresenter.new json
       end

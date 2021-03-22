@@ -174,7 +174,7 @@ describe VersionsController, type: :controller do
 
     it { expect(response).to be_successful }
     it { expect(response).to render_template('show') }
-    it {assert_select 'h2', content: version2.name }
+    it { assert_select 'h2', content: version2.name }
 
     subject { assigns(:version) }
     it { is_expected.to eq(version2) }
@@ -191,7 +191,7 @@ describe VersionsController, type: :controller do
   end
 
   describe '#create' do
-    context 'with vaild attributes' do
+    context 'with valid attributes' do
       before do
         login_as(user)
         post :create, params: { project_id: project.id, version: { name: 'test_add_version' } }

@@ -45,7 +45,7 @@ class ConvertToMarkdown < ActiveRecord::Migration[5.1]
 
         For more information, please visit this page: https://www.openproject.org/textile-to-markdown-migration
 
-        WARNING
+      WARNING
       return
     end
 

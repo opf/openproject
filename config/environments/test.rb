@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -66,7 +67,12 @@ OpenProject::Application.configure do
   config.action_mailer.delivery_method = :test
 
   # Print deprecation notices to the stderr.
-  config.active_support.deprecation = :stderr
+  config.active_support.deprecation =
+    if ENV['CI']
+      :silence
+    else
+      :stderr
+    end
 
   # Disable asset digests
   config.assets.compile = true

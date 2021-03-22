@@ -66,9 +66,12 @@ module API
         associated_resource :project
 
         associated_resource :principal,
-                            getter: ::API::V3::Principals::AssociatedSubclassLambda.getter(:principal),
-                            setter: ::API::V3::Principals::AssociatedSubclassLambda.setter(:user),
-                            link: ::API::V3::Principals::AssociatedSubclassLambda.link(:principal, getter: 'user_id')
+                            getter: ::API::V3::Principals::PrincipalRepresenterFactory
+                                      .create_getter_lambda(:principal),
+                            setter: ::API::V3::Principals::PrincipalRepresenterFactory
+                                      .create_setter_lambda(:user),
+                            link: ::API::V3::Principals::PrincipalRepresenterFactory
+                                    .create_link_lambda(:principal, getter: 'user_id')
 
         associated_resources :roles,
                              getter: ->(*) do

@@ -79,8 +79,6 @@ OpenProject, for example, uses the projects to structure the different modules/p
 
 <div class="alert alert-info" role="alert">
 **Please note**: You have to be a [member](../members/#add-members) of a project in order to see the project and to work in a project.
-
-
 </div>
 
 ## Project Settings
@@ -121,7 +119,7 @@ Press the blue **Save** button to apply your changes.
 If you want to set a project to public, you can do so by ticking the box next to "Public" in the [project settings](project-settings) *->Information*.
 
 Setting a project to public will make it accessible to all people within your OpenProject instance. 
-(Should your instance be accessible without authentication [accessible without authentication](../../system-admin-guide/authentication/authentication-settings) this option will make the project visible to the general public outside your users, too)
+(Should your instance be [accessible without authentication](../../system-admin-guide/authentication/authentication-settings) this option will make the project visible to the general public outside your registered users, too)
 
 
 ### Create a project template
@@ -205,9 +203,11 @@ To get an overview of all your projects, select the **View all projects** option
 
 You will then get a list of all your projects in OpenProject. You can use this projects overview to **create a multi project status dashboard** if you include your own [project custom fields](../../system-admin-guide/custom-fields/custom-fields-projects/), e.g. custom status options, Accountable, Project duration, and more.
 
-With the horizontal **three dots** icons at the right of the list you can open **further features**, such as [creating a new subproject](#create-a-subproject), [project settings](project-settings), [archiving a project](#archive-a-project), [copying](#copy-a-project) and [deleting a project](#delete-a-project). Please note that you have to be a System Administrator in OpenProject to access these features.
+**Please note:** Project custom fields are a premium feature and will only be displayed here for Enterprise on-premises and Enterprise cloud.
 
-With the **arrow** you can display the **project description**.
+With the **arrow** on the right you can display the **project description**.
+
+With the horizontal **three dots** icon on the right side of the list you can open **further features**, such as [creating a new subproject](#create-a-subproject), [project settings](project-settings), [archiving a project](#archive-a-project), [copying](#copy-a-project) and [deleting a project](#delete-a-project). Please note that you have to be a System Administrator in OpenProject to access these features.
 
 ![projects-overview](image-20201005092427629.png)
 
@@ -232,11 +232,20 @@ The Gantt chart view can be configured in the [System Settings](../../system-adm
 
 ## Project overarching reports
 
-Often you need to see more than one project in your lists and want to create project overarching reports.
+Often you need to see information about more than one project at once and want to create project overarching reports.
 
 Click on the **Modules** icon with the dots in the header navigation. These are the project overarching modules in OpenProject.![overarching-modules](overarching-modules.png) 
 
-Select **Work packages** from the drop down menu. Now, you will see all work packages in the projects for which you have the required [permissions](../..//system-admin-guide/users-permissions/roles-permissions/).
+Here you will find
+
+- The [global projects list](#view-all-projects)
+- The global work packages list (see below)
+- The global news overview
+- The global time and costs module
+
+### Global work packages list
+
+Select **Work packages** from the drop down menu **Modules** in the upper right (nine squares). Now, you will see all work packages in the projects for which you have the required [permissions](../..//system-admin-guide/users-permissions/roles-permissions/).
 
 In this project overarching list, you can search, filter, group by, sort, highlight and save views the same way as in the [work package list](../work-packages/work-package-table-configuration) in each project.
 

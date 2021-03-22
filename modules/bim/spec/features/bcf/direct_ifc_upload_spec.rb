@@ -31,7 +31,7 @@ require 'spec_helper'
 describe 'direct IFC upload', type: :feature, js: true, with_direct_uploads: :redirect, with_config: { edition: 'bim' } do
   let(:user) { FactoryBot.create :admin }
   let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim] }
-  let(:ifc_fixture) { Rails.root.join('modules/bim/spec/fixtures/files/minimal.ifc') }
+  let(:ifc_fixture) { ::UploadedFile.load_from('modules/bim/spec/fixtures/files/minimal.ifc') }
 
   before do
     login_as user
@@ -42,7 +42,7 @@ describe 'direct IFC upload', type: :feature, js: true, with_direct_uploads: :re
   it 'should work' do
     visit new_bcf_project_ifc_model_path(project_id: project.identifier)
 
-    page.attach_file("file", ifc_fixture, visible: :all)
+    page.attach_file("file", ifc_fixture.path, visible: :all)
 
     click_on "Create"
 

@@ -50,8 +50,8 @@ describe API::V3::Attachments::AttachmentsAPI, type: :request do
     let(:permissions) { [] }
 
     let(:request_path) { api_v3_paths.prepare_new_attachment_upload }
-    let(:request_parts) { { metadata: metadata, file: file } }
-    let(:metadata) { { fileName: 'cat.png' }.to_json }
+    let(:request_parts) { { metadata: metadata.to_json, file: file } }
+    let(:metadata) { { fileName: 'cat.png' } }
     let(:file) { mock_uploaded_file(name: 'original-filename.txt') }
 
     before do
@@ -69,7 +69,9 @@ describe API::V3::Attachments::AttachmentsAPI, type: :request do
 
     describe 'GET /uploaded' do
       let(:digest) { "" }
-      let(:attachment) { FactoryBot.create :attachment, digest: digest, author: current_user, container: nil, container_type: nil, downloads: -1 }
+      let(:attachment) do
+        FactoryBot.create :attachment, digest: digest, author: current_user, container: nil, container_type: nil, downloads: -1
+      end
 
       before do
         get "/api/v3/attachments/#{attachment.id}/uploaded"

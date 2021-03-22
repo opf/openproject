@@ -121,7 +121,6 @@ module Projects::Copy
         new_relation.to_id = new_wp_id
         new_relation.save
       end
-
     end
 
     def copy_work_package_attribute_overrides(source_work_package, parent_id, user_cf_ids)
@@ -153,19 +152,20 @@ module Projects::Copy
     end
 
     def work_package_assigned_to_id(source_work_package)
-      assigned_to_id = source_work_package.assigned_to_id
-      return unless assigned_to_id
-
-      @assignees ||= target.possible_assignees.pluck(:id).to_set
-      assigned_to_id if @assignees.include?(assigned_to_id)
+      possible_principal_id(source_work_package.assigned_to_id,
+                            source_work_package.project)
     end
 
     def work_package_responsible_id(source_work_package)
-      responsible_id = source_work_package.responsible_id
-      return unless responsible_id
+      possible_principal_id(source_work_package.responsible_id,
+                            source_work_package.project)
+    end
 
-      @responsible ||= target.possible_responsibles.pluck(:id).to_set
-      responsible_id if @responsible.include?(responsible_id)
+    def possible_principal_id(principal_id, project)
+      return unless principal_id
+
+      @principals ||= Principal.possible_assignee(project).pluck(:id).to_set
+      principal_id if @principals.include?(principal_id)
     end
   end
 end

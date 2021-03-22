@@ -27,26 +27,26 @@
 //++
 
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-import {OpIcon} from "core-app/modules/common/icon/op-icon";
-import {By} from "@angular/platform-browser";
-import {DebugElement} from "@angular/core";
+import { By } from "@angular/platform-browser";
+import { DebugElement } from "@angular/core";
+import { OpIconComponent } from "core-app/modules/common/icon/icon.component";
 
 describe('opIcon Directive', function() {
-  let app:OpIcon;
-  let fixture:ComponentFixture<OpIcon>;
+  let app:OpIconComponent;
+  let fixture:ComponentFixture<OpIconComponent>;
   let element:DebugElement;
 
   beforeEach(waitForAsync(() => {
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
       declarations: [
-        OpIcon
+        OpIconComponent
       ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OpIcon);
+    fixture = TestBed.createComponent(OpIconComponent);
     app = fixture.debugElement.componentInstance;
     element = fixture.debugElement;
 

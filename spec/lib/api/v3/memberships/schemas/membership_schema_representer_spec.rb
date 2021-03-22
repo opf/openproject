@@ -197,7 +197,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
           context 'if having no project' do
             it_behaves_like 'links to allowed values via collection link' do
               let(:href) do
-                statuses = [Principal::STATUSES[:locked].to_s]
+                statuses = [Principal.statuses[:locked].to_s]
                 filters = [{ 'status' => { 'operator' => '!', 'values' => statuses } }]
 
                 api_v3_paths.path_for(:principals, filters: filters)
@@ -210,7 +210,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
 
             it_behaves_like 'links to allowed values via collection link' do
               let(:href) do
-                statuses = [Principal::STATUSES[:locked].to_s]
+                statuses = [Principal.statuses[:locked].to_s]
                 status_filter = { 'status' => { 'operator' => '!', 'values' => statuses } }
                 member_filter = { 'member' => { 'operator' => '!', 'values' => [assigned_project.id.to_s] } }
 

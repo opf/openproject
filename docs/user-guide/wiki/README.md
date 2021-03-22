@@ -13,7 +13,7 @@ In a project wiki you can collaboratively create and document information with y
 
 <div class="glossary">**Wiki** is defined as a module that allows to use textile-based wiki pages. In order to use the wiki module, it has to be activated in the project settings.</div>
 
-| Feature                                                      | Documentation for                                            |
+| Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [General wiki information](#general-wiki-information)        | How to format a wiki page.                                   |
 | [Image handling](#image-handling)                            | How in insert images in the wiki.                            |
@@ -124,6 +124,6 @@ As with the textile formatting syntax, you can link to other resources within Op
 
 To avoid processing these items, precede them with a bang ! character such as !#12 will prevent linking to a work package with ID 12.
 
-### Autocompletion for work packages and users
+### Autocompletion for work packages
 
-For work packages and users, typing # or @ will open an autocompleter for visible work packages and users, respectively.
+For work packages, typing # will open an autocompleter for visible work packages. This means when you type e.g. #3 or #Market, a list of work packages matching the description will be shown. Then you can either continue typing or choose a work package from the list.

@@ -26,23 +26,23 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {Component, OnInit, ViewChild} from "@angular/core";
-import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
-import {NgSelectComponent} from "@ng-select/ng-select";
-import {projectStatusCodeCssClass, projectStatusI18n} from "core-app/modules/fields/helpers/project-status-helper";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { EditFieldComponent } from "core-app/modules/fields/edit/edit-field.component";
+import { NgSelectComponent } from "@ng-select/ng-select";
+import { projectStatusCodeCssClass, projectStatusI18n } from "core-app/modules/fields/helpers/project-status-helper";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 @Component({
   templateUrl: './project-status-edit-field.component.html',
   styleUrls: ['./project-status-edit-field.component.sass']
 })
 export class ProjectStatusEditFieldComponent extends EditFieldComponent implements OnInit {
-  @ViewChild(NgSelectComponent, {static: true}) public ngSelectComponent:NgSelectComponent;
+  @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
   @InjectField() I18n!:I18nService;
 
   private _availableStatusCodes:string[] = ['not set', 'off track', 'at risk', 'on track'];
-  public currentStatusCode:string = 'not set';
+  public currentStatusCode = 'not set';
 
   public availableStatuses:any[] = this._availableStatusCodes.map((code:string):any => {
     return {
@@ -60,7 +60,7 @@ export class ProjectStatusEditFieldComponent extends EditFieldComponent implemen
 
     // The timeout takes care that the opening is added to the end of the current call stack.
     // Thus we can be sure that the select box is rendered and ready to be opened.
-    let that = this;
+    const that = this;
     window.setTimeout(function () {
       that.ngSelectComponent.open();
     }, 0);

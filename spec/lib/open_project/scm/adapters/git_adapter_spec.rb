@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -35,7 +36,7 @@ describe OpenProject::SCM::Adapters::Git do
     let(:url) { protocol + Rails.root.join('/tmp/does/not/exist.git').to_s }
     let(:config) { {} }
     let(:encoding) { nil }
-    let(:adapter) {
+    let(:adapter) do
       OpenProject::SCM::Adapters::Git.new(
         url,
         nil,
@@ -44,7 +45,7 @@ describe OpenProject::SCM::Adapters::Git do
         encoding,
         "test-identifier"
       )
-    }
+    end
 
     repos_dir = Dir.mktmpdir
 
@@ -497,7 +498,7 @@ describe OpenProject::SCM::Adapters::Git do
             cloned = "Author: Oliver Günther <mail@oliverguenther.de>"
 
             # The strings returned by capture_out have escaped UTF-8 characters depending on
-            # wether we are working on a cloned or bare repository. I don't know why.
+            # whether we are working on a cloned or bare repository. I don't know why.
             # It doesn't make a difference further down the road, though. So just check both.
             expect(diff[1] == bare || diff[1] == cloned).to eq true
           end

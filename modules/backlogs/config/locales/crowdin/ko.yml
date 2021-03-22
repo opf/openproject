@@ -99,6 +99,7 @@ ko:
   backlogs_empty_title: "백로그에 사용할 버전이 정의되지 않았습니다."
   backlogs_empty_action_text: "백로그를 시작하려면 새 버전을 만들고 백로그 열에 이 버전을 할당하세요."
   button_edit_wiki: "위키 페이지 편집"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
   error_intro_plural: "다음 오류가 발생했습니다."
   error_intro_singular: "다음 오류가 발생했습니다."
   error_outro: "다시 제출하기 전에 위의 오류를 수정하세요."

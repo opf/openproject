@@ -86,7 +86,7 @@ pl:
     caption_rate_history: "Historia stawek"
     clipboard:
       browser_error: "Twoja przeglądarka nie obsługuje kopiowania do schowka. Skopiuj tekst ręcznie."
-      copied_successful: "Skopiowano do schowka!"
+      copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Typ wykresu'
       axis_criteria: 'Kryteria osi'
@@ -271,13 +271,13 @@ pl:
           text_new_features: "Przeczytaj o nowych funkcjach i aktualizacjach produktów."
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li><b>Ulepszone style</b> edytora WYSIWYG.</li> <li>Bezpośrednie wyświetlenie <b>nazwy użytkownika @powiadomień</b> podczas edycji.</li> <li>Rozszerzony profil uwierzytelniania z <b>dostawcą OpenID Connect.</b></li> <li>Wyświetlanie <b>zagregowanych kamieni milowych</b> projektu w jednym wierszu na wykresie Gantta.</li> <li><b>Zwijanie wszystkich przycisków grup</b> na liście pakietów roboczych.</li> <li><b>Optymalizacja do druku,</b> np. stron wiki za pomocą funkcji drukowania przeglądarki</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li><b>Ulepszone style</b> edytora WYSIWYG.</li> <li>Bezpośrednie wyświetlenie <b>nazwy użytkownika @powiadomień</b> podczas edycji.</li> <li>Rozszerzony profil uwierzytelniania z <b>dostawcą OpenID Connect.</b></li> <li>Wyświetlanie <b>zagregowanych kamieni milowych</b> projektu w jednym wierszu na wykresie Gantta.</li> <li><b>Zwijanie wszystkich przycisków grup</b> na liście pakietów roboczych.</li> <li><b>Optymalizacja do druku,</b> np. stron wiki za pomocą funkcji drukowania przeglądarki</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
     label_activate: "Aktywuj"
     label_add_column_after: "Dodaj kolumnę po"
     label_add_column_before: "Dodaj kolumnę przed"
@@ -845,7 +845,7 @@ pl:
           automatic: 'Automatycznie'
           manually: 'Ręcznie'
           warning: 'Wskutek aktywacji trybu automatycznego sortowania utracisz poprzednie sortowanie.'
-        columns_help_text: "Użyj powyższych danych wejściowych, aby dodać kolumny do widoku tabeli. Możesz przeciągać i upuszczać kolumny, aby zmienić ich kolejność."
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Czy określone pakiety robocze trzeba wyróżnić?'
           relation_columns: 'Chcesz zobaczyć relacje w tej liście pakietów roboczych?'

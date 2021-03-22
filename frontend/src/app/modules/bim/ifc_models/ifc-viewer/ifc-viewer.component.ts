@@ -35,9 +35,9 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {IFCViewerService} from "core-app/modules/bim/ifc_models/ifc-viewer/ifc-viewer.service";
-import {IfcModelsDataService} from "core-app/modules/bim/ifc_models/pages/viewer/ifc-models-data.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { IFCViewerService } from "core-app/modules/bim/ifc_models/ifc-viewer/ifc-viewer.service";
+import { IfcModelsDataService } from "core-app/modules/bim/ifc_models/pages/viewer/ifc-models-data.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   selector: 'ifc-viewer',

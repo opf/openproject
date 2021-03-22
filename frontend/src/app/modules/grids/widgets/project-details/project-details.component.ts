@@ -35,14 +35,14 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {Observable} from "rxjs";
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { AbstractWidgetComponent } from "app/modules/grids/widgets/abstract-widget.component";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { Observable } from "rxjs";
+import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   templateUrl: './project-details.component.html',
@@ -80,8 +80,8 @@ export class WidgetProjectDetailsComponent extends AbstractWidgetComponent imple
 
   private loadAndRender() {
     Promise.all([
-        this.loadProjectSchema()
-      ])
+      this.loadProjectSchema()
+    ])
       .then(([schema]) => {
         this.setCustomFields(schema);
       });
@@ -99,7 +99,7 @@ export class WidgetProjectDetailsComponent extends AbstractWidgetComponent imple
   private setCustomFields(schema:SchemaResource) {
     Object.entries(schema).forEach(([key, keySchema]) => {
       if (key.match(/customField\d+/)) {
-        this.customFields.push({key: key, label: keySchema.name });
+        this.customFields.push({ key: key, label: keySchema.name });
       }
     });
 

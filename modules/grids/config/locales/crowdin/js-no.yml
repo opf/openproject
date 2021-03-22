@@ -49,7 +49,7 @@
         work_packages_assigned:
           title: 'Arbeidspakker tildelt meg'
         work_packages_created:
-          title: 'Work packages created by me'
+          title: 'Arbeidspakker laget av meg'
         work_packages_watched:
           title: 'Work packages watched by me'
         work_packages_table:

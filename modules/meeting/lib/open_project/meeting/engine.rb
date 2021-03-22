@@ -38,16 +38,17 @@ module OpenProject::Meeting
              author_url: 'https://www.openproject.com',
              bundled: true do
       project_module :meetings do
-        permission :view_meetings, meetings: [:index, :show], meeting_agendas: [:history, :show, :diff], meeting_minutes: [:history, :show, :diff]
-        permission :create_meetings, { meetings: [:new, :create, :copy] }, require: :member
-        permission :edit_meetings, { meetings: [:edit, :update] }, require: :member
+        permission :view_meetings, meetings: %i[index show], meeting_agendas: %i[history show diff],
+                                   meeting_minutes: %i[history show diff]
+        permission :create_meetings, { meetings: %i[new create copy] }, require: :member
+        permission :edit_meetings, { meetings: %i[edit update] }, require: :member
         permission :delete_meetings, { meetings: [:destroy] }, require: :member
         permission :meetings_send_invite, { meetings: [:icalendar] }, require: :member
-        permission :create_meeting_agendas, { meeting_agendas: [:update, :preview] }, require: :member
-        permission :close_meeting_agendas, { meeting_agendas: [:close, :open] }, require: :member
+        permission :create_meeting_agendas, { meeting_agendas: %i[update preview] }, require: :member
+        permission :close_meeting_agendas, { meeting_agendas: %i[close open] }, require: :member
         permission :send_meeting_agendas_notification, { meeting_agendas: [:notify] }, require: :member
         permission :send_meeting_agendas_icalendar, { meeting_agendas: [:icalendar] }, require: :member
-        permission :create_meeting_minutes, { meeting_minutes: [:update, :preview] }, require: :member
+        permission :create_meeting_minutes, { meeting_minutes: %i[update preview] }, require: :member
         permission :send_meeting_minutes_notification, { meeting_minutes: [:notify] }, require: :member
       end
 
@@ -86,12 +87,6 @@ module OpenProject::Meeting
     end
 
     config.to_prepare do
-      # load classes so that all User.before_destroy filters are loaded
-      require_dependency 'meeting'
-      require_dependency 'meeting_agenda'
-      require_dependency 'meeting_minutes'
-      require_dependency 'meeting_participant'
-
       PermittedParams.permit(:search, :meetings)
     end
 

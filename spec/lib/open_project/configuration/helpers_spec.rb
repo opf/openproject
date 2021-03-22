@@ -30,11 +30,11 @@ require 'spec_helper'
 require 'open_project/configuration/helpers'
 
 describe OpenProject::Configuration::Helpers do
-  let(:config) {
+  let(:config) do
     {}.tap do |config|
       config.extend OpenProject::Configuration::Helpers
     end
-  }
+  end
 
   describe '#array' do
     def array(value)

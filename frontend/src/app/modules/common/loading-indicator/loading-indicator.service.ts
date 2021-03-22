@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from "@angular/core";
-import {Observable} from "rxjs";
-import {tap} from "rxjs/operators";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { tap } from "rxjs/operators";
 
 export const indicatorLocationSelector = '.loading-indicator--location';
 export const indicatorBackgroundSelector = '.loading-indicator--background';
@@ -64,7 +64,7 @@ export function withDelayedLoadingIndicator<T>(indicator:() => LoadingIndicator)
 
 export class LoadingIndicator {
 
-  private indicatorTemplate:string =
+  private indicatorTemplate =
     `<div class="loading-indicator--background">
       <div class="loading-indicator">
         <div class="block-1"></div>

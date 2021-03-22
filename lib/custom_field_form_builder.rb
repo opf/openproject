@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -123,7 +124,6 @@ class CustomFieldFormBuilder < TabularFormBuilder
                 title: custom_value.custom_field.name do
       output = ''.html_safe
       output += custom_value.custom_field.name
-
 
       # Render a help text icon
       if options[:help_text]

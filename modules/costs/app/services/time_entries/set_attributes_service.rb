@@ -49,7 +49,7 @@ module TimeEntries
     end
 
     def set_default_user
-      change_by_system do
+      model.change_by_system do
         model.user = user
       end
     end

@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {Attachable} from 'core-app/modules/hal/resources/mixins/attachable-mixin';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { Attachable } from 'core-app/modules/hal/resources/mixins/attachable-mixin';
 
 
 export interface WikiPageResourceLinks {
@@ -42,5 +42,4 @@ class WikiPageBaseResource extends HalResource {
 
 export const WikiPageResource = Attachable(WikiPageBaseResource);
 
-export interface WikiPageResource extends HalResource {
-}
+export type WikiPageResource = HalResource;

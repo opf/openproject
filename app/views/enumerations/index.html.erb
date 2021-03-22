@@ -30,5 +30,5 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= toolbar title: t(:label_enumerations) %>
 <% Enumeration.subclasses.each do |klass| %>
   <h3 class="-no-border"><%= t(klass::OptionName) %></h3>
-  <%= cell ::Enumerations::TableCell, klass.shared %>
+  <%= rails_cell ::Enumerations::TableCell, klass.shared %>
 <% end %>

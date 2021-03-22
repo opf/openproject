@@ -41,7 +41,7 @@ describe Queries::Members::Filters::PrincipalFilter, type: :model do
     principal_scope = double('principal scope')
 
     allow(Principal)
-      .to receive(:active_or_registered)
+      .to receive(:not_locked)
       .and_return(principal_scope)
 
     allow(principal_scope)

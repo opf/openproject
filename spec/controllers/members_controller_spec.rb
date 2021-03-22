@@ -29,22 +29,22 @@
 require 'spec_helper'
 
 describe MembersController, type: :controller do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:user) { FactoryBot.create(:user) }
   let(:project) { FactoryBot.create(:project, identifier: 'pet_project') }
   let(:role) { FactoryBot.create(:role) }
-  let(:member) {
+  let(:member) do
     FactoryBot.create(:member, project: project,
-                                user: user,
-                                roles: [role])
-  }
+                               user: user,
+                               roles: [role])
+  end
 
   before do
     allow(User).to receive(:current).and_return(admin)
   end
 
   describe 'create' do
-    using_shared_fixtures :admin
+    shared_let(:admin) { FactoryBot.create :admin }
     let(:project_2) { FactoryBot.create(:project) }
 
     before do
@@ -67,15 +67,15 @@ describe MembersController, type: :controller do
         u.reload
         expect(u.memberships.size).to be >= 1
 
-        expect(u.memberships.find { |m|
+        expect(u.memberships.find do |m|
           expect(m.roles).to include(role)
-        }).not_to be_nil
+        end).not_to be_nil
       end
     end
   end
 
   describe 'update' do
-    using_shared_fixtures :admin
+    shared_let(:admin) { FactoryBot.create :admin }
     let(:project_2) { FactoryBot.create(:project) }
     let(:role_1) { FactoryBot.create(:role) }
     let(:role_2) { FactoryBot.create(:role) }
@@ -84,7 +84,8 @@ describe MembersController, type: :controller do
         :member,
         project: project_2,
         user: admin,
-        roles: [role_1])
+        roles: [role_1]
+      )
     end
 
     before do
@@ -211,13 +212,13 @@ describe MembersController, type: :controller do
   end
 
   describe '#update' do
-    let(:action) {
+    let(:action) do
       post :update,
            params: {
              id: member.id,
              member: { role_ids: [role2.id], user_id: user.id }
            }
-    }
+    end
     let(:role2) { FactoryBot.create(:role) }
 
     before do

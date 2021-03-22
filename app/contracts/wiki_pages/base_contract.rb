@@ -70,8 +70,14 @@ module WikiPages
       end
     end
 
-    def changed_attributes
-      model.changed + (model.content&.changed || [])
+    def changed_by_user
+      content_changed = if model.content
+                          model.content.respond_to?(:changed_by_user) ? model.content.changed_by_user : model.content.changed
+                        else
+                          []
+                        end
+
+      super + content_changed
     end
   end
 end

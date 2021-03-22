@@ -75,7 +75,7 @@ en:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
       replace_token: "Replace your current support token"
-      order: "Order Enterprise Edition"
+      order: "Order Enterprise on-premises Edition"
       paste: "Paste your Enterprise Edition support token"
       required_for_feature: "This feature is only available with an active Enterprise Edition support token."
       enterprise_link: "For more information, click here."
@@ -89,7 +89,7 @@ en:
     is_inactive: currently not displayed
 
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
     label_plural: 'Attribute help texts'
     show_preview: 'Preview text'
@@ -136,9 +136,6 @@ en:
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
 
     connection_encryption: 'Connection encryption'
     system_account: 'System account'
@@ -222,7 +219,7 @@ en:
 
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is perfomed in the background. You will be notified of the result."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Project cannot be deleted: %{errors}"
       failed: "Deletion of project %{name} has failed"
       failed_text: "The request to delete project %{name} has failed. The project was left archived."
@@ -274,6 +271,11 @@ en:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: This user is currently not a member of a project.
+
+  placeholder_users:
+    upsale:
+      title: 'Placeholder users are an Enterprise Edition feature'
+      description: 'Placeholder users allow you create a work plan for users that must not have access to the system (yet).'
 
   prioritiies:
     edit:
@@ -572,6 +574,7 @@ en:
         confirmation: "doesn't match %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "does not exist."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         empty: "can't be empty."
@@ -587,6 +590,7 @@ en:
         invalid_url: 'is not a valid URL.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "must be less than or equal to %{count}."
+        not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "is not a valid date."
         not_a_datetime: "is not a valid date time."
@@ -693,6 +697,10 @@ en:
           attributes:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Work package #%{id} is not a valid target for reassigning the time entries."
           attributes:
@@ -773,6 +781,7 @@ en:
       status: "Work package status"
       member: "Member"
       news: "News"
+      placeholder_user: "Placeholder user"
       project: "Project"
       query: "Custom query"
       role:
@@ -825,7 +834,7 @@ en:
     firstname: "First name"
     group: "Group"
     groups: "Groups"
-    groupname: "Group name"
+    name: "Group name"
     id: "ID"
     is_default: "Default value"
     is_for_all: "For all projects"
@@ -1163,7 +1172,7 @@ en:
     Can't rename "%{old_name}" to "%{new_name}" due to a conflict in the resulting menu item
     with the existing menu item "%{existing_caption}" (%{existing_identifier}).
 
-  error_external_authentication_failed: "An error occured during external authentication. Please try again."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
 
   events:
@@ -1376,6 +1385,7 @@ en:
   label_custom_field_plural: "Custom fields"
   label_custom_field_default_type: "Empty type"
   label_custom_style: "Design"
+  label_database_version: "PostgreSQL version"
   label_date: "Date"
   label_date_and_time: "Date and time"
   label_date_from: "From"
@@ -1534,6 +1544,7 @@ en:
   label_my_account_data: "My account data"
   label_my_projects: "My projects"
   label_my_queries: "My custom queries"
+  label_name: "Name"
   label_never: "Never"
   label_new: "New"
   label_new_features: "New features"
@@ -1583,6 +1594,9 @@ en:
   label_permissions: "Permissions"
   label_permissions_report: "Permissions report"
   label_personalize_page: "Personalize this page"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Planning"
   label_please_login: "Please log in"
   label_plugins: "Plugins"
@@ -1900,6 +1914,7 @@ en:
   notice_email_sent: "An email was sent to %{value}"
   notice_failed_to_save_work_packages: "Failed to save %{count} work package(s) on %{total} selected: %{ids}."
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
 
   notice_file_not_found: "The page you were trying to access doesn't exist or has been removed."
   notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."
@@ -1968,6 +1983,8 @@ en:
   permission_add_work_packages: "Add work packages"
   permission_add_messages: "Post messages"
   permission_add_project: "Create project"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Create subprojects"
   permission_add_work_package_watchers: "Add watchers"
   permission_assign_versions: "Assign versions"
@@ -2032,6 +2049,22 @@ en:
 
   placeholders:
     default: "-"
+
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values)
+        will be reassigned to an account called "Deleted user".
+
+        As the data of every deleted account is reassigned to this account
+        it will not be possible to distinguish the data the user created from
+        the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+    upsale:
+      title: Assign work to people that are not members of the project.
+      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
 
   project:
     destroy:
@@ -2178,7 +2211,7 @@ en:
       username: "Repository username"
     truncated: "Sorry, we had to truncate this directory to %{limit} files. %{truncated} entries were omitted from the list."
     named_repository: "%{vendor_name} repository"
-    update_settings_successful: "The settings have been sucessfully saved."
+    update_settings_successful: "The settings have been successfully saved."
     url: "URL to repository"
     warnings:
       cannot_annotate: "This file cannot be annotated."
@@ -2301,7 +2334,6 @@ en:
   setting_welcome_text: "Welcome block text"
   setting_welcome_title: "Welcome block title"
   setting_welcome_on_homescreen: "Display welcome block on homescreen"
-  setting_work_package_group_assignment: "Allow assignment to groups"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
 
@@ -2758,7 +2790,7 @@ en:
       code_403: "You are not authorized to access this resource."
       code_404: "The requested resource could not be found."
       code_409: "Could not update the resource because of conflicting modifications."
-      code_500: "An internal error has occured."
+      code_500: "An internal error has occurred."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
         duration: "ISO 8601 duration"

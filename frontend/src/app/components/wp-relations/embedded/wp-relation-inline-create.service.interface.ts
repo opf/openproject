@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageInlineCreateService } from "core-components/wp-inline-create/wp-inline-create.service";
 
 export interface WpRelationInlineCreateServiceInterface extends WorkPackageInlineCreateService {
 

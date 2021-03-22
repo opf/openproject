@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {UserResource} from "core-app/modules/hal/resources/user-resource";
-import {RoleResource} from "core-app/modules/hal/resources/role-resource";
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { UserResource } from "core-app/modules/hal/resources/user-resource";
+import { RoleResource } from "core-app/modules/hal/resources/role-resource";
+import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
 
 export interface MembershipResourceLinks {
   update(payload:unknown):Promise<unknown>;
@@ -38,7 +38,7 @@ export interface MembershipResourceLinks {
 }
 
 export interface MembershipResourceEmbedded {
-  principal:UserResource;
+  principal:HalResource;
   roles:RoleResource[];
   project:ProjectResource;
 }

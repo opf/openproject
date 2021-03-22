@@ -85,7 +85,7 @@ module Pages
       expect(current_path).to eql expected_path
     end
 
-    def expect_notification(type: :success, message:)
+    def expect_notification(message:, type: :success)
       if notification_type == :angular
         expect(page).to have_selector(".notification-box.-#{type}", text: message, wait: 20)
       elsif type == :error
@@ -97,7 +97,7 @@ module Pages
       end
     end
 
-    def expect_and_dismiss_notification(type: :success, message:)
+    def expect_and_dismiss_notification(message:, type: :success)
       expect_notification(type: type, message: message)
       dismiss_notification!
       expect_no_notification(type: type, message: message)

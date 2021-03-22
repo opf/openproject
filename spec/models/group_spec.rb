@@ -30,25 +30,70 @@ require 'spec_helper'
 require_relative '../support/shared/become_member'
 
 describe Group, type: :model do
-  include BecomeMember
-
   let(:group) { FactoryBot.create(:group) }
   let(:user) { FactoryBot.create(:user) }
   let(:watcher) { FactoryBot.create :user }
   let(:project) { FactoryBot.create(:project_with_types) }
   let(:status) { FactoryBot.create(:status) }
-  let(:package) {
+  let(:package) do
     FactoryBot.build(:work_package, type: project.types.first,
-                     author: user,
-                     project: project,
-                     status: status)
-  }
+                                    author: user,
+                                    project: project,
+                                    status: status)
+  end
 
   it 'should create' do
     g = Group.new(lastname: 'New group')
     expect(g.save).to eq true
   end
 
+  describe 'with long but allowed attributes' do
+    it 'is valid' do
+      group.name = 'a' * 256
+      expect(group).to be_valid
+      expect(group.save).to be_truthy
+    end
+  end
+
+  describe 'with a name too long' do
+    it 'is invalid' do
+      group.name = 'a' * 257
+      expect(group).not_to be_valid
+      expect(group.save).to be_falsey
+    end
+  end
+
+  describe 'a user with and overly long firstname (> 256 chars)' do
+    it 'is invalid' do
+      user.firstname = 'a' * 257
+      expect(user).not_to be_valid
+      expect(user.save).to be_falsey
+    end
+  end
+
+  describe '#group_users' do
+    context 'when adding a user' do
+      it 'updates the timestamp' do
+        updated_at = group.updated_at
+        group.group_users.create(user: user)
+
+        expect(updated_at < group.reload.updated_at)
+          .to be_truthy
+      end
+    end
+
+    context 'when removing a user' do
+      it 'updates the timestamp' do
+        group.group_users.create(user: user)
+        updated_at = group.reload.updated_at
+
+        group.group_users.destroy_all
+
+        expect(updated_at < group.reload.updated_at)
+          .to be_truthy
+      end
+    end
+  end
 
   describe 'from legacy specs' do
     let!(:roles) { FactoryBot.create_list :role, 2 }
@@ -56,18 +101,9 @@ describe Group, type: :model do
     let!(:member) { FactoryBot.create :member, project: project, principal: group, role_ids: role_ids }
     let!(:group) { FactoryBot.create(:group, members: user) }
 
-
     it 'should roles removed when removing group membership' do
       expect(user).to be_member_of project
-      member.destroy
-      user.reload
-      project.reload
-      expect(user).not_to be_member_of project
-    end
-
-    it 'should roles removed when removing user from group' do
-      expect(user).to be_member_of project
-      group.destroy
+      Principals::DeleteJob.perform_now group
       user.reload
       project.reload
       expect(user).not_to be_member_of project
@@ -78,7 +114,7 @@ describe Group, type: :model do
       member = FactoryBot.build :member
       roles = FactoryBot.create_list :role, 2
       role_ids = roles.map(&:id)
-      member.attributes = {principal: group, role_ids: role_ids}
+      member.attributes = { principal: group, role_ids: role_ids }
       member.save!
 
       member.role_ids = [role_ids.first]
@@ -95,50 +131,6 @@ describe Group, type: :model do
     end
   end
 
-  describe '#destroy' do
-    describe 'work packages assigned to the group' do
-      let(:group) { FactoryBot.create(:group, members: [user, watcher]) }
-      before do
-        become_member_with_permissions project, group, [:view_work_packages]
-        package.assigned_to = group
-
-        package.save!
-      end
-
-      it 'should reassign the work package to nobody' do
-        group.destroy
-
-        package.reload
-
-        expect(package.assigned_to).to eq(DeletedUser.first)
-      end
-
-      it 'should update all journals to have the deleted user as assigned' do
-        group.destroy
-
-        package.reload
-
-        expect(package.journals.all? { |j| j.data.assigned_to_id == DeletedUser.first.id }).to be_truthy
-      end
-
-      describe 'watchers' do
-        before do
-          package.watcher_users << watcher
-        end
-
-        context 'with user only in project through group' do
-          it 'should remove the watcher' do
-            group.destroy
-            package.reload
-            project.reload
-
-            expect(package.watchers).to be_empty
-          end
-        end
-      end
-    end
-  end
-
   describe '#create' do
     describe 'group with empty group name' do
       let(:group) { FactoryBot.build(:group, lastname: '') }
@@ -150,7 +142,7 @@ describe Group, type: :model do
           group.valid?
         end
 
-        it { expect(group.errors.full_messages[0]).to include I18n.t('attributes.groupname') }
+        it { expect(group.errors.full_messages[0]).to include I18n.t('attributes.name') }
       end
     end
   end
@@ -161,10 +153,14 @@ describe Group, type: :model do
        build_preference
        create_preference
        create_preference!}.each do |method|
-
       it "should not respond to #{method}" do
         expect(group).to_not respond_to method
       end
     end
+  end
+
+  describe '#name' do
+    it { expect(group).to validate_presence_of :name }
+    it { expect(group).to validate_uniqueness_of :name }
   end
 end

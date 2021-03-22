@@ -26,16 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
-import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-resource';
-import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
-import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
-import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
-import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
-import {QueryColumn} from '../wp-query/query-column';
-import {Injectable} from '@angular/core';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
+import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { QueryFormResource } from 'core-app/modules/hal/resources/query-form-resource';
+import { QuerySortByResource } from 'core-app/modules/hal/resources/query-sort-by-resource';
+import { QueryGroupByResource } from 'core-app/modules/hal/resources/query-group-by-resource';
+import { SchemaResource } from 'core-app/modules/hal/resources/schema-resource';
+import { QueryFilterResource } from 'core-app/modules/hal/resources/query-filter-resource';
+import { QueryFilterInstanceSchemaResource } from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
+import { QueryColumn } from '../wp-query/query-column';
+import { Injectable } from '@angular/core';
+import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
 
 @Injectable()
 export class WorkPackagesListInvalidQueryService {
@@ -52,7 +52,7 @@ export class WorkPackagesListInvalidQueryService {
 
   private restoreFilters(query:QueryResource, payload:QueryResource, querySchema:SchemaResource) {
     let filters = _.map((payload.filters), filter => {
-      let filterInstanceSchema = _.find(querySchema.filtersSchemas.elements, (schema:QueryFilterInstanceSchemaResource) => {
+      const filterInstanceSchema = _.find(querySchema.filtersSchemas.elements, (schema:QueryFilterInstanceSchemaResource) => {
         return (schema.filter.allowedValues as QueryFilterResource[])[0].$href === filter.filter.$href;
       });
 
@@ -60,9 +60,9 @@ export class WorkPackagesListInvalidQueryService {
         return null;
       }
 
-      let recreatedFilter = filterInstanceSchema.getFilter();
+      const recreatedFilter = filterInstanceSchema.getFilter();
 
-      let operator = _.find(filterInstanceSchema.operator.allowedValues, operator => {
+      const operator = _.find(filterInstanceSchema.operator.allowedValues, operator => {
         return operator.$href === filter.operator.$href;
       });
 
@@ -110,7 +110,7 @@ export class WorkPackagesListInvalidQueryService {
   }
 
   private restoreGroupBy(query:QueryResource, stubQuery:QueryResource, schema:SchemaResource) {
-    let groupBy = _.find((schema.groupBy.allowedValues as QueryGroupByResource[]), candidate => {
+    const groupBy = _.find((schema.groupBy.allowedValues as QueryGroupByResource[]), candidate => {
       return stubQuery.groupBy && stubQuery.groupBy.$href === candidate.$href;
     }) as any;
 

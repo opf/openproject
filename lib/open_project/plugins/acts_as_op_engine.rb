@@ -121,10 +121,10 @@ module OpenProject::Plugins
         self.class.config.to_prepare do
           klass_name = args.last
           patch = begin
-                    "#{plugin_module}::Patches::#{args[0..-2].join('::')}::#{klass_name}Patch".constantize
-                  rescue NameError
-                    "#{plugin_module}::Patches::#{klass_name}Patch".constantize
-                  end
+            "#{plugin_module}::Patches::#{args[0..-2].join('::')}::#{klass_name}Patch".constantize
+          rescue NameError
+            "#{plugin_module}::Patches::#{klass_name}Patch".constantize
+          end
           qualified_class_name = args.map(&:to_s).join('::')
           klass = qualified_class_name.to_s.constantize
           klass.send(:include, patch) unless klass.included_modules.include?(patch)
@@ -242,8 +242,7 @@ module OpenProject::Plugins
       end
 
       def add_api_attribute(on:,
-                            writable_for: [:create, :update],
-                            ar_name:,
+                            ar_name:, writable_for: %i[create update],
                             writeable: true,
                             &block)
         config.to_prepare do

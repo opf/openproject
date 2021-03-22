@@ -50,7 +50,7 @@ describe ::Query::Results, 'Sorting of custom field floats', type: :model, with_
     FactoryBot.create :work_package,
                       type: type,
                       project: project,
-                      custom_values: {custom_field.id => "6.25"}
+                      custom_values: { custom_field.id => "6.25" }
   end
 
   let(:work_package_without_float) do

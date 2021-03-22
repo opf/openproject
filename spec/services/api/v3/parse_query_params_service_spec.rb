@@ -150,7 +150,7 @@ describe ::API::V3::ParseQueryParamsService,
     context 'with display_representation' do
       it_behaves_like 'transforms' do
         let(:params) { { displayRepresentation: 'cards' } }
-        let(:expected) { { display_representation:'cards' } }
+        let(:expected) { { display_representation: 'cards' } }
       end
     end
 

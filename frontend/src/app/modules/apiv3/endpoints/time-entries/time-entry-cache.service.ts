@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {States} from "core-components/states.service";
-import {Injector} from "@angular/core";
-import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
-import {MultiInputState} from "reactivestates";
+import { TimeEntryResource } from "core-app/modules/hal/resources/time-entry-resource";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { States } from "core-components/states.service";
+import { Injector } from "@angular/core";
+import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
+import { MultiInputState } from "reactivestates";
 
 export class TimeEntryCacheService extends StateCacheService<TimeEntryResource> {
   @InjectField() readonly states:States;

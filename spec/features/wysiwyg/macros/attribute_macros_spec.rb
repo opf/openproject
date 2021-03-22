@@ -29,13 +29,13 @@
 require 'spec_helper'
 
 describe 'Wysiwyg attribute macros', type: :feature, js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:user) { admin }
   let!(:project) { FactoryBot.create(:project, identifier: 'some-project', enabled_module_names: %w[wiki work_package_tracking]) }
   let!(:work_package) { FactoryBot.create(:work_package, subject: "Foo Bar", project: project) }
   let(:editor) { ::Components::WysiwygEditor.new }
 
-  let(:markdown) {
+  let(:markdown) do
     <<~MD
       # My headline
 
@@ -62,7 +62,7 @@ describe 'Wysiwyg attribute macros', type: :feature, js: true do
         </tbody>
       </table>
     MD
-  }
+  end
 
   before do
     login_as(user)

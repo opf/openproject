@@ -28,7 +28,7 @@
 
 require 'support/pages/page'
 require 'support/pages/work_packages/work_packages_table'
-require 'support/components/ng_select_autocomplete_helpers.rb'
+require 'support/components/ng_select_autocomplete_helpers'
 
 module Pages
   class EmbeddedWorkPackagesTable < WorkPackagesTable

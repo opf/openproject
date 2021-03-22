@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 feature 'Types', type: :feature do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
 
   let!(:existing_role) { FactoryBot.create(:role) }
   let!(:existing_workflow) { FactoryBot.create(:workflow_with_default_status, role: existing_role, type: existing_type) }

@@ -26,35 +26,37 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable, Injector} from "@angular/core";
+import { Injectable, Injector } from "@angular/core";
 import {
   APIv3GettableResource,
   APIv3ResourceCollection,
   APIv3ResourcePath
 } from "core-app/modules/apiv3/paths/apiv3-resource";
-import {Constructor} from "@angular/cdk/table";
-import {Apiv3GridsPaths} from "core-app/modules/apiv3/endpoints/grids/apiv3-grids-paths";
-import {Apiv3TimeEntriesPaths} from "core-app/modules/apiv3/endpoints/time-entries/apiv3-time-entries-paths";
-import {Apiv3MembershipsPaths} from "core-app/modules/apiv3/endpoints/memberships/apiv3-memberships-paths";
-import {Apiv3UsersPaths} from "core-app/modules/apiv3/endpoints/users/apiv3-users-paths";
-import {APIv3TypesPaths} from "core-app/modules/apiv3/endpoints/types/apiv3-types-paths";
-import {APIv3QueriesPaths} from "core-app/modules/apiv3/endpoints/queries/apiv3-queries-paths";
-import {APIv3ProjectsPaths} from "core-app/modules/apiv3/endpoints/projects/apiv3-projects-paths";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {APIV3WorkPackagesPaths} from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-packages-paths";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {APIv3ProjectPaths} from "core-app/modules/apiv3/endpoints/projects/apiv3-project-paths";
-import {RootResource} from "core-app/modules/hal/resources/root-resource";
-import {APIv3StatusesPaths} from "core-app/modules/apiv3/endpoints/statuses/apiv3-statuses-paths";
-import {APIv3VersionsPaths} from "core-app/modules/apiv3/endpoints/versions/apiv3-versions-paths";
-import {Apiv3RelationsPaths} from "core-app/modules/apiv3/endpoints/relations/apiv3-relations-paths";
-import {Apiv3NewsPaths} from "core-app/modules/apiv3/endpoints/news/apiv3-news-paths";
-import {Apiv3HelpTextsPaths} from "core-app/modules/apiv3/endpoints/help_texts/apiv3-help-texts-paths";
-import {Apiv3ConfigurationPath} from "core-app/modules/apiv3/endpoints/configuration/apiv3-configuration-path";
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import { Constructor } from "@angular/cdk/table";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { Apiv3GridsPaths } from "core-app/modules/apiv3/endpoints/grids/apiv3-grids-paths";
+import { Apiv3TimeEntriesPaths } from "core-app/modules/apiv3/endpoints/time-entries/apiv3-time-entries-paths";
+import { Apiv3MembershipsPaths } from "core-app/modules/apiv3/endpoints/memberships/apiv3-memberships-paths";
+import { Apiv3UsersPaths } from "core-app/modules/apiv3/endpoints/users/apiv3-users-paths";
+import { Apiv3PlaceholderUsersPaths } from 'core-app/modules/apiv3/endpoints/placeholder-users/apiv3-placeholder-users-paths.ts';
+import { Apiv3GroupsPaths } from 'core-app/modules/apiv3/endpoints/groups/apiv3-groups-paths.ts';
+import { APIv3TypesPaths } from "core-app/modules/apiv3/endpoints/types/apiv3-types-paths";
+import { APIv3QueriesPaths } from "core-app/modules/apiv3/endpoints/queries/apiv3-queries-paths";
+import { APIV3WorkPackagesPaths } from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-packages-paths";
+import { APIv3ProjectPaths } from "core-app/modules/apiv3/endpoints/projects/apiv3-project-paths";
+import { APIv3ProjectsPaths } from "core-app/modules/apiv3/endpoints/projects/apiv3-projects-paths";
+import { APIv3StatusesPaths } from "core-app/modules/apiv3/endpoints/statuses/apiv3-statuses-paths";
+import { APIv3RolesPaths } from "core-app/modules/apiv3/endpoints/roles/apiv3-roles-paths";
+import { APIv3VersionsPaths } from "core-app/modules/apiv3/endpoints/versions/apiv3-versions-paths";
+import { Apiv3RelationsPaths } from "core-app/modules/apiv3/endpoints/relations/apiv3-relations-paths";
+import { Apiv3NewsPaths } from "core-app/modules/apiv3/endpoints/news/apiv3-news-paths";
+import { Apiv3HelpTextsPaths } from "core-app/modules/apiv3/endpoints/help_texts/apiv3-help-texts-paths";
+import { Apiv3ConfigurationPath } from "core-app/modules/apiv3/endpoints/configuration/apiv3-configuration-path";
+import { Apiv3BoardsPaths } from "core-app/modules/apiv3/virtual/apiv3-boards-paths";
+import { RootResource } from "core-app/modules/hal/resources/root-resource";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 import * as ts from "typescript/lib/tsserverlibrary";
 import Project = ts.server.Project;
-import {Apiv3BoardsPaths} from "core-app/modules/apiv3/virtual/apiv3-boards-paths";
 
 @Injectable({ providedIn: 'root' })
 export class APIV3Service {
@@ -70,8 +72,8 @@ export class APIV3Service {
   // /api/v3/grids
   public readonly grids = this.apiV3CustomEndpoint(Apiv3GridsPaths);
 
-  // /api/v3/groups
-  public readonly groups = this.apiV3CollectionEndpoint('groups');
+  // /api/v3/principals
+  public readonly principals = this.apiV3CollectionEndpoint('principals');
 
   // /api/v3/root
   public readonly root = this.apiV3SingularEndpoint<RootResource>('');
@@ -112,6 +114,15 @@ export class APIV3Service {
   // /api/v3/users
   public readonly users = this.apiV3CustomEndpoint(Apiv3UsersPaths);
 
+  // /api/v3/placeholderUsers
+  public readonly placeholder_users = this.apiV3CustomEndpoint(Apiv3PlaceholderUsersPaths);
+
+  // /api/v3/groups
+  public readonly groups = this.apiV3CustomEndpoint(Apiv3GroupsPaths);
+
+  // /api/v3/roles
+  public readonly roles = this.apiV3CustomEndpoint(APIv3RolesPaths);
+
   // /api/v3/help_texts
   public readonly help_texts = this.apiV3CustomEndpoint(Apiv3HelpTextsPaths);
 
@@ -140,6 +151,12 @@ export class APIV3Service {
     } else {
       return this.projects.id(projectIdentifier);
     }
+  }
+
+  public collectionFromString(fullPath:string) {
+    const path = fullPath.replace(this.pathHelper.api.v3.apiV3Base + '/', '');
+
+    return this.apiV3CollectionEndpoint(path);
   }
 
   private apiV3CollectionEndpoint<V extends HalResource, T extends APIv3GettableResource<V>>(segment:string, resource?:Constructor<T>) {

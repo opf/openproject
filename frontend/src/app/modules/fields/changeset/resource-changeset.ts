@@ -1,14 +1,14 @@
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {FormResource} from "core-app/modules/hal/resources/form-resource";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {ChangeItem, ChangeMap, Changeset} from "core-app/modules/fields/changeset/changeset";
-import {input, InputState} from "reactivestates";
-import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {debugLog} from "core-app/helpers/debug_output";
-import {take} from "rxjs/operators";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { FormResource } from "core-app/modules/hal/resources/form-resource";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { ChangeItem, ChangeMap, Changeset } from "core-app/modules/fields/changeset/changeset";
+import { input, InputState } from "reactivestates";
+import { IFieldSchema } from "core-app/modules/fields/field.base";
+import { debugLog } from "core-app/helpers/debug_output";
+import { take } from "rxjs/operators";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { Injector } from '@angular/core';
-import {SchemaProxy} from "core-app/modules/hal/schemas/schema-proxy";
+import { SchemaProxy } from "core-app/modules/hal/schemas/schema-proxy";
 
 export const PROXY_IDENTIFIER = '__is_changeset_proxy';
 
@@ -130,7 +130,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * to get the up to date projected object.
    */
   protected updateForm():Promise<FormResource> {
-    let payload = this.buildPayloadFromChanges();
+    const payload = this.buildPayloadFromChanges();
 
     const promise = this.pristineResource
       .$links
@@ -172,7 +172,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * Returns the changed `to` values of the ChangeMap
    */
   public get changes():{ [key:string]:unknown } {
-    let changes:{ [key:string]:unknown } = {};
+    const changes:{ [key:string]:unknown } = {};
 
     _.each(this.changeset.all, (item, key) => {
       changes[key] = item.to;
@@ -411,7 +411,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
 
     // Test if we either have a CollectionResource or a HAL array,
     // or a single hal value.
-    let isArrayType = (fieldSchema.type || '').startsWith('[]');
+    const isArrayType = (fieldSchema.type || '').startsWith('[]');
     let isArray = false;
 
     if (val.forEach || val.elements) {
@@ -419,10 +419,10 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
     }
 
     if (isArray && isArrayType) {
-      let links:{ href:string }[] = [];
+      const links:{ href:string }[] = [];
 
       if (val) {
-        let elements = (val.forEach && val) || val.elements;
+        const elements = (val.forEach && val) || val.elements;
 
         elements.forEach((link:{ href:string }) => {
           if (link.href) {

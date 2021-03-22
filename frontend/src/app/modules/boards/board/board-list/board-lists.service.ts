@@ -1,14 +1,14 @@
-import {Injectable} from "@angular/core";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {Board} from "core-app/modules/boards/board/board";
-import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { Injectable } from "@angular/core";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { Board } from "core-app/modules/boards/board/board";
+import { GridWidgetResource } from "core-app/modules/hal/resources/grid-widget-resource";
+import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
+import { ApiV3Filter } from "core-components/api/api-v3/api-v3-filter-builder";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable({ providedIn: 'root' })
 export class BoardListsService {
@@ -25,7 +25,7 @@ export class BoardListsService {
   }
 
   private create(params:Object, filters:ApiV3Filter[]):Promise<QueryResource> {
-    let filterJson = JSON.stringify(filters);
+    const filterJson = JSON.stringify(filters);
 
     return this
       .apiV3Service
@@ -74,7 +74,7 @@ export class BoardListsService {
     try {
       const query = await this.create(queryParams, filters);
 
-      let source = {
+      const source = {
         _type: 'GridWidget',
         identifier: 'work_package_query',
         startRow: 1,
@@ -87,7 +87,7 @@ export class BoardListsService {
         }
       };
 
-      let resource = this.halResourceService.createHalResourceOfClass(GridWidgetResource, source);
+      const resource = this.halResourceService.createHalResourceOfClass(GridWidgetResource, source);
       board.addQuery(resource);
     } catch (e) {
       this.notifications.addError(e);

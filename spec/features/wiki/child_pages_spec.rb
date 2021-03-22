@@ -56,6 +56,7 @@ describe 'wiki child pages', type: :feature, js: true do
 
     click_on 'Wiki page'
 
+    SeleniumHubWaiter.wait
     fill_in 'content_page_title', with: child_page_name
 
     find('.ck-content').set('The child page\'s content')
@@ -64,7 +65,7 @@ describe 'wiki child pages', type: :feature, js: true do
 
     # hierarchy displayed in the breadcrumb
     expect(page).to have_selector('#breadcrumb .breadcrumb',
-                                  text: "#{parent_page.title}")
+                                  text: parent_page.title.to_s)
 
     # hierarchy displayed in the sidebar
     expect(page).to have_selector('.pages-hierarchy',

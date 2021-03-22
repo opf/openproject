@@ -99,6 +99,7 @@ de:
   backlogs_empty_title: "Für Backlogs sind keine Versionen definiert"
   backlogs_empty_action_text: "Um mit Backlogs zu beginnen, erstellen Sie eine neue Version und fügen diese einer Backlogs-Spalte hinzu."
   button_edit_wiki: "Wiki Seite bearbeiten"
+  error_backlogs_task_cannot_be_story: "Die Einstellungen sind ungültig. Der gewählte Aufgabentyp kann nicht auch ein Story-Typ sein."
   error_intro_plural: "Die folgenden Fehler sind aufgetreten:"
   error_intro_singular: "Der folgende Fehler ist aufgetreten:"
   error_outro: "Bitte beheben Sie die obigen Fehler bevor Sie erneut abschicken."

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'create users', type: :feature, selenium: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:current_user) { admin }
   let!(:auth_source) { FactoryBot.create :dummy_auth_source }
   let(:new_user_page) { Pages::NewUser.new }
@@ -40,7 +40,7 @@ describe 'create users', type: :feature, selenium: true do
   let(:token) { mail_body.scan(/token=(.*)$/).first.first.strip }
 
   before do
-    allow(User).to receive(:current).and_return admin
+    allow(User).to receive(:current).and_return current_user
   end
 
   shared_examples_for 'successful user creation' do
@@ -107,7 +107,6 @@ describe 'create users', type: :feature, selenium: true do
                              login: 'bob',
                              auth_source: auth_source.name
 
-
       perform_enqueued_jobs do
         new_user_page.submit!
       end
@@ -139,6 +138,50 @@ describe 'create users', type: :feature, selenium: true do
           expect(page).to have_text 'OpenProject'
           expect(current_path).to eq '/'
           expect(page).to have_link 'bobfirst boblast'
+        end
+      end
+    end
+  end
+
+  context 'as global user' do
+    shared_let(:global_manage_user) { FactoryBot.create :user, global_permission: :manage_user }
+    let(:current_user) { global_manage_user }
+
+    context 'with internal authentication' do
+      before do
+        visit new_user_path
+
+        new_user_page.fill_in! first_name: 'bobfirst',
+                               last_name: 'boblast',
+                               email: 'bob@mail.com'
+
+        perform_enqueued_jobs do
+          new_user_page.submit!
+        end
+      end
+
+      it_behaves_like 'successful user creation' do
+        describe 'activation' do
+          before do
+            allow(User).to receive(:current).and_call_original
+
+            visit "/account/activate?token=#{token}"
+          end
+
+          it 'shows the registration form' do
+            expect(page).to have_text 'Create a new account'
+          end
+
+          it 'registers the user upon submission' do
+            fill_in 'user_password', with: 'foobarbaz1'
+            fill_in 'user_password_confirmation', with: 'foobarbaz1'
+
+            click_button 'Create'
+
+            # landed on the 'my page'
+            expect(page).to have_text 'Welcome, your account has been activated. You are logged in now.'
+            expect(page).to have_link 'bobfirst boblast'
+          end
         end
       end
     end

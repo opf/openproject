@@ -1,11 +1,11 @@
-import {Constructor} from "@angular/cdk/table";
-import {SimpleResource, SimpleResourceCollection} from "core-app/modules/apiv3/paths/path-resources";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {Observable} from "rxjs";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { Constructor } from "@angular/cdk/table";
+import { SimpleResource, SimpleResourceCollection } from "core-app/modules/apiv3/paths/path-resources";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
+import { ApiV3FilterBuilder } from "core-components/api/api-v3/api-v3-filter-builder";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { Observable } from "rxjs";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 export class APIv3ResourcePath<T = HalResource> extends SimpleResource {
   readonly injector = this.apiRoot.injector;

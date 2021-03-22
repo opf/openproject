@@ -39,11 +39,13 @@ module API
         def initialize(model:,
                        instance_generator: default_instance_generator(model),
                        process_service: nil,
+                       success_status: 204,
                        api_name: model.name.demodulize)
           self.model = model
           self.instance_generator = instance_generator
           self.process_service = process_service || deduce_process_service
           self.api_name = api_name
+          self.success_status = success_status
         end
 
         def mount
@@ -75,14 +77,11 @@ module API
           end
         end
 
-        def success_status
-          204
-        end
-
         attr_accessor :model,
                       :instance_generator,
                       :process_service,
-                      :api_name
+                      :api_name,
+                      :success_status
 
         private
 

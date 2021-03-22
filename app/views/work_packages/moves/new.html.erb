@@ -101,7 +101,7 @@ See docs/COPYRIGHT.rdoc for more details.
                 <%= styled_select_tag('assigned_to_id',
                        content_tag('option', t(:label_no_change_option), value: '') +
                        content_tag('option', t(:label_nobody), value: 'none') +
-                       options_from_collection_for_select(@target_project.possible_assignees, :id, :name)) %>
+                       options_from_collection_for_select(Principal.possible_assignee(@target_project), :id, :name)) %>
               </div>
             </div>
             <div class="form--field">
@@ -110,7 +110,7 @@ See docs/COPYRIGHT.rdoc for more details.
                 <%= styled_select_tag('responsible_id',
                        content_tag('option', t(:label_no_change_option), value: '') +
                        content_tag('option', t(:label_nobody), value: 'none') +
-                       options_from_collection_for_select(@target_project.possible_responsibles, :id, :name)) %>
+                       options_from_collection_for_select(Principal.possible_assignee(@target_project), :id, :name)) %>
               </div>
             </div>
             <div class="form--field">

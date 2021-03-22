@@ -1,5 +1,5 @@
-import {Title} from "@angular/platform-browser";
-import {Injectable} from "@angular/core";
+import { Title } from "@angular/platform-browser";
+import { Injectable } from "@angular/core";
 
 const titlePartsSeparator = ' | ';
 
@@ -18,7 +18,7 @@ export class OpTitleService {
   }
 
   public setFirstPart(value:string) {
-    let parts = this.titleParts;
+    const parts = this.titleParts;
     parts[0] = value;
 
     this.titleService.setTitle(parts.join(titlePartsSeparator));

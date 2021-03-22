@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Board} from "core-app/modules/boards/board/board";
-import {Observable} from "rxjs";
-import {map, switchMap, tap} from "rxjs/operators";
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {CachableAPIV3Resource} from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
-import {MultiInputState} from "reactivestates";
-import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
-import {Apiv3BoardsPaths} from "core-app/modules/apiv3/virtual/apiv3-boards-paths";
+import { Board } from "core-app/modules/boards/board/board";
+import { Observable } from "rxjs";
+import { map, switchMap, tap } from "rxjs/operators";
+import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { CachableAPIV3Resource } from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
+import { MultiInputState } from "reactivestates";
+import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
+import { Apiv3BoardsPaths } from "core-app/modules/apiv3/virtual/apiv3-boards-paths";
 
 export class APIv3BoardPath extends CachableAPIV3Resource<Board> {
 

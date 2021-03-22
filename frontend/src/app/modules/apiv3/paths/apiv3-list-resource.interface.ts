@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {ApiV3FilterBuilder, FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
-import {Observable} from "rxjs";
+import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
+import { ApiV3FilterBuilder, FilterOperator } from "core-components/api/api-v3/api-v3-filter-builder";
+import { Observable } from "rxjs";
 
 export interface Apiv3ListParameters {
   filters?:[string, FilterOperator, string[]][];
@@ -41,7 +41,7 @@ export interface Apiv3ListResourceInterface<T> {
 }
 
 export function listParamsString(params?:Apiv3ListParameters):string {
-  let queryProps = [];
+  const queryProps = [];
 
   if (params && params.sortBy) {
     queryProps.push(`sortBy=${JSON.stringify(params.sortBy)}`);
@@ -53,7 +53,7 @@ export function listParamsString(params?:Apiv3ListParameters):string {
   }
 
   if (params && params.filters) {
-    let filters = new ApiV3FilterBuilder();
+    const filters = new ApiV3FilterBuilder();
 
     params.filters.forEach((filterParam) => {
       filters.add(...filterParam);

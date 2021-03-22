@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -97,7 +98,6 @@ class SCM::CheckoutInstructionsService
     repository.supports_checkout_info? && !checkout_enabled?
   end
 
-
   ##
   # Determines whether permissions for the given repository
   # are available.
@@ -134,7 +134,7 @@ class SCM::CheckoutInstructionsService
   # because otherwise OpenProject does not control the repository permissions.
   # Use +manages_permissions?+ to check whether this is the case.
   def may_checkout?
-    [:readwrite, :read].include?(permission)
+    %i[readwrite read].include?(permission)
   end
 
   ##

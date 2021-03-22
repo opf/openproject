@@ -34,8 +34,8 @@ describe Types::Scopes::Milestone, type: :model do
   let!(:milestone) { FactoryBot.create(:type, is_milestone: true) }
   let!(:other_type) { FactoryBot.create(:type, is_milestone: false) }
 
-  describe '.fetch' do
-    subject { described_class.fetch }
+  describe '.milestone' do
+    subject { Type.milestone }
 
     it 'returns only milestones' do
       is_expected

@@ -30,7 +30,7 @@
 
 class Queries::Principals::Filters::IdFilter < Queries::Principals::Filters::PrincipalFilter
   def allowed_values
-    [["me", "me"]] # Not the whole truth but performes better than checking all IDs
+    [["me", "me"]] # Not the whole truth but performs better than checking all IDs
   end
 
   def type

@@ -49,13 +49,12 @@ describe 'Assignee action board',
   let(:board_index) { Pages::BoardIndex.new(project) }
   let(:other_board_index) { Pages::BoardIndex.new(project_without_members) }
 
-  let(:permissions) {
+  let(:permissions) do
     %i[show_board_views manage_board_views add_work_packages
        edit_work_packages view_work_packages manage_public_queries]
-  }
+  end
 
   let!(:priority) { FactoryBot.create :default_priority }
-
 
   # Set up other assignees
 
@@ -68,7 +67,7 @@ describe 'Assignee action board',
   end
 
   let!(:group) do
-    FactoryBot.create(:group, groupname: 'Grouped').tap do |group|
+    FactoryBot.create(:group, name: 'Grouped').tap do |group|
       FactoryBot.create(:member,
                         principal: group,
                         project: project,
@@ -76,10 +75,12 @@ describe 'Assignee action board',
     end
   end
 
-  let!(:work_package) { FactoryBot.create :work_package,
-                                          project: project,
-                                          assigned_to: bobself_user,
-                                          subject: 'Some Task' }
+  let!(:work_package) do
+    FactoryBot.create :work_package,
+                      project: project,
+                      assigned_to: bobself_user,
+                      subject: 'Some Task'
+  end
 
   context 'in a project with members' do
     before do
@@ -148,7 +149,7 @@ describe 'Assignee action board',
       board_page.expect_card 'Bob Self', 'Some Task', present: false
 
       # Expect to have changed the avatar
-      expect(page).to have_selector('.wp-card--assignee .avatar-default', text: 'FB', wait: 10)
+      expect(page).to have_selector('.wp-card--assignee .avatar-mini', text: 'FB', wait: 10)
 
       work_package.reload
       expect(work_package.assigned_to).to eq(foobar_user)
@@ -160,7 +161,7 @@ describe 'Assignee action board',
       board_page.expect_card 'Bob Self', 'Some Task', present: false
 
       # Expect to have changed the avatar
-      expect(page).to have_selector('.wp-card--assignee .avatar-default', text: 'GG', wait: 10)
+      expect(page).to have_selector('.wp-card--assignee .avatar-mini', text: 'GG', wait: 10)
 
       work_package.reload
       expect(work_package.assigned_to).to eq(group)

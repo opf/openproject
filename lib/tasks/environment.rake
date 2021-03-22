@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -30,7 +31,7 @@
 namespace 'environment' do
   desc 'Force application to eager load if configured (does not happen by default for rake tasks)'
   task :full do
-    $stderr.puts "Forcefully loading the application. Use :environment to avoid eager loading."
+    warn "Forcefully loading the application. Use :environment to avoid eager loading."
 
     ##
     # Require the environment, bypassing the default :environment flag

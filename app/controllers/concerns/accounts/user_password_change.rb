@@ -91,7 +91,7 @@ module Accounts::UserPasswordChange
   def redirect_if_password_change_not_allowed(user)
     if user and not user.change_password_allowed?
       logger.warn "Password change for user '#{user}' forced, but user is not allowed " +
-                    'to change password'
+                  'to change password'
       flash[:error] = I18n.t(:notice_can_t_change_password)
       redirect_to action: 'login'
       return true

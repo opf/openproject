@@ -86,7 +86,7 @@ describe Relations::UpdateService do
 
     allow(Relations::UpdateContract)
       .to receive(:new)
-      .with(relation, user, options: { changed_by_system: [] })
+      .with(relation, user, options: {})
       .and_return(contract)
     allow(contract)
       .to receive(:validate)

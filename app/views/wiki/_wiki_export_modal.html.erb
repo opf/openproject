@@ -27,33 +27,43 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="modal-wrapper--content">
-  <div class="onboarding--top-menu op-modal--modal-header">
-    <h3><%= I18n.t('js.label_export') %></h3>
-
-    <a class="op-modal--modal-close-button dynamic-content-modal--close-button"
-       title="<%= t('js.close_popup_title') %>"
-       aria-label="<%= t('js.close_popup_title') %>">
+<div class="modal-delivery-element">
+  <div class="op-modal--header">
+    <h1 class="op-modal--title">
+      <%= I18n.t('js.label_export') %>
+    </h1>
+    <button
+      type="button"
+      class="op-modal--close-button"
+      aria-label="<%= t('js.close_popup_title') %>"
+    >
       <%= op_icon('icon-close') %>
-    </a>
+    </button>
   </div>
 
-  <div class="op-modal--modal-body">
-    <ul class="export-options">
-      <li>
-        <%= link_to url_for(controller: '/activities',
-                            action: 'index',
-                            show_wiki_edits: 1,
-                            apply: true,
-                            key: User.current.rss_key, format: 'atom') do %>
+  <div class="op-modal--body">
+    <ul class="op-export-options">
+      <li class="op-export-options--option">
+        <%= link_to url_for(
+                controller: '/activities',
+                action: 'index',
+                show_wiki_edits: 1,
+                apply: true,
+                key: User.current.rss_key,
+                format: 'atom',
+              ), class: 'op-export-options--option-link' do %>
             <%= op_icon('icon-big icon-export-atom') %>
-            <span class="export-label"><%= t('export.format.atom') %></span>
+            <span class="op-export-options--option-label"><%= t('export.format.atom') %></span>
         <% end %>
       </li>
-      <li>
-        <%= link_to url_for(version: @content.version, id: @page, format: 'markdown') do %>
+      <li class="op-export-options--option">
+        <%= link_to url_for(
+          version: @content.version,
+          id: @page,
+          format: 'markdown',
+        ), class: 'op-export-options--option-link' do %>
             <%= op_icon('icon-big icon-ticket') %>
-            <span class="export-label"><%= t('text_formatting.markdown') %></span>
+            <span class="op-export-options--option-label"><%= t('text_formatting.markdown') %></span>
         <% end %>
       </li>
     </ul>

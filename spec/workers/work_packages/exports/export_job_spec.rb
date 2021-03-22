@@ -100,7 +100,7 @@ describe WorkPackages::Exports::ExportJob do
 
   describe 'query passing' do
     context 'passing in group_by through attributes' do
-      let(:query_attributes) { { group_by: 'assigned_to' }}
+      let(:query_attributes) { { group_by: 'assigned_to' } }
       let(:mime_type) { :pdf }
 
       it 'updates the query from attributes' do

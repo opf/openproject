@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Omniauth authentication', type: :feature do
-  # Running the tests inside docker changes the hostname. To accomodate that we changed
+  # Running the tests inside docker changes the hostname. To accommodate that we changed
   # the Capybara app_host, however this change was not being reflected in the Rails host,
   # causing the redirect checks to fail below.
   def self.default_url_options
@@ -38,13 +38,12 @@ describe 'Omniauth authentication', type: :feature do
 
   let(:user) do
     FactoryBot.create(:user,
-                       force_password_change: false,
-                       identity_url: 'developer:omnibob@example.com',
-                       login: 'omnibob',
-                       mail: 'omnibob@example.com',
-                       firstname: 'omni',
-                       lastname: 'bob'
-                      )
+                      force_password_change: false,
+                      identity_url: 'developer:omnibob@example.com',
+                      login: 'omnibob',
+                      mail: 'omnibob@example.com',
+                      firstname: 'omni',
+                      lastname: 'bob')
   end
 
   before do
@@ -71,6 +70,8 @@ describe 'Omniauth authentication', type: :feature do
     it 'should redirect to back url' do
       visit account_lost_password_path
       click_link("Omniauth Developer", match: :first, visible: :all)
+
+      SeleniumHubWaiter.wait
       fill_in('first_name', with: user.firstname)
       fill_in('last_name', with: user.lastname)
       fill_in('email', with: user.mail)
@@ -81,6 +82,8 @@ describe 'Omniauth authentication', type: :feature do
 
     it 'should sign in user' do
       visit '/auth/developer'
+
+      SeleniumHubWaiter.wait
       fill_in('first_name', with: user.firstname)
       fill_in('last_name', with: user.lastname)
       fill_in('email', with: user.mail)
@@ -92,11 +95,11 @@ describe 'Omniauth authentication', type: :feature do
 
     context 'with direct login',
             with_config: { omniauth_direct_login_provider: 'developer' } do
-
       it 'should go directly to the developer sign in and then redirect to the back url' do
         visit my_account_path
         # requires login, redirects to developer login which is why we see the login form now
 
+        SeleniumHubWaiter.wait
         fill_in('first_name', with: user.firstname)
         fill_in('last_name', with: user.lastname)
         fill_in('email', with: user.mail)
@@ -110,7 +113,6 @@ describe 'Omniauth authentication', type: :feature do
   describe 'sign out a user with direct login and login required',
            with_config: { omniauth_direct_login_provider: 'developer' },
            with_settings: { login_required?: true } do
-
     it 'shows a notice that the user has been logged out' do
       visit signout_path
 
@@ -125,6 +127,7 @@ describe 'Omniauth authentication', type: :feature do
 
       click_on 'here'
 
+      SeleniumHubWaiter.wait
       fill_in('first_name', with: user.firstname)
       fill_in('last_name', with: user.lastname)
       fill_in('email', with: user.mail)
@@ -137,8 +140,9 @@ describe 'Omniauth authentication', type: :feature do
   shared_examples 'omniauth user registration' do
     it 'should register new user' do
       visit '/'
-      click_link("Omniauth Developer", :match => :first)
+      click_link("Omniauth Developer", match: :first)
 
+      SeleniumHubWaiter.wait
       # login form developer strategy
       fill_in('first_name', with: user.firstname)
       # intentionally do not supply last_name
@@ -148,6 +152,7 @@ describe 'Omniauth authentication', type: :feature do
       expect(page).to have_content "Last name can't be blank"
       # on register form, we are prompted for a last name
       within('#content') do
+        SeleniumHubWaiter.wait
         fill_in('user_lastname', with: user.lastname)
         click_link_or_button 'Create'
       end
@@ -158,12 +163,11 @@ describe 'Omniauth authentication', type: :feature do
   end
 
   context 'register on the fly',
-           with_settings: {
+          with_settings: {
             self_registration?: true,
             self_registration: '3',
             available_languages: [:en]
-           } do
-
+          } do
     let(:user) do
       User.new(force_password_change: false,
                identity_url: 'developer:omnibob@example.com',
@@ -177,8 +181,9 @@ describe 'Omniauth authentication', type: :feature do
 
     it 'should redirect to homesceen' do
       visit account_lost_password_path
-      click_link("Omniauth Developer", :match => :first)
+      click_link("Omniauth Developer", match: :first)
 
+      SeleniumHubWaiter.wait
       # login form developer strategy
       fill_in('first_name', with: user.firstname)
       # intentionally do not supply last_name
@@ -187,6 +192,7 @@ describe 'Omniauth authentication', type: :feature do
 
       # on register form, we are prompted for a last name
       within('#content') do
+        SeleniumHubWaiter.wait
         fill_in('user_lastname', with: user.lastname)
         click_link_or_button 'Create'
       end
@@ -196,7 +202,6 @@ describe 'Omniauth authentication', type: :feature do
 
     context 'with password login disabled',
             with_config: { disable_password_login: 'true' } do
-
       it_behaves_like 'omniauth user registration'
     end
   end
@@ -206,11 +211,11 @@ describe 'Omniauth authentication', type: :feature do
             self_registration?: true,
             self_registration: Setting::SelfRegistration.by_email.to_s
           } do
-
     shared_examples 'registration with registration by email' do
       it 'shows a note explaining that the account has to be activated' do
         visit login_path
 
+        SeleniumHubWaiter.wait
         # login form developer strategy
         fill_in 'first_name', with: 'Ifor'
         fill_in 'last_name',  with: 'McAlistar'
@@ -232,7 +237,6 @@ describe 'Omniauth authentication', type: :feature do
 
     context 'with direct login enabled and login required',
             with_config: { omniauth_direct_login_provider: 'developer' } do
-
       before do
         allow(Setting).to receive(:login_required?).and_return(true)
       end
@@ -254,6 +258,11 @@ describe 'Omniauth authentication', type: :feature do
         # to a symbol will force omniauth to fail /auth/failure
         OmniAuth.config.test_mode = true
         OmniAuth.config.mock_auth[:developer] = :invalid_credentials
+        # seems like this default behaviour is removed when running the full
+        # test suite, so let's set it back when running this test
+        OmniAuth.config.on_failure = Proc.new do |env|
+          OmniAuth::FailureEndpoint.new(env).redirect_to_failure
+        end
         visit login_path
         expect(page).to have_content(I18n.t(:error_external_authentication_failed))
 
@@ -269,7 +278,6 @@ describe 'Omniauth authentication', type: :feature do
 
     context 'with direct login and login required',
             with_config: { omniauth_direct_login_provider: 'developer' } do
-
       before do
         allow(Setting).to receive(:login_required?).and_return(true)
       end

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -68,7 +69,7 @@ module Redmine::MenuManager::MenuController
   def menu_items
     self.class.menu_items
   end
-  
+
   # Returns the menu item name according to the current action
   def current_menu_item
     return @current_menu_item if @current_menu_item_determined

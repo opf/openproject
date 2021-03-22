@@ -26,7 +26,7 @@ fi:
       label_event_resources: Event resources
       events:
         created: "Luotu"
-        updated: "Updated"
+        updated: "Päivitetty"
       status:
         enabled: 'Webhook is enabled'
         disabled: 'Webhook is disabled'

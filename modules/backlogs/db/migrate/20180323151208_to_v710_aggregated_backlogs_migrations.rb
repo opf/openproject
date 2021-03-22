@@ -26,10 +26,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require Rails.root.join("db","migrate","migration_utils","migration_squasher").to_s
+require Rails.root.join("db", "migrate", "migration_utils", "migration_squasher").to_s
 # This migration aggregates the migrations detailed in MIGRATION_FILES
 class ToV710AggregatedBacklogsMigrations < ActiveRecord::Migration[5.1]
-
   MIGRATION_FILES = <<-MIGRATIONS
     20111014073606_aggregated_backlogs_migrations.rb
     20130625094113_add_backlogs_column_to_work_package.rb
@@ -62,10 +61,10 @@ class ToV710AggregatedBacklogsMigrations < ActiveRecord::Migration[5.1]
       add_column :work_package_journals, :remaining_hours, :float
 
       add_index :work_package_journals,
-                [:fixed_version_id,
-                 :status_id,
-                 :project_id,
-                 :type_id],
+                %i[fixed_version_id
+                   status_id
+                   project_id
+                   type_id],
                 name: 'work_package_journal_on_burndown_attributes'
     end
   end

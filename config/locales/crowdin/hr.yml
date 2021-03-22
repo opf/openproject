@@ -78,7 +78,7 @@ hr:
     is_active: trenutno prikazani
     is_inactive: trenutno nije prikazano
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
     label_plural: 'Attribute help texts'
     show_preview: 'Preview text'
@@ -122,9 +122,6 @@ hr:
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Connection encryption'
     system_account: 'System account'
     system_account_legend: |
@@ -195,7 +192,7 @@ hr:
       Specify a list of names to ignore when processing attachments for incoming mails (e.g., signatures or icons). Enter one filename per line.
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is perfomed in the background. You will be notified of the result."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Project cannot be deleted: %{errors}"
       failed: "Deletion of project %{name} has failed"
       failed_text: "The request to delete project %{name} has failed. The project was left archived."
@@ -243,6 +240,14 @@ hr:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Korisnik trenutno nije član projekta.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -522,6 +527,7 @@ hr:
         confirmation: "ne odgovara %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "ne postoji."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         empty: "ne može biti prazan unos."
@@ -537,6 +543,7 @@ hr:
         invalid_url: 'nije valjani URL.'
         invalid_url_scheme: 'nije podržani protokol (dozvoljeno: %{allowed_schemes}).'
         less_than_or_equal_to: "mora biti manji od ili jednak %{count}."
+        not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "is not a valid date."
         not_a_datetime: "is not a valid date time."
@@ -723,6 +730,7 @@ hr:
       status: "Status Radnog paketa"
       member: "Član"
       news: "Vijesti"
+      placeholder_user: "Placeholder user"
       project: "Projekt"
       query: "Prilagođeni upit"
       role:
@@ -773,7 +781,7 @@ hr:
     firstname: "Ime"
     group: "Grupa"
     groups: "Grupe"
-    groupname: "Naziv grupe"
+    name: "Naziv"
     id: "ID"
     is_default: "Zadane vrijednost"
     is_for_all: "Za sve projekte"
@@ -783,7 +791,6 @@ hr:
     lastname: "Prezime"
     login: "Username"
     mail: "Email"
-    name: "Naziv"
     password: "Lozinka"
     priority: "Prioritet"
     project: "Projekt"
@@ -1146,7 +1153,7 @@ hr:
   error_menu_item_not_saved: Nije moguće spremiti element izbornika
   error_wiki_root_menu_item_conflict: >
     Can't rename "%{old_name}" to "%{new_name}" due to a conflict in the resulting menu item with the existing menu item "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Došlo je do greške tijekom izvođenja vanjske autentifikacije. Molim vas pokušajte opet."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
     project: 'Projekt je uređivan'
@@ -1347,6 +1354,7 @@ hr:
   label_custom_field_plural: "Prilagođena polja"
   label_custom_field_default_type: "Prazan tip"
   label_custom_style: "Dizajn"
+  label_database_version: "PostgreSQL version"
   label_date: "Datum"
   label_date_and_time: "Datum i vrijeme"
   label_date_from: "Od"
@@ -1505,6 +1513,7 @@ hr:
   label_my_account_data: "Moji korisnički podaci"
   label_my_projects: "Moji projekati"
   label_my_queries: "Moji prilagođeni upiti"
+  label_name: "Naziv"
   label_never: "Nikad"
   label_new: "Novi"
   label_new_features: "New features"
@@ -1554,6 +1563,9 @@ hr:
   label_permissions: "Dozvole"
   label_permissions_report: "Dozvole izvješća"
   label_personalize_page: "Prilagodi ovu stranicu"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Planiranje"
   label_please_login: "Molimo prijavite se"
   label_plugins: "Proširenja"
@@ -1867,6 +1879,7 @@ hr:
   notice_email_sent: "Email poruka je poslana %{value}"
   notice_failed_to_save_work_packages: "Neuspjelo spremanje %{count} radnog(ih) paketa na %{total} odabranih: %{ids}."
   notice_failed_to_save_members: "Neuspijelo spremanje člana(ova): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Stranica kojoj ste pokušali pristupiti ne postoji ili je izbrisana."
   notice_forced_logout: "Automatski ste odjavljeni iz sustava nakon %{ttl_time} minuta neaktivnosti."
   notice_internal_server_error: "Nastupila je pogrška na stranici kojoj pokuštavate pristupiti. Ako se problemi nastave molim vas da kontaktirate vašeg %{app_title} administratora za podršku."
@@ -1931,6 +1944,8 @@ hr:
   permission_add_work_packages: "Dodaj radne pakete"
   permission_add_messages: "Pošalji poruke"
   permission_add_project: "Stvori projekt"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Kreiraj potprojekte"
   permission_add_work_package_watchers: "Dodaj nadglednike"
   permission_assign_versions: "Assign versions"
@@ -2132,7 +2147,7 @@ hr:
       username: "Korisničko ime repozitorija"
     truncated: "Sorry, we had to truncate this directory to %{limit} files. %{truncated} entries were omitted from the list."
     named_repository: "%{vendor_name} repozitorij"
-    update_settings_successful: "Postavke su uspješno spremljene."
+    update_settings_successful: "The settings have been successfully saved."
     url: "URL na repozitorij"
     warnings:
       cannot_annotate: "Ovu datoteka ne može biti zabilježena."
@@ -2250,7 +2265,6 @@ hr:
   setting_welcome_text: "Tekst dobrodošlice"
   setting_welcome_title: "Naslov dobrodošlice"
   setting_welcome_on_homescreen: "Prikaži tekst dobrodošlice na početnoj stranici"
-  setting_work_package_group_assignment: "Allow assignment to groups"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   settings:
@@ -2651,7 +2665,7 @@ hr:
       code_403: "Niste autorizirani za pristup ovom resursu."
       code_404: "The requested resource could not be found."
       code_409: "Could not update the resource because of conflicting modifications."
-      code_500: "Dogodila se interna pogreška."
+      code_500: "Dogodila se interna greška."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
         duration: "ISO 8601 duration"

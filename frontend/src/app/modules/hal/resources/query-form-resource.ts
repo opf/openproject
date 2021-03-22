@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
-import {FormResource} from 'core-app/modules/hal/resources/form-resource';
-import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
+import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
+import { QueryFilterInstanceSchemaResource } from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
+import { FormResource } from 'core-app/modules/hal/resources/form-resource';
+import { SchemaResource } from 'core-app/modules/hal/resources/schema-resource';
 
 export interface QueryFormResourceEmbedded {
   filtersSchemas:CollectionResource<QueryFilterInstanceSchemaResource>;

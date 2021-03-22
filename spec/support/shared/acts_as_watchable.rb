@@ -49,14 +49,14 @@ MESSAGE
   let(:non_member_user) { FactoryBot.create(:user) }
   let(:user_with_permission) do
     FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_through_role: watcher_role)
+                      member_in_project: project,
+                      member_through_role: watcher_role)
   end
   let(:locked_user_with_permission) do
     FactoryBot.create(:user,
-                       status: Principal::STATUSES[:locked],
-                       member_in_project: project,
-                       member_through_role: watcher_role)
+                      status: Principal.statuses[:locked],
+                      member_in_project: project,
+                      member_through_role: watcher_role)
   end
 
   let(:user_wo_permission) do
@@ -64,16 +64,16 @@ MESSAGE
       FactoryBot.create(:user)
     else
       FactoryBot.create(:user,
-                         member_in_project: project,
-                         member_through_role: non_watcher_role)
+                        member_in_project: project,
+                        member_through_role: non_watcher_role)
     end
   end
   let(:admin) { FactoryBot.build(:admin) }
   let(:anonymous_user) { FactoryBot.build(:anonymous) }
   let(:watching_user) do
     FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_through_role: watcher_role).tap do |user|
+                      member_in_project: project,
+                      member_through_role: watcher_role).tap do |user|
       Watcher.create(watchable: model_instance, user: user)
     end
   end

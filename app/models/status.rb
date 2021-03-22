@@ -81,8 +81,8 @@ class Status < ApplicationRecord
     order(:position)
   end
 
-  def <=>(status)
-    position <=> status.position
+  def <=>(other)
+    position <=> other.position
   end
 
   def to_s; name end

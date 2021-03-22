@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Authorization::UserAllowedQuery, :with_clean_fixture do
+describe Authorization::UserAllowedQuery do
   describe '.query' do
     let(:user) { member.principal }
     let(:anonymous) { FactoryBot.build(:anonymous) }
@@ -40,7 +40,7 @@ describe Authorization::UserAllowedQuery, :with_clean_fixture do
     let(:non_member_role) { FactoryBot.build(:non_member) }
     let(:member) do
       FactoryBot.build(:member, project: project,
-                                 roles: [role])
+                                roles: [role])
     end
 
     let(:action) { :view_work_packages }

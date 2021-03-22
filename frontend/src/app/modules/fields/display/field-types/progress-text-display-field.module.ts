@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ProgressDisplayField} from './progress-display-field.module';
+import { ProgressDisplayField } from './progress-display-field.module';
 
 export class ProgressTextDisplayField extends ProgressDisplayField {
   public render(element:HTMLElement, displayText:string):void {

@@ -33,12 +33,12 @@ module OpenProject::Backlogs::Burndown
       @name = args.pop.to_sym
       @display = true
 
-      raise "Unsupported unit '#{@unit}'" unless [:points, :hours].include? @unit
+      raise "Unsupported unit '#{@unit}'" unless %i[points hours].include? @unit
+
       super(*args)
     end
 
-    attr_reader :unit
-    attr_reader :name
+    attr_reader :unit, :name
     attr_accessor :display
   end
 end

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -33,8 +34,6 @@ module API
       module Schema
         class WorkPackageSchemaCollectionRepresenter <
           ::API::V3::Schemas::SchemaCollectionRepresenter
-          element_decorator ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter
-
           private
 
           def model_self_link(model)

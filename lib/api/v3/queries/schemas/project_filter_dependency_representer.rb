@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -33,9 +34,11 @@ module API
       module Schemas
         class ProjectFilterDependencyRepresenter <
           FilterDependencyRepresenter
-
           def href_callback
-            api_v3_paths.projects
+            params = [active: { operator: '=', values: ['t'] }]
+            escaped = CGI.escape(::JSON.dump(params))
+
+            "#{api_v3_paths.projects}?filters=#{escaped}"
           end
 
           def type

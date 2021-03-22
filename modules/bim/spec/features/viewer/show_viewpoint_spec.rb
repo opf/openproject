@@ -34,7 +34,7 @@ describe 'Show viewpoint in model viewer',
          js: true do
   let(:project) do
     FactoryBot.create(:project,
-                      enabled_module_names: [:bim, :work_package_tracking],
+                      enabled_module_names: %i[bim work_package_tracking],
                       parent: parent_project)
   end
   let(:parent_project) { nil }
@@ -60,12 +60,13 @@ describe 'Show viewpoint in model viewer',
     it 'loads the minimal viewpoint in the viewer' do
       model_tree.select_sidebar_tab 'Objects'
       model_tree.expand_tree
-      model_tree.expect_checked 'minimal'
-      model_tree.all_checkboxes.each do |label, checkbox|
-        if label.text == 'minimal' || label.text == 'LUB_Segment_new:S_WHG_Ess:7243035'
-          expect(checkbox.checked?).to eq(true)
-        else
-          expect(checkbox.checked?).to eq(false)
+      retry_block do
+        model_tree.expect_checked 'minimal'
+        model_tree.all_checkboxes.each do |label, checkbox|
+          expect_checked = (label.text == 'minimal' || label.text == 'LUB_Segment_new:S_WHG_Ess:7243035')
+          if expect_checked != checkbox.checked?
+            raise "Expected #{label.text} to be #{expect_checked ? 'checked' : 'unchecked'}, but wasn't."
+          end
         end
       end
     end
@@ -80,6 +81,10 @@ describe 'Show viewpoint in model viewer',
 
   context 'clicking on the card' do
     before do
+      # We need to wait a bit for xeokit to be initialized
+      # otherwise the viewpoint selection won't go through
+      sleep 2
+
       card_view.select_work_package work_package
       card_view.expect_work_package_selected work_package, true
     end
@@ -91,6 +96,10 @@ describe 'Show viewpoint in model viewer',
     before do
       card_view.open_full_screen_by_details work_package
       bcf_details.expect_viewpoint_count 1
+
+      # We need to wait a bit for xeokit to be initialized
+      # otherwise the viewpoint selection won't go through
+      sleep 2
       bcf_details.show_current_viewpoint
     end
 
@@ -99,7 +108,7 @@ describe 'Show viewpoint in model viewer',
 
   context 'when in work packages details view' do
     let(:wp_details) { ::Pages::SplitWorkPackage.new(work_package, project) }
-    
+
     shared_examples "moves to the BCF page" do
       it 'moves to the bcf page' do
         wp_details.visit!

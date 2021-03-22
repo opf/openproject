@@ -48,7 +48,7 @@ dirs.each_with_index do |dir, index|
       <% end %>
 <% end %>
 <%
-  # @rev is revsion or git branch or tag.
+  # @rev is revision or git branch or tag.
   rev_text = @changeset.nil? ? @rev : format_revision(@changeset)
 %>
 <span class="repository-bradcrumbs--identifier">

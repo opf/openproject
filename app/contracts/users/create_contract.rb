@@ -28,10 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'users/base_contract'
-
 module Users
   class CreateContract < BaseContract
+    attribute :type
+
     attribute :status do
       unless model.active? || model.invited?
         # New users may only have these two statuses
@@ -41,6 +41,7 @@ module Users
 
     validate :user_allowed_to_add
     validate :authentication_defined
+    validate :type_is_user
 
     private
 
@@ -53,10 +54,17 @@ module Users
     end
 
     ##
-    # Users can only be created by Admins
+    # Users can only be created by Admins or users with
+    # the global right to :manage_user
     def user_allowed_to_add
-      unless user.admin?
+      unless user.allowed_to_globally?(:manage_user)
         errors.add :base, :error_unauthorized
+      end
+    end
+
+    def type_is_user
+      unless model.type == User.name
+        errors.add(:type, 'Type and class mismatch')
       end
     end
   end

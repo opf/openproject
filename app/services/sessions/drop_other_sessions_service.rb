@@ -40,7 +40,7 @@ module Sessions
 
         ::UserSession
           .where(user_id: user.id)
-          .where.not(session_id: session.id)
+          .where.not(session_id: session.id.to_s)
           .delete_all
 
         true

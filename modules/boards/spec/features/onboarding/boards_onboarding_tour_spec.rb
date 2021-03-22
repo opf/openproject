@@ -31,9 +31,11 @@ require_relative './../support/onboarding_steps'
 
 describe 'boards onboarding tour', js: true do
   let(:next_button) { find('.enjoyhint_next_btn') }
-  let(:user) { FactoryBot.create :admin,
-                                 member_in_project: demo_project,
-                                 member_through_role: role}
+  let(:user) do
+    FactoryBot.create :admin,
+                      member_in_project: demo_project,
+                      member_through_role: role
+  end
   let(:permissions) do
     %i[
       show_board_views
@@ -94,7 +96,7 @@ describe 'boards onboarding tour', js: true do
 
     it "I see the board onboarding tour in the scrum project" do
       # Set sessionStorage value so that the tour knows that it is in the scum tour
-      page.execute_script("window.sessionStorage.setItem('openProject-onboardingTour', 'startMainTourFromBacklogs');");
+      page.execute_script("window.sessionStorage.setItem('openProject-onboardingTour', 'startMainTourFromBacklogs');")
 
       # Set the tour parameter so that we can start on the wp page
       visit "/projects/#{scrum_project.identifier}/work_packages?start_onboarding_tour=true"

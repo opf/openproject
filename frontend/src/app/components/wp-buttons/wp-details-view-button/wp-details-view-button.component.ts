@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {KeepTabService} from '../../wp-single-view-tabs/keep-tab/keep-tab.service';
-import {States} from '../../states.service';
-import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import {StateService, TransitionService} from '@uirouter/core';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
-import {AbstractWorkPackageButtonComponent} from 'core-components/wp-buttons/wp-buttons.module';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { KeepTabService } from '../../wp-single-view-tabs/keep-tab/keep-tab.service';
+import { States } from '../../states.service';
+import { WorkPackageViewFocusService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { StateService, TransitionService } from '@uirouter/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import { AbstractWorkPackageButtonComponent } from 'core-components/wp-buttons/wp-buttons.module';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   templateUrl: '../wp-button.template.html',
@@ -41,12 +41,12 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 })
 export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageButtonComponent implements OnDestroy {
   public projectIdentifier:string;
-  public accessKey:number = 8;
-  public activeState:string = 'work-packages.partitioned.list.details';
-  public listState:string = 'work-packages.partitioned.list';
-  public buttonId:string = 'work-packages-details-view-button';
-  public buttonClass:string = 'toolbar-icon';
-  public iconClass:string = 'icon-info2';
+  public accessKey = 8;
+  public activeState = 'work-packages.partitioned.list.details';
+  public listState = 'work-packages.partitioned.list';
+  public buttonId = 'work-packages-details-view-button';
+  public buttonClass = 'toolbar-icon';
+  public iconClass = 'icon-info2';
 
   public activateLabel:string;
   public deactivateLabel:string;

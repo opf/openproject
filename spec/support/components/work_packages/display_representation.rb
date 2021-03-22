@@ -42,7 +42,7 @@ module Components
       def switch_to_list_layout
         expect_button 'Table'
         select_view 'Table'
-        end
+      end
 
       def switch_to_gantt_layout
         expect_button 'Gantt'
@@ -68,10 +68,8 @@ module Components
         end
       end
 
-      def within_view_context_menu
-        page.within('#wp-view-context-menu') do
-          yield
-        end
+      def within_view_context_menu(&block)
+        page.within('#wp-view-context-menu', &block)
       end
     end
   end

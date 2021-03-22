@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, OnInit} from "@angular/core";
-import {HideSectionService} from "core-app/modules/common/hide-section/hide-section.service";
+import { Component, ElementRef, OnInit } from "@angular/core";
+import { HideSectionService } from "core-app/modules/common/hide-section/hide-section.service";
 
 export const hideSectionLinkSelector = 'hide-section-link';
 
@@ -36,7 +36,7 @@ export const hideSectionLinkSelector = 'hide-section-link';
   templateUrl: './hide-section-link.component.html',
 })
 export class HideSectionLinkComponent implements OnInit {
-  displayed:boolean = true;
+  displayed = true;
 
   public sectionName:string;
 

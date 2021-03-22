@@ -30,8 +30,14 @@ require 'spec_helper'
 
 describe 'onboarding tour for new users', js: true do
   let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create :project, name: 'Demo project', identifier: 'demo-project', public: true, enabled_module_names: %w[work_package_tracking wiki] }
-  let(:scrum_project) {FactoryBot.create :project, name: 'Scrum project', identifier: 'your-scrum-project', public: true, enabled_module_names: %w[work_package_tracking] }
+  let(:project) do
+    FactoryBot.create :project, name: 'Demo project', identifier: 'demo-project', public: true,
+                                enabled_module_names: %w[work_package_tracking wiki]
+  end
+  let(:scrum_project) do
+    FactoryBot.create :project, name: 'Scrum project', identifier: 'your-scrum-project', public: true,
+                                enabled_module_names: %w[work_package_tracking]
+  end
   let!(:wp_1) { FactoryBot.create(:work_package, project: project) }
   let(:next_button) { find('.enjoyhint_next_btn') }
 
@@ -47,7 +53,8 @@ describe 'onboarding tour for new users', js: true do
       visit home_path first_time_user: true
       expect(page).to have_text 'Please select your language'
 
-      select 'Deutsch', :from => 'user_language'
+      # SeleniumHubWaiter.wait
+      select 'Deutsch', from: 'user_language'
       click_button 'Save'
 
       expect(page).to have_text 'Projekt auswählen'
@@ -58,13 +65,14 @@ describe 'onboarding tour for new users', js: true do
         allow(Setting).to receive(:welcome_text).and_return("<a> #{project.name} </a>")
         visit home_path first_time_user: true
 
-        select 'English', :from => 'user_language'
+        # SeleniumHubWaiter.wait
+        select 'English', from: 'user_language'
         click_button 'Save'
       end
 
       it 'when the welcome block does not include the demo projects' do
-        expect(page).not_to have_text 'Take a three minutes introduction tour to learn the most important features.'
-        expect(page).not_to have_selector '.enjoyhint_next_btn'
+        expect(page).to have_no_text 'Take a three minutes introduction tour to learn the most important features.'
+        expect(page).to have_no_selector '.enjoyhint_next_btn'
       end
     end
 
@@ -73,8 +81,10 @@ describe 'onboarding tour for new users', js: true do
         allow(Setting).to receive(:welcome_text).and_return("<a href=/projects/#{project.identifier}> #{project.name} </a><a href=/projects/#{scrum_project.identifier}> #{scrum_project.name} </a>")
         visit home_path first_time_user: true
 
-        select 'English', :from => 'user_language'
+        # SeleniumHubWaiter.wait
+        select 'English', from: 'user_language'
         click_button 'Save'
+        SeleniumHubWaiter.wait
       end
 
       after do
@@ -92,20 +102,21 @@ describe 'onboarding tour for new users', js: true do
         find('.enjoyhint_skip_btn').click
 
         # The tutorial disappears
-        expect(page).not_to have_text 'Take a three minutes introduction tour to learn the most important features.'
-        expect(page).not_to have_selector '.enjoyhint_next_btn'
+        expect(page).to have_no_text 'Take a three minutes introduction tour to learn the most important features.'
+        expect(page).to have_no_selector '.enjoyhint_next_btn'
 
         page.driver.browser.navigate.refresh
 
         # The tutorial did not start again
-        expect(page).not_to have_text 'Take a three minutes introduction tour to learn the most important features.'
-        expect(page).not_to have_selector '.enjoyhint_next_btn'
+        expect(page).to have_no_text 'Take a three minutes introduction tour to learn the most important features.'
+        expect(page).to have_no_selector '.enjoyhint_next_btn'
       end
 
       it 'and I continue the tutorial' do
         next_button.click
         expect(page).to have_text 'Please click on one of the projects with useful demo data to get started'
 
+        # SeleniumHubWaiter.wait
         find('.welcome').click_link 'Demo project'
         expect(page).to have_current_path "/projects/#{project.identifier}/work_packages?start_onboarding_tour=true"
 
@@ -116,5 +127,3 @@ describe 'onboarding tour for new users', js: true do
     end
   end
 end
-
-

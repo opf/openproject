@@ -25,10 +25,10 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import {Component, Input} from "@angular/core";
-import {UserResource} from "core-app/modules/hal/resources/user-resource";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { Component, Input } from "@angular/core";
+import { UserResource } from "core-app/modules/hal/resources/user-resource";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 
 @Component({

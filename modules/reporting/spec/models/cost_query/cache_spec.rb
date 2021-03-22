@@ -33,10 +33,10 @@ describe CostQuery::Cache do
   include OpenProject::Reporting::SpecHelper::ConfigurationHelper
 
   def all_caches
-    [ CostQuery::GroupBy::CustomFieldEntries,
-      CostQuery::GroupBy,
-      CostQuery::Filter::CustomFieldEntries,
-      CostQuery::Filter ]
+    [CostQuery::GroupBy::CustomFieldEntries,
+     CostQuery::GroupBy,
+     CostQuery::Filter::CustomFieldEntries,
+     CostQuery::Filter]
   end
 
   def expect_reset_on_caches
@@ -76,7 +76,6 @@ describe CostQuery::Cache do
   end
 
   describe '.check' do
-
     context 'with cache_classes configuration enabled' do
       before do
         mock_cache_classes_setting_with(true)

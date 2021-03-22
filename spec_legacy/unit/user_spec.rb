@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -155,7 +156,8 @@ describe User, type: :model do
     end
 
     it 'should select the exact matching user first' do
-      case_sensitive_user = FactoryBot.create(:user, login: 'changed', password: 'adminADMIN!', password_confirmation: 'adminADMIN!')
+      case_sensitive_user = FactoryBot.create(:user, login: 'changed', password: 'adminADMIN!',
+                                                     password_confirmation: 'adminADMIN!')
       # bypass validations to make it appear like existing data
       case_sensitive_user.update_attribute(:login, 'ADMIN')
 
@@ -189,7 +191,7 @@ describe User, type: :model do
     user = User.try_to_login('jsmith', 'jsmith')
     assert_equal @jsmith, user
 
-    @jsmith.status = User::STATUSES[:locked]
+    @jsmith.status = User.statuses[:locked]
     assert @jsmith.save
 
     user = User.try_to_login('jsmith', 'jsmith')
@@ -285,7 +287,7 @@ describe User, type: :model do
     end
 
     it 'should return nil if the key is found for an inactive user' do
-      user = FactoryBot.create(:user, status: User::STATUSES[:locked])
+      user = FactoryBot.create(:user, status: User.statuses[:locked])
       token = FactoryBot.build(:api_token, user: user)
       user.api_token = token
       user.save
@@ -294,7 +296,7 @@ describe User, type: :model do
     end
 
     it 'should return the user if the key is found for an active user' do
-      user = FactoryBot.create(:user, status: User::STATUSES[:active])
+      user = FactoryBot.create(:user, status: User.statuses[:active])
       token = FactoryBot.build(:api_token, user: user)
       user.api_token = token
       user.save

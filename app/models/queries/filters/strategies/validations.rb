@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -33,7 +34,7 @@ module Queries::Filters::Strategies
 
     def date?(str)
       true if Date.parse(str)
-    rescue
+    rescue StandardError
       false
     end
 
@@ -45,7 +46,7 @@ module Queries::Filters::Strategies
 
     def integer?(str)
       true if Integer(str)
-    rescue
+    rescue StandardError
       false
     end
   end

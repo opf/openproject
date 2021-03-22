@@ -27,7 +27,7 @@
 //++
 
 
-import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 
 export const collapsibleSectionAugmentSelector = 'collapsible-section-augment';
 
@@ -36,7 +36,7 @@ export const collapsibleSectionAugmentSelector = 'collapsible-section-augment';
   templateUrl: './collapsible-section.html'
 })
 export class CollapsibleSectionComponent implements OnInit {
-  public expanded:boolean = false;
+  public expanded = false;
   public sectionTitle:string;
 
   @ViewChild('sectionBody', { static: true }) public sectionBody:ElementRef;

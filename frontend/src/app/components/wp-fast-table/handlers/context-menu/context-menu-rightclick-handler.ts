@@ -1,13 +1,13 @@
-import {Injector} from '@angular/core';
-import {debugLog} from '../../../../helpers/debug_output';
-import {tableRowClassName} from '../../builders/rows/single-row-builder';
-import {timelineCellClassName} from '../../builders/timeline/timeline-row-builder';
-import {uiStateLinkClass} from '../../builders/ui-state-link-builder';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {ContextMenuHandler} from './context-menu-handler';
-import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {TableEventComponent} from "core-components/wp-fast-table/handlers/table-handler-registry";
+import { Injector } from '@angular/core';
+import { debugLog } from '../../../../helpers/debug_output';
+import { tableRowClassName } from '../../builders/rows/single-row-builder';
+import { timelineCellClassName } from '../../builders/timeline/timeline-row-builder';
+import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
+import { WorkPackageTable } from '../../wp-fast-table';
+import { ContextMenuHandler } from './context-menu-handler';
+import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { TableEventComponent } from "core-components/wp-fast-table/handlers/table-handler-registry";
 
 export class ContextMenuRightClickHandler extends ContextMenuHandler {
 
@@ -33,7 +33,7 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
     if (!view.workPackageTable.configuration.contextMenuEnabled) {
       return false;
     }
-    let target = jQuery(evt.target);
+    const target = jQuery(evt.target);
 
     // We want to keep the original context menu on hrefs
     // (currently, this is only the id
@@ -50,7 +50,7 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
     const wpId = element.data('workPackageId');
 
     if (wpId) {
-      let [index,] = view.workPackageTable.findRenderedRow(wpId);
+      const [index,] = view.workPackageTable.findRenderedRow(wpId);
 
       if (!this.wpTableSelection.isSelected(wpId)) {
         this.wpTableSelection.setSelection(wpId, index);

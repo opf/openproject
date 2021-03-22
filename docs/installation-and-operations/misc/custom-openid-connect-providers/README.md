@@ -102,7 +102,7 @@ options["claims"] = {
 
 #### Non-essential claims
 
-You may also request non-essential claims. In the example above this indicates that users should preferrably be authenticated using
+You may also request non-essential claims. In the example above this indicates that users should preferably be authenticated using
 those mechanisms but it's not strictly required. The login into OpenProject will then work even if none of the claims
 are returned by the identity provider.
 

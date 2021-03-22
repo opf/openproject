@@ -30,7 +30,6 @@ require 'spec_helper'
 
 describe UpdateQueryFromParamsService,
          type: :model do
-
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:query) { FactoryBot.build_stubbed(:query) }
 
@@ -140,7 +139,7 @@ describe UpdateQueryFromParamsService,
 
     context 'default highlighting mode', with_ee: %i[conditional_highlighting] do
       let(:params) do
-        { }
+        {}
       end
 
       it 'sets the highlighting_mode' do

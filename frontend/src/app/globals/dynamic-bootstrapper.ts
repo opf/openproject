@@ -25,9 +25,9 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 
-import {ComponentType} from "@angular/cdk/portal";
-import {ApplicationRef} from "@angular/core";
-import {filter, take} from "rxjs/operators";
+import { ComponentType } from "@angular/cdk/portal";
+import { ApplicationRef } from "@angular/core";
+import { filter, take } from "rxjs/operators";
 
 /**
  * Optional bootstrap definition to allow selecting all matching

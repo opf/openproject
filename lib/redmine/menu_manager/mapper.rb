@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -56,18 +57,18 @@ class Redmine::MenuManager::Mapper
 
     if options[:parent]
       subtree = find(options[:parent])
-      if subtree
-        target_root = subtree
-      else
-        target_root = @menu_items.root
-      end
+      target_root = if subtree
+                      subtree
+                    else
+                      @menu_items.root
+                    end
 
     else
       target_root = @menu_items.root
     end
 
     # menu item position
-    if first = options.delete(:first)
+    if options.delete(:first)
       target_root.prepend(Redmine::MenuManager::MenuItem.new(name, url, options))
     elsif before = options.delete(:before)
 
@@ -128,13 +129,7 @@ class Redmine::MenuManager::MapDeferrer
     @menu_builder_queue = menu_builder_queue
   end
 
-  def defer(method, *args)
-    ActiveSupport::Deprecation.warn "Calling #{method} and accessing the the menu object from outside of the block attached to the map method is deprecated and will be removed in ChiliProject 3.0. Please access the menu object from within the attached block instead. Please also note the differences between the APIs.", caller.drop(1)
-    menu_builder = proc { |menu_mapper| menu_mapper.send(method, *args) }
-    @menu_builder_queue.push(menu_builder)
-  end
-
-  [:push, :delete, :exists?, :find, :position_of].each do |method|
+  %i[push delete exists? find position_of].each do |method|
     define_method method do |*args|
       defer(method, *args)
     end

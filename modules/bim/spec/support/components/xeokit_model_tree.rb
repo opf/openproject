@@ -76,7 +76,6 @@ module Components
         else
           expect(page.find('input', match: :first)).not_to be_checked
         end
-
       end
     end
   end

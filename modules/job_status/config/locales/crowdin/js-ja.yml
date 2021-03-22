@@ -1,17 +1,17 @@
 ja:
   js:
     job_status:
-      download_starts: 'The download should start automatically.'
-      click_to_download: 'Or click here to download.'
-      title: 'Background job status'
-      redirect: 'You are being redirected.'
+      download_starts: 'ダウンロードは自動的に開始されます。'
+      click_to_download: 'またはここをクリックしてダウンロードしてください。'
+      title: 'バックグラウンドジョブの状態'
+      redirect: 'リダイレクトされています。'
       redirect_link: '続行するにはここをクリックしてください。'
       redirect_errors: 'これらのエラーのため、自動的にリダイレクトされません。'
       errors: 'エラーが発生しました。'
       generic_messages:
-        not_found: 'This job could not be found.'
-        in_queue: 'The job has been queued and will be processed shortly.'
-        in_process: 'The job is currently being processed.'
-        error: 'The job has failed to complete.'
-        cancelled: 'The job has been cancelled due to an error.'
-        success: 'The job completed successfully.'
+        not_found: 'ジョブが見つかりませんでした。'
+        in_queue: 'ジョブはキューに追加されました。まもなく実行されます。'
+        in_process: 'ジョブは現在実行中です。'
+        error: 'ジョブは失敗しました。'
+        cancelled: 'エラーのためジョブがキャンセルされました。'
+        success: 'ジョブは正常終了しました。'

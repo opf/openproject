@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,7 +29,7 @@
 #++
 
 # Contains tag helpers still existing in the OP code but already
-# removed from rails. Please consider removing the occurences in
+# removed from rails. Please consider removing the occurrences in
 # the code rather than adding additional helpers here.
 
 module RemovedJsHelpersHelper

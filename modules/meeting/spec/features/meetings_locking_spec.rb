@@ -41,11 +41,11 @@ describe 'Meetings locking', type: :feature, js: true do
   end
 
   it 'shows an error when trying to update a meeting update while editing' do
-
     # Edit agenda
     within '#tab-content-agenda' do
       find('.button--edit-agenda').click
 
+      SeleniumHubWaiter.wait
       agenda.text = 'blabla'
       agenda.save!
 

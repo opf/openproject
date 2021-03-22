@@ -78,7 +78,7 @@ zh-TW:
     is_active: 當前已顯示
     is_inactive: 當前未顯示
   attribute_help_texts:
-    note_public: '登入使用者將看到本欄位所有文字和圖片'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: '在此頁面，你可以替屬性頁面建立自訂說明文字。當建立完成後，這些文字在點擊相關屬性旁的求助圖示時顯示。'
     label_plural: '屬性說明文字'
     show_preview: '預覽文字'
@@ -122,9 +122,6 @@ zh-TW:
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: '連線加密'
     system_account: '系統帳戶'
     system_account_legend: |
@@ -195,7 +192,7 @@ zh-TW:
       請列出從郵箱下載文檔時需要忽視的的名稱（比如：簽名或頭像）。請把檔案名稱分別列入每個各一行。
   projects:
     delete:
-      scheduled: "刪除已經排程並且會在背景執行。你將會收到結果通知。"
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "專案無法刪除: %{errors}"
       failed: "專案 %{name} 的刪除失敗"
       failed_text: "刪除專案 %{name} 的請求失敗。該專案已封存。"
@@ -243,6 +240,14 @@ zh-TW:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: 這個使用者目前不是任何專案的成員
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -520,6 +525,7 @@ zh-TW:
         confirmation: "不吻合 %{attribute}。"
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "不存在"
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "無法被存取。"
         error_readonly: "被嘗試寫入但是無法寫入。"
         empty: "不可為空"
@@ -535,6 +541,7 @@ zh-TW:
         invalid_url: '不是有效的 URL。'
         invalid_url_scheme: '不是受支援的協定 (允許的協定: %{allowed_schemes})。'
         less_than_or_equal_to: "必須少於或者等於 %{count}。"
+        not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "不是有效的日期。"
         not_a_datetime: "不是有效的日期時間。"
@@ -717,6 +724,7 @@ zh-TW:
       status: "工作項目狀態"
       member: "成員"
       news: "新知"
+      placeholder_user: "Placeholder user"
       project: "專案"
       query: "自訂查詢"
       role:
@@ -765,7 +773,7 @@ zh-TW:
     firstname: "名字"
     group: "群組"
     groups: "群組"
-    groupname: "團體名稱"
+    name: "名稱"
     id: "ID"
     is_default: "預設值"
     is_for_all: "對所有的專案"
@@ -775,7 +783,6 @@ zh-TW:
     lastname: "姓："
     login: "使用者名稱"
     mail: "電子郵件"
-    name: "名稱"
     password: "密碼"
     priority: "優先等級"
     project: "專案"
@@ -1114,7 +1121,7 @@ zh-TW:
   error_menu_item_not_saved: 選單項目無法保存
   error_wiki_root_menu_item_conflict: >
     無法將 "%{old_name}" 重命名為 "%{new_name}", 因為結果功能表項目中的衝突與現有功能表項目 "%{existing_caption}" (%{existing_identifier}) 衝突。
-  error_external_authentication_failed: "外部身份驗證錯誤。請再次一次。"
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "無法凸顯的屬性: %{attributes}"
   events:
     project: '專案已編輯'
@@ -1315,6 +1322,7 @@ zh-TW:
   label_custom_field_plural: "自訂欄位"
   label_custom_field_default_type: "空類型"
   label_custom_style: "設計"
+  label_database_version: "PostgreSQL version"
   label_date: "日期"
   label_date_and_time: "日期和時間"
   label_date_from: "寄件者"
@@ -1473,6 +1481,7 @@ zh-TW:
   label_my_account_data: "我的帳號資料"
   label_my_projects: "我的專案"
   label_my_queries: "我的自訂查詢"
+  label_name: "名稱"
   label_never: "永不"
   label_new: "新增"
   label_new_features: "新功能"
@@ -1522,6 +1531,9 @@ zh-TW:
   label_permissions: "權限"
   label_permissions_report: "權限報表"
   label_personalize_page: "個人化本頁"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "計劃中"
   label_please_login: "請登入"
   label_plugins: "擴充套件"
@@ -1826,6 +1838,7 @@ zh-TW:
   notice_email_sent: "一封郵件被傳送給 %{value}"
   notice_failed_to_save_work_packages: "%{total} 個選取的工作項目中的 %{count} 儲存失敗: %{ids}"
   notice_failed_to_save_members: "無法保存成員: %{errors}。"
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "您試圖存取的頁面不存在或已被移除。"
   notice_forced_logout: "由於超過 %{ttl_time} 分鐘沒有操作，您已被自動登出。"
   notice_internal_server_error: "你試圖前往的頁面發生一個錯誤。如果你一直遇到問題，請聯絡你的 %{app_title} 管理員以得到協助！"
@@ -1888,6 +1901,8 @@ zh-TW:
   permission_add_work_packages: "新增工作項目"
   permission_add_messages: "張貼訊息"
   permission_add_project: "建立專案"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "建立子專案"
   permission_add_work_package_watchers: "新增監看者"
   permission_assign_versions: "指派版本"
@@ -2089,7 +2104,7 @@ zh-TW:
       username: "版本庫使用者名稱"
     truncated: "抱歉，我們必須限制這個資料夾至 %{limit} 個檔案。%{truncated} 個項目在清單中被省略了。"
     named_repository: "%{vendor_name} 版本庫"
-    update_settings_successful: "設定已經成功地儲存"
+    update_settings_successful: "The settings have been successfully saved."
     url: "版本庫的 URL"
     warnings:
       cannot_annotate: "這個檔案無法註釋"
@@ -2207,7 +2222,6 @@ zh-TW:
   setting_welcome_text: "歡迎區塊文字"
   setting_welcome_title: "歡迎區塊標題"
   setting_welcome_on_homescreen: "在主頁面上顯示歡迎區塊"
-  setting_work_package_group_assignment: "允許分配給群組"
   setting_work_package_list_default_highlighting_mode: "預設突出顯示模式"
   setting_work_package_list_default_highlighted_attributes: "預設內聯突出顯示的屬性"
   settings:
@@ -2604,7 +2618,7 @@ zh-TW:
       code_403: "You are not authorized to access this resource.\n您未被授權使用這個資源。"
       code_404: "找不到請求的資源。"
       code_409: "由於修改衝突, 無法更新資源。"
-      code_500: "發生內部錯誤"
+      code_500: "發生內部錯誤。"
       expected:
         date: "YYYY-MM-DD (僅適用於 ISO 8601 日期)"
         duration: "ISO 8601 持續時間"

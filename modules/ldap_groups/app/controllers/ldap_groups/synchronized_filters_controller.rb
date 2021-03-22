@@ -52,8 +52,20 @@ module LdapGroups
     end
 
     def synchronize
-      ::OpenProject::LdapGroups::SynchronizeFilter.new(@filter)
-      flash[:notice] = 'Done.'
+      call = ::LdapGroups::SynchronizeFilterService
+                .new(@filter)
+                .call
+
+      call.on_success do
+        count = call.result
+        symbol = count > 0 ? :notice : :info
+        flash[symbol] = I18n.t('ldap_groups.synchronized_filters.label_n_groups_found', count: count)
+      end
+
+      call.on_failure do
+        flash[:error] = call.message
+      end
+
       redirect_to ldap_groups_synchronized_groups_path
     end
 
@@ -68,14 +80,14 @@ module LdapGroups
     def check_ee
       unless EnterpriseToken.allows_to?(:ldap_groups)
         render template: 'ldap_groups/synchronized_groups/upsale'
-        return false
+        false
       end
     end
 
     def permitted_params
       params
         .require(:synchronized_filter)
-        .permit(:filter_string, :name, :auth_source_id, :group_name_attribute)
+        .permit(:filter_string, :name, :auth_source_id, :group_name_attribute, :sync_users, :base_dn)
     end
 
     def default_breadcrumb

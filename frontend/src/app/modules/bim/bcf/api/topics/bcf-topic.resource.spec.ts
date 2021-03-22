@@ -1,5 +1,5 @@
-import {TypedJSON} from "typedjson";
-import {BcfTopicResource} from "core-app/modules/bim/bcf/api/topics/bcf-topic.resource";
+import { TypedJSON } from "typedjson";
+import { BcfTopicResource } from "core-app/modules/bim/bcf/api/topics/bcf-topic.resource";
 import * as moment from 'moment';
 
 export const topic_object = {
@@ -27,8 +27,8 @@ export const topic_object = {
 
 describe('BcfTopicResource', () => {
   it('can parse from the API returned JSON', () => {
-    let serializer = new TypedJSON(BcfTopicResource);
-    let subject = serializer.parse(topic_object)!;
+    const serializer = new TypedJSON(BcfTopicResource);
+    const subject = serializer.parse(topic_object)!;
 
     expect(subject).toBeInstanceOf(BcfTopicResource);
     ['guid', 'topic_type', 'topic_status', 'priority', 'reference_links', 'title',

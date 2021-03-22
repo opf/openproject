@@ -26,16 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-common.module';
-import {NgModule} from '@angular/core';
-import {FullCalendarModule} from '@fullcalendar/angular';
-import {WorkPackagesCalendarEntryComponent} from "core-app/modules/calendar/wp-calendar-entry/wp-calendar-entry.component";
-import {WorkPackagesCalendarController} from "core-app/modules/calendar/wp-calendar/wp-calendar.component";
-import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
-import {Ng2StateDeclaration, UIRouterModule} from "@uirouter/angular";
-import {TimeEntryCalendarComponent} from "core-app/modules/calendar/te-calendar/te-calendar.component";
-import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
-import {OpenprojectTimeEntriesModule} from "core-app/modules/time_entries/openproject-time-entries.module";
+import { OpenprojectCommonModule } from 'core-app/modules/common/openproject-common.module';
+import { NgModule } from '@angular/core';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { WorkPackagesCalendarEntryComponent } from "core-app/modules/calendar/wp-calendar-entry/wp-calendar-entry.component";
+import { WorkPackagesCalendarController } from "core-app/modules/calendar/wp-calendar/wp-calendar.component";
+import { OpenprojectWorkPackagesModule } from "core-app/modules/work_packages/openproject-work-packages.module";
+import { Ng2StateDeclaration, UIRouterModule } from "@uirouter/angular";
+import { TimeEntryCalendarComponent } from "core-app/modules/calendar/te-calendar/te-calendar.component";
+import { OpenprojectFieldsModule } from "core-app/modules/fields/openproject-fields.module";
+import { OpenprojectTimeEntriesModule } from "core-app/modules/time_entries/openproject-time-entries.module";
 
 const menuItemClass = 'calendar-menu-item';
 

@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'Wysiwyg work package button spec',
          type: :feature, js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:user) { admin }
 
   let!(:type) { FactoryBot.create :type, name: 'MyTaskName' }
@@ -55,10 +55,10 @@ describe 'Wysiwyg work package button spec',
       end
 
       it 'can add and edit an embedded table widget' do
-        editor.in_editor do |container, editable|
+        editor.in_editor do |_container, editable|
           editor.insert_macro 'Insert create work package button'
 
-          expect(page).to have_selector('.op-modal--macro-modal')
+          expect(page).to have_selector('.op-modal')
           select 'MyTaskName', from: 'selected-type'
 
           # Cancel editing

@@ -34,7 +34,9 @@ describe Projects::CopyService, 'integration', type: :model do
   shared_let(:status_locked) { FactoryBot.create :status, is_readonly: true }
   shared_let(:source) { FactoryBot.create :project, enabled_module_names: %w[wiki work_package_tracking] }
   shared_let(:source_wp) { FactoryBot.create :work_package, project: source, subject: 'source wp' }
-  shared_let(:source_wp_locked) { FactoryBot.create :work_package, project: source, subject: 'source wp locked', status: status_locked }
+  shared_let(:source_wp_locked) do
+    FactoryBot.create :work_package, project: source, subject: 'source wp locked', status: status_locked
+  end
   shared_let(:source_query) { FactoryBot.create :query, project: source, name: 'My query' }
   shared_let(:source_category) { FactoryBot.create :category, project: source, name: 'Stock management' }
   shared_let(:source_version) { FactoryBot.create :version, project: source, name: 'Version A' }
@@ -187,8 +189,9 @@ describe Projects::CopyService, 'integration', type: :model do
 
       let!(:user) { FactoryBot.create :user }
       let!(:another_role) { FactoryBot.create(:role) }
-      let!(:group) { FactoryBot.create :group, members: [user]
-      }
+      let!(:group) do
+        FactoryBot.create :group, members: [user]
+      end
 
       it 'will copy them as well' do
         source.add_member! group, another_role
@@ -287,12 +290,13 @@ describe Projects::CopyService, 'integration', type: :model do
           query.add_filter('parent', '=', [source_wp.id.to_s])
           # Not valid due to wp not visible
           query.save!(validate: false)
+          query
         end
 
-        it 'produces a valid query that is mapepd in the new project' do
+        it 'produces a valid query that is mapped in the new project' do
           expect(subject).to be_success
           copied_wp = project_copy.work_packages.find_by(subject: 'source wp')
-          copied = project_copy.queries.first
+          copied = project_copy.queries.find_by(name: query.name)
           expect(copied.filters[1].values).to eq [copied_wp.id.to_s]
         end
       end
@@ -408,7 +412,7 @@ describe Projects::CopyService, 'integration', type: :model do
 
             expect(copied_order).to eq(original_order)
 
-            # Expect reference to the origianl work package
+            # Expect reference to the original work package
             referenced = query.ordered_work_packages.detect { |ow| ow.work_package == work_package2 }
             expect(referenced).to be_present
           end

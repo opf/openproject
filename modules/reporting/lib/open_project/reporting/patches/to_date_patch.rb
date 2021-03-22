@@ -35,6 +35,7 @@ module OpenProject::Reporting::Patches::ToDatePatch
 
     def to_dateish
       return Date.today if blank?
+
       Date.parse self
     end
   end
@@ -50,6 +51,7 @@ module OpenProject::Reporting::Patches::ToDatePatch
     def force_utc
       return to_time.force_utc unless respond_to? :utc_offset
       return self if utc?
+
       utc - utc_offset
     end
   end

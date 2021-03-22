@@ -31,7 +31,7 @@ import {
   MAX_ORDER,
   ReorderDeltaBuilder
 } from "core-app/modules/common/drag-and-drop/reorder-delta-builder";
-import {QueryOrder} from "core-app/modules/apiv3/endpoints/queries/apiv3-query-order";
+import { QueryOrder } from "core-app/modules/apiv3/endpoints/queries/apiv3-query-order";
 
 describe('ReorderDeltaBuilder', () => {
   const work_packages:string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
@@ -54,13 +54,13 @@ describe('ReorderDeltaBuilder', () => {
   }
 
   it('Empty, inserting at beginning sets the delta for wpId 1 to the default value', () => {
-    let delta = buildDelta('1', {});
+    const delta = buildDelta('1', {});
     expect(Object.keys(delta)).toEqual(['1']);
     expect(delta['1']).toEqual(DEFAULT_ORDER);
   });
 
   it('Empty, inserting at end sets the delta for all predecessors', () => {
-    let delta = buildDelta('10', {});
+    const delta = buildDelta('10', {});
     expect(Object.keys(delta).length).toEqual(work_packages.length);
     expect(delta).toEqual({
       '1': 0,
@@ -77,7 +77,7 @@ describe('ReorderDeltaBuilder', () => {
   });
 
   it('Empty, inserting at end middle the delta for all predecessors', () => {
-    let delta = buildDelta('5', {});
+    const delta = buildDelta('5', {});
     expect(Object.keys(delta).length).toEqual(5);
     expect(delta).toEqual({
       '1': 0,
@@ -89,7 +89,7 @@ describe('ReorderDeltaBuilder', () => {
   });
 
   it('has no problems inserting in the beginning old sort oder (1..n)', () => {
-    let positions = {
+    const positions = {
       '2': 1,
       '3': 2,
       '4': 3,
@@ -101,7 +101,7 @@ describe('ReorderDeltaBuilder', () => {
       '10': 9,
     };
 
-    let delta = buildDelta('1', positions);
+    const delta = buildDelta('1', positions);
 
     expect(Object.keys(delta).length).toEqual(1);
     // Expected to set to 1(position of 2) - 8192(half default distance)
@@ -109,7 +109,7 @@ describe('ReorderDeltaBuilder', () => {
   });
 
   it('has no problems inserting in the middle of old sort oder (1..n)', () => {
-    let positions = {
+    const positions = {
       '1': 0,
       '2': 1,
       '3': 2,
@@ -121,7 +121,7 @@ describe('ReorderDeltaBuilder', () => {
       '10': 9,
     };
 
-    let delta = buildDelta('5', positions);
+    const delta = buildDelta('5', positions);
 
     expect(Object.keys(delta).length).toEqual(10);
     expect(delta).toEqual({
@@ -139,13 +139,13 @@ describe('ReorderDeltaBuilder', () => {
   });
 
   it('will reorder old sort if there is not enough data', () => {
-    let positions = {
+    const positions = {
       '1': 0,
       '3': 1,
       '4': 2,
     };
 
-    let delta = buildDelta('2', positions);
+    const delta = buildDelta('2', positions);
 
     expect(Object.keys(delta).length).toEqual(10);
     expect(delta).toEqual({
@@ -163,13 +163,13 @@ describe('ReorderDeltaBuilder', () => {
   });
 
   it('will shift min position when successor is max', () => {
-    let positions = {
+    const positions = {
       '1': DEFAULT_ORDER,
       '2': MAX_ORDER - 1,
       '4': MAX_ORDER,
     };
 
-    let delta = buildDelta('3', positions, ['1', '2', '3', '4']);
+    const delta = buildDelta('3', positions, ['1', '2', '3', '4']);
     expect(Object.keys(delta).length).toEqual(4);
     expect(delta).toEqual({
       // 1 remains at DEFAULT_ORDER
@@ -185,12 +185,12 @@ describe('ReorderDeltaBuilder', () => {
   });
 
   it('will shift first position back when predecessor is max', () => {
-    let positions = {
+    const positions = {
       '1': MAX_ORDER - 1,
       '2': MAX_ORDER,
     };
 
-    let delta = buildDelta('3', positions, ['1', '2', '3']);
+    const delta = buildDelta('3', positions, ['1', '2', '3']);
     expect(Object.keys(delta).length).toEqual(3);
     expect(delta).toEqual({
       '1': MAX_ORDER - 4,
@@ -200,8 +200,8 @@ describe('ReorderDeltaBuilder', () => {
   });
 
   it('with successor position, sets the delta for wpId 1 to the default value', () => {
-    let positions = { '2': DEFAULT_ORDER };
-    let delta = buildDelta('1', positions);
+    const positions = { '2': DEFAULT_ORDER };
+    const delta = buildDelta('1', positions);
 
     expect(Object.keys(delta)).toEqual(['1']);
     // expect position to be ORDER_DISTANCE/2 before successor position
@@ -209,8 +209,8 @@ describe('ReorderDeltaBuilder', () => {
   });
 
   it('fills in all predecessors when inserting at index > 0', () => {
-    let positions = {};
-    let delta = buildDelta('2', positions);
+    const positions = {};
+    const delta = buildDelta('2', positions);
 
     expect(Object.keys(delta)).toEqual(['1', '2']);
     // expect position to be ORDER_DISTANCE/2 before successor position
@@ -219,17 +219,17 @@ describe('ReorderDeltaBuilder', () => {
   });
 
   it('just sets the default when order contains wpId only', () => {
-    let positions = {};
-    let delta = buildDelta('1', positions, ['1']);
+    const positions = {};
+    const delta = buildDelta('1', positions, ['1']);
 
     expect(Object.keys(delta)).toEqual(['1']);
     expect(delta['1']).toEqual(0);
   });
 
   it('just shifts two values when index <- 1 -> fromIndex', () => {
-    let positions = { '1': 8192, '2': 0, '3': 16384};
+    const positions = { '1': 8192, '2': 0, '3': 16384 };
     // From index 1 to 0
-    let delta = buildDelta('1', positions, ['1', '2', '3'], 1);
+    const delta = buildDelta('1', positions, ['1', '2', '3'], 1);
 
     expect(Object.keys(delta)).toEqual(['1', '2']);
     expect(delta['1']).toEqual(0);
@@ -237,16 +237,16 @@ describe('ReorderDeltaBuilder', () => {
   });
 
   it('adds to the predecessor if successor has no position', () => {
-    let positions = { '1': 0 };
-    let delta = buildDelta('2', positions, ['1', '2', '3']);
+    const positions = { '1': 0 };
+    const delta = buildDelta('2', positions, ['1', '2', '3']);
 
     expect(Object.keys(delta)).toEqual(['2']);
     expect(delta['2']).toEqual(8192);
   });
 
   it('reorders according to positions when not in ascending order', () => {
-    let positions = { '1': 0, '2': 1234, '3': 981 };
-    let delta = buildDelta('1', positions, ['1', '2', '3']);
+    const positions = { '1': 0, '2': 1234, '3': 981 };
+    const delta = buildDelta('1', positions, ['1', '2', '3']);
 
     expect(delta).toEqual({
       '1': 0,
@@ -256,8 +256,8 @@ describe('ReorderDeltaBuilder', () => {
   });
 
   it('reorders according to positions when not in ascending order with missing position', () => {
-    let positions = { '1': 1234, '3': 981 };
-    let delta = buildDelta('2', positions, ['1', '2', '3']);
+    const positions = { '1': 1234, '3': 981 };
+    const delta = buildDelta('2', positions, ['1', '2', '3']);
 
     expect(delta).toEqual({
       '1': 981,
@@ -269,7 +269,7 @@ describe('ReorderDeltaBuilder', () => {
   it('reorders on incomplete positions information and moving the first (0 positioned) work package', () => {
     // This can happen if a query is saved and the filters on it changed later on so that
     // additional work packages are now present.
-    let delta = buildDelta('1', { '1': 0, '5': 8196 }, ['2', '3', '4', '1', '5'], 0, 3);
+    const delta = buildDelta('1', { '1': 0, '5': 8196 }, ['2', '3', '4', '1', '5'], 0, 3);
 
     expect(delta).toEqual({
       '2': 0,

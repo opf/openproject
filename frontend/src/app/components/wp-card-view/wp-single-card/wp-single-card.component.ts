@@ -7,19 +7,19 @@ import {
   OnInit,
   Output
 } from "@angular/core";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {checkedClassName, uiStateLinkClass} from "core-components/wp-fast-table/builders/ui-state-link-builder";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
-import {StateService} from "@uirouter/core";
-import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import {WorkPackageCardViewService} from "core-components/wp-card-view/services/wp-card-view.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {CardHighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
-import {CardViewOrientation} from "core-components/wp-card-view/wp-card-view.component";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {WorkPackageViewFocusService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
-import {splitViewRoute} from "core-app/modules/work_packages/routing/split-view-routes.helper";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { checkedClassName, uiStateLinkClass } from "core-components/wp-fast-table/builders/ui-state-link-builder";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { Highlighting } from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import { StateService } from "@uirouter/core";
+import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { WorkPackageCardViewService } from "core-components/wp-card-view/services/wp-card-view.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { CardHighlightingMode } from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
+import { CardViewOrientation } from "core-components/wp-card-view/wp-card-view.component";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { WorkPackageViewFocusService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
+import { splitViewRoute } from "core-app/modules/work_packages/routing/split-view-routes.helper";
 
 @Component({
   selector: 'wp-single-card',
@@ -29,13 +29,13 @@ import {splitViewRoute} from "core-app/modules/work_packages/routing/split-view-
 })
 export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackage:WorkPackageResource;
-  @Input() public showInfoButton:boolean = false;
-  @Input() public showStatusButton:boolean = true;
-  @Input() public showRemoveButton:boolean = false;
+  @Input() public showInfoButton = false;
+  @Input() public showStatusButton = true;
+  @Input() public showRemoveButton = false;
   @Input() public highlightingMode:CardHighlightingMode = 'inline';
-  @Input() public draggable:boolean = false;
+  @Input() public draggable = false;
   @Input() public orientation:CardViewOrientation = 'vertical';
-  @Input() public shrinkOnMobile:boolean = false;
+  @Input() public shrinkOnMobile = false;
 
   @Output() onRemove = new EventEmitter<WorkPackageResource>();
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();

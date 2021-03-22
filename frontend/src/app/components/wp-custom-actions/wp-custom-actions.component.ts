@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {CustomActionResource} from "core-app/modules/hal/resources/custom-action-resource";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { CustomActionResource } from "core-app/modules/hal/resources/custom-action-resource";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Component({
   selector: 'wp-custom-actions',

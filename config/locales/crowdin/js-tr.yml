@@ -271,13 +271,13 @@ tr:
           text_new_features: "Yeni özellikler ve ürün güncellemeleri hakkında bilgi edinin."
           learn_about: "Yeni özellikler hakkında daha fazla bilgi edinin"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              Sürüm, çeşitli yeni özellikler ve iyileştirmeler içerir: <br> <ul class="%{list_styling_class}"> <li><b> WYSIWYG düzenleyicisinin </b> iyileştirilmiş stilleri </b>. </li> <li> Doğrudan görüntüleme <b> Düzenleme sırasında @ bildirimler için kullanıcı adı </b>. </li> <li> <b> OpenID Connect sağlayıcısı ile genişletilmiş kimlik doğrulama profili. </b> </li> <li> Projeyi görüntüle <b> kilometre taşları Gantt şemasında tek satırda toplandı </b>. </li> <li> Çalışma paketleri listesinde <b> gruplar için tüm düğmesi </b>. </li> <li> <b> Optimizasyon yazdırma, </b> ör. wiki sayfaları, tarayıcı yazdırma işlevi aracılığıyla. </li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              Sürüm, çeşitli yeni özellikler ve iyileştirmeler içerir: <br> <ul class="%{list_styling_class}"> <li><b> WYSIWYG düzenleyicisinin </b> iyileştirilmiş stilleri </b>. </li> <li> Doğrudan görüntüleme <b> Düzenleme sırasında @ bildirimler için kullanıcı adı </b>. </li> <li> <b> OpenID Connect sağlayıcısı ile genişletilmiş kimlik doğrulama profili. </b> </li> <li> Projeyi görüntüle <b> kilometre taşları Gantt şemasında tek satırda toplandı </b>. </li> <li> Çalışma paketleri listesinde <b> gruplar için tüm düğmesi </b>. </li> <li> <b> Optimizasyon yazdırma, </b> ör. wiki sayfaları, tarayıcı yazdırma işlevi aracılığıyla. </li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
     label_activate: "Etkinleştir"
     label_add_column_after: "Sonrasına sütun ekle"
     label_add_column_before: "Öncesine sütun ekle"
@@ -845,7 +845,7 @@ tr:
           automatic: 'Otomatik'
           manually: 'el ile'
           warning: 'Otomatik sıralama modunu etkinleştirirken önceki sıralamanızı kaybedeceksiniz.'
-        columns_help_text: "Tablo görünümünüze sütun eklemek için yukarıdaki girişi kullanın. Sütunları yeniden sıralamak için sürükleyip bırakabilirsiniz."
+        columns_help_text: "Tablo görünümünüze sütun eklemek için yukarıdaki giriş alanını kullanın. Sütunları yeniden sıralamak için sürükleyip bırakabilirsiniz."
         upsale:
           attribute_highlighting: 'Kitleden sıyrılmak için bazı iş paketlerine mi ihtiyacınız var?'
           relation_columns: 'İş paketleri listesindeki ilişkileri görmek ister misiniz?'

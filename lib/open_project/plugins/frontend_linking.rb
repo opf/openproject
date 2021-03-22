@@ -28,7 +28,6 @@
 
 module ::OpenProject::Plugins
   module FrontendLinking
-
     ##
     # Register plugins with an Angular frontend to the CLI build.
     # For that, search all gems with the group :opf_plugins

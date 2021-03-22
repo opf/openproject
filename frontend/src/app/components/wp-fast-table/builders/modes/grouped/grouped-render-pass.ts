@@ -1,15 +1,15 @@
-import {Injector} from '@angular/core';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageTable} from '../../../wp-fast-table';
-import {WorkPackageTableRow} from '../../../wp-table.interfaces';
-import {SingleRowBuilder} from '../../rows/single-row-builder';
-import {PlainRenderPass} from '../plain/plain-render-pass';
-import {groupClassNameFor, GroupHeaderBuilder} from './group-header-builder';
-import {groupByProperty, groupedRowClassName} from './grouped-rows-helpers';
-import {GroupObject} from 'core-app/modules/hal/resources/wp-collection-resource';
-import {collapsedRowClass} from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
-import {GroupSumsBuilder} from "core-components/wp-fast-table/builders/modes/grouped/group-sums-builder";
+import { Injector } from '@angular/core';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageTable } from '../../../wp-fast-table';
+import { WorkPackageTableRow } from '../../../wp-table.interfaces';
+import { SingleRowBuilder } from '../../rows/single-row-builder';
+import { PlainRenderPass } from '../plain/plain-render-pass';
+import { groupClassNameFor, GroupHeaderBuilder } from './group-header-builder';
+import { groupByProperty, groupedRowClassName } from './grouped-rows-helpers';
+import { GroupObject } from 'core-app/modules/hal/resources/wp-collection-resource';
+import { collapsedRowClass } from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
+import { GroupSumsBuilder } from "core-components/wp-fast-table/builders/modes/grouped/group-sums-builder";
 
 export const groupRowClass = '-group-row';
 
@@ -33,9 +33,9 @@ export class GroupedRenderPass extends PlainRenderPass {
     let currentGroup:GroupObject | null = null;
     const length = this.workPackageTable.originalRows.length;
     this.workPackageTable.originalRows.forEach((wpId:string, index:number) => {
-      let row = this.workPackageTable.originalRowIndex[wpId];
-      let nextGroup = this.matchingGroup(row.object);
-      let groupsChanged = currentGroup !== nextGroup;
+      const row = this.workPackageTable.originalRowIndex[wpId];
+      const nextGroup = this.matchingGroup(row.object);
+      const groupsChanged = currentGroup !== nextGroup;
 
       // Render the sums row
       if (currentGroup && groupsChanged) {
@@ -45,7 +45,7 @@ export class GroupedRenderPass extends PlainRenderPass {
       // Render the next group row
       if (nextGroup && groupsChanged) {
         const groupClass = groupClassNameFor(nextGroup);
-        let rowElement = this.headerBuilder.buildGroupRow(nextGroup, this.colspan);
+        const rowElement = this.headerBuilder.buildGroupRow(nextGroup, this.colspan);
         this.appendNonWorkPackageRow(rowElement, groupClass, [groupRowClass]);
         currentGroup = nextGroup;
       }
@@ -104,7 +104,7 @@ export class GroupedRenderPass extends PlainRenderPass {
       return false;
     }
 
-    let joinedOrderedHrefs = (objects:any[]) => {
+    const joinedOrderedHrefs = (objects:any[]) => {
       return _.map(objects, object => object.href).sort().join(', ');
     };
 
@@ -126,9 +126,9 @@ export class GroupedRenderPass extends PlainRenderPass {
     }
 
     let hidden = false;
-    let additionalClasses:string[] = [];
+    const additionalClasses:string[] = [];
 
-    let [tr, _] = this.rowBuilder.buildEmpty(row.object);
+    const [tr, _] = this.rowBuilder.buildEmpty(row.object);
 
     if (group) {
       additionalClasses.push(groupedRowClassName(group.index));
@@ -153,7 +153,7 @@ export class GroupedRenderPass extends PlainRenderPass {
     }
 
     const groupClass = groupClassNameFor(group);
-    let rowElement = this.sumsBuilder.buildSumsRow(group);
+    const rowElement = this.sumsBuilder.buildSumsRow(group);
     this.appendNonWorkPackageRow(rowElement, groupClass);
   }
 }

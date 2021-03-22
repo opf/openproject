@@ -78,7 +78,7 @@ ar:
     is_active: معروض حاليًا
     is_inactive: غير معروض حاليًا
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
     label_plural: 'Attribute help texts'
     show_preview: 'Preview text'
@@ -122,9 +122,6 @@ ar:
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Connection encryption'
     system_account: 'System account'
     system_account_legend: |
@@ -195,7 +192,7 @@ ar:
       Specify a list of names to ignore when processing attachments for incoming mails (e.g., signatures or icons). Enter one filename per line.
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is perfomed in the background. You will be notified of the result."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Project cannot be deleted: %{errors}"
       failed: "Deletion of project %{name} has failed"
       failed_text: "The request to delete project %{name} has failed. The project was left archived."
@@ -243,6 +240,14 @@ ar:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: هذا المستخدم حالياً ليس عضواً في المشروع.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -525,6 +530,7 @@ ar:
         confirmation: "لا يتطابق مع %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "غير موجود."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         empty: "لا يمكن أن تكون فارغة."
@@ -540,6 +546,7 @@ ar:
         invalid_url: 'is not a valid URL.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "يجب أن يكون أقل من أو يساوي %{count}."
+        not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "is not a valid date."
         not_a_datetime: "is not a valid date time."
@@ -732,6 +739,7 @@ ar:
       status: "حالة مجموعة العمل"
       member: "عضو"
       news: "الأخبار"
+      placeholder_user: "Placeholder user"
       project: "مشروع"
       query: "استعلام مخصص"
       role:
@@ -785,7 +793,7 @@ ar:
     firstname: "الاسم الأول"
     group: "مجموعة"
     groups: "المجموعات"
-    groupname: "اسم المجموعة"
+    name: "الاسم"
     id: "الهوية المُعَرِّفة"
     is_default: "القيمة الافتراضية"
     is_for_all: "لكافة المشاريع"
@@ -795,7 +803,6 @@ ar:
     lastname: "الاسم الأخير"
     login: "Username"
     mail: "البريد الإكتروني"
-    name: "الاسم"
     password: "كلمة المرور"
     priority: "الأولوية"
     project: "مشروع"
@@ -1194,7 +1201,7 @@ ar:
   error_menu_item_not_saved: لا يمكن حفظ عنصر القائمة
   error_wiki_root_menu_item_conflict: >
     Can't rename "%{old_name}" to "%{new_name}" due to a conflict in the resulting menu item with the existing menu item "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "حدث خطأ أثناء المصادقة الخارجية. الرجاء المحاولة مرة أخرى."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
     project: 'تم تعديل المشروع'
@@ -1395,6 +1402,7 @@ ar:
   label_custom_field_plural: "الحقول المخصصة"
   label_custom_field_default_type: "نوع فارغ"
   label_custom_style: "Design"
+  label_database_version: "PostgreSQL version"
   label_date: "التاريخ"
   label_date_and_time: "Date and time"
   label_date_from: "من"
@@ -1553,6 +1561,7 @@ ar:
   label_my_account_data: "بيانات حسابي"
   label_my_projects: "مشاريعي"
   label_my_queries: "استعلاماتي المخصصة"
+  label_name: "الاسم"
   label_never: "أبداً"
   label_new: "جديد"
   label_new_features: "New features"
@@ -1602,6 +1611,9 @@ ar:
   label_permissions: "السماحيات"
   label_permissions_report: "تقرير السماحيات"
   label_personalize_page: "تخصيص هذه الصفحة"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "تخطيط"
   label_please_login: "الرجاء تسجيل الدخول"
   label_plugins: "الإضافات"
@@ -1927,6 +1939,7 @@ ar:
   notice_email_sent: "تم إرسال بريد إلكتروني إلى %{value}"
   notice_failed_to_save_work_packages: "فشل في حفظ %{count} مجموعات عمل على %{total} مختارة: %{ids}."
   notice_failed_to_save_members: "فشل في حفظ العضو (الأعضاء): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "الصفحة التي تحاول الوصول إليها غير موجودة أو قد أزيلت."
   notice_forced_logout: "لقد قمت تلقائياً بتسجيل خروج بعد %{ttl_time} دقائق من الخمول."
   notice_internal_server_error: "حدث خطأ في الصفحة التي تحاول الوصول إليها. إذا كنت لا تزال تواجه مشاكل الرجاء الاتصال بالمسؤول %{app_title} للحصول على المساعدة."
@@ -1994,6 +2007,8 @@ ar:
   permission_add_work_packages: "إضافة مجموعات عمل"
   permission_add_messages: "نشر الرسائل"
   permission_add_project: "إنشاء مشروع"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "إنشاء مشاريع فرعية"
   permission_add_work_package_watchers: "إضافة مراقب"
   permission_assign_versions: "Assign versions"
@@ -2193,7 +2208,7 @@ ar:
       username: "اسم مستخدم المستودع"
     truncated: "Sorry, we had to truncate this directory to %{limit} files. %{truncated} entries were omitted from the list."
     named_repository: "مستودع %{vendor_name}"
-    update_settings_successful: "تم حفظ الإعدادات بنجاح."
+    update_settings_successful: "The settings have been successfully saved."
     url: "عنوان URL للمستودع"
     warnings:
       cannot_annotate: "هذا الملف لا يمكن أن يشرح."
@@ -2311,7 +2326,6 @@ ar:
   setting_welcome_text: "نص كتلة الترجيب"
   setting_welcome_title: "عنوان كتلة الترحيب"
   setting_welcome_on_homescreen: "كتلة الترحيب عرض على الشاشة الرئيسية"
-  setting_work_package_group_assignment: "السماح بالإحالة إلى مجموعات"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   settings:

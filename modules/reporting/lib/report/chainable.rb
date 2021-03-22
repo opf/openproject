@@ -58,6 +58,7 @@ module Report
 
     def self.base
       return self if base?
+
       superclass.base
     end
 
@@ -81,6 +82,7 @@ module Report
     def self.table_from(value)
       return value.table_name if value.respond_to? :table_name
       return value unless value.respond_to? :to_ary or value.respond_to? :to_hash
+
       table_from value.to_a.first
     end
 
@@ -124,6 +126,7 @@ module Report
     end
 
     attr_accessor :parent, :child, :type
+
     accepts_property :type
 
     def each(&block)
@@ -149,6 +152,7 @@ module Report
 
     def top
       return self if top?
+
       parent.top
     end
 
@@ -162,6 +166,7 @@ module Report
 
     def bottom
       return self if bottom?
+
       child.bottom
     end
 
@@ -170,10 +175,14 @@ module Report
       options.each do |key, value|
         unless self.class.extra_options.include? key
           raise ArgumentError, "may not set #{key}" unless engine.accepted_properties.include? key.to_s
+
           send "#{key}=", value
         end
       end
-      self.child, child.parent = child, self if child
+      if child
+        self.child = child
+        child.parent = self
+      end
       move_down until correct_position?
       clear
     end
@@ -249,6 +258,7 @@ module Report
 
     def sql_statement
       raise "should not get here (#{inspect})" if bottom?
+
       child.cached(:sql_statement).tap do |q|
         chain_collect(:table_joins).each { |args| q.join(*args) } if responsible_for_sql?
       end
@@ -301,6 +311,7 @@ module Report
       class << self
         def new(chain = nil, options = {})
           return chain if chain and chain.map(&:class).include? self
+
           super
         end
       end

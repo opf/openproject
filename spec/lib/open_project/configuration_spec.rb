@@ -60,7 +60,8 @@ describe OpenProject::Configuration do
                                           'default' => { 'somesetting' => 'foo' },
                                           'test' => {},
                                           'someother' => { 'somesetting' => 'bar' }
-                                        }, 'test') end
+                                        }, 'test')
+      end
 
       it 'should load a default setting' do
         expect(config['somesetting']).to eq('foo')
@@ -72,7 +73,8 @@ describe OpenProject::Configuration do
         OpenProject::Configuration.send(:load_env_from_config, {
                                           'default' => {},
                                           'test' => { 'somesetting' => 'foo' }
-                                        }, 'test') end
+                                        }, 'test')
+      end
 
       it 'should load a setting' do
         expect(config['somesetting']).to eq('foo')
@@ -84,7 +86,8 @@ describe OpenProject::Configuration do
         OpenProject::Configuration.send(:load_env_from_config, {
                                           'default' => { 'somesetting' => 'foo' },
                                           'test' => { 'somesetting' => 'bar' }
-                                        }, 'test') end
+                                        }, 'test')
+      end
 
       it 'should load the overriding value' do
         expect(config['somesetting']).to eq('bar')
@@ -182,7 +185,7 @@ describe OpenProject::Configuration do
       OpenProject::Configuration.load(env: 'test')
     end
 
-    it 'should return the overriden the setting within the block' do
+    it 'should return the overridden the setting within the block' do
       expect(OpenProject::Configuration['somesetting']).to eq('foo')
 
       OpenProject::Configuration.with 'somesetting' => 'bar' do
@@ -203,7 +206,9 @@ describe OpenProject::Configuration do
             'address' => 'smtp.example.net',
             'port' => 25,
             'domain' => 'example.net'
-          } } }
+          }
+        }
+      }
     end
 
     context 'with delivery_method' do

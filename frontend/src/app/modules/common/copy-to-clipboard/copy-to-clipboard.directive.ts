@@ -27,10 +27,10 @@
 //++
 
 
-import {Component, ElementRef, OnInit} from "@angular/core";
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { Component, ElementRef, OnInit } from "@angular/core";
+import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 export const copyToClipboardSelector = 'copy-to-clipboard';
 
@@ -62,7 +62,7 @@ export class CopyToClipboardDirective implements OnInit {
   }
 
   addNotification(type:'addSuccess'|'addError', message:string) {
-    let notification = this.NotificationsService[type](message);
+    const notification = this.NotificationsService[type](message);
 
     // Remove the notification some time later
     setTimeout(() => this.NotificationsService.remove(notification), 5000);

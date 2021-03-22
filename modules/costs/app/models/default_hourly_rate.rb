@@ -57,7 +57,7 @@ class DefaultHourlyRate < Rate
 
   def change_of_user_only_on_first_creation
     # Only allow change of user on first creation
-    errors.add :user_id, :invalid if !self.new_record? and user_id_changed?
+    errors.add :user_id, :invalid if !new_record? and user_id_changed?
     begin
       valid_from.to_date
     rescue Exception
@@ -81,6 +81,7 @@ class DefaultHourlyRate < Rate
       # We have not moved a rate, maybe just changed the rate value
 
       return unless rate_changed?
+
       # Only the rate value was changed so just update the currently assigned entries
       return rate_created
     end
@@ -122,19 +123,19 @@ class DefaultHourlyRate < Rate
       # This gets an array of all the ids of the DefaultHourlyRates
       default_rates = DefaultHourlyRate.pluck(:id)
 
-      if date1.nil? || date2.nil?
-        # we have only one date, query >=
-        conditions = [
-          'user_id = ? AND (rate_id IN (?) OR rate_id IS NULL) AND spent_on >= ?',
-          @rate.user_id, default_rates, date1 || date2
-        ]
-      else
-        # we have two dates, query between
-        conditions = [
-          'user_id = ? AND (rate_id IN (?) OR rate_id IS NULL) AND spent_on BETWEEN ? AND ?',
-          @rate.user_id, default_rates, date1, date2 - 1
-        ]
-      end
+      conditions = if date1.nil? || date2.nil?
+                     # we have only one date, query >=
+                     [
+                       'user_id = ? AND (rate_id IN (?) OR rate_id IS NULL) AND spent_on >= ?',
+                       @rate.user_id, default_rates, date1 || date2
+                     ]
+                   else
+                     # we have two dates, query between
+                     [
+                       'user_id = ? AND (rate_id IN (?) OR rate_id IS NULL) AND spent_on BETWEEN ? AND ?',
+                       @rate.user_id, default_rates, date1, date2 - 1
+                     ]
+                   end
 
       TimeEntry.includes(:rate).where(conditions)
     end
@@ -149,5 +150,4 @@ class DefaultHourlyRate < Rate
       end
     end
   end
-
 end

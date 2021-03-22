@@ -90,6 +90,8 @@ class Authorization::UserAllowedService
     return false unless project.active?
     # No action allowed on disabled modules
     return false unless project.allows_to?(action)
+    # Inactive users are never authorized
+    return false unless authorizable_user?
     # Admin users are authorized for anything else
     return true if user.admin?
 
@@ -99,10 +101,19 @@ class Authorization::UserAllowedService
   # Is the user allowed to do the specified action on any project?
   # See allowed_to? for the actions and valid options.
   def allowed_to_globally?(action, _options = {})
+    # Inactive users are never authorized
+    return false unless authorizable_user?
     # Admin users are always authorized
     return true if user.admin?
 
     has_authorized_role?(action)
+  end
+
+  ##
+  # Only users that are not locked may be granted actions
+  # with the exception of a temporary-granted system user
+  def authorizable_user?
+    !user.locked? || user.is_a?(SystemUser)
   end
 
   def has_authorized_role?(action, project = nil)

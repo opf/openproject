@@ -1,29 +1,29 @@
-import {EventEmitter, Injector} from '@angular/core';
-import {WorkPackageTable} from '../wp-fast-table';
-import {EditCellHandler} from './cell/edit-cell-handler';
-import {RelationsCellHandler} from './cell/relations-cell-handler';
-import {ContextMenuClickHandler} from './context-menu/context-menu-click-handler';
-import {ContextMenuKeyboardHandler} from './context-menu/context-menu-keyboard-handler';
-import {ContextMenuRightClickHandler} from './context-menu/context-menu-rightclick-handler';
-import {RowClickHandler} from './row/click-handler';
-import {RowDoubleClickHandler} from './row/double-click-handler';
-import {GroupRowHandler} from './row/group-row-handler';
-import {HierarchyClickHandler} from './row/hierarchy-click-handler';
-import {WorkPackageStateLinksHandler} from './row/wp-state-links-handler';
-import {ColumnsTransformer} from './state/columns-transformer';
-import {HierarchyTransformer} from './state/hierarchy-transformer';
-import {RelationsTransformer} from './state/relations-transformer';
-import {RowsTransformer} from './state/rows-transformer';
-import {SelectionTransformer} from './state/selection-transformer';
-import {TimelineTransformer} from './state/timeline-transformer';
-import {HighlightingTransformer} from "core-components/wp-fast-table/handlers/state/highlighting-transformer";
-import {DragAndDropTransformer} from "core-components/wp-fast-table/handlers/state/drag-and-drop-transformer";
+import { EventEmitter, Injector } from '@angular/core';
+import { WorkPackageTable } from '../wp-fast-table';
+import { EditCellHandler } from './cell/edit-cell-handler';
+import { RelationsCellHandler } from './cell/relations-cell-handler';
+import { ContextMenuClickHandler } from './context-menu/context-menu-click-handler';
+import { ContextMenuKeyboardHandler } from './context-menu/context-menu-keyboard-handler';
+import { ContextMenuRightClickHandler } from './context-menu/context-menu-rightclick-handler';
+import { RowClickHandler } from './row/click-handler';
+import { RowDoubleClickHandler } from './row/double-click-handler';
+import { GroupRowHandler } from './row/group-row-handler';
+import { HierarchyClickHandler } from './row/hierarchy-click-handler';
+import { WorkPackageStateLinksHandler } from './row/wp-state-links-handler';
+import { ColumnsTransformer } from './state/columns-transformer';
+import { HierarchyTransformer } from './state/hierarchy-transformer';
+import { RelationsTransformer } from './state/relations-transformer';
+import { RowsTransformer } from './state/rows-transformer';
+import { SelectionTransformer } from './state/selection-transformer';
+import { TimelineTransformer } from './state/timeline-transformer';
+import { HighlightingTransformer } from "core-components/wp-fast-table/handlers/state/highlighting-transformer";
+import { DragAndDropTransformer } from "core-components/wp-fast-table/handlers/state/drag-and-drop-transformer";
 import {
   WorkPackageViewEventHandler, WorkPackageViewOutputs,
   WorkPackageViewHandlerRegistry
 } from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
-import {WorkPackageFocusContext} from "core-components/wp-table/wp-table.component";
-import {GroupFoldTransformer} from "core-components/wp-fast-table/handlers/state/group-fold-transformer";
+import { WorkPackageFocusContext } from "core-components/wp-table/wp-table.component";
+import { GroupFoldTransformer } from "core-components/wp-fast-table/handlers/state/group-fold-transformer";
 
 type StateTransformers = {
   // noinspection JSUnusedLocalSymbols

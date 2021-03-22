@@ -42,8 +42,8 @@ shared_examples 'it supports direct uploads' do
   end
 
   describe 'POST /prepare', with_settings: { attachment_max_size: 512 } do
-    let(:request_parts) { { metadata: metadata, file: file } }
-    let(:metadata) { { fileName: 'cat.png', fileSize: file.size }.to_json }
+    let(:request_parts) { { metadata: metadata.to_json, file: file } }
+    let(:metadata) { { fileName: 'cat.png', fileSize: file.size, contentType: 'image/png' } }
     let(:file) { mock_uploaded_file(name: 'original-filename.txt') }
 
     def request!
@@ -61,14 +61,14 @@ shared_examples 'it supports direct uploads' do
         expect(subject.status).to eq(404)
       end
     end
-    
+
     context 'with remote AWS storage', with_direct_uploads: true do
       before do
         request!
       end
 
       context 'with no filesize metadata' do
-        let(:metadata) { { fileName: 'cat.png' }.to_json }
+        let(:metadata) { { fileName: 'cat.png' } }
 
         it 'should respond with 422 due to missing file size metadata' do
           expect(subject.status).to eq(422)
@@ -125,7 +125,20 @@ shared_examples 'it supports direct uploads' do
                   "success_action_status"
                 )
 
+                expect(fields["Content-Type"]).to eq metadata[:contentType]
+
                 expect(fields["key"]).to end_with "cat.png"
+              end
+
+              it 'should also include the content type and the necessary policy in the form fields' do
+                fields = link["form_fields"]
+
+                expect(fields).to include("policy", "Content-Type")
+                expect(fields["Content-Type"]).to eq metadata[:contentType]
+
+                policy = Base64.decode64 fields["policy"]
+
+                expect(policy).to include '["starts-with","$Content-Type",""]'
               end
             end
           end
@@ -214,8 +227,8 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
     let(:permissions) { Array(update_permission) }
 
     let(:request_path) { api_v3_paths.attachments }
-    let(:request_parts) { { metadata: metadata, file: file } }
-    let(:metadata) { { fileName: 'cat.png' }.to_json }
+    let(:request_parts) { { metadata: metadata.to_json, file: file } }
+    let(:metadata) { { fileName: 'cat.png' } }
     let(:file) { mock_uploaded_file(name: 'original-filename.txt') }
     let(:max_file_size) { 1 } # given in kiB
 
@@ -248,19 +261,19 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
     context 'file section is missing' do
       # rack-test won't send a multipart request without a file being present
       # however as long as we depend on correctly named sections this test should do just fine
-      let(:request_parts) { { metadata: metadata, wrongFileSection: file } }
+      let(:request_parts) { { metadata: metadata.to_json, wrongFileSection: file } }
 
       it_behaves_like 'invalid request body', I18n.t('api_v3.errors.multipart_body_error')
     end
 
     context 'metadata section is no valid JSON' do
-      let(:metadata) { '"fileName": "cat.png"' }
+      let(:request_parts) { { metadata: '"fileName": "cat.png"', file: file } }
 
       it_behaves_like 'parse error'
     end
 
     context 'metadata is missing the fileName' do
-      let(:metadata) { Hash.new.to_json }
+      let(:metadata) { Hash.new }
 
       it_behaves_like 'constraint violation' do
         let(:message) { "fileName #{I18n.t('activerecord.errors.messages.blank')}" }
@@ -402,13 +415,15 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
           expect(subject.headers['Content-Type'])
             .to eql mock_file.content_type
 
-          expect(subject.headers["Cache-Control"]).to eq "public, max-age=604799"
+          max_age = OpenProject::Configuration.fog_download_url_expires_in.to_i - 10
+
+          expect(subject.headers["Cache-Control"]).to eq "public, max-age=#{max_age}"
           expect(subject.headers["Expires"]).to be_present
 
           expires_time = Time.parse response.headers["Expires"]
 
-          expect(expires_time < Time.now.utc + 604799).to be_truthy
-          expect(expires_time > Time.now.utc + 604799 - 60).to be_truthy
+          expect(expires_time < Time.now.utc + max_age).to be_truthy
+          expect(expires_time > Time.now.utc + max_age - 60).to be_truthy
         end
 
         it 'sends the file in binary' do
@@ -459,13 +474,15 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
           expect(subject.headers['Location'])
             .to eql external_url
 
-          expect(subject.headers["Cache-Control"]).to eq "public, max-age=604799"
+          max_age = OpenProject::Configuration.fog_download_url_expires_in.to_i - 10
+
+          expect(subject.headers["Cache-Control"]).to eq "public, max-age=#{max_age}"
           expect(subject.headers["Expires"]).to be_present
 
           expires_time = Time.parse response.headers["Expires"]
 
-          expect(expires_time < Time.now.utc + 604799).to be_truthy
-          expect(expires_time > Time.now.utc + 604799 - 60).to be_truthy
+          expect(expires_time < Time.now.utc + max_age).to be_truthy
+          expect(expires_time > Time.now.utc + max_age - 60).to be_truthy
         end
       end
     end
@@ -496,8 +513,8 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
 
     describe '#post' do
       let(:request_path) { api_v3_paths.send "attachments_by_#{attachment_type}", container.id }
-      let(:request_parts) { { metadata: metadata, file: file } }
-      let(:metadata) { { fileName: 'cat.png' }.to_json }
+      let(:request_parts) { { metadata: metadata.to_json, file: file } }
+      let(:metadata) { { fileName: 'cat.png' } }
       let(:file) { mock_uploaded_file(name: 'original-filename.txt') }
       let(:max_file_size) { 1 } # given in kiB
 
@@ -527,19 +544,19 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
       context 'file section is missing' do
         # rack-test won't send a multipart request without a file being present
         # however as long as we depend on correctly named sections this test should do just fine
-        let(:request_parts) { { metadata: metadata, wrongFileSection: file } }
+        let(:request_parts) { { metadata: metadata.to_json, wrongFileSection: file } }
 
         it_behaves_like 'invalid request body', I18n.t('api_v3.errors.multipart_body_error')
       end
 
       context 'metadata section is no valid JSON' do
-        let(:metadata) { '"fileName": "cat.png"' }
+        let(:request_parts) { { metadata: '"fileName": "cat.png"', file: file } }
 
         it_behaves_like 'parse error'
       end
 
       context 'metadata is missing the fileName' do
-        let(:metadata) { Hash.new.to_json }
+        let(:metadata) { Hash.new }
 
         it_behaves_like 'constraint violation' do
           let(:message) { "fileName #{I18n.t('activerecord.errors.messages.blank')}" }

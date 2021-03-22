@@ -31,15 +31,17 @@ require 'rack/test'
 
 describe 'API v3 User resource',
          type: :request,
-         content_type: :json,
-         with_clean_fixture: true do
+         content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
   let(:current_user) { FactoryBot.create(:user) }
   let(:user) { FactoryBot.create(:user) }
   let(:admin) { FactoryBot.create(:admin) }
-  let(:locked_admin) { FactoryBot.create :admin, status: Principal::STATUSES[:locked] }
+  let(:locked_admin) { FactoryBot.create :admin, status: Principal.statuses[:locked] }
+  let(:user_with_global_manage_user) do
+    FactoryBot.create :user, firstname: 'Global', lastname: 'User', global_permission: :manage_user
+  end
 
   subject(:response) { last_response }
 
@@ -55,9 +57,7 @@ describe 'API v3 User resource',
       get get_path
     end
 
-    context 'admin user' do
-      let(:current_user) { admin }
-
+    shared_examples 'flow with permitted user' do
       it 'should respond with 200' do
         expect(subject.status).to eq(200)
       end
@@ -94,12 +94,12 @@ describe 'API v3 User resource',
 
       context 'on filtering for name' do
         let(:get_path) do
-          filter = [{'name' => {
+          filter = [{ 'name' => {
             'operator' => '~',
             'values' => [user.name]
-          }}]
+          } }]
 
-          "#{api_v3_paths.users}?#{{filters: filter.to_json}.to_query}"
+          "#{api_v3_paths.users}?#{{ filters: filter.to_json }.to_query}"
         end
 
         it 'contains the filtered user in the response' do
@@ -117,13 +117,13 @@ describe 'API v3 User resource',
 
       context 'on sorting' do
         let(:users_by_name_order) do
-          User.not_builtin.order_by_name.reverse_order
+          User.human.ordered_by_name(desc: true)
         end
 
         let(:get_path) do
           sort = [['name', 'desc']]
 
-          "#{api_v3_paths.users}?#{{sortBy: sort.to_json}.to_query}"
+          "#{api_v3_paths.users}?#{{ sortBy: sort.to_json }.to_query}"
         end
 
         it 'contains the first user as the first element' do
@@ -141,18 +141,30 @@ describe 'API v3 User resource',
 
       context 'on an invalid filter' do
         let(:get_path) do
-          filter = [{'name' => {
+          filter = [{ 'name' => {
             'operator' => 'a',
             'values' => [user.name]
-          }}]
+          } }]
 
-          "#{api_v3_paths.users}?#{{filters: filter.to_json}.to_query}"
+          "#{api_v3_paths.users}?#{{ filters: filter.to_json }.to_query}"
         end
 
         it 'returns an error' do
           expect(subject.status).to eql(400)
         end
       end
+    end
+
+    context 'admin' do
+      let(:current_user) { admin }
+
+      it_behaves_like 'flow with permitted user'
+    end
+
+    context 'user with global manage_user permission' do
+      let(:current_user) { user_with_global_manage_user }
+
+      it_behaves_like 'flow with permitted user'
     end
 
     context 'locked admin' do
@@ -237,7 +249,7 @@ describe 'API v3 User resource',
       end
 
       it 'should lock the account and mark for deletion' do
-        expect(DeleteUserJob)
+        expect(Principals::DeleteJob)
           .to have_been_enqueued
           .with(user)
 
@@ -288,6 +300,12 @@ describe 'API v3 User resource',
 
     context 'as non-admin' do
       let(:current_user) { FactoryBot.create :user, admin: false }
+
+      it_behaves_like 'deletion is not allowed'
+    end
+
+    context 'as user with manage_user permission' do
+      let(:current_user) { user_with_global_manage_user }
 
       it_behaves_like 'deletion is not allowed'
     end

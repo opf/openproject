@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit} from '@angular/core';
-import {MainMenuToggleService} from './main-menu-toggle.service';
-import {distinctUntilChanged} from 'rxjs/operators';
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {DeviceService} from "app/modules/common/browser/device.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import { MainMenuToggleService } from './main-menu-toggle.service';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { DeviceService } from "app/modules/common/browser/device.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 
 export const mainMenuToggleSelector = 'main-menu-toggle';
 
@@ -53,7 +53,7 @@ export const mainMenuToggleSelector = 'main-menu-toggle';
 })
 
 export class MainMenuToggleComponent extends UntilDestroyedMixin implements OnInit {
-  toggleTitle:string = "";
+  toggleTitle = "";
   @InjectField() currentProject:CurrentProjectService;
 
   constructor(readonly toggleService:MainMenuToggleService,

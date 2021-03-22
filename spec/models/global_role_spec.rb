@@ -76,7 +76,7 @@ describe GlobalRole, type: :model do
     end
 
     describe 'WITH set permissions' do
-      before { @role = GlobalRole.new permissions: [:perm1, :perm2, :perm3] }
+      before { @role = GlobalRole.new permissions: %i[perm1 perm2 perm3] }
 
       describe '#has_permission?' do
         it { expect(@role.has_permission?(:perm1)).to be_truthy }

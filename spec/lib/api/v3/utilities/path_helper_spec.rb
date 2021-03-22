@@ -223,6 +223,11 @@ describe ::API::V3::Utilities::PathHelper do
     end
   end
 
+  describe 'placeholder_users path' do
+    it_behaves_like 'index', :placeholder_user
+    it_behaves_like 'show', :placeholder_user
+  end
+
   describe 'posts paths' do
     it_behaves_like 'index', :post
     it_behaves_like 'show', :post
@@ -420,11 +425,8 @@ describe ::API::V3::Utilities::PathHelper do
   end
 
   describe 'group paths' do
-    describe '#group' do
-      subject { helper.group 1 }
-
-      it_behaves_like 'api v3 path', '/groups/1'
-    end
+    it_behaves_like 'index', :group
+    it_behaves_like 'show', :group
   end
 
   describe 'version paths' do

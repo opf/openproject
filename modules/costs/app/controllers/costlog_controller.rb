@@ -82,6 +82,7 @@ class CostlogController < ApplicationController
   def destroy
     render_404 and return unless @cost_entry
     render_403 and return unless @cost_entry.editable_by?(User.current)
+
     @cost_entry.destroy
     flash[:notice] = t(:notice_successful_delete)
 
@@ -109,7 +110,7 @@ class CostlogController < ApplicationController
       @project = Project.find(params[:project_id])
     else
       render_404
-      return false
+      false
     end
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -133,19 +134,25 @@ class CostlogController < ApplicationController
 
   def find_associated_objects
     user_id = cost_entry_params.delete(:user_id)
-    @user = @cost_entry.present? && @cost_entry.user_id == user_id ?
-              @cost_entry.user :
+    @user = if @cost_entry.present? && @cost_entry.user_id == user_id
+              @cost_entry.user
+            else
               User.find_by_id(user_id)
+            end
 
     work_package_id = cost_entry_params.delete(:work_package_id)
-    @work_package = @cost_entry.present? && @cost_entry.work_package_id == work_package_id ?
-               @cost_entry.work_package :
-               WorkPackage.find_by_id(work_package_id)
+    @work_package = if @cost_entry.present? && @cost_entry.work_package_id == work_package_id
+                      @cost_entry.work_package
+                    else
+                      WorkPackage.find_by_id(work_package_id)
+                    end
 
     cost_type_id = cost_entry_params.delete(:cost_type_id)
-    @cost_type = @cost_entry.present? && @cost_entry.cost_type_id == cost_type_id ?
-                   @cost_entry.cost_type :
+    @cost_type = if @cost_entry.present? && @cost_entry.cost_type_id == cost_type_id
+                   @cost_entry.cost_type
+                 else
                    CostType.find_by_id(cost_type_id)
+                 end
   end
 
   def new_default_cost_entry
@@ -172,8 +179,6 @@ class CostlogController < ApplicationController
 
     @cost_entry.attributes = attributes
   end
-
-  private
 
   def cost_entry_params
     params.require(:cost_entry).permit(:work_package_id, :spent_on, :user_id,

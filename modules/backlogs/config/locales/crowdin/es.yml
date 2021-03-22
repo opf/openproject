@@ -99,6 +99,7 @@ es:
   backlogs_empty_title: "No se especificó ninguna versión en los trabajos pendientes"
   backlogs_empty_action_text: "Para empezar con los trabajos pendientes, cree una nueva versión y asígnela a la columna de trabajos pendientes."
   button_edit_wiki: "Editar página wiki"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
   error_intro_plural: "Se encontraron los siguientes errores:"
   error_intro_singular: "Se ha encontrado el siguiente error:"
   error_outro: "Por favor, corrija los errores anteriores antes de volver a enviarlo."

@@ -7,6 +7,7 @@ module OpenProject::TwoFactorAuthentication
         if configuration_params.nil?
           raise ArgumentError, 'Missing configuration hash'
         end
+
         validate_params configuration_params
       end
 
@@ -35,7 +36,7 @@ module OpenProject::TwoFactorAuthentication
                                                       validity: 720
 
         raise "Failed to deliver SMS" if response.recipients['totalDeliveryFailedCount'] > 0
-      rescue => e
+      rescue StandardError => e
         Rails.logger.error("[2FA] MessageBird SMS delivery failed for user #{user.login}. Error: #{e} #{e.message}")
         raise I18n.t('two_factor_authentication.message_bird.sms_delivery_failed')
       end
@@ -56,7 +57,7 @@ module OpenProject::TwoFactorAuthentication
                                                             language: params[:language]
 
         raise "Failed to initiate voice message" if response.recipients['totalDeliveryFailedCount'] > 0
-      rescue => e
+      rescue StandardError => e
         Rails.logger.error("[2FA] MessageBird VOICE delivery failed for user #{user.login}. Error: #{e} #{e.message}")
         raise I18n.t('two_factor_authentication.message_bird.voice_delivery_failed')
       end
@@ -138,7 +139,6 @@ module OpenProject::TwoFactorAuthentication
         :"en-us"
       end
 
-
       ##
       # Checks whether the locale has a non-fallback
       def has_localized_text?(locale_key)
@@ -172,7 +172,7 @@ module OpenProject::TwoFactorAuthentication
       # Output format: xxyyyyyyyyyy
       def build_recipients(params)
         phone = device.phone_number
-        phone.gsub!(/[\+\s]/, '')
+        phone.gsub!(/[+\s]/, '')
 
         params[:recipients] = phone
       end

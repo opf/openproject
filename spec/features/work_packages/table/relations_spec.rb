@@ -18,15 +18,15 @@ describe 'Work Package table relations', js: true do
 
   let!(:relation) do
     FactoryBot.create(:relation,
-                       from: wp_from,
-                       to: wp_to,
-                       relation_type: Relation::TYPE_FOLLOWS)
+                      from: wp_from,
+                      to: wp_to,
+                      relation_type: Relation::TYPE_FOLLOWS)
   end
   let!(:relation2) do
     FactoryBot.create(:relation,
-                       from: wp_from,
-                       to: wp_to2,
-                       relation_type: Relation::TYPE_FOLLOWS)
+                      from: wp_from,
+                      to: wp_to2,
+                      relation_type: Relation::TYPE_FOLLOWS)
   end
   let!(:query) do
     query              = FactoryBot.build(:query, user: user, project: project)
@@ -57,8 +57,8 @@ describe 'Work Package table relations', js: true do
       wp_table.visit_query(query)
       wp_table.expect_work_package_listed(wp_from, wp_to, wp_to2)
 
-      columns.add("Relations to #{type.name}")
-      columns.add("follows relations")
+      columns.add(type.name, finicky: true)
+      columns.add("follows", finicky: true)
 
       wp_from_row = wp_table.row(wp_from)
       wp_from_to = wp_table.row(wp_to)

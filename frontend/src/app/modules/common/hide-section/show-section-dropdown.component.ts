@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HideSectionService} from "./hide-section.service";
-import {Component, ElementRef, OnInit} from "@angular/core";
+import { HideSectionService } from "./hide-section.service";
+import { Component, ElementRef, OnInit } from "@angular/core";
 
 export const showSectionDropdownSelector = 'show-section-dropdown';
 
@@ -50,7 +50,7 @@ export class ShowSectionDropdownComponent implements OnInit {
 
     const target = jQuery(this.elementRef.nativeElement).prev();
     target.on('change', event => {
-      let selectedOption = jQuery("option:selected", event.target);
+      const selectedOption = jQuery("option:selected", event.target);
 
       if (selectedOption.val() !== this.optValue) {
         this.HideSectionService.hide(this.hideSecWithName);

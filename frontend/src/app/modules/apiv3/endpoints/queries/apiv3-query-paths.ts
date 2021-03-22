@@ -26,16 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {APIv3GettableResource} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {APIV3QueryOrder} from "core-app/modules/apiv3/endpoints/queries/apiv3-query-order";
-import {Apiv3QueryForm} from "core-app/modules/apiv3/endpoints/queries/apiv3-query-form";
-import {Observable} from "rxjs";
-import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
-import {PaginationObject} from "core-components/table-pagination/pagination-service";
-import {HalPayloadHelper} from "core-app/modules/hal/schemas/hal-payload.helper";
+import { APIv3GettableResource } from "core-app/modules/apiv3/paths/apiv3-resource";
+import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { APIV3QueryOrder } from "core-app/modules/apiv3/endpoints/queries/apiv3-query-order";
+import { Apiv3QueryForm } from "core-app/modules/apiv3/endpoints/queries/apiv3-query-form";
+import { Observable } from "rxjs";
+import { QueryFormResource } from "core-app/modules/hal/resources/query-form-resource";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { QueryFiltersService } from "core-components/wp-query/query-filters.service";
+import { PaginationObject } from "core-components/table-pagination/pagination-service";
+import { HalPayloadHelper } from "core-app/modules/hal/schemas/hal-payload.helper";
 
 export class APIv3QueryPaths extends APIv3GettableResource<QueryResource> {
   @InjectField() private queryFilters:QueryFiltersService;

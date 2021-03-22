@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -37,27 +38,27 @@ module SettingsHelper
     [
       {
         name: 'general',
-        action: { controller: '/settings/general', action: 'show' },
+        controller: '/admin/settings/general_settings',
         label: :label_general
       },
       {
         name: 'display',
-        action: { controller: '/settings/display', action: 'show' },
+        controller: '/admin/settings/display_settings',
         label: :label_display
       },
       {
         name: 'projects',
-        action: { controller: '/settings/projects', action: 'show' },
+        controller: '/admin/settings/projects_settings',
         label: :label_project_plural
       },
       {
         name: 'api',
-        action: { controller: '/settings/api', action: 'show' },
+        controller: '/admin/settings/api_settings',
         label: :label_api_access_key_type
       },
       {
         name: 'repositories',
-        action: { controller: '/settings/repositories', action: 'show' },
+        controller:'/admin/settings/repositories_settings',
         label: :label_repository_plural
       }
     ]
@@ -108,7 +109,7 @@ module SettingsHelper
       unit_html = content_tag(:span,
                               unit,
                               class: 'form--field-affix',
-                              :'aria-hidden' => true,
+                              'aria-hidden': true,
                               id: unit_id)
     end
 

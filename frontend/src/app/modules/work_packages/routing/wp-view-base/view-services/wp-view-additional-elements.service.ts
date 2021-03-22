@@ -26,19 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageViewColumnsService} from './wp-view-columns.service';
-import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
-import {WorkPackageViewHierarchiesService} from './wp-view-hierarchy.service';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {Injectable} from '@angular/core';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {RelationsStateValue, WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageViewColumnsService } from './wp-view-columns.service';
+import { RelationResource } from 'core-app/modules/hal/resources/relation-resource';
+import { WorkPackageViewHierarchiesService } from './wp-view-hierarchy.service';
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { Injectable } from '@angular/core';
+import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { RelationsStateValue, WorkPackageRelationsService } from "core-components/wp-relations/wp-relations.service";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { WorkPackageCollectionResource } from "core-app/modules/hal/resources/wp-collection-resource";
+import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class WorkPackageViewAdditionalElementsService {

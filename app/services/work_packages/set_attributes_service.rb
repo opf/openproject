@@ -37,14 +37,14 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     set_attachments_attributes(attributes)
     set_static_attributes(attributes)
 
-    change_by_system do
+    model.change_by_system do
       set_default_attributes(attributes)
       update_project_dependent_attributes
     end
 
     set_custom_attributes(attributes)
 
-    change_by_system do
+    model.change_by_system do
       update_dates
       reassign_invalid_status_if_type_changed
       set_templated_description
@@ -160,7 +160,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   def update_project_dependent_attributes
     return unless work_package.project_id_changed? && work_package.project_id
 
-    change_by_system do
+    model.change_by_system do
       set_version_to_nil
       reassign_category
 

@@ -30,7 +30,6 @@
 
 module OpenProject
   module PageHierarchyHelper
-
     def render_page_hierarchy(pages, node = nil, options = {})
       return '' unless pages[node]
 

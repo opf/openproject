@@ -78,7 +78,7 @@ pl:
     is_active: obecnie wyświetlane
     is_inactive: obecnie nie są wyświetlane
   attribute_help_texts:
-    note_public: 'Każdy tekst i obrazy, które dodasz do tego pola, będą publicznie widoczne dla wszystkich zalogowanych użytkowników!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'W tym widoku możesz utworzyć własny widok tekstów pomocy dla atrybutów. Gdy zostaną zdefiniowane, będą widoczna po kliknięciu w ikonę pomocy danego atrybutu.'
     label_plural: 'Teksty pomocy atrybutów'
     show_preview: 'Podgląd tekstu'
@@ -120,8 +120,6 @@ pl:
       onthefly_register: |
         Jeśli zaznaczysz to pole, OpenProject będzie automatycznie tworzyć nowych użytkowników z ich wpisów LDAP przy pierwszym uwierzytelnieniu za pomocą OpenProject.
         Pozostaw to pole niezaznaczone, aby tylko istniejące konta w OpenProject mogły się uwierzytelniać za pomocą LDAP!
-      onthefly_group_sync: |
-        Jeśli włączysz synchronizację grupy dla tego połączenia LDAP, użytkownicy zostaną również automatycznie utworzeni w OpenProject w przypadku grup synchronizowanych. Bez tego dodane do grup zostaną tylko konta istniejące w OpenProject.
     connection_encryption: 'Szyfrowanie połączenia'
     system_account: 'Konto systemowe'
     system_account_legend: |
@@ -191,7 +189,7 @@ pl:
       Określ listę nazw, które mają być ignorowane podczas przetwarzania załączników do poczty przychodzącej (np. sygnatur lub ikon). W każdym wierszu prowadź jedną nazwę pliku.
   projects:
     delete:
-      scheduled: "Usunięcie zostało zaplanowane i jest wykonywane w tle. Otrzymasz powiadomienie o wyniku."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Nie można usunąc projektu: %{errors}"
       failed: "Usunięcie projektu %{name} nie powiodło się"
       failed_text: "Żądanie usunięcia projektu %{name} nie powiodło się. Projekt pozostał zarchiwizowany."
@@ -239,6 +237,14 @@ pl:
       no_results_title_text: Ten użytkownik nie jest obecnie członkiem żadnej grupy.
     memberships:
       no_results_title_text: Użytkownik jeszcze nie jest członkiem projektu.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -519,6 +525,7 @@ pl:
         confirmation: "nie pasuje do %{attribute}."
         could_not_be_copied: "Nie można było (w pełni) skopiować %{dependency}."
         does_not_exist: "nie istnieje."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
         empty: "nie może być puste."
@@ -534,6 +541,7 @@ pl:
         invalid_url: 'nie jest poprawnym adresem URL.'
         invalid_url_scheme: 'nie jest obsługiwanym protokołem (dozwolone: %{allowed_schemes}).'
         less_than_or_equal_to: "musi być mniejsze niż lub równe %{count}."
+        not_deletable: "cannot be deleted."
         not_current_user: "nie jest bieżącym użytkownikiem."
         not_a_date: "nie jest poprawną datą."
         not_a_datetime: "nie jest poprawną datą i czasem."
@@ -722,6 +730,7 @@ pl:
       status: "Status pakietu roboczego"
       member: "Członek"
       news: "Aktualności"
+      placeholder_user: "Placeholder user"
       project: "Projekt"
       query: "Kwerenda użytkownika"
       role:
@@ -773,7 +782,7 @@ pl:
     firstname: "Imię"
     group: "Grupa"
     groups: "Grupy"
-    groupname: "Nazwa grupy"
+    name: "Nazwa"
     id: "ID"
     is_default: "Wartość domyślna"
     is_for_all: "Dla wszystkich projektów"
@@ -783,7 +792,6 @@ pl:
     lastname: "Nazwisko"
     login: "Nazwa użytkownika"
     mail: "Adres e-mail"
-    name: "Nazwa"
     password: "Hasło"
     priority: "Priorytet"
     project: "Projekt"
@@ -1158,7 +1166,7 @@ pl:
   error_menu_item_not_saved: Nie można zapisać elementu menu
   error_wiki_root_menu_item_conflict: >
     Nie można zmienić nazwy "%{old_name}" na "%{new_name}", ze względu na konflikt w istniejącym elemencie menu "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Wystąpił błąd podczas autoryzacji zewnętrznej. Proszę spróbować ponownie."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Atrybuty, których nie można wyróżnić: %{attributes}"
   events:
     project: 'Projekt edytowany'
@@ -1359,6 +1367,7 @@ pl:
   label_custom_field_plural: "Pola niestandardowe"
   label_custom_field_default_type: "Typ pusty"
   label_custom_style: "Kompozycja"
+  label_database_version: "PostgreSQL version"
   label_date: "Data"
   label_date_and_time: "Data i czas"
   label_date_from: "Od"
@@ -1517,6 +1526,7 @@ pl:
   label_my_account_data: "Moje dane konta"
   label_my_projects: "Moje projekty"
   label_my_queries: "Moje zapytania niestandardowe"
+  label_name: "Nazwa"
   label_never: "Nigdy"
   label_new: "Nowy"
   label_new_features: "Nowe funkcje"
@@ -1566,6 +1576,9 @@ pl:
   label_permissions: "Uprawnienia"
   label_permissions_report: "Raport uprawnień"
   label_personalize_page: "Personalizacja tej strony"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Planowanie"
   label_please_login: "Proszę się zalogować"
   label_plugins: "Wtyczki"
@@ -1882,6 +1895,7 @@ pl:
   notice_email_sent: "E-mail został wysłany do %{value}"
   notice_failed_to_save_work_packages: "Nie udało się zapisać %{count} z %{total} wybranych pakietów roboczych: %{ids}."
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Strona, do której próbowano uzyskać dostęp nie istnieje lub została usunięta."
   notice_forced_logout: "Będziesz automatycznie wylogowany po %{ttl_time} minutach braku aktywności."
   notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."
@@ -1947,6 +1961,8 @@ pl:
   permission_add_work_packages: "Dodawanie pakietów roboczych"
   permission_add_messages: "Wysyłanie wiadomości"
   permission_add_project: "Tworzenie projektu"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Tworzenie podprojektów"
   permission_add_work_package_watchers: "Dodawanie obserwatorów"
   permission_assign_versions: "Przypisz wersje"
@@ -2146,7 +2162,7 @@ pl:
       username: "Użytkownik repozytorium"
     truncated: "Niestety, musieliśmy obciąć ten katalog do %{limit} plików. %{truncated} wpisów pominięto na liście."
     named_repository: "%{vendor_name} repozytorium"
-    update_settings_successful: "Ustawienia zostały zapisane."
+    update_settings_successful: "The settings have been successfully saved."
     url: "Adres URL do repozytorium"
     warnings:
       cannot_annotate: "Ten plik nie może być odnotowany."
@@ -2264,7 +2280,6 @@ pl:
   setting_welcome_text: "Tekst bloku powitalnego"
   setting_welcome_title: "Tytuł bloku powitalnego"
   setting_welcome_on_homescreen: "Wyświetl wiadomość powitalną na ekranie głównym"
-  setting_work_package_group_assignment: "Allow assignment to groups"
   setting_work_package_list_default_highlighting_mode: "Domyślny tryb wyróżniania"
   setting_work_package_list_default_highlighted_attributes: "Domyślnie wyróżniane atrybuty wyświetlane w treści"
   settings:

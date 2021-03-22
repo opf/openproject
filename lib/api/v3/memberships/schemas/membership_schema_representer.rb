@@ -93,7 +93,7 @@ module API
           end
 
           def allowed_principals_filters
-            statuses = [Principal::STATUSES[:locked].to_s]
+            statuses = [Principal.statuses[:locked].to_s]
             status_filter = { status: { operator: '!', values: statuses } }
 
             filters = [status_filter]

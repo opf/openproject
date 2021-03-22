@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
-import {HideSectionDefinition, HideSectionService} from "core-app/modules/common/hide-section/hide-section.service";
-import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { HideSectionDefinition, HideSectionService } from "core-app/modules/common/hide-section/hide-section.service";
+import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 
 export const addSectionDropdownSelector = 'add-section-dropdown';
 
@@ -64,12 +64,12 @@ export class AddSectionDropdownComponent extends UntilDestroyedMixin implements 
       .pipe(
         this.untilDestroyed()
       ).subscribe(displayed => {
-      this.selectable = this.hideSectionService.all
-        .filter(el => displayed.indexOf(el.key) === -1)
-        .sort((a, b) => a.label.localeCompare(b.label));
+        this.selectable = this.hideSectionService.all
+          .filter(el => displayed.indexOf(el.key) === -1)
+          .sort((a, b) => a.label.localeCompare(b.label));
 
-      (this.option.nativeElement as HTMLOptionElement).selected = true;
-    });
+        (this.option.nativeElement as HTMLOptionElement).selected = true;
+      });
   }
 
   show(value:string) {

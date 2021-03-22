@@ -50,7 +50,7 @@ class MyController < ApplicationController
   def account; end
 
   def update_account
-    write_settings @user, request, permitted_params, params
+    write_settings
 
     # If mail changed, expire all other sessions
     if @user.previous_changes['mail'] && ::Sessions::DropOtherSessionsService.call(@user, session)
@@ -62,7 +62,7 @@ class MyController < ApplicationController
   def settings; end
 
   def update_settings
-    write_settings @user, request, permitted_params, params
+    write_settings
   end
 
   # Manage user's password
@@ -151,10 +151,12 @@ class MyController < ApplicationController
     end
   end
 
-  def write_settings(current_user, request, permitted_params, params)
+  def write_settings
+    user_params = permitted_params.my_account_settings
+
     result = Users::UpdateService
-             .new(current_user: current_user)
-             .call(permitted_params, params)
+             .new(user: current_user, model: current_user)
+             .call(user_params.to_h)
 
     if result&.success
       flash[:notice] = t(:notice_account_updated)

@@ -42,9 +42,9 @@ describe WorkPackages::BaseContract, type: :model do
 
   let(:project) do
     p = FactoryBot.build(:project, members: [FactoryBot.build(:member,
-                                                                principal: user,
-                                                                roles: [role])],
-                                    types: [type_feature, type_task, type_bug])
+                                                              principal: user,
+                                                              roles: [role])],
+                                   types: [type_feature, type_task, type_bug])
 
     allow(p)
       .to receive(:assignable_versions)
@@ -58,9 +58,9 @@ describe WorkPackages::BaseContract, type: :model do
 
   let(:other_project) do
     p = FactoryBot.build(:project, members: [FactoryBot.build(:member,
-                                                                principal: user,
-                                                                roles: [role])],
-                                    types: [type_feature, type_task, type_bug])
+                                                              principal: user,
+                                                              roles: [role])],
+                                   types: [type_feature, type_task, type_bug])
 
     allow(p)
       .to receive(:assignable_versions)
@@ -73,69 +73,69 @@ describe WorkPackages::BaseContract, type: :model do
 
   let(:story) do
     FactoryBot.build_stubbed(:stubbed_work_package,
-                              subject: 'Story',
-                              project: project,
-                              type: type_feature,
-                              version: version1,
-                              status: status,
-                              author: user,
-                              priority: issue_priority)
+                             subject: 'Story',
+                             project: project,
+                             type: type_feature,
+                             version: version1,
+                             status: status,
+                             author: user,
+                             priority: issue_priority)
   end
 
   let(:story2) do
     FactoryBot.build_stubbed(:stubbed_work_package,
-                              subject: 'Story2',
-                              project: project,
-                              type: type_feature,
-                              version: version1,
-                              status: status,
-                              author: user,
-                              priority: issue_priority)
+                             subject: 'Story2',
+                             project: project,
+                             type: type_feature,
+                             version: version1,
+                             status: status,
+                             author: user,
+                             priority: issue_priority)
   end
 
-  let(:task) {
+  let(:task) do
     FactoryBot.build_stubbed(:stubbed_work_package,
-                              subject: 'Task',
-                              type: type_task,
-                              version: version1,
-                              project: project,
-                              status: status,
-                              author: user,
-                              priority: issue_priority)
-  }
+                             subject: 'Task',
+                             type: type_task,
+                             version: version1,
+                             project: project,
+                             status: status,
+                             author: user,
+                             priority: issue_priority)
+  end
 
-  let(:task2) {
+  let(:task2) do
     FactoryBot.build_stubbed(:stubbed_work_package,
-                              subject: 'Task2',
-                              type: type_task,
-                              version: version1,
-                              project: project,
-                              status: status,
-                              author: user,
-                              priority: issue_priority)
-  }
+                             subject: 'Task2',
+                             type: type_task,
+                             version: version1,
+                             project: project,
+                             status: status,
+                             author: user,
+                             priority: issue_priority)
+  end
 
-  let(:bug) {
+  let(:bug) do
     FactoryBot.build_stubbed(:stubbed_work_package,
-                              subject: 'Bug',
-                              type: type_bug,
-                              version: version1,
-                              project: project,
-                              status: status,
-                              author: user,
-                              priority: issue_priority)
-  }
+                             subject: 'Bug',
+                             type: type_bug,
+                             version: version1,
+                             project: project,
+                             status: status,
+                             author: user,
+                             priority: issue_priority)
+  end
 
-  let(:bug2) {
+  let(:bug2) do
     FactoryBot.build_stubbed(:stubbed_work_package,
-                              subject: 'Bug2',
-                              type: type_bug,
-                              version: version1,
-                              project: project,
-                              status: status,
-                              author: user,
-                              priority: issue_priority)
-  }
+                             subject: 'Bug2',
+                             type: type_bug,
+                             version: version1,
+                             project: project,
+                             status: status,
+                             author: user,
+                             priority: issue_priority)
+  end
 
   subject(:valid) { instance.validate }
 
@@ -143,10 +143,10 @@ describe WorkPackages::BaseContract, type: :model do
     project.save!
 
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
-                                                                         'wiki_template'         => '',
-                                                                         'card_spec'             => 'Sattleford VM-5040',
-                                                                         'story_types'           => [type_feature.id],
-                                                                         'task_type'             => type_task.id.to_s })
+                                                                         'wiki_template' => '',
+                                                                         'card_spec' => 'Sattleford VM-5040',
+                                                                         'story_types' => [type_feature.id],
+                                                                         'task_type' => type_task.id.to_s })
   end
 
   shared_examples_for 'is valid' do

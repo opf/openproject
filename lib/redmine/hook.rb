@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -38,6 +39,7 @@ module Redmine
       # Automatically called when a class inherits from Redmine::Hook::Listener.
       def add_listener(klass)
         raise 'Hooks must include Singleton module.' unless klass.included_modules.include?(Singleton)
+
         @@listener_classes << klass
         clear_listeners_instances
       end

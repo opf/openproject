@@ -1,13 +1,13 @@
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
-import {CurrentUserService} from "core-components/user/current-user.service";
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {Injector} from '@angular/core';
-import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
-import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import { CurrentUserService } from "core-components/user/current-user.service";
+import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { Injector } from '@angular/core';
+import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
+import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { FilterOperator } from "core-components/api/api-v3/api-v3-filter-builder";
 
 export class WorkPackageFilterValues {
 
@@ -55,11 +55,11 @@ export class WorkPackageFilterValues {
     }
 
     // Select the first value
-    let value = filter.values[0];
+    const value = filter.values[0];
 
     // Avoid empty values
     if (value) {
-      let attributeName = this.mapFilterToAttribute(filter);
+      const attributeName = this.mapFilterToAttribute(filter);
       this.setValueFor(change, attributeName, value);
     }
   }
@@ -71,13 +71,13 @@ export class WorkPackageFilterValues {
    * @private
    */
   private setToNull(change:WorkPackageChangeset|{[id:string]:any}, filter:QueryFilterInstanceResource):void {
-    let attributeName = this.mapFilterToAttribute(filter);
+    const attributeName = this.mapFilterToAttribute(filter);
 
     this.setValue(change, attributeName,{ href: null });
   }
 
   private setValueFor(change:WorkPackageChangeset|Object, field:string, value:string|HalResource) {
-    let newValue = this.findSpecialValue(value, field) || value;
+    const newValue = this.findSpecialValue(value, field) || value;
 
     if (newValue) {
       this.setValue(change, field, newValue);

@@ -26,13 +26,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 
 ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../../config/environment', __FILE__)
-require 'spec_helper'
+require File.expand_path('../config/environment', __dir__)
 require 'factory_bot_rails'
 require 'rspec/rails'
 require 'shoulda/matchers'
 require 'test_prof/recipes/rspec/before_all'
-
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -53,7 +51,10 @@ require 'test_prof/recipes/rspec/before_all'
 # may lead to broken specs on the CI, if we don't sort here
 # (example: with_config.rb has to precede with_direct_uploads.rb).
 #
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+require_relative "./support/parallel_helper"
+require_relative "./support/download_list"
+require_relative "./support/capybara"
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require_relative f }
 Dir[Rails.root.join('spec/features/support/**/*.rb')].each { |f| require f }
 Dir[Rails.root.join('spec/lib/api/v3/support/**/*.rb')].each { |f| require f }
 Dir[Rails.root.join('spec/requests/api/v3/support/**/*.rb')].each { |f| require f }

@@ -39,6 +39,7 @@ Configuring OpenProject through environment variables is detailed [in this separ
 * [`disable_password_login`](#disable-password-login) (default: false)
 * [`attachments_storage`](#attachments-storage) (default: file)
 * [`direct_uploads`](#direct-uploads) (default: true)
+* [`fog_download_url_expires_in`](#fog-download-url-expires-in) (default: 21600)
 * [`hidden_menu_items`](#hidden-menu-items) (default: {})
 * [`disabled_modules`](#disabled-modules) (default: [])
 * [`blacklisted_routes`](#blacklisted-routes) (default: [])
@@ -186,7 +187,22 @@ If, for what ever reason, this is undesirable, you can disable this option.
 In that case attachments will be posted as usual to the OpenProject server which then uploads the file
 to the remote storage in an extra step.
 
-**Note**: This only works for S3 right now. When using fog with another provider this configuration will be `false`. The same goes for when no fog storage is configured.
+**Note**: This only works for S3 right now. When using fog with another provider this configuration will be `false`. The same goes for when no fog storage is configured, or when the `use_iam_profile` option is used in the fog credentials when using S3.
+
+### fog download url expires in
+
+*default: 21600*
+
+Example:
+
+    fog_download_url_expires_in: 60
+
+When using remote storage for attachments via fog - usually S3 (see [`attachments_storage`](#attachments-storage) option) -
+each attachment download will generate a temporary URL.
+This option determines how long these links will be valid.
+
+The default is 21600 seconds, that is 6 hours, which is the maximum expiry time
+allowed by S3 when using IAM roles for authentication.
 
 ### Overriding the help link
 

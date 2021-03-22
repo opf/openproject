@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {States} from '../../states.service';
-import {StateService} from '@uirouter/core';
-import {Injectable} from '@angular/core';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { States } from '../../states.service';
+import { StateService } from '@uirouter/core';
+import { Injectable } from '@angular/core';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class WorkPackageRelationsHierarchyService {
@@ -47,7 +47,7 @@ export class WorkPackageRelationsHierarchyService {
   }
 
   public changeParent(workPackage:WorkPackageResource, parentId:string|null) {
-    let payload:any = {
+    const payload:any = {
       lockVersion: workPackage.lockVersion
     };
 
@@ -140,7 +140,7 @@ export class WorkPackageRelationsHierarchyService {
 
   public removeChild(childWorkPackage:WorkPackageResource) {
     return childWorkPackage.$load().then(() => {
-      let parentWorkPackage = childWorkPackage.parent;
+      const parentWorkPackage = childWorkPackage.parent;
       return childWorkPackage.changeParent({
         _links: {
           parent: {
@@ -157,11 +157,11 @@ export class WorkPackageRelationsHierarchyService {
             .refresh()
             .then((wp) => {
               this.halEvents.push(wp, {
-              eventType: 'association',
-              relatedWorkPackage: null,
-              relationType: 'child'
+                eventType: 'association',
+                relatedWorkPackage: null,
+                relationType: 'child'
+              });
             });
-          });
         }
 
         this

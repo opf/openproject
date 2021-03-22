@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -33,7 +34,7 @@ require 'open3'
 module OpenProject
   module VERSION #:nodoc:
     MAJOR = 11
-    MINOR = 2
+    MINOR = 3
     PATCH = 0
     TINY  = PATCH # Redmine compat
 
@@ -119,10 +120,10 @@ module OpenProject
         return instance_variable_get(variable) if instance_variable_defined?(variable)
 
         value = begin
-                  yield
-                rescue StandardError
-                  nil
-                end
+          yield
+        rescue StandardError
+          nil
+        end
 
         instance_variable_set(variable, value)
       end

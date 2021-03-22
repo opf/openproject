@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 describe 'Test mail notification', type: :feature do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
 
   before do
     login_as(admin)
-    visit admin_mail_notifications_path(tab: :notifications)
+    visit admin_settings_mail_notifications_path(tab: :notifications)
   end
 
   it 'shows the correct message on errors in test notification (Regression #28226)' do

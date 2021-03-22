@@ -35,7 +35,7 @@ class DeliverWatcherNotificationJob < DeliverNotificationJob
     super(recipient_id, watcher_changer_id)
   end
 
-  def render_mail(recipient:, sender:) # rubocop:disable UnusedMethodArgument
+  def render_mail(recipient:, sender:) # rubocop:disable Lint/UnusedMethodArgument
     raise NotImplementedError, 'Subclass has to implement #render_mail'
   end
 

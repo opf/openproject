@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {APIv3QueriesPaths} from "core-app/modules/apiv3/endpoints/queries/apiv3-queries-paths";
-import {APIv3TypesPaths} from "core-app/modules/apiv3/endpoints/types/apiv3-types-paths";
-import {APIV3WorkPackagesPaths} from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-packages-paths";
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {CachableAPIV3Resource} from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
-import {MultiInputState} from "reactivestates";
-import {APIv3VersionsPaths} from "core-app/modules/apiv3/endpoints/versions/apiv3-versions-paths";
-import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
-import {APIv3ProjectsPaths} from "core-app/modules/apiv3/endpoints/projects/apiv3-projects-paths";
+import { APIv3QueriesPaths } from "core-app/modules/apiv3/endpoints/queries/apiv3-queries-paths";
+import { APIv3TypesPaths } from "core-app/modules/apiv3/endpoints/types/apiv3-types-paths";
+import { APIV3WorkPackagesPaths } from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-packages-paths";
+import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
+import { CachableAPIV3Resource } from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
+import { MultiInputState } from "reactivestates";
+import { APIv3VersionsPaths } from "core-app/modules/apiv3/endpoints/versions/apiv3-versions-paths";
+import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
+import { APIv3ProjectsPaths } from "core-app/modules/apiv3/endpoints/projects/apiv3-projects-paths";
 
 export class APIv3ProjectPaths extends CachableAPIV3Resource<ProjectResource> {
   // /api/v3/projects/:project_id/available_assignees

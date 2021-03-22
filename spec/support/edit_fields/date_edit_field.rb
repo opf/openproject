@@ -1,8 +1,7 @@
 require_relative './edit_field'
 
 class DateEditField < EditField
-  attr_accessor :milestone
-  attr_accessor :is_table
+  attr_accessor :milestone, :is_table
 
   def initialize(context,
                  property_name,

@@ -30,6 +30,7 @@
 
 class CustomValue::FormatStrategy
   attr_reader :custom_value
+
   delegate :custom_field, :value, to: :custom_value
 
   def initialize(custom_value)
@@ -54,7 +55,7 @@ class CustomValue::FormatStrategy
 
   # Parses the value to
   # 1) have a unified representation for different inputs
-  # 2) memoize typed values (if the subclass descides to do so
+  # 2) memoize typed values (if the subclass decides to do so
   def parse_value(val)
     self.memoized_typed_value = nil
 

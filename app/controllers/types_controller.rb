@@ -53,7 +53,6 @@ class TypesController < ApplicationController
     CreateTypeService
       .new(current_user)
       .call(permitted_type_params, copy_workflow_from: params[:copy_workflow_from]) do |call|
-
       @type = call.result
 
       call.on_success do
@@ -87,7 +86,6 @@ class TypesController < ApplicationController
     UpdateTypeService
       .new(@type, current_user)
       .call(permitted_type_params) do |call|
-
       call.on_success do
         redirect_to_type_tab_path(@type, t(:notice_successful_update))
       end

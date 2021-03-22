@@ -63,6 +63,7 @@ describe 'Repository Settings', type: :feature, js: true do
       expect(Repository.exists?(repository.id)).to be true
 
       if type == 'managed'
+        SeleniumHubWaiter.wait
         find('a.icon-delete', text: I18n.t(:button_delete)).click
 
         dangerzone = DangerZone.new(page)
@@ -70,16 +71,21 @@ describe 'Repository Settings', type: :feature, js: true do
         expect(page).to have_selector(dangerzone.container_selector)
         expect(dangerzone.disabled?).to be true
 
+        SeleniumHubWaiter.wait
         dangerzone.confirm_with('definitely not the correct value')
         expect(dangerzone.disabled?).to be true
 
+        SeleniumHubWaiter.wait
         dangerzone.confirm_with(project.identifier)
         expect(dangerzone.disabled?).to be false
 
+        SeleniumHubWaiter.wait
         dangerzone.danger_button.click
       else
+        SeleniumHubWaiter.wait
         find('a.icon-remove', text: I18n.t(:button_remove)).click
         expect(page).to have_selector('.notification-box.-warning')
+        SeleniumHubWaiter.wait
         find('a', text: I18n.t(:button_remove)).click
       end
 
@@ -97,12 +103,12 @@ describe 'Repository Settings', type: :feature, js: true do
     end
   end
 
-  shared_examples 'manages the repository with' do |name, type, repository_type, project_name|
-    let(:repository) {
+  shared_examples 'manages the repository with' do |name, type, _repository_type, _project_name|
+    let(:repository) do
       FactoryBot.create("repository_#{name}".to_sym,
-                         scm_type: type,
-                         project: project)
-    }
+                        scm_type: type,
+                        project: project)
+    end
     it_behaves_like 'manages the repository', type
   end
 
@@ -112,14 +118,14 @@ describe 'Repository Settings', type: :feature, js: true do
   context 'managed repositories' do
     context 'local' do
       include_context 'with tmpdir'
-      let(:config) {
+      let(:config) do
         {
           subversion: { manages: File.join(tmpdir, 'svn') },
           git: { manages: File.join(tmpdir, 'git') }
         }
-      }
+      end
 
-      let(:repository) {
+      let(:repository) do
         repo = Repository.build(
           project,
           managed_vendor,
@@ -130,7 +136,7 @@ describe 'Repository Settings', type: :feature, js: true do
 
         repo.save!
         repo
-      }
+      end
 
       context 'Subversion' do
         let(:managed_vendor) { :subversion }
@@ -145,13 +151,13 @@ describe 'Repository Settings', type: :feature, js: true do
 
     context 'remote', webmock: true do
       let(:url) { 'http://myreposerver.example.com/api/' }
-      let(:config) {
+      let(:config) do
         {
           git: { manages: url }
         }
-      }
+      end
       let(:managed_vendor) { :git }
-      let(:repository) {
+      let(:repository) do
         repo = Repository.build(
           project,
           managed_vendor,
@@ -166,17 +172,17 @@ describe 'Repository Settings', type: :feature, js: true do
 
         repo.save!
         repo
-      }
+      end
       it_behaves_like 'manages the repository', 'managed'
     end
   end
 
   describe 'update repositories' do
-    let(:repository) {
+    let(:repository) do
       FactoryBot.create(:repository_subversion,
-                         scm_type: :existing,
-                         project: project)
-    }
+                        scm_type: :existing,
+                        project: project)
+    end
 
     it 'can set login and password' do
       fill_in('repository[login]', with: 'foobar')

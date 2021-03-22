@@ -99,6 +99,7 @@ cs:
   backlogs_empty_title: "Nejsou definovány žádné verze pro použití v neuzavřených záznamech"
   backlogs_empty_action_text: "Chcete-li začít s nevyřízené položky, vytvořte novou verzi a přiřaďte ji do sloupce nevyřízené položky."
   button_edit_wiki: "Upravit wiki stránku"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
   error_intro_plural: "Došlo k následujícím chybám:"
   error_intro_singular: "Došlo k následující chybě:"
   error_outro: "Před dalším odesláním opravte výše uvedené chyby."

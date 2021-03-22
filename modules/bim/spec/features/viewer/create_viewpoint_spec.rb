@@ -32,7 +32,7 @@ describe 'Create viewpoint from BCF details page',
          type: :feature,
          with_config: { edition: 'bim' },
          js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: [:bim, :work_package_tracking] }
+  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
   let(:user) { FactoryBot.create :admin }
 
   let!(:model) do

@@ -12,14 +12,14 @@ keywords: Gantt charts introduction
 In this document you will get a first introduction to the Gantt charts in OpenProject, i.e. to create and manage a project plan.
 
 <div class="glossary">
-**Gantt charts** in OpenProject are defined as a type of bar chart that shows all the tasks constituting a project. Tasks are listed vertically, with the horizontal axis marking time. The lengths of task bars are to scale with tasks’ durations.
+**Gantt charts** in OpenProject are defined as a type of bar chart that shows all the tasks constituting a project. Tasks are listed vertically, with the horizontal axis marking time. The lengths of task bars are to scale with task durations.
 </div>
 
-To find out more about the functionalities for Gantt charts, please visit our [user guide for Gantt charts](../../user-guide/#gantt-chart).
+To find out more about the functionalities for Gantt charts, please visit our [user guide for Gantt charts](../../user-guide/gantt-chart).
 
 | Feature                                                    | Documentation for                                    |
 | ---------------------------------------------------------- | ---------------------------------------------------- |
-| [What is a Gantt chart?](#what-is-a-gantt-chart?)          | Find out what is a Gantt chart in OpenProject.       |
+| [What is a Gantt chart?](#what-is-a-gantt-chart)           | Find out what is a Gantt chart in OpenProject.       |
 | [Activate the Gantt chart](#activate-the-gantt-chart-view) | How to activate the Gantt chart view in OpenProject? |
 | [Create a project plan](#create-a-project-plan)            | How to create a project plan with the Gantt charts?  |
 | [Edit a project plan](#edit-a-project-plan)                | How to edit a project plan in OpenProject?           |
@@ -30,7 +30,7 @@ To find out more about the functionalities for Gantt charts, please visit our [u
 
 With Gantt charts in OpenProject you can create and manage a project plan and share the information with your team. You can schedule your tasks and visualize the required steps to complete your project. As a project manager you are directly informed about delays in your project and can act accordingly.
 
-The dynamic Gantt chart in OpenProject displays the phases and milestones in your project as well as relationships between them. Each element in the timeline has both a start as well as a due date so you are always informed about the current status.
+The dynamic Gantt chart in OpenProject displays the phases and milestones in your project as well as relationships between them. Each element in the timeline has both a start as well as a finish date so you are always informed about the current status.
 
 ## Activate the Gantt chart view
 

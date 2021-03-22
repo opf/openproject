@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -39,7 +40,7 @@ module DemoData
       # on the seeded project will be lost.
       print_status '    ↳ Creating custom fields...' do
         # create some custom fields and add them to the project
-        Array(project_data_for(key,'custom_fields')).each do |name|
+        Array(project_data_for(key, 'custom_fields')).each do |name|
           cf = WorkPackageCustomField.create!(
             name: name,
             regexp: '',

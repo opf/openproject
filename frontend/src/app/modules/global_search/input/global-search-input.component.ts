@@ -37,22 +37,22 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import {ContainHelpers} from 'core-app/modules/common/focus/contain-helpers';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {GlobalSearchService} from "core-app/modules/global_search/services/global-search.service";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {DeviceService} from "core-app/modules/common/browser/device.service";
-import {NgSelectComponent} from "@ng-select/ng-select";
-import {Observable, of} from "rxjs";
-import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {DebouncedRequestSwitchmap, errorNotificationHandler} from "core-app/helpers/rxjs/debounced-input-switchmap";
-import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
-import {filter, map, take, tap} from "rxjs/operators";
-import {APIV3Service} from "../../apiv3/api-v3.service";
+import { ContainHelpers } from 'core-app/modules/common/focus/contain-helpers';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { GlobalSearchService } from "core-app/modules/global_search/services/global-search.service";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { DeviceService } from "core-app/modules/common/browser/device.service";
+import { NgSelectComponent } from "@ng-select/ng-select";
+import { Observable, of } from "rxjs";
+import { Highlighting } from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { DebouncedRequestSwitchmap, errorNotificationHandler } from "core-app/helpers/rxjs/debounced-input-switchmap";
+import { LinkHandling } from "core-app/modules/common/link-handling/link-handling";
+import { filter, map, take, tap } from "rxjs/operators";
+import { APIV3Service } from "../../apiv3/api-v3.service";
 import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 
 export const globalSearchSelector = 'global-search-input';
@@ -84,7 +84,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   @ViewChild('btn', { static: true }) btn:ElementRef;
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
 
-  public expanded:boolean = false;
+  public expanded = false;
   public markable = false;
 
   /** Keep a switchmap for search term and loading state */
@@ -98,7 +98,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   );
 
   /** Remember the current value */
-  public currentValue:string = '';
+  public currentValue = '';
 
   /** Remember the item that best matches the query.
    * That way, it will be highlighted (as we manually mark the selected item) and we can handle enter.
@@ -214,9 +214,9 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   // go to the search in the current scope.
   public onEnterBeforeResultsLoaded() {
     this.requests.loading$.pipe(
-        filter(value => value === false),
-        take(1)
-      )
+      filter(value => value === false),
+      take(1)
+    )
       .subscribe(() => {
         if (this.selectedItem) {
           this.followSelectedItem();
@@ -267,7 +267,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
     this.markable = false;
 
 
-    let hashFreeQuery = this.queryWithoutHash(query);
+    const hashFreeQuery = this.queryWithoutHash(query);
 
     return this
       .fetchSearchResults(hashFreeQuery, hashFreeQuery !== query)
@@ -296,8 +296,8 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   }
 
   private searchResultsToOptions(results:WorkPackageResource[], query:string) {
-    let searchItems = results.map((wp) => {
-      let item =  {
+    const searchItems = results.map((wp) => {
+      const item =  {
         id: wp.id!,
         subject: wp.subject,
         status: wp.status.name,
@@ -315,7 +315,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
       return item;
     });
 
-    let searchOptions = this.detailedSearchOptions();
+    const searchOptions = this.detailedSearchOptions();
 
     if (!this.selectedItem) {
       this.selectedItem = searchOptions[0];
@@ -326,7 +326,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   // set the possible 'search in scope' options for the current project path
   private detailedSearchOptions() {
-    let searchOptions = [];
+    const searchOptions = [];
     // add all options when searching within a project
     // otherwise search in 'all projects'
     if (this.currentProjectService.path) {
@@ -378,30 +378,30 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   private searchInScope(scope:string) {
     switch (scope) {
-      case 'all_projects': {
-        let forcePageLoad = false;
-        if (this.globalSearchService.projectScope !== 'all') {
-          forcePageLoad = true;
-          this.globalSearchService.resultsHidden = true;
-        }
-        this.globalSearchService.projectScope = 'all';
-        this.submitNonEmptySearch(forcePageLoad);
-        break;
+    case 'all_projects': {
+      let forcePageLoad = false;
+      if (this.globalSearchService.projectScope !== 'all') {
+        forcePageLoad = true;
+        this.globalSearchService.resultsHidden = true;
       }
-      case 'current_project': {
-        this.globalSearchService.projectScope = 'current_project';
-        this.submitNonEmptySearch();
-        break;
-      }
-      case 'current_project_and_all_descendants': {
-        this.globalSearchService.projectScope = '';
-        this.submitNonEmptySearch();
-        break;
-      }
+      this.globalSearchService.projectScope = 'all';
+      this.submitNonEmptySearch(forcePageLoad);
+      break;
+    }
+    case 'current_project': {
+      this.globalSearchService.projectScope = 'current_project';
+      this.submitNonEmptySearch();
+      break;
+    }
+    case 'current_project_and_all_descendants': {
+      this.globalSearchService.projectScope = '';
+      this.submitNonEmptySearch();
+      break;
+    }
     }
   }
 
-  public submitNonEmptySearch(forcePageLoad:boolean = false) {
+  public submitNonEmptySearch(forcePageLoad = false) {
     this.globalSearchService.searchTerm = this.currentValue;
     if (this.currentValue.length > 0) {
       this.ngSelectComponent.close();
@@ -426,7 +426,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   }
 
   private get currentScope():string {
-    let serviceScope = this.globalSearchService.projectScope;
+    const serviceScope = this.globalSearchService.projectScope;
     return (serviceScope === '') ? 'current_project_and_all_descendants' : serviceScope;
   }
 

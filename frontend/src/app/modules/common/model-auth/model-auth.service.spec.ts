@@ -28,10 +28,10 @@
 
 /*jshint expr: true*/
 
-import {AuthorisationService} from './model-auth.service';
+import { AuthorisationService } from './model-auth.service';
 
 describe('authorisationService', function() {
-  let authorisationService:AuthorisationService = new AuthorisationService();
+  const authorisationService:AuthorisationService = new AuthorisationService();
 
   describe('model action authorisation', function () {
     beforeEach(function() {

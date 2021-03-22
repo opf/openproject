@@ -36,13 +36,13 @@ import {
   Output,
   ViewEncapsulation
 } from '@angular/core';
-import {WorkPackageViewFiltersService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service';
-import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
-import {DebouncedEventEmitter} from "core-components/angular/debounced-event-emitter";
-import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
-import {Observable} from "rxjs";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
+import { WorkPackageViewFiltersService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import { WorkPackageFiltersService } from 'core-components/filters/wp-filters/wp-filters.service';
+import { DebouncedEventEmitter } from "core-components/angular/debounced-event-emitter";
+import { QueryFilterInstanceResource } from "core-app/modules/hal/resources/query-filter-instance-resource";
+import { Observable } from "rxjs";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 
 @Component({
   templateUrl: './filter-container.directive.html',
@@ -50,11 +50,11 @@ import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
   selector: 'filter-container'
 })
 export class WorkPackageFilterContainerComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
-  @Input('showFilterButton') showFilterButton:boolean = false;
+  @Input('showFilterButton') showFilterButton = false;
   @Input('filterButtonText') filterButtonText:string = I18n.t('js.button_filter');
   @Output() public filtersChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
 
-  public visible$:Observable<Boolean>;
+  public visible$:Observable<boolean>;
   public filters = this.wpTableFilters.current;
   public loaded = false;
 
@@ -79,7 +79,7 @@ export class WorkPackageFilterContainerComponent extends UntilDestroyedMixin imp
   }
 
   public replaceIfComplete(filters:QueryFilterInstanceResource[]) {
-    let available = filters.filter(el => this.wpTableFilters.isAvailable(el));
+    const available = filters.filter(el => this.wpTableFilters.isAvailable(el));
     this.wpTableFilters.replaceIfComplete(available);
     this.filtersChanged.emit(available);
   }

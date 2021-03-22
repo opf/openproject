@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {StateService} from "@uirouter/angular";
+import { StateService } from "@uirouter/angular";
 
 /**
  * Returns the path to the split view based on the current route

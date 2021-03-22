@@ -399,24 +399,6 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
             end
 
             describe 'assignee and responsible' do
-              shared_context 'setup group membership' do |group_assignment|
-                let(:group) { FactoryBot.create(:group) }
-                let(:role) { FactoryBot.create(:role) }
-                let(:group_member) do
-                  FactoryBot.create(:member,
-                                    principal: group,
-                                    project: project,
-                                    roles: [role])
-                end
-
-                before do
-                  allow(Setting).to receive(:work_package_group_assignment?)
-                    .and_return(group_assignment)
-
-                  group_member.save!
-                end
-              end
-
               shared_examples_for 'handling people' do |property|
                 let(:path) { "_embedded/payload/_links/#{property}/href" }
                 let(:visible_user) do
@@ -457,8 +439,30 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
                   context 'existing group' do
                     let(:user_link) { api_v3_paths.group group.id }
+                    let(:group) { FactoryBot.create(:group) }
+                    let(:role) { FactoryBot.create(:role) }
+                    let(:group_member) do
+                      FactoryBot.create(:member,
+                                        principal: group,
+                                        project: project,
+                                        roles: [role])
+                    end
 
-                    include_context 'setup group membership', true
+                    before do
+                      group_member.save!
+                    end
+
+                    it_behaves_like 'valid user assignment'
+                  end
+
+                  context 'existing placeholder_user' do
+                    let(:user_link) { api_v3_paths.placeholder_user placeholder_user.id }
+                    let(:role) { FactoryBot.create(:role) }
+                    let(:placeholder_user) do
+                      FactoryBot.create(:placeholder_user,
+                                        member_in_project: project,
+                                        member_through_role: role)
+                    end
 
                     it_behaves_like 'valid user assignment'
                   end
@@ -486,23 +490,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
                       let(:message) do
                         I18n.t('api_v3.errors.invalid_resource',
                                property: property,
-                               expected: "/api/v3/groups/:id' or '/api/v3/users/:id",
-                               actual: user_link)
-                      end
-                    end
-                  end
-
-                  context 'group assignement disabled' do
-                    let(:user_link) { api_v3_paths.group group.id }
-
-                    include_context 'setup group membership', false
-                    include_context 'post request'
-
-                    it_behaves_like 'invalid resource link' do
-                      let(:message) do
-                        I18n.t('api_v3.errors.invalid_resource',
-                               property: property,
-                               expected: "/api/v3/users/:id",
+                               expected: "/api/v3/groups/:id' or '/api/v3/users/:id' or '/api/v3/placeholder_users/:id",
                                actual: user_link)
                       end
                     end

@@ -24,25 +24,25 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 
-import {Injector, NgModule} from '@angular/core';
-import {OpenProjectPluginContext} from 'core-app/modules/plugins/plugin-context';
-import {BudgetResource} from './hal/resources/budget-resource';
-import {multiInput} from 'reactivestates';
-import {CostSubformAugmentService} from "./augment/cost-subform.augment.service";
-import {PlannedCostsFormAugment} from "core-app/modules/plugins/linked/budgets/augment/planned-costs-form";
-import {CostBudgetSubformAugmentService} from "core-app/modules/plugins/linked/budgets/augment/cost-budget-subform.augment.service";
+import { Injector, NgModule } from '@angular/core';
+import { OpenProjectPluginContext } from 'core-app/modules/plugins/plugin-context';
+import { BudgetResource } from './hal/resources/budget-resource';
+import { multiInput } from 'reactivestates';
+import { CostSubformAugmentService } from "./augment/cost-subform.augment.service";
+import { PlannedCostsFormAugment } from "core-app/modules/plugins/linked/budgets/augment/planned-costs-form";
+import { CostBudgetSubformAugmentService } from "core-app/modules/plugins/linked/budgets/augment/cost-budget-subform.augment.service";
 
 export function initializeCostsPlugin(injector:Injector) {
   window.OpenProject.getPluginContext().then((pluginContext:OpenProjectPluginContext) => {
     pluginContext.services.editField.extendFieldType('select', ['Budget']);
 
-    let displayFieldService = pluginContext.services.displayField;
+    const displayFieldService = pluginContext.services.displayField;
     displayFieldService.extendFieldType('resource', ['Budget']);
 
-    let halResourceService = pluginContext.services.halResource;
-    halResourceService.registerResource('Budget', {cls: BudgetResource});
+    const halResourceService = pluginContext.services.halResource;
+    halResourceService.registerResource('Budget', { cls: BudgetResource });
 
-    let states = pluginContext.services.states;
+    const states = pluginContext.services.states;
     states.add('budgets', multiInput<BudgetResource>());
 
     // Augment previous cost-subforms

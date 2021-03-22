@@ -31,7 +31,7 @@
 module API
   module Decorators
     class AggregationGroup < Single
-      def initialize(group_key, count, query:, sums: nil, current_user:)
+      def initialize(group_key, count, query:, current_user:, sums: nil)
         @count = count
         @sums = sums
         @query = query

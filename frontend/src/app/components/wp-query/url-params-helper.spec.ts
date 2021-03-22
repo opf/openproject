@@ -28,14 +28,14 @@
 
 /*jshint expr: true*/
 
-import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
+import { UrlParamsHelperService } from 'core-components/wp-query/url-params-helper';
 
 describe('UrlParamsHelper', function() {
   const paginationStub = {
     getPerPage: () => 20
   } as any;
 
-  let UrlParamsHelper = new UrlParamsHelperService(paginationStub);
+  const UrlParamsHelper = new UrlParamsHelperService(paginationStub);
   let queryString;
 
   describe('buildQueryString', function() {
@@ -63,7 +63,7 @@ describe('UrlParamsHelper', function() {
     let additional:any;
 
     beforeEach(function() {
-      let filter1 = {
+      const filter1 = {
         id: 'soße',
         name: 'soße_id',
         type: 'list_model',
@@ -75,7 +75,7 @@ describe('UrlParamsHelper', function() {
         },
         values: ['knoblauch']
       };
-      let filter2 = {
+      const filter2 = {
         id: 'created_at',
         type: 'datetime_past',
         operator: {
@@ -107,12 +107,12 @@ describe('UrlParamsHelper', function() {
       additional = {
         page: 10,
         perPage: 100
-      }
+      };
     });
 
     it('should encode query to params JSON', function() {
-      let encodedJSON = UrlParamsHelper.encodeQueryJsonParams(query, additional);
-      let expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"tzl\":\"days\",\"hl\":\"disabled\",\"hi\":true,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße\",\"o\":\"=\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"<t-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
+      const encodedJSON = UrlParamsHelper.encodeQueryJsonParams(query, additional);
+      const expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"tzl\":\"days\",\"hl\":\"disabled\",\"hi\":true,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße\",\"o\":\"=\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"<t-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
 
       expect(encodedJSON).toEqual(expectedJSON);
     });
@@ -126,9 +126,9 @@ describe('UrlParamsHelper', function() {
     });
 
     it('should decode query params to object', function() {
-      let decodedQueryParams = UrlParamsHelper.buildV3GetQueryFromJsonParams(params);
+      const decodedQueryParams = UrlParamsHelper.buildV3GetQueryFromJsonParams(params);
 
-      let expected = {
+      const expected = {
         'columns[]': ['type', 'status', 'soße'],
         showSums: true,
         timelineVisible: true,
@@ -164,7 +164,7 @@ describe('UrlParamsHelper', function() {
     let additional:any;
 
     it('decodes query params to object', function() {
-      let filter1 = {
+      const filter1 = {
         id: 'soße',
         name: 'soße_id',
         type: 'list_model',
@@ -176,7 +176,7 @@ describe('UrlParamsHelper', function() {
         },
         values: ['knoblauch']
       };
-      let filter2 = {
+      const filter2 = {
         id: 'created_at',
         type: 'datetime_past',
         operator: {
@@ -193,7 +193,7 @@ describe('UrlParamsHelper', function() {
         timelineZoomLevel: 0,
         timelineLabels: { left: 'foo', right: 'bar', farRight: 'asdf' },
         highlightingMode: 'inline',
-        highlightedAttributes: [{href: 'a'}, {href: 'b'}],
+        highlightedAttributes: [{ href: 'a' }, { href: 'b' }],
         sums: true,
         columns: [{ id: 'type' }, { id: 'status' }, { id: 'soße' }],
         groupBy: {
@@ -215,9 +215,9 @@ describe('UrlParamsHelper', function() {
         pageSize: 100
       };
 
-      let v3Params = UrlParamsHelper.buildV3GetQueryFromQueryResource(query, additional);
+      const v3Params = UrlParamsHelper.buildV3GetQueryFromQueryResource(query, additional);
 
-      let expected = {
+      const expected = {
         'columns[]': ['type', 'status', 'soße'],
         showSums: true,
         groupBy: 'status',
@@ -248,7 +248,7 @@ describe('UrlParamsHelper', function() {
     });
 
     it('decodes custom options filters', function() {
-      let filter1 = {
+      const filter1 = {
         id: 'customField1',
         operator: {
           id: '='
@@ -281,9 +281,9 @@ describe('UrlParamsHelper', function() {
 
       additional = {};
 
-      let v3Params = UrlParamsHelper.buildV3GetQueryFromQueryResource(query, additional);
+      const v3Params = UrlParamsHelper.buildV3GetQueryFromQueryResource(query, additional);
 
-      let expected = {
+      const expected = {
         'columns[]': [],
         filters: JSON.stringify([
           {

@@ -78,7 +78,7 @@ nl:
     is_active: momenteel getoond
     is_inactive: momenteel niet getoond
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publically visible to all logged in users!'
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'In deze weergave kunt u aangepaste helpteksten voor kenmerken weergave. Wanneer gedefinieerd, worden deze teksten door te klikken op het help-pictogram naast het behoren kenmerk weergegeven.'
     label_plural: 'Kenmerk help-teksten'
     show_preview: 'Voorbeeld Tekst'
@@ -122,9 +122,6 @@ nl:
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Verbinding encryptie'
     system_account: 'System account'
     system_account_legend: |
@@ -195,7 +192,7 @@ nl:
       Geef een lijst van namen op om te negeren bij het verwerken van bijlagen voor inkomende mails (bijv. handtekeningen of iconen). Voer één bestandsnaam per regel in.
   projects:
     delete:
-      scheduled: "Het verwijderen staat gepland en wordt uigevoerd in de achtergrond. U wordt op de hoogte gehouden van het resultaat."
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Project kan niet worden verwijderd: %{errors}"
       failed: "Verwijderen van project %{name} is mislukt"
       failed_text: "Het verzoek om het project %{name} verwijderen is mislukt. Het project is gearchiveerd gebleven."
@@ -243,6 +240,14 @@ nl:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Deze gebruiker is momenteel geen lid van een project.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -521,6 +526,7 @@ nl:
         confirmation: "komt niet overeen met %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "bestaat niet."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         empty: "mag niet leeg zijn."
@@ -536,6 +542,7 @@ nl:
         invalid_url: 'is geen geldige URL.'
         invalid_url_scheme: 'is geen ondersteunde protocol (toegestaan: %{allowed_schemes}).'
         less_than_or_equal_to: "moet kleiner zijn dan of gelijk aan %{count}."
+        not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "is geen geldige datum."
         not_a_datetime: "is geen geldige datum tijd."
@@ -720,6 +727,7 @@ nl:
       status: "Status werkpakket"
       member: "Deelnemer"
       news: "Nieuws"
+      placeholder_user: "Placeholder user"
       project: "Project"
       query: "Aangepaste query"
       role:
@@ -769,7 +777,7 @@ nl:
     firstname: "Voornaam"
     group: "Groep"
     groups: "Groepen"
-    groupname: "Groepsnaam"
+    name: "Naam"
     id: "ID"
     is_default: "Standaardwaarde"
     is_for_all: "Voor alle projecten"
@@ -779,7 +787,6 @@ nl:
     lastname: "Achternaam"
     login: "Gebruikersnaam"
     mail: "E-mail"
-    name: "Naam"
     password: "Wachtwoord"
     priority: "Prioriteit"
     project: "Project"
@@ -1130,7 +1137,7 @@ nl:
   error_menu_item_not_saved: Menu-item kan niet worden opgeslagen
   error_wiki_root_menu_item_conflict: >
     Kan "%{old_name}" niet naar "%{new_name}" hernoemen vanwege een conflict in het resulterende menu-item met het bestaande menu-item. "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "Er heeft zich een fout voorgedaan bij de externe authenticatie. Probeer het opnieuw."
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) niet markeerbaar: %{attributes}"
   events:
     project: 'Project bewerkt'
@@ -1331,6 +1338,7 @@ nl:
   label_custom_field_plural: "Aangepaste velden"
   label_custom_field_default_type: "Leeg type"
   label_custom_style: "Ontwerp"
+  label_database_version: "PostgreSQL version"
   label_date: "Datum"
   label_date_and_time: "Datum en tijd"
   label_date_from: "Van"
@@ -1489,6 +1497,7 @@ nl:
   label_my_account_data: "Mijn accountgegevens"
   label_my_projects: "Mijn projecten"
   label_my_queries: "Mijn aangepaste query 's"
+  label_name: "Naam"
   label_never: "Nooit"
   label_new: "Nieuw"
   label_new_features: "New features"
@@ -1538,6 +1547,9 @@ nl:
   label_permissions: "Machtigingen"
   label_permissions_report: "Machtigingen verslag"
   label_personalize_page: "Personaliseer deze pagina"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Planning"
   label_please_login: "Log in a.u.b."
   label_plugins: "Plug-ins"
@@ -1846,6 +1858,7 @@ nl:
   notice_email_sent: "Een e-mail werd verzonden naar %{value}"
   notice_failed_to_save_work_packages: "%{count} werkpakket(ten) op %{total} geselecteerd opslaan mislukt: %{ids}."
   notice_failed_to_save_members: "Lid/leden opslaan mislukt: %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "De pagina die u probeerde te benaderen bestaat niet of is verwijderd."
   notice_forced_logout: "U bent automatisch uitgelogd na %{ttl_time} minuten van inactiviteit."
   notice_internal_server_error: "Er is een fout opgetreden op de pagina die u probeerde te gebruiken. Als u problemen blijft ervaren, neem dan contact op met uw %{app_title} beheerder voor hulp."
@@ -1909,6 +1922,8 @@ nl:
   permission_add_work_packages: "Werkpakketten toevoegen"
   permission_add_messages: "Berichten posten"
   permission_add_project: "Project Aanmaken"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Subprojecten maken"
   permission_add_work_package_watchers: "Kijkers toevoegen"
   permission_assign_versions: "Assign versions"
@@ -2110,7 +2125,7 @@ nl:
       username: "Repository-gebruikersnaam"
     truncated: "Onze excuses, we hebben de map beperkt tot %{limit} bestanden. De %{truncated} bestanden zijn verwijderd uit de lijst."
     named_repository: "%{vendor_name} repository"
-    update_settings_successful: "De instellingen zijn opgeslagen."
+    update_settings_successful: "The settings have been successfully saved."
     url: "URL van de repository"
     warnings:
       cannot_annotate: "Dit bestand kan niet geannoteerd worden."
@@ -2228,7 +2243,6 @@ nl:
   setting_welcome_text: "Welkom blok tekst"
   setting_welcome_title: "Welkom blok titel"
   setting_welcome_on_homescreen: "Toon het Welkom blok op thuisscherm"
-  setting_work_package_group_assignment: "Sta toewijzingen een groepen toe"
   setting_work_package_list_default_highlighting_mode: "Standaardmodus markeren"
   setting_work_package_list_default_highlighted_attributes: "Inline gemarkeerd standaardkenmerken"
   settings:

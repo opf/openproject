@@ -41,7 +41,7 @@ module Projects::Copy
     def copy_dependency(params:)
       mapping = queries_to_copy.map do |query|
         copy = duplicate_query(query, params)
-        # Either assign the succesfully copied query's ID or nil to indicate
+        # Either assign the successfully copied query's ID or nil to indicate
         # it could not be copied.
         new_id = copy.map(&:id).to_a.first
 

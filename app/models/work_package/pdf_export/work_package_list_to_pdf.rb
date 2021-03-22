@@ -44,6 +44,7 @@ require 'open3'
 
 class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
   include WorkPackage::PDFExport::Common
+  include WorkPackage::PDFExport::Formattable
   include WorkPackage::PDFExport::Attachments
 
   attr_accessor :pdf,
@@ -55,23 +56,15 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
     super
 
     @cell_padding = options.delete(:cell_padding)
-
-    @total_wp_count = query.results.work_package_count
-    @batches_count = @total_wp_count.fdiv(WORK_PACKAGES_PER_BATCH).ceil
-    @batch_files = []
-    @page_count = -1
+    prepare_batch! if batch_supported?
+    setup_page!
   end
 
   def render!
-    (1..@batches_count).each do |batch_index|
-      run_batch!(batch_index)
-    end
+    return render_batched! if batch_supported?
 
-    @merged_pdf_file = merge_pdfs
-
-    delete_tmp_files
-
-    success(@merged_pdf_file)
+    file = render_work_packages query.results.work_packages
+    success(file)
   rescue Prawn::Errors::CannotFit
     error(I18n.t(:error_pdf_export_too_many_columns))
   rescue StandardError => e
@@ -81,9 +74,34 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
 
   private
 
-  def on_first_batch(batch_index)
-    return unless batch_index == 1
+  def setup_page!
+    self.pdf = get_pdf(current_language)
 
+    configure_page_size
+    configure_markup
+  end
+
+  def prepare_batch!
+    total_wp_count = query.results.work_package_count
+    @work_packages_per_batch = 100
+    @batches_count = total_wp_count.fdiv(@work_packages_per_batch).ceil
+    @batch_files = []
+    @page_count = -1
+  end
+
+  def render_batched!
+    (1..@batches_count).each do |batch_index|
+      @batch_files << run_batch!(batch_index)
+    end
+
+    merged_pdf_file = merge_pdfs
+
+    delete_tmp_files
+
+    success(merged_pdf_file)
+  end
+
+  def on_first_render
     write_title!
     write_headers!
   end
@@ -108,28 +126,38 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
   end
 
   def run_batch!(batch_index)
-    initialize_batch_page
+    first = batch_index == 1
 
-    batch_file = render_batch!(batch_index)
+    # We need to clear the page after the first one
+    setup_page!
+
+    batch_file = render_work_packages(
+      work_packages_batch(batch_index),
+      first: first,
+      filename: "pdf_batch_#{batch_index}"
+    ) do
+      write_footers!
+    end
 
     @page_count += pdf.page_count
     batch_file.close
-    @batch_files << batch_file
+    batch_file
   end
 
-  def render_batch!(batch_index)
+  def render_work_packages(work_packages, first: true, filename: "pdf_export")
     @resized_image_paths = []
 
-    on_first_batch(batch_index)
-    write_work_packages!(batch_index)
-    write_footers!
+    on_first_render if first
+    write_work_packages! work_packages
 
-    batch_file = Tempfile.new("pdf_batch_#{batch_index}")
-    pdf.render_file(batch_file.path)
+    yield if block_given?
+
+    file = Tempfile.new(filename)
+    pdf.render_file(file.path)
 
     delete_all_resized_images
 
-    batch_file
+    file
   end
 
   def project
@@ -182,7 +210,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
     widths.map { |w| w * ratio }
   end
 
-  def description_colspan
+  def formattable_colspan
     valid_export_columns.size
   end
 
@@ -202,17 +230,19 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
     end
   end
 
-  def write_work_packages!(batch_index)
+  def write_work_packages!(work_packages)
     pdf.font style: :normal, size: 8
     previous_group = nil
 
-    work_packages_batch(batch_index).each do |work_package|
+    work_packages.each do |work_package|
       previous_group = write_group_header!(work_package, previous_group)
 
       write_attributes!(work_package)
 
       if options[:show_descriptions]
-        write_description!(work_package, false)
+        write_formattable! work_package,
+                           markdown: work_package.description,
+                           label: WorkPackage.human_attribute_name(:description)
       end
 
       if options[:show_attachments] && work_package.attachments.exists?
@@ -223,10 +253,10 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
 
   def work_packages_batch(batch_index)
     query
-        .results
-        .work_packages
-        .page(batch_index)
-        .per_page(WORK_PACKAGES_PER_BATCH)
+      .results
+      .work_packages
+      .page(batch_index)
+      .per_page(@work_packages_per_batch)
   end
 
   def write_attributes!(work_package)
@@ -284,17 +314,22 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
 
   def make_custom_field_value(work_package, column)
     values = work_package
-             .custom_values
-             .select { |v| v.custom_field_id == column.custom_field.id }
+      .custom_values
+      .select { |v| v.custom_field_id == column.custom_field.id }
 
     pdf.make_cell values.map(&:formatted_value).join(', '),
                   padding: cell_padding
   end
 
-  def initialize_batch_page
-    self.pdf = get_pdf(current_language)
+  def batch_supported?
+    return @batch_supported if defined?(@batch_supported)
 
-    configure_page_size
-    configure_markup
+    @batch_supported = begin
+      _, status = Open3.capture2e('pdfunite', '-h')
+      status.success?
+    rescue StandardError => e
+      Rails.logger.error "Failed to test pdfunite version: #{e.message}"
+      false
+    end
   end
 end

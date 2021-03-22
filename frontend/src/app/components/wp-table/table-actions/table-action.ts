@@ -1,7 +1,7 @@
-import {Injector} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { Injector } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export type OpTableActionFactory = (i:Injector, wp:WorkPackageResource) => OpTableAction;
 export const contextMenuTdClassName = 'wp-table--context-menu-td';

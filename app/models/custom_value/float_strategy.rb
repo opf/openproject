@@ -44,7 +44,7 @@ class CustomValue::FloatStrategy < CustomValue::FormatStrategy
   def validate_type_of_value
     Kernel.Float(value)
     nil
-  rescue
+  rescue StandardError
     :not_a_number
   end
 end

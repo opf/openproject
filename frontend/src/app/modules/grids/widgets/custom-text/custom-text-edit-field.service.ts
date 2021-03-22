@@ -1,13 +1,13 @@
-import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
-import {ElementRef, Injector, Injectable} from "@angular/core";
-import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {BehaviorSubject} from "rxjs";
-import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
-import {UploadFile} from "core-components/api/op-file-upload/op-file-upload.service";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
+import { EditFieldHandler } from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
+import { ElementRef, Injector, Injectable } from "@angular/core";
+import { IFieldSchema } from "core-app/modules/fields/field.base";
+import { BehaviorSubject } from "rxjs";
+import { GridWidgetResource } from "core-app/modules/hal/resources/grid-widget-resource";
+import { UploadFile } from "core-components/api/op-file-upload/op-file-upload.service";
+import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
+import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
 
 @Injectable()
 export class CustomTextEditFieldService extends EditFieldHandler {
@@ -45,7 +45,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
     return this.update();
   }
 
-  public reset(withText:string = '') {
+  public reset(withText = '') {
     if (withText.length > 0) {
       withText += '\n';
     }
@@ -131,8 +131,8 @@ export class CustomTextEditFieldService extends EditFieldHandler {
    * @param value
    */
   private initializeChangeset(value:GridWidgetResource) {
-    let schemaHref = 'customtext-schema';
-    let resourceSource = {
+    const schemaHref = 'customtext-schema';
+    const resourceSource = {
       text: value.options.text,
       getEditorTypeFor: () => 'full',
       canAddAttachments: value.grid.canAddAttachments,
@@ -144,16 +144,16 @@ export class CustomTextEditFieldService extends EditFieldHandler {
       }
     };
 
-    let resource = this.halResource.createHalResource(resourceSource, true);
+    const resource = this.halResource.createHalResource(resourceSource, true);
 
-    let schemaSource = {
+    const schemaSource = {
       text: this.schema,
       _links: {
         self: { href: schemaHref }
       }
     };
 
-    let schema = this.halResource.createHalResource(schemaSource, true) as SchemaResource;
+    const schema = this.halResource.createHalResource(schemaSource, true) as SchemaResource;
 
     this.schemaCache.update(resource, schema);
 

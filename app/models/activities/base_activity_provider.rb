@@ -49,7 +49,7 @@ class Activities::BaseActivityProvider
 
   class_attribute :activity_provider_options
 
-  # Returns events of type event_type visible by user that occured between from and to
+  # Returns events of type event_type visible by user that occurred between from and to
   def self.find_events(event_type, user, from, to, options)
     raise "#{name} can not provide #{event_type} events." if activity_provider_options[:type] != event_type
 
@@ -250,7 +250,7 @@ class Activities::BaseActivityProvider
   def aggregated_journal_query
     # As AggregatedJournal wraps the provided sql statement inside brackets we
     # need to provide a fully valid statement and not only the alias string.
-    Journal::Scopes::AggregatedJournal.fetch(sql: "SELECT * FROM #{aggregated_journals_alias}").arel
+    Journal.aggregated_journal(sql: "SELECT * FROM #{aggregated_journals_alias}").arel
   end
 
   def add_event_selection_query_as_cte(query, user, from, to, options)

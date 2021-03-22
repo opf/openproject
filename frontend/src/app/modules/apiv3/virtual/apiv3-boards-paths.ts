@@ -26,22 +26,22 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Constructor} from "@angular/cdk/table";
-import {GridResource} from "core-app/modules/hal/resources/grid-resource";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {Observable} from "rxjs";
-import {Apiv3ListParameters, listParamsString} from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {Board, BoardType} from "core-app/modules/boards/board/board";
-import {map, switchMap, tap} from "rxjs/operators";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
-import {CachableAPIV3Collection} from "core-app/modules/apiv3/cache/cachable-apiv3-collection";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {MultiInputState} from "reactivestates";
-import {APIv3BoardPath} from "core-app/modules/apiv3/virtual/apiv3-board-path";
-import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
+import { Constructor } from "@angular/cdk/table";
+import { GridResource } from "core-app/modules/hal/resources/grid-resource";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { Observable } from "rxjs";
+import { Apiv3ListParameters, listParamsString } from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
+import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
+import { Board, BoardType } from "core-app/modules/boards/board/board";
+import { map, switchMap, tap } from "rxjs/operators";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
+import { CachableAPIV3Collection } from "core-app/modules/apiv3/cache/cachable-apiv3-collection";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { MultiInputState } from "reactivestates";
+import { APIv3BoardPath } from "core-app/modules/apiv3/virtual/apiv3-board-path";
+import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
 
 export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardPath> {
 
@@ -65,7 +65,7 @@ export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardP
         tap(collection => this.authorisationService.initModelAuth('boards', collection.$links)),
         map(collection =>
           collection.elements.map(grid => {
-            let board = new Board(grid);
+            const board = new Board(grid);
             board.sortWidgets();
             this.touch(board);
 
@@ -110,12 +110,12 @@ export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardP
   }
 
   protected createCache():StateCacheService<Board> {
-    let state = this.states.forType<Board>('boards');
+    const state = this.states.forType<Board>('boards');
     return new StateCacheService<Board>(state);
   }
 
   private createGrid(type:BoardType, name:string, scope:string, actionAttribute?:string):Observable<GridResource> {
-    let payload:any = _.set({ name: name }, '_links.scope.href', scope);
+    const payload:any = _.set({ name: name }, '_links.scope.href', scope);
     payload.options = {
       type: type,
     };

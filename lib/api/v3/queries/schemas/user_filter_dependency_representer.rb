@@ -34,7 +34,6 @@ module API
       module Schemas
         class UserFilterDependencyRepresenter <
           PrincipalFilterDependencyRepresenter
-
           def json_cache_key
             super + (filter.project.present? ? [filter.project.id] : [])
           end
@@ -43,9 +42,9 @@ module API
 
           def filter_query
             params = [{ type: { operator: '=',
-                                values: ['User'] } },
+                                values: %w[User Group PlaceholderUser] } },
                       { status: { operator: '!',
-                                  values: [Principal::STATUSES[:locked].to_s] } }]
+                                  values: [Principal.statuses[:locked].to_s] } }]
 
             if filter.project
               params << { member: { operator: '=', values: [filter.project.id.to_s] } }

@@ -1,5 +1,5 @@
-import {Observable, Subject} from "rxjs";
-import {filter} from "rxjs/operators";
+import { Observable, Subject } from "rxjs";
+import { filter } from "rxjs/operators";
 import { Injectable } from "@angular/core";
 
 export interface BoardSelection {

@@ -27,6 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -102,7 +103,7 @@ module DevelopmentData
         user.firstname = login.humanize
         user.lastname = 'DEV user'
         user.mail = "#{login}@example.net"
-        user.status = User::STATUSES[:active]
+        user.status = User.statuses[:active]
         user.language = I18n.locale
         user.force_password_change = false
       end

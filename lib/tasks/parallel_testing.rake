@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -50,12 +51,15 @@ namespace :parallel do
   class ParallelParser
     def self.with_args(args, allow_seed = true)
       options = {}
-      OptionParser.new do |opts|
-        opts.banner = "Usage: rails #{args[0]} -- [options]"
-        opts.on("-n ARG", "--group-number ARG", Integer) { |num_cpus| options[:num_cpus] = num_cpus || ENV['GROUP'] }
-        opts.on("-o ARG", "--only-group ARG", Integer) { |group_number| options[:group] = group_number || ENV['GROUP_SIZE'] }
-        opts.on("-s ARG", "--seed ARG", Integer) { |seed| options[:seed] = seed || ENV['CI_SEED'] } if allow_seed
-      end.parse!(args[2..-1])
+      parseable_args = args[2..-1]
+      if parseable_args
+        OptionParser.new do |opts|
+          opts.banner = "Usage: rails #{args[0]} -- [options]"
+          opts.on("-n ARG", "--group-number ARG", Integer) { |num_cpus| options[:num_cpus] = num_cpus || ENV['GROUP'] }
+          opts.on("-o ARG", "--only-group ARG", Integer) { |group_number| options[:group] = group_number || ENV['GROUP_SIZE'] }
+          opts.on("-s ARG", "--seed ARG", Integer) { |seed| options[:seed] = seed || ENV['CI_SEED'] } if allow_seed
+        end.parse!(parseable_args)
+      end
 
       yield options
     end
@@ -83,12 +87,16 @@ namespace :parallel do
     Plugins::LoadPathHelper.spec_load_paths.join(' ')
   end
 
-  def run_specs(parsed_options, folders, pattern = '', additional_options: nil)
+  def run_specs(parsed_options, folders, pattern = '', additional_options: nil, runtime_filename: nil)
     check_for_pending_migrations
 
     group_options = group_option_string(parsed_options)
+    parallel_options = ""
+    rspec_options = ""
 
-    rspec_options = ''
+    if runtime_filename && File.readable?(runtime_filename)
+      parallel_options += " --group-by runtime --runtime-log #{runtime_filename} --allowed-missing 75"
+    end
     if parsed_options[:seed]
       rspec_options += "--seed #{parsed_options[:seed]}"
     end
@@ -96,8 +104,8 @@ namespace :parallel do
       rspec_options += " #{additional_options}"
     end
     group_options += " -o '#{rspec_options}'" if rspec_options.length.positive?
-
-    sh "bundle exec parallel_test --type rspec #{group_options} #{folders} #{pattern}"
+    cmd = "bundle exec parallel_test --verbose --verbose-rerun-command --type rspec #{parallel_options} #{group_options} #{folders} #{pattern}"
+    sh cmd
   end
 
   desc 'Run all suites in parallel (one after another)'
@@ -168,7 +176,7 @@ namespace :parallel do
     ParallelParser.with_args(ARGV) do |options|
       ARGV.each { |a| task(a.to_sym) {} }
 
-      run_specs options, all_spec_paths, pattern
+      run_specs options, all_spec_paths, pattern, runtime_filename: "docker/ci/parallel_features_runtime.log"
     end
   end
 
@@ -179,7 +187,7 @@ namespace :parallel do
     ParallelParser.with_args(ARGV) do |options|
       ARGV.each { |a| task(a.to_sym) {} }
 
-      run_specs options, all_spec_paths, pattern
+      run_specs options, all_spec_paths, pattern, runtime_filename: "docker/ci/parallel_units_runtime.log"
     end
   end
 end

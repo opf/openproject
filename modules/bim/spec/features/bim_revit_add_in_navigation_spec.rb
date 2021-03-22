@@ -35,7 +35,10 @@ describe 'BIM Revit Add-in navigation spec',
          driver: :chrome_revit_add_in do
   let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
   let!(:work_package) { FactoryBot.create(:work_package, project: project) }
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models add_work_packages edit_work_packages view_work_packages]) }
+  let(:role) do
+    FactoryBot.create(:role,
+                      permissions: %i[view_ifc_models manage_ifc_models add_work_packages edit_work_packages view_work_packages])
+  end
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:full_create) { ::Pages::FullWorkPackageCreate.new }
 

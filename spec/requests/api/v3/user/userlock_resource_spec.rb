@@ -34,7 +34,7 @@ describe 'API v3 UserLock resource', type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) { FactoryBot.build_stubbed(:user) }
-  let(:user) { FactoryBot.create(:user, status: User::STATUSES[:active]) }
+  let(:user) { FactoryBot.create(:user, status: User.statuses[:active]) }
   let(:model) { ::API::V3::Users::UserModel.new(user) }
   let(:representer) { ::API::V3::Users::UserRepresenter.new(model) }
   let(:lock_path) { api_v3_paths.user_lock user.id }
@@ -63,9 +63,9 @@ describe 'API v3 UserLock resource', type: :request, content_type: :json do
       end
 
       context 'user account is incompatible' do
-        let(:user) {
-          FactoryBot.create(:user, status: User::STATUSES[:registered])
-        }
+        let(:user) do
+          FactoryBot.create(:user, status: User.statuses[:registered])
+        end
         it 'should fail for invalid transitions' do
           expect(subject.status).to eq(400)
         end
@@ -110,9 +110,9 @@ describe 'API v3 UserLock resource', type: :request, content_type: :json do
       end
 
       context 'user account is incompatible' do
-        let(:user) {
-          FactoryBot.create(:user, status: User::STATUSES[:registered])
-        }
+        let(:user) do
+          FactoryBot.create(:user, status: User.statuses[:registered])
+        end
         it 'should fail for invalid transitions' do
           expect(subject.status).to eq(400)
         end

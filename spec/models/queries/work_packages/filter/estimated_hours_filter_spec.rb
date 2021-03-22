@@ -48,9 +48,9 @@ describe Queries::WorkPackages::Filter::EstimatedHoursFilter, type: :model do
     it_behaves_like 'non ar filter'
 
     describe '#where' do
-      let!(:work_package_zero_hour) {FactoryBot.create(:work_package, estimated_hours: 0)}
-      let!(:work_package_no_hours) {FactoryBot.create(:work_package, estimated_hours: nil)}
-      let!(:work_package_with_hours) {FactoryBot.create(:work_package, estimated_hours: 1)}
+      let!(:work_package_zero_hour) { FactoryBot.create(:work_package, estimated_hours: 0) }
+      let!(:work_package_no_hours) { FactoryBot.create(:work_package, estimated_hours: nil) }
+      let!(:work_package_with_hours) { FactoryBot.create(:work_package, estimated_hours: 1) }
 
       context 'with the operator being "none"' do
         before do
@@ -62,5 +62,4 @@ describe Queries::WorkPackages::Filter::EstimatedHoursFilter, type: :model do
       end
     end
   end
-  
 end

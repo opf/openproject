@@ -116,8 +116,10 @@
   </a>
 
   <a class="button -highlight-inverted"
-     [href]="demoLink()" >
-    {{ text.personal_demo }}
+     [href]="demoLink()"
+     [textContent]="text.personal_demo"
+     target="_blank"
+  >
   </a>
 
   <div class="boards--teaser-video-container">

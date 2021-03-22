@@ -38,7 +38,6 @@ describe ForumsController, type: :controller do
   end
 
   describe '#index' do
-
     context 'public project' do
       let(:project) { FactoryBot.create(:public_project) }
       let!(:role) { FactoryBot.create(:non_member) }
@@ -104,7 +103,7 @@ describe ForumsController, type: :controller do
         .and_return(forum)
     end
 
-    describe 'w/ the params beeing valid' do
+    describe 'w/ the params being valid' do
       before do
         expect(forum).to receive(:save).and_return(true)
 
@@ -125,7 +124,7 @@ describe ForumsController, type: :controller do
       end
     end
 
-    describe 'w/ the params beeing invalid' do
+    describe 'w/ the params being invalid' do
       before do
         expect(forum).to receive(:save).and_return(false)
 
@@ -160,16 +159,16 @@ describe ForumsController, type: :controller do
 
   describe '#move' do
     let(:project) { FactoryBot.create(:project) }
-    let!(:forum_1) {
+    let!(:forum_1) do
       FactoryBot.create(:forum,
-                         project: project,
-                         position: 1)
-    }
-    let!(:forum_2) {
+                        project: project,
+                        position: 1)
+    end
+    let!(:forum_2) do
       FactoryBot.create(:forum,
-                         project: project,
-                         position: 2)
-    }
+                        project: project,
+                        position: 2)
+    end
 
     before do
       allow(@controller).to receive(:authorize).and_return(true)
@@ -198,16 +197,16 @@ describe ForumsController, type: :controller do
   end
 
   describe '#update' do
-    let!(:forum) {
+    let!(:forum) do
       FactoryBot.create(:forum, name: 'Forum name',
-                                 description: 'Forum description')
-    }
+                                description: 'Forum description')
+    end
 
     before do
       expect(@controller).to receive(:authorize)
     end
 
-    describe 'w/ the params beeing valid' do
+    describe 'w/ the params being valid' do
       before do
         as_logged_in_user user do
           put :update, params: { id: forum.id,
@@ -233,7 +232,7 @@ describe ForumsController, type: :controller do
       end
     end
 
-    describe 'w/ the params beeing invalid' do
+    describe 'w/ the params being invalid' do
       before do
         as_logged_in_user user do
           post :update, params: { id: forum.id,
@@ -257,22 +256,22 @@ describe ForumsController, type: :controller do
   describe '#sticky' do
     let!(:message1) { FactoryBot.create(:message, forum: forum) }
     let!(:message2) { FactoryBot.create(:message, forum: forum) }
-    let!(:sticked_message1) {
+    let!(:sticked_message1) do
       FactoryBot.create(:message, forum_id: forum.id,
-                                   subject: 'How to',
-                                   content: 'How to install this cool app',
-                                   sticky: '1',
-                                   sticked_on: Time.now - 2.minute)
-    }
+                                  subject: 'How to',
+                                  content: 'How to install this cool app',
+                                  sticky: '1',
+                                  sticked_on: Time.now - 2.minute)
+    end
 
-    let!(:sticked_message2) {
+    let!(:sticked_message2) do
       FactoryBot.create(:message, forum_id: forum.id,
-                                   subject: 'FAQ',
-                                   content: 'Frequestly asked question',
-                                   sticky: '1',
-                                   sticked_on:
+                                  subject: 'FAQ',
+                                  content: 'Frequestly asked question',
+                                  sticky: '1',
+                                  sticked_on:
                                    Time.now - 1.minute)
-    }
+    end
 
     describe 'all sticky messages' do
       before do
