@@ -54,7 +54,9 @@ module API
                                         self_path: self_path)
 
           result.selects = embedded_depth_first([], start) do |map, stack, current_representer|
-            current_representer.select_sql(map, select_for(stack), result)
+            result.replace_map.merge!(map)
+
+            current_representer.select_sql(select_for(stack), result)
           end
 
           embedded_depth_first([], start) do |_, stack, current_representer|

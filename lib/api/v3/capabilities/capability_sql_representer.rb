@@ -31,16 +31,14 @@
 module API
   module V3
     module Capabilities
-      class CapabilitySqlRepresenter < API::Decorators::SqlRepresenter
+      class CapabilitySqlRepresenter
+        include API::Decorators::Sql::Hal
+
         property :_type,
-                 representation: -> {
-                   <<~SQL
-                     'Capability'
-                   SQL
-                 }
+                 representation: ->(*) { "'Capability'" }
 
         property :id,
-                 representation: -> {
+                 representation: ->(*) {
                    <<~SQL
                      CASE
                      WHEN context_id IS NULL THEN action || '/g-' || principal_id
@@ -66,7 +64,7 @@ module API
              title: -> { nil }
 
         link :context,
-             href: -> {
+             href: ->(*) {
                <<~SQL
                  CASE
                  WHEN context_id IS NULL THEN '#{api_v3_paths.capabilities_contexts_global}'
@@ -74,7 +72,7 @@ module API
                  END
                SQL
              },
-             title: -> {
+             title: ->(*) {
                <<~SQL
                  CASE
                  WHEN context_id IS NULL THEN '#{I18n.t('activerecord.errors.models.capability.context.global')}'
@@ -87,7 +85,7 @@ module API
                      select: ['contexts.name context_name'] }
 
         link :principal,
-             href: -> {
+             href: ->(*) {
                <<~SQL
                  CASE principal_type
                  WHEN 'Group' THEN format('#{api_v3_paths.group('%s')}', principal_id)

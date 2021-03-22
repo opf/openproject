@@ -39,7 +39,7 @@ module API
             ::API::V3::Utilities::SqlRepresenterWalker
               .new(results,
                    embed: { 'elements' => {} },
-                   select: { 'elements' => { '*' => {} } },
+                   select: { '*' => {}, 'elements' => { '*' => {} } },
                    current_user: User.current,
                    self_path: self_path,
                    url_query: resulting_params)

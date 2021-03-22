@@ -29,13 +29,9 @@
 module API
   module Decorators
     class SqlCollectionRepresenter
-      class_attribute :embed_map
+      include API::Decorators::Sql::Hal
 
       class << self
-        def joins(_select, scope)
-          scope
-        end
-
         def ctes(walker_result)
           {
             all_elements: walker_result.scope.to_sql,
@@ -44,73 +40,11 @@ module API
           }
         end
 
-        def select_sql(replace_map, _select, walker_result)
-          <<~SELECT
-            json_build_object(
-              '_type', 'Collection',
-              'count', COUNT(*),
-              'total', (SELECT * from total),
-              'pageSize', #{walker_result.page_size},
-              'offset', #{walker_result.offset},
-              '_links', json_strip_nulls(json_build_object(
-                'self', json_build_object(
-                  'href', '#{full_self_path(walker_result)}'
-                ),
-                'jumpTo', json_build_object(
-                  'href', '#{full_self_path(walker_result, offset: '{offset}')}',
-                  'templated', true
-                ),
-                'changeSize', json_build_object(
-                  'href', '#{full_self_path(walker_result, pageSize: '{size}')}',
-                  'templated', true
-                ),
-                'previousByOffset',
-                  CASE WHEN #{walker_result.offset} > 1 THEN
-                    json_build_object(
-                      'href', '#{full_self_path(walker_result, offset: walker_result.offset - 1)}'
-                    )
-                  ELSE
-                    NULL
-                  END,
-                'nextByOffset',
-                  CASE WHEN #{walker_result.offset * walker_result.page_size} < (SELECT * FROM total) THEN
-                    json_build_object(
-                      'href', '#{full_self_path(walker_result, offset: walker_result.offset + 1)}'
-                    )
-                  ELSE
-                    NULL
-                  END
-                )
-              ),
-              '_embedded', json_build_object(
-                'elements', json_agg(
-                  #{replace_map['elements']}
-                )
-              )
-            )
-          SELECT
-        end
-
-        def to_sql(walker_result)
-          ctes = walker_result.ctes.map do |key, sql|
-            <<~SQL
-              #{key} AS (
-                #{sql}
-              )
-            SQL
-          end
-
-          <<~SQL
-             WITH #{ctes.join(', ')}
-
-             SELECT
-              #{walker_result.selects} AS json
-            FROM
-              page_elements
-          SQL
-        end
-
         private
+
+        def select_from(walker_result)
+          "page_elements"
+        end
 
         def full_self_path(walker_results, overrides = {})
           "#{walker_results.self_path}?#{href_query(walker_results, overrides)}"
@@ -128,6 +62,50 @@ module API
           walker_result.page_size
         end
       end
+
+      property :_type,
+               representation: ->(*) { "'Collection'" }
+
+      property :count,
+               representation: ->(*) { "COUNT(*)" }
+
+      property :total,
+               representation: ->(*) { "(SELECT * from total)" }
+
+      property :pageSize,
+               representation: ->(walker_result) { walker_result.page_size }
+
+      property :offset,
+               representation: ->(walker_result) { walker_result.offset }
+
+      link :self,
+           href: ->(walker_result) { "'#{full_self_path(walker_result)}'" },
+           title: -> { nil }
+
+      link :jumpTo,
+           href: ->(walker_result) { "'#{full_self_path(walker_result, offset: '{offset}')}'" },
+           title: -> { nil },
+           templated: true
+
+      link :changeSize,
+           href: ->(walker_result) { "'#{full_self_path(walker_result, pageSize: '{size}')}'" },
+           title: -> { nil },
+           templated: true
+
+      link :previousByOffset,
+           href: ->(walker_result) { "'#{full_self_path(walker_result, offset: walker_result.offset - 1)}'" },
+           render_if: ->(walker_result) { walker_result.offset > 1 },
+           title: -> { nil }
+
+      link :nextByOffset,
+           href: ->(walker_result) { "'#{full_self_path(walker_result, offset: walker_result.offset + 1)}'" },
+           render_if: ->(walker_result) { "#{walker_result.offset * walker_result.page_size} < (SELECT * FROM total)" },
+           title: -> { nil }
+
+      embedded :elements,
+               representation: ->(walker_result) do
+                 "json_agg(#{walker_result.replace_map['elements']})"
+               end
     end
   end
 end

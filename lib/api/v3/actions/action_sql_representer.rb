@@ -29,9 +29,11 @@
 module API
   module V3
     module Actions
-      class ActionSqlRepresenter < API::Decorators::SqlRepresenter
+      class ActionSqlRepresenter
+        include API::Decorators::Sql::Hal
+
         property :_type,
-                 representation: -> { "'Action'" }
+                 representation: ->(*) { "'Action'" }
 
         property :id
 
