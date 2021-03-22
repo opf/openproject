@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {TimezoneService} from 'core-components/datetime/timezone.service';
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { DisplayField } from "core-app/modules/fields/display/display-field.module";
+import { TimezoneService } from 'core-components/datetime/timezone.service';
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export class DateTimeDisplayField extends DisplayField {
   @InjectField() timezoneService:TimezoneService;

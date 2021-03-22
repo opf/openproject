@@ -34,7 +34,7 @@ describe Color, type: :model do
       it 'can read planning_element_types w/ the help of the has_many association' do
         color                 = FactoryBot.create(:color)
         planning_element_type = FactoryBot.create(:type,
-                                                   color_id: color.id)
+                                                  color_id: color.id)
 
         color.reload
 
@@ -45,7 +45,7 @@ describe Color, type: :model do
       it 'nullifies dependent planning_element_types' do
         color                 = FactoryBot.create(:color)
         planning_element_type = FactoryBot.create(:type,
-                                                   color_id: color.id)
+                                                  color_id: color.id)
 
         color.reload
         color.destroy
@@ -57,10 +57,10 @@ describe Color, type: :model do
   end
 
   describe '- Validations ' do
-    let(:attributes) {
-      { name:    'Color No. 1',
+    let(:attributes) do
+      { name: 'Color No. 1',
         hexcode: '#FFFFFF' }
-    }
+    end
 
     describe 'name' do
       it 'is invalid w/o a name' do
@@ -98,7 +98,7 @@ describe Color, type: :model do
       it 'is invalid w/ malformed hexcodes' do
         expect(Color.new(attributes.merge(hexcode: '0#FFFFFF'))).not_to be_valid
         expect(Color.new(attributes.merge(hexcode: '#FFFFFF0'))).not_to be_valid
-        expect(Color.new(attributes.merge(hexcode: 'white'))).   not_to be_valid
+        expect(Color.new(attributes.merge(hexcode: 'white'))).not_to be_valid
       end
 
       it 'fixes some wrong formats of hexcode automatically' do
@@ -120,7 +120,7 @@ describe Color, type: :model do
       end
 
       it 'is valid w/ proper hexcodes' do
-        expect(Color.new(attributes.merge(hexcode: '#FFFFFF'))). to be_valid
+        expect(Color.new(attributes.merge(hexcode: '#FFFFFF'))).to be_valid
         expect(Color.new(attributes.merge(hexcode: '#FF00FF'))).to be_valid
       end
     end

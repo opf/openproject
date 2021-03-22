@@ -59,7 +59,7 @@ module OpenProject::Bim::Patches::AggregatedJournalPatch
 
   module InstanceMethods
     def set_preloaded_bcf_comment(loaded_bcf_comment)
-      self.journal.bcf_comment = loaded_bcf_comment
+      journal.bcf_comment = loaded_bcf_comment
       journal.association(:bcf_comment).loaded!
     end
   end

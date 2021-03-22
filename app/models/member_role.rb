@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -52,11 +53,11 @@ class MemberRole < ApplicationRecord
   # and prevents or at least discourages working on persistence objects from controllers
   # or unrelated business logic.
   def destroy(*args)
-    unless caller[2] =~ /has_many_association\.rb:[0-9]+:in `delete_records'/
-      raise 'MemberRole.destroy called from method other than HasManyAssociation.delete_records' +
-        "\n  on #{inspect}\n from #{caller.first} / #{caller[6]}"
-    else
+    if caller[2] =~ /has_many_association\.rb:[0-9]+:in `delete_records'/
       super
+    else
+      raise 'MemberRole.destroy called from method other than HasManyAssociation.delete_records' +
+            "\n  on #{inspect}\n from #{caller.first} / #{caller[6]}"
     end
   end
 

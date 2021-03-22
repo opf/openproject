@@ -30,9 +30,8 @@
 
 module AttributeHelpTexts
   class BaseContract < ::ModelContract
+    include RequiresAdminGuard
     include Attachments::ValidateReplacements
-
-    validate :validate_user_allowed_to_manage
 
     def self.model
       AttributeHelpText
@@ -41,9 +40,5 @@ module AttributeHelpTexts
     attribute :type
     attribute :attribute_name
     attribute :help_text
-
-    def validate_user_allowed_to_manage
-      errors.add :base, :error_unauthorized unless user.admin?
-    end
   end
 end

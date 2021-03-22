@@ -26,17 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
+import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
+import { QueryFilterResource } from 'core-app/modules/hal/resources/query-filter-resource';
 import {
   SchemaAttributeObject,
   SchemaResource
 } from 'core-app/modules/hal/resources/schema-resource';
-import {SchemaDependencyResource} from 'core-app/modules/hal/resources/schema-dependency-resource';
-import {QueryOperatorResource} from 'core-app/modules/hal/resources/query-operator-resource';
-import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {HalLink} from "core-app/modules/hal/hal-link/hal-link";
+import { SchemaDependencyResource } from 'core-app/modules/hal/resources/schema-dependency-resource';
+import { QueryOperatorResource } from 'core-app/modules/hal/resources/query-operator-resource';
+import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { HalLink } from "core-app/modules/hal/hal-link/hal-link";
 
 export interface QueryFilterInstanceSchemaResourceLinks {
   self:HalLink;
@@ -74,9 +74,9 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
   }
 
   public getFilter():QueryFilterInstanceResource {
-    let operator = (this.operator.allowedValues as HalResource[])[0];
-    let filter = (this.filter.allowedValues as HalResource[])[0];
-    let source:any = {
+    const operator = (this.operator.allowedValues as HalResource[])[0];
+    const filter = (this.filter.allowedValues as HalResource[])[0];
+    const source:any = {
       name: filter.name,
       _links: {
         filter: filter.$source._links.self,
@@ -103,9 +103,9 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
   }
 
   public resultingSchema(operator:QueryOperatorResource):QueryFilterInstanceSchemaResource {
-    let staticSchema = this.$source;
-    let dependentSchema = this.dependency.forValue(operator.href!.toString());
-    let resultingSchema = {};
+    const staticSchema = this.$source;
+    const dependentSchema = this.dependency.forValue(operator.href!.toString());
+    const resultingSchema = {};
 
     _.merge(resultingSchema, staticSchema, dependentSchema);
 

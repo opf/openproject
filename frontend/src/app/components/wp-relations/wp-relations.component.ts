@@ -26,18 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { RelationResource } from 'core-app/modules/hal/resources/relation-resource';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 
-import {Observable, zip} from 'rxjs';
-import {take, takeUntil} from 'rxjs/operators';
-import {RelatedWorkPackagesGroup} from './wp-relations.interfaces';
-import {RelationsStateValue, WorkPackageRelationsService} from './wp-relations.service';
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { Observable, zip } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+import { RelatedWorkPackagesGroup } from './wp-relations.interfaces';
+import { RelationsStateValue, WorkPackageRelationsService } from './wp-relations.service';
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 
 @Component({
@@ -49,7 +49,7 @@ export class WorkPackageRelationsComponent extends UntilDestroyedMixin implement
   @Input() public workPackage:WorkPackageResource;
   public relationGroups:RelatedWorkPackagesGroup = {};
   public relationGroupKeys:string[] = [];
-  public relationsPresent:boolean = false;
+  public relationsPresent = false;
   public canAddRelation:boolean;
 
   // By default, group by relation type
@@ -97,7 +97,7 @@ export class WorkPackageRelationsComponent extends UntilDestroyedMixin implement
   }
 
   private getRelatedWorkPackages(workPackageIds:string[]):Observable<WorkPackageResource[]> {
-    let observablesToGetZipped:Observable<WorkPackageResource>[] = workPackageIds.map(wpId =>
+    const observablesToGetZipped:Observable<WorkPackageResource>[] = workPackageIds.map(wpId =>
       this
         .apiV3Service
         .work_packages

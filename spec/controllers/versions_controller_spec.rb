@@ -174,7 +174,7 @@ describe VersionsController, type: :controller do
 
     it { expect(response).to be_successful }
     it { expect(response).to render_template('show') }
-    it {assert_select 'h2', content: version2.name }
+    it { assert_select 'h2', content: version2.name }
 
     subject { assigns(:version) }
     it { is_expected.to eq(version2) }

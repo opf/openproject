@@ -44,10 +44,11 @@
                (click)="redirectToWp(item.id, $event)"
                style="line-height: 1">
               <div class="global-search--option-wrapper">
-                <user-avatar 
-                [user]="item.author"
-                data-class-list="avatar global-search-author-avatar hidden-for-mobile">
-                </user-avatar>
+                <op-principal
+                  [hide-name]="true"
+                  [principal]="item.author"
+                  class-list="avatar global-search-author-avatar hidden-for-mobile"
+                ></op-principal>
 
                 <span class="global-search--wp-subject"> 
                 {{item.subject}} 

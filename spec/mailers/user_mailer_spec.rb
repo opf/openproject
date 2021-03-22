@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -508,9 +509,9 @@ describe UserMailer, type: :mailer do
 
     describe 'html mail' do
       let(:expected_translation) do
-        I18n.t(:done_ratio, scope: [:activerecord,
-                                    :attributes,
-                                    :work_package])
+        I18n.t(:done_ratio, scope: %i[activerecord
+                                      attributes
+                                      work_package])
       end
       let(:expected_prefix) { "<li><strong>#{expected_translation}</strong>" }
 
@@ -519,7 +520,9 @@ describe UserMailer, type: :mailer do
       end
 
       context 'changed done ratio' do
-        let(:expected) { "#{expected_prefix} changed from <i title=\"40\">40</i> <br/><strong>to</strong> <i title=\"100\">100</i>" }
+        let(:expected) do
+          "#{expected_prefix} changed from <i title=\"40\">40</i> <br/><strong>to</strong> <i title=\"100\">100</i>"
+        end
 
         before do
           allow(journal).to receive(:details).and_return('done_ratio' => [40, 100])
@@ -531,7 +534,9 @@ describe UserMailer, type: :mailer do
       end
 
       context 'new done ratio' do
-        let(:expected) { "#{expected_prefix} changed from <i title=\"0\">0</i> <br/><strong>to</strong> <i title=\"100\">100</i>" }
+        let(:expected) do
+          "#{expected_prefix} changed from <i title=\"0\">0</i> <br/><strong>to</strong> <i title=\"100\">100</i>"
+        end
 
         before do
           allow(journal).to receive(:details).and_return('done_ratio' => [nil, 100])

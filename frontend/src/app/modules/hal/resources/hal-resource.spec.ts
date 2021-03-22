@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injector} from '@angular/core';
+import { Injector } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {HalLink, HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
-import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {States} from 'core-components/states.service';
-import {of} from 'rxjs';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { HalLink, HalLinkInterface } from 'core-app/modules/hal/hal-link/hal-link';
+import { OpenprojectHalModule } from 'core-app/modules/hal/openproject-hal.module';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { States } from 'core-components/states.service';
+import { of } from 'rxjs';
 import Spy = jasmine.Spy;
 
 describe('HalResource', () => {
@@ -67,7 +67,7 @@ describe('HalResource', () => {
   }));
 
   it('should be instantiable using a default object', () => {
-    let resource = halResourceService.createHalResource({}, true);
+    const resource = halResourceService.createHalResource({}, true);
     expect(resource.$href).toEqual(null);
   });
 
@@ -86,8 +86,7 @@ describe('HalResource', () => {
       getStub = spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
         if (verb === 'get' && path === '/api/hello') {
           return of(halResourceService.createHalResource(source)) as any;
-        }
-        else {
+        } else {
           return false as any;
         }
       });
@@ -103,7 +102,7 @@ describe('HalResource', () => {
   describe('when creating a resource using the create factory method', () => {
     describe('when there is no type configuration', () => {
       beforeEach(() => {
-        source = {_embedded: {}};
+        source = { _embedded: {} };
         resource = halResourceService.createHalResource(source, true);
       });
 
@@ -125,7 +124,7 @@ describe('HalResource', () => {
 
         halResourceService.registerResource(
           'Other',
-          {cls: OtherResource, attrTypes: {someResource: 'Other'}}
+          { cls: OtherResource, attrTypes: { someResource: 'Other' } }
         );
         resource = halResourceService.createHalResource(source, false);
       });
@@ -315,7 +314,7 @@ describe('HalResource', () => {
 
     beforeEach(() => {
       source = {
-        _links: {self: {href: 'bunny'}},
+        _links: { self: { href: 'bunny' } },
         rabbit: 'fluffy'
       };
       plain = halResourceService.createHalResource(source).$plain();
@@ -413,7 +412,7 @@ describe('HalResource', () => {
     beforeEach(() => {
       source = {
         _embedded: {
-          resource: {_links: {}},
+          resource: { _links: {} },
         }
       };
 
@@ -568,7 +567,7 @@ describe('HalResource', () => {
     beforeEach(() => {
       source = {
         _embedded: {
-          elements: [{_links: {}}, {_links: {}}]
+          elements: [{ _links: {} }, { _links: {} }]
         }
       };
 
@@ -718,7 +717,7 @@ describe('HalResource', () => {
           let promise:Promise<any>;
 
           beforeEach((done) => {
-            let result = halResourceService.createHalResource({
+            const result = halResourceService.createHalResource({
               _links: {},
               name: 'name',
               foo: 'bar'
@@ -727,8 +726,7 @@ describe('HalResource', () => {
             getStub = spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
               if (verb === 'get' && path === '/api/property') {
                 return of(result) as any;
-              }
-              else {
+              } else {
                 return false as any;
               }
             });

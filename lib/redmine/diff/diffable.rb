@@ -56,7 +56,7 @@ module Redmine::Diff::Diffable
 
   def replacenextlarger(value, high = nil)
     high ||= length
-    if self.empty? || value > self[-1]
+    if empty? || value > self[-1]
       push value
       return high
     end
@@ -66,6 +66,7 @@ module Redmine::Diff::Diffable
       index = (high + low) / 2
       found = self[index]
       return nil if value == found
+
       if value > found
         low = index + 1
       else
@@ -83,15 +84,15 @@ module Redmine::Diff::Diffable
 
   def patch(diff)
     newary = nil
-    if diff.difftype == String
-      newary = diff.difftype.new('')
-    else
-      newary = diff.difftype.new
-    end
+    newary = if diff.difftype == String
+               diff.difftype.new('')
+             else
+               diff.difftype.new
+             end
     ai = 0
     bi = 0
     diff.diffs.each do |d|
-      d.each { |mod|
+      d.each do |mod|
         case mod[0]
         when '-'
           while ai < mod[1]
@@ -111,7 +112,7 @@ module Redmine::Diff::Diffable
         else
           raise 'Unknown diff action'
         end
-      }
+      end
     end
     while ai < length
       newary << self[ai]

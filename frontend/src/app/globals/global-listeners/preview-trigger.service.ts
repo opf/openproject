@@ -27,9 +27,9 @@
 //++
 
 
-import {Injectable, Injector} from "@angular/core";
-import {OpModalService} from "core-components/op-modals/op-modal.service";
-import {WpPreviewModal} from "core-components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
+import { Injectable, Injector } from "@angular/core";
+import { OpModalService } from "core-app/modules/modal/modal.service";
+import { WpPreviewModal } from "core-components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
 
 @Injectable({ providedIn: 'root' })
 export class PreviewTriggerService {
@@ -51,11 +51,14 @@ export class PreviewTriggerService {
         return;
       }
 
-      this.previewModal = this.opModalService.show(WpPreviewModal, this.injector, { workPackageLink: href, event: e });
+      this.previewModal = this.opModalService.show(
+        WpPreviewModal,
+        this.injector,
+        { workPackageLink: href, event: e },
+        true,
+      );
       this.modalElement = this.previewModal.elementRef.nativeElement;
       this.previewModal.reposition(jQuery(this.modalElement), el);
-
-      jQuery(this.modalElement).addClass('-no-width -no-height');
     });
 
     jQuery(document.body).on('mouseleave', '.preview-trigger', (e:JQuery.MouseLeaveEvent) => {
@@ -79,9 +82,9 @@ export class PreviewTriggerService {
 
     const previewElement = jQuery(this.modalElement.children[0]);
     if (previewElement && previewElement.offset()) {
-      let horizontalHover = e.pageX >= Math.floor(previewElement.offset()!.left) &&
+      const horizontalHover = e.pageX >= Math.floor(previewElement.offset()!.left) &&
                             e.pageX < previewElement.offset()!.left + previewElement.width()!;
-      let verticalHover = e.pageY >= Math.floor(previewElement.offset()!.top) &&
+      const verticalHover = e.pageY >= Math.floor(previewElement.offset()!.top) &&
                           e.pageY < previewElement.offset()!.top + previewElement.height()!;
       return horizontalHover && verticalHover;
     }

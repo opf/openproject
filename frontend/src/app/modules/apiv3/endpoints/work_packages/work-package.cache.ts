@@ -26,20 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {MultiInputState} from 'reactivestates';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {Injectable, Injector} from '@angular/core';
-import {debugLog} from "core-app/helpers/debug_output";
-import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import { MultiInputState } from 'reactivestates';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { Injectable, Injector } from '@angular/core';
+import { debugLog } from "core-app/helpers/debug_output";
+import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 
 @Injectable()
 export class WorkPackageCache extends StateCacheService<WorkPackageResource> {
   @InjectField() private schemaCacheService:SchemaCacheService;
 
   constructor(readonly injector:Injector,
-              state:MultiInputState<WorkPackageResource>) {
+    state:MultiInputState<WorkPackageResource>) {
     super(state);
   }
 
@@ -50,7 +50,7 @@ export class WorkPackageCache extends StateCacheService<WorkPackageResource> {
     });
   }
 
-  updateWorkPackage(wp:WorkPackageResource, immediate:boolean = false):Promise<WorkPackageResource> {
+  updateWorkPackage(wp:WorkPackageResource, immediate = false):Promise<WorkPackageResource> {
     if (immediate || wp.isNew) {
       return super.updateValue(wp.id!, wp);
     } else {

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -52,6 +53,9 @@ RSpec.configure do |config|
           .with(k)
           .and_return true
       end
+
+      # Also disable banners to signal the frontend we're on EE
+      allow(EnterpriseToken).to receive(:show_banners?).and_return(allowed.empty?)
     end
   end
 end

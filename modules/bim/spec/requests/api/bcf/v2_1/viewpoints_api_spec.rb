@@ -204,13 +204,15 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
         expect(subject.status).to eq 200
         expect(subject.headers['Content-Type']).to eq 'image/jpeg'
 
-        expect(subject.headers["Cache-Control"]).to eq "public, max-age=604799"
+        max_age = OpenProject::Configuration.fog_download_url_expires_in - 10
+
+        expect(subject.headers["Cache-Control"]).to eq "public, max-age=#{max_age}"
         expect(subject.headers["Expires"]).to be_present
 
         expires_time = Time.parse response.headers["Expires"]
 
-        expect(expires_time < Time.now.utc + 604799).to be_truthy
-        expect(expires_time > Time.now.utc + 604799 - 60).to be_truthy
+        expect(expires_time < Time.now.utc + max_age).to be_truthy
+        expect(expires_time > Time.now.utc + max_age - 60).to be_truthy
       end
     end
 

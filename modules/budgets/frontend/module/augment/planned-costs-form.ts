@@ -71,13 +71,13 @@ export class PlannedCostsFormAugment {
   private edit() {
     this.obj.hide();
 
-    let id = this.obj[0].id;
-    let currency = this.getCurrency();
-    let value = this.getValue();
-    let name = this.objName;
-    let placeholder = this.placeholder;
+    const id = this.obj[0].id;
+    const currency = this.getCurrency();
+    const value = this.getValue();
+    const name = this.objName;
+    const placeholder = this.placeholder;
 
-    let template = `
+    const template = `
       <section class="form--section" id="${id}_section">
         <div class="form--field">
           <div class="form--field-container">
@@ -99,7 +99,7 @@ export class PlannedCostsFormAugment {
 
     jQuery(template).insertAfter(this.obj);
 
-    let that = this;
+    const that = this;
     jQuery('#' + id + '_cancel').on('click', function () {
       jQuery('#' + id + '_section').remove();
       that.obj.show();

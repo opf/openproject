@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
+import { DisplayField } from "core-app/modules/fields/display/display-field.module";
 
 export class IdDisplayField extends DisplayField {
   public text = {
@@ -36,8 +36,7 @@ export class IdDisplayField extends DisplayField {
   public get value() {
     if (this.resource.isNew) {
       return null;
-    }
-    else {
+    } else {
       return this.resource[this.name];
     }
   }

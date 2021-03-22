@@ -41,7 +41,7 @@ module OpenProject::Backlogs::Patches::ProjectPatch
     def rebuild_positions
       return unless backlogs_enabled?
 
-      shared_versions.each do |v| v.rebuild_positions(self) end
+      shared_versions.each { |v| v.rebuild_positions(self) }
       nil
     end
 
@@ -51,4 +51,4 @@ module OpenProject::Backlogs::Patches::ProjectPatch
   end
 end
 
-Project.send(:include, OpenProject::Backlogs::Patches::ProjectPatch)
+Project.include OpenProject::Backlogs::Patches::ProjectPatch

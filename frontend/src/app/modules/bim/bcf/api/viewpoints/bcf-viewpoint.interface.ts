@@ -7,5 +7,5 @@ export interface BcfViewpointInterface {
   orthogonal_camera?:unknown;
   perspective_camera?:unknown;
   clipping_planes?:unknown[];
-  lines?:unknown[];  
+  lines?:unknown[];
 }

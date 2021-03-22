@@ -49,10 +49,10 @@ module ::TwoFactorAuthentication
 
       def make_default_link
         password_confirmation_form_for(
-            device,
-            url: { controller: table.target_controller, action: :make_default, device_id: device.id },
-            method: :post,
-            html: { id: 'two_factor_make_default_form', class: 'form--inline' }
+          device,
+          url: { controller: table.target_controller, action: :make_default, device_id: device.id },
+          method: :post,
+          html: { id: 'two_factor_make_default_form', class: 'form--inline' }
         ) do |f|
           f.submit I18n.t(:button_make_default),
                    class: 'button--link two-factor--mark-default-button'
@@ -86,7 +86,7 @@ module ::TwoFactorAuthentication
         device.default && table.enforced?
       end
 
-      def column_css_class(column)
+      def column_css_class(_column)
         if device.default
           'mobile-otp--device-default'
         end

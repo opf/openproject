@@ -55,10 +55,10 @@ describe 'Wysiwyg work package button spec',
       end
 
       it 'can add and edit an embedded table widget' do
-        editor.in_editor do |container, editable|
+        editor.in_editor do |_container, editable|
           editor.insert_macro 'Insert create work package button'
 
-          expect(page).to have_selector('.op-modal--macro-modal')
+          expect(page).to have_selector('.op-modal')
           select 'MyTaskName', from: 'selected-type'
 
           # Cancel editing

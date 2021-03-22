@@ -4,13 +4,20 @@ tr:
       ldap_groups/synchronized_group:
         dn: 'DN'
         auth_source: 'LDAP bağlantısı'
+        sync_users: 'Kullanıcıları senkronize et'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP süzgeçi'
         auth_source: 'LDAP bağlantısı'
         group_name_attribute: "Grup adı özelliği"
+        sync_users: 'Kullanıcıları senkronize et'
+        base_dn: "Arama tabanı DN"
     models:
       ldap_groups/synchronized_group: 'Senkronize LDAP grubu'
       ldap_groups/synchronized_filter: 'LDAP Grubu senkronizasyon filtresi'
+    errors:
+      models:
+        ldap_groups/synchronized_filter:
+          must_contain_base_dn: "Filtre tabanı DN'si, LDAP bağlantısının temel DN'si içinde yer almalıdır"
   ldap_groups:
     label_menu_item: 'LDAP grup senkronizasyonu'
     label_group_key: 'LDAP grubu filtre anahtarı'
@@ -22,6 +29,10 @@ tr:
       add_new: 'Senkronize LDAP filtresi ekle'
       singular: 'LDAP Grubu senkronizasyon filtresi'
       plural: 'LDAP Grubu senkronizasyon filtreleri'
+      label_n_groups_found:
+        zero: "Filtrede grup bulunamadı"
+        one: ""
+        other: ""
       destroy:
         title: '%{name} senkronize filtresini kaldır'
         confirmation: "Devam ederseniz, senkronize edilmiş %{name} filtresi ve bu kanaldan oluşturulan %{groups_count} tüm gruplar kaldırılacak."
@@ -30,6 +41,9 @@ tr:
       form:
         group_name_attribute_text: 'OpenProject grup adını ayarlamak için kullanılan LDAP grubunun niteliğini girin.'
         filter_string_text: 'OpenProject ile senkronize etmek için LDAP''nizdeki grupları döndüren RFC4515 LDAP filtresini girin.'
+        base_dn_text: >
+          Bu filtre için kullanmak üzere arama tabanı DN'sini girin. Seçilen LDAP bağlantısının temel DN'sinin altında olması gerekir.
+          Bağlantının temel DN'sini yeniden kullanmak için bu seçeneği boş bırakın
     synchronized_groups:
       add_new: 'Senkronize LDAP grubu ekle'
       destroy:
@@ -49,6 +63,8 @@ tr:
       singular: 'Senkronize LDAP grubu'
       form:
         auth_source_text: 'Hangi LDAP bağlantısının kullanılması gerektiğini seçin.'
+        sync_users_text: >
+          Bu seçeneği etkinleştirirseniz, bulunan kullanıcılar da otomatik olarak OpenProject'te oluşturulur. Bu olmadan, yalnızca OpenProject'teki mevcut hesaplar gruplara eklenecektir.
         dn_text: 'LDAP''ye grubun tam DN''sini girin'
         group_text: 'LDAP grubunun üyelerinin senkronize edileceği mevcut bir OpenProject grubunu seçin.'
 

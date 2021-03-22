@@ -54,9 +54,11 @@ module MeetingContentsHelper
   end
 
   def meeting_agenda_toggle_status_link(content, content_type)
-    content.meeting.agenda.present? && content.meeting.agenda.locked? ?
-      open_meeting_agenda_link(content_type, content.meeting) :
+    if content.meeting.agenda.present? && content.meeting.agenda.locked?
+      open_meeting_agenda_link(content_type, content.meeting)
+    else
       close_meeting_agenda_link(content_type, content.meeting)
+    end
   end
 
   def close_meeting_agenda_link(content_type, meeting)

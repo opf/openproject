@@ -14,7 +14,7 @@ keywords: work packages table configuration, work package list, columns, filter,
 | [Add or remove columns](#add-or-remove-columns-in-the-work-package-table) | How to add or remove columns in the work package table?      |
 | [Filter work packages](#filter-work-packages)                | How to filter in the work package list?                      |
 | [Sort the work package list](#sort-the-work-package-list)    | How to sort within the work package list?                    |
-| [Display settings](#flat-list,-hierarchy-mode-and-group-by)  | Get to know the flat list, the hierarchy mode and the group by feature. |
+| [Display settings](#flat-list-hierarchy-mode-and-group-by)   | Get to know the flat list, the hierarchy mode and the group by feature. |
 | [Aggregation by project](#aggregation-by-project)            | How to display an aggregated view of all milestones of multiple projects? |
 | [Attribute highlighting (Premium Feature)](#attribute-highlighting-premium-feature) | How to highlight certain attributes in the work package list? |
 | [Save work package views](#save-work-package-views)          | How to save a new work package view and how to change existing ones? |
@@ -66,16 +66,32 @@ To add a filter criteria, click the **+ Add filter:** button in the grey filter 
 
 You can add as many filter criteria as needed. 
 Also, you can filter by [custom fields](../../../system-admin-guide/custom-fields) if you set this in the custom field configuration.
+<div class="alert alert-info" role="alert">
+**Good to know**: Filtering a work packages list will temporarily change the default work package type and default status to the values used in the filters to make newly created work packages visible in the list.
+</div>
 
+
+### Filtering by text
 If you want to search for specific text in the subject, description or comments of a work package, type in the **Filter by text** the expression you want to filter for.
 
 The results will be displayed accordingly in the work package list.
 
 ![filter-text](filter-text.png)
 
-<div class="alert alert-info" role="alert">
-**Good to know**: Filtering a work packages list will temporarily change the default work package type and default status according to your filters to make newly created work packages visible in the list.
-</div>
+### Filtering for a work package's children
+
+If you want to only show work package with specific parents (e.g. all work packages belonging to a specific phase of your project) you can use the filter "Parent". Enter all required work packages and press Enter. This will show the selected work package(s) and its/their children. 
+If you only selected work packages without children, no work packages will be shown at all.
+
+![filter-for-parent-work-package](image-20210301182354564.png)
+
+### Filtering by ID or work package name
+
+If you want to [create a work package view](#save-work-package-views) with only specific work packages you can use the filter "ID". By entering the ID or subject of work packages you can select them. 
+Another use case would be to *exclude* specific work packages (e.g. you want to display all milestones but one). Therefore, use the "is not" option next to the filter's name on the left.
+
+![filtering-by-work-package-id](image-20210301185550169.png)
+
 
 ## Sort the work package list
 

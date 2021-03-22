@@ -169,7 +169,6 @@ describe MyController, type: :controller do
 
         expect(request.path).to eq(my_settings_path)
         expect(flash[:notice]).to eql I18n.t(:notice_account_updated)
-
       end
 
       context 'when user is invalid' do

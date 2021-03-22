@@ -99,6 +99,7 @@ ar:
   backlogs_empty_title: "لا توجد إصدارات محددة لاستخدامها في  قائمة الأعمال"
   backlogs_empty_action_text: "للبدء مع قائمة الأعمال ، قم بإنشاء إصدار جديد و تعيينه إلى عمود  قائمة الأعمال."
   button_edit_wiki: "عدّل صفحة ويكي wiki"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
   error_intro_plural: "تم مصادفة الأخطاء التالية:"
   error_intro_singular: "تمت مصادفة الخطأ التالي:"
   error_outro: "من فضلك صحح الأخطاء في الأعلى قبل التقديم مرة أخرى."

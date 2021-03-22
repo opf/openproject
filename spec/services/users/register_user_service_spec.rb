@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -94,7 +95,7 @@ describe Users::RegisterUserService do
     end
 
     it 'does not return an error for all cases except disabled' do
-      with_all_registration_options(except: :disabled) do |type|
+      with_all_registration_options(except: :disabled) do |_type|
         user = User.new
         instance = described_class.new(user)
 
@@ -263,6 +264,5 @@ describe Users::RegisterUserService do
   end
 
   describe '#with_saved_user_result' do
-
   end
 end

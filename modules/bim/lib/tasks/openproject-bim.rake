@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -54,7 +55,9 @@ class Seedifier
   def run
     @projects.each do |project|
       puts "=== PROJECT: #{project.identifier} ==="
-      work_packages = project.work_packages.reject { |work_package| work_package.parent && work_package.parent.project.identifier == project.identifier }.sort_by(&:start_date)
+      work_packages = project.work_packages.reject do |work_package|
+        work_package.parent && work_package.parent.project.identifier == project.identifier
+      end.sort_by(&:start_date)
       if work_packages.empty?
         puts "No work packages for project with identifier #{project.identifier}... skipping."
         next
@@ -102,11 +105,11 @@ class Seedifier
   # Create a hash that only hold those properties that we would like to copy and paste into a seeder YAML file.
   def seedify_work_package(work_package, project)
     # Don't seed a WP twice. And don't seed WPs of other projects.
-    return nil if (@written_work_packages_ids.include?(work_package.id) || work_package.project_id != project.id)
+    return nil if @written_work_packages_ids.include?(work_package.id) || work_package.project_id != project.id
 
     @written_work_packages_ids << work_package.id
 
-    predecessors = work_package.follows.sort_by(&:start_date).map { |predecessor| {to: predecessor.subject, type: 'follows'} }
+    predecessors = work_package.follows.sort_by(&:start_date).map { |predecessor| { to: predecessor.subject, type: 'follows' } }
 
     children = work_package.children.sort_by(&:start_date).map { |child| seedify_work_package(child, project) }.compact
 
@@ -131,7 +134,10 @@ class Seedifier
 
     seedified[:assigned_to] = assigned_to if assigned_to.present?
     seedified[:duration] = duration if duration.present?
-    seedified[:parent] = work_package.parent.subject if work_package.parent.present? && (work_package.bcf_issue || work_package.project_id != project.id)
+    if work_package.parent.present? && (work_package.bcf_issue || work_package.project_id != project.id)
+      seedified[:parent] =
+        work_package.parent.subject
+    end
     seedified[:relations] = predecessors if predecessors.any?
 
     seedified
@@ -145,5 +151,3 @@ namespace :bim do
     Seedifier.new(project_identifiers).run
   end
 end
-
-

@@ -28,9 +28,9 @@
 
 import * as moment from 'moment';
 import flatpickr from 'flatpickr';
-import {Instance} from 'flatpickr/dist/types/instance';
-import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import { Instance } from 'flatpickr/dist/types/instance';
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import DateOption = flatpickr.Options.DateOption;
 
 export class DatePicker {
@@ -136,7 +136,7 @@ export class DatePicker {
         this.datepickerInstance.open();
       }
     }, 50);
-  }
+  };
 
   private visibleAndActive() {
     try {

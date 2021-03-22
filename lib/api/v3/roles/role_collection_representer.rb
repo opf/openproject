@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -31,7 +32,6 @@ module API
   module V3
     module Roles
       class RoleCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::Roles::RoleRepresenter
       end
     end
   end

@@ -1,7 +1,7 @@
 // Dynamically loads and triggers the onboarding tour
 // when on the correct spots
-import {demoProjectsLinks, OnboardingTourNames, onboardingTourStorageKey} from "core-app/globals/onboarding/helpers";
-import {debugLog} from "core-app/helpers/debug_output";
+import { demoProjectsLinks, OnboardingTourNames, onboardingTourStorageKey } from "core-app/globals/onboarding/helpers";
+import { debugLog } from "core-app/helpers/debug_output";
 
 export function detectOnboardingTour() {
   // ------------------------------- Global -------------------------------
@@ -22,7 +22,7 @@ export function detectOnboardingTour() {
       sessionStorage.setItem(onboardingTourStorageKey, 'readyToStart');
 
       // Start automatically when the language selection is closed
-      jQuery('.op-modal--modal-close-button').click(function () {
+      jQuery('.op-modal--close-button').click(function () {
         tourCancelled = true;
         triggerTour('homescreen');
       });

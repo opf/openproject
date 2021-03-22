@@ -36,7 +36,8 @@ module RedmineMenuTestHelper
   end
 
   def assert_menu_contains_item_named(menu_name, item_name)
-    assert Redmine::MenuManager.items(menu_name).map(&:name).include?(item_name.to_sym), "Menu did not have an item named #{item_name}"
+    assert Redmine::MenuManager.items(menu_name).map(&:name).include?(item_name.to_sym),
+           "Menu did not have an item named #{item_name}"
   end
 
   # Helpers

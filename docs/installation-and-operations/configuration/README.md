@@ -187,7 +187,7 @@ If, for what ever reason, this is undesirable, you can disable this option.
 In that case attachments will be posted as usual to the OpenProject server which then uploads the file
 to the remote storage in an extra step.
 
-**Note**: This only works for S3 right now. When using fog with another provider this configuration will be `false`. The same goes for when no fog storage is configured.
+**Note**: This only works for S3 right now. When using fog with another provider this configuration will be `false`. The same goes for when no fog storage is configured, or when the `use_iam_profile` option is used in the fog credentials when using S3.
 
 ### fog download url expires in
 

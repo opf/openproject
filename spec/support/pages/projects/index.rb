@@ -49,23 +49,34 @@ module Pages
         click_button 'Apply'
       end
 
+      def filter_by_public(value)
+        set_filter('public',
+                   'Public',
+                   'is',
+                   [value])
+
+        click_button 'Apply'
+      end
+
       def set_filter(name, human_name, human_operator = nil, values = [])
         select human_name, from: 'add_filter_select'
         selected_filter = page.find("li[filter-name='#{name}']")
 
-        within(selected_filter) do
-          select(human_operator, from: 'operator') unless name == 'active'
+        select(human_operator, from: 'operator') unless boolean_filter?(name)
 
+        within(selected_filter) do
           return unless values.any?
 
-          case name
-          when 'name_and_identifier'
+          case
+          when name == 'name_and_identifier'
             set_name_and_identifier_filter(values)
-          when 'active'
+          when boolean_filter?(name)
             set_toggle_filter(values)
-          when 'created_at'
+          when name == 'created_at'
+            select(human_operator, from: 'operator')
             set_created_at_filter(human_operator, values)
-          when /cf_[\d]+/
+          when name =~ /cf_\d+/
+            select(human_operator, from: 'operator')
             set_custom_field_filter(selected_filter, human_operator, values)
           end
         end
@@ -133,6 +144,10 @@ module Pages
       end
 
       private
+
+      def boolean_filter?(filter)
+        %w[active public templated].include?(filter.to_s)
+      end
 
       def within_row(project)
         row = page.find('#project-table tr', text: project.name)

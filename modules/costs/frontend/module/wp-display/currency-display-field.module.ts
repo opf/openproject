@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
+import { DisplayField } from "core-app/modules/fields/display/display-field.module";
 
 export class CurrencyDisplayField extends DisplayField {
 
-    public isEmpty():boolean {
-        return !this.value ||
+  public isEmpty():boolean {
+    return !this.value ||
             !parseFloat(this.value.match(/\d+/g)[0]);
-    }
+  }
 }
 

@@ -34,7 +34,9 @@ describe Projects::CopyService, 'integration', type: :model do
   shared_let(:status_locked) { FactoryBot.create :status, is_readonly: true }
   shared_let(:source) { FactoryBot.create :project, enabled_module_names: %w[wiki work_package_tracking] }
   shared_let(:source_wp) { FactoryBot.create :work_package, project: source, subject: 'source wp' }
-  shared_let(:source_wp_locked) { FactoryBot.create :work_package, project: source, subject: 'source wp locked', status: status_locked }
+  shared_let(:source_wp_locked) do
+    FactoryBot.create :work_package, project: source, subject: 'source wp locked', status: status_locked
+  end
   shared_let(:source_query) { FactoryBot.create :query, project: source, name: 'My query' }
   shared_let(:source_category) { FactoryBot.create :category, project: source, name: 'Stock management' }
   shared_let(:source_version) { FactoryBot.create :version, project: source, name: 'Version A' }
@@ -187,8 +189,9 @@ describe Projects::CopyService, 'integration', type: :model do
 
       let!(:user) { FactoryBot.create :user }
       let!(:another_role) { FactoryBot.create(:role) }
-      let!(:group) { FactoryBot.create :group, members: [user]
-      }
+      let!(:group) do
+        FactoryBot.create :group, members: [user]
+      end
 
       it 'will copy them as well' do
         source.add_member! group, another_role

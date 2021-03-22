@@ -44,7 +44,6 @@ module TimeEntries::Scopes
 
         scope
       end
-
     end
   end
 end

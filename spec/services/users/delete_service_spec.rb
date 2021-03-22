@@ -39,7 +39,7 @@ describe ::Users::DeleteService, type: :model do
   shared_examples 'deletes the user' do
     it do
       expect(input_user).to receive(:lock!)
-      expect(DeleteUserJob).to receive(:perform_later).with(input_user)
+      expect(Principals::DeleteJob).to receive(:perform_later).with(input_user)
       expect(subject).to be_success
     end
   end
@@ -47,11 +47,10 @@ describe ::Users::DeleteService, type: :model do
   shared_examples 'does not delete the user' do
     it do
       expect(input_user).not_to receive(:lock!)
-      expect(DeleteUserJob).not_to receive(:perform_later)
+      expect(Principals::DeleteJob).not_to receive(:perform_later)
       expect(subject).not_to be_success
     end
   end
-
 
   context 'if deletion by admins allowed', with_settings: { users_deletable_by_admins: true } do
     context 'with admin user' do
@@ -76,7 +75,7 @@ describe ::Users::DeleteService, type: :model do
       it 'performs deletion' do
         actor.run_given do
           expect(input_user).to receive(:lock!)
-          expect(DeleteUserJob).to receive(:perform_later).with(input_user)
+          expect(Principals::DeleteJob).to receive(:perform_later).with(input_user)
           expect(subject).to be_success
         end
       end

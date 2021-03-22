@@ -30,7 +30,7 @@ class Widget::Filters::Base < Widget::Base
   attr_reader :filter, :filter_class
 
   def initialize(filter)
-    if filter.class == Class
+    if filter.instance_of?(Class)
       @filter_class = filter
       @filter = filter.new
     else

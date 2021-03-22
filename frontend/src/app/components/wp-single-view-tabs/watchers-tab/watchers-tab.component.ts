@@ -26,18 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit} from '@angular/core';
-import {Transition} from '@uirouter/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {WorkPackageWatchersService} from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
+import { Transition } from '@uirouter/core';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { LoadingIndicatorService } from 'core-app/modules/common/loading-indicator/loading-indicator.service';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { WorkPackageWatchersService } from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   templateUrl: './watchers-tab.html',
@@ -50,7 +50,7 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
   public trackByHref = AngularTrackingHelpers.trackByHref;
 
   public error = false;
-  public noResults:boolean = false;
+  public noResults = false;
   public allowedToView = false;
   public allowedToAdd = false;
   public allowedToRemove = false;

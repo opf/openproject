@@ -31,7 +31,6 @@
 # This migration cleans up messed up themes. Sometimes in the past
 # the BIM theme was not set where it should have been set.
 class SeedCustomStyleWithBimTheme < ActiveRecord::Migration[6.0]
-
   def up
     # When
     #   migrating BIM instances

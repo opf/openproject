@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -73,11 +74,11 @@ describe ::Type, type: :model do
       let!(:type) { FactoryBot.create(:type) }
       let!(:workflow_a) do
         FactoryBot.create(:workflow, role_id: role.id,
-                          type_id: type.id,
-                          old_status_id: statuses[0].id,
-                          new_status_id: statuses[1].id,
-                          author: false,
-                          assignee: false)
+                                     type_id: type.id,
+                                     old_status_id: statuses[0].id,
+                                     new_status_id: statuses[1].id,
+                                     author: false,
+                                     assignee: false)
       end
 
       it 'returns the statuses relation' do

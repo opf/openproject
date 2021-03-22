@@ -46,30 +46,30 @@ module OpenProject
       end
       it 'returns a date in the user timezone for a utc timestamp' do
         Time.zone = 'UTC'
-        time = Time.zone.local(2013, 06, 30, 23, 59)
+        time = Time.zone.local(2013, 0o6, 30, 23, 59)
         expect(format_time_as_date(time, format)).to eq '01/07/2013'
       end
 
       it 'returns a date in the user timezone for a non-utc timestamp' do
         Time.zone = 'Berlin'
-        time = Time.zone.local(2013, 06, 30, 23, 59)
+        time = Time.zone.local(2013, 0o6, 30, 23, 59)
         expect(format_time_as_date(time, format)).to eq '01/07/2013'
       end
     end
 
     describe 'without user time zone' do
-      before do allow(User.current).to receive(:time_zone).and_return(nil) end
+      before { allow(User.current).to receive(:time_zone).and_return(nil) }
 
       it 'returns a date in the local system timezone for a utc timestamp' do
         Time.zone = 'UTC'
-        time = Time.zone.local(2013, 06, 30, 23, 59)
-        allow(time).to receive(:localtime).and_return(ActiveSupport::TimeZone['Athens'].local(2013, 07, 01, 01, 59))
+        time = Time.zone.local(2013, 0o6, 30, 23, 59)
+        allow(time).to receive(:localtime).and_return(ActiveSupport::TimeZone['Athens'].local(2013, 0o7, 0o1, 0o1, 59))
         expect(format_time_as_date(time, format)).to eq '01/07/2013'
       end
 
       it 'returns a date in the original timezone for a non-utc timestamp' do
         Time.zone = 'Berlin'
-        time = Time.zone.local(2013, 06, 30, 23, 59)
+        time = Time.zone.local(2013, 0o6, 30, 23, 59)
         expect(format_time_as_date(time, format)).to eq '30/06/2013'
       end
     end
@@ -160,9 +160,9 @@ module OpenProject
 
     describe 'link_translation' do
       let(:locale) { :en }
-      let(:urls) {
+      let(:urls) do
         { url_1: 'http://openproject.com/foobar', url_2: '/baz' }
-      }
+      end
 
       before do
         allow(::I18n)
@@ -176,7 +176,8 @@ module OpenProject
 
         expect(translated).to eq(
           "There is a <a href=\"http://openproject.com/foobar\">link</a> in this translation!" +
-          " Maybe even <a href=\"/baz\">two</a>?")
+          " Maybe even <a href=\"/baz\">two</a>?"
+        )
       end
 
       context 'with locale' do
@@ -186,7 +187,8 @@ module OpenProject
 
           expect(translated).to eq(
             "There is a <a href=\"http://openproject.com/foobar\">link</a> in this translation!" +
-            " Maybe even <a href=\"/baz\">two</a>?")
+            " Maybe even <a href=\"/baz\">two</a>?"
+          )
         end
       end
     end

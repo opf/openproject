@@ -1,7 +1,6 @@
 class MigrateMyPageLayout < ActiveRecord::Migration[5.2]
   def up
     UserPreference.transaction do
-
       # Remove all my page grids
       ::Grids::MyPage.destroy_all
 

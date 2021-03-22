@@ -63,9 +63,9 @@ describe 'WorkPackage-Visibility', type: :model do
 
     it 'is visible for members of the project, with the view_work_packages permissison' do
       FactoryBot.create(:member,
-                         user: user,
-                         project: private_project,
-                         role_ids: [view_work_packages.id])
+                        user: user,
+                        project: private_project,
+                        role_ids: [view_work_packages.id])
 
       expect(WorkPackage.visible(user)).to match_array [subject]
     end
@@ -74,10 +74,10 @@ describe 'WorkPackage-Visibility', type: :model do
       subject
 
       FactoryBot.create(:member,
-                         user: user,
-                         project: private_project,
-                         role_ids: [view_work_packages.id,
-                                    view_work_packages_role2.id])
+                        user: user,
+                        project: private_project,
+                        role_ids: [view_work_packages.id,
+                                   view_work_packages_role2.id])
 
       expect(WorkPackage.visible(user).pluck(:id)).to match_array [subject.id]
     end
@@ -89,9 +89,9 @@ describe 'WorkPackage-Visibility', type: :model do
     it 'is not visible for members of the project, without the view_work_packages permissison' do
       no_permission = FactoryBot.create(:role, permissions: [:no_permission])
       FactoryBot.create(:member,
-                         user: user,
-                         project: private_project,
-                         role_ids: [no_permission.id])
+                        user: user,
+                        project: private_project,
+                        role_ids: [no_permission.id])
 
       expect(WorkPackage.visible(user)).to match_array []
     end

@@ -105,7 +105,7 @@ describe 'Wysiwyg work package user mentions',
       wp_page.expect_and_dismiss_notification message: "The comment was successfully added."
 
       expect(page)
-        .to have_selector('span.user-mention', text: 'Foogroup')
+        .to have_selector('a.user-mention', text: 'Foogroup')
     end
 
     # The mention is still displayed as such when reentering the comment field

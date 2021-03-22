@@ -32,7 +32,6 @@ module API
   module V3
     module Documents
       class DocumentCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
-        element_decorator ::API::V3::Documents::DocumentRepresenter
       end
     end
   end

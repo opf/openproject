@@ -31,7 +31,6 @@
 module Queries::WorkPackages
   module Common
     module ManualSorting
-
       ##
       # We depend on ordered_work_packages association
       # for determining sort and filter for manual sorting.

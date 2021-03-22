@@ -86,7 +86,7 @@ describe Budget, type: :model do
 
       context 'with no value' do
         it 'deletes the item' do
-          budget.existing_material_budget_item_attributes = { existing_material_budget_item.id.to_s => {  } }
+          budget.existing_material_budget_item_attributes = { existing_material_budget_item.id.to_s => {} }
 
           expect(existing_material_budget_item)
             .to be_destroyed

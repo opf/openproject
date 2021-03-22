@@ -33,7 +33,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <span class="button--text"><%= t(:label_profile) %></span>
     <% end %>
   </li>
-  <% if current_user.allowed_to_globally?(:add_user) %>
+  <% if current_user.allowed_to_globally?(:manage_user) %>
   <li class="toolbar-item hidden-for-mobile">
     <%= form_for(@user, html: { class: 'toolbar-item' },
                  url: { action: :resend_invitation },

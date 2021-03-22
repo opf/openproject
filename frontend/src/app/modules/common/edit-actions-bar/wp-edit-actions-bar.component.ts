@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Output} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { EditFormComponent } from "core-app/modules/fields/edit/edit-form/edit-form.component";
 
 @Component({
   templateUrl: './wp-edit-actions-bar.html',
@@ -38,7 +38,7 @@ import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-for
 export class WorkPackageEditActionsBarComponent {
   @Output('onSave') public onSave = new EventEmitter<void>();
   @Output('onCancel') public onCancel = new EventEmitter<void>();
-  public _saving:boolean = false;
+  public _saving = false;
 
   public text = {
     save: this.I18n.t('js.button_save'),

@@ -74,14 +74,14 @@ ja:
   permission_send_meeting_agendas_notification: "議題のレビュー通知を送信する"
   permission_create_meeting_minutes: "議事録の管理"
   permission_send_meeting_minutes_notification: "議事録のレビュー通知を送信する"
-  permission_meetings_send_invite: "Invite users to meetings"
-  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
+  permission_meetings_send_invite: "ユーザーを会議に招待する"
+  permission_send_meeting_agendas_icalendar: "カレンダーエントリとして議題を送信する"
   project_module_meetings: "会議"
   text_duration_in_hours: "期間（時間）"
   text_in_hours: "数時間以内"
   text_meeting_agenda_for_meeting: '会議の議題 "%{meeting}"'
   text_meeting_closing_are_you_sure: "会議を終了してもよろしいですか？"
-  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
+  text_meeting_agenda_open_are_you_sure: "数分内のすべての変更が上書きされます！続けますか？"
   text_meeting_minutes_for_meeting: '会議の議事録 "%{meeting}"'
   text_review_meeting_agenda: "%{author} はレビューのために %{link} をアップしました。"
   text_review_meeting_minutes: "%{author} はレビューのために %{link} をアップしました。"

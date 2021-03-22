@@ -146,7 +146,7 @@ FactoryBot.define do
       end
 
       factory :version_wp_custom_field do
-        sequence(:name) { |n| "Version work package custom field #{n}" }
+        sequence(:name) { |n| "Version WP custom field #{n}" }
         field_format { 'version' }
       end
 

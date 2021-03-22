@@ -15,7 +15,7 @@ provide any official support for them.
 ### Hardware
 
 * __Memory:__ 4096 MB
-* __Free disk space:__ 2 GB
+* __Free disk space:__ 4 GB
 
 ### Operating system
 
@@ -49,7 +49,7 @@ Both the package and docker based installations will install and setup the follo
 OpenProject supports the latest versions of the major browsers. 
 
 * [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products/) (at least ESR version 78.3.1)
-* [Microsoft Edge](https://www.microsoft.com/de-de/windows/microsoft-edge)
+* [Microsoft Edge](https://www.microsoft.com/de-de/windows/microsoft-edge) (only MS Edge version based on Chromium is supported)
 * [Google Chrome](https://www.google.com/chrome/browser/desktop/)
 * [Apple Safari](https://www.apple.com/safari/)
 

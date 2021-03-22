@@ -1,4 +1,4 @@
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 
 export namespace AngularTrackingHelpers {
   export function halHref<T extends HalResource>(_index:number, item:T):string|null {
@@ -30,8 +30,8 @@ export namespace AngularTrackingHelpers {
 
   export function trackByHrefAndProperty(propertyName:string) {
     return (i:number, item:HalResource) => {
-      let href = _.get(item, 'href');
-      let prop = _.get(item, propertyName, 'none');
+      const href = _.get(item, 'href');
+      const prop = _.get(item, propertyName, 'none');
 
       return `${href}#${propertyName}=${prop}`;
     };

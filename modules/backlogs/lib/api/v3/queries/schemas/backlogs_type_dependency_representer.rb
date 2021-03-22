@@ -32,7 +32,6 @@ module API
       module Schemas
         class BacklogsTypeDependencyRepresenter <
           FilterDependencyRepresenter
-
           schema_with_allowed_collection :values,
                                          type: ->(*) { type },
                                          writable: true,

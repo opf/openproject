@@ -38,7 +38,7 @@ export class WpTableHoverSync {
       this.handleHover(target);
     }
     this.lastHoveredElement = target;
-  }
+  };
 
   constructor(private tableAndTimeline:JQuery) {
   }
@@ -92,8 +92,8 @@ export class WpTableHoverSync {
 
     const tableRow:JQuery = this.tableAndTimeline.find('tr.wp-row-' + wpId).first();
     const timelineRow:JQuery = this.tableAndTimeline.find('div.wp-row-' + wpId).length ?
-                                this.tableAndTimeline.find('div.wp-row-' + wpId).first() :
-                                this.tableAndTimeline.find('div.wp-ancestor-row-' + wpId).first();
+      this.tableAndTimeline.find('div.wp-row-' + wpId).first() :
+      this.tableAndTimeline.find('div.wp-ancestor-row-' + wpId).first();
 
     requestAnimationFrame(() => {
       this.removeAllHoverClasses();

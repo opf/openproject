@@ -50,7 +50,7 @@ feature 'invitation spec', type: :feature, js: true do
     # Visit invitation link with correct token
     visit account_activate_path(token: Token::Invitation.last.value)
 
-    expect(page).to have_selector('.op-modal--modal-header', text: 'Welcome to OpenProject')
+    expect(page).to have_selector('.op-modal--header', text: 'Welcome to OpenProject')
   end
 
   context 'as admin' do
@@ -59,7 +59,7 @@ feature 'invitation spec', type: :feature, js: true do
   end
 
   context 'as global user' do
-    shared_let(:global_add_user) { FactoryBot.create :user, global_permission: :add_user }
-    let(:current_user) { global_add_user }
+    shared_let(:global_manage_user) { FactoryBot.create :user, global_permission: :manage_user }
+    let(:current_user) { global_manage_user }
   end
 end

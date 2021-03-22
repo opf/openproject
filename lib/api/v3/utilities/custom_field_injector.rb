@@ -349,9 +349,9 @@ module API
         def allowed_users_static_filters
           [
             { status: { operator: '!',
-                       values: [Principal.statuses[:locked].to_s] } },
+                        values: [Principal.statuses[:locked].to_s] } },
             { type: { operator: '=',
-                        values: %w[User Group PlaceholderUser] } }
+                      values: %w[User Group PlaceholderUser] } }
           ]
         end
 

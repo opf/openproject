@@ -35,18 +35,18 @@ describe 'Projects index page',
          with_settings: { login_required?: false } do
   shared_let(:admin) { FactoryBot.create :admin }
 
-  let!(:manager)   { FactoryBot.create :role, name: 'Manager' }
-  let!(:developer) { FactoryBot.create :role, name: 'Developer' }
+  shared_let(:manager)   { FactoryBot.create :role, name: 'Manager' }
+  shared_let(:developer) { FactoryBot.create :role, name: 'Developer' }
 
-  let!(:custom_field) { FactoryBot.create :project_custom_field }
-  let!(:invisible_custom_field) { FactoryBot.create :project_custom_field, visible: false }
+  shared_let(:custom_field) { FactoryBot.create :project_custom_field }
+  shared_let(:invisible_custom_field) { FactoryBot.create :project_custom_field, visible: false }
 
-  let!(:project) do
+  shared_let(:project) do
     FactoryBot.create(:project,
                       name: 'Plain project',
                       identifier: 'plain-project')
   end
-  let!(:public_project) do
+  shared_let(:public_project) do
     project = FactoryBot.create(:project,
                                 name: 'Public project',
                                 identifier: 'public-project',
@@ -55,7 +55,7 @@ describe 'Projects index page',
     project.save
     project
   end
-  let!(:development_project) do
+  shared_let(:development_project) do
     FactoryBot.create(:project,
                       name: 'Development project',
                       identifier: 'development-project')
@@ -104,7 +104,7 @@ describe 'Projects index page',
     end
 
     feature 'for project members' do
-      let!(:user) do
+      shared_let(:user) do
         FactoryBot.create(:user,
                           member_in_project: development_project,
                           member_through_role: developer,
@@ -265,8 +265,8 @@ describe 'Projects index page',
 
       # Results should be filtered and ordered ASC by name
       expect(page).to have_text(development_project.name)
-      expect(page).to have_no_text(project.name)        # as it filtered away
-      expect(page).to have_text('Next')                  # as the result set is larger than 1
+      expect(page).to have_no_text(project.name) # as it filtered away
+      expect(page).to have_text('Next') # as the result set is larger than 1
       expect(page).to have_no_text(public_project.name) # as it is on the second page
 
       # Changing the page size to 5 and back to 1 should not change the filters (which we test later on the second page)
@@ -302,7 +302,7 @@ describe 'Projects index page',
       expect(page).to have_text(public_project.name)
       expect(page).to have_no_text(development_project.name) # as it is on the second page
       expect(page).to have_no_text(project.name)             # as it filtered away
-      expect(page).to have_text('Next')                       # as the result set is larger than 1
+      expect(page).to have_text('Next') # as the result set is larger than 1
     end
   end
 
@@ -340,12 +340,12 @@ describe 'Projects index page',
     end
 
     feature 'Active or archived' do
-      let!(:parent_project) do
+      shared_let(:parent_project) do
         FactoryBot.create(:project,
                           name: 'Parent project',
                           identifier: 'parent-project')
       end
-      let!(:child_project) do
+      shared_let(:child_project) do
         FactoryBot.create(:project,
                           name: 'Child project',
                           identifier: 'child-project',
@@ -424,19 +424,19 @@ describe 'Projects index page',
     end
 
     feature 'project status filter' do
-      let!(:no_status_project) do
+      shared_let(:no_status_project) do
         # A project that never had project status associated.
         FactoryBot.create(:project,
                           name: 'No status project')
       end
 
-      let!(:green_project) do
+      shared_let(:green_project) do
         # A project that has a project status associated.
         FactoryBot.create(:project,
                           name: 'Green project',
                           status: FactoryBot.create(:project_status))
       end
-      let!(:gray_project) do
+      shared_let(:gray_project) do
         # A project that once had a project status associated, that was later unset.
         FactoryBot.create(:project,
                           name: 'Gray project',
@@ -508,21 +508,20 @@ describe 'Projects index page',
         expect(page).to have_text(gray_project.name)
         expect(page).to have_text(no_status_project.name)
       end
-
     end
 
     feature 'other filter types' do
-      let!(:list_custom_field) { FactoryBot.create :list_project_custom_field }
-      let!(:date_custom_field) { FactoryBot.create :date_project_custom_field }
-      let(:datetime_of_this_week) do
+      shared_let(:list_custom_field) { FactoryBot.create :list_project_custom_field }
+      shared_let(:date_custom_field) { FactoryBot.create :date_project_custom_field }
+      shared_let(:datetime_of_this_week) do
         today = Date.today
         # Ensure that the date is not today but still in the middle of the week to not run into week-start-issues here.
         date_of_this_week = today + ((today.wday % 7) > 2 ? -1 : 1)
         DateTime.parse(date_of_this_week.to_s + 'T11:11:11+00:00')
       end
-      let(:fixed_datetime) { DateTime.parse('2017-11-11T11:11:11+00:00') }
+      shared_let(:fixed_datetime) { DateTime.parse('2017-11-11T11:11:11+00:00') }
 
-      let!(:project_created_on_today) do
+      shared_let(:project_created_on_today) do
         project = FactoryBot.create(:project,
                                     name: 'Created today project',
                                     created_at: DateTime.now)
@@ -531,22 +530,22 @@ describe 'Projects index page',
         project.save!
         project
       end
-      let!(:project_created_on_this_week) do
+      shared_let(:project_created_on_this_week) do
         FactoryBot.create(:project,
                           name: 'Created on this week project',
                           created_at: datetime_of_this_week)
       end
-      let!(:project_created_on_six_days_ago) do
+      shared_let(:project_created_on_six_days_ago) do
         FactoryBot.create(:project,
                           name: 'Created on six days ago project',
                           created_at: DateTime.now - 6.days)
       end
-      let!(:project_created_on_fixed_date) do
+      shared_let(:project_created_on_fixed_date) do
         FactoryBot.create(:project,
                           name: 'Created on fixed date project',
                           created_at: fixed_datetime)
       end
-      let!(:todays_wp) do
+      shared_let(:todays_wp) do
         # This WP should trigger a change to the project's 'latest activity at' DateTime
         FactoryBot.create(:work_package,
                           updated_at: DateTime.now,
@@ -733,28 +732,51 @@ describe 'Projects index page',
 
       pending "NOT WORKING YET: Date vs. DateTime issue: Selecting same date for from and to value shows projects of that date"
     end
+
+    feature 'public filter' do
+      scenario 'filter on "public" status' do
+        load_and_open_filters admin
+
+        expect(page).to have_text(project.name)
+        expect(page).to have_text(public_project.name)
+
+        SeleniumHubWaiter.wait
+        projects_page.filter_by_public('no')
+
+        expect(page).to have_text(project.name)
+        expect(page).to have_no_text(public_project.name)
+
+        load_and_open_filters admin
+
+        SeleniumHubWaiter.wait
+        projects_page.filter_by_public('yes')
+
+        expect(page).to have_text(public_project.name)
+        expect(page).to have_no_text(project.name)
+      end
+    end
   end
 
   feature 'Non-admins with role with permission' do
-    let!(:can_copy_projects_role) do
+    shared_let(:can_copy_projects_role) do
       FactoryBot.create :role, name: 'Can Copy Projects Role', permissions: [:copy_projects]
     end
-    let!(:can_add_subprojects_role) do
+    shared_let(:can_add_subprojects_role) do
       FactoryBot.create :role, name: 'Can Add Subprojects Role', permissions: [:add_subprojects]
     end
 
-    let!(:parent_project) do
+    shared_let(:parent_project) do
       FactoryBot.create(:project,
                         name: 'Parent project',
                         identifier: 'parent-project')
     end
 
-    let!(:can_copy_projects_manager) do
+    shared_let(:can_copy_projects_manager) do
       FactoryBot.create(:user,
                         member_in_project: parent_project,
                         member_through_role: can_copy_projects_role)
     end
-    let!(:can_add_subprojects_manager) do
+    shared_let(:can_add_subprojects_manager) do
       FactoryBot.create(:user,
                         member_in_project: parent_project,
                         member_through_role: can_add_subprojects_role)
@@ -843,20 +865,20 @@ describe 'Projects index page',
   end
 
   feature 'order' do
-    let!(:integer_custom_field) { FactoryBot.create(:int_project_custom_field) }
+    shared_let(:integer_custom_field) { FactoryBot.create(:int_project_custom_field) }
     # order is important here as the implementation uses lft
     # first but then reorders in ruby
-    let!(:child_project_z) do
+    shared_let(:child_project_z) do
       FactoryBot.create(:project,
                         parent: project,
                         name: "Z Child")
     end
-    let!(:child_project_m) do
+    shared_let(:child_project_m) do
       FactoryBot.create(:project,
                         parent: project,
                         name: "m Child") # intentionally written lowercase to test for case insensitive sorting
     end
-    let!(:child_project_a) do
+    shared_let(:child_project_a) do
       FactoryBot.create(:project,
                         parent: project,
                         name: "A Child")

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -369,17 +370,12 @@ module API
           index :user
           show :user
 
-          class << self
-            alias :groups :users
-          end
-
           def self.user_lock(id)
             "#{user(id)}/lock"
           end
 
-          def self.group(id)
-            "#{root}/groups/#{id}"
-          end
+          index :group
+          show :group
 
           resources :version
 

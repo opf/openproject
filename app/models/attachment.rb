@@ -189,7 +189,7 @@ class Attachment < ApplicationRecord
     content_type || fallback
   end
 
-  def copy(&block)
+  def copy
     attachment = dup
     attachment.file = diskfile
 

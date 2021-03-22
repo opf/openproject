@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, OnInit} from "@angular/core";
-import {I18nService} from "app/modules/common/i18n/i18n.service";
-import {EnterpriseTrialService} from "app/components/enterprise/enterprise-trial.service";
-import {HttpClient} from "@angular/common/http";
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {distinctUntilChanged} from "rxjs/operators";
-import {TimezoneService} from "core-components/datetime/timezone.service";
+import { Component, ElementRef, OnInit } from "@angular/core";
+import { I18nService } from "app/modules/common/i18n/i18n.service";
+import { EnterpriseTrialService } from "app/components/enterprise/enterprise-trial.service";
+import { HttpClient } from "@angular/common/http";
+import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { distinctUntilChanged } from "rxjs/operators";
+import { TimezoneService } from "core-components/datetime/timezone.service";
 
 @Component({
   selector: 'enterprise-trial-waiting',
@@ -41,7 +41,7 @@ import {TimezoneService} from "core-components/datetime/timezone.service";
 })
 export class EETrialWaitingComponent implements OnInit {
   created = this.timezoneService.formattedDate(new Date().toString());
-  email:string = '';
+  email = '';
 
   public text = {
     confirmation_info: (date:string, email:string) => this.I18n.t('js.admin.enterprise.trial.confirmation_info',{
@@ -66,9 +66,9 @@ export class EETrialWaitingComponent implements OnInit {
   }
 
   ngOnInit() {
-    let eeTrialKey = (window as any).gon.ee_trial_key;
+    const eeTrialKey = (window as any).gon.ee_trial_key;
     if (eeTrialKey) {
-      let savedDateStr = eeTrialKey.created.split(' ')[0];
+      const savedDateStr = eeTrialKey.created.split(' ')[0];
       this.created = this.timezoneService.formattedDate(savedDateStr);
     }
 

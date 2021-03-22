@@ -158,7 +158,7 @@ module OpenProject
           identifier,
           path = nil,
           run_after_activation: false,
-          active: ->() { true },
+          active: -> { true },
           before: nil,
           after: nil,
           &block
@@ -191,11 +191,11 @@ module OpenProject
 
         def find_all(identifiers)
           identifiers
-            .map { |ident| self.stages.find { |st| st.identifier == ident } }
+            .map { |ident| stages.find { |st| st.identifier == ident } }
             .compact
         end
 
-        def complete_path(identifier, session:, back_url:nil)
+        def complete_path(identifier, session:, back_url: nil)
           stage_success_path stage: identifier, secret: Hash(session[:stage_secrets])[identifier]
         end
 

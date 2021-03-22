@@ -119,7 +119,7 @@ describe 'random password generation',
     end
 
     it 'can configure and enforce password rules', js: true do
-      visit authentication_settings_path
+      visit admin_settings_authentication_path
       expect_angular_frontend_initialized
 
       # Enforce rules
@@ -186,7 +186,6 @@ describe 'random password generation',
               password_min_length: 4
             },
             js: true do
-
       it 'enforces those rules' do
         # Change to valid password according to spec
         user_page.change_password(old_password, 'password')

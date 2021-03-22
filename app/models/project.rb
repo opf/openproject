@@ -311,8 +311,8 @@ class Project < ApplicationRecord
     self
   end
 
-  def <=>(project)
-    name.downcase <=> project.name.downcase
+  def <=>(other)
+    name.downcase <=> other.name.downcase
   end
 
   def to_s
@@ -339,7 +339,11 @@ class Project < ApplicationRecord
   def enabled_module_names=(module_names)
     if module_names&.is_a?(Array)
       module_names = module_names.map(&:to_s).reject(&:blank?)
-      self.enabled_modules = module_names.map { |name| enabled_modules.detect { |mod| mod.name == name } || EnabledModule.new(name: name) }
+      self.enabled_modules = module_names.map do |name|
+        enabled_modules.detect do |mod|
+          mod.name == name
+        end || EnabledModule.new(name: name)
+      end
     else
       enabled_modules.clear
     end

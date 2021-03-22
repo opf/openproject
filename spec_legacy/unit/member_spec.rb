@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -42,8 +43,8 @@ describe Member, type: :model do
   it 'should create' do
     member = Member.new.tap do |m|
       m.attributes = { project_id: @project.id,
-                             user_id: FactoryBot.create(:user).id,
-                             role_ids: [@role.id] }
+                       user_id: FactoryBot.create(:user).id,
+                       role_ids: [@role.id] }
     end
     assert member.save
     member.reload
@@ -98,7 +99,7 @@ describe Member, type: :model do
       Watcher.create!(watchable: FactoryBot.create(:wiki, project: @private_project), user: @watcher_user)
       @private_project.reload # to access @private_project.wiki
       Watcher.create!(watchable: FactoryBot.create(:wiki_page, wiki: @private_project.wiki), user: @watcher_user)
-      @private_role = FactoryBot.create :role, permissions: [:view_wiki_pages, :view_work_packages]
+      @private_role = FactoryBot.create :role, permissions: %i[view_wiki_pages view_work_packages]
 
       @private_project.public = false
       @private_project.save
@@ -108,8 +109,8 @@ describe Member, type: :model do
       before do
         (@member = Member.new.tap do |m|
           m.attributes = { project_id: @private_project.id,
-                                 user_id: @watcher_user.id,
-                                 role_ids: [@private_role.id, FactoryBot.create(:role).id] }
+                           user_id: @watcher_user.id,
+                           role_ids: [@private_role.id, FactoryBot.create(:role).id] }
         end).save!
       end
 
@@ -138,8 +139,8 @@ describe Member, type: :model do
         @group = FactoryBot.create :group, members: @watcher_user
         @member = (Member.new.tap do |m|
           m.attributes = { project_id: @private_project.id,
-                                 user_id: @group.id,
-                                 role_ids: [@private_role.id, FactoryBot.create(:role).id] }
+                           user_id: @group.id,
+                           role_ids: [@private_role.id, FactoryBot.create(:role).id] }
         end)
 
         @group.members << @member

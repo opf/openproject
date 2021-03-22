@@ -26,24 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injector} from '@angular/core';
+import { Injector } from '@angular/core';
 import * as moment from 'moment';
-import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
-import {RenderInfo} from '../wp-timeline';
-import {TimelineCellRenderer} from './timeline-cell-renderer';
-import {WorkPackageCellLabels} from './wp-timeline-cell';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
-import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
+import { RenderInfo } from '../wp-timeline';
+import { TimelineCellRenderer } from './timeline-cell-renderer';
+import { WorkPackageCellLabels } from './wp-timeline-cell';
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { keyCodes } from 'core-app/modules/common/keyCodes.enum';
+import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
 
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
+import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
 import Moment = moment.Moment;
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {take} from "rxjs/operators";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { take } from "rxjs/operators";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 export const classNameBar = 'bar';
 export const classNameLeftHandle = 'leftHandle';
@@ -52,18 +52,18 @@ export const classNameBarLabel = 'bar-label';
 
 
 export function registerWorkPackageMouseHandler(this:void,
-                                                injector:Injector,
-                                                getRenderInfo:() => RenderInfo,
-                                                workPackageTimeline:WorkPackageTimelineTableController,
-                                                halEditing:HalResourceEditingService,
-                                                halEvents:HalEventsService,
-                                                notificationService:WorkPackageNotificationService,
-                                                loadingIndicator:LoadingIndicatorService,
-                                                cell:HTMLElement,
-                                                bar:HTMLDivElement,
-                                                labels:WorkPackageCellLabels,
-                                                renderer:TimelineCellRenderer,
-                                                renderInfo:RenderInfo) {
+  injector:Injector,
+  getRenderInfo:() => RenderInfo,
+  workPackageTimeline:WorkPackageTimelineTableController,
+  halEditing:HalResourceEditingService,
+  halEvents:HalEventsService,
+  notificationService:WorkPackageNotificationService,
+  loadingIndicator:LoadingIndicatorService,
+  cell:HTMLElement,
+  bar:HTMLDivElement,
+  labels:WorkPackageCellLabels,
+  renderer:TimelineCellRenderer,
+  renderInfo:RenderInfo) {
 
   const querySpace:IsolatedQuerySpace = injector.get(IsolatedQuerySpace);
 

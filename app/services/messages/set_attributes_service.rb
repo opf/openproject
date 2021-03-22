@@ -40,7 +40,7 @@ module Messages
     end
 
     def set_default_author
-      change_by_system do
+      model.change_by_system do
         model.author = user
       end
     end

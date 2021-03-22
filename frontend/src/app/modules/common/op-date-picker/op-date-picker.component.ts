@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild} from '@angular/core';
-import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {TimezoneService} from 'core-components/datetime/timezone.service';
-import {DatePicker} from "core-app/modules/common/op-date-picker/datepicker";
-import {DebouncedEventEmitter} from "core-components/angular/debounced-event-emitter";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
-import {keyCodes} from "core-app/modules/common/keyCodes.enum";
-import {Instance} from "flatpickr/dist/types/instance";
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { TimezoneService } from 'core-components/datetime/timezone.service';
+import { DatePicker } from "core-app/modules/common/op-date-picker/datepicker";
+import { DebouncedEventEmitter } from "core-components/angular/debounced-event-emitter";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
+import { keyCodes } from "core-app/modules/common/keyCodes.enum";
+import { Instance } from "flatpickr/dist/types/instance";
 
 @Component({
   selector: 'op-date-picker',
@@ -44,15 +44,15 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
   @Output() public onChange = new DebouncedEventEmitter<string>(componentDestroyed(this));
   @Output() public onCancel = new EventEmitter<string>();
 
-  @Input() public initialDate:string = '';
+  @Input() public initialDate = '';
   @Input() public appendTo?:HTMLElement = document.body;
-  @Input() public classes:string = '';
-  @Input() public id:string = '';
-  @Input() public name:string = '';
-  @Input() public required:boolean = false;
-  @Input() public size:number = 20;
-  @Input() public focus:boolean = false;
-  @Input() public disabled:boolean = false;
+  @Input() public classes = '';
+  @Input() public id = '';
+  @Input() public name = '';
+  @Input() public required = false;
+  @Input() public size = 20;
+  @Input() public focus = false;
+  @Input() public disabled = false;
 
   @ViewChild('dateInput') dateInput:ElementRef;
 
@@ -114,11 +114,11 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
   }
 
   private initializeDatepicker() {
-    let options:any = {
+    const options:any = {
       allowInput: true,
       appendTo: this.appendTo,
       onChange:(selectedDates:Date[], dateStr:string) => {
-        let val:string = dateStr;
+        const val:string = dateStr;
 
         if (this.isEmpty()) {
           return;

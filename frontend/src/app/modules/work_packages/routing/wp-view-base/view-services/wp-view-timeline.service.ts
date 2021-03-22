@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from '@angular/core';
-import {QueryResource, TimelineLabels, TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {input} from 'reactivestates';
-import {WorkPackageQueryStateService} from './wp-view-base.service';
-import {WorkPackageTimelineState} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-timeline";
-import {zoomLevelOrder} from "core-components/wp-table/timeline/wp-timeline";
+import { Injectable } from '@angular/core';
+import { QueryResource, TimelineLabels, TimelineZoomLevel } from 'core-app/modules/hal/resources/query-resource';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { input } from 'reactivestates';
+import { WorkPackageQueryStateService } from './wp-view-base.service';
+import { WorkPackageTimelineState } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-timeline";
+import { zoomLevelOrder } from "core-components/wp-table/timeline/wp-timeline";
 
 @Injectable()
 export class WorkPackageViewTimelineService extends WorkPackageQueryStateService<WorkPackageTimelineState> {
@@ -79,12 +79,12 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
   }
 
   public toggle() {
-    let currentState = this.current;
+    const currentState = this.current;
     this.setVisible(!currentState.visible);
   }
 
   public setVisible(value:boolean) {
-    this.updatesState.putValue({...this.current, visible: value});
+    this.updatesState.putValue({ ...this.current, visible: value });
   }
 
   public get isVisible() {
@@ -108,7 +108,7 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
   }
 
   public getNormalizedLabels(workPackage:WorkPackageResource) {
-    let labels:TimelineLabels = this.defaultLabels;
+    const labels:TimelineLabels = this.defaultLabels;
 
     _.each(this.current.labels, (attribute:string | null, positionAsString:string) => {
       // RR: Lodash typings declare the position as string. However, it is save to cast
@@ -131,7 +131,7 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
   }
 
   public updateZoomWithDelta(delta:number):void {
-    let level = this.current.zoomLevel;
+    const level = this.current.zoomLevel;
     if (level !== 'auto') {
       return this.applyZoomLevel(level, delta);
     }

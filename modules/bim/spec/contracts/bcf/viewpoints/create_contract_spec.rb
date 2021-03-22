@@ -31,8 +31,8 @@ require 'spec_helper'
 describe Bim::Bcf::Viewpoints::CreateContract do
   let(:viewpoint) do
     Bim::Bcf::Viewpoint.new(uuid: viewpoint_uuid,
-                       issue: viewpoint_issue,
-                       json_viewpoint: viewpoint_json_viewpoint)
+                            issue: viewpoint_issue,
+                            json_viewpoint: viewpoint_json_viewpoint)
   end
   let(:permissions) { [:manage_bcf] }
 

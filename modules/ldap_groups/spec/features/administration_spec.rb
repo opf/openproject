@@ -28,6 +28,7 @@ describe 'LDAP group sync administration spec', type: :feature, js: true do
       select 'ldap', from: 'synchronized_group_auth_source_id'
       select 'foo', from: 'synchronized_group_group_id'
       fill_in 'synchronized_group_dn', with: 'cn=foo,ou=groups,dc=example,dc=com'
+      check 'synchronized_group_sync_users'
 
       click_on 'Create'
       expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_create))

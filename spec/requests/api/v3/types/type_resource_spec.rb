@@ -37,8 +37,8 @@ describe 'API v3 Type resource' do
   let(:project) { FactoryBot.create(:project, no_types: true, public: false) }
   let(:current_user) do
     FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_through_role: role)
+                      member_in_project: project,
+                      member_through_role: role)
   end
 
   let!(:types) { FactoryBot.create_list(:type, 4) }

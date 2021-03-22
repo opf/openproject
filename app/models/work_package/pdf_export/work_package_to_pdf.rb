@@ -30,6 +30,7 @@
 
 class WorkPackage::PDFExport::WorkPackageToPdf < WorkPackage::Exporter::Base
   include WorkPackage::PDFExport::Common
+  include WorkPackage::PDFExport::Formattable
   include WorkPackage::PDFExport::Attachments
 
   attr_accessor :pdf
@@ -90,10 +91,10 @@ class WorkPackage::PDFExport::WorkPackageToPdf < WorkPackage::Exporter::Base
 
   def make_attributes
     attrs = [
-      [:status, :priority],
-      [:author, :category],
-      [:created_at, :assigned_to],
-      [:updated_at, :due_date]
+      %i[status priority],
+      %i[author category],
+      %i[created_at assigned_to],
+      %i[updated_at due_date]
     ]
 
     attrs.map do |first, second|
@@ -101,8 +102,10 @@ class WorkPackage::PDFExport::WorkPackageToPdf < WorkPackage::Exporter::Base
     end
   end
 
-  def make_custom_fields
-    work_package.custom_field_values.map do |custom_value|
+  def make_plain_custom_fields
+    work_package.custom_field_values.each do |custom_value|
+      next if custom_value.custom_field.formattable?
+
       cf = custom_value.custom_field
       name = cf.name || Array(cf.name_translations.first).last || '?'
 
@@ -113,7 +116,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < WorkPackage::Exporter::Base
                             colspan: 3,
                             borders: [:right],
                             padding: cell_padding
-      [label, value]
+      yield [label, value]
     end
   end
 
@@ -136,7 +139,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < WorkPackage::Exporter::Base
     end
   end
 
-  def description_colspan
+  def formattable_colspan
     3
   end
 
@@ -173,12 +176,25 @@ class WorkPackage::PDFExport::WorkPackageToPdf < WorkPackage::Exporter::Base
     data.first.each { |cell| cell.borders << :top } # top horizontal line
     data.last.each { |cell| cell.borders << :bottom } # horizontal line after main attrs
 
-    make_custom_fields.each { |row| data << row }
+    # Render plain custom values
+    make_plain_custom_fields { |row| data << row }
 
     pdf.font style: :normal, size: 9
     pdf.table(data, column_widths: column_widths)
 
-    write_description!(work_package)
+    # Render formattable custom values
+    work_package.custom_field_values
+                .select { |cv| cv.custom_field.formattable? }
+                .each do |custom_value|
+
+      write_formattable! work_package,
+                         markdown: custom_value.value,
+                         label: custom_value.custom_field.name
+    end
+
+    write_formattable! work_package,
+                       markdown: work_package.description,
+                       label: WorkPackage.human_attribute_name(:description)
   end
 
   def write_changesets!
@@ -192,7 +208,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < WorkPackage::Exporter::Base
       end
       newline!
 
-      for changeset in work_package.changesets
+      work_package.changesets.each do |changeset|
         pdf.font style: :bold, size: 8
         pdf.text(format_time(changeset.committed_on) + ' - ' + changeset.author.to_s)
         newline!
@@ -218,7 +234,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < WorkPackage::Exporter::Base
 
     newline!
 
-    for journal in work_package.journals.includes(:user).order("#{Journal.table_name}.created_at ASC")
+    work_package.journals.includes(:user).order("#{Journal.table_name}.created_at ASC").each do |journal|
       next if journal.initial?
 
       pdf.font style: :bold, size: 8
@@ -229,7 +245,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < WorkPackage::Exporter::Base
       journal.details.each do |detail|
         text = journal
           .render_detail(detail, no_html: true, only_path: false)
-          .gsub(/\((https?[^\)]+)\)$/, "(<link href='\\1'>\\1</link>)")
+          .gsub(/\((https?[^)]+)\)$/, "(<link href='\\1'>\\1</link>)")
 
         pdf.text('- ' + text, inline_format: true)
         newline!

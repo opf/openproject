@@ -5,14 +5,14 @@ describe 'activating an invited account',
          with_2fa_ee: true,
          type: :feature,
          js: true,
-         with_config: {:'2fa' => {active_strategies: [:developer]}} do
-  let(:user) {
+         with_config: { '2fa': { active_strategies: [:developer] } } do
+  let(:user) do
     user = FactoryBot.build :user, first_login: true
     UserInvitation.invite_user! user
 
     user
-  }
-  let(:token) {Token::Invitation.find_by(user_id: user.id)}
+  end
+  let(:token) { Token::Invitation.find_by(user_id: user.id) }
 
   def activate!
     visit url_for(controller: :account,
@@ -38,7 +38,7 @@ describe 'activating an invited account',
   end
 
   context 'when not enforced, but device present' do
-    let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, default: true}
+    let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, default: true }
 
     it 'requests a OTP' do
       sms_token = nil
@@ -72,7 +72,7 @@ describe 'activating an invited account',
     end
   end
 
-  context 'when enforced', with_config: {:'2fa' => {active_strategies: [:developer], enforced: true}} do
+  context 'when enforced', with_config: { '2fa': { active_strategies: [:developer], enforced: true } } do
     before do
       activate!
     end

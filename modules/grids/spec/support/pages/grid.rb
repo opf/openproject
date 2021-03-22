@@ -78,14 +78,12 @@ module Pages
 
     private
 
-    def within_add_widget_modal(row_number, column_number, location)
+    def within_add_widget_modal(row_number, column_number, location, &block)
       area = area_of(row_number, column_number, location)
       area.hover
       area.find('.grid--widget-add', visible: :all).click
 
-      within '.op-modal--portal' do
-        yield
-      end
+      within '.op-modal', &block
     end
 
     def expect_widget_adding_prohibited_generally(row_number = 1, column_number = 1)

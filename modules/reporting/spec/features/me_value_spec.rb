@@ -8,20 +8,20 @@ describe 'Cost report showing my own times', type: :feature, js: true do
   let(:work_package) { FactoryBot.create :work_package, project: project }
   let!(:hourly_rate1) { FactoryBot.create :default_hourly_rate, user: user, rate: 1.00, valid_from: 1.year.ago }
 
-  let!(:time_entry1) {
+  let!(:time_entry1) do
     FactoryBot.create :time_entry,
-                       user: user,
-                       work_package: work_package,
-                       project: project,
-                       hours: 10
-  }
-  let!(:time_entry2) {
+                      user: user,
+                      work_package: work_package,
+                      project: project,
+                      hours: 10
+  end
+  let!(:time_entry2) do
     FactoryBot.create :time_entry,
                       user: user2,
                       work_package: work_package,
                       project: project,
                       hours: 15
-  }
+  end
 
   before do
     # Login as first user
@@ -29,7 +29,6 @@ describe 'Cost report showing my own times', type: :feature, js: true do
 
     # Create and save cost report
     visit cost_reports_path(project)
-
   end
 
   shared_examples 'me filter value' do |filter_name, filter_selector|
@@ -43,7 +42,7 @@ describe 'Cost report showing my own times', type: :feature, js: true do
       expect(page).to have_selector('.report', text: '10.00')
 
       report = CostQuery.last
-      user_filter = report.serialized[:filters].detect { |name,_| name == filter_name }
+      user_filter = report.serialized[:filters].detect { |name, _| name == filter_name }
       expect(user_filter[1][:values]).to eq %w(me)
 
       # Login as the next user
@@ -62,21 +61,20 @@ describe 'Cost report showing my own times', type: :feature, js: true do
     let(:work_package) { FactoryBot.create :work_package, project: project, assigned_to: user }
     let(:work_package2) { FactoryBot.create :work_package, project: project, assigned_to: user2 }
 
-    let!(:time_entry1) {
+    let!(:time_entry1) do
       FactoryBot.create :time_entry,
                         user: user,
                         work_package: work_package,
                         project: project,
                         hours: 10
-    }
-    let!(:time_entry2) {
+    end
+    let!(:time_entry2) do
       FactoryBot.create :time_entry,
                         user: user2,
                         work_package: work_package2,
                         project: project,
                         hours: 15
-    }
-
+    end
 
     before do
       # Remove default user filter, add assignee filter

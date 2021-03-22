@@ -26,22 +26,22 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, OnInit} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {UrlParamsHelperService} from 'core-components/wp-query/url-params-helper';
-import {WorkPackageRelationsHierarchyService} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
-import {OpUnlinkTableAction} from 'core-components/wp-table/table-actions/actions/unlink-table-action';
-import {OpTableActionFactory} from 'core-components/wp-table/table-actions/table-action';
-import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
-import {WorkPackageRelationQueryBase} from "core-components/wp-relations/embedded/wp-relation-query.base";
-import {WpChildrenInlineCreateService} from "core-components/wp-relations/embedded/children/wp-children-inline-create.service";
-import {filter} from "rxjs/operators";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {GroupDescriptor} from "core-components/work-packages/wp-single-view/wp-single-view.component";
-import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { Component, Input, OnInit } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { UrlParamsHelperService } from 'core-components/wp-query/url-params-helper';
+import { WorkPackageRelationsHierarchyService } from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
+import { OpUnlinkTableAction } from 'core-components/wp-table/table-actions/actions/unlink-table-action';
+import { OpTableActionFactory } from 'core-components/wp-table/table-actions/table-action';
+import { WorkPackageInlineCreateService } from "core-components/wp-inline-create/wp-inline-create.service";
+import { WorkPackageRelationQueryBase } from "core-components/wp-relations/embedded/wp-relation-query.base";
+import { WpChildrenInlineCreateService } from "core-components/wp-relations/embedded/children/wp-children-inline-create.service";
+import { filter } from "rxjs/operators";
+import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { GroupDescriptor } from "core-components/work-packages/wp-single-view/wp-single-view.component";
+import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'wp-children-query',
@@ -56,7 +56,7 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
 
   /** An optional group descriptor if we're rendering on the single view */
   @Input() public group?:GroupDescriptor;
-  @Input() public addExistingChildEnabled:boolean = false;
+  @Input() public addExistingChildEnabled = false;
 
   public tableActions:OpTableActionFactory[] = [
     OpUnlinkTableAction.factoryFor(

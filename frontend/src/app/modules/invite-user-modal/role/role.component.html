@@ -1,0 +1,40 @@
+<form
+  [formGroup]="roleForm"
+  (ngSubmit)="onSubmit($event)"
+>
+  <op-modal-header (close)="close.emit()">{{ text.title() }}</op-modal-header>
+
+  <div class="op-modal--body">
+    <op-form-field
+      [label]="text.label()"
+      required
+    >
+      <p
+        class="op-form-field--description"
+        slot="description"
+        [innerHtml]="text.description()"
+      ></p>
+      <op-ium-role-search
+        [opFormBinding]="roleControl"
+        slot="input"
+      ></op-ium-role-search>
+
+      <div
+        slot="errors"
+        class="op-form-field--error"
+        *ngIf="roleControl?.touched && roleControl?.invalid"
+      >
+        {{ text.required }}
+      </div>
+    </op-form-field>
+  </div>
+
+  <div class="op-modal--footer">
+    <button
+      type="button"
+      class="button"
+      (click)="back.emit()"
+      >{{ text.backButton }}</button>
+    <button class="button">{{ text.nextButton }}</button>
+  </div>
+</form>

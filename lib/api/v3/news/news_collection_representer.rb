@@ -32,7 +32,6 @@ module API
   module V3
     module News
       class NewsCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
-        element_decorator ::API::V3::News::NewsRepresenter
       end
     end
   end

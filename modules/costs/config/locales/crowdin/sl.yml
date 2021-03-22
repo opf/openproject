@@ -82,7 +82,7 @@ sl:
   label_costlog: "Stroški enote dnevnika"
   label_cost_plural: "Stroški"
   label_cost_type_plural: "Vrsta stroška"
-  label_cost_type_specific: "Cost type #%{id}: %{name}"
+  label_cost_type_specific: "Vrsta stroška #%{id}: %{name}"
   label_costs_per_page: "Strošek na stran"
   label_currency: "Valuta"
   label_currency_format: "Oblika valute"

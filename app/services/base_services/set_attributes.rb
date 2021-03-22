@@ -34,7 +34,7 @@ module BaseServices
 
     def initialize(user:, model:, contract_class:, contract_options: {})
       self.user = user
-      self.model = model
+      self.model = prepare_model(model)
 
       self.contract_class = contract_class
       self.contract_options = contract_options
@@ -68,6 +68,11 @@ module BaseServices
       ServiceResult.new(success: success,
                         errors: errors,
                         result: model)
+    end
+
+    def prepare_model(model)
+      model.extend(OpenProject::ChangedBySystem)
+      model
     end
   end
 end

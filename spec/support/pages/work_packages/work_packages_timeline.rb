@@ -94,7 +94,7 @@ module Pages
     end
 
     def timeline_row(wp_id)
-      ::Components::Timelines::TimelineRow.new  page.find(timeline_row_selector(wp_id))
+      ::Components::Timelines::TimelineRow.new page.find(timeline_row_selector(wp_id))
     end
 
     def zoom_in_button

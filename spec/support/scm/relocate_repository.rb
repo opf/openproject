@@ -3,17 +3,17 @@ shared_examples_for 'repository can be relocated' do |vendor|
     ::SCM::RelocateRepositoryJob.perform_now repository
   end
   let(:project) { FactoryBot.build :project }
-  let(:repository) {
+  let(:repository) do
     repo = FactoryBot.build("repository_#{vendor}".to_sym,
-                             project: project,
-                             scm_type: :managed)
+                            project: project,
+                            scm_type: :managed)
 
     repo.configure(:managed, nil)
     repo.save!
     perform_enqueued_jobs
 
     repo
-  }
+  end
 
   before do
     allow(Repository).to receive(:find).and_return(repository)
@@ -47,14 +47,14 @@ shared_examples_for 'repository can be relocated' do |vendor|
     let(:url) { 'http://myreposerver.example.com/api/' }
     let(:config) { { manages: url } }
 
-    let(:repository) {
+    let(:repository) do
       stub_request(:post, url)
         .to_return(status: 200,
                    body: { success: true, url: 'file:///foo/bar', path: '/tmp/foo/bar' }.to_json)
       FactoryBot.create("repository_#{vendor}".to_sym,
-                         project: project,
-                         scm_type: :managed)
-    }
+                        project: project,
+                        scm_type: :managed)
+    end
 
     before do
       stub_request(:post, url)

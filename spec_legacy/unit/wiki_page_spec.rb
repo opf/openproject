@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -34,20 +35,6 @@ describe WikiPage, type: :model do
   before do
     @wiki = Wiki.find(1)
     @page = @wiki.pages.first
-  end
-
-  it 'should create' do
-    page = WikiPage.new(wiki: @wiki)
-    assert !page.save
-    assert_equal 1, page.errors.count
-
-    page.title = 'Page'
-    assert page.save
-    page.reload
-    assert !page.protected?
-
-    @wiki.reload
-    assert @wiki.pages.include?(page)
   end
 
   it 'should find or new page' do

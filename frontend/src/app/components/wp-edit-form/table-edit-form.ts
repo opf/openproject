@@ -26,22 +26,22 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injector} from '@angular/core';
-import {Subscription} from 'rxjs';
-import {States} from 'core-components/states.service';
-import {IFieldSchema} from "core-app/modules/fields/field.base";
+import { Injector } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { States } from 'core-components/states.service';
+import { IFieldSchema } from "core-app/modules/fields/field.base";
 
-import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
-import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
-import {FocusHelperService} from "core-app/modules/common/focus/focus-helper";
-import {EditingPortalService} from "core-app/modules/fields/edit/editing-portal/editing-portal-service";
-import {CellBuilder, editCellContainer, tdClassName} from "core-components/wp-fast-table/builders/cell-builder";
-import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
-import {EditForm} from "core-app/modules/fields/edit/edit-form/edit-form";
-import {editModeClassName} from "core-app/modules/fields/edit/edit-field.component";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { EditFieldHandler } from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
+import { WorkPackageViewColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import { FocusHelperService } from "core-app/modules/common/focus/focus-helper";
+import { EditingPortalService } from "core-app/modules/fields/edit/editing-portal/editing-portal-service";
+import { CellBuilder, editCellContainer, tdClassName } from "core-components/wp-fast-table/builders/cell-builder";
+import { WorkPackageTable } from "core-components/wp-fast-table/wp-fast-table";
+import { EditForm } from "core-app/modules/fields/edit/edit-form/edit-form";
+import { editModeClassName } from "core-app/modules/fields/edit/edit-field.component";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
@@ -142,7 +142,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
    * values loaded.
    * @param fieldName
    */
-  protected loadFieldSchema(fieldName:string, noWarnings:boolean = false):Promise<IFieldSchema> {
+  protected loadFieldSchema(fieldName:string, noWarnings = false):Promise<IFieldSchema> {
     // We need to handle start/due date cases like they were combined dates
     if (['startDate', 'dueDate', 'date'].includes(fieldName)) {
       fieldName = 'combinedDate';

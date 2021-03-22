@@ -32,15 +32,15 @@ describe WorkPackage, 'acts_as_searchable', type: :model do
   include BecomeMember
 
   let(:wp_subject) { 'the quick brown fox jumps over the lazy dog' }
-  let(:project) {
+  let(:project) do
     FactoryBot.create(:project,
-                       public: false)
-  }
-  let(:work_package) {
+                      public: false)
+  end
+  let(:work_package) do
     FactoryBot.create(:work_package,
-                       subject: wp_subject,
-                       project: project)
-  }
+                      subject: wp_subject,
+                      project: project)
+  end
   let(:user) { FactoryBot.create(:user) }
 
   describe '#search' do

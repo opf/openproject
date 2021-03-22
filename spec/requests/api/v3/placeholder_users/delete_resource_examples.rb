@@ -1,0 +1,61 @@
+#-- encoding: UTF-8
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2020 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
+
+shared_examples 'deletion allowed' do
+  it 'should respond with 202' do
+    expect(last_response.status).to eq 202
+  end
+
+  it 'should lock the account and mark for deletion' do
+    expect(Principals::DeleteJob)
+      .to have_been_enqueued
+            .with(placeholder)
+
+    expect(placeholder.reload).to be_locked
+  end
+
+  context 'with a non-existent user' do
+    let(:path) { api_v3_paths.placeholder_user 1337 }
+
+    it_behaves_like 'not found' do
+      let(:id) { 1337 }
+      let(:type) { 'PlaceholderUser' }
+    end
+  end
+end
+
+shared_examples 'deletion is not allowed' do
+  it 'should respond with 403' do
+    expect(last_response.status).to eq 403
+  end
+
+  it 'should not delete the user' do
+    expect(PlaceholderUser.exists?(placeholder.id)).to be_truthy
+  end
+end

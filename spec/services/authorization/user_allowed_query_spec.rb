@@ -40,7 +40,7 @@ describe Authorization::UserAllowedQuery do
     let(:non_member_role) { FactoryBot.build(:non_member) }
     let(:member) do
       FactoryBot.build(:member, project: project,
-                                 roles: [role])
+                                roles: [role])
     end
 
     let(:action) { :view_work_packages }

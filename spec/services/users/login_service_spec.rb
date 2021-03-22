@@ -32,7 +32,7 @@ describe ::Users::LoginService, type: :model do
   let(:input_user) { FactoryBot.build_stubbed(:user) }
   let(:controller) { double('ApplicationController') }
   let(:session) { {} }
-  let(:flash) { ActionDispatch::Flash::FlashHash.new() }
+  let(:flash) { ActionDispatch::Flash::FlashHash.new }
 
   let(:instance) { described_class.new(controller: controller) }
 

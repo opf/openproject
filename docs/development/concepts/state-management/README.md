@@ -6,7 +6,7 @@ robots: index, follow
 keywords: state management, stores, input states
 ---
 
-# Development Concept: State management
+# Development concept: State management
 
 State management in complex frontend applications is a topic that has been heavily evolving over the past years. Redux and stores, one-way data flow are all the rage nowadays. OpenProject is an old application, so its frontend exists way before these concepts were introduced and became popular.
 

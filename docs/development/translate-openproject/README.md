@@ -45,3 +45,5 @@ Once a translation has been provided, a proof reader can approve the translation
 If you are interested in becoming a proof reader, please contact one of the project managers in the Openproject CrowdIn project or send us an email at support@openproject.org.
 
 If your language is not listed in the list of CrowdIn languages, please contact our project managers or send us an email so we can add your language.
+
+Find out more about our development concepts regarding translations [here](../concepts/translations).

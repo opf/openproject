@@ -84,7 +84,7 @@ describe Workflows::BulkUpdateService, 'integration', type: :model do
       let(:params) do
         {
           status4.id => { status5.id => ['always'] },
-          status3.id => { status1.id => ['author'], status2.id => ['assignee'], status4.id => %w(author assignee)}
+          status3.id => { status1.id => ['author'], status2.id => ['assignee'], status4.id => %w(author assignee) }
         }
       end
 

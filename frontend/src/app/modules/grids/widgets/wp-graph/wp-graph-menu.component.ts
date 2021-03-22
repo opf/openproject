@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component} from '@angular/core';
-import {WpGraphConfigurationModalComponent} from "core-app/modules/work-package-graphs/configuration-modal/wp-graph-configuration.modal";
-import {WidgetWpSetMenuComponent} from "core-app/modules/grids/widgets/menu/wp-set-menu.component";
+import { Component } from '@angular/core';
+import { WpGraphConfigurationModalComponent } from "core-app/modules/work-package-graphs/configuration-modal/wp-graph-configuration.modal";
+import { WidgetWpSetMenuComponent } from "core-app/modules/grids/widgets/menu/wp-set-menu.component";
 
 @Component({
   selector: 'widget-wp-graph-menu',

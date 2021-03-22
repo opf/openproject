@@ -80,4 +80,4 @@ module OpenProject::Backlogs::Patches::VersionPatch
   end
 end
 
-Version.send(:include, OpenProject::Backlogs::Patches::VersionPatch)
+Version.include OpenProject::Backlogs::Patches::VersionPatch

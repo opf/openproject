@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable, Injector} from '@angular/core';
-import {INotification} from 'core-app/modules/common/notifications/notifications.service';
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { Injectable, Injector } from '@angular/core';
+import { INotification } from 'core-app/modules/common/notifications/notifications.service';
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable()
 export class WorkPackageNotificationService extends HalResourceNotificationService {
@@ -40,8 +40,8 @@ export class WorkPackageNotificationService extends HalResourceNotificationServi
     super(injector);
   }
 
-  public showSave(resource:WorkPackageResource, isCreate:boolean = false) {
-    let message:any = {
+  public showSave(resource:WorkPackageResource, isCreate = false) {
+    const message:any = {
       message: this.I18n.t('js.notice_successful_' + (isCreate ? 'create' : 'update')),
     };
 
@@ -71,7 +71,7 @@ export class WorkPackageNotificationService extends HalResourceNotificationServi
     // Don't show the 'Show in full screen' link  if we're there already
     if (!this.$state.includes('work-packages.show')) {
       message.link = {
-        target: () => this.$state.go('work-packages.show.activity', {workPackageId: resource.id}),
+        target: () => this.$state.go('work-packages.show.activity', { workPackageId: resource.id }),
         text: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
       };
     }

@@ -6,7 +6,7 @@ robots: index, follow
 keywords: development concepts, big picture
 ---
 
-# OpenProject Development Concepts
+# OpenProject development concepts
 
 OpenProject development encompasses a large number of complex topics and terminologies.
 This guide will introduce some concepts and give you a big picture of the development processes.

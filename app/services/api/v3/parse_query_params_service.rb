@@ -53,9 +53,9 @@ module API
         }
 
         ServiceResult.new success: true, result: parsed
-      rescue ::JSON::ParserError => error
+      rescue ::JSON::ParserError => e
         result = ServiceResult.new success: false
-        result.errors.add(:base, error.message)
+        result.errors.add(:base, e.message)
         result
       end
 

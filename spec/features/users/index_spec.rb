@@ -37,9 +37,9 @@ describe 'index users', type: :feature do
   end
 
   describe 'with some sortable users' do
-    let!(:a_user) { FactoryBot.create :user, login: 'a_login', firstname: 'a_first', lastname: 'xxx_a' }
-    let!(:b_user) { FactoryBot.create :user, login: 'b_login', firstname: 'b_first', lastname: 'nnn_b' }
-    let!(:z_user) { FactoryBot.create :user, login: 'z_login', firstname: 'z_first', lastname: 'ccc_z' }
+    let!(:a_user) { FactoryBot.create :user, login: 'aa_login', firstname: 'aa_first', lastname: 'xxx_a' }
+    let!(:b_user) { FactoryBot.create :user, login: 'bb_login', firstname: 'bb_first', lastname: 'nnn_b' }
+    let!(:z_user) { FactoryBot.create :user, login: 'zz_login', firstname: 'zz_first', lastname: 'ccc_z' }
 
     it 'sorts them correctly (Regression #35012)' do
       index_page.visit!
@@ -147,8 +147,8 @@ describe 'index users', type: :feature do
     end
 
     context 'as global user' do
-      shared_let(:global_add_user) { FactoryBot.create :user, global_permission: :add_user }
-      let(:current_user) { global_add_user }
+      shared_let(:global_manage_user) { FactoryBot.create :user, global_permission: :manage_user }
+      let(:current_user) { global_manage_user }
 
       it 'can too visit the page' do
         index_page.visit!

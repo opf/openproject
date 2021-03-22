@@ -9,8 +9,8 @@ describe 'Cost report calculations', type: :feature, js: true do
   let!(:role) { FactoryBot.create :role, permissions: permissions }
   let!(:user) do
     FactoryBot.create :user,
-                       member_in_project: project,
-                       member_through_role: role
+                      member_in_project: project,
+                      member_through_role: role
   end
 
   let(:work_package) { FactoryBot.create :work_package, project: project }
@@ -19,33 +19,33 @@ describe 'Cost report calculations', type: :feature, js: true do
 
   let(:report_page) { ::Pages::CostReportPage.new project }
 
-  let!(:time_entry_user) {
+  let!(:time_entry_user) do
     FactoryBot.create :time_entry,
-                       user: admin,
-                       work_package: work_package,
-                       project: project,
-                       hours: 10
-  }
-  let!(:time_entry_admin) {
+                      user: admin,
+                      work_package: work_package,
+                      project: project,
+                      hours: 10
+  end
+  let!(:time_entry_admin) do
     FactoryBot.create :time_entry,
-                       user: user,
-                       work_package: work_package,
-                       project: project,
-                       hours: 5
-  }
-  let!(:cost_type) {
+                      user: user,
+                      work_package: work_package,
+                      project: project,
+                      hours: 5
+  end
+  let!(:cost_type) do
     type = FactoryBot.create :cost_type, name: 'Translations'
     FactoryBot.create :cost_rate, cost_type: type, rate: 7.00
     type
-  }
-  let!(:cost_entry_user) {
+  end
+  let!(:cost_entry_user) do
     FactoryBot.create :cost_entry,
-                       work_package: work_package,
-                       project: project,
-                       units: 3.00,
-                       cost_type: cost_type,
-                       user: user
-  }
+                      work_package: work_package,
+                      project: project,
+                      units: 3.00,
+                      cost_type: cost_type,
+                      user: user
+  end
 
   before do
     login_as current_user
@@ -77,7 +77,7 @@ describe 'Cost report calculations', type: :feature, js: true do
   context 'as user with all permissions' do
     let(:current_user) { user }
     let!(:permissions) do
-      %i(view_own_hourly_rate  view_hourly_rates view_cost_rates
+      %i(view_own_hourly_rate view_hourly_rates view_cost_rates
          view_own_time_entries view_own_cost_entries view_cost_entries
          view_time_entries)
     end
@@ -102,7 +102,7 @@ describe 'Cost report calculations', type: :feature, js: true do
   context 'as user with own permissions' do
     let(:current_user) { user }
     let!(:permissions) do
-      %i(view_own_hourly_rate  view_own_time_entries view_own_cost_entries)
+      %i(view_own_hourly_rate view_own_time_entries view_own_cost_entries)
     end
 
     it 'shows his own costs' do

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -35,13 +36,13 @@ module API
       class TypesByProjectAPI < ::API::OpenProjectAPI
         resources :types do
           after_validation do
-            authorize_any [:view_work_packages, :manage_types], projects: @project
+            authorize_any %i[view_work_packages manage_types], projects: @project
           end
 
           get do
             types = @project.types
             TypeCollectionRepresenter.new(types,
-                                          self_link:api_v3_paths.types_by_project(@project.id),
+                                          self_link: api_v3_paths.types_by_project(@project.id),
                                           current_user: current_user)
           end
         end

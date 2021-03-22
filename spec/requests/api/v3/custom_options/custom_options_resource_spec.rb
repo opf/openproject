@@ -35,8 +35,8 @@ describe 'API v3 Custom Options resource' do
 
   let(:user) do
     FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_through_role: role)
+                      member_in_project: project,
+                      member_through_role: role)
   end
   let(:project) { FactoryBot.create(:project) }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
@@ -50,7 +50,7 @@ describe 'API v3 Custom Options resource' do
   end
   let(:custom_option) do
     FactoryBot.create(:custom_option,
-                       custom_field: custom_field)
+                      custom_field: custom_field)
   end
 
   subject(:response) { last_response }

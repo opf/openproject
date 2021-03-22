@@ -127,7 +127,7 @@ module Bim::Bcf
         if import_options[:unknown_statuses_action] == 'use_default'
           ::Status.default
         elsif import_options[:unknown_statuses_action] == 'chose' &&
-          import_options[:unknown_statuses_chose_ids].any?
+              import_options[:unknown_statuses_chose_ids].any?
           ::Status.find_by(id: import_options[:unknown_statuses_chose_ids].first)
         elsif status_name
           Status::InexistentStatus.new
@@ -138,7 +138,7 @@ module Bim::Bcf
         if import_options[:unknown_priorities_action] == 'use_default'
           # NOP The 'use_default' case gets already covered by OP.
         elsif import_options[:unknown_priorities_action] == 'chose' &&
-          import_options[:unknown_priorities_chose_ids].any?
+              import_options[:unknown_priorities_chose_ids].any?
           ::IssuePriority.find_by(id: import_options[:unknown_priorities_chose_ids].first)
         elsif priority_name
           Priority::InexistentPriority.new
@@ -151,7 +151,7 @@ module Bim::Bcf
         if import_options[:unknown_types_action] == 'use_default'
           types.default&.first
         elsif import_options[:unknown_types_action] == 'chose' &&
-          import_options[:unknown_types_chose_ids].any?
+              import_options[:unknown_types_chose_ids].any?
           types.find_by(id: import_options[:unknown_types_chose_ids].first)
         elsif type_name
           Type::InexistentType.new

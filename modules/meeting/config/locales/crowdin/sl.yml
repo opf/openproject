@@ -75,13 +75,13 @@ sl:
   permission_create_meeting_minutes: "Uredi minute"
   permission_send_meeting_minutes_notification: "Pošlji obvestilo o pregledu minut"
   permission_meetings_send_invite: "Povabite uporabnike na sestanke"
-  permission_send_meeting_agendas_icalendar: "ošlji dnevni red sestanka kot vnos v koledar"
+  permission_send_meeting_agendas_icalendar: "Pošlji dnevni red sestanka kot vnos v koledar"
   project_module_meetings: "Sestanki"
   text_duration_in_hours: "Trajanje v urah"
   text_in_hours: "v urah"
   text_meeting_agenda_for_meeting: 'dnevni red za sestanek "%{meeting}"'
   text_meeting_closing_are_you_sure: "Ali ste prepričani, da želite zapreti sestanek?"
-  text_meeting_agenda_open_are_you_sure: "To bo prepisalo vse spremembe v minutah! Ali želite nadaljevati?"
+  text_meeting_agenda_open_are_you_sure: "To bo prepisalo vse spremembe v zapisniku! Ali želite nadaljevati?"
   text_meeting_minutes_for_meeting: 'minute za sestanek "%{meeting}"'
   text_review_meeting_agenda: "%{author} je dal %{link} v pregled."
   text_review_meeting_minutes: "%{author} je dal %{link} v pregled."

@@ -2,7 +2,7 @@
  * A PortalOutlet that lets multiple components live for the lifetime of the outlet,
  * allowing faster switching and persistent data.
  */
-import {ComponentPortal} from '@angular/cdk/portal';
+import { ComponentPortal } from '@angular/cdk/portal';
 import {
   ApplicationRef,
   ComponentFactoryResolver,

@@ -38,12 +38,10 @@ module Queries
         # (de-)serialization
         def from_hash(filter_hash)
           filter_hash.keys.map do |field|
-            begin
-              create!(name, filter_hash[field])
-            rescue ::Queries::Filters::InvalidError
-              Rails.logger.error "Failed to constantize field filter #{field} from hash."
-              ::Queries::NotExistingFilter.create!(field)
-            end
+            create!(name, filter_hash[field])
+          rescue ::Queries::Filters::InvalidError
+            Rails.logger.error "Failed to constantize field filter #{field} from hash."
+            ::Queries::NotExistingFilter.create!(field)
           end
         end
       end

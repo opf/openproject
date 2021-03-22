@@ -18,15 +18,15 @@ describe 'Work Package table relations', js: true do
 
   let!(:relation) do
     FactoryBot.create(:relation,
-                       from: wp_from,
-                       to: wp_to,
-                       relation_type: Relation::TYPE_FOLLOWS)
+                      from: wp_from,
+                      to: wp_to,
+                      relation_type: Relation::TYPE_FOLLOWS)
   end
   let!(:relation2) do
     FactoryBot.create(:relation,
-                       from: wp_from,
-                       to: wp_to2,
-                       relation_type: Relation::TYPE_FOLLOWS)
+                      from: wp_from,
+                      to: wp_to2,
+                      relation_type: Relation::TYPE_FOLLOWS)
   end
   let!(:query) do
     query              = FactoryBot.build(:query, user: user, project: project)

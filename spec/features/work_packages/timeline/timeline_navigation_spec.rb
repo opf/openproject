@@ -120,7 +120,6 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
       wp_timeline.expect_work_package_listed work_package2
       wp_timeline.ensure_work_package_not_listed! work_package
 
-
       retry_block do
         find(".wp-row-#{work_package2.id}-timeline").right_click
         find('.menu-item', text: 'Add predecessor')

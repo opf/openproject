@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {StateService} from '@uirouter/core';
-import {Component, Injector, OnInit} from '@angular/core';
-import {WorkPackageViewSelectionService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service';
-import {WorkPackageSingleViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-package-single-view.base";
-import {of} from "rxjs";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { StateService } from '@uirouter/core';
+import { Component, Injector, OnInit } from '@angular/core';
+import { WorkPackageViewSelectionService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageSingleViewBase } from "core-app/modules/work_packages/routing/wp-view-base/work-package-single-view.base";
+import { of } from "rxjs";
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Component({
   templateUrl: './wp-full-view.html',

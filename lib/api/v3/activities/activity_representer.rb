@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -44,7 +45,7 @@ module API
         link :workPackage do
           {
             href: api_v3_paths.work_package(represented.journable.id),
-            title: "#{represented.journable.subject}"
+            title: represented.journable.subject.to_s
           }
         end
 

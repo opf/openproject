@@ -53,8 +53,8 @@ module OpenProject::XlsExport
 
     # Get the approximate width of a value as seen in the excel sheet
     def get_value_width(value)
-      if ['Time', 'Date'].include?(value.class.name)
-        return 18 unless value.to_s.length < 18
+      if ['Time', 'Date'].include?(value.class.name) && !(value.to_s.length < 18)
+        return 18
       end
 
       tot_w = [Float(0)]
@@ -93,7 +93,7 @@ module OpenProject::XlsExport
         value_width = get_value_width(arr_or_str[0] * 2)
         @column_widths[0] = value_width if (@column_widths[0] || 0) < value_width
       end
-      title_format = Spreadsheet::Format.new(:weight => :bold, :size => 18)
+      title_format = Spreadsheet::Format.new(weight: :bold, size: 18)
       @sheet.row(0).set_format(0, title_format)
     end
 
@@ -139,7 +139,7 @@ module OpenProject::XlsExport
       arr.each_with_index do |c, i|
         value = if %w(Time Date Fixnum Float Integer).include?(c.class.name)
                   c
-                elsif c.class == BigDecimal
+                elsif c.instance_of?(BigDecimal)
                   c.to_f
                 else
                   c.to_s.gsub("\r\n", "\n").gsub("\r", "\n")

@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {INotification, NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { INotification, NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 
 export const notificationsContainerSelector = 'notifications-container';
 

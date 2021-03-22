@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -37,52 +38,93 @@ class GroupsController < ApplicationController
   before_action :find_group, only: %i[destroy show create_memberships destroy_membership
                                       edit_membership add_users]
 
+  # GET /groups
+  # GET /groups.xml
   def index
     @groups = Group.order(Arel.sql('lastname ASC'))
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml { render xml: @groups }
+    end
   end
 
+  # GET /groups/1
+  # GET /groups/1.xml
   def show
-    @group_users = group_members
-    render layout: 'no_menu'
+    respond_to do |format|
+      format.html do
+        @group_users = group_members
+        render layout: 'no_menu'
+      end
+      format.xml { render xml: @group }
+    end
   end
 
+  # GET /groups/new
+  # GET /groups/new.xml
   def new
     @group = Group.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render xml: @group }
+    end
   end
 
+  # GET /groups/1/edit
   def edit
     @group = Group.includes(:members, :users).find(params[:id])
 
     set_filters_for_user_autocompleter
   end
 
+  # POST /groups
+  # POST /groups.xml
   def create
     @group = Group.new permitted_params.group
 
-    if @group.save
-      flash[:notice] = I18n.t(:notice_successful_create)
-      redirect_to(groups_path)
-    else
-      render action: :new
+    respond_to do |format|
+      if @group.save
+        flash[:notice] = I18n.t(:notice_successful_create)
+        format.html { redirect_to(groups_path) }
+        format.xml  { render xml: @group, status: :created, location: @group }
+      else
+        format.html { render action: :new }
+        format.xml  { render xml: @group.errors, status: :unprocessable_entity }
+      end
     end
   end
 
+  # PUT /groups/1
+  # PUT /groups/1.xml
   def update
     @group = Group.includes(:users).find(params[:id])
 
-    if @group.update(permitted_params.group)
-      flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to action: :index
-    else
-      render action: :edit
+    respond_to do |format|
+      if @group.update(permitted_params.group)
+        flash[:notice] = I18n.t(:notice_successful_update)
+        format.html { redirect_to(groups_path) }
+        format.xml  { head :ok }
+      else
+        format.html { render action: 'edit' }
+        format.xml  { render xml: @group.errors, status: :unprocessable_entity }
+      end
     end
   end
 
+  # DELETE /groups/1
+  # DELETE /groups/1.xml
   def destroy
-    @group.destroy
+    ::Principals::DeleteJob.perform_later(@group)
 
-    flash[:notice] = I18n.t(:notice_successful_delete)
-    redirect_to action: :index
+    respond_to do |format|
+      format.html do
+        flash[:info] = I18n.t(:notice_deletion_scheduled)
+        redirect_to(action: :index)
+      end
+      format.xml { head 202 }
+    end
   end
 
   def add_users
@@ -99,8 +141,8 @@ class GroupsController < ApplicationController
   end
 
   def remove_user
-    @group = Group.includes(:users).find(params[:id])
-    @group.users.delete(User.includes(:memberships).find(params[:user_id]))
+    @group = Group.includes(:group_users).find(params[:id])
+    @group.group_users.destroy(GroupUser.find_by(user_id: params[:user_id], group_id: @group.id))
 
     I18n.t :notice_successful_update
     redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users'

@@ -26,22 +26,22 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectorRef, Injector} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {OpTitleService} from 'core-components/html/op-title.service';
-import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
-import {States} from "core-components/states.service";
-import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
+import { ChangeDetectorRef, Injector } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { WorkPackageViewFocusService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { OpTitleService } from 'core-components/html/op-title.service';
+import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
+import { States } from "core-components/states.service";
+import { KeepTabService } from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
 
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {catchError, subscribeOn} from "rxjs/operators";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { catchError, subscribeOn } from "rxjs/operators";
 
 export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
@@ -87,11 +87,11 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
         this.untilDestroyed()
       )
       .subscribe((wp:WorkPackageResource) => {
-          this.workPackage = wp;
-          this.init();
-          this.cdRef.detectChanges();
-        },
-        (error) => this.notificationService.handleRawError(error)
+        this.workPackage = wp;
+        this.init();
+        this.cdRef.detectChanges();
+      },
+      (error) => this.notificationService.handleRawError(error)
       );
   }
 

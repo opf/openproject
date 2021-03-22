@@ -28,10 +28,10 @@
 
 OpenProject::Application.routes.draw do
   resources :projects, only: [] do
-    resources :documents, only: [:create, :new, :index]
+    resources :documents, only: %i[create new index]
   end
 
-  resources :documents, except: [:create, :new, :index] do
+  resources :documents, except: %i[create new index] do
     member do
       post 'add_attachment'
     end

@@ -27,12 +27,11 @@
 #++
 
 class DocumentsMailer < UserMailer
-
   def document_added(user, document)
     @document = document
 
     open_project_headers 'Project' => @document.project.identifier,
-                         'Type'    => 'Document'
+                         'Type' => 'Document'
 
     with_locale_for(user) do
       subject = "[#{@document.project.name}] #{t(:label_document_new)}: #{@document.title}"
@@ -48,5 +47,4 @@ class DocumentsMailer < UserMailer
 
     super
   end
-
 end

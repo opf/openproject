@@ -198,7 +198,7 @@ describe OpenProject::TextFormatting,
 
         let(:expected) do
           <<~EXPECTED
-            <figure class="op-uc-figure"> 
+            <figure class="op-uc-figure">#{' '}
               <div class="op-uc-figure--content">
                 <table class="op-uc-table">
                   <tbody>
@@ -302,7 +302,7 @@ describe OpenProject::TextFormatting,
 
         let(:expected) do
           <<~EXPECTED
-            <figure class="op-uc-figure"> 
+            <figure class="op-uc-figure">#{' '}
               <div class="op-uc-figure--content">
                 <table class="op-uc-table">
                   <tbody>

@@ -30,7 +30,6 @@
 
 class Queries::WorkPackages::Filter::ParentFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
-
   include ::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
 
   def relation_type

@@ -1,22 +1,22 @@
-import {Injector} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {IsolatedQuerySpace} from 'core-app/modules/work_packages/query-space/isolated-query-space';
-import {debugLog} from '../../helpers/debug_output';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {States} from '../states.service';
-import {WorkPackageTimelineTableController} from '../wp-table/timeline/container/wp-timeline-container.directive';
-import {GroupedRowsBuilder} from './builders/modes/grouped/grouped-rows-builder';
-import {HierarchyRowsBuilder} from './builders/modes/hierarchy/hierarchy-rows-builder';
-import {PlainRowsBuilder} from './builders/modes/plain/plain-rows-builder';
-import {RowsBuilder} from './builders/modes/rows-builder';
-import {PrimaryRenderPass} from './builders/primary-render-pass';
-import {WorkPackageTableEditingContext} from './wp-table-editing';
-import {WorkPackageTableRow} from './wp-table.interfaces';
-import {WorkPackageTableConfiguration} from 'core-app/components/wp-table/wp-table-configuration';
-import {RenderedWorkPackage} from 'core-app/modules/work_packages/render-info/rendered-work-package.type';
-import {InjectField} from 'core-app/helpers/angular/inject-field.decorator';
-import {APIV3Service} from 'core-app/modules/apiv3/api-v3.service';
-import {WorkPackageViewCollapsedGroupsService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
+import { Injector } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { IsolatedQuerySpace } from 'core-app/modules/work_packages/query-space/isolated-query-space';
+import { debugLog } from '../../helpers/debug_output';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { States } from '../states.service';
+import { WorkPackageTimelineTableController } from '../wp-table/timeline/container/wp-timeline-container.directive';
+import { GroupedRowsBuilder } from './builders/modes/grouped/grouped-rows-builder';
+import { HierarchyRowsBuilder } from './builders/modes/hierarchy/hierarchy-rows-builder';
+import { PlainRowsBuilder } from './builders/modes/plain/plain-rows-builder';
+import { RowsBuilder } from './builders/modes/rows-builder';
+import { PrimaryRenderPass } from './builders/primary-render-pass';
+import { WorkPackageTableEditingContext } from './wp-table-editing';
+import { WorkPackageTableRow } from './wp-table.interfaces';
+import { WorkPackageTableConfiguration } from 'core-app/components/wp-table/wp-table-configuration';
+import { RenderedWorkPackage } from 'core-app/modules/work_packages/render-info/rendered-work-package.type';
+import { InjectField } from 'core-app/helpers/angular/inject-field.decorator';
+import { APIV3Service } from 'core-app/modules/apiv3/api-v3.service';
+import { WorkPackageViewCollapsedGroupsService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 
 export class WorkPackageTable {
 
@@ -73,7 +73,7 @@ export class WorkPackageTable {
   private buildIndex(rows:WorkPackageResource[]) {
     this.originalRowIndex = {};
     this.originalRows = rows.map((wp:WorkPackageResource, i:number) => {
-      let wpId = wp.id!;
+      const wpId = wp.id!;
 
       // Ensure we get the latest version
       wp = this.apiV3Service.work_packages.cache.current(wpId, wp)!;
@@ -157,7 +157,7 @@ export class WorkPackageTable {
    * Perform the render pass
    * @param insert whether to insert the result (set to false for timeline)
    */
-  private performRenderPass(insert:boolean = true) {
+  private performRenderPass(insert = true) {
     this.editing.reset();
     const renderPass = this.lastRenderPass = this.rowBuilder.buildRows();
 

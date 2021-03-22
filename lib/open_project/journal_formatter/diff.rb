@@ -43,9 +43,11 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
   def label(key, no_html = false)
     label = super key
 
-    no_html ?
-      label :
+    if no_html
+      label
+    else
       content_tag('strong', label)
+    end
   end
 
   def render_ternary_detail_text(key, value, old_value, options)
@@ -69,7 +71,6 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
   end
 
   def link(key, options)
-
     url_attr = default_attributes(options).merge(controller: '/journals',
                                                  action: 'diff',
                                                  id: @journal.id,

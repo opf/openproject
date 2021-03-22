@@ -34,7 +34,6 @@ module API
       module Schemas
         class DateTimeFilterDependencyRepresenter <
           IntegerFilterDependencyRepresenter
-
           def type
             if operator == ::Queries::Operators::OnDateTime
               '[1]DateTime'

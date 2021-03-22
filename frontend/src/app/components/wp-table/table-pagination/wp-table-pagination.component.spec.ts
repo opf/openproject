@@ -26,22 +26,22 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
 import { inject, TestBed, waitForAsync } from '@angular/core/testing';
-import {States} from 'core-components/states.service';
-import {PaginationInstance} from 'core-components/table-pagination/pagination-instance';
-import {IPaginationOptions, PaginationService} from 'core-components/table-pagination/pagination-service';
-import {WorkPackageViewPaginationService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service';
-import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {OpenProject} from "core-app/globals/openproject";
-import {OpIcon} from "core-app/modules/common/icon/op-icon";
-import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
-import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
+import { States } from 'core-components/states.service';
+import { PaginationInstance } from 'core-components/table-pagination/pagination-instance';
+import { IPaginationOptions, PaginationService } from 'core-components/table-pagination/pagination-service';
+import { WorkPackageViewPaginationService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service';
+import { WorkPackageTablePaginationComponent } from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
+import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { OpenProject } from "core-app/globals/openproject";
+import { WorkPackageViewSortByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
+import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
+import { OpIconComponent } from "core-app/modules/common/icon/icon.component";
 
 function setupMocks(paginationService:PaginationService) {
   const options:IPaginationOptions = {
@@ -80,7 +80,7 @@ describe('wpTablePagination Directive', () => {
       ],
       declarations: [
         WorkPackageTablePaginationComponent,
-        OpIcon
+        OpIconComponent
       ],
       providers: [
         States,

@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {AbstractWorkPackageButtonComponent} from '../wp-buttons.module';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import { AbstractWorkPackageButtonComponent } from '../wp-buttons.module';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 
 import * as sfimport from "screenfull";
-import {Screenfull} from "screenfull";
+import { Screenfull } from "screenfull";
 
 const screenfull:Screenfull = sfimport as any;
 export const zenModeComponentSelector = 'zen-mode-toggle-button';
@@ -42,11 +42,11 @@ export const zenModeComponentSelector = 'zen-mode-toggle-button';
   selector: zenModeComponentSelector,
 })
 export class ZenModeButtonComponent extends AbstractWorkPackageButtonComponent {
-  public buttonId:string = 'work-packages-zen-mode-toggle-button';
-  public buttonClass:string = 'toolbar-icon';
-  public iconClass:string = 'icon-zen-mode';
+  public buttonId = 'work-packages-zen-mode-toggle-button';
+  public buttonClass = 'toolbar-icon';
+  public iconClass = 'icon-zen-mode';
 
-  static inZenMode:boolean = false;
+  static inZenMode = false;
 
   private activateLabel:string;
   private deactivateLabel:string;
@@ -57,7 +57,7 @@ export class ZenModeButtonComponent extends AbstractWorkPackageButtonComponent {
 
     this.activateLabel = I18n.t('js.zen_mode.button_activate');
     this.deactivateLabel = I18n.t('js.zen_mode.button_deactivate');
-    let self = this;
+    const self = this;
 
 
     if (screenfull.enabled) {

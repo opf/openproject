@@ -23,11 +23,14 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
   end
 
   def local_expected_user_avatar_tag(user)
-    tag_options = { 'data-user-id': user.id,
-                    'data-user-name': user.name,
-                    'data-class-list': 'avatar' }
+    tag_options = { 'data-principal-id': user.id,
+                    'data-principal-name': user.name,
+                    'data-principal-type': 'user',
+                    'data-hide-name': 'true',
+                    'data-avatar-classes': '',
+                    'data-size': 'default' }
 
-    content_tag 'user-avatar', '', tag_options
+    content_tag 'op-principal', '', tag_options
   end
 
   def local_expected_url(user)
@@ -35,25 +38,31 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
   end
 
   def default_expected_user_avatar_tag(user)
-    tag_options = { 'data-use-fallback': "true",
-                    'data-user-name': user.name,
-                    'data-class-list': 'avatar avatar-default' }
+    tag_options = { 'data-hide-name': 'true',
+                    'data-principal-id': user.id,
+                    'data-principal-name': user.name,
+                    'data-principal-type': 'user',
+                    'data-avatar-classes': '',
+                    'data-size': 'default'}
 
-    content_tag 'user-avatar', '', tag_options
+    content_tag 'op-principal', '', tag_options
   end
 
-  def gravatar_expected_user_avatar_tag(digest, options = {})
-    tag_options = { 'data-user-id': user.id,
-                    'data-user-name': user.name,
-                    'data-class-list': 'avatar avatar--gravatar-image avatar--fallback' }
+  def gravatar_expected_user_avatar_tag(_digest, _options = {})
+    tag_options = { 'data-principal-id': user.id,
+                    'data-principal-name': user.name,
+                    'data-hide-name': 'true',
+                    'data-principal-type': 'user',
+                    'data-size': 'default',
+                    'data-avatar-classes': 'avatar--gravatar-image avatar--fallback' }
 
-    content_tag 'user-avatar', '', tag_options
+    content_tag 'op-principal', '', tag_options
   end
 
   def gravatar_expected_image_tag(digest, options = {})
     tag_options = options.reverse_merge(title: user.name,
                                         alt: 'Gravatar',
-                                        class: 'avatar avatar--gravatar-image avatar--fallback').delete_if { |key, value| value.nil? || key == :ssl }
+                                        class: 'avatar--gravatar-image avatar--fallback').delete_if { |key, value| value.nil? || key == :ssl }
 
     image_tag gravatar_expected_url(digest, options), tag_options
   end

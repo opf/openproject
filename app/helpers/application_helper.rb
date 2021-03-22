@@ -127,7 +127,7 @@ module ApplicationHelper
   # Renders flash messages
   def render_flash_messages
     messages = flash
-      .reject { |k,_| k.start_with? '_' }
+      .reject { |k, _| k.start_with? '_' }
       .map { |k, v| render_flash_message(k, v) }
 
     safe_join messages, "\n"
@@ -166,7 +166,7 @@ module ApplicationHelper
       identifier = element[:project].id
       tag_options = {
         value: h(identifier),
-        title: h(element[:project].name),
+        title: h(element[:project].name)
       }
 
       if !selected.nil? && selected.id == identifier
@@ -223,13 +223,13 @@ module ApplicationHelper
   end
 
   def labeled_check_box_tags(name, collection, options = {})
-    collection.sort.map { |object|
+    collection.sort.map do |object|
       id = name.gsub(/[\[\]]+/, '_') + object.id.to_s
 
-      object_options = options.inject({}) { |h, (k, v)|
+      object_options = options.inject({}) do |h, (k, v)|
         h[k] = v.is_a?(Symbol) ? send(v, object) : v
         h
-      }
+      end
 
       object_options[:class] = Array(object_options[:class]) + %w(form--label-with-check-box)
 
@@ -238,7 +238,7 @@ module ApplicationHelper
           styled_check_box_tag(name, object.id, false, id: id) + object
         end
       end
-    }.join.html_safe
+    end.join.html_safe
   end
 
   def html_hours(text)
@@ -323,7 +323,7 @@ module ApplicationHelper
     text.to_s
       .gsub(/\r\n?/, "\n")                    # \r\n and \r -> \n
       .gsub(/\n\n+/, '<br /><br />')          # 2+ newline  -> 2 br
-      .gsub(/([^\n]\n)(?=[^\n])/, '\1<br />')  # 1 newline   -> br
+      .gsub(/([^\n]\n)(?=[^\n])/, '\1<br />') # 1 newline   -> br
       .html_safe
   end
 
@@ -415,7 +415,7 @@ module ApplicationHelper
     end
   end
 
-  def calendar_for(*args)
+  def calendar_for(*_args)
     ActiveSupport::Deprecation.warn "calendar_for has been removed. Please add the class '-augmented-datepicker' instead.", caller
   end
 

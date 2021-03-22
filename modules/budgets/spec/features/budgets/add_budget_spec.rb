@@ -55,7 +55,6 @@ describe 'adding a new budget', type: :feature, js: true do
       FactoryBot.create :cost_type, name: 'Foobar', unit: 'bar', unit_plural: 'bars'
     end
 
-
     it 'can switch between them' do
       visit projects_budgets_path(project)
 
@@ -137,14 +136,12 @@ describe 'adding a new budget', type: :feature, js: true do
         budget_page.expect_planned_costs! type: :labor, row: 1, expected: '125.002,50 EUR'
         budget_page.expect_planned_costs! type: :labor, row: 2, expected: '12,50 EUR'
 
-
         fields = page
           .all('input.budget-item-value')
           .select { |node| node.value.present? }
           .map(&:value)
 
         expect(fields).to contain_exactly '3,50', '1.000,50', '5.000,10', '0,50'
-
       end
     end
 

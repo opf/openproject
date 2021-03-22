@@ -1,4 +1,4 @@
-FROM ruby:2.7.2-buster
+FROM ruby:2.7-buster
 MAINTAINER operations@openproject.com
 
 # Allow platform-specific additions. Valid values are: on-prem,saas,bahn
@@ -9,7 +9,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 ARG PGLOADER_BINARY_DOWNLOAD_URL=https://openproject-docker-public.s3-eu-west-1.amazonaws.com/pgloader/bin/pgloader-ccl
 
-ENV NODE_VERSION="12.18.3"
+ENV NODE_VERSION="14.16.0"
 ENV BUNDLER_VERSION="2.1.4"
 ENV BUNDLE_PATH__SYSTEM=false
 ENV APP_USER=app

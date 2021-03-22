@@ -53,6 +53,7 @@ class Reports::ReportsService
 
   def initialize(project)
     raise 'You must provide a project to report upon' unless project&.is_a?(Project)
+
     @project = project
   end
 

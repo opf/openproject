@@ -122,9 +122,6 @@ ro:
         If you check this box, OpenProject will automatically create new users from their LDAP entries
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
-      onthefly_group_sync: |
-        If you enable group synchronization for this LDAP connection, users will also be automatically created
-        in OpenProject for synchronized groups. Without it, only existing accounts in OpenProject will be added to groups.
     connection_encryption: 'Connection encryption'
     system_account: 'System account'
     system_account_legend: |
@@ -243,6 +240,14 @@ ro:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Acest utilizator nu este în acest moment participant în vreun proiect.
+  placeholder_users:
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
   prioritiies:
     edit:
       priority_color_text: |
@@ -522,6 +527,7 @@ ro:
         confirmation: "nu se potrivește cu %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "nu există."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         empty: "nu poate fi gol."
@@ -724,6 +730,7 @@ ro:
       status: "Stare pachet de lucru"
       member: "Membru"
       news: "Noutăţi"
+      placeholder_user: "Placeholder user"
       project: "Proiect"
       query: "Interogare personalizată"
       role:
@@ -774,7 +781,7 @@ ro:
     firstname: "Prenume"
     group: "Grup"
     groups: "Grupuri"
-    groupname: "Nume grup"
+    name: "Nume"
     id: "ID"
     is_default: "Valoare implicită"
     is_for_all: "Pentru toate proiectele"
@@ -784,7 +791,6 @@ ro:
     lastname: "Nume"
     login: "Username"
     mail: "E-mail"
-    name: "Nume"
     password: "Parolă"
     priority: "Prioritate"
     project: "Proiect"
@@ -1348,6 +1354,7 @@ ro:
   label_custom_field_plural: "Câmpuri personalizate"
   label_custom_field_default_type: "Golire tip"
   label_custom_style: "Design"
+  label_database_version: "PostgreSQL version"
   label_date: "Dată"
   label_date_and_time: "Date and time"
   label_date_from: "Din"
@@ -1506,6 +1513,7 @@ ro:
   label_my_account_data: "Datele din contul meu"
   label_my_projects: "Proiectele mele"
   label_my_queries: "Interogările mele"
+  label_name: "Nume"
   label_never: "Niciodată"
   label_new: "Nou"
   label_new_features: "New features"
@@ -1555,6 +1563,9 @@ ro:
   label_permissions: "Drepturi"
   label_permissions_report: "Raport drepturi"
   label_personalize_page: "Personalizare pagină"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
   label_planning: "Planificare"
   label_please_login: "Vă rugăm să vă autentificați"
   label_plugins: "Module"
@@ -1867,6 +1878,7 @@ ro:
   notice_email_sent: "A fost trimis un e-mail la %{value}"
   notice_failed_to_save_work_packages: "Nu au putut fi salvate %{count} pachete de lucru din %{total} selectate: %{ids}."
   notice_failed_to_save_members: "Nu au putut fi salvați membrii: %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_file_not_found: "Pagina pe care doriți să o accesați nu există sau a fost ștearsă."
   notice_forced_logout: "Ați fost deconectat automat după %{ttl_time} minute fără activitate."
   notice_internal_server_error: "A apărut o eroare pe pagina pe care aţi încercat să o accesaţi. Dacă veţi continua să experimentați probleme vă rugăm să contactaţi administratorul %{app_title} pentru asistenţă."
@@ -1931,6 +1943,8 @@ ro:
   permission_add_work_packages: "Adăugare pachete de lucru"
   permission_add_messages: "Publicare mesaje"
   permission_add_project: "Creare proiect"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
   permission_add_subprojects: "Creare subproiecte"
   permission_add_work_package_watchers: "Adăugare observatori"
   permission_assign_versions: "Assign versions"

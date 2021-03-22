@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -36,7 +37,7 @@ describe CustomFieldFormBuilder do
   let(:builder) { described_class.new(:user, resource, helper, {}) }
 
   describe '#custom_field' do
-    let(:options) { {class: 'custom-class'} }
+    let(:options) { { class: 'custom-class' } }
 
     let(:custom_field) do
       FactoryBot.build_stubbed(:custom_field)

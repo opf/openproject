@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from '@angular/core';
-import {AbstractFieldService, IFieldType} from "core-app/modules/fields/field.service";
-import {EditFieldComponent} from "core-app/modules/fields/edit/edit-field.component";
+import { Injectable } from '@angular/core';
+import { AbstractFieldService, IFieldType } from "core-app/modules/fields/field.service";
+import { EditFieldComponent } from "core-app/modules/fields/edit/edit-field.component";
 
 export interface IEditFieldType extends IFieldType<EditFieldComponent> {
   new():EditFieldComponent;

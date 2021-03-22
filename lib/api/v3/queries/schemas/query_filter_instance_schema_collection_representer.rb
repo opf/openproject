@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -33,7 +34,6 @@ module API
       module Schemas
         class QueryFilterInstanceSchemaCollectionRepresenter <
           ::API::V3::Schemas::SchemaCollectionRepresenter
-          element_decorator ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter
 
           def model_self_link(model)
             converted_name = API::Utilities::PropertyNameConverter.from_ar_name(model.name)

@@ -324,7 +324,6 @@ describe 'API v3 Work package resource',
             FactoryBot.create(:work_package,
                               project_id: project.id,
                               description: 'lorem ipsum').tap do |wp|
-
               FactoryBot.create(:relation, relates: 1, from: wp, to: directly_related_wp)
               FactoryBot.create(:relation, relates: 1, from: directly_related_wp, to: transitively_related_wp)
             end
@@ -652,7 +651,7 @@ describe 'API v3 Work package resource',
 
         context 'valid type changing custom fields' do
           let(:custom_field) { FactoryBot.create(:work_package_custom_field) }
-          let(:custom_field_parameter) { { :"customField#{custom_field.id}" => true } }
+          let(:custom_field_parameter) { { "customField#{custom_field.id}": true } }
           let(:params) { valid_params.merge(type_parameter).merge(custom_field_parameter) }
 
           before do
@@ -731,7 +730,7 @@ describe 'API v3 Work package resource',
 
         context 'with a custom field defined on the target project' do
           let(:custom_field) { FactoryBot.create(:work_package_custom_field) }
-          let(:custom_field_parameter) { { :"customField#{custom_field.id}" => true } }
+          let(:custom_field_parameter) { { "customField#{custom_field.id}": true } }
           let(:params) { valid_params.merge(project_parameter).merge(custom_field_parameter) }
 
           before do
@@ -796,7 +795,7 @@ describe 'API v3 Work package resource',
 
           describe 'valid' do
             shared_examples_for 'valid user assignment' do
-              let(:title) { "#{assigned_user.name}".to_json }
+              let(:title) { assigned_user.name.to_s.to_json }
 
               it { expect(response.status).to eq(200) }
 

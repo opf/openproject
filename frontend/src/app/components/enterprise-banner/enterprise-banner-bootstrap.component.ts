@@ -1,5 +1,5 @@
-import {Component, ElementRef, OnInit} from "@angular/core";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { Component, ElementRef, OnInit } from "@angular/core";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 export const enterpriseBannerSelector = 'enterprise-banner-bootstrap';
 
@@ -23,7 +23,7 @@ export class EnterpriseBannerBootstrapComponent implements OnInit {
   }
 
   ngOnInit() {
-    let $element = jQuery(this.elementRef.nativeElement);
+    const $element = jQuery(this.elementRef.nativeElement);
 
     this.textMessage = $element.attr('text-message')!;
     this.linkMessage = $element.attr('link-message') || this.i18n.t('js.work_packages.table_configuration.upsale.check_out_link');

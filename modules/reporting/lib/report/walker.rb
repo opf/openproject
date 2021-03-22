@@ -28,6 +28,7 @@
 
 class Report::Walker
   attr_accessor :query, :header_stack
+
   def initialize(query)
     @query = query
   end
@@ -68,6 +69,7 @@ class Report::Walker
     sublevel   = 0
     result.recursive_each_with_level(0, false) do |level, result|
       break if result.final_column?
+
       if first_in_col = (last_level < level)
         list        = []
         last_level  = level
@@ -86,6 +88,7 @@ class Report::Walker
 
   def reverse_headers
     fail 'call header first' unless @header_stack
+
     first = true
     @header_stack.reverse_each do |list|
       list.each do |result, first_in_col, last_in_col|
@@ -97,6 +100,7 @@ class Report::Walker
 
   def headers_empty?
     fail 'call header first' unless @header_stack
+
     @header_stack.empty?
   end
 
@@ -109,8 +113,9 @@ class Report::Walker
     result.sort!
   end
 
-  def body(result = nil)
-    return [*body(result)].each { |a| yield a } if block_given?
+  def body(result = nil, &block)
+    return [*body(result)].each(&block) if block_given?
+
     result ||= query.result.tap { |r| sort(r) }
     if result.row?
       if result.final_row?

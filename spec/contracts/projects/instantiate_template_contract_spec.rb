@@ -28,14 +28,17 @@
 
 require 'spec_helper'
 require_relative './shared_contract_examples'
+require 'contracts/shared/model_contract_shared_context'
 
 describe Projects::InstantiateTemplateContract do
+  include_context 'ModelContract shared context'
+
   let(:user) { FactoryBot.build_stubbed :user }
   let(:project) { Project.new name: 'Foo Bar', identifier: 'foo' }
   let(:template) { FactoryBot.build_stubbed :project }
   let(:options) { { template_project_id: template.id } }
 
-  subject { described_class.new(project, user, options: options) }
+  let(:contract) { described_class.new(project, user, options: options) }
 
   before do
     allow(user)
@@ -52,19 +55,13 @@ describe Projects::InstantiateTemplateContract do
     let(:allowed_to_copy) { true }
     let(:allowed_to_add) { true }
 
-    it 'validates the contract' do
-      expect(subject.validate).to eq true
-      expect(subject.errors).to be_empty
-    end
+    it_behaves_like 'contract is valid'
 
     context 'but may not add projects' do
       let(:allowed_to_copy) { true }
       let(:allowed_to_add) { false }
 
-      it 'fails the parent contract' do
-        expect(subject.validate).to eq false
-        expect(subject.errors[:base]).to include 'may not be accessed.'
-      end
+      it_behaves_like 'contract is invalid', base: :error_unauthorized
     end
   end
 
@@ -72,9 +69,6 @@ describe Projects::InstantiateTemplateContract do
     let(:allowed_to_copy) { false }
     let(:allowed_to_add) { true }
 
-    it 'fails the contract' do
-      expect(subject.validate).to eq false
-      expect(subject.errors[:base]).to include 'may not be accessed.'
-    end
+    it_behaves_like 'contract is invalid', base: :error_unauthorized
   end
 end

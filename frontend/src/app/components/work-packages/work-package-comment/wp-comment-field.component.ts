@@ -26,19 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {Component, OnInit} from "@angular/core";
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { Component, OnInit } from "@angular/core";
 import {
   FormattableEditFieldComponent,
   formattableFieldTemplate
 } from "core-app/modules/fields/edit/field-types/formattable-edit-field.component";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 @Component({
   template: formattableFieldTemplate
 })
 export class WorkPackageCommentFieldComponent extends FormattableEditFieldComponent implements OnInit {
-  public isBusy:boolean = false;
+  public isBusy = false;
   public name = 'comment';
 
   @InjectField() public ConfigurationService:ConfigurationService;

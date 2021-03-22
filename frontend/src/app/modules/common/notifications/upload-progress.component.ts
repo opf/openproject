@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {UploadFile, UploadHttpEvent, UploadInProgress} from "core-components/api/op-file-upload/op-file-upload.service";
-import {HttpErrorResponse, HttpEventType, HttpProgressEvent} from "@angular/common/http";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {debugLog} from "core-app/helpers/debug_output";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { UploadFile, UploadHttpEvent, UploadInProgress } from "core-components/api/op-file-upload/op-file-upload.service";
+import { HttpErrorResponse, HttpEventType, HttpProgressEvent } from "@angular/common/http";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { debugLog } from "core-app/helpers/debug_output";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Component({
   selector: 'notifications-upload-progress',
@@ -58,7 +58,7 @@ export class UploadProgressComponent extends UntilDestroyedMixin implements OnIn
   progressPercentage:ElementRef;
 
   public file:UploadFile;
-  public error:boolean = false;
+  public error = false;
   public completed = false;
 
   set value(value:number) {
@@ -85,22 +85,22 @@ export class UploadProgressComponent extends UntilDestroyedMixin implements OnIn
       .subscribe(
         (evt:UploadHttpEvent) => {
           switch (evt.type) {
-            case HttpEventType.Sent:
-              this.value = 5;
-              return debugLog(`Uploading file "${this.file.name}" of size ${this.file.size}.`);
+          case HttpEventType.Sent:
+            this.value = 5;
+            return debugLog(`Uploading file "${this.file.name}" of size ${this.file.size}.`);
 
-            case HttpEventType.UploadProgress:
-              return this.updateProgress(evt);
+          case HttpEventType.UploadProgress:
+            return this.updateProgress(evt);
 
-            case HttpEventType.Response:
-              debugLog(`File ${this.fileName} was fully uploaded.`);
-              this.value = 100;
-              this.completed = true;
-              return this.onSuccess.emit();
+          case HttpEventType.Response:
+            debugLog(`File ${this.fileName} was fully uploaded.`);
+            this.value = 100;
+            this.completed = true;
+            return this.onSuccess.emit();
 
-            default:
-              // Sent or unknown event
-              return;
+          default:
+            // Sent or unknown event
+            return;
           }
         },
         (error:HttpErrorResponse) => this.handleError(error)

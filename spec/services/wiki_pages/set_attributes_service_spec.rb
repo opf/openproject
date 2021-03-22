@@ -37,7 +37,7 @@ describe WikiPages::SetAttributesService, type: :model do
 
     allow(contract)
       .to receive(:new)
-      .with(wiki_page, user, options: { changed_by_system: [] })
+      .with(wiki_page, user, options: {})
       .and_return(contract_instance)
 
     contract
@@ -104,6 +104,26 @@ describe WikiPages::SetAttributesService, type: :model do
           .not_to receive(:save)
 
         subject
+      end
+    end
+
+    context 'for a new wiki page' do
+      let(:wiki_page) do
+        WikiPage.new
+      end
+
+      it 'initializes the content with the user being the author' do
+        subject
+
+        expect(wiki_page.content.author)
+          .to eql user
+      end
+
+      it 'marks the content author to be system changed' do
+        subject
+
+        expect(wiki_page.content.changed_by_system['author_id'])
+          .to eql [nil, user.id]
       end
     end
   end

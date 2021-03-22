@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {UserResource} from 'core-app/modules/hal/resources/user-resource';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {RootResource} from 'core-app/modules/hal/resources/root-resource';
-import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { UserResource } from 'core-app/modules/hal/resources/user-resource';
+import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
+import { RootResource } from 'core-app/modules/hal/resources/root-resource';
+import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -42,14 +42,14 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {NgSelectComponent} from "@ng-select/ng-select";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {CurrentUserService} from "core-components/user/current-user.service";
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { AngularTrackingHelpers } from 'core-components/angular/tracking-functions';
+import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { HalResourceSortingService } from "core-app/modules/hal/services/hal-resource-sorting.service";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { NgSelectComponent } from "@ng-select/ng-select";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { CurrentUserService } from "core-components/user/current-user.service";
 
 @Component({
   selector: 'filter-toggled-multiselect-value',
@@ -57,7 +57,7 @@ import {CurrentUserService} from "core-components/user/current-user.service";
   templateUrl: './filter-toggled-multiselect-value.component.html'
 })
 export class FilterToggledMultiselectValueComponent implements OnInit, AfterViewInit {
-  @Input() public shouldFocus:boolean = false;
+  @Input() public shouldFocus = false;
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
 
@@ -125,7 +125,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
   }
 
   private get isUserResource() {
-    let type = _.get(this.filter.currentSchema, 'values.type', null);
+    const type = _.get(this.filter.currentSchema, 'values.type', null);
     return type && type.indexOf('User') > 0;
   }
 
@@ -138,8 +138,8 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
   }
 
   private loadAllowedValues() {
-    let valuesSchema = this.filter.currentSchema!.values!;
-    let loadingPromises = [(valuesSchema.allowedValues as any).$load()];
+    const valuesSchema = this.filter.currentSchema!.values!;
+    const loadingPromises = [(valuesSchema.allowedValues as any).$load()];
 
     // If it is a User resource, we want to have the 'me' option.
     // We therefore fetch the current user from the api and copy
@@ -152,7 +152,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
 
     Promise.all(loadingPromises)
       .then(((resources:Array<HalResource>) => {
-        let options = (resources[0] as CollectionResource).elements;
+        const options = (resources[0] as CollectionResource).elements;
 
         this.availableOptions = options;
 
@@ -167,7 +167,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
       return;
     }
 
-    let me:HalResource = this.halResourceService.createHalResource(
+    const me:HalResource = this.halResourceService.createHalResource(
       {
         _links: {
           self: {

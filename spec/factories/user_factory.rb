@@ -35,6 +35,10 @@ FactoryBot.define do
     password { 'adminADMIN!' }
     password_confirmation { 'adminADMIN!' }
 
+    transient do
+      preferences { {} }
+    end
+
     mail_notification { OpenProject::VERSION::MAJOR > 0 ? 'all' : true }
 
     language { 'en' }
@@ -42,11 +46,21 @@ FactoryBot.define do
     admin { false }
     first_login { false if User.table_exists? and User.columns.map(&:name).include? 'first_login' }
 
+    callback(:after_build) do |user, evaluator|
+      evaluator.preferences.each do |key, val|
+        user.pref[key] = val
+      end
+    end
+
+    callback(:after_create) do |user, evaluator|
+      user.pref.save unless evaluator.preferences&.empty?
+    end
+
     factory :admin do
       firstname { 'OpenProject' }
-      sequence(:lastname) do |n| "Admin#{n}" end
-      sequence(:login) do |n| "admin#{n}" end
-      sequence(:mail) do |n| "admin#{n}@example.com" end
+      sequence(:lastname) { |n| "Admin#{n}" }
+      sequence(:login) { |n| "admin#{n}" }
+      sequence(:mail) { |n| "admin#{n}@example.com" }
       admin { true }
       first_login { false if User.table_exists? and User.columns.map(&:name).include? 'first_login' }
     end
@@ -56,10 +70,10 @@ FactoryBot.define do
     factory :locked_user do
       firstname { 'Locked' }
       lastname { 'User' }
-      sequence(:login) do |n| "bob#{n}" end
-      sequence(:mail) do |n| "bob#{n}.bobbit@bob.com" end
+      sequence(:login) { |n| "bob#{n}" }
+      sequence(:mail) { |n| "bob#{n}.bobbit@bob.com" }
       password { 'adminADMIN!' }
-      password_confirmation { 'adminADMIN!'}
+      password_confirmation { 'adminADMIN!' }
       status { User.statuses[:locked] }
     end
 

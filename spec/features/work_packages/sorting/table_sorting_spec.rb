@@ -45,11 +45,11 @@ describe 'Select work package row', type: :feature, js: true do
 
     let(:version_1) do
       FactoryBot.create(:version, project: project,
-                                   name: 'aaa_version')
+                                  name: 'aaa_version')
     end
     let(:version_2) do
       FactoryBot.create(:version, project: project,
-                                   name: 'zzz_version')
+                                  name: 'zzz_version')
     end
     let(:columns) { ::Components::WorkPackages::Columns.new }
     let(:sort_by) { ::Components::WorkPackages::SortBy.new }
@@ -107,32 +107,32 @@ describe 'Select work package row', type: :feature, js: true do
 
     let(:parent) do
       FactoryBot.create :work_package,
-                         project: project
+                        project: project
     end
     let(:child1) do
       FactoryBot.create :work_package,
-                         project: project,
-                         parent: parent
+                        project: project,
+                        parent: parent
     end
     let(:child2) do
       FactoryBot.create :work_package,
-                         project: project,
-                         parent: parent
+                        project: project,
+                        parent: parent
     end
     let(:grand_child1) do
       FactoryBot.create :work_package,
-                         project: project,
-                         parent: child1
+                        project: project,
+                        parent: child1
     end
     let(:grand_child2) do
       FactoryBot.create :work_package,
-                         project: project,
-                         parent: child2
+                        project: project,
+                        parent: child2
     end
     let(:grand_child3) do
       FactoryBot.create :work_package,
-                         project: project,
-                         parent: child1
+                        project: project,
+                        parent: child1
     end
 
     before do

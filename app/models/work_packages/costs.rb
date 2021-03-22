@@ -49,10 +49,8 @@ module WorkPackages::Costs
     end
 
     def validate_budget
-      if budget_id_changed?
-        unless budget_id.blank? || project.budget_ids.include?(budget_id)
-          errors.add :budget, :inclusion
-        end
+      if budget_id_changed? && !(budget_id.blank? || project.budget_ids.include?(budget_id))
+        errors.add :budget, :inclusion
       end
     end
 

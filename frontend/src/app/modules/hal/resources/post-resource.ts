@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {Attachable} from 'core-app/modules/hal/resources/mixins/attachable-mixin';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { Attachable } from 'core-app/modules/hal/resources/mixins/attachable-mixin';
 
 export interface PostResourceLinks {
   addAttachment(attachment:HalResource):Promise<any>;
@@ -41,5 +41,4 @@ class PostBaseResource extends HalResource {
 
 export const PostResource = Attachable(PostBaseResource);
 
-export interface PostResource extends PostResourceLinks {
-}
+export type PostResource = PostResourceLinks;

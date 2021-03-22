@@ -33,9 +33,9 @@ describe 'API v3 Cost Type resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) {
+  let(:current_user) do
     FactoryBot.create(:user, member_in_project: project, member_through_role: role)
-  }
+  end
   let(:role) { FactoryBot.create(:role, permissions: [:view_cost_entries]) }
   let(:project) { FactoryBot.create(:project) }
   subject(:response) { last_response }

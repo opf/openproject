@@ -25,12 +25,12 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import {Component, Input, OnInit} from "@angular/core";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import { Component, Input, OnInit } from "@angular/core";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { Highlighting } from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 
 
 @Component({

@@ -373,7 +373,9 @@ describe MailHandler, type: :model do
   it 'should email with long subject line' do
     issue = submit_email('ticket_with_long_subject.eml')
     assert issue.is_a?(WorkPackage)
-    assert_equal issue.subject, 'New ticket on a given project with a very long subject line which exceeds 255 chars and should not be ignored but chopped off. And if the subject line is still not long enough, we just add more text. And more text. Wow, this is really annoying. Especially, if you have nothing to say...'[0, 255]
+    assert_equal issue.subject,
+                 'New ticket on a given project with a very long subject line which exceeds 255 chars and should not be ignored but chopped off. And if the subject line is still not long enough, we just add more text. And more text. Wow, this is really annoying. Especially, if you have nothing to say...'[
+0, 255]
   end
 
   it 'should new user from attributes should return valid user' do
@@ -383,8 +385,12 @@ describe MailHandler, type: :model do
       ['jsmith@example.net', 'John'] => ['jsmith@example.net', 'John', '-'],
       ['jsmith@example.net', 'John Smith'] => ['jsmith@example.net', 'John', 'Smith'],
       ['jsmith@example.net', 'John Paul Smith'] => ['jsmith@example.net', 'John', 'Paul Smith'],
-      ['jsmith@example.net', 'AVeryLongFirstnameThatNoLongerExceedsTheMaximumLength Smith'] => ['jsmith@example.net', 'AVeryLongFirstnameThatNoLongerExceedsTheMaximumLength', 'Smith'],
-      ['jsmith@example.net', 'John AVeryLongLastnameThatNoLongerExceedsTheMaximumLength'] => ['jsmith@example.net', 'John', 'AVeryLongLastnameThatNoLongerExceedsTheMaximumLength']
+      ['jsmith@example.net',
+       'AVeryLongFirstnameThatNoLongerExceedsTheMaximumLength Smith'] => ['jsmith@example.net',
+                                                                          'AVeryLongFirstnameThatNoLongerExceedsTheMaximumLength', 'Smith'],
+      ['jsmith@example.net',
+       'John AVeryLongLastnameThatNoLongerExceedsTheMaximumLength'] => ['jsmith@example.net', 'John',
+                                                                        'AVeryLongLastnameThatNoLongerExceedsTheMaximumLength']
     }
 
     to_test.each do |attrs, expected|

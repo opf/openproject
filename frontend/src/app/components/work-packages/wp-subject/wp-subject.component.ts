@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, OnInit} from '@angular/core';
-import {UIRouterGlobals} from '@uirouter/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {randomString} from "core-app/helpers/random-string";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { Component, Input, OnInit } from '@angular/core';
+import { UIRouterGlobals } from '@uirouter/core';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { randomString } from "core-app/helpers/random-string";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'wp-subject',

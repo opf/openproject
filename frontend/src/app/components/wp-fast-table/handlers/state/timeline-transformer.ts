@@ -1,10 +1,10 @@
-import {Injector} from '@angular/core';
-import {takeUntil} from 'rxjs/operators';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import {WorkPackageTimelineState} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-timeline";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { Injector } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
+import { WorkPackageTable } from '../../wp-fast-table';
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { WorkPackageViewTimelineService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import { WorkPackageTimelineState } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-timeline";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export class TimelineTransformer {
 

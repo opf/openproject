@@ -26,11 +26,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-
 require 'spec_helper'
 require File.dirname(__FILE__) + '/../shared_examples'
 
-describe ExportCardConfigurationsController, :type => :controller do
+describe ExportCardConfigurationsController, type: :controller do
   before do
     allow(@controller).to receive(:require_admin) { true }
 
@@ -47,38 +46,44 @@ describe ExportCardConfigurationsController, :type => :controller do
   describe 'Create' do
     context 'with all the values set' do
       it_behaves_like "should let you create a configuration" do
-        let(:params) { { :export_card_configuration => { name: "Config 1",
-                                                      description: "This is a description",
-                                                      rows: @valid_rows_yaml,
-                                                      per_page: 5,
-                                                      page_size: "A4",
-                                                      orientation: "landscape" } } }
+        let(:params) do
+          { export_card_configuration: { name: "Config 1",
+                                         description: "This is a description",
+                                         rows: @valid_rows_yaml,
+                                         per_page: 5,
+                                         page_size: "A4",
+                                         orientation: "landscape" } }
+        end
       end
     end
 
     context 'with missing data' do
       it_behaves_like "should not let you create a configuration" do
-        let(:params) { { :export_card_configuration => { name: "Config 1" } } }
+        let(:params) { { export_card_configuration: { name: "Config 1" } } }
       end
     end
 
     context 'with invalid data' do
       it_behaves_like "should not let you create a configuration" do
-        let(:params) { { :export_card_configuration => { name: "Config 1",
-                                                     rows: @invalid_rows_yaml,
-                                                     per_page: 0,
-                                                     page_size: "invalid",
-                                                     orientation: "invalid" } } }
+        let(:params) do
+          { export_card_configuration: { name: "Config 1",
+                                         rows: @invalid_rows_yaml,
+                                         per_page: 0,
+                                         page_size: "invalid",
+                                         orientation: "invalid" } }
+        end
       end
     end
 
     context 'with invalid data format' do
       it_behaves_like "should not let you create a configuration" do
-        let(:params) { { :export_card_configuration => { name: "Config 1",
-                                                     rows: @invalid_property_value_format,
-                                                     per_page: 1,
-                                                     page_size: "A4",
-                                                     orientation: "landscape" } } }
+        let(:params) do
+          { export_card_configuration: { name: "Config 1",
+                                         rows: @invalid_property_value_format,
+                                         per_page: 1,
+                                         page_size: "A4",
+                                         orientation: "landscape" } }
+        end
       end
     end
   end
@@ -89,7 +94,7 @@ describe ExportCardConfigurationsController, :type => :controller do
       @params[:export_card_configuration] = { per_page: 4 }
       put 'update', params: @params
 
-      expect(response).to redirect_to :action => 'index'
+      expect(response).to redirect_to action: 'index'
       expect(flash[:notice]).to eql(I18n.t(:notice_successful_update))
     end
 
@@ -103,7 +108,7 @@ describe ExportCardConfigurationsController, :type => :controller do
 
     it 'should not let you update a configuration with invalid page_size' do
       @params[:id] = @custom_config.id
-      @params[:export_card_configuration] = { page_size: "invalid"}
+      @params[:export_card_configuration] = { page_size: "invalid" }
       put 'update', params: @params
 
       expect(response).to render_template('edit')
@@ -119,7 +124,7 @@ describe ExportCardConfigurationsController, :type => :controller do
 
     it 'should not let you update a configuration with invalid rows yaml' do
       @params[:id] = @custom_config.id
-      @params[:export_card_configuration] = { rows: "asdf ',#\""}
+      @params[:export_card_configuration] = { rows: "asdf ',#\"" }
       put 'update', params: @params
 
       expect(response).to render_template('edit')
@@ -131,7 +136,7 @@ describe ExportCardConfigurationsController, :type => :controller do
       @params[:id] = @custom_config.id
       delete 'destroy', params: @params
 
-      expect(response).to redirect_to :action => 'index'
+      expect(response).to redirect_to action: 'index'
       expect(flash[:notice]).to eql(I18n.t(:notice_successful_delete))
     end
 
@@ -139,7 +144,7 @@ describe ExportCardConfigurationsController, :type => :controller do
       @params[:id] = @default_config.id
       delete 'destroy', params: @params
 
-      expect(response).to redirect_to :action => 'index'
+      expect(response).to redirect_to action: 'index'
       expect(flash[:notice]).to eql(I18n.t(:error_can_not_delete_export_card_configuration))
     end
   end
@@ -149,7 +154,7 @@ describe ExportCardConfigurationsController, :type => :controller do
       @params[:id] = @inactive_config.id
       post 'activate', params: @params
 
-      expect(response).to redirect_to :action => 'index'
+      expect(response).to redirect_to action: 'index'
       expect(flash[:notice]).to eql(I18n.t(:notice_export_card_configuration_activated))
     end
   end
@@ -159,7 +164,7 @@ describe ExportCardConfigurationsController, :type => :controller do
       @params[:id] = @active_config.id
       post 'deactivate', params: @params
 
-      expect(response).to redirect_to :action => 'index'
+      expect(response).to redirect_to action: 'index'
       expect(flash[:notice]).to eql(I18n.t(:notice_export_card_configuration_deactivated))
     end
 
@@ -167,7 +172,7 @@ describe ExportCardConfigurationsController, :type => :controller do
       @params[:id] = @default_config.id
       post 'deactivate', params: @params
 
-      expect(response).to redirect_to :action => 'index'
+      expect(response).to redirect_to action: 'index'
       expect(flash[:notice]).to eql(I18n.t(:error_can_not_deactivate_export_card_configuration))
     end
   end

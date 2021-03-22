@@ -52,7 +52,6 @@ describe 'custom fields', js: true do
       type.custom_fields << cf
       type.save!
 
-
       wp_page.visit!
       wp_editor = TextEditorField.new(page, 'description', selector: ".inline-edit--container.customField#{cf.id}")
       wp_editor.expect_active!

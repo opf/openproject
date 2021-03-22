@@ -320,7 +320,7 @@ Deletes the membership.
                 "message": "The requested resource could not be found."
             }
 
-## List memberships [/api/v3/memberships{?filters}]
+## List memberships [/api/v3/memberships{?filters,sortBy}]
 
 + Model
     + Body
@@ -413,6 +413,15 @@ Returns a collection of memberships. The client can choose to filter the members
       + status: filters memberships based on the status of the principal.
       + created_at: filters memberships based on the time the membership was created.
       + updated_at: filters memberships based on the time the membership was updated last.
+
+    + sortBy = ["id", "asc"] (optional, string, `[["id", "asc"]]`) ... JSON specifying sort criteria.
+    Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported sorts are:
+      + id: Sort by primary key
+      + name: Sort by the name of the principal. Note that this depends on the setting for how the name is to be displayed at least for users.
+      + email: Sort by the email address of the principal. Groups and principal users, which do not have an email, are sorted last.
+      + status: Sort by the status of the principal. Groups and principal users, which do not have a status, are sorted together with the active users.
+      + created_at: Sort by membership creation datetime
+      + updated_at: Sort by the time the membership was updated last
 
 + Response 200 (application/hal+json)
 

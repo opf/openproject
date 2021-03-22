@@ -37,7 +37,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= render partial: 'users/form/basic_attributes', locals: { f: f } %>
 
   <% if current_user.admin? %>
-    <%= render partial: 'users/form/auth_source', locals: { f: f } %>
+    <%= render partial: 'users/form/authentication/auth_source', locals: { f: f } %>
     <%= render partial: 'users/form/admin_flag', locals: { f: f } %>
   <% end %>
 

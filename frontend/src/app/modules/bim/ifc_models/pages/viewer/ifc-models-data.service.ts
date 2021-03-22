@@ -1,7 +1,7 @@
-import {Injectable} from "@angular/core";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {GonService} from "core-app/modules/common/gon/gon.service";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
+import { Injectable } from "@angular/core";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { GonService } from "core-app/modules/common/gon/gon.service";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
 
 export interface IFCPermissionMap {
   manage_ifc_models:boolean;

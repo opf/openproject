@@ -20,8 +20,8 @@ sl:
         ifc_models: 'model IFC'
       views:
         viewer: 'Preglednik'
-        split: 'Viewer and table'
+        split: 'Pregledovalnik in tabele'
         split_cards: 'Preglednik in kartice '
     revit:
-      revit_add_in: "Revit Add-In"
-      revit_add_in_settings: "Revit Add-In settings"
+      revit_add_in: "Revit dodatek"
+      revit_add_in_settings: "Revit dodatek nastavitve"
