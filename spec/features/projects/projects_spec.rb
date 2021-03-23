@@ -200,7 +200,7 @@ describe 'Projects', type: :feature do
 
       click_on 'Advanced settings'
 
-      within('#advanced-settings') do
+      within('#advanced-project-settings') do
         expect(page).to have_content 'Optional Foo'
         expect(page).not_to have_content 'Required Foo'
       end

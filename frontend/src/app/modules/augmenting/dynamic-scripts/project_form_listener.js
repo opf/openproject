@@ -106,7 +106,7 @@
     function observeTemplateChanges() {
       jQuery('#project-select-template').on('change', function() {
         const name = document.getElementById('project_name');
-        const fieldset = document.getElementById('advanced-settings');
+        const fieldset = document.getElementById('advanced-project-settings');
 
         // When the advanced settings were opened once, we assume they were changed
         // and show an alert before switching the template
@@ -127,7 +127,7 @@
     }
 
     function expandAdvancedOnParams() {
-      const fieldset = document.getElementById('advanced-settings');
+      const fieldset = document.getElementById('advanced-project-settings');
       let params = new URLSearchParams(location.search);
 
       if (params.has('parent_id')) {
