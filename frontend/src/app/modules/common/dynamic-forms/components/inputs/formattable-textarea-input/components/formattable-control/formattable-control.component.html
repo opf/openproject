@@ -1,0 +1,20 @@
+<wp-replacement-label></wp-replacement-label>
+
+<div class="textarea-wrapper">
+  <div class="op-ckeditor--wrapper op-ckeditor-element">
+    <op-ckeditor [context]="ckEditorContext"
+                 [content]="value?.raw"
+                 (onContentChange)="onContentChange($event)"
+                 (onInitializationFailed)="initializationError = true"
+                 (onInitialized)="onCkeditorSetup($event)"
+                 [ckEditorType]="templateOptions.editorType">
+    </op-ckeditor>
+  </div>
+  <!--<edit-field-controls *ngIf="!(handler.inEditMode || initializationError)"
+                       [fieldController]="field"
+                       (onSave)="handleUserSubmit()"
+                       (onCancel)="handler.handleUserCancel()"
+                       [saveTitle]="text.save"
+                       [cancelTitle]="text.cancel">
+  </edit-field-controls>-->
+</div>
