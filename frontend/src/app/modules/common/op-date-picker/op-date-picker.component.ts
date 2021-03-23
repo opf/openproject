@@ -27,7 +27,6 @@
 //++
 
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
-import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
 import { TimezoneService } from 'core-components/datetime/timezone.service';
 import { DatePicker } from "core-app/modules/common/op-date-picker/datepicker";
 import { DebouncedEventEmitter } from "core-components/angular/debounced-event-emitter";
@@ -59,9 +58,7 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
 
   protected datePickerInstance:DatePicker;
 
-  public constructor(private elementRef:ElementRef,
-                     private ConfigurationService:ConfigurationService,
-                     private timezoneService:TimezoneService) {
+  public constructor(protected timezoneService:TimezoneService) {
     super();
 
     if (!this.id) {
