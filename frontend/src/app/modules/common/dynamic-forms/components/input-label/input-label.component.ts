@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { FormlyFieldConfig } from "@ngx-formly/core";
 
 @Component({
   selector: 'op-input-label',
@@ -7,8 +8,5 @@ import { Component, Input } from '@angular/core';
 })
 export class InputLabelComponent {
   @Input()
-  text:string;
-
-  @Input()
-  for:string;
+  field:FormlyFieldConfig;
 }

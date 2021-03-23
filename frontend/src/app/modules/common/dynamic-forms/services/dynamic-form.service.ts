@@ -9,10 +9,11 @@ import {
   IFieldSchemaWithKey,
   IOPForm,
   IAttributeGroup,
-  IFormSchema,
-  IFormPayload,
+  IOPFormSchema,
+  IFormModel,
   IFormModelChanges,
-  IFieldTypeMap, IOPFormlyFieldConfig,
+  IFieldTypeMap,
+  IOPFormlyFieldConfig,
 } from "../typings";
 import { mergeFormModels } from "../utils/utils";
 import { DynamicFormsHubService } from "./dynamic-forms-hub.service";
@@ -105,9 +106,11 @@ export class DynamicFormService implements OnDestroy {
       .post<IOPForm>(
         url,
         {},
-        {withCredentials: true,
-        responseType: 'json'
-      })
+        {
+          withCredentials: true,
+          responseType: 'json'
+        }
+      )
       .pipe(
         map((formConfig => {
           const formlyForm = this._getFormlyForm(formConfig);
@@ -160,9 +163,9 @@ export class DynamicFormService implements OnDestroy {
 
   private _getFormlyForm(formConfig:IOPForm):IDynamicForm {
     // TODO: Remove this filtering
-    // const formSchema = formConfig._embedded?.schema;
-    const {name, id, parent, status, active, customField12, statusExplanation, description, _attributeGroups, _links, lockVersion, _dependencies, _type, ...formSchemaRest} = formConfig._embedded?.schema;
-    const formSchema = {name, id, parent, status, active, customField12, statusExplanation, description, _attributeGroups, _links, lockVersion, _dependencies, _type};
+    const formSchema = formConfig._embedded?.schema;
+    // const {name, id, parent, status, active, customField12, statusExplanation, description, _attributeGroups, _links, lockVersion, _dependencies, _type, ...formSchemaRest} = formConfig._embedded?.schema;
+    // const formSchema = {name, id, parent, status, active, customField12, statusExplanation, description, _attributeGroups, _links, lockVersion, _dependencies, _type};
     const formModel = formConfig._embedded?.payload;
     const formFieldGroups = formSchema._attributeGroups;
     const fieldSchemas = this._getFieldsSchemas(formSchema, formModel);  
@@ -188,7 +191,7 @@ export class DynamicFormService implements OnDestroy {
       schemaValue?.writable != null;
   }
 
-  private _getFieldsSchemas(formSchema:IFormSchema, formModel:IFormPayload):IFieldSchemaWithKey[] {
+  private _getFieldsSchemas(formSchema:IOPFormSchema, formModel:IFormModel):IFieldSchemaWithKey[] {
     return Object.keys(formSchema)
       .map(schemaKey => {
         const schemaValue = {
@@ -408,7 +411,7 @@ if (field._embedded?.allowedValues) {
   return of([]);
 }*/
 
-  private _getFieldsModel(fieldSchemas:IFieldSchemaWithKey[], formModel:IFormPayload = {}) {
+  private _getFieldsModel(fieldSchemas:IFieldSchemaWithKey[], formModel:IFormModel = {}) {
     const {_links:resourcesModel, ...otherElementsModel} = formModel;
     const model = {
       ...otherElementsModel,
@@ -427,7 +430,7 @@ if (field._embedded?.allowedValues) {
     return model;
   }
 
-  private _getFormattedResourcesModel(resourcesModel:IFormPayload['_links'] = {}){
+  private _getFormattedResourcesModel(resourcesModel:IFormModel['_links'] = {}){
     return Object.keys(resourcesModel).reduce((result, resourceKey) => {
       // TODO: Fix this typing
       // Some customfields come with an [] as value
@@ -482,5 +485,20 @@ if (field._embedded?.allowedValues) {
     }, []);
 
     return [...fomFieldsWithoutGroup, ...formFieldGroups];
+  }
+
+  saveForm(formModel:IFormModel) {
+    // TODO: Replace with dynamic url
+    let url = '/api/v3/projects';
+
+    return this.httpClient
+                .post(
+                  url,
+                  formModel,
+                  {
+                    withCredentials: true,
+                    responseType: 'json'
+                  }
+                );
   }
 }
