@@ -103,6 +103,22 @@ In the Community Edition and in the Enterprise on-premises edition you can use t
 
 Most of this kind of questions will be answered in the respective sections for each topic (see links above). However, there may be some FAQ that do not really fit elsewhere:
 
+### I cannot log in, I do not know my password. What can I do?
+
+As a first step please try to [reset your password](#reset-your-password). Please look in your spam folder, too, if you didn't receive an email.
+
+If that doesn't help please contact your admin for login related topics. He/she can [set a new password for you](../../system-admin-guide/users-permissions/users/#manage-user-settings).
+
+If you don't know the URL of your OpenProject Enterprise cloud, you can find it on [this website](https://www.openproject.org/request-organization) on the basis of your email address.
+
+### I cannot log in. Resetting my password seems to have no effect. What do I do?
+
+Look in your spam folder for the email. 
+
+Ask your system admin to [set a new password for you](../../system-admin-guide/users-permissions/users/#manage-user-settings).
+
+If you are the system administrator of an on-premises installation (Enterprise on-premises or Community Edition) please have a look at [this FAQ](../../installation-and-operations/operation/faq/#i-lost-access-to-my-admin-account-how-do-i-reset-my-password).
+
 ### How can I reverse changes?
 
 This is not possible per se, there's no Ctrl+Z option or anything similar. 
@@ -157,6 +173,8 @@ You can use the [Budgets module](../user-guide/budgets/#budgets) for a plan/actu
 ### Does OpenProject have guest accounts?
 
 Currently, all users working in the OpenProject Enterprise editions need a license in order to access OpenProject. Regarding payments we only count the active (not blocked) users. If users only require temporary access, you can [block](../system-admin-guide/users-permissions/users/#lock-and-unlock-users) those users afterwards to free up additional seats.
+
+Apart from that, you can use [placeholder users](../system-admin-guide/users-permissions/placeholder-users/) to set up your project without using license seats.
 
 ### Can I get a notification when a deadline approaches?
 
