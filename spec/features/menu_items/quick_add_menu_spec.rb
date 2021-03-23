@@ -31,7 +31,6 @@ require 'spec_helper'
 feature 'Quick-add menu', js: true, selenium: true do
   let(:quick_add) { ::Components::QuickAddMenu.new }
 
-
   context 'as a logged in user with add_project permission' do
     current_user { FactoryBot.create :user, global_permission: %i[add_project] }
 
@@ -71,7 +70,7 @@ feature 'Quick-add menu', js: true, selenium: true do
     end
   end
 
-  context 'with a user and manage_members in one project' do
+  context 'with current user as member with permission :manage_members in one project' do
     let!(:project) { FactoryBot.create :project }
     let(:invite_modal) { ::Components::Users::InviteUserModal.new project: project, role: nil, principal: nil }
 
@@ -114,6 +113,7 @@ feature 'Quick-add menu', js: true, selenium: true do
       quick_add.expect_add_project present: false
       quick_add.expect_user_invite present: false
       quick_add.expect_work_package_type type_bug.name
+      quick_add.expect_work_package_type other_type.name, present: false
       quick_add.click_link type_bug.name
 
       expect(page)
@@ -134,7 +134,7 @@ feature 'Quick-add menu', js: true, selenium: true do
   context 'as a logged in user with no permissions' do
     current_user { FactoryBot.create :user }
 
-    it 'does not show the on the home screen' do
+    it 'does not show the quick add menu on the home screen' do
       visit home_path
       quick_add.expect_invisible
     end
@@ -143,7 +143,7 @@ feature 'Quick-add menu', js: true, selenium: true do
   context 'as an anonymous user' do
     current_user { FactoryBot.create :anonymous }
 
-    it 'does not show the on the home screen' do
+    it 'does not show the quick add menu on the home screen' do
       visit home_path
       quick_add.expect_invisible
     end
