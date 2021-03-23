@@ -164,19 +164,20 @@ module Redmine::MenuManager::MenuHelper
     end
   end
 
-  def render_single_menu_node(item, project = nil)
+  def render_single_menu_node(item, project = nil, menu_class = 'op-menu')
     caption, url, selected = extract_node_details(item, project)
 
     link_text = ''.html_safe
     link_text << op_icon(item.icon(project)) if item.icon(project).present?
     link_text << content_tag(:span,
-                             class: "menu-item--title ellipsis #{item.badge(project).present? ? '-has-badge' : ''}",
+                             class: "#{menu_class}--item-title #{item.badge(project).present? ? "#{menu_class}--item-title_has-badge" : ''}",
                              lang: menu_item_locale(item)) do
       ''.html_safe + caption + badge_for(item)
     end
     link_text << ' '.html_safe + op_icon(item.icon_after) if item.icon_after.present?
     html_options = item.html_options(selected: selected)
     html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
+    html_options[:class] = "#{html_options[:class]}  #{menu_class}--item-action"
 
     link_to link_text, url, html_options
   end
