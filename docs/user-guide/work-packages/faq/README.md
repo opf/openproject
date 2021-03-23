@@ -167,3 +167,28 @@ To identify how many background jobs have run or are delayed, enter "/health_che
 This provides an overview of "delayed_jobs_never_ran" which shows the number of background jobs that could not get ran within the last 10 minutes. If there are multiple entries this can indicate that the number of web workers should be increased.
 
 For a documentation of how to do this, please refer to [these instructions](../operation/control) (see section "Scaling the number of web workers").
+
+## Why are changes on parent work packages which are triggered by changes to child work packages not aggregated?
+
+OpenProject aggregates work package activities only if:
+
+- They are within the defined time frame
+
+- Are made by the same user
+- If at most one comment is part of the aggregate (because it is hard to merge two bodies of text)
+
+As an inherited change is always commented ("Updated automatically by...") they can basically never be aggregated.
+
+## How can I assign users who do not have an account to work packages?
+
+If you want to manage your project alone (without informing other team members) we recommend to use the [placeholder users](../../../system-admin-guide/users-permissions/placeholder-users) feature.
+
+## How can I set workload, deadline and duration in a work package?
+
+- Workload: Use "Estimated time"
+- Deadline: Use the finish date
+- Duration: Create a custom field or just set start date and finish date.
+
+## How can I see which work packages have been assigned to me as part of a group (e.g. Marketing team)?
+
+You can set the assignee filter in the work package list to "Assignee and belonging group" to see all work package directly and indirectly (through a group membership) assigned to you. [Save the view](../work-package-table-configuration/#save-work-package-views) to keep it for the future.

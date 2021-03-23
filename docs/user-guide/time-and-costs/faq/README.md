@@ -21,9 +21,9 @@ Possible workarounds:
 
 - Log in as the other user.
 - Set up a cost type (e.g."developer hours" or "John Smith") for unit costs and use this to log time (as unit cost) for others.
-- Add a comment with the developer's name in the time logging modal. If you want to see the comment in the time and costs module you will have to remove all selections for columns and rows.
-- Use the "Activity" drop down menu to choose a developer (you can add their names [in the system administration](../../../system-admin-guide/enumerations/)). Then you could use the time and costs module to filter for or sort by "Activity". 
-- Create a work package as a dummy. It should have a special status so that it can be reliably excluded in time reporting. For this work package, each user for whom times are to be booked by others (e.g. project managers) creates several entries (time bookings) with sample values in advance. Subsequently, the project manager can assign these to another task if required and enter the actual effort.
+- Add a comment with the user's name in the time logging modal. If you want to see the comment in the time and costs module you will have to remove all selections for columns and rows.
+- Use the "Activity" drop down menu to choose a user (you can add their names [in the system administration](../../../system-admin-guide/enumerations/)). Then you could use the time and costs module to filter for or sort by "Activity". 
+- Create a work package as a dummy. It should have a special status so that it can be reliably excluded in time reporting. For this work package, each user for whom times are to be booked by others (e.g. project managers) creates several entries (time bookings) with sample values in advance. Subsequently, the project manager can assign these time entries to another work package if required and enter the actual effort.
 
 ## Is it possible to view all hours assigned to each member in total? If I work on various projects I'd like to know how many hours I accumulated for all tasks assigned to me.
 
@@ -33,6 +33,10 @@ Click on the **+** next to the project filter, select all projects or the ones t
 ## Can I show the columns I chose in the Time and costs module in the Excel export?
 
 Unfortunately this is not possible at the moment. There's already a feature request for this on our wish list [here](https://community.openproject.org/work_packages/35042).
+
+## Is there an overview over how much time I logged in one week?
+
+Yes, you can use the "My spent time" widget on My Page and use the filters there.
 
 
 

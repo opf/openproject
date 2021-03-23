@@ -51,6 +51,11 @@ Ruby support on Windows is notoriously difficult, however you might be able to r
 There's no installation packages for Mac. However, you can use Docker (easier way) or install it manually. 
 Your Mac will have to be reachable from the Internet if you want to collaborate with others. 
 
+### Can I install OpenProject offline?
+
+For the packaged installation there are quite a few dependencies which would have to be loaded during installation (like SQLite3, unzip, poppler-utils, unrtf, ...). Therefore, we recommend  to use a Docker setup for offline installation. Because a docker image contains all dependencies and can really be transferred as single files (via docker save ) without further dependencies. Please find out more about air-gapped installation [here](../installation/docker#offlineair-gapped-installation). 
+Alternatively, you could install OpenProject on a virtual machine with Internet access and the re-use the VM image on the offline hosts.
+
 ### Can I use MySQL instead of PostgreSQL?
 
 OpenProject has traditionally supported both MySQL and PostgreSQL, but in order to optimize for performance and SQL functionality, it is unfeasible to support both DBMS that are becoming more and more disjunct when trying to use more modern SQL features. This shift has started some years ago when full-text search was added for PostgreSQL, but at the time MySQL did not yet support it - and as of yet many distributions still do not support MySQL 8 natively.
