@@ -1,4 +1,9 @@
-<op-formattable-control [templateOptions]="to"
+<op-input-label [text]="to.label"
+                [for]="field.id">
+</op-input-label>
+
+<op-formattable-control [id]="field.id"
+                        [templateOptions]="to"
                         [formControl]="formControl"
                         [formlyAttributes]="field">
 </op-formattable-control>

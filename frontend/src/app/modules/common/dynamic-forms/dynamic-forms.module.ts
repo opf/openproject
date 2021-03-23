@@ -23,6 +23,7 @@ import { FormattableTextareaInputComponent } from './components/inputs/formattab
 import { OpenprojectEditorModule } from "core-app/modules/editor/openproject-editor.module";
 import { OpenprojectFieldsModule } from "core-app/modules/fields/openproject-fields.module";
 import { FormattableControlComponent } from './components/inputs/formattable-textarea-input/components/formattable-control/formattable-control.component';
+import { InputLabelComponent } from './components/input-label/input-label.component';
 
 @NgModule({
   imports: [
@@ -61,6 +62,7 @@ import { FormattableControlComponent } from './components/inputs/formattable-tex
     DatePickerAdapterComponent,
     FormattableTextareaInputComponent,
     FormattableControlComponent,
+    InputLabelComponent,
   ],
   providers: [
     DynamicFormService,

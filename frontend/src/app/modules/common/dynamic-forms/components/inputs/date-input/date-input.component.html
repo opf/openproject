@@ -1,4 +1,9 @@
-<op-date-picker-adapter [required]="to.required"
+<op-input-label [text]="to.label"
+                [for]="field.id">
+</op-input-label>
+
+<op-date-picker-adapter [id]="field.id"
+                        [required]="to.required"
                         [formControl]="formControl"
                         [formlyAttributes]="field">
 </op-date-picker-adapter>
