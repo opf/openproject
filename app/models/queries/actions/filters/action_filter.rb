@@ -34,8 +34,4 @@ class Queries::Actions::Filters::ActionFilter < Queries::Filters::Base
   def human_name
     Action.human_attribute_name(name)
   end
-
-  #def where
-  #  operator_strategy.sql_for_field(values, 'capabilities', self.class.key)
-  #end
 end
