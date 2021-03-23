@@ -684,7 +684,7 @@ describe WorkPackage, type: :model do
         let(:assignee) do
           group = FactoryBot.build_stubbed(:group)
           allow(group)
-            .to receive(:users)
+            .to receive_message_chain(:users, :active)
             .and_return([user1, user2, user3])
           group
         end
@@ -700,7 +700,7 @@ describe WorkPackage, type: :model do
         let(:responsible) do
           group = FactoryBot.build_stubbed(:group)
           allow(group)
-            .to receive(:users)
+            .to receive_message_chain(:users, :active)
             .and_return([user1, user2, user3])
           group
         end

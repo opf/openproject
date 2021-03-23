@@ -684,12 +684,12 @@ class WorkPackage < ApplicationRecord
   def attribute_users
     related = [author]
 
-    [responsible, assigned_to].each do |user|
-      case user
+    [responsible, assigned_to].each do |principal|
+      case principal
       when Group
-        related += user.users
+        related += principal.users.active
       when User
-        related << user
+        related << principal
       end
     end
 
