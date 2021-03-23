@@ -23,3 +23,4 @@ There are additional methods on installing OpenProject, which we will link below
 
 * [Installing OpenProject with Univention App Center](../univention)
 * [Custom package for OpenSuse by Matthew Trescott](https://en.opensuse.org/User:Matthewtrescott/OpenProject)
+* [Instructions for installing OpenProject on Raspian Buster using a Raspberry Pi 4 by Wolfgang Schmied](https://github.com/madewhatnow/OpenProjectRaspberryPi)

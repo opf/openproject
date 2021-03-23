@@ -8,20 +8,20 @@ keywords: project system settings
 ---
 # Project system settings
 
-To adapt the system project settings, go to System settings on the tab **Projects** where you can configure the following options.
+To adapt the system project settings, navigate to *Administration -> System settings -> Projects* where you can configure the following options.
 
 ## Settings for new projects
 
 1. Check if **new projects are public by default**. This means that users without an account can access the project without login.
-2. Select **which modules should be activated for newly created projects per default**.
+2. Select **which modules should be activated for newly created projects by default**.
 3. Choose whether **sequential project identifiers should be created**. If this option is activated, a project identifier for the next project will be offered automatically, based on the existing project name. For example, if a project “Myproject1” was created, “Myproject2” will be offered as identifier for the next project.
 4. The **role given to a user in a new project when the user creates a new project but is not an (global) admin**. This makes sense when a user receives the permission to create a new project via [global role](../../users-permissions/roles-permissions/).
 
+![default-settings-for-new-projects](image-20210309144536716.png)
+
 ## Settings for the Projects Overview List
-5. Choose **which columns should be visible** in the Projects Overview List by default.
+1. Choose **which columns should be visible** in the Projects Overview List by default.
+2. Define the **settings for the Gantt chart view** displayed when clicking on "Open as Gantt view" in the [Projects Overview List](../../../user-guide/projects/#view-all-projects). You can choose filters, columns, sorting and more to configure the view. For more information on how the configuration works please refer to the instructions for the [work package table configuration](../../../user-guide/work-packages/work-package-table-configuration/) in the User guide (as the basic principles are the same).
+3. Do not forget to **save** your changes.
 
-6. Define the **settings for the Gantt chart view** displayed when clicking on "Open as Gantt view" in the Projects Overview List. You can choose filters, columns, sorting and more to configure the view. For more information on how the configuration works please refer to the instructions for the [work package table configuration](../../../user-guide/work-packages/work-package-table-configuration/) in the User Guide (as the basic principles are the same).
-
-7. Do not forget to **save** your changes.
-
-![image-20201005103659097](image-20201005103659097.png)
+![settings-for-project-overview-list](image-20210309144927234.png)

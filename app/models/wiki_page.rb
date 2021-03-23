@@ -54,7 +54,13 @@ class WikiPage < ApplicationRecord
 
   attr_accessor :redirect_existing_links
 
-  validates_presence_of :title
+  validates :title, presence: true
+  validates :slug,
+            presence: {
+              message: ->(object, _) {
+                I18n.t('activerecord.errors.models.wiki_page.attributes.slug.undeducible', title: object.title)
+              }
+            }
   validates_associated :content
 
   validate :validate_consistency_of_parent_title
