@@ -97,9 +97,11 @@ module API
             "#{root_path}api/v3"
           end
 
-          def self.activity(id)
-            "#{root}/activities/#{id}"
-          end
+          index :action
+          show :action
+
+          index :activity
+          show :activity
 
           index :attachment
           show :attachment
@@ -161,6 +163,13 @@ module API
 
           def self.available_relation_candidates(work_package_id)
             "#{work_package(work_package_id)}/available_relation_candidates"
+          end
+
+          index :capability
+          show :capability
+
+          def self.capabilities_contexts_global
+            "#{capabilities}/contexts/global"
           end
 
           index :category

@@ -609,6 +609,12 @@ en:
         unremovable: "cannot be removed."
         wrong_length: "is the wrong length (should be %{count} characters)."
       models:
+        capability:
+          context:
+            global: 'Global'
+          query:
+            filters:
+              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
         custom_actions:
@@ -2799,6 +2805,9 @@ en:
       invalid_json: "The request could not be parsed as JSON."
       invalid_relation: "The relation is invalid."
       invalid_resource: "For property '%{property}' a link like '%{expected}' is expected, but got '%{actual}'."
+      invalid_signal:
+        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
+        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "The current user account status does not allow this operation."
       missing_content_type: "not specified"
       missing_request_body: "There was no request body."

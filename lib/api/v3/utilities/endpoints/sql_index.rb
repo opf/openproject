@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -30,14 +28,31 @@
 
 module API
   module V3
-    module WorkPackages
-      class WorkPackageListRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::WorkPackages::WorkPackageRepresenter
+    module Utilities
+      module Endpoints
+        class SqlIndex < Index
+          private
 
-        def initialize(models, self_link, current_user:)
-          super
+          def render_paginated_success(results, query, params, self_path)
+            resulting_params = calculate_resulting_params(query, params)
 
-          @represented = ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap(represented, current_user)
+            ::API::V3::Utilities::SqlRepresenterWalker
+              .new(results,
+                   embed: { 'elements' => {} },
+                   select: { '*' => {}, 'elements' => { '*' => {} } },
+                   current_user: User.current,
+                   self_path: self_path,
+                   url_query: resulting_params)
+              .walk(deduce_render_representer)
+          end
+
+          def paginated_representer?
+            true
+          end
+
+          def deduce_render_representer
+            "::API::V3::#{deduce_api_namespace}::#{api_name}SqlCollectionRepresenter".constantize
+          end
         end
       end
     end

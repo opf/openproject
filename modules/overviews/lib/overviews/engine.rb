@@ -17,7 +17,7 @@ module Overviews
 
     initializer 'overviews.permissions' do
       OpenProject::AccessControl.permission(:view_project)
-        .actions
+        .controller_actions
         .push('overviews/overviews/show')
 
       OpenProject::AccessControl.map do |ac_map|
