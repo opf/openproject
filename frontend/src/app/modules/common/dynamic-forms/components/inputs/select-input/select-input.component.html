@@ -1,4 +1,9 @@
-<ng-select [items]="this.to?.options | async"
+<op-input-label [text]="to.label"
+                [for]="field.id">
+</op-input-label>
+
+<ng-select [id]="field.id"
+           [items]="this.to?.options | async"
            [formControl]="formControl"
            [formlyAttributes]="field"
            [attr.aria-required]="to.required"
