@@ -174,6 +174,8 @@ export class DynamicFormService implements OnDestroy {
       model: fieldsModel,
     };
 
+    console.log('formlyForm', formlyForm)
+
     return formlyForm;
   }
 
