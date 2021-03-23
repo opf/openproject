@@ -4,7 +4,7 @@ sidebar_navigation:
   priority: 970
 description: Manage and change all subscription-related topics of your Enterprise cloud.
 robots: index, follow
-keywords: subscription, address, payment method, invoices
+keywords: cloud edition, subscription, address, payment method, invoices
 ---
 
 # Manage your OpenProject Enterprise cloud subscription

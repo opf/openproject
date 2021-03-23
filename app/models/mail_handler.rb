@@ -132,22 +132,16 @@ class MailHandler < ActionMailer::Base
 
   private
 
-  MESSAGE_ID_RE = %r{^<?openproject\.([a-z0-9_]+)-(\d+)\.\d+@}
+  MESSAGE_ID_RE = %r{^<?openproject\.([a-z0-9_]+)-(\d+)-(\d+)\.\d+@}
   ISSUE_REPLY_SUBJECT_RE = %r{.+? - .+ #(\d+):}
   MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]*msg(\d+)\]}
 
   def dispatch
-    headers = [email.in_reply_to, email.references].flatten.compact
-    if headers.detect { |h| h.to_s =~ MESSAGE_ID_RE }
-      klass = $1
-      object_id = $2.to_i
-      method_name = "receive_#{klass}_reply"
-      if self.class.private_instance_methods.map(&:to_s).include?(method_name)
-        send method_name, object_id
-      end
-    elsif m = email.subject.match(ISSUE_REPLY_SUBJECT_RE)
+    if (m, object_id = dispatch_target_from_message_id)
+      m.call(object_id)
+    elsif (m = email.subject.match(ISSUE_REPLY_SUBJECT_RE))
       receive_work_package_reply(m[1].to_i)
-    elsif m = email.subject.match(MESSAGE_REPLY_SUBJECT_RE)
+    elsif (m = email.subject.match(MESSAGE_REPLY_SUBJECT_RE))
       receive_message_reply(m[1].to_i)
     else
       dispatch_to_default
@@ -170,6 +164,20 @@ class MailHandler < ActionMailer::Base
   # email types
   def dispatch_to_default
     receive_work_package
+  end
+
+  ##
+  # Find a matching method to dispatch to given the mail's message ID
+  def dispatch_target_from_message_id
+    headers = [email.references, email.in_reply_to].flatten.compact
+    if headers.detect { |h| h.to_s =~ MESSAGE_ID_RE }
+      klass = $1
+      object_id = $3.to_i
+      method_name = :"receive_#{klass}_reply"
+      if self.class.private_instance_methods.include?(method_name)
+        return method(method_name), object_id
+      end
+    end
   end
 
   # Creates a new work package

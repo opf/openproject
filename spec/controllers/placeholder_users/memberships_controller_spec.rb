@@ -81,7 +81,7 @@ describe PlaceholderUsers::MembershipsController, type: :controller do
           id: 1234
         }
 
-        expect(response.status).to eq 403
+        expect(response.status).to eq 404
       end
     end
 
@@ -92,7 +92,7 @@ describe PlaceholderUsers::MembershipsController, type: :controller do
           id: 1234
         }
 
-        expect(response.status).to eq 403
+        expect(response.status).to eq 404
       end
     end
   end
@@ -103,10 +103,61 @@ describe PlaceholderUsers::MembershipsController, type: :controller do
     it_behaves_like 'update memberships flow'
   end
 
-  context 'as user with global permission' do
-    current_user { FactoryBot.create :user, global_permission: %i[manage_placeholder_user] }
+  context 'as user with global permission and manage_members' do
+    current_user do
+      FactoryBot.create :user,
+                        member_in_project: project,
+                        member_with_permissions: %i[manage_members],
+                        global_permission: %i[manage_placeholder_user]
+    end
 
     it_behaves_like 'update memberships flow'
+  end
+
+  context 'as user with global permission but not project permission' do
+    current_user { FactoryBot.create :user, global_permission: %i[manage_placeholder_user] }
+
+    describe 'POST create' do
+      it 'redirects but fails to create' do
+        post :create, params: {
+          placeholder_user_id: placeholder_user.id,
+          membership: {
+            project_id: project.id,
+            role_ids: [role.id]
+          }
+        }
+
+        expect(response.status).to eq 302
+        expect(placeholder_user.reload.memberships).to be_empty
+      end
+    end
+
+    context 'with a membership in another project that is invisible' do
+      shared_let(:project2) { FactoryBot.create :project }
+      shared_let(:membership) { FactoryBot.create :member, principal: placeholder_user, project: project2, roles: [role] }
+
+      describe 'PUT update' do
+        it 'returns an error' do
+          put :update, params: {
+            placeholder_user_id: placeholder_user.id,
+            id: membership.id
+          }
+
+          expect(response.status).to eq 404
+        end
+      end
+
+      describe 'DELETE destroy' do
+        it 'returns an error' do
+          delete :destroy, params: {
+            placeholder_user_id: placeholder_user.id,
+            id: membership.id
+          }
+
+          expect(response.status).to eq 404
+        end
+      end
+    end
   end
 
   context 'as user without global permission' do

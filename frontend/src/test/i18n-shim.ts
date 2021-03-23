@@ -9,6 +9,8 @@ export class I18nShim implements GlobalI18n {
     en: {}
   };
 
+  public pluralization = {};
+
   t(key:string) {
     return '[missing "' + key + '" translation]';
   }

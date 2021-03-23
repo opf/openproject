@@ -49,6 +49,10 @@ class WorkPackages::DeleteService < ::BaseServices::Delete
     result
   end
 
+  def destroy(work_package)
+    work_package.reload.destroy
+  end
+
   def destroy_descendants(descendants, result)
     descendants.each do |descendant|
       result.add_dependent!(ServiceResult.new(success: descendant.destroy, result: descendant))

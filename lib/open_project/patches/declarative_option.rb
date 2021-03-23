@@ -41,10 +41,8 @@ module OpenProject::Patches::DeclarativeOption
   end
 end
 
-unless Declarative::Option.included_modules.include?(OpenProject::Patches::DeclarativeOption)
-  if Gem.loaded_specs['declarative-option'].version > Gem::Version.create('0.1.0')
-    raise "Check whether the patch to Declarative::Option is still necessary"
+OpenProject::Patches.patch_gem_version 'declarative-option', '0.1.0' do
+  unless Declarative::Option.included_modules.include?(OpenProject::Patches::DeclarativeOption)
+    Declarative::Option.include OpenProject::Patches::DeclarativeOption
   end
-
-  Declarative::Option.include OpenProject::Patches::DeclarativeOption
 end

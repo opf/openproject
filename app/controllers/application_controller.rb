@@ -131,10 +131,10 @@ class ApplicationController < ActionController::Base
   end
 
   before_action :user_setup,
+                :set_localization,
                 :check_if_login_required,
                 :log_requesting_user,
                 :reset_i18n_fallbacks,
-                :set_localization,
                 :check_session_lifetime,
                 :stop_if_feeds_disabled,
                 :set_cache_buster,
@@ -176,6 +176,7 @@ class ApplicationController < ActionController::Base
   def openproject_cookie_missing?
     request.cookies[OpenProject::Configuration['session_cookie_name']].nil?
   end
+
   helper_method :openproject_cookie_missing?
 
   ##
@@ -330,31 +331,32 @@ class ApplicationController < ActionController::Base
   def find_belongs_to_chained_objects(associations, start_object = nil)
     associations.inject([start_object].compact) do |instances, association|
       scope_name, scope_association = if association.is_a?(Hash)
-                                        [association.keys.first.to_s.downcase, association.values.first]
-                                      else
-                                        [association.to_s.downcase, association.to_s.downcase]
-                                      end
+        [association.keys.first.to_s.downcase, association.values.first]
+      else
+        [association.to_s.downcase, association.to_s.downcase]
+      end
 
       # TODO: Remove this hidden dependency on params
-      instances << (if instances.last.nil?
-                      scope_name.camelize.constantize.find(params[:"#{scope_name}_id"])
-                    else
-                      instances.last.send(scope_association.to_sym)
-                    end)
+      instances << (
+        if instances.last.nil?
+          scope_name.camelize.constantize.find(params[:"#{scope_name}_id"])
+        else
+          instances.last.send(scope_association.to_sym)
+        end)
       instances
     end
   end
 
   def self.model_object(model, options = {})
     self._model_object = model
-    self._model_scope  = Array(options[:scope]) if options[:scope]
+    self._model_scope = Array(options[:scope]) if options[:scope]
   end
 
   # Filter for bulk work package operations
   def find_work_packages
     @work_packages = WorkPackage.includes(:project)
-                     .where(id: params[:work_package_id] || params[:ids])
-                     .order('id ASC')
+                                .where(id: params[:work_package_id] || params[:ids])
+                                .order('id ASC')
     fail ActiveRecord::RecordNotFound if @work_packages.empty?
 
     @projects = @work_packages.map(&:project).compact.uniq
@@ -452,13 +454,13 @@ class ApplicationController < ActionController::Base
   def render_validation_errors(object)
     options = { status: :unprocessable_entity, layout: false }
     errors = case params[:format]
-             when 'xml'
-               { xml:  object.errors }
-             when 'json'
-               { json: { 'errors' => object.errors } } # ActiveResource client compliance
-             else
-               fail "Unknown format #{params[:format]} in #render_validation_errors"
-             end
+    when 'xml'
+      { xml: object.errors }
+    when 'json'
+      { json: { 'errors' => object.errors } } # ActiveResource client compliance
+    else
+      fail "Unknown format #{params[:format]} in #render_validation_errors"
+    end
     options.merge! errors
     render options
   end
@@ -489,17 +491,20 @@ class ApplicationController < ActionController::Base
     I18n.t(label + '_plural',
            default: label.to_sym)
   end
+
   helper_method :default_breadcrumb
 
   def show_local_breadcrumb
     false
   end
+
   helper_method :show_local_breadcrumb
 
   def admin_first_level_menu_entry
     menu_item = admin_menu_item(current_menu_item)
     menu_item.parent
   end
+
   helper_method :admin_first_level_menu_entry
 
   def check_session_lifetime

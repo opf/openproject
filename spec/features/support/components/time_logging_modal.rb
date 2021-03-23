@@ -49,7 +49,7 @@ module Components
       if visible
         within modal_container do
           expect(page)
-            .to have_content(I18n.t('js.button_log_time'))
+            .to have_text(I18n.t('js.button_log_time'))
         end
       else
         expect(page).to have_no_selector '.op-modal--modal-container'
