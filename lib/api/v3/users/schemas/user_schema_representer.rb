@@ -48,7 +48,7 @@ module API
                  type: 'Boolean',
                  required: false
 
-          schema :mail,
+          schema :email,
                  type: 'String',
                  min_length: 1,
                  max_length: 255
