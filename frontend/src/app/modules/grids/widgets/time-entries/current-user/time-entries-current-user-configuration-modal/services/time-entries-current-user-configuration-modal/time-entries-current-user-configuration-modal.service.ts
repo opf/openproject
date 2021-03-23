@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {DisplayedDays} from "core-app/modules/calendar/te-calendar/te-calendar.component";
 
 @Injectable()
 export class TimeEntriesCurrentUserConfigurationModalService {
@@ -50,8 +51,18 @@ export class TimeEntriesCurrentUserConfigurationModalService {
   }
 
   getCheckedValuesInOriginalOrder(days:IDayData[]) {
-    return days
+    const configuredDays = days
       .sort((a, b) => a.originalIndex < b.originalIndex ? -1 : 1)
       .map(localeDayData => localeDayData.checked);
+
+    return this.validDays(configuredDays as DisplayedDays);
+  }
+
+  private validDays(days:DisplayedDays) {
+    if (days.every((value) => !value)) {
+      return Array.apply(null, Array(7)).map(() => true);
+    } else {
+      return days;
+    }
   }
 }
