@@ -254,6 +254,10 @@ class CustomField < ApplicationRecord
     field_format == "text"
   end
 
+  def boolean?
+    field_format == "bool"
+  end
+
   def multi_value?
     multi_value
   end

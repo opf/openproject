@@ -69,10 +69,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
     <%= call_hook(:view_my_account, user: @user, form: f) %>
 
-    <%= render partial: 'customizable/field',
-               collection: @user.custom_field_values.select(&:editable?),
-               as: :value,
-               locals: { form: f, input_size: :middle } %>
+    <%= render partial: "customizable/form",
+               locals: { form: f, all_fields: true, only_required: false, input_size: '-middle' } %>
   </section>
 
   <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>

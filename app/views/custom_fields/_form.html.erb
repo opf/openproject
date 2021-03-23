@@ -60,7 +60,7 @@ See docs/COPYRIGHT.rdoc for more details.
     </span>
   </div>
 
-  <% if @custom_field.class.name == 'WorkPackageCustomField' %>
+  <% if @custom_field.list? %>
     <div class="form--field" id="custom_field_multi_select">
       <% if EnterpriseToken.allows_to?(:multiselect_custom_fields) %>
         <%= f.check_box :multi_value %>
