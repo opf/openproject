@@ -716,7 +716,7 @@ The schema above and the requests below use two exemplary custom fields that ext
 
 
 
-## User create form [/api/v3/users/form]
+## User create form [/api/v3/users/{id}/form]
 
 This endpoint returns a form allowing a guided creation of new users.
 
@@ -976,6 +976,10 @@ The returned payload part of the form will be contain a merge between the alread
 For more details and all possible responses see the general specification of [Forms](/api/forms).
 
 ## User update form [POST]
+
++ Parameters
+
+    + id (required, integer, `1`) ... User id
 
 + Request Update user form
 
