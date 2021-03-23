@@ -8,8 +8,8 @@ export interface IDynamicForm {
 export interface IOPForm {
   _type: "Form";
   _embedded: {
-    payload: IFormPayload;
-    schema: IFormSchema;
+    payload: IFormModel;
+    schema: IOPFormSchema;
     validationErrors: {
       [key: string]: unknown;
     };
@@ -26,7 +26,7 @@ export interface IOPFormlyFieldConfig extends FormlyFieldConfig {
   key?: string;
 }
 
-export interface IFormPayload {
+export interface IFormModel {
   lockVersion?: number;
   [key: string]: string | number | Object;
   _links?: {
@@ -34,7 +34,7 @@ export interface IFormPayload {
   };
 }
 
-export interface IFormSchema {
+export interface IOPFormSchema {
   _type: "Schema";
   _dependencies: unknown[];
   _attributeGroups?: IAttributeGroup[];

@@ -8,7 +8,7 @@ import { FormGroup } from "@angular/forms";
 import { FormlyForm } from "@ngx-formly/core";
 import { Observable } from "rxjs";
 import { DynamicFormService } from "../../services/dynamic-form.service";
-import { IDynamicForm } from "../../typings";
+import { IDynamicForm, IFormModel } from "../../typings";
 
 @Component({
   selector: "op-dynamic-form",
@@ -35,5 +35,11 @@ export class OpDynamicFormComponent implements OnChanges {
     this.form = new FormGroup({});
     this.dynamicForm$ = this.dynamicFormService
       .getForm$(this.typeHref, this.formId, this.projectId)
+  }
+
+  saveForm(formModel:IFormModel) {
+    this.dynamicFormService
+          .saveForm(formModel)
+          .subscribe((response) => console.log('response', response));
   }
 }
