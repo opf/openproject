@@ -44,7 +44,9 @@ module Constants
       column_names: 'columns',
       is_public: 'public',
       sort_criteria: 'sortBy',
-      message: 'post'
+      message: 'post',
+      firstname: 'firstName',
+      lastname: 'lastName',
     }.freeze
 
     # Conversions that are unidirectional (from the API to AR)

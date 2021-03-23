@@ -367,8 +367,7 @@ module API
             "#{project(project_id)}/types"
           end
 
-          index :user
-          show :user
+          resources :user
 
           def self.user_lock(id)
             "#{user(id)}/lock"

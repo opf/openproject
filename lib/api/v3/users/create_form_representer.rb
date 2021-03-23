@@ -31,10 +31,8 @@
 module API
   module V3
     module Users
-      class UserPayloadRepresenter < UserRepresenter
-        include ::API::Utilities::PayloadRepresenter
-
-        cached_representer disabled: true
+      class CreateFormRepresenter < FormRepresenter
+        include API::Decorators::CreateForm
       end
     end
   end

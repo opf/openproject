@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -31,10 +29,15 @@
 module API
   module V3
     module Users
-      class UserPayloadRepresenter < UserRepresenter
-        include ::API::Utilities::PayloadRepresenter
+      class UpdateFormAPI < ::API::OpenProjectAPI
+        resource :form do
+          after_validation do
+            authorize :manage_user, global: true
+          end
 
-        cached_representer disabled: true
+          post &::API::V3::Utilities::Endpoints::UpdateForm.new(model: User)
+                                                           .mount
+        end
       end
     end
   end
