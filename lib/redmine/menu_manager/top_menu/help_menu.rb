@@ -53,7 +53,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
     render_menu_dropdown(
       link_to_help_pop_up,
       menu_item_class: 'op-app-help hidden-for-mobile',
-      drop_down_class: ''
+      drop_down_class: 'op-menu'
     ) do
       result = ''.html_safe
       render_onboarding result
