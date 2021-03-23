@@ -570,150 +570,152 @@ Lists users. Only administrators or users with manage_users global permission ha
 
 ## View user schema [/api/v3/users/schemas]
 
++ Model
+    + Body
+
+        {
+          "_type": "Schema",
+          "_dependencies": [],
+          "id": {
+            "type": "Integer",
+            "name": "ID",
+            "required": true,
+            "hasDefault": false,
+            "writable": false,
+            "options": {}
+          },
+          "login": {
+            "type": "String",
+            "name": "Username",
+            "required": true,
+            "hasDefault": false,
+            "writable": true,
+            "minLength": 1,
+            "maxLength": 255,
+            "options": {}
+          },
+          "admin": {
+            "type": "Boolean",
+            "name": "Administrator",
+            "required": false,
+            "hasDefault": false,
+            "writable": true,
+            "options": {}
+          },
+          "mail": {
+            "type": "String",
+            "name": "Email",
+            "required": true,
+            "hasDefault": false,
+            "writable": true,
+            "minLength": 1,
+            "maxLength": 255,
+            "options": {}
+          },
+          "firstName": {
+            "type": "String",
+            "name": "First name",
+            "required": true,
+            "hasDefault": false,
+            "writable": false,
+            "minLength": 1,
+            "maxLength": 255,
+            "options": {}
+          },
+          "lastName": {
+            "type": "String",
+            "name": "Last name",
+            "required": true,
+            "hasDefault": false,
+            "writable": false,
+            "minLength": 1,
+            "maxLength": 255,
+            "options": {}
+          },
+          "avatar": {
+            "type": "String",
+            "name": "Avatar",
+            "required": false,
+            "hasDefault": false,
+            "writable": false,
+            "options": {}
+          },
+          "status": {
+            "type": "String",
+            "name": "Status",
+            "required": false,
+            "hasDefault": false,
+            "writable": true,
+            "options": {}
+          },
+          "identityUrl": {
+            "type": "String",
+            "name": "Identity url",
+            "required": false,
+            "hasDefault": false,
+            "writable": true,
+            "options": {}
+          },
+          "language": {
+            "type": "String",
+            "name": "Language",
+            "required": false,
+            "hasDefault": false,
+            "writable": true,
+            "options": {}
+          },
+          "password": {
+            "type": "Password",
+            "name": "Password",
+            "required": false,
+            "hasDefault": false,
+            "writable": false,
+            "options": {}
+          },
+          "createdAt": {
+            "type": "DateTime",
+            "name": "Created on",
+            "required": true,
+            "hasDefault": false,
+            "writable": false,
+            "options": {}
+          },
+          "updatedAt": {
+            "type": "DateTime",
+            "name": "Updated on",
+            "required": true,
+            "hasDefault": false,
+            "writable": false,
+            "options": {}
+          },
+          "customField1": {
+            "type": "String",
+            "name": "User String CF",
+            "required": false,
+            "hasDefault": false,
+            "writable": true
+          },
+          "customField2": {
+            "type": "CustomOption",
+            "name": "User List cf",
+            "required": false,
+            "hasDefault": false,
+            "writable": true
+          },
+          "_links": {
+            "self": {
+              "href": "/api/v3/users/schema"
+            }
+          }
+      }
+
+## View user schema [GET]
+
+The schema response use two exemplary custom fields that extend the schema response. Depending on your instance and custom field configuration, the response will look somewhat different.
+
 + Response 200 (application/hal+json)
 
-  + Body
-
-    ```json
-    {
-      "_type": "Schema",
-      "_dependencies": [],
-      "id": {
-        "type": "Integer",
-        "name": "ID",
-        "required": true,
-        "hasDefault": false,
-        "writable": false,
-        "options": {}
-      },
-      "login": {
-        "type": "String",
-        "name": "Username",
-        "required": true,
-        "hasDefault": false,
-        "writable": true,
-        "minLength": 1,
-        "maxLength": 255,
-        "options": {}
-      },
-      "admin": {
-        "type": "Boolean",
-        "name": "Administrator",
-        "required": false,
-        "hasDefault": false,
-        "writable": true,
-        "options": {}
-      },
-      "mail": {
-        "type": "String",
-        "name": "Email",
-        "required": true,
-        "hasDefault": false,
-        "writable": true,
-        "minLength": 1,
-        "maxLength": 255,
-        "options": {}
-      },
-      "firstName": {
-        "type": "String",
-        "name": "First name",
-        "required": true,
-        "hasDefault": false,
-        "writable": false,
-        "minLength": 1,
-        "maxLength": 255,
-        "options": {}
-      },
-      "lastName": {
-        "type": "String",
-        "name": "Last name",
-        "required": true,
-        "hasDefault": false,
-        "writable": false,
-        "minLength": 1,
-        "maxLength": 255,
-        "options": {}
-      },
-      "avatar": {
-        "type": "String",
-        "name": "Avatar",
-        "required": false,
-        "hasDefault": false,
-        "writable": false,
-        "options": {}
-      },
-      "status": {
-        "type": "String",
-        "name": "Status",
-        "required": false,
-        "hasDefault": false,
-        "writable": true,
-        "options": {}
-      },
-      "identityUrl": {
-        "type": "String",
-        "name": "Identity url",
-        "required": false,
-        "hasDefault": false,
-        "writable": true,
-        "options": {}
-      },
-      "language": {
-        "type": "String",
-        "name": "Language",
-        "required": false,
-        "hasDefault": false,
-        "writable": true,
-        "options": {}
-      },
-      "password": {
-        "type": "Password",
-        "name": "Password",
-        "required": false,
-        "hasDefault": false,
-        "writable": false,
-        "options": {}
-      },
-      "createdAt": {
-        "type": "DateTime",
-        "name": "Created on",
-        "required": true,
-        "hasDefault": false,
-        "writable": false,
-        "options": {}
-      },
-      "updatedAt": {
-        "type": "DateTime",
-        "name": "Updated on",
-        "required": true,
-        "hasDefault": false,
-        "writable": false,
-        "options": {}
-      },
-      "customField1": {
-        "type": "String",
-        "name": "User String CF",
-        "required": false,
-        "hasDefault": false,
-        "writable": true
-      },
-      "customField2": {
-        "type": "CustomOption",
-        "name": "User List cf",
-        "required": false,
-        "hasDefault": false,
-        "writable": true
-      },
-      "_links": {
-        "self": {
-          "href": "/api/v3/users/schema"
-        }
-      }
-    }
-    ```
-
-The schema above and the requests below use two exemplary custom fields that extend the schema response. Depending on your instance and custom field configuration, the response will look somewhat different.
-
+    [View user schema][]
 
 
 ## User create form [/api/v3/users/{id}/form]
@@ -1203,7 +1205,7 @@ For more details and all possible responses see the general specification of [Fo
             }
           }
         }
-  
+
 + Response 400 (application/hal+json)
 
   Occurs when the client did not send a valid JSON object in the request body.
