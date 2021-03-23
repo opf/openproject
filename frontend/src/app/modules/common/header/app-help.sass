@@ -1,7 +1,10 @@
 .op-app-help
-  .op-app-help--icon::before
-    border: 2px solid var(--header-item-font-color)
-    border-radius: 50%
-    width: 26px
-    height: 26px
-    display: inline-block
+  &--icon
+    &::before
+      display: flex
+      justify-content: center
+      align-items: center
+      border: 2px solid var(--header-item-font-color)
+      border-radius: 50%
+      width: 26px
+      height: 26px

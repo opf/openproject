@@ -95,6 +95,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
       link_to I18n.t('label_videos'),
               OpenProject::Configuration.youtube_channel,
               title: I18n.t('label_videos'),
+              class: 'op-menu--item-action',
               target: '_blank'
     end
     result << static_link_item(:shortcuts)
