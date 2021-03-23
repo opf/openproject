@@ -1,7 +1,6 @@
-import { Component, ElementRef, forwardRef, OnInit } from '@angular/core';
+import { Component, forwardRef } from '@angular/core';
 import { OpDatePickerComponent } from "core-app/modules/common/op-date-picker/op-date-picker.component";
 import { TimezoneService } from "core-components/datetime/timezone.service";
-import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
 import * as moment from "moment";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
 
@@ -16,17 +15,14 @@ import { NG_VALUE_ACCESSOR } from "@angular/forms";
     }
   ]
 })
-export class DatePickerAdapterComponent extends OpDatePickerComponent implements OnInit {
+export class DatePickerAdapterComponent extends OpDatePickerComponent {
   onControlChange = (_:any) => { }
   onControlTouch = () => { }
 
   constructor(
-    elementRef:ElementRef,
-    configurationService:ConfigurationService,
     timezoneService:TimezoneService,
-    private _timezoneService:TimezoneService,
   ) {
-    super(elementRef, configurationService, timezoneService);
+    super(timezoneService);
   }
 
   writeValue(date:string):void {
@@ -60,9 +56,6 @@ export class DatePickerAdapterComponent extends OpDatePickerComponent implements
     this.onControlTouch();
   }
 
-  ngOnInit(): void {
-  }
-
   public parser(data:any) {
     if (moment(data, 'YYYY-MM-DD', true).isValid()) {
       return data;
@@ -73,8 +66,9 @@ export class DatePickerAdapterComponent extends OpDatePickerComponent implements
 
   public formatter(data:any):string {
     if (moment(data, 'YYYY-MM-DD', true).isValid()) {
-      var d = this._timezoneService.parseDate(data);
-      return this._timezoneService.formattedISODate(d);
+      var d = this.timezoneService.parseDate(data);
+
+      return this.timezoneService.formattedISODate(d);
     } else {
       return '';
     }
