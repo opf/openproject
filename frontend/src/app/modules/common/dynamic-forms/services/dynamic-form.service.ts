@@ -161,8 +161,8 @@ export class DynamicFormService implements OnDestroy {
   private _getFormlyForm(formConfig:IOPForm):IDynamicForm {
     // TODO: Remove this filtering
     // const formSchema = formConfig._embedded?.schema;
-    const {name, id, parent, status, active, customField12, _attributeGroups, _links, lockVersion, _dependencies, _type, ...formSchemaRest} = formConfig._embedded?.schema;
-    const formSchema = {name, id, parent, status, active, customField12, _attributeGroups, _links, lockVersion, _dependencies, _type};
+    const {name, id, parent, status, active, customField12, statusExplanation, description, _attributeGroups, _links, lockVersion, _dependencies, _type, ...formSchemaRest} = formConfig._embedded?.schema;
+    const formSchema = {name, id, parent, status, active, customField12, statusExplanation, description, _attributeGroups, _links, lockVersion, _dependencies, _type};
     const formModel = formConfig._embedded?.payload;
     const formFieldGroups = formSchema._attributeGroups;
     const fieldSchemas = this._getFieldsSchemas(formSchema, formModel);  
@@ -249,14 +249,14 @@ export class DynamicFormService implements OnDestroy {
         }
       },
       // TODO: Remove this mocks
-      ...field.key === 'description' && {
+      /*...field.key === 'description' && {
         asyncValidators: {
           nameWithA: {
             expression: (control: FormControl) => of(control.value?.includes('a')),
             message: 'The name must contain an a.',
           }
         }
-      },
+      },*/
       /*...field.key.includes('_links') && {
         // Process the model in anyway examples
         // parsers: [(value) => value.hi = 'hi'],
@@ -301,6 +301,15 @@ export class DynamicFormService implements OnDestroy {
         type: 'dateInput',
         className: `inline-edit--field`,
       },
+      formattable: {
+        type: 'formattableInput',
+        className: `textarea-wrapper`,
+        templateOptions: {
+          rtl: false,
+          name: field.name,
+          editorType: 'full',
+        },
+      },
       select: {
         type: 'selectInput',
         className: `inline-edit--field ${field.name}`,
@@ -339,10 +348,7 @@ export class DynamicFormService implements OnDestroy {
       ProjectStatus: inputTypeMap.select,
       Boolean: inputTypeMap.boolean,
       Date: inputTypeMap.date,
-      // TODO: Replace with CkEditor
-      Formattable: {
-        type: 'textarea',
-      },
+      Formattable: inputTypeMap.formattable,
       // TODO: Replace with Duration component
       Duration: {
         type: 'input',
