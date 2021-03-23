@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, OnDestroy } from "@angular/core";
-import { FormArray, FormControl, FormGroup } from "@angular/forms";
+import { FormArray, FormGroup } from "@angular/forms";
 import { FormlyFieldConfig, FormlyForm } from "@ngx-formly/core";
 import { Observable, of, ReplaySubject, Subscription } from "rxjs";
 import { debounceTime, distinctUntilChanged, map, switchMap } from "rxjs/operators";
@@ -351,14 +351,10 @@ export class DynamicFormService implements OnDestroy {
       Boolean: inputTypeMap.boolean,
       Date: inputTypeMap.date,
       Formattable: inputTypeMap.formattable,
+      // TODO: Do we have DateTime input?
+      DateTime: inputTypeMap.date,
       // TODO: Replace with Duration component
       Duration: {
-        type: 'input',
-        templateOptions: {
-          type: 'number'
-        },
-      },
-      DateTime: {
         type: 'input',
         templateOptions: {
           type: 'number'
