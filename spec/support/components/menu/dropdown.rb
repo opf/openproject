@@ -26,37 +26,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module Components
+  class Dropdown
+    include Capybara::DSL
+    include RSpec::Matchers
 
-feature 'Help menu items' do
-  let(:user) { FactoryBot.create :admin }
-  let(:help_item) { find('.top-menu-help') }
+    def initialize; end
 
-  before do
-    login_as user
-  end
-
-  describe 'When force_help_link is not set', js: true do
-    it 'renders a dropdown' do
-      visit home_path
-
-      help_item.click
-      expect(page).to have_selector('.top-menu-help li',
-                                    text: I18n.t('homescreen.links.user_guides'))
+    def toggle
+      trigger_element.click
     end
-  end
 
-  describe 'When force_help_link is set' do
-    let(:custom_url) { 'https://mycustomurl.example.org' }
-    before do
-      allow(OpenProject::Configuration).to receive(:force_help_link)
-        .and_return custom_url
+    def expect_closed
+      expect(page).to have_no_selector('ul.menu-drop-down-container')
     end
-    it 'renders a link' do
-      visit home_path
 
-      expect(help_item[:href]).to eq(custom_url)
-      expect(page).to have_no_selector('.top-menu-help .top-menu-dropdown--link', visible: false)
+    def expect_open
+      expect(page).to have_selector('ul.menu-drop-down-container')
+    end
+
+    def within_dropdown(&block)
+      page.within('ul.menu-drop-down-container', &block)
+    end
+
+    def trigger_element
+      raise NotImplementedError
     end
   end
 end

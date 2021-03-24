@@ -29,16 +29,17 @@
 module Redmine::MenuManager::TopMenuHelper
   include Redmine::MenuManager::TopMenu::HelpMenu
   include Redmine::MenuManager::TopMenu::ProjectsMenu
+  include Redmine::MenuManager::TopMenu::QuickAddMenu
 
   def render_top_menu_left
-    content_tag :ul, id: 'account-nav-left', class: 'menu_root account-nav' do
+    content_tag :ul, id: 'account-nav-left', class: 'menu_root account-nav top-menu' do
       [render_main_top_menu_nodes,
        render_projects_top_menu_node].join.html_safe
     end
   end
 
   def render_top_menu_right
-    content_tag :ul, id: 'account-nav-right', class: 'menu_root account-nav' do
+    content_tag :ul, id: 'account-nav-right', class: 'menu_root account-nav top-menu-right' do
       [render_module_top_menu_node,
        render_help_top_menu_node,
        render_user_top_menu_node].join.html_safe
@@ -60,7 +61,7 @@ module Redmine::MenuManager::TopMenuHelper
   def render_login_drop_down
     url = { controller: '/account', action: 'login' }
     link = link_to url,
-                   class: 'login',
+                   class: 'top-menu-dropdown--link login',
                    title: I18n.t(:label_login) do
       concat('<span class="button--dropdown-text hidden-for-mobile">'.concat(I18n.t(:label_login)).concat('</span>').html_safe)
       concat('<i class="button--dropdown-indicator hidden-for-mobile"></i>'.html_safe)

@@ -25,38 +25,61 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+require_relative './dropdown'
 
-require 'spec_helper'
+module Components
+  class QuickAddMenu < Dropdown
 
-feature 'Help menu items' do
-  let(:user) { FactoryBot.create :admin }
-  let(:help_item) { find('.top-menu-help') }
-
-  before do
-    login_as user
-  end
-
-  describe 'When force_help_link is not set', js: true do
-    it 'renders a dropdown' do
-      visit home_path
-
-      help_item.click
-      expect(page).to have_selector('.top-menu-help li',
-                                    text: I18n.t('homescreen.links.user_guides'))
+    def expect_visible
+      expect(trigger_element).to be_present
     end
-  end
 
-  describe 'When force_help_link is set' do
-    let(:custom_url) { 'https://mycustomurl.example.org' }
-    before do
-      allow(OpenProject::Configuration).to receive(:force_help_link)
-        .and_return custom_url
+    def expect_invisible
+      expect { trigger_element }.to raise_error(Capybara::ElementNotFound)
     end
-    it 'renders a link' do
-      visit home_path
 
-      expect(help_item[:href]).to eq(custom_url)
-      expect(page).to have_no_selector('.top-menu-help .top-menu-dropdown--link', visible: false)
+    def expect_add_project(present: true)
+      expect_link 'New project', present: present
+    end
+
+    def expect_user_invite(present: true)
+      expect_link 'Invite user', present: present
+    end
+
+    def expect_work_package_type(*names, present: true)
+      within_dropdown do
+        expect(page).to have_text 'WORK PACKAGES'
+      end
+
+      names.each do |name|
+        expect_link name, present: present
+      end
+    end
+
+    def expect_no_work_package_types
+      within_dropdown do
+        expect(page).to have_no_text 'Work packages'
+      end
+    end
+
+    def click_link(matcher)
+      within_dropdown do
+        page.click_link matcher
+      end
+    end
+
+    def expect_link(matcher, present: true)
+      within_dropdown do
+        if present
+          expect(page).to have_link matcher
+        else
+          expect(page).to have_no_link matcher
+        end
+      end
+    end
+
+    def trigger_element
+      page.find('a[title="Open quick add menu"]')
     end
   end
 end
