@@ -15,7 +15,7 @@ To track time to a work package via a start and stop button, we offer an integra
 
 You can install a browser add-in to track time via Toggl in OpenProject. This way, you can record spent times directly to a work package in OpenProject via a start/stop button. 
 
-If this is add-in is installed, a start/stop button is displayed on the work package details view, which can be used to record times from OpenProject into Toggl:
+If this add-in is installed, a start/stop button is displayed on the work package details view, which can be used to record times from OpenProject into Toggl:
 
 ![Toggl-integration](Toggl-integration.png)
 
