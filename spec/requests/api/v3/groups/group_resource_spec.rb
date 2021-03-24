@@ -205,7 +205,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     end
 
     before do
-      # Setup the memberships in the group has
+      # Setup the memberships the group has
       ::Groups::AddUsersService
         .new(group, current_user: admin)
         .call(ids: members.map(&:id))
@@ -214,7 +214,9 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
 
       login_as current_user
 
-      patch path, body
+      perform_enqueued_jobs do
+        patch path, body
+      end
     end
 
     context 'when the user is allowed and the input is valid' do
@@ -253,6 +255,18 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
         # includes the memberships the group has applied to the added user
         expect(other_project.reload.users)
           .to match_array [members.last, another_user]
+      end
+
+      it 'sends a mail notifying of the added project memberships to the added user' do
+        expect(ActionMailer::Base.deliveries.size)
+          .to eql 2
+
+        expect(ActionMailer::Base.deliveries.map(&:to).flatten.uniq)
+          .to match_array another_user.mail
+
+        expect(ActionMailer::Base.deliveries.map(&:subject).flatten)
+          .to match_array [I18n.t(:'mail_member_added_project.subject', project: other_project.name),
+                           I18n.t(:'mail_member_updated_project.subject', project: project.name)]
       end
     end
 

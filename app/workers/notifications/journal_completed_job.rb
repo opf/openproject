@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class NotifyJournalCompletedJob < ApplicationJob
+class Notifications::JournalCompletedJob < ApplicationJob
   queue_with_priority :notification
 
   def perform(journal_id, send_mails)

@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe NotifyJournalCompletedJob, type: :model do
+describe Notifications::JournalCompletedJob, type: :model do
   let(:project) { FactoryBot.create(:project) }
   let(:permissions) { [:view_work_packages] }
   let(:recipient) do

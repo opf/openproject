@@ -66,7 +66,9 @@ module Groups
       sql_query = ::OpenProject::SqlSanitization
         .sanitize add_to_user_and_projects_cte, group_id: group.id, user_ids: user_ids
 
-      ::Group.connection.exec_query(sql_query)
+      affected_member_ids = ::Group.connection.exec_query(sql_query).rows.flatten
+
+      send_notifications(affected_member_ids)
     end
 
     def add_to_user_and_projects_cte
@@ -103,7 +105,7 @@ module Groups
           FROM found_users, group_memberships
           -- We need to return all members for the given group memberships
           -- even if they already exist as members (e.g., added individually) to ensure we add all roles
-          -- to mark that we reset the created_at date since replacing the member
+          -- to mark that we touch the updated_at date
           ON CONFLICT(project_id, user_id) DO UPDATE SET updated_at = CURRENT_TIMESTAMP
           RETURNING id, user_id, project_id
         )
@@ -114,7 +116,12 @@ module Groups
         JOIN new_members ON group_roles.project_id = new_members.project_id
         -- Ignore if the role was already inserted by us
         ON CONFLICT DO NOTHING
+        RETURNING member_id
       SQL
+    end
+
+    def send_notifications(member_ids)
+      Notifications::GroupMemberAlteredJob.perform_later(group, member_ids)
     end
   end
 end

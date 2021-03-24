@@ -1894,7 +1894,7 @@ en:
       roles: "You have the following roles:"
 
   mail_member_updated_project:
-    subject: "%{project} - You roles have been updated"
+    subject: "%{project} - Your roles have been updated"
     body:
       added_by: "%{user} updated the roles you have in the project '%{project}'."
       roles: "You now have the following roles:"

@@ -28,26 +28,30 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Notifications::JournalNotificationService
-  class << self
-    def call(journal, send_mails)
-      enqueue_notification(journal, send_mails) if supported?(journal)
-    end
+class Notifications::GroupMemberAlteredJob < ApplicationJob
+  queue_with_priority :notification
 
-    private
+  def perform(group, members_ids)
+    Member
+      .where(id: members_ids)
+      .includes(:member_roles)
+      .each { |member| send_notification(group, member) }
+  end
 
-    def enqueue_notification(journal, send_mails)
-      Notifications::JournalCompletedJob
-        .set(wait_until: delivery_time)
-        .perform_later(journal.id, send_mails)
-    end
+  private
 
-    def delivery_time
-      Setting.journal_aggregation_time_minutes.to_i.minutes.from_now
-    end
+  def send_notification(group, member)
+    event = if member_existed_before?(member, group)
+              OpenProject::Events::MEMBER_UPDATED
+            else
+              OpenProject::Events::MEMBER_CREATED
+            end
 
-    def supported?(journal)
-      %w(WorkPackage WikiContent).include?(journal.journable_type)
-    end
+    OpenProject::Notifications.send(event,
+                                    member: member)
+  end
+
+  def member_existed_before?(member, group)
+    member.member_roles.any? { |mr| mr.inherited_from != group.id }
   end
 end
