@@ -21,7 +21,7 @@ export interface GlobalI18n {
 
   locale:string;
   firstDayOfWeek:number;
-
+  pluralization:any;
 }
 
 interface ToNumberOptions {
@@ -53,10 +53,7 @@ export class I18nService {
   }
 
   public t(translateId:string, parameters?:{ [key:string]:any }):string {
-    // Avoid returning empty translation strings and fall back to english instead
-    // due to translation bugs
-    return this._i18n.t(translateId, parameters) ||
-      this._i18n.t(translateId, { ...parameters, locale: 'en' });
+    return this._i18n.t(translateId, parameters);
   }
 
   public lookup(translateId:string):boolean|undefined {

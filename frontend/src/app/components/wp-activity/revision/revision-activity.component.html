@@ -6,17 +6,20 @@
     </activity-link>
   </div>
 
-  <user-avatar *ngIf="activity.author && userName"
-               [attr.data-user-name]="userName"
-               [attr.data-user-id]="userId"
-               data-class-list="avatar">
-  </user-avatar>
+  <op-principal
+    *ngIf="activity.author && userName"
+    [attr.data-principal-id]="userId"
+    [attr.data-principal-name]="userName"
+    data-principal-type="user"
+    data-hide-name="true"
+  ></op-principal>
 
-  <user-avatar *ngIf="!activity.author && userName"
-               [attr.data-user-name]="userName"
-               [attr.data-use-fallback]="true"
-               data-class-list="avatar">
-  </user-avatar>
+  <op-principal
+    *ngIf="!activity.author && userName"
+    [attr.data-principal-name]="userName"
+    data-principal-type="user"
+    data-hide-name="true"
+  ></op-principal>
 
   <span class="user" *ngIf="userActive">
     <a [attr.href]="userPath"

@@ -121,6 +121,8 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
    * Handle a user submitting the field (e.g, ng-change)
    */
   public handleUserSubmit():Promise<any> {
+    this.onBeforeSubmit();
+
     if (this.inFlight || this.form.editMode) {
       return Promise.resolve();
     }
