@@ -94,7 +94,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
    */
   public buildSelectedOption() {
     const value:HalResource[] = this.resource[this.name];
-    return value ? value.map(val => this.findValueOption(val)) : [];
+    return value ? _.castArray(value).map(val => this.findValueOption(val)) : [];
   }
 
   public get selectedOption() {
