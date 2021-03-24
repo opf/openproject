@@ -11,6 +11,7 @@
   border-bottom-style: solid
   border-bottom-width: var(--header-border-bottom-width)
   border-bottom-color: var(--header-border-bottom-color)
+  width: 100vw
 
   @at-root .zen-mode &
     display: none
@@ -35,3 +36,25 @@
 
   &--avatar
     border: 1px solid var(--header-item-font-color)
+
+  &_search-open
+    @include breakpoint(850px down)
+      .op-logo
+        display: none
+
+    @include breakpoint(680px down)
+      display: flex
+
+      .op-app-header--start,
+      .op-app-header--center
+        display: none
+
+      .op-app-header--end
+        flex-grow: 1
+
+      .top-menu-search
+        margin: 0
+
+        .top-menu-search--button
+          display: none
+          color: var(--header-item-font-color)

@@ -45,10 +45,13 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
       label_options: {
         title: I18n.t('menus.quick_add.label'),
         icon: 'icon-add',
-        class: ''
+        class: 'op-quick-add-menu--button'
       },
       items: first_level_menu_items_for(:quick_add_menu),
-      options: { drop_down_id: 'quick-add-menu' },
+      options: {
+        drop_down_id: 'quick-add-menu',
+        menu_item_class: 'op-quick-add-menu'
+      },
       project: @project
     ) do
       work_package_quick_add_items

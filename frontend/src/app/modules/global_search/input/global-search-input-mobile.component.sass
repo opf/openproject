@@ -3,29 +3,15 @@
 $search-input-height-mobile: 36px
 
 @media only screen and (max-width: 679px)
-  #top-menu
-    &.-global-search-expanded
-      #account-nav-right,
-      #account-nav-left,
-      #main-menu-toggle
-        display: none
-
-      .top-menu-search
-        width: 100vw
-        margin: 0
-        padding-right: 15px
-
-        .top-menu-search--button
-          display: none
-          color: var(--header-item-font-color)
-
+  .top-menu-search
     #global-search-input
       display: none
       &.-expanded
         display: block
-        width: calc(100vw - 50px)
         min-width: unset
+        width: auto
         position: unset
+        flex-grow: 1
 
         .scroll-host
           max-height: calc(100vh - #{var(--header-height)})

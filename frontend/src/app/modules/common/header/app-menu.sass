@@ -4,10 +4,6 @@
   margin: 0
   height: 100%
 
-  &_drop-left .op-app-menu--dropdown
-    left: 0
-    right: auto
-
   &--item
     display: flex
     position: relative
@@ -29,12 +25,16 @@
     text-overflow: ellipsis
     white-space: nowrap
 
-    &:hover,
-    &:focus
+
+    .op-app-menu--item_dropdown-open &,
+    &:hover
       text-decoration: none
       background: var(--header-item-bg-hover-color)
       color: var(--header-item-font-hover-color)
       border-bottom: var(--header-border-bottom-width) solid var(--header-border-bottom-color)
+
+    &:focus
+      color: var(--header-item-font-hover-color)
 
   &--dropdown
     position: absolute
@@ -62,3 +62,14 @@
 
     &_open
       display: flex
+
+    @at-root .op-app-menu_drop-left &
+      left: 0
+      right: auto
+
+    @include breakpoint(680px down)
+      position: fixed
+      top: var(--header-height)
+      left: 0
+      right: 0
+      width: 100vw
