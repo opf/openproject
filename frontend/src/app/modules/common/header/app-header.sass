@@ -58,3 +58,10 @@
         .top-menu-search--button
           display: none
           color: var(--header-item-font-color)
+
+    @include breakpoint(480px down)
+      .op-app-menu
+        display: none
+
+      .top-menu-search
+        padding-right: 1rem
