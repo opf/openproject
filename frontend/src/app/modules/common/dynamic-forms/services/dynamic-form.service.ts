@@ -125,36 +125,14 @@ export class DynamicFormService {
         label,
         disabled: !writable,
         ...templateOptions,
-        ...fieldOptions && {options: fieldOptions},        
+        ...fieldOptions && {options: fieldOptions},
       },
-      // TODO: Make validation dynamic
-      validators: {
-        // validation: [{ name: 'backend-validator', options: this }],
-        backend: {
-          expression: (control: FormControl, field: FormlyFieldConfig) => {
-            const errorMessage = this.errors?.[field.key as string];
-            console.log('backend expression', errorMessage);
-
-            return !!errorMessage;
-          },
-          message: (error:any, field: FormlyFieldConfig) => {
-            const errorMessage = this.errors?.[field.key as string];
-            console.log('backend message',errorMessage);
-
-            if (errorMessage) {
-              const {[field.key as string]:currentError, ...restOfErrors} = this.errors;
-              // Remove the error when this FormControl model value changes
-              // TODO: this depends on the form updateOn: 'change', is this guaranteed?
-              this.errors = {...restOfErrors};
-
-              console.log('backend message', {[field.key as string]: { message: errorMessage}});
-
-              return {[field.key as string]: { message: errorMessage}}
-            } else {
-              return null;
-            }
-          }
-        }
+      ...field.key.includes('_links') && {
+        // Process the model in anyway examples
+        parsers: [(value:any) => {
+          console.log('value', value);
+          return value;
+        }]
       }
     }
 
@@ -279,38 +257,13 @@ export class DynamicFormService {
             );
   }
 
- /* // TODO: Check why is this
-  if (!allowedValues && field.type !== 'User') {
-  return;
-}
-
-if (field._embedded?.allowedValues) {
-  return of(field._embedded?.allowedValues);
-} else if (field._links?.allowedValues) {
-  this.httpClient
-    .get(field._links?.allowedValues.href)
-    .pipe(
-      map((response: api.v3.Result) => response._embedded.elements)
-    );
-} else {
-  return of([]);
-}*/
-
   private _getFieldsModel(fieldSchemas:IFieldSchemaWithKey[], formModel:IFormModel = {}) {
+    // TODO: Handle Formattable and time types
     const {_links:resourcesModel, ...otherElementsModel} = formModel;
     const model = {
       ...otherElementsModel,
       _links: this._getFormattedResourcesModel(resourcesModel),
     }
-
-    // TODO: Handle Formattable and time types
-    // TODO: Type this
-    /*
-    model.description = model.description.raw;
-    model.remainingTime = Number(moment.duration(model.remainingTime).asHours().toFixed(2));
-    model.estimatedTime = Number(moment.duration(model.estimatedTime).asHours().toFixed(2));
-    model.spentTime = Number(moment.duration(model.spentTime).asHours().toFixed(2));
-     */
     
     return model;
   }
@@ -387,56 +340,25 @@ if (field._embedded?.allowedValues) {
                   }
                 )
                 .pipe(
-                  /*tap(submitResponse => {
-                    console.log('submitResponse', submitResponse);
-                    this.submitResponse$.next(submitResponse)
-                  }),*/
                   catchError((error:ErrorResource) => {
-                    /*if (error.status == 422) {
-                      this.form.form.markAllAsTouched();
-                      const errors = error.error._embedded.errors;
-                      console.log('catchError', error, errors);
+                    this.handleFormErrors(error, this.form.form as FormGroup);
 
-
-                      this.errors = errors.reduce((errorsResult:{[key:string]:string}, err:any) => {
-                        const key = err._embedded.details.attribute;
-                        const message = err.message;
-                        errorsResult = {...errorsResult, [key]: message};
-
-                        return errorsResult;
-                      }, {});
-
-                      this.updateTreeValidity(this.form.form);
-                    }*/
-
-                    console.log('Errors', this.errors)
-                    if (error.status == 422) {
-                      this.form.form.markAllAsTouched();
-                      console.log('catchError', error);
-                      const errors = error.error._embedded.errors;
-
-                      errors.forEach((err:any) => {
-                        const key = err._embedded.details.attribute;
-                        const message = err.message;
-
-                        this.form.form.get(key)!.setErrors({[key]: message})
-                      })
-                    }
                     throw error;
                   })
                 );
   }
 
-  /**
-   * Re-calculates the value and validation status of the entire controls tree.
-   */
-  updateTreeValidity(group: FormGroup | FormArray): void {
-    Object.values(group.controls).forEach((control: AbstractControl) => {
-      if (control instanceof FormGroup || control instanceof FormArray) {
-        this.updateTreeValidity(control);
-      } else {
-        control.updateValueAndValidity();
-      }
-    });
+  handleFormErrors(error:ErrorResource, form:FormGroup) {
+    if (error.status == 422) {
+      form.markAllAsTouched();
+      const errors = error.error._embedded.errors;
+
+      errors.forEach((err:any) => {
+        const key = err._embedded.details.attribute;
+        const message = err.message;
+
+        form.get(key)!.setErrors({[key]: {message}})
+      })
+    }
   }
 }
