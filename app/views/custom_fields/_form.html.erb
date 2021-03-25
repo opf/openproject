@@ -60,8 +60,8 @@ See docs/COPYRIGHT.rdoc for more details.
     </span>
   </div>
 
-  <% if @custom_field.list? %>
-    <div class="form--field" id="custom_field_multi_select">
+  <% if @custom_field.new_record? || @custom_field.field_format == 'list' %>
+    <div class="form--field" id="custom_field_multi_select" style="display:none">
       <% if EnterpriseToken.allows_to?(:multiselect_custom_fields) %>
         <%= f.check_box :multi_value %>
       <% else %>
@@ -74,9 +74,7 @@ See docs/COPYRIGHT.rdoc for more details.
         </span>
       <% end %>
     </div>
-  <% end %>
 
-  <% if @custom_field.new_record? || @custom_field.field_format == 'list' %>
     <fieldset class="form--fieldset" id="custom_field_possible_values_attributes">
       <legend class="form--fieldset-legend"><%= I18n.t("activerecord.attributes.custom_field.possible_values") %></legend>
       <div class="form--field">
