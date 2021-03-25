@@ -32,9 +32,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   def render_quick_add_menu
     return unless show_quick_add_menu?
 
-    content_tag :ul, class: 'op-app-menu' do
-      render_quick_add_dropdown
-    end
+    render_quick_add_dropdown
   end
 
   private

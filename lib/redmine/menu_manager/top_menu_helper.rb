@@ -34,7 +34,8 @@ module Redmine::MenuManager::TopMenuHelper
   def render_top_menu_left
     content_tag :ul, class: 'op-app-menu op-app-menu_drop-left' do
       [render_main_top_menu_nodes,
-       render_projects_top_menu_node].join.html_safe
+       render_projects_top_menu_node,
+       render_quick_add_menu].join.html_safe
     end
   end
 
