@@ -28,7 +28,7 @@ A typical workflow on Gitlab side would be:
 
    <img src="doc/op-issue-opened.png" width="500">
 
-> **Issue Opened:** Issue 6 New contact form - OP#18 for Scrum project has been opened by Administrator.
+   > **Issue Opened:** Issue 6 New contact form - OP#18 for Scrum project has been opened by Administrator.
 
 2. **Comment on issue.**
 
