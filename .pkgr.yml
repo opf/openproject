@@ -21,12 +21,11 @@ targets:
     <<: *debian9
   centos-7: &centos7
     dependencies:
+      - epel-release
+      - ImageMagick
       - unzip
       - poppler-utils
-      - unrtf
       - tesseract
-      - catdoc
-      - ImageMagick
   centos-8:
     <<: *centos7
   sles-12:
