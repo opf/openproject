@@ -90,14 +90,14 @@ describe Notifications::JournalWpMailService do
 
     it 'sends a mail' do
       expect { call }
-        .to enqueue_job(DeliverWorkPackageNotificationJob)
+        .to enqueue_job(Mails::WorkPackageJob)
         .with(journal.id, recipient.id, sender.id)
     end
   end
 
   shared_examples_for 'sends no mail' do
     it 'sends no mail' do
-      expect { call }.to_not enqueue_job(DeliverWorkPackageNotificationJob)
+      expect { call }.to_not enqueue_job(Mails::WorkPackageJob)
       call
     end
   end

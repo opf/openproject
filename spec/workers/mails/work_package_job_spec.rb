@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe DeliverWorkPackageNotificationJob, type: :model do
+describe Mails::WorkPackageJob, type: :model do
   let(:project) { FactoryBot.create(:project) }
   let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
   let(:recipient) do

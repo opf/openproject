@@ -28,14 +28,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# TODO: move to workers/mails and turn inot delayed job
-class WatcherAddedNotificationMailer < WatcherNotificationMailer
-  class << self
-    private
+class Mails::WatcherRemovedJob < Mails::WatcherJob
+  def perform(watcher_attributes, watcher_changer)
+    watcher = Watcher.new(watcher_attributes)
 
-    def perform_notification_job(watcher, watcher_changer)
-      DeliverWatcherAddedNotificationJob
-        .perform_later(watcher.id, watcher.user.id, watcher_changer.id)
-    end
+    super(watcher, watcher_changer)
+  end
+
+  private
+
+  def action
+    'removed'
   end
 end

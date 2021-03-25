@@ -28,14 +28,37 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class DeliverInvitationJob < ApplicationJob
-  queue_with_priority :high
+class Mails::WorkPackageJob < Mails::DeliverJob
+  queue_with_priority :notification
 
-  def perform(token)
-    if token
-      UserMailer.user_signed_up(token).deliver_later
+  def perform(journal_id, recipient_id, author_id)
+    @journal_id = journal_id
+    super(recipient_id, author_id)
+  end
+
+  def render_mail(recipient:, sender:)
+    return nil unless raw_journal # abort, assuming that the underlying WP was deleted
+
+    journal = Journal::AggregatedJournal.with_version(raw_journal)
+
+    # The caller should have ensured that the journal can't outdate anymore
+    # before queuing a notification
+    raise 'aggregated journal got outdated' unless journal
+
+    if journal.initial?
+      UserMailer.work_package_added(recipient, journal, sender)
     else
-      Rails.logger.warn "Can't deliver invitation. The token is missing."
+      UserMailer.work_package_updated(recipient, journal, sender)
     end
+  end
+
+  private
+
+  def raw_journal
+    @raw_journal ||= Journal.find_by(id: @journal_id)
+  end
+
+  def work_package
+    @work_package ||= raw_journal.journable
   end
 end

@@ -28,17 +28,27 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class DeliverWatcherRemovedNotificationJob < DeliverWatcherNotificationJob
-  # As watcher is already destroyed we need to pass a hash
-  def perform(watcher_attributes, recipient_id, watcher_remover_id)
-    @watcher = Watcher.new(watcher_attributes)
-
-    super(watcher.id, recipient_id, watcher_remover_id)
-  end
-
-  def render_mail(recipient:, sender:)
-    return unless watcher
-
-    UserMailer.work_package_watcher_changed(watcher.watchable, recipient, sender, 'removed')
+class Mails::MemberUpdatedJob < ApplicationJob
+  def perform(current_user:,
+              member:)
+    if member.project.nil?
+      MemberMailer
+        .updated_global(current_user, member)
+        .deliver_now
+    elsif member.principal.is_a?(Group)
+      Member
+        .of(member.project)
+        .where(principal: member.principal.users)
+        .includes(:project, :principal, :roles)
+        .each do |users_member|
+        MemberMailer
+          .added_project(current_user, users_member)
+          .deliver_now
+      end
+    elsif member.principal.is_a?(User)
+      MemberMailer
+        .updated_project(current_user, member)
+        .deliver_now
+    end
   end
 end

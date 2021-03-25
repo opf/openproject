@@ -28,15 +28,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class DeliverNotificationJob < ApplicationJob
+class Mails::DeliverJob < ApplicationJob
   queue_with_priority :notification
 
   def perform(recipient_id, sender_id)
     @recipient_id = recipient_id
     @sender_id = sender_id
 
-    # nothing to do if recipient was deleted in the meantime
-    return unless recipient
+    return if abort?
 
     mail = User.execute_as(recipient) { build_mail }
 
@@ -44,6 +43,11 @@ class DeliverNotificationJob < ApplicationJob
   end
 
   private
+
+  def abort?
+    # nothing to do if recipient was deleted in the meantime
+    recipient.nil?
+  end
 
   # To be implemented by subclasses.
   # Actual recipient and sender User objects are passed (always non-nil).
@@ -62,10 +66,18 @@ class DeliverNotificationJob < ApplicationJob
   end
 
   def recipient
-    @recipient ||= User.find_by(id: @recipient_id)
+    @recipient ||= if @recipient_id.is_a?(User)
+                     @recipient_id
+                   else
+                     User.find_by(id: @recipient_id)
+                   end
   end
 
   def sender
-    @sender ||= User.find_by(id: @sender_id) || DeletedUser.first
+    @sender ||= if @sender_id.is_a?(User)
+                  @sender_id
+                else
+                  User.find_by(id: @sender_id) || DeletedUser.first
+                end
   end
 end

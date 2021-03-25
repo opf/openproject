@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Mails::Deliver::MemberCreatedJob < ApplicationJob
+class Mails::MemberCreatedJob < ApplicationJob
   def perform(current_user:,
               member:)
     # TODO: add a Mails::Prepare::MemberCreatedJob that fans out the member in case the principal

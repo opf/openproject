@@ -39,7 +39,7 @@
 # as opposed to using `ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper`.
 # We want it to run in an `ApplicationJob` because of the shared setup required
 # such as reloading the mailer configuration and resetting the request store.
-class MailerJob < ApplicationJob
+class Mails::MailerJob < ApplicationJob
   queue_as { ActionMailer::Base.deliver_later_queue_name }
 
   # Retry mailing jobs three times with exponential backoff

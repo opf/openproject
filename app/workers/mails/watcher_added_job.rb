@@ -28,10 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class DeliverWatcherAddedNotificationJob < DeliverWatcherNotificationJob
-  def render_mail(recipient:, sender:)
-    return unless watcher
+class Mails::WatcherAddedJob < Mails::WatcherJob
+  private
 
-    UserMailer.work_package_watcher_changed(watcher.watchable, recipient, sender, 'added')
+  def action
+    'added'
   end
 end

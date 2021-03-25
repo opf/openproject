@@ -28,20 +28,18 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class DeliverWatcherNotificationJob < DeliverNotificationJob
-  def perform(watcher_id, recipient_id, watcher_changer_id)
-    @watcher_id = watcher_id
+require 'spec_helper'
+require_relative 'shared/watcher_job'
 
-    super(recipient_id, watcher_changer_id)
-  end
+describe Mails::WatcherRemovedJob, type: :model do
+  include_examples "watcher job", 'removed' do
+    let(:watcher_parameter) { watcher.attributes }
 
-  def render_mail(recipient:, sender:) # rubocop:disable Lint/UnusedMethodArgument
-    raise NotImplementedError, 'Subclass has to implement #render_mail'
-  end
-
-  private
-
-  def watcher
-    @watcher ||= Watcher.find_by(id: @watcher_id)
+    before do
+      allow(Watcher)
+        .to receive(:new)
+        .with(watcher_parameter)
+        .and_return(watcher)
+    end
   end
 end

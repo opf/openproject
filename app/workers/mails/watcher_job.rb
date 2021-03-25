@@ -28,27 +28,51 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Mails::Deliver::MemberUpdatedJob < ApplicationJob
-  def perform(current_user:,
-              member:)
-    if member.project.nil?
-      MemberMailer
-        .updated_global(current_user, member)
-        .deliver_now
-    elsif member.principal.is_a?(Group)
-      Member
-        .of(member.project)
-        .where(principal: member.principal.users)
-        .includes(:project, :principal, :roles)
-        .each do |users_member|
-        MemberMailer
-          .added_project(current_user, users_member)
-          .deliver_now
-      end
-    elsif member.principal.is_a?(User)
-      MemberMailer
-        .updated_project(current_user, member)
-        .deliver_now
+class Mails::WatcherJob < Mails::DeliverJob
+  def perform(watcher, watcher_changer)
+    self.watcher = watcher
+
+    super(watcher.user, watcher_changer)
+  end
+
+  def render_mail(recipient:, sender:)
+    UserMailer
+      .work_package_watcher_changed(watcher.watchable,
+                                    recipient,
+                                    sender,
+                                    action)
+  end
+
+  private
+
+  attr_accessor :watcher
+
+  def abort?
+    super || !notify_about_watcher_changed?
+  end
+
+  def notify_about_watcher_changed?
+    return false if notify_about_self_watching?
+
+    case watcher.user.mail_notification
+    when 'only_my_events'
+      true
+    when 'selected'
+      watching_selected_includes_project?
+    else
+      watcher.user.notify_about?(watcher.watchable)
     end
+  end
+
+  def notify_about_self_watching?
+    watcher.user == sender && !sender.pref.self_notified?
+  end
+
+  def watching_selected_includes_project?
+    watcher.user.notified_projects_ids.include?(watcher.watchable.project_id)
+  end
+
+  def action
+    raise NotImplementedError, 'subclass responsibility'
   end
 end

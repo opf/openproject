@@ -28,15 +28,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# TODO: move to workers/mails and turn inot delayed job
-class WatcherRemovedNotificationMailer < WatcherNotificationMailer
-  class << self
-    private
+require 'spec_helper'
+require_relative 'shared/watcher_job'
 
-    def perform_notification_job(watcher, watcher_changer)
-      # As watcher is already destroyed we need to pass a hash
-      DeliverWatcherRemovedNotificationJob
-        .perform_later(watcher.attributes, watcher.user.id, watcher_changer.id)
-    end
+describe Mails::WatcherAddedJob, type: :model do
+  include_examples "watcher job", 'added' do
+    let(:watcher_parameter) { watcher }
   end
 end
