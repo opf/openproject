@@ -605,13 +605,46 @@ describe MailHandler, type: :model do
     end
   end
 
+  describe '#dispatch_target_from_message_id' do
+    let!(:mail_user) { FactoryBot.create :admin, mail: 'user@example.org' }
+    let(:instance) do
+      mh = MailHandler.new
+      mh.options = {}
+      mh
+    end
+    subject { instance.receive mail }
+
+    context 'receiving reply from work package' do
+      let(:mail) { Mail.new(read_email('work_package_reply.eml')) }
+
+      it 'calls the work package reply' do
+        expect(instance).to receive(:receive_work_package_reply).with(34540)
+
+        subject
+      end
+    end
+
+    context 'receiving reply from message' do
+      let(:mail) { Mail.new(read_email('message_reply.eml')) }
+
+      it 'calls the work package reply' do
+        expect(instance).to receive(:receive_message_reply).with(12559)
+
+        subject
+      end
+    end
+  end
+
   private
 
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 
+  def read_email(filename)
+    IO.read(File.join(FIXTURES_PATH, filename))
+  end
+
   def submit_email(filename, options = {})
-    raw = IO.read(File.join(FIXTURES_PATH, filename))
-    MailHandler.receive(raw, options)
+    MailHandler.receive(read_email(filename), options)
   end
 
   def work_package_created(work_package)

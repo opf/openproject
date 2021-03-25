@@ -27,15 +27,12 @@
 //++
 
 import {Component, Output, EventEmitter, Injector} from '@angular/core';
-import {WpGraphConfigurationModalComponent} from "core-app/modules/work-package-graphs/configuration-modal/wp-graph-configuration.modal";
-import {WidgetWpSetMenuComponent} from "core-app/modules/grids/widgets/menu/wp-set-menu.component";
-import {OpModalComponent} from "core-components/op-modals/op-modal.component";
-import {OpModalService} from "core-components/op-modals/op-modal.service";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {GridRemoveWidgetService} from "core-app/modules/grids/grid/remove-widget.service";
 import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 import {WidgetAbstractMenuComponent} from "core-app/modules/grids/widgets/menu/widget-abstract-menu.component";
-import {TimeEntriesCurrentUserConfigurationModalComponent} from "core-app/modules/grids/widgets/time-entries/current-user/time-entries-current-user-configuration.modal";
+import {OpModalService} from "core-components/op-modals/op-modal.service";
+import {TimeEntriesCurrentUserConfigurationModalComponent} from "core-app/modules/grids/widgets/time-entries/current-user/time-entries-current-user-configuration-modal/time-entries-current-user-configuration.modal";
 
 @Component({
   selector: 'widget-time-entries-current-user-menu',
@@ -66,9 +63,9 @@ export class WidgetTimeEntriesCurrentUserMenuComponent extends WidgetAbstractMen
       onClick: () => {
         this.opModalService.show(TimeEntriesCurrentUserConfigurationModalComponent, this.injector, this.locals)
           .closingEvent.subscribe((modal:TimeEntriesCurrentUserConfigurationModalComponent) => {
-            if (modal.options) {
-              this.onConfigured.emit(modal.options);
-            }
+          if (modal.options) {
+            this.onConfigured.emit(modal.options);
+          }
         });
         return true;
       }

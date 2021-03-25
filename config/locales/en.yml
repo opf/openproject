@@ -697,6 +697,10 @@ en:
           attributes:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Work package #%{id} is not a valid target for reassigning the time entries."
           attributes:
@@ -2057,7 +2061,7 @@ en:
         it will not be possible to distinguish the data the user created from
         the data of another deleted account.
       irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
       title: Assign work to people that are not members of the project.
       description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.

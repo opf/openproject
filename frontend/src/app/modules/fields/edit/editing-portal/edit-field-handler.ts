@@ -75,6 +75,9 @@ export abstract class EditFieldHandler extends UntilDestroyedMixin {
   // OnSubmit callbacks that may register from fields
   protected _onSubmitHandlers:Array<() => Promise<void>> = [];
 
+  // OnPreSubmit callbacks that may register from fields
+  protected _onBeforeSubmitHandlers:Array<() => void> = [];
+
   /**
    * Call field submission callback handlers
    */
@@ -84,6 +87,17 @@ export abstract class EditFieldHandler extends UntilDestroyedMixin {
 
   public registerOnSubmit(callback:() => Promise<void>) {
     this._onSubmitHandlers.push(callback);
+  }
+
+  /**
+   * Call field before-submission callback handlers
+   */
+  public onBeforeSubmit():any {
+    return this._onBeforeSubmitHandlers.map((cb) => cb());
+  }
+
+  public registerOnBeforeSubmit(callback:() => void) {
+    this._onBeforeSubmitHandlers.push(callback);
   }
 
   /**

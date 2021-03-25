@@ -250,6 +250,10 @@ class CustomField < ApplicationRecord
     field_format == "list"
   end
 
+  def formattable?
+    field_format == "text"
+  end
+
   def multi_value?
     multi_value
   end

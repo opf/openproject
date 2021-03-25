@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,23 +28,21 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::Patches::DeclarativeOption
-  extend ActiveSupport::Concern
+module OpenProject
+  module Patches
+    module_function
 
-  included do
-    private
+    ##
+    # Check against a particular gem version
+    # before patching it
+    def patch_gem_version(gem, version, &block)
+      found_version = Gem.loaded_specs[gem].version
+      if found_version > Gem::Version.new(version)
+        raise "OpenProject expects to patch gem '#{gem}' at version #{version} " \
+              "but found version #{found_version.to_s}. Please check whether the patch is still valid."
+      end
 
-    # Override Declarative::Option to avoid ruby 2.7.1 warnings about using the last argument as keyword parameter.
-    def lambda_for_proc(value, options)
-      return ->(context, **args) { context.instance_exec(**args, &value) } if options[:instance_exec]
-
-      value
+      block.call
     end
-  end
-end
-
-OpenProject::Patches.patch_gem_version 'declarative-option', '0.1.0' do
-  unless Declarative::Option.included_modules.include?(OpenProject::Patches::DeclarativeOption)
-    Declarative::Option.include OpenProject::Patches::DeclarativeOption
   end
 end
