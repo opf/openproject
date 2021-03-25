@@ -1,9 +1,19 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, OnDestroy } from "@angular/core";
-import { FormArray, FormGroup } from "@angular/forms";
+import { AbstractControl, FormArray, FormControl, FormGroup } from "@angular/forms";
 import { FormlyFieldConfig, FormlyForm } from "@ngx-formly/core";
-import { Observable, of, ReplaySubject, Subscription } from "rxjs";
-import { debounceTime, distinctUntilChanged, map, switchMap } from "rxjs/operators";
+import { Observable, of, ReplaySubject, Subject, Subscription } from "rxjs";
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  startWith,
+  switchMap,
+  take,
+  tap,
+} from "rxjs/operators";
 import {
   IDynamicForm,
   IFieldSchemaWithKey,
@@ -17,6 +27,7 @@ import {
 } from "../typings";
 import { mergeFormModels } from "../utils/utils";
 import { DynamicFormsHubService } from "./dynamic-forms-hub.service";
+import { ErrorResource } from "core-app/modules/hal/resources/error-resource";
 
 @Injectable()
 export class DynamicFormService implements OnDestroy {
@@ -27,6 +38,8 @@ export class DynamicFormService implements OnDestroy {
   formModelChanges:IFormModelChanges;
   formSubcription:Subscription;
   fieldTypeSubcription:Subscription;
+  submitResponse$ = new Subject()
+  errors:{[key:string]:string} = {};
 
   private _form = new ReplaySubject<IDynamicForm>(1);
   readonly form$:Observable<IDynamicForm> = this._form.asObservable();
@@ -223,6 +236,10 @@ export class DynamicFormService implements OnDestroy {
         ...templateOptions, // ...writable && templateOptions, // Only when writable?
         ...fieldOptions && {options: fieldOptions},        
       },
+      // TODO: Make validation dynamic
+      validators: {
+        validation: [{ name: 'backend-validator', options: this }],
+      },
       // Reset the form when the work package type changes
       // and so the form schema changes too
       ...field.key === '_links.type' && {
@@ -310,6 +327,7 @@ export class DynamicFormService implements OnDestroy {
         type: 'formattableInput',
         className: `textarea-wrapper`,
         templateOptions: {
+          // TODO: Get rtl this from the schema
           rtl: false,
           name: field.name,
           editorType: 'full',
@@ -488,6 +506,7 @@ if (field._embedded?.allowedValues) {
   }
 
   saveForm(formModel:IFormModel) {
+    // TODO: Pass _links as {href: selfValue} or an array of these objects when multiselect
     // TODO: Replace with dynamic url
     let url = '/api/v3/projects';
 
@@ -499,6 +518,60 @@ if (field._embedded?.allowedValues) {
                     withCredentials: true,
                     responseType: 'json'
                   }
+                )
+                .pipe(
+                  /*tap(submitResponse => {
+                    console.log('submitResponse', submitResponse);
+                    this.submitResponse$.next(submitResponse)
+                  }),*/
+                  catchError((error:ErrorResource) => {
+                    if (error.status == 422) {
+                      this.form.form.markAllAsTouched();
+                      const errors = error.error._embedded.errors;
+                      console.log('catchError', error, errors);
+
+
+                      this.errors = errors.reduce((errorsResult:{[key:string]:string}, err:any) => {
+                        const key = err._embedded.details.attribute;
+                        const message = err.message;
+                        errorsResult = {...errorsResult, [key]: message};
+
+                        return errorsResult;
+                      }, {});
+
+                      this.updateTreeValidity(this.form.form);
+                    }
+
+                    console.log('Errors', this.errors)
+                    /*if (error.status == 422) {
+                      this.form.form.markAllAsTouched();
+                      console.log('catchError', error);
+                      const errors = error.error._embedded.errors;
+
+                      errors.forEach((err:any) => {
+                        const key = err._embedded.details.attribute;
+                        const message = err.message;
+
+                        this.form.form.get(key)!.setErrors({[key]: message})
+                        console.log('catchError form', this.form.form.get(key), this.form.form.get(key)!.errors);
+
+                      })
+                    }*/
+                    throw error;
+                  })
                 );
+  }
+
+  /**
+   * Re-calculates the value and validation status of the entire controls tree.
+   */
+  updateTreeValidity(group: FormGroup | FormArray): void {
+    Object.values(group.controls).forEach((control: AbstractControl) => {
+      if (control instanceof FormGroup || control instanceof FormArray) {
+        this.updateTreeValidity(control);
+      } else {
+        control.updateValueAndValidity();
+      }
+    });
   }
 }

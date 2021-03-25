@@ -20,6 +20,11 @@ export class OpDynamicFormComponent implements OnChanges {
   @Input() formId: string;
   @Input() projectId: string;
   @Input() typeHref: string;
+  // TODO: Implement the following @Inputs (resourceType + )
+  /* @Input() formHref: string;
+  @Input() config: string;
+  @Input() opForm: string;*/
+
 
   form:FormGroup;
   dynamicForm$: Observable<IDynamicForm>;

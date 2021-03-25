@@ -24,6 +24,7 @@ import { OpenprojectEditorModule } from "core-app/modules/editor/openproject-edi
 import { OpenprojectFieldsModule } from "core-app/modules/fields/openproject-fields.module";
 import { FormattableControlComponent } from './components/inputs/formattable-textarea-input/components/formattable-control/formattable-control.component';
 import { InputLabelComponent } from './components/input-label/input-label.component';
+import { backendValidator } from "core-app/modules/common/dynamic-forms/validators/back-end-validator";
 
 @NgModule({
   imports: [
@@ -39,6 +40,9 @@ import { InputLabelComponent } from './components/input-label/input-label.compon
         { name: 'dateInput', component: DateInputComponent },
         { name: 'formattableInput', component: FormattableTextareaInputComponent },
       ],
+      validators: [
+        backendValidator,
+      ]
     }),
     HttpClientModule,
     NgSelectModule,

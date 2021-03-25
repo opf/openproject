@@ -2,7 +2,7 @@
 </op-input-label>
 
 <ng-select [id]="field.id"
-           [items]="this.to?.options | async"
+           [items]="to?.options | async"
            [formControl]="formControl"
            [formlyAttributes]="field"
            [attr.aria-required]="to.required"
