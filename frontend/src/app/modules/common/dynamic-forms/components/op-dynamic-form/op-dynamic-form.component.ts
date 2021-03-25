@@ -44,7 +44,7 @@ export class OpDynamicFormComponent implements OnChanges {
 
   saveForm(formModel:IFormModel) {
     this.dynamicFormService
-          .saveForm(formModel)
+          .submitForm(formModel)
           .subscribe((response) => console.log('response', response));
   }
 }

@@ -69,6 +69,29 @@ export class DynamicFormService {
       )
   }
 
+  submitForm(formModel:IFormModel) {
+    // TODO: Replace with dynamic url
+    const url = '/api/v3/projects';
+    const modelToSubmit = this._formatModelToSubmit(formModel);
+
+    return this.httpClient
+      .post(
+        url,
+        modelToSubmit,
+        {
+          withCredentials: true,
+          responseType: 'json'
+        }
+      )
+      .pipe(
+        catchError((error:ErrorResource) => {
+          this._handleFormErrors(error, this.form.form as FormGroup);
+
+          throw error;
+        })
+      );
+  }
+
   private _getFormlyForm(formConfig:IOPForm):IDynamicForm {
     const formSchema = formConfig._embedded?.schema;
     const formModel = formConfig._embedded?.payload;
@@ -82,18 +105,7 @@ export class DynamicFormService {
       model: fieldsModel,
     };
 
-    console.log('formlyForm', formlyForm)
-
     return formlyForm;
-  }
-
-  // TODO: Is there a better way to check this?
-  private _isFieldSchema(schemaValue:IFieldSchemaWithKey | any):boolean {
-    return schemaValue?.type &&
-      schemaValue?.name != null &&
-      schemaValue?.required != null &&
-      schemaValue?.hasDefault != null &&
-      schemaValue?.writable != null;
   }
 
   private _getFieldsSchemas(formSchema:IOPFormSchema, formModel:IFormModel):IFieldSchemaWithKey[] {
@@ -109,6 +121,44 @@ export class DynamicFormService {
         return schemaValue;
       })
       .filter(schemaValue => this._isFieldSchema(schemaValue));
+  }
+
+  // TODO: Is there a better way to check this?
+  private _isFieldSchema(schemaValue:IFieldSchemaWithKey | any):boolean {
+    return schemaValue?.type &&
+      schemaValue?.name != null &&
+      schemaValue?.required != null &&
+      schemaValue?.hasDefault != null &&
+      schemaValue?.writable != null;
+  }
+
+  private _getFieldsModel(fieldSchemas:IFieldSchemaWithKey[], formModel:IFormModel = {}) {
+    // TODO: Handle Formattable and time types
+    const {_links:resourcesModel, ...otherElementsModel} = formModel;
+    const model = {
+      ...otherElementsModel,
+      _links: this._getFormattedResourcesModel(resourcesModel),
+    }
+
+    return model;
+  }
+
+  private _getFormattedResourcesModel(resourcesModel:IFormModel['_links'] = {}){
+    return Object.keys(resourcesModel).reduce((result, resourceKey) => {
+      // TODO: Fix this typing
+      // Some customfields come with an [] as value
+      const resourceModel = resourcesModel[resourceKey]?.href ? resourcesModel[resourceKey] : null;
+
+      result = {
+        ...result,
+        [resourceKey]: resourceModel && {
+          ...resourceModel,
+          ...{name: resourceModel?.title},
+        }
+      }
+
+      return result;
+    }, {});
   }
 
   private _getFormlyFieldConfig(field:IFieldSchemaWithKey):IOPFormlyFieldConfig {
@@ -250,35 +300,6 @@ export class DynamicFormService {
             );
   }
 
-  private _getFieldsModel(fieldSchemas:IFieldSchemaWithKey[], formModel:IFormModel = {}) {
-    // TODO: Handle Formattable and time types
-    const {_links:resourcesModel, ...otherElementsModel} = formModel;
-    const model = {
-      ...otherElementsModel,
-      _links: this._getFormattedResourcesModel(resourcesModel),
-    }
-    
-    return model;
-  }
-
-  private _getFormattedResourcesModel(resourcesModel:IFormModel['_links'] = {}){
-    return Object.keys(resourcesModel).reduce((result, resourceKey) => {
-      // TODO: Fix this typing
-      // Some customfields come with an [] as value
-      const resourceModel = resourcesModel[resourceKey]?.href ? resourcesModel[resourceKey] : null;
-
-      result = {
-        ...result,
-        [resourceKey]: resourceModel && {
-          ...resourceModel,
-          ...{name: resourceModel?.title},
-        }
-      }
-
-      return result;
-    }, {});
-  }
-
   private _getFormlyFormWithFieldGroups(fieldGroups:IAttributeGroup[] = [], formFields:IOPFormlyFieldConfig[] = []) {
     // TODO: Handle nested groups
     // TODO: Handle sort fields in schema order
@@ -290,8 +311,7 @@ export class DynamicFormService {
       return formFieldKey ?
         !fieldGroupKeys.includes(formFieldKey) :
         true;
-      //!fieldGroupKeys.includes(formField.key?.split('.')?.pop())
-    })
+    });
     const formFieldGroups = fieldGroups.reduce((formWithFieldGroups: IOPFormlyFieldConfig[], fieldGroup) => {
       const newFormFieldGroup = {
         wrappers: ['op-form-field-group-wrapper'],
@@ -318,30 +338,7 @@ export class DynamicFormService {
     return [...fomFieldsWithoutGroup, ...formFieldGroups];
   }
 
-  saveForm(formModel:IFormModel) {
-    // TODO: Replace with dynamic url
-    const url = '/api/v3/projects';
-    const modelToSubmit = this.formatModelToSubmit(formModel);
-
-    return this.httpClient
-                .post(
-                  url,
-                  modelToSubmit,
-                  {
-                    withCredentials: true,
-                    responseType: 'json'
-                  }
-                )
-                .pipe(
-                  catchError((error:ErrorResource) => {
-                    this.handleFormErrors(error, this.form.form as FormGroup);
-
-                    throw error;
-                  })
-                );
-  }
-
-  formatModelToSubmit(formModel:IFormModel) {
+  private _formatModelToSubmit(formModel:IFormModel) {
     const resources = formModel._links || {};
     const formattedResources = Object
       .keys(resources)
@@ -360,7 +357,7 @@ export class DynamicFormService {
     }
   }
 
-  handleFormErrors(error:ErrorResource, form:FormGroup) {
+  private _handleFormErrors(error:ErrorResource, form:FormGroup) {
     if (error.status == 422) {
       form.markAllAsTouched();
       const errors = error.error._embedded.errors;
