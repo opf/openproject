@@ -1,4 +1,5 @@
 import { FormlyFieldConfig } from "@ngx-formly/core";
+import { HalSource } from "core-app/modules/hal/resources/hal-resource";
 
 export interface IDynamicForm {
   fields: IOPFormlyFieldConfig[];
@@ -30,7 +31,7 @@ export interface IFormModel {
   lockVersion?: number;
   [key: string]: string | number | Object;
   _links?: {
-    [key: string]: IResource; // Customfields has []?
+    [key: string]: HalSource; // Customfields has []?
   };
 }
 
@@ -81,19 +82,14 @@ export interface IAttributeGroup {
   attributes: string[];
 }
 
-export interface IResource {
-  href: string;
-  title?: string;
-}
-
 // TODO: Type this properly
 export interface IAllowedValue {
   id: string;
   name: string;
   [key: string]: unknown;
   _links: {
-    self: IResource;
-    [key: string]: IResource;
+    self: HalSource;
+    [key: string]: HalSource;
   };
 }
 
@@ -105,7 +101,7 @@ export interface IApiCall {
 export interface IFormModelChanges {
   [key: string]: unknown;
   _links?: {
-    [key: string]: IResource;
+    [key: string]: HalSource;
   };
 }
 

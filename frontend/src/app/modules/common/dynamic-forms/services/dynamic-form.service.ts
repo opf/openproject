@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable, OnDestroy } from "@angular/core";
-import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors } from "@angular/forms";
+import { Injectable } from "@angular/core";
+import { FormGroup } from "@angular/forms";
 import { FormlyFieldConfig, FormlyForm } from "@ngx-formly/core";
-import { Observable, of, ReplaySubject, Subscription } from "rxjs";
+import { Observable, of, ReplaySubject } from "rxjs";
 import {
   catchError,
   map,
@@ -126,13 +126,6 @@ export class DynamicFormService {
         disabled: !writable,
         ...templateOptions,
         ...fieldOptions && {options: fieldOptions},
-      },
-      ...field.key.includes('_links') && {
-        // Process the model in anyway examples
-        parsers: [(value:any) => {
-          console.log('value', value);
-          return value;
-        }]
       }
     }
 
@@ -326,14 +319,14 @@ export class DynamicFormService {
   }
 
   saveForm(formModel:IFormModel) {
-    // TODO: Pass _links as {href: selfValue} or an array of these objects when multiselect
     // TODO: Replace with dynamic url
-    let url = '/api/v3/projects';
+    const url = '/api/v3/projects';
+    const modelToSubmit = this.formatModelToSubmit(formModel);
 
     return this.httpClient
                 .post(
                   url,
-                  formModel,
+                  modelToSubmit,
                   {
                     withCredentials: true,
                     responseType: 'json'
@@ -346,6 +339,25 @@ export class DynamicFormService {
                     throw error;
                   })
                 );
+  }
+
+  formatModelToSubmit(formModel:IFormModel) {
+    const resources = formModel._links || {};
+    const formattedResources = Object
+      .keys(resources)
+      .reduce((result, resourceKey) => {
+        const resource = resources[resourceKey];
+        const resourceValue = Array.isArray(resource) ?
+          resource.map(resourceElement => ({ href: resourceElement?._links.self.href })) :
+          { href: resource?._links.self.href };
+
+        return { [resourceKey]: resourceValue };
+      }, {});
+
+    return {
+      ...formModel,
+      _links: formattedResources,
+    }
   }
 
   handleFormErrors(error:ErrorResource, form:FormGroup) {
