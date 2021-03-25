@@ -49,6 +49,7 @@ FactoryBot.define do
 
       factory :list_project_custom_field do
         sequence(:name) { |n| "List project custom field #{n}" }
+        multi_value { false }
         field_format { 'list' }
         possible_values { ['A', 'B', 'C', 'D', 'E', 'F', 'G'] }
       end
