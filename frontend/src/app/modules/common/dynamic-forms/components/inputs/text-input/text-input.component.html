@@ -1,11 +1,7 @@
-<op-form-field [label]="field.templateOptions?.label">
-  <input [type]="to.type"
-         [id]="field.id"
-         [attr.aria-required]="to.required"
-         [attr.required]="to.required"
-         [formControl]="formControl"
-         [formlyAttributes]="field"
-         slot=input>
-
-  <formly-validation-message [field]="field" slot=errors></formly-validation-message>
-</op-form-field>
+<input [type]="to.type"
+       [id]="field.id"
+       [attr.aria-required]="to.required"
+       [attr.required]="to.required"
+       [formControl]="formControl"
+       [formlyAttributes]="field"
+       slot=input>
