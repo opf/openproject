@@ -9,14 +9,11 @@ describe 'custom fields', js: true do
     login_as(user)
   end
 
-  describe "creating a new list custom field" do
-    before do
-      cf_page.visit!
+  shared_examples "creating a new list custom field" do |type|
+    it "creates a new list custom field with its options in the right order" do
+      cf_page.visit_tab type
 
       click_on "Create a new custom field"
-    end
-
-    it "creates a new list custom field with its options in the right order" do
       cf_page.set_name "Operating System"
 
       select "List", from: "custom_field_field_format"
@@ -60,6 +57,14 @@ describe 'custom fields', js: true do
       expect(page).to have_field("custom_field_custom_options_attributes_1_default_value", checked: true)
       expect(page).to have_field("custom_field_custom_options_attributes_2_default_value", checked: false)
     end
+  end
+
+  describe 'projects' do
+    it_behaves_like "creating a new list custom field", 'Projects'
+  end
+
+  describe 'work packages' do
+    it_behaves_like "creating a new list custom field", 'Work packages'
   end
 
   context "with an existing list custom field" do
