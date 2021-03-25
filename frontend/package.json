@@ -50,7 +50,7 @@
     "@kolkov/ngx-gallery": "^1.0.11",
     "@ng-select/ng-option-highlight": "0.0.5",
     "@ng-select/ng-select": "^4.0.4",
-    "@ngx-formly/core": "^5.10.15",
+    "@ngx-formly/core": "^6.0.0-next.1",
     "@sentry/browser": "^5.13.0",
     "@types/chart.js": "^2.9.20",
     "@types/codemirror": "0.0.87",

@@ -1,6 +1,11 @@
 <div class="op-form--container" *ngIf="(dynamicForm$ | async) as dynamicForm">
-  <form [formGroup]="form" (submit)="saveForm(form.value)">
+  <form [formGroup]="form" (submit)="saveForm(form.value)" #ngForm="ngForm">
     <formly-form [form]="form" [model]="dynamicForm?.model" [fields]="dynamicForm?.fields">
+      <ng-template formlyTemplate let-field>
+        <div *ngFor="let field of dynamicForm?.fields">
+          <formly-field [field]="field"></formly-field>
+        </div>
+      </ng-template>
     </formly-form>
 
     <button type="submit">
@@ -10,6 +15,8 @@
 
   <hr>
   VALID: {{form?.valid}}
+  SUBMITTED: {{ngForm.submitted}}
+
   <pre>
       {{form?.value | json}}
   </pre>
