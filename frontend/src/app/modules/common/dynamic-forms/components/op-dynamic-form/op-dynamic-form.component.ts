@@ -4,7 +4,6 @@ import {
   OnChanges,
   ViewChild
 } from "@angular/core";
-import { FormGroup } from "@angular/forms";
 import { FormlyForm } from "@ngx-formly/core";
 import { Observable } from "rxjs";
 import { DynamicFormService } from "../../services/dynamic-form.service";
