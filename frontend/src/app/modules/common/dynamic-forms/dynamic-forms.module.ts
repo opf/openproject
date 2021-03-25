@@ -23,6 +23,7 @@ import { OpenprojectEditorModule } from "core-app/modules/editor/openproject-edi
 import { OpenprojectFieldsModule } from "core-app/modules/fields/openproject-fields.module";
 import { FormattableControlComponent } from './components/inputs/formattable-textarea-input/components/formattable-control/formattable-control.component';
 import { InputLabelComponent } from './components/input-label/input-label.component';
+import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { InputLabelComponent } from './components/input-label/input-label.compon
     OpenprojectEditorModule,
     // TODO: Import only necessary fields (EditFieldControlsComponent)
     OpenprojectFieldsModule,
+    OpenprojectCommonModule,
   ],
   declarations: [
     OpSelectComponent,
