@@ -39,7 +39,6 @@ See docs/COPYRIGHT.rdoc for more details.
   <%
     form_options = {
       custom_value: form.object.custom_value_for(custom_field.id),
-      customized: form.object,
       custom_field: custom_field
     } %>
   <%= form.fields_for_custom_fields :custom_field_values, form.object, form_options do |cf_form| %>

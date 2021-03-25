@@ -34,15 +34,13 @@ class CustomFieldFormBuilder < TabularFormBuilder
   include ActionView::Context
 
   attr_reader :custom_value,
-              :custom_field,
-              :customized
+              :custom_field
 
   def initialize(object_name, object, template, options)
     super
 
     @custom_value = options.fetch(:custom_value)
     @custom_field = options.fetch(:custom_field)
-    @customized = options.fetch(:customized)
   end
 
   # Return custom field html tag corresponding to its format
@@ -60,10 +58,6 @@ class CustomFieldFormBuilder < TabularFormBuilder
   end
 
   private
-
-  def possible_options_for_object
-    custom_field.possible_values_options(customized)
-  end
 
   def custom_field_input(options = {})
     field = custom_field.accessor_name
@@ -90,7 +84,8 @@ class CustomFieldFormBuilder < TabularFormBuilder
   end
 
   def custom_field_input_list(field, input_options)
-    possible_options = possible_options_for_object
+    customized = Array(custom_value).first&.customized
+    possible_options = custom_field.possible_values_options(customized)
     select_options = custom_field_select_options_for_object
     selected_options = Array(custom_value).map(&:value)
     selectable_options = template.options_for_select(possible_options, selected_options)
