@@ -70,7 +70,7 @@ Redmine::MenuManager.map :quick_add_menu do |menu|
             Proc.new { |project|
               { controller: '/projects', action: :new, id: nil, parent_id: project&.id }
             },
-            caption: Project.model_name.human,
+            caption: ->(*) { Project.model_name.human },
             icon: "icon-add icon3",
             html: {
               aria: { label: I18n.t(:label_project_new) },
@@ -85,10 +85,7 @@ Redmine::MenuManager.map :quick_add_menu do |menu|
             html: {
               'invite-user-modal-augment': 'invite-user-modal-augment'
             },
-            if: Proc.new { User.current.allowed_to_globally?(:manage_user) ||
-              User.current.allowed_to_globally?(:manage_placeholder_user) ||
-              User.current.allowed_to_globally?(:manage_members)
-            }
+            if: Proc.new { User.current.allowed_to_globally?(:manage_members) }
 end
 
 Redmine::MenuManager.map :account_menu do |menu|

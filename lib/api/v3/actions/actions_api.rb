@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,20 +25,26 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require_relative '../legacy_spec_helper'
-require 'type'
 
-describe ::Type, type: :model do
-  fixtures :all
+module API
+  module V3
+    module Actions
+      class ActionsAPI < ::API::OpenProjectAPI
+        resources :actions do
+          get &API::V3::Utilities::Endpoints::SqlIndex
+                 .new(model: Action)
+                 .mount
 
-  it 'should copy workflows' do
-    source = ::Type.find(1)
-    assert_equal 89, source.workflows.size
-
-    target = ::Type.new(name: 'Target')
-    assert target.save
-    target.workflows.copy_from_type(source)
-    target.reload
-    assert_equal 89, target.workflows.size
+          params do
+            requires :id, type: String, desc: 'The action identifier'
+          end
+          namespace '*id' do
+            get &API::V3::Utilities::Endpoints::SqlShow
+                   .new(model: Action)
+                   .mount
+          end
+        end
+      end
+    end
   end
 end

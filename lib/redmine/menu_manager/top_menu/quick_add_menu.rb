@@ -83,7 +83,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
 
   def visible_types
     @visible_types ||= begin
-                         if User.current.allowed_to?(:add_work_packages, @project, global: !in_project_context?)
+                         if user_can_create_work_package?
                            in_project_context? ? @project.types : Type.all
                          else
                            Type.none
@@ -105,8 +105,12 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
     end
   end
 
+  def user_can_create_work_package?
+    User.current.allowed_to?(:add_work_packages, @project, global: !in_project_context?)
+  end
+
   def show_quick_add_menu?
-    %i[add_work_packages add_project manage_members add_user].any? do |permission|
+    %i[add_work_packages add_project manage_members].any? do |permission|
       User.current.allowed_to_globally?(permission)
     end
   end

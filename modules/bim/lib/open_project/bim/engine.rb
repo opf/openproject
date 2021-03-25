@@ -72,7 +72,7 @@ module OpenProject::Bim
                                     delete_work_packages]
       end
 
-      OpenProject::AccessControl.permission(:view_work_packages).actions << 'bim/bcf/issues/redirect_to_bcf_issues_list'
+      OpenProject::AccessControl.permission(:view_work_packages).controller_actions << 'bim/bcf/issues/redirect_to_bcf_issues_list'
 
       ::Redmine::MenuManager.map(:project_menu) do |menu|
         menu.push(:ifc_models,

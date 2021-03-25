@@ -21,6 +21,8 @@ jobs:
     timeout-minutes: 10
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 50
     - uses: danger/danger@master
       env:
         DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}

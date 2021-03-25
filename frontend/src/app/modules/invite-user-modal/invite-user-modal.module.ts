@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, ApplicationRef, DoBootstrap, Injector, NgModule } from "@angular/core";
+import { APP_INITIALIZER, Injector, NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
 import { InviteUserModalComponent } from "./invite-user.component";
