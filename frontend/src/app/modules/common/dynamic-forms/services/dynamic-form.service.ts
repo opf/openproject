@@ -1,18 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, OnDestroy } from "@angular/core";
-import { AbstractControl, FormArray, FormControl, FormGroup } from "@angular/forms";
+import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors } from "@angular/forms";
 import { FormlyFieldConfig, FormlyForm } from "@ngx-formly/core";
-import { Observable, of, ReplaySubject, Subject, Subscription } from "rxjs";
+import { Observable, of, ReplaySubject, Subscription } from "rxjs";
 import {
   catchError,
-  debounceTime,
-  distinctUntilChanged,
-  filter,
   map,
-  startWith,
   switchMap,
-  take,
-  tap,
 } from "rxjs/operators";
 import {
   IDynamicForm,
@@ -21,24 +15,17 @@ import {
   IAttributeGroup,
   IOPFormSchema,
   IFormModel,
-  IFormModelChanges,
   IFieldTypeMap,
   IOPFormlyFieldConfig,
 } from "../typings";
-import { mergeFormModels } from "../utils/utils";
-import { DynamicFormsHubService } from "./dynamic-forms-hub.service";
 import { ErrorResource } from "core-app/modules/hal/resources/error-resource";
 
 @Injectable()
-export class DynamicFormService implements OnDestroy {
+export class DynamicFormService {
   form:FormlyForm;
   formId:string;
   projectId:string;
   typeHref:string;
-  formModelChanges:IFormModelChanges;
-  formSubcription:Subscription;
-  fieldTypeSubcription:Subscription;
-  submitResponse$ = new Subject()
   errors:{[key:string]:string} = {};
 
   private _form = new ReplaySubject<IDynamicForm>(1);
@@ -46,71 +33,19 @@ export class DynamicFormService implements OnDestroy {
 
   constructor(
     private httpClient:HttpClient,
-    private dynamicFormsHubService:DynamicFormsHubService,
   ) {}
-
-  ngOnDestroy() {
-    this.formSubcription?.unsubscribe();
-    this.dynamicFormsHubService.unregisterForm(this);
-  }
 
   registerForm(formlyForm:FormlyForm) {
     if (!formlyForm) { return; }
 
     this.form = formlyForm;
-    this._observeFormModelChanges(formlyForm.form);
-    this.dynamicFormsHubService.registerForm(this);    
   }
-
-  private _observeFormModelChanges(form:FormGroup | FormArray) {
-    this.formSubcription?.unsubscribe();
-
-    this.formSubcription = form
-      .valueChanges
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),         
-      )
-      .subscribe(formModel => this.formModelChanges = this._getFormModelChanges(form));
-  }
-
-  private _getFormModelChanges(form: FormGroup | FormArray) {
-    let dirtyValues:{[key: string]: unknown} = {};
-    // TODO: type this
-    let controls = form.controls as any;
-
-    Object.keys(form.controls).forEach(key => {
-      let currentControl = controls[key];
-
-      if (currentControl.dirty) {
-        if (currentControl.controls) {
-          dirtyValues[key] = this._getFormModelChanges(currentControl);
-        } else {
-          dirtyValues[key] = currentControl.value;
-        }
-      }
-    });
-
-    return dirtyValues;
-  }  
 
   // TODO: Implement passing the params and lockVersion
-  getForm$(typeHref = this.typeHref, formId = this.formId, projectId = this.projectId, useBackUp = true): Observable<IDynamicForm>{     
+  getForm$(typeHref = this.typeHref, formId = this.formId, projectId = this.projectId): Observable<IDynamicForm>{
     this.formId = formId;
     this.projectId = projectId;
     this.typeHref = typeHref;
-
-    if (useBackUp) {
-      const backUpChanges = this.dynamicFormsHubService.getBackUpFormChanges(this.formId);
-      // TODO: Do final implementation (if formId omit type and project...)
-      // Overwrite the type if it is present in unsaved changes
-      const backUpTypeHref = backUpChanges?._links?.type?._links?.self.href || 
-                              backUpChanges?._links?.type?.href;
-
-      if (backUpTypeHref) {
-        this.typeHref =  backUpTypeHref;
-      }
-    }
 
     // TODO: Replace with dynamic url
     let url = '/api/v3/projects/form';
@@ -127,58 +62,15 @@ export class DynamicFormService implements OnDestroy {
       .pipe(
         map((formConfig => {
           const formlyForm = this._getFormlyForm(formConfig);
-          const formWithModelChanges = this._getFormWithModelChanges(formlyForm);
 
-          this._form.next(formWithModelChanges);
+          this._form.next(formlyForm);
         })),
         switchMap(() => this.form$)
       )
   }
 
-  private _getFormWithModelChanges(form: IDynamicForm) {
-    form = {
-      ...form,
-      model: this._getModelWithChanges(form.model, this.formModelChanges)
-    };
-
-    return form;
-  }
-
-  // TODO: Handle all possible data structures
-  private _getModelWithChanges(formModel: IDynamicForm["model"], formChanges = {}) {
-    // Overwrite backUpFormChanges with formChanges and then
-    // overwrite formModel (backend payload) with the result
-    const formChangesPlusBackUpFormChanges = mergeFormModels(this.dynamicFormsHubService.getBackUpFormChanges(this.formId), formChanges);
-
-    return mergeFormModels(formModel, formChangesPlusBackUpFormChanges);
-    
-    /*return Object.keys(formChanges).reduce(
-      (formModel, fieldChangeKey) => {
-        const fieldChange = formChanges[fieldChangeKey];
-
-        if (fieldChangeKey === "_links") {
-          formModel._links = {
-            ...formModel._links,
-            ...fieldChange
-          };
-        } else {
-          formModel = {
-            ...formModel,
-            [fieldChangeKey]: fieldChange
-          };
-        }
-
-        return formModel;
-      },
-      { ...formModel }
-    );*/
-  }
-
   private _getFormlyForm(formConfig:IOPForm):IDynamicForm {
-    // TODO: Remove this filtering
     const formSchema = formConfig._embedded?.schema;
-    // const {name, id, parent, status, active, customField12, statusExplanation, description, _attributeGroups, _links, lockVersion, _dependencies, _type, ...formSchemaRest} = formConfig._embedded?.schema;
-    // const formSchema = {name, id, parent, status, active, customField12, statusExplanation, description, _attributeGroups, _links, lockVersion, _dependencies, _type};
     const formModel = formConfig._embedded?.payload;
     const formFieldGroups = formSchema._attributeGroups;
     const fieldSchemas = this._getFieldsSchemas(formSchema, formModel);  
@@ -221,74 +113,49 @@ export class DynamicFormService implements OnDestroy {
 
   private _getFormlyFieldConfig(field:IFieldSchemaWithKey):IOPFormlyFieldConfig {
     // TODO: Do we want to localize labels?
-    const {type, key, name:label, required, hasDefault, writable} = field;
+    const {key, name:label, required, writable} = field;
     const {templateOptions, ...fieldTypeConfig} = this._getFieldTypeConfig(field);
     const fieldOptions = this._getFieldOptions(field);
     const formlyFieldConfig = {
       ...fieldTypeConfig,
       key,
       className: `op-form--field ${fieldTypeConfig.className}`,
-      //wrappers: ["op-form-field-wrapper", "form-field"],
       templateOptions: {
         required,
         label,
         disabled: !writable,
-        ...templateOptions, // ...writable && templateOptions, // Only when writable?
+        ...templateOptions,
         ...fieldOptions && {options: fieldOptions},        
       },
       // TODO: Make validation dynamic
       validators: {
-        validation: [{ name: 'backend-validator', options: this }],
-      },
-      // Reset the form when the work package type changes
-      // and so the form schema changes too
-      ...field.key === '_links.type' && {
-        hooks: {
-          onInit: (field:FormlyFieldConfig) => {
-            this.fieldTypeSubcription?.unsubscribe();
+        // validation: [{ name: 'backend-validator', options: this }],
+        backend: {
+          expression: (control: FormControl, field: FormlyFieldConfig) => {
+            const errorMessage = this.errors?.[field.key as string];
+            console.log('backend expression', errorMessage);
 
-            this.fieldTypeSubcription = field.formControl!
-              .valueChanges
-              .pipe(switchMap((type) => {
-                // The model differ between the payload ({title, href}) and the
-                // API responses (Resource with _links...)
-                const newTypeHref = type?._links?.self?.href || type?.href;
-
-                return newTypeHref !== this.typeHref ?
-                  this.getForm$(newTypeHref, undefined, undefined, false) :
-                  of(null);
-
-                /*if (newTypeHref !== this.typeHref) {
-                  this.typeHref = newTypeHref;
-
-                  return this.getForm$(newTypeHref);
-                } else {
-                  return of(null);
-                }*/
-              }))
-              .subscribe();
-          }
-        }
-      },
-      // TODO: Remove this mocks
-      /*...field.key === 'description' && {
-        asyncValidators: {
-          nameWithA: {
-            expression: (control: FormControl) => of(control.value?.includes('a')),
-            message: 'The name must contain an a.',
-          }
-        }
-      },*/
-      /*...field.key.includes('_links') && {
-        // Process the model in anyway examples
-        // parsers: [(value) => value.hi = 'hi'],
-        expressionProperties: {
-          [`model.${key}`]: (model, formState) => {            
-            const resourceKey = key.split('.').pop();
-            return model._links[resourceKey];
+            return !!errorMessage;
           },
+          message: (error:any, field: FormlyFieldConfig) => {
+            const errorMessage = this.errors?.[field.key as string];
+            console.log('backend message',errorMessage);
+
+            if (errorMessage) {
+              const {[field.key as string]:currentError, ...restOfErrors} = this.errors;
+              // Remove the error when this FormControl model value changes
+              // TODO: this depends on the form updateOn: 'change', is this guaranteed?
+              this.errors = {...restOfErrors};
+
+              console.log('backend message', {[field.key as string]: { message: errorMessage}});
+
+              return {[field.key as string]: { message: errorMessage}}
+            } else {
+              return null;
+            }
+          }
         }
-      },*/      
+      }
     }
 
     return formlyFieldConfig;
@@ -525,7 +392,7 @@ if (field._embedded?.allowedValues) {
                     this.submitResponse$.next(submitResponse)
                   }),*/
                   catchError((error:ErrorResource) => {
-                    if (error.status == 422) {
+                    /*if (error.status == 422) {
                       this.form.form.markAllAsTouched();
                       const errors = error.error._embedded.errors;
                       console.log('catchError', error, errors);
@@ -540,10 +407,10 @@ if (field._embedded?.allowedValues) {
                       }, {});
 
                       this.updateTreeValidity(this.form.form);
-                    }
+                    }*/
 
                     console.log('Errors', this.errors)
-                    /*if (error.status == 422) {
+                    if (error.status == 422) {
                       this.form.form.markAllAsTouched();
                       console.log('catchError', error);
                       const errors = error.error._embedded.errors;
@@ -553,10 +420,8 @@ if (field._embedded?.allowedValues) {
                         const message = err.message;
 
                         this.form.form.get(key)!.setErrors({[key]: message})
-                        console.log('catchError form', this.form.form.get(key), this.form.form.get(key)!.errors);
-
                       })
-                    }*/
+                    }
                     throw error;
                   })
                 );

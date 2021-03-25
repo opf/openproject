@@ -8,7 +8,6 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { OpFieldGroupWrapperComponent } from "./components/op-field-group-wrapper/op-field-group-wrapper.component";
 import { OpDynamicFormComponent } from "./components/op-dynamic-form/op-dynamic-form.component";
-import { DynamicFormsHubService } from "./services/dynamic-forms-hub.service";
 import { OpFieldWrapperComponent } from "./components/op-field-wrapper/op-field-wrapper.component";
 import { OpenProjectHeaderInterceptor } from "core-app/modules/hal/http/openproject-header-interceptor";
 import { TextInputComponent } from './components/inputs/text-input/text-input.component';
@@ -24,7 +23,6 @@ import { OpenprojectEditorModule } from "core-app/modules/editor/openproject-edi
 import { OpenprojectFieldsModule } from "core-app/modules/fields/openproject-fields.module";
 import { FormattableControlComponent } from './components/inputs/formattable-textarea-input/components/formattable-control/formattable-control.component';
 import { InputLabelComponent } from './components/input-label/input-label.component';
-import { backendValidator } from "core-app/modules/common/dynamic-forms/validators/back-end-validator";
 
 @NgModule({
   imports: [
@@ -40,9 +38,6 @@ import { backendValidator } from "core-app/modules/common/dynamic-forms/validato
         { name: 'dateInput', component: DateInputComponent },
         { name: 'formattableInput', component: FormattableTextareaInputComponent },
       ],
-      validators: [
-        backendValidator,
-      ]
     }),
     HttpClientModule,
     NgSelectModule,
@@ -70,7 +65,6 @@ import { backendValidator } from "core-app/modules/common/dynamic-forms/validato
   ],
   providers: [
     DynamicFormService,
-    DynamicFormsHubService,
     { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
   ],
   exports: [
