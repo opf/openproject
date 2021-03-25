@@ -13,6 +13,12 @@
   border-bottom-color: var(--header-border-bottom-color)
   width: 100vw
 
+  @include breakpoint(680px down)
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+
   @at-root .zen-mode &
     display: none
 

@@ -8,6 +8,7 @@
     align-items: center
     position: relative
     color: var(--button--alt-highlight-font-color)
+    font-size: 0.8rem
 
     > *
       z-index: 1
@@ -26,8 +27,8 @@
       position: absolute
 
     &:hover
-      color: var(--button--alt-highlight-font-hover-color)
+      > *
+        opacity: 0.9
 
       &::after
-        background: var(--button--alt-highlight-background-hover-color)
-        border-color: var(--button--alt-highlight-background-hover-color)
+        opacity: 0.8

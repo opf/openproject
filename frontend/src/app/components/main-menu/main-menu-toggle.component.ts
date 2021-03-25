@@ -53,6 +53,7 @@ export const mainMenuToggleSelector = 'main-menu-toggle';
       (click)="toggleService.toggleNavigation($event)"
     >
       <op-icon class="icon-hamburger" aria-hidden="true"></op-icon>
+      <op-icon class="icon-close" aria-hidden="true"></op-icon>
     </button>
   `
 })
