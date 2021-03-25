@@ -24,9 +24,6 @@ export class OpDynamicFormComponent implements OnChanges {
   /* @Input() formHref: string;
   @Input() config: string;
   @Input() opForm: string;*/
-
-
-  form:FormGroup;
   dynamicForm$: Observable<IDynamicForm>;
 
   @ViewChild(FormlyForm)
@@ -37,7 +34,6 @@ export class OpDynamicFormComponent implements OnChanges {
   constructor(readonly dynamicFormService: DynamicFormService) {}
 
   ngOnChanges() {
-    this.form = new FormGroup({});
     this.dynamicForm$ = this.dynamicFormService
       .getForm$(this.typeHref, this.formId, this.projectId)
   }

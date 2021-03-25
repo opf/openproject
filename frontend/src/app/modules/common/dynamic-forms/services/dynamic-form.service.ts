@@ -23,10 +23,6 @@ import { ErrorResource } from "core-app/modules/hal/resources/error-resource";
 @Injectable()
 export class DynamicFormService {
   form:FormlyForm;
-  formId:string;
-  projectId:string;
-  typeHref:string;
-  errors:{[key:string]:string} = {};
 
   private _form = new ReplaySubject<IDynamicForm>(1);
   readonly form$:Observable<IDynamicForm> = this._form.asObservable();
@@ -42,11 +38,7 @@ export class DynamicFormService {
   }
 
   // TODO: Implement passing the params and lockVersion
-  getForm$(typeHref = this.typeHref, formId = this.formId, projectId = this.projectId): Observable<IDynamicForm>{
-    this.formId = formId;
-    this.projectId = projectId;
-    this.typeHref = typeHref;
-
+  getForm$(typeHref:string, formId:string, projectId:string): Observable<IDynamicForm>{
     // TODO: Replace with dynamic url
     let url = '/api/v3/projects/form';
 
@@ -61,7 +53,7 @@ export class DynamicFormService {
       )
       .pipe(
         map((formConfig => {
-          const formlyForm = this._getFormlyForm(formConfig);
+          const formlyForm = this._getDynamicForm(formConfig);
 
           this._form.next(formlyForm);
         })),
@@ -92,7 +84,7 @@ export class DynamicFormService {
       );
   }
 
-  private _getFormlyForm(formConfig:IOPForm):IDynamicForm {
+  private _getDynamicForm(formConfig:IOPForm):IDynamicForm {
     const formSchema = formConfig._embedded?.schema;
     const formModel = formConfig._embedded?.payload;
     const formFieldGroups = formSchema._attributeGroups;
@@ -100,12 +92,13 @@ export class DynamicFormService {
     const fieldsModel = this._getFieldsModel(fieldSchemas, formModel);
     const formlyFields = fieldSchemas.map(fieldSchema => this._getFormlyFieldConfig(fieldSchema));
     const formlyFormWithFieldGroups = this._getFormlyFormWithFieldGroups(formFieldGroups, formlyFields);
-    const formlyForm = {
-      fields: formlyFormWithFieldGroups,
+    const dynamicForm = {
+      formlyFields: formlyFormWithFieldGroups,
       model: fieldsModel,
+      form: new FormGroup({}),
     };
 
-    return formlyForm;
+    return dynamicForm;
   }
 
   private _getFieldsSchemas(formSchema:IOPFormSchema, formModel:IFormModel):IFieldSchemaWithKey[] {
