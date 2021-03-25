@@ -8,10 +8,12 @@
        [formControl]="formControl"
        [formlyAttributes]="field">
 
-// TODO: Decide the way we want to show errors (formly issue: https://github.com/ngx-formly/ngx-formly/issues/2765)
-<!--<formly-validation-message [field]="field"></formly-validation-message>-->
+<!--TODO: Decide the way we want to show errors (formly issue: https://github.com/ngx-formly/ngx-formly/issues/2765)-->
+<formly-validation-message [field]="field"></formly-validation-message>
 
 <!-- TODO: Implement final solution-->
 <div *ngIf="field.formControl?.errors" class="errorClass">
+  field.key: {{field.key}}
+  {{field.formControl.errors | json}}
   {{field.formControl.errors[field.key]?.message}}
 </div>
