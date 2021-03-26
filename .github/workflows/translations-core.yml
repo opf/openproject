@@ -50,6 +50,8 @@ jobs:
           OPENPROJECT_CROWDIN_PROJECT: ${{ secrets.OPENPROJECT_CROWDIN_PROJECT }}
           OPENPROJECT_CROWDIN_API_KEY: ${{ secrets.OPENPROJECT_CROWDIN_API_KEY }}
         run: |
+          git config user.name "OpenProject Actions CI"
+          git config user.email "operations+ci@openproject.com"
           bundle exec rake db:create
           echo "Updating combined translations"
           bundle exec rake translations:update
