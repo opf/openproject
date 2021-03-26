@@ -48,7 +48,7 @@ describe Mails::MemberCreatedJob, type: :model do
                              member_roles: [FactoryBot.build_stubbed(:member_role,
                                                                      role: role,
                                                                      inherited_from: member_role_inherited_from)]) do |gum|
-      self.group_user_members << gum
+      group_user_members << gum
     end
   end
   let(:group) do
