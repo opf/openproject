@@ -32,26 +32,28 @@ module OpenProject
   module AccessControl
     class Permission
       attr_reader :name,
-                  :actions,
+                  :controller_actions,
+                  :contract_actions,
                   :project_module,
                   :dependencies
 
       def initialize(name, hash, options)
         @name = name
-        @actions = []
+        @controller_actions = []
         @public = options[:public] || false
         @require = options[:require]
         @global = options[:global] || false
         @dependencies = Array(options[:dependencies]) || []
         @project_module = options[:project_module]
+        @contract_actions = options[:contract_actions] || []
         hash.each do |controller, actions|
-          @actions << if actions.is_a? Array
-                        actions.map { |action| "#{controller}/#{action}" }
-                      else
-                        "#{controller}/#{actions}"
-                      end
+          @controller_actions << if actions.is_a? Array
+                                   actions.map { |action| "#{controller}/#{action}" }
+                                 else
+                                   "#{controller}/#{actions}"
+                                 end
         end
-        @actions.flatten!
+        @controller_actions.flatten!
       end
 
       def public?

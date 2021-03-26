@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,18 +26,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      class WorkPackageListRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::WorkPackages::WorkPackageRepresenter
+module Components
+  class Dropdown
+    include Capybara::DSL
+    include RSpec::Matchers
 
-        def initialize(models, self_link, current_user:)
-          super
+    def initialize; end
 
-          @represented = ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap(represented, current_user)
-        end
-      end
+    def toggle
+      trigger_element.click
+    end
+
+    def expect_closed
+      expect(page).to have_no_selector('ul.menu-drop-down-container')
+    end
+
+    def expect_open
+      expect(page).to have_selector('ul.menu-drop-down-container')
+    end
+
+    def within_dropdown(&block)
+      page.within('ul.menu-drop-down-container', &block)
+    end
+
+    def trigger_element
+      raise NotImplementedError
     end
   end
 end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,20 +25,36 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require_relative '../legacy_spec_helper'
-require 'type'
 
-describe ::Type, type: :model do
-  fixtures :all
+module API
+  module V3
+    module Utilities
+      module Endpoints
+        class SqlIndex < Index
+          private
 
-  it 'should copy workflows' do
-    source = ::Type.find(1)
-    assert_equal 89, source.workflows.size
+          def render_paginated_success(results, query, params, self_path)
+            resulting_params = calculate_resulting_params(query, params)
 
-    target = ::Type.new(name: 'Target')
-    assert target.save
-    target.workflows.copy_from_type(source)
-    target.reload
-    assert_equal 89, target.workflows.size
+            ::API::V3::Utilities::SqlRepresenterWalker
+              .new(results,
+                   embed: { 'elements' => {} },
+                   select: { '*' => {}, 'elements' => { '*' => {} } },
+                   current_user: User.current,
+                   self_path: self_path,
+                   url_query: resulting_params)
+              .walk(deduce_render_representer)
+          end
+
+          def paginated_representer?
+            true
+          end
+
+          def deduce_render_representer
+            "::API::V3::#{deduce_api_namespace}::#{api_name}SqlCollectionRepresenter".constantize
+          end
+        end
+      end
+    end
   end
 end

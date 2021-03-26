@@ -89,7 +89,7 @@ describe 'Project templates', type: :feature, js: true do
       expect(page).to have_select 'project-select-template', selected: 'My template'
 
       # Updates the identifier in advanced settings
-      page.find('#advanced-settings').click
+      page.find('#advanced-project-settings').click
       expect(page).to have_field 'project_identifier', with: 'foo-bar'
       expect(page).to have_select 'project_status_code', selected: 'On track'
 
@@ -105,7 +105,7 @@ describe 'Project templates', type: :feature, js: true do
       expect(page).to have_select 'project-select-template', selected: 'My template'
 
       # Expend advanced settings
-      page.find('#advanced-settings').click
+      page.find('#advanced-project-settings').click
       expect(page).to have_field 'project_identifier', with: 'foo-bar'
       expect(page).to have_select 'project_status_code', selected: 'On track'
 
