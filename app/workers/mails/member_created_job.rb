@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,47 +26,25 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Mails::MemberCreatedJob < ApplicationJob
-  queue_with_priority :notification
+class Mails::MemberCreatedJob < Mails::MemberJob
+  private
 
-  def perform(current_user:,
-              member:)
-    if member.project.nil?
-      send_updated_global(current_user, member)
-    elsif member.principal.is_a?(Group)
-      every_group_user_member(member) do |user_member|
-        next if member_existed_before?(user_member, member.principal)
+  alias_method :send_for_project_user, :send_added_project
 
-        send_added_project(current_user, user_member)
-      end
-    elsif member.principal.is_a?(User)
-      send_added_project(current_user, member)
+  def send_for_group_user(current_user, user_member, group_member)
+    if new_roles_added?(user_member, group_member)
+      send_updated_project(current_user, user_member)
+    elsif all_roles_added?(user_member, group_member)
+      send_added_project(current_user, user_member)
     end
   end
 
-  private
-
-  def send_updated_global(current_user, member)
-    MemberMailer
-      .updated_global(current_user, member)
-      .deliver_now
+  def new_roles_added?(user_member, group_member)
+    (group_member.member_roles.map(&:id) - user_member.member_roles.map(&:inherited_from)).length <
+      group_member.member_roles.length && user_member.member_roles.any? { |mr| mr.inherited_from.nil? }
   end
 
-  def send_added_project(current_user, member)
-    MemberMailer
-      .added_project(current_user, member)
-      .deliver_now
-  end
-
-  def every_group_user_member(member, &block)
-    Member
-      .of(member.project)
-      .where(principal: member.principal.users)
-      .includes(:project, :principal, :roles, :member_roles)
-      .each(&block)
-  end
-
-  def member_existed_before?(member, group)
-    member.member_roles.any? { |mr| mr.inherited_from != group.id }
+  def all_roles_added?(user_member, group_member)
+    (user_member.member_roles.map(&:inherited_from) - group_member.member_roles.map(&:id)).empty?
   end
 end

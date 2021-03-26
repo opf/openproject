@@ -29,9 +29,9 @@
 require 'spec_helper'
 require_relative 'shared/member_job'
 
-describe Mails::MemberCreatedJob, type: :model do
+describe Mails::MemberUpdatedJob, type: :model do
   include_examples 'member job' do
-    let(:user_project_mail_method) { :added_project }
+    let(:user_project_mail_method) { :updated_project}
 
     context 'with a group membership' do
       let(:member) do
@@ -39,6 +39,16 @@ describe Mails::MemberCreatedJob, type: :model do
                                  project: project,
                                  principal: group,
                                  member_roles: group_member_roles)
+      end
+
+      shared_examples 'updated mail' do
+        it 'sends mail' do
+          run_job
+
+          expect(MemberMailer)
+            .to have_received(:updated_project)
+                  .with(current_user, group_user_member)
+        end
       end
 
       before do
@@ -52,13 +62,7 @@ describe Mails::MemberCreatedJob, type: :model do
                                     inherited_from: group_member_roles.first.id)]
         end
 
-        it 'sends mail' do
-          run_job
-
-          expect(MemberMailer)
-            .to have_received(:added_project)
-            .with(current_user, group_user_member)
-        end
+        it_behaves_like 'updated mail'
       end
 
       context 'with the user having had a membership with the same roles before the group`s membership was added' do
@@ -68,7 +72,7 @@ describe Mails::MemberCreatedJob, type: :model do
                                     inherited_from: nil)]
         end
 
-        it_behaves_like 'sends no mail'
+        it_behaves_like 'updated mail'
       end
 
       context 'with the user having had a membership with the same roles
@@ -79,7 +83,7 @@ describe Mails::MemberCreatedJob, type: :model do
                                     inherited_from: group_member_roles.first.id + 5)]
         end
 
-        it_behaves_like 'sends no mail'
+        it_behaves_like 'updated mail'
       end
 
       context 'with the user having had a membership before the group`s membership was added but now has additional roles' do
@@ -93,13 +97,7 @@ describe Mails::MemberCreatedJob, type: :model do
                                     inherited_from: nil)]
         end
 
-        it 'sends mail' do
-          run_job
-
-          expect(MemberMailer)
-            .to have_received(:updated_project)
-            .with(current_user, group_user_member)
-        end
+        it_behaves_like 'updated mail'
       end
     end
   end

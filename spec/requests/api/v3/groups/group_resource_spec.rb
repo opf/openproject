@@ -180,7 +180,11 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
 
   describe 'PATCH api/v3/groups/:id' do
     let(:path) { api_v3_paths.group(group.id) }
-    let(:another_user) { FactoryBot.create(:user) }
+    let(:another_user) do
+      FactoryBot.create(:user,
+                        member_in_project: project,
+                        member_through_role: role)
+    end
     let(:body) do
       {
         _links: {
@@ -211,8 +215,6 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
         .call(ids: members.map(&:id))
 
       group_updated_at
-
-      login_as current_user
 
       perform_enqueued_jobs do
         patch path, body

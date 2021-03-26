@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,43 +26,55 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Notifications::GroupMemberAlteredJob < ApplicationJob
+class Mails::MemberJob < ApplicationJob
   queue_with_priority :notification
 
-  def perform(group, members_ids)
-    member_role_ids = group_member_role_ids(group)
-
-    each_member_role(members_ids) { |member| send_notification(member_role_ids, member) }
+  def perform(current_user:,
+              member:)
+    if member.project.nil?
+      send_updated_global(current_user, member)
+    elsif member.principal.is_a?(Group)
+      every_group_user_member(member) do |user_member|
+        send_for_group_user(current_user, user_member, member)
+      end
+    elsif member.principal.is_a?(User)
+      send_for_project_user(current_user, member)
+    end
   end
 
   private
 
-  def send_notification(group_member_role_ids, member)
-    event = if all_roles_added?(member, group_member_role_ids)
-              OpenProject::Events::MEMBER_CREATED
-            else
-              OpenProject::Events::MEMBER_UPDATED
-            end
-
-    OpenProject::Notifications.send(event,
-                                    member: member)
+  def send_for_group_user(_current_user, _member, _group)
+    raise NotImplementedError, "subclass responsibility"
   end
 
-  def all_roles_added?(user_member, group_member_role_ids)
-    (user_member.member_roles.map(&:inherited_from) - group_member_role_ids).empty?
+  def send_for_project_user(_current_user, _member)
+    raise NotImplementedError, "subclass responsibility"
   end
 
-  def group_member_role_ids(group)
-    MemberRole
-      .includes(:member)
-      .where(members: { user_id: group.id })
-      .pluck(:id)
+  def send_updated_global(current_user, member)
+    MemberMailer
+      .updated_global(current_user, member)
+      .deliver_now
   end
 
-  def each_member_role(members_ids, &block)
+  def send_added_project(current_user, member)
+    MemberMailer
+      .added_project(current_user, member)
+      .deliver_now
+  end
+
+  def send_updated_project(current_user, member)
+    MemberMailer
+      .updated_project(current_user, member)
+      .deliver_now
+  end
+
+  def every_group_user_member(member, &block)
     Member
-      .where(id: members_ids)
-      .includes(:member_roles)
+      .of(member.project)
+      .where(principal: member.principal.users)
+      .includes(:project, :principal, :roles, :member_roles)
       .each(&block)
   end
 end
