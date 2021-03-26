@@ -831,7 +831,7 @@ en:
     default_columns: "Default columns"
     description: "Description"
     derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
+    derived_estimated_hours: "Derived estimated time"
     derived_start_date: "Derived start date"
     display_sums: "Display Sums"
     due_date: "Finish date"
@@ -1265,6 +1265,10 @@ en:
   instructions_after_registration: "You can sign in as soon as your account has been activated by clicking %{signin}."
   instructions_after_logout: "You can sign in again by clicking %{signin}."
   instructions_after_error: "You can try to sign in again by clicking %{signin}. If the error persists, ask your admin for help."
+
+  menus:
+    quick_add:
+      label: "Open quick add menu"
 
   my_account:
     access_tokens:
@@ -1990,7 +1994,7 @@ en:
   permission_add_messages: "Post messages"
   permission_add_project: "Create project"
   permission_manage_user: "Create and edit users"
-  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
+  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Create subprojects"
   permission_add_work_package_watchers: "Add watchers"
   permission_assign_versions: "Assign versions"

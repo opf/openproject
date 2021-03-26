@@ -26,29 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-@import admin
-@import base
-@import base_mobile
-@import boards
-@import grid
-@import tree_menu
-@import warning_bar
-@import breadcrumb
-@import main_menu
-@import main_menu_mobile
-@import collapsible_menu
-@import colors
-@import drop_down
-@import drop_down_mobile
-@import toolbar
-@import toolbar_mobile
-@import zen_mode
+.quick-add-menu
+  &--icon
+    background: var(--button--alt-highlight-background-color)
+    color: var(--button--alt-highlight-font-color)
+    border-width: 2px
+    border-style: solid
+    border-color: var(--button--alt-highlight-background-color)
+    border-radius: 50%
+    padding: 0.25rem
+    width: 26px
+    height: 26px
+    display: inline-flex
 
-// Top menu styles
-@import top_menu/index
-
-// Work packages page layouts
-@import work_packages/index
-
-// Print layout
-@import print
+    &:hover
+      background: var(--button--alt-highlight-background-hover-color)
+      border-color: var(--button--alt-highlight-background-hover-color)
+      color: var(--button--alt-highlight-font-color)

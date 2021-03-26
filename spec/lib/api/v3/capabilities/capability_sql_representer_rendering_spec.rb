@@ -35,6 +35,7 @@ describe ::API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
     Capability
       .where(principal_id: principal.id,
              context_id: context&.id)
+      .order(:action)
       .limit(1)
   end
   let(:principal) do
@@ -135,7 +136,7 @@ describe ::API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
     it 'renders as expected' do
       expect(json)
         .to be_json_eql({
-          "id": "users/update/g-#{principal.id}",
+          "id": "users/create/g-#{principal.id}",
           "_type": "Capability",
           "_links": {
             "context": {
@@ -147,10 +148,10 @@ describe ::API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
               "title": principal.name
             },
             "action": {
-              "href": api_v3_paths.action("users/update")
+              "href": api_v3_paths.action("users/create")
             },
             "self": {
-              "href": api_v3_paths.capability("users/update/g-#{principal.id}")
+              "href": api_v3_paths.capability("users/create/g-#{principal.id}")
             }
           }
         }.to_json)

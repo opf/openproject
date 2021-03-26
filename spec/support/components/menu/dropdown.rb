@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,20 +25,32 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require_relative '../legacy_spec_helper'
-require 'type'
 
-describe ::Type, type: :model do
-  fixtures :all
+module Components
+  class Dropdown
+    include Capybara::DSL
+    include RSpec::Matchers
 
-  it 'should copy workflows' do
-    source = ::Type.find(1)
-    assert_equal 89, source.workflows.size
+    def initialize; end
 
-    target = ::Type.new(name: 'Target')
-    assert target.save
-    target.workflows.copy_from_type(source)
-    target.reload
-    assert_equal 89, target.workflows.size
+    def toggle
+      trigger_element.click
+    end
+
+    def expect_closed
+      expect(page).to have_no_selector('ul.menu-drop-down-container')
+    end
+
+    def expect_open
+      expect(page).to have_selector('ul.menu-drop-down-container')
+    end
+
+    def within_dropdown(&block)
+      page.within('ul.menu-drop-down-container', &block)
+    end
+
+    def trigger_element
+      raise NotImplementedError
+    end
   end
 end
