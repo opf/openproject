@@ -37,10 +37,6 @@ gem 'activerecord-session_store', '~> 2.0.0'
 gem 'rails', '~> 6.1.3'
 gem 'responders', '~> 3.0'
 
-# Keep mimemagic at older version until rails provides its own
-# solution without adding a system dependency. We are GPL ourselves so this is fine.
-gem 'mimemagic', git: 'https://github.com/opf/mimemagic', ref: 'bf8d7c2'
-
 gem 'rdoc', '>= 2.4.2'
 
 gem 'doorkeeper', '~> 5.5.0'
