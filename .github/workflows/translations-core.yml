@@ -2,9 +2,6 @@ name: Core / Translations
 on:
   schedule:
     - cron: '0 3 * * *' # Daily at 03:00
-  push:
-    branches:
-      - feature/translations-with-github-action
 
 jobs:
   setup:
