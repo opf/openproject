@@ -9,7 +9,7 @@ tr:
         teaser_text: 'Çevik proje yönetiminizi bu esnek Panolar görünümü ile geliştirin. İzlemek istediğiniz herhangi bir şey için istediğiniz kadar pano oluşturun.'
         upgrade_to_ee_text: 'Kurulları bir Enterprise özelliğidir. Lütfen ücretli bir plana geçin.'
         upgrade: 'Şimdi Yükselt'
-        personal_demo: 'Kişisel bir demo al'
+        personal_demo: 'Contact us for a demo'
       lists:
         delete: 'Listeyi silin'
       version:

@@ -4,20 +4,20 @@ sl:
       ldap_groups/synchronized_group:
         dn: 'DN'
         auth_source: 'LDAP povezava'
-        sync_users: 'Sync users'
+        sync_users: 'Sinhroniziraj uporabnike'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP filter'
         auth_source: 'LDAP povezava'
         group_name_attribute: "Atribut imena skupine\n"
-        sync_users: 'Sync users'
-        base_dn: "Search base DN"
+        sync_users: 'Sinhroniziraj uporabnike'
+        base_dn: "Išči po bazi DN"
     models:
       ldap_groups/synchronized_group: 'sinhronizacija LDAP skupine'
       ldap_groups/synchronized_filter: 'Sinhronizacijski filter skupine LDAP'
     errors:
       models:
         ldap_groups/synchronized_filter:
-          must_contain_base_dn: "Filter base DN must be contained within the LDAP connection's base DN"
+          must_contain_base_dn: "Osnova filtra DN mora biti vsebovana znotraj LDAP povezave"
   ldap_groups:
     label_menu_item: 'LDAP sinhronizacija skupine'
     label_group_key: 'LDAP skupinski filter ključ'
@@ -30,11 +30,9 @@ sl:
       singular: 'Sinhronizacijski filter skupine LDAP'
       plural: 'Sinhronizacijski filter skupine LDAP'
       label_n_groups_found:
-        zero: "No groups were found by the filter"
-        one: ""
-        two: ""
-        few: ""
-        other: ""
+        one: "Filter je našel 1 skupino"
+        other: "%{count} skupine, ki jih je našel filter"
+        zero: "Filter ni našel nobenih skupin"
       destroy:
         title: 'Odstrani sinhronizirani filter %{name}'
         confirmation: "Če nadaljujete, bo sinhronizirani filter %{name} in vse skupine %{groups_count}, ustvarjene prek njega, odstranjene.\n"
@@ -44,8 +42,7 @@ sl:
         group_name_attribute_text: "Vnesite atribut skupine LDAP, ki se uporablja za nastavitev imena skupine OpenProject.\n"
         filter_string_text: 'Vnesite filter RFC4515 LDAP, ki vrne skupine v vašem LDAP za sinhronizacijo z OpenProject.'
         base_dn_text: >
-          Enter the search base DN to use for this filter. It needs to be below the base DN of the selected LDAP connection.
-          Leave this option empty to reuse the base DN of the connection
+          Vnesite iskalno osnovo DN za uporabo s tem filtrom. Mora biti pod osnovo za DN izbrane LDAP povezave. Pustite to opcijo prazno za ponovno uporabo osnove DN za povezavo
     synchronized_groups:
       add_new: 'dodaj sinhroniziranje LDAP skupini'
       destroy:
@@ -66,7 +63,7 @@ sl:
       form:
         auth_source_text: 'Izberite, katera povezava LDAP naj bo uporabljena.'
         sync_users_text: >
-          If you enable this option, found users will also be automatically created in OpenProject. Without it, only existing accounts in OpenProject will be added to groups.
+          Če omogočite to opcijo, bojo najdeni uporabniki avtomatsko kreirani v OpenProject-u. Brez tega bodo samo obstoječi računi v OpenProjectu-u dodani v skupine
         dn_text: 'Vnesite celoten DN skupine v LDAP'
         group_text: 'Izberite obstoječo skupino OpenProject, s katero bodo člani skupine LDAP sinhronizirani'
 

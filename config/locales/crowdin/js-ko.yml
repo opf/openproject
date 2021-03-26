@@ -86,7 +86,7 @@ ko:
     caption_rate_history: "요금 기록"
     clipboard:
       browser_error: "브라우저를 클립보드에 복사를 지원 하지 않습니다. 텍스트를 타이핑하여 복사하십시오."
-      copied_successful: "Successfully copied to clipboard!"
+      copied_successful: "클립보드에 복사되었습니다!"
     chart:
       type: '차트 유형'
       axis_criteria: '축 기준'
@@ -207,7 +207,7 @@ ko:
         upsale:
           become_hero: "영웅이 되세요!"
           benefits:
-            description: "장점은 무엇입니까?"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "보안 기능"
             high_security_text: "SSO(SAML, OpenID Connect, CAS), 2단계 인증 및 LDAP 그룹의 자동 동기화."
             installation: "설치 지원"
@@ -273,11 +273,11 @@ ko:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>새로운 개념의 <b>플레이스홀더 사용자</b>(프리미엄 기능)를 통해 이메일 주소 없이 예비 사용자를 OpenProject에 추가하고 해당 리소스에 작업을 할당할 수 있습니다.</li> <li>작업 패키지 <b>필터는 부모 옵션으로 확장하여</b> 손쉽게 모든 직계 자식을 보거나 <b>ID로 확장하여</b> 목록에서 정확한 해당 작업 패키지만 포함하거나 제외할 수 있습니다.</li> <li>사용자 관리는 <b>새로운 글로벌 역할</b>로 비관리자에게 배포되므로, 전체 관리자 권한 없이 사용자를 관리하고 초대할 수 있습니다.</li> <li>추가적인 UI 및 UX 개선 사항(예: 비용 보고 탐색 조정, 작업 패키지 목록에서 합계 및 그룹 행의 배경색 조정, 그룹 표시 페이지 추가).</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>새로운 개념의 <b>플레이스홀더 사용자</b>(프리미엄 기능)를 통해 이메일 주소 없이 예비 사용자를 OpenProject에 추가하고 해당 리소스에 작업을 할당할 수 있습니다.</li> <li>작업 패키지 <b>필터는 부모 옵션으로 확장하여</b> 손쉽게 모든 직계 자식을 보거나 <b>ID로 확장하여</b> 목록에서 정확한 해당 작업 패키지만 포함하거나 제외할 수 있습니다.</li> <li>사용자 관리는 <b>새로운 글로벌 역할</b>로 비관리자에게 배포되므로, 전체 관리자 권한 없이 사용자를 관리하고 초대할 수 있습니다.</li> <li>추가적인 UI 및 UX 개선 사항(예: 비용 보고 탐색 조정, 작업 패키지 목록에서 합계 및 그룹 행의 배경색 조정, 그룹 표시 페이지 추가).</li> </ul>
     label_activate: "활성화"
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"
@@ -363,7 +363,7 @@ ko:
     label_next: "다음"
     label_no_color: "색상 없음"
     label_no_data: "표시할 데이터가 없습니다."
-    label_no_due_date: "no finish date"
+    label_no_due_date: "완료 날짜 없음"
     label_no_start_date: "시작일이 지정되지 않음"
     label_no_value: "값 없음"
     label_none: "없음"
@@ -403,7 +403,7 @@ ko:
     label_public_query: "공용"
     label_sum: "합계"
     label_sum_for: "합계 "
-    label_total_sum: "Total sum"
+    label_total_sum: "총계"
     label_subject: "제목"
     label_this_week: "이번 주"
     label_today: "오늘"
@@ -517,7 +517,7 @@ ko:
         reset_title: "구성 양식 초기화"
         confirm_reset: >
           경고: 양식 구성을 재설정하시겠습니까? 그러면 특성이 기본 그룹으로 재설정되고, 모든 사용자 지정 필드가 비활성화됩니다.
-        upgrade_to_ee: "Enterprise Edition으로 업그레이드 하세요."
+        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
         upgrade_to_ee_text: "와우! 만약 이 기능이 필요하다면 당신은 진짜 프로입니다! Enterprise Edition 고객이 되어서 OpenSource 개발자들을 지원할 생각이 있나요?"
         more_information: "더보기"
         nevermind: "신경쓰지 마세요"
@@ -845,7 +845,7 @@ ko:
           automatic: '자동'
           manually: '수동'
           warning: '자동 정렬 모드를 활성화하면 이전 정렬이 손실됩니다.'
-        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "위 입력 필드를 사용하여 테이블 보기에 열을 추가하세요. 열을 끌어다 놓아 순서를 바꿀 수 있습니다."
         upsale:
           attribute_highlighting: '나머지 작업 중에 확연히 두드러지는 특정 작업 패키지가 필요합니까?'
           relation_columns: '작업 패키지 목록에서 관계를 표시해야 합니까?'
@@ -938,8 +938,9 @@ ko:
       child_work_packages:
         other: "%{count}개의 작업 패키지 자식"
       hour:
+        one: "1시간"
+        other: "%{count}시간"
         zero: "0 h"
-        other: ""
     zen_mode:
       button_activate: 'Zen 모드 활성화'
       button_deactivate: 'Zen 모드 비활성화'
@@ -957,3 +958,67 @@ ko:
       card: '카드'
       list: '테이블'
       timeline: 'Gantt'
+    invite_user_modal:
+      back: '뒤로'
+      invite: 'Invite'
+      title:
+        invite: '사용자 초대'
+        invite_to_project: 'Invite %{type} to %{project}'
+        User: 'user'
+        Group: 'group'
+        PlaceholderUser: 'placeholder user'
+        invite_principal_to_project: 'Invite %{principal} to %{project}'
+      project:
+        label: '프로젝트'
+        required: 'Please select a project'
+        next_button: '다음'
+        no_results: 'No projects were found'
+      type:
+        required: 'Please select the type to be invited'
+        user:
+          title: '사용자'
+          description: 'Permissions based on the assigned role in the selected project'
+        group:
+          title: '그룹'
+          description: 'Permissions based on the assigned role in the selected project'
+        placeholder:
+          title: '플레이스홀더 사용자'
+          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
+          description: 'Has no access to the project and no emails are sent out.'
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+      principal:
+        label:
+          name_or_email: 'Name or email address'
+          name: '이름'
+        already_member_message: 'Already a member of %{project}'
+        no_results_user: 'No users were found'
+        invite_user: 'Invite:'
+        change_user_selection: 'Change e-mail-address or select an existing user'
+        no_results_placeholder: 'No placeholders were found'
+        change_placeholder_selection: 'Change name or select an existing placeholder'
+        create_new_placeholder: 'Create new placeholder:'
+        no_results_group: 'No groups were found'
+        change_group_selection: 'Change name or select an existing group'
+        next_button: '다음'
+        required:
+          user: 'Please select a user'
+          placeholder: 'Please select a placeholder'
+          group: 'Please select a group'
+      role:
+        label: 'Role in %{project}'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> learn more about roles and permissions. </a>'
+        required: 'Please select a role'
+        next_button: '다음'
+      message:
+        label: 'Invitation message'
+        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
+        next_button: 'Review Invitation'
+      summary:
+        next_button: 'Send Invitation'
+      success:
+        title: '%{principal} was invited!'
+        description:
+          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+        next_button: '계속'

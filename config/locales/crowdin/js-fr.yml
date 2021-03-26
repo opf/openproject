@@ -207,7 +207,7 @@ fr:
         upsale:
           become_hero: "Devenez un héros !"
           benefits:
-            description: "Quels sont les avantages?"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Fonctionnalités de sécurité"
             high_security_text: "Authentification unique (SAML, OpenID Connect, CAS), authentification à deux facteurs et synchronisation automatique des groupes LDAP."
             installation: "Assistance à l'installation"
@@ -273,11 +273,11 @@ fr:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Un nouveau concept d'<b>utilisateurs de remplacement</b> (fonctionnalité premium) permet d'ajouter des utilisateurs préliminaires sans adresse e-mail à OpenProject et d'affecter des tâches à ces ressources.</li> <li>Les filtres de lot de travaux <b>sont étendus par une option parent </b>pour facilement voir tous les enfants directs ainsi que <b>par ID</b> pour inclure ou exclure uniquement ces lots de travaux précis dans la liste.</li> <li>L'administration utilisateur est distribuée aux non-administrateurs par un <b>nouveau rôle global</b>, permettant de gérer et d'inviter des utilisateurs sans avoir les privilèges d'administration complets.</li> <li>Améliorations supplémentaires de l'interface utilisateur et de l'UX, par ex l'harmonisation la navigation des rapports de coûts, l'adaptation des couleurs de fond des lignes de la somme et des groupes dans la liste des lots de travaux ou l'ajout d'une page d'affichage de groupe.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Un nouveau concept d'<b>utilisateurs de remplacement</b> (fonctionnalité premium) permet d'ajouter des utilisateurs préliminaires sans adresse e-mail à OpenProject et d'affecter des tâches à ces ressources.</li> <li>Les filtres de lot de travaux <b>sont étendus par une option parent </b>pour facilement voir tous les enfants directs ainsi que <b>par ID</b> pour inclure ou exclure uniquement ces lots de travaux précis dans la liste.</li> <li>L'administration utilisateur est distribuée aux non-administrateurs par un <b>nouveau rôle global</b>, permettant de gérer et d'inviter des utilisateurs sans avoir les privilèges d'administration complets.</li> <li>Améliorations supplémentaires de l'interface utilisateur et de l'UX, par ex l'harmonisation la navigation des rapports de coûts, l'adaptation des couleurs de fond des lignes de la somme et des groupes dans la liste des lots de travaux ou l'ajout d'une page d'affichage de groupe.</li> </ul>
     label_activate: "Activer"
     label_add_column_after: "Ajouter une colonne après"
     label_add_column_before: "Ajouter une colonne avant"
@@ -940,9 +940,9 @@ fr:
         one: "un lot de travaux enfant"
         other: "%{count} lots de travaux enfant"
       hour:
+        one: "1h"
+        other: "%{count} h"
         zero: "0 h"
-        one: ""
-        other: ""
     zen_mode:
       button_activate: 'Activer le mode zen'
       button_deactivate: 'Désactiver le mode zen'
@@ -960,3 +960,67 @@ fr:
       card: 'Cartes'
       list: 'Tableau'
       timeline: 'Gantt'
+    invite_user_modal:
+      back: 'Retour'
+      invite: 'Invite'
+      title:
+        invite: 'Inviter utilisateur'
+        invite_to_project: 'Inviter %{type} à %{project}'
+        User: 'utilisateur'
+        Group: 'groupe'
+        PlaceholderUser: 'placeholder user'
+        invite_principal_to_project: 'Invite %{principal} to %{project}'
+      project:
+        label: 'Projet'
+        required: 'Veuillez sélectionner un projet'
+        next_button: 'Suivante'
+        no_results: 'Aucun projet trouvé'
+      type:
+        required: 'Please select the type to be invited'
+        user:
+          title: 'Utilisateur'
+          description: 'Permissions based on the assigned role in the selected project'
+        group:
+          title: 'Groupe'
+          description: 'Permissions based on the assigned role in the selected project'
+        placeholder:
+          title: 'Utilisateur de remplacement'
+          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
+          description: 'Has no access to the project and no emails are sent out.'
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+      principal:
+        label:
+          name_or_email: 'Name or email address'
+          name: 'Nom'
+        already_member_message: 'Already a member of %{project}'
+        no_results_user: 'Aucun utilisateur n''a été trouvé'
+        invite_user: 'Invite:'
+        change_user_selection: 'Changer l''adresse e-mail ou sélectionner un utilisateur existant'
+        no_results_placeholder: 'No placeholders were found'
+        change_placeholder_selection: 'Modifier le nom ou sélectionner un espace réservé existant'
+        create_new_placeholder: 'Create new placeholder:'
+        no_results_group: 'Aucun groupe n''a été trouvé'
+        change_group_selection: 'Changer de nom ou sélectionner un groupe existant'
+        next_button: 'Suivante'
+        required:
+          user: 'Veuillez sélectionner un utilisateur'
+          placeholder: 'Please select a placeholder'
+          group: 'Veuillez sélectionner un groupe'
+      role:
+        label: 'Rôle dans %{project}'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> learn more about roles and permissions. </a>'
+        required: 'Veuillez sélectionner un rôle'
+        next_button: 'Suivante'
+      message:
+        label: 'Message d''invitation'
+        description: 'Nous enverrons un e-mail à %{principal}, auquel vous pourrez ajouter un message personnel ici. Une explication à l''invitation pourrait être utile, ou peut-être un peu d''informations concernant le projet pour les aider à démarrer.'
+        next_button: 'Revoir l''invitation'
+      summary:
+        next_button: 'Envoyer une invitation'
+      success:
+        title: '%{principal} a été invité !'
+        description:
+          user: 'L''utilisateur peut maintenant se connecter pour accéder à %{project}. En attendant, vous pouvez déjà planifier avec cet utilisateur et assigner des lots de travaux par exemple.'
+          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+        next_button: 'Continuer'

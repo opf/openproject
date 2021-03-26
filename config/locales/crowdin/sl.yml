@@ -66,7 +66,7 @@ sl:
       upgrade_to_ee: "Nadgradite v Enterprise Edition"
       add_token: "Naloži Enterprise Edition  podporni žeton"
       replace_token: "Zamenjajte svoj trenutni podporni žeton"
-      order: "Naročite Enterprise Edition"
+      order: "Order Enterprise verzija na lokaciji"
       paste: "Prilepite vaš Enterprise Edition podporni žeton."
       required_for_feature: "Ta funkcija je na voljo samo z aktivnim žetonom podpore za Enterprise Edition."
       enterprise_link: "Za več informacij kliknite tukaj."
@@ -241,12 +241,15 @@ sl:
       no_results_title_text: Ta uporabnik trenutno ni član projekta.
   placeholder_users:
     deletion_info:
-      heading: "Delete placeholder user %{name}"
+      heading: "Izbriši nadomestnega uporabniško %{name}"
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
-        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
-      irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+        Vsi pojavi nadomestnega uporabnika (npr., kot nosilec naloge, odgovorni ali druge vrednosti) bodo preneseni na račun imenovan "Izbrisan uporabnik".
+        Podatki iz vsakega izbrisanega računa so preneseni na ta račun, zato ne bo možno razlikovati med podatki, ki jih je uporabnik ustvaril in podatki iz drugega izbirsanega računa.
+      irreversible: "To dejanje je nepreklicno"
+      confirmation: "Vnesite nadomestno uporabniško ime %{name} za potrditev izbrisa."
+    upsale:
+      title: Dodeli delo ljudem, ki niso člani projekta
+      description: Obstaja več scenarijev, kjer želite dodeliti delo ljudem, ki niso člani vašega projekta. Mogoče morate samo zaposliti pravo osebo za to delo. Ali pa nočete tej osebi dati dostopa do informacij o projektu, a še vseeno želite slediti nalogam, ki so dodeljene tej osebi.
   prioritiies:
     edit:
       priority_color_text: |
@@ -526,7 +529,7 @@ sl:
         confirmation: "se ne ujema %{attribute}"
         could_not_be_copied: "%{dependency} ni bilo mogoče (v celoti) kopirati."
         does_not_exist: "ne obstaja"
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "je na voljo samo v OpenProject podjetniški verziji"
         error_unauthorized: "morda ni mogoče dostopati."
         error_readonly: "poskušano je bilo napisati, vendar ni mogoče pisati."
         empty: "ne sme biti prazno. "
@@ -561,6 +564,12 @@ sl:
         unremovable: "ne more biti odstranjeno."
         wrong_length: "je napačna dolžina (mora biti %{count} znakov). "
       models:
+        capability:
+          context:
+            global: 'Globalno'
+          query:
+            filters:
+              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Na voljo mora biti vsaj ena možnost."
         custom_actions:
@@ -649,6 +658,10 @@ sl:
           attributes:
             hours:
               day_limit: "je previsok, saj se lahko na datum prijavi največ 24 ur."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Delovni paket #%{id}%{id} ni veljaven cilj za prerazporeditev časovnih vnosov."
           attributes:
@@ -774,7 +787,7 @@ sl:
     default_columns: "Privzeti stolpci"
     description: "Opis"
     derived_due_date: "Končni datum"
-    derived_estimated_time: "Predvideni čas"
+    derived_estimated_hours: "Predvideni čas"
     derived_start_date: "Izpeljan začetni datum"
     display_sums: "Prikaži vsote"
     due_date: "Končni datum"
@@ -1244,6 +1257,9 @@ sl:
   instructions_after_registration: "Prijavite se lahko takoj, ko je račun aktiviran, tako da kliknete %{signin}."
   instructions_after_logout: "Ponovno se lahko prijavite s klikom na %{signin}."
   instructions_after_error: "Lahko se poskusite znova prijaviti s klikom na %{signin}. Če napaka še vedno traja, za pomoč prosite svojega skrbnika."
+  menus:
+    quick_add:
+      label: "Open quick add menu"
   my_account:
     access_tokens:
       no_results:
@@ -1368,7 +1384,7 @@ sl:
   label_custom_field_plural: "Polja po meri"
   label_custom_field_default_type: "Prazen tip"
   label_custom_style: "Oblika"
-  label_database_version: "PostgreSQL version"
+  label_database_version: "PostgreSQL verzija"
   label_date: "Datum"
   label_date_and_time: "Datum in ura"
   label_date_from: "Od"
@@ -1777,29 +1793,21 @@ sl:
   label_workflow_plural: "Potek dela"
   label_workflow_summary: "Povzetek"
   label_x_closed_work_packages_abbr:
+    one: "1 zaprt"
+    other: "%{count} zaprtih"
     zero: "0 zaprtih"
-    one: ""
-    two: ""
-    few: ""
-    other: ""
   label_x_comments:
+    one: "1 komentar"
+    other: "%{count} komentarjev"
     zero: "Ni komentarjev"
-    one: ""
-    two: ""
-    few: ""
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1 odprt"
+    other: "%{count} odprtih"
     zero: "0 odprtih"
-    one: ""
-    two: ""
-    few: ""
-    other: ""
   label_x_projects:
+    one: "1 projekt"
+    other: "%{count} projektov"
     zero: "Brez projektov"
-    one: ""
-    two: ""
-    few: ""
-    other: ""
   label_yesterday: "včeraj"
   label_role_type: "Vrsta"
   label_member_role: "Projektne vloge"
@@ -1897,7 +1905,7 @@ sl:
   notice_email_sent: "E-sporočilo je bilo poslano %{value}"
   notice_failed_to_save_work_packages: "%{count} delovnih paketov  ni bilo mogoče shraniti na %{total} izbranih: %{ids}"
   notice_failed_to_save_members: "Shranjevanje uporabnika(ov) ni uspelo: %{errors}."
-  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
+  notice_deletion_scheduled: "Izbris je načrtovan in izveden asinhrono."
   notice_file_not_found: "Stran na katero se želite povezati ne obstaja ali pa je bila umaknjena."
   notice_forced_logout: "Avtomatično ste bili izpisani po %{ttl_time} neaktivnih minutah."
   notice_internal_server_error: "Napaka se je pojavila na strani do katere ste želeli dostopati. Če imate še vedno težave, se za pomoč obrnite na skrbnika %{app_title}"
@@ -1963,8 +1971,8 @@ sl:
   permission_add_work_packages: "Dodaj delovne pakete"
   permission_add_messages: "Objavi sporočila"
   permission_add_project: "Ustvari projekt"
-  permission_manage_user: "Create and edit users"
-  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
+  permission_manage_user: "Ustvari in urejaj uporabnike"
+  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Ustvari podprojekte"
   permission_add_work_package_watchers: "Dodaj opazovalce"
   permission_assign_versions: "Dodeli verzije"
@@ -2694,6 +2702,9 @@ sl:
       invalid_json: "Zahteve ni bilo mogoče razčleniti kot JSON."
       invalid_relation: "Relacija ni veljavna."
       invalid_resource: "Za lastnost '%{property}' se pričakuje povezava, kot je '%{expected}, vendar je dobila '%{actual}'."
+      invalid_signal:
+        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
+        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "Trenutno stanje uporabniškega računa ne omogoča te operacije.\n"
       missing_content_type: "Ni določeno"
       missing_request_body: "Ni bilo organa zahteve."

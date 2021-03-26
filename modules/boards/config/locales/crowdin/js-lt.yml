@@ -9,7 +9,7 @@ lt:
         teaser_text: 'Pagerinkite Agile projektų valdymą naudodami lanksčius Lentų vaizdus. Sukurkite tiek lentų, kiek norite, bet kokiems dalykams, kuriuos norite suvaldyti.'
         upgrade_to_ee_text: 'Lentos yra Enterprise versijos galimybė. Prašome pereiti prie mokamo plano.'
         upgrade: 'Užsisakykite dabar'
-        personal_demo: 'Gaukite asmeninę demonstraciją'
+        personal_demo: 'Contact us for a demo'
       lists:
         delete: 'Pašalinti sąrašą'
       version:

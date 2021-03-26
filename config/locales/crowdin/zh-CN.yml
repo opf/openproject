@@ -66,7 +66,7 @@ zh-CN:
       upgrade_to_ee: "升级到企业版"
       add_token: "上传企业版支持令牌"
       replace_token: "替换您当前的支持令牌"
-      order: "订购企业版"
+      order: "Order Enterprise on-premises Edition"
       paste: "粘贴您的企业版支持令牌"
       required_for_feature: "此功能仅限具有活动企业版支持令牌的订阅者使用。"
       enterprise_link: "如需了解详细信息，请单击此处。"
@@ -78,7 +78,7 @@ zh-CN:
     is_active: 当前已显示
     is_inactive: 当前未显示
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
+    note_public: '您添加到此字段的任何文本和图像对所有已登录用户都是公开可见的！'
     text_overview: '在此视图中, 您可以为属性视图创建自定义帮助文本。定义后, 可以通过单击属性旁边的帮助图标来显示帮助文本。'
     label_plural: '属性帮助文本'
     show_preview: '预览文本'
@@ -189,7 +189,7 @@ zh-CN:
       指定在处理收到的邮件的附件（例如，签名或图标）时要忽略的名称列表。每行输入一个文件名。
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
+      scheduled: "删除已安排并且将在后台执行。您将收到结果通知。"
       schedule_failed: "项目不能删除: %{errors}"
       failed: "项目 %{name} 删除失败"
       failed_text: "删除项目 %{name} 的请求已失败。该项目仍位于存档中。"
@@ -239,12 +239,15 @@ zh-CN:
       no_results_title_text: 该用户当前不是项目的成员。
   placeholder_users:
     deletion_info:
-      heading: "Delete placeholder user %{name}"
+      heading: "删除占位符用户 %{name}"
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
-        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
-      irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+        出现的所有占位符用户（例如，作为被分派人、负责人或其他用户值）将被重新分配给一个名为“已删除用户”的帐户。
+        由于每个已删除帐户的数据都会被重新分配给此帐户，因此无法将用户创建的数据与另一个已删除帐户的数据区分。
+      irreversible: "此操作不可逆"
+      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+    upsale:
+      title: Assign work to people that are not members of the project.
+      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -521,7 +524,7 @@ zh-CN:
         confirmation: "不匹配 %{attribute}。"
         could_not_be_copied: "无法（完全）复制 %{dependency}。"
         does_not_exist: "不存在。"
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "仅在 OpenProject 企业版中可用"
         error_unauthorized: "无法访问。"
         error_readonly: "曾尝试被写入，但不可写。"
         empty: "不能为空。"
@@ -537,7 +540,7 @@ zh-CN:
         invalid_url: '不是有效的 URL。'
         invalid_url_scheme: '不是受支持的协议（允许：%{allowed_schemes}）。'
         less_than_or_equal_to: "必须小于或等于 %{count}。"
-        not_deletable: "cannot be deleted."
+        not_deletable: "无法删除。"
         not_current_user: "不是当前用户。"
         not_a_date: "不是有效的日期。"
         not_a_datetime: "不是有效的日期时间。"
@@ -556,6 +559,12 @@ zh-CN:
         unremovable: "不能删除。"
         wrong_length: "长度不正确 (应该是 %{count} 个字符)。"
       models:
+        capability:
+          context:
+            global: '全局'
+          query:
+            filters:
+              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "至少有需要一个可用选项。"
         custom_actions:
@@ -644,6 +653,10 @@ zh-CN:
           attributes:
             hours:
               day_limit: "过高，因为每天最多可以记录 24 小时。"
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "工作包 #%{id} 不是重新分配时间条目的有效目标。"
           attributes:
@@ -720,7 +733,7 @@ zh-CN:
       status: "工作包状态"
       member: "成员"
       news: "新闻"
-      placeholder_user: "Placeholder user"
+      placeholder_user: "占位符用户"
       project: "项目"
       query: "自定义查询"
       role:
@@ -760,7 +773,7 @@ zh-CN:
     default_columns: "默认的列"
     description: "描述"
     derived_due_date: "派生的完成日期"
-    derived_estimated_time: "派生的估计时间"
+    derived_estimated_hours: "派生的估计时间"
     derived_start_date: "派生的开始日期"
     display_sums: "显示汇总"
     due_date: "完成日期"
@@ -1117,7 +1130,7 @@ zh-CN:
   error_menu_item_not_saved: 不能保存菜单项
   error_wiki_root_menu_item_conflict: >
     无法将 "%{old_name}" 重命名为 "%{new_name}"，因为结果菜单项与现有菜单项 "%{existing_caption}" (%{existing_identifier}) 存在冲突。
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed: "在外部身份验证期间出错。请重试。"
   error_attribute_not_highlightable: "未突出显示的属性：%{attributes}"
   events:
     project: '编辑项目'
@@ -1194,6 +1207,9 @@ zh-CN:
   instructions_after_registration: "只要您的帐户已被激活您可以点击 %{signin} 登录。"
   instructions_after_logout: "你可以点击 %{signin} 重新登录。"
   instructions_after_error: "你可以尝试点击 %{signin} 重新登录。如果错误仍然存在，请向您的管理员寻求帮助。"
+  menus:
+    quick_add:
+      label: "Open quick add menu"
   my_account:
     access_tokens:
       no_results:
@@ -1318,7 +1334,7 @@ zh-CN:
   label_custom_field_plural: "自定义字段"
   label_custom_field_default_type: "空类型"
   label_custom_style: "设计"
-  label_database_version: "PostgreSQL version"
+  label_database_version: "PostgreSQL 版本"
   label_date: "日期"
   label_date_and_time: "日期和时间"
   label_date_from: "从"
@@ -1527,9 +1543,9 @@ zh-CN:
   label_permissions: "权限"
   label_permissions_report: "权限报告"
   label_personalize_page: "对此页面进行个性化设置"
-  label_placeholder_user: "Placeholder user"
-  label_placeholder_user_new: "New placeholder user"
-  label_placeholder_user_plural: "Placeholder users"
+  label_placeholder_user: "占位符用户"
+  label_placeholder_user_new: "新占位符用户"
+  label_placeholder_user_plural: "占位符用户"
   label_planning: "规划"
   label_please_login: "请登录"
   label_plugins: "插件"
@@ -1727,17 +1743,21 @@ zh-CN:
   label_workflow_plural: "工作流"
   label_workflow_summary: "摘要"
   label_x_closed_work_packages_abbr:
+    one: "1 个已关闭"
+    other: "%{count} 个已关闭"
     zero: "0 个已关闭"
-    other: ""
   label_x_comments:
+    one: "1 条评论"
+    other: "%{count} 条评论"
     zero: "没有注释"
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1 个打开"
+    other: "%{count} 个打开"
     zero: "0 个已打开"
-    other: ""
   label_x_projects:
+    one: "1 个项目"
+    other: "%{count} 个项目"
     zero: "没有项目"
-    other: ""
   label_yesterday: "昨天"
   label_role_type: "类型"
   label_member_role: "项目角色"
@@ -1833,7 +1853,7 @@ zh-CN:
   notice_email_sent: "电子邮件被发送到 %{value}"
   notice_failed_to_save_work_packages: "%{total} 个选定工作包中的 %{count} 保存失败： %{ids} 。"
   notice_failed_to_save_members: "成员保存失败： %{errors} 。"
-  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
+  notice_deletion_scheduled: "删除已安排并且将异步执行。"
   notice_file_not_found: "你想要访问的页面不存在或已被删除。"
   notice_forced_logout: "%{ttl_time} 分钟不活动后，您已经被自动注销。"
   notice_internal_server_error: "你想要访问的页面上出现错误。如果您继续遇到问题请联系您 %{app_title} 管理员寻求帮助。"
@@ -1896,8 +1916,8 @@ zh-CN:
   permission_add_work_packages: "添加工作包"
   permission_add_messages: "发布消息"
   permission_add_project: "创建项目"
-  permission_manage_user: "Create and edit users"
-  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
+  permission_manage_user: "创建和编辑项目"
+  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "创建子项目"
   permission_add_work_package_watchers: "添加关注人"
   permission_assign_versions: "分配版本"
@@ -2097,7 +2117,7 @@ zh-CN:
       username: "版本库用户名"
     truncated: "很抱歉，我们不得不将此目录截断为 %{limit} 个文件。列表中已省略 %{truncated} 个条目。"
     named_repository: "%{vendor_name} 存储库"
-    update_settings_successful: "The settings have been successfully saved."
+    update_settings_successful: "设置已成功保存。"
     url: "版本的 URL"
     warnings:
       cannot_annotate: "此文件不能进行注释。"
@@ -2619,6 +2639,9 @@ zh-CN:
       invalid_json: "请求无法被解析成JSON格式。"
       invalid_relation: "无效的关系。"
       invalid_resource: "'%{property}' 属性需要的链接如 '%{expected}' ，但得到的是 '%{actual}'。"
+      invalid_signal:
+        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
+        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "当前的用户帐户状态不允许此操作。"
       missing_content_type: "未指定"
       missing_request_body: "请求中未包含正文。"

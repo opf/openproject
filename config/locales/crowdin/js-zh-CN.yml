@@ -86,7 +86,7 @@ zh-CN:
     caption_rate_history: "费率历史记录"
     clipboard:
       browser_error: "您的浏览器不支持复制到剪贴板，请手动复制选定的文本。"
-      copied_successful: "Successfully copied to clipboard!"
+      copied_successful: "成功复制到剪贴板！"
     chart:
       type: '图表类型'
       axis_criteria: '轴条件'
@@ -207,7 +207,7 @@ zh-CN:
         upsale:
           become_hero: "成为英雄！"
           benefits:
-            description: "有什么好处？"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "安全功能"
             high_security_text: "单点登录（SAML、OpenID Connect、CAS）、双重身份验证和 LDAP 组自动同步。"
             installation: "安装支持"
@@ -273,11 +273,11 @@ zh-CN:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              此版本包含各种新功能和改进：<br><ul class="%{list_styling_class}"><li>占位符用户<b>（高级功能）的新概念允许将没有电子邮件地址的初级用户添加到 OpenProject 并为这些资源分配任务。</li><li>工作包<b>筛选器通过父选项进行了扩展</b>，支持轻松查看所有直接子项，同时还<b>通过 ID</b> 进行了扩展，支持在列表中仅包含或排除这些确切的工作包。</li><li>通过<b>新的全局角色</b>将用户管理分配给非管理员，允许在没有完全管理员权限的情况下管理和邀请用户。</li><li>进一步的 UI 和 UX 改进，即协调成本报告导航、调整工作包列表中总和与组行的背景颜色、添加组显示页面。</li></ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              此版本包含各种新功能和改进：<br><ul class="%{list_styling_class}"><li>占位符用户<b>（高级功能）的新概念允许将没有电子邮件地址的初级用户添加到 OpenProject 并为这些资源分配任务。</li><li>工作包<b>筛选器通过父选项进行了扩展</b>，支持轻松查看所有直接子项，同时还<b>通过 ID</b> 进行了扩展，支持在列表中仅包含或排除这些确切的工作包。</li><li>通过<b>新的全局角色</b>将用户管理分配给非管理员，允许在没有完全管理员权限的情况下管理和邀请用户。</li><li>进一步的 UI 和 UX 改进，即协调成本报告导航、调整工作包列表中总和与组行的背景颜色、添加组显示页面。</li></ul>
     label_activate: "激活"
     label_add_column_after: "之后添加列"
     label_add_column_before: "在之前添加列"
@@ -403,7 +403,7 @@ zh-CN:
     label_public_query: "公开"
     label_sum: "总计"
     label_sum_for: "总和"
-    label_total_sum: "Total sum"
+    label_total_sum: "总和"
     label_subject: "主题"
     label_this_week: "这一周"
     label_today: "今天"
@@ -517,7 +517,7 @@ zh-CN:
         reset_title: "重置表单配置"
         confirm_reset: >
           警告：确定想要重置表单配置吗？这会将属性重置为它们的默认组，并禁用所有自定义字段。
-        upgrade_to_ee: "升级到企业版"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
         upgrade_to_ee_text: "哇！如果您需要使用此功能，说明您非常专业！您是否愿意成为企业版客户来支持 OpenSource 开发人员？"
         more_information: "更多信息"
         nevermind: "我愿意"
@@ -845,7 +845,7 @@ zh-CN:
           automatic: '自动'
           manually: '手动'
           warning: '激活自动排序模式时，您将丢失以前的排序结果。'
-        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "使用上面的输入字段向表视图中添加列。您可以拖放列来将它们重新排序。"
         upsale:
           attribute_highlighting: '需要特定的工作包以脱颖而出？'
           relation_columns: '需要查看工作包列表中的关系吗？'
@@ -938,8 +938,9 @@ zh-CN:
       child_work_packages:
         other: "%{count} 子工作包"
       hour:
+        one: "1 小时"
+        other: "%{count} 小时"
         zero: "0 h"
-        other: ""
     zen_mode:
       button_activate: '激活 zen 模式'
       button_deactivate: '取消激活 zen 模式'
@@ -957,3 +958,67 @@ zh-CN:
       card: '卡片'
       list: '表'
       timeline: '甘特图'
+    invite_user_modal:
+      back: '返回'
+      invite: 'Invite'
+      title:
+        invite: '邀请用户'
+        invite_to_project: 'Invite %{type} to %{project}'
+        User: 'user'
+        Group: 'group'
+        PlaceholderUser: 'placeholder user'
+        invite_principal_to_project: 'Invite %{principal} to %{project}'
+      project:
+        label: '项目'
+        required: 'Please select a project'
+        next_button: '下一个'
+        no_results: 'No projects were found'
+      type:
+        required: 'Please select the type to be invited'
+        user:
+          title: '用户'
+          description: 'Permissions based on the assigned role in the selected project'
+        group:
+          title: '组'
+          description: 'Permissions based on the assigned role in the selected project'
+        placeholder:
+          title: '占位符用户'
+          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
+          description: 'Has no access to the project and no emails are sent out.'
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+      principal:
+        label:
+          name_or_email: 'Name or email address'
+          name: '名称'
+        already_member_message: 'Already a member of %{project}'
+        no_results_user: 'No users were found'
+        invite_user: 'Invite:'
+        change_user_selection: 'Change e-mail-address or select an existing user'
+        no_results_placeholder: 'No placeholders were found'
+        change_placeholder_selection: 'Change name or select an existing placeholder'
+        create_new_placeholder: 'Create new placeholder:'
+        no_results_group: 'No groups were found'
+        change_group_selection: 'Change name or select an existing group'
+        next_button: '下一个'
+        required:
+          user: 'Please select a user'
+          placeholder: 'Please select a placeholder'
+          group: 'Please select a group'
+      role:
+        label: 'Role in %{project}'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> learn more about roles and permissions. </a>'
+        required: 'Please select a role'
+        next_button: '下一个'
+      message:
+        label: 'Invitation message'
+        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
+        next_button: 'Review Invitation'
+      summary:
+        next_button: 'Send Invitation'
+      success:
+        title: '%{principal} was invited!'
+        description:
+          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+        next_button: '继续'

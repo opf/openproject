@@ -66,7 +66,7 @@ fr:
       upgrade_to_ee: "Passer à la version Entreprise"
       add_token: "Charger une licence de la version Entreprise"
       replace_token: "Remplacer votre licence actuelle"
-      order: "Commander la version Entreprise"
+      order: "Commander l'édition Enterprise sur place"
       paste: "Coller votre licence de la version Entreprise"
       required_for_feature: "Cette fonction n'est disponible qu'avec une licence active de la version Entreprise."
       enterprise_link: "Pour plus d'informations, cliquez ici."
@@ -244,10 +244,13 @@ fr:
     deletion_info:
       heading: "Supprimer le placeholder utilisateur %{name}"
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
-        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
-      irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+        Toutes les occurrences de l'utilisateur de remplacement (par exemple, en tant que responsable ou autre valeur utilisateur) seront réaffectées à un compte appelé « Utilisateur supprimé ».
+        Comme les données de chaque compte supprimé sont réaffectées à ce compte, il ne sera pas possible de distinguer les données que l'utilisateur a créées des données d'un autre compte supprimé.
+      irreversible: "Cette action est irréversible"
+      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+    upsale:
+      title: Assigner du travail à des personnes qui ne sont pas membres du projet.
+      description: Il y a plusieurs scénarios où vous voulez assigner du travail à des personnes qui ne sont pas membres de votre projet. Il se peut simplement que vous ayez encore besoin d'embaucher la bonne personne pour le travail. Ou vous ne voulez tout simplement pas donner à cette personne l'accès aux informations du projet mais vous voulez quand même des tâches de suivi assignées à cette personne.
   prioritiies:
     edit:
       priority_color_text: |
@@ -525,7 +528,7 @@ fr:
         confirmation: "ne correspond pas à %{attribute}."
         could_not_be_copied: "%{dependency} n'a pas pu être copié (entièrement)."
         does_not_exist: "n'existe pas."
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "n'est disponible que dans OpenProject Enterprise Edition"
         error_unauthorized: "est interdit d'accès."
         error_readonly: "a tenté d'être écrit mais n'est pas accessible en écriture."
         empty: "ne peut pas être vide."
@@ -560,6 +563,12 @@ fr:
         unremovable: "ne peut pas être supprimé."
         wrong_length: "est de mauvaise longueur (devrait être %{count} caractères)."
       models:
+        capability:
+          context:
+            global: 'Global'
+          query:
+            filters:
+              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Au moins une option doit être disponible."
         custom_actions:
@@ -648,6 +657,10 @@ fr:
           attributes:
             hours:
               day_limit: "est trop élevé car un maximum de 24 heures peut être enregistré par date."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Le lot de travaux #%{id} n'est pas une cible valide pour réaffecter les entrées de temps."
           attributes:
@@ -726,7 +739,7 @@ fr:
       status: "Statut du lot de travaux"
       member: "Membre"
       news: "Actualités"
-      placeholder_user: "Placeholder user"
+      placeholder_user: "Utilisateur de remplacement"
       project: "Projet"
       query: "Requête personnalisée"
       role:
@@ -767,7 +780,7 @@ fr:
     default_columns: "Colonnes par défaut"
     description: "Description"
     derived_due_date: "Date de fin dérivée"
-    derived_estimated_time: "Temps estimé dérivé"
+    derived_estimated_hours: "Temps estimé dérivé"
     derived_start_date: "Date de début dérivée"
     display_sums: "Afficher les sommes"
     due_date: "Date de fin"
@@ -1213,6 +1226,9 @@ fr:
   instructions_after_registration: "Vous pouvez vous authentifier tant que votre compte a été activé en cliquant sur %{signin}."
   instructions_after_logout: "Vous pouvez vous ré-authentifier en cliquant sur %{signin}."
   instructions_after_error: "Vous pouvez encore essayer de vous authentifier en cliquant sur %{signin}. Si l'erreur persiste, demandez de l'aide à votre administrateur."
+  menus:
+    quick_add:
+      label: "Open quick add menu"
   my_account:
     access_tokens:
       no_results:
@@ -1546,9 +1562,9 @@ fr:
   label_permissions: "Autorisations"
   label_permissions_report: "Rapport d'autorisations"
   label_personalize_page: "Personaliser cette page"
-  label_placeholder_user: "Placeholder user"
-  label_placeholder_user_new: "New placeholder user"
-  label_placeholder_user_plural: "Placeholder users"
+  label_placeholder_user: "Utilisateur de remplacement"
+  label_placeholder_user_new: "Nouvel utilisateur de remplacement"
+  label_placeholder_user_plural: "Utilisateurs de remplacement"
   label_planning: "Planification"
   label_please_login: "Veuillez vous connecter"
   label_plugins: "Plugins"
@@ -1746,21 +1762,21 @@ fr:
   label_workflow_plural: "Flux de travail"
   label_workflow_summary: "Résumé"
   label_x_closed_work_packages_abbr:
+    one: "1 fermée"
+    other: "%{count} fermées"
     zero: "0 clôturé"
-    one: ""
-    other: ""
   label_x_comments:
+    one: "1 commentaire"
+    other: "%{count} commentaires"
     zero: "aucun commentaire"
-    one: ""
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1 ouvert"
+    other: "%{count} ouverts"
     zero: "0 ouvert"
-    one: ""
-    other: ""
   label_x_projects:
+    one: "1 projet"
+    other: "%{count} projets"
     zero: "aucun projet"
-    one: ""
-    other: ""
   label_yesterday: "hier"
   label_role_type: "Type"
   label_member_role: "Rôle du projet"
@@ -1923,7 +1939,7 @@ fr:
   permission_add_messages: "Poster des messages"
   permission_add_project: "Créer un projet"
   permission_manage_user: "Créer et éditer des utilisateurs"
-  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
+  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Créer des sous-projets"
   permission_add_work_package_watchers: "Ajouter des observateurs"
   permission_assign_versions: "Assigner les versions"
@@ -2649,6 +2665,9 @@ fr:
       invalid_json: "La demande n'a pas pu être analysée au format JSON."
       invalid_relation: "La relation n'est pas valide."
       invalid_resource: "\"%{actual}\" est invalide, car la propriété \"%{property}\" requiert un lien de type \"%{expected}\"."
+      invalid_signal:
+        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
+        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "L'état du compte de l'utilisateur ne permet pas cette opération."
       missing_content_type: "non spécifié"
       missing_request_body: "Il y n'avait aucun corps dans la requête."
