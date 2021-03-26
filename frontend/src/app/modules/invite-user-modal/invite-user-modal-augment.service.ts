@@ -71,7 +71,7 @@ export class OpInviteUserModalAugmentService {
 
     modal
       .closingEvent
-      .subscribe((modal) => {
+      .subscribe((modal:{data:unknown}) => {
         // Just reload the page for now if we saved anything
         if (modal.data) {
           window.location.reload();
