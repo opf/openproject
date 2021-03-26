@@ -38,7 +38,7 @@ describe MailHandler, type: :model do
   let(:priority_low) { FactoryBot.create(:priority_low, is_default: true) }
 
   before do
-    allow(Setting).to receive(:notified_events).and_return(Redmine::Notifiable.all.map(&:name))
+    allow(Setting).to receive(:notified_events).and_return(OpenProject::Notifiable.all.map(&:name))
     # we need both of these run first so the anonymous user is created and
     # there is a default work package priority to save any work packages
     priority_low

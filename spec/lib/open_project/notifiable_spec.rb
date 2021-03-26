@@ -27,30 +27,17 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+require 'spec_helper'
 
-module Redmine
-  Notifiable = Struct.new(:name, :parent) do
-    def to_s
-      name
-    end
+describe OpenProject::Notifiable do
+  describe '#all' do
+    it 'matches expected list' do
+      expected = %w(work_package_added work_package_updated work_package_note_added
+         status_updated work_package_priority_updated news_added news_comment_added
+         file_added message_posted wiki_content_added wiki_content_updated membership_added membership_updated)
 
-    # TODO: Plugin API for adding a new notification?
-    def self.all
-      notifications = []
-      notifications << Notifiable.new('work_package_added')
-      notifications << Notifiable.new('work_package_updated')
-      notifications << Notifiable.new('work_package_note_added', 'work_package_updated')
-      notifications << Notifiable.new('status_updated', 'work_package_updated')
-      notifications << Notifiable.new('work_package_priority_updated', 'work_package_updated')
-      notifications << Notifiable.new('news_added')
-      notifications << Notifiable.new('news_comment_added')
-      notifications << Notifiable.new('file_added')
-      notifications << Notifiable.new('message_posted')
-      notifications << Notifiable.new('wiki_content_added')
-      notifications << Notifiable.new('wiki_content_updated')
-      notifications << Notifiable.new('membership_added')
-      notifications << Notifiable.new('membership_updated')
-      notifications
+      expect(described_class.all.map(&:name))
+        .to match_array(expected)
     end
   end
 end
