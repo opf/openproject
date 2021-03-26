@@ -14,7 +14,7 @@ To activate and configure OAuth applications, navigate to -> *Administration* ->
 
 To add a new OAuth application, click the green **+ Add** button.
 
-![Sys-admin-authenticatoin-OAuth-applications](Sys-admin-authenticatoin-OAuth-applications.png)
+![Sys-admin-authentication-OAuth-applications](Sys-admin-authentication-oauth-applications.png)
 
 
 
@@ -22,12 +22,12 @@ You can configure the following options to add your OAuth application.
 
 1. Enter the **name** of your OAuth application.
 2. **Define redirect URLs** where authorized users can be redirected to.
-3. .................................
+3. Set the **scope** that the OAuth application will have access to. Choose the API you want to grant access to. Multiple selection is possible. If no scope is checked, per default **api_v3** is assumed.
 4. Check if the application will be used **confidentially**.
 5. (Optional) Choose **client credential flows** and define a user on whose behalf requests will be performed.
 6. Press the blue **Create** button to add your OAuth application.
 
-![add-new-oauth-application](image-20210315182306678.png)
+![add-new-oauth-application](add-new-oauth-application.png)
 
 Don't forget to note down your `Client ID` and your `Client secret` in a safe space. You will need it later.
 
@@ -35,8 +35,8 @@ Don't forget to note down your `Client ID` and your `Client secret` in a safe sp
 
 The authentication endpoints are at
 
-* Auth URL: `https://example.com/OAuth/authorize`
-* Access Token URL: `https://example.com/OAuth/token`
+* Auth URL: `https://example.com/oauth/authorize`
+* Access Token URL: `https://example.com/oauth/token`
 
 ## **Authorization code flow** example
 
@@ -49,7 +49,7 @@ Request an authorization code. Please adopt the following URL replacing
  * `<Redirect URI>` with the redirect URI just as you configured it above.
  * You can leave the `scope` value untouched unless you are running the OpenProject BIM edition and also plan to access to the BCF version 2.1 REST API. Then simply replace `api_v3` with `api_v3%20bcf_v2_1`.
 
-`https://example.com/OAuth/authorize?response_type=code&client_id=<Client ID>&redirect_uri=<Redirect URI>&scope=api_v3&prompt=consent`
+`https://example.com/oauth/authorize?response_type=code&client_id=<Client ID>&redirect_uri=<Redirect URI>&scope=api_v3&prompt=consent`
 
 That requests redirects you to a URL that holds a `code` parameter which is the authentication code.
 
@@ -71,7 +71,7 @@ We do this manually in the command line using cURL. Please replace
 
 ```
 $ curl --request POST \
-  --url 'https://example.com/OAuth/token' \
+  --url 'https://example.com/oauth/token' \
   --header 'content-type: application/x-www-form-urlencoded' \
   --data grant_type=authorization_code \
   --data client_id=<Client ID> \
@@ -97,13 +97,13 @@ For example, the following cURL command fetches all projects from the API V3. Pl
 
 ## Using Postman with OAuth?
 
-Set redirect URLs to `urn:ietf:wg:OAuth:2.0:oob` in both, for your application (see step 2 above) and 
+Set redirect URLs to `urn:ietf:wg:oauth:2.0:oob` in both, for your application (see step 2 above) and 
 within Postman.
 
 In Postman the configuration should look like this (Replace `{{protocolHostPort}}` with your host, 
 i.e. `https://example.com`)
 
-![Sys-admin-authentication-add-OAuth-application](Sys-admin-authentication-OAuth-postman.png)
+![Sys-admin-authentication-add-OAuth-application](Sys-admin-authentication-oauth-postman.png)
 
 ## CORS headers
 
