@@ -79,14 +79,14 @@ To create a global role tick the box "Global Role" when [creating a new role](#c
 
 You can choose between these global permissions:
 
-- **Create project**: Assign this permission to users to enable them to create new projects without being system administrator. 
-  You can change the [project role](../../../user-guide/members) a user with this permission is assigned in a newly created project [this way](../../system-settings/project-system-settings/#settings-for-new-projects).
-- **Create and edit users**: Assign this permission to users who should be able to create or invite new users and edit their profiles in a limited way. 
-  Users with this permission can see all users of your OpenProject instance and can add users and edit the name, username, email address and language of a user. They can't delete or lock users. 
+- **Create project**: With this permission users can create new projects even when they are not system administrators.
+  [Here](../../system-settings/project-system-settings/#settings-for-new-projects) you can set a default role that users with this permission will have in a project they created.
+- **Create and edit users**: Assign this permission to users who should be able to create or invite new users. They also can edit user profiles in a limited way. 
+  Users with this permission can add users and edit a user's name, username, email address and language. Additionally, they can can see all users of your OpenProject instance. They can't delete or lock users. 
   They can only see the project membership of users for projects in which they have permission to see the members (e.g. as Project admin or Member). They can only manage project membership of users for projects in which they have permission to manage members (e.g. as Project admin).
   The user profile will look like this for them (user name and email address were redacted): ![create-and-edit-users-role](image-20210308180635158.png)
 - **Create, edit and delete placeholder users**: Assign this permission to users (e.g. project admins) who should be able to manage [placeholder users](../placeholder-users). 
-  Users with this permission can see all placeholder users in your OpenProject instance and can create, edit and delete placeholder users.
-  They can only see the project membership of placeholder users for projects in which they have permission to see the members (e.g. as Project admin or Member). They can only manage project membership of placeholder users for projects in which they have permission to manage members (e.g. as Project admin).
+  Users with this permission can create, edit and delete placeholder users, as well as see all placeholder users in your OpenProject instance.
+  **Please note**: They can only see the project membership of placeholder users for projects in which they have permission to see the members (e.g. as Project admin or Member). They can only manage project membership of placeholder users for projects in which they have permission to manage members (e.g. as Project admin).
   A placeholder user's profile will look like this for them: ![create-edit-and-delete-placeholder-users-role](image-20210308192119584.png)
 - **Administrator**: Technically, the system administrator is also a global role. However, it can't be configured and is assigned to a user in another way. Find out more [here](../users/#general-settings).
