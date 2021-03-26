@@ -48,6 +48,8 @@ module Redmine
       notifications << Notifiable.new('message_posted')
       notifications << Notifiable.new('wiki_content_added')
       notifications << Notifiable.new('wiki_content_updated')
+      notifications << Notifiable.new('membership_added')
+      notifications << Notifiable.new('membership_updated')
       notifications
     end
   end

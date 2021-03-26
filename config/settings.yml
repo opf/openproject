@@ -244,6 +244,8 @@ notified_events:
   - message_posted
   - wiki_content_added
   - wiki_content_updated
+  - membership_added
+  - membership_updated
 mail_handler_body_delimiters:
   default: ''
 mail_handler_ignore_filenames:

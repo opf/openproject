@@ -1539,6 +1539,8 @@ en:
   label_member_new: "New member"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Members"
+  lable_membership_added: 'Member added'
+  lable_membership_updated: 'Member updated'
   label_menu_item_name: "Name of menu item"
   label_message: "Message"
   label_message_last: "Last message"
