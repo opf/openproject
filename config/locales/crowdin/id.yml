@@ -66,7 +66,7 @@ id:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Unggah sebuah token bantuan edisi enterprise"
       replace_token: "Gantilah token bantuan yang sedang digunakan"
-      order: "Pesanlah edisi enterprise"
+      order: "Order Enterprise on-premises Edition"
       paste: "Tempelkan token pendukung Edisi Perusahaan Anda"
       required_for_feature: "Fitur ini hanya tersedia bersama dengan sebuah token pendukung Edisi Perusahaan yang aktif."
       enterprise_link: "Untuk informasi lebih lanjut, klik di sini."
@@ -247,7 +247,10 @@ id:
         All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
         As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
       irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+    upsale:
+      title: Assign work to people that are not members of the project.
+      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -647,6 +650,10 @@ id:
           attributes:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Paket-Penugasan #%{id} tidak valid untuk reassigning di Time entri."
           attributes:
@@ -763,7 +770,7 @@ id:
     default_columns: "Kolom default"
     description: "Deskripsi"
     derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
+    derived_estimated_hours: "Derived estimated time"
     derived_start_date: "Derived start date"
     display_sums: "Tampilkan jumlah"
     due_date: "Finish date"
@@ -1731,17 +1738,21 @@ id:
   label_workflow_plural: "Alur kerja"
   label_workflow_summary: "Ringkasan"
   label_x_closed_work_packages_abbr:
+    one: "1 closed"
+    other: "%{count} closed"
     zero: "0 closed"
-    other: ""
   label_x_comments:
+    one: "1 comment"
+    other: "%{count} comments"
     zero: "tak ada komentar"
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1 open"
+    other: "%{count} open"
     zero: "0 open"
-    other: ""
   label_x_projects:
+    one: "1 project"
+    other: "%{count} projects"
     zero: "no projects"
-    other: ""
   label_yesterday: "kemarin"
   label_role_type: "Tipe"
   label_member_role: "Peran proyek"

@@ -43,7 +43,7 @@ fi:
         main-menu-bg-color: "Main menu background"
         main-menu-bg-selected-background: "Main menu when selected"
         main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
+        main-menu-font-color: "Päävalikon kirjasin"
         main-menu-selected-font-color: "Main menu font when selected"
         main-menu-hover-font-color: "Main menu font on hover"
         main-menu-border-color: "Main menu border"
@@ -66,11 +66,11 @@ fi:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
       replace_token: "Korvata nykyisen tukea poletti"
-      order: "Tilaa yritysversio"
+      order: "Order Enterprise on-premises Edition"
       paste: "Paste your Enterprise Edition support token"
       required_for_feature: "This feature is only available with an active Enterprise Edition support token."
       enterprise_link: "Saadaksesi lisätietoja, klikkaa tästä."
-      start_trial: 'Start free trial'
+      start_trial: 'Aloita ilmainen kokeilu'
       book_now: 'Book now'
       get_quote: 'Get a quote'
   announcements:
@@ -123,7 +123,7 @@ fi:
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'Connection encryption'
-    system_account: 'System account'
+    system_account: 'Järjestelmätili'
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
       Please specify the bind credentials for that system user in the following section.
@@ -159,7 +159,7 @@ fi:
     plural: 'Mukautetut toiminnot'
     new: 'Lisää mukautettu toiminto'
     edit: 'Edit custom action %{name}'
-    execute: 'Execute %{name}'
+    execute: 'Suorita %{name}'
     upsale:
       title: 'Custom actions is an Enterprise Edition feature'
       description: 'Mukautettuja toimintoja tehostaa jokapäiväistä työtä yhdistämällä joukko yksittäisiä vaiheita yhdeksi painiketta.'
@@ -174,7 +174,7 @@ fi:
       no_results_title_text: Tällä hetkellä ei ole mukautettuja kenttiä.
       no_results_content_text: Luo uusi mukautettu kenttä
   concatenation:
-    single: 'or'
+    single: 'tai'
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -209,7 +209,7 @@ fi:
         no_results_title_text: Ei tapahtumia.
       forums:
         no_results_title_text: There are currently no forums for the project.
-        no_results_content_text: Create a new forum
+        no_results_content_text: Luo uusi foorumi
       categories:
         no_results_title_text: Tällä hetkellä ei ole yhtään tehtäväluokkaa.
         no_results_content_text: Lisää uusi tehtäväluokka
@@ -247,7 +247,10 @@ fi:
         All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
         As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
       irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+    upsale:
+      title: Assign work to people that are not members of the project.
+      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -279,8 +282,8 @@ fi:
       form_configuration: "Lomakkeen muokkaus"
       projects: "Projektit"
       enabled_projects: "Enabled projects"
-      edit_query: "Edit table"
-      query_group_placeholder: "Give the table a name"
+      edit_query: "Muokkaa taulukkoa"
+      query_group_placeholder: "Anna taulukolle nimi"
       reset: "Reset to defaults"
       type_color_text: |
         Click to assign or change the color of this type. The selected color distinguishes work packages
@@ -539,13 +542,13 @@ fi:
         greater_than_start_date: "tulee olla aloituspäivän jälkeinen."
         inclusion: "ei löydy listauksesta."
         invalid: "ei kelpaa."
-        invalid_url: 'is not a valid URL.'
+        invalid_url: 'ei ole kelvollinen URL.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "täytyy olla pienempi tai yhtä suuri kuin %{count}."
         not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
-        not_a_date: "is not a valid date."
-        not_a_datetime: "is not a valid date time."
+        not_a_date: "ei ole kelvollinen päivämäärä."
+        not_a_datetime: "ei ole kelvollinen aika."
         not_a_number: "ei ole numero."
         not_allowed: "is invalid because of missing permissions."
         not_an_integer: "ei ole kokonaisluku."
@@ -558,7 +561,7 @@ fi:
         too_long: "on liian pitkä (maksimi on %{count} merkkiä)."
         too_short: "on liian lyhyt (minimi on %{count} merkkiä)."
         unchangeable: "ei voi muuttaa."
-        unremovable: "cannot be removed."
+        unremovable: "ei voida poistaa."
         wrong_length: "on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä)."
       models:
         custom_field:
@@ -649,6 +652,10 @@ fi:
           attributes:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Tehtävä #%{id} ei ole kelvollinen kohde aikakirjauksille."
           attributes:
@@ -768,7 +775,7 @@ fi:
     default_columns: "Oletussarakkeet"
     description: "Kuvaus"
     derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
+    derived_estimated_hours: "Derived estimated time"
     derived_start_date: "Derived start date"
     display_sums: "Näytä summat"
     due_date: "Päättymispäivä"
@@ -1065,7 +1072,7 @@ fi:
   description_enter_text: "Enter text"
   description_filter: "Suodata"
   description_filter_toggle: "Show/Hide filter"
-  description_category_reassign: "Choose category"
+  description_category_reassign: "Valitse luokka"
   description_message_content: "Viestin sisältö"
   description_my_project: "You are member"
   description_notes: "Kommentit"
@@ -1104,7 +1111,7 @@ fi:
   error_can_not_find_all_resources: "Could not find all related resources to this request."
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Please choose a user and a role."
-  error_code: "Error %{code}"
+  error_code: "Virhe %{code}"
   error_cookie_missing: 'OpenProject evästeen puuttuu. Varmista, että evästeet ovat käytössä, koska tämä sovellus ei toimi oikein ilman evästeitä.'
   error_custom_option_not_found: "Vaihtoehtoa ei ole olemassa."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
@@ -1181,8 +1188,8 @@ fi:
   general_text_yes: "kyllä"
   general_text_No: "Ei"
   general_text_Yes: "Kyllä"
-  general_text_true: "true"
-  general_text_false: "false"
+  general_text_true: "tosi"
+  general_text_false: "epätosi"
   gui_validation_error: "1 virhe"
   gui_validation_error_plural: "%{count} virhettä"
   homescreen:
@@ -1228,7 +1235,7 @@ fi:
   label_accessibility: "Helppokäyttötoiminnot"
   label_account: "Käyttäjätili"
   label_active: "Aktiivinen"
-  label_activate_user: 'Activate user'
+  label_activate_user: 'Aktivoi käyttäjä'
   label_active_in_new_projects: "Active in new projects"
   label_activity: "Tapahtumat"
   label_add_edit_translations: "Lisää ja muokkaa käännöksiä"
@@ -1347,7 +1354,7 @@ fi:
   label_date_to: "Päättyen"
   label_day_plural: "päivää"
   label_default: "Oletus"
-  label_delete_user: "Delete user"
+  label_delete_user: "Poista käyttäjä"
   label_delete_project: "Poista projekti"
   label_deleted: "poistettu"
   label_deleted_custom_field: "(poistettu mukautettu kenttä)"
@@ -1385,9 +1392,9 @@ fi:
   label_environment: "Ympäristö"
   label_estimates_and_time: "Arviot ja ajankäyttö"
   label_equals: "on"
-  label_everywhere: "everywhere"
+  label_everywhere: "kaikkialla"
   label_example: "Esimerkki"
-  label_import: "Import"
+  label_import: "Tuo"
   label_export_to: "Vie"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} tunti"
@@ -1415,7 +1422,7 @@ fi:
   label_group_by: "Ryhmittely"
   label_group_new: "Uusi ryhmä"
   label_group: "Ryhmä"
-  label_group_named: "Group %{name}"
+  label_group_named: "Ryhmä %{name}"
   label_group_plural: "Ryhmät"
   label_help: "Ohjeet"
   label_here: tässä
@@ -1461,7 +1468,7 @@ fi:
   label_less_than_ago: "vähemmän kuin päivää sitten"
   label_list: "Lista"
   label_loading: "Lataa..."
-  label_lock_user: 'Lock user'
+  label_lock_user: 'Lukitse käyttäjä'
   label_logged_as: "Kirjautuneena"
   label_login: "Kirjaudu"
   label_custom_logo: "Oma logo"
@@ -1679,10 +1686,10 @@ fi:
   label_upgrade_guides: 'Upgrade guides'
   label_used_by: "Käyttää"
   label_used_by_types: "Used by types"
-  label_used_in_projects: "Used in projects"
+  label_used_in_projects: "Käytetty projekteissa"
   label_user: "Käyttäjä"
   label_user_and_permission: "Käyttäjät & Oikeudet"
-  label_user_named: "User %{name}"
+  label_user_named: "Käyttäjä %{name}"
   label_user_activity: "Käyttäjän %{value} historia"
   label_user_anonymous: "Anonyymi"
   label_user_mail_option_all: "Kaikista tapahtumista kaikissa projekteistani"
@@ -1694,7 +1701,7 @@ fi:
   label_user_new: "Uusi käyttäjä"
   label_user_plural: "Käyttäjät"
   label_user_search: "Etsi käyttäjä"
-  label_user_settings: "User settings"
+  label_user_settings: "Käyttäjäasetukset"
   label_version_new: "Uusi versio"
   label_version_plural: "Versiot"
   label_version_sharing_descendants: "Aliprojektien kanssa"
@@ -1702,12 +1709,12 @@ fi:
   label_version_sharing_none: "Ei ole jaettu"
   label_version_sharing_system: "Kaikille projekteille"
   label_version_sharing_tree: "Projektin rakenteen kanssa"
-  label_videos: "Videos"
+  label_videos: "Videot"
   label_view_all_revisions: "Katso kaikki versiot"
   label_view_diff: "Näytä erot"
   label_view_revisions: "Näytä versiot"
   label_watched_work_packages: "Seuratut tehtävät"
-  label_what_is_this: "What is this?"
+  label_what_is_this: "Mikä tämä on?"
   label_week: "Viikko"
   label_wiki_content_added: "Wiki-sivu lisätty"
   label_wiki_content_updated: "Wiki-sivu päivitetty"
@@ -1748,21 +1755,21 @@ fi:
   label_workflow_plural: "Työnkulut"
   label_workflow_summary: "Yhteenveto"
   label_x_closed_work_packages_abbr:
+    one: "1 suljettu"
+    other: "%{count} suljettua"
     zero: "0 closed"
-    one: ""
-    other: ""
   label_x_comments:
-    zero: "no comments"
-    one: ""
-    other: ""
+    one: "1 kommentti"
+    other: "%{count} kommenttia"
+    zero: "ei kommentteja"
   label_x_open_work_packages_abbr:
+    one: "1 avoin"
+    other: "%{count} avointa"
     zero: "0 open"
-    one: ""
-    other: ""
   label_x_projects:
-    zero: "no projects"
-    one: ""
-    other: ""
+    one: "1 projekti"
+    other: "%{count} projektia"
+    zero: "ei projekteja"
   label_yesterday: "eilen"
   label_role_type: "Tyyppi"
   label_member_role: "Projektirooli"
@@ -1830,7 +1837,7 @@ fi:
       b: "Lock or delete an existing user ([here](users_url))" #here turned into a link
   more_actions: "Enemmän toimintoja"
   noscript_description: "You need to activate JavaScript in order to use OpenProject!"
-  noscript_heading: "JavaScript disabled"
+  noscript_heading: "JavaScript pois käytöstä"
   noscript_learn_more: "Learn more"
   notice_accessibility_mode: Helppokäyttöisyys-tilan voi ottaa käyttöön tilisi asetuksista [tilin settings](url).
   notice_account_activated: "Tilisi on aktivoitu. Voit nyt kirjautua sisään."
@@ -2132,8 +2139,8 @@ fi:
     warnings:
       cannot_annotate: "Tätä tiedostoa ei voi selityksineen."
   scheduling:
-    activated: 'activated'
-    deactivated: 'deactivated'
+    activated: 'aktivoitu'
+    deactivated: 'deaktivoitu'
   search_input_placeholder: "Etsi..."
   setting_apiv3_cors_enabled: "Enable CORS"
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
@@ -2278,7 +2285,7 @@ fi:
   support:
     array:
       sentence_connector: "and"
-      skip_last_comma: "false"
+      skip_last_comma: "epätosi"
   text_accessibility_hint: "The accessibility mode is designed for users who are blind, motorically handicaped or have a bad eyesight. For the latter focused elements are specially highlighted. Please notice, that the Backlogs module is not available in this mode."
   text_access_token_hint: "API-salasanojen avulla voit sallia integraatioiden pääsyn OpenProject rajapintoihin."
   text_analyze: "Further analyze: %{subject}"

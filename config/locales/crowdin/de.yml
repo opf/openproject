@@ -66,7 +66,7 @@ de:
       upgrade_to_ee: "Auf Enterprise-Edition upgraden"
       add_token: "Enterprise-Edition Support Token hochladen"
       replace_token: "Aktuellen Enterprise-Edition Support Token ersetzen"
-      order: "Enterprise-Edition buchen"
+      order: "Enterprise on-premises bestellen"
       paste: "Enterprise-Edition Support Token hier einfügen"
       required_for_feature: "Diese Funktion ist nur mit einem aktiven Enterprise-Edition-Support Token verfügbar."
       enterprise_link: "Klicken Sie hier für weitere Informationen."
@@ -239,12 +239,15 @@ de:
       no_results_title_text: Dieser Nutzer ist derzeit in keinem Projekt Mitglied.
   placeholder_users:
     deletion_info:
-      heading: "Platzhalter %{name} löschen"
+      heading: "Platzhalter-Benutzer %{name} löschen"
       data_consequences: >
         Alle Vorkommnisse des Platzhalter-Benutzers (z.B. als zugewiesene Person, Verantwortlicher oder andere Benutzerwerte) werden einem Konto mit dem Namen "Gelöschter Benutzer" zugewiesen.
-        Da die Daten jedes gelöschten Kontos diesem Konto zugewiesen werden, wird es nicht möglich sein, die Daten des Benutzers von den Daten eines anderen gelöschten Kontos zu unterscheiden.
+        Da die Daten jedes gelöschten Kontos diesem Konto zugewiesen werden, wird es nicht möglich sein, die Daten dieses Benutzers von den Daten eines anderen gelöschten Kontos zu unterscheiden.
       irreversible: "Dieser Vorgang kann nicht rückgängig gemacht werden"
-      confirmation: "Geben Sie den Platzhalternamen %{name} ein, um die Löschung zu bestätigen."
+      confirmation: "Geben Sie den Namen des Platzhalter-Benutzers %{name} ein, um die Löschung zu bestätigen."
+    upsale:
+      title: Assign work to people that are not members of the project.
+      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -521,7 +524,7 @@ de:
         confirmation: "stimmt nicht mit %{attribute} überein."
         could_not_be_copied: "%{dependency} konnte nicht (vollständig) kopiert werden."
         does_not_exist: "existiert nicht."
-        error_enterprise_only: "ist nur in der OpenProject Enterprise Edition verfügbar"
+        error_enterprise_only: "ist nur in OpenProject Enterprise on-premises verfügbar"
         error_unauthorized: "kann nicht zugegriffen werden."
         error_readonly: "wurde versucht zu beschreiben, ist aber nicht beschreibbar."
         empty: "muss ausgefüllt werden."
@@ -644,6 +647,10 @@ de:
           attributes:
             hours:
               day_limit: "ist zu hoch, da maximal 24 Stunden pro Tag protokolliert werden können."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnung der Zeiterfassungseinträge."
           attributes:
@@ -763,7 +770,7 @@ de:
     default_columns: "Standard-Spalten"
     description: "Beschreibung"
     derived_due_date: "Aggregierter Endtermin"
-    derived_estimated_time: "Aggregierter geschätzter Aufwand"
+    derived_estimated_hours: "Aggregierter geschätzter Aufwand"
     derived_start_date: "Aggregierter Starttermin"
     display_sums: "Summen anzeigen"
     due_date: "Endtermin"
@@ -1743,21 +1750,21 @@ de:
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Zusammenfassung"
   label_x_closed_work_packages_abbr:
+    one: "1 geschlossen"
+    other: "%{count} geschlossen"
     zero: "keine geschlossen"
-    one: ""
-    other: ""
   label_x_comments:
+    one: "Ein Kommentar"
+    other: "%{count} Kommentare"
     zero: "Keine Kommentare"
-    one: ""
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1 offen"
+    other: "%{count} offen"
     zero: "Keine offenen"
-    one: ""
-    other: ""
   label_x_projects:
+    one: "Ein Projekt"
+    other: "%{count} Projekte"
     zero: "Keine Projekte"
-    one: ""
-    other: ""
   label_yesterday: "gestern"
   label_role_type: "Typ"
   label_member_role: "Projekt Rolle"

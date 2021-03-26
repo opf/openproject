@@ -207,7 +207,7 @@ fr:
         upsale:
           become_hero: "Devenez un héros !"
           benefits:
-            description: "Quels sont les avantages?"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Fonctionnalités de sécurité"
             high_security_text: "Authentification unique (SAML, OpenID Connect, CAS), authentification à deux facteurs et synchronisation automatique des groupes LDAP."
             installation: "Assistance à l'installation"
@@ -273,11 +273,11 @@ fr:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Un nouveau concept d'<b>utilisateurs de remplacement</b> (fonctionnalité premium) permet d'ajouter des utilisateurs préliminaires sans adresse e-mail à OpenProject et d'affecter des tâches à ces ressources.</li> <li>Les filtres de lot de travaux <b>sont étendus par une option parent </b>pour facilement voir tous les enfants directs ainsi que <b>par ID</b> pour inclure ou exclure uniquement ces lots de travaux précis dans la liste.</li> <li>L'administration utilisateur est distribuée aux non-administrateurs par un <b>nouveau rôle global</b>, permettant de gérer et d'inviter des utilisateurs sans avoir les privilèges d'administration complets.</li> <li>Améliorations supplémentaires de l'interface utilisateur et de l'UX, par ex l'harmonisation la navigation des rapports de coûts, l'adaptation des couleurs de fond des lignes de la somme et des groupes dans la liste des lots de travaux ou l'ajout d'une page d'affichage de groupe.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Un nouveau concept d'<b>utilisateurs de remplacement</b> (fonctionnalité premium) permet d'ajouter des utilisateurs préliminaires sans adresse e-mail à OpenProject et d'affecter des tâches à ces ressources.</li> <li>Les filtres de lot de travaux <b>sont étendus par une option parent </b>pour facilement voir tous les enfants directs ainsi que <b>par ID</b> pour inclure ou exclure uniquement ces lots de travaux précis dans la liste.</li> <li>L'administration utilisateur est distribuée aux non-administrateurs par un <b>nouveau rôle global</b>, permettant de gérer et d'inviter des utilisateurs sans avoir les privilèges d'administration complets.</li> <li>Améliorations supplémentaires de l'interface utilisateur et de l'UX, par ex l'harmonisation la navigation des rapports de coûts, l'adaptation des couleurs de fond des lignes de la somme et des groupes dans la liste des lots de travaux ou l'ajout d'une page d'affichage de groupe.</li> </ul>
     label_activate: "Activer"
     label_add_column_after: "Ajouter une colonne après"
     label_add_column_before: "Ajouter une colonne avant"
@@ -940,9 +940,9 @@ fr:
         one: "un lot de travaux enfant"
         other: "%{count} lots de travaux enfant"
       hour:
+        one: "1h"
+        other: "%{count} h"
         zero: "0 h"
-        one: ""
-        other: ""
     zen_mode:
       button_activate: 'Activer le mode zen'
       button_deactivate: 'Désactiver le mode zen'

@@ -66,7 +66,7 @@ ja:
       upgrade_to_ee: "エンタープライズ版にアップグレード"
       add_token: "エンタープライズ版サポートのトークンをアップロード"
       replace_token: "現在のサポート トークンを置き換え"
-      order: "エンタープライズ版を注文"
+      order: "Order Enterprise on-premises Edition"
       paste: "エンタープライズ版サポートのトークンを貼り付け"
       required_for_feature: "この機能は、アクティブなエンタープライズ版のサポート トークンでのみ利用可能です。"
       enterprise_link: "詳細については、ここをクリックしてください。"
@@ -245,7 +245,10 @@ ja:
         プレースホルダー ユーザのすべての発生(担当者、担当者、その他のユーザ値など)は、「削除されたユーザー」というアカウントに再割り当てられます。
         削除されたすべてのアカウントのデータがこのアカウントに再割り当てられるため、ユーザーが作成したデータと別の削除されたアカウントのデータを区別することはできません。
       irreversible: "この操作は元に戻せません"
-      confirmation: "削除を確認するためにプレースホルダ名 %{name} を入力します。"
+      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+    upsale:
+      title: Assign work to people that are not members of the project.
+      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -644,6 +647,10 @@ ja:
           attributes:
             hours:
               day_limit: "1日あたり最大24時間まで記録できます。"
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "ワークパッケージ #%{id} は、作業時間の再割り当ての対象としては有効ではありません。"
           attributes:
@@ -760,7 +767,7 @@ ja:
     default_columns: "既定の列"
     description: "説明"
     derived_due_date: "派生終了日"
-    derived_estimated_time: "派生予定工数"
+    derived_estimated_hours: "派生予定工数"
     derived_start_date: "派生開始日"
     display_sums: "合計を表示"
     due_date: "終了日"
@@ -1728,17 +1735,21 @@ ja:
   label_workflow_plural: "ワークフロー"
   label_workflow_summary: "サマリ"
   label_x_closed_work_packages_abbr:
+    one: "1件完了"
+    other: "%{count}件完了"
     zero: "0 クローズ"
-    other: ""
   label_x_comments:
+    one: "1件のコメント"
+    other: "%{count}件のコメント"
     zero: "コメントがありません"
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1件未完了"
+    other: "%{count}件未完了"
     zero: "0 オープン"
-    other: ""
   label_x_projects:
+    one: "1 プロジェクト"
+    other: "%{count} プロジェクト"
     zero: "プロジェクトがありません"
-    other: ""
   label_yesterday: "昨日"
   label_role_type: "タイプ"
   label_member_role: "プロジェクトの役割"
@@ -1778,10 +1789,10 @@ ja:
   mail_body_register_header_title: "プロジェクトへの招待メール"
   mail_body_register_user: "%{name}さん"
   mail_body_register_links_html: |
-    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
-    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    私たちがウェビナー (%{webinar_link}) の場としている YouTube チャンネル (%{youtube_link}) を自由に閲覧して下さい。
+    OpenProject の最初のステップを簡単にする “Get started”(はじめに) ビデオ (%{get_started_link}) があります。
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+    さらに質問がある場合、ドキュメント (%{documentation_link}) を参照するか、問い合わせ先 (%{contact_us_link}) に連絡してください。
   mail_body_register_closing: "あなたのOpenProjectチーム"
   mail_body_register_ending: "連絡をお待ちしています！よろしくお願いいたします。"
   mail_body_reminder: "担当している %{count}件 のワークパッケージが %{days} 日内に期限を迎えます："

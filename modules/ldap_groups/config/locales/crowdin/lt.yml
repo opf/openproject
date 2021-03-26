@@ -30,11 +30,9 @@ lt:
       singular: 'LDAP grupių sinchronizavimo filtras'
       plural: 'LDAP grupių sinchronizavimo filtrai'
       label_n_groups_found:
+        one: "1 grupė rasta pagal filtrą"
+        other: "%{count} grupės rastos pagal filtrą"
         zero: "Nei vienos grupės nerasta pagal filtrą"
-        one: ""
-        few: ""
-        many: ""
-        other: ""
       destroy:
         title: 'Panaikinti sinchronizavimo filtrą %{name}'
         confirmation: "Jei tęsite, sinchronizavimo filtras %{name} ir visos grupės (%{groups_count}), kurias jis sukūrė, bus panaikintos."

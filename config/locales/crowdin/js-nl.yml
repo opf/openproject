@@ -207,7 +207,7 @@ nl:
         upsale:
           become_hero: "Word een held!"
           benefits:
-            description: "Wat zijn de voordelen?"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Security features"
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
             installation: "Installation support"
@@ -517,7 +517,7 @@ nl:
         reset_title: "Reset formulier configuratie"
         confirm_reset: >
           Waarschuwing: Weet u zeker dat u de configuratie van het formulier wilt herstellen? Dit herstelt de kenmerken hun standaardgroep, deselecteerd de selectievakjes van de zichtbaarheid, en schakeld alle aangepaste velden uit.
-        upgrade_to_ee: "Upgrade naar Enterprise Edition"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
         upgrade_to_ee_text: "Wow! Als u deze functie nodig heeft bent u een super pro! Zou u de opensource ontwikkelaars willen ondersteunen door een licentie te nemen op de enterprice edition?"
         more_information: "Meer informatie"
         nevermind: "Geen aandacht"
@@ -940,9 +940,9 @@ nl:
         one: "één onderliggend werkpakket"
         other: "%{count} werkpakket kinderen"
       hour:
+        one: "1 h"
+        other: "%{count} h"
         zero: "0 h"
-        one: ""
-        other: ""
     zen_mode:
       button_activate: 'Zen-modus activeren'
       button_deactivate: 'Deactiveren van zen modus'

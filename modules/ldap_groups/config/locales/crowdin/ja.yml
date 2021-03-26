@@ -30,8 +30,9 @@ ja:
       singular: 'LDAP グループ同期フィルター'
       plural: 'LDAP グループ同期フィルタ'
       label_n_groups_found:
+        one: "フィルタによって1つのグループが見つかりました"
+        other: "%{count} グループがフィルターによって見つかりました"
         zero: "このフィルタではグループが見つかりませんでした"
-        other: ""
       destroy:
         title: '同期されたフィルター %{name} を削除'
         confirmation: "続行すると、同期フィルター %{name} とそれを通して作成されたすべてのグループ %{groups_count} が削除されます。"

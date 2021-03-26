@@ -207,7 +207,7 @@ bg:
         upsale:
           become_hero: "Become a hero!"
           benefits:
-            description: "What are the benefits?"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Security features"
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
             installation: "Installation support"
@@ -517,7 +517,7 @@ bg:
         reset_title: "Reset form configuration"
         confirm_reset: >
           Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
-        upgrade_to_ee: "Upgrade to Enterprise Edition"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
         upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise Edition client?"
         more_information: "Повече информация"
         nevermind: "Nevermind"
@@ -940,9 +940,9 @@ bg:
         one: "one child work package"
         other: "%{count} work package children"
       hour:
+        one: "1 ч"
+        other: "%{count} часа"
         zero: "0 h"
-        one: ""
-        other: ""
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'

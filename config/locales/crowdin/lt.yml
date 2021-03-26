@@ -66,7 +66,7 @@ lt:
       upgrade_to_ee: "Patobulinti į „Enterprise Edition“ versiją"
       add_token: "Įkelti „Enterprise Edition“ paramos raktą"
       replace_token: "Pakeisti savo esamą paramos raktą"
-      order: "Ušsakyti „Enterprise Edition“ versiją"
+      order: "Užsisakykite Enterprise on-premises Edition"
       paste: "Įklijuokite savo „Enterprise Edition“ paramos raktą"
       required_for_feature: "Ši funkcija galima tiks su aktyviu Enterprise Edition versijos raktu."
       enterprise_link: "Norėdami gauti daugiau informacijos, spustelėkite čia."
@@ -245,6 +245,9 @@ lt:
         Kadangi visų ištrintų vartotojų visi duomenys yra priskiriami šiam vartotojui, nebebus galima atskirti šio vartotojo sukurtų duomenų, nuo tų, kuriuos sukūrė kiti ištrinti vartotojai.
       irreversible: "Šis veiksmas negrįžtamas"
       confirmation: "Naikinimo patvirtinimui įveskite statytinio vartotojo vardą %{name}."
+    upsale:
+      title: Priskirkite darbus žmonėms, kurie nėra projekto nariai.
+      description: Gali būti keletas scenarijų kuriuose jūs norite priskirti darbus žmogui, kuris nėra projekto narys. Paprasčiausiai, žmogus gali dar nebūti priimtas į darbą. Arba jūs nenorite duoti žmogui prieigos prie projekto informacijos, tačiau norite sekti šiam žmogui priskirtas užduotis.
   prioritiies:
     edit:
       priority_color_text: |
@@ -647,6 +650,10 @@ lt:
           attributes:
             hours:
               day_limit: "yra per didelis nes maksimum 24 valandos gali būti užregistruotos per parą."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Darbų paketas #%{id} nėra tinkamas laiko įrašų perskirstymo pasirinkimas."
           attributes:
@@ -772,7 +779,7 @@ lt:
     default_columns: "Numatytieji stulpeliai"
     description: "Aprašymas"
     derived_due_date: "Išvestinė pabaigos data"
-    derived_estimated_time: "Išvestinis numatytas laikas"
+    derived_estimated_hours: "Išvestinis numatytas laikas"
     derived_start_date: "Išvestinė pradžios data"
     display_sums: "Rodyti suvestines"
     due_date: "Pabaigos data"
@@ -1776,29 +1783,21 @@ lt:
   label_workflow_plural: "Darbų eigos"
   label_workflow_summary: "Santrauka"
   label_x_closed_work_packages_abbr:
+    one: "1 uždarytas"
+    other: "%{count} uždaryti (-as, -ų)"
     zero: "0 uždarytų"
-    one: ""
-    few: ""
-    many: ""
-    other: ""
   label_x_comments:
+    one: "1 komentatas"
+    other: "%{count} komentarai (-as, -ų)"
     zero: "nėra komentarų"
-    one: ""
-    few: ""
-    many: ""
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1 atidarytas"
+    other: "%{count} atidaryti (-as, -ų)"
     zero: "0 atvirų"
-    one: ""
-    few: ""
-    many: ""
-    other: ""
   label_x_projects:
+    one: "1 projektas"
+    other: "%{count} projektai (-as, -ų)"
     zero: "nėra projektų"
-    one: ""
-    few: ""
-    many: ""
-    other: ""
   label_yesterday: "vakar"
   label_role_type: "Tipas"
   label_member_role: "Projekto rolė"

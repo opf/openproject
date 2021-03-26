@@ -45,7 +45,7 @@ cs:
   backlogs:
     add_new_story: "Nový příběh"
     any: "jakákoliv"
-    backlog_settings: "Backlogs settings"
+    backlog_settings: "Nastavení nevyřízených položek"
     burndown_graph: "Graf vypálení"
     card_paper_size: "Velikost papíru pro tisk karet"
     chart_options: "Možnosti grafu"

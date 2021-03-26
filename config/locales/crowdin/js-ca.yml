@@ -207,7 +207,7 @@ ca:
         upsale:
           become_hero: "Become a hero!"
           benefits:
-            description: "What are the benefits?"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Security features"
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
             installation: "Installation support"
@@ -517,7 +517,7 @@ ca:
         reset_title: "Reiniciar la configuració del formulari"
         confirm_reset: >
           Compte: Esta segur que vol reiniciar la configuració del formulari? Això retornarà als atributs als grups per defecte i des-habilitarà TOTS els camps personalitzats.
-        upgrade_to_ee: "Actualitza a l'Enterprise Edition"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
         upgrade_to_ee_text: "Ostres! Si necessita aquesta característica es un súper pro! L'importaria donar suport als desenvolupadors d'OpenSource convertint-se en un client de la versió Enterprise?"
         more_information: "More information"
         nevermind: "No importa"
@@ -940,9 +940,9 @@ ca:
         one: "one child work package"
         other: "%{count} work package children"
       hour:
+        one: "1 h"
+        other: "%{count} h"
         zero: "0 h"
-        one: ""
-        other: ""
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'

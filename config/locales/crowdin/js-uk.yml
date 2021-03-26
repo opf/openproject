@@ -207,7 +207,7 @@ uk:
         upsale:
           become_hero: "Стань героєм!"
           benefits:
-            description: "Які переваги?"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Security features"
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
             installation: "Installation support"
@@ -517,7 +517,7 @@ uk:
         reset_title: "Скидання конфігурації форми"
         confirm_reset: >
           Попередження: Справді скинути конфігурацію форми? Це призведе до скидання атрибутів до групи за замовчуванням і вимкнення всіх користувацьких полів.
-        upgrade_to_ee: "Оновлення до Enterprise Edition"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
         upgrade_to_ee_text: "Оце Так! Якщо вам потрібна ця функція, ви супер-про! Чи не могли б ви підтримати розробників OpenSource, ставши клієнтом Enterprise Edition?"
         more_information: "Більше інформації"
         nevermind: "Nevermind"
@@ -944,11 +944,9 @@ uk:
         many: "%{count} робочий пакет дітей"
         other: "%{count} робочий пакет дітей"
       hour:
+        one: "1 h"
+        other: "%{count} h"
         zero: "0 h"
-        one: ""
-        few: ""
-        many: ""
-        other: ""
     zen_mode:
       button_activate: 'Активуйте режим дзен'
       button_deactivate: 'Деактивуйте режим дзен'

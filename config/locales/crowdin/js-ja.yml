@@ -208,7 +208,7 @@ ja:
         upsale:
           become_hero: "ヒーローになる!"
           benefits:
-            description: "メリットは何ですか？"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "セキュリティ機能"
             high_security_text: "シングルサインオン(SAML、OpenID Connect、CAS)、2要素認証、LDAPグループの自動同期。"
             installation: "インストールサポート"
@@ -482,7 +482,7 @@ ja:
           drag: 'リスト内のカードをドラッグアンドドロップして並べ替えたり、別のリストに入れます。 ダブルクリックすると詳細ビューが開きます。'
         wp:
           toggler: "次に、<b>作業パッケージ</b>セクションを見て、作業の詳細を確認してください。"
-          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
+          list: 'これは、タスク、マイルストーン、フェーズなど、プロジェクト内の重要な作業を含む<b>ワークパッケージ</ b>のリストです。 <br>このリスト内で直接ワークパッケージの作成または編集ができます。 詳細を表示するには、行をダブルクリックします。'
           full_view: '<b>ワークパッケージの詳細</b>には、説明、ステータス、優先度、アクティビティ、依存関係、コメントなどの関連情報がすべて表示されます。'
           back_button: '矢印を使用するとワークパッケージリストに戻ることができます。'
           create_button: '<b>作成</b>ボタンをクリックすると、プロジェクトに新しいワークパッケージが追加されます。'
@@ -520,7 +520,7 @@ ja:
           警告：フォーム設定をリセットしてもよろしいですか？ これにより、属性が規定のグループにリセットされ、すべてのカスタムフィールドが無効になります。
            
           コンテキスト| リクエストコンテキスト
-        upgrade_to_ee: "エンタープライズ版にアップグレード"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
         upgrade_to_ee_text: "この機能が必要な場合、あなたは超プロです! Enterprise Edition クライアントになることによって私達のオープン ソース開発者を支援していただけませんか?"
         more_information: "詳細情報"
         nevermind: "無視"
@@ -941,8 +941,9 @@ ja:
       child_work_packages:
         other: "%{count} 件の子ワークパッケージ"
       hour:
+        one: "1 h"
+        other: "%{count} h"
         zero: "0 h"
-        other: ""
     zen_mode:
       button_activate: 'マナーモードをアクティブにする'
       button_deactivate: 'マナーモードを非アクティブにする'

@@ -206,7 +206,7 @@ hu:
         upsale:
           become_hero: "Legyél egy hős!"
           benefits:
-            description: "Milyen előnyökkel jár?"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Security features"
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
             installation: "Installation support"
@@ -516,7 +516,7 @@ hu:
         reset_title: "Űrlap konfiguráció visszaállítása"
         confirm_reset: >
           Figyelmeztetés: Biztosan visszaállítja az alap űrlap beállítást? Az attribútumok az alapértelmezett csoportba kerülnek, a láthatósági beállítások elvesznek és MINDEN egyéni mező deaktiválódik.
-        upgrade_to_ee: "Frissítés a Vállalati Verzióra"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
         upgrade_to_ee_text: "Hűha! Ha erre a funkcióra szükséged van, profi vagy! Támogatna minket, \"nyiltforrású\" fejlesztőket azzal, hogy Enterprise Edition ügyfelünk legyen?"
         more_information: "További információ"
         nevermind: "Mindegy"
@@ -939,9 +939,9 @@ hu:
         one: "egy gyermek munkacsomag"
         other: "%{count} gyermek feladatcsoport"
       hour:
+        one: "1 h"
+        other: "%{count} h"
         zero: "0 óra"
-        one: ""
-        other: ""
     zen_mode:
       button_activate: 'Zen mód aktiválása'
       button_deactivate: 'Zen mód kikapcsolása'

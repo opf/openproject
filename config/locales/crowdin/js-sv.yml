@@ -206,7 +206,7 @@ sv:
         upsale:
           become_hero: "Bli en hjälte!"
           benefits:
-            description: "Vad är fördelarna?"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Security features"
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
             installation: "Installation support"
@@ -516,7 +516,7 @@ sv:
         reset_title: "Återställ formulärinställningarna"
         confirm_reset: >
           Varning: Är du säker på att du vill återställa formulärinställningarna? Detta kommer att återställa attributen till deras standardgrupper, avmarkera kryssrutorna för synlighet samt inaktivera samtliga anpassade fält.
-        upgrade_to_ee: "Uppgradera till Enterprise Edition"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
         upgrade_to_ee_text: "Wow! Om du behöver denna funktion så är du ett superproffs! Skulle du vilja stötta oss OpenSource-utvecklare genom att bli en Enterprise Edition-kund?"
         more_information: "Mer information"
         nevermind: "Det var inget"
@@ -939,9 +939,9 @@ sv:
         one: "ett barnarbetspaket"
         other: "%{count} arbetspaket barn"
       hour:
+        one: "1 h"
+        other: "%{count} h"
         zero: "0 h"
-        one: ""
-        other: ""
     zen_mode:
       button_activate: 'Aktivera zen-läge'
       button_deactivate: 'Inaktivera avskalat läge'
