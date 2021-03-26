@@ -84,6 +84,19 @@ describe 'Status action board', type: :feature, js: true do
   end
 
   context 'with full boards permissions' do
+    it 'can add a case-insensitive list (Regression #35744)' do
+      board_index.visit!
+
+      # Create new board
+      board_page = board_index.create_board action: :Status
+
+      # expect lists of default status
+      board_page.expect_list 'Open'
+
+      board_page.add_list option: 'Closed', query: 'closed'
+      board_page.expect_list 'Closed'
+    end
+
     it 'allows management of boards' do
       board_index.visit!
 

@@ -52,21 +52,21 @@ module OpenProject::Backlogs
              bundled: true,
              settings: settings do
       OpenProject::AccessControl.permission(:edit_project).tap do |add|
-        add.actions << 'projects/project_done_statuses'
-        add.actions << 'projects/rebuild_positions'
-        add.actions << 'backlogs_project_settings/show'
+        add.controller_actions << 'projects/project_done_statuses'
+        add.controller_actions << 'projects/rebuild_positions'
+        add.controller_actions << 'backlogs_project_settings/show'
       end
 
       OpenProject::AccessControl.permission(:add_work_packages).tap do |add|
-        add.actions << 'rb_stories/create'
-        add.actions << 'rb_tasks/create'
-        add.actions << 'rb_impediments/create'
+        add.controller_actions << 'rb_stories/create'
+        add.controller_actions << 'rb_tasks/create'
+        add.controller_actions << 'rb_impediments/create'
       end
 
       OpenProject::AccessControl.permission(:edit_work_packages).tap do |edit|
-        edit.actions << 'rb_stories/update'
-        edit.actions << 'rb_tasks/update'
-        edit.actions << 'rb_impediments/update'
+        edit.controller_actions << 'rb_stories/update'
+        edit.controller_actions << 'rb_tasks/update'
+        edit.controller_actions << 'rb_impediments/update'
       end
 
       project_module :backlogs do
