@@ -78,9 +78,7 @@ import {OpFormBindingDirective} from './form-field/form-binding.directive';
 import {OpOptionListComponent} from './option-list/option-list.component';
 import {OpIconComponent} from './icon/icon.component';
 import {OpenprojectPrincipalRenderingModule} from "core-app/modules/principal/principal-rendering.module";
-import {OpAutocompleterComponent} from "core-app/modules/common/autocomplete/op-autocompleter/op-autocompleter.component";
-import {OpAutocompleterOptionTemplateDirective} from "core-app/modules/common/autocomplete/op-autocompleter/Directives/op-autocompleter-option-template.directive";
-import {OpAutocompleterLabelTemplateDirective} from "core-app/modules/common/autocomplete/op-autocompleter/Directives/op-autocompleter-label-template.directive";
+
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
@@ -185,9 +183,6 @@ export function bootstrapModule(injector:Injector) {
     SlideToggleComponent,
 
     // Autocompleter
-    OpAutocompleterComponent,
-    OpAutocompleterOptionTemplateDirective,
-    OpAutocompleterLabelTemplateDirective,
     OpFormFieldComponent,
     OpFormBindingDirective,
     OpOptionListComponent,
@@ -243,9 +238,6 @@ export function bootstrapModule(injector:Injector) {
     // Enterprise Edition
     EnterpriseBannerComponent,
     EnterpriseBannerBootstrapComponent,
-    OpAutocompleterComponent,
-    OpAutocompleterOptionTemplateDirective,
-    OpAutocompleterLabelTemplateDirective,
 
     HomescreenNewFeaturesBlockComponent,
     BoardVideoTeaserModalComponent,
