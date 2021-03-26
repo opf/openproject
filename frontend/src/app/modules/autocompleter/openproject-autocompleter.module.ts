@@ -14,6 +14,9 @@ import { UserAutocompleterComponent } from "core-app/modules/autocompleter/user-
 import { CommonModule } from "@angular/common";
 import { OpenprojectInviteUserModalModule } from "core-app/modules/invite-user-modal/invite-user-modal.module";
 import { DragulaModule } from "ng2-dragula";
+import {OpAutocompleterComponent} from "core-app/modules/autocompleter/op-autocompleter/op-autocompleter.component";
+import {OpAutocompleterOptionTemplateDirective} from "core-app/modules/autocompleter/op-autocompleter/directives/op-autocompleter-option-template.directive";
+import {OpAutocompleterLabelTemplateDirective} from "core-app/modules/autocompleter/op-autocompleter/directives/op-autocompleter-label-template.directive";
 
 export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   CreateAutocompleterComponent,
@@ -24,6 +27,9 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   UserAutocompleterComponent,
   ColorsAutocompleter,
   AutocompleteSelectDecorationComponent,
+  OpAutocompleterComponent,
+  OpAutocompleterOptionTemplateDirective,
+  OpAutocompleterLabelTemplateDirective,
 ];
 
 @NgModule({
