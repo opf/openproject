@@ -29,37 +29,46 @@
 #++
 
 class Mails::MemberCreatedJob < ApplicationJob
+  queue_with_priority :notification
+
   def perform(current_user:,
               member:)
-    # TODO: add a Mails::Prepare::MemberCreatedJob that fans out the member in case the principal
-    # is a group which will result in multiple memberships being added
-    # In order to determine whether user was added to the project
-    # by the group, compare updated_at and created_at. If they differ,
-    # the membership was updated. If they are the same, the membership was created.
-    # DISCUSS: do we want to handle the fan out in a delayed job. I think we do.
-    # DISCUSS: do we want to create individual delayed jobs for every fanned out job. I think we don't.
-    # TODO: also cover adding a user to a group
     if member.project.nil?
-      MemberMailer
-        .updated_global(current_user, member)
-        .deliver_now
+      send_updated_global(current_user, member)
     elsif member.principal.is_a?(Group)
-      Member
-        .of(member.project)
-        .where(principal: member.principal.users)
-        .includes(:project, :principal, :roles)
-        .each do |users_member|
-        # TODO: differentiate between the user having just been added as a member and a user
-        # having gained additional permissions
-        # Because the user could already have been a member before the group adds additional ones
-        MemberMailer
-          .added_project(current_user, users_member)
-          .deliver_now
+      every_group_user_member(member) do |user_member|
+        next if member_existed_before?(user_member, member.principal)
+
+        send_added_project(current_user, user_member)
       end
     elsif member.principal.is_a?(User)
-      MemberMailer
-        .added_project(current_user, member)
-        .deliver_now
+      send_added_project(current_user, member)
     end
+  end
+
+  private
+
+  def send_updated_global(current_user, member)
+    MemberMailer
+      .updated_global(current_user, member)
+      .deliver_now
+  end
+
+  def send_added_project(current_user, member)
+    MemberMailer
+      .added_project(current_user, member)
+      .deliver_now
+  end
+
+  def every_group_user_member(member, &block)
+    Member
+      .of(member.project)
+      .where(principal: member.principal.users)
+      .includes(:project, :principal, :roles, :member_roles)
+      .each(&block)
+  end
+
+  def member_existed_before?(member, group)
+    member.member_roles.any? { |mr| mr.inherited_from != group.id }
   end
 end
