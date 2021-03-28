@@ -61,12 +61,12 @@ fr:
         header-item-font-hover-color: "Couleur de la police des éléments de l’en-tête survolées par la souris."
         header-border-bottom-color: "Ligne mince sous l’en-tête. Laissez ce champ vide si vous ne voulez pas de ligne."
         main-menu-bg-color: "Couleur d’arrière-plan du menu de gauche."
-      theme_warning: Si vous changez de thème, votre style personnalisé sera écrasé. Le design sera alors perdu. Vous êtes sûr de vouloir continuer ?
+      theme_warning: Le changement de thème écrasera votre style personnalisé. Le design sera alors perdu. Êtes-vous sûr de vouloir continuer ?
     enterprise:
       upgrade_to_ee: "Passer à la version Entreprise"
       add_token: "Charger une licence de la version Entreprise"
       replace_token: "Remplacer votre licence actuelle"
-      order: "Commander l'édition Enterprise sur place"
+      order: "Commander l'édition Enterprise autohebergé"
       paste: "Coller votre licence de la version Entreprise"
       required_for_feature: "Cette fonction n'est disponible qu'avec une licence active de la version Entreprise."
       enterprise_link: "Pour plus d'informations, cliquez ici."
@@ -78,7 +78,7 @@ fr:
     is_active: actuellement affiché
     is_inactive: actuellement non affiché
   attribute_help_texts:
-    note_public: 'Tout texte et toutes les images que vous ajoutez à ce champ sont visibles publiquement à tous les utilisateurs connectés !'
+    note_public: 'Tout le texte et toutes les images que vous ajoutez à ce champ sont visibles publiquement à tous les utilisateurs connectés !'
     text_overview: 'Dans cette vue, vous pouvez créer des textes d’aide personnalisés pour l''affichage des attributs. Lorsqu''ils sont définis, ces textes peuvent être affichés en cliquant sur l’icône d’aide à côté de l''attribut correspondant.'
     label_plural: 'Attribut d’aide de texte'
     show_preview: 'Texte d’aperçu'
@@ -242,15 +242,15 @@ fr:
       no_results_title_text: Cet utilisateur n'est membre d'aucun projet pour le moment.
   placeholder_users:
     deletion_info:
-      heading: "Supprimer le placeholder utilisateur %{name}"
+      heading: "Supprimer l’utilisateur fictif %{name}"
       data_consequences: >
         Toutes les occurrences de l'utilisateur de remplacement (par exemple, en tant que responsable ou autre valeur utilisateur) seront réaffectées à un compte appelé « Utilisateur supprimé ».
         Comme les données de chaque compte supprimé sont réaffectées à ce compte, il ne sera pas possible de distinguer les données que l'utilisateur a créées des données d'un autre compte supprimé.
       irreversible: "Cette action est irréversible"
-      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+      confirmation: "Saisissez le nom d'utilisateur fictif %{name} pour confirmer ça suppression."
     upsale:
       title: Assigner du travail à des personnes qui ne sont pas membres du projet.
-      description: Il y a plusieurs scénarios où vous voulez assigner du travail à des personnes qui ne sont pas membres de votre projet. Il se peut simplement que vous ayez encore besoin d'embaucher la bonne personne pour le travail. Ou vous ne voulez tout simplement pas donner à cette personne l'accès aux informations du projet mais vous voulez quand même des tâches de suivi assignées à cette personne.
+      description: Il existe de multiples scénarios dans lesquels vous souhaitez confier des tâches à des personnes qui ne font pas partie de votre projet. Il se peut simplement que vous ayez encore besoin d'engager la bonne personne pour le travail. Ou vous ne voulez tout simplement pas donner à cette personne l'accès aux informations du projet, mais vous voulez quand même suivre les tâches qui lui sont assignées.
   prioritiies:
     edit:
       priority_color_text: |
@@ -568,7 +568,7 @@ fr:
             global: 'Global'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "il faut inclure au moins un filtre pour le principal, le contexte ou l'id avec l'opérateur '='."
         custom_field:
           at_least_one_custom_option: "Au moins une option doit être disponible."
         custom_actions:
@@ -660,7 +660,7 @@ fr:
         wiki_page:
           attributes:
             slug:
-              undeducible: "cannot be deduced from the title '%{title}'."
+              undeducible: "ne peut être retiré du titre '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Le lot de travaux #%{id} n'est pas une cible valide pour réaffecter les entrées de temps."
           attributes:
@@ -1228,7 +1228,7 @@ fr:
   instructions_after_error: "Vous pouvez encore essayer de vous authentifier en cliquant sur %{signin}. Si l'erreur persiste, demandez de l'aide à votre administrateur."
   menus:
     quick_add:
-      label: "Open quick add menu"
+      label: "Ouvrir le menu d'ajout rapide"
   my_account:
     access_tokens:
       no_results:
@@ -1939,7 +1939,7 @@ fr:
   permission_add_messages: "Poster des messages"
   permission_add_project: "Créer un projet"
   permission_manage_user: "Créer et éditer des utilisateurs"
-  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
+  permission_manage_placeholder_user: "Créer, modifier et supprimer des utilisateurs fictifs"
   permission_add_subprojects: "Créer des sous-projets"
   permission_add_work_package_watchers: "Ajouter des observateurs"
   permission_assign_versions: "Assigner les versions"
@@ -2666,8 +2666,8 @@ fr:
       invalid_relation: "La relation n'est pas valide."
       invalid_resource: "\"%{actual}\" est invalide, car la propriété \"%{property}\" requiert un lien de type \"%{expected}\"."
       invalid_signal:
-        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
-        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
+        embed: "Les requêtes demandée de %{invalid} ne sont pas prises en charge. Les sélections prises en charge sont %{supported}."
+        select: "Les requêtes demandée de %{invalid} ne sont pas prises en charge. Les sélections prises en charge sont %{supported}."
       invalid_user_status_transition: "L'état du compte de l'utilisateur ne permet pas cette opération."
       missing_content_type: "non spécifié"
       missing_request_body: "Il y n'avait aucun corps dans la requête."

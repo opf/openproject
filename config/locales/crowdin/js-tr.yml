@@ -976,7 +976,7 @@ tr:
         next_button: 'Sonraki'
         no_results: 'Hiç proje bulunamadı'
       type:
-        required: 'Please select the type to be invited'
+        required: 'Lütfen davet edilecek türü seçin'
         user:
           title: 'Kullanıcı'
           description: 'Seçilen projede atanan role dayalı izinler'

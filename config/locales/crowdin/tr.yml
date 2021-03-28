@@ -569,7 +569,7 @@ tr:
             global: 'Küresel'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "'=' operatörüyle asıl, bağlam veya kimlik için en az bir filtre içermesi gerekir."
         custom_field:
           at_least_one_custom_option: "En az bir seçeneğin uygun olması gerekir."
         custom_actions:
@@ -661,7 +661,7 @@ tr:
         wiki_page:
           attributes:
             slug:
-              undeducible: "cannot be deduced from the title '%{title}'."
+              undeducible: "başlıktan çıkarılamaz %{title}"
         work_package:
           is_not_a_valid_target_for_time_entries: "İş paketi #%{id} zaman girdilerini yeniden atama için geçerli bir hedef değil."
           attributes:
@@ -1229,7 +1229,7 @@ tr:
   instructions_after_error: "%{signin} düğmesini tıklayarak tekrar oturum açmayı deneyebilirsiniz. Hata devam ederse, yöneticinizden yardım isteyin."
   menus:
     quick_add:
-      label: "Open quick add menu"
+      label: "Hızlı ekle menüsünü aç"
   my_account:
     access_tokens:
       no_results:
@@ -1940,7 +1940,7 @@ tr:
   permission_add_messages: "İleti göndermek"
   permission_add_project: "Proje oluşturmak"
   permission_manage_user: "Kullanıcılar oluştur ve düzenle"
-  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
+  permission_manage_placeholder_user: "Yer tutucu kullanıcıları oluşturun, düzenleyin ve silin"
   permission_add_subprojects: "Alt proje oluşturmak"
   permission_add_work_package_watchers: "Takipçi ekle"
   permission_assign_versions: "Sürüm ata"
@@ -2667,8 +2667,8 @@ tr:
       invalid_relation: "İlişki geçersiz."
       invalid_resource: "Özellik ' %{property} ' için ' %{expected} ' gibi bir bağlantı bekleniyor, ancak ' %{actual} ' var."
       invalid_signal:
-        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
-        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
+        embed: "%{invalid} için istenen gömme desteklenmiyor. Desteklenen yerleştirmeler %{supported}"
+        select: "İstenen %{invalid} seçimi desteklenmiyor. Desteklenen seçimler %{supported}"
       invalid_user_status_transition: "Geçerli kullanıcı hesabı durumu bu işleme izin vermiyor."
       missing_content_type: "belirtilmemiş"
       missing_request_body: "İstek gövdesi yoktu."

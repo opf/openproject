@@ -207,7 +207,7 @@ fr:
         upsale:
           become_hero: "Devenez un héros !"
           benefits:
-            description: "What are the benefits of the Enterprise on-premises Edition?"
+            description: "Quels sont les avantages de l'édition Entreprise autohébergé"
             high_security: "Fonctionnalités de sécurité"
             high_security_text: "Authentification unique (SAML, OpenID Connect, CAS), authentification à deux facteurs et synchronisation automatique des groupes LDAP."
             installation: "Assistance à l'installation"
@@ -962,53 +962,53 @@ fr:
       timeline: 'Gantt'
     invite_user_modal:
       back: 'Retour'
-      invite: 'Invite'
+      invite: 'invite'
       title:
         invite: 'Inviter utilisateur'
         invite_to_project: 'Inviter %{type} à %{project}'
         User: 'utilisateur'
         Group: 'groupe'
-        PlaceholderUser: 'placeholder user'
-        invite_principal_to_project: 'Invite %{principal} to %{project}'
+        PlaceholderUser: 'utilisateur fictif'
+        invite_principal_to_project: 'Inviter %{principal} à %{project}'
       project:
         label: 'Projet'
         required: 'Veuillez sélectionner un projet'
         next_button: 'Suivante'
         no_results: 'Aucun projet trouvé'
       type:
-        required: 'Please select the type to be invited'
+        required: 'Veuillez sélectionner le type d''invité'
         user:
           title: 'Utilisateur'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: 'Permissions basées sur le rôle attribué dans le projet sélectionné'
         group:
           title: 'Groupe'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: 'Permissions basées sur le rôle attribué dans le projet sélectionné'
         placeholder:
           title: 'Utilisateur de remplacement'
-          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
-          description: 'Has no access to the project and no emails are sent out.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+          title_no_ee: 'Utilisateur fictif (fonctionnalité de l''édition Entreprise uniquement)'
+          description: 'N''a pas d''accès au projet et aucun e-mail n''est envoyé.'
+          description_no_ee: 'N''a pas accès au projet et aucun courriel n''est envoyé. <br>Consultez la <a href="%{eeHref}" target="_blank">Édition Entreprise</a>.'
       principal:
         label:
-          name_or_email: 'Name or email address'
+          name_or_email: 'Nom ou adresse e-mail'
           name: 'Nom'
-        already_member_message: 'Already a member of %{project}'
+        already_member_message: 'Déjà membre de %{project}'
         no_results_user: 'Aucun utilisateur n''a été trouvé'
-        invite_user: 'Invite:'
+        invite_user: 'Invité :'
         change_user_selection: 'Changer l''adresse e-mail ou sélectionner un utilisateur existant'
-        no_results_placeholder: 'No placeholders were found'
+        no_results_placeholder: 'Aucuns utilisateurs fictifs n''a été trouvé'
         change_placeholder_selection: 'Modifier le nom ou sélectionner un espace réservé existant'
-        create_new_placeholder: 'Create new placeholder:'
+        create_new_placeholder: 'Créer un nouveau utilisateur fictif :'
         no_results_group: 'Aucun groupe n''a été trouvé'
         change_group_selection: 'Changer de nom ou sélectionner un groupe existant'
         next_button: 'Suivante'
         required:
           user: 'Veuillez sélectionner un utilisateur'
-          placeholder: 'Please select a placeholder'
+          placeholder: 'Veuillez sélectionner un utilisateur fictif'
           group: 'Veuillez sélectionner un groupe'
       role:
         label: 'Rôle dans %{project}'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> learn more about roles and permissions. </a>'
+        description: "C'est le rôle que %{principal} recevra quand il rejoindra votre projet. Le rôle définit les actions qu'ils sont autorisés à entreprendre et les informations qu'ils sont autorisés à voir. <a href=\"%{href}\" target=\"_blank\"> en savoir plus sur les rôles et les permissions. </a>\n"
         required: 'Veuillez sélectionner un rôle'
         next_button: 'Suivante'
       message:
@@ -1021,6 +1021,6 @@ fr:
         title: '%{principal} a été invité !'
         description:
           user: 'L''utilisateur peut maintenant se connecter pour accéder à %{project}. En attendant, vous pouvez déjà planifier avec cet utilisateur et assigner des lots de travaux par exemple.'
-          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+          placeholder: 'Le utilisateur fictif peut maintenant être utilisé dans %{project}. En attendant, vous pouvez déjà planifier des taches avec cet utilisateur et l''assigner à des lots de travaux par exemple.'
+          group: 'Le groupe fait maintenant partie du %{project}. Entre-temps, vous pouvez déjà planifier avec ce groupe et l''assigner des lots de travaux par exemple.'
         next_button: 'Continuer'
