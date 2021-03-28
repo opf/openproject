@@ -167,5 +167,5 @@ Your Ruby version is 2.7.1, but your Gemfile specified ~> 2.7.2
 This means that the current image is out-dated. You can update it like this:
 
 ```
-bin/comose build --pull
+bin/compose build --pull
 ```
