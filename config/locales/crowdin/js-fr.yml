@@ -207,7 +207,7 @@ fr:
         upsale:
           become_hero: "Devenez un héros !"
           benefits:
-            description: "What are the benefits of the Enterprise on-premises Edition?"
+            description: "Quels sont les avantages de l'édition Entreprise autohébergé"
             high_security: "Fonctionnalités de sécurité"
             high_security_text: "Authentification unique (SAML, OpenID Connect, CAS), authentification à deux facteurs et synchronisation automatique des groupes LDAP."
             installation: "Assistance à l'installation"
