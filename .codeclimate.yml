@@ -42,7 +42,7 @@ plugins:
       config: frontend/.eslintrc.js
   csslint:
     enabled: true
-  scsslint:
+  scss-lint:
     enabled: true
   fixme:
     enabled: true
