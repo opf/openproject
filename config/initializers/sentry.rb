@@ -25,6 +25,11 @@ if OpenProject::Logging::SentryLogger.enabled?
       Rails.backtrace_cleaner.clean(backtrace)
     end
 
+    # Sample rate for performance
+    # 0.0 = disabled
+    # 1.0 = all samples are traced
+    config.traces_sample_rate = OpenProject::Configuration.sentry_traces_sample_rate
+
     # Set release info
     config.release = OpenProject::VERSION.to_s
   end

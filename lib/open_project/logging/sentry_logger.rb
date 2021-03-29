@@ -5,7 +5,6 @@ module OpenProject
         ##
         # Capture a message to sentry
         def log(message, log_context = {})
-          binding.pry
           Sentry.configure_scope do |sentry_scope|
             build_sentry_context(sentry_scope, log_context)
             Sentry.capture_message(message, level: sentry_level(log_context[:level]))
