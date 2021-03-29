@@ -32,7 +32,7 @@ import {GridRemoveWidgetService} from "core-app/modules/grids/grid/remove-widget
 import {GridAreaService} from "core-app/modules/grids/grid/area.service";
 import {WidgetAbstractMenuComponent} from "core-app/modules/grids/widgets/menu/widget-abstract-menu.component";
 import {OpModalService} from "core-components/op-modals/op-modal.service";
-import {TimeEntriesCurrentUserConfigurationModalComponent} from "core-app/modules/grids/widgets/time-entries/current-user/configuration-modal/configuration.modal";
+import {TimeEntriesCurrentUserConfigurationModalComponent} from "core-app/modules/grids/widgets/time-entries/current-user/time-entries-current-user-configuration-modal/time-entries-current-user-configuration.modal";
 
 @Component({
   selector: 'widget-time-entries-current-user-menu',

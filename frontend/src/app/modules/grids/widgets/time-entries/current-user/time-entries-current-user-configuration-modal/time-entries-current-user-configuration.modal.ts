@@ -14,10 +14,10 @@ import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
 import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {TimeEntriesCurrentUserConfigurationModalService} from "core-app/modules/grids/widgets/time-entries/current-user/configuration-modal/services/configuration-modal/configuration-modal.service";
+import {TimeEntriesCurrentUserConfigurationModalService} from "core-app/modules/grids/widgets/time-entries/current-user/time-entries-current-user-configuration-modal/services/time-entries-current-user-configuration-modal/time-entries-current-user-configuration-modal.service";
 
 @Component({
-  templateUrl: './configuration.modal.html',
+  templateUrl: './time-entries-current-user-configuration.modal.html',
   providers: [TimeEntriesCurrentUserConfigurationModalService],
 })
 export class TimeEntriesCurrentUserConfigurationModalComponent extends OpModalComponent implements OnInit {
