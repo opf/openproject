@@ -66,7 +66,7 @@ import { WidgetMembersComponent } from "core-app/modules/grids/widgets/members/m
 import { WidgetProjectStatusComponent } from "core-app/modules/grids/widgets/project-status/project-status.component";
 import { OpenprojectTimeEntriesModule } from "core-app/modules/time_entries/openproject-time-entries.module";
 import { WidgetTimeEntriesCurrentUserMenuComponent } from "core-app/modules/grids/widgets/time-entries/current-user/time-entries-current-user-menu.component";
-import { TimeEntriesCurrentUserConfigurationModalComponent } from './widgets/time-entries/current-user/time-entries-current-user-configuration-modal/time-entries-current-user-configuration.modal';
+import { TimeEntriesCurrentUserConfigurationModalComponent } from './widgets/time-entries/current-user/configuration-modal/configuration.modal';
 
 @NgModule({
   imports: [
