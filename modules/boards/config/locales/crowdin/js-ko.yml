@@ -9,7 +9,7 @@ ko:
         teaser_text: '이 유연한 보드 보기에서 애자일 프로젝트 관리를 개선하십시오. 계속 추적하고 싶은 사항에 따라 원하는 만큼 보드를 생성하십시오.'
         upgrade_to_ee_text: '보드는 Enterprise 기능입니다. 유료 플랜으로 업그레이드하십시오.'
         upgrade: '지금 업그레이드'
-        personal_demo: '개인 데모 이용'
+        personal_demo: 'Contact us for a demo'
       lists:
         delete: '목록 삭제'
       version:

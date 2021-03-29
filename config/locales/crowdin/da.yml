@@ -66,7 +66,7 @@ da:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Upload en Enterprise Edition support-token"
       replace_token: "Erstat din nuværende support-token"
-      order: "Bestil Enterprise Edition"
+      order: "Order Enterprise on-premises Edition"
       paste: "Indsæt din Enterprise Edition support-token"
       required_for_feature: "Denne funktion er kun tilgængelig med en aktiv Enterprise Edition support-token."
       enterprise_link: "For yderliger information, klik her."
@@ -247,7 +247,10 @@ da:
         All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
         As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
       irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+    upsale:
+      title: Assign work to people that are not members of the project.
+      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -561,6 +564,12 @@ da:
         unremovable: "cannot be removed."
         wrong_length: "har forkert længde (burde være %{count} tegn)."
       models:
+        capability:
+          context:
+            global: 'Global'
+          query:
+            filters:
+              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
         custom_actions:
@@ -649,6 +658,10 @@ da:
           attributes:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Arbejdspakke # %{id} er ikke et gyldig mål for tildeling af tider."
           attributes:
@@ -768,7 +781,7 @@ da:
     default_columns: "Forudvalgte kolonner"
     description: "Beskrivelse"
     derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
+    derived_estimated_hours: "Derived estimated time"
     derived_start_date: "Derived start date"
     display_sums: "Vis totaler"
     due_date: "Finish date"
@@ -1214,6 +1227,9 @@ da:
   instructions_after_registration: "Du kan logge ind så snart din konto er blevet aktiveret ved at klikke %{signin}."
   instructions_after_logout: "Du kan logge ind igen ved at klikke %{signin}."
   instructions_after_error: "Du kan forsøge at logge ind igen ved at klikke %{signin}. Hvis fejlen stadig opstår, spørg da admin. efter hjælp."
+  menus:
+    quick_add:
+      label: "Open quick add menu"
   my_account:
     access_tokens:
       no_results:
@@ -1747,21 +1763,21 @@ da:
   label_workflow_plural: "Arbejdsprocesser"
   label_workflow_summary: "Opsummering"
   label_x_closed_work_packages_abbr:
+    one: "1 closed"
+    other: "%{count} closed"
     zero: "0 closed"
-    one: ""
-    other: ""
   label_x_comments:
+    one: "1 comment"
+    other: "%{count} comments"
     zero: "no comments"
-    one: ""
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1 open"
+    other: "%{count} open"
     zero: "0 open"
-    one: ""
-    other: ""
   label_x_projects:
+    one: "1 project"
+    other: "%{count} projects"
     zero: "no projects"
-    one: ""
-    other: ""
   label_yesterday: "I går"
   label_role_type: "Type"
   label_member_role: "Project Role"
@@ -1924,7 +1940,7 @@ da:
   permission_add_messages: "Send beskeder"
   permission_add_project: "Opret projekt"
   permission_manage_user: "Create and edit users"
-  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
+  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Opret underprojekter"
   permission_add_work_package_watchers: "Tilføj tilsynsførende"
   permission_assign_versions: "Assign versions"
@@ -2649,6 +2665,9 @@ da:
       invalid_json: "Forespørgslen kunne ikke fortolkes som JSON."
       invalid_relation: "Forbindelsen er ugyldig."
       invalid_resource: "For egenskaben '%{property}' forventes et link som '%{expected}' men fik '%{actual}'."
+      invalid_signal:
+        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
+        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "Den aktuelle bruger konto status tillader ikke denne handling."
       missing_content_type: "ikke angivet"
       missing_request_body: "Der var ikke noget indhold i forespørgslen."

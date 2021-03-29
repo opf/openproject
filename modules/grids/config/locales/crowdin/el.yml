@@ -1,6 +1,6 @@
 el:
   grids:
-    label_widget_in_grid: "Widget contained in Grid %{grid_name}"
+    label_widget_in_grid: "Widget που περιέχεται στο πλέγμα %{grid_name}"
   activerecord:
     attributes:
       grids/grid:

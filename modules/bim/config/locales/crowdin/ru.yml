@@ -15,10 +15,8 @@ ru:
       file_invalid: "Неверный файл BCF"
     x_bcf_issues:
       zero: 'Нет проблем BCF'
-      one: ''
-      few: ''
-      many: ''
-      other: ''
+      one: 'Одна проблема BCF'
+      other: '%{count} проблем BCF'
     bcf_xml:
       xml_file: 'XML файл BCF'
       import_title: 'Импорт'

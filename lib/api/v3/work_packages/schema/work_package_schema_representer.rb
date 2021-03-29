@@ -154,6 +154,7 @@ module API
                  required: false
 
           schema :derived_estimated_time,
+                 name_source: ->(*) { I18n.t('attributes.derived_estimated_hours') },
                  type: 'Duration',
                  required: false
 

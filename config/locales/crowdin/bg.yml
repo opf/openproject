@@ -66,7 +66,7 @@ bg:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
       replace_token: "Replace your current support token"
-      order: "Order Enterprise Edition"
+      order: "Order Enterprise on-premises Edition"
       paste: "Paste your Enterprise Edition support token"
       required_for_feature: "This feature is only available with an active Enterprise Edition support token."
       enterprise_link: "For more information, click here."
@@ -247,7 +247,10 @@ bg:
         Всички повторения на потребителя на резервоар (напр. Като правоприемник, отговорник или други потребителски стойности) ще бъдат преназначени към акаунт, наречен „Изтрит потребител“.
         Тъй като данните от всеки изтрит акаунт се пренасочват към този акаунт, няма да е възможно да се разграничат данните, създадени от потребителя, от данните на друг изтрит акаунт.
       irreversible: "Това действие е необратимо"
-      confirmation: "Въведете името на заместителя %{name}, за да потвърдите изтриването."
+      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+    upsale:
+      title: Assign work to people that are not members of the project.
+      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -561,6 +564,12 @@ bg:
         unremovable: "cannot be removed."
         wrong_length: "е грешна дължина (трябва да бъде %{count} знаци)."
       models:
+        capability:
+          context:
+            global: 'Global'
+          query:
+            filters:
+              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
         custom_actions:
@@ -649,6 +658,10 @@ bg:
           attributes:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Работен пакет #%{id} не е валидна цел за преразпределяне на времевите записи."
           attributes:
@@ -768,7 +781,7 @@ bg:
     default_columns: "Колони по подразбиране"
     description: "Описание"
     derived_due_date: "Изведена крайна дата"
-    derived_estimated_time: "Изведено приблизително време"
+    derived_estimated_hours: "Изведено приблизително време"
     derived_start_date: "Изведена начална дата"
     display_sums: "Показване на суми"
     due_date: "Finish date"
@@ -1214,6 +1227,9 @@ bg:
   instructions_after_registration: "Можете да влезете веднага след като вашият акаунт е бил активиран като щракнете %{signin}."
   instructions_after_logout: "Можете да влезете в отново като щракнете %{signin}."
   instructions_after_error: "Можете да опитате да влезете отново като щракнете %{signin}. Ако грешката продължава, помолете вашия администратор за помощ."
+  menus:
+    quick_add:
+      label: "Open quick add menu"
   my_account:
     access_tokens:
       no_results:
@@ -1747,21 +1763,21 @@ bg:
   label_workflow_plural: "Работни потоци"
   label_workflow_summary: "Обобщение"
   label_x_closed_work_packages_abbr:
+    one: "1 затворен"
+    other: "%{count} затворено"
     zero: "0 closed"
-    one: ""
-    other: ""
   label_x_comments:
+    one: "1 коментар"
+    other: "%{count} коментара"
     zero: "no comments"
-    one: ""
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1 отворен"
+    other: "%{count} отворени"
     zero: "0 open"
-    one: ""
-    other: ""
   label_x_projects:
+    one: "1 проект"
+    other: "%{count} проекти"
     zero: "no projects"
-    one: ""
-    other: ""
   label_yesterday: "вчера"
   label_role_type: "Тип"
   label_member_role: "Project Role"
@@ -1924,7 +1940,7 @@ bg:
   permission_add_messages: "Post messages"
   permission_add_project: "Създаване на проект"
   permission_manage_user: "Създавайте и редактирайте потребители"
-  permission_manage_placeholder_user: "Създавайте, редактирайте и изтривайте потребители на резервни части"
+  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Създаване на подпроекти"
   permission_add_work_package_watchers: "Добавяне на наблюдатели"
   permission_assign_versions: "Assign versions"
@@ -2651,6 +2667,9 @@ bg:
       invalid_json: "The request could not be parsed as JSON."
       invalid_relation: "The relation is invalid."
       invalid_resource: "For property '%{property}' a link like '%{expected}' is expected, but got '%{actual}'."
+      invalid_signal:
+        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
+        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "The current user account status does not allow this operation."
       missing_content_type: "not specified"
       missing_request_body: "There was no request body."

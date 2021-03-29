@@ -42,7 +42,7 @@ sk:
     button_back_to_list_view: "Späť na zobrazenie zoznamu"
     button_cancel: "Zrušíť"
     button_close: "Zatvoriť"
-    button_change_project: "Change project"
+    button_change_project: "Zmeniť projekt"
     button_check_all: "Označiť všetko"
     button_configure-form: "Konfigurácia formulára"
     button_confirm: "Potvrdiť"
@@ -207,7 +207,7 @@ sk:
         upsale:
           become_hero: "Staň sa hrdinom!"
           benefits:
-            description: "Aké sú výhody?"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Security features"
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
             installation: "Installation support"
@@ -380,7 +380,7 @@ sk:
     label_project_plural: "Projekty"
     label_visibility_settings: "Nastavenia viditeľnosti"
     label_quote_comment: "Citovať tento komentár"
-    label_recent: "Recent"
+    label_recent: "Nedávne"
     label_reset: "Vynulovať"
     label_remove_column: "Odstrániť stĺpec"
     label_remove_columns: "Odstrániť vybraté stĺpce"
@@ -454,7 +454,7 @@ sk:
     label_upload_counter: "%{done} z %{count} súborov hotové"
     label_validation_error: "Pracovný balík sa nepodarilo uložiť z nasledujúcich chýb:"
     label_version_plural: "Verzie"
-    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    label_view_has_changed: "V tomto náhľade sú neuložené zmeny. Klikni pre uloženie."
     help_texts:
       show_modal: 'Zobraziť nápovedu pre tento atribút'
     onboarding:
@@ -517,7 +517,7 @@ sk:
         reset_title: "Obnoviť konfiguráciu formulára"
         confirm_reset: >
           Upozornenie: Naozaj chcete resetovať konfiguráciu formulára? Týmto sa obnovia atribúty na ich predvolenú skupinu a vypnú sa VŠETKY vlastné polia.
-        upgrade_to_ee: "Upgrade na Enterprise Edition"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
         upgrade_to_ee_text: "Wow! Ak potrebujete túto funkciu, ste super profesionál! Mohli by ste podporiť vývojárov Open Source tým, že sa staneme klientom Enterprise Edition?"
         more_information: "Viac informácií"
         nevermind: "Nie ďakujem"
@@ -842,7 +842,7 @@ sk:
           type: 'Typ'
         sorting_mode:
           description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
+          automatic: 'Automaticky'
           manually: 'Manually'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
         columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
@@ -944,11 +944,9 @@ sk:
         many: "%{count} podradených pracovných balíčkov"
         other: "%{count} podradených pracovných balíčkov"
       hour:
+        one: "1 h"
+        other: "%{count} h"
         zero: "0 h"
-        one: ""
-        few: ""
-        many: ""
-        other: ""
     zen_mode:
       button_activate: 'Aktivovať zen režim'
       button_deactivate: 'Deaktivovať zen režim'
@@ -963,6 +961,70 @@ sk:
         project_and_subprojects: "a všetky podprojekty"
         search_for: "Hľadať"
     views:
-      card: 'Cards'
+      card: 'Karty'
       list: 'Table'
       timeline: 'Ganttov graf'
+    invite_user_modal:
+      back: 'Späť'
+      invite: 'Invite'
+      title:
+        invite: 'Pozvať používateľa'
+        invite_to_project: 'Invite %{type} to %{project}'
+        User: 'user'
+        Group: 'group'
+        PlaceholderUser: 'placeholder user'
+        invite_principal_to_project: 'Invite %{principal} to %{project}'
+      project:
+        label: 'Projekt'
+        required: 'Please select a project'
+        next_button: 'Ďalšie'
+        no_results: 'No projects were found'
+      type:
+        required: 'Please select the type to be invited'
+        user:
+          title: 'Užívateľ(ka)'
+          description: 'Permissions based on the assigned role in the selected project'
+        group:
+          title: 'Skupina'
+          description: 'Permissions based on the assigned role in the selected project'
+        placeholder:
+          title: 'Placeholder user'
+          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
+          description: 'Has no access to the project and no emails are sent out.'
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+      principal:
+        label:
+          name_or_email: 'Name or email address'
+          name: 'Názov'
+        already_member_message: 'Already a member of %{project}'
+        no_results_user: 'No users were found'
+        invite_user: 'Invite:'
+        change_user_selection: 'Change e-mail-address or select an existing user'
+        no_results_placeholder: 'No placeholders were found'
+        change_placeholder_selection: 'Change name or select an existing placeholder'
+        create_new_placeholder: 'Create new placeholder:'
+        no_results_group: 'No groups were found'
+        change_group_selection: 'Change name or select an existing group'
+        next_button: 'Ďalšie'
+        required:
+          user: 'Please select a user'
+          placeholder: 'Please select a placeholder'
+          group: 'Please select a group'
+      role:
+        label: 'Role in %{project}'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> learn more about roles and permissions. </a>'
+        required: 'Please select a role'
+        next_button: 'Ďalšie'
+      message:
+        label: 'Invitation message'
+        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
+        next_button: 'Review Invitation'
+      summary:
+        next_button: 'Send Invitation'
+      success:
+        title: '%{principal} was invited!'
+        description:
+          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+        next_button: 'Pokračovať'
