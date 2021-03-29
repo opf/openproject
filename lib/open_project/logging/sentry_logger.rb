@@ -53,7 +53,8 @@ module OpenProject
         # Build the sentry context from the openproject logging context
         def build_sentry_context(sentry_scope, log_context)
           if (user = log_context[:current_user])
-            sentry_scope.set_user id: user.id, email: user.mail, username: user.login || 'unknown'
+            sentry_scope.set_user id: user.id, email: user.mail, username: user.login.presence || 'unknown'
+            sentry_scope.set_tags 'user.locale': user.language.presence || Setting.default_language
           end
 
           if (params = log_context[:params])
