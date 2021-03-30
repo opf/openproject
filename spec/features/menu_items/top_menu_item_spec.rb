@@ -117,7 +117,7 @@ feature 'Top menu items', js: true, selenium: true do
     context 'as an admin' do
       let(:user) { FactoryBot.create :admin }
       it 'displays all items' do
-        has_menu_items?(new_project, all_projects)
+        has_menu_items?(all_projects)
       end
 
       it 'visits the projects page' do
