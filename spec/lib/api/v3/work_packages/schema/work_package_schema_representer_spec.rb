@@ -541,7 +541,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'derivedEstimatedTime' }
         let(:type) { 'Duration' }
-        let(:name) { I18n.t('attributes.derived_estimated_time') }
+        let(:name) { I18n.t('attributes.derived_estimated_hours') }
         let(:required) { false }
         let(:writable) { false }
       end
