@@ -66,7 +66,7 @@ uk:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Завантажте маркер підтримки для Enterprise Edition"
       replace_token: "Замініть поточний маркер підтримки"
-      order: "Замовити Enterprise Edition"
+      order: "Order Enterprise on-premises Edition"
       paste: "Вставте маркер підтримки для Enterprise Edition"
       required_for_feature: "Ця функція доступна лише з активним маркером підтримки Enterprise Edition."
       enterprise_link: "Для отримання додаткової інформації натисніть тут."
@@ -247,7 +247,10 @@ uk:
         All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
         As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
       irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+    upsale:
+      title: Assign work to people that are not members of the project.
+      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -563,6 +566,12 @@ uk:
         unremovable: "неможливо видалити."
         wrong_length: "неправильна довжина (повинна бути %{count} символів)."
       models:
+        capability:
+          context:
+            global: 'Глобальний'
+          query:
+            filters:
+              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Необхідно мати принаймні один варіант."
         custom_actions:
@@ -651,6 +660,10 @@ uk:
           attributes:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Робочий пакет #%{id} не є дійсною ціллю для перепризначення записів часу."
           attributes:
@@ -776,7 +789,7 @@ uk:
     default_columns: "Типові колонки"
     description: "Опис"
     derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
+    derived_estimated_hours: "Derived estimated time"
     derived_start_date: "Derived start date"
     display_sums: "Відображати суми"
     due_date: "Дата закінчення"
@@ -1246,6 +1259,9 @@ uk:
   instructions_after_registration: "Ви можете ввійти, як тільки ваш обліковий запис активується, натиснувши %{signin}."
   instructions_after_logout: "Ви можете ввійти знову, натиснувши %{signin}."
   instructions_after_error: "Ви можете спробувати ввійти знову, натиснувши %{signin}. Якщо помилка не зникне, зверніться до адміністратора за допомогою."
+  menus:
+    quick_add:
+      label: "Open quick add menu"
   my_account:
     access_tokens:
       no_results:
@@ -1779,29 +1795,21 @@ uk:
   label_workflow_plural: "Робочі процеси"
   label_workflow_summary: "Резюме"
   label_x_closed_work_packages_abbr:
+    one: "1 closed"
+    other: "%{count} closed"
     zero: "0 closed"
-    one: ""
-    few: ""
-    many: ""
-    other: ""
   label_x_comments:
+    one: "1 comment"
+    other: "%{count} comments"
     zero: "no comments"
-    one: ""
-    few: ""
-    many: ""
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1 open"
+    other: "%{count} open"
     zero: "0 open"
-    one: ""
-    few: ""
-    many: ""
-    other: ""
   label_x_projects:
+    one: "1 project"
+    other: "%{count} projects"
     zero: "no projects"
-    one: ""
-    few: ""
-    many: ""
-    other: ""
   label_yesterday: "вчора"
   label_role_type: "Тип"
   label_member_role: "Роль проекту"
@@ -1966,7 +1974,7 @@ uk:
   permission_add_messages: "Відправка повідомлень"
   permission_add_project: "Створити проект"
   permission_manage_user: "Create and edit users"
-  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
+  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Створення підпроектів"
   permission_add_work_package_watchers: "Додати спостерігачів"
   permission_assign_versions: "Призначити версії"
@@ -2696,6 +2704,9 @@ uk:
       invalid_json: "Запит не може бути проаналізований як JSON."
       invalid_relation: "Відношення недійсне."
       invalid_resource: "За нерухомість %{property} посилання на зразок %{expected} очікується, але потрапив%{actual}."
+      invalid_signal:
+        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
+        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "Поточний статус облікового запису користувача не дозволяє цю операцію."
       missing_content_type: "не вказано"
       missing_request_body: "Не було органу запиту."

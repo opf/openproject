@@ -95,4 +95,19 @@ describe ::Type, type: :model do
       end
     end
   end
+
+  describe '#copy_from_type on workflows' do
+    before do
+      allow(Workflow)
+        .to receive(:copy)
+    end
+
+    it 'calls the .copy method on Workflow' do
+      type.workflows.copy_from_type(type2)
+
+      expect(Workflow)
+        .to have_received(:copy)
+        .with(type2, nil, type, nil)
+    end
+  end
 end

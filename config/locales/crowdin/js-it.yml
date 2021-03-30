@@ -86,7 +86,7 @@ it:
     caption_rate_history: "Cronologia tariffe"
     clipboard:
       browser_error: "Il tuo browser non supporta la copia negli appunti. Copia il testo selezionato manualmente."
-      copied_successful: "Successfully copied to clipboard!"
+      copied_successful: "Copia negli appunti completata con successo!"
     chart:
       type: 'Tipo di grafico'
       axis_criteria: 'Criteri dell''asse'
@@ -207,7 +207,7 @@ it:
         upsale:
           become_hero: "Diventa un eroe!"
           benefits:
-            description: "Quali sono i vantaggi?"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Funzionalità di sicurezza"
             high_security_text: "Accesso single sign on (SAML, OpenID Connect, CAS), autenticazione a due fattori e sincronizzazione automatica dei gruppi LDAP."
             installation: "Assistenza all'installazione"
@@ -273,11 +273,11 @@ it:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              Il rilascio contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Un nuovo concetto di <b>utenti segnaposto</b> (funzione premium) che permette di aggiungere utenti senza indirizzo email a OpenProject e di assegnare attività a queste risorse.</li> <li>Riguardo i pacchetti di lavoro, i <b>filtri vengono estesi tramite opzione padre </b>per vedere facilmente tutti i figli diretti e <b>tramite ID</b> per includere o escludere solo determinati pacchetti di lavoro nella lista.</li> <li>L'amministrazione degli utenti viene aperta agli utenti non-amministratori tramite un <b>nuovo ruolo globale</b>, consentendo di gestire e invitare gli utenti senza avere pieni privilegi di amministratore.</li> <li>Ulteriori miglioramenti dell'interfaccia utente e dell'esperienza utente, vale a dire: armonizzazione della reportistica dei costi, adattamento dei colori di sfondo della somma e dei gruppi di righe nell'elenco delle macro-attività, aggiunta di una pagina di visualizzazione dei gruppi.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              Il rilascio contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Un nuovo concetto di <b>utenti segnaposto</b> (funzione premium) che permette di aggiungere utenti senza indirizzo email a OpenProject e di assegnare attività a queste risorse.</li> <li>Riguardo i pacchetti di lavoro, i <b>filtri vengono estesi tramite opzione padre </b>per vedere facilmente tutti i figli diretti e <b>tramite ID</b> per includere o escludere solo determinati pacchetti di lavoro nella lista.</li> <li>L'amministrazione degli utenti viene aperta agli utenti non-amministratori tramite un <b>nuovo ruolo globale</b>, consentendo di gestire e invitare gli utenti senza avere pieni privilegi di amministratore.</li> <li>Ulteriori miglioramenti dell'interfaccia utente e dell'esperienza utente, vale a dire: armonizzazione della reportistica dei costi, adattamento dei colori di sfondo della somma e dei gruppi di righe nell'elenco delle macro-attività, aggiunta di una pagina di visualizzazione dei gruppi.</li> </ul>
     label_activate: "Attiva"
     label_add_column_after: "Aggiungi colonna dopo"
     label_add_column_before: "Aggiungi colonna prima"
@@ -363,7 +363,7 @@ it:
     label_next: "Prossimo"
     label_no_color: "Nessun colore"
     label_no_data: "Nessun dato da visualizzare"
-    label_no_due_date: "no finish date"
+    label_no_due_date: "nessuna data di fine"
     label_no_start_date: "nessuna data di inizio"
     label_no_value: "Nessun valore"
     label_none: "nessuno"
@@ -403,7 +403,7 @@ it:
     label_public_query: "Pubblico"
     label_sum: "Somma"
     label_sum_for: "Somma per"
-    label_total_sum: "Total sum"
+    label_total_sum: "Somma totale"
     label_subject: "Soggetto"
     label_this_week: "questa settimana"
     label_today: "Oggi"
@@ -517,7 +517,7 @@ it:
         reset_title: "Reimposta la configurazione del modulo"
         confirm_reset: >
           Attenzione: vuoi reimpostare la configurazione del modulo? Tutti gli attributi torneranno al loro gruppo predefinito e TUTTI i campi personalizzati verranno disattivati.
-        upgrade_to_ee: "Aggiorna ad Enterprise Edition"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
         upgrade_to_ee_text: "Wow! Se hai bisogno di questa funzionalità sei un vero professionista! Ti andrebbe di aiutare noi sviluppatori OpenSource diventando un cliente Enterprise Edition?"
         more_information: "Altre informazioni"
         nevermind: "Lascia stare"
@@ -845,7 +845,7 @@ it:
           automatic: 'Automatico'
           manually: 'Manuale'
           warning: 'Perderai il tuo ordinamento precedente quando attivi la modalità di ordinamento automatico.'
-        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Utilizza il campo di input sopra per aggiungere colonne alla visualizzazione della tabella. È possibile trascinare e rilasciare le colonne per riordinarle."
         upsale:
           attribute_highlighting: 'Vuoi che alcune macro-attività si distinguano dalla massa?'
           relation_columns: 'Vuoi visualizzare le relazioni nell''elenco di macro-attività?'
@@ -940,9 +940,9 @@ it:
         one: "una macro-attività subordinata"
         other: "%{count} macro-attività subordinate"
       hour:
+        one: "1 o"
+        other: "%{count} o"
         zero: "0 o"
-        one: ""
-        other: ""
     zen_mode:
       button_activate: 'Attiva modalità zen'
       button_deactivate: 'Disattiva modalità zen'
@@ -960,3 +960,67 @@ it:
       card: 'Carte'
       list: 'Tabella'
       timeline: 'Gantt'
+    invite_user_modal:
+      back: 'Indietro'
+      invite: 'Invite'
+      title:
+        invite: 'Invita utente'
+        invite_to_project: 'Invite %{type} to %{project}'
+        User: 'user'
+        Group: 'group'
+        PlaceholderUser: 'placeholder user'
+        invite_principal_to_project: 'Invite %{principal} to %{project}'
+      project:
+        label: 'Progetto'
+        required: 'Please select a project'
+        next_button: 'Prossimo'
+        no_results: 'No projects were found'
+      type:
+        required: 'Please select the type to be invited'
+        user:
+          title: 'Utente'
+          description: 'Permissions based on the assigned role in the selected project'
+        group:
+          title: 'Gruppo'
+          description: 'Permissions based on the assigned role in the selected project'
+        placeholder:
+          title: 'Utente segnaposto'
+          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
+          description: 'Has no access to the project and no emails are sent out.'
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+      principal:
+        label:
+          name_or_email: 'Name or email address'
+          name: 'Nome'
+        already_member_message: 'Already a member of %{project}'
+        no_results_user: 'No users were found'
+        invite_user: 'Invite:'
+        change_user_selection: 'Change e-mail-address or select an existing user'
+        no_results_placeholder: 'No placeholders were found'
+        change_placeholder_selection: 'Change name or select an existing placeholder'
+        create_new_placeholder: 'Create new placeholder:'
+        no_results_group: 'No groups were found'
+        change_group_selection: 'Change name or select an existing group'
+        next_button: 'Prossimo'
+        required:
+          user: 'Please select a user'
+          placeholder: 'Please select a placeholder'
+          group: 'Please select a group'
+      role:
+        label: 'Role in %{project}'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> learn more about roles and permissions. </a>'
+        required: 'Please select a role'
+        next_button: 'Prossimo'
+      message:
+        label: 'Invitation message'
+        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
+        next_button: 'Review Invitation'
+      summary:
+        next_button: 'Send Invitation'
+      success:
+        title: '%{principal} was invited!'
+        description:
+          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+        next_button: 'Continua'

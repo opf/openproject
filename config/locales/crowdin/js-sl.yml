@@ -206,7 +206,7 @@ sl:
         upsale:
           become_hero: "Bodite heroj!"
           benefits:
-            description: "Kaj so prednosti?"
+            description: "Katere so prednosti Enterprise verzije na lokaciji?"
             high_security: "Varnostne funkcije"
             high_security_text: "Enkratna prijava na (SAML, OpenID Connect, CAS), dvofaktorska avtentikacija in samodejna sinhronizacija LDAP skupin."
             installation: "Namestitvena podpora"
@@ -272,11 +272,11 @@ sl:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              Izdaja vsebuje več novih funkcij in izboljšav: <br> <ul class="%{list_styling_class}"> <li>Nov koncept <b>nadomestnih uporabnikov</b> (premium funkcija) dovoljuje dodajanje predhodnih uporabnikov brez e-mail naslova v OpenProject in dodeljevanje nalog tem virom.</li> <li>FIltri delovne naloge <b>so podaljšani s strani starševske opcije</b>za lažji pogled nad vsemi otroki, prav tako <b>preko ID-ja</b> za vključitev ali izključitev določenih delovnih pakteov iz seznama.</li> 
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              Izdaja vsebuje več novih funkcij in izboljšav: <br> <ul class="%{list_styling_class}"> <li>Nov koncept <b>nadomestnih uporabnikov</b> (premium funkcija) dovoljuje dodajanje predhodnih uporabnikov brez e-mail naslova v OpenProject in dodeljevanje nalog tem virom.</li> <li>FIltri delovne naloge <b>so podaljšani s strani starševske opcije</b>za lažji pogled nad vsemi otroki, prav tako <b>preko ID-ja</b> za vključitev ali izključitev določenih delovnih pakteov iz seznama.</li> 
     label_activate: "Aktiviraj"
     label_add_column_after: "Dodaj stolpec za"
     label_add_column_before: "Dodaj stolpec pred"
@@ -516,7 +516,7 @@ sl:
         reset_title: "Po nastavi iz konfiguracije"
         confirm_reset: >
           Opozorilo: Ali ste prepričani, da želite po nastaviti formo konfiguracije? To bo ponastavilo atribute v njihovo privzeto skupino in onemogočilo vsa polja po meri. 
-        upgrade_to_ee: "Nadgradite v Enterprise Edition"
+        upgrade_to_ee: "Nadgradite na Enterprise verzijo na lokaciji"
         upgrade_to_ee_text: "Vau! Če potrebujete to funkcijo, ste super profesionalec! Bi bili pripravljeni podpreti OpenSource razvijalce, tako da postanete odjemalec Podjetniške verzije?"
         more_information: "Več informacij"
         nevermind: "Pozabi"
@@ -844,7 +844,7 @@ sl:
           automatic: 'Avtomatično'
           manually: 'Ročno'
           warning: 'Ko aktivirate način samodejnega razvrščanja, boste izgubili prejšnje razvrščanje.'
-        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Uporabi vnosno polje zgoraj za dodajanje stolpcev v pogled tabele. Stolpce lahko potegneš in spustiš za zamenjavo njihovega vrstnega reda."
         upsale:
           attribute_highlighting: 'Potrebujete določene delovne pakete da izstopajo iz nereda?'
           relation_columns: 'Potrebujete videti povezave v seznamu delovnega paketa?'
@@ -943,11 +943,9 @@ sl:
         few: "%{count} podrejenih delovnih paketov"
         other: "%{count} podrejeni delovni paketi"
       hour:
+        one: "1 ura"
+        other: "%{count} ur"
         zero: "0 ur"
-        one: ""
-        two: ""
-        few: ""
-        other: ""
     zen_mode:
       button_activate: 'Omogočite zen način'
       button_deactivate: 'Onemogočite zen način'
@@ -965,3 +963,67 @@ sl:
       card: 'Kartice'
       list: 'Tabela'
       timeline: 'Gant'
+    invite_user_modal:
+      back: 'Nazaj'
+      invite: 'Povabi'
+      title:
+        invite: 'Povabi uporabnika'
+        invite_to_project: 'Povabi %{type} na %{project}'
+        User: 'uporabnik'
+        Group: 'skupina'
+        PlaceholderUser: 'nadomestni uporabnik'
+        invite_principal_to_project: 'Povabi %{principal} na %{project}'
+      project:
+        label: 'Projekt'
+        required: 'Prosim izberi projekt'
+        next_button: 'Naprej'
+        no_results: 'Nobeni projekti niso bili najdeni'
+      type:
+        required: 'Please select the type to be invited'
+        user:
+          title: 'Uporabnik'
+          description: 'Dovoljenja glede na dodeljeno vlogo v izbranem projektu'
+        group:
+          title: 'Skupina'
+          description: 'Dovoljenja glede na dodeljeno vlogo v izbranem projektu'
+        placeholder:
+          title: 'Nadomestni uporabnik'
+          title_no_ee: 'Nadomestni uporabnik (funkcija samo v verziji Enterprise)'
+          description: 'Nima dostopa do projekta in nobenih e-mailov ni bilo poslanih.'
+          description_no_ee: 'Nima dostopa do projekta in nobenih e-mailov ni bilo poslanih. <br>Oglej si <a href="%{eeHref}" target="_blank">verzijo Enterprise</a>'
+      principal:
+        label:
+          name_or_email: 'Ime ali e-mail naslov'
+          name: 'Ime'
+        already_member_message: 'Je že član %{project}'
+        no_results_user: 'Nobenih uporabnikov ni bilo najdenih'
+        invite_user: 'Povabi:'
+        change_user_selection: 'Spremeni e-mail naslov ali izberi obstoječega uporabnika'
+        no_results_placeholder: 'Nobenih rezerviranih mest ni bilo najdenih'
+        change_placeholder_selection: 'Spremeni ime ali izberi obstoječe rezervirano mesto'
+        create_new_placeholder: 'Ustvari novo rezervirano mesto:'
+        no_results_group: 'Nobenih skupin ni bilo najdenih'
+        change_group_selection: 'Spremeni ime ali izberi obstoječo skupino'
+        next_button: 'Naprej'
+        required:
+          user: 'Izberite uporabnika'
+          placeholder: 'Izberite rezervirano mesto'
+          group: 'Izberite skupino.'
+      role:
+        label: 'Vloge v %{project}'
+        description: 'To je vloga, ki jo bo %{principal} prejel, ko se bo pridružil projektu. Vloga določa dejanja, katere lahko izvršijo in do katerih informacij lahko dostopa. <a href="%{href}" target="_blank"> preberite si več o vlogah in dovoljenjih. </a>'
+        required: 'Izberite vlogo'
+        next_button: 'Naprej'
+      message:
+        label: 'Sporočilo s povabilom'
+        description: 'Poslali bomo e-mail %{principal}, kateremu tukaj lahko dodate osebno sporočilo. Razlaga za povabilo bi lahko bila uporabna, ali pa vsaj nekaj informacij o projektu za lažji začetek.'
+        next_button: 'Preglej povabilo'
+      summary:
+        next_button: 'Pošlji povabilo'
+      success:
+        title: '%{principal} je bil povabljen!'
+        description:
+          user: 'Uporabnik se lahko zdaj prijavi za dostop do %{project}. Medtem lahko planirate s tem uporabnikom in mu dodelite delovne naloge.'
+          placeholder: 'Rezervirano mesto se zdaj lahko uporabi v %{project}. Medtem lahko planirate s tem uporabnikom in mu dodelite delovne naloge.'
+          group: 'Skupina je zdaj del %{project}. Medtem lahko planirate s to skupino in ji dodelite delovne naloge.'
+        next_button: 'Nadaljuj'

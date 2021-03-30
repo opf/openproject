@@ -9,7 +9,7 @@ ca:
         teaser_text: 'Millori la seva gestió de projectes àgil amb aquesta vista flexible de taulells. Generi tants taulells com vulguis per a controlar tot allò que necessiti.'
         upgrade_to_ee_text: 'Boards is an Enterprise feature. Please upgrade to a paid plan.'
         upgrade: 'Upgrade now'
-        personal_demo: 'Get a personal demo'
+        personal_demo: 'Contact us for a demo'
       lists:
         delete: 'Delete list'
       version:

@@ -66,7 +66,7 @@ fil:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "I-upload ang isang Enterprise Edition support token"
       replace_token: "Palitan ang iyong kasulukuyang support token"
-      order: "Order Enterprise Edition"
+      order: "Order Enterprise on-premises Edition"
       paste: "Idikit ang iyong Enterprise Editoon ng support token"
       required_for_feature: "Ang tampok na ito ay magagamit lamang sa isang aktibong support token ng Enterprise Edition."
       enterprise_link: "Para sa karagdagang impormasyon, pindutin dito."
@@ -247,7 +247,10 @@ fil:
         All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
         As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
       irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+    upsale:
+      title: Assign work to people that are not members of the project.
+      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -561,6 +564,12 @@ fil:
         unremovable: "cannot be removed."
         wrong_length: "ay ang maling haba (dapat ay %{count} ang mga karakter)."
       models:
+        capability:
+          context:
+            global: 'Global'
+          query:
+            filters:
+              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Kahit isang opsyon lang ang kinakailangan na magagamit."
         custom_actions:
@@ -649,6 +658,10 @@ fil:
           attributes:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Ang work package #%{id} ay hindi balido sa target para mag-reassign ng mga oras na entry."
           attributes:
@@ -768,7 +781,7 @@ fil:
     default_columns: "I-default ang mga hanay"
     description: "Deskripsyon"
     derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
+    derived_estimated_hours: "Derived estimated time"
     derived_start_date: "Derived start date"
     display_sums: "Ipakita ang mga sum"
     due_date: "Finish date"
@@ -1214,6 +1227,9 @@ fil:
   instructions_after_registration: "Maari kang mag-sign in sa lalong madaling panahon bilang ang iyong akwant ay naka-aktibo sa pamamagitan ng pagpipindut%{signin}."
   instructions_after_logout: "Maari kang maka-sign in ulit sa pamamagitan ng pagpipindut %{signin}."
   instructions_after_error: "Maaring mong subukan muli sa pamamagitan ng pagpipindut %{signin}. kung ang mali ay nagpatuloy, magtanong sa namuno para sa tulong."
+  menus:
+    quick_add:
+      label: "Open quick add menu"
   my_account:
     access_tokens:
       no_results:
@@ -1747,21 +1763,21 @@ fil:
   label_workflow_plural: "Daloy ng trabaho"
   label_workflow_summary: "Buod"
   label_x_closed_work_packages_abbr:
+    one: "1 closed"
+    other: "%{count} closed"
     zero: "0 closed"
-    one: ""
-    other: ""
   label_x_comments:
+    one: "1 comment"
+    other: "%{count} comments"
     zero: "no comments"
-    one: ""
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1 open"
+    other: "%{count} open"
     zero: "0 open"
-    one: ""
-    other: ""
   label_x_projects:
+    one: "1 project"
+    other: "%{count} projects"
     zero: "no projects"
-    one: ""
-    other: ""
   label_yesterday: "kahapon"
   label_role_type: "Uri"
   label_member_role: "Project Role"
@@ -1924,7 +1940,7 @@ fil:
   permission_add_messages: "Mga post na mensahe"
   permission_add_project: "Lumikha ng proyekto"
   permission_manage_user: "Create and edit users"
-  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
+  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Lumikha ng mga subproject"
   permission_add_work_package_watchers: "Magdagdag ng manunuod"
   permission_assign_versions: "Assign versions"
@@ -2649,6 +2665,9 @@ fil:
       invalid_json: "Ang kahilingan ay hindi mai-parse bilang JSON."
       invalid_relation: "Ang relasyon ay hindi balido."
       invalid_resource: "Para sa ari-ariang '%{property}' isang link gaya ng '%{expected}' ay inaasahan, pero nakakuha ng '%{actual}'."
+      invalid_signal:
+        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
+        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "Ang kasalukuyang gumagamit ng estado ng akawnt ay hindi pinapahintulutan sa operasyong ito."
       missing_content_type: "hindi matukoy"
       missing_request_body: "Ito ay walang katawang kahilingan."

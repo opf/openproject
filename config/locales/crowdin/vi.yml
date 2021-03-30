@@ -66,7 +66,7 @@ vi:
       upgrade_to_ee: "Nâng cấp lên bản cho doanh nghiệp"
       add_token: "Upload an Enterprise Edition support token"
       replace_token: "Thay thế support token hiện tại của bạn"
-      order: "Đặt hàng Enterprise Edition"
+      order: "Order Enterprise on-premises Edition"
       paste: "Dán Enterprise Edition support token của bạn"
       required_for_feature: "Tính năng này chỉ có sẵn với một  Enterprise Edition support token được kích hoạt"
       enterprise_link: "Thêm thông tin, nhấn vào đây."
@@ -249,7 +249,10 @@ vi:
         All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
         As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
       irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+    upsale:
+      title: Assign work to people that are not members of the project.
+      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -562,6 +565,12 @@ vi:
         unremovable: "không thể gỡ bỏ."
         wrong_length: "độ dài không đúng (phải là %{count} ký tự)."
       models:
+        capability:
+          context:
+            global: 'Global'
+          query:
+            filters:
+              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Ít nhất một lựa chọn cần phải được cung cấp."
         custom_actions:
@@ -650,6 +659,10 @@ vi:
           attributes:
             hours:
               day_limit: "Tối đa một ngày chỉ có 24 giờ."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Work package #%{id} không phải là một mục tiêu hợp lệ để gán lại các mục thời gian."
           attributes:
@@ -766,7 +779,7 @@ vi:
     default_columns: "Cột mặc định"
     description: "Mô tả"
     derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
+    derived_estimated_hours: "Derived estimated time"
     derived_start_date: "Derived start date"
     display_sums: "Hiển thị tổng"
     due_date: "Ngày hoàn thành"
@@ -1200,6 +1213,9 @@ vi:
   instructions_after_registration: "Bạn có thể đăng nhập ngay sau khi tài khoản của bạn đã được kích hoạt bằng cách nhấn vào %{signin}."
   instructions_after_logout: "Bạn có thể đăng nhập một lần nữa bằng cách nhấp vào %{signin}."
   instructions_after_error: "Bạn có thể thử đăng nhập lại bằng cách nhấn vào %{signin}. Nếu lỗi vẫn còn, yêu cầu quản trị của bạn để được giúp đỡ."
+  menus:
+    quick_add:
+      label: "Open quick add menu"
   my_account:
     access_tokens:
       no_results:
@@ -1733,17 +1749,21 @@ vi:
   label_workflow_plural: "Quy trình làm việc"
   label_workflow_summary: "Tóm tắt"
   label_x_closed_work_packages_abbr:
+    one: "1 đóng"
+    other: "%{count} đóng"
     zero: "0 đóng"
-    other: ""
   label_x_comments:
+    one: "1 bình luận"
+    other: "%{count} bình luận"
     zero: "Không có bình luận"
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1 mở"
+    other: "%{count} mở"
     zero: "0 mở"
-    other: ""
   label_x_projects:
+    one: "một dự án"
+    other: "%{count} dự án"
     zero: "Không có dự án"
-    other: ""
   label_yesterday: "yesterday"
   label_role_type: "Kiểu"
   label_member_role: "Project Role"
@@ -1905,7 +1925,7 @@ vi:
   permission_add_messages: "Đăng tin nhắn"
   permission_add_project: "Tạo Dự án"
   permission_manage_user: "Create and edit users"
-  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
+  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Tạo Dự án con"
   permission_add_work_package_watchers: "Thêm người theo dõi"
   permission_assign_versions: "Assign versions"
@@ -2629,6 +2649,9 @@ vi:
       invalid_json: "The request could not be parsed as JSON."
       invalid_relation: "The relation is invalid."
       invalid_resource: "For property '%{property}' a link like '%{expected}' is expected, but got '%{actual}'."
+      invalid_signal:
+        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
+        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "The current user account status does not allow this operation."
       missing_content_type: "not specified"
       missing_request_body: "There was no request body."

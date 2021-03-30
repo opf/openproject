@@ -206,7 +206,7 @@ de:
         upsale:
           become_hero: "Werde zum Held!"
           benefits:
-            description: "Was sind die Vorteile?"
+            description: "Was sind die Vorteile von Enterprise on-premises?"
             high_security: "Sicherheitsfunktionen"
             high_security_text: "Single Sign on (SAML, OpenID Connect, CAS), Zwei-Faktor-Authentifizierung und automatische Synchronisation von LDAP-Gruppen."
             installation: "Installations-Support"
@@ -272,11 +272,11 @@ de:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Ein neues Konzept von <b>Platzhalter-Benutzern</b> (Premiumfunktion) erlaubt es, vorläufige Benutzer ohne E-Mail-Adresse zu OpenProject hinzuzufügen und diesen Ressourcen Aufgaben zuzuweisen.</li> <li><b>Arbeitspaket-Filter wurden um übergeordnete Arbeitspakete erweitert</b>, um alle direkten Kinder zu sehen sowie <b>um ID</b>, um nur genau diese Arbeitspakete in der Liste anzuzeigen oder auszublenden.</li> <li>Die Benutzerverwaltung wird über eine <b>neue globale Rolle</b> auch für Nicht-Admins möglich, sodass Benutzer auch ohne volle Admin-Rechte verwaltet und eingeladen werden können.</li> <li>Weitere UI- und UX-Verbesserungen, z.B. Harmonisierung der Zeit und Kosten Navigation, angepasste Hintergrundfarben der Summen- und Gruppenzeilen in der Arbeitspaketliste, Hinzufügen einer Anzeigeseite für Gruppen.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Ein neues Konzept von <b>Platzhalter-Benutzern</b> (Premiumfunktion) erlaubt es, vorläufige Benutzer ohne E-Mail-Adresse zu OpenProject hinzuzufügen und diesen Ressourcen Aufgaben zuzuweisen.</li> <li><b>Arbeitspaket-Filter wurden um übergeordnete Arbeitspakete erweitert</b>, um alle direkten Kinder zu sehen sowie <b>um ID</b>, um nur genau diese Arbeitspakete in der Liste anzuzeigen oder auszublenden.</li> <li>Die Benutzerverwaltung wird über eine <b>neue globale Rolle</b> auch für Nicht-Admins möglich, sodass Benutzer auch ohne volle Admin-Rechte verwaltet und eingeladen werden können.</li> <li>Weitere UI- und UX-Verbesserungen, z.B. Harmonisierung der Zeit und Kosten Navigation, angepasste Hintergrundfarben der Summen- und Gruppenzeilen in der Arbeitspaketliste, Hinzufügen einer Anzeigeseite für Gruppen.</li> </ul>
     label_activate: "Aktiviere"
     label_add_column_after: "Spalte danach hinzufügen"
     label_add_column_before: "Spalte davor hinzufügen"
@@ -516,7 +516,7 @@ de:
         reset_title: "Formularkonfiguration zurücksetzen"
         confirm_reset: >
           Achtung: Wollen Sie die Formkonfiguration wirklich zurücksetzen? Alle Attribute und Gruppen werden auf ihre Standardwerte zurück gesetzt und ALLE benutzerdefinierten Felder entfernt.
-        upgrade_to_ee: "Auf Enterprise-Edition upgraden"
+        upgrade_to_ee: "Enterprise on-premises bestellen"
         upgrade_to_ee_text: "Wow! Wenn du dieses Feature benötigst, bist du ein super Pro! Würdest du uns OpenProject-Entwickler unterstützen, indem du ein Enterprise Edition-Kunde wirst?"
         more_information: "Weitere Informationen"
         nevermind: "Nein danke"
@@ -844,7 +844,7 @@ de:
           automatic: 'Automatisch'
           manually: 'Manuell'
           warning: 'Sie verlieren Ihre vorherige Sortierung beim Aktivieren des automatischen Sortiermodus.'
-        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Über das Eingabefeld oben können Sie weitere Spalten zu Ihrer Tabellenansicht hinzuzufügen. Sie können die Spalten durch drag and drop neu anordnen."
         upsale:
           attribute_highlighting: 'Sollen bestimmte Arbeitspakete aus der Menge herausstechen?'
           relation_columns: 'Möchten Sie Zusammenhänge in der Arbeitspaketliste anzeigen?'
@@ -939,9 +939,9 @@ de:
         one: "ein untergeordnetes Arbeitspaket"
         other: "%{count} untergeordnete Arbeitspakete"
       hour:
+        one: "1 h"
+        other: "%{count} h"
         zero: "0 h"
-        one: ""
-        other: ""
     zen_mode:
       button_activate: 'Zen-Modus aktivieren'
       button_deactivate: 'Zen-Modus deaktivieren'
@@ -959,3 +959,67 @@ de:
       card: 'Karten'
       list: 'Tabelle'
       timeline: 'Gantt'
+    invite_user_modal:
+      back: 'Zurück'
+      invite: 'Einladen'
+      title:
+        invite: 'Nutzer einladen'
+        invite_to_project: '%{type} zu %{project} einladen'
+        User: 'Benutzer'
+        Group: 'Gruppe'
+        PlaceholderUser: 'Platzhalter-Benutzer'
+        invite_principal_to_project: '%{principal} zu %{project} einladen'
+      project:
+        label: 'Projekt'
+        required: 'Bitte wählen Sie ein Projekt'
+        next_button: 'Weiter'
+        no_results: 'Keine Projekte gefunden'
+      type:
+        required: 'Please select the type to be invited'
+        user:
+          title: 'Benutzer'
+          description: 'Permissions based on the assigned role in the selected project'
+        group:
+          title: 'Gruppe'
+          description: 'Permissions based on the assigned role in the selected project'
+        placeholder:
+          title: 'Platzhalter-Benutzer'
+          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
+          description: 'Hat keinen Zugriff auf das Projekt und es werden keine E-Mails verschickt.'
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+      principal:
+        label:
+          name_or_email: 'Name or email address'
+          name: 'Name'
+        already_member_message: 'Already a member of %{project}'
+        no_results_user: 'No users were found'
+        invite_user: 'Invite:'
+        change_user_selection: 'Change e-mail-address or select an existing user'
+        no_results_placeholder: 'Keine Platzhalter-Benutzer gefunden.'
+        change_placeholder_selection: 'Change name or select an existing placeholder'
+        create_new_placeholder: 'Create new placeholder:'
+        no_results_group: 'No groups were found'
+        change_group_selection: 'Change name or select an existing group'
+        next_button: 'Weiter'
+        required:
+          user: 'Please select a user'
+          placeholder: 'Please select a placeholder'
+          group: 'Bitte wählen Sie eine Gruppe'
+      role:
+        label: 'Rolle in %{project}'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> learn more about roles and permissions. </a>'
+        required: 'Please select a role'
+        next_button: 'Weiter'
+      message:
+        label: 'Einladungsnachricht'
+        description: 'Wir werden eine E-Mail an %{principal} senden, zu der Sie hier eine persönliche Nachricht hinzufügen können. Eine Erklärung für die Einladung könnte nützlich sein oder vielleicht ein paar Informationen über das Projekt, um den Start zu erleichtern.'
+        next_button: 'Einladung überprüfen'
+      summary:
+        next_button: 'Einladung senden'
+      success:
+        title: '%{principal} wurde eingeladen!'
+        description:
+          user: 'Der Benutzer kann sich jetzt anmelden, um auf %{project} zuzugreifen. In der Zwischenzeit können Sie bereits mit diesem Benutzer planen und beispielsweise Arbeitspakete zuweisen.'
+          placeholder: 'Der Platzhalter kann jetzt in %{project} verwendet werden. In der Zwischenzeit können Sie bereits mit diesem Benutzer planen und beispielsweise Arbeitspakete zuweisen.'
+          group: 'Die Gruppe ist nun %{project} zugewiesen. In der Zwischenzeit können Sie bereits mit dieser Gruppe planen und ihr zum Beispiel Arbeitspakete zuweisen.'
+        next_button: 'Fortfahren'
