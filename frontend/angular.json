@@ -133,11 +133,15 @@
   "defaultProject": "OpenProject",
   "schematics": {
     "@schematics/angular:component": {
-      "prefix": "app",
-      "style": "css"
+      "prefix": "op",
+      "style": "sass",
+      "changeDetection": "OnPush",
+      "skipTests": true,
+      "flat": true
     },
     "@schematics/angular:directive": {
-      "prefix": "app"
+      "prefix": "op",
+      "skipTests": true
     }
   },
   "cli": {

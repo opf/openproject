@@ -40,22 +40,6 @@ describe User, type: :model do
     @dlopper = User.find(3)
   end
 
-  specify 'object_daddy creation' do
-    FactoryBot.create(:user, firstname: 'Testing connection')
-    FactoryBot.create(:user, firstname: 'Testing connection')
-    assert_equal 2, User.where(firstname: 'Testing connection').count
-  end
-
-  it 'should truth' do
-    assert_kind_of User, @jsmith
-  end
-
-  it 'should mail should be stripped' do
-    u = User.new
-    u.mail = ' foo@bar.com  '
-    assert_equal 'foo@bar.com', u.mail
-  end
-
   it 'should create' do
     user = User.new(firstname: 'new', lastname: 'user', mail: 'newuser@somenet.foo')
 
@@ -119,20 +103,6 @@ describe User, type: :model do
     u.password_confirmation = 'adminADMIN!'
     assert !u.save
     assert_includes u.errors[:mail], I18n.translate('activerecord.errors.messages.taken')
-  end
-
-  it 'should update' do
-    assert_equal 'admin', @admin.login
-    @admin.login = 'john'
-    assert @admin.save, @admin.errors.full_messages.join('; ')
-    @admin.reload
-    assert_equal 'john', @admin.login
-  end
-
-  it 'should destroy' do
-    User.find(2).destroy
-    assert_nil User.find_by(id: 2)
-    assert Member.where(user_id: 2).empty?
   end
 
   it 'should validate login presence' do

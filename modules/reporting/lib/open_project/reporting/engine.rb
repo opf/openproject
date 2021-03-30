@@ -48,10 +48,10 @@ module OpenProject::Reporting
 
       # register additional permissions for viewing time and cost entries through the CostReportsController
       view_actions.each do |action|
-        OpenProject::AccessControl.permission(:view_time_entries).actions << "cost_reports/#{action}"
-        OpenProject::AccessControl.permission(:view_own_time_entries).actions << "cost_reports/#{action}"
-        OpenProject::AccessControl.permission(:view_cost_entries).actions << "cost_reports/#{action}"
-        OpenProject::AccessControl.permission(:view_own_cost_entries).actions << "cost_reports/#{action}"
+        OpenProject::AccessControl.permission(:view_time_entries).controller_actions << "cost_reports/#{action}"
+        OpenProject::AccessControl.permission(:view_own_time_entries).controller_actions << "cost_reports/#{action}"
+        OpenProject::AccessControl.permission(:view_cost_entries).controller_actions << "cost_reports/#{action}"
+        OpenProject::AccessControl.permission(:view_own_cost_entries).controller_actions << "cost_reports/#{action}"
       end
 
       # menu extensions

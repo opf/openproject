@@ -33,6 +33,7 @@ module API
     module Users
       class UserRepresenter < ::API::V3::Principals::PrincipalRepresenter
         include AvatarHelper
+        extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
 
         cached_representer key_parts: %i(auth_source),
                            dependencies: ->(*) { avatar_cache_dependencies }
@@ -40,7 +41,7 @@ module API
         self_link
 
         link :showUser do
-          next if represented.locked?
+          next if represented.new_record? || represented.locked?
 
           {
             href: api_v3_paths.show_user(represented.id),
@@ -49,7 +50,7 @@ module API
         end
 
         link :updateImmediately,
-             cache_if: -> { current_user_is_admin } do
+             cache_if: -> { current_user_is_admin? } do
           {
             href: api_v3_paths.user(represented.id),
             title: "Update #{represented.login}",
@@ -58,7 +59,7 @@ module API
         end
 
         link :lock,
-             cache_if: -> { current_user_is_admin } do
+             cache_if: -> { current_user_is_admin? } do
           next unless represented.lockable?
 
           {
@@ -69,7 +70,7 @@ module API
         end
 
         link :unlock,
-             cache_if: -> { current_user_is_admin } do
+             cache_if: -> { current_user_is_admin? } do
           next unless represented.activatable?
 
           {
@@ -89,7 +90,7 @@ module API
         end
 
         link :auth_source,
-             cache_if: -> { current_user_is_admin } do
+             cache_if: -> { current_user_is_admin? } do
           next unless represented.auth_source
 
           {
@@ -103,7 +104,7 @@ module API
                  render_nil: false,
                  getter: ->(*) { represented.login },
                  setter: ->(fragment:, represented:, **) { represented.login = fragment },
-                 cache_if: -> { current_user_is_admin_or_self }
+                 cache_if: -> { current_user_can_manage? }
 
         property :admin,
                  exec_context: :decorator,
@@ -112,25 +113,31 @@ module API
                    represented.admin?
                  },
                  setter: ->(fragment:, represented:, **) { represented.admin = fragment },
-                 cache_if: -> { current_user_is_admin }
+                 cache_if: -> { current_user_is_admin? }
 
-        property :firstName,
+        property :firstname,
+                 as: :firstName,
                  exec_context: :decorator,
                  getter: ->(*) { represented.firstname },
-                 setter: ->(fragment:, represented:, **) { represented.firstname = fragment },
+                 setter: ->(fragment:, represented:, **) do
+                   represented.firstname = fragment
+                 end,
                  render_nil: false,
-                 cache_if: -> { current_user_is_admin_or_self }
+                 cache_if: -> { current_user_can_manage? }
 
-        property :lastName,
+        property :lastname,
+                 as: :lastName,
                  exec_context: :decorator,
                  getter: ->(*) { represented.lastname },
                  setter: ->(fragment:, represented:, **) { represented.lastname = fragment },
                  render_nil: false,
-                 cache_if: -> { current_user_is_admin_or_self }
+                 cache_if: -> { current_user_can_manage? }
 
-        property :mail,
-                 as: :email,
-                 cache_if: -> { !represented.pref.hide_mail || current_user_is_admin_or_self }
+        property :email,
+                 getter: ->(*) { represented.mail },
+                 setter: ->(fragment:, represented:, **) { represented.mail = fragment },
+                 exec_context: :decorator,
+                 cache_if: -> { !represented.pref.hide_mail || represented.new_record? || current_user_can_manage? }
 
         property :avatar,
                  exec_context: :decorator,
@@ -138,10 +145,11 @@ module API
                  render_nil: true
 
         property :status,
-                 getter: ->(*) { status },
+                 getter: ->(*) { represented.status },
                  setter: ->(fragment:, represented:, **) { represented.status = User.statuses[fragment.to_sym] },
+                 exec_context: :decorator,
                  render_nil: true,
-                 cache_if: -> { current_user_is_admin_or_self }
+                 cache_if: -> { current_user_can_manage? }
 
         property :identity_url,
                  exec_context: :decorator,
@@ -149,14 +157,14 @@ module API
                  getter: ->(*) { represented.identity_url },
                  setter: ->(fragment:, represented:, **) { represented.identity_url = fragment },
                  render_nil: true,
-                 cache_if: -> { current_user_is_admin_or_self }
+                 cache_if: -> { current_user_can_manage? }
 
         property :language,
                  exec_context: :decorator,
                  render_nil: false,
                  getter: ->(*) { represented.language },
                  setter: ->(fragment:, represented:, **) { represented.language = fragment },
-                 cache_if: -> { current_user_is_admin_or_self }
+                 cache_if: -> { current_user_can_manage? }
 
         # Write-only properties
 
@@ -211,6 +219,10 @@ module API
 
         def current_user_can_delete_represented?
           current_user && ::Users::DeleteContract.deletion_allowed?(represented, current_user)
+        end
+
+        def current_user_can_manage?
+          current_user && (current_user.allowed_to_globally?(:manage_user) || current_user_is_self?)
         end
 
         private

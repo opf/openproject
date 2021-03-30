@@ -9,7 +9,7 @@ el:
         teaser_text: 'Βελτιώστε την agile διαχείριση έργων σας με την ευέλικτη προβολή Πινάκων. Δημιουργήστε όσους πίνακες επιθυμείτε για οτιδήποτε θέλετε να παρακολουθείτε.'
         upgrade_to_ee_text: 'Οι πίνακες είναι λειτουργία της Έκδοσης για Επιχειρήσεις. Παρακαλούμε αναβαθμίστε σε πλάνο επί πληρωμή.'
         upgrade: 'Αναβαθμίστε τώρα'
-        personal_demo: 'Λάβετε ένα προσωπικό demo'
+        personal_demo: 'Contact us for a demo'
       lists:
         delete: 'Διαγραφή λίστας'
       version:
@@ -24,19 +24,19 @@ el:
         locked: 'Κλειδωμένο'
         closed: 'Κλειστό'
       new_board: 'Νέος πίνακας'
-      add_list: 'Add list to board'
+      add_list: 'Προσθήκη λίστας στον πίνακα'
       add_card: 'Προσθήκη κάρτας'
       error_attribute_not_writable: "Δεν είναι δυνατή η μετακίνηση του πακέτου εργασίας, το %{attribute} δεν είναι εγγράψιμο."
       error_loading_the_list: "Σφάλμα κατά την φόρτωση της λίστας: %{error_message}"
       error_permission_missing: "Λείπει το δικαίωμα δημιουργίας δημόσιων ερωτημάτων"
-      error_cannot_move_into_self: "You can not move a work package into its own column."
+      error_cannot_move_into_self: "Δεν μπορείτε να μετακινήσετε ένα πακέτο εργασίας στη δική του στήλη."
       click_to_remove_list: "Κάντε κλικ για να αφαιρέσετε αυτή τη λίστα"
       board_type:
         text: 'Τύπος πίνακα'
-        free: 'basic'
-        select_board_type: 'Please choose the type of board you need.'
+        free: 'βασικό'
+        select_board_type: 'Παρακαλώ επιλέξτε τον τύπο πίνακα που χρειάζεστε.'
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
+          Ξεκινήστε από το μηδέν με ένα κενό πίνακα. Προσθέστε κάρτες και στήλες χειροκίνητα σε αυτόν τον πίνακα.
         action: 'Πίνακας ενεργειών'
         action_by_attribute: 'Πίνακας ενεργειών (%{attribute})'
         action_text: >
@@ -55,23 +55,23 @@ el:
           assignee: Εντολοδόχος
           status: κατάσταση
           version: έκδοση
-          subproject: subproject
-          subtasks: parent-child
+          subproject: υποέργο
+          subtasks: γονέας-παιδί
         board_type_title:
           assignee: Ανάθεση σε
           status: Κατάσταση
           version: Έκδοση
           subproject: Υποέργο
-          subtasks: Parent-Child
+          subtasks: Γονέας-Παιδί
           basic: Βασικό
         select_attribute: "Χαρακτηριστικό ενέργειας"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          assignee: Επιλέξτε χρήστη για να προσθέσετε ως νέα λίστα assignee
+          status: Επιλέξτε κατάσταση για προσθήκη ως νέα λίστα
+          version: Επιλέξτε έκδοση για προσθήκη ως νέα λίστα
+          subproject: Επιλέξτε υποέργο για προσθήκη ως νέα λίστα
+          subtasks: Επιλέξτε πακέτο εργασίας για προσθήκη ως νέα λίστα
         warning:
           status: |
             There is currently no status available. <br>

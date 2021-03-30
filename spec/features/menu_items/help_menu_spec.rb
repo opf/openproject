@@ -30,7 +30,7 @@ require 'spec_helper'
 
 feature 'Help menu items' do
   let(:user) { FactoryBot.create :admin }
-  let(:help_item) { find('.menu-item--help') }
+  let(:help_item) { find('.top-menu-help') }
 
   before do
     login_as user
@@ -41,7 +41,7 @@ feature 'Help menu items' do
       visit home_path
 
       help_item.click
-      expect(page).to have_selector('.drop-down--help li',
+      expect(page).to have_selector('.top-menu-help li',
                                     text: I18n.t('homescreen.links.user_guides'))
     end
   end
@@ -56,7 +56,7 @@ feature 'Help menu items' do
       visit home_path
 
       expect(help_item[:href]).to eq(custom_url)
-      expect(page).to have_no_selector('.drop-down--help', visible: false)
+      expect(page).to have_no_selector('.top-menu-help .top-menu-dropdown--link', visible: false)
     end
   end
 end

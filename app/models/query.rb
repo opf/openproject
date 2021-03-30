@@ -316,7 +316,7 @@ class Query < ApplicationRecord
       .detect { |candidate| candidate.name == attribute }
   end
 
-  def sorted?
+  def ordered?
     sort_criteria.any?
   end
 

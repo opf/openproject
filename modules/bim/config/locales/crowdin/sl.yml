@@ -15,10 +15,8 @@ sl:
       file_invalid: "BCF datoteka ni veljavna"
     x_bcf_issues:
       zero: 'Ni BCF napak'
-      one: ''
-      two: ''
-      few: ''
-      other: ''
+      one: 'Ena BCF napaka'
+      other: '%{count} BCF napake'
     bcf_xml:
       xml_file: 'BCF XML datoteka'
       import_title: 'Uvozi'

@@ -1050,7 +1050,7 @@ en:
         next_button: 'Next'
         no_results: 'No projects were found'
       type:
-        required: 'Please select the type of principal to be invited'
+        required: 'Please select the type to be invited'
         user:
           title: 'User'
           description: 'Permissions based on the assigned role in the selected project'

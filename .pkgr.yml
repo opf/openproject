@@ -19,15 +19,14 @@ targets:
     <<: *debian9
   ubuntu-20.04:
     <<: *debian9
-  centos-8:
+  centos-7: &centos7
     dependencies:
+      - epel-release
+      - ImageMagick
       - unzip
-      - epel-release
-      - ImageMagick
-  centos-7:
-   dependencies:
-      - epel-release
-      - ImageMagick
+      - poppler-utils
+  centos-8:
+    <<: *centos7
   sles-12:
     build_dependencies:
       - sqlite3-devel

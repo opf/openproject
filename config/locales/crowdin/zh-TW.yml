@@ -66,7 +66,7 @@ zh-TW:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "上傳企業版support token"
       replace_token: "替換當前 support token"
-      order: "訂購企業版"
+      order: "Order Enterprise on-premises Edition"
       paste: "貼上您的企業版support token"
       required_for_feature: "此功能僅限企業版使用。"
       enterprise_link: "如需了解詳細信息，請點擊此處。"
@@ -247,7 +247,10 @@ zh-TW:
         All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
         As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
       irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+    upsale:
+      title: Assign work to people that are not members of the project.
+      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -560,6 +563,12 @@ zh-TW:
         unremovable: "無法移除"
         wrong_length: "長度錯誤 (應該要有 %{count} 個字元)"
       models:
+        capability:
+          context:
+            global: '全域設定'
+          query:
+            filters:
+              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "需要至少一個選項可用。"
         custom_actions:
@@ -648,6 +657,10 @@ zh-TW:
           attributes:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "工作項目 #%{id} 不是重新分配時間項目有效的目標"
           attributes:
@@ -764,7 +777,7 @@ zh-TW:
     default_columns: "預設欄"
     description: "說明"
     derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
+    derived_estimated_hours: "Derived estimated time"
     derived_start_date: "Derived start date"
     display_sums: "顯示加總"
     due_date: "完成日期"
@@ -1198,6 +1211,9 @@ zh-TW:
   instructions_after_registration: "帳號啟用後即可點擊 %{signin} 登入"
   instructions_after_logout: "您可點擊 %{signin} 再次登入。"
   instructions_after_error: "你可以試著再按一次 %{signin} 來嘗試登入。如果持續發生錯誤，請向您的管理員尋求幫助。"
+  menus:
+    quick_add:
+      label: "Open quick add menu"
   my_account:
     access_tokens:
       no_results:
@@ -1731,17 +1747,21 @@ zh-TW:
   label_workflow_plural: "工作流程"
   label_workflow_summary: "大綱"
   label_x_closed_work_packages_abbr:
+    one: "1 closed"
+    other: "%{count} closed"
     zero: "0 個已關閉"
-    other: ""
   label_x_comments:
+    one: "1 comment"
+    other: "%{count} comments"
     zero: "沒有留言"
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1 open"
+    other: "%{count} open"
     zero: "0 個已開啟"
-    other: ""
   label_x_projects:
+    one: "1 project"
+    other: "%{count} projects"
     zero: "沒有專案"
-    other: ""
   label_yesterday: "昨天"
   label_role_type: "類型"
   label_member_role: "專案角色"
@@ -1902,7 +1922,7 @@ zh-TW:
   permission_add_messages: "張貼訊息"
   permission_add_project: "建立專案"
   permission_manage_user: "Create and edit users"
-  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
+  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "建立子專案"
   permission_add_work_package_watchers: "新增監看者"
   permission_assign_versions: "指派版本"
@@ -2627,6 +2647,9 @@ zh-TW:
       invalid_json: "無法將請求解析為 JSON。"
       invalid_relation: "關聯是無效的。"
       invalid_resource: "對於屬性 \"%{property}\", 希望有一個類似 \"%{expected}\" 的連結, 但得到了 \"%{actual}\"。"
+      invalid_signal:
+        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
+        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "當前的使用者帳戶狀態不允許此操作。"
       missing_content_type: "未指定"
       missing_request_body: "沒有請求正文。"

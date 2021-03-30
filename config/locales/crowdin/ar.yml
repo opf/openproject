@@ -66,7 +66,7 @@ ar:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
       replace_token: "استبدال رمز الدعم الحالي الخاص بك"
-      order: "أُطلب نسخة الطبعة النهائية"
+      order: "Order Enterprise on-premises Edition"
       paste: "ألصق رمز دعم نسخة الطبعة النهائية الخاصة بك"
       required_for_feature: "This feature is only available with an active Enterprise Edition support token."
       enterprise_link: "For more information, click here."
@@ -247,7 +247,10 @@ ar:
         All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
         As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
       irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+    upsale:
+      title: Assign work to people that are not members of the project.
+      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -565,6 +568,12 @@ ar:
         unremovable: "cannot be removed."
         wrong_length: "هو طول خاطئ (يجب أن تكون الأحرف %{count})."
       models:
+        capability:
+          context:
+            global: 'عالمي'
+          query:
+            filters:
+              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
         custom_actions:
@@ -653,6 +662,10 @@ ar:
           attributes:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "مجموعة العمل #%{id} ليست هدفًا صالحًا لإعادة تعيين إدخالات الوقت."
           attributes:
@@ -784,7 +797,7 @@ ar:
     default_columns: "الأعمدة الافتراضية"
     description: "الوصف"
     derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
+    derived_estimated_hours: "Derived estimated time"
     derived_start_date: "Derived start date"
     display_sums: "عرض المبالغ"
     due_date: "Finish date"
@@ -1278,6 +1291,9 @@ ar:
   instructions_after_registration: "يمكنك تسجيل الدخول بمجرد أن تم تنشيط الحساب الخاص بك عن طريق النقر فوق %{signin}."
   instructions_after_logout: "يمكنك تسجيل الدخول مرة أخرى بواسطة النقر فوق %{signin}."
   instructions_after_error: "يمكنك محاولة تسجيل الدخول مرة أخرى بواسطة النقر فوق %{signin}. إذا استمر الخطأ، اسأل المسؤول الخاص بك للحصول على تعليمات."
+  menus:
+    quick_add:
+      label: "Open quick add menu"
   my_account:
     access_tokens:
       no_results:
@@ -1811,37 +1827,21 @@ ar:
   label_workflow_plural: "تدفقات العمل"
   label_workflow_summary: "مُلخّص"
   label_x_closed_work_packages_abbr:
+    one: "1 closed"
+    other: "%{count} closed"
     zero: "0 closed"
-    zero: ""
-    one: ""
-    two: ""
-    few: ""
-    many: ""
-    other: ""
   label_x_comments:
+    one: "1 comment"
+    other: "%{count} comments"
     zero: "no comments"
-    zero: ""
-    one: ""
-    two: ""
-    few: ""
-    many: ""
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1 open"
+    other: "%{count} open"
     zero: "0 open"
-    zero: ""
-    one: ""
-    two: ""
-    few: ""
-    many: ""
-    other: ""
   label_x_projects:
+    one: "1 project"
+    other: "%{count} projects"
     zero: "no projects"
-    zero: ""
-    one: ""
-    two: ""
-    few: ""
-    many: ""
-    other: ""
   label_yesterday: "الأمس"
   label_role_type: "النّوع"
   label_member_role: "دور المشروع"
@@ -2008,7 +2008,7 @@ ar:
   permission_add_messages: "نشر الرسائل"
   permission_add_project: "إنشاء مشروع"
   permission_manage_user: "Create and edit users"
-  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
+  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "إنشاء مشاريع فرعية"
   permission_add_work_package_watchers: "إضافة مراقب"
   permission_assign_versions: "Assign versions"
@@ -2741,6 +2741,9 @@ ar:
       invalid_json: "تعذر تحليل الطلب ك JSON."
       invalid_relation: "العلاقة غير صالحة."
       invalid_resource: "للخاصية '%{property}' ربط المتوقع متوقع أن يكون'%{expected}' ، ولكن حصلت على '%{actual}'."
+      invalid_signal:
+        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
+        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "حالة حساب المستخدم الحالي لا تسمح بهذه العملية."
       missing_content_type: "غير محدّد"
       missing_request_body: "لا توجد أي هيئة الطلب."

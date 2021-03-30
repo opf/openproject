@@ -66,7 +66,7 @@ cs:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Nahrát podpůrný token Enterprise Edition"
       replace_token: "Nahradit aktuální podpůrný token"
-      order: "Objednávka Enterprise edice"
+      order: "Order Enterprise on-premises Edition"
       paste: "Vložte svůj podpůrný token Enterprise Edition"
       required_for_feature: "Tato funkce je dostupná pouze s aktivním podpůrným tokenem pro Enterprise Edition."
       enterprise_link: "Pro více informací klikněte zde."
@@ -247,7 +247,10 @@ cs:
         All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
         As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
       irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+    upsale:
+      title: Assign work to people that are not members of the project.
+      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -563,6 +566,12 @@ cs:
         unremovable: "nelze odstranit."
         wrong_length: "má chybnou délku (měla by být %{count} znaků)."
       models:
+        capability:
+          context:
+            global: 'Globální'
+          query:
+            filters:
+              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Alespoň jedna možnost musí být k dispozici."
         custom_actions:
@@ -651,6 +660,10 @@ cs:
           attributes:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Pracovní balíček #%{id} není platný cíl pro přeřazení časových záznamů."
           attributes:
@@ -776,7 +789,7 @@ cs:
     default_columns: "Výchozí sloupce"
     description: "Popis"
     derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
+    derived_estimated_hours: "Derived estimated time"
     derived_start_date: "Derived start date"
     display_sums: "Zobrazit součty"
     due_date: "Datum dokončení"
@@ -1246,6 +1259,9 @@ cs:
   instructions_after_registration: "Můžete se přihlásit hned poté, co bude váš účet aktivovaný kliknutím na %{signin}."
   instructions_after_logout: "Můžete se znovu přihlásit kliknutím na tlačítko %{signin}."
   instructions_after_error: "Zkuste se znovu přihlásit kliknutím na %{signin}. Pokud chyba přetrvává, požádejte správce o pomoc."
+  menus:
+    quick_add:
+      label: "Open quick add menu"
   my_account:
     access_tokens:
       no_results:
@@ -1779,29 +1795,21 @@ cs:
   label_workflow_plural: "Pracovní vrstvy"
   label_workflow_summary: "Souhrn"
   label_x_closed_work_packages_abbr:
+    one: "1 closed"
+    other: "%{count} closed"
     zero: "0 uzavřeno"
-    one: ""
-    few: ""
-    many: ""
-    other: ""
   label_x_comments:
+    one: "1 comment"
+    other: "%{count} comments"
     zero: "žádné komentáře"
-    one: ""
-    few: ""
-    many: ""
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1 open"
+    other: "%{count} open"
     zero: "0 otevřených"
-    one: ""
-    few: ""
-    many: ""
-    other: ""
   label_x_projects:
+    one: "1 project"
+    other: "%{count} projects"
     zero: "Žádné projekty"
-    one: ""
-    few: ""
-    many: ""
-    other: ""
   label_yesterday: "včera"
   label_role_type: "Typ"
   label_member_role: "Projektová role"
@@ -1965,7 +1973,7 @@ cs:
   permission_add_messages: "Odesílat zprávy"
   permission_add_project: "Vytvořit projekt"
   permission_manage_user: "Create and edit users"
-  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
+  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Vytvořit podprojekty"
   permission_add_work_package_watchers: "Přidat sledující"
   permission_assign_versions: "Přiřadit verze"
@@ -2695,6 +2703,9 @@ cs:
       invalid_json: "Požadavek nelze analyzovat jako JSON."
       invalid_relation: "Vztah je neplatný."
       invalid_resource: "Pro vlastnost '%{property}' se očekává odkaz '%{expected}', ale dostal '%{actual}'."
+      invalid_signal:
+        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
+        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "Stav aktuálního uživatelského účtu tuto operaci nepovoluje."
       missing_content_type: "není specifikováno"
       missing_request_body: "Nebylo nalezeno žádné tělo požadavku."

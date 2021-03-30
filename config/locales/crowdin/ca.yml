@@ -66,7 +66,7 @@ ca:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Puja un token de suport de l'Enterprise Edition"
       replace_token: "Reemplaça el token de suport actual"
-      order: "Encarrega l'Enterprice Edition"
+      order: "Order Enterprise on-premises Edition"
       paste: "Enganxeu el vostre token de suport de l'Enterprise Edition"
       required_for_feature: "Aquesta característica només està disponible amb un token de suport de l'Enterprise Edition."
       enterprise_link: "Per a més informació, cliqueu aquí."
@@ -247,7 +247,10 @@ ca:
         All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
         As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
       irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+    upsale:
+      title: Assign work to people that are not members of the project.
+      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -561,6 +564,12 @@ ca:
         unremovable: "cannot be removed."
         wrong_length: "la longitud és incorrecta (haurien de ser %{count} caràcters)."
       models:
+        capability:
+          context:
+            global: 'Global'
+          query:
+            filters:
+              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
         custom_actions:
@@ -649,6 +658,10 @@ ca:
           attributes:
             hours:
               day_limit: "es massa gran ja que com a màxim 24 hores per dia poden ser registrades."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Treball paquet #%{id} no és un objectiu vàlid per a reassignar les entrades de temps."
           attributes:
@@ -768,7 +781,7 @@ ca:
     default_columns: "Columnes predeterminades"
     description: "Descripció"
     derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
+    derived_estimated_hours: "Derived estimated time"
     derived_start_date: "Derived start date"
     display_sums: "Mostra les sumes"
     due_date: "Finish date"
@@ -1214,6 +1227,9 @@ ca:
   instructions_after_registration: "Vostè podrà entrar tan aviat com hagi activat el seu compte fent clic a %{signin}."
   instructions_after_logout: "Vostè es pot inscriure altre vegada fent clic a %{signin}."
   instructions_after_error: "Pot intentar iniciar sessió fent clic a %{signin}. Si l'error continua, demaneu ajuda al vostre administrador."
+  menus:
+    quick_add:
+      label: "Open quick add menu"
   my_account:
     access_tokens:
       no_results:
@@ -1747,21 +1763,21 @@ ca:
   label_workflow_plural: "Fluxos de treball"
   label_workflow_summary: "Resum"
   label_x_closed_work_packages_abbr:
+    one: "1 closed"
+    other: "%{count} closed"
     zero: "0 tancats"
-    one: ""
-    other: ""
   label_x_comments:
+    one: "1 comment"
+    other: "%{count} comments"
     zero: "sense comentaris"
-    one: ""
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1 open"
+    other: "%{count} open"
     zero: "0 oberts"
-    one: ""
-    other: ""
   label_x_projects:
+    one: "1 project"
+    other: "%{count} projects"
     zero: "sense projectes"
-    one: ""
-    other: ""
   label_yesterday: "ahir"
   label_role_type: "Tipus"
   label_member_role: "Project Role"
@@ -1924,7 +1940,7 @@ ca:
   permission_add_messages: "Publicar missatges"
   permission_add_project: "Crear un projecte"
   permission_manage_user: "Create and edit users"
-  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
+  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Crear subprojectes"
   permission_add_work_package_watchers: "Afegir observadors"
   permission_assign_versions: "Assign versions"
@@ -2649,6 +2665,9 @@ ca:
       invalid_json: "La petició no es pot analitzar com a JSON."
       invalid_relation: "La relació no és vàlida."
       invalid_resource: "Per la propietat '%{property}' s'espera un enllaç com '%{expected}', però s'ha trobat \"%{actual}\"."
+      invalid_signal:
+        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
+        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "L'estat de compte de l'usuari actual no permet aquesta operació."
       missing_content_type: "no especificat"
       missing_request_body: "Hi havia cos a la petició."
