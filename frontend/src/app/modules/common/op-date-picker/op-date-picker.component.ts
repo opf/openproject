@@ -83,10 +83,10 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
   }
 
   onInputChange(_event:KeyboardEvent) {
-    if (this.isEmpty()) {
-      this.datePickerInstance.clear();
-    } else if (this.inputIsValidDate()) {
+    if (this.inputIsValidDate()) {
       this.onChange.emit(this.currentValue);
+    } else {
+      this.onChange.emit('');
     }
   }
 
