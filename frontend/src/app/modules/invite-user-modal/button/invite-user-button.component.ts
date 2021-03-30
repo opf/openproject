@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit, Optional, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Optional, Output } from '@angular/core';
 import { OpEditingPortalSchemaToken } from "core-app/modules/fields/edit/edit-field.component";
 import { IFieldSchema } from "core-app/modules/fields/field.base";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
@@ -10,6 +10,7 @@ import { PermissionsService } from "core-app/core/services/permissions/permissio
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 import { OpModalService } from "core-app/modules/modal/modal.service";
 import { InviteUserModalComponent } from "core-app/modules/invite-user-modal/invite-user.component";
+import { CreateAutocompleterComponent } from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component";
 
 @Component({
   selector: 'op-invite-user-button',
@@ -44,6 +45,7 @@ export class InviteUserButtonComponent implements OnInit {
     @Optional() readonly selectEditFieldComponent:SelectEditFieldComponent,
     @Optional() readonly multiSelectEditFieldComponent:MultiSelectEditFieldComponent,
     @Inject(OpEditingPortalSchemaToken) public schema:IFieldSchema,
+    @Optional() private _createAutocompleterComponent:CreateAutocompleterComponent,
   ) {}
 
   ngOnInit():void {
@@ -83,6 +85,7 @@ export class InviteUserButtonComponent implements OnInit {
           }
         }
 
+        this._createAutocompleterComponent?.onUserInvited(dataToEmit);
         this.invited.emit(dataToEmit);
       });
   }
