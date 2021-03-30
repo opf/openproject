@@ -144,7 +144,7 @@ export class TopMenu {
         this.toggleClick(jQuery(it));
         return false;
       });
-      jQuery(it).on('touchstart', function (e) {
+      jQuery(it).find('op-app-menu--item-action').on('touchstart', function (e) {
         // This shall avoid the hover event is fired,
         // which would otherwise lead to menu being closed directly after its opened.
         // Ignore clicks from within the dropdown

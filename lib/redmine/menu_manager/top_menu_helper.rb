@@ -65,7 +65,7 @@ module Redmine::MenuManager::TopMenuHelper
                    class: 'op-app-menu--item-action',
                    title: I18n.t(:label_login) do
       concat('<span class="button--dropdown-text hidden-for-mobile">'.concat(I18n.t(:label_login)).concat('</span>').html_safe)
-      concat('<i class="button--dropdown-indicator hidden-for-mobile"></i>'.html_safe)
+      concat('<i class="op-app-menu--item-dropdown-indicator button--dropdown-indicator hidden-for-mobile"></i>'.html_safe)
       concat('<i class="icon2 icon-user hidden-for-desktop"></i>'.html_safe)
     end
 

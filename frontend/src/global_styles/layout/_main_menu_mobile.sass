@@ -27,7 +27,6 @@
 //++
 
 @include breakpoint(680px down)
-
   .main-menu
     position: fixed
     z-index: 12
@@ -59,10 +58,13 @@
     display: none
 
   .content-overlay
-    display: block
     // Background color transition simulates a fade-in effect
     background: #fff
     transition: background .3s
+
+  #main:not(.nosidebar)
+    .content-overlay
+      display: block
 
   #wrapper:not(.hidden-navigation)
     .content-overlay
