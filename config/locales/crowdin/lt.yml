@@ -653,7 +653,7 @@ lt:
         wiki_page:
           attributes:
             slug:
-              undeducible: "cannot be deduced from the title '%{title}'."
+              undeducible: "negali būti nustatytas iš pavadinimo '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Darbų paketas #%{id} nėra tinkamas laiko įrašų perskirstymo pasirinkimas."
           attributes:
