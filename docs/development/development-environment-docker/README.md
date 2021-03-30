@@ -21,6 +21,16 @@ bin/compose start
 
 Once the containers are done booting you can access the application under http://localhost:3000.
 
+### Tests
+
+You can run tests using `bin/compose rspec`. You can run specific tests too. For instance:
+
+```
+bin/compose rspec spec/features/work_package_show_spec.rb
+```
+
+***
+
 If there is an `.env` file (see below) `bin/compose` will source it.
 More details and options follow in the next section.
 
