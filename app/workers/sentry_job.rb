@@ -29,9 +29,11 @@
 require 'active_job'
 
 class SentryJob < ::ActiveJob::Base
+  queue_with_priority :low
+
   self.log_arguments = false
 
   def perform(event, hint = {})
-    Sentry.send_event(event, hint)
+    ::Sentry.send_event(event, hint)
   end
 end
