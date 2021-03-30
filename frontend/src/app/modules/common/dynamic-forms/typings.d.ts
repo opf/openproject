@@ -100,13 +100,26 @@ export interface IApiCall {
   method?: string;
 }
 
-export interface IFormModelChanges {
-  [key: string]: unknown;
-  _links?: {
-    [key: string]: HalSource;
-  };
-}
-
 export interface IFieldTypeMap {
   [key:string]: FormlyFieldConfig;
 }
+
+export interface IFormError {
+  errorIdentifier:string;
+  message:string;
+  _type:string;
+  _embedded: IFormErrorDetails | IFormErrors;
+}
+
+export interface IFormErrorDetails {
+  details: {
+    attribute: string;
+  }
+}
+
+export interface IFormErrors {
+  errors: IFormError[];
+}
+
+
+

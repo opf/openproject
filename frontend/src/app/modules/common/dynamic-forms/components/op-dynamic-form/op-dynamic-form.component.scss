@@ -1,8 +1,0 @@
-// TODO: Remove this styles
-:host ::ng-deep .errorClass, input.ng-invalid.ng-touched {
-  color: red;
-}
-
-:host ::ng-deep input[type=text].ng-invalid.ng-touched {
-  border: 1px solid red !important;
-}
