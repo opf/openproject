@@ -52,7 +52,7 @@ elif [[ "$1" = "rspec" ]]; then
 
     docker-compose -f $COMPOSE_FILE up -d backend-test
 
-    while ! docker logs --since 1m ${PWD##*/}_backend-test_1 | grep "Ready for tests" /dev/null; do
+    while ! docker logs --since 1m ${PWD##*/}_backend-test_1 | grep "Ready for tests" > /dev/null; do
       sleep 1
       printf "."
     done
