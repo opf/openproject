@@ -32,9 +32,9 @@ import { InjectField } from 'core-app/helpers/angular/inject-field.decorator';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
 import { OpenProjectBackupService } from '../api/op-backup/op-backup.service';
-import { OpModalService } from '../op-modals/op-modal.service';
 import { JobStatusModal } from "core-app/modules/job-status/job-status-modal/job-status.modal";
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { OpModalService } from "core-app/modules/modal/modal.service";
 
 export const backupSelector = 'backup';
 
