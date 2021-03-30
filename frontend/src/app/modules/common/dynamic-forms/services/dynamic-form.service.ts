@@ -18,6 +18,7 @@ import {
   IFieldTypeMap,
   IOPFormlyFieldConfig,
   IFormError,
+  IFieldSchema,
 } from "../typings";
 @Injectable()
 export class DynamicFormService {
@@ -105,7 +106,7 @@ export class DynamicFormService {
       .map(schemaKey => {
         const schemaValue = {
           ...formSchema[schemaKey],
-          key: formModel?._links && formModel?._links[schemaKey] ?
+          key: formModel?._links && schemaKey in formModel._links ?
             `_links.${schemaKey}` :
             schemaKey
         };
@@ -137,16 +138,14 @@ export class DynamicFormService {
 
   private _getFormattedResourcesModel(resourcesModel:IFormModel['_links'] = {}){
     return Object.keys(resourcesModel).reduce((result, resourceKey) => {
-      // TODO: Fix this typing
-      // Some customfields come with an [] as value
-      const resourceModel = resourcesModel[resourceKey]?.href ? resourcesModel[resourceKey] : null;
+      const resource = resourcesModel[resourceKey];
+      const resourceModel = Array.isArray(resource) ?
+        resource.map(resourceElement => resourceElement?.href && { ...resourceElement, name: resourceElement?.title }) :
+        resource?.href && { ...resource, name: resource?.title };
 
       result = {
         ...result,
-        [resourceKey]: resourceModel && {
-          ...resourceModel,
-          ...{name: resourceModel?.title},
-        }
+        [resourceKey]: resourceModel,
       }
 
       return result;
@@ -178,6 +177,7 @@ export class DynamicFormService {
     const inputTypeMap = {
       text: {
         type: 'textInput',
+        // TODO: Should we keep this hardcode?
         focus: field.name === 'subject',
         className: 'inline-edit--field',
         templateOptions: {
@@ -220,8 +220,8 @@ export class DynamicFormService {
         templateOptions: {
           type: 'number',
           locale: I18n.locale,
-          multiple: false,
-          bindLabel: 'name',
+          multiple: field.key.replace('_links.', '').startsWith('[]'),
+          bindLabel: 'title',
           searchable: false,
           virtualScroll: true,
           typeahead: false,
@@ -255,22 +255,6 @@ export class DynamicFormService {
       Formattable: inputTypeMap.formattable,
       // TODO: Do we have DateTime input?
       DateTime: inputTypeMap.date,
-      // TODO: Replace with Duration component
-      Duration: {
-        type: 'input',
-        templateOptions: {
-          type: 'number'
-        },
-      },
-      Collection: {
-        type: 'input',
-      },
-      "[]CustomOption": {
-        type: 'op-select',
-        templateOptions: {
-          multiple: true
-        },
-      }
     }
 
     return fieldTypeMap[field.type];
@@ -289,7 +273,9 @@ export class DynamicFormService {
       this.httpClient
             .get(allowedValues!.href)
             .pipe(
-              map((response: api.v3.Result) => response._embedded.elements)
+              map((response: api.v3.Result) => response._embedded.elements),
+              // TODO: Handle the Status options (currently void)
+              map(options => options.map((option:IFieldSchema['options']) => ({...option, title: option._links?.self?.title})))
             );
   }
 
@@ -338,8 +324,8 @@ export class DynamicFormService {
       .reduce((result, resourceKey) => {
         const resource = resources[resourceKey];
         const resourceValue = Array.isArray(resource) ?
-          resource.map(resourceElement => ({ href: resourceElement?._links.self.href })) :
-          { href: resource?._links.self.href };
+          resource.map(resourceElement => ({ href: resourceElement?._links!.self.href })) :
+          { href: resource?._links!.self.href };
 
         return { [resourceKey]: resourceValue };
       }, {});

@@ -31,9 +31,9 @@ export interface IOPFormlyFieldConfig extends FormlyFieldConfig {
 
 export interface IFormModel {
   lockVersion?: number;
-  [key: string]: string | number | Object;
+  [key: string]: string | number | Object  | null;
   _links?: {
-    [key: string]: HalSource; // Customfields has []?
+    [key: string]: Partial<HalSource> | Partial<HalSource>[] | null;
   };
 }
 
@@ -59,8 +59,9 @@ export interface IFieldSchema {
   hasDefault: boolean;
   name?: string;
   attributeGroup?: string;
+  // TODO: Type this options
   options: {
-    [key: string]: unknown;
+    [key: string]: any;
   };
   _embedded?: {
     allowedValues?: IApiCall | IAllowedValue[];
