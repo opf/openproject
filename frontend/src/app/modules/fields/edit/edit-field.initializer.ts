@@ -72,13 +72,13 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
       .addFieldType(BooleanEditFieldComponent, 'boolean', ['Boolean'])
       .addFieldType(DateEditFieldComponent, 'date', ['Date'])
       .addFieldType(FormattableEditFieldComponent, 'wiki-textarea', ['Formattable'])
-      .addFieldType(ProjectStatusEditFieldComponent, 'project_status', ['ProjectStatus'])
       .addFieldType(WorkPackageCommentFieldComponent, '_comment', ['comment']);
 
     editFieldService
       .addSpecificFieldType('WorkPackage', CombinedDateEditFieldComponent,
         'date',
         ['combinedDate', 'startDate', 'dueDate', 'date'])
+      .addSpecificFieldType('Project', ProjectStatusEditFieldComponent, 'status', ['status'])
       .addSpecificFieldType('TimeEntry', PlainFormattableEditFieldComponent, 'comment', ['comment'])
       .addSpecificFieldType('TimeEntry', TimeEntryWorkPackageEditFieldComponent, 'workPackage', ['WorkPackage']);
 
