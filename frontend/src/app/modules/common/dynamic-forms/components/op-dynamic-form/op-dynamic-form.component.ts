@@ -8,6 +8,7 @@ import { FormlyForm } from "@ngx-formly/core";
 import { Observable } from "rxjs";
 import { DynamicFormService } from "../../services/dynamic-form.service";
 import { IDynamicForm, IFormModel } from "../../typings";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   selector: "op-dynamic-form",
@@ -24,13 +25,19 @@ export class OpDynamicFormComponent implements OnChanges {
   @Input() config: string;
   @Input() opForm: string;*/
   dynamicForm$: Observable<IDynamicForm>;
+  text = {
+    save: this.I18n.t('js.button_save'),
+  };
 
   @ViewChild(FormlyForm)
   set formlyForm(formlyForm: FormlyForm) {
     this.dynamicFormService.registerForm(formlyForm);
   }
 
-  constructor(readonly dynamicFormService: DynamicFormService) {}
+  constructor(
+    readonly dynamicFormService: DynamicFormService,
+    readonly I18n:I18nService,
+  ) {}
 
   ngOnChanges() {
     this.dynamicForm$ = this.dynamicFormService
@@ -39,7 +46,7 @@ export class OpDynamicFormComponent implements OnChanges {
 
   saveForm(formModel:IFormModel) {
     this.dynamicFormService
-          .submitForm(formModel)
-          .subscribe((response) => console.log('response', response));
+          .submitForm$(formModel)
+          .subscribe();
   }
 }

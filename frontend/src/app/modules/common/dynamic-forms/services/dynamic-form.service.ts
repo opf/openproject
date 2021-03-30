@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { FormlyFieldConfig, FormlyForm } from "@ngx-formly/core";
@@ -17,9 +17,8 @@ import {
   IFormModel,
   IFieldTypeMap,
   IOPFormlyFieldConfig,
+  IFormError,
 } from "../typings";
-import { ErrorResource } from "core-app/modules/hal/resources/error-resource";
-
 @Injectable()
 export class DynamicFormService {
   form:FormlyForm;
@@ -61,7 +60,7 @@ export class DynamicFormService {
       )
   }
 
-  submitForm(formModel:IFormModel) {
+  submitForm$(formModel:IFormModel) {
     // TODO: Replace with dynamic url
     const url = '/api/v3/projects';
     const modelToSubmit = this._formatModelToSubmit(formModel);
@@ -76,7 +75,7 @@ export class DynamicFormService {
         }
       )
       .pipe(
-        catchError((error:ErrorResource) => {
+        catchError((error:HttpErrorResponse) => {
           this._handleFormErrors(error, this.form.form as FormGroup);
 
           throw error;
@@ -169,7 +168,7 @@ export class DynamicFormService {
         disabled: !writable,
         ...templateOptions,
         ...fieldOptions && {options: fieldOptions},
-      }
+      },
     }
 
     return formlyFieldConfig;
@@ -212,6 +211,7 @@ export class DynamicFormService {
           rtl: false,
           name: field.name,
           editorType: 'full',
+          inlineLabel: true,
         },
       },
       select: {
@@ -294,9 +294,9 @@ export class DynamicFormService {
   }
 
   private _getFormlyFormWithFieldGroups(fieldGroups:IAttributeGroup[] = [], formFields:IOPFormlyFieldConfig[] = []) {
-    // TODO: Handle nested groups
     // TODO: Handle sort fields in schema order
-    // TODO: Handle form fields with integer key
+    // TODO: Handle nested groups?
+    // TODO: Handle form fields with integer key?
     const fieldGroupKeys = fieldGroups.reduce((groupKeys, fieldGroup) => [...groupKeys, ...fieldGroup.attributes], []);
     const fomFieldsWithoutGroup = formFields.filter(formField => {
       const formFieldKey = formField.key?.split('.')?.pop();
@@ -350,17 +350,19 @@ export class DynamicFormService {
     }
   }
 
-  private _handleFormErrors(error:ErrorResource, form:FormGroup) {
+  private _handleFormErrors(error:HttpErrorResponse, form:FormGroup) {
+    // TODO: How do we handle other form errors?
     if (error.status == 422) {
-      form.markAllAsTouched();
-      const errors = error.error._embedded.errors;
+      const errors:IFormError[] = error.error._embedded.errors ?
+        error.error._embedded.errors : [error.error];
 
       errors.forEach((err:any) => {
         const key = err._embedded.details.attribute;
         const message = err.message;
+        const formControl = form.get(key)!;
 
-        form.get(key)!.setErrors({[key]: {message}})
-      })
+        formControl.setErrors({[key]: {message}});
+      });
     }
   }
 }
