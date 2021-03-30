@@ -62,13 +62,13 @@ directory will not end up with files owned by root.
 
 ```
 # Start the database. It needs to be running to run migrations and seeders
-docker-compose up -d db
+bin/compose up -d db
 
 # Install frontend dependencies
-docker-compose run frontend npm i
+bin/compose run frontend npm i
 
 # Install backend dependencies, migrate, and seed
-docker-compose run backend setup
+bin/compose run backend setup
 ```
 
 ### 4) Start the stack
@@ -76,13 +76,13 @@ docker-compose run backend setup
 The docker compose file also has the test containers defined. The easiest way to start only the development stack, use
 
 ```
-docker-compose up frontend
+bin/compose up frontend
 ```
 
 To see the backend logs as well, use
 
 ```
-docker-compose up frontend backend
+bin/compose up frontend backend
 ```
 
 This starts only the frontend and backend containers and their dependencies. This excludes the testing containers, which
@@ -125,13 +125,19 @@ If you want to reset the data you can delete the docker volumes via `docker volu
 Start all linked containers and migrate the test database first:
 
 ```
-docker-compose up backend-test 
+bin/compose up backend-test
 ```
 
 Afterwards, you can start the tests in the running `backend-test` container:
 
 ```
-docker-compose run backend-test bundle exec rspec
+bin/compose run backend-test bundle exec rspec
+```
+
+or for running a particular test
+
+```
+bin/compose run backend-test bundle exec rspec path/to/some_spec.rb
 ```
 
 Tests are ran within Selenium containers, on a small local Selenium grid. You can connect to the containers via VNC if
