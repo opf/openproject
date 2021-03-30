@@ -182,7 +182,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
       let(:path) { 'status' }
 
       it_behaves_like 'has basic schema properties' do
-        let(:type) { 'ProjectStatus' }
+        let(:type) { 'String' }
         let(:name) { I18n.t('activerecord.attributes.projects/status.code') }
         let(:required) { false }
         let(:writable) { true }
