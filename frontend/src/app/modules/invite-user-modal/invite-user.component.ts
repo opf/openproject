@@ -53,6 +53,10 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   public message = '';
   public createdNewPrincipal = false;
 
+  public get loading() {
+    return this.locals.projectId && !this.project;
+  }
+
   constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
@@ -66,10 +70,17 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
     super.ngOnInit();
 
     if (this.locals.projectId) {
-      this.apiV3Service.projects.id(this.locals.projectId).get().subscribe(data => {
-        this.project = data;
-      });
-    }
+      this.apiV3Service.projects.id(this.locals.projectId).get().subscribe(
+        data => {
+          this.project = data;
+          this.cdRef.markForCheck();
+        },
+        () => {
+          this.locals.projectId = null;
+          this.cdRef.markForCheck();
+        },
+      );
+    } 
   }
 
   onProjectSelectionSave({ type, project }:{ type:PrincipalType, project:any }) {

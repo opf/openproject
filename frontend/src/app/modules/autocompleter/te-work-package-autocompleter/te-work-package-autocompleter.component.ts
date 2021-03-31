@@ -33,6 +33,7 @@ import {
   Output,
   EventEmitter,
   ChangeDetectorRef,
+  Injector,
 } from '@angular/core';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
@@ -50,11 +51,14 @@ export type TimeEntryWorkPackageAutocompleterMode = 'all'|'recent';
 export class TimeEntryWorkPackageAutocompleterComponent extends WorkPackageAutocompleterComponent implements AfterViewInit {
   @Output() modeSwitch = new EventEmitter<TimeEntryWorkPackageAutocompleterMode>();
 
-  constructor(readonly I18n:I18nService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly currentProject:CurrentProjectService,
-              readonly pathHelper:PathHelperService) {
-    super(I18n, cdRef, currentProject, pathHelper);
+  constructor(
+    readonly injector:Injector,
+    readonly I18n:I18nService,
+    readonly cdRef:ChangeDetectorRef,
+    readonly currentProject:CurrentProjectService,
+    readonly pathHelper:PathHelperService,
+  ) {
+    super(injector);
 
     this.text['all'] = this.I18n.t('js.label_all');
     this.text['recent'] = this.I18n.t('js.label_recent');

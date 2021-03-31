@@ -16,6 +16,7 @@ import { NgSelectModule } from "@ng-select/ng-select";
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
 import { InviteUserButtonComponent } from "core-app/modules/invite-user-modal/button/invite-user-button.component";
 import { OpInviteUserModalAugmentService } from "core-app/modules/invite-user-modal/invite-user-modal-augment.service";
+import { OpInviteUserModalService } from "core-app/modules/invite-user-modal/invite-user-modal.service";
 
 export function initializeServices(injector:Injector) {
   return function () {
@@ -49,6 +50,7 @@ export function initializeServices(injector:Injector) {
     SummaryComponent,
   ],
   providers: [
+    OpInviteUserModalService,
     { provide: APP_INITIALIZER, useFactory: initializeServices, deps: [Injector], multi: true },
   ],
 })
