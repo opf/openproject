@@ -980,7 +980,7 @@ lt:
         next_button: 'Kitas'
         no_results: 'Nerasta jokių projektų'
       type:
-        required: 'Please select the type to be invited'
+        required: 'Prašome pasirinkti kokio tipo dalyvį kviesti'
         user:
           title: 'Vartotojas'
           description: 'Teisės, suteiktos pagal pasirinktame projekte turimą rolę'
