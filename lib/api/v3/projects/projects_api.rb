@@ -74,6 +74,7 @@ module API
 
             mount API::V3::Projects::AvailableAssigneesAPI
             mount API::V3::Projects::AvailableResponsiblesAPI
+            mount API::V3::Projects::CopyAPI
             mount API::V3::WorkPackages::WorkPackagesByProjectAPI
             mount API::V3::Categories::CategoriesByProjectAPI
             mount API::V3::Versions::VersionsByProjectAPI
