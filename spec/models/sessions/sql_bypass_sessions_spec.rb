@@ -28,13 +28,13 @@
 
 require 'spec_helper'
 
-describe UserSession do
+describe ::Sessions::SqlBypass do
   subject { FactoryBot.build(:user_session, user: user) }
 
   shared_examples 'augments the user_id attribute' do
     it do
       subject.save
-      expect(subject.user_id).to eq(user_id)
+      expect(subject.data['user_id']).to eq(user_id)
     end
   end
 
@@ -57,21 +57,21 @@ describe UserSession do
     context 'when config is enabled',
             with_config: { drop_old_sessions_on_logout: true } do
       it 'destroys both sessions' do
-        expect(UserSession.where(user_id: user.id).count).to eq(2)
+        expect(::Sessions::ActiveRecord.for_user(user).count).to eq(2)
         sessions.first.destroy
 
-        expect(UserSession.count).to eq(0)
+        expect(::Sessions::ActiveRecord.count).to eq(0)
       end
     end
 
     context 'when config is disabled',
             with_config: { drop_old_sessions_on_logout: false } do
       it 'destroys only the one session' do
-        expect(UserSession.where(user_id: user.id).count).to eq(2)
+        expect(::Sessions::ActiveRecord.for_user(user).count).to eq(2)
         sessions.first.destroy
 
-        expect(UserSession.count).to eq(1)
-        expect(UserSession.first.session_id).to eq(sessions[1].session_id)
+        expect(::Sessions::ActiveRecord.count).to eq(1)
+        expect(::Sessions::ActiveRecord.first.session_id).to eq(sessions[1].session_id)
       end
     end
   end
