@@ -180,6 +180,7 @@ module API
 
           schema :author,
                  type: 'User',
+                 location: :link,
                  writable: false
 
           schema_with_allowed_link :project,
@@ -202,6 +203,7 @@ module API
 
           schema :parent,
                  type: 'WorkPackage',
+                 location: :link,
                  required: false,
                  writable: true
 
