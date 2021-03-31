@@ -156,6 +156,7 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
         let(:name) { TimeEntry.human_attribute_name('user') }
         let(:required) { true }
         let(:writable) { false }
+        let(:location) { '_links' }
       end
     end
 
@@ -167,6 +168,7 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
         let(:name) { TimeEntry.human_attribute_name('work_package') }
         let(:required) { false }
         let(:writable) { true }
+        let(:location) { '_links' }
       end
 
       context 'if embedding' do
@@ -203,6 +205,7 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
         let(:has_default) { true }
         let(:required) { true }
         let(:writable) { true }
+        let(:location) { '_links' }
       end
 
       context 'if embedding' do
@@ -221,6 +224,7 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
           let(:name) { TimeEntry.human_attribute_name('project') }
           let(:required) { false }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
 
         context 'if embedding' do

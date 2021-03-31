@@ -115,6 +115,7 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clea
           let(:name) { Query.human_attribute_name('filter') }
           let(:required) { true }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
 
         it_behaves_like 'does not link to allowed values'
@@ -144,6 +145,7 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clea
           let(:name) { Query.human_attribute_name('operator') }
           let(:required) { true }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
 
         it_behaves_like 'does not link to allowed values'

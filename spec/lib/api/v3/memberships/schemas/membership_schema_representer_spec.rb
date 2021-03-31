@@ -129,6 +129,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
           let(:name) { Member.human_attribute_name('project') }
           let(:required) { false }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
 
         context 'if embedding' do
@@ -170,6 +171,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
           let(:name) { Version.human_attribute_name('project') }
           let(:required) { false }
           let(:writable) { false }
+          let(:location) { '_links' }
         end
 
         context 'if embedding' do
@@ -189,6 +191,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
           let(:name) { Version.human_attribute_name('principal') }
           let(:required) { true }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
 
         context 'if embedding' do
@@ -237,6 +240,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
           let(:name) { Version.human_attribute_name('principal') }
           let(:required) { true }
           let(:writable) { false }
+          let(:location) { '_links' }
         end
 
         context 'if embedding' do
@@ -255,6 +259,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
         let(:name) { Version.human_attribute_name('role') }
         let(:required) { true }
         let(:writable) { true }
+        let(:location) { '_links' }
       end
 
       context 'if embedding' do
