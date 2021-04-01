@@ -53,10 +53,6 @@ export class TimeEntryWorkPackageAutocompleterComponent extends WorkPackageAutoc
 
   constructor(
     readonly injector:Injector,
-    readonly I18n:I18nService,
-    readonly cdRef:ChangeDetectorRef,
-    readonly currentProject:CurrentProjectService,
-    readonly pathHelper:PathHelperService,
   ) {
     super(injector);
 

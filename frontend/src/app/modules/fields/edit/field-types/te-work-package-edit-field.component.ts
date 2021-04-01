@@ -66,12 +66,7 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
   }
 
   public autocompleterComponent() {
-    // This returns as any because the constructors are incompatible
-    // This is because CreateAutocompleterComponent is both used as a component itself
-    // as well as a base class that other components extend from.
-    //
-    // TODO: Change the constructor of this class to align with the base class, or don't extend from it
-    return TimeEntryWorkPackageAutocompleterComponent as any;
+    return TimeEntryWorkPackageAutocompleterComponent;
   }
 
   // Although the schema states the work packages to not be required,
