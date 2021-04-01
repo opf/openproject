@@ -18,7 +18,7 @@ if [ $# -eq 0 ]; then
   echo "    reset - Resets everything by removing all containers and deleting all volumes. You need to run \`setup\` again afterwards. "
   echo "    start - Starts both backend and frontend in the background. Access via http://localhost:3000/ by default."
   echo "    run   - Starts the frontend in the background and backend in the foreground. Useful for debugging using pry."
-  echo "    rspec - Runs rspec inside the \`backend-test\` container which will be started it it's not running yet."
+  echo "    rspec - Runs rspec inside the \`backend-test\` container which will be started if it's not running yet."
   echo "    *     - Everything else will be passed straight to \`docker-compose\`."
   echo
 
