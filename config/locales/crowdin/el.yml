@@ -66,7 +66,7 @@ el:
       upgrade_to_ee: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
       add_token: "Ανεβάστε ενα token υποστήριξης έκδοσης για επιχειρήσεις"
       replace_token: "Αντικαταστήστε το τρέχον token υποστήριξης"
-      order: "Order Enterprise on-premises Edition"
+      order: "Παραγγείλτε το Enterprise on-premises Edition"
       paste: "Επικολλήστε ένα token υποστήριξης Έκδοσης για Επιχειρήσεις"
       required_for_feature: "Αυτή η λειτουργία διατίθεται μόνο με ενεργό token υποστήριξης Έκδοσης για Επιχειρήσεις."
       enterprise_link: "Για περισσότερες πληροφορίες, πατήστε εδω."
@@ -1224,7 +1224,7 @@ el:
   instructions_after_error: "Μπορείτε να δοκιμάσετε να συνδεθείτε ξανά κάνοντας κλικ στο %{signin}. Αν το σφάλμα παραμένει, ρωτήστε τον διαχειριστή σας για βοήθεια."
   menus:
     quick_add:
-      label: "Open quick add menu"
+      label: "Άνοιγμα μενού γρήγορης προσθήκης"
   my_account:
     access_tokens:
       no_results:
@@ -1934,7 +1934,7 @@ el:
   permission_add_messages: "Δημοσίευση μηνυμάτων"
   permission_add_project: "Δημιουργία έργου"
   permission_manage_user: "Δημιουργία και επεξεργασία χρηστών"
-  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
+  permission_manage_placeholder_user: "Δημιουργήστε, επεξεργαστείτε και διαγράψτε τους placeholder χρήστες"
   permission_add_subprojects: "Δημιουργία υποέργων"
   permission_add_work_package_watchers: "Προσθήκη παρατηρητών"
   permission_assign_versions: "Ανάθεση εκδόσεων"
@@ -2223,7 +2223,7 @@ el:
   setting_per_page_options: "Αντικείμενα ανά σελίδα επιλογών"
   setting_plain_text_mail: "Email απλού κειμένου (χωρίς HTML)"
   setting_protocol: "Πρωτόκολλο"
-  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query: "Προβολή Gantt για portfolio έργου"
   setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_security_badge_displayed: "Εμφάνιση πληροφοριών ασφαλείας"
   setting_registration_footer: "Υποσέλιδο εγγραφής"

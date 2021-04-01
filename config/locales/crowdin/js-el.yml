@@ -961,7 +961,7 @@ el:
       timeline: 'Gantt'
     invite_user_modal:
       back: 'Επιστροφή'
-      invite: 'Invite'
+      invite: 'Πρόσκληση'
       title:
         invite: 'Προσκαλέστε χρήστη'
         invite_to_project: 'Invite %{type} to %{project}'

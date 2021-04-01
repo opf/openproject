@@ -20,8 +20,8 @@ el:
         ifc_models: 'Μοντέλα IFC'
       views:
         viewer: 'Θεατής'
-        split: 'Viewer and table'
+        split: 'Προβολέας και πίνακας'
         split_cards: 'Θεατής και κάρτες'
     revit:
-      revit_add_in: "Revit Add-In"
-      revit_add_in_settings: "Revit Add-In settings"
+      revit_add_in: "Πρόσθετο Revit"
+      revit_add_in_settings: "Ρυθμίσεις πρόσθετου Revit"
