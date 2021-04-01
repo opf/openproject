@@ -32,10 +32,7 @@ import { AttachmentCollectionResource } from 'core-app/modules/hal/resources/att
 import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
 import { TypeResource } from 'core-app/modules/hal/resources/type-resource';
 import { RelationResource } from 'core-app/modules/hal/resources/relation-resource';
-import {
-  OpenProjectFileUploadService,
-  UploadFile
-} from 'core-components/api/op-file-upload/op-file-upload.service';
+import { OpenProjectFileUploadService } from 'core-components/api/op-file-upload/op-file-upload.service';
 import { States } from 'core-components/states.service';
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
 import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';

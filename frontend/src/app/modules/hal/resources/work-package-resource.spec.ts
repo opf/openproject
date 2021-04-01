@@ -153,7 +153,6 @@ describe('WorkPackage', () => {
   describe('when using removeAttachment', () => {
     let file:any;
     let attachment:any;
-    let result:any;
 
     beforeEach(() => {
       file = {};
@@ -214,5 +213,4 @@ describe('WorkPackage', () => {
       });
     });
   });
-
 });
