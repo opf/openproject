@@ -27,55 +27,36 @@
 //++
 
 
-import {Inject, Injectable, Injector} from "@angular/core";
-import {DOCUMENT} from "@angular/common";
-import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-content.modal";
-import {OpModalService} from "core-app/modules/modal/modal.service";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {InviteUserModalComponent} from "./invite-user.component";
-import ClickEvent = JQuery.ClickEvent;
-
-const attributeSelector = '[invite-user-modal-augment]';
+import { Inject, Injectable, Injector, EventEmitter } from "@angular/core";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { OpModalService } from "core-app/modules/modal/modal.service";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { InviteUserModalComponent } from "./invite-user.component";
 
 /**
  * This service triggers user-invite modals to clicks on elements
  * with the attribute [invite-user-modal-augment] set.
  */
-@Injectable({ providedIn: 'root' })
-export class OpInviteUserModalAugmentService {
+@Injectable()
+export class OpInviteUserModalService {
+  public close = new EventEmitter<HalResource | HalResource[]>();
 
-  constructor(@Inject(DOCUMENT) protected documentElement:Document,
-              protected opModalService:OpModalService,
-              protected currentProjectService:CurrentProjectService) {
-  }
+  constructor(
+    protected opModalService:OpModalService,
+    protected currentProjectService:CurrentProjectService,
+  ) { }
 
-  /**
-   * Create initial listeners for Rails-rendered modals
-   */
-  public setupListener() {
-    const matches = this.documentElement.querySelectorAll(attributeSelector);
-    for (let i = 0; i < matches.length; ++i) {
-      const el = matches[i] as HTMLElement;
-      el.addEventListener('click', this.spawnModal.bind(this));
-    }
-  }
-
-  private spawnModal(event:ClickEvent) {
-    event.preventDefault();
-
+  public open(projectId: string|null = this.currentProjectService.id) {
     const modal = this.opModalService.show(
       InviteUserModalComponent,
       'global',
-      { projectId: this.currentProjectService.id }
+      { projectId }
     );
 
     modal
       .closingEvent
-      .subscribe((modal:{data:unknown}) => {
-        // Just reload the page for now if we saved anything
-        if (modal.data) {
-          window.location.reload();
-        }
+      .subscribe((modal: InviteUserModalComponent) => {
+        this.close.emit(modal.data);
       });
   }
 }

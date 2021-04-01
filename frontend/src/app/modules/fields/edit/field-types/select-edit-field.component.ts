@@ -73,7 +73,15 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     const href = this.value ? this.value.$href : null;
     return _.find(this.valueOptions, o => o.$href === href)!;
   }
-  public set selectedOption(val:ValueOption) {
+  public set selectedOption(val:ValueOption|HalResource) {
+    // The InviteUserModal gives us a resource that is not in availableOptions yet,
+    // but we also don't want to wait for a refresh of the options every time we want to
+    // select an option, so if we get a HalResource we trust it exists
+    if (val instanceof HalResource) {
+      this.value = val;
+      return;
+    }
+
     const option = _.find(this.availableOptions, o => o.$href === val.$href);
 
     // Special case 'null' value, which angular
@@ -232,9 +240,9 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     // Nothing to do
   }
 
-  public onChange(value:HalResource|undefined) {
-    if (value !== undefined) {
-      this.selectedOption = { name: value.name, $href: value.$href };
+  public onChange(value:HalResource|undefined|null) {
+    if (value) {
+      this.selectedOption = value;
       this.handler.handleUserSubmit();
       return;
     }

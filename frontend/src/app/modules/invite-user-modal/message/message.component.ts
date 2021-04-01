@@ -5,11 +5,13 @@ import {
   EventEmitter,
   Output,
   ElementRef,
+  ViewChild,
 } from '@angular/core';
 import {
   FormControl,
   FormGroup,
 } from '@angular/forms';
+import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {ProjectResource} from 'core-app/modules/hal/resources/project-resource';
@@ -29,6 +31,9 @@ export class MessageComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
   @Output() back = new EventEmitter<void>();
   @Output() save = new EventEmitter<{message:string}>();
+
+  @ViewChild('input') input: ElementRef;
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
 
   public text = {
     title: () => this.I18n.t('js.invite_user_modal.title.invite_principal_to_project', {
@@ -56,6 +61,11 @@ export class MessageComponent implements OnInit {
 
   ngOnInit() {
     this.messageControl?.setValue(this.message);
+  }
+
+  ngAfterViewInit() {
+    this.input.nativeElement.focus();
+    this.autosize.resizeToFitContent(true);
   }
 
   onSubmit($e:Event) {

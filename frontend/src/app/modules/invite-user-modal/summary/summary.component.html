@@ -19,9 +19,9 @@
     </div>
     <op-form-field
       [label]="text.messageLabel"
-      *ngIf="type !== PrincipalType.Placeholder"
+      *ngIf="type !== PrincipalType.Placeholder && message"
     >
-      <p slot="input">{{ message }}</p>
+      <p slot="input" class="op-ium-summary-message">{{ message }}</p>
     </op-form-field>
   </div>
 

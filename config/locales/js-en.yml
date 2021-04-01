@@ -1094,7 +1094,7 @@ en:
             <a
               href="%{href}"
               target="_blank">
-              learn more about roles and permissions.
+              Learn more about roles and permissions.
             </a>'
         required: 'Please select a role'
         next_button: 'Next'
@@ -1102,10 +1102,10 @@ en:
       message:
         label: 'Invitation message'
         description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
-        next_button: 'Review Invitation'
+        next_button: 'Review invitation'
 
       summary:
-        next_button: 'Send Invitation'
+        next_button: 'Send invitation'
 
       success:
         title: '%{principal} was invited!'

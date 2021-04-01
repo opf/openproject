@@ -40,9 +40,6 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   public Steps = Steps;
   public step = Steps.ProjectSelection;
 
-  /* Close on escape? */
-  public closeOnEscape = true;
-
   /* Close on outside click */
   public closeOnOutsideClick = true;
 
@@ -54,6 +51,11 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   public principal:HalResource|null = null;
   public role:RoleResource|null = null;
   public message = '';
+  public createdNewPrincipal = false;
+
+  public get loading() {
+    return this.locals.projectId && !this.project;
+  }
 
   constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
@@ -68,10 +70,17 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
     super.ngOnInit();
 
     if (this.locals.projectId) {
-      this.apiV3Service.projects.id(this.locals.projectId).get().subscribe(data => {
-        this.project = data;
-      });
-    }
+      this.apiV3Service.projects.id(this.locals.projectId).get().subscribe(
+        data => {
+          this.project = data;
+          this.cdRef.markForCheck();
+        },
+        () => {
+          this.locals.projectId = null;
+          this.cdRef.markForCheck();
+        },
+      );
+    } 
   }
 
   onProjectSelectionSave({ type, project }:{ type:PrincipalType, project:any }) {
@@ -105,6 +114,9 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   }
 
   onSuccessfulSubmission($event:{ principal:HalResource }) {
+    if (this.principal !== $event.principal && this.type === PrincipalType.User) {
+      this.createdNewPrincipal = true;
+    }
     this.principal = $event.principal;
     this.goTo(Steps.Success);
   }
