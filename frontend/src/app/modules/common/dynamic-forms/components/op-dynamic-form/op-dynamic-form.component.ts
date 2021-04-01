@@ -2,13 +2,15 @@ import {
   Component,
   Input,
   OnChanges,
-  ViewChild
+  ViewChild,
 } from "@angular/core";
 import { FormlyForm } from "@ngx-formly/core";
 import { Observable } from "rxjs";
 import { DynamicFormService } from "../../services/dynamic-form.service";
 import { IDynamicForm, IFormModel } from "../../typings";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { finalize } from "rxjs/operators";
 
 @Component({
   selector: "op-dynamic-form",
@@ -17,36 +19,44 @@ import { I18nService } from "core-app/modules/common/i18n/i18n.service";
   providers: [DynamicFormService]
 })
 export class OpDynamicFormComponent implements OnChanges {
-  @Input() formId: string;
-  @Input() projectId: string;
-  @Input() typeHref: string;
-  // TODO: Implement the following @Inputs (resourceType + )
-  /* @Input() formHref: string;
-  @Input() config: string;
-  @Input() opForm: string;*/
+  @Input() resourceId:string;
+  @Input() resourcePath:string;
+
+  resourceEndpoint:string;
   dynamicForm$: Observable<IDynamicForm>;
   text = {
-    save: this.I18n.t('js.button_save'),
+    save: this._I18n.t('js.button_save'),
   };
+  inFlight:boolean;
 
   @ViewChild(FormlyForm)
   set formlyForm(formlyForm: FormlyForm) {
-    this.dynamicFormService.registerForm(formlyForm);
+    this._dynamicFormService.registerForm(formlyForm);
   }
 
   constructor(
-    readonly dynamicFormService: DynamicFormService,
-    readonly I18n:I18nService,
+    private _dynamicFormService: DynamicFormService,
+    private _I18n:I18nService,
+    private _pathHelperService:PathHelperService,
   ) {}
 
   ngOnChanges() {
-    this.dynamicForm$ = this.dynamicFormService
-      .getForm$(this.typeHref, this.formId, this.projectId)
+    if (!this.resourcePath) {
+      return;
+    }
+
+    this.resourceEndpoint = `${this._pathHelperService.api.v3.apiV3Base}${this.resourcePath}`;
+    const url = `${this.resourceEndpoint}/${this.resourceId ? this.resourceId + '/' : ''}form`;
+    this.dynamicForm$ = this._dynamicFormService.getForm$(url);
   }
 
-  saveForm(formModel:IFormModel) {
-    this.dynamicFormService
-          .submitForm$(formModel)
-          .subscribe();
+  submitForm(formModel:IFormModel) {
+    this.inFlight = true;
+    this._dynamicFormService
+      .submitForm$(formModel, this.resourceEndpoint, this.resourceId)
+      .pipe(
+        finalize(() => this.inFlight = false)
+      )
+      .subscribe();
   }
 }
