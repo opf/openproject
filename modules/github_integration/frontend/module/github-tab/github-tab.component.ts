@@ -39,14 +39,13 @@ import { TabComponent } from 'core-app/components/wp-tabs/components/wp-tab-wrap
 export class GitHubTabComponent implements OnInit, TabComponent {
   @Input() public workPackage:WorkPackageResource;
 
-  public pullRequests = []; // TODO: typespec
+  public pullRequests = [];
 
   constructor(readonly PathHelper:PathHelperService,
               readonly I18n:I18nService) {
   }
 
   ngOnInit() {
-    // TODO fetch real PRs
     this.pullRequests = [];
   }
 }

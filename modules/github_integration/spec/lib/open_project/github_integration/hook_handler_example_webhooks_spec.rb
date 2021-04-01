@@ -230,23 +230,6 @@ describe OpenProject::GithubIntegration::HookHandler do
             'full_name' => 'full/name',
             'html_url' => 'http://pull.request'
           }
-        },
-        'comment' => {
-          'body' => "Fixes http://example.net/wp/#{wp1.id} and " +
-                    "https://example.net/work_packages/#{wp2.id} and " +
-                    "http://example.net/subdir/wp/#{wp3.id} and " +
-                    "https://example.net/subdir/work_packages/#{wp4.id}.",
-          'html_url' => 'http://comment.url',
-          'user' => {
-            'login' => 'github_login',
-            'html_url' => 'http://user.name'
-          }
-        },
-        'sender' => {
-        },
-        'repository' => {
-          'full_name' => 'full/name',
-          'html_url' => 'http://pull.request'
         }
       )
 
