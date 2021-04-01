@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../support/pages/work_package_github_tab'
 
-describe 'Open the GitHub tab', js: true do
+describe 'Open the GitHub tab', type: :feature, js: true do
   let(:user) do
     FactoryBot.create(:user,
                       member_in_project: project,
@@ -70,8 +70,8 @@ describe 'Open the GitHub tab', js: true do
       expect(page).to have_content('There are no Pull Requests')
       expect(page).to have_content("Link an existing PR by using the code OP##{work_package.id}")
 
-      github_tab.git_actions_menu_button.click()
-      github_tab.git_actions_copy_button.click()
+      github_tab.git_actions_menu_button.click
+      github_tab.git_actions_copy_button.click
       expect(page).to have_text('Copied!')
       expect_clipboard_content("#{work_package.type.name.downcase}/#{work_package.id}-workpackage-no-#{work_package.id}")
     end
@@ -100,13 +100,13 @@ describe 'Open the GitHub tab', js: true do
       end
     end
   end
-  
+
   describe 'work package full view' do
     let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
-    
+
     it_behaves_like 'a github tab'
   end
-  
+
   describe 'work package split view' do
     let(:work_package_page) { Pages::SplitWorkPackage.new(work_package) }
 

@@ -41,7 +41,7 @@ module OpenProject::GithubIntegration
       Rails.logger.debug "Received github webhook #{event_type} (#{event_delivery})"
 
       return 404 unless KNOWN_EVENTS.include?(event_type) && event_delivery
-      return 403 unless user.present?
+      return 403 if user.blank?
 
       payload = params[:payload]
                 .permit!
@@ -50,13 +50,9 @@ module OpenProject::GithubIntegration
                        'github_event' => event_type,
                        'github_delivery' => event_delivery)
 
-      OpenProject::Notifications.send(event_name(event_type), payload)
+      OpenProject::Notifications.send("github.#{event_type}", payload)
 
       200
-    end
-
-    private def event_name(github_event_name)
-      "github.#{github_event_name}"
     end
   end
 end

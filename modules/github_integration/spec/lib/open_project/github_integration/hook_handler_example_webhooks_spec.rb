@@ -26,45 +26,53 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../spec_helper', __dir__)
+# rubocop:disable RSpec/ExampleLength
+require File.expand_path('../../../spec_helper', __dir__)
 
-describe OpenProject::GithubIntegration do
+describe OpenProject::GithubIntegration::HookHandler do
   before do
     allow(Setting).to receive(:host_name).and_return('example.net')
   end
 
-  describe 'with sane set-up' do
-    let(:user) { FactoryBot.create(:user) }
-    let(:role) do
-      FactoryBot.create(:role,
-                        permissions: %i[view_work_packages add_work_package_notes])
+  let(:user) { FactoryBot.create(:user) }
+  let(:role) do
+    FactoryBot.create(:role,
+                      permissions: %i[view_work_packages add_work_package_notes])
+  end
+  let(:statuses) { (1..5).map { |_i| FactoryBot.create(:status) } }
+  let(:priority) { FactoryBot.create :priority, is_default: true }
+  let(:status) { statuses[0] }
+  let(:project) do
+    FactoryBot.create(:project).tap do |p|
+      p.add_member(user, role).save
     end
-    let(:statuses) { (1..5).map { |_i| FactoryBot.create(:status) } }
-    let(:priority) { FactoryBot.create :priority, is_default: true }
-    let(:status) { statuses[0] }
-    let(:project) do
-      FactoryBot.create(:project).tap do |p|
-        p.add_member(user, role).save
-      end
-    end
-    let(:project_without_permission) { FactoryBot.create(:project) }
-    let(:wp1) do
-      FactoryBot.create :work_package, project: project
-    end
-    let(:wp2) do
-      FactoryBot.create :work_package, project: project
-    end
-    let(:wp3) do
-      FactoryBot.create :work_package,
-                        project: project_without_permission
-    end
-    let(:wp4) do
-      FactoryBot.create :work_package,
-                        project: project_without_permission
-    end
-    let(:wps) { [wp1, wp2, wp3, wp4] }
+  end
+  let(:project_without_permission) { FactoryBot.create(:project) }
+  let(:wp1) do
+    FactoryBot.create :work_package, project: project
+  end
+  let(:wp2) do
+    FactoryBot.create :work_package, project: project
+  end
+  let(:wp3) do
+    FactoryBot.create :work_package,
+                      project: project_without_permission
+  end
+  let(:wp4) do
+    FactoryBot.create :work_package,
+                      project: project_without_permission
+  end
+  let(:wps) { [wp1, wp2, wp3, wp4] }
 
-    it "should handle the pull_request creation payload" do
+  context 'when receiving a pull request webhook' do
+    let(:environment) do
+      {
+        'HTTP_X_GITHUB_EVENT' => 'pull_request',
+        'HTTP_X_GITHUB_DELIVERY' => 'test delivery'
+      }
+    end
+
+    it "handles the pull_request creation payload" do
       params = ActionController::Parameters.new(
         payload: {
           'action' => 'opened',
@@ -91,15 +99,10 @@ describe OpenProject::GithubIntegration do
         }
       )
 
-      environment = {
-        'HTTP_X_GITHUB_EVENT' => 'pull_request',
-        'HTTP_X_GITHUB_DELIVERY' => 'test delivery'
-      }
-
       journal_count = wps.map { |wp| wp.journals.count }
-      OpenProject::GithubIntegration::HookHandler.new.process('github', OpenStruct.new(env: environment), params, user)
+      described_class.new.process('github', OpenStruct.new(env: environment), params, user)
 
-      [wp1, wp2, wp3, wp4].map { |x| x.reload }
+      [wp1, wp2, wp3, wp4].map(&:reload)
 
       expect(wp1.journals.count).to equal(journal_count[0] + 1)
       expect(wp2.journals.count).to equal(journal_count[1] + 1)
@@ -109,7 +112,7 @@ describe OpenProject::GithubIntegration do
       expect(wp1.journals.last.notes).to include('PR Opened')
     end
 
-    it "should handle the pull_request close payload" do
+    it "handles the pull_request close payload" do
       params = ActionController::Parameters.new(
         payload: {
           'action' => 'closed',
@@ -136,15 +139,10 @@ describe OpenProject::GithubIntegration do
         }
       )
 
-      environment = {
-        'HTTP_X_GITHUB_EVENT' => 'pull_request',
-        'HTTP_X_GITHUB_DELIVERY' => 'test delivery'
-      }
-
       journal_count = wps.map { |wp| wp.journals.count }
-      OpenProject::GithubIntegration::HookHandler.new.process('github', OpenStruct.new(env: environment), params, user)
+      described_class.new.process('github', OpenStruct.new(env: environment), params, user)
 
-      [wp1, wp2, wp3, wp4].map { |x| x.reload }
+      [wp1, wp2, wp3, wp4].map(&:reload)
 
       expect(wp1.journals.count).to eq(journal_count[0] + 1)
       expect(wp2.journals.count).to eq(journal_count[1] + 1)
@@ -154,7 +152,7 @@ describe OpenProject::GithubIntegration do
       expect(wp1.journals.last.notes).to include('PR Closed')
     end
 
-    it "should handle the pull_request merged payload" do
+    it "handles the pull_request merged payload" do
       params = ActionController::Parameters.new(
         payload: {
           'action' => 'closed',
@@ -182,15 +180,10 @@ describe OpenProject::GithubIntegration do
         }
       )
 
-      environment = {
-        'HTTP_X_GITHUB_EVENT' => 'pull_request',
-        'HTTP_X_GITHUB_DELIVERY' => 'test delivery'
-      }
-
       journal_count = wps.map { |wp| wp.journals.count }
-      OpenProject::GithubIntegration::HookHandler.new.process('github', OpenStruct.new(env: environment), params, user)
+      described_class.new.process('github', OpenStruct.new(env: environment), params, user)
 
-      [wp1, wp2, wp3, wp4].map { |x| x.reload }
+      [wp1, wp2, wp3, wp4].map(&:reload)
 
       expect(wp1.journals.count).to equal(journal_count[0] + 1)
       expect(wp2.journals.count).to equal(journal_count[1] + 1)
@@ -199,8 +192,17 @@ describe OpenProject::GithubIntegration do
 
       expect(wp1.journals.last.notes).to include('PR Merged')
     end
+  end
 
-    it "should handle the pull_request comment creation payload" do
+  context 'when receiving an issue_comment webhook' do
+    let(:environment) do
+      {
+        'HTTP_X_GITHUB_EVENT' => 'issue_comment',
+        'HTTP_X_GITHUB_DELIVERY' => 'test delivery'
+      }
+    end
+
+    it "handles the pull_request comment creation payload" do
       params = ActionController::Parameters.new(
         payload: {
           'action' => 'created',
@@ -248,15 +250,10 @@ describe OpenProject::GithubIntegration do
         }
       )
 
-      environment = {
-        'HTTP_X_GITHUB_EVENT' => 'issue_comment',
-        'HTTP_X_GITHUB_DELIVERY' => 'test delivery'
-      }
-
       journal_count = wps.map { |wp| wp.journals.count }
-      OpenProject::GithubIntegration::HookHandler.new.process('github', OpenStruct.new(env: environment), params, user)
+      described_class.new.process('github', OpenStruct.new(env: environment), params, user)
 
-      [wp1, wp2, wp3, wp4].map { |x| x.reload }
+      [wp1, wp2, wp3, wp4].map(&:reload)
 
       expect(wp1.journals.count).to equal(journal_count[0] + 1)
       expect(wp2.journals.count).to equal(journal_count[1] + 1)
@@ -267,3 +264,4 @@ describe OpenProject::GithubIntegration do
     end
   end
 end
+# rubocop:enable RSpec/ExampleLength

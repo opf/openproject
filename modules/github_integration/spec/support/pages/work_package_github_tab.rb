@@ -34,6 +34,7 @@ module Pages
     attr_reader :work_package_id
 
     def initialize(work_package_id)
+      super()
       @work_package_id = work_package_id
     end
 
