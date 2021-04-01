@@ -1,7 +1,7 @@
 <div class="op-form--container"
      *ngIf="(dynamicForm$ | async) as dynamicForm">
   <form [formGroup]="dynamicForm?.form"
-        (submit)="saveForm(dynamicForm?.form.value)">
+        (submit)="submitForm(dynamicForm?.form.value)">
     <formly-form [form]="dynamicForm?.form"
                  [model]="dynamicForm?.model"
                  [fields]="dynamicForm?.formlyFields">
@@ -17,7 +17,8 @@
       </ng-template>
     </formly-form>
 
-    <button type="submit">
+    <button type="submit"
+            [disabled]="inFlight">
       {{text.save}}
     </button>
   </form>

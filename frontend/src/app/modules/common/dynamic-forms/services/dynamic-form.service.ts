@@ -38,10 +38,7 @@ export class DynamicFormService {
   }
 
   // TODO: Implement passing the params and lockVersion
-  getForm$(typeHref:string, formId:string, projectId:string): Observable<IDynamicForm>{
-    // TODO: Replace with dynamic url
-    let url = '/api/v3/projects/form';
-
+  getForm$(url:string): Observable<IDynamicForm>{
     return this.httpClient
       .post<IOPForm>(
         url,
@@ -61,13 +58,13 @@ export class DynamicFormService {
       )
   }
 
-  submitForm$(formModel:IFormModel) {
-    // TODO: Replace with dynamic url
-    const url = '/api/v3/projects';
+  submitForm$(formModel:IFormModel, resourceEndpoint:string, resourceId?:string) {
     const modelToSubmit = this._formatModelToSubmit(formModel);
+    const httpMethod = resourceId ? 'patch' : 'post';
+    const url = resourceId ? `${resourceEndpoint}/${resourceId}` : resourceEndpoint;
 
     return this.httpClient
-      .post(
+      [httpMethod](
         url,
         modelToSubmit,
         {
