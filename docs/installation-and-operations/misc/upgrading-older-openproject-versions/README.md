@@ -34,16 +34,15 @@ gunzip /tmp/openproject/openproject-mysql.dump.gz
 
 ### Run the docker migration script
 
-With docker and mysql installed, use the following command to start the upgrade process on your MySQL dump.
+With docker installed, use the following command to start the upgrade process on your MySQL dump.
 
 ```bash
-bash migrate-from-pre-8.sh <docker host IP> <Path to MySQL dump file>
+bash migrate-from-pre-8.sh <docker host IP> <Path to MySQL dump file> [sql|custom]
 ```
 
-You will need to find the docker host IP to connect to the temporary MySQL database the docker container will start and connect to a host port. It will likely be `host.docker.internal` but you need to double-check with your docker version and OS.
+You will need to find the docker host IP to connect to the temporary MySQL database the docker container will start and connect to a host port. It will likely be `host.docker.internal` but you need to double-check with your docker version and OS. You can use `hostname -I` to confirm the address.
 
-The script will output a `<database name>-migrated.dump` pg_dump file which has been migrated and upgraded to the current stable version.
-
+The script will output a `<database name>-migrated.dump` pg_dump file which has been migrated and upgraded to the current stable version. You can also pass `sql` as a parameter after the input dump file to have the script output a `.sql` file instead of a `.dump` file.
 
 
 ## Restoring the migrated database
