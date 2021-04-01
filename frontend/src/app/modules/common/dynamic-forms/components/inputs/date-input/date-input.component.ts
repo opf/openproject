@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FieldType } from "@ngx-formly/core";
 
 @Component({
-  selector: 'app-date-input',
+  selector: 'op-date-input',
   templateUrl: './date-input.component.html',
   styleUrls: ['./date-input.component.scss'],
 })
