@@ -53,6 +53,9 @@ export class DynamicFormService {
       )
       .pipe(
         map((formConfig => {
+
+          // formConfig._embedded.payload.statusExplanation = true;
+          formConfig._embedded.schema.statusExplanation.required = true;
           const formlyForm = this._getDynamicForm(formConfig);
 
           this._form.next(formlyForm);
@@ -341,6 +344,19 @@ export class DynamicFormService {
     if (error.status == 422) {
       const errors:IFormError[] = error.error._embedded.errors ?
         error.error._embedded.errors : [error.error];
+
+      const testError = {
+        "_type": "Error",
+        "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+        "message": "statusExplanation can't be blank.",
+        "_embedded": {
+          "details": {
+            "attribute": "statusExplanation"
+          }
+        }
+      };
+
+      errors.push(testError);
 
       errors.forEach((err:any) => {
         const key = err._embedded.details.attribute;

@@ -12,7 +12,6 @@ import { OpFieldWrapperComponent } from "./components/op-field-wrapper/op-field-
 import { OpenProjectHeaderInterceptor } from "core-app/modules/hal/http/openproject-header-interceptor";
 import { TextInputComponent } from './components/inputs/text-input/text-input.component';
 import { IntegerInputComponent } from './components/inputs/integer-input/integer-input.component';
-import { DurationInputComponent } from './components/inputs/duration-input/duration-input.component';
 import { SelectInputComponent } from './components/inputs/select-input/select-input.component';
 import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
 import { BooleanInputComponent } from './components/inputs/boolean-input/boolean-input.component';
@@ -55,7 +54,6 @@ import { OpenprojectCommonModule } from "core-app/modules/common/openproject-com
     // Input Types
     TextInputComponent,
     IntegerInputComponent,
-    DurationInputComponent,
     SelectInputComponent,
     BooleanInputComponent,
     DateInputComponent,
@@ -68,10 +66,7 @@ import { OpenprojectCommonModule } from "core-app/modules/common/openproject-com
     { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
   ],
   exports: [
-    OpSelectComponent,
-    OpFieldGroupWrapperComponent,
     OpDynamicFormComponent,
-    OpFieldWrapperComponent,
   ]
 })
 export class DynamicFormsModule {}
