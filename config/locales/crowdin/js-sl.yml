@@ -1011,13 +1011,13 @@ sl:
           group: 'Izberite skupino.'
       role:
         label: 'Vloge v %{project}'
-        description: 'To je vloga, ki jo bo %{principal} prejel, ko se bo pridružil projektu. Vloga določa dejanja, katere lahko izvršijo in do katerih informacij lahko dostopa. <a href="%{href}" target="_blank"> preberite si več o vlogah in dovoljenjih. </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Izberite vlogo'
         next_button: 'Naprej'
       message:
         label: 'Sporočilo s povabilom'
         description: 'Poslali bomo e-mail %{principal}, kateremu tukaj lahko dodate osebno sporočilo. Razlaga za povabilo bi lahko bila uporabna, ali pa vsaj nekaj informacij o projektu za lažji začetek.'
-        next_button: 'Preglej povabilo'
+        next_button: 'Review invitation'
       summary:
         next_button: 'Pošlji povabilo'
       success:

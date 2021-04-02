@@ -1011,13 +1011,13 @@ ru:
           group: 'Пожалуйста, выберите группу'
       role:
         label: 'Роль в %{project}'
-        description: 'Это роль получит %{principal} после присоединения к вашему проекту. Роль определяет, какие действия ему разрешено принимать и какую информацию он может видеть. <a href="%{href}" target="_blank"> подробнее о ролях и разрешениях. </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Пожалуйста, выберите роль'
         next_button: 'Следующие'
       message:
         label: 'Сообщение о приглашении'
         description: 'Мы отправим письмо на адрес %{principal}, в которое вы можете добавить личное сообщение здесь. Может быть полезным объяснить причину приглашения или, возможно, добавить немного информации о проекте, чтобы помочь им начать работу.'
-        next_button: 'Просмотреть приглашение'
+        next_button: 'Review invitation'
       summary:
         next_button: 'Отправить приглашение'
       success:

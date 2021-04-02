@@ -1012,15 +1012,15 @@ lt:
           group: 'Prašome pasirinkti grupę'
       role:
         label: 'Rolė projekte %{project}'
-        description: 'Tai yra rolė, kurią %{principal} gaus, kai prisijungs prie projekto. Ši rolė nurodo, kokius veiksmus galės atlikti ir kokią informaciją matyti. <a href="%{href}" target="_blank"> sužinokite daugiau apie roles ir teises. </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Prašome pasirinkti rolę'
         next_button: 'Kitas'
       message:
         label: 'Kvietimo pranešimas'
         description: 'Mes siųsime el. pašto laišką %{principal}, į kurį jūs galite pridėti asmeninį pranešimą. Paaiškinimas, kodėl šis pranešimas buvo atsiųstas galėtų būti naudingas gavėjui. Arba šiek tiek informacijos apie projektą galbūt galėtų padėti pradėti darbą su projektu.'
-        next_button: 'Peržiūrėti kvietimą'
+        next_button: 'Review invitation'
       summary:
-        next_button: 'Siųsti kvietimą'
+        next_button: 'Siųsti pakvietimą'
       success:
         title: '%{principal} buvo pakviestas!'
         description:

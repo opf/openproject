@@ -656,7 +656,7 @@ de:
         wiki_page:
           attributes:
             slug:
-              undeducible: "cannot be deduced from the title '%{title}'."
+              undeducible: "Kann nicht aus dem Titel abgeleitet werden '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnung der Zeiterfassungseinträge."
           attributes:
@@ -1224,7 +1224,7 @@ de:
   instructions_after_error: "Sie können versuchen sich erneut anzumelden indem Sie auf %{signin} klicken. Wenn der Fehler weiterhin auftritt, fragen Sie Ihren Administrator um Hilfe."
   menus:
     quick_add:
-      label: "Open quick add menu"
+      label: "Schnellmenue öffnen"
   my_account:
     access_tokens:
       no_results:
@@ -1935,7 +1935,7 @@ de:
   permission_add_messages: "Forenbeiträge hinzufügen"
   permission_add_project: "Projekt erstellen"
   permission_manage_user: "Benutzer erstellen und bearbeiten"
-  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
+  permission_manage_placeholder_user: "Platzhalter Benutzer erstellen, bearbeiten und löschen"
   permission_add_subprojects: "Unterprojekte erstellen"
   permission_add_work_package_watchers: "Beobachter hinzufügen"
   permission_assign_versions: "Versionen zuweisen"
@@ -2663,7 +2663,7 @@ de:
       invalid_resource: "Für die Eigenschaft '%{property}' wird ein Link wie '%{expected}' erwartet. Gesandt wurde '%{actual}'."
       invalid_signal:
         embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
-        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
+        select: "Die angeforderte Auswahl von %{invalid} wird nicht unterstützt. Unterstützte Auswahlen sind %{supported}."
       invalid_user_status_transition: "Für diesen Nutzeraccount ist die angeforderte Statusänderung nicht zulässig."
       missing_content_type: "nicht angegeben"
       missing_request_body: "Die Abfrage enthielt keinen Inhalt."

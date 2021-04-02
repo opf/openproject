@@ -1008,15 +1008,15 @@ tr:
           group: 'Lütfen bir grup seçin'
       role:
         label: 'rol %{project}'
-        description: 'Bu,%{principal} projenize katıldıklarında alacağı roldür. Rol, hangi eylemleri gerçekleştirmelerine ve hangi bilgileri görmelerine izin verileceğini tanımlar. <a href="%{href}" target="_blank"> roller ve izinler hakkında daha fazla bilgi edinin. </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Lütfen bir rol seçin.'
         next_button: 'Sonraki'
       message:
         label: 'Davet Mesajı'
         description: '%{principal} adresine burada kişisel bir mesaj ekleyebileceğiniz bir e-posta göndereceğiz. Davet için bir açıklama yararlı olabilir ya da başlamalarına yardımcı olmak için projeyle ilgili biraz bilgi olabilir.'
-        next_button: 'Daveti Yeniden Gönder'
+        next_button: 'Review invitation'
       summary:
-        next_button: 'Davetiye gönder'
+        next_button: 'Davet gönder'
       success:
         title: '%{principal} davet edildi!'
         description:

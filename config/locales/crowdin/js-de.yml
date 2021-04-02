@@ -989,11 +989,11 @@ de:
           description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
       principal:
         label:
-          name_or_email: 'Name or email address'
+          name_or_email: 'Name oder E-Mail-Adresse'
           name: 'Name'
         already_member_message: 'Already a member of %{project}'
-        no_results_user: 'No users were found'
-        invite_user: 'Invite:'
+        no_results_user: 'Keine Benutzer gefunden'
+        invite_user: 'Einladen:'
         change_user_selection: 'Change e-mail-address or select an existing user'
         no_results_placeholder: 'Keine Platzhalter-Benutzer gefunden.'
         change_placeholder_selection: 'Change name or select an existing placeholder'
@@ -1002,18 +1002,18 @@ de:
         change_group_selection: 'Change name or select an existing group'
         next_button: 'Weiter'
         required:
-          user: 'Please select a user'
-          placeholder: 'Please select a placeholder'
+          user: 'Bitte einen Benutzer auswählen'
+          placeholder: 'Bitte einen Platzhalter auswählen'
           group: 'Bitte wählen Sie eine Gruppe'
       role:
         label: 'Rolle in %{project}'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> learn more about roles and permissions. </a>'
-        required: 'Please select a role'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
+        required: 'Bitte eine Rolle auswählen'
         next_button: 'Weiter'
       message:
         label: 'Einladungsnachricht'
         description: 'Wir werden eine E-Mail an %{principal} senden, zu der Sie hier eine persönliche Nachricht hinzufügen können. Eine Erklärung für die Einladung könnte nützlich sein oder vielleicht ein paar Informationen über das Projekt, um den Start zu erleichtern.'
-        next_button: 'Einladung überprüfen'
+        next_button: 'Review invitation'
       summary:
         next_button: 'Einladung senden'
       success:

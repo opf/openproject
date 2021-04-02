@@ -1009,13 +1009,13 @@ ja:
           group: 'グループを選択してください'
       role:
         label: '%{project} でのロール'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> learn more about roles and permissions. </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'ロールを選択してください'
         next_button: '次へ'
       message:
         label: '招待メッセージ'
         description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
-        next_button: '招待状を確認'
+        next_button: 'Review invitation'
       summary:
         next_button: '招待状を送信'
       success:

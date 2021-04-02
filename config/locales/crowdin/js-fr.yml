@@ -1008,13 +1008,13 @@ fr:
           group: 'Veuillez sélectionner un groupe'
       role:
         label: 'Rôle dans %{project}'
-        description: "C'est le rôle que %{principal} recevra quand il rejoindra votre projet. Le rôle définit les actions qu'ils sont autorisés à entreprendre et les informations qu'ils sont autorisés à voir. <a href=\"%{href}\" target=\"_blank\"> en savoir plus sur les rôles et les permissions. </a>\n"
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Veuillez sélectionner un rôle'
         next_button: 'Suivante'
       message:
         label: 'Message d''invitation'
         description: 'Nous enverrons un e-mail à %{principal}, auquel vous pourrez ajouter un message personnel ici. Une explication à l''invitation pourrait être utile, ou peut-être un peu d''informations concernant le projet pour les aider à démarrer.'
-        next_button: 'Revoir l''invitation'
+        next_button: 'Review invitation'
       summary:
         next_button: 'Envoyer une invitation'
       success:

@@ -362,7 +362,7 @@ el:
     label_next: "Επόμενο"
     label_no_color: "Χωρίς χρώμα"
     label_no_data: "Δεν υπάρχουν δεδομένα για εμφάνιση"
-    label_no_due_date: "ημερομηνία μη ολοκλήρωσης"
+    label_no_due_date: "καμία ημερομηνία λήξης"
     label_no_start_date: "δεν υπάρχει ημερομηνία έναρξης"
     label_no_value: "Καμία τιμή"
     label_none: "κανένα"
@@ -964,8 +964,8 @@ el:
       invite: 'Πρόσκληση'
       title:
         invite: 'Προσκαλέστε χρήστη'
-        invite_to_project: 'Invite %{type} to %{project}'
-        User: 'user'
+        invite_to_project: 'Προσκαλέστε %{type} στο %{project}'
+        User: 'χρήστης'
         Group: 'ομάδα'
         PlaceholderUser: 'placeholder χρήστης'
         invite_principal_to_project: 'Πρόσκληση %{principal} στο %{project}'
@@ -975,7 +975,7 @@ el:
         next_button: 'Επόμενο'
         no_results: 'Δεν βρέθηκαν έργα'
       type:
-        required: 'Please select the type to be invited'
+        required: 'Παρακαλώ επιλέξτε τον τύπο που θα προσκληθεί'
         user:
           title: 'Χρήστης'
           description: 'Permissions based on the assigned role in the selected project'
@@ -984,7 +984,7 @@ el:
           description: 'Permissions based on the assigned role in the selected project'
         placeholder:
           title: 'Placeholder χρήστης'
-          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
+          title_no_ee: 'Placeholder χρήστης (χαρακτηριστικό μόνο της Έκδοσης Επιχειρήσεων)'
           description: 'Has no access to the project and no emails are sent out.'
           description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
       principal:
@@ -1007,17 +1007,17 @@ el:
           group: 'Παρακαλούμε επιλέξτε μια ομάδα'
       role:
         label: 'Ρόλος στο %{project}'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> learn more about roles and permissions. </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Παρακαλούμε επιλέξτε ένα ρόλο'
         next_button: 'Επόμενο'
       message:
         label: 'Μήνυμα πρόσκλησης'
         description: 'Θα στείλουμε ένα email στο %{principal}, στο οποίο μπορείτε να προσθέσετε ένα προσωπικό μήνυμα εδώ. Μια εξήγηση για την πρόσκληση θα ήταν χρήσιμη, ή ίσως κάποια πληροφορία σχετικά με το έργο για να τους βοηθήσει να ξεκινήσουν.'
-        next_button: 'Επανεξέταση Πρόσκλησης'
+        next_button: 'Review invitation'
       summary:
         next_button: 'Αποστολή πρόσκλησης'
       success:
-        title: '%{principal} was invited!'
+        title: '%{principal} προσκλήθηκε!'
         description:
           user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
