@@ -4,14 +4,14 @@ import { FormGroup } from "@angular/forms";
 
 export interface IOPDynamicForm {
   fields: IOPFormlyFieldConfig[];
-  model: { [key: string]: any };
+  model: IOPFormModel;
   form: FormGroup;
 }
 
 export interface IOPForm {
   _type: "Form";
   _embedded: {
-    payload: IFormModel;
+    payload: IOPFormModel;
     schema: IOPFormSchema;
     validationErrors: {
       [key: string]: unknown;
@@ -20,8 +20,8 @@ export interface IOPForm {
   _links: {
     self: IApiCall;
     validate: IApiCall;
-    previewMarkup: IApiCall;
     commit: IApiCall;
+    previewMarkup?: IApiCall;
   };
 }
 
@@ -29,23 +29,26 @@ export interface IOPFormlyFieldConfig extends FormlyFieldConfig {
   key?: string;
 }
 
-export interface IFormModel {
-  lockVersion?: number;
-  [key: string]: string | number | Object  | null;
+export interface IOPFormModel {
+  [key: string]: string | number | Object  | null | undefined;
   _links?: {
-    [key: string]: Partial<HalSource> | Partial<HalSource>[] | null;
+    [key: string]: IOPFieldModel | IOPFieldModel[] | null;
   };
+}
+
+export interface IOPFieldModel extends Partial<HalSource>{
+  name?: string;
 }
 
 export interface IOPFormSchema {
   _type: "Schema";
   _dependencies: unknown[];
   _attributeGroups?: IAttributeGroup[];
-  lockVersion: IFieldSchema;
+  lockVersion?: IFieldSchema;
   // TODO: type this properly
   [key: string]: IFieldSchema | any;
   _links: {
-    baseSchema: {
+    baseSchema?: {
       href: string;
     };
   };
