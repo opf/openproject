@@ -8,19 +8,23 @@ import {
 } from "@angular/core";
 import { FormlyForm } from "@ngx-formly/core";
 import { Observable } from "rxjs";
-import { DynamicFormService } from "../../services/dynamic-form.service";
-import { IOPDynamicForm, IFormError, IFormModel } from "../../typings";
+import { DynamicFormService } from "../../services/dynamic-form/dynamic-form.service";
+import { IOPDynamicForm, IFormError, IOPFormModel } from "../../typings";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { finalize } from "rxjs/operators";
 import { HalSource } from "core-app/modules/hal/resources/hal-resource";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
 
 @Component({
   selector: "op-dynamic-form",
   templateUrl: "./op-dynamic-form.component.html",
   styleUrls: ["./op-dynamic-form.component.scss"],
-  providers: [DynamicFormService]
+  providers: [
+    DynamicFormService,
+    DynamicFieldsService,
+  ]
 })
 export class OpDynamicFormComponent implements OnChanges {
   @Input() resourceId:string;
@@ -62,7 +66,7 @@ export class OpDynamicFormComponent implements OnChanges {
     this.dynamicForm$ = this._dynamicFormService.getForm$(url);
   }
 
-  submitForm(formModel:IFormModel) {
+  submitForm(formModel:IOPFormModel) {
     this.inFlight = true;
     this._dynamicFormService
       .submitForm$(formModel, this.resourceEndpoint, this.resourceId)

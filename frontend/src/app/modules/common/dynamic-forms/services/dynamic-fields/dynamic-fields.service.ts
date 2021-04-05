@@ -1,105 +1,58 @@
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { FormGroup } from "@angular/forms";
-import { FormlyFieldConfig, FormlyForm } from "@ngx-formly/core";
-import { Observable, of } from "rxjs";
+import { Injectable } from '@angular/core';
 import {
-  catchError,
-  map,
-} from "rxjs/operators";
-import {
-  IOPDynamicForm,
-  IFieldSchemaWithKey,
-  IOPForm,
   IAttributeGroup,
-  IOPFormSchema,
-  IFormModel,
+  IFieldSchema,
+  IFieldSchemaWithKey,
   IFieldTypeMap,
   IOPFormlyFieldConfig,
-  IFormError,
-  IFieldSchema,
-} from "../typings";
-@Injectable()
-export class DynamicFormService {
-  dynamicForm:FormlyForm;
+  IOPFormModel,
+  IOPFormSchema,
+} from "../../typings";
+import { FormlyFieldConfig } from "@ngx-formly/core";
+import { of } from "rxjs";
+import { map } from "rxjs/operators";
+import { HttpClient } from "@angular/common/http";
 
+@Injectable()
+export class DynamicFieldsService {
   constructor(
     private _httpClient:HttpClient,
-  ) {}
+  ) { }
 
-  registerForm(dynamicForm:FormlyForm) {
-    this.dynamicForm = dynamicForm;
-  }
-
-  getForm$(url:string): Observable<IOPDynamicForm>{
-    return this._httpClient
-      .post<IOPForm>(
-        url,
-        {},
-        {
-          withCredentials: true,
-          responseType: 'json'
-        }
-      )
-      .pipe(
-        map((formConfig => this._getDynamicForm(formConfig))),
-      )
-  }
-
-  submitForm$(formModel:IFormModel, resourceEndpoint:string, resourceId?:string) {
-    const modelToSubmit = this._formatModelToSubmit(formModel);
-    const httpMethod = resourceId ? 'patch' : 'post';
-    // TODO: Does this work for every resource type?
-    const url = resourceId ? `${resourceEndpoint}/${resourceId}` : resourceEndpoint;
-
-    return this._httpClient
-      [httpMethod](
-        url,
-        modelToSubmit,
-        {
-          withCredentials: true,
-          responseType: 'json'
-        }
-      )
-      .pipe(
-        catchError((error:HttpErrorResponse) => {
-          this._handleFormErrors(error, this.dynamicForm.form as FormGroup);
-
-          throw error;
-        })
-      );
-  }
-
-  private _getDynamicForm(formConfig:IOPForm):IOPDynamicForm {
-    const formSchema = formConfig._embedded?.schema;
-    const formModel = formConfig._embedded?.payload;
+  getConfig(formSchema:IOPFormSchema, formPayload:IOPFormModel):IOPFormlyFieldConfig[] {
     const formFieldGroups = formSchema._attributeGroups;
-    const fieldSchemas = this._getFieldsSchemas(formSchema, formModel);  
-    const fieldsModel = this._getFieldsModel(fieldSchemas, formModel);
+    const fieldSchemas = this._getFieldsSchemasWithKey(formSchema, formPayload);
     const formlyFields = fieldSchemas.map(fieldSchema => this._getFormlyFieldConfig(fieldSchema));
     const formlyFormWithFieldGroups = this._getFormlyFormWithFieldGroups(formFieldGroups, formlyFields);
-    const dynamicForm = {
-      fields: formlyFormWithFieldGroups,
-      model: fieldsModel,
-      form: new FormGroup({}),
-    };
 
-    return dynamicForm;
+    return formlyFormWithFieldGroups;
   }
 
-  private _getFieldsSchemas(formSchema:IOPFormSchema, formModel:IFormModel):IFieldSchemaWithKey[] {
+  getModel(formSchema:IOPFormSchema, formPayload:IOPFormModel):IOPFormModel {
+    const fieldSchemas = this._getFieldsSchemasWithKey(formSchema, formPayload);
+    const fieldsModel = this._getFieldsModel(fieldSchemas, formPayload);
+
+    return fieldsModel;
+  }
+
+  private _getFieldsSchemasWithKey(formSchema:IOPFormSchema, formModel:IOPFormModel):IFieldSchemaWithKey[] {
     return Object.keys(formSchema)
-      .map(schemaKey => {
+      .map(fieldSchemaKey => {
         const schemaValue = {
-          ...formSchema[schemaKey],
-          key: formModel?._links && schemaKey in formModel._links ?
-            `_links.${schemaKey}` :
-            schemaKey
+          ...formSchema[fieldSchemaKey],
+          key: this._isResourceSchema(fieldSchemaKey, formModel) ?
+            `_links.${fieldSchemaKey}` :
+            fieldSchemaKey
         };
 
         return schemaValue;
       })
       .filter(schemaValue => this._isFieldSchema(schemaValue));
+  }
+
+  // TODO: Is there a better way to check if a field is a resource??
+  private _isResourceSchema(fieldSchemaKey:string, formModel:IOPFormModel):boolean {
+    return !!(formModel?._links && fieldSchemaKey in formModel._links);
   }
 
   // TODO: Is there a better way to check this?
@@ -111,8 +64,10 @@ export class DynamicFormService {
       schemaValue?.writable != null;
   }
 
-  private _getFieldsModel(fieldSchemas:IFieldSchemaWithKey[], formModel:IFormModel = {}) {
+  private _getFieldsModel(fieldSchemas:IFieldSchemaWithKey[], formModel:IOPFormModel = {}):IOPFormModel {
     // TODO: Handle Formattable and time types?
+    // TODO: Do we need to add a name 'key' to otherElementsModel (_getFormattedResourcesModel)?
+    // Could we receive object values without a 'name' in otherElementsModel?
     const {_links:resourcesModel, ...otherElementsModel} = formModel;
     const model = {
       ...otherElementsModel,
@@ -122,9 +77,10 @@ export class DynamicFormService {
     return model;
   }
 
-  private _getFormattedResourcesModel(resourcesModel:IFormModel['_links'] = {}){
+  private _getFormattedResourcesModel(resourcesModel:IOPFormModel['_links'] = {}): IOPFormModel['_links']{
     return Object.keys(resourcesModel).reduce((result, resourceKey) => {
       const resource = resourcesModel[resourceKey];
+      // ng-select needs a 'name' in order to show the label
       const resourceModel = Array.isArray(resource) ?
         resource.map(resourceElement => resourceElement?.href && { ...resourceElement, name: resourceElement?.title }) :
         resource?.href && { ...resource, name: resource?.title };
@@ -257,12 +213,12 @@ export class DynamicFormService {
     return Array.isArray(allowedValues) ?
       of(allowedValues) :
       this._httpClient
-            .get(allowedValues!.href)
-            .pipe(
-              map((response: api.v3.Result) => response._embedded.elements),
-              // TODO: Handle the Status options (currently void)
-              map(options => options.map((option:IFieldSchema['options']) => ({...option, title: option._links?.self?.title})))
-            );
+        .get(allowedValues!.href)
+        .pipe(
+          map((response: api.v3.Result) => response._embedded.elements),
+          // TODO: Handle the Status options (currently void)
+          map(options => options.map((option:IFieldSchema['options']) => ({...option, title: option._links?.self?.title})))
+        );
   }
 
   private _getFormlyFormWithFieldGroups(fieldGroups:IAttributeGroup[] = [], formFields:IOPFormlyFieldConfig[] = []) {
@@ -282,7 +238,7 @@ export class DynamicFormService {
         wrappers: ['op-form-field-group-wrapper'],
         fieldGroupClassName: 'op-form--field-group',
         templateOptions: {
-          label: fieldGroup.name,          
+          label: fieldGroup.name,
         },
         fieldGroup: formFields.filter(formField => {
           const formFieldKey = formField.key?.split('.')?.pop();
@@ -295,46 +251,11 @@ export class DynamicFormService {
 
       if (newFormFieldGroup.fieldGroup.length) {
         formWithFieldGroups = [...formWithFieldGroups, newFormFieldGroup];
-      }      
+      }
 
       return formWithFieldGroups;
     }, []);
 
     return [...fomFieldsWithoutGroup, ...formFieldGroups];
-  }
-
-  private _formatModelToSubmit(formModel:IFormModel) {
-    const resources = formModel._links || {};
-    const formattedResources = Object
-      .keys(resources)
-      .reduce((result, resourceKey) => {
-        const resource = resources[resourceKey];
-        const resourceValue = Array.isArray(resource) ?
-          resource.map(resourceElement => ({ href: resourceElement?._links!.self.href })) :
-          { href: resource?._links!.self.href };
-
-        return { [resourceKey]: resourceValue };
-      }, {});
-
-    return {
-      ...formModel,
-      _links: formattedResources,
-    }
-  }
-
-  private _handleFormErrors(error:HttpErrorResponse, form:FormGroup) {
-    // TODO: How do we handle other form errors?
-    if (error.status == 422) {
-      const errors:IFormError[] = error.error._embedded.errors ?
-        error.error._embedded.errors : [error.error];
-
-      errors.forEach((err:any) => {
-        const key = err._embedded.details.attribute;
-        const message = err.message;
-        const formControl = form.get(key)!;
-
-        formControl.setErrors({[key]: {message}});
-      });
-    }
   }
 }
