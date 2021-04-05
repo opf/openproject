@@ -9,7 +9,7 @@ import {
 import { FormlyForm } from "@ngx-formly/core";
 import { Observable } from "rxjs";
 import { DynamicFormService } from "../../services/dynamic-form.service";
-import { IDynamicForm, IFormError, IFormModel } from "../../typings";
+import { IOPDynamicForm, IFormError, IFormModel } from "../../typings";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { finalize } from "rxjs/operators";
@@ -31,7 +31,7 @@ export class OpDynamicFormComponent implements OnChanges {
   @Output() errored = new EventEmitter<IFormError>();
 
   resourceEndpoint:string;
-  dynamicForm$: Observable<IDynamicForm>;
+  dynamicForm$: Observable<IOPDynamicForm>;
   text = {
     save: this._I18n.t('js.button_save'),
     error_message: this._I18n.t('js.forms.error_message'),
@@ -40,8 +40,8 @@ export class OpDynamicFormComponent implements OnChanges {
   inFlight:boolean;
 
   @ViewChild(FormlyForm)
-  set formlyForm(formlyForm: FormlyForm) {
-    this._dynamicFormService.registerForm(formlyForm);
+  set dynamicForm(dynamicForm: FormlyForm) {
+    this._dynamicFormService.registerForm(dynamicForm);
   }
 
   constructor(
@@ -57,6 +57,7 @@ export class OpDynamicFormComponent implements OnChanges {
     }
 
     this.resourceEndpoint = `${this._pathHelperService.api.v3.apiV3Base}${this.resourcePath}`;
+    // TODO: Does this work for all resource types?
     const url = `${this.resourceEndpoint}/${this.resourceId ? this.resourceId + '/' : ''}form`;
     this.dynamicForm$ = this._dynamicFormService.getForm$(url);
   }

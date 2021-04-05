@@ -2,14 +2,13 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { FormlyFieldConfig, FormlyForm } from "@ngx-formly/core";
-import { Observable, of, ReplaySubject } from "rxjs";
+import { Observable, of } from "rxjs";
 import {
   catchError,
   map,
-  switchMap,
 } from "rxjs/operators";
 import {
-  IDynamicForm,
+  IOPDynamicForm,
   IFieldSchemaWithKey,
   IOPForm,
   IAttributeGroup,
@@ -22,24 +21,18 @@ import {
 } from "../typings";
 @Injectable()
 export class DynamicFormService {
-  form:FormlyForm;
-
-  private _form = new ReplaySubject<IDynamicForm>(1);
-  readonly form$:Observable<IDynamicForm> = this._form.asObservable();
+  dynamicForm:FormlyForm;
 
   constructor(
-    private httpClient:HttpClient,
+    private _httpClient:HttpClient,
   ) {}
 
-  registerForm(formlyForm:FormlyForm) {
-    if (!formlyForm) { return; }
-
-    this.form = formlyForm;
+  registerForm(dynamicForm:FormlyForm) {
+    this.dynamicForm = dynamicForm;
   }
 
-  // TODO: Implement passing the params and lockVersion
-  getForm$(url:string): Observable<IDynamicForm>{
-    return this.httpClient
+  getForm$(url:string): Observable<IOPDynamicForm>{
+    return this._httpClient
       .post<IOPForm>(
         url,
         {},
@@ -49,21 +42,17 @@ export class DynamicFormService {
         }
       )
       .pipe(
-        map((formConfig => {
-          const formlyForm = this._getDynamicForm(formConfig);
-
-          this._form.next(formlyForm);
-        })),
-        switchMap(() => this.form$)
+        map((formConfig => this._getDynamicForm(formConfig))),
       )
   }
 
   submitForm$(formModel:IFormModel, resourceEndpoint:string, resourceId?:string) {
     const modelToSubmit = this._formatModelToSubmit(formModel);
     const httpMethod = resourceId ? 'patch' : 'post';
+    // TODO: Does this work for every resource type?
     const url = resourceId ? `${resourceEndpoint}/${resourceId}` : resourceEndpoint;
 
-    return this.httpClient
+    return this._httpClient
       [httpMethod](
         url,
         modelToSubmit,
@@ -74,14 +63,14 @@ export class DynamicFormService {
       )
       .pipe(
         catchError((error:HttpErrorResponse) => {
-          this._handleFormErrors(error, this.form.form as FormGroup);
+          this._handleFormErrors(error, this.dynamicForm.form as FormGroup);
 
           throw error;
         })
       );
   }
 
-  private _getDynamicForm(formConfig:IOPForm):IDynamicForm {
+  private _getDynamicForm(formConfig:IOPForm):IOPDynamicForm {
     const formSchema = formConfig._embedded?.schema;
     const formModel = formConfig._embedded?.payload;
     const formFieldGroups = formSchema._attributeGroups;
@@ -90,7 +79,7 @@ export class DynamicFormService {
     const formlyFields = fieldSchemas.map(fieldSchema => this._getFormlyFieldConfig(fieldSchema));
     const formlyFormWithFieldGroups = this._getFormlyFormWithFieldGroups(formFieldGroups, formlyFields);
     const dynamicForm = {
-      formlyFields: formlyFormWithFieldGroups,
+      fields: formlyFormWithFieldGroups,
       model: fieldsModel,
       form: new FormGroup({}),
     };
@@ -123,7 +112,7 @@ export class DynamicFormService {
   }
 
   private _getFieldsModel(fieldSchemas:IFieldSchemaWithKey[], formModel:IFormModel = {}) {
-    // TODO: Handle Formattable and time types
+    // TODO: Handle Formattable and time types?
     const {_links:resourcesModel, ...otherElementsModel} = formModel;
     const model = {
       ...otherElementsModel,
@@ -267,7 +256,7 @@ export class DynamicFormService {
 
     return Array.isArray(allowedValues) ?
       of(allowedValues) :
-      this.httpClient
+      this._httpClient
             .get(allowedValues!.href)
             .pipe(
               map((response: api.v3.Result) => response._embedded.elements),
