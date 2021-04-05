@@ -2,8 +2,8 @@ import { FormlyFieldConfig } from "@ngx-formly/core";
 import { HalSource } from "core-app/modules/hal/resources/hal-resource";
 import { FormGroup } from "@angular/forms";
 
-export interface IDynamicForm {
-  formlyFields: IOPFormlyFieldConfig[];
+export interface IOPDynamicForm {
+  fields: IOPFormlyFieldConfig[];
   model: { [key: string]: any };
   form: FormGroup;
 }

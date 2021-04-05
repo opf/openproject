@@ -26,7 +26,7 @@ export class ProjectsComponent extends UntilDestroyedMixin implements OnInit {
   ngOnInit(): void {
     this.projectsPath = this._pathHelperService.projectsPath();
     // TODO: Handle 'create new resource' routes
-   this._uIRouterGlobals
+    this._uIRouterGlobals
       .params$!
       .pipe(
         this.untilDestroyed(),

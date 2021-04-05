@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { DynamicFormService } from "./services/dynamic-form.service";
 import { OpSelectComponent } from "./components/op-select/op-select.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FormlyModule } from "@ngx-formly/core";
@@ -62,7 +61,6 @@ import { OpenprojectCommonModule } from "core-app/modules/common/openproject-com
     FormattableControlComponent,
   ],
   providers: [
-    DynamicFormService,
     { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
   ],
   exports: [

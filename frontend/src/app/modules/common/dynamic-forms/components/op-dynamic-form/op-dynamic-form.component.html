@@ -4,9 +4,9 @@
         (submit)="submitForm(dynamicForm?.form.value)">
     <formly-form [form]="dynamicForm?.form"
                  [model]="dynamicForm?.model"
-                 [fields]="dynamicForm?.formlyFields">
+                 [fields]="dynamicForm?.fields">
       <ng-template formlyTemplate let-field>
-        <op-form-field *ngFor="let field of dynamicForm?.formlyFields"
+        <op-form-field *ngFor="let field of dynamicForm?.fields"
                        [label]="field.templateOptions?.label"
                        [inlineLabel]="field.templateOptions?.inlineLabel"
                        [required]="field.templateOptions?.required">
