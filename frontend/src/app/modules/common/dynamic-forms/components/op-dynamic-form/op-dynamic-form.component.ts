@@ -2,15 +2,19 @@ import {
   Component,
   Input,
   OnChanges,
+  Output,
   ViewChild,
+  EventEmitter,
 } from "@angular/core";
 import { FormlyForm } from "@ngx-formly/core";
 import { Observable } from "rxjs";
 import { DynamicFormService } from "../../services/dynamic-form.service";
-import { IDynamicForm, IFormModel } from "../../typings";
+import { IDynamicForm, IFormError, IFormModel } from "../../typings";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { finalize } from "rxjs/operators";
+import { HalSource } from "core-app/modules/hal/resources/hal-resource";
+import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 
 @Component({
   selector: "op-dynamic-form",
@@ -21,11 +25,17 @@ import { finalize } from "rxjs/operators";
 export class OpDynamicFormComponent implements OnChanges {
   @Input() resourceId:string;
   @Input() resourcePath:string;
+  @Input() showNotifications = true;
+
+  @Output() submitted = new EventEmitter<HalSource>();
+  @Output() errored = new EventEmitter<IFormError>();
 
   resourceEndpoint:string;
   dynamicForm$: Observable<IDynamicForm>;
   text = {
     save: this._I18n.t('js.button_save'),
+    error_message: this._I18n.t('js.forms.error_message'),
+    success_message: this._I18n.t('js.forms.success_message'),
   };
   inFlight:boolean;
 
@@ -38,6 +48,7 @@ export class OpDynamicFormComponent implements OnChanges {
     private _dynamicFormService: DynamicFormService,
     private _I18n:I18nService,
     private _pathHelperService:PathHelperService,
+    protected _notificationsService:NotificationsService,
   ) {}
 
   ngOnChanges() {
@@ -57,6 +68,15 @@ export class OpDynamicFormComponent implements OnChanges {
       .pipe(
         finalize(() => this.inFlight = false)
       )
-      .subscribe();
+      .subscribe(
+        (formResource:HalSource) => {
+          this.submitted.emit(formResource);
+          this.showNotifications && this._notificationsService.addSuccess(this.text.success_message);
+        },
+        (error:IFormError) => {
+          this.errored.emit(error);
+          this.showNotifications && this._notificationsService.addError(this.text.error_message);
+        },
+      );
   }
 }

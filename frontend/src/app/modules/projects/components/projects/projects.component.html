@@ -1,3 +1,4 @@
 <op-dynamic-form [resourcePath]="projectsPath"
-                 [resourceId]="resourceId$ | async">
+                 [resourceId]="resourceId"
+                 (submitted)="onSubmitted($event)">
 </op-dynamic-form>
