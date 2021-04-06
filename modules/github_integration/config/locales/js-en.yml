@@ -36,9 +36,6 @@ en:
         copy_menu:
           label: Git
           description: Copy important git content to clipboard
-        create_pr:
-          label: Create Pull Request
-          description: Create new Pull Request on GitHub
         git_actions:
           branch: Branch
           branch_help: Copy the default branch name.
@@ -51,4 +48,4 @@ en:
           copy_success: ✅ Copied!
           copy_error: ❌ Copy failed!
       tab_prs:
-        empty: There are no Pull Requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.
+        empty: There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.
