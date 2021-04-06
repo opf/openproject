@@ -67,7 +67,7 @@ describe 'Open the GitHub tab', type: :feature, js: true do
     it 'show the github tab when the user is allowed to see it' do
       work_package_page.visit!
       work_package_page.switch_to_tab(tab: 'github')
-      expect(page).to have_content('There are no Pull Requests')
+      expect(page).to have_content('There are no pull requests')
       expect(page).to have_content("Link an existing PR by using the code OP##{work_package.id}")
 
       github_tab.git_actions_menu_button.click
