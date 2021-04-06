@@ -54,13 +54,16 @@ Only one of the links (`allowedValues`, `allowedValuesSchemas`) will exist for a
 All of the above properties that do not have a default value *must* be present in the schema.
 For properties that have a default value, the client can assume the default value, if the property is missing.
 
+Note that regular expressions used in the API follow the rules of [Ruby Regular Expressions](http://www.ruby-doc.org/core-2.2.6/Regexp.html).
+
+
 ### Location property
 
 The location property gives a hint as to where to find the property if it is not contained in the set of local attributes.
 For example, for linked properties, the location attribute of the schema will contain `_links`. The property will then be found in the resource
 under the path `_links.propertyName`.
 
-Note that regular expressions used in the API follow the rules of [Ruby Regular Expressions](http://www.ruby-doc.org/core-2.2.6/Regexp.html).
+For the default attributes to be added on the top level of the resource, the location attribute will not be set.
 
 # Schema Dependencies
 
