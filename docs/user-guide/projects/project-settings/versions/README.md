@@ -28,6 +28,7 @@ You can configure the following information.
 4. Choose a **wiki page** that you want to open directly from a version in the Roadmap.
 5. Set a **start date and finish date** for the version.
 6. Choose whether the version shall be **shared** with other projects, e.g. in the project hierarchy or subprojects.
+**Please note**: To give you maximum flexibility you will have to choose the column in the backlog individually for all projects using this version.
 7. Select a **column in backlogs view**. This is only required if you use the versions to manage your [Scrum backlog](../../../backlogs-scrum).
 8. Press the blue **Create** button to save your changes.
 

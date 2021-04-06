@@ -26,7 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Output, EventEmitter, Injector } from '@angular/core';import { OpModalService } from "core-app/modules/modal/modal.service";
+import { Component, Output, EventEmitter, Injector } from '@angular/core';
+import { OpModalService } from "core-app/modules/modal/modal.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { GridRemoveWidgetService } from "core-app/modules/grids/grid/remove-widget.service";
 import { GridAreaService } from "core-app/modules/grids/grid/area.service";
