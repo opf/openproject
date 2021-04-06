@@ -31,10 +31,9 @@ bin/compose rspec spec/features/work_package_show_spec.rb
 
 ***
 
-If there is an `.env` file (see below) `bin/compose` will source it.
 More details and options follow in the next section.
 
-## Setup
+## Step-by-step Setup
 
 ### 1) Checkout the code
 
@@ -59,6 +58,8 @@ cp .env.example .env
 
 Afterwards, set the environment variables to your liking. `DEV_UID` and `DEV_GID` are required to be set so your project
 directory will not end up with files owned by root.
+
+Both `docker-compose` and `bin/compose` will load the env from this file.
 
 ### 3) Setup database and install dependencies
 
@@ -134,6 +135,12 @@ Afterwards, you can start the tests in the running `backend-test` container:
 
 ```
 docker-compose run backend-test bundle exec rspec
+```
+
+You can run specific tests too. For instance:
+
+```
+docker-compose run backend-test bundle exec rspec spec/features/work_package_show_spec.rb
 ```
 
 Tests are ran within Selenium containers, on a small local Selenium grid. You can connect to the containers via VNC if
