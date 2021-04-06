@@ -44,15 +44,18 @@ module API
                        api_name: model.name.demodulize,
                        instance_generator: default_instance_generator(model),
                        params_modifier: default_params_modifier,
+                       parse_representer: nil,
+                       render_representer: nil,
                        process_service: nil,
+                       process_contract: nil,
                        parse_service: nil)
           self.model = model
           self.api_name = api_name
           self.instance_generator = instance_generator
           self.params_modifier = params_modifier
-          self.parse_representer = deduce_parse_representer
-          self.render_representer = deduce_render_representer
-          self.process_contract = deduce_process_contract
+          self.parse_representer = parse_representer || deduce_parse_representer
+          self.render_representer = render_representer || deduce_render_representer
+          self.process_contract = process_contract || deduce_process_contract
           self.process_service = process_service || deduce_process_service
           self.parse_service = parse_service || deduce_parse_service
         end

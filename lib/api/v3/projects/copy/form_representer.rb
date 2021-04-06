@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -30,15 +32,11 @@ module API
   module V3
     module Projects
       module Copy
-        class CreateFormAPI < ::API::OpenProjectAPI
-          resource :form do
-            post &::API::V3::Utilities::Endpoints::CreateForm
-              .new(
-                model: Project,
-                parse_representer: ProjectCopyPayloadRepresenter,
-                render_representer: CreateFormRepresenter
-              )
-              .mount
+        class FormRepresenter < ::API::V3::Projects::FormRepresenter
+          private
+
+          def schema_representer_class
+            ProjectCopySchemaRepresenter
           end
         end
       end
