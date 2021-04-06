@@ -33,8 +33,7 @@ By default OpenProject has 4 so called web workers and 1 background worker.
 If there are more users you will need more web workers and eventually also more background workers.
 
 The database will need resources as well, and this, too, will increase with the number of users.
-There may come a point where you will have to make configuration changes to the database,
-but for most cases 1 database should suffice.
+There may come a point where you will have to make configuration changes to the database and/or use an external database, but for most cases the default database setup should be enough.
 
 Using a rough estimate we can give the following recommendations based on the number of users.
 
