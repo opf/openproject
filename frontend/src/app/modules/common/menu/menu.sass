@@ -1,0 +1,42 @@
+.op-menu
+  display: flex
+  flex-direction: column
+
+  &--item
+
+    &-action
+      display: block
+      height: 32px
+      line-height: 32px
+      text-decoration: none
+      padding: 0px 13px 0px 10px
+      white-space: nowrap
+      font-weight: 400
+      overflow: hidden
+      text-overflow: ellipsis
+      color: var(--context-menu-unselected-font-color)
+
+      &:focus
+        background-color: #f0f0f0
+        color: var(--context-menu-unselected-font-color)
+
+      &:hover,
+      &:active
+        background-color: #f0f0f0
+        color: var(--context-menu-hover-font-color)
+        cursor: pointer
+        text-decoration: none
+
+  &--item-action,
+  &--headline
+    padding: 0 10px
+
+  &--headline
+    font-size: 12px
+    color: var(--gray-dark)
+    text-transform: uppercase
+
+  &--separator
+    border-bottom: 1px solid var(--content-form-separator-color)
+    margin: 0 0 10px
+    background: none

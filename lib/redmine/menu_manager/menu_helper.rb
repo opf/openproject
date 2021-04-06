@@ -84,6 +84,7 @@ module Redmine::MenuManager::MenuHelper
     selected = any_item_selected?(items)
     label_node = render_drop_down_label_node(label, selected, label_options)
 
+    options[:drop_down_class] = 'op-menu ' + options.fetch(:drop_down_class, '')
     render_menu_dropdown(label_node, options) do
       items.each do |item|
         concat render_menu_node(item, project)
@@ -100,12 +101,12 @@ module Redmine::MenuManager::MenuHelper
   # menu_item_class: Additional classes for the menu item li wrapper
   # drop_down_class: Additional classes for the hidden drop down
   def render_menu_dropdown(label_node, options = {}, &block)
-    content_tag :li, class: "top-menu-dropdown #{options[:menu_item_class]} drop-down" do
+    content_tag :li, class: "op-app-menu--item op-app-menu--item_has-dropdown #{options[:menu_item_class]}" do
       concat(label_node)
       concat(content_tag(:ul,
                          style: 'display:none',
                          id: options[:drop_down_id],
-                         class: 'menu-drop-down-container ' + options.fetch(:drop_down_class, ''),
+                         class: 'op-app-menu--dropdown ' + options.fetch(:drop_down_class, ''),
                          &block))
     end
   end
@@ -113,13 +114,13 @@ module Redmine::MenuManager::MenuHelper
   def render_drop_down_label_node(label, selected, options = {})
     options[:title] ||= selected ? t(:description_current_position) + label : label
     options[:aria] = { haspopup: 'true' }
-    options[:class] = "top-menu-dropdown--link #{options[:class]} #{selected ? 'selected' : ''}"
+    options[:class] = "op-app-menu--item-action #{options[:class]} #{selected ? 'selected' : ''}"
 
-    link_to('', options) do
+    link_to('#', options) do
       concat(op_icon(options[:icon])) if options[:icon]
       concat(you_are_here_info(selected).html_safe)
       concat(content_tag(:span, label, class: 'button--dropdown-text'))
-      concat('<i class="button--dropdown-indicator"></i>'.html_safe) unless options.key?(:icon)
+      concat('<i class="op-app-menu--item-dropdown-indicator button--dropdown-indicator"></i>'.html_safe) unless options.key?(:icon)
     end
   end
 
@@ -163,19 +164,20 @@ module Redmine::MenuManager::MenuHelper
     end
   end
 
-  def render_single_menu_node(item, project = nil)
+  def render_single_menu_node(item, project = nil, menu_class = 'op-menu')
     caption, url, selected = extract_node_details(item, project)
 
     link_text = ''.html_safe
     link_text << op_icon(item.icon(project)) if item.icon(project).present?
     link_text << content_tag(:span,
-                             class: "menu-item--title ellipsis #{item.badge(project).present? ? '-has-badge' : ''}",
+                             class: "#{menu_class}--item-title #{item.badge(project).present? ? "#{menu_class}--item-title_has-badge" : ''}",
                              lang: menu_item_locale(item)) do
       ''.html_safe + caption + badge_for(item)
     end
     link_text << ' '.html_safe + op_icon(item.icon_after) if item.icon_after.present?
     html_options = item.html_options(selected: selected)
     html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
+    html_options[:class] = "#{html_options[:class]}  #{menu_class}--item-action"
 
     link_to link_text, url, html_options
   end

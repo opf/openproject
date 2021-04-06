@@ -27,7 +27,6 @@
 //++
 
 @include breakpoint(680px down)
-
   .main-menu
     position: fixed
     z-index: 12
@@ -36,8 +35,21 @@
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
     min-width: 75vw
 
-  .hidden-navigation .main-menu
-    display: none
+  #main-menu-toggle 
+    .icon-hamburger
+      display: none
+    .icon-close
+      display: block
+
+  .hidden-navigation
+    .main-menu
+      display: none
+    #main-menu-toggle 
+      .icon-hamburger
+        display: block
+      .icon-close
+        display: none
+
 
   .main-item-wrapper a
     width: 100%
@@ -46,15 +58,15 @@
     display: none
 
   .content-overlay
-    display: block
     // Background color transition simulates a fade-in effect
     background: #fff
     transition: background .3s
 
-  #wrapper:not(.hidden-navigation)
-    #main-menu-toggle i:before
-      @include icon-mixin-close
+  #main:not(.nosidebar)
+    .content-overlay
+      display: block
 
+  #wrapper:not(.hidden-navigation)
     .content-overlay
       position: fixed
       height: 100%

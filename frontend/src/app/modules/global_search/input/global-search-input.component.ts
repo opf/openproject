@@ -438,7 +438,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   }
 
   private toggleTopMenuClass() {
-    jQuery('#top-menu').toggleClass('-global-search-expanded', this.expanded);
+    jQuery('.op-app-header').toggleClass('op-app-header_search-open', this.expanded);
   }
 }
 

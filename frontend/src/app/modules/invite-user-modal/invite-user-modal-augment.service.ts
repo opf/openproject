@@ -27,9 +27,8 @@
 //++
 
 
-import {Inject, Injectable, Injector} from "@angular/core";
+import {Inject, Injectable} from "@angular/core";
 import {DOCUMENT} from "@angular/common";
-import {DynamicContentModal} from "core-components/modals/modal-wrapper/dynamic-content.modal";
 import {OpModalService} from "core-app/modules/modal/modal.service";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {InviteUserModalComponent} from "./invite-user.component";
@@ -71,7 +70,7 @@ export class OpInviteUserModalAugmentService {
 
     modal
       .closingEvent
-      .subscribe((modal:{data:unknown}) => {
+      .subscribe((modal:InviteUserModalComponent) => {
         // Just reload the page for now if we saved anything
         if (modal.data) {
           window.location.reload();

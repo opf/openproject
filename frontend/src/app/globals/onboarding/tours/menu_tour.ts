@@ -11,7 +11,7 @@ export function menuTourSteps() {
       'nextButton': { text: I18n.t('js.onboarding.buttons.next') },
     },
     {
-      'next .top-menu-help': I18n.t('js.onboarding.steps.help_menu'),
+      'next .op-app-help': I18n.t('js.onboarding.steps.help_menu'),
       'shape': 'circle',
       'showSkip': false,
       'nextButton': { text: I18n.t('js.onboarding.buttons.got_it') }

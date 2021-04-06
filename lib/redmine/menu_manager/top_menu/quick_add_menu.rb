@@ -32,9 +32,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   def render_quick_add_menu
     return unless show_quick_add_menu?
 
-    content_tag :ul, class: 'menu_root account-nav quick-add-menu' do
-      render_quick_add_dropdown
-    end
+    render_quick_add_dropdown
   end
 
   private
@@ -44,11 +42,14 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
       label: '',
       label_options: {
         title: I18n.t('menus.quick_add.label'),
-        icon: 'icon-add quick-add-menu--icon',
-        class: 'quick-add-menu--button'
+        icon: 'icon-add',
+        class: 'op-quick-add-menu--button'
       },
       items: first_level_menu_items_for(:quick_add_menu),
-      options: { drop_down_id: 'quick-add-menu' },
+      options: {
+        drop_down_id: 'quick-add-menu',
+        menu_item_class: 'op-quick-add-menu'
+      },
       project: @project
     ) do
       work_package_quick_add_items
@@ -60,7 +61,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   def work_package_quick_add_items
     return unless visible_types.any?
 
-    concat content_tag(:hr, '', class: 'top-menu-dropdown--separator')
+    concat content_tag(:hr, '', class: 'op-menu--separator')
     concat work_package_type_heading
 
     visible_types
@@ -71,10 +72,10 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   end
 
   def work_package_type_heading
-    content_tag(:li) do
+    content_tag(:li, class: 'op-menu--item') do
       content_tag :span,
                   I18n.t(:label_work_package_plural),
-                  class: 'top-menu-dropdown--headline'
+                  class: 'op-menu--headline'
     end
   end
 
@@ -89,15 +90,15 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   end
 
   def work_package_create_link(type_id, type_name)
-    content_tag(:li) do
+    content_tag(:li, class: 'op-menu--item') do
       if in_project_context?
         link_to type_name,
                 new_project_work_packages_path(project_id: @project.identifier, type: type_id),
-                class: "__hl_inline_type_#{type_id}"
+                class: "__hl_inline_type_#{type_id} op-menu--item-action"
       else
         link_to type_name,
                 new_work_packages_path(type: type_id),
-                class: "__hl_inline_type_#{type_id}"
+                class: "__hl_inline_type_#{type_id} op-menu--item-action"
       end
     end
   end
