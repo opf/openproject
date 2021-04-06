@@ -56,6 +56,7 @@ module API
                    type:,
                    name_source: property,
                    as: camelize(property),
+                   location: nil,
                    required: true,
                    has_default: false,
                    writable: default_writable_property(property),
@@ -75,7 +76,8 @@ module API
                                    min_length,
                                    max_length,
                                    regular_expression,
-                                   options)
+                                   options,
+                                   location)
           end
 
           schema_property(property,
@@ -287,11 +289,13 @@ module API
                                  min_length,
                                  max_length,
                                  regular_expression,
-                                 options)
+                                 options,
+                                 location)
         name = call_or_translate(name_source)
         schema = ::API::Decorators::PropertySchemaRepresenter
                  .new(type: call_or_use(type),
                       name: name,
+                      location: location,
                       required: call_or_use(required),
                       has_default: call_or_use(has_default),
                       writable: call_or_use(writable),
@@ -314,6 +318,7 @@ module API
         representer = ::API::Decorators::AllowedValuesByLinkRepresenter
                       .new(type: call_or_use(type),
                            name: call_or_translate(name_source),
+                           location: :link,
                            required: call_or_use(required),
                            has_default: call_or_use(has_default),
                            writable: call_or_use(writable),

@@ -35,7 +35,7 @@ module API
   module Decorators
     class PropertySchemaRepresenter < ::API::Decorators::Single
       def initialize(
-        type:, name:, required: true, has_default: false, writable: true,
+        type:, name:, location: nil, required: true, has_default: false, writable: true,
         attribute_group: nil, current_user: nil
       )
         @type = type
@@ -44,6 +44,7 @@ module API
         @has_default = has_default
         @writable = writable
         @attribute_group = attribute_group
+        @location = derive_location(location)
 
         super(nil, current_user: current_user)
       end
@@ -57,7 +58,8 @@ module API
                     :min_length,
                     :max_length,
                     :regular_expression,
-                    :options
+                    :options,
+                    :location
 
       property :type, exec_context: :decorator
       property :name, exec_context: :decorator
@@ -70,11 +72,25 @@ module API
       property :regular_expression, exec_context: :decorator
       property :options, exec_context: :decorator
 
+      property :location, exec_context: :decorator, render_nil: false
+
       private
 
       def model_required?
         # we never pass a model to our superclass
         false
+      end
+
+      ##
+      # Derive the frontend location value to be passed
+      # either nil, _links, or _meta depending on the input
+      def derive_location(location)
+        return if location.nil?
+
+        return :_links if location.to_s == 'link'
+        return :_meta if location.to_s == 'meta'
+
+        raise ArgumentError, "Invalid location attribute #{location}"
       end
     end
   end

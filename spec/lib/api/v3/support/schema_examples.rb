@@ -60,6 +60,16 @@ shared_examples_for 'has basic schema properties' do
       .to be_json_eql(expected_has_default.to_json)
       .at_path("#{path}/hasDefault")
   end
+
+  it 'indicates if it has a location' do
+    if defined?(location)
+      is_expected
+        .to be_json_eql(location.to_json)
+              .at_path("#{path}/location")
+    else
+      is_expected.not_to have_json_path("#{path}/location")
+    end
+  end
 end
 
 shared_examples_for 'indicates length requirements' do

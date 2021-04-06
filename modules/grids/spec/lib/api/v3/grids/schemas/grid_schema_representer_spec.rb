@@ -148,6 +148,7 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
         let(:name) { Grids::Grid.human_attribute_name('widgets') }
         let(:required) { true }
         let(:writable) { true }
+        let(:location) { '_links' }
       end
 
       context 'when embedding' do
@@ -181,6 +182,7 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
           let(:name) { Grids::Grid.human_attribute_name('scope') }
           let(:required) { true }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
 
         context 'when embedding' do
@@ -217,6 +219,7 @@ describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
           let(:name) { Grids::Grid.human_attribute_name('scope') }
           let(:required) { true }
           let(:writable) { false }
+          let(:location) { '_links' }
         end
 
         context 'when embedding' do
