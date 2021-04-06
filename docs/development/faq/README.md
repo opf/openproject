@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: OpenProject FAQ
-  priority: 999
+  priority: 980
 description: Frequently asked questions for development
 robots: index, follow
 keywords: FAQ, change code, developing, plug-in
@@ -14,7 +14,7 @@ No. The database layout is subject to continuous change. Every upgrade, even fro
 
 ## Is there documentation for creating my own plugin?
 
-The documentation for creating plugins is indeed limited at the moment. What we have is this mostly [this one](../create-openproject-plugin) and the [proto plugin](https://github.com/opf/openproject-proto_plugin).
+The documentation for creating plugins is indeed limited at the moment. What we have is mostly [this one](../create-openproject-plugin) and the [proto plugin](https://github.com/opf/openproject-proto_plugin).
 
 ## Which gateway provider does OpenProject use for 2FA by SMS?
 
@@ -22,5 +22,5 @@ We use MessageBird. At the moment this can't be changed.
 
 ## Additional information
 
-For additional information and FAQ have a look at the other FAQ section, e.g. [in the Installation and upgrade guide](../../installation-and-operations/faq).
+For additional information and FAQ have a look at the other FAQ sections, e.g. [in the Installation and upgrade guide](../../installation-and-operations/faq).
 

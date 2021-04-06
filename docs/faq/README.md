@@ -4,7 +4,7 @@ sidebar_navigation:
   priority: 999
 description: Frequently asked questions for OpenProject (FAQ)
 robots: index, follow
-keywords: FAQ, introduction, tutorial, OpenProject, project management software, frequently asked questions 
+keywords: FAQ, introduction, tutorial, project management software, frequently asked questions, help
 ---
 # Frequently asked questions (FAQ) for OpenProject
 
@@ -248,8 +248,8 @@ To migrate from Bitnami **to Enterprise on premises** please use [this instructi
 
 At the moment there are these ways to migrate:
 
-- our API (https://docs.openproject.org/api/)
-- our Excel sync (https://docs.openproject.org/user-guide/integrations/Excel%20Synchronization/)
+- our [API](../api/)
+- our [Excel sync](../user-guide/integrations/Excel%20Synchronization)
 - Using a [Markdown export app](https://marketplace.atlassian.com/apps/1221351/markdown-exporter-for-confluence?hosting=cloud&tab=overview) you can export pages from Confluence and paste them (via copy & paste) into OpenProject in e.g. the wiki. This should preserve at least most of the layout. Attachments would then have to be added manually.
 
 For more information please contact us.
