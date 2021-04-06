@@ -34,4 +34,9 @@ Find out more about how to format the emails [here](https://docs.openproject.org
 
 ## I don't receive work package updates
 
-If you use Community Edition or Enterprise on-premises and your email updates do not work please have a look at [this FAQ](#i-don't-receive-emails.-test-email-works-fine-but-not-the-one-for-work-package-updates.).
+If you use Community Edition or Enterprise on-premises and your email updates do not work please have a look at [this FAQ](../../../installation-and-operations/faq#i-dont-receive-emails-test-email-works-fine-but-not-the-one-for-work-package-updates).
+
+## Does my role in a project influence the email notifications I get?
+
+No, not per se. The email notifications depend on whether you are a watcher, assignee or accountable for a work package and on the settings in your account.
+However, if you e.g. can't see wiki pages due to the permissions of your role in the project you won't receive notifications about wiki page changes.

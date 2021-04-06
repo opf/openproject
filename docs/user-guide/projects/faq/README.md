@@ -37,6 +37,10 @@ As soon as you have created at least one version in a project, the module "[Road
 The [Backlogs module](../../backlogs-scrum) uses versions to map the product backlog or sprints. By using the backlog, however, some special rules occur: For example, tasks must be assigned to the same version as the associated (parent) work packages. 
 If you do not work according to Scrum we would recommend to deactivate the Backlogs module and use the [Boards module](../../agile-boards) instead. If you have activated the boards module you can create a version board. You can find an example [here](https://community.openproject.com/projects/openproject/boards/2077).
 
+## Can I assign work packages in subprojects to versions of the parent project?
+
+Yes, it is possible; [set](../project-settings/versions/) the sharing option for the version to "with sub project".
+
 ## How do I reopen an archived project?
 
 Go to the projects overview ("View all projects") and change the filter to not only include active projects. Then choose the archived project you want to reopen and click on the three dots at the right end of its row. Click on "Unarchive" there.

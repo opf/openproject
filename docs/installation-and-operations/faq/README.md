@@ -66,20 +66,6 @@ This led us to the path of removing support in the upcoming stable releases of O
 
 Older installations of OpenProject are likely installed with a MySQL installation because the installer shipped with an option to auto-install it. With [pgloader](https://pgloader.io), it is trivially easy to convert a dump between MySQL and PostgreSQL installation. [We have prepared a guide](../misc/packaged-postgresql-migration ) on how to migrate to a PostgreSQL database if you previously used MySQL.
 
-### What is the recommended infrastructure sizing for the Enterprise on-premises edition, e.g. for the following number of users:
-•         The number of total users : 200
-•         The number of concurrent users: 50
-•         The number of expected projects: 150
-
-We assume that "number of concurrent users" was understood to represent the number of users looking at the OpenProject application at the same time. We typically use it to denote the number of users having an active request running against the OpenProject server. To give an example, a number of 50 would mean that 50 users are loading e.g. the home or another page of OpenProject at exactly the same time. To stress this explanation, those 50 users would have to refresh their browsers at exactly the same time. 
-In our experience and judging from the estimated number of 200 total users, it is unlikely that more than 5% of the users will issue a request against an OpenProject server at exactly the same time. That would mean that you should calculate to serve 10 concurrent users.
-Using that assumption, we need about 16 OpenProject worker processes as some pages require to answer multiple requests. Our [official documentation](../operation/control/) estimates about 300 to 400 MB RAM but you could go higher to be on the save side. 
-Therefore, 16 GB RAM should be sufficient to service all concurrent requests. This includes the RAM the OS and its services will take up. As to CPU, the only advice we can give is that of course, a faster CPU will result in a faster response time. The required HD space starts as 4 GB but really depends on multiple factors, i.e. the number of attachments that are uploaded.
-
-This assessment (that a single server will be sufficient) might change if you want to ensure a high availability. In that case it would be better to have a dedicated server for the database (ideally a cluster) and two or more application servers. Each application server can then be less powerful as the load is equally distributed between them. 
-
-**Please note**: This is only a recommendation. Based on your usage patterns and requirements, there may be other hardware requirements.
-
 ### How can I migrate from Bitnami to the official OpenProject installation packages?
 
 Please follow these steps:
