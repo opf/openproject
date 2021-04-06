@@ -7,13 +7,15 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import {OpModalLocalsMap} from 'core-app/modules/modal/modal.types';
-import {OpModalComponent} from 'core-app/modules/modal/modal.component';
-import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {RoleResource} from "core-app/modules/hal/resources/role-resource";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import { CurrentUserService } from 'core-app/components/user/current-user.service';
+import { OpModalLocalsMap } from 'core-app/modules/modal/modal.types';
+import { OpModalComponent } from 'core-app/modules/modal/modal.component';
+import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { ApiV3FilterBuilder } from "core-components/api/api-v3/api-v3-filter-builder";
+import { RoleResource } from "core-app/modules/hal/resources/role-resource";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
 
 enum Steps {
   ProjectSelection,
@@ -62,6 +64,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
     readonly cdRef:ChangeDetectorRef,
     readonly elementRef:ElementRef,
     readonly apiV3Service:APIV3Service,
+    readonly currentUserService:CurrentUserService,
   ) {
     super(locals, cdRef, elementRef);
   }
@@ -74,6 +77,14 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
         data => {
           this.project = data;
           this.cdRef.markForCheck();
+
+          const filters = new ApiV3FilterBuilder();
+          filters.add('action', '=', ['users/create', 'memberships/create']);
+          filters.add('principal', '=', [this.currentUserService.userId]);
+          filters.add('context', '=', [`p${this.project.id}`]);
+          this.apiV3Service.capabilities.filtered(filters).get().subscribe((...data) => {
+            console.log(data);
+          });
         },
         () => {
           this.locals.projectId = null;

@@ -60,6 +60,12 @@ import Project = ts.server.Project;
 
 @Injectable({ providedIn: 'root' })
 export class APIV3Service {
+  // /api/v3/actions
+  public readonly actions = this.apiV3CollectionEndpoint('actions');
+
+  // /api/v3/capabilities
+  public readonly capabilities = this.apiV3CollectionEndpoint('capabilities');
+
   // /api/v3/attachments
   public readonly attachments = this.apiV3CollectionEndpoint('attachments');
 
