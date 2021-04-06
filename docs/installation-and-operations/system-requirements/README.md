@@ -20,7 +20,7 @@ The server hardware requirements should be rougly the same for both the packaged
 * __Memory:__ 4096 MB
 * __Free disk space:__ 20 GB
 
-This is for a single Server running OpenProject for up to 200 users.
+This is for a single Server running OpenProject for up to 200 total active users. Depending on your number of peak users, these requirements might vary drastically.
 
 ### General Requirements
 
