@@ -338,6 +338,33 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
           .at_path('total')
       end
     end
+
+    context 'when filtering by action' do
+      let(:filters) do
+        [{ 'action' => {
+          'operator' => '=',
+          'values' => ["memberships/create"]
+        } },
+         { 'principalId' => {
+           'operator' => '=',
+           'values' => [other_user.id.to_s]
+         } }]
+      end
+
+      let(:setup) do
+        other_user_member
+      end
+
+      it 'contains only the filtered capabilities in the response' do
+        expect(subject.body)
+          .to be_json_eql('1')
+          .at_path('total')
+
+        expect(subject.body)
+          .to be_json_eql("memberships/create/p#{project.id}-#{other_user.id}".to_json)
+          .at_path('_embedded/elements/0/id')
+      end
+    end
   end
 
   describe 'GET /api/v3/capabilities/:id' do

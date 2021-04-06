@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,16 +26,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Capabilities
-  query = Queries::Capabilities::CapabilityQuery
-  filter_ns = Queries::Capabilities::Filters
+class Queries::Capabilities::Filters::ActionFilter < Queries::Capabilities::Filters::CapabilityFilter
+  include Queries::Filters::Shared::ParsedFilter
 
-  Queries::Register.filter query, filter_ns::IdFilter
-  Queries::Register.filter query, filter_ns::PrincipalIdFilter
-  Queries::Register.filter query, filter_ns::ContextFilter
-  Queries::Register.filter query, filter_ns::ActionFilter
+  private
 
-  order_ns = Queries::Capabilities::Orders
+  def split_values
+    values.map do |value|
+      if (matches = value.match(/\A([a-z]+\/[a-z]+)\z/))
+        {
+          action: matches[1]
+        }
+      end
+    end
+  end
 
-  Queries::Register.order query, order_ns::IdOrder
+  def value_conditions
+    split_values.map do |value|
+      "action = '#{value[:action]}'"
+    end
+  end
 end
