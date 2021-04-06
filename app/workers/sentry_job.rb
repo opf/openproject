@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,16 +26,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Disable delayed_job's own logging as we have activejob
-Delayed::Worker.logger = nil
+require 'active_job'
 
-# By default bypass worker queue and execute asynchronous tasks at once
-Delayed::Worker.delay_jobs = true
+class SentryJob < ::ActiveJob::Base
+  queue_with_priority :low
 
-# Set default priority (lower = higher priority)
-# Example ordering, see ApplicationJob.priority_number
-Delayed::Worker.default_priority = ::ApplicationJob.priority_number(:default)
+  self.log_arguments = false
 
-# Do not retry jobs from delayed_job
-# instead use 'retry_on' activejob functionality
-Delayed::Worker.max_attempts = 1
+  def perform(event, hint = {})
+    ::Sentry.send_event(event, hint)
+  end
+end

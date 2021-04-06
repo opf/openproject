@@ -175,7 +175,9 @@ module OpenProject
       'sentry_dsn' => nil,
       # Allow separate error reporting for frontend errors
       'sentry_frontend_dsn' => nil,
-      'sentry_host' => 'https://sentry.openproject.com',
+      'sentry_host' => nil,
+      # Sample rate for performance monitoring
+      'sentry_traces_sample_rate' => 0.1,
 
       # Allow connection to Augur
       'enterprise_trial_creation_host' => 'https://augur.openproject.com',

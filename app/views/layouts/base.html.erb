@@ -53,7 +53,13 @@ See docs/COPYRIGHT.rdoc for more details.
   <% end %>
 
   <% if OpenProject::Configuration.sentry_frontend_dsn %>
-    <%= tag :meta, name: 'openproject_sentry', data: { dsn: OpenProject::Configuration.sentry_frontend_dsn } %>
+    <%= tag :meta,
+            name: 'openproject_sentry',
+            data: {
+              dsn: OpenProject::Configuration.sentry_frontend_dsn,
+              version: OpenProject::VERSION.to_s,
+              tracing_rate: OpenProject::Configuration.sentry_traces_sample_rate
+            } %>
   <% end %>
 
   <meta name="openproject_initializer"
