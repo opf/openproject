@@ -45,7 +45,7 @@ uk:
   backlogs:
     add_new_story: "Новий сюжет"
     any: "будь-який"
-    backlog_settings: "Backlogs settings"
+    backlog_settings: "Налаштування Backlog"
     burndown_graph: "Графік Burndown"
     card_paper_size: "Розмір паперу для друку карт"
     chart_options: "Параметри діаграми"

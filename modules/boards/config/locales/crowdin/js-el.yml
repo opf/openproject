@@ -76,8 +76,8 @@ el:
           status: |
             There is currently no status available. <br>
             Either there are none or they have all already been added to the board.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
+          assignee: Δεν υπάρχει κανένα μέλος που να ταιριάζει με την τιμή του φίλτρου.  <br>
+          no_member: Αυτό το έργο, προς το παρόν, δεν έχει μέλη που μπορούν να προστεθούν.  <br>
           add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
       configuration_modal:
         title: 'Διαμόρφωση αυτού του πίνακα'

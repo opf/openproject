@@ -33,6 +33,14 @@ bin/compose rspec spec/features/work_package_show_spec.rb
 
 More details and options follow in the next section.
 
+<div class="alert alert-info" role="alert">
+
+docker-compose needs access to at least 4GB of RAM. E.g. for Mac, this requires to [increase the default limit of the virtualized host.](https://docs.docker.com/docker-for-mac/)
+
+Signs of lacking memory include an "Exit status 137" in the frontend container.
+
+</div>
+
 ## Step-by-step Setup
 
 ### 1) Checkout the code
@@ -65,13 +73,13 @@ Both `docker-compose` and `bin/compose` will load the env from this file.
 
 ```
 # Start the database. It needs to be running to run migrations and seeders
-docker-compose up -d db
+bin/compose up -d db
 
 # Install frontend dependencies
-docker-compose run frontend npm i
+bin/compose run frontend npm i
 
 # Install backend dependencies, migrate, and seed
-docker-compose run backend setup
+bin/compose run backend setup
 ```
 
 ### 4) Start the stack
@@ -79,13 +87,13 @@ docker-compose run backend setup
 The docker compose file also has the test containers defined. The easiest way to start only the development stack, use
 
 ```
-docker-compose up frontend
+bin/compose up frontend
 ```
 
 To see the backend logs as well, use
 
 ```
-docker-compose up frontend backend
+bin/compose up frontend backend
 ```
 
 This starts only the frontend and backend containers and their dependencies. This excludes the testing containers, which
@@ -128,13 +136,19 @@ If you want to reset the data you can delete the docker volumes via `docker volu
 Start all linked containers and migrate the test database first:
 
 ```
-docker-compose up backend-test 
+bin/compose up backend-test
 ```
 
 Afterwards, you can start the tests in the running `backend-test` container:
 
 ```
-docker-compose run backend-test bundle exec rspec
+bin/compose run backend-test bundle exec rspec
+```
+
+or for running a particular test
+
+```
+bin/compose run backend-test bundle exec rspec path/to/some_spec.rb
 ```
 
 You can run specific tests too. For instance:
