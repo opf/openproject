@@ -7,10 +7,7 @@ module OpenProject::GithubIntegration
         def extension
           ->(*) do
             link :github,
-                 uncacheable: true do
-              next unless represented.project.module_enabled?(:github) && current_user.allowed_to?(:show_github_content,
-                                                                                                   represented.project)
-
+                 cache_if: -> { current_user.allowed_to?(:show_github_content, represented.project) } do
               {
                 href: "#{work_package_path(id: represented.id)}/tabs/github",
                 title: "github"
