@@ -43,9 +43,7 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
   let(:system_version) { FactoryBot.create(:version, sharing: 'system') }
 
   let!(:project) do
-    FactoryBot.create(:project).tap do |p|
-      p.add_member(other_user, [role])
-
+    FactoryBot.create(:project, members: { other_user => role }).tap do |p|
       p.send(:"custom_field_#{int_cf.id}=", 5)
       p.send(:"custom_field_#{bool_cf.id}=", true)
       p.send(:"custom_field_#{version_cf.id}=", system_version)

@@ -26,4 +26,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Members::DeleteService < ::BaseServices::Delete; end
+class Members::DeleteService < ::BaseServices::Delete
+  include Members::Concerns::CleanedUp
+
+  protected
+
+  def after_perform(service_call)
+    service_call = super(service_call)
+
+    member = service_call.result
+
+    if member.principal.is_a?(Group)
+      Groups::CleanupInheritedRolesService
+        .new(member.principal, current_user: user, contract_class: EmptyContract)
+        .call(send_notifications: true)
+    end
+
+    service_call
+  end
+end

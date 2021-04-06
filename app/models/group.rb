@@ -33,8 +33,7 @@ class Group < Principal
 
   has_many :group_users,
            autosave: true,
-           dependent: :destroy,
-           after_remove: :user_removed
+           dependent: :destroy
 
   has_many :users,
            through: :group_users,
@@ -59,7 +58,8 @@ class Group < Principal
                :create_preference,
                :create_preference!
 
-  include Destroy
+  # TODO: Remove together with the module
+  #include Destroy
 
   scopes :visible
 
@@ -67,36 +67,23 @@ class Group < Principal
     lastname
   end
 
-  def user_removed(group_user)
-    user = group_user.user
+  # TODO: replace by cleanup_inherited_roles service call
+  #def user_removed(group_user)
+  #  user = group_user.user
 
-    member_roles = MemberRole
-                   .includes(member: :member_roles)
-                   .where(inherited_from: members.joins(:member_roles).select('member_roles.id'))
-                   .where(members: { user_id: user.id })
+  #  #member_roles = MemberRole
+  #  #               .includes(member: :member_roles)
+  #  #               .where(inherited_from: members.joins(:member_roles).select('member_roles.id'))
+  #  #               .where(members: { user_id: user.id })
 
-    project_ids = member_roles.map { |mr| mr.member.project_id }
+  #  #project_ids = member_roles.map { |mr| mr.member.project_id }
 
-    member_roles.each do |member_role|
-      member_role.member.remove_member_role_and_destroy_member_if_last(member_role,
-                                                                       prune_watchers: false)
-    end
+  #  #::Groups::CleanupInheritedRolesService
+  #  #  .new(self, current_user: User.current)
+  #  #  .call(member_role_ids: member_roles.pluck(:id))
 
-    Watcher.prune(user: user, project_id: project_ids)
-  end
-
-  # adds group members
-  # meaning users that are members of the group
-  def add_members!(users)
-    user_ids = Array(users).map { |user_or_id| user_or_id.is_a?(Integer) ? user_or_id : user_or_id.id }
-
-    ::Groups::AddUsersService
-      .new(self, current_user: User.current)
-      .call(ids: user_ids)
-      .tap do |result|
-      raise "Failed to add to group #{result.message}" if result.failure?
-    end
-  end
+  #  Watcher.prune(user: user, project_id: project_ids)
+  #end
 
   private
 

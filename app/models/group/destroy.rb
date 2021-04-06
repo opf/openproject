@@ -46,6 +46,9 @@ module Group::Destroy
   #
   # num_queries_post_patch = 5 + 150 + W = 155 + W
   #
+  # TODO: salvage parts into other services:
+  # * pruning watchers
+  # * removing category assignments
   def destroy_members
     MemberRole.transaction do
       members = Member.table_name

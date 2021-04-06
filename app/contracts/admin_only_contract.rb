@@ -26,15 +26,13 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Groups
-  class AddUsersContract < ::ModelContract
-    include RequiresAdminGuard
+# A contract that only checks whether the current user is an admin
+class AdminOnlyContract < ::ModelContract
+  include RequiresAdminGuard
 
-    protected
+  protected
 
-    # No need to validate the whole of the group when we only want to ensure that the user is an admin.
-    def validate_model?
-      false
-    end
+  def validate_model?
+    false
   end
 end

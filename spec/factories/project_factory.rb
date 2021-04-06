@@ -33,6 +33,7 @@ FactoryBot.define do
     transient do
       no_types { false }
       disable_modules { [] }
+      members { [] }
     end
 
     sequence(:name) { |n| "My Project No. #{n}" }
@@ -49,6 +50,14 @@ FactoryBot.define do
 
       if !evaluator.no_types && project.types.empty?
         project.types << (::Type.where(is_standard: true).first || FactoryBot.build(:type_standard))
+      end
+    end
+
+    callback(:after_create) do |project, evaluator|
+      evaluator.members.each do |user, roles|
+        Members::CreateService
+          .new(user: nil, contract_class: EmptyContract)
+          .call(principal: user, project: project, roles: Array(roles))
       end
     end
 

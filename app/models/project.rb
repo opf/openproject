@@ -158,15 +158,13 @@ class Project < ApplicationRecord
     visible.like(query)
   end
 
-  def add_member(user, roles)
+  def add_member!(user, roles)
+    raise "Unsafe operation. Use Members::CreateService" unless Rails.env.test?
+
     members.build.tap do |m|
       m.principal = user
       m.roles = Array(roles)
     end
-  end
-
-  def add_member!(user, roles)
-    add_member(user, roles)
     save
   end
 

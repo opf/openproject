@@ -52,9 +52,11 @@ class Mails::DeliverJob < ApplicationJob
   # To be implemented by subclasses.
   # Actual recipient and sender User objects are passed (always non-nil).
   # Returns a Mail::Message, or nil if no message should be sent.
+  # rubocop:disable Lint/UnusedMethodArgument
   def render_mail(recipient:, sender:)
     raise 'SubclassResponsibility'
   end
+  # rubocop:enable Lint/UnusedMethodArgument
 
   def build_mail
     render_mail(recipient: recipient, sender: sender)

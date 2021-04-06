@@ -180,10 +180,11 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
 
   describe 'PATCH api/v3/groups/:id' do
     let(:path) { api_v3_paths.group(group.id) }
+    let(:another_role) { FactoryBot.create(:role) }
     let(:another_user) do
       FactoryBot.create(:user,
                         member_in_project: project,
-                        member_through_role: role)
+                        member_through_role: another_role)
     end
     let(:body) do
       {
@@ -333,12 +334,18 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
                         project: other_project,
                         roles: [FactoryBot.create(:role)])
     end
+    let(:another_role) { FactoryBot.create(:role) }
 
     before do
       # Setup the memberships in the group has
       ::Groups::AddUsersService
         .new(group, current_user: admin)
         .call(ids: members.map(&:id))
+
+      # Have one user have a role independent of the group
+      Member
+        .find_by(principal: members.first, project: other_project)
+        .roles << another_role
 
       login_as current_user
 
@@ -359,9 +366,12 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
           .not_to exist(group.id)
       end
 
-      it 'deletes the memberships of the members' do
+      it 'deletes the memberships of the members but keeps the ones a user had independently of the group' do
         expect(other_project.users)
-          .to be_empty
+          .to match_array([members.first])
+
+        expect(Member.find_by(principal: members.first).roles)
+          .to match_array([another_role])
       end
 
       context 'for a non-existent group' do

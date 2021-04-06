@@ -29,10 +29,22 @@
 #++
 
 class Members::UpdateService < ::BaseServices::Update
-  def after_perform(service_call)
-    OpenProject::Notifications.send(OpenProject::Events::MEMBER_UPDATED,
-                                    member: service_call.result)
+  include Members::Concerns::CleanedUp
 
-    service_call
+  protected
+
+  def after_perform(service_call)
+    super.tap do |call|
+      member = call.result
+
+      if member.principal.is_a?(Group)
+        Groups::UpdateRolesService
+          .new(member.principal, current_user: user, contract_class: EmptyContract)
+          .call(member: member, send_notifications: true)
+      else
+        OpenProject::Notifications.send(OpenProject::Events::MEMBER_UPDATED,
+                                        member: member)
+      end
+    end
   end
 end

@@ -31,40 +31,34 @@
 class Notifications::GroupMemberAlteredJob < ApplicationJob
   queue_with_priority :notification
 
-  def perform(group, members_ids)
-    member_role_ids = group_member_role_ids(group)
-
-    each_member_role(members_ids) { |member| send_notification(member_role_ids, member) }
+  def perform(members_ids)
+    each_member(members_ids) do |member|
+      OpenProject::Notifications.send(event_type(member),
+                                      member: member)
+    end
   end
 
   private
 
-  def send_notification(group_member_role_ids, member)
-    event = if all_roles_added?(member, group_member_role_ids)
-              OpenProject::Events::MEMBER_CREATED
-            else
-              OpenProject::Events::MEMBER_UPDATED
-            end
-
-    OpenProject::Notifications.send(event,
-                                    member: member)
+  # There is a gap in the ability to determine the correct event.
+  # If the roles by the member are reduced to the set of roles the has has otherwise
+  # (by itself or by other roles), we cannot safely determine it here.
+  # Wrongfully, no event will be sent at all although an update would be correct.
+  def event_type(member)
+    if matching_timestamps?(member)
+      OpenProject::Events::MEMBER_CREATED
+    else
+      OpenProject::Events::MEMBER_UPDATED
+    end
   end
 
-  def all_roles_added?(user_member, group_member_role_ids)
-    (user_member.member_roles.map(&:inherited_from) - group_member_role_ids).empty?
+  def matching_timestamps?(member)
+    member.updated_at == member.created_at
   end
 
-  def group_member_role_ids(group)
-    MemberRole
-      .includes(:member)
-      .where(members: { user_id: group.id })
-      .pluck(:id)
-  end
-
-  def each_member_role(members_ids, &block)
+  def each_member(members_ids, &block)
     Member
       .where(id: members_ids)
-      .includes(:member_roles)
       .each(&block)
   end
 end

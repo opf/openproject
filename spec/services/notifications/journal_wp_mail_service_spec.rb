@@ -343,10 +343,9 @@ describe Notifications::JournalWpMailService do
 
         let(:group) do
           FactoryBot.create(:group, members: recipient) do |group|
-            FactoryBot.create(:member,
-                              project: project,
-                              principal: group,
-                              roles: [role])
+            Members::CreateService
+              .new(user: nil, contract_class: EmptyContract)
+              .call(project: project, principal: group, roles: [role])
           end
         end
 

@@ -26,4 +26,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Groups::DeleteService < ::BaseServices::Delete; end
+class Groups::DeleteService < ::BaseServices::Delete
+  protected
+
+  def destroy(group)
+    users = group.users.to_a
+    project_ids = group.members.pluck(:project_id)
+
+    ::Principals::DeleteJob.perform_now(group)
+
+    cleanup(users, project_ids)
+
+    true
+  end
+
+  def after_perform(service_call)
+    Groups::CleanupInheritedRolesService
+      .new(service_call.result, current_user: user, contract_class: EmptyContract)
+      .call(send_notifications: true)
+
+    service_call
+  end
+
+  def cleanup(users, projects)
+    Members::CleanupService
+      .new(users, projects)
+      .call
+  end
+end

@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,27 +28,45 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-env = ENV['RAILS_ENV'] || 'production'
+require 'spec_helper'
 
-if (db_config = ActiveRecord::Base.configurations.configs_for(env_name: env)[0]) &&
-   db_config.configuration_hash['adapter']&.start_with?('mysql')
-  warn <<~ERROR
-    ======= INCOMPATIBLE DATABASE DETECTED =======
-    Your database is set up for use with a MySQL or MySQL-compatible variant.
-    This installation of OpenProject no longer supports these variants.
+describe Notifications::GroupMemberAlteredJob, type: :model do
+  subject(:service_call) do
+    described_class.new.perform(members_ids)
+  end
+  let(:time) { Time.now }
+  let(:member1) do
+    FactoryBot.build_stubbed(:member, updated_at: time, created_at: time)
+  end
+  let(:member2) do
+    FactoryBot.build_stubbed(:member, updated_at: time + 1.second, created_at: time)
+  end
+  let(:members) { [member1, member2] }
+  let(:members_ids) { members.map(&:id) }
 
-    The following guides provide extensive documentation for migrating
-    your installation to a PostgreSQL database:
+  before do
+    allow(OpenProject::Notifications)
+      .to receive(:send)
 
-    https://www.openproject.org/migration-guides/
+    allow(Member)
+      .to receive(:where)
+      .with(id: members_ids)
+      .and_return(members)
+  end
 
-    This process is mostly automated so you can continue using your
-    OpenProject installation within a few minutes!
+  it 'sends a created notification for the membership with the matching timestamps' do
+    service_call
 
-    ==============================================
-  ERROR
+    expect(OpenProject::Notifications)
+      .to have_received(:send)
+      .with(OpenProject::Events::MEMBER_CREATED, member: member1)
+  end
 
-  # rubocop:disable Rails:Exit
-  Kernel.exit 1
-  # rubocop:enable Rails:Exit
+  it 'sends an updated notification for the membership with the mismatching timestamps' do
+    service_call
+
+    expect(OpenProject::Notifications)
+      .to have_received(:send)
+      .with(OpenProject::Events::MEMBER_UPDATED, member: member2)
+  end
 end

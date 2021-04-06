@@ -48,11 +48,8 @@ shared_examples 'global user principal membership management flows' do |permissi
     context 'when the user is member in the projects' do
       it_behaves_like 'principal membership management flows' do
       before do
-          project.add_member global_user, [manager]
-          project.save!
-
-          project2.add_member global_user, [manager]
-          project2.save!
+          project.add_member! global_user, [manager]
+          project2.add_member! global_user, [manager]
         end
       end
     end
@@ -67,8 +64,7 @@ shared_examples 'global user principal membership management flows' do |permissi
       end
 
       it 'does not show the membership' do
-        project.add_member principal, [developer]
-        project.save!
+        project.add_member! principal, [developer]
 
         principal_page.visit!
         principal_page.open_projects_tab!

@@ -95,42 +95,6 @@ describe Group, type: :model do
     end
   end
 
-  describe 'from legacy specs' do
-    let!(:roles) { FactoryBot.create_list :role, 2 }
-    let!(:role_ids) { roles.map(&:id).sort }
-    let!(:member) { FactoryBot.create :member, project: project, principal: group, role_ids: role_ids }
-    let!(:group) { FactoryBot.create(:group, members: user) }
-
-    it 'should roles removed when removing group membership' do
-      expect(user).to be_member_of project
-      Principals::DeleteJob.perform_now group
-      user.reload
-      project.reload
-      expect(user).not_to be_member_of project
-    end
-
-    it 'should roles updated' do
-      group = FactoryBot.create :group, members: user
-      member = FactoryBot.build :member
-      roles = FactoryBot.create_list :role, 2
-      role_ids = roles.map(&:id)
-      member.attributes = { principal: group, role_ids: role_ids }
-      member.save!
-
-      member.role_ids = [role_ids.first]
-      expect(user.reload.roles_for_project(member.project).map(&:id).sort).to eq([role_ids.first])
-
-      member.role_ids = role_ids
-      expect(user.reload.roles_for_project(member.project).map(&:id).sort).to eq(role_ids)
-
-      member.role_ids = [role_ids.last]
-      expect(user.reload.roles_for_project(member.project).map(&:id).sort).to eq([role_ids.last])
-
-      member.role_ids = [role_ids.first]
-      expect(user.reload.roles_for_project(member.project).map(&:id).sort).to eq([role_ids.first])
-    end
-  end
-
   describe '#create' do
     describe 'group with empty group name' do
       let(:group) { FactoryBot.build(:group, lastname: '') }
