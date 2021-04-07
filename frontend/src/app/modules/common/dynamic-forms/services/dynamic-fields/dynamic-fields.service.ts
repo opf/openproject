@@ -208,7 +208,6 @@ export class DynamicFieldsService {
   private _getFieldOptions(field:IFieldSchemaWithKey) {
     const allowedValues = field._embedded?.allowedValues || field._links?.allowedValues;
 
-    // TODO: Check why is this
     if (!allowedValues) {
       return;
     }

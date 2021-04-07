@@ -84,7 +84,8 @@ export class DynamicFormService {
       .keys(resources)
       .reduce((result, resourceKey) => {
         const resource = resources[resourceKey];
-        // TODO: When does the resource have an href and when _links?.self?.href??
+        // Form.payload resources have a HalLinkSource interface while
+        // API resource options have a IAllowedValue interface
         const resourceValue = Array.isArray(resource) ?
           resource.map(resourceElement => ({ href: resourceElement?.href || resourceElement?._links?.self?.href })) :
           { href: resource?.href || resource?._links?.self?.href };
