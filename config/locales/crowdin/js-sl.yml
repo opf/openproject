@@ -355,7 +355,7 @@ sl:
     label_mail_notification: "E-poštna obvestila"
     label_me: "jaz"
     label_meeting_agenda: "Dnevni red"
-    label_meeting_minutes: "Minut"
+    label_meeting_minutes: "Zapisnik"
     label_menu_collapse: "Zapri"
     label_menu_expand: "Razširi"
     label_more_than_ago: "pred več kot nekaj dnevi"
@@ -1017,7 +1017,7 @@ sl:
       message:
         label: 'Sporočilo s povabilom'
         description: 'Poslali bomo e-mail %{principal}, kateremu tukaj lahko dodate osebno sporočilo. Razlaga za povabilo bi lahko bila uporabna, ali pa vsaj nekaj informacij o projektu za lažji začetek.'
-        next_button: 'Review invitation'
+        next_button: 'Preglej povabilo'
       summary:
         next_button: 'Pošlji povabilo'
       success:

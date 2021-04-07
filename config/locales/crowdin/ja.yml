@@ -66,7 +66,7 @@ ja:
       upgrade_to_ee: "エンタープライズ版にアップグレード"
       add_token: "エンタープライズ版サポートのトークンをアップロード"
       replace_token: "現在のサポート トークンを置き換え"
-      order: "Order Enterprise on-premises Edition"
+      order: "エンタープライズ オンプレミス エディションを注文"
       paste: "エンタープライズ版サポートのトークンを貼り付け"
       required_for_feature: "この機能は、アクティブなエンタープライズ版のサポート トークンでのみ利用可能です。"
       enterprise_link: "詳細については、ここをクリックしてください。"
@@ -245,7 +245,7 @@ ja:
         プレースホルダー ユーザのすべての発生(担当者、担当者、その他のユーザ値など)は、「削除されたユーザー」というアカウントに再割り当てられます。
         削除されたすべてのアカウントのデータがこのアカウントに再割り当てられるため、ユーザーが作成したデータと別の削除されたアカウントのデータを区別することはできません。
       irreversible: "この操作は元に戻せません"
-      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+      confirmation: "削除を確認するため、プレースホルダーユーザー名 %{name} を入力してください。"
     upsale:
       title: Assign work to people that are not members of the project.
       description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
@@ -656,7 +656,7 @@ ja:
         wiki_page:
           attributes:
             slug:
-              undeducible: "cannot be deduced from the title '%{title}'."
+              undeducible: "タイトル '%{title}' から推測することができません。"
         work_package:
           is_not_a_valid_target_for_time_entries: "ワークパッケージ #%{id} は、作業時間の再割り当ての対象としては有効ではありません。"
           attributes:
@@ -1209,7 +1209,7 @@ ja:
   instructions_after_error: "%{signin} をクリックして再びログインを試行できます。エラーが解決しない場合は、管理者にお問い合わせください。"
   menus:
     quick_add:
-      label: "Open quick add menu"
+      label: "クイック追加メニューを開く"
   my_account:
     access_tokens:
       no_results:
@@ -1919,7 +1919,7 @@ ja:
   permission_add_messages: "メッセージの投稿"
   permission_add_project: "プロジェクトの作成"
   permission_manage_user: "ユーザーの作成と編集"
-  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
+  permission_manage_placeholder_user: "プレースホルダーユーザーの作成、編集、削除"
   permission_add_subprojects: "子プロジェクトの追加"
   permission_add_work_package_watchers: "ウォッチャーの追加"
   permission_assign_versions: "バージョンの割り当て"
