@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {
   IAttributeGroup,
+  IDynamicInputConfig,
   IFieldSchema,
   IFieldSchemaWithKey,
-  IFieldTypeMap,
   IOPFormlyFieldConfig,
   IOPFormModel,
   IOPFormSchema,
@@ -13,8 +13,86 @@ import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
 
+
 @Injectable()
 export class DynamicFieldsService {
+  readonly inputsCatalogue:IDynamicInputConfig[] = [
+    {
+      config: {
+        type: 'textInput',
+        className: 'inline-edit--field',
+        templateOptions: {
+          type: 'text',
+        },
+      },
+      useForFields: ['String']
+    },
+    {
+      config: {
+        type: 'integerInput',
+        className: `inline-edit--field`,
+        templateOptions: {
+          type: 'number',
+          locale: I18n.locale,
+        },
+      },
+      useForFields: ['Integer']
+    },
+    {
+      config: {
+        type: 'booleanInput',
+        className: `inline-edit--field inline-edit--boolean-field`,
+        templateOptions: {
+          type: 'checkbox',
+        },
+      },
+      useForFields: ['Boolean']
+    },
+    {
+      config: {
+        type: 'dateInput',
+        className: `inline-edit--field`,
+      },
+      useForFields: ['Date', 'DateTime']
+    },
+    {
+      config: {
+        type: 'formattableInput',
+        className: `textarea-wrapper`,
+        templateOptions: {
+          editorType: 'full',
+          inlineLabel: true,
+        },
+      },
+      useForFields: ['Formattable']
+    },
+    {
+      config: {
+        type: 'selectInput',
+        className: `inline-edit--field`,
+        templateOptions: {
+          type: 'number',
+          locale: I18n.locale,
+          bindLabel: 'title',
+          searchable: false,
+          virtualScroll: true,
+          typeahead: false,
+          clearOnBackspace: false,
+          clearSearchOnAdd: false,
+          hideSelected: false,
+          text: {
+            add_new_action: I18n.t('js.label_create'),
+          },
+        },
+        expressionProperties: {
+          'templateOptions.clearable': (model:any, formState:any, field:FormlyFieldConfig) => !field.templateOptions?.required,
+          'templateOptions.multiple': (model:any, formState:any, field:FormlyFieldConfig) => (field.key! as string).replace('_links.', '').startsWith('[]'),
+        },
+      },
+      useForFields: ['Priority', 'Status', 'Type', 'User', 'Version', 'TimeEntriesActivity', 'Category', 'CustomOption', 'Project', 'ProjectStatus']
+    },
+  ]
+
   constructor(
     private _httpClient:HttpClient,
   ) { }
@@ -50,24 +128,17 @@ export class DynamicFieldsService {
       .filter(schemaValue => this._isFieldSchema(schemaValue));
   }
 
-  // TODO: Is there a better way to check if a field is a resource??
+  // TODO: Adapt to the new API (schema.parent?.location === '_links')
   private _isResourceSchema(fieldSchemaKey:string, formModel:IOPFormModel):boolean {
     return !!(formModel?._links && fieldSchemaKey in formModel._links);
   }
 
-  // TODO: Is there a better way to check this?
   private _isFieldSchema(schemaValue:IFieldSchemaWithKey | any):boolean {
-    return schemaValue?.type &&
-      schemaValue?.name != null &&
-      schemaValue?.required != null &&
-      schemaValue?.hasDefault != null &&
-      schemaValue?.writable != null;
+    return schemaValue?.type;
   }
 
   private _getFieldsModel(fieldSchemas:IFieldSchemaWithKey[], formModel:IOPFormModel = {}):IOPFormModel {
     // TODO: Handle Formattable and time types?
-    // TODO: Do we need to add a name 'key' to otherElementsModel (_getFormattedResourcesModel)?
-    // Could we receive object values without a 'name' in otherElementsModel?
     const {_links:resourcesModel, ...otherElementsModel} = formModel;
     const model = {
       ...otherElementsModel,
@@ -81,6 +152,7 @@ export class DynamicFieldsService {
     return Object.keys(resourcesModel).reduce((result, resourceKey) => {
       const resource = resourcesModel[resourceKey];
       // ng-select needs a 'name' in order to show the label
+      // We need to add it in case of the form payload (HalLinkSource)
       const resourceModel = Array.isArray(resource) ?
         resource.map(resourceElement => resourceElement?.href && { ...resourceElement, name: resourceElement?.title }) :
         resource?.href && { ...resource, name: resource?.title };
@@ -95,7 +167,6 @@ export class DynamicFieldsService {
   }
 
   private _getFormlyFieldConfig(field:IFieldSchemaWithKey):IOPFormlyFieldConfig {
-    // TODO: Do we want to localize labels?
     const {key, name:label, required, writable} = field;
     const {templateOptions, ...fieldTypeConfig} = this._getFieldTypeConfig(field);
     const fieldOptions = this._getFieldOptions(field);
@@ -116,90 +187,23 @@ export class DynamicFieldsService {
   }
 
   private _getFieldTypeConfig(field:IFieldSchemaWithKey):FormlyFieldConfig {
-    const inputTypeMap = {
-      text: {
-        type: 'textInput',
-        // TODO: Should we keep this hardcode?
-        focus: field.name === 'subject',
-        className: 'inline-edit--field',
+    let inputType = this.inputsCatalogue.find(inputType => inputType.useForFields.includes(field.type))!;
+    let inputConfig = inputType.config;
+    let configCustomizations;
+
+    if (field.type === 'integer' || field.type === 'select') {
+      configCustomizations = { className: `${inputConfig.className} ${field.name}` };
+    } else if (field.type === 'formattable') {
+      configCustomizations = {
         templateOptions: {
-          type: 'text',
-        },
-      },
-      integer: {
-        type: 'integerInput',
-        className: `inline-edit--field ${field.name}`,
-        templateOptions: {
-          type: 'number',
-          locale: I18n.locale,
-        },
-      },
-      boolean: {
-        type: 'booleanInput',
-        className: `inline-edit--field inline-edit--boolean-field`,
-        templateOptions: {
-          type: 'checkbox',
-        },
-      },
-      date: {
-        type: 'dateInput',
-        className: `inline-edit--field`,
-      },
-      formattable: {
-        type: 'formattableInput',
-        className: `textarea-wrapper`,
-        templateOptions: {
-          // TODO: Get rtl this from the schema
-          rtl: false,
+          ...inputConfig.templateOptions,
+          rtl: field.options?.rtl,
           name: field.name,
-          editorType: 'full',
-          inlineLabel: true,
         },
-      },
-      select: {
-        type: 'selectInput',
-        className: `inline-edit--field ${field.name}`,
-        templateOptions: {
-          type: 'number',
-          locale: I18n.locale,
-          multiple: field.key.replace('_links.', '').startsWith('[]'),
-          bindLabel: 'title',
-          searchable: false,
-          virtualScroll: true,
-          typeahead: false,
-          clearOnBackspace: false,
-          clearSearchOnAdd: false,
-          hideSelected: false,
-          text: {
-            add_new_action: I18n.t('js.label_create'),
-          },
-        },
-        expressionProperties: {
-          'templateOptions.clearable': (model: any, formState: any, field: FormlyFieldConfig) => !field.templateOptions?.required,
-        },
-      },
-    }
-    const fieldTypeMap:IFieldTypeMap = {
-      Integer: inputTypeMap.integer,
-      String: inputTypeMap.text,
-      Priority: inputTypeMap.select,
-      Status: inputTypeMap.select,
-      Type: inputTypeMap.select,
-      User: inputTypeMap.select,
-      Version: inputTypeMap.select,
-      TimeEntriesActivity: inputTypeMap.select,
-      Category: inputTypeMap.select,
-      CustomOption: inputTypeMap.select,
-      Project: inputTypeMap.select,
-      ProjectStatus: inputTypeMap.select,
-      Boolean: inputTypeMap.boolean,
-      Date: inputTypeMap.date,
-      Formattable: inputTypeMap.formattable,
-      // TODO: Do we have DateTime input?
-      DateTime: inputTypeMap.date,
+      };
     }
 
-    return fieldTypeMap[field.type];
+    return {...inputConfig, ...configCustomizations};
   }
 
   private _getFieldOptions(field:IFieldSchemaWithKey) {

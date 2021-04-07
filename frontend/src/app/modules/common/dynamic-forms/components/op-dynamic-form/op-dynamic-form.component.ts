@@ -12,7 +12,7 @@ import { DynamicFormService } from "../../services/dynamic-form/dynamic-form.ser
 import { IOPDynamicForm, IFormError, IOPFormModel } from "../../typings";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
-import { finalize } from "rxjs/operators";
+import { catchError, finalize } from "rxjs/operators";
 import { HalSource } from "core-app/modules/hal/resources/hal-resource";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
@@ -38,8 +38,9 @@ export class OpDynamicFormComponent implements OnChanges {
   dynamicForm$: Observable<IOPDynamicForm>;
   text = {
     save: this._I18n.t('js.button_save'),
-    error_message: this._I18n.t('js.forms.error_message'),
-    success_message: this._I18n.t('js.forms.success_message'),
+    validation_error_message: this._I18n.t('js.forms.validation_error_message'),
+    load_error_message: this._I18n.t('js.forms.load_error_message'),
+    submit_success_message: this._I18n.t('js.forms.submit_success_message'),
   };
   inFlight:boolean;
 
@@ -52,7 +53,7 @@ export class OpDynamicFormComponent implements OnChanges {
     private _dynamicFormService: DynamicFormService,
     private _I18n:I18nService,
     private _pathHelperService:PathHelperService,
-    protected _notificationsService:NotificationsService,
+    private _notificationsService:NotificationsService,
   ) {}
 
   ngOnChanges() {
@@ -61,9 +62,17 @@ export class OpDynamicFormComponent implements OnChanges {
     }
 
     this.resourceEndpoint = `${this._pathHelperService.api.v3.apiV3Base}${this.resourcePath}`;
-    // TODO: Does this work for all resource types?
+    // TODO: Get href from resource / pathHelper
     const url = `${this.resourceEndpoint}/${this.resourceId ? this.resourceId + '/' : ''}form`;
-    this.dynamicForm$ = this._dynamicFormService.getForm$(url);
+
+    this.dynamicForm$ = this._dynamicFormService
+      .getForm$(url)
+      .pipe(
+        catchError(error => {
+          this._notificationsService.addError(this.text.load_error_message);
+          throw error;
+        })
+      )
   }
 
   submitForm(formModel:IOPFormModel) {
@@ -76,11 +85,11 @@ export class OpDynamicFormComponent implements OnChanges {
       .subscribe(
         (formResource:HalSource) => {
           this.submitted.emit(formResource);
-          this.showNotifications && this._notificationsService.addSuccess(this.text.success_message);
+          this.showNotifications && this._notificationsService.addSuccess(this.text.submit_success_message);
         },
         (error:IFormError) => {
           this.errored.emit(error);
-          this.showNotifications && this._notificationsService.addError(this.text.error_message);
+          this.showNotifications && this._notificationsService.addError(this.text.validation_error_message);
         },
       );
   }
