@@ -36,7 +36,7 @@ module API
           extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
           custom_field_injector type: :schema_representer
 
-          ProjectCopyPayloadRepresenter.copyable_modules.each do |name|
+          ::Projects::CopyService.copyable_modules.each do |name|
             schema :"copy_#{name}",
                    type: 'Boolean',
                    location: :meta

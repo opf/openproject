@@ -32,8 +32,11 @@ module BaseServices
   class Copy < ::BaseServices::BaseContracted
     alias_attribute(:source, :model)
 
-    def initialize(user:, source:, contract_class: nil, contract_options: { copy_source: source })
-      self.source = source
+    def initialize(user:, source: nil, model: nil, contract_class: nil, contract_options: {})
+      self.source = source || model
+      raise ArgumentError, "Missing source object" if self.source.nil?
+
+      contract_options[:copy_source] = self.source
       super(user: user, contract_class: contract_class, contract_options: contract_options)
     end
 
@@ -87,7 +90,11 @@ module BaseServices
     #
     # Note that for dependent copy services to be called
     # this will already be present.
-    def prepare(_params); end
+    def prepare(params)
+      # Retain the information about what things we copied
+      # for the service result
+      state.only = params[:only]
+    end
 
     ##
     # dependent services to copy associations

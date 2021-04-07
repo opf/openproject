@@ -35,6 +35,11 @@ module API
         class FormRepresenter < ::API::V3::Projects::FormRepresenter
           private
 
+          def payload_representer
+            ProjectCopyPayloadRepresenter
+              .create(represented, current_user: current_user, service_call: service_call)
+          end
+
           def schema_representer_class
             ProjectCopySchemaRepresenter
           end

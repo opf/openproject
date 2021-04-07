@@ -33,6 +33,25 @@ module Projects
     include Projects::Concerns::NewProjectService
 
     ##
+    # We need some place to keep a DRY list of
+    # copyable project association identifiers
+    def self.copyable_modules
+      %i[
+              overview
+              boards
+              forums
+              members
+              versions
+              wiki
+              wiki_page_attachments
+              work_packages
+              work_package_attachments
+              queries
+              categories
+            ]
+    end
+
+    ##
     # In case a rollback is needed,
     # destroy the copied project again.
     def rollback
@@ -89,6 +108,7 @@ module Projects
              model: target,
              contract_class: Projects::CopyContract,
              contract_options: { copy_source: source })
+        .with_state(state)
         .call(target_project_params)
 
       # Retain values after the set attributes service

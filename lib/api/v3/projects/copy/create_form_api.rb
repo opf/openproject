@@ -35,6 +35,17 @@ module API
             post &::API::V3::Utilities::Endpoints::CreateForm
               .new(
                 model: Project,
+                instance_generator: ->(*) { @project },
+                params_modifier: ->(attributes) do
+                  only = attributes.delete(:only) || Set.new
+                  {
+                    target_project_params: attributes,
+                    attributes_only: true,
+                    only: only
+                  }
+                end,
+                process_service: ::Projects::CopyService,
+                process_contract: ::Projects::CopyContract,
                 parse_representer: ProjectCopyPayloadRepresenter,
                 render_representer: CreateFormRepresenter
               )
