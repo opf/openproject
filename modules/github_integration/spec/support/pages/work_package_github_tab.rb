@@ -26,21 +26,43 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-de:
-  project_module_github: "GitHub"
-  permission_show_github_content: "GitHub Inhalte anzeigen"
+require 'rbconfig'
+require 'support/pages/page'
 
-  github_integration:
-    pull_request_opened_comment: >
-      **PR Geöffnet:** "Pull request %{pr_number} “%{pr_title}”":%{pr_url} in "%{repository}":%{repository_url}
-      wurde von "%{github_user}":%{github_user_url} geöffnet.
-    pull_request_closed_comment: >
-      **PR Geschlossen:** "Pull request %{pr_number} “%{pr_title}”":%{pr_url} in "%{repository}":%{repository_url}
-      wurde von "%{github_user}":%{github_user_url} geschlossen.
-    pull_request_merged_comment: >
-      **PR Merged:** "Pull request %{pr_number} “%{pr_title}”":%{pr_url} in "%{repository}":%{repository_url}
-      wurde von "%{github_user}":%{github_user_url} gemerged.
-    pull_request_referenced_comment: >
-      **Referenziert in PR:** ""%{github_user}":%{github_user_url} hat dieses Arbeitspaket in
-      Pull Request %{pr_number} “%{pr_title}”":%{pr_url} in "%{repository}":%{repository_url}
-      referenziert.
+module Pages
+  class GitHubTab < Page
+    attr_reader :work_package_id
+
+    def initialize(work_package_id)
+      super()
+      @work_package_id = work_package_id
+    end
+
+    def path
+      "/work_packages/#{work_package_id}/tabs/github"
+    end
+
+    def git_actions_menu_button
+      find('.github-git-copy:not([disabled])', text: 'Git')
+    end
+
+    def git_actions_copy_button
+      find('.git-actions-menu .copy-button:not([disabled])')
+    end
+
+    def paste_clipboard_content
+      meta_key = osx? ? :command : :control
+      page.send_keys(meta_key, 'v')
+    end
+
+    def expect_tab_not_present
+      expect(page).not_to have_selector('.tabrow li', text: 'GITHUB')
+    end
+
+    private
+
+    def osx?
+      RbConfig::CONFIG['host_os'] =~ /darwin/
+    end
+  end
+end

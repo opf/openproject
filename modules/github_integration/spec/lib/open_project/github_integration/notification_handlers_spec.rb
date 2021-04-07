@@ -26,56 +26,56 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../spec_helper', __dir__)
+require File.expand_path('../../../spec_helper', __dir__)
 
-describe OpenProject::GithubIntegration do
+describe OpenProject::GithubIntegration::NotificationHandlers do
   before do
     allow(Setting).to receive(:host_name).and_return('example.net')
   end
 
   describe '.extract_work_package_ids' do
-    it 'should return an empty array for an empty source' do
-      result = OpenProject::GithubIntegration::NotificationHandlers.send(
+    it 'returns an empty array for an empty source' do
+      result = described_class.send(
         :extract_work_package_ids, ''
       )
       expect(result).to eql([])
     end
 
-    it 'should find a plain work package url' do
+    it 'finds a work package by code' do
       source = "Blabla\nOP#1234\n"
-      result = OpenProject::GithubIntegration::NotificationHandlers.send(
+      result = described_class.send(
         :extract_work_package_ids, source
       )
       expect(result).to eql([1234])
     end
 
-    it 'should find a plain work package url' do
+    it 'finds a plain work package url' do
       source = 'Blabla\nhttps://example.net/work_packages/234\n'
-      result = OpenProject::GithubIntegration::NotificationHandlers.send(
+      result = described_class.send(
         :extract_work_package_ids, source
       )
       expect(result).to eql([234])
     end
 
-    it 'should find a work package url in markdown link syntax' do
+    it 'finds a work package url in markdown link syntax' do
       source = 'Blabla\n[WP 234](https://example.net/work_packages/234)\n'
-      result = OpenProject::GithubIntegration::NotificationHandlers.send(
+      result = described_class.send(
         :extract_work_package_ids, source
       )
       expect(result).to eql([234])
     end
 
-    it 'should find multiple work package urls' do
+    it 'finds multiple work package urls' do
       source = "I reference https://example.net/work_packages/434\n and Blabla\n[WP 234](https://example.net/wp/234)\n"
-      result = OpenProject::GithubIntegration::NotificationHandlers.send(
+      result = described_class.send(
         :extract_work_package_ids, source
       )
       expect(result).to eql([434, 234])
     end
 
-    it 'should find multiple occurences of a work package only once' do
+    it 'finds multiple occurences of a work package only once' do
       source = "I reference https://example.net/work_packages/434\n and Blabla\n[WP 234](https://example.net/work_packages/434)\n"
-      result = OpenProject::GithubIntegration::NotificationHandlers.send(
+      result = described_class.send(
         :extract_work_package_ids, source
       )
       expect(result).to eql([434])
@@ -83,49 +83,41 @@ describe OpenProject::GithubIntegration do
   end
 
   describe '.find_visible_work_packages' do
-    let(:user) do
-      user = double('A User')
-      expect(user).to receive(:allowed_to?) { |permission, project|
-        expect(permission).to equal(:add_work_package_notes)
-        project == :project_with_permissions
-      }.at_least(:once)
-      user
-    end
-    let(:visible_wp) do
-      wp = double('Visible Work Package')
-      allow(wp).to receive(:project).and_return(:project_with_permissions)
-      wp
-    end
-    let(:invisible_wp) do
-      wp = double('Invisible Work Package')
-      allow(wp).to receive(:project).and_return(:project_without_permissions)
-      wp
-    end
-
-    before do
-      allow(WorkPackage).to receive(:includes).and_return(WorkPackage)
-      allow(WorkPackage).to receive(:find_by_id) { |id| wps[id] }
-    end
+    let(:user) { instance_double(User) }
+    let(:visible_wp) { instance_double(WorkPackage, project: :project_with_permissions) }
+    let(:invisible_wp) { instance_double(WorkPackage, project: :project_without_permissions) }
 
     shared_examples_for 'GithubIntegration.find_visible_work_packages' do
-      subject do
-        OpenProject::GithubIntegration::NotificationHandlers.send(
+      subject(:find_visible_work_packages) do
+        described_class.send(
           :find_visible_work_packages, ids, user
         )
       end
-      it { expect(subject).to eql(expected) }
+
+      before do
+        allow(WorkPackage).to receive(:includes).and_return(WorkPackage)
+        allow(WorkPackage).to receive(:where).with(id: ids).and_return(work_packages)
+        allow(user).to receive(:allowed_to?) { |permission, project|
+          (permission == :add_work_package_notes) && (project == :project_with_permissions)
+        }
+      end
+
+      it 'processes the notification' do
+        expect(find_visible_work_packages).to eql(expected)
+        expect(user).to have_received(:allowed_to?).exactly(ids.length).times
+      end
     end
 
     describe 'should find an existing work package' do
-      let(:wps) { [visible_wp] }
+      let(:work_packages) { [visible_wp] }
       let(:ids) { [0] }
-      let(:expected) { wps }
+      let(:expected) { work_packages }
 
       it_behaves_like 'GithubIntegration.find_visible_work_packages'
     end
 
     describe 'should not find a non-existing work package' do
-      let(:wps) { [invisible_wp] }
+      let(:work_packages) { [invisible_wp] }
       let(:ids) { [0] }
       let(:expected) { [] }
 
@@ -133,15 +125,15 @@ describe OpenProject::GithubIntegration do
     end
 
     describe 'should find multiple existing work packages' do
-      let(:wps) { [visible_wp, visible_wp] }
+      let(:work_packages) { [visible_wp, visible_wp] }
       let(:ids) { [0, 1] }
-      let(:expected) { wps }
+      let(:expected) { work_packages }
 
       it_behaves_like 'GithubIntegration.find_visible_work_packages'
     end
 
     describe 'should not find work package which the user shall not see' do
-      let(:wps) { [visible_wp, invisible_wp, visible_wp, invisible_wp] }
+      let(:work_packages) { [visible_wp, invisible_wp, visible_wp, invisible_wp] }
       let(:ids) { [0, 1, 2, 3] }
       let(:expected) { [visible_wp, visible_wp] }
 
@@ -150,20 +142,19 @@ describe OpenProject::GithubIntegration do
   end
 
   describe '.issue_comment' do
-    context 'for a non-pull request issue' do
+    context 'when an issue request is not a pull request' do
       let(:payload) do
         { 'action' => 'created',
           'issue' => { 'pull_request' => { 'html_url' => nil } } }
       end
 
       before do
-        expect(OpenProject::GithubIntegration::NotificationHandlers).not_to receive(
-          :comment_on_referenced_work_packages
-        )
+        allow(WorkPackages::UpdateService).to receive(:new)
       end
 
-      it 'should do nothing' do
-        OpenProject::GithubIntegration::NotificationHandlers.issue_comment(payload)
+      it 'does not add comments to work packages' do
+        described_class.issue_comment(payload)
+        expect(WorkPackages::UpdateService).not_to have_received(:new)
       end
     end
   end
@@ -173,13 +164,12 @@ describe OpenProject::GithubIntegration do
       let(:payload) { { 'action' => 'synchronize' } }
 
       before do
-        expect(OpenProject::GithubIntegration::NotificationHandlers).not_to receive(
-          :comment_on_referenced_work_packages
-        )
+        allow(WorkPackages::UpdateService).to receive(:new)
       end
 
-      it 'should do nothing' do
-        OpenProject::GithubIntegration::NotificationHandlers.pull_request(payload)
+      it 'does not add comments to work packages' do
+        described_class.pull_request(payload)
+        expect(WorkPackages::UpdateService).not_to have_received(:new)
       end
     end
   end

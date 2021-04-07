@@ -61,8 +61,8 @@ describe('HalResource', () => {
     })
       .compileComponents()
       .then(() => {
-        halResourceService = TestBed.get(HalResourceService);
-        injector = TestBed.get(Injector);
+        halResourceService = TestBed.inject(HalResourceService);
+        injector = TestBed.inject(Injector);
       });
   }));
 
