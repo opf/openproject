@@ -231,10 +231,23 @@ else
   echo "  Moved tables from $DATABASE to public"
 fi
 
+echo
+echo "3.4) Making extra sure primary keys are named correctly"
+
+docker exec -it migrate8to10 \
+  bundle exec rake db:migrate:redo VERSION=20190502102512
+
+if [[ $? -gt 0 ]]; then
+  echo "  Failed to rename primary keys. You may have to do this yourself."
+  exit 1
+else
+  echo "  Ensured correct primary key names."
+fi
+
 docker stop migrate8to10 > /dev/null # don't need this anymore
 
 echo
-echo "2.4) Migrating from 10 to current ($CURRENT_OP_MAJOR_VERSION)"
+echo "2.5) Migrating from 10 to current ($CURRENT_OP_MAJOR_VERSION)"
 
 docker pull openproject/community:$CURRENT_OP_MAJOR_VERSION
 
@@ -261,7 +274,7 @@ if [[ "$DUMP_FORMAT" = "sql" ]]; then
 fi
 
 echo
-echo "2.5) Dumping migrated database to $DATABASE-migrated.$EXT"
+echo "2.6) Dumping migrated database to $DATABASE-migrated.$EXT"
 
 OUTPUT_PARAMS="-F custom -f /data/$DATABASE-migrated.dump"
 OUTPUT_FILE="/dev/stdout"
