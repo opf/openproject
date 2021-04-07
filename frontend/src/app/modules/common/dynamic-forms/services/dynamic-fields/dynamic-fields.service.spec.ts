@@ -332,7 +332,7 @@ fdescribe('DynamicFieldsService', () => {
     const formGroup = formlyFormWithFieldGroups[0];
 
     expect(formGroup).toBeTruthy();
-    expect(formGroup.wrappers![0]).toEqual('op-form-field-group-wrapper');
+    expect(formGroup.wrappers![0]).toEqual('op-form-dynamic-field-group-wrapper');
     expect(formGroup.fieldGroupClassName).toEqual('op-form--field-group');
     expect(formGroup.templateOptions!.label).toEqual('People');
     expect(formGroup.fieldGroup![0].key).toEqual('name');
