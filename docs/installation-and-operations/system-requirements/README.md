@@ -29,7 +29,7 @@ Technically this only really depends on the number of concurrent users. No matte
 Still, the total number of users is a good general indicator of how much resources you will need.
 
 It's not enough to simply have more resources available, however. You will have to make use of them too.
-By default OpenProject has 4 so called web workers and 1 background worker. Web workers are handling the HTTP requests while backend workers are doing offloaded tasks such as sending emails or performing resource-intensive tasks of unknown duration, e.g., copying or deleting resources.
+By default OpenProject has 4 so called web workers and 1 background worker. Web workers are handling the HTTP requests while backend workers are doing offloaded tasks such as sending emails or performing resource-intensive tasks of unknown duration, e.g. copying or deleting resources.
 If there are more users you will need more web workers and eventually also more background workers.
 
 The database will need resources as well, and this, too, will increase with the number of users.
@@ -39,9 +39,12 @@ Using a rough estimate we can give the following recommendations based on the nu
 
 | Users | CPU cores | RAM in GB  | web workers | background workers | Diskspace in GB |
 |-------|-----------|------------|-------------|--------------------|-----------------|
-| 200   | 4         | 4          | 4           | 1                  | 20              |
+| <=200 | 4         | 4          | 4           | 1                  | 20              |
 | 500   | 8         | 8          | 8           | 2                  | 40              |
 | 1500  | 16        | 16         | 16          | 4                  | 80              |
+
+Mind, even just for 5 users we do recommend the default 4 workers as each page may require
+multiple requests to be made simultaneously. Having less workers will work, but pages may take longer to finish loading.
 
 These numbers are a guideline only and your mileage may vary.<sup>1</sup>
 It's best to monitor your server and its resource usage. You can always allocate more resources if needed.
@@ -52,9 +55,9 @@ See [here](/installation-and-operations/operation/control/#scaling-the-number-of
 
 **Scaling horizontally**
 
-At some point simply increasing the resources of one single server may not be enough anymoe.
+At some point simply increasing the resources of one single server may not be enough anymore.
 
-In the _packaged installation_ you can run have multiple servers running OpenProject. They will need to share an external database, memcached and file storage, however.
+In the _packaged installation_ you can have multiple servers running OpenProject. They will need to share an external database, memcached and file storage (e.g. via NFS), however.
 
 One way to scale the _docker_ installation is to use [docker Swarm](/installation-and-operations/installation/docker/#docker-swarm).
 
