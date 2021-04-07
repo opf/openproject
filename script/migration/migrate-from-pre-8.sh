@@ -1,14 +1,12 @@
 #!/bin/bash
 
-# This script is used to migrate an OpenProject (<= 8) database in MySQL to 10.x in Postgres.
+# This script is used to migrate an OpenProject (<= 8) database in MySQL to the latest version in Postgres.
 # All that's needed is docker. The result will be a SQL dump to the current directory.
 #
 # We do the MySQL-to-Postgres migration because in the old OpenProject packages MySQL
 # used to be the standard database. If you are already running on Postgres this script won't work as it is.
 # For it to work it you will have to use postgres in every step and remove the line
 # containing MYSQL_DATABASE_URL.
-#
-# We may adapt the script in the future so it supports both scenarios out-of-the-box.
 
 if [[ -z "$1" ]] || [[ -z "$2" ]]; then
   echo
