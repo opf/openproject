@@ -19,14 +19,14 @@ import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/serv
 
 @Component({
   selector: "op-dynamic-form",
-  templateUrl: "./op-dynamic-form.component.html",
-  styleUrls: ["./op-dynamic-form.component.scss"],
+  templateUrl: "./dynamic-form.component.html",
+  styleUrls: ["./dynamic-form.component.scss"],
   providers: [
     DynamicFormService,
     DynamicFieldsService,
   ]
 })
-export class OpDynamicFormComponent implements OnChanges {
+export class DynamicFormComponent implements OnChanges {
   @Input() resourceId:string;
   @Input() resourcePath:string;
   @Input() showNotifications = true;

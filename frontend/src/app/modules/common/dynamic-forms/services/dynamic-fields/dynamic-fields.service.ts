@@ -238,7 +238,7 @@ export class DynamicFieldsService {
     });
     const formFieldGroups = fieldGroups.reduce((formWithFieldGroups: IOPFormlyFieldConfig[], fieldGroup) => {
       const newFormFieldGroup = {
-        wrappers: ['op-form-field-group-wrapper'],
+        wrappers: ['op-form-dynamic-field-group-wrapper'],
         fieldGroupClassName: 'op-form--field-group',
         templateOptions: {
           label: fieldGroup.name,
