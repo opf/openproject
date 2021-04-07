@@ -4,7 +4,6 @@ import { HttpClientTestingModule, HttpTestingController } from "@angular/common/
 import { HttpClient } from "@angular/common/http";
 import { IOPForm } from "core-app/modules/common/dynamic-forms/typings";
 
-// TODO: Test this service
 describe('DynamicFormService', () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;

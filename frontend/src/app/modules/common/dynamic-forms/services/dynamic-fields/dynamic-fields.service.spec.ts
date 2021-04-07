@@ -4,7 +4,6 @@ import { HttpClient } from "@angular/common/http";
 import { IOPFieldModel, IOPForm } from "core-app/modules/common/dynamic-forms/typings";
 import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
 
-// TODO: Test this service
 fdescribe('DynamicFieldsService', () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
