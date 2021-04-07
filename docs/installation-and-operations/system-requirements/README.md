@@ -20,20 +20,20 @@ The server hardware requirements should be rougly the same for both the packaged
 * __Memory:__ 4096 MB
 * __Free disk space:__ 20 GB
 
-This is for a single Server running OpenProject for up to 200 total active users. Depending on your number of peak users, these requirements might vary drastically.
+This is for a single server running OpenProject for up to 200 total users. Depending on your number of concurrent users,  these requirements might vary drastically.
 
 ### General Requirements
 
 Generally speaking you will need more CPUs (the faster the better) and more RAM with an increasing number of users.
-Technically this only really depends on the number of __peak__ users. No matter if you have 1000 or only 100 users overall, if there only ever 20 users working at the same time, the CPU & RAM required will be the same.
+Technically this only really depends on the number of concurrent users. No matter if you have 1000 or only 100 total users, if there only ever 20 users working at the same time, the CPU & RAM required will be the same.
 Still, the total number of users is a good general indicator of how much resources you will need.
 
 It's not enough to simply have more resources available, however. You will have to make use of them too.
-By default OpenProject has 4 so called web workers and 1 background worker.
+By default OpenProject has 4 so called web workers and 1 background worker. Web workers are handling the HTTP requests while backend workers are doing offloaded tasks such as sending emails or performing resource-intensive tasks of unknown duration, e.g., copying or deleting resources.
 If there are more users you will need more web workers and eventually also more background workers.
 
 The database will need resources as well, and this, too, will increase with the number of users.
-There may come a point where you will have to make configuration changes to the database and/or use an external database, but for most cases the default database setup should be enough.
+There may come a point where you will have to make configuration changes to the database and/or use an external database, but for most cases the default database setup should be enough. You will ideally want to have the database on a performant storage such as SSDs. [There are also other excellent resources](https://wiki.postgresql.org/wiki/Performance_Optimization) for tuning PostgreSQL database performance.
 
 Using a rough estimate we can give the following recommendations based on the number of users.
 
