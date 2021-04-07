@@ -36,7 +36,7 @@ sl:
         invalid_time_format: "neveljaven čas. Potreben format: HH:MM"
     models:
       meeting_agenda: "Dnevni red"
-      meeting_minutes: "Minut"
+      meeting_minutes: "Zapisnik"
   description_attended: "Udeleženi"
   description_invite: "Povabljen"
   events:
@@ -44,18 +44,18 @@ sl:
     meeting_agenda: Dnevni red pripravil
     meeting_agenda_closed: Dnevni red zaprl
     meeting_agenda_opened: Dnevni red odprl
-    meeting_minutes: Čas dogodka spremenil
-    meeting_minutes_created: Čas dogodka pripravil
+    meeting_minutes: Zapisnik sestanka je bil spremenjen
+    meeting_minutes_created: Zapisnik sestanka je ustvarjen
   error_notification_with_errors: "Pošiljanje obvestil je bilo neuspešno. Naslednji naslovniki nisi bili obveščeni: %{recipients}"
   label_meeting: "Sestanek"
   label_meeting_plural: "Sestanki"
   label_meeting_new: "Nov sestanek"
   label_meeting_edit: "Spremeni sestanek"
   label_meeting_agenda: "Dnevni red"
-  label_meeting_minutes: "Minut"
+  label_meeting_minutes: "Zapisnik"
   label_meeting_close: "Zapri"
   label_meeting_open: "Odprto"
-  label_meeting_agenda_close: "Zaprite dnevni red za začetek sestanka"
+  label_meeting_agenda_close: "Zaprite dnevni red za začetek zapisnika sestanka"
   label_meeting_date_time: "Datum/čas"
   label_meeting_diff: "Razlikovanje"
   label_notify: "Pošljite v pregled"
@@ -72,8 +72,8 @@ sl:
   permission_create_meeting_agendas: "Uredi dnevne rede"
   permission_close_meeting_agendas: "Zapri dnevne rede"
   permission_send_meeting_agendas_notification: "Pošlji obvestilo o pregledu dnevnih redov"
-  permission_create_meeting_minutes: "Uredi minute"
-  permission_send_meeting_minutes_notification: "Pošlji obvestilo o pregledu minut"
+  permission_create_meeting_minutes: "Uredi zapisnik"
+  permission_send_meeting_minutes_notification: "Pošlji obvestilo o pregledu zapisnika"
   permission_meetings_send_invite: "Povabite uporabnike na sestanke"
   permission_send_meeting_agendas_icalendar: "Pošlji dnevni red sestanka kot vnos v koledar"
   project_module_meetings: "Sestanki"
@@ -82,7 +82,7 @@ sl:
   text_meeting_agenda_for_meeting: 'dnevni red za sestanek "%{meeting}"'
   text_meeting_closing_are_you_sure: "Ali ste prepričani, da želite zapreti sestanek?"
   text_meeting_agenda_open_are_you_sure: "To bo prepisalo vse spremembe v zapisniku! Ali želite nadaljevati?"
-  text_meeting_minutes_for_meeting: 'minute za sestanek "%{meeting}"'
+  text_meeting_minutes_for_meeting: 'zapisnik za sestanek "%{meeting}"'
   text_review_meeting_agenda: "%{author} je dal %{link} v pregled."
   text_review_meeting_minutes: "%{author} je dal %{link} v pregled."
   text_notificiation_invited: "To sporočilo vsebuje ics vnos za sestanek spodaj:"
