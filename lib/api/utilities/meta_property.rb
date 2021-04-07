@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,31 +29,36 @@
 #++
 
 module API
-  module V3
-    module Projects
-      module Copy
-        class CreateFormAPI < ::API::OpenProjectAPI
-          resource :form do
-            post &::API::V3::Utilities::Endpoints::CreateForm
-              .new(
-                model: Project,
-                instance_generator: ->(*) { @project },
-                params_modifier: ->(attributes) do
-                  meta = attributes.delete(:meta)
-                  {
-                    target_project_params: attributes,
-                    attributes_only: true,
-                    only: meta.only
-                  }
-                end,
-                process_service: ::Projects::CopyService,
-                process_contract: ::Projects::CopyContract,
-                parse_representer: ProjectCopyPayloadRepresenter,
-                render_representer: CreateFormRepresenter
-              )
-              .mount
+  module Utilities
+    module MetaProperty
+      extend ActiveSupport::Concern
+
+      included do
+        attr_accessor :meta
+
+        property :meta,
+                 as: :_meta,
+                 exec_context: :decorator,
+                 getter: ->(*) { meta_representer },
+                 setter: ->(fragment:, **) { represented.meta = meta_representer.from_hash(fragment) }
+      end
+
+      class_methods do
+        def create_with_meta(model, meta, **args)
+          new(model, **args).tap do |instance|
+            instance.meta = meta
           end
         end
+      end
+
+      protected
+
+      def meta_representer
+        meta_representer_class.create(meta || OpenStruct.new, current_user: current_user)
+      end
+
+      def meta_representer_class
+        raise NotImplementedError
       end
     end
   end

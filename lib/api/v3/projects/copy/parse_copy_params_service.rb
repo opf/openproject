@@ -28,29 +28,28 @@
 
 module API
   module V3
-    module Projects
-      module Copy
-        class CreateFormAPI < ::API::OpenProjectAPI
-          resource :form do
-            post &::API::V3::Utilities::Endpoints::CreateForm
-              .new(
-                model: Project,
-                instance_generator: ->(*) { @project },
-                params_modifier: ->(attributes) do
-                  meta = attributes.delete(:meta)
-                  {
-                    target_project_params: attributes,
-                    attributes_only: true,
-                    only: meta.only
-                  }
-                end,
-                process_service: ::Projects::CopyService,
-                process_contract: ::Projects::CopyContract,
-                parse_representer: ProjectCopyPayloadRepresenter,
-                render_representer: CreateFormRepresenter
-              )
-              .mount
-          end
+    class ParseResourceParamsService < ::API::ParseResourceParamsService
+      private
+
+      def deduce_representer(model)
+        "API::V3::#{model.to_s.pluralize}::#{model}PayloadRepresenter".constantize
+      end
+
+      def parsing_representer
+        representer
+          .create(struct, current_user: current_user)
+      end
+
+      def parse_attributes(request_body)
+        super
+          .except(:available_custom_fields)
+      end
+
+      def struct
+        if model&.respond_to?(:available_custom_fields)
+          OpenStruct.new available_custom_fields: model.available_custom_fields(model.new)
+        else
+          super
         end
       end
     end

@@ -34,41 +34,10 @@ module API
       module Copy
         class ProjectCopyPayloadRepresenter < ::API::V3::Projects::ProjectRepresenter
           include ::API::Utilities::PayloadRepresenter
+          include ::API::Utilities::MetaProperty
 
-          cached_representer disabled: true
-
-          # Use this to create our own representers, giving them a chance to override the instantiation
-          # if desired.
-          def self.create(model, current_user:, service_call: nil, embed_links: false)
-            new(model, current_user: current_user, service_call: service_call, embed_links: embed_links)
-          end
-
-          attr_reader :service_call
-
-          def initialize(model, current_user:, service_call: nil, embed_links: false)
-            @service_call = service_call
-            super(model, current_user: current_user, embed_links: embed_links)
-          end
-
-          property :_meta,
-                   exec_context: :decorator,
-                   getter: ->(*) { ProjectCopyMetaRepresenter.create(meta_object, current_user: current_user) },
-                   # TODO how to handle parsing nested _meta into something else?
-                   setter: ->(fragment:, **) do
-                     only = Set.new
-                     Hash(fragment)
-                       .transform_keys { |key| key.underscore.gsub('copy_', '') }
-                       .each do |key, checked|
-                       only << key.to_sym if checked
-                     end
-
-                     represented.only = only
-                   end
-
-          private
-
-          def meta_object
-            service_call&.state || OpenStruct.new
+          def meta_representer_class
+            ProjectCopyMetaRepresenter
           end
         end
       end

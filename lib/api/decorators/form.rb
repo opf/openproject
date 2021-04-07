@@ -31,7 +31,7 @@
 module API
   module Decorators
     class Form < ::API::Decorators::Single
-      def initialize(service_call, errors:, current_user: nil)
+      def initialize(service_call, current_user: nil, errors: [])
         @service_call = service_call
         @errors = errors
         super(service_call.result, current_user: current_user)

@@ -37,9 +37,18 @@ module API
             property :"copy_#{name}",
                      exec_context: :decorator,
                      getter: ->(*) do
-                       only = represented.only
+                       binding.pry
+                       only = represented&.only
                        !!only&.include?(name)
+                     end,
+                     setter: ->(fragment:, **) do
+                       represented.only ||= Set.new
+                       represented.only << name if fragment
                      end
+          end
+
+          def model_required?
+            false
           end
         end
       end
