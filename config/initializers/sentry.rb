@@ -3,6 +3,9 @@ if OpenProject::Logging::SentryLogger.enabled?
   require "sentry-rails"
   require "sentry-delayed_job"
 
+  # Explicitly require the send event job
+  require File.join(Sentry::Engine.root, 'app/jobs/sentry/send_event_job')
+
   # We need to manually load the sentry initializer
   # as we're dynamically loading it
   # https://github.com/getsentry/sentry-ruby/blob/master/sentry-rails/lib/sentry/rails/railtie.rb#L8-L13
@@ -11,6 +14,12 @@ if OpenProject::Logging::SentryLogger.enabled?
     app.config.middleware.insert 0, Sentry::Rails::CaptureExceptions
     # need to be placed at last to smuggle app exceptions via env
     app.config.middleware.use(Sentry::Rails::RescuedExceptionInterceptor)
+  end
+
+  ##
+  # Define the SentryJob here, as sentry gets dynamically loaded
+  class SentryJob < Sentry::SendEventJob
+    queue_with_priority :low
   end
 
   Sentry.init do |config|
