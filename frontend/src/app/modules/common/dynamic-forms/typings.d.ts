@@ -1,6 +1,7 @@
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { HalSource } from "core-app/modules/hal/resources/hal-resource";
 import { FormGroup } from "@angular/forms";
+import { HalLinkSource } from "core-app/modules/hal/hal-link/hal-link";
 
 export interface IOPDynamicForm {
   fields: IOPFormlyFieldConfig[];
@@ -30,7 +31,7 @@ export interface IOPFormlyFieldConfig extends FormlyFieldConfig {
 }
 
 export interface IOPFormModel {
-  [key: string]: string | number | Object  | null | undefined;
+  [key: string]: string | number | Object | HalLinkSource | null | undefined;
   _links?: {
     [key: string]: IOPFieldModel | IOPFieldModel[] | null;
   };
@@ -104,10 +105,6 @@ export interface IApiCall {
   method?: string;
 }
 
-export interface IFieldTypeMap {
-  [key:string]: FormlyFieldConfig;
-}
-
 export interface IFormError {
   errorIdentifier:string;
   message:string;
@@ -123,6 +120,11 @@ export interface IFormErrorDetails {
 
 export interface IFormErrors {
   errors: IFormError[];
+}
+
+export interface IDynamicInputConfig {
+  config: FormlyFieldConfig,
+  useForFields: string[];
 }
 
 

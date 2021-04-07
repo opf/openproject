@@ -27,7 +27,6 @@ export class DynamicFormService {
     this.dynamicForm = dynamicForm;
   }
 
-  // TODO: Should we catch errors here??
   getForm$(url:string): Observable<IOPDynamicForm>{
     return this._httpClient
       .post<IOPForm>(
@@ -43,10 +42,10 @@ export class DynamicFormService {
       )
   }
 
+  // TODO: Submit to _links.commit?? (pending)
   submitForm$(formModel:IOPFormModel, resourceEndpoint:string, resourceId?:string) {
     const modelToSubmit = this._formatModelToSubmit(formModel);
     const httpMethod = resourceId ? 'patch' : 'post';
-    // TODO: Does this work for every resource type?
     const url = resourceId ? `${resourceEndpoint}/${resourceId}` : resourceEndpoint;
 
     return this._httpClient
@@ -100,7 +99,6 @@ export class DynamicFormService {
   }
 
   private _handleFormErrors(error:HttpErrorResponse, form:FormGroup) {
-    // TODO: How do we handle other form errors?
     if (error.status == 422) {
       const errors:IFormError[] = error.error._embedded.errors ?
         error.error._embedded.errors : [error.error];

@@ -327,7 +327,6 @@ fdescribe('DynamicFieldsService', () => {
     const fieldSchemas = service._getFieldsSchemasWithKey(formSchema, formPayload);
     // @ts-ignore
     const formlyFields = fieldSchemas.map(fieldSchema => service._getFormlyFieldConfig(fieldSchema));
-
     // @ts-ignore
     const formlyFormWithFieldGroups = service._getFormlyFormWithFieldGroups(formFieldGroups, formlyFields);
     const formGroup = formlyFormWithFieldGroups[0];
