@@ -116,16 +116,16 @@ export class DynamicFieldsService {
   private _getFieldsSchemasWithKey(formSchema:IOPFormSchema, formModel:IOPFormModel):IFieldSchemaWithKey[] {
     return Object.keys(formSchema)
       .map(fieldSchemaKey => {
-        const schemaValue = {
+        const fieldSchema = {
           ...formSchema[fieldSchemaKey],
           key: this._isResourceSchema(fieldSchemaKey, formModel) ?
             `_links.${fieldSchemaKey}` :
             fieldSchemaKey
         };
 
-        return schemaValue;
+        return fieldSchema;
       })
-      .filter(schemaValue => this._isFieldSchema(schemaValue));
+      .filter(fieldSchema => this._isFieldSchema(fieldSchema) && fieldSchema.writable);
   }
 
   // TODO: Adapt to the new API (schema.parent?.location === '_links')
@@ -167,8 +167,8 @@ export class DynamicFieldsService {
   }
 
   private _getFormlyFieldConfig(field:IFieldSchemaWithKey):IOPFormlyFieldConfig {
-    const {key, name:label, required, writable} = field;
-    const {templateOptions, ...fieldTypeConfig} = this._getFieldTypeConfig(field);
+    const { key, name:label, required } = field;
+    const { templateOptions, ...fieldTypeConfig } = this._getFieldTypeConfig(field);
     const fieldOptions = this._getFieldOptions(field);
     const formlyFieldConfig = {
       ...fieldTypeConfig,
@@ -177,7 +177,6 @@ export class DynamicFieldsService {
       templateOptions: {
         required,
         label,
-        disabled: !writable,
         ...templateOptions,
         ...fieldOptions && {options: fieldOptions},
       },
