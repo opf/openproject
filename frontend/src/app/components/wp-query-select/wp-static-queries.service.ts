@@ -32,7 +32,7 @@ import { Injectable } from '@angular/core';
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { StateService } from "@uirouter/core";
-import { CurrentUserService } from "core-components/user/current-user.service";
+import { CurrentUserService } from "core-app/modules/current-user/current-user.service";
 
 @Injectable()
 export class WorkPackageStaticQueriesService {

@@ -7,7 +7,7 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { CurrentUserService } from 'core-app/components/user/current-user.service';
+import { CurrentUserService } from 'core-app/modules/current-user/current-user.service';
 import { OpModalLocalsMap } from 'core-app/modules/modal/modal.types';
 import { OpModalComponent } from 'core-app/modules/modal/modal.component';
 import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
@@ -77,14 +77,6 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
         data => {
           this.project = data;
           this.cdRef.markForCheck();
-
-          const filters = new ApiV3FilterBuilder();
-          filters.add('action', '=', ['users/create', 'memberships/create']);
-          filters.add('principal', '=', [this.currentUserService.userId]);
-          filters.add('context', '=', [`p${this.project.id}`]);
-          this.apiV3Service.capabilities.filtered(filters).get().subscribe((...data) => {
-            console.log(data);
-          });
         },
         () => {
           this.locals.projectId = null;
@@ -92,6 +84,21 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
         },
       );
     } 
+
+    const filters = new ApiV3FilterBuilder();
+    this.apiV3Service.capabilities.list({ filters: [
+      ['principal', '=', [this.currentUserService.userId]],
+    ], pageSize: 1000 }).subscribe((data) => {
+      console.log(data);
+      console.log(data.elements.map((el:HalResource) => ({
+        action: el.action.$link.href,
+        context: el.context.id,
+        principal: {
+          id: el.principal.id,
+          name: el.principal.name,
+        },
+      })));
+    });
   }
 
   onProjectSelectionSave({ type, project }:{ type:PrincipalType, project:any }) {
