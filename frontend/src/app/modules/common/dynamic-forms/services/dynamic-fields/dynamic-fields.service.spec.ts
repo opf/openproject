@@ -1,168 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { HttpClient } from "@angular/common/http";
-import { IOPFieldModel, IOPForm } from "core-app/modules/common/dynamic-forms/typings";
+import { IOPFieldModel } from "core-app/modules/common/dynamic-forms/typings";
 import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
+import { isObservable } from "rxjs";
 
 fdescribe('DynamicFieldsService', () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
   let service:DynamicFieldsService;
-  const formSchema:IOPForm = {
-    "_type": "Form",
-    "_embedded": {
-      "payload": {
-        "identifier": "test11",
-        "name": "asda",
-        "active": true,
-        "public": false,
-        "description": {
-          "format": "markdown",
-          "raw": "asdadsad",
-          "html": "<p class=\"op-uc-p\">asdadsad</p>"
-        },
-        "status": null,
-        "statusExplanation": {
-          "format": "markdown",
-          "raw": null,
-          "html": ""
-        },
-        "customField12": null,
-        "_links": {
-          "parent": {
-            "href": "/api/v3/projects/26",
-            "title": "Parent project"
-          }
-        }
-      },
-      "schema": {
-        "_type": "Schema",
-        "_dependencies": [],
-        "id": {
-          "type": "Integer",
-          "name": "ID",
-          "required": true,
-          "hasDefault": false,
-          "writable": false,
-          "options": {}
-        },
-        "name": {
-          "type": "String",
-          "name": "Name",
-          "required": true,
-          "hasDefault": false,
-          "writable": true,
-          "minLength": 1,
-          "maxLength": 255,
-          "options": {}
-        },
-        "identifier": {
-          "type": "String",
-          "name": "Identifier",
-          "required": true,
-          "hasDefault": false,
-          "writable": true,
-          "minLength": 1,
-          "maxLength": 100,
-          "options": {}
-        },
-        "description": {
-          "type": "Formattable",
-          "name": "Description",
-          "required": false,
-          "hasDefault": false,
-          "writable": true,
-          "options": {}
-        },
-        "public": {
-          "type": "Boolean",
-          "name": "Public",
-          "required": true,
-          "hasDefault": false,
-          "writable": true,
-          "options": {}
-        },
-        "active": {
-          "type": "Boolean",
-          "name": "Active",
-          "required": true,
-          "hasDefault": false,
-          "writable": true,
-          "options": {}
-        },
-        "status": {
-          "type": "ProjectStatus",
-          "name": "Status",
-          "required": false,
-          "hasDefault": false,
-          "writable": true,
-          "options": {}
-        },
-        "statusExplanation": {
-          "type": "Formattable",
-          "name": "Status description",
-          "required": false,
-          "hasDefault": false,
-          "writable": true,
-          "options": {}
-        },
-        "parent": {
-          "type": "Project",
-          "name": "Subproject of",
-          "required": false,
-          "hasDefault": false,
-          "writable": true,
-          "_links": {
-            "allowedValues": {
-              "href": "/api/v3/projects/available_parent_projects?of=25"
-            }
-          }
-        },
-        "createdAt": {
-          "type": "DateTime",
-          "name": "Created on",
-          "required": true,
-          "hasDefault": false,
-          "writable": false,
-          "options": {}
-        },
-        "updatedAt": {
-          "type": "DateTime",
-          "name": "Updated on",
-          "required": true,
-          "hasDefault": false,
-          "writable": false,
-          "options": {}
-        },
-        "customField12": {
-          "type": "Date",
-          "name": "Date",
-          "required": false,
-          "hasDefault": false,
-          "writable": true,
-          "options": {
-            "rtl": null
-          }
-        },
-        "_links": {}
-      },
-      "validationErrors": {}
-    },
-    "_links": {
-      "self": {
-        "href": "/api/v3/projects/25/form",
-        "method": "post"
-      },
-      "validate": {
-        "href": "/api/v3/projects/25/form",
-        "method": "post"
-      },
-      "commit": {
-        "href": "/api/v3/projects/25",
-        "method": "patch"
-      }
-    }
-  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -182,7 +28,7 @@ fdescribe('DynamicFieldsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should generate a form schema that only contains field schemas with the correct key', () => {
+  it('should generate a proper dynamic form schema', () => {
     const formPayload = {
       "name": "Project 1",
       "_links": {
@@ -215,20 +61,28 @@ fdescribe('DynamicFieldsService', () => {
           }
         }
       },
+      "id": {
+        "type": "Integer",
+        "name": "ID",
+        "required": true,
+        "hasDefault": false,
+        "writable": false,
+        "options": {}
+      },
       _dependencies: [],
     };
 
     // @ts-ignore
     const fieldsSchemas = service._getFieldsSchemasWithKey(formSchema, formPayload);
 
-    expect(fieldsSchemas.length).toBe(2);
-    expect(fieldsSchemas[0].key).toBe('name');
-    expect(fieldsSchemas[1].key).toBe('_links.parent');
+    expect(fieldsSchemas.length).toBe(2, 'should return only writable field schemas');
+    expect(fieldsSchemas[0].key).toBe('name', 'should place the correct key on primitives');
+    expect(fieldsSchemas[1].key).toBe('_links.parent', 'should place the correct key on resources');
   });
 
-  it('should format the form model', () => {
+  it('should format the form model (add the name property to resources (_links: single and multiple))', () => {
     const formPayload = {
-      "name": "Project 1",
+      "title": "Project 1",
       "_links": {
         "parent": {
           "href": "/api/v3/projects/26",
@@ -247,7 +101,7 @@ fdescribe('DynamicFieldsService', () => {
       },
     };
     const formSchema = {
-      "name": {
+      "title": {
         "type": "String",
         "name": "Name",
         "required": true,
@@ -285,22 +139,39 @@ fdescribe('DynamicFieldsService', () => {
     };
 
     // @ts-ignore
-    const fieldsSchemas = service._getFieldsSchemasWithKey(formSchema, formPayload);
-    // @ts-ignore
-    const fieldsModel = service._getFieldsModel(fieldsSchemas, formPayload);
-    const parentProjectName = !Array.isArray(fieldsModel._links!.parent) && fieldsModel._links!.parent!.name;
-    const childrenProjectsNames = Array.isArray(fieldsModel._links!.children) && fieldsModel._links!.children!.map((childProject: IOPFieldModel) => childProject.name);
+    const formModel = service.getModel(formSchema, formPayload);
+    const titleName = formModel.title;
+    const parentProjectName = !Array.isArray(formModel._links!.parent) && formModel._links!.parent!.name;
+    const childrenProjectsNames = Array.isArray(formModel._links!.children) && formModel._links!.children!.map((childProject: IOPFieldModel) => childProject.name);
 
-    expect(fieldsModel.name).toBe('Project 1');
-    expect(parentProjectName).toEqual('Parent project');
-    expect(childrenProjectsNames).toEqual(['Child project 1', 'Child project 2']);
+    expect(titleName).toBe('Project 1', 'should add the payload value on primitives');
+    expect(parentProjectName).toEqual('Parent project', 'should add a name property on resources');
+    expect(childrenProjectsNames).toEqual(['Child project 1', 'Child project 2'], 'should add a name property on resources with multiple values');
   });
 
-  it('should aggregate the fields in fieldGroups if present', () => {
+  it('should generate a proper dynamic form config', () => {
     const formPayload = {
       "name": "Project 1",
+      "_links": {
+        "parent": {
+          "href": "/api/v3/projects/26",
+          "title": "Parent project"
+        },
+      }
     };
     const formSchema = {
+      "parent": {
+        "type": "Project",
+        "name": "Subproject of",
+        "required": false,
+        "hasDefault": false,
+        "writable": true,
+        "_links": {
+          "allowedValues": {
+            "href": "/api/v3/projects/available_parent_projects?of=25"
+          }
+        }
+      },
       "name": {
         "type": "String",
         "name": "Name",
@@ -310,30 +181,37 @@ fdescribe('DynamicFieldsService', () => {
         "minLength": 1,
         "maxLength": 255,
         "options": {},
-        attributeGroup: "People"
+        "attributeGroup": "People"
       },
+      _attributeGroups: [
+        {
+          "_type": "WorkPackageFormAttributeGroup",
+          "name": "People",
+          "attributes": [
+            "name",
+          ]
+        },
+      ]
     };
-    const formFieldGroups = [
-      {
-        "_type": "WorkPackageFormAttributeGroup",
-        "name": "People",
-        "attributes": [
-          "name",
-        ]
-      },
-    ];
     // @ts-ignore
-    const fieldSchemas = service._getFieldsSchemasWithKey(formSchema, formPayload);
-    // @ts-ignore
-    const formlyFields = fieldSchemas.map(fieldSchema => service._getFormlyFieldConfig(fieldSchema));
-    // @ts-ignore
-    const formlyFormWithFieldGroups = service._getFormlyFormWithFieldGroups(formFieldGroups, formlyFields);
-    const formGroup = formlyFormWithFieldGroups[0];
+    const formlyConfig = service.getConfig(formSchema, formPayload);
+    const formlyFields = formlyConfig.reduce((result, formlyField) => {
+      return formlyField.fieldGroup ? [...result, ...formlyField.fieldGroup] : [...result, formlyField];
+    }, []);
+    const formGroup = formlyConfig[1];
+    const everyFieldHasCSSClass = formlyFields.every(formlyField =>  formlyField.className!.startsWith('op-form--field'));
+
+    expect(everyFieldHasCSSClass).toBeTruthy('should place the op-form--field class on every field');
+    expect(formlyFields[1].templateOptions!.required).toBe(true, 'should set the required attribute');
+    expect(formlyFields[1].templateOptions!.label).toBe('Name', 'should set the correct label');
+    expect(isObservable(formlyFields[0].templateOptions!.options)).toBeTruthy('should add options as observables');
+    expect(formlyFields[0].className).toContain('Subproject of', 'should add the specific input type properties');
+    expect(formlyFields[0].templateOptions!.locale).toBeTruthy('should add the specific input templateOptions');
 
     expect(formGroup).toBeTruthy();
-    expect(formGroup.wrappers![0]).toEqual('op-form-dynamic-field-group-wrapper');
-    expect(formGroup.fieldGroupClassName).toEqual('op-form--field-group');
-    expect(formGroup.templateOptions!.label).toEqual('People');
-    expect(formGroup.fieldGroup![0].key).toEqual('name');
-  })
+    expect(formGroup.wrappers![0]).toEqual('op-dynamic-field-group-wrapper', 'should add the form field group wrapper');
+    expect(formGroup.fieldGroupClassName).toEqual('op-form--field-group', 'should add the CSS class to the field group wrapper');
+    expect(formGroup.templateOptions!.label).toEqual('People', 'should add the correct label to the field group wrapper');
+    expect(formGroup.fieldGroup![0].key).toEqual('name', 'should add the correct key to the field group wrapper');
+  });
 });

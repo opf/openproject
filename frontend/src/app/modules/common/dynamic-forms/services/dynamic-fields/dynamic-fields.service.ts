@@ -180,7 +180,7 @@ export class DynamicFieldsService {
         ...templateOptions,
         ...fieldOptions && {options: fieldOptions},
       },
-    }
+    };
 
     return formlyFieldConfig;
   }
@@ -190,9 +190,9 @@ export class DynamicFieldsService {
     let inputConfig = inputType.config;
     let configCustomizations;
 
-    if (field.type === 'integer' || field.type === 'select') {
+    if (inputConfig.type === 'integerInput' || inputConfig.type === 'selectInput') {
       configCustomizations = { className: `${inputConfig.className} ${field.name}` };
-    } else if (field.type === 'formattable') {
+    } else if (field.type === 'formattableInput') {
       configCustomizations = {
         templateOptions: {
           ...inputConfig.templateOptions,
@@ -223,7 +223,7 @@ export class DynamicFieldsService {
         );
   }
 
-  private _getFormlyFormWithFieldGroups(fieldGroups:IAttributeGroup[] = [], formFields:IOPFormlyFieldConfig[] = []) {
+  private _getFormlyFormWithFieldGroups(fieldGroups:IAttributeGroup[] = [], formFields:IOPFormlyFieldConfig[] = []):IOPFormlyFieldConfig[] {
     // TODO: Handle sort fields in schema order
     // TODO: Handle nested groups?
     // TODO: Handle form fields with integer key?
@@ -237,7 +237,7 @@ export class DynamicFieldsService {
     });
     const formFieldGroups = fieldGroups.reduce((formWithFieldGroups: IOPFormlyFieldConfig[], fieldGroup) => {
       const newFormFieldGroup = {
-        wrappers: ['op-form-dynamic-field-group-wrapper'],
+        wrappers: ['op-dynamic-field-group-wrapper'],
         fieldGroupClassName: 'op-form--field-group',
         templateOptions: {
           label: fieldGroup.name,
