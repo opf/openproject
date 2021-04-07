@@ -34,6 +34,12 @@ import { OpenprojectCommonModule } from "core-app/modules/common/openproject-com
         { name: 'dateInput', component: DateInputComponent },
         { name: 'formattableInput', component: FormattableTextareaInputComponent },
       ],
+      wrappers: [
+        {
+          name: "op-dynamic-field-group-wrapper",
+          component: DynamicFieldGroupWrapperComponent,
+        },
+      ]
     }),
     HttpClientModule,
     NgSelectModule,
