@@ -60,7 +60,7 @@ module API
                  type: 'Boolean'
 
           schema :status,
-                 type: 'ProjectStatus',
+                 type: 'String',
                  name_source: ->(*) { I18n.t('activerecord.attributes.projects/status.code') },
                  required: false,
                  writable: ->(*) { represented.writable?(:status) }
