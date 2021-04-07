@@ -35,7 +35,7 @@ If there are more users you will need more web workers and eventually also more 
 The database will need resources as well, and this, too, will increase with the number of users.
 There may come a point where you will have to make configuration changes to the database and/or use an external database, but for most cases the default database setup should be enough. You will ideally want to have the database on a performant storage such as SSDs. [There are also other excellent resources](https://wiki.postgresql.org/wiki/Performance_Optimization) for tuning PostgreSQL database performance.
 
-Using a rough estimate we can give the following recommendations based on the number of users.
+Using a rough estimate we can give the following recommendations based on the number of total users.
 
 | Users | CPU cores | RAM in GB  | web workers | background workers | Diskspace in GB |
 |-------|-----------|------------|-------------|--------------------|-----------------|
