@@ -28,17 +28,16 @@
 
 import { Injectable } from "@angular/core";
 import { Store, StoreConfig } from '@datorama/akita';
+import { CapabilityResource } from "core-app/modules/hal/resources/capability-resource";
 
-export interface Capability {
-  action: string;
-  context: string|null;
-}
-
-export interface CurrentUserState {
+export interface CurrentUser {
   id: string|null;
   name: string|null;
   mail: string|null;
-  capabilities: Capability[];
+}
+
+export interface CurrentUserState extends CurrentUser {
+  capabilities: CapabilityResource[];
 }
 
 export function createInitialState(): CurrentUserState {
@@ -46,10 +45,11 @@ export function createInitialState(): CurrentUserState {
     id: null,
     name: null,
     mail: null,
+    capabilities: [],
   };
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 @StoreConfig({ name: 'current-user' })
 export class CurrentUserStore extends Store<CurrentUserState> {
   constructor() {

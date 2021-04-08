@@ -27,34 +27,68 @@
 //++
 
 import { Injectable } from "@angular/core";
+import { CurrentUserStore, CurrentUser } from "./current-user.store";
+import { CapabilityResource } from "core-app/modules/hal/resources/capability-resource";
+import { CurrentUserQuery } from "./current-user.query";
+
 
 @Injectable({ providedIn: 'root' })
 export class CurrentUserService {
-  public get isLoggedIn() {
-    return this.userMeta.length > 0;
+  constructor(
+    private currentUserStore: CurrentUserStore,
+    private currentUserQuery: CurrentUserQuery,
+  ) {
+    this.currentUserQuery.user$.subscribe(user => this._user = user);
+    this.currentUserQuery.isLoggedIn$.subscribe(isLoggedIn => this._isLoggedIn = isLoggedIn);
   }
 
+  public capabilities$ = this.currentUserQuery.capabilities$;
+  public isLoggedIn$ = this.currentUserQuery.isLoggedIn$;
+  public user$ = this.currentUserQuery.user$;
+
+  public setUser(user: CurrentUser) {
+    this.currentUserStore.update(state => ({
+      ...state,
+      ...user,
+    }));
+  }
+
+  public setCapabilities(capabilities: CapabilityResource[]) {
+    this.currentUserStore.update(state => ({
+      ...state,
+      capabilities,
+    }));
+  }
+
+  // Everything below this is deprecated legacy interfacing and should not be used
+
+  private _isLoggedIn = false;
+  public get isLoggedIn() {
+    return this._isLoggedIn;
+  }
+
+  private _user: CurrentUser = {
+    id: null,
+    name: null,
+    mail: null,
+  };
   public get userId() {
-    return this.userMeta.data('id');
+    return this._user.id || '';
+  }
+
+  public get name() {
+    return this._user.name || '';
+  }
+
+  public get mail() {
+    return this._user.mail || '';
   }
 
   public get href() {
     return `/api/v3/users/${this.userId}`;
   }
 
-  public get name() {
-    return this.userMeta.data('name');
-  }
-
-  public get mail() {
-    return this.userMeta.data('mail');
-  }
-
   public get language() {
     return I18n.locale || 'en';
-  }
-
-  private get userMeta():JQuery {
-    return jQuery('meta[name=current_user]');
   }
 }

@@ -7,7 +7,6 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { CurrentUserService } from 'core-app/modules/current-user/current-user.service';
 import { OpModalLocalsMap } from 'core-app/modules/modal/modal.types';
 import { OpModalComponent } from 'core-app/modules/modal/modal.component';
 import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
@@ -64,7 +63,6 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
     readonly cdRef:ChangeDetectorRef,
     readonly elementRef:ElementRef,
     readonly apiV3Service:APIV3Service,
-    readonly currentUserService:CurrentUserService,
   ) {
     super(locals, cdRef, elementRef);
   }
@@ -84,21 +82,6 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
         },
       );
     } 
-
-    const filters = new ApiV3FilterBuilder();
-    this.apiV3Service.capabilities.list({ filters: [
-      ['principal', '=', [this.currentUserService.userId]],
-    ], pageSize: 1000 }).subscribe((data) => {
-      console.log(data);
-      console.log(data.elements.map((el:HalResource) => ({
-        action: el.action.$link.href,
-        context: el.context.id,
-        principal: {
-          id: el.principal.id,
-          name: el.principal.name,
-        },
-      })));
-    });
   }
 
   onProjectSelectionSave({ type, project }:{ type:PrincipalType, project:any }) {
