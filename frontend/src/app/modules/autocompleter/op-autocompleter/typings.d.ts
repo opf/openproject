@@ -4,4 +4,4 @@ interface IAPIFilter {
   values:unknown[]|boolean;
 };
 
-type res = 'work_packages' | 'users';
+type resource = 'work_packages' | 'users';

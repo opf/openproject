@@ -22,7 +22,7 @@ import { UntilDestroyedMixin } from 'core-app/helpers/angular/until-destroyed.mi
 import { GroupValueFn } from '@ng-select/ng-select/lib/ng-select.component';
 import { OpAutocompleterOptionTemplateDirective } from "./directives/op-autocompleter-option-template.directive";
 import { OpAutocompleterLabelTemplateDirective } from "./directives/op-autocompleter-label-template.directive";
-import { OPAutocompleterService } from "./services/op-autocompleter.service";
+import { OpAutocompleterService } from "./services/op-autocompleter.service";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 
 @Component({
@@ -30,13 +30,16 @@ import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl:'./op-autocompleter.component.html',
   styleUrls: ['./op-autocompleter.component.sass'],
-  providers: [OPAutocompleterService]
+  providers: [OpAutocompleterService]
 })
-
+  //  It is component that you can use whenever you need an autocompleter
+  // it has all inputs and outputs of ng-select
+  // in order to use it, you only need to pass the data type and its filters
+  // you also can change the value of ng-select default options by changing @inputs and @outputs 
 export class OpAutocompleterComponent extends UntilDestroyedMixin implements AfterContentInit{
 
-  @Input() public conditions?:IAPIFilter[];
-  @Input() public resource:res;
+  @Input() public filters?:IAPIFilter[];
+  @Input() public resource:resource;
   @Input() public model?:any;
   @Input() public searchKey?:string;
   @Input() public defaultOpen?:boolean = false;
@@ -46,7 +49,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   @Input() public searchable?:boolean = true;
   @Input() public clearable?:boolean = true;
   @Input() public addTag?:boolean = false;
-  @Input() public isOpen?:boolean = true;
+  
   @Input() public clearSearchOnAdd?:boolean = true;
   @Input() public classes?:string;
   @Input() public multiple?:boolean = false;
@@ -108,14 +111,13 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   public results$:Observable<HalResource[]> = this.searchInput$.pipe(
     debounceTime(250),
     distinctUntilChanged(),
-    tap(() => this.isOpen = true),
-    switchMap(queryString => this.opAutocompleterService.loadData(queryString, this.resource, this.conditions, this.searchKey))
+    switchMap(queryString => this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey))
   );
 
   public isLoading = false;
 
 
-  @ViewChild('ngSelectInstance', { static: true })  ngSelectInstance: NgSelectComponent;
+  @ViewChild('ngSelectInstance')  ngSelectInstance: NgSelectComponent;
   
 
   @ContentChild(OpAutocompleterOptionTemplateDirective, { read: TemplateRef })
@@ -127,7 +129,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   constructor(readonly halResourceService:HalResourceService,
               readonly halSorting:HalResourceSortingService,
               readonly apiV3Service:APIV3Service,
-              readonly opAutocompleterService:OPAutocompleterService,
+              readonly opAutocompleterService:OpAutocompleterService,
               readonly cdRef:ChangeDetectorRef,
               readonly ngZone:NgZone,
               readonly I18n:I18nService,
@@ -163,18 +165,13 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   }
 
   public opened(val:any) {
-    if (this.defaultOpen) {
-      this.repositionDropdown();
-    }
-    else {
       this.open.emit();
-    }
   }
 
   public closed(val:any) {
+
     this.close.emit();
   }
-
   public changed(val:any) {
     this.change.emit(val);
   }
@@ -184,6 +181,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   }
 
   public focused(val:any) {
+    this.ngSelectInstance.focus();
     this.focus.emit(val);
   }
 

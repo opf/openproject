@@ -29,7 +29,6 @@
         [appearance]="appearance"
         [dropdownPosition]="dropdownPosition"
         [selectOnTab]="selectOnTab"
-        [isOpen]="isOpen"
         [maxSelectedItems]="maxSelectedItems"
         [placeholder]="placeholder"
         [groupBy]="groupBy"
@@ -109,7 +108,13 @@
   </ng-container>
 
   <ng-container *ngSwitchCase="'user'">
-   
+    <op-principal
+    *ngIf="item && item.href"
+    [principal]="item"
+    [hide-name]="true"
+    size="mini"
+  ></op-principal>
+  {{ item.name }}
   </ng-container>
 
 </ng-template>
@@ -123,7 +128,7 @@
   </ng-container>
 
   <ng-container *ngSwitchCase="'user'">
-   
+    {{ item.name }}
   </ng-container>
 
 </ng-template>

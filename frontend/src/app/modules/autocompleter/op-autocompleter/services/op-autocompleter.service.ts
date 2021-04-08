@@ -14,51 +14,55 @@ import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixi
 
 @Injectable()
 
-export class OPAutocompleterService extends UntilDestroyedMixin {
+export class OpAutocompleterService extends UntilDestroyedMixin {
 
   constructor(
     private apiV3Service:APIV3Service,
   ) {
     super();
   }
+  // A method for fetching data with different resource type and different filter
+  public loadAvailable(matching:string, resource:resource, filters?:IAPIFilter[], searchKey?:string):Observable<HalResource[]> {
 
-  public loadAvailable(matching:string, resource:res, conditions?:IAPIFilter[], searchKey?:string):Observable<HalResource[]> {
-
-    const filters:ApiV3FilterBuilder = this.createFilters(conditions ?? [], matching, searchKey);
+    const finalFilters:ApiV3FilterBuilder = this.createFilters(filters ?? [], matching, searchKey);
 
     if (matching === null || matching.length === 0) {
       return of([]);
     }
     const filteredData = (this.apiV3Service[resource] as
       APIv3ResourceCollection<UserResource|WorkPackageResource, APIv3UserPaths|APIV3WorkPackagePaths>)
-      .filtered(filters).get()
+      .filtered(finalFilters).get()
       .pipe(map(collection => collection.elements));
 
     return filteredData;
   }
 
-  protected createFilters(conditions:IAPIFilter[], matching:string, searchKey?:string) {
-    const filters = new ApiV3FilterBuilder();
+  // A method for building filters
+  protected createFilters(filters:IAPIFilter[], matching:string, searchKey?:string) {
+    const finalFilters = new ApiV3FilterBuilder();
 
-    for (const condition of conditions) {
-      filters.add(condition.name, condition.operator, condition.values);
+    for (const filter of filters) {
+      finalFilters.add(filter.name, filter.operator, filter.values);
     }
     if (matching) {
-      filters.add(searchKey ?? '', '**', [matching]);
+      finalFilters.add(searchKey ?? '', '**', [matching]);
     }
-    return filters;
+    return finalFilters;
   }
 
-
-  public loadData(matching:string,  resource:res, conditions?:IAPIFilter[], searchKey?:string) {
+  // A method for returning data based on the resource type
+  // If you need to fetch our default date sources like work_packages or users,
+  // you should use the default method (loadAvailable), otherwise you should implement a function for
+  // your desired resourse
+  public loadData(matching:string,  resource:resource, filters?:IAPIFilter[], searchKey?:string) {
     switch (resource) {
       // TODO
-      // case dataType.Principal : {
+      // case 'Principals' : {
 
       //    break;
       // }
       default: {
-         return this.loadAvailable(matching, resource, conditions, searchKey);
+         return this.loadAvailable(matching, resource, filters, searchKey);
          break;
       }
    }
