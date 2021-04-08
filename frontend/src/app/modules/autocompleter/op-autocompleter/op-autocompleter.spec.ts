@@ -1,4 +1,5 @@
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { OpAutocompleterComponent } from "./op-autocompleter.component";
 import { OpAutocompleterService } from "./services/op-autocompleter.service";
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -12,7 +13,12 @@ import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 import { of } from "rxjs";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { HalResourceNotificationService } from 'core-app/modules/hal/services/hal-resource-notification.service';
-
+import { NgSelectComponent} from '@ng-select/ng-select';
+import { NgSelectModule } from "@ng-select/ng-select";
+import { APIv3GettableResource } from "core-app/modules/apiv3/paths/apiv3-resource";
+import { ApiV3WorkPackageCachedSubresource } from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-package-cached-subresource";
+import { WorkPackageCollectionResource } from "core-app/modules/hal/resources/wp-collection-resource";
+import { ApiV3FilterBuilder, buildApiV3Filter } from "core-components/api/api-v3/api-v3-filter-builder";
 
 export enum KeyCode {
   Tab = 9,
@@ -96,11 +102,18 @@ fdescribe('autocompleter', () => {
     work_packages: {
       list: (_params:any) => {
         return of({ elements: workPackagesStub });
+      },
+      filtered<R = APIv3GettableResource<WorkPackageCollectionResource>>(filters:ApiV3FilterBuilder, params:{ [p:string]:string } = {}):R {
+        return super.filtered(filters, params, ApiV3WorkPackageCachedSubresource) as any;
       }
-    }
+    },
   };
 
- 
+  const configurationServiceStub = {
+    isTimezoneSet: () => false,
+    dateFormatPresent: () => false,
+    timeFormatPresent: () => false
+  };
 
   let fixture:ComponentFixture<OpAutocompleterComponent>;
 
@@ -114,9 +127,10 @@ fdescribe('autocompleter', () => {
         HalResourceService,
         HalResourceNotificationService,
         { provide: APIV3Service, useValue: apiv3ServiceStub },
+        { provide: ConfigurationService, useValue: configurationServiceStub },
 
       ],
-      imports: [HttpClientModule],
+      imports: [HttpClientTestingModule, NgSelectModule],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
@@ -134,8 +148,6 @@ fdescribe('autocompleter', () => {
     fixture.componentInstance.virtualScroll = true;
     fixture.componentInstance.classes = 'wp-inline-create--reference-autocompleter';
     
-
-
   });
 
 
@@ -150,20 +162,26 @@ fdescribe('autocompleter', () => {
   
 
   it('should load WorkPackages', fakeAsync(() => {
-    triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.W);
-    fixture.detectChanges();
-    tick();
-    // triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.two);
-    // fixture.detectChanges();
-    // tick();
-    const select = fixture.componentInstance.ngSelectInstance;
-   fixture.whenStable().then(() => {
-     debugger;
-     console.log(fixture.componentInstance.ngSelectInstance);
-    //expect(fixture.componentInstance.select).not.toBeUndefined();
-    expect(fixture.componentInstance.ngSelectInstance.itemsList).not.toBeUndefined();
-  });
-   
-    
+
+  tick();
+  fixture.detectChanges();
+  //const select = fixture.componentInstance.ngSelectInstance;
+
+  // triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.W);
+  //   fixture.detectChanges();
+  //   tick(1000);
+  //   triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.two);
+  
+  //   const select = fixture.componentInstance.ngSelectInstance;
+  //  fixture.whenStable().then(() => {
+  var select =  fixture.componentInstance.ngSelectInstance as NgSelectComponent;
+  select.filter('W');
+  fixture.detectChanges();
+  tick(1000);
+  //   //expect(fixture.componentInstance.select).not.toBeUndefined();
+  console.log(fixture.componentInstance.ngSelectInstance.itemsList.items.length);
+  
+  expect(fixture.componentInstance.ngSelectInstance.itemsList.items).not.toBeUndefined();
   }));
+   
 });
