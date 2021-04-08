@@ -5,7 +5,7 @@ import { IOPFieldModel } from "core-app/modules/common/dynamic-forms/typings";
 import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
 import { isObservable } from "rxjs";
 
-fdescribe('DynamicFieldsService', () => {
+describe('DynamicFieldsService', () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
   let service:DynamicFieldsService;
