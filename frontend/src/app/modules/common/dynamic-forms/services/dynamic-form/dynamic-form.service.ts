@@ -38,8 +38,8 @@ export class DynamicFormService {
         }
       )
       .pipe(
-        map((formConfig => this._getDynamicForm(formConfig))),
-      )
+        map((formConfig => this._getDynamicFormConfig(formConfig))),
+      );
   }
 
   // TODO: Submit to _links.commit?? (pending)
@@ -66,7 +66,7 @@ export class DynamicFormService {
       );
   }
 
-  private _getDynamicForm(formConfig:IOPForm):IOPDynamicForm {
+  private _getDynamicFormConfig(formConfig:IOPForm):IOPDynamicForm {
     const formSchema = formConfig._embedded?.schema;
     const formPayload = formConfig._embedded?.payload;
     const dynamicForm = {
