@@ -26,8 +26,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'faker'
-
 FactoryBot.define do
   factory :github_pull_request do
     github_user
@@ -39,9 +37,9 @@ FactoryBot.define do
 
     labels { [] }
     github_updated_at { Time.current }
-    title { Faker::Lorem.words(number: 8).join(' ') }
-    body { Faker::Lorem.paragraph(sentence_count: 5, supplemental: true, random_sentences_to_add: 3) }
-    repository { Faker::Lorem.words(number: 2).join('/').downcase }
+    sequence(:title) { |n| "Title of PR #{n}" }
+    sequence(:body) { |n| "Body of PR #{n}" }
+    sequence(:repository) { |n| "test_user/repo_#{n}" }
 
     draft { false }
     merged { false }

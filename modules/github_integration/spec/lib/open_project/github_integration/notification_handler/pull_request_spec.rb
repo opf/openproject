@@ -150,8 +150,12 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
 
     context 'with an edited action' do
       let(:action) { 'edited' }
+      let(:comment) do
+        "**Referenced in PR:** [test_user]() referenced this work package" \
+        " in Pull request 1 [A PR title](http://pr.url) on [test_user/repo]().\n"
+      end
 
-      it_behaves_like 'not adding a comment'
+      it_behaves_like 'adding a comment'
       it_behaves_like 'calls the pull request upsert service'
     end
 

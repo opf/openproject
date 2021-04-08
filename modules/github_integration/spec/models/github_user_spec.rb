@@ -25,12 +25,13 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+require "#{File.dirname(__FILE__)}/../spec_helper"
 
-FactoryBot.define do
-  factory :github_user do
-    sequence(:github_id)
-    sequence(:github_login) { |n| "user_#{n}" }
-    github_html_url { "https://github.com/#{github_login}" }
-    github_avatar_url { "https://github.com/#{github_login}_avatar.jpg" }
+describe GithubUser do
+  describe "validations" do
+    it { is_expected.to validate_presence_of :github_id }
+    it { is_expected.to validate_presence_of :github_login }
+    it { is_expected.to validate_presence_of :github_html_url }
+    it { is_expected.to validate_presence_of :github_avatar_url }
   end
 end

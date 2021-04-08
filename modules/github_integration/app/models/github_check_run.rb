@@ -39,5 +39,5 @@ class GithubCheckRun < ApplicationRecord
                         :github_id,
                         :status
   validates :status, inclusion: { in: STATES }
-  validates :conclusion, inclusion: { in: CONCLUSIONS }, allow_blank: true
+  validates :conclusion, inclusion: { in: CONCLUSIONS }, allow_nil: true
 end

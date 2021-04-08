@@ -54,11 +54,11 @@ class GithubPullRequest < ApplicationRecord
   validates :state, inclusion: { in: STATES }
   validate :validate_labels_schema
 
-  private
-
   def partial?
     state == 'partial'
   end
+
+  private
 
   def validate_labels_schema
     return if labels.nil?

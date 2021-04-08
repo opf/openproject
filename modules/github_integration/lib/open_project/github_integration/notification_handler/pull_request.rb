@@ -35,6 +35,7 @@ module OpenProject::GithubIntegration
 
       COMMENT_ACTIONS = %w[
         closed
+        edited
         opened
         ready_for_review
         reopened
