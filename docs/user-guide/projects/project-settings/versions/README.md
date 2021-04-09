@@ -36,14 +36,28 @@ You can configure the following information.
 
 ## Edit or delete versions
 
-1. Click on the name of a version to **edit** it or on the edit icon at the right in the row.
+1. Click on the **edit** icon at the right of the row to edit the version.
 2. Press the **delete** button at the right of the version to delete a version.
 3. You can **close all completed versions** with the button at the bottom of the list. In order to close only certain versions, open the details view and adapt the version **Status** (see above).
 
+Please note: You can only edit versions (i.e. edit icon visible) in their original project, not in projects they're shared with.
+
 ![User-guide-project-settings-edit-versions](User-guide-project-settings-edit-versions.png)
+
+
 
 ## Close a version
 
 To close a version, open the details view of a version and set the **Status** to *Closed*.
 
 ![close version](image-20200129161010953.png)
+
+## Differences between open, locked and closed versions
+
+There are (of course) a few differences between open, locked and closed versions:
+
+- **Open version**: Can be used on all places where version can be used. Work packages can be added and removed. The version is visible in the Backlogs module. It will also be shown in the Roadmap module.
+- **Locked version**: No work packages can be added or removed. The version is not visible in the Backlogs module any more. The version is still visible in the Roadmap module.
+  Use case: E.g. the scope of a new software release or a sprint has been decided and should not be changed any more. It is currently being worked on.
+- **Closed version**: No work packages can be added or removed. The version is not visible in the Backlogs module any more. It will also not be shown in the Roadmap module unless you explicitly filter for it.
+  Use case: A closed version is meant as a completed version, e.g. the new software release mentioned earlier has been finished and you're working on the next one.
