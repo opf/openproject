@@ -10,13 +10,17 @@ keywords: FAQ, introduction, tutorial, project management software, frequently a
 
 Welcome to the central overview of frequently asked questions for OpenProject. 
 
-## [FAQ for work packages](../user-guide/work-packages/faq)
+| Topic                                                        | Content                                                      |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Learn more about OpenProject](#learn-more-about-openproject) | General questions about OpenProject, security, setup and much more |
+| [How to ... in OpenProject?](#how-to-...-in-openproject)     | Questions about how to achieve certain outcomes in OpenProject that do not fit elsewhere |
+| [FAQ regarding features](#faq-regarding-features)            | Information about frequent feature requests                  |
+| [FAQ regarding OpenProject BIM edition](#FAQ-regarding-OpenProject-BIM-edition) | Questions concerning the additional BCF module for OpenProject and the BIM edition |
+| [Migration](#migration)                                      | Questions regarding migrating to OpenProject from e.g. Bitnami or from other OpenProject versions |
+| [Other](#other)                                              | Additional questions, e.g. about contribution, training, support |
+| [Topic-specific FAQ](#topic-specific-faq)                    | Links to other FAQ sections                                  |
 
-## [FAQ for Gantt chart](../user-guide/gantt-chart/faq)
 
-## [FAQ for Enterprise on-premises](../enterprise-edition-guide/faq)
-
-## [FAQ for Enterprise cloud](../cloud-edition-guide/faq)
 
 ## Learn more about OpenProject
 
@@ -69,7 +73,7 @@ Here are resources to get to know OpenProject:
 
 Our minimum plan for the Enterprise cloud edition and Enterprise on-premises edition is five users. Our pricing scheme covers three subscription options: Community Edition ($0), Enterprise cloud (€4.95/member/month or approximately $5.60/member/month), and Enterprise on-premises (€5.95/member/month or approximately $6.73/member/month). We recommend to start the [Community version](https://www.openproject.org/download-and-installation/) free of charge if the five user minimum is an issue for you.
 
-### Openproject is Open Source. Which kind of license does it come with? What am I allowed to do? What can I change?
+### OpenProject is Open Source. Which kind of license does it come with? What am I allowed to do? What can I change?
 
 OpenProject comes with the GNU General Public License v3 (GPLv3). You can find out more about the copyright [here](https://github.com/opf/openproject/blob/dev/docs/COPYRIGHT.rdoc).
 In accordance with the terms set by the GPLv3 license, users can make modifications, create copies and redistribute the work. 
@@ -101,7 +105,7 @@ In the Community Edition and in the Enterprise on-premises edition you can use t
 
 ## How to ... in OpenProject?
 
-Most of this kind of questions will be answered in the respective sections for each topic (see links above). However, there may be some FAQ that do not really fit elsewhere:
+Most of this kind of questions will be answered in the respective sections for each topic (see links below). However, there may be some FAQ that do not really fit elsewhere:
 
 ### I cannot log in, I do not know my password. What can I do?
 
@@ -158,6 +162,8 @@ The projects overview is not optimized for export via PDF, yet. Nevertheless, yo
 Please go to https://www.openproject.org/newsletter/ and submit your data to receive our newsletter. Another option would be to agree to receive the newsletter when creating your account.
 
 ## FAQ regarding features
+
+Please find information on the features of OpenProject [here](https://www.openproject.org/collaboration-software-features/) and a comparison between Enterprise on-premises, Enterprise cloud and Community Edition [here](https://www.openproject.org/pricing/#compare). The community platform to see and [issue](../development/submit-feature-idea/) feature ideas can be found [here](community.openproject.com).
 
 ### Is it possible to use multiple languages in OpenProject?
 
@@ -308,3 +314,13 @@ It does not expire. However, the certification training always covers the curren
 ### Where can I find out more about pricing?
 
 You can find the price calculator [here](https://www.openproject.org/pricing) and FAQ regarding pricing [here](https://www.openproject.org/pricing/#FAQ).
+
+## Topic-specific FAQ
+
+## [FAQ for work packages](../user-guide/work-packages/faq)
+
+## [FAQ for Gantt chart](../user-guide/gantt-chart/faq)
+
+## [FAQ for Enterprise on-premises](../enterprise-edition-guide/faq)
+
+## [FAQ for Enterprise cloud](../cloud-edition-guide/faq) 

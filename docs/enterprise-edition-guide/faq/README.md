@@ -13,17 +13,17 @@ keywords: Enterprise on-premises FAQ, enterprise edition, self-hosted
 
 ## How can I upgrade to the OpenProject Enterprise on-premises edition?
 
-The Enterprise on-premises edition is an upgrade of the self-hosted Community edition. When you are already using the Community edition, you can purchase an Enterprise on-premises edition license to upgrade your OpenProject environment to the Enterprise on-premises edition. To do this, follow these steps:
+The Enterprise on-premises edition is an upgrade of the self-hosted Community Edition. When you are already using the Community Edition, you can purchase an Enterprise on-premises edition license to upgrade to the Enterprise on-premises edition. To do this, follow these steps:
 
 1. Navigate to https://www.openproject.org/enterprise-edition/.
 2. Click on the "Book now" button.
-3. Follow the steps to purchase the Enterprise on-premises edition license. You will then receive an Enterprise on-premises edition license key by email which you can use to upgrade your Community edition to the Enterprise on-premises edition.If you prefer to test the Enterprise on-premises edition before purchasing, you can request a 14 day trial license from https://www.openproject.org/enterprise-edition/. Simply click on "Get free trial license" to receive a 14 day trial license. After 14 days it will automatically downgraded to the community edition. 
+3. Follow the steps to purchase the Enterprise on-premises edition license. You will then receive an Enterprise on-premises edition license key by email which you can use to upgrade your Community Edition to the Enterprise on-premises edition. 
 
+If you prefer to test the Enterprise on-premises edition before purchasing, you can request a 14 day trial license from within your system (*Administration -> Enterprise Edition*). Simply click on the green **Start free trial** button to receive a 14 day trial license. If you like the premium features and want to continue, you can easily book the Enterprise on-premises version via the Enterprise Edition menu in the Administration. Otherwise, you will automatically be downgraded to the Community Edition. 
 
-## Is it possible to buy and upgrade to Enterprise on-premises version on a Community edition already installed?
+You will keep your data during the whole process.
 
-Yes, you can upgrade your existing OpenProject Community edition to the Enterprise on-premises edition. You can then continue to use the same data as before but also use the premium features. When you purchase the Enterprise on-premises edition, you receive an Enterprise on-premises edition license. You can use this license to upgrade your Community edition.
-To upgrade your Community installation, navigate to your system -> Administration -> Enterprise Edition. Here, you can simply click the green Start free trial button. You can then trial the Enterprise on-premises edition 14 days for free before booking. If you like the premium features and want to continue, you can easily book the Enterprise on-premises version via the Enterprise Edition menu in the Administration. Find more information [here](https://www.openproject.org/enterprise-edition-upgrade-test-free/).
+Find more information [here](https://www.openproject.org/enterprise-edition-upgrade-test-free/).
 
 ## How can I book additional users?
 
@@ -36,15 +36,6 @@ This is not possible, as the Premium features affect the whole OpenProject insta
 ## I didn't receive my license key / Enterprise token
 
 The Enterprise token is sent to the email address used to create the subscription. If you can't find it in the spam folder and if you already paid for the subscription please contact support.
-
-## I can't login via SSO to update my EE token. What do I do?
-
-Until this issue is fixed you can set the token manually via the console. Copy the new token and then do the following.
-`sudo openproject run console`
-Once in the console update the token like this:
-`EnterpriseToken.first.update encoded_token: "..."`
-Where `...` is the token you have copied earlier.
-After that you can quit the console by entering `exit`.
 
 ## Can I use my own domain name?
 
@@ -61,6 +52,15 @@ Enterprise on-premises gives you full data sovereignty, the possibility to use s
 ## How can I downgrade from Enterprise Edition to Community Edition?
 
 You don't have to do anything. Just don't renew your subscription. As soon as your subscription or your trial ends you will automatically be downgraded to the Community Edition. You can keep your data.
+
+## I can't login via SSO to update my Enterprise on-premises token. What do I do?
+
+Until this issue is fixed you can set the token manually via the console. Copy the new token and then do the following.
+`sudo openproject run console`
+Once in the console update the token like this:
+`EnterpriseToken.first.update encoded_token: "..."`
+Where `...` is the token you have copied earlier.
+After that you can quit the console by entering `exit`.
 
 
 ## Do you have a reseller program for OpenProject?
