@@ -50,7 +50,7 @@ module OpenProject::GithubIntegration
           upsert_pull_request(payload, work_packages)
         end
         if add_work_package_comment?(payload.fetch('action'), new_work_packages)
-          comment_on_referenced_work_packages(work_packages, github_system_user, notes(payload))
+          comment_on_referenced_work_packages(new_work_packages, github_system_user, notes(payload))
         end
       end
 

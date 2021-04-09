@@ -174,6 +174,32 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
       it_behaves_like 'not adding a comment'
       it_behaves_like 'calls the pull request upsert service'
     end
+
+    context 'when the a work package is already known to the GithubPullRequest but another work package is new' do
+      let(:github_pull_request) { FactoryBot.create(:github_pull_request, github_id: 123, work_packages: [work_package]) }
+      let(:other_work_package) { FactoryBot.create(:work_package) }
+      let(:pr_body) { "Mentioning OP##{work_package.id} and OP##{other_work_package.id}" }
+
+      before do
+        github_pull_request
+        other_work_package
+      end
+
+      it 'adds a comment only for the other_work_package' do
+        process
+        expect(handler_instance).to have_received(:comment_on_referenced_work_packages).with(
+          [other_work_package],
+          github_system_user,
+          comment
+        )
+      end
+
+      it 'calls the pull request upsert service with all work_packages' do
+        process
+        expect(upsert_service).to have_received(:call).with(payload['pull_request'],
+                                                            work_packages: [work_package, other_work_package])
+      end
+    end
   end
 
   context 'with a labeled action' do
