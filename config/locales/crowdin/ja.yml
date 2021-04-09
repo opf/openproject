@@ -66,7 +66,7 @@ ja:
       upgrade_to_ee: "エンタープライズ版にアップグレード"
       add_token: "エンタープライズ版サポートのトークンをアップロード"
       replace_token: "現在のサポート トークンを置き換え"
-      order: "エンタープライズ オンプレミス エディションを注文"
+      order: "エンタープライズ オンプレミス エディションを注文する"
       paste: "エンタープライズ版サポートのトークンを貼り付け"
       required_for_feature: "この機能は、アクティブなエンタープライズ版のサポート トークンでのみ利用可能です。"
       enterprise_link: "詳細については、ここをクリックしてください。"
@@ -247,8 +247,8 @@ ja:
       irreversible: "この操作は元に戻せません"
       confirmation: "削除を確認するため、プレースホルダーユーザー名 %{name} を入力してください。"
     upsale:
-      title: Assign work to people that are not members of the project.
-      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+      title: プロジェクトのメンバーではないユーザーに作業を割り当てる
+      description: プロジェクトのメンバーではない人に作業を割り当てたいと思うことは多々あります。それは単に、その仕事に適した人を雇う必要があるということかもしれません。あるいは、その人にプロジェクトの情報へのアクセスを許可したくないが、その人に割り当てられたタスクを追跡したいという場合もあります。
   prioritiies:
     edit:
       priority_color_text: |
@@ -564,7 +564,7 @@ ja:
             global: '全般'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "'=' 演算子を使用した、プリンシパル、コンテキスト、ID に対するフィルターを少なくとも 1 つ含める必要があります。"
         custom_field:
           at_least_one_custom_option: "少なくとも 1 つオプションが有効である必要があります。"
         custom_actions:
@@ -2645,8 +2645,8 @@ ja:
       invalid_relation: "関係は無効です。"
       invalid_resource: "プロパティ '%{property}' は '%{expected}'のようなリンクであることが期待されていますが実際は '%{actual}'が指定されています。"
       invalid_signal:
-        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
-        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
+        embed: "要求された %{invalid} の埋め込みはサポートされていません。 サポートされている埋め込みは %{supported} です。"
+        select: "要求された %{invalid} の選択はサポートされていません。 サポートされている選択は %{supported} です。"
       invalid_user_status_transition: "現在のユーザーのアカウントステータスはこの操作を許可していません。"
       missing_content_type: "指定されていません。"
       missing_request_body: "要求の本体がありませんでした。"

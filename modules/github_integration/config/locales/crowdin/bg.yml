@@ -20,6 +20,8 @@
 #See docs/COPYRIGHT.rdoc for more details.
 #++
 bg:
+  project_module_github: "GitHub"
+  permission_show_github_content: "Show GitHub content"
   github_integration:
     pull_request_opened_comment: >
       **Отворен PR:** Pull request %{pr_number} [%{pr_title}](%{pr_url}) за [%{repository}](%{repository_url}) е отворен от [%{github_user}](%{github_user_url}).

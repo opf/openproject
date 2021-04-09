@@ -20,6 +20,8 @@
 #See docs/COPYRIGHT.rdoc for more details.
 #++
 fr:
+  project_module_github: "GitHub"
+  permission_show_github_content: "Show GitHub content"
   github_integration:
     pull_request_opened_comment: >
       **PR Ouvert :** Demande pull %{pr_number} [%{pr_title}](%{pr_url}) pour [%{repository}](%{repository_url}) ouverte par [%{github_user}](%{github_user_url}).

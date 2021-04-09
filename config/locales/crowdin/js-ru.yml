@@ -979,7 +979,7 @@ ru:
         next_button: 'Следующие'
         no_results: 'Проекты не найдены'
       type:
-        required: 'Please select the type to be invited'
+        required: 'Пожалуйста, выберите тип для приглашения'
         user:
           title: 'Пользователь'
           description: 'Права доступа, основанные на назначенной роли в выбранном проекте'
@@ -988,7 +988,7 @@ ru:
           description: 'Права доступа, основанные на назначенной роли в выбранном проекте'
         placeholder:
           title: 'Пользователь-заполнитель'
-          title_no_ee: 'Пользователь с заполнителем (только для корпоративной версии)'
+          title_no_ee: 'Пользователь-заполнитель (только для корпоративной версии)'
           description: 'Нет доступа к проекту и письма не отправляются.'
           description_no_ee: 'Нет доступа к проекту и письма не отправляются. <br>Проверьте <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
       principal:
@@ -1011,13 +1011,13 @@ ru:
           group: 'Пожалуйста, выберите группу'
       role:
         label: 'Роль в %{project}'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'Это роль получит %{principal} после присоединения вашему проекту. Роль определяет, какие действия ему разрешено принимать и какую информацию он сможет видеть. <a href="%{href}" target="_blank"> Узнайте больше о ролях и разрешениях. </a>'
         required: 'Пожалуйста, выберите роль'
         next_button: 'Следующие'
       message:
         label: 'Сообщение о приглашении'
         description: 'Мы отправим письмо на адрес %{principal}, в которое вы можете добавить личное сообщение здесь. Может быть полезным объяснить причину приглашения или, возможно, добавить немного информации о проекте, чтобы помочь им начать работу.'
-        next_button: 'Review invitation'
+        next_button: 'Просмотреть приглашение'
       summary:
         next_button: 'Отправить приглашение'
       success:

@@ -20,6 +20,8 @@
 #See docs/COPYRIGHT.rdoc for more details.
 #++
 sv:
+  project_module_github: "GitHub"
+  permission_show_github_content: "Show GitHub content"
   github_integration:
     pull_request_opened_comment: >
       **PR öppnad:** Dra begäran %{pr_number} [%{pr_title}](%{pr_url}) för [%{repository}](%{repository_url}) har öppnats av [%{github_user}](%{github_user_url}).

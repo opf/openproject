@@ -570,7 +570,7 @@ ru:
             global: 'Глобальная'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "необходимо включить хотя бы один фильтр для основного, контекста или id с оператором '='."
         custom_field:
           at_least_one_custom_option: "По крайней мере один параметр должен быть доступен."
         custom_actions:
@@ -662,7 +662,7 @@ ru:
         wiki_page:
           attributes:
             slug:
-              undeducible: "cannot be deduced from the title '%{title}'."
+              undeducible: "не может быть вычтено из заголовка '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Пакет работ #%{id} не допустимым для переназначения времени записи."
           attributes:
@@ -1260,7 +1260,7 @@ ru:
   instructions_after_error: "Вы можете попробовать войти снова, нажав %{signin}. Если ошибка повторится, обратитесь к вашему администратору за помощью."
   menus:
     quick_add:
-      label: "Open quick add menu"
+      label: "Открыть меню быстрого добавления"
   my_account:
     access_tokens:
       no_results:
@@ -1972,7 +1972,7 @@ ru:
   permission_add_messages: "Написать сообщения"
   permission_add_project: "Создать проект"
   permission_manage_user: "Создание и редактирование пользователей"
-  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
+  permission_manage_placeholder_user: "Создавать, редактировать и удалять пользователей-заполнителей"
   permission_add_subprojects: "Создать подпроект"
   permission_add_work_package_watchers: "Добавить наблюдателей"
   permission_assign_versions: "Назначить версии"
@@ -2701,8 +2701,8 @@ ru:
       invalid_relation: "Отношение является недопустимым."
       invalid_resource: "Для свойства «%{property}» ожидается ссылка как «%{expected}» , но получена «%{actual}»."
       invalid_signal:
-        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
-        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
+        embed: "Запрошенное встраивание %{invalid} не поддерживается. Поддерживаемые встраивания: %{supported}."
+        select: "Запрошенный выбор %{invalid} не поддерживается. Поддерживаются варианты %{supported}."
       invalid_user_status_transition: "Состояние учетной записи текущего пользователя не поддерживает эту операцию."
       missing_content_type: "Не определено"
       missing_request_body: "Нет тела запроса."
