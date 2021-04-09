@@ -28,7 +28,7 @@ Possible workarounds:
 ## Is it possible to view all hours assigned to each member in total? If I work on various projects I'd like to know how many hours I accumulated for all tasks assigned to me.
 
 Yes, it is possible to see all hours assigned to each user in total. In your cost report you would just need to [select](../reporting/#filter-cost-reports) all projects that you would want to look at.
-Click on the **+** next to the project filter, select all projects or the ones that you would like to select (use Ctrl or shift key), choose all other filters and then click "apply" to generate the cost report.
+Click on the **+** next to the project filter, select all projects or the ones that you would like to select (use Ctrl or Shift key), choose all other filters and then click **Apply** to generate the cost report.
 
 ## Can I show the columns I chose in the Time and costs module in the Excel export?
 

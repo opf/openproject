@@ -43,7 +43,7 @@ Yes, it is possible; [set](../project-settings/versions/) the sharing option for
 
 ## How do I reopen an archived project?
 
-Go to the projects overview ("View all projects") and change the filter to not only include active projects. Then choose the archived project you want to reopen and click on the three dots at the right end of its row. Click on "Unarchive" there.
+Go to the projects overview ("View all projects") and change the filter to not only include active projects. Then choose the archived project you want to reopen and click on the three dots at the right end of its row. Click on **Unarchive** there.
 
 ## Is it possible to hide or remove fields in the project settings (like status, status description)?
 

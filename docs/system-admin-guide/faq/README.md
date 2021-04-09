@@ -25,27 +25,6 @@ No, that's not possible, as all tenants (customers) use the same code on the sha
 
 Please have a look at [these instructions](../../installation-and-operations/operation/monitoring).
 
-## [FAQ for authentication](../authentication/faq)
+## Further information
 
-
-
-## [FAQ for work package settings](../manage-work-packages/faq)
-
-
-
-## [FAQ for incoming emails](../email/faq)
-
-
-
-## [FAQ for custom fields](../custom-fields/faq)
-
-
-
-## [FAQ for users and permissions](../users-permissions/faq)
-
-
-
-
-
-
-
+More FAQ can be found in the respective sections of this System admin guide.

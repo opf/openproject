@@ -2,12 +2,12 @@
 sidebar_navigation:
   title: FAQ
   priority: 001
-description: Frequently asked questions regarding incoming emails
+description: Frequently asked questions regarding incoming and outgoing emails
 robots: index, follow
 keywords: incoming emails FAQ, inbound emails, send to OpenProject
 ---
 
-# Frequently asked questions (FAQ) for incoming emails
+# Frequently asked questions (FAQ) for incoming emails and email notifications
 
 ## What is the correct email address to send inbound emails to for the Enterprise cloud? And what should they look like?
 

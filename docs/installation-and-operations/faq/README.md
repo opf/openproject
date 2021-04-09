@@ -25,9 +25,9 @@ If you use the docker images, you need to be familiar with Docker and Docker vol
 
 You can either try the manual installation, or ask in the forum whether this could be added to the list of supported distributions. We try to support recent major distributions, but due to maintenance and operations cost cannot freely add to that list.
 
-### What is the better option to run OpenProject in production environments: docker or linux packages?
+### What is the better option to run OpenProject in production environments: Docker or Linux packages?
 
-We recommend the Linux packages [if you have a compatible distribution](../system-requirements/) and a separate machine for OpenProject, since it will allow for the easiest and most flexible setup. Use a docker-based image either for quickly spinning up an environment or if you have knowledge in setting up and maintaining docker-based installations.
+We recommend the Linux packages [if you have a compatible distribution](../system-requirements/) and a separate machine for OpenProject, since it will allow for the easiest and most flexible setup. Use a Docker-based image either for quickly spinning up an environment or if you have knowledge in setting up and maintaining Docker-based installations.
 
 ### Can I use a virtual machine (VM) to install OpenProject?
 
@@ -53,8 +53,8 @@ Your Mac will have to be reachable from the Internet if you want to collaborate 
 
 ### Can I install OpenProject offline?
 
-For the packaged installation there are quite a few dependencies which would have to be loaded during installation (like SQLite3, unzip, poppler-utils, unrtf, ...). Therefore, we recommend  to use a Docker setup for offline installation. Because a docker image contains all dependencies and can really be transferred as single files (via docker save ) without further dependencies. Please find out more about air-gapped installation [here](../installation/docker#offlineair-gapped-installation). 
-Alternatively, you could install OpenProject on a virtual machine with Internet access and the re-use the VM image on the offline hosts.
+For the packaged installation there are quite a few dependencies which would have to be loaded during installation (like SQLite3, unzip, poppler-utils, unrtf, ...). Therefore, we recommend  to use a Docker setup for offline installation. A Docker image contains all dependencies and can really be transferred as single files (via docker save ) without further dependencies. Please find out more about air-gapped installation [here](../installation/docker#offlineair-gapped-installation). 
+Alternatively, you could install OpenProject on a virtual machine with Internet access and then re-use the VM image on the offline hosts.
 
 ### Can I use MySQL instead of PostgreSQL?
 
@@ -109,7 +109,7 @@ You can access it using a browser. Please see our [Installation & Upgrades Guide
 
 ### My OpenProject instance is slow but my RAM isn't fully used. What can I do?
 
-Set a higher number of web workers to allow more processes to be handled at the same time. Find out more [here](../operation/control).
+Set a higher number of web workers to allow more processes to be handled at the same time. Find out more [here](../operation/control) and about system requirements [here](../system-requirements/).
 
 ### I don't receive emails. Test email works fine but not the one for work package updates.
 

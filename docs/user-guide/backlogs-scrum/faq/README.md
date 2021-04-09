@@ -16,8 +16,10 @@ This is not possible. "Work packages from sub-projects are not displayed in the 
 ## I assigned a version to work packages. Why can't I see them in the respective backlog?
 
 Please make sure that
-A) The respective version is assigned to a column in the backlog (see *Project settings ->Versions*).
-B) The work packages you want to display in the backlog are of a type that gets displayed in the backlog. If not: Either change the work package type or change the backlog setting (see *Administration ->Backlogs*).
+
+- The respective version is not in the status "locked" or "closed"
+- The respective version is assigned to a column in the backlog (see *Project settings ->Versions*).
+- The work packages you want to display in the backlog are of a type that gets displayed in the backlog. If not: Either change the work package type or change the backlog setting (see *Administration ->Backlogs*).
 
 ## When I try to move a work package to another column in the task board I receive an error message similar to "Backlog Plugin 500 Internal Server Error". What can I do?
 

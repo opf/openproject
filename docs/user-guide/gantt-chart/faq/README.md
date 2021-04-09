@@ -9,10 +9,6 @@ keywords: Gantt chart FAQ, time line, scheduling
 
 # Frequently asked questions (FAQ) for Gantt chart
 
-## Is there a critical path feature?
-
-Unfortunately, we don't have the critical path feature yet. We have a feature request for it though and will check how to integrate it into our road map. A workaround could be to [create predecessor-successor relations](../../work-packages/work-package-relations-hierarchies/#work-package-relations) for only the work packages that are in the critical path. 
-
 ## How can I move the milestones in the Gantt chart to a specific date, independently from the other work packages?
 
 Make sure that you remove the relations of the milestone to other work packages. Then its date won't change when you change the timings of other work packages. For releases from 11.0.0 onwards (October 2020) you can use the [manual scheduling mode](../scheduling) for this.
@@ -30,3 +26,7 @@ The respective feature request can be found [here](https://community.openproject
 
 Adding a buffer directly is currently not possible in OpenProject. When you create a follows-precedes relationship between a preceding and a following work package and leave a gap between the finish date of the preceding and the start date of the following work package, and then postpone the preceding work package, the "buffer" will be used up. Only when the finish date of the preceding work package is moved past the start date of the following work package, will the following work package be postponed.
 As a workaround you could create a separate work package (type) which acts as a buffer. You can then create a precedes-follows relationship between the first item and the "buffer work package" and the "buffer work package" and the second item. To avoid cluttering up your view you could use the filter to not display the buffer work packages.
+
+## Is there a critical path feature?
+
+Unfortunately, we don't have the critical path feature yet. We have a feature request for it though and will check how to integrate it into our road map. A workaround could be to [create predecessor-successor relations](../../work-packages/work-package-relations-hierarchies/#work-package-relations) for only the work packages that are in the critical path. 

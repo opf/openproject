@@ -11,7 +11,7 @@ keywords: calendar FAQ, diary, planner, holiday
 
 ## What information can be displayed in the calendar?
 
-The calendar automatically displays the start and end dates of work  packages in the current project. Additionally, the start and end dates of versions are shown in the calendar.
+The calendar automatically displays the start and end dates of work packages in the current project. Additionally, the start and end dates of versions are shown in the calendar.
 
 ## Where can I embed / activate the calendar?
 
@@ -25,7 +25,7 @@ You can however use the meeting module in OpenProject to organize meetings and i
 
 ## Are holidays considered in the calendar?
 
-Currently, the calendar does not consider weekends or holidays as non-working days, i.e. the end date for a task could e.g. be set on a Sunday. This is important for businesses that are working on weekends or holidays. Please note that we are currently working on a feature for holidays and weekends that can be adjusted as needed. 
+Currently, the calendar does not consider weekends or holidays as non-working days, i.e. the end date for a task could e.g. be set on a Sunday. This is important for businesses that are working on weekends or holidays. Please note that we are currently working on a feature for free days and weekends that can be adjusted as needed. 
 
 ## Is there a limit for the number of work packages displayed in the calendar?
 
