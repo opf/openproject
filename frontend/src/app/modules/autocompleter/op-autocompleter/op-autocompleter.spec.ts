@@ -19,6 +19,8 @@ import { APIv3GettableResource } from "core-app/modules/apiv3/paths/apiv3-resour
 import { ApiV3WorkPackageCachedSubresource } from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-package-cached-subresource";
 import { WorkPackageCollectionResource } from "core-app/modules/hal/resources/wp-collection-resource";
 import { ApiV3FilterBuilder, buildApiV3Filter } from "core-components/api/api-v3/api-v3-filter-builder";
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import { Constructor } from "@angular/cdk/table";
 
 export enum KeyCode {
   Tab = 9,
@@ -103,8 +105,11 @@ fdescribe('autocompleter', () => {
       list: (_params:any) => {
         return of({ elements: workPackagesStub });
       },
-      filtered<R = APIv3GettableResource<WorkPackageCollectionResource>>(filters:ApiV3FilterBuilder, params:{ [p:string]:string } = {}):R {
-        return super.filtered(filters, params, ApiV3WorkPackageCachedSubresource) as any;
+     subResource<R = APIv3GettableResource<HalResource>>(segment:string, cls:Constructor<R> = APIv3GettableResource as any):R {
+        return new cls(APIV3Service, '', segment, this);
+      },
+     filtered<R = APIv3GettableResource<V>>(filters:ApiV3FilterBuilder, params:{ [key:string]:string } = {}, resourceClass?:Constructor<R>):R {
+        return this.subResource<R>('?' + filters.toParams(params), resourceClass) as R;
       }
     },
   };
