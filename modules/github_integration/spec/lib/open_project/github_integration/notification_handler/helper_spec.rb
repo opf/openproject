@@ -35,7 +35,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::Helper do
     allow(Setting).to receive(:host_name).and_return('example.net')
   end
 
-  describe '.extract_work_package_ids' do
+  describe '#extract_work_package_ids' do
     it 'returns an empty array for an empty source' do
       expect(handler.extract_work_package_ids('')).to eq([])
     end
@@ -66,7 +66,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::Helper do
     end
   end
 
-  describe '.find_visible_work_packages' do
+  describe '#find_visible_work_packages' do
     let(:user) { instance_double(User) }
     let(:visible_wp) { instance_double(WorkPackage, project: :project_with_permissions) }
     let(:invisible_wp) { instance_double(WorkPackage, project: :project_without_permissions) }
@@ -118,6 +118,16 @@ describe OpenProject::GithubIntegration::NotificationHandler::Helper do
       let(:expected) { [visible_wp, visible_wp] }
 
       it_behaves_like 'it finds visible work packages'
+    end
+  end
+
+  describe '#without_already_referenced' do
+    let(:work_packages) { FactoryBot.create_list(:work_package, 2) }
+    let(:referenced_work_packages) { [work_packages[0]] }
+    let(:github_pull_request) { FactoryBot.create(:github_pull_request, work_packages: referenced_work_packages) }
+
+    it 'returns only the not already referenced work packages' do
+      expect(handler.without_already_referenced(work_packages, github_pull_request)).to match_array([work_packages[1]])
     end
   end
 end

@@ -41,13 +41,13 @@ module OpenProject::GithubIntegration
       def process(payload)
         return unless associated_with_pr?(payload)
 
-        user = User.find_by(id: payload['open_project_user_id'])
+        github_system_user = User.find_by(id: payload.fetch('open_project_user_id'))
+        work_packages = find_mentioned_work_packages(comment_body(payload), github_system_user)
         pull_request = find_pull_request(payload)
-        work_packages = find_mentioned_work_packages(payload['comment']['body'], user)
-        new_work_packages = reject_already_referenced(work_packages, pull_request)
+        new_work_packages = without_already_referenced(work_packages, pull_request)
 
         upsert_partial_pull_request(payload, new_work_packages)
-        comment_on_referenced_work_packages(new_work_packages, user, notes(payload)) if new_work_packages.any?
+        comment_on_referenced_work_packages(new_work_packages, github_system_user, notes(payload)) if new_work_packages.any?
       end
 
       private
@@ -56,16 +56,13 @@ module OpenProject::GithubIntegration
         payload['issue']['pull_request'].present?
       end
 
-      # If the related GithubPullRequest already references this work package,
-      # there is no need to reference it again.
-      def reject_already_referenced(work_packages, pull_request)
-        known_work_packages = pull_request&.work_packages || []
-        work_packages - known_work_packages
-      end
-
       def find_pull_request(payload)
         html_url = payload['issue']['pull_request']['html_url']
         GithubPullRequest.find_by(github_html_url: html_url)
+      end
+
+      def comment_body(payload)
+        payload.fetch('comment').fetch('body')
       end
 
       def upsert_partial_pull_request(payload, work_packages)

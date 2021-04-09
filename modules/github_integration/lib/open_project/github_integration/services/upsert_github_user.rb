@@ -38,9 +38,10 @@ module OpenProject::GithubIntegration::Services
   # See: https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads#pull_request
   class UpsertGithubUser
     def call(params)
-      params = extract_params(params)
-      GithubUser.find_or_initialize_by(github_id: params.fetch(:github_id))
-                .tap { |u| u.update!(params) }
+      GithubUser.find_or_initialize_by(github_id: params.fetch('id'))
+                .tap do |github_user|
+                  github_user.update!(extract_params(params))
+                end
     end
 
     private

@@ -38,9 +38,10 @@ module OpenProject::GithubIntegration::Services
   # See: https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads#pull_request
   class UpsertPullRequest
     def call(params, work_packages: [])
-      params = extract_params(params)
-      GithubPullRequest.find_or_initialize_by(github_id: params.fetch(:github_id))
-                       .tap { |pr| pr.update!(work_packages: pr.work_packages | work_packages, **params) }
+      GithubPullRequest.find_or_initialize_by(github_id: params.fetch('id'))
+                       .tap do |pr|
+                         pr.update!(work_packages: pr.work_packages | work_packages, **extract_params(params))
+                       end
     end
 
     private
@@ -78,8 +79,8 @@ module OpenProject::GithubIntegration::Services
 
     def extract_label_values(params)
       {
-        name: params.fetch(:name),
-        color: params.fetch(:color)
+        name: params.fetch('name'),
+        color: params.fetch('color')
       }
     end
 

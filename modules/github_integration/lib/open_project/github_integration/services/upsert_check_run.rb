@@ -38,9 +38,10 @@ module OpenProject::GithubIntegration::Services
   # See: https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads#check_run
   class UpsertCheckRun
     def call(params, pull_request:)
-      params = extract_params(params)
-      GithubCheckRun.find_or_initialize_by(github_html_url: params.fetch(:github_id))
-                    .tap { |pr| pr.update!(github_pull_request: pull_request, **params) }
+      GithubCheckRun.find_or_initialize_by(github_id: params.fetch('id'))
+                    .tap do |pr|
+                      pr.update!(github_pull_request: pull_request, **extract_params(params))
+                    end
     end
 
     private

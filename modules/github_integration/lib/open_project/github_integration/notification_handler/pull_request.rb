@@ -35,28 +35,43 @@ module OpenProject::GithubIntegration
 
       COMMENT_ACTIONS = %w[
         closed
-        edited
         opened
         ready_for_review
         reopened
       ].freeze
 
       def process(payload)
-        github_system_user = User.find_by(id: payload['open_project_user_id'])
-        work_packages = find_mentioned_work_packages(payload['pull_request']['body'], github_system_user)
+        github_system_user = User.find_by(id: payload.fetch('open_project_user_id'))
+        work_packages = find_mentioned_work_packages(pr_body(payload), github_system_user)
+        pull_request = find_pull_request(payload)
+        new_work_packages = without_already_referenced(work_packages, pull_request)
 
         if work_packages.any?
           upsert_pull_request(payload, work_packages)
         end
-        if COMMENT_ACTIONS.include?(payload['action'])
+        if add_work_package_comment?(payload.fetch('action'), new_work_packages)
           comment_on_referenced_work_packages(work_packages, github_system_user, notes(payload))
         end
       end
 
       private
 
+      def add_work_package_comment?(action, new_work_packages)
+        edit_with_new_work_packages = action == 'edited' && new_work_packages.any?
+
+        COMMENT_ACTIONS.include?(action) || edit_with_new_work_packages
+      end
+
+      def find_pull_request(payload)
+        GithubPullRequest.find_by(github_id: payload.fetch('pull_request').fetch('id'))
+      end
+
+      def pr_body(payload)
+        payload.fetch('pull_request').fetch('body')
+      end
+
       def upsert_pull_request(payload, work_packages)
-        OpenProject::GithubIntegration::Services::UpsertPullRequest.new.call(payload['pull_request'],
+        OpenProject::GithubIntegration::Services::UpsertPullRequest.new.call(payload.fetch('pull_request'),
                                                                              work_packages: work_packages)
       end
 
