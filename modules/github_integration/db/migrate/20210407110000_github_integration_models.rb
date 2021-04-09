@@ -64,8 +64,10 @@ class GithubIntegrationModels < ActiveRecord::Migration[6.0]
 
       t.bigint :github_id, null: false
       t.string :github_html_url, null: false
+      t.bigint :app_id, null: false
       t.string :github_app_owner_avatar_url, null: false
       t.string :status, null: false
+      t.string :name, null: false
       t.string :conclusion
       t.string :output_title
       t.string :output_summary

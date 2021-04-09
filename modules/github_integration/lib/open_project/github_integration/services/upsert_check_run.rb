@@ -51,13 +51,15 @@ module OpenProject::GithubIntegration::Services
     # See: https://docs.github.com/en/rest/reference/checks
     def extract_params(params)
       output = params.fetch('output')
+      app = params.fetch('app')
 
       {
         github_id: params.fetch('id'),
         github_html_url: params.fetch('html_url'),
-        github_app_owner_avatar_url: params.fetch('app')
-                                           .fetch('owner')
-                                           .fetch('avatar_url'),
+        app_id: app.fetch('id'),
+        github_app_owner_avatar_url: app.fetch('owner')
+                                        .fetch('avatar_url'),
+        name: params.fetch('name'),
         status: params.fetch('status'),
         conclusion: params['conclusion'],
         output_title: output.fetch('title'),

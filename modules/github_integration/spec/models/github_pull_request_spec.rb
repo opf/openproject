@@ -75,7 +75,7 @@ describe GithubPullRequest do
     end
   end
 
-  describe '.partial?' do
+  describe '#partial?' do
     context 'when the state is partial' do
       subject { described_class.new(state: 'partial').partial? }
 
@@ -92,6 +92,79 @@ describe GithubPullRequest do
       subject { described_class.new(state: 'closed').partial? }
 
       it { is_expected.to be false }
+    end
+  end
+
+  describe '#latest_check_runs' do
+    subject { pull_request.reload.latest_check_runs }
+
+    let(:pull_request) { FactoryBot.create(:github_pull_request) }
+
+    it { is_expected.to be_empty }
+
+    context 'when multiple check_runs from different apps with different names exist' do
+      let(:latest_check_runs) do
+        [
+          FactoryBot.create(
+            :github_check_run,
+            app_id: 123,
+            name: 'test',
+            started_at: 1.minute.ago,
+            github_pull_request: pull_request
+          ),
+          FactoryBot.create(
+            :github_check_run,
+            app_id: 123,
+            name: 'lint',
+            started_at: 1.minute.ago,
+            github_pull_request: pull_request
+          ),
+          FactoryBot.create(
+            :github_check_run,
+            app_id: 456,
+            name: 'test',
+            started_at: 1.minute.ago,
+            github_pull_request: pull_request
+          ),
+          FactoryBot.create(
+            :github_check_run,
+            app_id: 789,
+            name: 'test',
+            started_at: 1.minute.ago,
+            github_pull_request: pull_request
+          )
+        ]
+      end
+      let(:outdated_check_runs) do
+        [
+          FactoryBot.create(
+            :github_check_run,
+            app_id: 123,
+            name: 'test',
+            started_at: 2.minutes.ago,
+            github_pull_request: pull_request
+          ),
+          FactoryBot.create(
+            :github_check_run,
+            app_id: 123,
+            name: 'test',
+            started_at: 3.minutes.ago,
+            github_pull_request: pull_request
+          ),
+          FactoryBot.create(
+            :github_check_run,
+            app_id: 123,
+            name: 'lint',
+            started_at: 5.minutes.ago,
+            github_pull_request: pull_request
+          )
+        ]
+      end
+      let(:check_runs) { latest_check_runs + outdated_check_runs }
+
+      before { check_runs }
+
+      it { is_expected.to match_array(latest_check_runs) }
     end
   end
 end

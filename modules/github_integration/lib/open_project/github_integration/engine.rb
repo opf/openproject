@@ -68,5 +68,13 @@ module OpenProject::GithubIntegration
 
     extend_api_response(:v3, :work_packages, :work_package,
                         &::OpenProject::GithubIntegration::Patches::API::WorkPackageRepresenter.extension)
+
+    add_api_path :github_pull_requests_by_work_package do |id|
+      "#{work_package(id)}/github_pull_requests"
+    end
+
+    add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
+      mount ::API::V3::GithubIntegration::GithubPullRequestsByWorkPackageAPI
+    end
   end
 end

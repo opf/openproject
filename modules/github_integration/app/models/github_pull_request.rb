@@ -33,6 +33,7 @@ class GithubPullRequest < ApplicationRecord
   LABEL_KEYS = %w[color name].freeze
 
   has_and_belongs_to_many :work_packages
+  has_many :github_check_runs
   belongs_to :github_user, optional: true
   belongs_to :merged_by, optional: true, class_name: 'GithubUser'
 
@@ -56,6 +57,14 @@ class GithubPullRequest < ApplicationRecord
 
   def partial?
     state == 'partial'
+  end
+
+  ##
+  # When a PR lives long enough and receives many pushes, the same check (say, a CI test run) can be run multiple times.
+  # This method only returns the latest of each type of check_run.
+  def latest_check_runs
+    github_check_runs.select("DISTINCT ON (github_check_runs.app_id, github_check_runs.name) *")
+                     .order(app_id: :asc, name: :asc, started_at: :desc)
   end
 
   private

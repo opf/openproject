@@ -28,17 +28,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class GithubCheckRun < ApplicationRecord
-  STATES = %w[queued in_progress completed].freeze
-  CONCLUSIONS = %w[action_required cancelled failure neutral success skipped stale timed_out].freeze
-
-  belongs_to :github_pull_request
-
-  validates_presence_of :github_app_owner_avatar_url,
-                        :github_html_url,
-                        :github_id,
-                        :status,
-                        :name
-  validates :status, inclusion: { in: STATES }
-  validates :conclusion, inclusion: { in: CONCLUSIONS }, allow_nil: true
+module API
+  module V3
+    module GithubIntegration
+      class GithubPullRequestCollectionRepresenter < ::API::Decorators::Collection
+      end
+    end
+  end
 end

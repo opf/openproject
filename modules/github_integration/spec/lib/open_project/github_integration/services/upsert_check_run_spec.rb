@@ -36,6 +36,7 @@ describe OpenProject::GithubIntegration::Services::UpsertCheckRun do
     {
       'id' => 123,
       'html_url' => 'https://github.com/check_runs/123',
+      'name' => 'test',
       'status' => 'completed',
       'conclusion' => 'success',
       'details_url' => 'https://github.com/details',
@@ -46,8 +47,9 @@ describe OpenProject::GithubIntegration::Services::UpsertCheckRun do
         'summary' => 'a summary'
       },
       'app' => {
+        'id' => 456,
         'owner' => {
-          'avatar_url' => 'https:://github.com/apps/123/avatar.png'
+          'avatar_url' => 'https:://github.com/apps/456/avatar.png'
         }
       }
     }
@@ -59,7 +61,9 @@ describe OpenProject::GithubIntegration::Services::UpsertCheckRun do
     expect(GithubCheckRun.last).to have_attributes(
       github_id: 123,
       github_html_url: 'https://github.com/check_runs/123',
-      github_app_owner_avatar_url: 'https:://github.com/apps/123/avatar.png',
+      app_id: 456,
+      github_app_owner_avatar_url: 'https:://github.com/apps/456/avatar.png',
+      name: 'test',
       status: 'completed',
       conclusion: 'success',
       output_title: 'a title',
