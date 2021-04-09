@@ -62,7 +62,8 @@ function getNgSelectElement(fixture: ComponentFixture<any>): DebugElement {
 
 
 fdescribe('autocompleter', () => {
-
+  let fixture:ComponentFixture<OpAutocompleterComponent>;
+  let opAutocompleterServiceSpy: jasmine.SpyObj<OpAutocompleterService>;
   const workPackagesStub = [
     {
       id: 1,
@@ -100,49 +101,24 @@ fdescribe('autocompleter', () => {
     },
   ];
 
-  const apiv3ServiceStub = {
-    work_packages: {
-      list: (_params:any) => {
-        return of({ elements: workPackagesStub });
-      },
-     subResource<R = APIv3GettableResource<HalResource>>(segment:string, cls:Constructor<R> = APIv3GettableResource as any):R {
-        return new cls(APIV3Service, '', segment, this);
-      },
-     filtered<R = APIv3GettableResource<V>>(filters:ApiV3FilterBuilder, params:{ [key:string]:string } = {}, resourceClass?:Constructor<R>):R {
-        return this.subResource<R>('?' + filters.toParams(params), resourceClass) as R;
-      }
-    },
-  };
-
-  const configurationServiceStub = {
-    isTimezoneSet: () => false,
-    dateFormatPresent: () => false,
-    timeFormatPresent: () => false
-  };
-
-  let fixture:ComponentFixture<OpAutocompleterComponent>;
-
   beforeEach(() => {
+    opAutocompleterServiceSpy = jasmine.createSpyObj('OpAutocompleterService', ['loadData']);
 
     TestBed.configureTestingModule({
       declarations: [
         OpAutocompleterComponent],
       providers: [
-        OpAutocompleterService,
-        HalResourceService,
-        HalResourceNotificationService,
-        { provide: APIV3Service, useValue: apiv3ServiceStub },
-        { provide: ConfigurationService, useValue: configurationServiceStub },
-
+        // { provide: OpAutocompleterService, useValue: opAutocompleterServiceSpyFactory }
       ],
       imports: [HttpClientTestingModule, NgSelectModule],
       schemas: [NO_ERRORS_SCHEMA]
-    }).compileComponents();
-
-    
+    })
+    .overrideComponent(
+      OpAutocompleterComponent,
+      {set: {providers: [{ provide: OpAutocompleterService, useValue: opAutocompleterServiceSpy }]}})
+    .compileComponents();
    
     fixture = TestBed.createComponent(OpAutocompleterComponent);
-
     fixture.componentInstance.resource = 'work_packages' as resource;
     fixture.componentInstance.filters = [];
     fixture.componentInstance.searchKey = 'subjectOrId';
@@ -152,10 +128,10 @@ fdescribe('autocompleter', () => {
     fixture.componentInstance.hasDefaultContent = true;
     fixture.componentInstance.virtualScroll = true;
     fixture.componentInstance.classes = 'wp-inline-create--reference-autocompleter';
-    
+
+    // @ts-ignore
+    opAutocompleterServiceSpy.loadData.and.returnValue(of(workPackagesStub));
   });
-
-
 
   it('should load the ng-select correctly', () => {
     fixture.detectChanges();
@@ -164,10 +140,8 @@ fdescribe('autocompleter', () => {
       expect(document.contains(autocompleter)).toBeTruthy();
     });
   });
-  
 
   it('should load WorkPackages', fakeAsync(() => {
-
   tick();
   fixture.detectChanges();
   //const select = fixture.componentInstance.ngSelectInstance;
@@ -180,13 +154,13 @@ fdescribe('autocompleter', () => {
   //   const select = fixture.componentInstance.ngSelectInstance;
   //  fixture.whenStable().then(() => {
   var select =  fixture.componentInstance.ngSelectInstance as NgSelectComponent;
-  select.filter('W');
+  select.filter('a');
   fixture.detectChanges();
   tick(1000);
+  expect(opAutocompleterServiceSpy.loadData).toHaveBeenCalledWith('a', fixture.componentInstance.resource, fixture.componentInstance.filters, fixture.componentInstance.searchKey);
   //   //expect(fixture.componentInstance.select).not.toBeUndefined();
-  console.log(fixture.componentInstance.ngSelectInstance.itemsList.items.length);
+  console.log(fixture.componentInstance.ngSelectInstance.itemsList.items);
   
   expect(fixture.componentInstance.ngSelectInstance.itemsList.items).not.toBeUndefined();
   }));
-   
 });

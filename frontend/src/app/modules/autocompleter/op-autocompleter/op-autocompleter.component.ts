@@ -1,4 +1,3 @@
-
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild, TemplateRef, ContentChild, AfterViewInit, NgZone} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
@@ -6,18 +5,10 @@ import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {HalResourceSortingService} from 'core-app/modules/hal/services/hal-resource-sorting.service';
 import {DropdownPosition, NgSelectComponent} from '@ng-select/ng-select';
-import {APIV3Service} from 'core-app/modules/apiv3/api-v3.service';
-import { DebouncedRequestSwitchmap, errorNotificationHandler } from 'core-app/helpers/rxjs/debounced-input-switchmap';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { HalResourceNotificationService } from 'core-app/modules/hal/services/hal-resource-notification.service';
 import { CurrentProjectService } from 'core-app/components/projects/current-project.service';
-import { ApiV3FilterBuilder, FilterOperator } from 'core-app/components/api/api-v3/api-v3-filter-builder';
-import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
-import { APIv3ResourceCollection } from 'core-app/modules/apiv3/paths/apiv3-resource';
-import { UserResource } from 'core-app/modules/hal/resources/user-resource';
-import { APIv3UserPaths } from 'core-app/modules/apiv3/endpoints/users/apiv3-user-paths';
-import { APIV3WorkPackagePaths } from 'core-app/modules/apiv3/endpoints/work_packages/api-v3-work-package-paths';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { UntilDestroyedMixin } from 'core-app/helpers/angular/until-destroyed.mixin';
 import { GroupValueFn } from '@ng-select/ng-select/lib/ng-select.component';
 import { OpAutocompleterOptionTemplateDirective } from "./directives/op-autocompleter-option-template.directive";
@@ -32,10 +23,10 @@ import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/
   styleUrls: ['./op-autocompleter.component.sass'],
   providers: [OpAutocompleterService]
 })
-  //  It is component that you can use whenever you need an autocompleter
-  // it has all inputs and outputs of ng-select
-  // in order to use it, you only need to pass the data type and its filters
-  // you also can change the value of ng-select default options by changing @inputs and @outputs 
+// It is component that you can use whenever you need an autocompleter
+// it has all inputs and outputs of ng-select
+// in order to use it, you only need to pass the data type and its filters
+// you also can change the value of ng-select default options by changing @inputs and @outputs
 export class OpAutocompleterComponent extends UntilDestroyedMixin implements AfterContentInit{
 
   @Input() public filters?:IAPIFilter[];
@@ -49,7 +40,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   @Input() public searchable?:boolean = true;
   @Input() public clearable?:boolean = true;
   @Input() public addTag?:boolean = false;
-  
+
   @Input() public clearSearchOnAdd?:boolean = true;
   @Input() public classes?:string;
   @Input() public multiple?:boolean = false;
@@ -116,9 +107,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   public isLoading = false;
 
-
-  @ViewChild('ngSelectInstance')  ngSelectInstance: NgSelectComponent;
-  
+  @ViewChild('ngSelectInstance') ngSelectInstance: NgSelectComponent;
 
   @ContentChild(OpAutocompleterOptionTemplateDirective, { read: TemplateRef })
   optionTemplate:TemplateRef<any>;
@@ -126,16 +115,12 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   @ContentChild(OpAutocompleterLabelTemplateDirective, { read: TemplateRef })
   labelTemplate:TemplateRef<any>;
 
-  constructor(readonly halResourceService:HalResourceService,
-              readonly halSorting:HalResourceSortingService,
-              readonly apiV3Service:APIV3Service,
-              readonly opAutocompleterService:OpAutocompleterService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly ngZone:NgZone,
-              readonly I18n:I18nService,
-              protected currentProject:CurrentProjectService,
-              readonly halNotification:HalResourceNotificationService) {
-                super();
+  constructor(
+    readonly opAutocompleterService:OpAutocompleterService,
+    readonly cdRef:ChangeDetectorRef,
+    readonly ngZone:NgZone,
+  ) {
+    super();
   }
 
   ngAfterContentInit():void {
@@ -143,16 +128,16 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
       return;
     }
     this.ngZone.runOutsideAngular(() => {
-     setTimeout(() => {
+      setTimeout(() => {
         this.ngSelectInstance.focus();
         this.repositionDropdown();
-     }, 25);
+      }, 25);
     });
-  
+
   }
 
   public repositionDropdown() {
-   
+
     if (this.ngSelectInstance) {
       setTimeout(() => {
         this.cdRef.detectChanges();
@@ -165,7 +150,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   }
 
   public opened(val:any) {
-      this.open.emit();
+    this.open.emit();
   }
 
   public closed(val:any) {
