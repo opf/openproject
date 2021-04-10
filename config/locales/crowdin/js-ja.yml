@@ -208,7 +208,7 @@ ja:
         upsale:
           become_hero: "ヒーローになる!"
           benefits:
-            description: "What are the benefits of the Enterprise on-premises Edition?"
+            description: "オンプレミス版エンタープライズエディションにはどのようなメリットがありますか？"
             high_security: "セキュリティ機能"
             high_security_text: "シングルサインオン(SAML、OpenID Connect、CAS)、2要素認証、LDAPグループの自動同期。"
             installation: "インストールサポート"
@@ -522,7 +522,7 @@ ja:
           警告：フォーム設定をリセットしてもよろしいですか？ これにより、属性が規定のグループにリセットされ、すべてのカスタムフィールドが無効になります。
            
           コンテキスト| リクエストコンテキスト
-        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
+        upgrade_to_ee: "オンプレミス版エンタープライズエディションへのアップグレード"
         upgrade_to_ee_text: "この機能が必要な場合、あなたは超プロです! Enterprise Edition クライアントになることによって私達のオープン ソース開発者を支援していただけませんか?"
         more_information: "詳細情報"
         nevermind: "無視"
@@ -979,18 +979,18 @@ ja:
         next_button: '次へ'
         no_results: 'プロジェクトが見つかりませんでした'
       type:
-        required: 'Please select the type to be invited'
+        required: '招待するタイプを選択してください '
         user:
           title: 'ユーザ'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: '選択したプロジェクトで割り当てられたロールに基づく権限'
         group:
           title: 'グループ'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: '選択したプロジェクトで割り当てられたロールに基づく権限'
         placeholder:
           title: 'プレースホルダー ユーザー'
-          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
-          description: 'Has no access to the project and no emails are sent out.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+          title_no_ee: 'プレースホルダー ユーザー（Enterprise Edition のみの機能） '
+          description: 'プロジェクトにアクセスできず、電子メールも送信されません。'
+          description_no_ee: 'プロジェクトにアクセスできず、電子メールも送信されません。<br><a href="%{eeHref}" target="_blank">Enterprise Edition</a> をチェックしてください。'
       principal:
         label:
           name_or_email: '名前またはメールアドレス'
@@ -1011,19 +1011,19 @@ ja:
           group: 'グループを選択してください'
       role:
         label: '%{project} でのロール'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'これは、 %{principal} がプロジェクトに参加したときに受け取るロールです。ロールは、どのような行動を取ることができるか、どのような情報を見ることができるかを定義します。<a href="%{href}" target="_blank">ロールとパーミッションについての詳細はこちら。</a>'
         required: 'ロールを選択してください'
         next_button: '次へ'
       message:
         label: '招待メッセージ'
-        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
-        next_button: 'Review invitation'
+        description: '私たちは %{principal} にメールを送りますが、ここで個人的なメッセージを追加することができます。招待状の説明があれば便利ですし、プロジェクトに関するちょっとした情報があれば、彼らの助けになるでしょう。'
+        next_button: '招待状を確認'
       summary:
         next_button: '招待状を送信'
       success:
         title: '%{principal} が招待されました！'
         description:
-          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+          user: 'ユーザはログインして %{project} にアクセスできるようになりました。一方で、そのユーザを使って計画を立てたり、ワークパッケージを割り当てたりすることができます。'
+          placeholder: 'プレースホルダーを %{project} で使用できるようになりました。一方で、そのユーザを使って計画を立てたり、ワークパッケージを割り当てたりすることができます。'
+          group: 'グループは %{project} の一部になりました。一方で、そのグループを使って計画を立てたり、ワークパッケージを割り当てたりすることができます。'
         next_button: '続行'
