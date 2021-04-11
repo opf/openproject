@@ -37,57 +37,66 @@ module OpenProject::GithubIntegration::Services
   #
   # See: https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads#pull_request
   class UpsertPullRequest
-    def call(params, work_packages: [])
-      GithubPullRequest.find_or_initialize_by(github_id: params.fetch('id'))
-                       .tap do |pr|
-                         pr.update!(work_packages: pr.work_packages | work_packages, **extract_params(params))
-                       end
+    def call(payload, work_packages: [])
+      find_or_initialize(payload).tap do |pr|
+        pr.update!(work_packages: pr.work_packages | work_packages, **extract_params(payload))
+      end
     end
 
     private
+
+    def find_or_initialize(payload)
+      GithubPullRequest.find_by(
+        state: 'partial',
+        github_html_url: payload.fetch('html_url')
+      ) ||
+        GithubPullRequest.find_or_initialize_by(
+          github_id: payload.fetch('id')
+        )
+    end
 
     # Receives the input from the github webhook and translates them
     # to our internal representation.
     # See: https://docs.github.com/en/rest/reference/pulls
     # rubocop:disable Metrics/AbcSize
-    def extract_params(params)
+    def extract_params(payload)
       {
-        github_id: params.fetch('id'),
-        github_user: github_user_id(params.fetch('user')),
-        number: params.fetch('number'),
-        github_html_url: params.fetch('html_url'),
-        github_updated_at: params.fetch('updated_at'),
-        state: params.fetch('state'),
-        title: params.fetch('title'),
-        body: params.fetch('body'),
-        repository: params.fetch('base')
+        github_id: payload.fetch('id'),
+        github_user: github_user_id(payload.fetch('user')),
+        number: payload.fetch('number'),
+        github_html_url: payload.fetch('html_url'),
+        github_updated_at: payload.fetch('updated_at'),
+        state: payload.fetch('state'),
+        title: payload.fetch('title'),
+        body: payload.fetch('body'),
+        repository: payload.fetch('base')
                           .fetch('repo')
                           .fetch('full_name'),
-        draft: params.fetch('draft'),
-        merged: params.fetch('merged'),
-        merged_by: github_user_id(params['merged_by']),
-        merged_at: params['merged_at'],
-        comments_count: params.fetch('comments'),
-        review_comments_count: params.fetch('review_comments'),
-        additions_count: params.fetch('additions'),
-        deletions_count: params.fetch('deletions'),
-        changed_files_count: params.fetch('changed_files'),
-        labels: params.fetch('labels').map { |values| extract_label_values(values) }
+        draft: payload.fetch('draft'),
+        merged: payload.fetch('merged'),
+        merged_by: github_user_id(payload['merged_by']),
+        merged_at: payload['merged_at'],
+        comments_count: payload.fetch('comments'),
+        review_comments_count: payload.fetch('review_comments'),
+        additions_count: payload.fetch('additions'),
+        deletions_count: payload.fetch('deletions'),
+        changed_files_count: payload.fetch('changed_files'),
+        labels: payload.fetch('labels').map { |values| extract_label_values(values) }
       }
     end
     # rubocop:enable Metrics/AbcSize
 
-    def extract_label_values(params)
+    def extract_label_values(payload)
       {
-        name: params.fetch('name'),
-        color: params.fetch('color')
+        name: payload.fetch('name'),
+        color: payload.fetch('color')
       }
     end
 
-    def github_user_id(params)
-      return if params.blank?
+    def github_user_id(payload)
+      return if payload.blank?
 
-      ::OpenProject::GithubIntegration::Services::UpsertGithubUser.new.call(params)
+      ::OpenProject::GithubIntegration::Services::UpsertGithubUser.new.call(payload)
     end
   end
 end
