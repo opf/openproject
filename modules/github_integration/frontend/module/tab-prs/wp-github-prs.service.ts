@@ -26,35 +26,26 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, OnInit} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { Injectable } from '@angular/core';
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { WorkPackageLinkedResourceCache } from 'core-components/wp-single-view-tabs/wp-linked-resource-cache.service';
 
-import { WorkPackagesGithubPrsService } from './wp-github-prs.service';
+@Injectable()
+export class WorkPackagesGithubPrsService extends WorkPackageLinkedResourceCache<HalResource[]> {
 
-@Component({
-  selector: 'tab-prs',
-  templateUrl: './tab-prs.template.html'
-})
-export class TabPrsComponent implements OnInit {
-  @Input() public workPackage:WorkPackageResource;
-
-  public pullRequests:HalResource[] = [];
-
-  constructor(readonly PathHelper:PathHelperService,
-              readonly I18n:I18nService,
-              readonly wpGithubPrsService:WorkPackagesGithubPrsService) {
+  constructor(public ConfigurationService:ConfigurationService) {
+    super();
   }
 
-  ngOnInit(): void {
-    this.wpGithubPrsService.require(this.workPackage).then((prs:any) => {
-      this.pullRequests = prs;
+  protected load(workPackage:WorkPackageResource):Promise<HalResource[]> {
+    return workPackage.github_pull_requests.$update().then((data:any) => {
+      return this.sortList(data.elements);
     });
   }
 
-  public getEmptyText() {
-    return this.I18n.t('js.github_integration.tab_prs.empty',{ wp_id: this.workPackage.id });
+  protected sortList(pullRequests:HalResource[], attr = 'createdAt'):HalResource[] {
+    return _.sortBy(_.flatten(pullRequests), attr);
   }
 }

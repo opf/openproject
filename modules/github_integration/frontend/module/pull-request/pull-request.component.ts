@@ -26,35 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 
-import { WorkPackagesGithubPrsService } from './wp-github-prs.service';
-
 @Component({
-  selector: 'tab-prs',
-  templateUrl: './tab-prs.template.html'
+  selector: 'github-pull-request',
+  templateUrl: './pull-request.template.html'
 })
-export class TabPrsComponent implements OnInit {
-  @Input() public workPackage:WorkPackageResource;
-
-  public pullRequests:HalResource[] = [];
+export class PullRequestComponent {
+  @Input() public pullRequest:HalResource;
 
   constructor(readonly PathHelper:PathHelperService,
-              readonly I18n:I18nService,
-              readonly wpGithubPrsService:WorkPackagesGithubPrsService) {
+              readonly I18n:I18nService,) {
   }
 
-  ngOnInit(): void {
-    this.wpGithubPrsService.require(this.workPackage).then((prs:any) => {
-      this.pullRequests = prs;
-    });
-  }
-
-  public getEmptyText() {
-    return this.I18n.t('js.github_integration.tab_prs.empty',{ wp_id: this.workPackage.id });
-  }
+  // public getEmptyText() {
+  //   return this.I18n.t('js.github_integration.tab_prs.empty',{ wp_id: this.workPackage.id });
+  // }
 }
