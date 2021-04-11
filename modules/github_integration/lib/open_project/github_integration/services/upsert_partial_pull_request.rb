@@ -38,14 +38,29 @@ module OpenProject::GithubIntegration::Services
   # Returns the upserted partial `GithubPullRequest`.
   class UpsertPartialPullRequest
     def call(github_html_url:, number:, repository:, work_packages:)
-      GithubPullRequest.find_or_initialize_by(github_html_url: github_html_url).tap do |pr|
-        pr.update!(
-          number: number,
-          state: 'partial',
-          repository: repository,
-          work_packages: pr.work_packages | work_packages
-        )
+      pull_request = find_full(github_html_url)
+
+      if pull_request.present?
+        pull_request.update!(work_packages: pull_request.work_packages | work_packages)
+      else
+        find_or_initialize_partial(github_html_url).tap do |pr|
+          pr.update!(
+            number: number,
+            repository: repository,
+            work_packages: pr.work_packages | work_packages
+          )
+        end
       end
+    end
+
+    private
+
+    def find_full(github_html_url)
+      GithubPullRequest.find_by(state: ['open', 'closed'], github_html_url: github_html_url)
+    end
+
+    def find_or_initialize_partial(github_html_url)
+      GithubPullRequest.find_or_initialize_by(state: 'partial', github_html_url: github_html_url)
     end
   end
 end
