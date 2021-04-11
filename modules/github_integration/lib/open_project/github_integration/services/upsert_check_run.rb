@@ -37,10 +37,10 @@ module OpenProject::GithubIntegration::Services
   #
   # See: https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads#check_run
   class UpsertCheckRun
-    def call(params, pull_request:)
-      GithubCheckRun.find_or_initialize_by(github_id: params.fetch('id'))
+    def call(payload, pull_request:)
+      GithubCheckRun.find_or_initialize_by(github_id: payload.fetch('id'))
                     .tap do |pr|
-                      pr.update!(github_pull_request: pull_request, **extract_params(params))
+                      pr.update!(github_pull_request: pull_request, **extract_params(payload))
                     end
     end
 
@@ -49,24 +49,24 @@ module OpenProject::GithubIntegration::Services
     # Receives the input from the github webhook and translates them
     # to our internal representation.
     # See: https://docs.github.com/en/rest/reference/checks
-    def extract_params(params)
-      output = params.fetch('output')
-      app = params.fetch('app')
+    def extract_params(payload)
+      output = payload.fetch('output')
+      app = payload.fetch('app')
 
       {
-        github_id: params.fetch('id'),
-        github_html_url: params.fetch('html_url'),
+        github_id: payload.fetch('id'),
+        github_html_url: payload.fetch('html_url'),
         app_id: app.fetch('id'),
         github_app_owner_avatar_url: app.fetch('owner')
                                         .fetch('avatar_url'),
-        name: params.fetch('name'),
-        status: params.fetch('status'),
-        conclusion: params['conclusion'],
+        name: payload.fetch('name'),
+        status: payload.fetch('status'),
+        conclusion: payload['conclusion'],
         output_title: output.fetch('title'),
         output_summary: output.fetch('summary'),
-        details_url: params['details_url'],
-        started_at: params['started_at'],
-        completed_at: params['completed_at']
+        details_url: payload['details_url'],
+        started_at: payload['started_at'],
+        completed_at: payload['completed_at']
       }
     end
   end

@@ -37,10 +37,10 @@ module OpenProject::GithubIntegration::Services
   #
   # See: https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads#pull_request
   class UpsertGithubUser
-    def call(params)
-      GithubUser.find_or_initialize_by(github_id: params.fetch('id'))
+    def call(payload)
+      GithubUser.find_or_initialize_by(github_id: payload.fetch('id'))
                 .tap do |github_user|
-                  github_user.update!(extract_params(params))
+                  github_user.update!(extract_params(payload))
                 end
     end
 
@@ -50,12 +50,12 @@ module OpenProject::GithubIntegration::Services
     # Receives the input from the github webhook and translates them
     # to our internal representation.
     # See: https://docs.github.com/en/rest/reference/users
-    def extract_params(params)
+    def extract_params(payload)
       {
-        github_id: params.fetch('id'),
-        github_login: params.fetch('login'),
-        github_html_url: params.fetch('html_url'),
-        github_avatar_url: params.fetch('avatar_url')
+        github_id: payload.fetch('id'),
+        github_login: payload.fetch('login'),
+        github_html_url: payload.fetch('html_url'),
+        github_avatar_url: payload.fetch('avatar_url')
       }
     end
   end
