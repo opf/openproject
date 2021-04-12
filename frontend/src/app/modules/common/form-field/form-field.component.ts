@@ -22,7 +22,7 @@ export class OpFormFieldComponent {
   }
 
   @Input() label = '';
-  @Input() inlineLabel = true;
+  @Input() inlineLabel:boolean;
   @Input() required = false;
   @Input() showValidationErrorOn: 'change' | 'blur' | 'submit' | 'never' = 'submit';
 
