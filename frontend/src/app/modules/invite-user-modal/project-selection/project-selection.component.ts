@@ -70,7 +70,6 @@ export class ProjectSelectionComponent implements OnInit {
   ngOnInit() {
     this.typeControl?.setValue(this.type);
     this.projectControl?.setValue(this.project);
-    console.log('NgOnInit set project', this.project?.id);
 
     this.typeOptions.push({
       value: PrincipalType.Placeholder,

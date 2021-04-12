@@ -14,7 +14,9 @@ import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-build
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import {CapabilityResource} from "core-app/modules/hal/resources/capability-resource";
 import {PrincipalLike} from "core-app/modules/principal/principal-types";
+import {CurrentUserService} from "core-app/modules/current-user/current-user.service";
 import {PrincipalType} from '../invite-user.component';
 
 @Component({
@@ -52,6 +54,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
     public I18n:I18nService,
     readonly elementRef:ElementRef,
     readonly apiV3Service:APIV3Service,
+    readonly currentUserService:CurrentUserService,
   ) {
     super();
 
@@ -70,15 +73,32 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
     this.canInviteByEmail$ = combineLatest(
       this.items$,
       this.input$,
+      this.currentUserService.capabilities$.pipe(
+        map(capabilities => !!capabilities.find(c => c.action.href.endsWith('/users/create'))),
+        distinctUntilChanged(),
+      ),
     ).pipe(
-      map(([elements, input]) => this.type === PrincipalType.User && input?.includes('@') && !elements.find((el:any) => el.email === input)),
+      map(([elements, input, canCreateUsers]) =>
+        canCreateUsers
+        && this.type === PrincipalType.User
+        && input?.includes('@')
+        && !elements.find((el:any) => el.email === input)
+      ),
     );
 
     this.canCreateNewPlaceholder$ = combineLatest(
       this.items$,
       this.input$,
+      this.currentUserService.capabilities$.pipe(
+        map(capabilities => !!capabilities.find(c => c.action.href.endsWith('/placeholderUsers/create'))),
+        distinctUntilChanged(),
+      ),
     ).pipe(
-      map(([elements, input]) => {
+      map(([elements, input, hasCapability]) => {
+        if (!hasCapability) {
+          return false;
+        }
+
         if (this.type !== PrincipalType.Placeholder) {
           return false;
         }
@@ -130,11 +150,11 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
       .pipe(
         map(({ members, nonMembers }) => [
           ...nonMembers.elements.map((nonMember:any) => ({
-            value: nonMember,
+            ...nonMember,
             disabled: false,
           })),
           ...members.elements.map((member:any) => ({
-            value: member,
+            ...member,
             disabled: true,
           })),
         ]),

@@ -73,7 +73,6 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
     if (this.locals.projectId) {
       this.apiV3Service.projects.id(this.locals.projectId).get().subscribe(
         data => {
-          console.log('Loaded project', data);
           this.project = data;
           this.cdRef.markForCheck();
         },

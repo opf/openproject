@@ -14,8 +14,7 @@ import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mi
 import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
 import { CurrentUserService } from 'core-app/modules/current-user/current-user.service';
 
-interface NgSelectProjectOption {
-  value: ProjectResource;
+interface NgSelectProjectOption extends ProjectResource {
   disabled: boolean;
 };
 
@@ -64,7 +63,7 @@ export class ProjectSearchComponent extends UntilDestroyedMixin implements OnIni
       this.untilDestroyed(),
       map(([ projects, projectInviteCapabilities ]) => {
         const mapped = projects.map((project: ProjectResource) => ({
-            value: project,
+            ...project,
             disabled: !projectInviteCapabilities.find(cap => cap.context.id === project.id),
           }));
         mapped.sort(
@@ -77,15 +76,10 @@ export class ProjectSearchComponent extends UntilDestroyedMixin implements OnIni
 
   ngOnInit() {
     // Make sure we have initial data
-    setTimeout(() => {
-      if (!this.projectFormControl.value) {
-        this.input$.next('');
-      }
-    });
+    setTimeout(() => this.input$.next(''));
   }
 
   public compareNgSelectItems(a: NgSelectProjectOption, b: NgSelectProjectOption) {
-    console.log('compare', a.value.id, b.value.id);
-    return a.value.id === b.value.id;
+    return a.id === b.id;
   }
 }
