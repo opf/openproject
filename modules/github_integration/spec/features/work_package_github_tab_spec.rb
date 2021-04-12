@@ -42,7 +42,7 @@ describe 'Open the GitHub tab', type: :feature, js: true do
                                       show_github_content))
   end
   let(:project) { FactoryBot.create :project }
-  let(:work_package) { FactoryBot.create(:work_package, project: project) }
+  let(:work_package) { FactoryBot.create(:work_package, project: project, subject: 'A test work_package') }
   let(:github_tab) { Pages::GitHubTab.new(work_package.id) }
 
   shared_examples_for "a github tab" do
@@ -73,7 +73,7 @@ describe 'Open the GitHub tab', type: :feature, js: true do
       github_tab.git_actions_menu_button.click
       github_tab.git_actions_copy_button.click
       expect(page).to have_text('Copied!')
-      expect_clipboard_content("#{work_package.type.name.downcase}/#{work_package.id}-workpackage-no-#{work_package.id}")
+      expect_clipboard_content("#{work_package.type.name.downcase}/#{work_package.id}-a-test-work_package")
     end
 
     describe 'when the user does not have the permissions to see the github tab' do
