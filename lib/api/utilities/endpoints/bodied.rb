@@ -64,6 +64,8 @@ module API
           update = self
 
           -> do
+            update.request = self
+
             params = update.parse(current_user, request_body)
 
             params = instance_exec(params, &update.params_modifier)
@@ -111,6 +113,7 @@ module API
         end
 
         attr_accessor :model,
+                      :request,
                       :api_name,
                       :instance_generator,
                       :parse_representer,
