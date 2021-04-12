@@ -32,7 +32,7 @@ class GithubCheckRun < ApplicationRecord
   STATES = %w[queued in_progress completed].freeze
   CONCLUSIONS = %w[action_required cancelled failure neutral success skipped stale timed_out].freeze
 
-  belongs_to :github_pull_request
+  belongs_to :github_pull_request, touch: true
 
   validates_presence_of :github_app_owner_avatar_url,
                         :github_html_url,

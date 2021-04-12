@@ -35,9 +35,10 @@ module API
       class GithubPullRequestRepresenter < ::API::Decorators::Single
         include API::Caching::CachedRepresenter
         include API::Decorators::DateProperty
+        include API::Decorators::FormattableProperty
         include API::Decorators::LinkedResource
 
-        cached_representer key_parts: %i[github_user merged_by latest_check_runs],
+        cached_representer key_parts: %i[github_user merged_by],
                            disabled: false
 
         link :staticPath do
@@ -46,76 +47,62 @@ module API
 
         property :id
 
-        property :number,
-                 setter: ->(*) { nil }
+        property :number
 
-        property :github_html_url,
-                 setter: ->(*) { nil }
+        property :github_html_url
 
         property :state,
-                 render_nil: true,
-                 setter: ->(*) { nil }
+                 render_nil: true
 
         property :repository,
-                 render_nil: true,
-                 setter: ->(*) { nil }
+                 render_nil: true
 
         date_time_property :github_updated_at,
                            render_nil: true,
                            setter: ->(*) { nil }
 
         property :title,
-                 render_nil: true,
-                 setter: ->(*) { nil }
+                 render_nil: true
 
-        property :body,
-                 render_nil: true,
-                 setter: ->(*) { nil }
+        formattable_property :body,
+                             render_nil: true
 
         property :draft,
-                 render_nil: true,
-                 setter: ->(*) { nil }
+                 render_nil: true
 
         property :merged,
-                 render_nil: true,
-                 setter: ->(*) { nil }
+                 render_nil: true
 
         property :merged_at,
-                 render_nil: true,
-                 setter: ->(*) { nil }
+                 render_nil: true
 
         property :comments_count,
-                 render_nil: true,
-                 setter: ->(*) { nil }
+                 render_nil: true
 
         property :review_comments_count,
-                 render_nil: true,
-                 setter: ->(*) { nil }
+                 render_nil: true
 
         property :additions_count,
-                 render_nil: true,
-                 setter: ->(*) { nil }
+                 render_nil: true
 
         property :deletions_count,
-                 render_nil: true,
-                 setter: ->(*) { nil }
+                 render_nil: true
 
         property :changed_files_count,
-                 render_nil: true,
-                 setter: ->(*) { nil }
+                 render_nil: true
 
-        property :labels,
-                 setter: ->(*) { nil }
+        property :labels
 
         property :github_user,
                  getter: ->(*) {
+                   next unless github_user
+
                    {
                      login: github_user.github_login,
                      htmlUrl: github_user.github_html_url,
                      avatarUrl: github_user.github_avatar_url
                    }
-                 },
-                 setter: ->(*) { nil }
+                 }
 
         property :merged_by,
                  getter: ->(*) {
@@ -127,8 +114,7 @@ module API
                      avatarUrl: merged_by.github_avatar_url
                    }
                  },
-                 render_nil: true,
-                 setter: ->(*) { nil }
+                 render_nil: true
 
         property :github_check_runs,
                  getter: ->(*) {
@@ -146,8 +132,7 @@ module API
                        completedAt: check_run.completed_at&.iso8601
                      }
                    end
-                 },
-                 setter: ->(*) { nil }
+                 }
 
         date_time_property :created_at
 

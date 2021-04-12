@@ -29,9 +29,9 @@
 #++
 module OpenProject::GithubIntegration::Services
   ##
-  # Takes user data coming from GitHub webhook data and stores
-  # them as a `GithubUser`.
-  # If the `GithubUser` already exists, it is updated.
+  # Takes check_run data coming from GitHub webhook data and stores
+  # them as a `GithubCheckRun`.
+  # If the `GithubCheckRun` already exists, it is updated.
   #
   # Returns the upserted `GithubCheckRun`.
   #
@@ -39,8 +39,8 @@ module OpenProject::GithubIntegration::Services
   class UpsertCheckRun
     def call(payload, pull_request:)
       GithubCheckRun.find_or_initialize_by(github_id: payload.fetch('id'))
-                    .tap do |pr|
-                      pr.update!(github_pull_request: pull_request, **extract_params(payload))
+                    .tap do |check_run|
+                      check_run.update!(github_pull_request: pull_request, **extract_params(payload))
                     end
     end
 
