@@ -41,12 +41,25 @@ fdescribe('FormattableTextareaInputComponent', () => {
     const dynamicDebugElement = fixture.debugElement.query(By.css('op-formattable-control'));
     const dynamicElement = dynamicDebugElement.nativeElement;
 
-    // Test ControlValueAccessor
-    // Write Value
-    expect(dynamicControl.value).toEqual(testModel.initialValue);
-    expect(dynamicElement.classList.contains('ng-untouched')).toBeTrue();
-    expect(dynamicElement.classList.contains('ng-valid')).toBeTrue();
-    expect(dynamicElement.classList.contains('ng-pristine')).toBeTrue();
-  }));
+xdescribe('FormattableTextareaInputComponent', () => {
+  let component: FormattableTextareaInputComponent;
+  let fixture: ComponentFixture<FormattableTextareaInputComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ FormattableTextareaInputComponent ]
+    })
+    .compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(FormattableTextareaInputComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });
 

@@ -4,29 +4,16 @@ import {
   testDynamicInputControValueAccessor,
 } from "core-app/modules/common/dynamic-forms/spec/helpers";
 
-describe('TextComponent', () => {
-  it('should load the field', fakeAsync(() => {
-    const fieldsConfig = [
-      {
-        "type": "textInput" as "textInput",
-        "className": "op-form--field inline-edit--field",
-        "key": "testControl",
-        "templateOptions": {
-          "required": true,
-          "label": "testControl",
-          "type": "text",
-          "placeholder": "",
-          "disabled": false
-        },
-      }
-    ];
-    const formModel = {
-      testControl: 'testValue',
-    };
-    const testModel = {
-      initialValue: 'testValue',
-      changedValue: 'testValue2',
-    };
+xdescribe('TextComponent', () => {
+  let component: TextInputComponent;
+  let fixture: ComponentFixture<TextInputComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ TextInputComponent ]
+    })
+    .compileComponents();
+  });
 
     const fixture = createDynamicInputFixture(fieldsConfig, formModel);
 
