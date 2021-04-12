@@ -39,6 +39,17 @@ module API
             end
 
             mount ::API::V3::Projects::Copy::CreateFormAPI
+
+            post &::API::V3::Utilities::Endpoints::DelayedModify
+              .new(
+                model: Project,
+                instance_generator: ->(*) { @project },
+                parse_service: ParseCopyParamsService,
+                process_service: ::Projects::EnqueueCopyService,
+                process_contract: ::Projects::CopyContract,
+                parse_representer: ProjectCopyPayloadRepresenter
+              )
+              .mount
           end
         end
       end
