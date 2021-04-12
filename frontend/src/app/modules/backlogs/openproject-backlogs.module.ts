@@ -30,7 +30,6 @@ import { NgModule } from '@angular/core';
 import { UIRouterModule } from "@uirouter/angular";
 import { BacklogsPageComponent } from "core-app/modules/backlogs/backlogs-page/backlogs-page.component";
 import { BACKLOGS_ROUTES } from "core-app/modules/backlogs/openproject-backlogs.routes";
-import { CommonModule } from "@angular/common";
 
 @NgModule({
   imports: [

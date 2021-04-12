@@ -7,7 +7,7 @@ import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/serv
 import { FormGroup } from "@angular/forms";
 import { of } from "rxjs";
 
-fdescribe('DynamicFormService', () => {
+describe('DynamicFormService', () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
   let service:DynamicFormService;

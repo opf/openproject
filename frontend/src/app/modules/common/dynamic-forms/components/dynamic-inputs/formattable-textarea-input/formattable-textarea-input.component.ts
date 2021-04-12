@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FieldType } from "@ngx-formly/core";
 
 @Component({
@@ -6,11 +6,5 @@ import { FieldType } from "@ngx-formly/core";
   templateUrl: './formattable-textarea-input.component.html',
   styleUrls: ['./formattable-textarea-input.component.scss']
 })
-export class FormattableTextareaInputComponent extends FieldType implements OnInit {
-  constructor() {
-    super();
-  }
-
-  ngOnInit(): void {
-  }
+export class FormattableTextareaInputComponent extends FieldType {
 }
