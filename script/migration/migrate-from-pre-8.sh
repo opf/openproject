@@ -1,14 +1,12 @@
 #!/bin/bash
 
-# This script is used to migrate an OpenProject (<= 8) database in MySQL to 10.x in Postgres.
+# This script is used to migrate an OpenProject (<= 8) database in MySQL to the latest version in Postgres.
 # All that's needed is docker. The result will be a SQL dump to the current directory.
 #
 # We do the MySQL-to-Postgres migration because in the old OpenProject packages MySQL
 # used to be the standard database. If you are already running on Postgres this script won't work as it is.
 # For it to work it you will have to use postgres in every step and remove the line
 # containing MYSQL_DATABASE_URL.
-#
-# We may adapt the script in the future so it supports both scenarios out-of-the-box.
 
 if [[ -z "$1" ]] || [[ -z "$2" ]]; then
   echo
@@ -231,10 +229,23 @@ else
   echo "  Moved tables from $DATABASE to public"
 fi
 
+echo
+echo "3.4) Making extra sure primary keys are named correctly"
+
+docker exec -it migrate8to10 \
+  bundle exec rake db:migrate:redo VERSION=20190502102512
+
+if [[ $? -gt 0 ]]; then
+  echo "  Failed to rename primary keys. You may have to do this yourself."
+  exit 1
+else
+  echo "  Ensured correct primary key names."
+fi
+
 docker stop migrate8to10 > /dev/null # don't need this anymore
 
 echo
-echo "2.4) Migrating from 10 to current ($CURRENT_OP_MAJOR_VERSION)"
+echo "2.5) Migrating from 10 to current ($CURRENT_OP_MAJOR_VERSION)"
 
 docker pull openproject/community:$CURRENT_OP_MAJOR_VERSION
 
@@ -261,7 +272,7 @@ if [[ "$DUMP_FORMAT" = "sql" ]]; then
 fi
 
 echo
-echo "2.5) Dumping migrated database to $DATABASE-migrated.$EXT"
+echo "2.6) Dumping migrated database to $DATABASE-migrated.$EXT"
 
 OUTPUT_PARAMS="-F custom -f /data/$DATABASE-migrated.dump"
 OUTPUT_FILE="/dev/stdout"

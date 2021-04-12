@@ -253,7 +253,7 @@ ja:
     edit:
       priority_color_text: |
         この優先順位の色を割り当てたり変更する場合にクリックします。
-        テーブル内の作業パッケージを強調表示するために使用できます。
+        テーブル内のワークパッケージを強調表示するために使用できます。
   reportings:
     index:
       no_results_title_text: 現在、ステータス報告はありません。
@@ -265,7 +265,7 @@ ja:
         <strong>注</strong>：継承された値（子や関係）は引き続き適用されます。
       status_color_text: |
         このステータスの色を割り当てたり変更する場合にクリックします。
-        ステータスボタンに表示され、テーブル内の作業パッケージを強調表示するために使用できます。
+        ステータスボタンに表示され、テーブル内のワークパッケージを強調表示するために使用できます。
     index:
       no_results_title_text: 現在、ワークパッケージのステータスはありません。
       no_results_content_text: 新しいステータスを追加
@@ -282,8 +282,8 @@ ja:
       query_group_placeholder: "テーブルに名前を付けます"
       reset: "デフォルトに戻す"
       type_color_text: |
-        クリックして、このタイプの色を割り当てたり、変更します。選択した色は、ガントチャートのワークパッケージを区別します。
-        したがって、はっきりした色を使用することをお勧めします。
+        クリックして、このタイプの色を割り当てたり、変更したりします。選択した色は、ガントチャートのワークパッケージを区別します。
+        このため、はっきりした色を使用することをお勧めします。
   versions:
     overview:
       no_results_title_text: このバージョンに割り当てられているワークパッケージはありません。
@@ -301,7 +301,7 @@ ja:
     bulk:
       could_not_be_saved: "次のワークパッケージを保存できませんでした:"
     move:
-      no_common_statuses_exists: "選択されたすべての項目に利用可能なステータスはありません。 それらの状態は変更できません。"
+      no_common_statuses_exists: "選択されたすべてのワークパッケージに利用できるステータスはありません。 それらの状態は変更できません。"
       unsupported_for_multiple_projects: '複数のプロジェクトからのワークパッケージの一括移動 / コピーはサポートされていません'
     summary:
       reports:
@@ -336,8 +336,8 @@ ja:
         other: "このアカウントはシステムから削除されます。したがって、このユーザは現在の認証情報でログイン不可能になります。再度このアプリケーションのユーザになることは可能です。"
         self: "自分のアカウントがシステムから削除されます。したがって、現在の認証情報ではログイン不可能になります。再度このアプリケーションのユーザになることは可能です。"
       login_verification:
-        other: "削除を確認するためログイン %{name} してください。 送信した後は、パスワードの確認が求められます。"
-        self: "削除を確認するためログイン %{name} してください。 一度提出すると、パスワードの確認を求められます。"
+        other: "削除を確認するためにログイン名 %{name} を入力してください。送信した後は、パスワードの確認が求められます。"
+        self: "削除を確認するためにあなたのログイン名 %{name} を入力してください。送信した後は、パスワードの確認を求められます。"
     error_inactive_activation_by_mail: >
       アカウントが有効化されていません。アカウントを有効にするために、受信したメール内のリンクをクリックしてください。
     error_inactive_manual_activation: >
@@ -714,7 +714,7 @@ ja:
             principal:
               unassignable: "はプロジェクトに割り当てできません。"
         version:
-          undeletable_work_packages_attached: "作業パッケージが添付されているため、バージョンを削除できません。"
+          undeletable_work_packages_attached: "ワークパッケージが添付されているため、バージョンを削除できません。"
         status:
           readonly_default_exlusive: "デフォルトとしてマークされている状態では有効にできません。"
       template:
@@ -796,7 +796,7 @@ ja:
     priority: "優先度"
     project: "プロジェクト"
     public: "公開"
-    responsible: "責任がある"
+    responsible: "責任者"
     role: "ロール"
     roles: "ロール"
     start_date: "開始日"
@@ -2280,7 +2280,7 @@ ja:
   text_are_you_sure_with_children: "仕事項目と子項目を削除してもよろしいですか？"
   text_assign_to_project: "プロジェクト自体に割り当てする"
   text_form_configuration: >
-    作業パッケージのフォームに表示されるフィールドをカスタマイズできます。自由にフィールドをグループ化して、あなたのドメインのニーズを反映できます。
+    ワークパッケージのフォームに表示されるフィールドをカスタマイズできます。自由にフィールドをグループ化して、あなたのドメインのニーズを反映できます。
   text_form_configuration_required_attribute: "属性が必須とマークされています。 したがって常に示されます"
   text_caracters_maximum: "最大%{count}文字です。"
   text_caracters_minimum: "最低%{count}文字の長さが必要です。"

@@ -21,7 +21,16 @@ bin/compose start
 
 Once the containers are done booting you can access the application under http://localhost:3000.
 
-If there is an `.env` file (see below) `bin/compose` will source it.
+### Tests
+
+You can run tests using `bin/compose rspec`. You can run specific tests too. For instance:
+
+```
+bin/compose rspec spec/features/work_package_show_spec.rb
+```
+
+***
+
 More details and options follow in the next section.
 
 <div class="alert alert-info" role="alert">
@@ -32,7 +41,7 @@ Signs of lacking memory include an "Exit status 137" in the frontend container.
 
 </div>
 
-## Setup
+## Step-by-step Setup
 
 ### 1) Checkout the code
 
@@ -57,6 +66,8 @@ cp .env.example .env
 
 Afterwards, set the environment variables to your liking. `DEV_UID` and `DEV_GID` are required to be set so your project
 directory will not end up with files owned by root.
+
+Both `docker-compose` and `bin/compose` will load the env from this file.
 
 ### 3) Setup database and install dependencies
 
@@ -138,6 +149,12 @@ or for running a particular test
 
 ```
 bin/compose run backend-test bundle exec rspec path/to/some_spec.rb
+```
+
+You can run specific tests too. For instance:
+
+```
+docker-compose run backend-test bundle exec rspec spec/features/work_package_show_spec.rb
 ```
 
 Tests are ran within Selenium containers, on a small local Selenium grid. You can connect to the containers via VNC if

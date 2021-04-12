@@ -45,20 +45,26 @@ def register_chrome(language, name: :"chrome_#{language}")
     client.read_timeout = 180
     client.open_timeout = 180
 
-    service = ::Selenium::WebDriver::Service.chrome(args: { verbose: true, log_path: '/tmp/chromedriver.log' })
+    is_grid = ENV['SELENIUM_GRID_URL'].present?
 
-    driver = Capybara::Selenium::Driver.new(
-      app,
-      # browser: ENV['SELENIUM_GRID_URL'] ? :remote : :chrome,
-      browser: :chrome,
-      url: ENV['SELENIUM_GRID_URL'],
+    driver_opts = {
+      browser: is_grid ? :remote : :chrome,
       desired_capabilities: capabilities,
       http_client: client,
       options: options,
-      service: service
-    )
+    }
 
-    if !ENV['SELENIUM_GRID_URL']
+    if is_grid
+      driver_opts[:url] = ENV['SELENIUM_GRID_URL']
+    else
+      driver_opts[:service] = ::Selenium::WebDriver::Service.chrome(
+        args: { verbose: true, log_path: '/tmp/chromedriver.log' }
+      )
+    end
+
+    driver = Capybara::Selenium::Driver.new app, **driver_opts
+
+    if !is_grid
       # Enable file downloads in headless mode
       # https://bugs.chromium.org/p/chromium/issues/detail?id=696481
       bridge = driver.browser.send :bridge
