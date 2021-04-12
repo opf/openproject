@@ -35,7 +35,7 @@ module API
 
           def parse_attributes(request_body)
             attributes = super
-            meta = attributes.delete(:meta)
+            meta = attributes.delete(:meta) || OpenStruct.new
 
             {
               target_project_params: attributes,

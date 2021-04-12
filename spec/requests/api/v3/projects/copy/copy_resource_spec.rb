@@ -56,13 +56,17 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
   subject(:response) { last_response }
 
   describe '#POST /api/v3/projects/:id/copy/form' do
-    it 'returns 200 FORM response', :aggregate_failures do
+    it 'returns 200 OK' do
       expect(response.status).to eq(200)
+    end
 
+    it 'returns a form' do
       expect(response.body)
         .to be_json_eql('Form'.to_json)
               .at_path('_type')
+    end
 
+    it 'does not create a project' do
       expect(Project.count)
         .to eql 1
     end

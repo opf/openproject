@@ -35,6 +35,8 @@ module Projects
     include Projects::Archiver
 
     attribute :name
+    validates_presence_of :name
+
     attribute :identifier
     attribute :description
     attribute :public

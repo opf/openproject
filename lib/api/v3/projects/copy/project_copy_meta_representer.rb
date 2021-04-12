@@ -37,7 +37,6 @@ module API
             property :"copy_#{name}",
                      exec_context: :decorator,
                      getter: ->(*) do
-                       binding.pry
                        only = represented&.only
                        !!only&.include?(name)
                      end,
