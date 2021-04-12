@@ -35,7 +35,7 @@ module OpenProject::TextFormatting::Formats
     class PandocWrapper
       attr_reader :logger
 
-      def initialize(logger = ::Logger.new(STDOUT))
+      def initialize(logger = ::ActiveSupport::Logger.new(STDOUT))
         @logger = logger
       end
 

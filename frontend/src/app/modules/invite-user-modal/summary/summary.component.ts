@@ -59,8 +59,7 @@ export class SummaryComponent {
     readonly I18n:I18nService,
     readonly elementRef:ElementRef,
     readonly api:APIV3Service,
-  ) {
-  }
+  ) { }
 
   invite() {
     return of(this.principal)

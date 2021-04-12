@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output, Injector } from '@angular/core';
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { VersionResource } from "core-app/modules/hal/resources/version-resource";
@@ -42,13 +42,16 @@ import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 export class VersionAutocompleterComponent extends CreateAutocompleterComponent implements AfterViewInit {
   @Output() public onCreate = new EventEmitter<VersionResource>();
 
-  constructor(readonly I18n:I18nService,
-              readonly currentProject:CurrentProjectService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly pathHelper:PathHelperService,
-              readonly apiV3Service:APIV3Service,
-              readonly halNotification:HalResourceNotificationService) {
-    super(I18n, cdRef, currentProject, pathHelper);
+  constructor(
+    readonly injector: Injector,
+    readonly I18n:I18nService,
+    readonly currentProject:CurrentProjectService,
+    readonly cdRef:ChangeDetectorRef,
+    readonly pathHelper:PathHelperService,
+    readonly apiV3Service:APIV3Service,
+    readonly halNotification:HalResourceNotificationService,
+  ) {
+    super(injector);
   }
 
   ngAfterViewInit() {

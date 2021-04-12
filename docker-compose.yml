@@ -46,7 +46,7 @@ services:
     environment:
       LOCAL_DEV_CHECK: "${LOCAL_DEV_CHECK:?The docker-compose file for OpenProject has moved to https://github.com/opf/openproject-deploy}"
       RAILS_ENV: development
-      RAILS_CACHE_STORE: memcache
+      RAILS_CACHE_STORE: file_store
       OPENPROJECT_CACHE__MEMCACHE__SERVER: cache:11211
       OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
       DATABASE_URL: postgresql://${DB_USERNAME:-postgres}:${DB_PASSWORD:-postgres}@${DB_HOST:-db}:${DB_PORT:-5432}/${DB_DATABASE:-openproject}
@@ -115,7 +115,7 @@ services:
   frontend-test:
     build:
       <<: *frontend-build
-    command: "npm run build-test"
+    command: "npm run serve-test"
     volumes:
       - ".:/home/dev/openproject"
       - "fedata-test:/home/dev/openproject/public/assets/frontend"
@@ -145,7 +145,7 @@ services:
       CAPYBARA_SERVER_PORT: 3000
       CAPYBARA_DYNAMIC_BIND_IP: 1
       CAPYBARA_APP_HOSTNAME: backend-test
-      OPENPROJECT_DISABLE_DEV_ASSET_PROXY: 1
+      OPENPROJECT_CLI_PROXY: http://frontend-test:4200
       OPENPROJECT_TESTING_NO_HEADLESS: "true"
     volumes:
       - ".:/home/dev/openproject"

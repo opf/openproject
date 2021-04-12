@@ -7,6 +7,12 @@ AllCops:
   Exclude:
     - db/schema.rb
 
+
+Gemspec/RequiredRubyVersion:
+  Exclude:
+    - modules/**/*.gemspec
+
+
 Layout/ConditionPosition:
   Enabled: false
 
@@ -282,5 +288,12 @@ Style/HashTransformKeys:
 Style/HashTransformValues:
   Enabled: true
 
-Rspec/MultipleMemoizedHelpers:
+
+RSpec/MultipleMemoizedHelpers:
   Max: 15
+
+RSpec/MultipleExpectations:
+  Max: 15
+
+RSpec/ExampleLength:
+  Max: 25

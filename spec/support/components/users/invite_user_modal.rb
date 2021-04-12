@@ -63,7 +63,7 @@ module Components
         confirmation_step
 
         # Step 6: Perform invite
-        click_modal_button 'Send Invitation'
+        click_modal_button 'Send invitation'
 
         if invite_user?
           expect_text "Invite #{principal.mail} to #{project.name}"
@@ -116,7 +116,7 @@ module Components
 
       def invitation_step(next_step: true)
         invitation_message invite_message
-        click_modal_button 'Review Invitation' if next_step
+        click_modal_button 'Review invitation' if next_step
       end
 
       def confirmation_step

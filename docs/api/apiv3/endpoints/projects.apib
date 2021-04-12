@@ -30,18 +30,18 @@ Depending on custom fields defined for projects, additional links might exist.
 
 ## Local Properties
 
-| Property               | Description                                                                                        | Type              | Constraints                          | Supported operations |
-| :---------------------:| -------------                                                                                      | ----              | -----------                          | -------------------- |
-| id                     | Projects's id                                                                                      | Integer           | x > 0                                | READ/WRITE           |
-| identifier             |                                                                                                    | String            |                                      | READ/WRITE           |
-| name                   |                                                                                                    | String            |                                      | READ/WRITE           |
-| active                 | Indicates whether the project is currently active or already archived                              | Boolean           |                                      | READ/WRITE           |
-| status                 | Denotes the status of the project, so whether the project is on track, at risk is having trouble.  | String            | "on track", "at risk" or "off track" | READ/WRITE           |
-| statusExplanation      | A text detailing and explaining why the project has the reported status                            | Formattable       |                                      | READ/WRITE           |
-| public                 | Indicates whether the project is accessible for everybody                                          | Boolean           |                                      | READ/WRITE           |
-| description            |                                                                                                    | Formattable       |                                      | READ/WRITE           |
-| createdAt              | Time of creation                                                                                   | DateTime          |                                      | READ                 |
-| updatedAt              | Time of the most recent change to the project                                                      | DateTime          |                                      | READ                 |
+| Property               | Description                                                                                           | Type              | Constraints                          | Supported operations |
+| :---------------------:| -------------                                                                                         | ----              | -----------                          | -------------------- |
+| id                     | Projects' id                                                                                          | Integer           | x > 0                                | READ/WRITE           |
+| identifier             |                                                                                                       | String            |                                      | READ/WRITE           |
+| name                   |                                                                                                       | String            |                                      | READ/WRITE           |
+| active                 | Indicates whether the project is currently active or already archived                                 | Boolean           |                                      | READ/WRITE           |
+| status                 | Denotes the status of the project, so whether the project is on track, at risk or is having trouble.  | String            | "on track", "at risk" or "off track" | READ/WRITE           |
+| statusExplanation      | A text detailing and explaining why the project has the reported status                               | Formattable       |                                      | READ/WRITE           |
+| public                 | Indicates whether the project is accessible for everybody                                             | Boolean           |                                      | READ/WRITE           |
+| description            |                                                                                                       | Formattable       |                                      | READ/WRITE           |
+| createdAt              | Time of creation                                                                                      | DateTime          |                                      | READ                 |
+| updatedAt              | Time of the most recent change to the project                                                         | DateTime          |                                      | READ                 |
 
 Depending on custom fields defined for projects, additional properties might exist.
 
@@ -377,7 +377,7 @@ the project scheduled for deletion, it is archived at once.
                     "name": "Another project",
                     "active": false,
                     "status": "off track",
-                    "statusSxplanation": {
+                    "statusExplanation": {
                         "format": "markdown",
                         "raw": "Uh **oh**",
                         "html": "<p>Uh <strong>oh</strong></p>"
@@ -584,6 +584,7 @@ You can use the form and schema to be retrieve the valid attribute values and by
                     "required": false,
                     "hasDefault": false,
                     "writable": true,
+                    "location": "_links",
                     "visibility": "default",
                     "_links": {}
                 },
@@ -615,6 +616,7 @@ You can use the form and schema to be retrieve the valid attribute values and by
                     "required": false,
                     "hasDefault": false,
                     "writable": true,
+                    "location": "_links",
                     "visibility": "default",
                     "_links": {}
                 },
@@ -624,6 +626,7 @@ You can use the form and schema to be retrieve the valid attribute values and by
                     "required": false,
                     "hasDefault": false,
                     "writable": true,
+                    "location": "_links",
                     "visibility": "default",
                     "_links": {}
                 },
@@ -776,12 +779,20 @@ For more details and all possible responses see the general specification of [Fo
                             "hasDefault": true,
                             "writable": true
                         },
+                        "statusExplanation": {
+                            "type": "Formattable",
+                            "name": "Status explanation",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true
+                        },
                         "parent": {
                             "type": "Project",
                             "name": "Subproject of",
                             "required": false,
                             "hasDefault": false,
                             "writable": true,
+                            "location": "_links",
                             "visibility": "default",
                             "_links": {
                                 "allowedValues": {
@@ -809,6 +820,7 @@ For more details and all possible responses see the general specification of [Fo
                             "required": false,
                             "hasDefault": false,
                             "writable": true,
+                            "location": "_links",
                             "visibility": "default",
                             "_links": {
                                 "allowedValues": {
@@ -830,6 +842,7 @@ For more details and all possible responses see the general specification of [Fo
                             "required": false,
                             "hasDefault": false,
                             "writable": true,
+                            "location": "_links",
                             "visibility": "default",
                             "_embedded": {
                                 "allowedValues": [
@@ -1097,6 +1110,7 @@ For more details and all possible responses see the general specification of [Fo
                             "required": false,
                             "hasDefault": false,
                             "writable": true,
+                            "location": "_links",
                             "visibility": "default",
                             "_links": {
                                 "allowedValues": {
@@ -1124,6 +1138,7 @@ For more details and all possible responses see the general specification of [Fo
                             "required": false,
                             "hasDefault": false,
                             "writable": true,
+                            "location": "_links",
                             "visibility": "default",
                             "_links": {
                                 "allowedValues": {
@@ -1145,6 +1160,7 @@ For more details and all possible responses see the general specification of [Fo
                             "required": false,
                             "hasDefault": false,
                             "writable": true,
+                            "location": "_links",
                             "visibility": "default",
                             "_embedded": {
                                 "allowedValues": [

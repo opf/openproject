@@ -182,7 +182,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
       let(:path) { 'status' }
 
       it_behaves_like 'has basic schema properties' do
-        let(:type) { 'ProjectStatus' }
+        let(:type) { 'String' }
         let(:name) { I18n.t('activerecord.attributes.projects/status.code') }
         let(:required) { false }
         let(:writable) { true }
@@ -243,6 +243,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
           let(:name) { Project.human_attribute_name('parent') }
           let(:required) { false }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
 
         context 'if embedding' do
@@ -270,6 +271,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
           let(:name) { Project.human_attribute_name('parent') }
           let(:required) { false }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
 
         context 'if embedding' do

@@ -20,6 +20,8 @@
 #See docs/COPYRIGHT.rdoc for more details.
 #++
 lt:
+  project_module_github: "GitHub"
+  permission_show_github_content: "Show GitHub content"
   github_integration:
     pull_request_opened_comment: >
       **PR Atidarytas:** Pull request %{pr_number} [%{pr_title}](%{pr_url}) skirtas [%{repository}](%{repository_url}) sukūrė [%{github_user}](%{github_user_url}).

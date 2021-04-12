@@ -36,7 +36,7 @@ describe 'Projects', type: :feature do
   end
 
   describe 'creation', js: true do
-    let!(:project) { FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project') }
+    shared_let(:project) { FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project') }
 
     before do
       visit projects_path
@@ -96,6 +96,35 @@ describe 'Projects', type: :feature do
 
       expect(page).to have_content 'Identifier has already been taken'
       expect(current_path).to eq '/projects'
+    end
+
+    context 'with a multi-select custom field' do
+      let!(:list_custom_field) { FactoryBot.create(:list_project_custom_field, name: 'List CF', multi_value: true) }
+
+      it 'can create a project' do
+        click_on 'New project'
+
+        fill_in 'project[name]', with: 'Foo bar'
+        click_on 'Advanced settings'
+        fill_in 'project[identifier]', with: 'foo'
+
+        select 'A', from: 'List CF'
+        select 'B', from: 'List CF'
+
+        sleep 1
+
+        click_on 'Create'
+
+        expect(page).to have_content 'Successful creation.'
+        expect(page).to have_content 'Foo bar'
+        expect(current_path).to eq '/projects/foo/work_packages'
+
+        project = Project.last
+        expect(project.name).to eq 'Foo bar'
+        cvs = project.custom_value_for(list_custom_field)
+        expect(cvs.count).to eq 2
+        expect(cvs.map(&:typed_value)).to contain_exactly 'A', 'B'
+      end
     end
   end
 
@@ -200,7 +229,7 @@ describe 'Projects', type: :feature do
 
       click_on 'Advanced settings'
 
-      within('#advanced-settings') do
+      within('#advanced-project-settings') do
         expect(page).to have_content 'Optional Foo'
         expect(page).not_to have_content 'Required Foo'
       end
@@ -237,6 +266,30 @@ describe 'Projects', type: :feature do
         click_on 'Save'
         expect(page).to have_selector('#errorExplanation', text: 'Foo is too long (maximum is 2 characters)')
       end
+    end
+  end
+
+  context 'with a multi-select custom field' do
+    let(:project) { FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project') }
+    let!(:list_custom_field) { FactoryBot.create(:list_project_custom_field, name: 'List CF', multi_value: true) }
+
+    it 'can create a project' do
+      visit settings_generic_project_path(project.id)
+
+      select 'A', from: 'List CF'
+      select 'B', from: 'List CF'
+
+      sleep 1
+
+      click_on 'Save'
+
+      expect(page).to have_content 'Successful update.'
+
+      expect(page).to have_select('List CF', selected: %w[A B])
+
+      cvs = project.reload.custom_value_for(list_custom_field)
+      expect(cvs.count).to eq 2
+      expect(cvs.map(&:typed_value)).to contain_exactly 'A', 'B'
     end
   end
 end

@@ -49,6 +49,18 @@ module API
       end
 
       ##
+      # Determine the page size from the minimum of
+      # * the provided value
+      # * the page size specified for the relation (per_page)
+      # * the minimum of the per page options specified in the settings
+      # * the maximum page size
+      def resulting_page_size(value, relation = nil)
+        [value || relation&.base_class&.per_page || Setting.per_page_options_array.min, maximum_page_size]
+           .map(&:to_i)
+           .min
+      end
+
+      ##
       # Get the maximum allowed page size from
       # the largest option of per_page size,
       # or the magic fallback value 500.

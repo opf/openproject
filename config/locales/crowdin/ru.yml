@@ -66,7 +66,7 @@ ru:
       upgrade_to_ee: "Обновить до корпоративной версии"
       add_token: "Загрузите маркер поддержки корпоративной версии"
       replace_token: "Замените ваш текущий маркер поддержки"
-      order: "Заказать корпоративную версию"
+      order: "Обновление до корпоративной версии"
       paste: "Вставьте ваш маркер поддержки корпоративной версии"
       required_for_feature: "Эта возможность доступна только в корпоративной версии."
       enterprise_link: "Для получения дополнительной информации нажмите здесь."
@@ -241,12 +241,15 @@ ru:
       no_results_title_text: Этот пользователь в данный момент в проекте не участвует.
   placeholder_users:
     deletion_info:
-      heading: "Delete placeholder user %{name}"
+      heading: "Удалить плейсхолдер пользователя %{name}"
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
-        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
-      irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+        Все вхождения пользователя плейсхолдера (например, как цессионария, ответственные или другие пользовательские значения) будут переназначены на учетную запись под названием "Удаленный пользователь".
+        Так как данные каждого удаленного аккаунта переназначены на этот аккаунт, невозможно отличить данные пользователя от данных другого удаленного аккаунта.
+      irreversible: "Это действие необратимо"
+      confirmation: "Введите имя пользователя %{name} для подтверждения удаления."
+    upsale:
+      title: Назначить работу людям, которые не являются членами проекта.
+      description: Есть несколько сценариев, где вы хотите назначить работу людям, которые не являются участниками вашего проекта. Это может быть просто то, что вам все равно нужно нанять правильного человека для работы. Или вы просто не хотите дать этому человеку доступ к информации о проекте, но хотите отслеживать задачи, назначенные этому человеку.
   prioritiies:
     edit:
       priority_color_text: |
@@ -527,7 +530,7 @@ ru:
         confirmation: "не совпадает со значением поля %{attribute}."
         could_not_be_copied: "%{dependency} не может быть скопировано (полностью)."
         does_not_exist: "не существует."
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "доступен только в корпоративной версии OpenProject"
         error_unauthorized: "не доступен."
         error_readonly: "запись не разрешена."
         empty: "не может быть пустым."
@@ -562,6 +565,12 @@ ru:
         unremovable: "не может быть удалено."
         wrong_length: "неправильная длина (должно быть %{count} знаков)."
       models:
+        capability:
+          context:
+            global: 'Глобальная'
+          query:
+            filters:
+              minimum: "необходимо включить хотя бы один фильтр для основного, контекста или id с оператором '='."
         custom_field:
           at_least_one_custom_option: "По крайней мере один параметр должен быть доступен."
         custom_actions:
@@ -650,6 +659,10 @@ ru:
           attributes:
             hours:
               day_limit: "слишком высокий, так как на каждую дату нельзя зарегистрировать более 24 часов."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "не может быть вычтено из заголовка '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Пакет работ #%{id} не допустимым для переназначения времени записи."
           attributes:
@@ -775,7 +788,7 @@ ru:
     default_columns: "Столбцы по умолчанию"
     description: "Описание"
     derived_due_date: "Дата окончания производства"
-    derived_estimated_time: "Планируемое время ожидания"
+    derived_estimated_hours: "Планируемое время ожидания"
     derived_start_date: "Дата начала производства"
     display_sums: "Отображение суммы"
     due_date: "Дата окончания"
@@ -1245,6 +1258,9 @@ ru:
   instructions_after_registration: "Вы сможете войти как только ваша учетная запись будет активирована, нажав %{signin}."
   instructions_after_logout: "Вы можете войти в снова, нажав %{signin}."
   instructions_after_error: "Вы можете попробовать войти снова, нажав %{signin}. Если ошибка повторится, обратитесь к вашему администратору за помощью."
+  menus:
+    quick_add:
+      label: "Открыть меню быстрого добавления"
   my_account:
     access_tokens:
       no_results:
@@ -1778,29 +1794,21 @@ ru:
   label_workflow_plural: "Рабочие потоки"
   label_workflow_summary: "Сводка"
   label_x_closed_work_packages_abbr:
+    one: "1 закрыто"
+    other: "%{count} закрыто"
     zero: "0 закрытых"
-    one: ""
-    few: ""
-    many: ""
-    other: ""
   label_x_comments:
+    one: "1 комментарий"
+    other: "%{count} комментариев"
     zero: "нет комментариев"
-    one: ""
-    few: ""
-    many: ""
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1 открыт"
+    other: "%{count} открыто"
     zero: "0 открытых"
-    one: ""
-    few: ""
-    many: ""
-    other: ""
   label_x_projects:
+    one: "1 проект"
+    other: "%{count} проектов"
     zero: "нет проектов"
-    one: ""
-    few: ""
-    many: ""
-    other: ""
   label_yesterday: "вчера"
   label_role_type: "Тип"
   label_member_role: "Роль проекта"
@@ -1897,7 +1905,7 @@ ru:
   notice_email_sent: "На адрес %{value} было отправлено письмо"
   notice_failed_to_save_work_packages: "Не удалось сохранить %{count} пакет(-ов) работ из %{total},  выбрано: %{ids}."
   notice_failed_to_save_members: "Не удалось сохранить участника(-ов): %{errors}."
-  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
+  notice_deletion_scheduled: "Удаление было запланировано и выполняется асинхронно."
   notice_file_not_found: "Страница, к которой Вы обратились, не существует или была удалена."
   notice_forced_logout: "Вы автоматически вышли из системы после %{ttl_time} минут бездействия."
   notice_internal_server_error: "На странице, к которой Вы пытаетесь получить доступ, возникла ошибка. Если ошибка повторится, пожалуйста, свяжитесь со своим %{app_title} администратором."
@@ -1964,7 +1972,7 @@ ru:
   permission_add_messages: "Написать сообщения"
   permission_add_project: "Создать проект"
   permission_manage_user: "Создание и редактирование пользователей"
-  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
+  permission_manage_placeholder_user: "Создавать, редактировать и удалять пользователей-заполнителей"
   permission_add_subprojects: "Создать подпроект"
   permission_add_work_package_watchers: "Добавить наблюдателей"
   permission_assign_versions: "Назначить версии"
@@ -2692,6 +2700,9 @@ ru:
       invalid_json: "Запрос не может быть обработан как JSON."
       invalid_relation: "Отношение является недопустимым."
       invalid_resource: "Для свойства «%{property}» ожидается ссылка как «%{expected}» , но получена «%{actual}»."
+      invalid_signal:
+        embed: "Запрошенное встраивание %{invalid} не поддерживается. Поддерживаемые встраивания: %{supported}."
+        select: "Запрошенный выбор %{invalid} не поддерживается. Поддерживаются варианты %{supported}."
       invalid_user_status_transition: "Состояние учетной записи текущего пользователя не поддерживает эту операцию."
       missing_content_type: "Не определено"
       missing_request_body: "Нет тела запроса."

@@ -41,7 +41,8 @@ module Sessions
         session[:updated_at] = Time.now
 
         if drop_old_sessions?
-          ::UserSession.where(user_id: user.id).delete_all
+          Rails.logger.info { "Deleting all other sessions for #{user}." }
+          ::Sessions::ActiveRecord.for_user(user).delete_all
         end
 
         ServiceResult.new(success: true, result: session)

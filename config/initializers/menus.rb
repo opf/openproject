@@ -59,11 +59,33 @@ Redmine::MenuManager.map :top_menu do |menu|
             OpenProject::Static::Links.help_link,
             last: true,
             caption: '',
-            icon: 'icon5 icon-help',
+            icon: 'icon-help op-app-help--icon',
             html: { accesskey: OpenProject::AccessKeys.key_for(:help),
                     title: I18n.t('label_help'),
-                    class: 'menu-item--help',
                     target: '_blank' }
+end
+
+Redmine::MenuManager.map :quick_add_menu do |menu|
+  menu.push :new_project,
+            Proc.new { |project|
+              { controller: '/projects', action: :new, id: nil, parent_id: project&.id }
+            },
+            caption: ->(*) { Project.model_name.human },
+            icon: "icon-add icon3",
+            html: {
+              aria: { label: I18n.t(:label_project_new) },
+              title: I18n.t(:label_project_new)
+            },
+            if: Proc.new { User.current.allowed_to_globally?(:add_project) }
+
+  menu.push :invite_user,
+            nil,
+            caption: :label_invite_user,
+            icon: 'icon3 icon-user-plus',
+            html: {
+              'invite-user-modal-augment': 'invite-user-modal-augment'
+            },
+            if: Proc.new { User.current.allowed_to_globally?(:manage_members) }
 end
 
 Redmine::MenuManager.map :account_menu do |menu|

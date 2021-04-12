@@ -97,7 +97,7 @@ describe('WorkPackageFilterValues', () => {
       ]
     }).compileComponents();
 
-    injector = TestBed.get(Injector);
+    injector = TestBed.inject(Injector);
     halResourceService = injector.get(HalResourceService);
 
     resource = halResourceService.createHalResourceOfClass(WorkPackageResource, source, true);

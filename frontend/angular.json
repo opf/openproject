@@ -88,7 +88,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "OpenProject:build",
-            "proxyConfig": "cli_to_rails_proxy.js",
+            "proxyConfig": "cli_to_rails_proxy.js"
           },
           "configurations": {
             "production": {
@@ -105,6 +105,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+            "preserveSymlinks": true,
             "main": "src/test.ts",
             "karmaConfig": "./karma.conf.js",
             "tsConfig": "src/tsconfig.spec.json",
@@ -124,7 +125,8 @@
             "lintFilePatterns": [
               "src/**/*.ts",
               "src/**/*.html"
-            ]
+            ],
+            "preserveSymlinks": true
           }
         }
       }
@@ -133,11 +135,15 @@
   "defaultProject": "OpenProject",
   "schematics": {
     "@schematics/angular:component": {
-      "prefix": "app",
-      "style": "css"
+      "prefix": "op",
+      "style": "sass",
+      "changeDetection": "OnPush",
+      "skipTests": true,
+      "flat": true
     },
     "@schematics/angular:directive": {
-      "prefix": "app"
+      "prefix": "op",
+      "skipTests": true
     }
   },
   "cli": {

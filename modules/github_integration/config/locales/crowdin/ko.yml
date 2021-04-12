@@ -20,6 +20,8 @@
 #See docs/COPYRIGHT.rdoc for more details.
 #++
 ko:
+  project_module_github: "GitHub"
+  permission_show_github_content: "Show GitHub content"
   github_integration:
     pull_request_opened_comment: >
       **PR 열림:** [%{repository}](%{repository_url})에 대한 끌어오기 요청 %{pr_number} [%{pr_title}](%{pr_url})이(가) [%{github_user}](%{github_user_url})님에 의해 열렸습니다.

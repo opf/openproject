@@ -10,10 +10,15 @@
         {{ text.description() }}
       </p>
       <textarea
-        class="op-input"
+        class="op-input op-ium-invite-message-field"
         [formControl]="messageControl"
         slot="input"
+        #input
         autofocus
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="1"
+        cdkAutosizeMaxrows="3"
+        #autosize="cdkTextareaAutosize"
       ></textarea>
     </op-form-field>
   </div>
@@ -24,6 +29,6 @@
       class="button"
       (click)="back.emit()"
     >{{ text.backButton }}</button>
-    <button class="button">{{ text.nextButton }}</button>
+    <button class="button -highlight">{{ text.nextButton }}</button>
   </div>
 </form>

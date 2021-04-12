@@ -1,5 +1,6 @@
-import { NgModule } from "@angular/core";
+import { APP_INITIALIZER, Injector, NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
+import { TextFieldModule } from '@angular/cdk/text-field'; 
 import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
 import { InviteUserModalComponent } from "./invite-user.component";
 import { ProjectSelectionComponent } from "./project-selection/project-selection.component";
@@ -14,6 +15,15 @@ import { SuccessComponent } from "./success/success.component";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
 import { InviteUserButtonComponent } from "core-app/modules/invite-user-modal/button/invite-user-button.component";
+import { OpInviteUserModalAugmentService } from "core-app/modules/invite-user-modal/invite-user-modal-augment.service";
+import { OpInviteUserModalService } from "core-app/modules/invite-user-modal/invite-user-modal.service";
+
+export function initializeServices(injector:Injector) {
+  return function () {
+    const inviteUserAugmentService = injector.get(OpInviteUserModalAugmentService);
+    inviteUserAugmentService.setupListener();
+  }
+}
 
 @NgModule({
   imports: [
@@ -21,6 +31,7 @@ import { InviteUserButtonComponent } from "core-app/modules/invite-user-modal/bu
     OpenprojectModalModule,
     NgSelectModule,
     ReactiveFormsModule,
+    TextFieldModule,
   ],
   exports: [
     InviteUserButtonComponent,
@@ -37,6 +48,11 @@ import { InviteUserButtonComponent } from "core-app/modules/invite-user-modal/bu
     MessageComponent,
     SuccessComponent,
     SummaryComponent,
-  ]
+  ],
+  providers: [
+    OpInviteUserModalService,
+    { provide: APP_INITIALIZER, useFactory: initializeServices, deps: [Injector], multi: true },
+  ],
 })
-export class OpenprojectInviteUserModalModule { }
+export class OpenprojectInviteUserModalModule {
+}

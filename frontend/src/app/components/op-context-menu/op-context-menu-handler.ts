@@ -18,11 +18,11 @@ export abstract class OpContextMenuHandler extends UntilDestroyedMixin {
    * Called when the service closes this context menu
    */
   public onClose() {
-    this.afterFocusOn.focus();
+    this.afterFocusOn.trigger('focus');
   }
 
   public onOpen(menu:JQuery) {
-    menu.find('.menu-item').first().focus();
+    menu.find('.menu-item').first().trigger('focus');
   }
 
   /**

@@ -26,14 +26,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<section data-augmented-model-wrapper
-         data-modal-iframe-url="<%= OpenProject::Configuration.onboarding_video_url %>"
-         data-modal-class-name="onboarding-modal -highlight">
-  <li>
-    <%= link_to t(:label_introduction_video),
-                '',
-                title: t(:label_introduction_video),
-                class: 'modal-delivery-element--activation-link' %>
-  </li>
+<li
+  class="op-menu--item"
+  data-augmented-model-wrapper
+  data-modal-iframe-url="<%= OpenProject::Configuration.onboarding_video_url %>"
+  data-modal-class-name="onboarding-modal -highlight"
+>
+  <%= link_to t(:label_introduction_video),
+              '',
+              title: t(:label_introduction_video),
+              class: 'op-menu--item-action modal-delivery-element--activation-link' %>
   <%= render partial: '/onboarding/onboarding_video_modal' %>
-</section>
+</li>

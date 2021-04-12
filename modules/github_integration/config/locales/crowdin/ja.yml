@@ -20,6 +20,8 @@
 #See docs/COPYRIGHT.rdoc for more details.
 #++
 ja:
+  project_module_github: "GitHub"
+  permission_show_github_content: "GitHub コンテンツを表示する"
   github_integration:
     pull_request_opened_comment: >
       **PR オープン:** [%{repository}](%{repository_url}) へのプルリクエスト %{pr_number} [%{pr_title}](%{pr_url}) が [%{github_user}](%{github_user_url}) によってオープンされました。

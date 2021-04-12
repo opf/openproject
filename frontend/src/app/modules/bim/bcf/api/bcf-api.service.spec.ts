@@ -43,7 +43,7 @@ describe('BcfApiService', function () {
     })
       .compileComponents()
       .then(() => {
-        service = TestBed.get(BcfApiService);
+        service = TestBed.inject(BcfApiService);
       });
   }));
 

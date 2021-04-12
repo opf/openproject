@@ -31,9 +31,10 @@ import { WorkPackageActivityTabComponent } from 'core-components/wp-single-view-
 import { WorkPackageRelationsTabComponent } from 'core-components/wp-single-view-tabs/relations-tab/relations-tab.component';
 import { WorkPackageWatchersTabComponent } from 'core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
 import { WorkPackageNewSplitViewComponent } from 'core-components/wp-new/wp-new-split-view.component';
-import { Ng2StateDeclaration } from "@uirouter/angular";
-import { ComponentType } from "@angular/cdk/overlay";
-import { WorkPackageCopySplitViewComponent } from "core-components/wp-copy/wp-copy-split-view.component";
+import { Ng2StateDeclaration } from '@uirouter/angular';
+import { ComponentType } from '@angular/cdk/overlay';
+import { WorkPackageCopySplitViewComponent } from 'core-components/wp-copy/wp-copy-split-view.component';
+import { WpTabWrapperComponent } from 'core-components/wp-tabs/components/wp-tab-wrapper/wp-tab-wrapper.component';
 
 /**
  * Return a set of routes for a split view mounted under the given base route,
@@ -118,6 +119,16 @@ export function makeSplitViewRoutes(baseRoute:string,
       name: routeName + '.details.watchers',
       url: '/watchers',
       component: WorkPackageWatchersTabComponent,
+      data: {
+        baseRoute: baseRoute,
+        menuItem: menuItemClass,
+        parent: routeName + '.details'
+      }
+    },
+    {
+      name: routeName + '.details.tabs',
+      url: '/tabs/:tabIdentifier',
+      component: WpTabWrapperComponent,
       data: {
         baseRoute: baseRoute,
         menuItem: menuItemClass,

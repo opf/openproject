@@ -88,14 +88,16 @@ describe 'random password generation',
       fill_in 'new_password_confirmation', with: new_password
 
       # Expect other sessions to be deleted
-      ::UserSession.create!(data: { 'user_id' => user.id }, session_id: 'other')
-      expect(::UserSession.where(user_id: user.id).count).to be >= 1
+      session = ::Sessions::SqlBypass.new data: { user_id: user.id }, session_id: 'other'
+      session.save
+
+      expect(::Sessions::ActiveRecord.for_user(user.id).count).to be >= 1
 
       click_on 'Save'
       expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_password_updated))
 
       # The old session is removed
-      expect(::UserSession.where(user_id: user.id, session_id: 'other').count).to eq 0
+      expect(::Sessions::ActiveRecord.find_by(session_id: 'other')).to be_nil
 
       # Logout and sign in with outdated password
       visit signout_path

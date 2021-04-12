@@ -86,7 +86,7 @@ es:
     caption_rate_history: "Historial de tasa"
     clipboard:
       browser_error: "Su navegador no soporta copiar al portapapeles. Por favor, copie el texto seleccionado manualmente."
-      copied_successful: "Successfully copied to clipboard!"
+      copied_successful: "Copiado correctamente en el Portapapeles"
     chart:
       type: 'Tipo de gráfico'
       axis_criteria: 'Criterios de eje'
@@ -207,7 +207,7 @@ es:
         upsale:
           become_hero: "¡Conviértete en héroe!"
           benefits:
-            description: "¿Cuáles son los beneficios?"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Características de seguridad"
             high_security_text: "Inicio de sesión único (SAML, OpenID Connect, CAS), autenticación en dos fases y sincronización automática de grupos de LDAP."
             installation: "Ayuda para la instalación"
@@ -273,11 +273,11 @@ es:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              Esta versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li>Un nuevo concepto de <b>usuarios de marcador de posición</b> (característica premium) permite añadir usuarios preliminares sin dirección de correo electrónico a OpenProject, así como asignar tareas a estos recursos.</li> <li>Los <b>filtros de paquetes de trabajo se han ampliado mediante una opción primaria</b> para ver fácilmente todos los elementos secundarios directos, así como <b>por id.</b>, para incluir o excluir únicamente estos paquetes de trabajo específicos en la lista.</li> <li>Las funciones de administración de usuarios se pueden asignar a usuarios que no sean administradores mediante un <b>nuevo rol global</b>, que permite administrar e invitar a usuarios sin tener privilegios de administrador total.</li> <li>Otras mejoras en la interfaz y experiencia del usuario, como navegación armonizada de informes de costes, adaptación de los colores del fondo en filas de grupos y sumas en la lista de paquetes de trabajo, y la adición de una página de visualización de grupo.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              Esta versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li>Un nuevo concepto de <b>usuarios de marcador de posición</b> (característica premium) permite añadir usuarios preliminares sin dirección de correo electrónico a OpenProject, así como asignar tareas a estos recursos.</li> <li>Los <b>filtros de paquetes de trabajo se han ampliado mediante una opción primaria</b> para ver fácilmente todos los elementos secundarios directos, así como <b>por id.</b>, para incluir o excluir únicamente estos paquetes de trabajo específicos en la lista.</li> <li>Las funciones de administración de usuarios se pueden asignar a usuarios que no sean administradores mediante un <b>nuevo rol global</b>, que permite administrar e invitar a usuarios sin tener privilegios de administrador total.</li> <li>Otras mejoras en la interfaz y experiencia del usuario, como navegación armonizada de informes de costes, adaptación de los colores del fondo en filas de grupos y sumas en la lista de paquetes de trabajo, y la adición de una página de visualización de grupo.</li> </ul>
     label_activate: "Activar"
     label_add_column_after: "Añadir columna a la derecha"
     label_add_column_before: "Añadir columna a la izquierda"
@@ -403,7 +403,7 @@ es:
     label_public_query: "Público"
     label_sum: "Suma"
     label_sum_for: "Suma para"
-    label_total_sum: "Total sum"
+    label_total_sum: "Suma total"
     label_subject: "Asunto"
     label_this_week: "esta semana"
     label_today: "Hoy"
@@ -517,7 +517,7 @@ es:
         reset_title: "Restablecer la configuración del formulario"
         confirm_reset: >
           Advertencia: ¿Está seguro de que quiere restablecer la configuración del formulario? Se restablecerán los atributos al grupo predeterminado y se deshabilitarán TODOS los campos personalizados.
-        upgrade_to_ee: "Actualizar hasta versión corporativa"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
         upgrade_to_ee_text: "¡Vaya! Si necesita está opción, entonces ¡es un usuario experto! ¿Le importaría apoyar a los desarrolladores de OpenSource convirtiéndose en un cliente de la versión corporativa?"
         more_information: "Más información"
         nevermind: "No importa"
@@ -845,7 +845,7 @@ es:
           automatic: 'Automático'
           manually: 'Manual'
           warning: 'Al activar el modo de ordenación automática, se perderá la ordenación actual.'
-        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Use el campo de entrada anterior para añadir columnas a la vista de tabla. Puede arrastrar y colocar las columnas para cambiar el orden."
         upsale:
           attribute_highlighting: '¿Necesita que algunos paquetes de trabajo destaquen del resto?'
           relation_columns: '¿Necesita ver las relaciones en la lista del paquete de trabajo?'
@@ -940,9 +940,9 @@ es:
         one: "un paquete de trabajo secundario"
         other: "%{count} paquetes de trabajo secundarios"
       hour:
+        one: "1 h"
+        other: "%{count} h"
         zero: "0 h"
-        one: ""
-        other: ""
     zen_mode:
       button_activate: 'Activar modo «zen»'
       button_deactivate: 'Desactivar modo «zen»'
@@ -960,3 +960,67 @@ es:
       card: 'Tarjetas'
       list: 'Tabla'
       timeline: 'Gantt'
+    invite_user_modal:
+      back: 'Atrás'
+      invite: 'Invite'
+      title:
+        invite: 'Invitar usuario'
+        invite_to_project: 'Invite %{type} to %{project}'
+        User: 'user'
+        Group: 'group'
+        PlaceholderUser: 'placeholder user'
+        invite_principal_to_project: 'Invite %{principal} to %{project}'
+      project:
+        label: 'Proyecto'
+        required: 'Please select a project'
+        next_button: 'Siguiente'
+        no_results: 'No projects were found'
+      type:
+        required: 'Please select the type to be invited'
+        user:
+          title: 'Usuario'
+          description: 'Permissions based on the assigned role in the selected project'
+        group:
+          title: 'Grupo'
+          description: 'Permissions based on the assigned role in the selected project'
+        placeholder:
+          title: 'Usuario de marcador de posición'
+          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
+          description: 'Has no access to the project and no emails are sent out.'
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+      principal:
+        label:
+          name_or_email: 'Name or email address'
+          name: 'Nombre'
+        already_member_message: 'Already a member of %{project}'
+        no_results_user: 'No users were found'
+        invite_user: 'Invite:'
+        change_user_selection: 'Change e-mail-address or select an existing user'
+        no_results_placeholder: 'No placeholders were found'
+        change_placeholder_selection: 'Change name or select an existing placeholder'
+        create_new_placeholder: 'Create new placeholder:'
+        no_results_group: 'No groups were found'
+        change_group_selection: 'Change name or select an existing group'
+        next_button: 'Siguiente'
+        required:
+          user: 'Please select a user'
+          placeholder: 'Please select a placeholder'
+          group: 'Please select a group'
+      role:
+        label: 'Role in %{project}'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
+        required: 'Please select a role'
+        next_button: 'Siguiente'
+      message:
+        label: 'Invitation message'
+        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
+        next_button: 'Review invitation'
+      summary:
+        next_button: 'Enviar invitación'
+      success:
+        title: '%{principal} was invited!'
+        description:
+          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+        next_button: 'Continuar'

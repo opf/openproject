@@ -20,6 +20,7 @@ export class SuccessComponent {
   @Input() principal:HalResource;
   @Input() project:ProjectResource;
   @Input() type:PrincipalType;
+  @Input() createdNewPrincipal:boolean;
 
   @Output() close = new EventEmitter<void>();
 
@@ -30,7 +31,7 @@ export class SuccessComponent {
 
   public text = {
     title: () => this.I18n.t('js.invite_user_modal.success.title', {
-      principal: this.principal.name,
+      principal: this.createdNewPrincipal ? this.principal.email : this.principal.name,
     }),
     description: {
       User: () => this.I18n.t('js.invite_user_modal.success.description.user', { project: this.project?.name }),

@@ -1,5 +1,4 @@
 require 'carrierwave/storage/fog'
-require 'open_project/patches'
 
 ##
 # Code copied straight from the CarrierWave source.

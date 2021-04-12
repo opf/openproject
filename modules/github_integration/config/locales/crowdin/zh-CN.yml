@@ -20,6 +20,8 @@
 #See docs/COPYRIGHT.rdoc for more details.
 #++
 zh-CN:
+  project_module_github: "GitHub"
+  permission_show_github_content: "Show GitHub content"
   github_integration:
     pull_request_opened_comment: >
       **拉取请求已打开：** [%{repository}](%{repository_url}) 的拉取请求 %{pr_number} [%{pr_title}](%{pr_url}) 已由 [%{github_user}](%{github_user_url}) 打开。

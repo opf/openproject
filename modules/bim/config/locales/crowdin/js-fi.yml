@@ -3,7 +3,7 @@ fi:
   js:
     bcf:
       label_bcf: 'BCF'
-      import: 'Import'
+      import: 'Tuo'
       import_bcf_xml_file: 'Tuo BCF XML-tiedosto (BCF versio 2.1)'
       export: 'Vie'
       export_bcf_xml_file: 'Vie BCF XML-tiedosto (BCF versio 2.1)'

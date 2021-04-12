@@ -79,7 +79,6 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
       .addFieldType(ProgressDisplayField, 'progress', ['percentageDone'])
       .addFieldType(LinkedWorkPackageDisplayField, 'work_package', ['WorkPackage'])
       .addFieldType(IdDisplayField, 'id', ['id'])
-      .addFieldType(ProjectStatusDisplayField, 'project_status', ['ProjectStatus'])
       .addFieldType(UserDisplayField, 'user', ['User']);
 
     displayFieldService
@@ -87,6 +86,7 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
       .addSpecificFieldType('WorkPackage', WorkPackageSpentTimeDisplayField, 'spentTime', ['spentTime'])
       .addSpecificFieldType('WorkPackage', CombinedDateDisplayField, 'combinedDate', ['combinedDate'])
       .addSpecificFieldType('TimeEntry', PlainFormattableDisplayField, 'comment', ['comment'])
+      .addSpecificFieldType('Project', ProjectStatusDisplayField, 'status', ['status'])
       .addSpecificFieldType('TimeEntry', WorkPackageDisplayField, 'work_package', ['workPackage']);
   };
 }

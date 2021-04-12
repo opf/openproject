@@ -34,7 +34,7 @@
       <ul class="widget-box--arrow-links">
         <li class="-widget-box--arrow-multiline">
           <div>
-            <img class="avatar-mini" title="OpenProject Admin" src="https://s3.amazonaws.com/uifaces/faces/twitter/jamesslock/128.jpg" alt="Avatar">
+            <img class="avatar-mini" title="OpenProject Admin" src="https://via.placeholder.com/128" alt="Avatar">
             <a href="">Demo project</a>:
             <a href="">Important news</a>
             <br>
@@ -46,7 +46,7 @@
         </li>
         <li class="-widget-box--arrow-multiline">
           <div>
-            <img class="avatar-mini" title="OpenProject Admin" src="https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg" alt="Avatar">
+            <img class="avatar-mini" title="OpenProject Admin" src="https://via.placeholder.com/128" alt="Avatar">
             <a href="">Demo project</a>:
             <a href="">Great news !!!</a>
             <br>

@@ -34,9 +34,9 @@
  */
 export class GlobalHelpers {
   public checkAll(selector:any, checked:any) {
-    jQuery('#' + selector + ' input:checkbox').not(':disabled').each(function(this:HTMLInputElement) {
-      this.checked = checked;
-    });
+    document
+      .querySelectorAll(`#${selector} input[type="checkbox"]:not([disabled])`)
+      .forEach((el:HTMLInputElement) => el.checked = checked);
   }
 
   public toggleCheckboxesBySelector(selector:any) {

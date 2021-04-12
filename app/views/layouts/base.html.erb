@@ -53,7 +53,13 @@ See docs/COPYRIGHT.rdoc for more details.
   <% end %>
 
   <% if OpenProject::Configuration.sentry_frontend_dsn %>
-    <%= tag :meta, name: 'openproject_sentry', data: { dsn: OpenProject::Configuration.sentry_frontend_dsn } %>
+    <%= tag :meta,
+            name: 'openproject_sentry',
+            data: {
+              dsn: OpenProject::Configuration.sentry_frontend_dsn,
+              version: OpenProject::VERSION.to_s,
+              tracing_rate: OpenProject::Configuration.sentry_traces_sample_rate
+            } %>
   <% end %>
 
   <meta name="openproject_initializer"
@@ -118,29 +124,27 @@ See docs/COPYRIGHT.rdoc for more details.
 <% initial_classes = initial_menu_classes(side_displayed, show_decoration) %>
 <div id="wrapper" style="<%= initial_menu_styles %>" class="<%= initial_classes %>">
   <% if show_decoration %>
-    <div id="top-menu">
-      <div id="header">
-        <div id="top-menu-items">
-          <h1 class="hidden-for-sighted">
-            <%= t(:label_top_menu) %>
-          </h1>
-          <main-menu-toggle></main-menu-toggle>
-          <a href="" class="hidden-for-sighted skip-navigation-link"
-             aria-label="<%= I18n.t('js.work_packages.jump_marks.label_content') %>">
-            <%= I18n.t('js.work_packages.jump_marks.content') %>
-          </a>
-          <%= render_top_menu_left %>
-          <div id="logo" class="hidden-for-mobile">
-            <%= link_to(I18n.t('label_home'), fixed_home_url, class: 'home-link') %>
-          </div>
-          <%= call_hook :view_layouts_base_top_menu %>
-          <div class="top-menu-items-right">
-            <%= render partial: 'search/mini_form' %>
-            <%= render_top_menu_right %>
-          </div>
-        </div>
+    <header class="op-app-header">
+      <div class="op-app-header--start">
+        <h1 class="hidden-for-sighted">
+          <%= t(:label_top_menu) %>
+        </h1>
+        <main-menu-toggle></main-menu-toggle>
+        <a href="" class="hidden-for-sighted skip-navigation-link"
+           aria-label="<%= I18n.t('js.work_packages.jump_marks.label_content') %>">
+          <%= I18n.t('js.work_packages.jump_marks.content') %>
+        </a>
+        <%= render_top_menu_left %>
       </div>
-    </div>
+      <div class="op-app-header--center op-logo">
+        <%= link_to(I18n.t('label_home'), fixed_home_url, class: 'op-logo--link') %>
+      </div>
+      <%= call_hook :view_layouts_base_top_menu %>
+      <div class="op-app-header--end">
+        <%= render partial: 'search/mini_form' %>
+        <%= render_top_menu_right %>
+      </div>
+    </header>
   <% end %>
   <div id="main"
        class="<%= initial_classes %>">

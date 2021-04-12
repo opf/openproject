@@ -389,7 +389,9 @@ class PermittedParams
 
     # only permit values following the schema
     # 'id as string' => 'value as string'
-    values.reject! { |k, v| k.to_i < 1 || !v.is_a?(String) }
+    values.select! { |k, v| k.to_i > 0 && (v.is_a?(String) || v.is_a?(Array)) }
+    # Reject blank values from include_hidden select fields
+    values.each { |_, v| v.compact_blank! if v.is_a?(Array) }
 
     values.empty? ? {} : { 'custom_field_values' => values.permit! }
   end

@@ -27,6 +27,8 @@
 #++
 
 require 'open_project/plugins'
+
+require_relative './patches/api/work_package_representer'
 require_relative './notification_handlers'
 require_relative './hook_handler'
 
@@ -52,5 +54,16 @@ module OpenProject::GithubIntegration
       ::OpenProject::Notifications.subscribe('github.issue_comment',
                                              &NotificationHandlers.method(:issue_comment))
     end
+
+    initializer 'github.permissions' do
+      OpenProject::AccessControl.map do |ac_map|
+        ac_map.project_module(:github, {}) do |pm_map|
+          pm_map.permission(:show_github_content, {}, {})
+        end
+      end
+    end
+
+    extend_api_response(:v3, :work_packages, :work_package,
+                        &::OpenProject::GithubIntegration::Patches::API::WorkPackageRepresenter.extension)
   end
 end

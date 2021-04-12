@@ -20,6 +20,8 @@
 #See docs/COPYRIGHT.rdoc for more details.
 #++
 tr:
+  project_module_github: "GitHub"
+  permission_show_github_content: "Show GitHub content"
   github_integration:
     pull_request_opened_comment: >
       ** PR Açıldı: ** [%{repository}] (%{repository_url}) için% %{pr_number} [%{pr_title}](%{pr_url}) isteği [%{github_user}] tarafından açıldı (%{github_user_url}).

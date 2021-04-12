@@ -66,7 +66,7 @@ ja:
       upgrade_to_ee: "エンタープライズ版にアップグレード"
       add_token: "エンタープライズ版サポートのトークンをアップロード"
       replace_token: "現在のサポート トークンを置き換え"
-      order: "エンタープライズ版を注文"
+      order: "エンタープライズ オンプレミス エディションを注文する"
       paste: "エンタープライズ版サポートのトークンを貼り付け"
       required_for_feature: "この機能は、アクティブなエンタープライズ版のサポート トークンでのみ利用可能です。"
       enterprise_link: "詳細については、ここをクリックしてください。"
@@ -245,12 +245,15 @@ ja:
         プレースホルダー ユーザのすべての発生(担当者、担当者、その他のユーザ値など)は、「削除されたユーザー」というアカウントに再割り当てられます。
         削除されたすべてのアカウントのデータがこのアカウントに再割り当てられるため、ユーザーが作成したデータと別の削除されたアカウントのデータを区別することはできません。
       irreversible: "この操作は元に戻せません"
-      confirmation: "削除を確認するためにプレースホルダ名 %{name} を入力します。"
+      confirmation: "削除を確認するため、プレースホルダーユーザー名 %{name} を入力してください。"
+    upsale:
+      title: プロジェクトのメンバーではないユーザーに作業を割り当てる
+      description: プロジェクトのメンバーではない人に作業を割り当てたいと思うことは多々あります。それは単に、その仕事に適した人を雇う必要があるということかもしれません。あるいは、その人にプロジェクトの情報へのアクセスを許可したくないが、その人に割り当てられたタスクを追跡したいという場合もあります。
   prioritiies:
     edit:
       priority_color_text: |
         この優先順位の色を割り当てたり変更する場合にクリックします。
-        テーブル内の作業パッケージを強調表示するために使用できます。
+        テーブル内のワークパッケージを強調表示するために使用できます。
   reportings:
     index:
       no_results_title_text: 現在、ステータス報告はありません。
@@ -262,7 +265,7 @@ ja:
         <strong>注</strong>：継承された値（子や関係）は引き続き適用されます。
       status_color_text: |
         このステータスの色を割り当てたり変更する場合にクリックします。
-        ステータスボタンに表示され、テーブル内の作業パッケージを強調表示するために使用できます。
+        ステータスボタンに表示され、テーブル内のワークパッケージを強調表示するために使用できます。
     index:
       no_results_title_text: 現在、ワークパッケージのステータスはありません。
       no_results_content_text: 新しいステータスを追加
@@ -279,8 +282,8 @@ ja:
       query_group_placeholder: "テーブルに名前を付けます"
       reset: "デフォルトに戻す"
       type_color_text: |
-        クリックして、このタイプの色を割り当てたり、変更します。選択した色は、ガントチャートのワークパッケージを区別します。
-        したがって、はっきりした色を使用することをお勧めします。
+        クリックして、このタイプの色を割り当てたり、変更したりします。選択した色は、ガントチャートのワークパッケージを区別します。
+        このため、はっきりした色を使用することをお勧めします。
   versions:
     overview:
       no_results_title_text: このバージョンに割り当てられているワークパッケージはありません。
@@ -298,7 +301,7 @@ ja:
     bulk:
       could_not_be_saved: "次のワークパッケージを保存できませんでした:"
     move:
-      no_common_statuses_exists: "選択されたすべての項目に利用可能なステータスはありません。 それらの状態は変更できません。"
+      no_common_statuses_exists: "選択されたすべてのワークパッケージに利用できるステータスはありません。 それらの状態は変更できません。"
       unsupported_for_multiple_projects: '複数のプロジェクトからのワークパッケージの一括移動 / コピーはサポートされていません'
     summary:
       reports:
@@ -333,8 +336,8 @@ ja:
         other: "このアカウントはシステムから削除されます。したがって、このユーザは現在の認証情報でログイン不可能になります。再度このアプリケーションのユーザになることは可能です。"
         self: "自分のアカウントがシステムから削除されます。したがって、現在の認証情報ではログイン不可能になります。再度このアプリケーションのユーザになることは可能です。"
       login_verification:
-        other: "削除を確認するためログイン %{name} してください。 送信した後は、パスワードの確認が求められます。"
-        self: "削除を確認するためログイン %{name} してください。 一度提出すると、パスワードの確認を求められます。"
+        other: "削除を確認するためにログイン名 %{name} を入力してください。送信した後は、パスワードの確認が求められます。"
+        self: "削除を確認するためにあなたのログイン名 %{name} を入力してください。送信した後は、パスワードの確認を求められます。"
     error_inactive_activation_by_mail: >
       アカウントが有効化されていません。アカウントを有効にするために、受信したメール内のリンクをクリックしてください。
     error_inactive_manual_activation: >
@@ -556,6 +559,12 @@ ja:
         unremovable: "削除できません。"
         wrong_length: "は%{count}文字を入力してください。"
       models:
+        capability:
+          context:
+            global: '全般'
+          query:
+            filters:
+              minimum: "'=' 演算子を使用した、プリンシパル、コンテキスト、ID に対するフィルターを少なくとも 1 つ含める必要があります。"
         custom_field:
           at_least_one_custom_option: "少なくとも 1 つオプションが有効である必要があります。"
         custom_actions:
@@ -644,6 +653,10 @@ ja:
           attributes:
             hours:
               day_limit: "1日あたり最大24時間まで記録できます。"
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "タイトル '%{title}' から推測することができません。"
         work_package:
           is_not_a_valid_target_for_time_entries: "ワークパッケージ #%{id} は、作業時間の再割り当ての対象としては有効ではありません。"
           attributes:
@@ -701,7 +714,7 @@ ja:
             principal:
               unassignable: "はプロジェクトに割り当てできません。"
         version:
-          undeletable_work_packages_attached: "作業パッケージが添付されているため、バージョンを削除できません。"
+          undeletable_work_packages_attached: "ワークパッケージが添付されているため、バージョンを削除できません。"
         status:
           readonly_default_exlusive: "デフォルトとしてマークされている状態では有効にできません。"
       template:
@@ -760,7 +773,7 @@ ja:
     default_columns: "既定の列"
     description: "説明"
     derived_due_date: "派生終了日"
-    derived_estimated_time: "派生予定工数"
+    derived_estimated_hours: "派生予定工数"
     derived_start_date: "派生開始日"
     display_sums: "合計を表示"
     due_date: "終了日"
@@ -783,7 +796,7 @@ ja:
     priority: "優先度"
     project: "プロジェクト"
     public: "公開"
-    responsible: "責任がある"
+    responsible: "責任者"
     role: "ロール"
     roles: "ロール"
     start_date: "開始日"
@@ -1194,6 +1207,9 @@ ja:
   instructions_after_registration: "%{signin}をクリックして、アカウントが有効された後にログインできます。"
   instructions_after_logout: "%{signin}をクリックして再びログインできます。"
   instructions_after_error: "%{signin} をクリックして再びログインを試行できます。エラーが解決しない場合は、管理者にお問い合わせください。"
+  menus:
+    quick_add:
+      label: "クイック追加メニューを開く"
   my_account:
     access_tokens:
       no_results:
@@ -1727,17 +1743,21 @@ ja:
   label_workflow_plural: "ワークフロー"
   label_workflow_summary: "サマリ"
   label_x_closed_work_packages_abbr:
+    one: "1件完了"
+    other: "%{count}件完了"
     zero: "0 クローズ"
-    other: ""
   label_x_comments:
+    one: "1件のコメント"
+    other: "%{count}件のコメント"
     zero: "コメントがありません"
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1件未完了"
+    other: "%{count}件未完了"
     zero: "0 オープン"
-    other: ""
   label_x_projects:
+    one: "1 プロジェクト"
+    other: "%{count} プロジェクト"
     zero: "プロジェクトがありません"
-    other: ""
   label_yesterday: "昨日"
   label_role_type: "タイプ"
   label_member_role: "プロジェクトの役割"
@@ -1777,10 +1797,10 @@ ja:
   mail_body_register_header_title: "プロジェクトへの招待メール"
   mail_body_register_user: "%{name}さん"
   mail_body_register_links_html: |
-    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
-    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    私たちがウェビナー (%{webinar_link}) の場としている YouTube チャンネル (%{youtube_link}) を自由に閲覧して下さい。
+    OpenProject の最初のステップを簡単にする “Get started”(はじめに) ビデオ (%{get_started_link}) があります。
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+    さらに質問がある場合、ドキュメント (%{documentation_link}) を参照するか、問い合わせ先 (%{contact_us_link}) に連絡してください。
   mail_body_register_closing: "あなたのOpenProjectチーム"
   mail_body_register_ending: "連絡をお待ちしています！よろしくお願いいたします。"
   mail_body_reminder: "担当している %{count}件 のワークパッケージが %{days} 日内に期限を迎えます："
@@ -1899,7 +1919,7 @@ ja:
   permission_add_messages: "メッセージの投稿"
   permission_add_project: "プロジェクトの作成"
   permission_manage_user: "ユーザーの作成と編集"
-  permission_manage_placeholder_user: "プレースホルダーユーザの作成、編集、削除"
+  permission_manage_placeholder_user: "プレースホルダーユーザーの作成、編集、削除"
   permission_add_subprojects: "子プロジェクトの追加"
   permission_add_work_package_watchers: "ウォッチャーの追加"
   permission_assign_versions: "バージョンの割り当て"
@@ -2260,7 +2280,7 @@ ja:
   text_are_you_sure_with_children: "仕事項目と子項目を削除してもよろしいですか？"
   text_assign_to_project: "プロジェクト自体に割り当てする"
   text_form_configuration: >
-    作業パッケージのフォームに表示されるフィールドをカスタマイズできます。自由にフィールドをグループ化して、あなたのドメインのニーズを反映できます。
+    ワークパッケージのフォームに表示されるフィールドをカスタマイズできます。自由にフィールドをグループ化して、あなたのドメインのニーズを反映できます。
   text_form_configuration_required_attribute: "属性が必須とマークされています。 したがって常に示されます"
   text_caracters_maximum: "最大%{count}文字です。"
   text_caracters_minimum: "最低%{count}文字の長さが必要です。"
@@ -2624,6 +2644,9 @@ ja:
       invalid_json: "JSONとして要求を解析できませんでした。"
       invalid_relation: "関係は無効です。"
       invalid_resource: "プロパティ '%{property}' は '%{expected}'のようなリンクであることが期待されていますが実際は '%{actual}'が指定されています。"
+      invalid_signal:
+        embed: "要求された %{invalid} の埋め込みはサポートされていません。 サポートされている埋め込みは %{supported} です。"
+        select: "要求された %{invalid} の選択はサポートされていません。 サポートされている選択は %{supported} です。"
       invalid_user_status_transition: "現在のユーザーのアカウントステータスはこの操作を許可していません。"
       missing_content_type: "指定されていません。"
       missing_request_body: "要求の本体がありませんでした。"
