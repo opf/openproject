@@ -33,6 +33,10 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 
 import { WorkPackagesGithubPrsService } from './wp-github-prs.service';
+import { APIV3Service } from 'core-app/modules/apiv3/api-v3.service';
+import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
+import { GithubPullRequestResource } from '../hal/resources/github-pull-request-resource';
 
 @Component({
   selector: 'tab-prs',
@@ -41,16 +45,19 @@ import { WorkPackagesGithubPrsService } from './wp-github-prs.service';
 export class TabPrsComponent implements OnInit {
   @Input() public workPackage:WorkPackageResource;
 
-  public pullRequests:HalResource[] = [];
+  public pullRequests:GithubPullRequestResource[] = [];
 
   constructor(readonly PathHelper:PathHelperService,
               readonly I18n:I18nService,
-              readonly wpGithubPrsService:WorkPackagesGithubPrsService) {
+              readonly wpGithubPrsService:WorkPackagesGithubPrsService,
+              readonly apiV3Service:APIV3Service,
+              readonly halResourceService:HalResourceService,) {
   }
 
   ngOnInit(): void {
-    this.wpGithubPrsService.require(this.workPackage).then((prs:any) => {
-      this.pullRequests = prs;
+    const pullRequestsPath = this.apiV3Service.work_packages.id({id: this.workPackage.id }).github_pull_requests.path;
+    this.halResourceService.get<CollectionResource<GithubPullRequestResource>>(pullRequestsPath).toPromise().then((value) => {
+      this.pullRequests = value.elements;
     });
   }
 

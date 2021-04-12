@@ -59,7 +59,6 @@ export interface WorkPackageResourceEmbedded {
   relations:CollectionResource;
   responsible:HalResource|any;
   revisions:CollectionResource|any;
-  githubPullRequests:CollectionResource|any;
   status:HalResource|any;
   timeEntries:HalResource[]|any[];
   type:TypeResource;
