@@ -26,24 +26,17 @@ export class ProjectsComponent extends UntilDestroyedMixin implements OnInit {
 
   ngOnInit(): void {
     this.projectsPath = this._pathHelperService.projectsPath();
-    this.resourceId = this._uIRouterGlobals.params.projectPath;
-    this.dynamicFieldsSettingsPipe = (dynamicFieldsSettings) => {
-      return dynamicFieldsSettings
-        .reduce((formattedDynamicFieldsSettings, dynamicFormField) => {
-          if (dynamicFormField.key === 'identifier') {
-            dynamicFormField = {
-              ...dynamicFormField,
-              hide: true,
-            }
-          }
-
-          return [...formattedDynamicFieldsSettings, dynamicFormField];
-        }, []);
-    }
+    this._uIRouterGlobals
+      .params$!
+      .pipe(
+        this.untilDestroyed(),
+        pluck('projectPath'),
+        distinctUntilChanged(),
+      )
+      .subscribe(resourceId => this.resourceId = resourceId);
   }
 
   onSubmitted(formResource:HalSource) {
-    // TODO: Filter out if this.resourceId === 'new'?
     if (!this.resourceId) {
       this._$state.go('.', { ...this._$state.params, projectPath: formResource.identifier });
     }

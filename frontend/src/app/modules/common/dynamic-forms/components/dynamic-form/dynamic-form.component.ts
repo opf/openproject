@@ -117,9 +117,8 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
     }
   }
 
-  registerOnChange(fn: (_: any) => void): void {
-    this.onChange = fn;
-  }
+    this.resourceEndpoint = `${this._pathHelperService.api.v3.apiV3Base}${this.resourcePath}`;
+    const url = `${this.resourceEndpoint}/${this.resourceId ? this.resourceId + '/' : ''}form`;
 
   registerOnTouched(fn: any): void {
     this.onTouch = fn;

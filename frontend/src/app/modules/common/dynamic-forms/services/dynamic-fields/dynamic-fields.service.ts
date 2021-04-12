@@ -137,15 +137,15 @@ export class DynamicFieldsService {
       .filter(fieldSchema => this._isFieldSchema(fieldSchema) && fieldSchema.writable);
   }
 
-  private _isResourceSchema(fieldSchema: IOPFieldSchema):boolean {
-    return fieldSchema.location === '_links';
+  private _isResourceSchema(fieldSchemaKey:string, formModel:IOPFormModel):boolean {
+    return !!(formModel?._links && fieldSchemaKey in formModel._links);
   }
 
   private _isFieldSchema(schemaValue:IOPFieldSchemaWithKey | any):boolean {
     return schemaValue?.type;
   }
 
-  private _getFieldsModel(fieldSchemas:IOPFieldSchemaWithKey[], formModel:IOPFormModel = {}):IOPFormModel {
+  private _getFieldsModel(fieldSchemas:IFieldSchemaWithKey[], formModel:IOPFormModel = {}):IOPFormModel {
     const {_links:resourcesModel, ...otherElementsModel} = formModel;
     const model = {
       ...otherElementsModel,
@@ -239,7 +239,7 @@ export class DynamicFieldsService {
         .get(allowedValues!.href!)
         .pipe(
           map((response: api.v3.Result) => response._embedded.elements),
-          map(options => this._formatAllowedValues(options)),
+          map(options => options.map((option:IFieldSchema['options']) => ({...option, title: option._links?.self?.title})))
         );
     }
 
@@ -252,7 +252,7 @@ export class DynamicFieldsService {
     return options.map((option:IOPFieldSchema['options']) => ({...option, name: option._links?.self?.title}));
   }
 
-  private _getFormlyFormWithFieldGroups(fieldGroups:IOPAttributeGroup[] = [], formFields:IOPFormlyFieldSettings[] = []):IOPFormlyFieldSettings[] {
+  private _getFormlyFormWithFieldGroups(fieldGroups:IAttributeGroup[] = [], formFields:IOPFormlyFieldConfig[] = []):IOPFormlyFieldConfig[] {
     const fieldGroupKeys = fieldGroups.reduce((groupKeys, fieldGroup) => [...groupKeys, ...fieldGroup.attributes], []);
     const fomFieldsWithoutGroup = formFields.filter(formField => {
       const formFieldKey = formField.key?.split('.')?.pop();

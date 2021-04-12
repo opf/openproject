@@ -40,7 +40,30 @@ export class DynamicFormService {
       );
   }
 
-  getSettings(formConfig:IOPFormSettings):IOPDynamicFormSettings {
+  submitForm$(formModel:IOPFormModel, resourceEndpoint:string, resourceId?:string) {
+    const modelToSubmit = this._formatModelToSubmit(formModel);
+    const httpMethod = resourceId ? 'patch' : 'post';
+    const url = resourceId ? `${resourceEndpoint}/${resourceId}` : resourceEndpoint;
+
+    return this._httpClient
+      [httpMethod](
+        url,
+        modelToSubmit,
+        {
+          withCredentials: true,
+          responseType: 'json'
+        }
+      )
+      .pipe(
+        catchError((error:HttpErrorResponse) => {
+          this._handleFormErrors(error, this.dynamicForm.form as FormGroup);
+
+          throw error;
+        })
+      );
+  }
+
+  private _getDynamicFormConfig(formConfig:IOPForm):IOPDynamicForm {
     const formSchema = formConfig._embedded?.schema;
     const formPayload = formConfig._embedded?.payload;
     const dynamicForm = {
