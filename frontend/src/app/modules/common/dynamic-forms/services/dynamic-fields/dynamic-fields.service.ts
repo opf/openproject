@@ -14,9 +14,7 @@ import { map } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
 
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class DynamicFieldsService {
   readonly inputsCatalogue:IDynamicInputConfig[] = [
     {
