@@ -29,13 +29,18 @@
 #++
 
 class GithubPullRequest < ApplicationRecord
-  STATES = %w[open closed partial].freeze
   LABEL_KEYS = %w[color name].freeze
 
   has_and_belongs_to_many :work_packages
   has_many :github_check_runs
   belongs_to :github_user, optional: true
   belongs_to :merged_by, optional: true, class_name: 'GithubUser'
+
+  enum state: {
+    open: 'open',
+    closed: 'closed',
+    partial: 'partial'
+  }
 
   validates_presence_of :github_html_url,
                         :number,
@@ -52,12 +57,7 @@ class GithubPullRequest < ApplicationRecord
                         unless: :partial?
   validates :merged, inclusion: { in: [true, false] }, allow_nil: true
   validates :draft, inclusion: { in: [true, false] }, allow_nil: true
-  validates :state, inclusion: { in: STATES }
   validate :validate_labels_schema
-
-  def partial?
-    state == 'partial'
-  end
 
   ##
   # When a PR lives long enough and receives many pushes, the same check (say, a CI test run) can be run multiple times.
