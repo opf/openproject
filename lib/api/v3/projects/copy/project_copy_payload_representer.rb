@@ -36,6 +36,8 @@ module API
           include ::API::Utilities::PayloadRepresenter
           include ::API::Utilities::MetaProperty
 
+          cached_representer disabled: true
+
           def meta_representer_class
             ProjectCopyMetaRepresenter
           end
