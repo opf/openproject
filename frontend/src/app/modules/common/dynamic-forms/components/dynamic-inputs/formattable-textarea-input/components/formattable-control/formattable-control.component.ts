@@ -34,11 +34,7 @@ export class FormattableControlComponent implements OnInit {
 
   public get ckEditorContext():ICKEditorContext {
     return {
-      // TODO: Can the current editor work without resource??
-      // resource: this.change.pristineResource,
       macros: 'none' as const,
-      // TODO: Do we need a previewContext
-      // previewContext: this.previewContext,
       options: { rtl: this.templateOptions?.rtl }
     };
   }
@@ -90,9 +86,5 @@ export class FormattableControlComponent implements OnInit {
         this.onTouch();
       }
     } );
-    // TODO: Check if it is new without resource
-    /*if (!this.resource.isNew) {
-      setTimeout(() => editor.editing.view.focus());
-    }*/
   }
 }

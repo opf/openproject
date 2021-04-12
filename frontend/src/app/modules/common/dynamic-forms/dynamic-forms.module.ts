@@ -45,7 +45,6 @@ import { OpenprojectCommonModule } from "core-app/modules/common/openproject-com
     NgSelectModule,
     NgOptionHighlightModule,
     OpenprojectEditorModule,
-    // TODO: Import only necessary fields (EditFieldControlsComponent)
     OpenprojectFieldsModule,
     OpenprojectCommonModule,
   ],

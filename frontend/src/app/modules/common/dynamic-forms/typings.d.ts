@@ -46,7 +46,6 @@ export interface IOPFormSchema {
   _dependencies: unknown[];
   _attributeGroups?: IAttributeGroup[];
   lockVersion?: IFieldSchema;
-  // TODO: type this properly
   [key: string]: IFieldSchema | any;
   _links: {
     baseSchema?: {
@@ -63,7 +62,6 @@ export interface IFieldSchema {
   hasDefault: boolean;
   name?: string;
   attributeGroup?: string;
-  // TODO: Type this options
   options: {
     [key: string]: any;
   };
@@ -89,7 +87,6 @@ export interface IAttributeGroup {
   attributes: string[];
 }
 
-// TODO: Type this properly
 export interface IAllowedValue {
   id: string;
   name: string;

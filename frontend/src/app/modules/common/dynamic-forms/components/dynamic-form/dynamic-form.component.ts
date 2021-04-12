@@ -62,7 +62,6 @@ export class DynamicFormComponent implements OnChanges {
     }
 
     this.resourceEndpoint = `${this._pathHelperService.api.v3.apiV3Base}${this.resourcePath}`;
-    // TODO: Get href from resource / pathHelper
     const url = `${this.resourceEndpoint}/${this.resourceId ? this.resourceId + '/' : ''}form`;
 
     this.dynamicForm$ = this._dynamicFormService

@@ -42,7 +42,6 @@ export class DynamicFormService {
       );
   }
 
-  // TODO: Submit to _links.commit?? (pending)
   submitForm$(formModel:IOPFormModel, resourceEndpoint:string, resourceId?:string) {
     const modelToSubmit = this._formatModelToSubmit(formModel);
     const httpMethod = resourceId ? 'patch' : 'post';
