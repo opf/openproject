@@ -66,6 +66,11 @@ OpenProject aggregates work package activities only if:
 
 As an inherited change is always commented ("Updated automatically by...") they can basically never be aggregated.
 
+### How can I fill/populate the position field/column for work packages?
+
+The "Position" attribute is provided by the Backlogs plugin and shows the position of a work package in the backlog.
+If you create e.g. a Feature and assign it to a sprint, the position of the feature in the sprint is shown in the "Position" attribute on the work package list.
+
 
 
 ## Filters and queries

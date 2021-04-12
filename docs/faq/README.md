@@ -182,6 +182,14 @@ Yes, please use the free [Excel synchronization](../user-guide/integrations/exce
 
 You can use the [Budgets module](../user-guide/budgets/#budgets) for a plan/actual comparison.
 
+### Can I use OpenProject offline?
+
+No, it's not possible to use OpenProject without Internet access (Enterprise cloud) or access to the server it is installed on (on-premises installations).
+
+### Can I import tasks from spreadsheets like Excel or LibreOffice?
+
+Yes, that’s possible. Please have a look at our [Excel sync](../user-guide/integrations/Excel%20Synchronization).
+
 ### Does OpenProject have guest accounts?
 
 Currently, all users working in the OpenProject Enterprise editions need a license in order to access OpenProject. Regarding payments we only count the active (not blocked) users. If users only require temporary access, you can [block](../system-admin-guide/users-permissions/users/#lock-and-unlock-users) those users afterwards to free up additional seats.
@@ -195,7 +203,7 @@ Not at the moment. This is a well-known feature requirement and we are currently
 ### Does OpenProject offer resource management?
 
 You can [set up budgets](../user-guide/budgets), [set an Estimated time](../user-guide/work-packages/edit-work-package/) for a work package and use the [Assignee board](../user-guide/agile-boards/#choose-between-board-types) to find out how many work packages are assigned to a person, yet. 
-Additional resource management features will be added within the next years. You can find the roadmap for future releases [here](https://community.openproject.com/projects/openproject/work_packages?query_id=1993).
+Additional resource management features will be added within the next years. You can find the road-map for future releases [here](https://community.openproject.com/projects/openproject/work_packages?query_id=1993).
 
 ### Is there an organizational chart in OpenProject?
 
@@ -236,6 +244,16 @@ Furthermore, we are planning a direct integration into Solibri. Then you don't n
 Yes, the so-called camera position is stored in the BCF-issues, so that exactly the same camera position is assumed when you click on the BCF-issue. These are called viewpoints. If you have several models, e.g. architecture and technical building equipment, these must be activated (made visible) before you click on the BCF-issue. In the same way, BCF-elements of the model can be hidden or selected via the viewpoint.
 
 In our [introductory video](https://www.youtube.com/watch?v=ThA4_17yedg) to the OpenProject BIM Edition the basics are shown very well. In particular, the integration of BCF management into the rest of the project management of a construction project is the strength of OpenProject.
+
+### Can I add photos from my mobile/phone to BIM issues?
+
+Yes. Take a photo with your camera and save it on your phone. Then open the correct work package in your browser or create a new one. Append the photo as an attachment to the work package.
+
+### Can I use IFC while a Revit connection is not available?
+
+Yes, of course. Within the BCF module you can upload multiple IFC models and create and manage BCF issues.
+
+
 
 ## Migration
 

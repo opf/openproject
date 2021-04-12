@@ -9,7 +9,7 @@ keywords: projects FAQ, project questions
 
 # Frequently asked questions (FAQ) for projects
 
-### How can I get an overview over multiple projects at the same time?
+## How can I get an overview over multiple projects at the same time?
 
 There are several possibilities:
 
@@ -41,10 +41,16 @@ If you do not work according to Scrum we would recommend to deactivate the Backl
 
 Yes, it is possible; [set](../project-settings/versions/) the sharing option for the version to "with sub project".
 
+## Is it possible to hide or remove fields in the project settings (like status, status description)?
+
+You can't remove fields/attributes that are no custom fields. However, you can hide them in the [projects overview](../#view-all-projects).
+
 ## How do I reopen an archived project?
 
 Go to the projects overview ("View all projects") and change the filter to not only include active projects. Then choose the archived project you want to reopen and click on the three dots at the right end of its row. Click on **Unarchive** there.
 
-## Is it possible to hide or remove fields in the project settings (like status, status description)?
+## How can I un-archive subprojects?
 
-You can't remove fields/attributes that are no custom fields. However, you can hide them in the [projects overview](../#view-all-projects).
+Please navigate to the global projects overview and change the filter to include non-active projects. If you take a look at the project name on the left side (in front of "ARCHIVED project name") there should be an arrow. It is not possible to directly unarchive subprojects (without their parent project) since then it would be unclear in which hierarchy they should be located.
+However, you should be able to unarchive the parent project. Once you have done this, the "unarchive" option should be shown for the project and you can unarchive it.
+Afterwards, you could adjust the hierarchy of the child project (which you originally wanted to unarchive). This way you can archive / unarchive it independently of its parent project.
