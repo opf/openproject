@@ -171,7 +171,7 @@ feature 'Invite user modal', type: :feature, js: true do
       wp_page.visit!
     end
 
-    it 'can add an existing user to the project' do
+    it 'cannot add an existing user to the project' do
       assignee_field.activate!
 
       expect(page).to have_no_selector('.ng-dropdown-footer', text: 'Invite')

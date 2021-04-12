@@ -27,7 +27,7 @@ export class ProjectSearchComponent extends UntilDestroyedMixin implements OnIni
 
   public text = {
     noResultsFound: this.I18n.t('js.invite_user_modal.project.no_results'),
-    noInviteRights: 'No rights to invite',
+    noInviteRights: this.I18n.t('js.invite_user_modal.project.no_invite_rights'),
   };
 
   public input$ = new BehaviorSubject<string|null>('');

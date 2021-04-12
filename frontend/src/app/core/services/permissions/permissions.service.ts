@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { APIV3Service } from 'core-app/modules/apiv3/api-v3.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CurrentProjectService } from 'core-components/projects/current-project.service';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { FilterOperator } from 'core-components/api/api-v3/api-v3-filter-builder';
 
 @Injectable({
@@ -22,6 +22,12 @@ export class PermissionsService {
       .memberships
       .available_projects
       .list({ filters })
-      .pipe(map(collection => !!collection.elements.length));
+      .pipe(
+        map(collection => !!collection.elements.length),
+        catchError((error) => {
+          console.error(error);
+          return of(false);
+        }),
+      );
   }
 }
