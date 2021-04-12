@@ -1,5 +1,4 @@
 import { Injector, NgModule } from "@angular/core";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
 import { CapabilityResource } from "core-app/modules/hal/resources/capability-resource";
 
@@ -8,7 +7,6 @@ import { CurrentUserStore } from "./current-user.store";
 import { CurrentUserQuery } from "./current-user.query";
 
 export function bootstrapModule(injector:Injector) {
-  const apiV3Service = injector.get(APIV3Service);
   const currentUserService = injector.get(CurrentUserService);
 
   window.ErrorReporter.addContext((scope) => {
@@ -26,13 +24,6 @@ export function bootstrapModule(injector:Injector) {
     id: userMeta?.dataset.id || null,
     name: userMeta?.dataset.name || null,
     mail: userMeta?.dataset.mail || null,
-  });
-
-  apiV3Service.capabilities.list({
-    filters: [ ['principal', '=', [currentUserService.userId]], ],
-    pageSize: 1000,
-  }).subscribe((data) => {
-    currentUserService.setCapabilities(data.elements);
   });
 }
 

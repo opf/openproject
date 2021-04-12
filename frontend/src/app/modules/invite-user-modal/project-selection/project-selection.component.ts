@@ -11,10 +11,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {BannersService} from "core-app/modules/common/enterprise/banners.service";
-import {IOpOptionListOption} from "core-app/modules/common/option-list/option-list.component";
-import {PrincipalType} from '../invite-user.component';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { BannersService } from "core-app/modules/common/enterprise/banners.service";
+import { IOpOptionListOption } from "core-app/modules/common/option-list/option-list.component";
+import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
+import { PrincipalType } from '../invite-user.component';
 
 @Component({
   selector: 'op-ium-project-selection',
@@ -23,7 +24,7 @@ import {PrincipalType} from '../invite-user.component';
 })
 export class ProjectSelectionComponent implements OnInit {
   @Input() type:PrincipalType;
-  @Input() project:any = null;
+  @Input() project:ProjectResource|null;
 
   @Output() close = new EventEmitter<void>();
   @Output() save = new EventEmitter<{project:any, type:string}>();
@@ -69,6 +70,7 @@ export class ProjectSelectionComponent implements OnInit {
   ngOnInit() {
     this.typeControl?.setValue(this.type);
     this.projectControl?.setValue(this.project);
+    console.log('NgOnInit set project', this.project?.id);
 
     this.typeOptions.push({
       value: PrincipalType.Placeholder,

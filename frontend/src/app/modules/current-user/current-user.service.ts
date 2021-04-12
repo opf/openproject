@@ -27,6 +27,8 @@
 //++
 
 import { Injectable } from "@angular/core";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { take } from 'rxjs/operators';
 import { CurrentUserStore, CurrentUser } from "./current-user.store";
 import { CapabilityResource } from "core-app/modules/hal/resources/capability-resource";
 import { CurrentUserQuery } from "./current-user.query";
@@ -35,11 +37,11 @@ import { CurrentUserQuery } from "./current-user.query";
 @Injectable({ providedIn: 'root' })
 export class CurrentUserService {
   constructor(
+    private apiV3Service: APIV3Service,
     private currentUserStore: CurrentUserStore,
     private currentUserQuery: CurrentUserQuery,
   ) {
-    this.currentUserQuery.user$.subscribe(user => this._user = user);
-    this.currentUserQuery.isLoggedIn$.subscribe(isLoggedIn => this._isLoggedIn = isLoggedIn);
+    this.setupLegacyDataListeners();
   }
 
   public capabilities$ = this.currentUserQuery.capabilities$;
@@ -51,16 +53,41 @@ export class CurrentUserService {
       ...state,
       ...user,
     }));
+
+    this.getCapabilities();
   }
 
-  public setCapabilities(capabilities: CapabilityResource[]) {
-    this.currentUserStore.update(state => ({
-      ...state,
-      capabilities,
-    }));
+  public getCapabilities() {
+    this.user$.pipe(take(1)).subscribe((user) => {
+      if (!user.id) {
+        this.currentUserStore.update(state => ({
+          ...state,
+          capabilities: [],
+        }));
+
+        return;
+      }
+
+      this.apiV3Service.capabilities.list({
+        filters: [ ['principal', '=', [user.id]], ],
+        pageSize: 1000,
+      }).subscribe((data) => {
+        this.currentUserStore.update(state => ({
+          ...state,
+          capabilities: data.elements,
+        }));
+      });
+    });
+
+    return this.currentUserQuery.capabilities$;
   }
 
   // Everything below this is deprecated legacy interfacing and should not be used
+  
+  private setupLegacyDataListeners() {
+    this.currentUserQuery.user$.subscribe(user => this._user = user);
+    this.currentUserQuery.isLoggedIn$.subscribe(isLoggedIn => this._isLoggedIn = isLoggedIn);
+  }
 
   private _isLoggedIn = false;
   public get isLoggedIn() {
