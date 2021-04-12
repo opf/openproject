@@ -50,8 +50,6 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
   @Input() public name = '';
   @Input() public required = false;
   @Input() public size = 20;
-  // TODO: Does this focus work? It raises an error...
-  //@Input() public focus = false;
   @Input() public disabled = false;
 
   @ViewChild('dateInput') dateInput:ElementRef;
