@@ -30,7 +30,6 @@
 
 class GithubUser < ApplicationRecord
   has_many :github_pull_requests
-  belongs_to :user, optional: true
 
   validates_presence_of :github_id,
                         :github_login,

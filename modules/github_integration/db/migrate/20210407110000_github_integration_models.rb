@@ -1,4 +1,4 @@
-class GithubIntegrationModels < ActiveRecord::Migration[6.0]
+class GithubIntegrationModels < ActiveRecord::Migration[6.1]
   # rubocop:disable Metrics/AbcSize
   def change
     # see https://docs.github.com/en/rest/reference/pulls
@@ -46,8 +46,6 @@ class GithubIntegrationModels < ActiveRecord::Migration[6.0]
 
     # see: https://docs.github.com/en/rest/reference/users
     create_table :github_users do |t|
-      t.references :user, null: true
-
       t.bigint :github_id, null: false
       t.string :github_login, null: false
       t.string :github_html_url, null: false
