@@ -51,5 +51,9 @@ module Sessions
     def readonly?
       true
     end
+
+    def data
+      SqlBypass.deserialize(super)
+    end
   end
 end

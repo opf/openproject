@@ -44,16 +44,27 @@ module Sessions
       # @param session_id [String] The session ID as found in the `_open_project_session` cookie
       # @return [Hash] The saved session data (user_id, updated_at, etc.) or nil if no session was found.
       def lookup_data(session_id)
+        rack_session = Rack::Session::SessionId.new(session_id)
         if Rails.application.config.session_store == ActionDispatch::Session::ActiveRecordStore
-          find_by_session_id(session_id)&.data
+          find_by_session_id(rack_session.private_id)&.data
         else
           session_store = Rails.application.config.session_store.new nil, {}
           _id, data = session_store.instance_eval do
-            find_session({}, Rack::Session::SessionId.new(session_id))
+            find_session({}, rack_session)
           end
 
           data.presence
         end
+      end
+
+      ##
+      # Ensure we're not memoizing the connection
+      def connection
+        ::ActiveRecord::Base.connection
+      end
+
+      def connection_pool
+        ::ActiveRecord::Base.connection_pool
       end
     end
 
