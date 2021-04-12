@@ -3,6 +3,7 @@ import {
   Input,
   HostBinding,
   ContentChild,
+  Optional,
 } from "@angular/core";
 import {
   NgControl,
@@ -52,6 +53,6 @@ export class OpFormFieldComponent {
   }
 
   constructor(
-    private _formGroupDirective:FormGroupDirective,
+    @Optional() private _formGroupDirective:FormGroupDirective,
   ) {}
 }
