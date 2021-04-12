@@ -36,14 +36,7 @@ module API
               .new(
                 model: Project,
                 instance_generator: ->(*) { @project },
-                params_modifier: ->(attributes) do
-                  meta = attributes.delete(:meta)
-                  {
-                    target_project_params: attributes,
-                    attributes_only: true,
-                    only: meta.only
-                  }
-                end,
+                parse_service: ParseCopyParamsService,
                 process_service: ::Projects::CopyService,
                 process_contract: ::Projects::CopyContract,
                 parse_representer: ProjectCopyPayloadRepresenter,
