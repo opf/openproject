@@ -38,7 +38,7 @@ module Sessions
       def call(user, session)
         return false unless active_record_sessions?
 
-        ::Sessions::ActiveRecord
+        ::Sessions::UserSession
           .for_user(user)
           .where.not(session_id: session.id.private_id)
           .delete_all

@@ -109,7 +109,6 @@ module Sessions
       SQL
     end
 
-
     def update!
       connection.update <<~SQL, 'Update session'
         UPDATE sessions
@@ -126,7 +125,7 @@ module Sessions
       uid = user_id
       return unless uid && OpenProject::Configuration.drop_old_sessions_on_logout?
 
-      ::Sessions::ActiveRecord.for_user(uid).delete_all
+      ::Sessions::UserSession.for_user(uid).delete_all
     end
   end
 end

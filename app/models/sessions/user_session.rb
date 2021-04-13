@@ -32,7 +32,7 @@
 # An AR helper class to access sessions, but not create them.
 # You can still use AR methods to delete records however.
 module Sessions
-  class ActiveRecord < ::ApplicationRecord
+  class UserSession < ::ApplicationRecord
     self.table_name = 'sessions'
 
     scope :for_user, ->(user) do
