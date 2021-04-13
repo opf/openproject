@@ -9,10 +9,7 @@ import {
 } from "@angular/core";
 import { FormlyForm } from "@ngx-formly/core";
 import { DynamicFormService } from "../../services/dynamic-form/dynamic-form.service";
-import {
-  IOPDynamicFormSettings,
-  IOPFormlyFieldSettings,
-} from "../../typings";
+import { IOPDynamicForm, IOPFormError, IOPFormModel } from "../../typings";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { catchError, finalize, take } from "rxjs/operators";
