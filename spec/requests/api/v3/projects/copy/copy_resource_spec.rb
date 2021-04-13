@@ -30,7 +30,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
+describe ::API::V3::Projects::Copy::CopyAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -41,7 +41,7 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
                       member_with_permissions: %i[copy_projects view_project view_work_packages]
   end
 
-  let(:path) { api_v3_paths.project_copy_form(source_project.id) }
+  let(:path) { api_v3_paths.project_copy(source_project.id) }
   let(:params) do
     {
     }
@@ -55,69 +55,61 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
 
   subject(:response) { last_response }
 
-  describe '#POST /api/v3/projects/:id/copy/form' do
-    it 'returns 200 OK' do
-      expect(response.status).to eq(200)
-    end
+  describe '#POST /api/v3/projects/:id/copy' do
+    describe 'with empty params' do
+      it 'returns 422', :aggregate_failures do
+        expect(response.status).to eq(422)
 
-    it 'returns a form' do
-      expect(response.body)
-        .to be_json_eql('Form'.to_json)
-              .at_path('_type')
-    end
-
-    it 'does not create a project' do
-      expect(Project.count)
-        .to eql 1
-    end
-
-    it 'contains a meta property with copy properties for every module' do
-      ::Projects::CopyService.copyable_modules.each do |name|
         expect(response.body)
-          .to be_json_eql(false.to_json)
-                .at_path("_embedded/payload/_meta/copy#{name.to_s.camelize}")
-      end
-    end
+          .to be_json_eql('Error'.to_json)
+                .at_path('_type')
 
-    it 'shows an empty name as not set' do
-      expect(response.body)
-        .to be_json_eql(''.to_json)
-              .at_path("_embedded/payload/name")
-
-      expect(response.body)
-        .to be_json_eql("Name can't be blank.".to_json)
-              .at_path("_embedded/validationErrors/name/message")
-    end
-
-    context 'updating the form payload' do
-      let(:params) do
-        {
-          name: 'My copied project'
-        }
-      end
-
-      it 'sets that value' do
         expect(response.body)
-          .to be_json_eql('My copied project'.to_json)
-                .at_path("_embedded/payload/name")
+          .to be_json_eql("Name can't be blank.".to_json)
+                .at_path("message")
       end
     end
 
-    context 'when setting copy meta properties' do
+    describe 'with attributes given' do
       let(:params) do
-        {
-          _meta: {
-            copyOverview: true
-          }
-        }
+        { name: 'My copied project', identifier: 'my-copied-project' }
       end
 
-      it 'sets that value to true' do
-        ::Projects::CopyService.copyable_modules.each do |name|
-          expect(response.body)
-            .to be_json_eql((name == :overview).to_json)
-                  .at_path("_embedded/payload/_meta/copy#{name.to_s.camelize}")
+      it 'returns with a redirect to job' do
+
+        aggregate_failures do
+          expect(response.status).to eq(302)
+
+          expect(response).to be_redirect
+
+          expect(response.location).to match /\/api\/v3\/job_statuses\/[\w-]+\z/
         end
+
+        get response.location
+
+        expect(last_response.status).to eq 200
+
+        expect(last_response.body)
+          .to be_json_eql('in_queue'.to_json)
+                .at_path("status")
+
+        perform_enqueued_jobs
+
+        get response.location
+
+        expect(last_response.status).to eq 200
+
+        expect(last_response.body)
+          .to be_json_eql('success'.to_json)
+                .at_path("status")
+
+        expect(last_response.body)
+          .to be_json_eql("Created project My copied project".to_json)
+                .at_path("message")
+
+
+        project = Project.find_by(identifier: 'my-copied-project')
+        expect(project).to be_present
       end
     end
 
