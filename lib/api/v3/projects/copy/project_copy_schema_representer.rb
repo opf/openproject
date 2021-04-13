@@ -39,6 +39,7 @@ module API
           ::Projects::CopyService.copyable_modules.each do |name|
             schema :"copy_#{name}",
                    type: 'Boolean',
+                   has_default: true,
                    location: :meta
           end
         end
