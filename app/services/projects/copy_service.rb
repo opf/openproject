@@ -32,23 +32,18 @@ module Projects
   class CopyService < ::BaseServices::Copy
     include Projects::Concerns::NewProjectService
 
-    ##
-    # We need some place to keep a DRY list of
-    # copyable project association identifiers
-    def self.copyable_modules
-      %i[
-              overview
-              boards
-              forums
-              members
-              versions
-              wiki
-              wiki_page_attachments
-              work_packages
-              work_package_attachments
-              queries
-              categories
-            ]
+    def self.copy_dependencies
+      [
+        ::Projects::Copy::MembersDependentService,
+        ::Projects::Copy::VersionsDependentService,
+        ::Projects::Copy::CategoriesDependentService,
+        ::Projects::Copy::WorkPackagesDependentService,
+        ::Projects::Copy::WikiDependentService,
+        ::Projects::Copy::ForumsDependentService,
+        ::Projects::Copy::QueriesDependentService,
+        ::Projects::Copy::BoardsDependentService,
+        ::Projects::Copy::OverviewDependentService
+      ]
     end
 
     ##
@@ -65,20 +60,6 @@ module Projects
     # Useful when copying nested dependencies
     def skip_dependency?(params, dependency_cls)
       !Copy::Dependency.should_copy?(params, dependency_cls.identifier.to_sym)
-    end
-
-    def copy_dependencies
-      [
-        ::Projects::Copy::MembersDependentService,
-        ::Projects::Copy::VersionsDependentService,
-        ::Projects::Copy::CategoriesDependentService,
-        ::Projects::Copy::WorkPackagesDependentService,
-        ::Projects::Copy::WikiDependentService,
-        ::Projects::Copy::ForumsDependentService,
-        ::Projects::Copy::QueriesDependentService,
-        ::Projects::Copy::BoardsDependentService,
-        ::Projects::Copy::OverviewDependentService
-      ]
     end
 
     def initialize_copy(source, params)

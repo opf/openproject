@@ -34,6 +34,10 @@ module Projects::Copy
       I18n.t(:label_member_plural)
     end
 
+    def source_count
+      source.members.count
+    end
+
     protected
 
     def copy_dependency(*)

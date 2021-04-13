@@ -36,6 +36,10 @@ module Projects::Copy
       I18n.t(:label_wiki_page_plural)
     end
 
+    def source_count
+      source.wiki && source.wiki.pages.count
+    end
+
     protected
 
     def copy_dependency(params:)

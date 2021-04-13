@@ -68,10 +68,11 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
     end
 
     it 'contains a meta property with copy properties for every module' do
-      ::Projects::CopyService.copyable_modules.each do |name|
+      ::Projects::CopyService.copyable_dependencies.each do |dep|
+        identifier = dep[:identifier].to_s.camelize
         expect(response.body)
-          .to be_json_eql(false.to_json)
-                .at_path("_embedded/payload/_meta/copy#{name.to_s.camelize}")
+          .to be_json_eql(true.to_json)
+                .at_path("_embedded/payload/_meta/copy#{identifier}")
       end
     end
 
@@ -108,11 +109,12 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
         }
       end
 
-      it 'sets that value to true' do
-        ::Projects::CopyService.copyable_modules.each do |name|
+      it 'sets that value to true and all others to false' do
+        ::Projects::CopyService.copyable_dependencies.each do |dep|
+          identifier = dep[:identifier].to_s.camelize
           expect(response.body)
-            .to be_json_eql((name == :overview).to_json)
-                  .at_path("_embedded/payload/_meta/copy#{name.to_s.camelize}")
+            .to be_json_eql((identifier == 'Overview').to_json)
+                  .at_path("_embedded/payload/_meta/copy#{identifier}")
         end
       end
     end

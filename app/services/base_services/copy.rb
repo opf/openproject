@@ -32,6 +32,28 @@ module BaseServices
   class Copy < ::BaseServices::BaseContracted
     alias_attribute(:source, :model)
 
+    ##
+    # dependent services to copy associations
+    def self.copy_dependencies
+      []
+    end
+
+    ##
+    # collect copyable associated modules
+    def self.copyable_dependencies
+      copy_dependencies.map do |service_cls|
+        {
+          identifier: service_cls.identifier,
+          name_source: -> { service_cls.human_name },
+          count_source: ->(source, user) do
+            service_cls
+              .new(source: source, target: nil, user: user)
+              .source_count
+          end
+        }
+      end
+    end
+
     def initialize(user:, source: nil, model: nil, contract_class: nil, contract_options: {})
       self.source = source || model
       raise ArgumentError, "Missing source object" if self.source.nil?
@@ -60,7 +82,7 @@ module BaseServices
         return ServiceResult.new(success: false, result: copy_instance, errors: copy_instance.errors)
       end
 
-      copy_dependencies.each do |service_cls|
+      self.class.copy_dependencies.each do |service_cls|
         next if skip_dependency?(params, service_cls)
 
         call.merge! call_dependent_service(service_cls, target: copy_instance, params: params),
@@ -94,12 +116,6 @@ module BaseServices
       # Retain the information about what things we copied
       # for the service result
       state.only = params[:only]
-    end
-
-    ##
-    # dependent services to copy associations
-    def copy_dependencies
-      []
     end
 
     ##

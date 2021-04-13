@@ -33,16 +33,19 @@ module API
     module Projects
       module Copy
         class ProjectCopyMetaRepresenter < ::API::Decorators::Single
-          ::Projects::CopyService.copyable_modules.each do |name|
-            property :"copy_#{name}",
+          ::Projects::CopyService.copyable_dependencies.each do |dep|
+            identifier = dep[:identifier]
+
+            property :"copy_#{identifier}",
                      exec_context: :decorator,
                      getter: ->(*) do
                        only = represented&.only
-                       !!only&.include?(name)
+
+                       only.nil? || only.include?(identifier)
                      end,
                      setter: ->(fragment:, **) do
                        represented.only ||= Set.new
-                       represented.only << name if fragment
+                       represented.only << identifier if fragment
                      end
           end
 
