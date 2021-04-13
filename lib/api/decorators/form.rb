@@ -31,10 +31,10 @@
 module API
   module Decorators
     class Form < ::API::Decorators::Single
-      def initialize(service_call, current_user: nil, errors: [])
-        @service_call = service_call
+      def initialize(represented, current_user: nil, errors: [], meta: nil)
         @errors = errors
-        super(service_call.result, current_user: current_user)
+        @meta = meta
+        super(represented, current_user: current_user)
       end
 
       property :payload,
@@ -65,7 +65,7 @@ module API
 
       protected
 
-      attr_reader :service_call
+      attr_reader :meta
     end
   end
 end

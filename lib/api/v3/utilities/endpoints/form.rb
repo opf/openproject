@@ -39,8 +39,9 @@ module API
 
           def present_success(current_user, call)
             render_representer
-              .new(call,
+              .new(call.result,
                    errors: api_errors(call),
+                   meta: call.state,
                    current_user: current_user)
           end
 
