@@ -39,6 +39,8 @@ module Components
       # otherwise use the query
       text = select_text.presence || query
 
+      SeleniumHubWaiter.wait
+      byebug
       # click the element to select it
       target_dropdown.find('.ng-option', text: text, match: :first).click
     end

@@ -98,6 +98,13 @@ module Components
         click_next if next_step
       end
 
+      def open_project_select()
+        search_autocomplete modal_element.find('.ng-select-container'),
+                            query: query,
+                            select_text: select_text,
+                            results_selector: 'body'
+      end
+
       def principal_step(next_step: true)
         if invite_user?
           autocomplete principal_name, select_text: "Invite: #{principal_name}"

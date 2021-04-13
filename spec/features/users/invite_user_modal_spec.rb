@@ -111,6 +111,26 @@ feature 'Invite user modal', type: :feature, js: true do
             let(:added_principal) { User.find_by!(mail: principal.mail) }
           end
         end
+
+        context 'when the current user does not have permissions to invite a user in this project' do
+          let(:permissions) { %i[view_work_packages edit_work_packages manage_members manage_user] }
+
+          let(:project_no_permissions) { FactoryBot.create :project }
+          let(:role_no_permissions) { FactoryBot.create :role,
+                                      permissions: %i[view_work_packages edit_work_packages]
+          }
+          let!(:membership_no_permission) {
+            FactoryBot.create :member,
+            user: current_user,
+            project: project_no_permissions,
+            roles: [role_no_permissions]
+          }
+
+          it 'disables projects for which you do not have rights' do
+            ngselect = modal.open_project_select
+            expect(ngselect).to have_text "#{project_no_permissions.name} You are not allowed to invite members to this project"
+          end
+        end
       end
 
       describe 'inviting placeholders' do

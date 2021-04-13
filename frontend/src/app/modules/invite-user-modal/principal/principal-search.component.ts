@@ -32,9 +32,51 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
 
   public input$ = new BehaviorSubject<string>('');
   public input = '';
-  public items$:Observable<any[]>;
-  public canInviteByEmail$:Observable<boolean>;
-  public canCreateNewPlaceholder$:Observable<boolean>;
+  public items$ = this.input$
+    .pipe(
+      this.untilDestroyed(),
+      debounceTime(200),
+      distinctUntilChanged(),
+      switchMap(this.loadPrincipalData.bind(this)),
+    );
+    
+  public canInviteByEmail$ = combineLatest(
+    this.items$,
+    this.input$,
+    this.currentUserService.capabilities$.pipe(
+      map(capabilities => !!capabilities.find(c => c.action.href.endsWith('/users/create'))),
+      distinctUntilChanged(),
+    ),
+  ).pipe(
+    map(([elements, input, canCreateUsers]) =>
+      canCreateUsers
+      && this.type === PrincipalType.User
+      && input?.includes('@')
+      && !elements.find((el:any) => el.email === input)
+    ),
+  );
+
+  public canCreateNewPlaceholder$ = combineLatest(
+    this.items$,
+    this.input$,
+    this.currentUserService.capabilities$.pipe(
+      map(capabilities => !!capabilities.find(c => c.action.href.endsWith('/placeholderUsers/create'))),
+      distinctUntilChanged(),
+    ),
+  ).pipe(
+    map(([elements, input, hasCapability]) => {
+      if (!hasCapability) {
+        return false;
+      }
+
+      if (this.type !== PrincipalType.Placeholder) {
+        return false;
+      }
+
+      return !!input && !elements.find((el:any) => el.name === input);
+    }),
+  );
+
   public showAddTag = false;
 
   public text = {
@@ -61,51 +103,6 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
     this.input$.subscribe((input:string) => {
       this.input = input;
     });
-
-    this.items$ = this.input$
-      .pipe(
-        this.untilDestroyed(),
-        debounceTime(200),
-        distinctUntilChanged(),
-        switchMap(this.loadPrincipalData.bind(this)),
-      );
-
-    this.canInviteByEmail$ = combineLatest(
-      this.items$,
-      this.input$,
-      this.currentUserService.capabilities$.pipe(
-        map(capabilities => !!capabilities.find(c => c.action.href.endsWith('/users/create'))),
-        distinctUntilChanged(),
-      ),
-    ).pipe(
-      map(([elements, input, canCreateUsers]) =>
-        canCreateUsers
-        && this.type === PrincipalType.User
-        && input?.includes('@')
-        && !elements.find((el:any) => el.email === input)
-      ),
-    );
-
-    this.canCreateNewPlaceholder$ = combineLatest(
-      this.items$,
-      this.input$,
-      this.currentUserService.capabilities$.pipe(
-        map(capabilities => !!capabilities.find(c => c.action.href.endsWith('/placeholderUsers/create'))),
-        distinctUntilChanged(),
-      ),
-    ).pipe(
-      map(([elements, input, hasCapability]) => {
-        if (!hasCapability) {
-          return false;
-        }
-
-        if (this.type !== PrincipalType.Placeholder) {
-          return false;
-        }
-
-        return !!input && !elements.find((el:any) => el.name === input);
-      }),
-    );
 
     combineLatest(
       this.canInviteByEmail$,
@@ -142,6 +139,10 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
     memberFilter.add('type', '=', [this.type]);
     memberFilter.add('member', '=', [this.project?.id]);
     const members = this.apiV3Service.principals.filtered(memberFilter).get();
+
+    if (!this.project?.id) {
+      debugger;
+    }
 
     return forkJoin({
       members,
