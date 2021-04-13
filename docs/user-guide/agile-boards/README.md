@@ -20,7 +20,7 @@ Our Agile boards can be for anything you would like to keep track of within your
 
 | Topic                                                     | Content                                                      |
 | --------------------------------------------------------- | ------------------------------------------------------------ |
-| [Create new Boards](#create-a-new-board)                  | How to create a new Agile board.                             |
+| [Create new boards](#create-a-new-board)                  | How to create a new Agile board.                             |
 | [Choose between board types](#choose-between-board-types) | What is the difference between the available board types?    |
 | [Give the board a title](#give-the-board-a-title)         | How to name a board.                                         |
 | [Add lists to your board](#add-lists-to-your-board)       | How to add lists to a board.                                 |
@@ -29,7 +29,7 @@ Our Agile boards can be for anything you would like to keep track of within your
 | [Update cards](#update-cards)                             | How to update cards.                                         |
 | [Remove cards](#remove-cards)                             | How to remove cards.                                         |
 | [Manage boards](#manage-boards)                           | How to manage permissions for boards.                        |
-| [Examples for agile boards](#agile-boards-examples)       | Best practices for using the basic board and status, assigne and version board. |
+| [Examples for agile boards](#agile-boards-examples)       | Best practices for using the basic board and status, assignee and version board. |
 
 <video src="https://www.openproject.org/wp-content/uploads/2020/11/OpenProject-Agile-Boards.mp4" type="video/mp4" controls="" style="width:100%"></video> 
 ## Agile boards in OpenProject
@@ -38,7 +38,7 @@ The new Boards are tightly integrated with all other project management function
 
 ![openproject-board-overview](openproject-board-overview-1364050.png)
 
-## Create a new Board
+## Create a new board
 
 You can create as many Agile boards in a project as you need and configure them to your needs. First, you need to create a new Boards view. 
 
