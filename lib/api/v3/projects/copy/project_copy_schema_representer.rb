@@ -44,6 +44,7 @@ module API
                    type: 'Boolean',
                    name_source: name_source,
                    has_default: true,
+                   description: -> { dep[:count_source].call(represented.model, current_user) },
                    location: :meta
           end
         end

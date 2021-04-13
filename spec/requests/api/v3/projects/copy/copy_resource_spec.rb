@@ -111,7 +111,7 @@ describe ::API::V3::Projects::Copy::CopyAPI, content_type: :json do
         project = Project.find_by(identifier: 'my-copied-project')
         expect(project).to be_present
       end
-    end
+end
 
     context 'without the necessary permission' do
       let(:current_user) do
