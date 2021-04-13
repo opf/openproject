@@ -84,7 +84,8 @@ feature 'Invite user modal', type: :feature, js: true do
         let!(:principal) do
           FactoryBot.create :user,
                             firstname: 'Nonproject',
-                            lastname: 'User'
+                            lastname: 'User',
+                            email: 'nonprojectuser@example.com'
         end
         it 'can add an existing user to the project' do
           modal.run_all_steps
@@ -127,7 +128,9 @@ feature 'Invite user modal', type: :feature, js: true do
           }
 
           it 'disables projects for which you do not have rights' do
+            byebug
             ngselect = modal.open_project_select
+            SeleniumHubWaiter.wait
             expect(ngselect).to have_text "#{project_no_permissions.name} You are not allowed to invite members to this project"
           end
         end

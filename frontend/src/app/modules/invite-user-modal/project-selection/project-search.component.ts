@@ -32,7 +32,37 @@ export class ProjectSearchComponent extends UntilDestroyedMixin implements OnIni
   };
 
   public input$ = new BehaviorSubject<string|null>('');
-  public items$:Observable<NgSelectProjectOption>;
+  public items$ = combineLatest([
+    this.input$.pipe(
+      debounceTime(100),
+      switchMap((searchTerm:string) => {
+        const filters = new ApiV3FilterBuilder();
+        if (searchTerm) {
+          filters.add('name_and_identifier', '~', [searchTerm]);
+        }
+        return this.apiV3Service.projects
+          .filtered(filters)
+          .get()
+          .pipe(map(collection => collection.elements));
+      })
+    ),
+    this.currentUserService.capabilities$.pipe(
+      map(capabilities => capabilities.filter(c => c.action.href.endsWith('/memberships/create')))
+    ),
+  ])
+  .pipe(
+    this.untilDestroyed(),
+    map(([ projects, projectInviteCapabilities ]) => {
+      const mapped = projects.map((project: ProjectResource) => ({
+          project,
+          disabled: !projectInviteCapabilities.find(cap => cap.context.id === project.id),
+        }));
+      mapped.sort(
+        (a: NgSelectProjectOption, b: NgSelectProjectOption) => (a.disabled ? 1 : 0) - (b.disabled ? 1 : 0),
+      );
+      return mapped;
+    })
+  );
 
   constructor(
     readonly I18n:I18nService,
@@ -41,38 +71,6 @@ export class ProjectSearchComponent extends UntilDestroyedMixin implements OnIni
     readonly currentUserService:CurrentUserService,
   ) {
     super();
-
-    this.items$ = combineLatest([
-      this.input$.pipe(
-        debounceTime(100),
-        switchMap((searchTerm:string) => {
-          const filters = new ApiV3FilterBuilder();
-          if (searchTerm) {
-            filters.add('name_and_identifier', '~', [searchTerm]);
-          }
-          return this.apiV3Service.projects
-            .filtered(filters)
-            .get()
-            .pipe(map(collection => collection.elements));
-        })
-      ),
-      this.currentUserService.capabilities$.pipe(
-        map(capabilities => capabilities.filter(c => c.action.href.endsWith('/memberships/create')))
-      ),
-    ])
-    .pipe(
-      this.untilDestroyed(),
-      map(([ projects, projectInviteCapabilities ]) => {
-        const mapped = projects.map((project: ProjectResource) => ({
-            project,
-            disabled: !projectInviteCapabilities.find(cap => cap.context.id === project.id),
-          }));
-        mapped.sort(
-          (a: NgSelectProjectOption, b: NgSelectProjectOption) => (a.disabled ? 1 : 0) - (b.disabled ? 1 : 0),
-        );
-        return mapped;
-      })
-    );
   }
 
   ngOnInit() {
@@ -80,8 +78,8 @@ export class ProjectSearchComponent extends UntilDestroyedMixin implements OnIni
     setTimeout(() => this.input$.next(''));
   }
 
-  public compareNgSelectItems(a: NgSelectProjectOption, b: NgSelectProjectOption) {
-    console.log('running compare', a.project.id, b.project.id);
-    return a.project.id === b.project.id;
-  }
+   compareWith = (a: NgSelectProjectOption, b: ProjectResource) => {
+     console.log('running compare', a.project.id, b.id);
+     return a.project.id === b.id;
+   }
 }

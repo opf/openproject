@@ -140,10 +140,6 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
     memberFilter.add('member', '=', [this.project?.id]);
     const members = this.apiV3Service.principals.filtered(memberFilter).get();
 
-    if (!this.project?.id) {
-      debugger;
-    }
-
     return forkJoin({
       members,
       nonMembers,
