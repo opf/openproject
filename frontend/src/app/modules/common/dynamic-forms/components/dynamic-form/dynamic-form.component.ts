@@ -9,7 +9,7 @@ import {
 import { FormlyForm } from "@ngx-formly/core";
 import { Observable } from "rxjs";
 import { DynamicFormService } from "../../services/dynamic-form/dynamic-form.service";
-import { IOPDynamicForm, IFormError, IOPFormModel } from "../../typings";
+import { IOPDynamicForm, IOPFormError, IOPFormModel } from "../../typings";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { catchError, finalize } from "rxjs/operators";
@@ -32,7 +32,7 @@ export class DynamicFormComponent implements OnChanges {
   @Input() showNotifications = true;
 
   @Output() submitted = new EventEmitter<HalSource>();
-  @Output() errored = new EventEmitter<IFormError>();
+  @Output() errored = new EventEmitter<IOPFormError>();
 
   resourceEndpoint:string;
   dynamicForm$: Observable<IOPDynamicForm>;
@@ -86,7 +86,7 @@ export class DynamicFormComponent implements OnChanges {
           this.submitted.emit(formResource);
           this.showNotifications && this._notificationsService.addSuccess(this.text.submit_success_message);
         },
-        (error:IFormError) => {
+        (error:IOPFormError) => {
           this.errored.emit(error);
           this.showNotifications && this._notificationsService.addError(this.text.validation_error_message);
         },

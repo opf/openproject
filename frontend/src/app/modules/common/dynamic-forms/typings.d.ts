@@ -10,25 +10,33 @@ export interface IOPDynamicForm {
 }
 
 export interface IOPForm {
-  _type: "Form";
+  _type?: "Form";
   _embedded: {
     payload: IOPFormModel;
     schema: IOPFormSchema;
-    validationErrors: {
+    validationErrors?: {
       [key: string]: unknown;
     };
   };
-  _links: {
-    self: IApiCall;
-    validate: IApiCall;
-    commit: IApiCall;
-    previewMarkup?: IApiCall;
+  _links?: {
+    self: IOPApiCall;
+    validate: IOPApiCall;
+    commit: IOPApiCall;
+    previewMarkup?: IOPApiCall;
   };
 }
 
 export interface IOPFormlyFieldConfig extends FormlyFieldConfig {
   key?: string;
+  type?: OPInputType;
 }
+
+type OPFieldType = 'String' | 'Integer' | 'Boolean' | 'Date' | 'DateTime' | 'Formattable' |
+  'Priority' | 'Status' | 'Type' | 'User' | 'Version' | 'TimeEntriesActivity' | 'Category' |
+  'CustomOption' | 'Project' | 'ProjectStatus';
+
+type OPInputType = 'formattableInput' | 'selectInput' | 'textInput' | 'integerInput' |
+  'booleanInput' | 'dateInput';
 
 export interface IOPFormModel {
   [key: string]: string | number | Object | HalLinkSource | null | undefined;
@@ -42,19 +50,19 @@ export interface IOPFieldModel extends Partial<HalSource>{
 }
 
 export interface IOPFormSchema {
-  _type: "Schema";
-  _dependencies: unknown[];
-  _attributeGroups?: IAttributeGroup[];
-  lockVersion?: IFieldSchema;
-  [key: string]: IFieldSchema | any;
-  _links: {
+  _type?: "Schema";
+  _dependencies?: unknown[];
+  _attributeGroups?: IOPAttributeGroup[];
+  lockVersion?: IOPFieldSchema;
+  [fieldKey: string]: IOPFieldSchema | any;
+  _links?: {
     baseSchema?: {
       href: string;
     };
   };
 }
 
-export interface IFieldSchema {
+export interface IOPFieldSchema {
   type: string;
   writable: boolean;
   allowedValues?: any;
@@ -66,18 +74,18 @@ export interface IFieldSchema {
     [key: string]: any;
   };
   _embedded?: {
-    allowedValues?: IApiCall | IAllowedValue[];
+    allowedValues?: IOPApiCall | IOPAllowedValue[];
   };
   _links?: {
-    allowedValues?: IApiCall;
+    allowedValues?: IOPApiCall;
   };
 }
 
-export interface IFieldSchemaWithKey extends IFieldSchema {
+export interface IOPFieldSchemaWithKey extends IOPFieldSchema {
   key: string;
 }
 
-export interface IAttributeGroup {
+export interface IOPAttributeGroup {
   _type:
     | "WorkPackageFormAttributeGroup"
     | "WorkPackageFormChildrenQueryGroup"
@@ -87,7 +95,7 @@ export interface IAttributeGroup {
   attributes: string[];
 }
 
-export interface IAllowedValue {
+export interface IOPAllowedValue {
   id: string;
   name: string;
   [key: string]: unknown;
@@ -97,31 +105,31 @@ export interface IAllowedValue {
   };
 }
 
-export interface IApiCall {
+export interface IOPApiCall {
   href: string;
   method?: string;
 }
 
-export interface IFormError {
+export interface IOPFormError {
   errorIdentifier:string;
   message:string;
   _type:string;
-  _embedded: IFormErrorDetails | IFormErrors;
+  _embedded: IOPFormErrorDetails | IOPFormErrors;
 }
 
-export interface IFormErrorDetails {
+export interface IOPFormErrorDetails {
   details: {
     attribute: string;
   }
 }
 
-export interface IFormErrors {
-  errors: IFormError[];
+export interface IOPFormErrors {
+  errors: IOPFormError[];
 }
 
-export interface IDynamicInputConfig {
-  config: FormlyFieldConfig,
-  useForFields: string[];
+export interface IOPDynamicInputTypeConfig {
+  config: IOPFormlyFieldConfig,
+  useForFields: OPFieldType[];
 }
 
 

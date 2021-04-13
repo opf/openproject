@@ -11,7 +11,7 @@ import {
   IOPDynamicForm,
   IOPForm,
   IOPFormModel,
-  IFormError,
+  IOPFormError,
 } from "../../typings";
 import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
 @Injectable()
@@ -100,7 +100,7 @@ export class DynamicFormService {
 
   private _handleFormErrors(error:HttpErrorResponse, form:FormGroup) {
     if (error.status == 422) {
-      const errors:IFormError[] = error.error._embedded.errors ?
+      const errors:IOPFormError[] = error.error._embedded.errors ?
         error.error._embedded.errors : [error.error];
 
       errors.forEach((err:any) => {
