@@ -49,17 +49,12 @@ class CopyProjectsController < ApplicationController
   end
 
   def copy_project
-    call = Projects::CopyService
+    @copy_project = Projects::CopyService
       .new(user: current_user, source: @project)
       .call(target_project_params: target_project_params, attributes_only: true)
+      .result
 
-    if call.success?
-      @copy_project = call.result
-      render action: copy_action
-    else
-      flash[:error] = call.message
-      redirect_back(fallback_location: project_settings_project_path(@project))
-    end
+    render action: copy_action
   end
 
   private
