@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
-  IAttributeGroup,
-  IDynamicInputConfig,
-  IFieldSchema,
-  IFieldSchemaWithKey,
+  IOPAttributeGroup,
+  IOPDynamicInputTypeConfig, IOPFieldSchema, IOPFieldSchemaWithKey,
   IOPFormlyFieldConfig,
   IOPFormModel,
   IOPFormSchema,
@@ -18,7 +16,7 @@ import { HttpClient } from "@angular/common/http";
   providedIn: 'root'
 })
 export class DynamicFieldsService {
-  readonly inputsCatalogue:IDynamicInputConfig[] = [
+  readonly inputsCatalogue:IOPDynamicInputTypeConfig[] = [
     {
       config: {
         type: 'textInput',
@@ -115,7 +113,7 @@ export class DynamicFieldsService {
     return fieldsModel;
   }
 
-  private _getFieldsSchemasWithKey(formSchema:IOPFormSchema, formModel:IOPFormModel):IFieldSchemaWithKey[] {
+  private _getFieldsSchemasWithKey(formSchema:IOPFormSchema, formModel:IOPFormModel):IOPFieldSchemaWithKey[] {
     return Object.keys(formSchema)
       .map(fieldSchemaKey => {
         const fieldSchema = {
@@ -135,11 +133,11 @@ export class DynamicFieldsService {
     return !!(formModel?._links && fieldSchemaKey in formModel._links);
   }
 
-  private _isFieldSchema(schemaValue:IFieldSchemaWithKey | any):boolean {
+  private _isFieldSchema(schemaValue:IOPFieldSchemaWithKey | any):boolean {
     return schemaValue?.type;
   }
 
-  private _getFieldsModel(fieldSchemas:IFieldSchemaWithKey[], formModel:IOPFormModel = {}):IOPFormModel {
+  private _getFieldsModel(fieldSchemas:IOPFieldSchemaWithKey[], formModel:IOPFormModel = {}):IOPFormModel {
     // TODO: Handle Formattable and time types?
     const {_links:resourcesModel, ...otherElementsModel} = formModel;
     const model = {
@@ -168,7 +166,7 @@ export class DynamicFieldsService {
     }, {});
   }
 
-  private _getFormlyFieldConfig(field:IFieldSchemaWithKey):IOPFormlyFieldConfig {
+  private _getFormlyFieldConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldConfig {
     const { key, name:label, required } = field;
     const { templateOptions, ...fieldTypeConfig } = this._getFieldTypeConfig(field);
     const fieldOptions = this._getFieldOptions(field);
@@ -187,14 +185,14 @@ export class DynamicFieldsService {
     return formlyFieldConfig;
   }
 
-  private _getFieldTypeConfig(field:IFieldSchemaWithKey):FormlyFieldConfig {
+  private _getFieldTypeConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldConfig {
     let inputType = this.inputsCatalogue.find(inputType => inputType.useForFields.includes(field.type))!;
     let inputConfig = inputType.config;
     let configCustomizations;
 
     if (inputConfig.type === 'integerInput' || inputConfig.type === 'selectInput') {
       configCustomizations = { className: `${inputConfig.className} ${field.name}` };
-    } else if (field.type === 'formattableInput') {
+    } else if (inputConfig.type === 'formattableInput') {
       configCustomizations = {
         templateOptions: {
           ...inputConfig.templateOptions,
@@ -207,7 +205,7 @@ export class DynamicFieldsService {
     return {...inputConfig, ...configCustomizations};
   }
 
-  private _getFieldOptions(field:IFieldSchemaWithKey) {
+  private _getFieldOptions(field:IOPFieldSchemaWithKey) {
     const allowedValues = field._embedded?.allowedValues || field._links?.allowedValues;
 
     if (!allowedValues) {
@@ -221,11 +219,11 @@ export class DynamicFieldsService {
         .pipe(
           map((response: api.v3.Result) => response._embedded.elements),
           // TODO: Handle the Status options (currently void)
-          map(options => options.map((option:IFieldSchema['options']) => ({...option, title: option._links?.self?.title})))
+          map(options => options.map((option:IOPFieldSchema['options']) => ({...option, title: option._links?.self?.title})))
         );
   }
 
-  private _getFormlyFormWithFieldGroups(fieldGroups:IAttributeGroup[] = [], formFields:IOPFormlyFieldConfig[] = []):IOPFormlyFieldConfig[] {
+  private _getFormlyFormWithFieldGroups(fieldGroups:IOPAttributeGroup[] = [], formFields:IOPFormlyFieldConfig[] = []):IOPFormlyFieldConfig[] {
     // TODO: Handle sort fields in schema order
     // TODO: Handle nested groups?
     // TODO: Handle form fields with integer key?

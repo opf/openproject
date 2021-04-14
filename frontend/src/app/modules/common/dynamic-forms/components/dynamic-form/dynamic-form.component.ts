@@ -5,17 +5,55 @@ import {
   Output,
   ViewChild,
   EventEmitter,
+  forwardRef,
 } from "@angular/core";
 import { FormlyForm } from "@ngx-formly/core";
-import { Observable } from "rxjs";
 import { DynamicFormService } from "../../services/dynamic-form/dynamic-form.service";
-import { IOPDynamicForm, IFormError, IOPFormModel } from "../../typings";
+import {
+  IOPDynamicFormSettings,
+  IOPFormModel,
+  IOPFormSettings,
+  IOPFormlyFieldConfig,
+  IOPFormError,
+} from "../../typings";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
-import { catchError, finalize } from "rxjs/operators";
+import { catchError, finalize, take } from "rxjs/operators";
 import { HalSource } from "core-app/modules/hal/resources/hal-resource";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
+import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+
+/*
+* The DynamicFormComponent can be used in two different ways:
+* - Standalone Form:
+* The DynamicFormComponent loads its settings from the backend, renders
+* a full form and handles its submitting.
+*
+*   <op-dynamic-form [resourcePath]="resourcePath"
+*                    [resourceId]="resourceId"
+*                    (submitted)="onSubmitted($event)">
+*   </op-dynamic-form>
+*
+* In order to work as an standalone form, it will always need the 'resourcePath'
+* @Input and, optionally, the 'resourceId' @Input if we are editing a resource.
+*
+* - FormControl:
+* The DynamicFormComponent can be used inside a FormGroup as a FormControl:
+*
+*   <op-dynamic-form  formControlName="workpackage" [settings]="formConfig">
+*   </op-dynamic-form>
+*
+* In this case, we need to provide the 'settings' @Input, which is basically an
+* object that mimics a backend form configuration (IOPFormSettings) but formatted
+* to make it easier.
+*
+* When used as a FormControl (formControlName), the DynamicFormComponent will set
+* the entire form value as the value of the FormControl. Using it as a FormGroup
+* (formGroupName) would require to pass down the configuration of form in order
+* to use the DynamicFormComponent, which would make no sense for this use case.
+*/
 
 @Component({
   selector: "op-dynamic-form",
@@ -24,25 +62,40 @@ import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/serv
   providers: [
     DynamicFormService,
     DynamicFieldsService,
+    {
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: forwardRef(() => DynamicFormComponent),
+    }
   ]
 })
-export class DynamicFormComponent implements OnChanges {
+export class DynamicFormComponent extends UntilDestroyedMixin implements ControlValueAccessor, OnChanges {
   @Input() resourceId:string;
   @Input() resourcePath:string;
+  @Input() settings:{
+    payload: IOPFormSettings['_embedded']['payload'],
+    schema: IOPFormSettings['_embedded']['schema'],
+  };
   @Input() showNotifications = true;
 
+  @Output() modelChange = new EventEmitter<IOPFormModel>();
   @Output() submitted = new EventEmitter<HalSource>();
-  @Output() errored = new EventEmitter<IFormError>();
+  @Output() errored = new EventEmitter<IOPFormError>();
 
+  isStandaloneForm:boolean;
+  fields: IOPFormlyFieldConfig[];
+  model: IOPFormModel;
+  form: FormGroup;
   resourceEndpoint:string;
-  dynamicForm$: Observable<IOPDynamicForm>;
+  inFlight:boolean;
   text = {
     save: this._I18n.t('js.button_save'),
     validation_error_message: this._I18n.t('js.forms.validation_error_message'),
     load_error_message: this._I18n.t('js.forms.load_error_message'),
     submit_success_message: this._I18n.t('js.forms.submit_success_message'),
   };
-  inFlight:boolean;
+  onChange = (_:any) => { }
+  onTouch = () => { }
 
   @ViewChild(FormlyForm)
   set dynamicForm(dynamicForm: FormlyForm) {
@@ -54,31 +107,52 @@ export class DynamicFormComponent implements OnChanges {
     private _I18n:I18nService,
     private _pathHelperService:PathHelperService,
     private _notificationsService:NotificationsService,
-  ) {}
+  ) {
+    super();
+  }
+
+  writeValue(value:{[key:string]:any}):void {
+    if (value) {
+      this.model = value;
+    }
+  }
+
+  registerOnChange(fn: (_: any) => void): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouch = fn;
+  }
+
+  setDisabledState(disabled: boolean): void {
+    disabled ? this.form.disable() : this.form.enable();
+  }
 
   ngOnChanges() {
-    if (!this.resourcePath) {
-      return;
+    this.isStandaloneForm = !this.settings;
+
+    if (this.isStandaloneForm) {
+      this._setupStandaloneDynamicForm();
+    } else {
+      this._setupDynamicFormControl();
     }
+  }
 
-    this.resourceEndpoint = `${this._pathHelperService.api.v3.apiV3Base}${this.resourcePath}`;
-    // TODO: Get href from resource / pathHelper
-    const url = `${this.resourceEndpoint}/${this.resourceId ? this.resourceId + '/' : ''}form`;
-
-    this.dynamicForm$ = this._dynamicFormService
-      .getForm$(url)
-      .pipe(
-        catchError(error => {
-          this._notificationsService.addError(this.text.load_error_message);
-          throw error;
-        })
-      )
+  onModelChange(changes:any) {
+    this.modelChange.emit(changes);
+    this.onChange(changes);
+    this.onTouch();
   }
 
   submitForm(formModel:IOPFormModel) {
+    if (!this.isStandaloneForm) {
+      return;
+    }
+
     this.inFlight = true;
     this._dynamicFormService
-      .submitForm$(formModel, this.resourceEndpoint, this.resourceId)
+      .submit$(formModel, this.resourceEndpoint, this.resourceId)
       .pipe(
         finalize(() => this.inFlight = false)
       )
@@ -87,10 +161,48 @@ export class DynamicFormComponent implements OnChanges {
           this.submitted.emit(formResource);
           this.showNotifications && this._notificationsService.addSuccess(this.text.submit_success_message);
         },
-        (error:IFormError) => {
+        (error:IOPFormError) => {
           this.errored.emit(error);
           this.showNotifications && this._notificationsService.addError(this.text.validation_error_message);
         },
       );
+  }
+
+  private _setupStandaloneDynamicForm() {
+    this.resourceEndpoint = `${this._pathHelperService.api.v3.apiV3Base}${this.resourcePath}`;
+    const url = `${this.resourceEndpoint}/${this.resourceId ? this.resourceId + '/' : ''}form`;
+
+    this._dynamicFormService
+      .getSettingsFromBackend$(url)
+      .pipe(
+        take(1),
+        catchError(error => {
+          this._notificationsService.addError(this.text.load_error_message);
+          throw error;
+        })
+      )
+      .subscribe(dynamicFormSettings => this._setupDynamicForm(dynamicFormSettings));
+  }
+
+  private _setupDynamicFormControl() {
+    const formattedSettings:IOPFormSettings = {
+      _embedded: {
+        payload: this.settings.payload,
+        schema: this.settings.schema,
+      }
+    }
+    const dynamicFormSettings = this._dynamicFormService.getSettings(formattedSettings);
+
+    this._setupDynamicForm(dynamicFormSettings);
+  }
+
+  private _setupDynamicForm({fields, model, form}:IOPDynamicFormSettings) {
+    this.form = form;
+    this.fields = fields;
+    this.model = model;
+
+    if (!this.isStandaloneForm) {
+      this.onChange(this.model);
+    }
   }
 }
