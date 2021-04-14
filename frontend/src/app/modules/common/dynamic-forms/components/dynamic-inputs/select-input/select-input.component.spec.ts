@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SelectInputComponent } from './select-input.component';
 
-describe('SelectInputComponent', () => {
+xdescribe('SelectInputComponent', () => {
   let component: SelectInputComponent;
   let fixture: ComponentFixture<SelectInputComponent>;
 
