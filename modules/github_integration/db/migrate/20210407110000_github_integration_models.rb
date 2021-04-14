@@ -6,9 +6,9 @@ class GithubIntegrationModels < ActiveRecord::Migration[6.1]
       t.references :github_user
       t.references :merged_by
 
-      t.bigint :github_id # may be null if we receive a comment and just know the html_url
+      t.bigint :github_id, unique: true # may be null if we receive a comment and just know the html_url
       t.integer :number, null: false
-      t.string :github_html_url, null: false
+      t.string :github_html_url, null: false, unique: true
       t.string :state, null: false
       t.string :repository, null: false
       t.datetime :github_updated_at
@@ -26,27 +26,16 @@ class GithubIntegrationModels < ActiveRecord::Migration[6.1]
       t.timestamps
     end
 
-    add_index :github_pull_requests, :github_html_url, unique: true
-    add_index :github_pull_requests, :github_id, unique: true
-
-    create_table :github_pull_requests_work_packages, if: false do |t|
-      t.references :github_pull_request, null: false, index: {
-        # the default index name was too long
-        name: "index_github_pull_requests_work_packages_on_github_pr_id"
-      }
-      t.references :work_package, null: false
+    create_join_table :github_pull_requests, :work_packages do |t|
+      t.index :github_pull_request_id, name: 'github_pr_wp_pr_id'
+      t.index %i[github_pull_request_id work_package_id],
+              unique: true,
+              name: "unique_index_gh_prs_wps_on_gh_pr_id_and_wp_id"
     end
-
-    add_index(
-      :github_pull_requests_work_packages,
-      %i[github_pull_request_id work_package_id],
-      unique: true,
-      name: "unique_index_gh_prs_wps_on_gh_pr_id_and_wp_id"
-    )
 
     # see: https://docs.github.com/en/rest/reference/users
     create_table :github_users do |t|
-      t.bigint :github_id, null: false
+      t.bigint :github_id, null: false, unique: true
       t.string :github_login, null: false
       t.string :github_html_url, null: false
       t.string :github_avatar_url, null: false
@@ -54,13 +43,11 @@ class GithubIntegrationModels < ActiveRecord::Migration[6.1]
       t.timestamps
     end
 
-    add_index :github_users, :github_id, unique: true
-
     # see: https://docs.github.com/en/rest/reference/checks
     create_table :github_check_runs do |t|
       t.references :github_pull_request, null: false
 
-      t.bigint :github_id, null: false
+      t.bigint :github_id, null: false, unique: true
       t.string :github_html_url, null: false
       t.bigint :app_id, null: false
       t.string :github_app_owner_avatar_url, null: false
@@ -75,8 +62,6 @@ class GithubIntegrationModels < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
-
-    add_index :github_check_runs, :github_id, unique: true
   end
   # rubocop:enable Metrics/AbcSize
 end

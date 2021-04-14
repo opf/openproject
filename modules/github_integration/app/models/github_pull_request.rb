@@ -32,7 +32,7 @@ class GithubPullRequest < ApplicationRecord
   LABEL_KEYS = %w[color name].freeze
 
   has_and_belongs_to_many :work_packages
-  has_many :github_check_runs
+  has_many :github_check_runs, dependent: :destroy
   belongs_to :github_user, optional: true
   belongs_to :merged_by, optional: true, class_name: 'GithubUser'
 
@@ -58,6 +58,7 @@ class GithubPullRequest < ApplicationRecord
   validate :validate_labels_schema
 
   scope :complete, -> { where(state: ['open', 'closed']) }
+  scope :without_work_package, -> { left_outer_joins(:work_packages).where(work_packages: { id: nil }) }
 
   ##
   # When a PR lives long enough and receives many pushes, the same check (say, a CI test run) can be run multiple times.

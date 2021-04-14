@@ -70,6 +70,23 @@ describe GithubPullRequest do
     it { is_expected.to match_array [open, merged, closed] }
   end
 
+  describe '.without_work_package' do
+    subject { described_class.without_work_package }
+
+    let(:pull_request) { FactoryBot.create(:github_pull_request, work_packages: work_packages) }
+    let(:work_packages) { [] }
+
+    before { pull_request }
+
+    it { is_expected.to match_array([pull_request]) }
+
+    context 'when the pr is linked to a work_package' do
+      let(:work_packages) { FactoryBot.create_list(:work_package, 1) }
+
+      it { is_expected.to be_empty }
+    end
+  end
+
   describe '#partial?' do
     context 'when the state is partial' do
       subject { described_class.new(state: 'partial').partial? }
