@@ -32,13 +32,6 @@ module API
   module V3
     module WorkPackages
       class FormRepresenter < ::API::Decorators::Form
-        def initialize(model, current_user: nil, errors: [], action: :update)
-          self.action = action
-
-          super(model, current_user: current_user, errors: errors)
-        end
-
-        attr_accessor :action
 
         def payload_representer
           WorkPackagePayloadRepresenter
