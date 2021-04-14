@@ -3,7 +3,6 @@ import {
   Input,
   HostBinding,
   ContentChild,
-  Optional,
 } from "@angular/core";
 import {
   NgControl,
@@ -23,7 +22,7 @@ export class OpFormFieldComponent {
   }
 
   @Input() label = '';
-  @Input() inlineLabel:boolean;
+  @Input() noWrapLabel = true;
   @Input() required = false;
   @Input() showValidationErrorOn: 'change' | 'blur' | 'submit' | 'never' = 'submit';
 
@@ -35,21 +34,19 @@ export class OpFormFieldComponent {
   }
 
   get showErrorMessage():boolean {
-    let showErrorMessage = false;
-
     if (!this.formControl) {
       return false;
     }
 
     if (this.showValidationErrorOn === 'submit') {
-      showErrorMessage =  this.formControl.invalid && this._formGroupDirective?.submitted;
+      return this.formControl.invalid && this._formGroupDirective?.submitted;
     } else if (this.showValidationErrorOn === 'blur') {
-      showErrorMessage =  this.formControl.invalid && this.formControl.touched;
+      return this.formControl.invalid && this.formControl.touched;
     } else if (this.showValidationErrorOn === 'change') {
-      showErrorMessage =  this.formControl.invalid && this.formControl.dirty;
+      return this.formControl.invalid && this.formControl.dirty;
+    } else {
+      return false;
     }
-
-    return showErrorMessage;
   }
 
   get hidden () {
@@ -57,6 +54,6 @@ export class OpFormFieldComponent {
   }
 
   constructor(
-    @Optional() private _formGroupDirective:FormGroupDirective,
+    private _formGroupDirective:FormGroupDirective,
   ) {}
 }

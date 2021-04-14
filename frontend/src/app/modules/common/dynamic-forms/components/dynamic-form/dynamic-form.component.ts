@@ -11,10 +11,7 @@ import { FormlyForm } from "@ngx-formly/core";
 import { DynamicFormService } from "../../services/dynamic-form/dynamic-form.service";
 import {
   IOPDynamicFormSettings,
-  IOPFormModel,
-  IOPFormSettings,
   IOPFormlyFieldConfig,
-  IOPFormError,
 } from "../../typings";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
@@ -145,14 +142,14 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
     this.onTouch();
   }
 
-  submitForm(formModel:IOPFormModel) {
+  submitForm(form:FormGroup) {
     if (!this.isStandaloneForm) {
       return;
     }
 
     this.inFlight = true;
     this._dynamicFormService
-      .submit$(formModel, this.resourceEndpoint, this.resourceId)
+      .submit$(form, this.resourceEndpoint, this.resourceId)
       .pipe(
         finalize(() => this.inFlight = false)
       )
