@@ -958,6 +958,10 @@ en:
     succeeded: "Created project %{target_project_name}"
     errors: "Error"
     project_custom_fields: 'Custom fields on project'
+    x_objects_of_this_type:
+      zero: 'No objects of this type'
+      one: 'One object of this type'
+      other: '%{count} objects of this type'
     text:
       failed: "Could not copy project \"%{source_project_name}\" to project \"%{target_project_name}\"."
       succeeded: "Copied project \"%{source_project_name}\" to \"%{target_project_name}\"."
