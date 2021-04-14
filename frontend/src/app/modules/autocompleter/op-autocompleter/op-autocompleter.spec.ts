@@ -2,53 +2,6 @@ import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from 
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { OpAutocompleterComponent } from "./op-autocompleter.component";
 import { OpAutocompleterService } from "./services/op-autocompleter.service";
-<<<<<<< Updated upstream
-import { ChangeDetectorRef, DebugElement, NO_ERRORS_SCHEMA, Type } from '@angular/core';
-import { TimezoneService } from 'core-app/components/datetime/timezone.service';
-import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
-import { States } from 'core-app/components/states.service';
-import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
-import { HttpClientModule } from "@angular/common/http";
-import { By } from '@angular/platform-browser';
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
-import { of } from "rxjs";
-import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
-import { HalResourceNotificationService } from 'core-app/modules/hal/services/hal-resource-notification.service';
-import { NgSelectComponent } from '@ng-select/ng-select';
-import { NgSelectModule } from "@ng-select/ng-select";
-import { APIv3GettableResource } from "core-app/modules/apiv3/paths/apiv3-resource";
-import { ApiV3WorkPackageCachedSubresource } from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-package-cached-subresource";
-import { WorkPackageCollectionResource } from "core-app/modules/hal/resources/wp-collection-resource";
-import { ApiV3FilterBuilder, buildApiV3Filter } from "core-components/api/api-v3/api-v3-filter-builder";
-import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
-import { Constructor } from "@angular/cdk/table";
-
-export enum KeyCode {
-  Tab = 9,
-  Enter = 13,
-  Esc = 27,
-  Space = 32,
-  ArrowUp = 38,
-  ArrowDown = 40,
-  Backspace = 8,
-  two = 50,
-  W = 87,
-};
-
-export interface NgOption {
-  [name:string]:any;
-
-  index?:number;
-  htmlId?:string;
-  selected?:boolean;
-  disabled?:boolean;
-  marked?:boolean;
-  label?:string;
-  value?:string|Object;
-  parent?:NgOption;
-  children?:NgOption[];
-};
-=======
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 import { of } from "rxjs";
@@ -56,7 +9,6 @@ import { NgSelectComponent} from '@ng-select/ng-select';
 import { NgSelectModule } from "@ng-select/ng-select";
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import { By } from '@angular/platform-browser';
->>>>>>> Stashed changes
 
 function triggerKeyDownEvent(element:DebugElement, which:number, key = ''):void {
   element.triggerEventHandler('keydown', {
@@ -77,12 +29,8 @@ fdescribe('autocompleter', () => {
   const workPackagesStub = [
     {
       id: 1,
-<<<<<<< Updated upstream
       subject: 'Workpackage 1',
       name: 'Workpackage 1',
-=======
-      subject: 'a',
->>>>>>> Stashed changes
       author: {
         href: '/api/v3/users/1',
         name: 'Author1',
@@ -99,12 +47,8 @@ fdescribe('autocompleter', () => {
     },
     {
       id: 2,
-<<<<<<< Updated upstream
       subject: 'Workpackage 2',
       name: 'Workpackage 2',
-=======
-      subject: 'b',
->>>>>>> Stashed changes
       author: {
         href: '/api/v3/users/2',
         name: 'Author2',
