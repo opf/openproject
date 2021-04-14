@@ -90,7 +90,11 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
   shared_examples_for 'not adding a comment' do
     it 'does not add comments to work packages' do
       process
-      expect(handler_instance).not_to have_received(:comment_on_referenced_work_packages)
+      expect(handler_instance).to have_received(:comment_on_referenced_work_packages).with(
+        [],
+        github_system_user,
+        anything
+      )
     end
   end
 
@@ -142,6 +146,19 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
 
     it_behaves_like 'adding a comment'
     it_behaves_like 'calls the pull request upsert service'
+
+    context 'when the work package is already known to the GithubPullRequest' do
+      let(:github_pull_request) { FactoryBot.create(:github_pull_request, github_id: 123, work_packages: [work_package]) }
+
+      before { github_pull_request }
+
+      it_behaves_like 'adding a comment'
+
+      it 'calls the pull request upsert service' do
+        process
+        expect(upsert_service).to have_received(:call).with(payload['pull_request'], work_packages: [work_package])
+      end
+    end
   end
 
   context 'with a converted_to_draft action' do

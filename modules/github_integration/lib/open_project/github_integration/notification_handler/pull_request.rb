@@ -42,26 +42,27 @@ module OpenProject::GithubIntegration
 
       def process(params)
         @payload = wrap_payload(params)
-
         github_system_user = User.find_by(id: payload.open_project_user_id)
         work_packages = find_mentioned_work_packages(payload.pull_request.body, github_system_user)
-        new_work_packages = without_already_referenced(work_packages, pull_request)
 
+        comment_on_referenced_work_packages(
+          work_packages_to_comment_on(payload.action, work_packages),
+          github_system_user,
+          journal_entry
+        )
         upsert_pull_request(work_packages)
-        if add_work_package_comment?(payload.action, new_work_packages)
-          comment_on_referenced_work_packages(new_work_packages, github_system_user, journal_entry)
-        end
       end
 
       private
 
       attr_reader :payload
 
-      # TODO: jens says this does not work when merged, but it should
-      def add_work_package_comment?(action, new_work_packages)
-        edit_with_new_work_packages = action == 'edited' && new_work_packages.any?
-
-        COMMENT_ACTIONS.include?(action) || edit_with_new_work_packages
+      def work_packages_to_comment_on(action, work_packages)
+        if action == 'edited'
+          without_already_referenced(work_packages, pull_request)
+        else
+          COMMENT_ACTIONS.include?(action) ? work_packages : []
+        end
       end
 
       def pull_request
