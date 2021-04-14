@@ -17,7 +17,7 @@ module OpenProject::GithubIntegration
             link :github_pull_requests do
               {
                 href: api_v3_paths.github_pull_requests_by_work_package(represented.id),
-                title: "github_pull_requests"
+                title: "GitHub pull requests"
               }
             end
           end

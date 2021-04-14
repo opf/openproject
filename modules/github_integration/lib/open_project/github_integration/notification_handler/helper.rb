@@ -36,7 +36,9 @@ module OpenProject::GithubIntegration
         #  - http://www.openproject.org/wp/1234
         #  - https://www.openproject.org/wp/1234
         #  - http://www.openproject.org/work_packages/1234
-        #  - https://www.openproject.org/subdirectory/work_packages/1234
+        #  - https://www.openproject.org/projects/:identifier/work_packages/1234
+        #  - https://www.openproject.org/projects/:identifier/wp/1234
+        #  - https://www.openproject.org/any/sub/directories/work_packages/1234
         # Or with the following prefix: OP#
         # e.g.,: This is a reference to OP#1234
         host_name = Regexp.escape(Setting.host_name)
@@ -85,6 +87,43 @@ module OpenProject::GithubIntegration
       def without_already_referenced(work_packages, github_pull_request)
         referenced_work_packages = github_pull_request&.work_packages || []
         work_packages - referenced_work_packages
+      end
+
+      ##
+      # A wapper around a ruby Hash to access webhook payloads.
+      # All methods called on it are converted to `.fetch` hash-access, raising an error if the string-key does not exist.
+      # If the method ends with a question mark, e.g. "comment?" not error is raised if the key does not exist.
+      # If the fetched value is again a hash, the value is wrapped into a new payload object.
+      class Payload
+        def initialize(payload)
+          @payload = payload
+        end
+
+        def to_h
+          @payload.dup
+        end
+
+        def method_missing(name, *args, &block)
+          super unless args.empty? && block.nil?
+
+          value = if name.end_with?('?')
+                    @payload.fetch(name.to_s[..-2], nil)
+                  else
+                    @payload.fetch(name.to_s)
+                  end
+
+          return Payload.new(value) if value.is_a?(Hash)
+
+          value
+        end
+
+        def respond_to_missing?(_method_name, _include_private = false)
+          true
+        end
+      end
+
+      def wrap_payload(payload)
+        Payload.new(payload)
       end
     end
   end

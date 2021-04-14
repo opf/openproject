@@ -55,8 +55,6 @@ class GithubPullRequest < ApplicationRecord
                         :deletions_count,
                         :changed_files_count,
                         unless: :partial?
-  validates :merged, inclusion: { in: [true, false] }, allow_nil: true
-  validates :draft, inclusion: { in: [true, false] }, allow_nil: true
   validate :validate_labels_schema
 
   ##

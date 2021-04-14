@@ -47,18 +47,6 @@ describe GithubPullRequest do
       it { is_expected.to validate_presence_of :changed_files_count }
     end
 
-    describe 'draft' do
-      it { is_expected.to allow_value(true).for(:draft) }
-      it { is_expected.to allow_value(false).for(:draft) }
-      it { is_expected.to allow_value(nil).for(:draft) }
-    end
-
-    describe 'merged' do
-      it { is_expected.to allow_value(true).for(:merged) }
-      it { is_expected.to allow_value(false).for(:merged) }
-      it { is_expected.to allow_value(nil).for(:merged) }
-    end
-
     describe 'state' do
       it { is_expected.to allow_value('open').for(:state) }
       it { is_expected.to allow_value('closed').for(:state) }

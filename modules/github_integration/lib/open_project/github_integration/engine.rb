@@ -74,7 +74,7 @@ module OpenProject::GithubIntegration
     end
 
     add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
-      mount ::API::V3::GithubIntegration::GithubPullRequestsByWorkPackageAPI
+      mount ::API::V3::GithubPullRequests::GithubPullRequestsByWorkPackageAPI
     end
   end
 end

@@ -31,7 +31,7 @@ require 'roar/json/hal'
 
 module API
   module V3
-    module GithubIntegration
+    module GithubPullRequests
       class GithubPullRequestRepresenter < ::API::Decorators::Single
         include API::Caching::CachedRepresenter
         include API::Decorators::DateProperty
@@ -39,7 +39,7 @@ module API
         include API::Decorators::LinkedResource
 
         cached_representer key_parts: %i[github_user merged_by],
-                           disabled: false
+                           disabled: true
 
         link :staticPath do
           next
@@ -142,9 +142,7 @@ module API
           'GithubPullRequest'
         end
 
-        self.to_eager_load = %i[github_user
-                                merged_by
-                                github_check_runs]
+        self.to_eager_load = %i[github_user merged_by]
       end
     end
   end

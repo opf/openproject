@@ -30,7 +30,7 @@
 
 module API
   module V3
-    module GithubIntegration
+    module GithubPullRequests
       class GithubPullRequestsByWorkPackageAPI < ::API::OpenProjectAPI
         after_validation do
           authorize(:show_github_content, context: @work_package.project)

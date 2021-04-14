@@ -38,59 +38,62 @@ module OpenProject::GithubIntegration
         edited
       ].freeze
 
-      def process(payload)
-        return unless associated_with_pr?(payload)
+      def process(params)
+        @payload = wrap_payload(params)
+        return unless associated_with_pr?
 
-        github_system_user = User.find_by(id: payload.fetch('open_project_user_id'))
-        work_packages = find_mentioned_work_packages(comment_body(payload), github_system_user)
-        pull_request = find_pull_request(payload)
+        github_system_user = User.find_by(id: payload.open_project_user_id)
+        work_packages = find_mentioned_work_packages(payload.comment.body, github_system_user)
+        pull_request = find_pull_request
         new_work_packages = without_already_referenced(work_packages, pull_request)
 
-        upsert_partial_pull_request(payload, new_work_packages)
-        comment_on_referenced_work_packages(new_work_packages, github_system_user, notes(payload)) if new_work_packages.any?
+        upsert_partial_pull_request(new_work_packages)
+        comment_on_referenced_work_packages(new_work_packages, github_system_user, journal_entry) if new_work_packages.any?
       end
 
       private
 
-      def associated_with_pr?(payload)
-        payload['issue']['pull_request'].present?
+      attr_reader :payload
+
+      def associated_with_pr?
+        payload.issue.pull_request?.present?
       end
 
-      def find_pull_request(payload)
-        html_url = payload['issue']['pull_request']['html_url']
-        GithubPullRequest.find_by(github_html_url: html_url)
+      def find_pull_request
+        GithubPullRequest.find_by(github_html_url: payload.issue.pull_request.html_url)
       end
 
-      def comment_body(payload)
-        payload.fetch('comment').fetch('body')
-      end
-
-      def upsert_partial_pull_request(payload, work_packages)
+      def upsert_partial_pull_request(work_packages)
         # Sadly, the webhook data for `issue_comment` events does not give us proper PR data (nor githubs PR id).
         # Thus, we have to search for the only data we have: html_url.
         # Even worse, when the PR is unknown to us, we don't have any useful data to create a GithubPullRequest record.
         # We still want to create a PR record (even if it just has partial data), to remember that it was referenced
         # and avoid adding reference-comments twice.
         OpenProject::GithubIntegration::Services::UpsertPartialPullRequest.new.call(
-          github_html_url: payload['issue']['pull_request']['html_url'],
-          number: payload['issue']['number'],
-          repository: payload['repository']['full_name'],
+          github_html_url: payload.issue.pull_request.html_url,
+          number: payload.issue.number,
+          repository: payload.repository.full_name,
           work_packages: work_packages
         )
       end
 
       # rubocop:disable Metrics/AbcSize
-      def notes(payload)
-        return unless COMMENT_ACTIONS.include?(payload['action'])
+      def journal_entry
+        return unless COMMENT_ACTIONS.include?(payload.action)
+
+        issue = payload.issue
+        comment = payload.comment
+        repository = payload.repository
+        user = comment.user
 
         I18n.t("github_integration.pull_request_referenced_comment",
-               pr_number: payload['issue']['number'],
-               pr_title: payload['issue']['title'],
-               pr_url: payload['comment']['html_url'],
-               repository: payload['repository']['full_name'],
-               repository_url: payload['repository']['html_url'],
-               github_user: payload['comment']['user']['login'],
-               github_user_url: payload['comment']['user']['html_url'])
+               pr_number: issue.number,
+               pr_title: issue.title,
+               pr_url: comment.html_url,
+               repository: repository.full_name,
+               repository_url: repository.html_url,
+               github_user: user.login,
+               github_user_url: user.html_url)
       end
       # rubocop:enable Metrics/AbcSize
     end
