@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { distinctUntilChanged, pluck } from "rxjs/operators";
 import { StateService, UIRouterGlobals } from "@uirouter/core";
 import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
@@ -25,15 +24,7 @@ export class ProjectsComponent extends UntilDestroyedMixin implements OnInit {
 
   ngOnInit(): void {
     this.projectsPath = this._pathHelperService.projectsPath();
-    // TODO: Handle 'create new resource' routes
-    this._uIRouterGlobals
-      .params$!
-      .pipe(
-        this.untilDestroyed(),
-        pluck('projectPath'),
-        distinctUntilChanged(),
-      )
-      .subscribe(resourceId => this.resourceId = resourceId);
+    this.resourceId = this._uIRouterGlobals.params.projectPath;
   }
 
   onSubmitted(formResource:HalSource) {
