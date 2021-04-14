@@ -56,11 +56,11 @@ module OpenProject::GithubIntegration::Services
     private
 
     def find_full(github_html_url)
-      GithubPullRequest.find_by(state: ['open', 'closed'], github_html_url: github_html_url)
+      GithubPullRequest.complete.find_by(github_html_url: github_html_url)
     end
 
     def find_or_initialize_partial(github_html_url)
-      GithubPullRequest.find_or_initialize_by(state: 'partial', github_html_url: github_html_url)
+      GithubPullRequest.partial.find_or_initialize_by(github_html_url: github_html_url)
     end
   end
 end

@@ -40,58 +40,60 @@ module OpenProject::GithubIntegration
         reopened
       ].freeze
 
-      def process(payload)
-        github_system_user = User.find_by(id: payload.fetch('open_project_user_id'))
-        work_packages = find_mentioned_work_packages(pr_body(payload), github_system_user)
-        pull_request = find_pull_request(payload)
+      def process(params)
+        @payload = wrap_payload(params)
+
+        github_system_user = User.find_by(id: payload.open_project_user_id)
+        work_packages = find_mentioned_work_packages(payload.pull_request.body, github_system_user)
         new_work_packages = without_already_referenced(work_packages, pull_request)
 
-        if work_packages.any?
-          upsert_pull_request(payload, work_packages)
-        end
-        if add_work_package_comment?(payload.fetch('action'), new_work_packages)
-          comment_on_referenced_work_packages(new_work_packages, github_system_user, notes(payload))
+        upsert_pull_request(work_packages)
+        if add_work_package_comment?(payload.action, new_work_packages)
+          comment_on_referenced_work_packages(new_work_packages, github_system_user, journal_entry)
         end
       end
 
       private
 
+      attr_reader :payload
+
+      # TODO: jens says this does not work when merged, but it should
       def add_work_package_comment?(action, new_work_packages)
         edit_with_new_work_packages = action == 'edited' && new_work_packages.any?
 
         COMMENT_ACTIONS.include?(action) || edit_with_new_work_packages
       end
 
-      def find_pull_request(payload)
-        GithubPullRequest.find_by(github_id: payload.fetch('pull_request').fetch('id'))
+      def pull_request
+        @pull_request ||= GithubPullRequest.find_by(github_id: payload.pull_request.id)
       end
 
-      def pr_body(payload)
-        payload.fetch('pull_request').fetch('body')
-      end
+      def upsert_pull_request(work_packages)
+        return if work_packages.empty? && pull_request.nil?
 
-      def upsert_pull_request(payload, work_packages)
-        OpenProject::GithubIntegration::Services::UpsertPullRequest.new.call(payload.fetch('pull_request'),
+        OpenProject::GithubIntegration::Services::UpsertPullRequest.new.call(payload.pull_request.to_h,
                                                                              work_packages: work_packages)
       end
 
-      # rubocop:disable Metrics/AbcSize
-      def notes(payload)
-        key = notes_i18n_key(payload)
+      def journal_entry
+        key = journal_entry_i18n_key
         return nil unless key
 
-        I18n.t("github_integration.pull_request_#{key}_comment",
-               pr_number: payload['pull_request']['number'],
-               pr_title: payload['pull_request']['title'],
-               pr_url: payload['pull_request']['html_url'],
-               repository: payload['pull_request']['base']['repo']['full_name'],
-               repository_url: payload['pull_request']['base']['repo']['html_url'],
-               github_user: payload['sender']['login'],
-               github_user_url: payload['sender']['html_url'])
-      end
-      # rubocop:enable Metrics/AbcSize
+        pull_request = payload.pull_request
+        repository = pull_request.base.repo
+        sender = payload.sender
 
-      def notes_i18n_key(payload)
+        I18n.t("github_integration.pull_request_#{key}_comment",
+               pr_number: pull_request.number,
+               pr_title: pull_request.title,
+               pr_url: pull_request.html_url,
+               repository: repository.full_name,
+               repository_url: repository.html_url,
+               github_user: sender.login,
+               github_user_url: sender.html_url)
+      end
+
+      def journal_entry_i18n_key
         key = {
           'opened' => 'opened',
           'reopened' => 'opened',
@@ -99,10 +101,10 @@ module OpenProject::GithubIntegration
           'edited' => 'referenced',
           'referenced' => 'referenced',
           'ready_for_review' => 'ready_for_review'
-        }[payload['action']]
+        }[payload.action]
 
-        return 'merged' if key == 'closed' && payload['pull_request']['merged']
-        return 'draft' if key == 'open' && payload['pull_request']['draft']
+        return 'merged' if key == 'closed' && payload.pull_request.merged
+        return 'draft' if key == 'open' && payload.pull_request.draft
 
         key
       end

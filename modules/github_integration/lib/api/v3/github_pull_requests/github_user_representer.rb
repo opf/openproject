@@ -25,13 +25,27 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require "#{File.dirname(__FILE__)}/../spec_helper"
 
-describe GithubCheckRun do
-  describe "validations" do
-    it { is_expected.to validate_presence_of :github_app_owner_avatar_url }
-    it { is_expected.to validate_presence_of :github_html_url }
-    it { is_expected.to validate_presence_of :github_id }
-    it { is_expected.to validate_presence_of :status }
+require 'roar/decorator'
+require 'roar/json/hal'
+
+module API
+  module V3
+    module GithubPullRequests
+      class GithubUserRepresenter < ::API::Decorators::Single
+        include API::Caching::CachedRepresenter
+
+        self_link id_attribute: :id,
+                  title_getter: ->(*) { nil }
+
+        property :github_login, as: :login
+        property :github_html_url, as: :htmlUrl
+        property :github_avatar_url, as: :avatarUrl
+
+        def _type
+          'GithubUser'
+        end
+      end
+    end
   end
 end

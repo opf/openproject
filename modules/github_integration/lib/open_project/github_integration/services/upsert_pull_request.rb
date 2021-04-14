@@ -46,8 +46,7 @@ module OpenProject::GithubIntegration::Services
     private
 
     def find_or_initialize(payload)
-      GithubPullRequest.find_by(
-        state: 'partial',
+      GithubPullRequest.partial.find_by(
         github_html_url: payload.fetch('html_url')
       ) ||
         GithubPullRequest.find_or_initialize_by(

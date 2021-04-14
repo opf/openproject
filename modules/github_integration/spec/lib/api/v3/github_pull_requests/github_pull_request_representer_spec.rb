@@ -36,15 +36,9 @@ describe ::API::V3::GithubPullRequests::GithubPullRequestRepresenter do
   let(:github_pull_request) do
     FactoryBot.build_stubbed(:github_pull_request,
                              state: 'open',
-                             labels: labels).tap do |pr|
-      allow(pr)
-        .to receive(:github_user)
-        .and_return(github_user)
-
-      allow(pr)
-        .to receive(:merged_by)
-        .and_return(merged_by)
-
+                             labels: labels,
+                             github_user: github_user,
+                             merged_by: merged_by).tap do |pr|
       allow(pr)
         .to receive(:latest_check_runs)
         .and_return(latest_check_runs)
@@ -81,7 +75,7 @@ describe ::API::V3::GithubPullRequests::GithubPullRequestRepresenter do
       let(:value) { github_pull_request.number }
     end
 
-    it_behaves_like 'property', :githubHtmlUrl do
+    it_behaves_like 'property', :htmlUrl do
       let(:value) { github_pull_request.github_html_url }
     end
 
@@ -97,7 +91,7 @@ describe ::API::V3::GithubPullRequests::GithubPullRequestRepresenter do
       let(:value) { github_pull_request.title }
     end
 
-    it_behaves_like 'property', :body do
+    it_behaves_like 'formattable property', :body do
       let(:value) { github_pull_request.body }
     end
 
@@ -107,10 +101,6 @@ describe ::API::V3::GithubPullRequests::GithubPullRequestRepresenter do
 
     it_behaves_like 'property', :merged do
       let(:value) { github_pull_request.merged }
-    end
-
-    it_behaves_like 'property', :mergedAt do
-      let(:value) { github_pull_request.merged_at }
     end
 
     it_behaves_like 'property', :commentsCount do
@@ -137,45 +127,6 @@ describe ::API::V3::GithubPullRequests::GithubPullRequestRepresenter do
       let(:value) { github_pull_request.labels }
     end
 
-    it_behaves_like 'property', :githubUser do
-      let(:value) do
-        {
-          login: github_user.github_login,
-          htmlUrl: github_user.github_html_url,
-          avatarUrl: github_user.github_avatar_url
-        }
-      end
-    end
-
-    it_behaves_like 'property', :mergedBy do
-      let(:value) do
-        {
-          login: merged_by.github_login,
-          htmlUrl: merged_by.github_html_url,
-          avatarUrl: merged_by.github_avatar_url
-        }
-      end
-    end
-
-    it_behaves_like 'property', :githubCheckRuns do
-      let(:value) do
-        [
-          {
-            htmlUrl: check_run.github_html_url,
-            appOwnerAvatarUrl: check_run.github_app_owner_avatar_url,
-            name: check_run.name,
-            status: check_run.status,
-            conclusion: check_run.conclusion,
-            outputTitle: check_run.output_title,
-            outputSummary: check_run.output_summary,
-            detailsUrl: check_run.details_url,
-            startedAt: check_run.started_at.iso8601,
-            completedAt: check_run.completed_at.iso8601
-          }
-        ]
-      end
-    end
-
     it_behaves_like 'has UTC ISO 8601 date and time' do
       let(:date) { github_pull_request.github_updated_at }
       let(:json_path) { 'githubUpdatedAt' }
@@ -194,6 +145,30 @@ describe ::API::V3::GithubPullRequests::GithubPullRequestRepresenter do
 
   describe '_links' do
     it { is_expected.to have_json_type(Object).at_path('_links') }
+
+    it_behaves_like 'has a titled link' do
+      let(:link) { 'githubUser' }
+      let(:href) { api_v3_paths.github_user(github_user.id) }
+      let(:title) { github_user.github_login }
+    end
+
+    it_behaves_like 'has a titled link' do
+      let(:link) { 'mergedBy' }
+      let(:href) { api_v3_paths.github_user(merged_by.id) }
+      let(:title) { merged_by.github_login }
+    end
+
+    it_behaves_like 'has a link collection' do
+      let(:link) { 'checkRuns' }
+      let(:hrefs) do
+        [
+          {
+            'href' => api_v3_paths.github_check_run(check_run.id),
+            'title' => check_run.name
+          }
+        ]
+      end
+    end
   end
 
   describe 'caching' do
@@ -214,7 +189,7 @@ describe ::API::V3::GithubPullRequests::GithubPullRequestRepresenter do
 
       it 'includes the name of the representer class' do
         expect(representer.json_cache_key)
-          .to include('API', 'V3', 'GithubIntegration', 'GithubPullRequestRepresenter')
+          .to include('API', 'V3', 'GithubPullRequests', 'GithubPullRequestRepresenter')
       end
 
       it 'changes when the locale changes' do
@@ -240,13 +215,6 @@ describe ::API::V3::GithubPullRequests::GithubPullRequestRepresenter do
 
       it 'changes when the merged_by user is updated' do
         github_pull_request.merged_by.updated_at = Time.zone.now + 20.seconds
-
-        expect(representer.json_cache_key)
-          .not_to eql former_cache_key
-      end
-
-      it 'changes when the a check_run is updated' do
-        github_pull_request.latest_check_runs[0].updated_at = Time.zone.now + 20.seconds
 
         expect(representer.json_cache_key)
           .not_to eql former_cache_key

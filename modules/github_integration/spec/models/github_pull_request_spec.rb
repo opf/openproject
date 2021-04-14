@@ -47,13 +47,6 @@ describe GithubPullRequest do
       it { is_expected.to validate_presence_of :changed_files_count }
     end
 
-    describe 'state' do
-      it { is_expected.to allow_value('open').for(:state) }
-      it { is_expected.to allow_value('closed').for(:state) }
-      it { is_expected.to allow_value('partial').for(:state) }
-      it { is_expected.not_to allow_value(:something_else).for(:state) }
-    end
-
     describe 'labels' do
       it { is_expected.to allow_value(nil).for(:labels) }
       it { is_expected.to allow_value([]).for(:labels) }
@@ -61,6 +54,20 @@ describe GithubPullRequest do
       it { is_expected.not_to allow_value([{ 'name' => 'grey' }]).for(:labels) }
       it { is_expected.not_to allow_value([{}]).for(:labels) }
     end
+  end
+
+  describe '.complete' do
+    subject { described_class.complete }
+
+    let(:open) { FactoryBot.create(:github_pull_request, :open) }
+    let(:merged) { FactoryBot.create(:github_pull_request, :closed_merged) }
+    let(:closed) { FactoryBot.create(:github_pull_request, :closed_unmerged) }
+    let(:partial) { FactoryBot.create(:github_pull_request, :partial) }
+    let(:all_pull_requests) { [open, merged, closed, partial] }
+
+    before { all_pull_requests }
+
+    it { is_expected.to match_array [open, merged, closed] }
   end
 
   describe '#partial?' do

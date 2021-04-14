@@ -73,6 +73,14 @@ module OpenProject::GithubIntegration
       "#{work_package(id)}/github_pull_requests"
     end
 
+    add_api_path :github_user do |id|
+      "github_users/#{id}"
+    end
+
+    add_api_path :github_check_run do |id|
+      "github_check_run/#{id}"
+    end
+
     add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
       mount ::API::V3::GithubPullRequests::GithubPullRequestsByWorkPackageAPI
     end

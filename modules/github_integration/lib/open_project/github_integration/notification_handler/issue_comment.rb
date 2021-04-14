@@ -44,7 +44,6 @@ module OpenProject::GithubIntegration
 
         github_system_user = User.find_by(id: payload.open_project_user_id)
         work_packages = find_mentioned_work_packages(payload.comment.body, github_system_user)
-        pull_request = find_pull_request
         new_work_packages = without_already_referenced(work_packages, pull_request)
 
         upsert_partial_pull_request(new_work_packages)
@@ -59,8 +58,8 @@ module OpenProject::GithubIntegration
         payload.issue.pull_request?.present?
       end
 
-      def find_pull_request
-        GithubPullRequest.find_by(github_html_url: payload.issue.pull_request.html_url)
+      def pull_request
+        @pull_request ||= GithubPullRequest.find_by(github_html_url: payload.issue.pull_request.html_url)
       end
 
       def upsert_partial_pull_request(work_packages)

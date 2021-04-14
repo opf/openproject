@@ -57,6 +57,8 @@ class GithubPullRequest < ApplicationRecord
                         unless: :partial?
   validate :validate_labels_schema
 
+  scope :complete, -> { where(state: ['open', 'closed']) }
+
   ##
   # When a PR lives long enough and receives many pushes, the same check (say, a CI test run) can be run multiple times.
   # This method only returns the latest of each type of check_run.
