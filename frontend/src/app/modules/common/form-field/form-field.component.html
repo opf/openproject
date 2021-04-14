@@ -1,12 +1,12 @@
 <label class="op-form-field--label-wrap">
   <ng-container *ngTemplateOutlet="inputLabelTemplate"></ng-container>
 
-  <ng-container *ngIf="!inlineLabel">
+  <ng-container *ngIf="!noWrapLabel">
     <ng-container *ngTemplateOutlet="inputTemplate"></ng-container>
   </ng-container>
 </label>
 
-<ng-container *ngIf="inlineLabel">
+<ng-container *ngIf="noWrapLabel">
   <ng-container *ngTemplateOutlet="inputTemplate"></ng-container>
 </ng-container>
 

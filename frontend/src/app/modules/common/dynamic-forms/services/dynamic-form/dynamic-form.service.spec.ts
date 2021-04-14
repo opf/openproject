@@ -2,15 +2,17 @@ import { TestBed } from '@angular/core/testing';
 import { DynamicFormService } from "core-app/modules/common/dynamic-forms/services/dynamic-form/dynamic-form.service";
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { HttpClient } from "@angular/common/http";
-import { IOPDynamicFormSettings, IOPFormSettings } from "core-app/modules/common/dynamic-forms/typings";
+import { IOPDynamicFormSettings } from "core-app/modules/common/dynamic-forms/typings";
 import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
 import { FormGroup } from "@angular/forms";
 import { of } from "rxjs";
+import { FormsService } from "core-app/core/services/forms/forms.service";
 
 xdescribe('DynamicFormService', () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
-  let service:DynamicFormService;
+  let dynamicFormService:DynamicFormService;
+  let formsService:jasmine.SpyObj<FormsService>;
   const testFormUrl = 'http://op.com/form';
   const formSchema:IOPFormSettings = {
     "_type": "Form",
@@ -118,6 +120,9 @@ xdescribe('DynamicFormService', () => {
   };
 
   beforeEach(() => {
+    const formServiceSpy = jasmine.createSpyObj('FormsService', ['submit$']);
+    //
+
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -125,19 +130,21 @@ xdescribe('DynamicFormService', () => {
       providers: [
         DynamicFormService,
         DynamicFieldsService,
+        {provide: FormsService, useValue: formServiceSpy}
       ]
     });
     httpClient = TestBed.inject(HttpClient);
     httpTestingController = TestBed.inject(HttpTestingController);
-    service = TestBed.inject(DynamicFormService);
+    dynamicFormService = TestBed.inject(DynamicFormService);
+    formsService = TestBed.inject(FormsService) as jasmine.SpyObj<FormsService>;
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(dynamicFormService).toBeTruthy();
   });
 
   it('should return the dynamic form config from the backend response', () => {
-    service
+    dynamicFormService
       .getSettingsFromBackend$(testFormUrl)
       .subscribe(dynamicFormConfigResponse => {
         expect(dynamicFormConfigResponse.fields.length).toEqual(dynamicFormConfig.fields.length, 'should return one dynamic field per schema field');
@@ -157,31 +164,14 @@ xdescribe('DynamicFormService', () => {
   });
 
   it('should submit the dynamic form value', () => {
-    const dynamicFormModel = dynamicFormConfig.model;
-    const resourceId = '123';
+    const dynamicForm = dynamicFormConfig.form;
 
-    service
-      .submit$(dynamicFormModel, testFormUrl)
+    formsService.submit$.and.returnValue(of('ok response'));
+
+    dynamicFormService
+      .submit$(dynamicForm, testFormUrl)
       .subscribe();
 
-    const postReq = httpTestingController.expectOne(testFormUrl);
-
-    expect(postReq.request.method).toEqual('POST', 'should create a new resource when no id is provided');
-    expect(postReq.request.body.name).toEqual('Project 1', 'should upload the primitive values as they are');
-    expect(postReq.request.body._links.parent).toEqual({ href: '/api/v3/projects/26' }, 'should format the resource values to only contain the href');
-
-    postReq.flush('ok response');
-    httpTestingController.verify();
-
-    service
-      .submit$(dynamicFormModel, testFormUrl, resourceId)
-      .subscribe();
-
-    const patchReq = httpTestingController.expectOne(`${testFormUrl}/${resourceId}`);
-
-    expect(patchReq.request.method).toEqual('PATCH', 'should update the resource when an id is provided');
-
-    patchReq.flush('ok response');
-    httpTestingController.verify();
+    expect(formsService.submit$).toHaveBeenCalledWith(dynamicForm, testFormUrl, undefined);
   });
 });
