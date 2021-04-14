@@ -47,15 +47,12 @@ module Groups
     private
 
     def modify_members_and_roles(params)
-      # For unknown reasons, it has not been possible to execute the two statements:
-      # * removing member_roles
-      # * removing members
-      # In a single, CTE using statement. Therefore, it is executed in two requests.
-      # Presumably this is because each DELETE seems to act in its own transaction.
       affected_member_ids = execute_query(remove_member_roles_sql(params[:member_role_ids]))
-      removed_member_ids = execute_query(remove_members_sql(affected_member_ids))
+      members_to_remove = members_to_remove(affected_member_ids)
 
-      affected_member_ids - removed_member_ids
+      remove_members(members_to_remove)
+
+      affected_member_ids - members_to_remove.map(&:id)
     end
 
     def remove_member_roles_sql(member_role_ids)
@@ -82,18 +79,19 @@ module Groups
       end
     end
 
-    def remove_members_sql(member_ids)
-      sql_query = <<~SQL
-        DELETE FROM #{Member.table_name}
-        WHERE
-          id IN (:member_ids)
-          AND id NOT IN (SELECT DISTINCT(member_id) FROM #{MemberRole.table_name})
-        RETURNING #{Member.table_name}.id
-      SQL
+    def members_to_remove(member_ids)
+      Member
+        .where(id: member_ids)
+        .where.not(id: MemberRole.select(:member_id).distinct)
+        .to_a
+    end
 
-      ::OpenProject::SqlSanitization
-        .sanitize sql_query,
-                  member_ids: member_ids
+    def remove_members(members)
+      members.each do |member|
+        Members::DeleteService
+          .new(model: member, user: user, contract_class: EmptyContract)
+          .call
+      end
     end
   end
 end

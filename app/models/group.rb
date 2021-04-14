@@ -58,32 +58,11 @@ class Group < Principal
                :create_preference,
                :create_preference!
 
-  # TODO: Remove together with the module
-  #include Destroy
-
   scopes :visible
 
   def to_s
     lastname
   end
-
-  # TODO: replace by cleanup_inherited_roles service call
-  #def user_removed(group_user)
-  #  user = group_user.user
-
-  #  #member_roles = MemberRole
-  #  #               .includes(member: :member_roles)
-  #  #               .where(inherited_from: members.joins(:member_roles).select('member_roles.id'))
-  #  #               .where(members: { user_id: user.id })
-
-  #  #project_ids = member_roles.map { |mr| mr.member.project_id }
-
-  #  #::Groups::CleanupInheritedRolesService
-  #  #  .new(self, current_user: User.current)
-  #  #  .call(member_role_ids: member_roles.pluck(:id))
-
-  #  Watcher.prune(user: user, project_id: project_ids)
-  #end
 
   private
 

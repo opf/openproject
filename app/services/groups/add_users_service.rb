@@ -82,7 +82,7 @@ module Groups
         ),
         -- find members that already exist
         existing_members AS (
-          SELECT members.id, found_users.user_id, members.project_id 
+          SELECT members.id, found_users.user_id, members.project_id
           FROM members, found_users, group_memberships
           WHERE members.user_id = found_users.user_id
           AND members.project_id = group_memberships.project_id

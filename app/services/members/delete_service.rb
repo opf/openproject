@@ -32,16 +32,24 @@ class Members::DeleteService < ::BaseServices::Delete
   protected
 
   def after_perform(service_call)
-    service_call = super(service_call)
+    super(service_call).tap do |call|
+      member = call.result
 
-    member = service_call.result
-
-    if member.principal.is_a?(Group)
-      Groups::CleanupInheritedRolesService
-        .new(member.principal, current_user: user, contract_class: EmptyContract)
-        .call(send_notifications: true)
+      cleanup_for_group(member)
+      send_notification(member)
     end
+  end
 
-    service_call
+  def send_notification(member)
+    ::OpenProject::Notifications.send(OpenProject::Events::MEMBER_DESTROYED,
+                                      member: member)
+  end
+
+  def cleanup_for_group(member)
+    return unless member.principal.is_a?(Group)
+
+    Groups::CleanupInheritedRolesService
+      .new(member.principal, current_user: user, contract_class: EmptyContract)
+      .call
   end
 end

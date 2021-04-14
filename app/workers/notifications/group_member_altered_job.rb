@@ -40,10 +40,6 @@ class Notifications::GroupMemberAlteredJob < ApplicationJob
 
   private
 
-  # There is a gap in the ability to determine the correct event.
-  # If the roles by the member are reduced to the set of roles the has has otherwise
-  # (by itself or by other roles), we cannot safely determine it here.
-  # Wrongfully, no event will be sent at all although an update would be correct.
   def event_type(member)
     if matching_timestamps?(member)
       OpenProject::Events::MEMBER_CREATED

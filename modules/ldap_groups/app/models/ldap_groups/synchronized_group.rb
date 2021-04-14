@@ -67,9 +67,10 @@ module LdapGroups
     private
 
     def user_id(user)
-      if user.is_a? Integer
+      case user
+      when Integer
         user
-      elsif user.is_a? User
+      when User
         user.id
       else
         raise ArgumentError, "Expected User or User ID (Integer) but got #{user}"
@@ -83,7 +84,7 @@ module LdapGroups
     def add_members_to_group(new_users)
       Groups::UpdateService
         .new(user: User.current, model: group)
-        .call(user_ids: group.user_ids + new_users.map { |user| user_id(user) } )
+        .call(user_ids: group.user_ids + new_users.map { |user| user_id(user) })
     end
   end
 end

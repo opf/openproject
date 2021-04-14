@@ -63,6 +63,9 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
   before do
     allow(Notifications::GroupMemberAlteredJob)
       .to receive(:perform_later)
+
+    allow(::OpenProject::Notifications)
+      .to receive(:send)
   end
 
   context 'when having only the group provided roles' do
@@ -76,6 +79,18 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
 
       expect(Member.where(principal: users))
         .to be_empty
+    end
+
+    it 'sends a notification for the destroyed members' do
+      user_members = Member.where(principal: users).to_a
+
+      service_call
+
+      user_members.each do |user_member|
+        expect(OpenProject::Notifications)
+          .to have_received(:send)
+          .with(OpenProject::Events::MEMBER_DESTROYED, member: user_member)
+      end
     end
 
     it 'sends no notifications' do

@@ -269,9 +269,12 @@ Deletes the group.
 + Parameters
     + id (required, integer, `1`) ... Group id
 
-+ Response 204 (application/hal+json)
++ Response 202 (application/hal+json)
 
     Returned if the group was successfully deleted
+
+    Note that the response body is empty as of now. In future versions of the API a body
+    *might* be returned, indicating the progress of deletion.
 
     + Body
 

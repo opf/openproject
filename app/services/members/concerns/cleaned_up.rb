@@ -30,6 +30,18 @@ module Members::Concerns::CleanedUp
   extend ActiveSupport::Concern
 
   included do
+    prepend AfterPerform
+
+    protected
+
+    def cleanup(member)
+      Members::CleanupService
+        .new(member.principal, member.project_id)
+        .call
+    end
+  end
+
+  module AfterPerform
     protected
 
     def after_perform(service_call)
@@ -38,12 +50,6 @@ module Members::Concerns::CleanedUp
 
         cleanup(member)
       end
-    end
-
-    def cleanup(member)
-      Members::CleanupService
-        .new(member.principal, member.project_id)
-        .call
     end
   end
 end

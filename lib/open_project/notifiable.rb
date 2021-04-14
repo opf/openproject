@@ -29,6 +29,22 @@
 #++
 
 module OpenProject
+  NOTIFIABLE = [
+    %w(work_package_added),
+    %w(work_package_updated),
+    %w(work_package_note_added work_package_updated),
+    %w(status_updated work_package_updated),
+    %w(work_package_priority_updated work_package_updated),
+    %w(news_added),
+    %w(news_comment_added),
+    %w(file_added),
+    %w(message_posted),
+    %w(wiki_content_added),
+    %w(wiki_content_updated),
+    %w(membership_added),
+    %w(membership_updated)
+  ].freeze
+
   Notifiable = Struct.new(:name, :parent) do
     def to_s
       name
@@ -36,21 +52,9 @@ module OpenProject
 
     # TODO: Plugin API for adding a new notification?
     def self.all
-      notifications = []
-      notifications << Notifiable.new('work_package_added')
-      notifications << Notifiable.new('work_package_updated')
-      notifications << Notifiable.new('work_package_note_added', 'work_package_updated')
-      notifications << Notifiable.new('status_updated', 'work_package_updated')
-      notifications << Notifiable.new('work_package_priority_updated', 'work_package_updated')
-      notifications << Notifiable.new('news_added')
-      notifications << Notifiable.new('news_comment_added')
-      notifications << Notifiable.new('file_added')
-      notifications << Notifiable.new('message_posted')
-      notifications << Notifiable.new('wiki_content_added')
-      notifications << Notifiable.new('wiki_content_updated')
-      notifications << Notifiable.new('membership_added')
-      notifications << Notifiable.new('membership_updated')
-      notifications
+      OpenProject::NOTIFIABLE.map do |event_strings|
+        Notifiable.new(*event_strings)
+      end
     end
   end
 end

@@ -349,7 +349,9 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
 
       login_as current_user
 
-      delete path
+      perform_enqueued_jobs do
+        delete path
+      end
     end
 
     subject(:response) { last_response }
@@ -357,8 +359,8 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     context 'with required permissions' do
       current_user { admin }
 
-      it 'responds with HTTP No Content' do
-        expect(response.status).to eq 204
+      it 'should respond with 202' do
+        expect(subject.status).to eq 202
       end
 
       it 'deletes the group' do

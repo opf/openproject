@@ -43,8 +43,6 @@ class Member < ApplicationRecord
   validate :validate_presence_of_role
   validate :validate_presence_of_principal
 
-  after_destroy :destroy_notification
-
   scopes :assignable,
          :global,
          :not_locked,
@@ -107,11 +105,6 @@ class Member < ApplicationRecord
   end
 
   private
-
-  # TODO: Move into services
-  def destroy_notification
-    ::OpenProject::Notifications.send(:member_removed, member: self)
-  end
 
   def user?
     principal.is_a?(User)

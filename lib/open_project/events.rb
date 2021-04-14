@@ -44,6 +44,8 @@ module OpenProject
 
     MEMBER_CREATED = 'member_created'.freeze
     MEMBER_UPDATED = 'member_updated'.freeze
+    # Called like this for historic reasons, should be called 'member_destroyed'
+    MEMBER_DESTROYED = 'member_removed'.freeze
 
     TIME_ENTRY_CREATED = "time_entry_created".freeze
 

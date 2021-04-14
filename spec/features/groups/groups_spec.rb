@@ -46,6 +46,11 @@ feature 'group memberships through groups page', type: :feature do
       groups_page.delete_group! "Bob's Team"
 
       expect(page).to have_selector('.flash.info', text: I18n.t(:notice_deletion_scheduled))
+      expect(groups_page).to have_group "Bob's Team"
+
+      perform_enqueued_jobs
+
+      groups_page.visit!
       expect(groups_page).not_to have_group "Bob's Team"
     end
   end
