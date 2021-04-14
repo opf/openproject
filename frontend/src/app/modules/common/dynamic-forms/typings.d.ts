@@ -2,12 +2,12 @@ import { FormlyFieldConfig } from "@ngx-formly/core";
 import { FormGroup } from "@angular/forms";
 
 export interface IOPDynamicFormSettings {
-  fields: IOPFormlyFieldSettings[];
+  fields: IOPFormlyFieldConfig[];
   model: IOPFormModel;
   form: FormGroup;
 }
 
-export interface IOPForm {
+export interface IOPFormSettings {
   _type?: "Form";
   _embedded: {
     payload: IOPFormModel;
@@ -61,7 +61,7 @@ export interface IOPFormSchema {
 }
 
 export interface IOPFieldSchema {
-  type: string;
+  type: OPFieldType;
   writable: boolean;
   allowedValues?: any;
   required?: boolean;

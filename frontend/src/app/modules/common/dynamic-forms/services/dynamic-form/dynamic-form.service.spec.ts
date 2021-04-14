@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { DynamicFormService } from "core-app/modules/common/dynamic-forms/services/dynamic-form/dynamic-form.service";
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { HttpClient } from "@angular/common/http";
-import { IOPDynamicFormSettings } from "core-app/modules/common/dynamic-forms/typings";
+import { IOPDynamicFormSettings, IOPFormSettings } from "core-app/modules/common/dynamic-forms/typings";
 import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
 import { FormGroup } from "@angular/forms";
 import { of } from "rxjs";
@@ -143,7 +143,7 @@ xdescribe('DynamicFormService', () => {
   });
 
   it('should return the dynamic form config from the backend response', () => {
-    dynamicFormService
+    service
       .getSettingsFromBackend$(testFormUrl)
       .subscribe(dynamicFormConfigResponse => {
         expect(dynamicFormConfigResponse.fields.length).toEqual(dynamicFormConfig.fields.length, 'should return one dynamic field per schema field');
@@ -163,12 +163,24 @@ xdescribe('DynamicFormService', () => {
   });
 
   it('should submit the dynamic form value', () => {
-    const dynamicForm = dynamicFormConfig.form;
+    const dynamicFormModel = dynamicFormConfig.model;
+    const resourceId = '123';
+
+    service
+      .submit$(dynamicFormModel, testFormUrl)
+      .subscribe();
 
     formsService.submit$.and.returnValue(of('ok response'));
 
-    dynamicFormService
-      .submit$(dynamicForm, testFormUrl)
+    expect(postReq.request.method).toEqual('POST', 'should create a new resource when no id is provided');
+    expect(postReq.request.body.name).toEqual('Project 1', 'should upload the primitive values as they are');
+    expect(postReq.request.body._links.parent).toEqual({ href: '/api/v3/projects/26' }, 'should format the resource values to only contain the href');
+
+    postReq.flush('ok response');
+    httpTestingController.verify();
+
+    service
+      .submit$(dynamicFormModel, testFormUrl, resourceId)
       .subscribe();
 
     expect(formsService.submit$).toHaveBeenCalledWith(dynamicForm, testFormUrl, undefined);

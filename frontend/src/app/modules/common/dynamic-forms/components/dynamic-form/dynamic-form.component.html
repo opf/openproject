@@ -1,7 +1,7 @@
 <div class="op-form--container"
      *ngIf="form">
   <form [formGroup]="form"
-        (submit)="submitForm(form)">
+        (submit)="submitForm(form.value)">
     <formly-form [form]="form"
                  [model]="model"
                  [fields]="fields"

@@ -7,8 +7,8 @@ import {
   map,
 } from "rxjs/operators";
 import {
-  IOPDynamicForm,
-  IOPForm,
+  IOPDynamicFormSettings,
+  IOPFormSettings,
   IOPFormModel,
   IOPFormError,
 } from "../../typings";
@@ -43,7 +43,7 @@ export class DynamicFormService {
       );
   }
 
-  submitForm$(formModel:IOPFormModel, resourceEndpoint:string, resourceId?:string) {
+  submit$(formModel:IOPFormModel, resourceEndpoint:string, resourceId?:string) {
     const modelToSubmit = this._formatModelToSubmit(formModel);
     const httpMethod = resourceId ? 'patch' : 'post';
     const url = resourceId ? `${resourceEndpoint}/${resourceId}` : resourceEndpoint;
@@ -66,7 +66,7 @@ export class DynamicFormService {
       );
   }
 
-  private _getDynamicFormConfig(formConfig:IOPForm):IOPDynamicForm {
+  getSettings(formConfig:IOPFormSettings):IOPDynamicFormSettings {
     const formSchema = formConfig._embedded?.schema;
     const formPayload = formConfig._embedded?.payload;
     const dynamicForm = {

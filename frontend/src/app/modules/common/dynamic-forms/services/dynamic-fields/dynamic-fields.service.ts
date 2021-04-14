@@ -197,21 +197,13 @@ export class DynamicFieldsService {
     return formlyFieldConfig;
   }
 
-  private _getFieldTypeConfig(field:IOPFieldSchemaWithKey):FormlyFieldConfig {
+  private _getFieldTypeConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldConfig {
     let inputType = this.inputsCatalogue.find(inputType => inputType.useForFields.includes(field.type))!;
     let inputConfig = inputType.config;
     let configCustomizations;
 
     if (inputConfig.type === 'integerInput' || inputConfig.type === 'selectInput') {
-      configCustomizations = {
-        className: `${inputConfig.className} ${field.name}`,
-        ...field.type.startsWith('[]') && {
-          templateOptions: {
-            ...inputConfig.templateOptions,
-            multiple: true
-          }
-        },
-      };
+      configCustomizations = { className: `${inputConfig.className} ${field.name}` };
     } else if (inputConfig.type === 'formattableInput') {
       configCustomizations = {
         templateOptions: {
