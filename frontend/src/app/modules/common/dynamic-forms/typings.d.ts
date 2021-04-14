@@ -3,13 +3,13 @@ import { HalSource } from "core-app/modules/hal/resources/hal-resource";
 import { FormGroup } from "@angular/forms";
 import { HalLinkSource } from "core-app/modules/hal/hal-link/hal-link";
 
-export interface IOPDynamicForm {
+export interface IOPDynamicFormSettings {
   fields: IOPFormlyFieldConfig[];
   model: IOPFormModel;
   form: FormGroup;
 }
 
-export interface IOPForm {
+export interface IOPFormSettings {
   _type?: "Form";
   _embedded: {
     payload: IOPFormModel;
@@ -63,7 +63,7 @@ export interface IOPFormSchema {
 }
 
 export interface IOPFieldSchema {
-  type: string;
+  type: OPFieldType;
   writable: boolean;
   allowedValues?: any;
   required?: boolean;

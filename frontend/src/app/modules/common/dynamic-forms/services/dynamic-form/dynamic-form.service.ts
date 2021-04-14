@@ -8,8 +8,8 @@ import {
   map,
 } from "rxjs/operators";
 import {
-  IOPDynamicForm,
-  IOPForm,
+  IOPDynamicFormSettings,
+  IOPFormSettings,
   IOPFormModel,
   IOPFormError,
 } from "../../typings";
@@ -27,9 +27,9 @@ export class DynamicFormService {
     this.dynamicForm = dynamicForm;
   }
 
-  getForm$(url:string): Observable<IOPDynamicForm>{
+  getSettingsFromBackend$(url:string): Observable<IOPDynamicFormSettings>{
     return this._httpClient
-      .post<IOPForm>(
+      .post<IOPFormSettings>(
         url,
         {},
         {
@@ -38,11 +38,11 @@ export class DynamicFormService {
         }
       )
       .pipe(
-        map((formConfig => this._getDynamicFormConfig(formConfig))),
+        map((formConfig => this.getSettings(formConfig))),
       );
   }
 
-  submitForm$(formModel:IOPFormModel, resourceEndpoint:string, resourceId?:string) {
+  submit$(formModel:IOPFormModel, resourceEndpoint:string, resourceId?:string) {
     const modelToSubmit = this._formatModelToSubmit(formModel);
     const httpMethod = resourceId ? 'patch' : 'post';
     const url = resourceId ? `${resourceEndpoint}/${resourceId}` : resourceEndpoint;
@@ -65,7 +65,7 @@ export class DynamicFormService {
       );
   }
 
-  private _getDynamicFormConfig(formConfig:IOPForm):IOPDynamicForm {
+  getSettings(formConfig:IOPFormSettings):IOPDynamicFormSettings {
     const formSchema = formConfig._embedded?.schema;
     const formPayload = formConfig._embedded?.payload;
     const dynamicForm = {

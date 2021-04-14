@@ -1,12 +1,13 @@
 <div class="op-form--container"
-     *ngIf="(dynamicForm$ | async) as dynamicForm">
-  <form [formGroup]="dynamicForm?.form"
-        (submit)="submitForm(dynamicForm?.form.value)">
-    <formly-form [form]="dynamicForm?.form"
-                 [model]="dynamicForm?.model"
-                 [fields]="dynamicForm?.fields">
+     *ngIf="form">
+  <form [formGroup]="form"
+        (submit)="submitForm(form.value)">
+    <formly-form [form]="form"
+                 [model]="model"
+                 [fields]="fields"
+                 (modelChange)="onModelChange($event)">
       <ng-template formlyTemplate let-field>
-        <op-form-field *ngFor="let field of dynamicForm?.fields"
+        <op-form-field *ngFor="let field of fields"
                        [label]="field.templateOptions?.label"
                        [inlineLabel]="field.templateOptions?.inlineLabel"
                        [required]="field.templateOptions?.required">
@@ -19,6 +20,7 @@
 
     <button type="submit"
             class="button -highlight"
+            *ngIf="isStandaloneForm"
             [disabled]="inFlight">
       {{text.save}}
     </button>
