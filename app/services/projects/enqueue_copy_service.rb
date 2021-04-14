@@ -55,7 +55,7 @@ module Projects
     def test_copy(params)
       test_params = params.merge(attributes_only: true)
 
-       Projects::CopyService
+      Projects::CopyService
         .new(user: user, source: source)
         .call(**test_params)
     end

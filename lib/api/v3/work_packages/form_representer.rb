@@ -32,7 +32,6 @@ module API
   module V3
     module WorkPackages
       class FormRepresenter < ::API::Decorators::Form
-
         def payload_representer
           WorkPackagePayloadRepresenter
             .create_class(represented, current_user)

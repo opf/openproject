@@ -73,10 +73,6 @@ class CopyProjectsController < ApplicationController
     params[:coming_from] == 'admin' ? projects_path : settings_generic_project_path(@project.id)
   end
 
-  def enqueue_copy_job
-
-  end
-
   def copy_started_notice
     flash[:notice] = I18n.t('copy_project.started',
                             source_project_name: @project.name,
