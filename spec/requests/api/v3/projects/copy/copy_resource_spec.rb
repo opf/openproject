@@ -43,11 +43,16 @@ describe ::API::V3::Projects::Copy::CopyAPI, content_type: :json do
 
   shared_let(:source_project) do
     FactoryBot.create :project,
+                      enabled_module_names: %w[work_package_tracking wiki],
                       custom_field_values: {
                         text_custom_field.id => 'source text',
                         list_custom_field.id => list_custom_field.custom_options.last.id
                       }
   end
+
+  shared_let(:work_package) { FactoryBot.create :work_package, project: source_project }
+  shared_let(:wiki_page) { FactoryBot.create :wiki_page, wiki: source_project.wiki }
+
   shared_let(:current_user) do
     FactoryBot.create :user,
                       member_in_project: source_project,
@@ -130,6 +135,31 @@ describe ::API::V3::Projects::Copy::CopyAPI, content_type: :json do
 
         expect(project.custom_value_for(text_custom_field).value).to eq 'CF text'
         expect(project.custom_value_for(list_custom_field).formatted_value).to eq list_custom_field.custom_options.last.value
+      end
+    end
+
+    describe 'with restricted copying' do
+      let(:params) do
+        { name: 'My copied project',
+          identifier: 'my-copied-project',
+          _meta: {
+            copyWorkPackages: true,
+            copyWiki: false,
+          }
+        }
+      end
+
+      it 'does not copy the wiki' do
+        perform_enqueued_jobs
+
+        project = Project.find_by(identifier: 'my-copied-project')
+        expect(project).to be_present
+
+        expect(source_project.wiki.pages.count).to eq 1
+        expect(project.wiki.pages.count).to eq 0
+
+        expect(source_project.work_packages.count).to eq 1
+        expect(project.work_packages.count).to eq 1
       end
     end
 
