@@ -34,7 +34,20 @@ describe ::API::V3::Projects::Copy::CopyAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  shared_let(:source_project) { FactoryBot.create :project }
+  shared_let(:text_custom_field) do
+    FactoryBot.create(:text_project_custom_field)
+  end
+  shared_let(:list_custom_field) do
+    FactoryBot.create(:list_project_custom_field)
+  end
+
+  shared_let(:source_project) do
+    FactoryBot.create :project,
+                      custom_field_values: {
+                        text_custom_field.id => 'source text',
+                        list_custom_field.id => list_custom_field.custom_options.last.id
+                      }
+  end
   shared_let(:current_user) do
     FactoryBot.create :user,
                       member_in_project: source_project,
@@ -72,7 +85,12 @@ describe ::API::V3::Projects::Copy::CopyAPI, content_type: :json do
 
     describe 'with attributes given' do
       let(:params) do
-        { name: 'My copied project', identifier: 'my-copied-project' }
+        { name: 'My copied project',
+          identifier: 'my-copied-project',
+          "customField#{text_custom_field.id}": {
+            "raw": "CF text"
+          },
+        }
       end
 
       it 'returns with a redirect to job' do
@@ -107,11 +125,13 @@ describe ::API::V3::Projects::Copy::CopyAPI, content_type: :json do
           .to be_json_eql("Created project My copied project".to_json)
                 .at_path("message")
 
-
         project = Project.find_by(identifier: 'my-copied-project')
         expect(project).to be_present
+
+        expect(project.custom_value_for(text_custom_field).value).to eq 'CF text'
+        expect(project.custom_value_for(list_custom_field).formatted_value).to eq list_custom_field.custom_options.last.value
       end
-end
+    end
 
     context 'without the necessary permission' do
       let(:current_user) do

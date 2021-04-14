@@ -34,7 +34,21 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  shared_let(:source_project) { FactoryBot.create :project }
+  shared_let(:text_custom_field) do
+    FactoryBot.create(:text_project_custom_field)
+  end
+  shared_let(:list_custom_field) do
+    FactoryBot.create(:list_project_custom_field)
+  end
+
+  shared_let(:source_project) do
+    FactoryBot.create :project,
+                      custom_field_values: {
+                        text_custom_field.id => 'source text',
+                        list_custom_field.id => list_custom_field.custom_options.last.id
+                      }
+  end
+
   shared_let(:current_user) do
     FactoryBot.create :user,
                       member_in_project: source_project,
@@ -67,6 +81,16 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
         .to eql 1
     end
 
+    it 'retains the values from the source project' do
+      expect(response.body)
+        .to be_json_eql('source text'.to_json)
+              .at_path("_embedded/payload/customField#{text_custom_field.id}/raw")
+
+      expect(response.body)
+        .to be_json_eql(list_custom_field.custom_options.last.value.to_json)
+              .at_path("_embedded/payload/_links/customField#{list_custom_field.id}/title")
+    end
+
     it 'contains a meta property with copy properties for every module' do
       ::Projects::CopyService.copyable_dependencies.each do |dep|
         identifier = dep[:identifier].to_s.camelize
@@ -89,14 +113,40 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
     context 'updating the form payload' do
       let(:params) do
         {
-          name: 'My copied project'
+          name: 'My copied project',
+          "customField#{text_custom_field.id}": {
+            "raw": "CF text"
+          },
+          status: 'on track',
+          statusExplanation: { raw: "A magic dwells in each beginning." },
+          "_links": {
+            "customField#{list_custom_field.id}": {
+              "href": api_v3_paths.custom_option(list_custom_field.custom_options.first.id)
+            }
+          }
         }
       end
 
-      it 'sets that value' do
+      it 'sets those values' do
         expect(response.body)
           .to be_json_eql('My copied project'.to_json)
                 .at_path("_embedded/payload/name")
+
+        expect(response.body)
+          .to be_json_eql('on track'.to_json)
+                .at_path("_embedded/payload/status")
+
+        expect(response.body)
+          .to be_json_eql('A magic dwells in each beginning.'.to_json)
+                .at_path("_embedded/payload/statusExplanation/raw")
+
+        expect(response.body)
+          .to be_json_eql('CF text'.to_json)
+                .at_path("_embedded/payload/customField#{text_custom_field.id}/raw")
+
+        expect(response.body)
+          .to be_json_eql(list_custom_field.custom_options.first.value.to_json)
+                .at_path("_embedded/payload/_links/customField#{list_custom_field.id}/title")
       end
     end
 
