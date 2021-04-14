@@ -2,6 +2,7 @@ import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from 
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { OpAutocompleterComponent } from "./op-autocompleter.component";
 import { OpAutocompleterService } from "./services/op-autocompleter.service";
+<<<<<<< Updated upstream
 import { ChangeDetectorRef, DebugElement, NO_ERRORS_SCHEMA, Type } from '@angular/core';
 import { TimezoneService } from 'core-app/components/datetime/timezone.service';
 import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
@@ -47,6 +48,15 @@ export interface NgOption {
   parent?:NgOption;
   children?:NgOption[];
 };
+=======
+import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { of } from "rxjs";
+import { NgSelectComponent} from '@ng-select/ng-select';
+import { NgSelectModule } from "@ng-select/ng-select";
+import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import { By } from '@angular/platform-browser';
+>>>>>>> Stashed changes
 
 function triggerKeyDownEvent(element:DebugElement, which:number, key = ''):void {
   element.triggerEventHandler('keydown', {
@@ -67,8 +77,12 @@ fdescribe('autocompleter', () => {
   const workPackagesStub = [
     {
       id: 1,
+<<<<<<< Updated upstream
       subject: 'Workpackage 1',
       name: 'Workpackage 1',
+=======
+      subject: 'a',
+>>>>>>> Stashed changes
       author: {
         href: '/api/v3/users/1',
         name: 'Author1',
@@ -85,8 +99,12 @@ fdescribe('autocompleter', () => {
     },
     {
       id: 2,
+<<<<<<< Updated upstream
       subject: 'Workpackage 2',
       name: 'Workpackage 2',
+=======
+      subject: 'b',
+>>>>>>> Stashed changes
       author: {
         href: '/api/v3/users/2',
         name: 'Author2',
@@ -121,6 +139,7 @@ fdescribe('autocompleter', () => {
       .compileComponents();
 
     fixture = TestBed.createComponent(OpAutocompleterComponent);
+
     fixture.componentInstance.resource = 'work_packages' as resource;
     fixture.componentInstance.filters = [];
     fixture.componentInstance.searchKey = 'subjectOrId';
@@ -146,24 +165,18 @@ fdescribe('autocompleter', () => {
   it('should load WorkPackages', fakeAsync(() => {
     tick();
     fixture.detectChanges();
-    //const select = fixture.componentInstance.ngSelectInstance;
-
-    // triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.W);
-    //   fixture.detectChanges();
-    //   tick(1000);
-    //   triggerKeyDownEvent(getNgSelectElement(fixture), KeyCode.two);
-
-    //   const select = fixture.componentInstance.ngSelectInstance;
-    //  fixture.whenStable().then(() => {
-    var select = fixture.componentInstance.ngSelectInstance as NgSelectComponent;
+ 
+    const select =  fixture.componentInstance.ngSelectInstance as NgSelectComponent;
     select.filter('a');
-    fixture.detectChanges();
-    tick(1000);
-    fixture.detectChanges();
-    tick(1000);
 
-    expect(opAutocompleterServiceSpy.loadData).toHaveBeenCalledWith('a', fixture.componentInstance.resource, fixture.componentInstance.filters, fixture.componentInstance.searchKey);
-    //   //expect(fixture.componentInstance.select).not.toBeUndefined();
-    expect(fixture.componentInstance.ngSelectInstance.itemsList.items.length).toEqual(2);
+    fixture.detectChanges();
+    tick(1000);
+    fixture.detectChanges();
+    tick(1000);
+  expect(opAutocompleterServiceSpy.loadData).toHaveBeenCalledWith('a', 
+  fixture.componentInstance.resource, fixture.componentInstance.filters, fixture.componentInstance.searchKey);
+  
+  expect(fixture.componentInstance.ngSelectInstance.itemsList.items.length).toEqual(2);
+
   }));
 });
