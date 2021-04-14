@@ -41,11 +41,15 @@ module API
                  exec_context: :decorator,
                  getter: ->(*) { meta_representer },
                  setter: ->(fragment:, **) { represented.meta = meta_representer.from_hash(fragment) }
+
+        singleton_class.prepend MetaPropertyConstructor
       end
 
-      class_methods do
-        def create_with_meta(model, meta, **args)
-          new(model, **args).tap do |instance|
+      module MetaPropertyConstructor
+        def create(model, **args)
+          meta = args.delete(:meta)
+
+          super(model, **args).tap do |instance|
             instance.meta = meta
           end
         end

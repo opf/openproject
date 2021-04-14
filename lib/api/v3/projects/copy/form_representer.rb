@@ -37,7 +37,7 @@ module API
 
           def payload_representer
             ProjectCopyPayloadRepresenter
-              .create_with_meta(represented, meta, current_user: current_user)
+              .create(represented, meta: meta, current_user: current_user)
           end
 
           def schema_representer_class
