@@ -80,6 +80,7 @@ export class SummaryComponent {
   }
 
   private createPrincipal(principal:PrincipalLike):Observable<HalResource> {
+    console.log(principal);
     if (principal instanceof HalResource) {
       return of(principal);
     }

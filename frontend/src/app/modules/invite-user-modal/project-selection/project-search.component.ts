@@ -78,8 +78,7 @@ export class ProjectSearchComponent extends UntilDestroyedMixin implements OnIni
     setTimeout(() => this.input$.next(''));
   }
 
-   compareWith = (a: NgSelectProjectOption, b: ProjectResource) => {
-     console.log('running compare', a.project.id, b.id);
-     return a.project.id === b.id;
-   }
+  compareWith = (a: NgSelectProjectOption, b: ProjectResource) => {
+    return a.project.id === b.id;
+  }
 }

@@ -19,6 +19,11 @@ import {PrincipalLike} from "core-app/modules/principal/principal-types";
 import {CurrentUserService} from "core-app/modules/current-user/current-user.service";
 import {PrincipalType} from '../invite-user.component';
 
+interface NgSelectPrincipalOption {
+  principal: PrincipalLike,
+  disabled: boolean;
+};
+
 @Component({
   selector: 'op-ium-principal-search',
   templateUrl: './principal-search.component.html',
@@ -32,7 +37,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
 
   public input$ = new BehaviorSubject<string>('');
   public input = '';
-  public items$ = this.input$
+  public items$: Observable<NgSelectPrincipalOption[]> = this.input$
     .pipe(
       this.untilDestroyed(),
       debounceTime(200),
@@ -146,17 +151,20 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
     })
       .pipe(
         map(({ members, nonMembers }) => [
-          ...nonMembers.elements.map((nonMember:any) => ({
-            ...nonMember,
+          ...nonMembers.elements.map((nonMember:PrincipalLike) => ({
+            principal: nonMember,
             disabled: false,
           })),
-          ...members.elements.map((member:any) => ({
-            ...member,
+          ...members.elements.map((member:PrincipalLike) => ({
+            principal: member,
             disabled: true,
           })),
         ]),
         shareReplay(1),
       );
+  }
 
+  compareWith = (a: NgSelectPrincipalOption, b: PrincipalLike) => {
+    return a.principal.id === b.id;
   }
 }

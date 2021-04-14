@@ -81,12 +81,10 @@ feature 'Invite user modal', type: :feature, js: true do
       end
 
       context 'with a non project user' do
-        let!(:principal) do
-          FactoryBot.create :user,
-                            firstname: 'Nonproject',
-                            lastname: 'User',
-                            email: 'nonprojectuser@example.com'
-        end
+        let!(:principal) { FactoryBot.create :user,
+                           firstname: 'Nonproject firstname',
+                           lastname: 'nonproject lastname'
+        }
         it 'can add an existing user to the project' do
           modal.run_all_steps
 
@@ -128,10 +126,8 @@ feature 'Invite user modal', type: :feature, js: true do
           }
 
           it 'disables projects for which you do not have rights' do
-            byebug
             ngselect = modal.open_project_select
-            SeleniumHubWaiter.wait
-            expect(ngselect).to have_text "#{project_no_permissions.name} You are not allowed to invite members to this project"
+            expect(ngselect).to have_text "#{project_no_permissions.name}\nYou are not allowed to invite members to this project"
           end
         end
       end
@@ -158,7 +154,8 @@ feature 'Invite user modal', type: :feature, js: true do
           end
 
           context 'with an existing placeholder' do
-            let(:principal) { FactoryBot.create :placeholder_user }
+            let(:principal) { FactoryBot.create :placeholder_user, name: 'EXISTING PLACEHOLDER' }
+            let(:permissions) { %i[view_work_packages edit_work_packages manage_members manage_placeholder_user] }
 
             it_behaves_like 'invites the principal to the project' do
               let(:added_principal) { principal }

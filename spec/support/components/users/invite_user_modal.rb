@@ -68,8 +68,6 @@ module Components
         if invite_user?
           expect_text "Invite #{principal.mail} to #{project.name}"
         else
-          SeleniumHubWaiter.wait
-          byebug
           expect_text "#{principal_name} was invited!"
         end
 
