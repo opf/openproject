@@ -146,9 +146,11 @@ feature 'Invite user modal', type: :feature, js: true do
             end
 
             context 'without permissions to manage placeholders' do
-              let(:permissions) { %i[view_work_packages edit_work_packages manage_members manage_placeholder_user] }
+              let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
               it 'does not allow to invite a new placeholder' do
-                skip "TODO wait for permissions API"
+                modal.within_modal do
+                  expect(page).to have_selector '.op-option-list--item', count: 2
+                end
               end
             end
           end
