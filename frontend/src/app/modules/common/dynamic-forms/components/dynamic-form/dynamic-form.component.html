@@ -1,7 +1,7 @@
 <div class="op-form--container"
      *ngIf="form">
   <form [formGroup]="form"
-        (submit)="submitForm(form.value)">
+        (submit)="submitForm(form)">
     <formly-form [form]="form"
                  [model]="model"
                  [fields]="fields"
@@ -9,7 +9,7 @@
       <ng-template formlyTemplate let-field>
         <op-form-field *ngFor="let field of fields"
                        [label]="field.templateOptions?.label"
-                       [inlineLabel]="field.templateOptions?.inlineLabel"
+                       [noWrapLabel]="field.templateOptions?.noWrapLabel"
                        [required]="field.templateOptions?.required">
           <formly-field [field]="field" slot=input></formly-field>
 

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IntegerInputComponent } from './integer-input.component';
 
-describe('IntegerInputComponent', () => {
+xdescribe('IntegerInputComponent', () => {
   let component: IntegerInputComponent;
   let fixture: ComponentFixture<IntegerInputComponent>;
 

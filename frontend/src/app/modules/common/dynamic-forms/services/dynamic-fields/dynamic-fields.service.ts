@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
-  IOPAttributeGroup,
-  IOPDynamicInputTypeConfig, IOPFieldSchema, IOPFieldSchemaWithKey,
+  IOPDynamicInputTypeConfig,
   IOPFormlyFieldConfig,
-  IOPFormModel,
-  IOPFormSchema,
 } from "../../typings";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { of } from "rxjs";
@@ -61,7 +58,7 @@ export class DynamicFieldsService {
         className: `textarea-wrapper`,
         templateOptions: {
           editorType: 'full',
-          inlineLabel: true,
+          noWrapLabel: true,
         },
       },
       useForFields: ['Formattable']
