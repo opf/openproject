@@ -76,6 +76,7 @@ module API
 
       property :location, exec_context: :decorator, render_nil: false
 
+      # TODO formattable
       property :description,
                exec_context: :decorator,
                render_nil: false

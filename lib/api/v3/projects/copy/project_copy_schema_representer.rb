@@ -44,6 +44,7 @@ module API
                    type: 'Boolean',
                    name_source: name_source,
                    has_default: true,
+                   # TODO return human readable string with count
                    description: -> { dep[:count_source].call(represented.model, current_user) },
                    location: :meta
           end

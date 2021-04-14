@@ -32,6 +32,7 @@ module Projects::Copy
   class WorkPackagesDependentService < Dependency
     include ::Copy::Concerns::CopyAttachments
 
+    # TODO extract attachments
     def self.human_name
       I18n.t(:label_work_package_plural)
     end

@@ -58,7 +58,7 @@ class CopyProjectsController < ApplicationController
       render action: copy_action
     else
       flash[:error] = call.message
-      redirect_to :back
+      redirect_back(fallback_location: project_settings_project_path(@project))
     end
   end
 
