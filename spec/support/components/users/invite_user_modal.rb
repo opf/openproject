@@ -98,9 +98,9 @@ module Components
         click_next if next_step
       end
 
-      def open_project_select()
+      def open_select_in_step(query = '')
         search_autocomplete modal_element.find('.ng-select-container'),
-                            query: '',
+                            query: query,
                             results_selector: 'body'
       end
 
