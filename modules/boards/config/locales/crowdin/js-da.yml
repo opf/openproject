@@ -52,8 +52,8 @@ da:
         action_text_version: >
           Board with automated columns based on the version attribute. Ideal for planning product development.
         action_type:
-          assignee: assignee
-          status: status
+          assignee: Tildeler
+          status: Status
           version: version
           subproject: subproject
           subtasks: parent-child

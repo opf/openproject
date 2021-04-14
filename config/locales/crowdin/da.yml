@@ -28,31 +28,31 @@ da:
     plugins:
       no_results_title_text: Der er i øjeblikket ingen plugins installeret.
     custom_styles:
-      color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme: "Farvetema"
+      color_theme_custom: "(Tilpas)"
       colors:
-        alternative-color: "Alternative"
-        content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
-        main-menu-bg-color: "Main menu background"
-        main-menu-bg-selected-background: "Main menu when selected"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
+        alternative-color: "Alternativ"
+        content-link-color: "Tilknyt skrifttype"
+        primary-color: "Primær"
+        primary-color-dark: "Primær (mørk)"
+        header-bg-color: "Overskriftsbaggrund"
+        header-item-bg-hover-color: "Overskriftsbaggrund ved mus over"
+        header-item-font-color: "Hoved skrifttype"
+        header-item-font-hover-color: "Hoved skrifttype ved mus over"
+        header-border-bottom-color: "Hoved kant"
+        main-menu-bg-color: "Hovedmenu baggrund"
+        main-menu-bg-selected-background: "Hovedmenu når valgt"
+        main-menu-bg-hover-background: "Hovedmenu ved mus over"
+        main-menu-font-color: "Hovedmenuens skrifttype"
+        main-menu-selected-font-color: "Hovedmenuens skrifttype når valgt"
+        main-menu-hover-font-color: "Hovedmenuens skrifttype ved mus over"
+        main-menu-border-color: "Hovedmenu kant"
       custom_colors: "Brugerdefinerede farver"
       customize: "Tilpas din OpenProject installation med dit eget logo. Bemærk: Dette logo vil være offentligt tilgængeligt."
       enterprise_notice: "Som tak for finansiel støtte til udviklingen af OpenProject, denne lille funktion er kun tilgængelig for Enterprise Edition support abonnenter."
       manage_colors: "Redigér egenskaber for farvevalg"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        alternative-color: "Stærk accentfarve, typisk brugt til den vigtigste knap på en skærm."
         content-link-color: "Tekst-farve på de fleste links."
         primary-color: "Hovedfarve."
         primary-color-dark: "Typisk en mørkere version af hovedfarven, brugt til hover effekter."
@@ -61,26 +61,26 @@ da:
         header-item-font-hover-color: "Tekst-farve på knapper i headeren, når musen føres over."
         header-border-bottom-color: "Tynd linje under headeren. Efterlad dette felt tomt hvis du ikke ønsker en linje."
         main-menu-bg-color: "Baggrundsfarve på venstre sidemenu."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Ændring af temaet vil overskrive din brugerdefinerede stil. Designet vil derefter gå tabt. Er du sikker på du vil fortsætte?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
+      upgrade_to_ee: "Opgrader til Enterprise Edition"
       add_token: "Upload en Enterprise Edition support-token"
       replace_token: "Erstat din nuværende support-token"
-      order: "Order Enterprise on-premises Edition"
+      order: "Bestil Enterprise on-premises Edition"
       paste: "Indsæt din Enterprise Edition support-token"
       required_for_feature: "Denne funktion er kun tilgængelig med en aktiv Enterprise Edition support-token."
       enterprise_link: "For yderliger information, klik her."
-      start_trial: 'Start free trial'
-      book_now: 'Book now'
-      get_quote: 'Get a quote'
+      start_trial: 'Start gratis prøveperiode'
+      book_now: 'Bestil nu'
+      get_quote: 'Få et tilbud'
   announcements:
     show_until: Vis indtil
     is_active: vises i øjeblikket
     is_inactive: vises ikke i øjeblikket
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
-    text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
-    label_plural: 'Attribute help texts'
+    note_public: 'Enhver tekst og billeder, du føjer til dette felt, er offentligt synlig for alle brugere der er logget ind!'
+    text_overview: 'I denne visning kan du oprette tilpassede hjælpetekster til attributvisning. Når disse tekster er defineret, kan de vises ved at klikke på hjælpeikonet ved siden af dets tilhørende attribut.'
+    label_plural: 'Attribut hjælpstekster'
     show_preview: 'Forhåndsvis tekst'
     add_new: 'Tilføj hjælpetekst'
     edit: "Redigér hjælpetekst til %{attribute_caption}"
@@ -94,24 +94,24 @@ da:
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
-      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
+      Denne LDAP-formular kræver teknisk viden om din LDAP/Active Directory opsætning.
       <br/>
-      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Besøg venligst vores dokumentation for detaljerede instruktioner</a>.
     attribute_texts:
-      name: Arbitrary name of the LDAP connection
-      host: LDAP host name or IP address
-      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
-      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
-      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      name: Vilkårlig navn på LDAP- forbindelsen
+      host: LDAP værtsnavn eller IP-adresse
+      login_map: Attributnøglen i LDAP, der bruges til at identificere det unikke bruger-login. Normalt vil dette være 'uid' eller 'samAccountName'.
+      generic_map: Attributten i LDAP, der er knyttet til attributten OpenProject `%{attribute}`
+      admin_map_html: "Valgfri: Attribut nøglen i LDAP, som <strong>, hvis nuværende</strong> markerer OpenProject brugeren en admin. Efterlad blank når du er i tvivl."
       system_user_dn_html: |
-        Enter the DN of the system user used for read-only access.
+        Angiv DN for systembrugeren som bruges til skrivebeskyttet adgang.
         <br/>
-        Example: uid=openproject,ou=system,dc=example,dc=com
-      system_user_password: Enter the bind password of the system user
+        Eksempel: uid=openproject,ou=system,dc=example,dc=com
+      system_user_password: Indtast bind kodeordet for systembrugeren
       base_dn: |
-        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
-        OpenProject will filter for provided usernames in this subtree only.
-        Example: ou=users,dc=example,dc=com
+        Indtast Base DN for undertræet i LDAP, du vil have OpenProject til at søge efter brugere og grupper.
+        OpenProject vil kun filtrere for angivne brugernavne i dette undertræ.
+        Eksempel: ou=users,dc=example,dc=com
       filter_string: |
         Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
         This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
@@ -119,19 +119,17 @@ da:
         OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
         it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
-        If you check this box, OpenProject will automatically create new users from their LDAP entries
-        when they first authenticate with OpenProject.
-        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+        Hvis du markerer dette felt, vil OpenProject automatisk oprette nye brugere fra deres LDAP-poster, når de først autentificerer med OpenProject.
+        Undlad at markere dette for kun at tillade eksisterende konti i OpenProject at godkende via LDAP!
     connection_encryption: 'Forbindelseskryptering'
-    system_account: 'System account'
+    system_account: 'System konto'
     system_account_legend: |
-      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
-      Please specify the bind credentials for that system user in the following section.
-    ldap_details: 'LDAP details'
-    user_settings: 'Attribute mapping'
+      OpenProject kræver skrivebeskyttet adgang gennem en systemkonto for at slå brugere og grupper op i dit LDAP-træ.
+      Angiv venligst de bind legitimationsoplysninger for denne systembruger i følgende afsnit.
+    ldap_details: 'LDAP detaljer'
+    user_settings: 'Attribut kortlægning'
     user_settings_legend: |
-      The following fields are related to how users are created in OpenProject from LDAP entries and
-      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
+      Følgende felter er relateret til, hvordan brugere oprettes i OpenProject fra LDAP-indgange og hvilke LDAP-attributter der bruges til at definere attributterne for en OpenProject bruger (attributkortlægning).
     tls_mode:
       plain: 'ingen'
       simple_tls: 'simple_tls'
@@ -143,7 +141,7 @@ da:
         Dette afsnit vedrører forbindelsessikkerheden for denne LDAP-godkendelseskilde. For mere information kan du besøge <a href="%{link}">Net::LDAP dokumentationen</a>.
   forums:
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      no_results_title_text: Der er i øjeblikket ingen indlæg til forummet.
   colors:
     index:
       no_results_title_text: Der er i øjeblikket ingen farver.
@@ -157,24 +155,24 @@ da:
         executing_user_value: '(Tildel til den udførende bruger)'
     conditions: 'Betingelser'
     plural: 'Brugerdefinerede handlinger'
-    new: 'New custom action'
-    edit: 'Edit custom action %{name}'
-    execute: 'Execute %{name}'
+    new: 'Ny brugerdefineret handling'
+    edit: 'Rediger brugerdefineret handling %{name}'
+    execute: 'Udfør %{name}'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
-      description: 'Custom actions streamline everyday work by combining a set of individual steps into one button.'
+      title: 'Brugerdefinerede handlinger er en Enterprise Edition funktion'
+      description: 'Tilpassede handlinger strømliner hverdagens arbejde ved at kombinere et sæt individuelle trin i én knap.'
   custom_fields:
     text_add_new_custom_field: >
-      To add new custom fields to a project you first need to create them before you can add them to this project.
-    is_enabled_globally: 'Is enabled globally'
-    enabled_in_project: 'Enabled in project'
-    contained_in_type: 'Contained in type'
-    confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
+      For at tilføje nye brugerdefinerede felter til et projekt, skal du først oprette dem, før du kan føje dem til dette projekt.
+    is_enabled_globally: 'Er aktiveret globalt'
+    enabled_in_project: 'Aktiveret i projektet'
+    contained_in_type: 'Indeholdt i type'
+    confirm_destroy_option: "Sletning af en indstilling vil slette alle dens forekomster (f.eks. i arbejdspakker). Er du sikker på, at du vil slette den?"
     tab:
       no_results_title_text: Der er i øjeblikket ingen brugerdefinerede felter.
       no_results_content_text: Oprette en ny brugerdefineret felt
   concatenation:
-    single: 'or'
+    single: 'eller'
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -189,15 +187,15 @@ da:
       no_results_title_text: Der er i øjeblikket ingen projekter i denne gruppe.
   incoming_mails:
     ignore_filenames: >
-      Specify a list of names to ignore when processing attachments for incoming mails (e.g., signatures or icons). Enter one filename per line.
+      Angiv en liste over navne der skal ignoreres ved behandling af vedhæftede filer for indgående breve (f.eks. signaturer eller ikoner). Indtast et filnavn pr. linje.
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
-      schedule_failed: "Project cannot be deleted: %{errors}"
-      failed: "Deletion of project %{name} has failed"
-      failed_text: "The request to delete project %{name} has failed. The project was left archived."
-      completed: "Deletion of project %{name} completed"
-      completed_text: "The request to delete project '%{name}' has been completed."
+      scheduled: "Sletning er skemalagt og udføres i baggrunden. Du får besked om resultatet."
+      schedule_failed: "Projektet kan ikke slettes: %{errors}"
+      failed: "Sletning af projektet %{name} mislykkedes"
+      failed_text: "Anmodningen om at slette projektet %{name} mislykkedes. Projektet blev arkiveret."
+      completed: "Sletning af projektet %{name} udført"
+      completed_text: "Anmodningen om at slette projektet '%{name}' er gennemført."
     index:
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
@@ -208,17 +206,17 @@ da:
       activities:
         no_results_title_text: Der er i øjeblikket ingen aktiviteter.
       forums:
-        no_results_title_text: There are currently no forums for the project.
-        no_results_content_text: Create a new forum
+        no_results_title_text: Der er i øjeblikket ingen fora for projektet.
+        no_results_content_text: Opret et nyt forum
       categories:
-        no_results_title_text: There are currently no work package categories.
-        no_results_content_text: Create a new work package category
+        no_results_title_text: Der er i øjeblikket ingen arbejdspakke kategorier.
+        no_results_content_text: Opret en ny arbejdspakke kategori
       custom_fields:
-        no_results_title_text: There are currently no custom fields available.
+        no_results_title_text: Der er i øjeblikket ingen brugerdefinerede felter tilgængelige.
       types:
-        no_results_title_text: There are currently no types available.
+        no_results_title_text: Der er i øjeblikket ingen tilgængelige typer.
       versions:
-        no_results_title_text: There are currently no versions for the project.
+        no_results_title_text: Der er i øjeblikket ingen versioner til projektet.
         no_results_content_text: Create a new version
   members:
     index:
@@ -242,15 +240,15 @@ da:
       no_results_title_text: This user is currently not a member of a project.
   placeholder_users:
     deletion_info:
-      heading: "Delete placeholder user %{name}"
+      heading: "Slet pladsholderbruger %{name}"
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
-        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
-      irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+        Alle forekomster af pladsholder brugeren (f.eks. som modtager, ansvarlig eller andre brugerværdier) vil blive omfordelt til en konto kaldet "Slettet bruger".
+        Da dataene for hver slettet konto er omfordelt til denne konto, vil det ikke være muligt at skelne de data, brugeren har oprettet fra data fra en anden slettet konto.
+      irreversible: "Denne handling kan ikke fortrydes"
+      confirmation: "Indtast pladsholderens brugernavn %{name} for at bekræfte sletningen."
     upsale:
-      title: Assign work to people that are not members of the project.
-      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+      title: Tildel arbejde til personer, der ikke er medlemmer af projektet.
+      description: Der er flere scenarier, hvor du ønsker at tildele arbejde til folk, der ikke er medlem af dit projekt. Det kunne simpelthen være, at du stadig har brug for at ansætte den rigtige person til jobbet. Eller du vil bare ikke give personen adgang til projektets oplysninger, men vil stadig have spore opgaverne tildelt den pågældende person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -321,7 +319,7 @@ da:
         priority:
           no_results_title_text: There are currently no priorities available.
         type:
-          no_results_title_text: There are currently no types available.
+          no_results_title_text: Der er i øjeblikket ingen tilgængelige typer.
         version:
           no_results_title_text: There are currently no versions available.
   label_invitation: Invitation
@@ -529,7 +527,7 @@ da:
         confirmation: "matcher ikke %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "findes ikke."
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "er kun tilgængelig i OpenProject Enterprise Edition"
         error_unauthorized: "kan muligvis ikke tilgås."
         error_readonly: "was attempted to be written but is not writable."
         empty: "må ikke være tomt."
@@ -545,7 +543,7 @@ da:
         invalid_url: 'is not a valid URL.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "skal være mindre end eller lig med %{count}."
-        not_deletable: "cannot be deleted."
+        not_deletable: "Kan ikke slettes"
         not_current_user: "is not the current user."
         not_a_date: "is not a valid date."
         not_a_datetime: "is not a valid date time."
@@ -655,7 +653,7 @@ da:
         wiki_page:
           attributes:
             slug:
-              undeducible: "cannot be deduced from the title '%{title}'."
+              undeducible: "kan ikke udledes af titlen '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Arbejdspakke # %{id} er ikke et gyldig mål for tildeling af tider."
           attributes:
@@ -734,7 +732,7 @@ da:
       status: "Status for arbejdspakke"
       member: "Medlem"
       news: "Nyheder"
-      placeholder_user: "Placeholder user"
+      placeholder_user: "Pladsholder bruger"
       project: "Prjoekt"
       query: "Selvvalgt forespørgsel"
       role:
@@ -1145,7 +1143,7 @@ da:
   error_menu_item_not_saved: Menupunktet kunne ikke gemmes
   error_wiki_root_menu_item_conflict: >
     Can't rename "%{old_name}" to "%{new_name}" due to a conflict in the resulting menu item with the existing menu item "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed: "Der opstod en fejl under ekstern godkendelse. Prøv venligst igen."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
     project: 'Projekt er redigeret'
@@ -1215,10 +1213,10 @@ da:
   image_conversion:
     imagemagick: 'Imagemagick'
   journals:
-    changes_retracted: "The changes were retracted."
+    changes_retracted: "Ændringerne blev trukket tilbage."
   links:
     configuration_guide: 'Configuration guide'
-    get_in_touch: "You have questions? Get in touch with us."
+    get_in_touch: "Har du spørgsmål? Kom i kontakt med os."
   instructions_after_registration: "Du kan logge ind så snart din konto er blevet aktiveret ved at klikke %{signin}."
   instructions_after_logout: "Du kan logge ind igen ved at klikke %{signin}."
   instructions_after_error: "Du kan forsøge at logge ind igen ved at klikke %{signin}. Hvis fejlen stadig opstår, spørg da admin. efter hjælp."
@@ -1555,9 +1553,9 @@ da:
   label_permissions: "Tilladelser"
   label_permissions_report: "Oversigt over tilladelser"
   label_personalize_page: "Tilpas denne side"
-  label_placeholder_user: "Placeholder user"
-  label_placeholder_user_new: "New placeholder user"
-  label_placeholder_user_plural: "Placeholder users"
+  label_placeholder_user: "Pladsholder bruger"
+  label_placeholder_user_new: "Ny pladsholderbruger"
+  label_placeholder_user_plural: "Pladsholder brugere"
   label_planning: "Planlæg"
   label_please_login: "Log venligst ind"
   label_plugins: "Tilføjelsesprogrammer"
@@ -1755,20 +1753,20 @@ da:
   label_workflow_plural: "Arbejdsprocesser"
   label_workflow_summary: "Opsummering"
   label_x_closed_work_packages_abbr:
-    one: "1 closed"
-    other: "%{count} closed"
+    one: "1 lukket"
+    other: "%{count} lukkede"
     zero: "0 closed"
   label_x_comments:
-    one: "1 comment"
-    other: "%{count} comments"
+    one: "1 kommentar"
+    other: "%{count} kommentarer"
     zero: "no comments"
   label_x_open_work_packages_abbr:
-    one: "1 open"
-    other: "%{count} open"
+    one: "1 åben"
+    other: "%{count} åbne"
     zero: "0 open"
   label_x_projects:
-    one: "1 project"
-    other: "%{count} projects"
+    one: "1 projekt"
+    other: "%{count} projekter"
     zero: "no projects"
   label_yesterday: "I går"
   label_role_type: "Type"
@@ -1867,7 +1865,7 @@ da:
   notice_email_sent: "Der blev sendt en mail til %{value}"
   notice_failed_to_save_work_packages: "Det lykkedes ikke at gemme %{count} arbejdspakke(r) i %{total} valgte: %{ids}."
   notice_failed_to_save_members: "Det lykkedes ikke at gemme medlem(mer): %{errors}."
-  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
+  notice_deletion_scheduled: "Sletningen er planlagt og udføres asynkront."
   notice_file_not_found: "Den side du prøvede at gå til eksisterer ikke eller er blevet flyttet."
   notice_forced_logout: "Du er blevet automatisk logget ud efter %{ttl_time} minutters inaktivitet."
   notice_internal_server_error: "Der opstod en fejl på siden du prøver at gå til. Hvis du fortsat oplever problemer kontakt venligst din %{app_title} administrator for hjælp."
@@ -1931,8 +1929,8 @@ da:
   permission_add_work_packages: "Tilføj arbejdspakker"
   permission_add_messages: "Send beskeder"
   permission_add_project: "Opret projekt"
-  permission_manage_user: "Create and edit users"
-  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
+  permission_manage_user: "Opret og rediger brugere"
+  permission_manage_placeholder_user: "Opret, rediger og slet pladsholder brugere"
   permission_add_subprojects: "Opret underprojekter"
   permission_add_work_package_watchers: "Tilføj tilsynsførende"
   permission_assign_versions: "Assign versions"
@@ -2132,7 +2130,7 @@ da:
       username: "Repositorie-brugernavn"
     truncated: "Sorry, we had to truncate this directory to %{limit} files. %{truncated} entries were omitted from the list."
     named_repository: "%{vendor_name}-repositorie"
-    update_settings_successful: "The settings have been successfully saved."
+    update_settings_successful: "Indstillingerne er blevet gemt succesfuldt."
     url: "URL til repositorie"
     warnings:
       cannot_annotate: "Denne fil kan ikke kommenteres."
@@ -2592,7 +2590,7 @@ da:
       mail_self_notified: "I want to be notified of changes that I make myself"
     status_user_and_brute_force: "%{user} og %{brute_force}"
     status_change: "Status change"
-    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
+    text_change_disabled_for_provider_login: "Navnet er angivet af din login-udbyder og kan derfor ikke ændres."
     unlock: "Ophæv spærring"
     unlock_and_reset_failed_logins: "Lås mislykkede forsøg på at logge ind op, og nulstil dem"
   version_status_closed: "lukket"

@@ -4,24 +4,24 @@ da:
     bcf:
       label_bcf: 'BCF'
       import: 'Import'
-      import_bcf_xml_file: 'Import BCF XML file (BCF version 2.1)'
+      import_bcf_xml_file: 'Importér BCF XML-fil (BCF version 2.1)'
       export: 'Eksportér'
-      export_bcf_xml_file: 'Export BCF XML file (BCF version 2.1)'
-      viewpoint: 'Viewpoint'
-      add_viewpoint: 'Add viewpoint'
-      show_viewpoint: 'Show viewpoint'
-      delete_viewpoint: 'Delete viewpoint'
-      management: 'BCF management'
+      export_bcf_xml_file: 'Eksporter BCF XML-fil (BCF version 2.1)'
+      viewpoint: 'Synsvinkel'
+      add_viewpoint: 'Tilføj synsvinkel'
+      show_viewpoint: 'Vis synsvinkel'
+      delete_viewpoint: 'Slet synsvinkel'
+      management: 'BCF håndtering'
     ifc_models:
-      empty_warning: "This project does not yet have any IFC models."
-      use_this_link_to_manage: "Use this link to upload and manage your IFC models"
-      keyboard_input_disabled: "Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer."
+      empty_warning: "Dette projekt har endnu ikke nogen IFC-modeller."
+      use_this_link_to_manage: "Brug dette link til at uploade og administrere dine IFC-modeller"
+      keyboard_input_disabled: "Fremviseren har ikke tastaturkontrol. Klik på fremviseren for at give tastaturkontrol til fremviseren."
       models:
         ifc_models: 'IFC models'
       views:
-        viewer: 'Viewer'
-        split: 'Viewer and table'
-        split_cards: 'Viewer and cards'
+        viewer: 'Fremviser'
+        split: 'Fremviser og tabel'
+        split_cards: 'Fremviser og kort'
     revit:
-      revit_add_in: "Revit Add-In"
-      revit_add_in_settings: "Revit Add-In settings"
+      revit_add_in: "Revit Tilføjelse"
+      revit_add_in_settings: "Revit tilføjelsesindstillinger"
