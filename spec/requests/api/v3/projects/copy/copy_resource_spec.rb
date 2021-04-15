@@ -83,8 +83,12 @@ describe ::API::V3::Projects::Copy::CopyAPI, content_type: :json do
                 .at_path('_type')
 
         expect(response.body)
-          .to be_json_eql("Name can't be blank.".to_json)
+          .to be_json_eql("Multiple field constraints have been violated.".to_json)
                 .at_path("message")
+
+        errors = JSON.parse(response.body)['_embedded']['errors']
+        expect(errors.collect { |el| el['message'] })
+          .to contain_exactly "Identifier can't be blank.", "Name can't be blank."
       end
     end
 
