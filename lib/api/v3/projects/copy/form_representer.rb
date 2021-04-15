@@ -40,9 +40,18 @@ module API
               .create(represented, meta: meta, current_user: current_user)
           end
 
-          def schema_representer_class
+          ##
+          # Instantiate the copy schema with the source project
+          # to correctly derive available modules and counts
+          def schema_representer
+            contract = contract_class.new(meta.source, current_user)
+
             ProjectCopySchemaRepresenter
+              .create(contract,
+                      form_embedded: true,
+                      current_user: current_user)
           end
+
         end
       end
     end

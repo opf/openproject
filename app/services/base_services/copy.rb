@@ -116,6 +116,9 @@ module BaseServices
       # Retain the information about what things we copied
       # for the service result
       state.only = params[:only]
+
+      # Also retain the source project itself
+      state.source = source
     end
 
     ##
