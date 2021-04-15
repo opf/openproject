@@ -57,7 +57,7 @@ FactoryBot.define do
     end
 
     callback(:after_create) do |user, factory|
-      user.pref.save unless evaluator.preferences&.empty?
+      user.pref.save unless factory.preferences&.empty?
 
       if factory.global_permissions.present?
         global_role = FactoryBot.create :global_role, permissions: factory.global_permissions

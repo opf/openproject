@@ -29,11 +29,13 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe API::V3::Backups::BackupsAPI, type: :request do
+describe API::V3::Backups::BackupsAPI, type: :request, with_config: { enable_user_initiated_backups: true } do
   include API::V3::Utilities::PathHelper
 
   let(:user) { FactoryBot.create :user, global_permissions: [:create_backup] }
-  let(:params) { {} }
+  let(:params) { { backupToken: backup_token.plain_value } }
+
+  let(:backup_token) { FactoryBot.create :backup_token, user: user }
 
   before do
     login_as user
@@ -52,10 +54,20 @@ describe API::V3::Backups::BackupsAPI, type: :request do
 
     context "with no pending backups" do
       context "with no params" do
+        let(:params) { {} }
+
+        include_context "request"
+
+        it "results in a bad request error" do
+          expect(last_response.status).to eq 400
+        end
+      end
+
+      context "with no options" do
         before do
           expect(Backups::CreateService)
             .to receive(:new)
-            .with(user: user, include_attachments: true)
+            .with(user: user, backup_token: backup_token.plain_value, include_attachments: true)
             .and_call_original
 
           create_backup
@@ -67,12 +79,12 @@ describe API::V3::Backups::BackupsAPI, type: :request do
       end
 
       context "with include_attachments: false" do
-        let(:params) { { attachments: false } }
+        let(:params) { { backupToken: backup_token.plain_value, attachments: false } }
 
         before do
           expect(Backups::CreateService)
             .to receive(:new)
-            .with(user: user, include_attachments: false)
+            .with(user: user, backup_token: backup_token.plain_value, include_attachments: false)
             .and_call_original
           
           create_backup
@@ -102,6 +114,29 @@ describe API::V3::Backups::BackupsAPI, type: :request do
 
       it "is forbidden" do
         expect(last_response.status).to eq 403
+      end
+    end
+
+    context "with daily backup limit reached", with_config: { backup_daily_limit: -1 } do
+      include_context "request"
+
+      it "is rate limited" do
+        expect(last_response.status).to eq 429
+      end
+    end
+
+    context "with backup token on cooldown", with_config: { backup_token_cooldown: 24.hours } do
+      # let(:backup_token) { Token::Backup.create user: user, created_at: DateTime.now - 5.hours }
+      let(:backup_token) { FactoryBot.create :backup_token, :on_cooldown, since: 5.hours }
+
+      include_context "request"
+
+      it "is forbidden" do
+        expect(last_response.status).to eq 403
+      end
+
+      it "shows the remaining hours until the token is valid" do
+        expect(last_response.body).to include "19 hours"
       end
     end
   end

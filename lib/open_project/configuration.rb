@@ -47,6 +47,7 @@ module OpenProject
       'autologin_cookie_path' => '/',
       'autologin_cookie_secure' => false,
       'backup_daily_limit' => 3,
+      'backup_token_cooldown' => 24.hours,
       'database_cipher_key' => nil,
       # only applicable in conjunction with fog (effectively S3) attachments
       # which will be uploaded directly to the cloud storage rather than via OpenProject's
@@ -78,6 +79,8 @@ module OpenProject
       'rails_asset_host' => nil,
       # Enable internal asset server
       'enable_internal_assets_server' => false,
+      # Allow users with the required permissions to create backups via the web interface or API.
+      'enable_user_initiated_backups' => true,
 
       # Additional / overridden help links
       'force_help_link' => nil,

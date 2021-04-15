@@ -30,8 +30,8 @@
 
 module Backups
   class CreateService < ::BaseServices::Create
-    def initialize(user:, include_attachments: true, contract_class: ::Backups::CreateContract)
-      super user: user, contract_class: contract_class
+    def initialize(user:, backup_token:, include_attachments: true, contract_class: ::Backups::CreateContract)
+      super user: user, contract_class: contract_class, contract_options: { backup_token: backup_token }
 
       @include_attachments = include_attachments
     end

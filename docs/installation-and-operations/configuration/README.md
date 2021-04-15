@@ -46,6 +46,7 @@ Configuring OpenProject through environment variables is detailed [in this separ
 * [`global_basic_auth`](#global-basic-auth)
 * [`apiv3_enable_basic_auth`](#apiv3_enable_basic_auth)
 * [`enterprise_limits`](#enterprise-limits)
+* [`enable_user_initiated_backups](#enable-user-initiated-backups)
 
 ## Setting session options
 
@@ -386,6 +387,13 @@ Or through the environment like this:
 ```
 OPENPROJECT_ENTERPRISE_FAIL__FAST=true
 ```
+
+### Enable user initiated backups
+
+*default: false*
+
+If enabled, admins (or users with the necessary permission) can download backups of the OpenProject installation
+via OpenProject's web interface or via the API.
 
 
 

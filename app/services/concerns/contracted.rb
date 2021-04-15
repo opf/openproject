@@ -36,8 +36,8 @@ module Contracted
     attr_accessor :contract_options
 
     def contract_class=(cls)
-      unless cls <= ::ModelContract
-        raise ArgumentError, "#{cls.name} is not an instance of ModelContract."
+      unless cls <= ::BaseContract
+        raise ArgumentError, "#{cls.name} is not an instance of BaseContract."
       end
 
       @contract_class = cls

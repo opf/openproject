@@ -30,23 +30,22 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpEvent, HttpEventType, HttpResponse} from "@angular/common/http";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {Observable} from "rxjs";
-import {filter, map, share} from "rxjs/operators";
 import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OpenProjectBackupService {
   constructor(protected http:HttpClient,
               protected halResource:HalResourceService) {
   }
 
-  public triggerBackup(include_attachments:boolean=true):Observable<HalResource> {
+  public triggerBackup(backupToken:string, includeAttachments:boolean=true):Observable<HalResource> {
     return this
       .http
       .request<HalResource>(
         "post",
         "/api/v3/backups",
         {
-          body: { attachments: include_attachments },
+          body: { backupToken: backupToken, attachments: includeAttachments },
           withCredentials: true,
           responseType: "json" as any
         }

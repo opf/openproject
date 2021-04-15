@@ -19,42 +19,54 @@
   </section>
 </form>
 
-<form class="form" action="#">
-  <section class="form--section">
-    <h3 class="form--section-title">
-      {{ text.title }}
-    </h3>
-
-    <p>
-      {{ text.info }}
-    </p>
-
-    <p>
-      <em>{{ text.note }}</em>
-    </p>
-
-    <div>
-      <fieldset class="form--fieldset">
-        <legend class="form--fieldset-legend">
-          {{ text.options }}
-        </legend>
-        <label class="form--label-with-check-box">
-          <div class="form--check-box-container">
-            <input
-              type="checkbox"
-              class="form--check-box"
-              [checked]="includeAttachments"
-              (change)="includeAttachments = !includeAttachments"
-            >
-          </div>
-          {{ text.includeAttachments }}
-        </label>
-      </fieldset>
-
-      <button name="button" type="submit" class="-highlight button" (click)="triggerBackup($event)">
-        <i class="button--icon icon-export"></i>
-        <span class="button--text">{{ text.requestBackup }}</span>
-      </button>
-    </div>
-  </section>
+<form class="form danger-zone" action="#">
+  <div class='wiki'>
+    <section class="form--section">
+      <h3 class="form--section-title">
+        {{ text.title }}
+      </h3>
+  
+      <p>
+        {{ text.info }}
+      </p>
+  
+      <p class="danger-zone--warning">
+        <span class="icon icon-error"></span>
+        <span>{{ text.note }}</span>
+      </p>
+      <div>
+        <fieldset class="form--fieldset">
+          <legend class="form--fieldset-legend">
+            {{ text.options }}
+          </legend>
+          <label class="form--label-with-check-box">
+            <div class="form--check-box-container">
+              <input
+                type="checkbox"
+                class="form--check-box"
+                [checked]="includeAttachments"
+                (change)="includeAttachments = !includeAttachments"
+              >
+            </div>
+            {{ text.includeAttachments }}
+          </label>
+        </fieldset>
+      </div>
+      <div class="danger-zone--verification">
+        <input
+          type="password"
+          name="backupToken"
+          placeholder="Backup token"
+          required="required"
+          [value]="backupToken"
+          (input)="backupToken = $event.target.value"
+          #backupTokenInput
+        />
+        <button name="button" type="submit" class="-highlight button" (click)="triggerBackup($event)" [disabled]="backupToken.length == 0">
+          <i class="button--icon icon-export"></i>
+          <span class="button--text">{{ text.requestBackup }}</span>
+        </button>
+      </div>
+    </section>
+  </div>
 </form>

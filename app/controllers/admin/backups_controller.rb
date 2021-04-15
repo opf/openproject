@@ -29,20 +29,53 @@
 #++
 
 class Admin::BackupsController < ApplicationController
+  include ActionView::Helpers::TagHelper
+
   layout 'admin'
 
+  before_action :check_enabled
   before_action :require_admin
 
   menu_item :backups
 
   def show
+    @backup_token = Token::Backup.find_by user: current_user
     last_backup = Backup.last
 
     if last_backup
       @job_status_id = last_backup.job_status.job_id
       @last_backup_date = I18n.localize(last_backup.updated_at)
-      @last_backup_attachment_id = last_backup.attachments.first.id
+      @last_backup_attachment_id = last_backup.attachments.first&.id
     end
+  end
+
+  def reset_token
+    if request.post?
+      token = Token::Backup.create! user: current_user
+
+      UserMailer.backup_token_reset(current_user).deliver_later
+
+      flash[:warning] = [
+        t('my.access_token.notice_reset_token', type: 'Backup').html_safe,
+        content_tag(:strong, token.plain_value),
+        t('my.access_token.token_value_warning')
+      ]
+    else
+      @backup_token = Token::Backup.find_by user: current_user
+    end
+  rescue StandardError => e
+    Rails.logger.error "Failed to reset user ##{current_user.id}'s Backup key: #{e}"
+    flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
+  ensure
+    redirect_to action: 'show' if request.post?
+  end
+
+  def delete_token
+    Token::Backup.where(user: current_user).destroy_all
+
+    flash[:info] = t("backup.text_token_deleted")
+
+    redirect_to action: 'show'
   end
 
   def default_breadcrumb
@@ -51,5 +84,9 @@ class Admin::BackupsController < ApplicationController
 
   def show_local_breadcrumb
     true
+  end
+
+  def check_enabled
+    render_404 unless OpenProject::Configuration.enable_user_initiated_backups?
   end
 end

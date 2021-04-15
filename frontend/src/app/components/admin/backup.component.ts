@@ -27,7 +27,7 @@
 //++
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ElementRef, Injector } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Injector, ViewChild } from '@angular/core';
 import { InjectField } from 'core-app/helpers/angular/inject-field.decorator';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
@@ -43,7 +43,7 @@ export const backupSelector = 'backup';
   templateUrl: './backup.component.html',
   styleUrls: ['./backup.component.sass']
 })
-export class BackupComponent {
+export class BackupComponent implements AfterViewInit {
   public text = {
     info: this.i18n.t('js.backup.info'),
     note: this.i18n.t('js.backup.note'),
@@ -62,8 +62,11 @@ export class BackupComponent {
 
   public isInProgress:boolean = false;
   public includeAttachments:boolean = true;
+  public backupToken:string = "";
 
   @InjectField() opBackup:OpenProjectBackupService;
+
+  @ViewChild("backupTokenInput") backupTokenInput: ElementRef;
 
   constructor(
     readonly elementRef:ElementRef,
@@ -75,8 +78,13 @@ export class BackupComponent {
   ) {
   }
 
+  ngAfterViewInit() {
+    this.backupTokenInput.nativeElement.focus();
+  }
+
   public isDownloadReady():boolean {
-    return this.jobStatusId !== undefined && this.jobStatusId !== "";
+    return this.jobStatusId !== undefined && this.jobStatusId !== "" &&
+      this.lastBackupAttachmentId !== undefined && this.lastBackupAttachmentId !== "";
   }
 
   public getDownloadUrl():string {
@@ -89,8 +97,12 @@ export class BackupComponent {
       event.preventDefault();
     }
 
+    var backupToken = this.backupToken;
+
+    this.backupToken = "";
+
     this.opBackup
-      .triggerBackup(this.includeAttachments)
+      .triggerBackup(backupToken, this.includeAttachments)
       .toPromise()
       .then((resp:any) => {
         this.jobStatusId = resp.jobStatusId;

@@ -399,7 +399,6 @@ OpenProject::Application.routes.draw do
       resource :mail_notifications, controller: '/admin/settings/mail_notifications_settings', only: %i[show update]
       resource :work_packages, controller: '/admin/settings/work_packages_settings', only: %i[show update]
       resource :users, controller: '/admin/settings/users_settings', only: %i[show update]
-      resource :backups, controller: '/admin/settings/backups', only: %i[show]
 
       # Redirect /settings to general settings
       get '/', to: redirect('/admin/settings/general')
@@ -407,6 +406,15 @@ OpenProject::Application.routes.draw do
       # Plugin settings
       get 'plugin/:id', action: :show_plugin
       post 'plugin/:id', action: :update_plugin
+    end
+
+    resource :backups, controller: '/admin/backups', only: %i[show] do
+      collection do
+        get :reset_token
+        post :reset_token
+
+        post :delete_token
+      end
     end
   end
 

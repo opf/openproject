@@ -31,10 +31,8 @@ module API
     module Backups
       class BackupsAPI < ::API::OpenProjectAPI
         resources :backups do
-          helpers do
-            def pending_statuses
-              ::JobStatus::Status.statuses.slice(:in_queue, :in_process).values
-            end
+          before do
+            raise API::Errors::NotFound unless OpenProject::Configuration.enable_user_initiated_backups?
           end
 
           after_validation do
@@ -42,6 +40,8 @@ module API
           end
 
           params do
+            requires :backupToken, type: String
+
             optional(
               :attachments,
               type: Boolean,
@@ -50,24 +50,24 @@ module API
             )
           end
           post do
-            current_backup = Backup.last
-
-            if pending_statuses.include? current_backup&.job_status&.status
-              fail ::API::Errors::Conflict, message: "There is already a backup pending."
-            end
-
-            limit = OpenProject::Configuration.backup_daily_limit
-            if Backup.where("created_at >= ?", Date.today).count > limit
-              fail ::API::Errors::TooManyRequests, message: "You can do at most #{limit} backup(s) per day."
-            end
-
             service = ::Backups::CreateService.new(
               user: current_user,
+              backup_token: params[:backupToken],
               include_attachments: params[:attachments]
             )
             call = service.call
 
             if call.failure?
+              errors = call.errors.errors
+              
+              if err = errors.find { |e| e.type == :invalid_token || e.type == :token_cooldown }
+                fail ::API::Errors::Unauthorized, message: err.full_message
+              elsif err = errors.find { |e| e.type == :backup_pending }
+                fail ::API::Errors::Conflict, message: err.full_message
+              elsif err = errors.find { |e| e.type == :limit_reached }
+                fail ::API::Errors::TooManyRequests, message: err.full_message
+              end
+
               fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
             end
 

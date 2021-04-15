@@ -30,7 +30,7 @@
 
 module API
   module Errors
-    class Conflict < ErrorBase
+    class TooManyRequests < ErrorBase
       identifier 'TooManyRequests'
       code 429
 
