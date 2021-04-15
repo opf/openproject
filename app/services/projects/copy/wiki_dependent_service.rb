@@ -61,17 +61,11 @@ module Projects::Copy
       # can be rewritten along the way.
       pages_top_down do |page|
         new_parent = wiki_pages_map[page.parent]
-        wiki_pages_map[page] = copy_wiki_page(page, new_parent)
+        new_wiki_page = copy_wiki_page(page, new_parent)
+        wiki_pages_map[page.id] = new_wiki_page.id if new_wiki_page
       end
 
-      # Copy attachments
-      if should_copy?(params, :wiki_page_attachments)
-        wiki_pages_map.each do |old_page, new_page|
-          next unless old_page && new_page
-
-          copy_attachments(old_page, new_page.id)
-        end
-      end
+      state.wiki_page_id_lookup = wiki_pages_map
     end
 
     def copy_wiki_page(source_page, new_parent)

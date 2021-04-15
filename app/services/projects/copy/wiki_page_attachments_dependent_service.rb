@@ -29,22 +29,22 @@
 #++
 
 module Projects::Copy
-  class WorkPackageAttachmentsDependentService < Dependency
+  class WikiPageAttachmentsDependentService < Dependency
     include ::Copy::Concerns::CopyAttachments
 
     def self.human_name
-      I18n.t(:label_work_package_attachments)
+      I18n.t(:label_wiki_page_attachments)
     end
 
     def source_count
-      source.work_packages.joins(:attachments).count('attachments.id')
+      source.wiki.pages.joins(:attachments).count('attachments.id')
     end
 
     protected
 
     def copy_dependency(params:)
-      state.work_package_id_lookup.each do |old_wp_id, new_wp_id|
-        copy_attachments(old_wp_id, new_wp_id)
+      state.wiki_page_id_lookup.each do |old_id, new_id|
+        copy_attachments(old_id, new_id)
       end
     end
   end
