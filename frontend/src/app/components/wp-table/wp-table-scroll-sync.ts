@@ -74,7 +74,7 @@ function syncWheelEvent(jev: JQuery.TriggeredEvent, elementTable: JQuery, elemen
 
   window.requestAnimationFrame(function () {
     elementTable[0].scrollTop = elementTable[0].scrollTop + deltaY;
-    elementTimeline[0].scrollTop = elementTimeline[0].scrollTop + deltaY;
+    elementTimeline[0].scrollTop = elementTable[0].scrollTop + deltaY;
 
     scrollTarget.scrollLeft = scrollTarget.scrollLeft + deltaX;
   });
