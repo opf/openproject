@@ -3,7 +3,7 @@ import {BoardActionService} from "core-app/modules/boards/board/board-actions/bo
 import {input} from "reactivestates";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {Observable} from "rxjs";
-import {filter, map, take} from "rxjs/operators";
+import {map, take} from "rxjs/operators";
 import {Board} from "core-app/modules/boards/board/board";
 
 @Injectable()
@@ -21,7 +21,9 @@ export abstract class CachedBoardActionService extends BoardActionService {
       .pipe(
         map(results => {
           if (matching) {
-            return results.filter(resource => resource.name.includes(matching));
+            return results.filter(resource =>
+              new RegExp(matching, 'i').test(resource.name)
+            );
           } else {
             return results;
           }

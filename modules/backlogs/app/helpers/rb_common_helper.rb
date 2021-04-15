@@ -159,7 +159,12 @@ module RbCommonHelper
   end
 
   def type_name_or_empty(story)
-    story.type.nil? ? '' : h(backlogs_types_by_id[story.type_id].name)
+    return '' if story.type_id.nil?
+
+    type = backlogs_types_by_id[story.type_id]
+    return '' if type.nil?
+
+    h(type.name)
   end
 
   def date_string_with_milliseconds(d, add = 0)
