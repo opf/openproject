@@ -23,7 +23,7 @@ export class OpFormFieldComponent {
   }
 
   @Input() label = '';
-  @Input() noWrapLabel = true;
+  @Input() noWrapLabel = false;
   @Input() required = false;
   @Input() showValidationErrorOn: 'change' | 'blur' | 'submit' | 'never' = 'submit';
 
