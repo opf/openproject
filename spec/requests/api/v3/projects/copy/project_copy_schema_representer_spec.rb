@@ -53,7 +53,7 @@ describe ::API::V3::Projects::Copy::ProjectCopySchemaRepresenter do
   describe 'copy properties' do
     ::Projects::CopyService.copyable_dependencies.each do |dep|
       it_behaves_like 'has basic schema properties' do
-        let(:path) { "copy_#{dep[:identifier]}".camelize(:lower) }
+        let(:path) { "copy#{dep[:identifier].camelize}" }
         let(:type) { 'Boolean' }
         let(:name) { dep[:name_source].call }
         let(:required) { false }
