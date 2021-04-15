@@ -56,7 +56,7 @@ module Projects
 
       Projects::CopyService
         .new(user: user, source: source)
-        .call(**test_params)
+        .call(test_params)
     end
 
     ##
