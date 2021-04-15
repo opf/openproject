@@ -291,6 +291,7 @@ Style/HashTransformValues:
 
 RSpec/MultipleMemoizedHelpers:
   Max: 15
+  AllowSubject: true
 
 RSpec/MultipleExpectations:
   Max: 15
