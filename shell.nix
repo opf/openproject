@@ -22,16 +22,16 @@ in
       buildPackages.ruby_2_7
       postgresql
       nodejs
-      google-chrome
       tightvnc
-      docker-compose
       bundix
+      docker-compose
+      google-chrome
 
       op-get-routes
       op-get-test-failures
     ];
 
-    CHROME_BINARY = "${chromium}/bin/chromium";
+    CHROME_BINARY = "${google-chrome}/bin/google-chrome";
     OPENPROJECT_TESTING_NO_HEADLESS = "1";
     OPENPROJECT_TESTING_AUTO_DEVTOOLS = "1";
 }
