@@ -25,20 +25,20 @@ da:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull Requests"
+        title: "Pull-anmodning"
         copy_menu:
           label: Git
-          description: Copy important git content to clipboard
+          description: Kopiér vigtigt git indhold til udklipsholder
         git_actions:
           branch: Gren
-          branch_help: Copy the default branch name.
+          branch_help: Kopier standard branch navn.
           message: Message
-          message_help: Copy the default commit message.
-          cmd: Command
-          cmd_help: Copy a shell command which creates a new branch and an empty commit using the default branch name and commit message.
-          title: Copy to Clipboard
+          message_help: Kopiér standard- commit beskeden.
+          cmd: Kommando
+          cmd_help: Kopiér en shell kommando som laver en ny branch og en tom commit ved brug af standard branch navn og commit besked.
+          title: Kopiér til Udklipsholder
           copy_button_help: Kopiér til Udklipsholder
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          copy_success: '✅ Kopieret!'
+          copy_error: '❌ Kopiering mislykkedes!'
       tab_prs:
-        empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
+        empty: 'Der er endnu ingen pull requests linket. Link en eksisterende PR ved at bruge koden <code>OP#%{wp_id}</code> i PR-beskrivelsen eller opret en ny PR.'
