@@ -51,11 +51,10 @@ OpenProject::AccessControl.map do |map|
                    contract_actions: { projects: %i[create] }
 
     map.permission Backup.permission,
-                   {
-                     backups: %i[index]
-                   },
+                   { backups: %i[index] },
                    require: :loggedin,
-                   global: true
+                   global: true,
+                   enabled: -> { OpenProject::Configuration.enable_user_initiated_backups? }
 
     map.permission :manage_user,
                    {
