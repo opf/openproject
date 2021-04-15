@@ -43,19 +43,19 @@ class MemberMailer < BaseMailer
   def added_project(current_user, member)
     alter_project(current_user,
                   member,
-                  I18n.t(:'mail_member_added_project.subject', project: member.project.name))
+                  in_member_locale(member) { I18n.t(:'mail_member_added_project.subject', project: member.project.name) })
   end
 
   def updated_project(current_user, member)
     alter_project(current_user,
                   member,
-                  I18n.t(:'mail_member_updated_project.subject', project: member.project.name))
+                  in_member_locale(member) { I18n.t(:'mail_member_updated_project.subject', project: member.project.name) })
   end
 
   def updated_global(current_user, member)
     send_mail(current_user,
               member,
-              I18n.t(:'mail_member_updated_global.subject'))
+              in_member_locale(member) { I18n.t(:'mail_member_updated_global.subject') })
   end
 
   private
@@ -71,18 +71,24 @@ class MemberMailer < BaseMailer
   end
 
   def send_mail(current_user, member, subject)
+    in_member_locale(member) do
+      User.execute_as(current_user) do
+        message_id member, current_user
+
+        @roles = member.roles
+        @principal = member.principal
+
+        yield if block_given?
+
+        mail to: member.principal.mail,
+             subject: subject
+      end
+    end
+  end
+
+  def in_member_locale(member, &block)
     raise ArgumentError unless member.principal.is_a?(User)
 
-    User.execute_as(current_user) do
-      message_id member, current_user
-
-      @roles = member.roles
-      @principal = member.principal
-
-      yield if block_given?
-
-      mail to: member.principal.mail,
-           subject: subject
-    end
+    with_locale_for(member.principal, &block)
   end
 end
