@@ -36,6 +36,9 @@ module API
               .new(
                 model: Project,
                 instance_generator: ->(*) { @project },
+                process_state: ->(params:, **) do
+                  params.slice(:only, :send_notifications)
+                end,
                 parse_service: ParseCopyParamsService,
                 process_service: ::Projects::CopyService,
                 process_contract: ::Projects::CopyContract,

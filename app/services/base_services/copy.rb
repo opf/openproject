@@ -112,12 +112,8 @@ module BaseServices
     #
     # Note that for dependent copy services to be called
     # this will already be present.
-    def prepare(params)
-      # Retain the information about what things we copied
-      # for the service result
-      state.only = params[:only]
-
-      # Also retain the source project itself
+    def prepare(_params)
+      # Retain the source project itself
       state.source = source
     end
 
