@@ -50,6 +50,18 @@ describe ::API::V3::Projects::Copy::ProjectCopySchemaRepresenter do
     end
   end
 
+  describe 'send_notifications' do
+    it_behaves_like 'has basic schema properties' do
+      let(:path) { "sendNotifications" }
+      let(:type) { 'Boolean' }
+      let(:name) { I18n.t(:label_project_copy_notifications) }
+      let(:required) { false }
+      let(:has_default) { true }
+      let(:writable) { true }
+      let(:location) { '_meta' }
+    end
+  end
+
   describe 'copy properties' do
     ::Projects::CopyService.copyable_dependencies.each do |dep|
       it_behaves_like 'has basic schema properties' do

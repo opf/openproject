@@ -53,6 +53,14 @@ module API
                    end,
                    location: :meta
           end
+
+          schema :send_notifications,
+                 type: 'Boolean',
+                 name_source: ->(*) { I18n.t(:label_project_copy_notifications) },
+                 has_default: true,
+                 writable: true,
+                 required: false,
+                 location: :meta
         end
       end
     end

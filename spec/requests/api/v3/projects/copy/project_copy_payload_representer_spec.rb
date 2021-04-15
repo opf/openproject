@@ -44,6 +44,10 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
     it 'has a _meta property with the copy properties set to true by default' do
       is_expected.to have_json_path '_meta'
 
+      is_expected
+        .to be_json_eql(true.to_json)
+              .at_path("_meta/sendNotifications")
+
       ::Projects::CopyService.copyable_dependencies.each do |dep|
         is_expected
           .to be_json_eql(true.to_json)
@@ -62,6 +66,16 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
         end
       end
     end
+
+    context 'with the meta property to send notifications disabled' do
+      let(:meta) { OpenStruct.new send_notifications: false }
+
+      it 'renders only the selected dependencies as true' do
+        is_expected
+          .to be_json_eql(false.to_json)
+                .at_path("_meta/sendNotifications")
+      end
+    end
   end
 
   describe 'parsing' do
@@ -78,7 +92,8 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
           'name' => 'The copied project',
           '_meta' => {
             'copyWorkPackages' => true,
-            'copyWiki' => true
+            'copyWiki' => true,
+            'sendNotifications' => false
           }
         }
       end
@@ -86,6 +101,7 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
       it 'sets those two to true' do
         expect(subject.name).to eq 'The copied project'
         expect(subject.meta.only).to contain_exactly('work_packages', 'wiki')
+        expect(subject.meta.send_notifications).to eq false
       end
     end
 
