@@ -167,6 +167,37 @@ describe ::API::V3::Projects::Copy::CopyAPI, content_type: :json do
       end
     end
 
+    describe 'sendNotifications' do
+      let(:params) do
+        { name: 'My copied project',
+          identifier: 'my-copied-project',
+          _meta: {
+            sendNotifications: sendNotifications
+          }
+        }
+      end
+
+      context 'when false' do
+        let(:sendNotifications) { false }
+        it 'queues the job without notifications' do
+          expect(CopyProjectJob)
+            .to have_been_enqueued.with do |args|
+            expect(args[:send_mails]).to eq false
+          end
+        end
+      end
+
+      context 'when true' do
+        let(:sendNotifications) { true }
+        it 'queues the job with notifications' do
+          expect(CopyProjectJob)
+            .to have_been_enqueued.with do |args|
+            expect(args[:send_mails]).to eq true
+          end
+        end
+      end
+    end
+
     context 'without the necessary permission' do
       let(:current_user) do
         FactoryBot.create :user,

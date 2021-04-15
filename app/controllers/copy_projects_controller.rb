@@ -33,9 +33,10 @@ class CopyProjectsController < ApplicationController
   before_action :authorize
 
   def copy
+    request_params = params.slice(:only, :send_notifications).merge(target_project_params: target_project_params)
     call = Projects::EnqueueCopyService
       .new(user: current_user, model: @project)
-      .call(target_project_params: target_project_params)
+      .call(request_params)
 
     if call.success?
       job = call.result

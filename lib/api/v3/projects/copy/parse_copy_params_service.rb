@@ -40,7 +40,8 @@ module API
             {
               target_project_params: attributes,
               attributes_only: true,
-              only: meta.only
+              only: meta.only,
+              send_notifications: meta.send_notifications != false
             }
           end
         end

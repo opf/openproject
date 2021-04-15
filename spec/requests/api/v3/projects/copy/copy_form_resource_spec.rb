@@ -69,116 +69,161 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
 
   subject(:response) { last_response }
 
-  describe '#POST /api/v3/projects/:id/copy/form' do
-    it 'returns 200 FORM response', :aggregate_failures do
-      expect(response.status).to eq(200)
+  it 'returns 200 FORM response', :aggregate_failures do
+    expect(response.status).to eq(200)
 
+    expect(response.body)
+      .to be_json_eql('Form'.to_json)
+            .at_path('_type')
+
+    expect(Project.count)
+      .to eql 1
+  end
+
+  it 'retains the values from the source project' do
+    expect(response.body)
+      .to be_json_eql('source text'.to_json)
+            .at_path("_embedded/payload/customField#{text_custom_field.id}/raw")
+
+    expect(response.body)
+      .to be_json_eql(list_custom_field.custom_options.last.value.to_json)
+            .at_path("_embedded/payload/_links/customField#{list_custom_field.id}/title")
+  end
+
+  it 'contains a meta property with copy properties for every module' do
+    ::Projects::CopyService.copyable_dependencies.each do |dep|
+      identifier = dep[:identifier].to_s.camelize
       expect(response.body)
-        .to be_json_eql('Form'.to_json)
-              .at_path('_type')
+        .to be_json_eql(true.to_json)
+              .at_path("_embedded/payload/_meta/copy#{identifier}")
+    end
+  end
 
-      expect(Project.count)
-        .to eql 1
+  it 'shows an empty name as not set' do
+    expect(response.body)
+      .to be_json_eql(''.to_json)
+            .at_path("_embedded/payload/name")
+
+    expect(response.body)
+      .to be_json_eql("Name can't be blank.".to_json)
+            .at_path("_embedded/validationErrors/name/message")
+  end
+
+  context 'updating the form payload' do
+    let(:params) do
+      {
+        name: 'My copied project',
+        "customField#{text_custom_field.id}": {
+          "raw": "CF text"
+        },
+        status: 'on track',
+        statusExplanation: { raw: "A magic dwells in each beginning." },
+        "_links": {
+          "customField#{list_custom_field.id}": {
+            "href": api_v3_paths.custom_option(list_custom_field.custom_options.first.id)
+          }
+        }
+      }
     end
 
-    it 'retains the values from the source project' do
+    it 'sets those values' do
       expect(response.body)
-        .to be_json_eql('source text'.to_json)
-              .at_path("_embedded/payload/customField#{text_custom_field.id}/raw")
-
-      expect(response.body)
-        .to be_json_eql(list_custom_field.custom_options.last.value.to_json)
-              .at_path("_embedded/payload/_links/customField#{list_custom_field.id}/title")
-    end
-
-    it 'contains a meta property with copy properties for every module' do
-      ::Projects::CopyService.copyable_dependencies.each do |dep|
-        identifier = dep[:identifier].to_s.camelize
-        expect(response.body)
-          .to be_json_eql(true.to_json)
-                .at_path("_embedded/payload/_meta/copy#{identifier}")
-      end
-    end
-
-    it 'shows an empty name as not set' do
-      expect(response.body)
-        .to be_json_eql(''.to_json)
+        .to be_json_eql('My copied project'.to_json)
               .at_path("_embedded/payload/name")
 
       expect(response.body)
-        .to be_json_eql("Name can't be blank.".to_json)
-              .at_path("_embedded/validationErrors/name/message")
-    end
+        .to be_json_eql('on track'.to_json)
+              .at_path("_embedded/payload/status")
 
-    context 'updating the form payload' do
-      let(:params) do
-        {
-          name: 'My copied project',
-          "customField#{text_custom_field.id}": {
-            "raw": "CF text"
-          },
-          status: 'on track',
-          statusExplanation: { raw: "A magic dwells in each beginning." },
-          "_links": {
-            "customField#{list_custom_field.id}": {
-              "href": api_v3_paths.custom_option(list_custom_field.custom_options.first.id)
-            }
-          }
+      expect(response.body)
+        .to be_json_eql('A magic dwells in each beginning.'.to_json)
+              .at_path("_embedded/payload/statusExplanation/raw")
+
+      expect(response.body)
+        .to be_json_eql('CF text'.to_json)
+              .at_path("_embedded/payload/customField#{text_custom_field.id}/raw")
+
+      expect(response.body)
+        .to be_json_eql(list_custom_field.custom_options.first.value.to_json)
+              .at_path("_embedded/payload/_links/customField#{list_custom_field.id}/title")
+    end
+  end
+
+  context 'when setting copy meta properties' do
+    let(:params) do
+      {
+        _meta: {
+          copyOverview: true
         }
+      }
+    end
+
+    it 'sets that value to true and all others to false' do
+      ::Projects::CopyService.copyable_dependencies.each do |dep|
+        identifier = dep[:identifier].to_s.camelize
+        expect(response.body)
+          .to be_json_eql((identifier == 'Overview').to_json)
+                .at_path("_embedded/payload/_meta/copy#{identifier}")
+      end
+    end
+  end
+
+  describe 'send_notification' do
+    context 'when not present' do
+      let(:params) do
+        {}
       end
 
-      it 'sets those values' do
+      it 'returns it as false' do
         expect(response.body)
-          .to be_json_eql('My copied project'.to_json)
-                .at_path("_embedded/payload/name")
-
-        expect(response.body)
-          .to be_json_eql('on track'.to_json)
-                .at_path("_embedded/payload/status")
-
-        expect(response.body)
-          .to be_json_eql('A magic dwells in each beginning.'.to_json)
-                .at_path("_embedded/payload/statusExplanation/raw")
-
-        expect(response.body)
-          .to be_json_eql('CF text'.to_json)
-                .at_path("_embedded/payload/customField#{text_custom_field.id}/raw")
-
-        expect(response.body)
-          .to be_json_eql(list_custom_field.custom_options.first.value.to_json)
-                .at_path("_embedded/payload/_links/customField#{list_custom_field.id}/title")
+          .to be_json_eql(true.to_json)
+                .at_path("_embedded/payload/_meta/sendNotifications")
       end
     end
 
-    context 'when setting copy meta properties' do
+    context 'when set to false' do
       let(:params) do
         {
           _meta: {
-            copyOverview: true
+            sendNotifications: false
           }
         }
       end
 
-      it 'sets that value to true and all others to false' do
-        ::Projects::CopyService.copyable_dependencies.each do |dep|
-          identifier = dep[:identifier].to_s.camelize
-          expect(response.body)
-            .to be_json_eql((identifier == 'Overview').to_json)
-                  .at_path("_embedded/payload/_meta/copy#{identifier}")
-        end
+      it 'returns it as false' do
+        expect(response.body)
+          .to be_json_eql(false.to_json)
+                .at_path("_embedded/payload/_meta/sendNotifications")
       end
     end
 
-    context 'without the necessary permission' do
-      let(:current_user) do
-        FactoryBot.create :user,
-                          member_in_project: source_project,
-                          member_with_permissions: %i[view_project view_work_packages]
+    context 'when set to true' do
+      let(:params) do
+        {
+          _meta: {
+            sendNotifications: true
+          }
+        }
       end
 
-      it 'returns 403 Not Authorized' do
-        expect(response.status).to eq(403)
+      it 'returns it as true' do
+        expect(response.body)
+          .to be_json_eql(true.to_json)
+                .at_path("_embedded/payload/_meta/sendNotifications")
       end
+    end
+  end
+
+
+  context 'without the necessary permission' do
+    let(:current_user) do
+      FactoryBot.create :user,
+                        member_in_project: source_project,
+                        member_with_permissions: %i[view_project view_work_packages]
+    end
+
+    it 'returns 403 Not Authorized' do
+      expect(response.status).to eq(403)
     end
   end
 end

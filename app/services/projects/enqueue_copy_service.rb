@@ -32,8 +32,7 @@ module Projects
   class EnqueueCopyService < ::BaseServices::BaseCallable
     attr_reader :source, :user
 
-    # Contract options not used but passed to accept V3 endpoints interface
-    def initialize(user:, model: nil, contract_class: nil, contract_options: {})
+    def initialize(user:, model: nil, **)
       @user = user
       @source = model
     end
@@ -67,7 +66,7 @@ module Projects
                                    source_project_id: source.id,
                                    target_project_params: params[:target_project_params],
                                    associations_to_copy: params[:only].to_a,
-                                   send_mails: params[:notifications] == '1')
+                                   send_mails: ActiveRecord::Type::Boolean.new.cast(params[:send_notifications]))
     end
   end
 end
