@@ -44,9 +44,12 @@ module API
                    type: 'Boolean',
                    name_source: name_source,
                    has_default: true,
+                   writable: true,
+                   required: false,
                    description: -> do
                      count = dep[:count_source].call(represented.model, current_user)
-                     I18n.t('copy_project.x_objects_of_this_type', count: count)
+
+                     I18n.t('copy_project.x_objects_of_this_type', count: count.to_i)
                    end,
                    location: :meta
           end

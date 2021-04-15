@@ -37,7 +37,7 @@ module Projects::Copy
     end
 
     def source_count
-      source.wiki.pages.joins(:attachments).count('attachments.id')
+      source.wiki && source.wiki.pages.joins(:attachments).count('attachments.id')
     end
 
     protected
