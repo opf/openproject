@@ -44,9 +44,8 @@ module API
                    type: 'Boolean',
                    name_source: name_source,
                    has_default: true,
-                   # TODO return human readable string with count
                    description: -> do
-                     count = dep[:count_source].call(represented.model, current_user)
+                     count = dep[:count_source].call(represented.options[:source], current_user)
                      I18n.t('copy_project.x_objects_of_this_type', count: count)
                    end,
                    location: :meta
