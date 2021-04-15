@@ -55,11 +55,11 @@ Clicking the **Apply** button will save your changes and adapt the table accordi
 
 In the work package list there will soon be quite a lot of work packages in a project. To filter the work packages in the list, click on the **Filter** button on top of the work packages view. The number next to it tells you how many filter criteria you have applied to a list.
 
-In this example 1 filter criteria: Status = open.
+In this example one filter criterion is applied: Status = open.
 
 ![filter-work-packages](filter-work-packages.png)
 
-To add a filter criteria, click the **+ Add filter:** button in the grey filter area. You can choose a filter criteria from the drop-down list or start typing to search for a criteria.
+To add a filter criterion, choose one from the drop-down list next to **+ Add filter** or start typing to search for a criterion.
 
 ![add-filter](add-filter.png)
 
@@ -91,6 +91,18 @@ Another use case would be to *exclude* specific work packages (e.g. you want to 
 
 ![filtering-by-work-package-id](image-20210301185550169.png)
 
+### Filtering for assignees or assigned groups
+
+There are several options to filter for the assignee of a work package. You can choose one of these filters:
+
+- Assignee: Filters for work packages where the specified user or group is set as Assignee
+- Assignee or belonging group: 
+  - When filtering for a single user: Work packages assigned to this user, and any group it belongs to
+  - When filtering for a group: Work packages assigned to this group, and any users within
+- Assignee's group: Filters for work packages assigned to a user from this group
+- Assignee's role: Filters for work packages assigned to users with the specified project role
+
+![assignee-or-assignee-group-filter](image-20210413115230235.png)
 
 ## Sort the work package list
 
