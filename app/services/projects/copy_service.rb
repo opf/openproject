@@ -90,7 +90,7 @@ module Projects
         .new(user: user,
              model: target,
              contract_class: Projects::CopyContract,
-             contract_options: { copy_source: source })
+             contract_options: { copy_source: source, validate_model: true })
         .with_state(state)
         .call(target_project_params)
 

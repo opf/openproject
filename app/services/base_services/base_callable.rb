@@ -37,13 +37,13 @@ module BaseServices
 
     def call(params = {})
       run_callbacks(:call) do
-        perform(params)
+        perform(**params)
       end
     end
 
     protected
 
-    def perform(params = {})
+    def perform(**)
       raise NotImplementedError
     end
   end
