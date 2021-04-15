@@ -83,6 +83,7 @@ module API
                            render_nil: false,
                            setter: nil,
                            getter: ->(*) do
+                             next unless description.present?
                              ::API::Decorators::Formattable.new(description)
                            end
 
