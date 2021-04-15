@@ -29,9 +29,9 @@
 import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 
 export class GithubPullRequestResource extends HalResource {
-  // public get state() {
-  //   return this.states.projects.get(this.id!) as any;
-  // }
+  public get state() {
+    return this.states.projects.get(this.id!) as any;
+  }
 
   /**
    * Exclude the schema _link from the linkable Resources.

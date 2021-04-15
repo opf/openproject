@@ -26,41 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input} from '@angular/core';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
-import { GithubCheckRunResource } from '../hal/resources/github-check-run-resource';
 
-@Component({
-  selector: 'github-pull-request',
-  templateUrl: './pull-request.template.html',
-  styleUrls: [
-    './styles/pull-request.sass'
-  ]
-})
-export class PullRequestComponent {
-  @Input() public pullRequest:HalResource;
-
-  constructor(readonly PathHelper:PathHelperService,
-              readonly I18n:I18nService,) {
+export class GithubUserResource extends HalResource {
+  public get state() {
+    return this.states.projects.get(this.id!) as any;
   }
 
-  public state() {
-    switch (this.pullRequest.state as unknown as String) { // wtf?
-      case 'open':
-        return(this.pullRequest.draft ? 'draft' : 'open');
-      case 'closed':
-        return(this.pullRequest.merged ? 'merged' : 'closed');
-      default:
-        return('partial');
-    }
-  }
-
-  public checkRunState(checkRun: GithubCheckRunResource) {
-    if (checkRun.status == 'completed') {
-      return(checkRun.conclusion);
-    }
-    return(checkRun.status);
+  /**
+   * Exclude the schema _link from the linkable Resources.
+   */
+  public $linkableKeys():string[] {
+    return _.without(super.$linkableKeys(), 'schema');
   }
 }

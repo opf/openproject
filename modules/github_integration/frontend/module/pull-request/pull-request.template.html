@@ -1,5 +1,7 @@
-<div class='work-package-details-activities-activity-contents'>
-  <img alt='PR author avatar' class='avatar' [src]="pullRequest.githubUser.avatarUrl" />
+<div class='pull-request'>
+  <span>
+    <div class='title' [textContent]="pullRequest.title"></div>
+    <img alt='PR author avatar' class='avatar' [src]="pullRequest.githubUser.avatarUrl" />
   <span class='user'>
     <a [href]="pullRequest.githubUser.htmlUrl" [textContent]="pullRequest.githubUser.login"></a>
   </span>
@@ -7,25 +9,20 @@
     Updated on: 
     <op-date-time [dateTimeValue]="pullRequest.githubUpdatedAt"></op-date-time>
   </span>
-  <div class='comments-number'>
-   <div>{{pullRequest.state}}</div>
+  </span>
+  <div class='details'>
+   <span class='state' [ngClass]="'state-' + state()">{{state()}}</span><br />
     <a [href]="pullRequest.githubHtmlUrl" [textContent]="pullRequest.repository + '#' + pullRequest.number"></a>
   </div>
-  <div *ngIf="pullRequest.githubCheckRuns.length > 0">
-    Checks:
+  <div class='check-runs' *ngIf="pullRequest.checkRuns.length > 0">
+    Checks
     <ul>
-      <li *ngFor="let checkRun of pullRequest.githubCheckRuns">
-        <span>{{checkRun.conclusion || checkRun.status}}</span>
-        <span><img alt='app owner avatar' class="avatar" [src]="checkRun.appOwnerAvatarUrl" /></span>
-        <span><a [href]="checkRun.detailsUrl">Details</a></span>
+      <li class='check-run' *ngFor="let checkRun of pullRequest.checkRuns">
+        <span class='check-run--avatar'><img alt='app owner avatar' [src]="checkRun.appOwnerAvatarUrl" /></span>
+        <span class='check-run--name' [textContent]="checkRun.name"></span>
+        <span class='check-run--status' [textContent]="checkRun.outputTitle || checkRunState(checkRun)"></span>
+        <div class='check-run--details'><a [href]="checkRun.detailsUrl">Details</a></div>
       </li>
     </ul>
   </div>
 </div>
-
-
-<!-- <pre>
-  <code>
-    {{pullRequest | json}}
-  </code>
-</pre> -->
