@@ -2,7 +2,8 @@ import {
   Component,
   Input,
   HostBinding,
-  ContentChild, Optional,
+  ContentChild,
+  Optional,
 } from "@angular/core";
 import {
   NgControl,
@@ -34,19 +35,21 @@ export class OpFormFieldComponent {
   }
 
   get showErrorMessage():boolean {
+    let showErrorMessage = false;
+
     if (!this.formControl) {
       return false;
     }
 
     if (this.showValidationErrorOn === 'submit') {
-      return this.formControl.invalid && this._formGroupDirective?.submitted;
+      showErrorMessage =  this.formControl.invalid && this._formGroupDirective?.submitted;
     } else if (this.showValidationErrorOn === 'blur') {
-      return this.formControl.invalid && this.formControl.touched;
+      showErrorMessage =  this.formControl.invalid && this.formControl.touched;
     } else if (this.showValidationErrorOn === 'change') {
-      return this.formControl.invalid && this.formControl.dirty;
-    } else {
-      return false;
+      showErrorMessage =  this.formControl.invalid && this.formControl.dirty;
     }
+
+    return showErrorMessage;
   }
 
   get hidden () {

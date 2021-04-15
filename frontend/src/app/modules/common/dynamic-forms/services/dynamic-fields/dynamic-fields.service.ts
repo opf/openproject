@@ -137,7 +137,6 @@ export class DynamicFieldsService {
       .filter(fieldSchema => this._isFieldSchema(fieldSchema) && fieldSchema.writable);
   }
 
-  // TODO: Adapt to the new API (schema.parent?.location === '_links')
   private _isResourceSchema(fieldSchemaKey:string, formModel:IOPFormModel):boolean {
     return !!(formModel?._links && fieldSchemaKey in formModel._links);
   }
@@ -147,7 +146,6 @@ export class DynamicFieldsService {
   }
 
   private _getFieldsModel(fieldSchemas:IOPFieldSchemaWithKey[], formModel:IOPFormModel = {}):IOPFormModel {
-    // TODO: Handle Formattable and time types?
     const {_links:resourcesModel, ...otherElementsModel} = formModel;
     const model = {
       ...otherElementsModel,
@@ -232,7 +230,6 @@ export class DynamicFieldsService {
         .get(allowedValues!.href!)
         .pipe(
           map((response: api.v3.Result) => response._embedded.elements),
-          // TODO: Handle the Status options (currently void)
           map(options => options.map((option:IOPFieldSchema['options']) => ({...option, title: option._links?.self?.title})))
         );
     }
@@ -247,9 +244,6 @@ export class DynamicFieldsService {
   }
 
   private _getFormlyFormWithFieldGroups(fieldGroups:IOPAttributeGroup[] = [], formFields:IOPFormlyFieldConfig[] = []):IOPFormlyFieldConfig[] {
-    // TODO: Handle sort fields in schema order
-    // TODO: Handle nested groups?
-    // TODO: Handle form fields with integer key?
     const fieldGroupKeys = fieldGroups.reduce((groupKeys, fieldGroup) => [...groupKeys, ...fieldGroup.attributes], []);
     const fomFieldsWithoutGroup = formFields.filter(formField => {
       const formFieldKey = formField.key?.split('.')?.pop();
