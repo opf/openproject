@@ -49,8 +49,8 @@
         "@uirouter/core": "^6.0.7",
         "@uirouter/rx": "^0.6.5",
         "@w11k/ngx-componentdestroyed": "^5.0.2",
-        "@xeokit/xeokit-bim-viewer": "^1.8.6",
-        "@xeokit/xeokit-sdk": "^1.3.91",
+        "@xeokit/xeokit-bim-viewer": "^2.0.0",
+        "@xeokit/xeokit-sdk": "^1.8.0-alpha.3",
         "autoprefixer": "^9.6.1",
         "browserslist": "^4.9.1",
         "cdk-drag-scroll": "^0.0.6",
@@ -4069,22 +4069,22 @@
       }
     },
     "node_modules/@xeokit/xeokit-bim-viewer": {
-      "version": "1.8.6",
-      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-bim-viewer/-/xeokit-bim-viewer-1.8.6.tgz",
-      "integrity": "sha512-OLndzuRbayi8cCBOrd9QX95E+iTC818ZlS5nCCVsbtxqOxJgUdEV2rNj+YF/6xMGBLI4Vi+ew55U6zd+QSrEcg==",
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-bim-viewer/-/xeokit-bim-viewer-2.0.0.tgz",
+      "integrity": "sha512-Z45QGaAGEoDJrHW4wSqpw55iPErZ9t7Be3sxieJ+Eg7mrSGH2sDUffBvI/dZm1pzvQZrONNO1V/HSYGbRVJOag==",
       "dependencies": {
-        "@xeokit/xeokit-sdk": "1.3.9"
+        "@xeokit/xeokit-sdk": "1.7.1"
       }
     },
     "node_modules/@xeokit/xeokit-bim-viewer/node_modules/@xeokit/xeokit-sdk": {
-      "version": "1.3.9",
-      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-sdk/-/xeokit-sdk-1.3.9.tgz",
-      "integrity": "sha512-hNay1xtqOND7YBvMYlZnxban7p7nctMJKasN+j8bff1TaMVyAyJ4oyC8Rua5DznYB609SLzNlaHBPH4B5c15YA=="
+      "version": "1.7.1",
+      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-sdk/-/xeokit-sdk-1.7.1.tgz",
+      "integrity": "sha512-HaH+QqgU8GTKItYIETq6nQubt5fDVQ0XEwZy6y7rXKj0v9GCJWgnjuhUf2PWVVyKevEiMon2MwcrA7pKHwCzYQ=="
     },
     "node_modules/@xeokit/xeokit-sdk": {
-      "version": "1.3.91",
-      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-sdk/-/xeokit-sdk-1.3.91.tgz",
-      "integrity": "sha512-HN2fp6twQMtpB/MyJ0n5i7AYxPUcQm5Koxb/gsUs92ylZwSsIEftRCqSXdYv52cyHYE89LpsU6Lfh1qkl1L6tQ=="
+      "version": "1.8.0-alpha.3",
+      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-sdk/-/xeokit-sdk-1.8.0-alpha.3.tgz",
+      "integrity": "sha512-KuYtYLyApgvyq89scyYO0I63qo2OA4bXJnKpr4CxV5IRsVkvlm8uK/a7ci5pfrNgaMjIC+U/lS2VKzk8afBY4A=="
     },
     "node_modules/@xtuc/ieee754": {
       "version": "1.2.0",
@@ -23096,24 +23096,24 @@
       }
     },
     "@xeokit/xeokit-bim-viewer": {
-      "version": "1.8.6",
-      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-bim-viewer/-/xeokit-bim-viewer-1.8.6.tgz",
-      "integrity": "sha512-OLndzuRbayi8cCBOrd9QX95E+iTC818ZlS5nCCVsbtxqOxJgUdEV2rNj+YF/6xMGBLI4Vi+ew55U6zd+QSrEcg==",
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-bim-viewer/-/xeokit-bim-viewer-2.0.0.tgz",
+      "integrity": "sha512-Z45QGaAGEoDJrHW4wSqpw55iPErZ9t7Be3sxieJ+Eg7mrSGH2sDUffBvI/dZm1pzvQZrONNO1V/HSYGbRVJOag==",
       "requires": {
-        "@xeokit/xeokit-sdk": "1.3.9"
+        "@xeokit/xeokit-sdk": "1.7.1"
       },
       "dependencies": {
         "@xeokit/xeokit-sdk": {
-          "version": "1.3.9",
-          "resolved": "https://registry.npmjs.org/@xeokit/xeokit-sdk/-/xeokit-sdk-1.3.9.tgz",
-          "integrity": "sha512-hNay1xtqOND7YBvMYlZnxban7p7nctMJKasN+j8bff1TaMVyAyJ4oyC8Rua5DznYB609SLzNlaHBPH4B5c15YA=="
+          "version": "1.7.1",
+          "resolved": "https://registry.npmjs.org/@xeokit/xeokit-sdk/-/xeokit-sdk-1.7.1.tgz",
+          "integrity": "sha512-HaH+QqgU8GTKItYIETq6nQubt5fDVQ0XEwZy6y7rXKj0v9GCJWgnjuhUf2PWVVyKevEiMon2MwcrA7pKHwCzYQ=="
         }
       }
     },
     "@xeokit/xeokit-sdk": {
-      "version": "1.3.91",
-      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-sdk/-/xeokit-sdk-1.3.91.tgz",
-      "integrity": "sha512-HN2fp6twQMtpB/MyJ0n5i7AYxPUcQm5Koxb/gsUs92ylZwSsIEftRCqSXdYv52cyHYE89LpsU6Lfh1qkl1L6tQ=="
+      "version": "1.8.0-alpha.3",
+      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-sdk/-/xeokit-sdk-1.8.0-alpha.3.tgz",
+      "integrity": "sha512-KuYtYLyApgvyq89scyYO0I63qo2OA4bXJnKpr4CxV5IRsVkvlm8uK/a7ci5pfrNgaMjIC+U/lS2VKzk8afBY4A=="
     },
     "@xtuc/ieee754": {
       "version": "1.2.0",
