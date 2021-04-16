@@ -1,10 +1,10 @@
 ---
 sidebar_navigation:
-  title: Enterprise Cloud Guide
+  title: Enterprise cloud guide
   priority: 999
 description: OpenProject Enterprise Cloud Edition guide.
 robots: index, follow
-keywords: Cloud Edition
+keywords: Cloud Edition, enterprise cloud
 ---
 # Enterprise cloud edition guide
 
