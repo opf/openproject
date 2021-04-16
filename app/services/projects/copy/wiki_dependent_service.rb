@@ -60,15 +60,15 @@ module Projects::Copy
       # Copying top down so that the hierarchy (parent attribute)
       # can be rewritten along the way.
       pages_top_down do |page|
-        new_parent = wiki_pages_map[page.parent]
-        new_wiki_page = copy_wiki_page(page, new_parent)
+        new_parent_id = wiki_pages_map[page.parent_id]
+        new_wiki_page = copy_wiki_page(page, new_parent_id)
         wiki_pages_map[page.id] = new_wiki_page.id if new_wiki_page
       end
 
       state.wiki_page_id_lookup = wiki_pages_map
     end
 
-    def copy_wiki_page(source_page, new_parent)
+    def copy_wiki_page(source_page, new_parent_id)
       # Skip pages without content
       return if source_page.content.nil?
 
@@ -77,7 +77,7 @@ module Projects::Copy
       service_call = WikiPages::CopyService
                      .new(user: user, model: source_page, contract_class: WikiPages::CopyContract)
                      .call(wiki: target.wiki,
-                           parent: new_parent,
+                           parent_id: new_parent_id,
                            send_notifications: ActionMailer::Base.perform_deliveries)
 
       if service_call.success?
