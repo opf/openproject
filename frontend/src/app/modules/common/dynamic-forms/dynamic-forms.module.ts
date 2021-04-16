@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from "@angular/forms";
 import { FormlyModule } from "@ngx-formly/core";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { NgSelectModule } from "@ng-select/ng-select";
@@ -23,7 +23,6 @@ import { OpenprojectCommonModule } from "core-app/modules/common/openproject-com
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
     ReactiveFormsModule,
     FormlyModule.forRoot({
       types: [

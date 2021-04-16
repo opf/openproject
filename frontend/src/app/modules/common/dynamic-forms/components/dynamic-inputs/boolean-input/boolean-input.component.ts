@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FieldType } from "@ngx-formly/core";
 
 @Component({
-  selector: 'app-boolean-input',
+  selector: 'op-boolean-input',
   templateUrl: './boolean-input.component.html',
   styleUrls: ['./boolean-input.component.scss']
 })
