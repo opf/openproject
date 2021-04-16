@@ -610,7 +610,7 @@ GEM
     nokogiri (1.11.3)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
-    nokogumbo (2.0.4)
+    nokogumbo (2.0.5)
       nokogiri (~> 1.8, >= 1.8.4)
     octokit (4.20.0)
       faraday (>= 0.9)
