@@ -29,6 +29,10 @@
 require 'open3'
 
 namespace :openproject do
+  desc 'Updates everything that is updatable automatically especially dependencies'
+  task update: ['openproject:update:gems',
+                'openproject:update:rubocop']
+
   namespace :update do
     def parse_capture(capture, &block)
       capture
@@ -37,6 +41,7 @@ namespace :openproject do
         block.call(line)
       end.compact
     end
+
 
     desc 'Update gems to the extend the Gemfile allows in individual commits'
     task :gems do
@@ -69,7 +74,7 @@ namespace :openproject do
       end
     end
 
-    desc 'Update rubocop used on codeclimate to the extend supported by codeclimate'
+    desc 'Update rubocop used on codeclimate to the extend supported'
     task :rubocop do
       out, _process = Open3.capture3('git',
                                      'ls-remote',
