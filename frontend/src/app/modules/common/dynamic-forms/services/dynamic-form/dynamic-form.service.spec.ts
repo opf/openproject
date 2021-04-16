@@ -121,7 +121,6 @@ describe('DynamicFormService', () => {
 
   beforeEach(() => {
     const formServiceSpy = jasmine.createSpyObj('FormsService', ['submit$']);
-    //
 
     TestBed.configureTestingModule({
       imports: [
