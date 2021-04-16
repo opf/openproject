@@ -20,9 +20,9 @@ The Enterprise on-premises edition builds on top of the free Community edition. 
 
 ## Overview
 
-| Popular Topics                                               | Description                                                  |
+| Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
-| [Enterprise on-premises edition trial](enterprise-trial/)                | Can I test the Enterprise on-premises edition for free?                  |
+| [Enterprise on-premises edition trial](enterprise-trial/)    | Can I test the Enterprise on-premises edition for free?      |
 | [Activate the Enterprise on-premises edition](activate-enterprise-edition/) | How can I upgrade my Community edition to an Enterprise on-premises edition? |
 | [Installation support](support)                              | How can I get installation support?                          |
 
