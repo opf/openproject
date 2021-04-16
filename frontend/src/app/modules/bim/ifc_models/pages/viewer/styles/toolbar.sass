@@ -33,6 +33,113 @@
   .fa-th::before
     @include icon-mixin-menu
 
+// -------------------------- XEOKIT Section tool ----------------------
+.xeokit-section-counter
+  opacity: 1.0
+  color: black
+  padding: 1px
+  margin: 0
+  margin-left: 10px
+  width: 20px
+  height: 16px
+  float: right
+
+  &.disabled
+    color: #99A4AD
+
+  &.active
+    color: #fff
+    border-color: #ebebeb
+
+  &:hover
+    color: #477dca
+
+  &.active:hover
+    color: white
+
+  &.disabled:hover
+    color: #99A4AD
+
+.xeokit-section-menu-button
+  opacity: 1.0
+  border-radius: 5px
+  border: 0
+  color: black
+  padding: 1px
+  margin: 0
+  margin-left: 10px
+  width: 20px
+  height: 16px
+  float: right
+
+  &.disabled
+    color: #99A4AD
+    border: 0
+
+  &.active
+    color: #fff
+    border-color: #ebebeb
+
+  &:hover
+    color: #477dca
+
+  &.active:hover
+    color: white
+
+  &.disabled:hover
+    color: #99A4AD
+
+.xeokit-arrow-up
+  width: 0
+  height: 0
+  display: inline-block
+  vertical-align: middle
+  border-left: 6px solid transparent
+  border-right: 6px solid transparent
+  border-bottom: 6px solid black !important
+
+  &.disabled
+    border-bottom: 6px solid #99A4AD !important
+
+  &.active
+    border-bottom: 6px solid white !important
+
+  &:hover
+    border-bottom: 6px solid #477dca !important
+
+  &.active:hover
+    border-bottom: 6px solid white !important
+
+  &.disabled:hover
+    border-bottom: 6px solid #99A4AD !important
+
+.xeokit-arrow-down
+  width: 0
+  height: 0
+  display: inline-block
+  vertical-align: middle
+  border-style: solid
+  border-width: 6px 6px 0 6px
+  border-color: black transparent transparent transparent  !important
+
+  &.disabled
+    color: #99A4AD !important
+
+  &.active
+    color: white !important
+    border-color: white transparent transparent transparent !important
+
+  &:hover
+    color: white !important
+    border-color: #477dca transparent transparent transparent !important
+
+  &.active:hover
+    color: white !important
+    border-color: white transparent transparent transparent !important
+
+  &.disabled:hover
+    border-color: #99A4AD transparent transparent transparent !important
+
 
 // -------------------------- XEOKIT specific --------------------------
 // Move toolbar to the right
@@ -40,10 +147,6 @@
   display: flex
   flex-wrap: wrap
   justify-content: flex-end
-
-// Hide the counter for the time being until it is properly implemented.
-.xeokit-section-counter
-  display: none
 
 // -------------------------- MOBILE specific --------------------------
 
