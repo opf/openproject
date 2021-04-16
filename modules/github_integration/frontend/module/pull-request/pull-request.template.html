@@ -12,7 +12,7 @@
   </span>
   <div class='details'>
    <span class='state' [ngClass]="'state-' + state()">{{state()}}</span><br />
-    <a [href]="pullRequest.githubHtmlUrl" [textContent]="pullRequest.repository + '#' + pullRequest.number"></a>
+    <a [href]="pullRequest.htmlUrl" [textContent]="pullRequest.repository + '#' + pullRequest.number"></a>
   </div>
   <div class='check-runs' *ngIf="pullRequest.checkRuns.length > 0">
     Checks
@@ -20,7 +20,7 @@
       <li class='check-run' *ngFor="let checkRun of pullRequest.checkRuns">
         <span class='check-run--avatar'><img alt='app owner avatar' [src]="checkRun.appOwnerAvatarUrl" /></span>
         <span class='check-run--name' [textContent]="checkRun.name"></span>
-        <span class='check-run--status' [textContent]="checkRun.outputTitle || checkRunState(checkRun)"></span>
+        <span class='check-run--status' [textContent]="checkRunState(checkRun)"></span>
         <div class='check-run--details'><a [href]="checkRun.detailsUrl">Details</a></div>
       </li>
     </ul>

@@ -47,7 +47,8 @@ export class PullRequestComponent {
   }
 
   public state() {
-    switch (this.pullRequest.state as unknown as String) { // wtf?
+
+    switch (this.pullRequest.state as unknown as String) { // TODO: @aleix
       case 'open':
         return(this.pullRequest.draft ? 'draft' : 'open');
       case 'closed':
@@ -58,9 +59,9 @@ export class PullRequestComponent {
   }
 
   public checkRunState(checkRun: GithubCheckRunResource) {
-    if (checkRun.status == 'completed') {
-      return(checkRun.conclusion);
-    }
-    return(checkRun.status);
+    /* Github apps can *optionally* add an output object (and a title) which is the most relevant information to display.
+       If that is not present, we can display the conclusion (which is present only on finished runs).
+       If that is not present, we can always fall back to the status. */
+    return(checkRun.outputTitle || checkRun.conclusion || checkRun.status);
   }
 }
