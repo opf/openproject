@@ -15,15 +15,15 @@ Our support engineers are highly-trained to diagnose and resolve  issues in your
 - Guaranteed availability and resolution time based on SLA
 - Priority development and escalation
 - Dedicated senior support team
-- Consulting and training for proactive issue prevention
+- Consulting and training for proactive issue prevention (there may be extra fees applicable)
+
+## How to receive support
+
+Please write us an email to support@openproject.com to get help with your OpenProject Enterprise on-premises edition. Include a detailed description as well as screen-shots, where necessary.
 
 ## Support ticket (only for Premier Support and Corporate Support)
 
-You can create a support ticket on https://community.openproject.com/projects/openproject/. You first need to register on the OpenProject Community edition to create a support ticket.
-
-## E-mail support
-
-Please write us an email to support@openproject.com to get help with your OpenProject Enterprise on-premises edition.
+You can create a support ticket on our community platform. Please contact us for details. You first need to register on the OpenProject Community edition to create a support ticket.
 
 ## Contact us
 
