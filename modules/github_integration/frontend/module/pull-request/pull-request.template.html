@@ -1,14 +1,16 @@
 <div class='pull-request'>
   <span>
     <div class='title' [textContent]="pullRequest.title"></div>
-    <img alt='PR author avatar' class='avatar' [src]="pullRequest.githubUser.avatarUrl" />
-  <span class='user'>
-    <a [href]="pullRequest.githubUser.htmlUrl" [textContent]="pullRequest.githubUser.login"></a>
-  </span>
-  <span class='date'>
-    Updated on: 
-    <op-date-time [dateTimeValue]="pullRequest.githubUpdatedAt"></op-date-time>
-  </span>
+    <span *ngIf="pullRequest.githubUser">
+      <img alt='PR author avatar' class='avatar' [src]="pullRequest.githubUser.avatarUrl" />
+      <span class='user'>
+        <a [href]="pullRequest.githubUser.htmlUrl" [textContent]="pullRequest.githubUser.login"></a>
+      </span>
+    </span>
+    <span class='date'>
+      Updated on:
+      <op-date-time [dateTimeValue]="pullRequest.githubUpdatedAt"></op-date-time>
+    </span>
   </span>
   <div class='details'>
    <span class='state' [ngClass]="'state-' + state()">{{state()}}</span><br />
