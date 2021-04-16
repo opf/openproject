@@ -52,4 +52,4 @@ echo "✔ xeokit-metadata is in your path. (without .NET yet, see below)"
 
 echo "DONE - Now execute the following as your development user:
       $ # Install XKT converter
-      $ npm install @xeokit/xeokit-gltf-to-xkt@0.0.3 -g"
+      $ npm install @xeokit/xeokit-gltf-to-xkt@1.0.0 -g"
