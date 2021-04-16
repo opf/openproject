@@ -68,5 +68,29 @@ namespace :openproject do
         end
       end
     end
+
+    desc 'Update rubocop used on codeclimate to the extend supported by codeclimate'
+    task :rubocop do
+      out, _process = Open3.capture3('git',
+                                     'ls-remote',
+                                     'https://github.com/codeclimate/codeclimate-rubocop',
+                                     'channel/rubocop*')
+
+      parsed = parse_capture(out) do |line|
+        matches = line.match(/rubocop-(\d+)-(\d+)(?:-(\d+))?/).to_a
+
+        # This version seems to have been a mistake
+        next if matches[0] == 'rubocop-1-70'
+
+        matches[1..3].map(&:to_i) + [matches[0]]
+      end
+
+      new_version = parsed.sort.pop.last
+
+      Open3.capture3('sed', '-i.bak', "s/channel: rubocop[-0-9]*/channel: #{new_version}/", '.codeclimate.yml')
+      Open3.capture3('rm', '.codeclimate.yml.bak')
+      Open3.capture3('git', 'add', '.codeclimate.yml')
+      Open3.capture3('git', 'commit', '-m', "use #{new_version} on codeclimate")
+    end
   end
 end
