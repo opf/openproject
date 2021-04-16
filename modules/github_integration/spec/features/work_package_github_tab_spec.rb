@@ -44,11 +44,13 @@ describe 'Open the GitHub tab', type: :feature, js: true do
   let(:project) { FactoryBot.create :project }
   let(:work_package) { FactoryBot.create(:work_package, project: project, subject: 'A test work_package') }
   let(:github_tab) { Pages::GitHubTab.new(work_package.id) }
+  let(:pull_request) { FactoryBot.create :github_pull_request, :open, work_packages: [work_package], title: 'A Test PR title' }
+  let(:check_run) { FactoryBot.create :github_check_run, github_pull_request: pull_request, name: 'a check run name' }
 
   shared_examples_for "a github tab" do
     before do
+      check_run
       login_as(user)
-      work_package
     end
 
     # compares the clipboard content by drafting a new comment, pressing ctrl+v and
@@ -64,19 +66,32 @@ describe 'Open the GitHub tab', type: :feature, js: true do
       work_package_page.switch_to_tab(tab: 'github')
     end
 
-    it 'show the github tab when the user is allowed to see it' do
+    it 'shows the github tab when the user is allowed to see it' do
       work_package_page.visit!
       work_package_page.switch_to_tab(tab: 'github')
-      expect(page).to have_content('There are no pull requests')
-      expect(page).to have_content("Link an existing PR by using the code OP##{work_package.id}")
 
       github_tab.git_actions_menu_button.click
       github_tab.git_actions_copy_button.click
       expect(page).to have_text('Copied!')
       expect_clipboard_content("#{work_package.type.name.downcase}/#{work_package.id}-a-test-work_package")
+
+      expect(page).to have_text('A Test PR title')
+      expect(page).to have_text('a check run name')
     end
 
-    describe 'when the user does not have the permissions to see the github tab' do
+    context 'when there are no pull requests' do
+      let(:check_run) {}
+      let(:pull_request) {}
+
+      it 'shows the github tab with an empty-pull-requests message' do
+        work_package_page.visit!
+        work_package_page.switch_to_tab(tab: 'github')
+        expect(page).to have_content('There are no pull requests')
+        expect(page).to have_content("Link an existing PR by using the code OP##{work_package.id}")
+      end
+    end
+
+    context 'when the user does not have the permissions to see the github tab' do
       let(:role) do
         FactoryBot.create(:role,
                           permissions: %i(view_work_packages
@@ -90,7 +105,7 @@ describe 'Open the GitHub tab', type: :feature, js: true do
       end
     end
 
-    describe 'when the github integration is not enabled for the project' do
+    context 'when the github integration is not enabled for the project' do
       let(:project) { FactoryBot.create(:project, disable_modules: 'github') }
 
       it 'does not show the github tab' do
