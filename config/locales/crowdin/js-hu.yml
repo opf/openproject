@@ -465,6 +465,7 @@ hu:
         help_menu: 'A <b>Súgó</b> menüben találja a felhasználói útmutatót és további segítséget. <br> Élvezze az OpenProject munkáját!'
         members: 'Új <b>tagok</b> meghívása, hogy a projekthez csatlakozzanak.'
         project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "A nyíl segítségével visszatérhet a projekt <b>főmenüjébe</b>."
         welcome: 'Áldozzon három percet erre a bemutatóra, hogy megismerje a <b>legfontosabb szolgáltatásokat</b><br> Javasoljuk, hogy végezze el a lépéseket egészen a végéig. A túra bármikor újraindítható.'
         wiki: 'A <b>Wiki</b> modulban tudását dokumentálhatja és megoszthatja a csapatával.'

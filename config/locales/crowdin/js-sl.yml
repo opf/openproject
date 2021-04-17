@@ -465,6 +465,7 @@ sl:
         help_menu: 'V <b>Pomoč</b> meniju boste našli uporabniški priročnik in dodatne vire pomoči. <br> Uživajte svoje delo z programsko rešitvijo OpenProject!'
         members: 'Povabite nove <b>Člane</b> k projektu. '
         project_selection: 'Prosimo kliknite na katerega od projektov z uporabnimi demo podatki za začetek. <br> Ta <b>Demo projekt</b> je najbolj primeren za klasično projektno vodenje, medtem ko je <b>Scrum project</b> boljši za agilno projektno vodenje. '
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "S puščico hako navigirate nazaj na projektni <b>Glavni meni</b>."
         welcome: 'Poglejte si tri minutni ogled, da se naučite čim več <b>pomembne lastnosti</b>. <br> Priporočamo, da ogled dokončat. Ogled lahko ponovno začnete kadar koli. '
         wiki: 'V <b>Wiki</b> lahko dokumentirate in delite znanje z vašo ekipo. '

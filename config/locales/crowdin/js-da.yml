@@ -465,6 +465,7 @@ da:
         help_menu: 'In the <b>Help</b> menu you will find a user guide and additional help resources. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>Members</b> to join your project.'
         project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "With the arrow you can navigate back to the project's <b>Main menu</b>."
         welcome: 'Tag en tre minutters introduktionsturné for at lære de mest <b> vigtige funktioner </b>. <br> Vi anbefaler at du gennemfører trinende til slutningen. Du kan når som helst genstarte turen.'
         wiki: 'Within the <b>Wiki</b> you can document and share knowledge together with your team.'

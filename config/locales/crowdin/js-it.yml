@@ -466,6 +466,7 @@ it:
         help_menu: 'Nel menu <b>Aiuto</b> troverai una guids utente e risorse di aiuto aggiuntive. <br> Goditi il tuo lsvoto con OpenProject!'
         members: 'Invita nuovi <b>Membri</b> per entrare al tuo progetto.'
         project_selection: 'Clicca su uno dei progetti con dati demo per iniziare. <br> Il <b>Progetto Demo</b> si adatta meglio per la gestione dei progetti classici, mentre il <b>Progetto Scrum</b> è più adatto per la gestione dei progetti Agile.'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "Con la freccia puoi navigare indietro al <b>Menu Principale</b> del progetto."
         welcome: 'Fai un tour introduttivo di tre minuti per apprendere le <b>funzioni importanti</b>. <br> Consigliamo di completare i passaggi fino alla fine. Puoi riavviare il tour in qualsiasi momento.'
         wiki: 'Nella <b>Wiki</b> puoi documentare e condividere la conoscenza con il tuo team.'
