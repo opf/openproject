@@ -72,7 +72,7 @@
         "jquery-ujs": "^1.2.2",
         "jquery.caret": "^0.3.1",
         "json5": "^2.1.0",
-        "jspdf": "^2.1.1",
+        "jspdf": "^2.3.1",
         "lodash": "^4.17.19",
         "mark.js": "^8.11.0",
         "moment": "^2.24.0",
@@ -8545,6 +8545,11 @@
         "node": ">=0.8.0"
       }
     },
+    "node_modules/fflate": {
+      "version": "0.4.8",
+      "resolved": "https://registry.npmjs.org/fflate/-/fflate-0.4.8.tgz",
+      "integrity": "sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA=="
+    },
     "node_modules/figgy-pudding": {
       "version": "3.5.1",
       "resolved": "https://registry.npmjs.org/figgy-pudding/-/figgy-pudding-3.5.1.tgz",
@@ -10586,17 +10591,18 @@
       ]
     },
     "node_modules/jspdf": {
-      "version": "2.1.1",
-      "resolved": "https://registry.npmjs.org/jspdf/-/jspdf-2.1.1.tgz",
-      "integrity": "sha512-aEZmTr8SgR7Dy2zjFLu6pbg93urA7nZdbS3MIAXs8PSXn1ee7LSpm0JVMYZ+0qS6ZIUI5NriFSTdpVI4QArAXQ==",
+      "version": "2.3.1",
+      "resolved": "https://registry.npmjs.org/jspdf/-/jspdf-2.3.1.tgz",
+      "integrity": "sha512-1vp0USP1mQi1h7NKpwxjFgQkJ5ncZvtH858aLpycUc/M+r/RpWJT8PixAU7Cw/3fPd4fpC8eB/Bj42LnsR21YQ==",
       "dependencies": {
         "atob": "^2.1.2",
-        "btoa": "^1.2.1"
+        "btoa": "^1.2.1",
+        "fflate": "^0.4.8"
       },
       "optionalDependencies": {
         "canvg": "^3.0.6",
         "core-js": "^3.6.0",
-        "dompurify": "^2.0.12",
+        "dompurify": "^2.2.0",
         "html2canvas": "^1.0.0-rc.5"
       }
     },
@@ -26266,6 +26272,11 @@
         "websocket-driver": ">=0.5.1"
       }
     },
+    "fflate": {
+      "version": "0.4.8",
+      "resolved": "https://registry.npmjs.org/fflate/-/fflate-0.4.8.tgz",
+      "integrity": "sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA=="
+    },
     "figgy-pudding": {
       "version": "3.5.1",
       "resolved": "https://registry.npmjs.org/figgy-pudding/-/figgy-pudding-3.5.1.tgz",
@@ -27914,15 +27925,16 @@
       "integrity": "sha1-P02uSpH6wxX3EGL4UhzCOfE2YoA="
     },
     "jspdf": {
-      "version": "2.1.1",
-      "resolved": "https://registry.npmjs.org/jspdf/-/jspdf-2.1.1.tgz",
-      "integrity": "sha512-aEZmTr8SgR7Dy2zjFLu6pbg93urA7nZdbS3MIAXs8PSXn1ee7LSpm0JVMYZ+0qS6ZIUI5NriFSTdpVI4QArAXQ==",
+      "version": "2.3.1",
+      "resolved": "https://registry.npmjs.org/jspdf/-/jspdf-2.3.1.tgz",
+      "integrity": "sha512-1vp0USP1mQi1h7NKpwxjFgQkJ5ncZvtH858aLpycUc/M+r/RpWJT8PixAU7Cw/3fPd4fpC8eB/Bj42LnsR21YQ==",
       "requires": {
         "atob": "^2.1.2",
         "btoa": "^1.2.1",
         "canvg": "^3.0.6",
         "core-js": "^3.6.0",
-        "dompurify": "^2.0.12",
+        "dompurify": "^2.2.0",
+        "fflate": "^0.4.8",
         "html2canvas": "^1.0.0-rc.5"
       },
       "dependencies": {
