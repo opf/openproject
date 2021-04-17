@@ -170,7 +170,7 @@ import { DatePickerModal } from "core-components/datepicker/datepicker.modal";
 import { WorkPackagesTableComponent } from "core-components/wp-table/wp-table.component";
 import { WorkPackageGroupToggleDropdownMenuDirective } from "core-components/op-context-menu/handlers/wp-group-toggle-dropdown-menu.directive";
 import { OpenprojectAutocompleterModule } from "core-app/modules/autocompleter/openproject-autocompleter.module";
-import { ExportTimelineModal } from "core-app/components/work-packages/exporter/export-timeline.modal";
+import { ExportTimelineModalComponent } from "core-app/components/work-packages/exporter/export-timeline.modal";
 import { OpWpTabsModule } from "core-components/wp-tabs/wp-tabs.module";
 
 @NgModule({
@@ -372,7 +372,7 @@ import { OpWpTabsModule } from "core-components/wp-tabs/wp-tabs.module";
     SaveQueryModal,
     WpDestroyModal,
     DatePickerModal,
-    ExportTimelineModal,
+    ExportTimelineModalComponent,
 
     // CustomActions
     WpCustomActionComponent,
