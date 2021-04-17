@@ -57,16 +57,18 @@ module Sessions
         end
       end
 
-      ##
-      # Ensure we're not memoizing the connection
-      def connection
-        ::ActiveRecord::Base.connection
-      end
-
       def connection_pool
         ::ActiveRecord::Base.connection_pool
       end
+
+      def connection
+        ::ActiveRecord::Base.connection
+      end
     end
+
+    # Ensure we use our own class methods for delegation of the connection
+    # otherwise the memoized superclass is being used
+    delegate :connection, :connection_pool, to: :class
 
     ##
     # Save while updating the user_id reference and updated_at column
@@ -123,7 +125,7 @@ module Sessions
       uid = user_id
       return unless uid && OpenProject::Configuration.drop_old_sessions_on_logout?
 
-      ::Sessions::ActiveRecord.for_user(uid).delete_all
+      ::Sessions::UserSession.for_user(uid).delete_all
     end
   end
 end

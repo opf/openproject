@@ -28,32 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-##
-# An AR helper class to access sessions, but not create them.
-# You can still use AR methods to delete records however.
-module Sessions
-  class ActiveRecord < ::ApplicationRecord
-    self.table_name = 'sessions'
-
-    scope :for_user, ->(user) do
-      user_id = user.is_a?(User) ? user.id : user.to_i
-
-      where(user_id: user_id)
-    end
-
-    scope :non_user, -> do
-      where(user_id: nil)
-    end
-
-    ##
-    # Mark all records as readonly so they cannot
-    # modify the database
-    def readonly?
-      true
-    end
-
-    def data
-      SqlBypass.deserialize(super)
+module API
+  module V3
+    module GithubPullRequests
+      class GithubPullRequestCollectionRepresenter < ::API::Decorators::Collection
+        self.to_eager_load = ::API::V3::GithubPullRequests::GithubPullRequestRepresenter.to_eager_load
+      end
     end
   end
 end

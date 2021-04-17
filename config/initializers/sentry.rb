@@ -38,6 +38,10 @@ if OpenProject::Logging::SentryLogger.enabled?
     # 0.0 = disabled
     # 1.0 = all samples are traced
     config.traces_sample_rate = OpenProject::Configuration.sentry_traces_sample_rate
+    config.traces_sampler = lambda do |sampling_context|
+      # ignore health checks transactions
+      !["/health_checks"].include?(sampling_context[:transaction_context][:name])
+    end
 
     # Set release info
     config.release = OpenProject::VERSION.to_s

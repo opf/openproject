@@ -29,11 +29,16 @@
 module OpenProject::GithubIntegration
   class HookHandler
     # List of the github events we can handle.
-    KNOWN_EVENTS = %w[ping pull_request issue_comment].freeze
+    KNOWN_EVENTS = %w[
+      check_run
+      issue_comment
+      ping
+      pull_request
+    ].freeze
 
     # A github webhook happened.
     # We need to check validity of the data and send a Notification
-    # which we process in our NotificationHandler.
+    # to be processed in our `NotificationHandler`.
     def process(_hook, request, params, user)
       event_type = request.env['HTTP_X_GITHUB_EVENT']
       event_delivery = request.env['HTTP_X_GITHUB_DELIVERY']

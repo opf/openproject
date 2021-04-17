@@ -91,13 +91,13 @@ describe 'random password generation',
       session = ::Sessions::SqlBypass.new data: { user_id: user.id }, session_id: 'other'
       session.save
 
-      expect(::Sessions::ActiveRecord.for_user(user.id).count).to be >= 1
+      expect(::Sessions::UserSession.for_user(user.id).count).to be >= 1
 
       click_on 'Save'
       expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_password_updated))
 
       # The old session is removed
-      expect(::Sessions::ActiveRecord.find_by(session_id: 'other')).to be_nil
+      expect(::Sessions::UserSession.find_by(session_id: 'other')).to be_nil
 
       # Logout and sign in with outdated password
       visit signout_path

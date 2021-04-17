@@ -28,7 +28,7 @@
 
 FactoryBot.define do
   factory :type do
-    sequence(:position) { |p| p }
+    sequence(:position)
     name { |a| "Type No. #{a.position}" }
     description { nil }
     created_at { Time.now }

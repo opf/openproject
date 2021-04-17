@@ -465,6 +465,7 @@ sv:
         help_menu: 'I menyn <b>Hjälp</b> hittar du en användarhandbok och ytterligare hjälpresurser. <br> Njut av ditt arbete med OpenProject!'
         members: 'Bjud in nya <b>medlemmar</b> att gå med i ditt projekt.'
         project_selection: 'Klicka på något av projekten med användbar demodata för att komma igång. <br> Demoprojektet <b></b> passar bäst för klassisk projektledning, medan <b>Scrum projektet</b> är bättre för Agile projektledning.'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "Med pilen kan du navigera tillbaka till projektets <b>huvudmeny</b>."
         welcome: 'Ta en tre minuters introduktionstur för att lära dig de <b>viktigaste funktionerna</b>. <br> Vi rekommenderar att du slutför stegen till slutet. Du kan starta om turen när som helst.'
         wiki: 'Inom <b>Wiki</b> kan du dokumentera och dela kunskap tillsammans med ditt team.'

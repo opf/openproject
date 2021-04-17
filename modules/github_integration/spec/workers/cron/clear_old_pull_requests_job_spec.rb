@@ -28,49 +28,28 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative '../legacy_spec_helper'
-require 'search_controller'
+require 'spec_helper'
 
-describe SearchController, type: :controller do
-  render_views
+describe Cron::ClearOldPullRequestsJob, type: :job do
+  let(:pull_request_without_work_package) do
+    FactoryBot.create(:github_pull_request, work_packages: [])
+  end
+  let(:pull_request_with_work_package) { FactoryBot.create(:github_pull_request, work_packages: [work_package]) }
+  let(:work_package) { FactoryBot.create(:work_package) }
+  let(:check_run) { FactoryBot.create(:github_check_run, github_pull_request: pull_request_without_work_package) }
 
-  fixtures :all
+  let(:job) { described_class.new }
 
   before do
-    User.current = nil
+    pull_request_without_work_package
+    check_run
+    pull_request_with_work_package
   end
 
-  it 'should search without searchable custom fields' do
-    CustomField.update_all "searchable = #{ActiveRecord::Base.connection.quoted_false}"
+  it 'removes pull request without work packages attached' do
+    expect { job.perform }.to change(GithubPullRequest, :count).by(-1).and(change(GithubCheckRun, :count).by(-1))
 
-    get :index, params: { project_id: 1 }
-    assert_response :success
-    assert_template 'index'
-    refute_nil assigns(:project)
-
-    get :index, params: { project_id: 1, q: 'can' }
-    assert_response :success
-    assert_template 'index'
-  end
-
-  it 'should search with searchable custom fields' do
-    get :index, params: { project_id: 1, q: 'stringforcustomfield' }
-    assert_response :success
-    results = assigns(:results)
-    refute_nil results
-    assert_equal 1, results.size
-    assert results.include?(WorkPackage.find(7))
-  end
-
-  it 'should search with invalid project id' do
-    get :index, params: { project_id: 195, q: 'recipe' }
-    assert_response 404
-    assert_nil assigns(:results)
-  end
-
-  it 'should not jump to an invisible WP' do
-    get :index, params: { q: '4' }
-    assert_response :success
-    assert_template 'index'
+    expect(GithubPullRequest.all)
+      .to match_array([pull_request_with_work_package])
   end
 end
