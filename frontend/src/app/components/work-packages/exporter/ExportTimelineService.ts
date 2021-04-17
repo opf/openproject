@@ -1,4 +1,4 @@
-import {jsPDF} from 'jspdf';
+import { jsPDF, PatternData, ShadingPattern } from 'jspdf';
 
 import {Injector} from '@angular/core';
 import {States} from '../../states.service';
@@ -17,7 +17,14 @@ import {drawRelations} from './ExportTimelineRelationsRenderer';
 import { IsolatedQuerySpace } from 'core-app/modules/work_packages/query-space/isolated-query-space';
 import { GroupObject } from 'core-app/modules/hal/resources/wp-collection-resource';
 import { ExportTimelineConfig } from './ExportTimelineConfig';
-import { computeXAndWidth, getHeaderHeight, getHeaderWidth, getRowY, isMilestone } from './utils/utils';
+import {
+  computeXAndWidth,
+  convertColorToInt,
+  getHeaderHeight,
+  getHeaderWidth,
+  getRowY,
+  isMilestone,
+} from './utils/utils';
 import { HookService } from 'core-app/modules/plugins/hook-service';
 
 export class ExportTimelineService {
@@ -80,11 +87,12 @@ export class ExportTimelineService {
     const height = getHeaderHeight(this.config) + (this.querySpace.tableRendered.value || []).length * this.config.lineHeight;
 
     let doc = new jsPDF({
-      orientation: 'l',
+      orientation: width > height ? 'l' : 'p',
       unit: 'px',
       format: [width, height],
     });
 
+    doc.advancedAPI();
     doc.setFontSize(this.config.fontSize);
 
     renderHeader(doc, this.config);
@@ -134,13 +142,15 @@ export class ExportTimelineService {
 
     const margin = this.config.fitDateIntervalMarginFactor * (endDate - startDate);
 
-    this.config.startDate = moment(startDate - margin);
-    this.config.endDate = moment(endDate + margin);
+    this.config.startDate = moment(startDate - margin)
+      .subtract(1, 'day')
+      .startOf('day');
+    this.config.endDate = moment(endDate + margin)
+      .add(2, 'day')
+      .startOf('day');
   }
 
-  private buildCells(doc: jsPDF): jsPDF {
-    const currentlyActive:string[] = Object.keys(this.cells);
-    const newCells:string[] = [];
+  private buildCells(doc:jsPDF):jsPDF {
     let row = 0;
     const groups = mapGroupsByIdentifier(this.querySpace.groups.value || []);
 
@@ -164,35 +174,79 @@ export class ExportTimelineService {
 
       const renderInfo = this.renderInfoFor(wpId);
       buildTableInfo(doc, this.config, row, renderInfo);
-      doc = isMilestone(renderInfo)
-        ? this.buildMilestone(doc, row, renderInfo)
-        : this.buildCell(doc, row, renderInfo);
+      doc = isMilestone(renderInfo) ? this.buildMilestone(doc, row, renderInfo) : this.buildCell(doc, row, renderInfo);
 
       row += 1;
     });
-    
+
     return doc;
   }
 
-  private buildCell(doc: jsPDF, row: number, renderInfo: RenderInfo): jsPDF {    
+  private buildCell(doc:jsPDF, row:number, renderInfo:RenderInfo):jsPDF {
     const change = renderInfo.change;
     const start = moment(change.projectedResource.startDate);
     const due = moment(change.projectedResource.dueDate);
+    const has_start = !_.isNaN(start.valueOf());
+    const has_due = !_.isNaN(due.valueOf());
 
-    if (_.isNaN(start.valueOf()) && _.isNaN(due.valueOf())) {
+    if (!has_start && !has_due) {
       return doc;
     }
 
-    let {x, w} = computeXAndWidth(this.config, start, due);
+    let { x, w } = computeXAndWidth(this.config, start, due);
     const h = this.config.workHeight;
     let y = getRowY(this.config, row);
-    y += (this.config.lineHeight - h) / 2;  // Vertically center workline
+    y += (this.config.lineHeight - h) / 2; // Vertically center workline
     const color = computeColor(renderInfo);
 
     x += this.config.nameColumnSize;
 
-    doc.setFillColor(color);
-    doc.rect(x, y, w, h, 'F');
+    doc.rect(x, y, w, h);
+
+    if (!has_start) {
+      const gradient_id = 'gradient-' + row;
+      // Gradient left to right
+      var patternData:PatternData = {
+        key: gradient_id,
+        matrix: doc.Matrix(w, 0, 0, 1, x, y),
+      };
+      const int_color = convertColorToInt(color);
+      var pattern = new ShadingPattern(
+        'axial',
+        [0, 0, 1, 0],
+        [
+          { offset: 0, color: [255, 255, 255] },
+          { offset: 1, color: int_color },
+        ]
+      );
+
+      // Fill square
+      doc.addShadingPattern(gradient_id, pattern);
+      doc.fill(patternData);
+    } else if (!has_due) {
+      const gradient_id = 'gradient-' + row;
+      // Gradient rigt to left
+      var patternData:PatternData = {
+        key: gradient_id,
+        matrix: doc.Matrix(w, 0, 0, 1, x, y),
+      };
+      const int_color = convertColorToInt(color);
+      var pattern = new ShadingPattern(
+        'axial',
+        [0, 0, 1, 0],
+        [
+          { offset: 0, color: int_color },
+          { offset: 1, color: [255, 255, 255] },
+        ]
+      );
+
+      // Fill square
+      doc.addShadingPattern(gradient_id, pattern);
+      doc.fill(patternData);
+    } else {
+      doc.setFillColor(color);
+      doc.fill();
+    }
 
     // Display the children's duration clamp
     const wp = renderInfo.workPackage;
