@@ -43,9 +43,10 @@ module API
 
                        only.nil? || only.include?(identifier)
                      end,
+                     reader: ->(doc:, **) { doc.fetch("copy#{identifier.camelize}", true) },
                      setter: ->(fragment:, **) do
                        represented.only ||= Set.new
-                       represented.only << identifier if fragment
+                       represented.only << identifier unless fragment == false
                      end
           end
 

@@ -98,10 +98,46 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
         }
       end
 
-      it 'sets those two to true' do
+      it 'sets all of them to true' do
         expect(subject.name).to eq 'The copied project'
-        expect(subject.meta.only).to contain_exactly('work_packages', 'wiki')
+        expected_names = ::Projects::CopyService.copyable_dependencies.map { |dep| dep[:identifier] }
+        expect(subject.meta.only).to match_array(expected_names)
         expect(subject.meta.send_notifications).to eq false
+      end
+    end
+
+    context 'with one meta copy set to false' do
+      let(:parsed_hash) do
+        {
+          'name' => 'The copied project',
+          '_meta' => {
+            'copyWorkPackages' => false
+          }
+        }
+      end
+
+      it 'sets all others to true' do
+        expect(subject.name).to eq 'The copied project'
+        expected_names = ::Projects::CopyService.copyable_dependencies.map { |dep| dep[:identifier] }
+        expect(subject.meta.only).to match_array(expected_names - %w[work_packages])
+      end
+    end
+
+    context 'with a mixture of meta copy set to false' do
+      let(:parsed_hash) do
+        {
+          'name' => 'The copied project',
+          '_meta' => {
+            'copyWorkPackages' => false,
+            'copyWiki' => true,
+          }
+        }
+      end
+
+      it 'still sets all of them to true except work packages' do
+        expect(subject.name).to eq 'The copied project'
+        expected_names = ::Projects::CopyService.copyable_dependencies.map { |dep| dep[:identifier] }
+        expect(subject.meta.only).to match_array(expected_names - %w[work_packages])
       end
     end
 
