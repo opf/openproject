@@ -47,7 +47,6 @@ export class PullRequestComponent {
   }
 
   public state() {
-
     switch (this.pullRequest.state as unknown as String) { // TODO: @aleix
       case 'open':
         return(this.pullRequest.draft ? 'draft' : 'open');
