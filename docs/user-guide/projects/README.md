@@ -26,7 +26,7 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [Copy a project](#copy-a-project)                            | Copy an existing project.                                    |
 | [Archive a project](#archive-a-project)                      | Find out how to archive completed projects.                  |
 | [Delete a project](#delete-a-project)                        | How to delete a project?                                     |
-| [View all projects](#view-all-projects)                      | Get an overview of all your projects in the projects overview list. |
+| [Global projects overview](#Global-projects-overview-view-all-projects) | Get an overview of all your projects in the projects overview list ("View all projects"). |
 | [Project overarching reports](#project-overarching-reports)  | How to create project overarching reports across multiple projects? |
 
 <video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Projects-Introduction.mp4" type="video/mp4" controls="" style="width:100%"></video>
@@ -202,7 +202,7 @@ Also, you can delete a project via the [projects overview](#view-all-projects).
 
 
 
-## View all projects
+## Global projects overview - View all projects
 
 To get an overview of all your projects, select the **View all projects** option from the **Select a project** menu in the top left header navigation. 
 
@@ -243,7 +243,7 @@ Click on the **Modules** icon with the dots in the header navigation. These are 
 
 Here you will find
 
-- The [global projects list](#view-all-projects)
+- The [global projects list](#Global-projects-overview-view-all-projects)
 - The global work packages list (see below)
 - The global news overview
 - The global time and costs module
