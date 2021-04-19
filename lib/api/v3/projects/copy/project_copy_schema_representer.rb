@@ -29,43 +29,40 @@
 #++
 
 module API
-  module Decorators
-    class Form < ::API::Decorators::Single
-      def initialize(represented, current_user: nil, errors: [], meta: nil)
-        @errors = errors
-        @meta = meta
-        super(represented, current_user: current_user)
-      end
+  module V3
+    module Projects
+      module Copy
+        class ProjectCopySchemaRepresenter < ::API::V3::Projects::Schemas::ProjectSchemaRepresenter
+          extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
+          custom_field_injector type: :schema_representer
 
-      property :payload,
-               embedded: true,
-               exec_context: :decorator,
-               getter: ->(*) {
-                 payload_representer
-               }
-      property :schema,
-               embedded: true,
-               exec_context: :decorator,
-               getter: ->(*) {
-                 schema_representer
-               }
-      property :validation_errors, embedded: true, exec_context: :decorator
+          ::Projects::CopyService.copyable_dependencies.each do |dep|
+            identifier = dep[:identifier]
+            name_source = dep[:name_source]
 
-      def _type
-        'Form'
-      end
+            schema :"copy_#{identifier}",
+                   type: 'Boolean',
+                   name_source: name_source,
+                   has_default: true,
+                   writable: true,
+                   required: false,
+                   description: -> do
+                     count = dep[:count_source].call(represented.model, current_user)
 
-      def validation_errors
-        @errors.group_by(&:property).inject({}) do |hash, (property, errors)|
-          error = ::API::Errors::MultipleErrors.create_if_many(errors)
-          hash[property] = ::API::V3::Errors::ErrorRepresenter.new(error)
-          hash
+                     I18n.t('copy_project.x_objects_of_this_type', count: count.to_i)
+                   end,
+                   location: :meta
+          end
+
+          schema :send_notifications,
+                 type: 'Boolean',
+                 name_source: ->(*) { I18n.t(:label_project_copy_notifications) },
+                 has_default: true,
+                 writable: true,
+                 required: false,
+                 location: :meta
         end
       end
-
-      protected
-
-      attr_reader :meta
     end
   end
 end

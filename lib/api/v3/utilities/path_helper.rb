@@ -247,6 +247,14 @@ module API
             "#{projects}/schema"
           end
 
+          def self.project_copy(id)
+            "#{project(id)}/copy"
+          end
+
+          def self.project_copy_form(id)
+            "#{project(id)}/copy/form"
+          end
+
           resources :query
 
           def self.query_default

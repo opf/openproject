@@ -40,19 +40,30 @@ module API
           end
         end
 
+        def default_process_state
+          ->(**) do
+            {}
+          end
+        end
+
         def initialize(model:,
                        api_name: model.name.demodulize,
                        instance_generator: default_instance_generator(model),
                        params_modifier: default_params_modifier,
+                       process_state: default_process_state,
+                       parse_representer: nil,
+                       render_representer: nil,
                        process_service: nil,
+                       process_contract: nil,
                        parse_service: nil)
           self.model = model
           self.api_name = api_name
           self.instance_generator = instance_generator
           self.params_modifier = params_modifier
-          self.parse_representer = deduce_parse_representer
-          self.render_representer = deduce_render_representer
-          self.process_contract = deduce_process_contract
+          self.process_state = process_state
+          self.parse_representer = parse_representer || deduce_parse_representer
+          self.render_representer = render_representer || deduce_render_representer
+          self.process_contract = process_contract || deduce_process_contract
           self.process_service = process_service || deduce_process_service
           self.parse_service = parse_service || deduce_parse_service
         end
@@ -61,6 +72,8 @@ module API
           update = self
 
           -> do
+            update.request = self
+
             params = update.parse(current_user, request_body)
 
             params = instance_exec(params, &update.params_modifier)
@@ -91,6 +104,7 @@ module API
 
           process_service
             .new(**args.compact)
+            .with_state(process_state.call(model: instance, params: params))
             .call(**params)
         end
 
@@ -108,6 +122,7 @@ module API
         end
 
         attr_accessor :model,
+                      :request,
                       :api_name,
                       :instance_generator,
                       :parse_representer,
@@ -115,7 +130,8 @@ module API
                       :params_modifier,
                       :process_contract,
                       :process_service,
-                      :parse_service
+                      :parse_service,
+                      :process_state
 
         private
 

@@ -28,39 +28,45 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Grids
-  ##
-  # Base class for any grid-based model's copy service.
-  class CopyService < ::BaseServices::Copy
+module Projects
+  class EnqueueCopyService < ::BaseServices::BaseCallable
+    attr_reader :source, :user
+
+    def initialize(user:, model: nil, **)
+      @user = user
+      @source = model
+    end
+
+    private
+
+    def perform(params)
+      call = test_copy(params)
+
+      if call.success?
+        ServiceResult.new success: true, result: schedule_copy_job(params)
+      else
+        call
+      end
+    end
+
     ##
-    # DependentServices can be specialised through a class in the
-    # concrete model's namespace, e.g. Boards::Copy::WidgetsDependentService.
-    def self.copy_dependencies
-      [
-        widgets_dependency
-      ]
+    # Tests whether the copy can be performed
+    def test_copy(params)
+      test_params = params.merge(attributes_only: true)
+
+      Projects::CopyService
+        .new(user: user, source: source)
+        .call(test_params)
     end
 
-    def self.widgets_dependency
-      module_parent::Copy::WidgetsDependentService
-    rescue NameError
-      Copy::WidgetsDependentService
+    ##
+    # Schedule the project copy job
+    def schedule_copy_job(params)
+      CopyProjectJob.perform_later(user_id: user.id,
+                                   source_project_id: source.id,
+                                   target_project_params: params[:target_project_params],
+                                   associations_to_copy: params[:only].to_a,
+                                   send_mails: ActiveRecord::Type::Boolean.new.cast(params[:send_notifications]))
     end
-
-    def initialize(user:, source:, contract_class: ::EmptyContract)
-      super user: user, source: source, contract_class: contract_class
-    end
-
-    protected
-
-    def initialize_copy(source, params)
-      grid = source.dup
-
-      initialize_new_grid! grid, source, params
-
-      ServiceResult.new success: grid.save, result: grid
-    end
-
-    def initialize_new_grid!(_new_grid, _original_grid, _params); end
   end
 end

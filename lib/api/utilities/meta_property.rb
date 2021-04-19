@@ -28,39 +28,42 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Grids
-  ##
-  # Base class for any grid-based model's copy service.
-  class CopyService < ::BaseServices::Copy
-    ##
-    # DependentServices can be specialised through a class in the
-    # concrete model's namespace, e.g. Boards::Copy::WidgetsDependentService.
-    def self.copy_dependencies
-      [
-        widgets_dependency
-      ]
+module API
+  module Utilities
+    module MetaProperty
+      extend ActiveSupport::Concern
+
+      included do
+        attr_accessor :meta
+
+        property :meta,
+                 as: :_meta,
+                 exec_context: :decorator,
+                 getter: ->(*) { meta_representer },
+                 setter: ->(fragment:, **) { represented.meta = meta_representer.from_hash(fragment) }
+
+        singleton_class.prepend MetaPropertyConstructor
+      end
+
+      module MetaPropertyConstructor
+        def create(model, **args)
+          meta = args.delete(:meta)
+
+          super(model, **args).tap do |instance|
+            instance.meta = meta
+          end
+        end
+      end
+
+      protected
+
+      def meta_representer
+        meta_representer_class.create(meta || OpenStruct.new, current_user: current_user)
+      end
+
+      def meta_representer_class
+        raise NotImplementedError
+      end
     end
-
-    def self.widgets_dependency
-      module_parent::Copy::WidgetsDependentService
-    rescue NameError
-      Copy::WidgetsDependentService
-    end
-
-    def initialize(user:, source:, contract_class: ::EmptyContract)
-      super user: user, source: source, contract_class: contract_class
-    end
-
-    protected
-
-    def initialize_copy(source, params)
-      grid = source.dup
-
-      initialize_new_grid! grid, source, params
-
-      ServiceResult.new success: grid.save, result: grid
-    end
-
-    def initialize_new_grid!(_new_grid, _original_grid, _params); end
   end
 end

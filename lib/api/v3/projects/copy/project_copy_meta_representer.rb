@@ -29,43 +29,42 @@
 #++
 
 module API
-  module Decorators
-    class Form < ::API::Decorators::Single
-      def initialize(represented, current_user: nil, errors: [], meta: nil)
-        @errors = errors
-        @meta = meta
-        super(represented, current_user: current_user)
-      end
+  module V3
+    module Projects
+      module Copy
+        class ProjectCopyMetaRepresenter < ::API::Decorators::Single
+          ::Projects::CopyService.copyable_dependencies.each do |dep|
+            identifier = dep[:identifier]
 
-      property :payload,
-               embedded: true,
-               exec_context: :decorator,
-               getter: ->(*) {
-                 payload_representer
-               }
-      property :schema,
-               embedded: true,
-               exec_context: :decorator,
-               getter: ->(*) {
-                 schema_representer
-               }
-      property :validation_errors, embedded: true, exec_context: :decorator
+            property :"copy_#{identifier}",
+                     exec_context: :decorator,
+                     getter: ->(*) do
+                       only = represented&.only
 
-      def _type
-        'Form'
-      end
+                       only.nil? || only.include?(identifier)
+                     end,
+                     reader: ->(doc:, **) { doc.fetch("copy#{identifier.camelize}", true) },
+                     setter: ->(fragment:, **) do
+                       represented.only ||= Set.new
+                       represented.only << identifier unless fragment == false
+                     end
+          end
 
-      def validation_errors
-        @errors.group_by(&:property).inject({}) do |hash, (property, errors)|
-          error = ::API::Errors::MultipleErrors.create_if_many(errors)
-          hash[property] = ::API::V3::Errors::ErrorRepresenter.new(error)
-          hash
+          property :send_notifications,
+                   exec_context: :decorator,
+                   getter: ->(*) do
+                     # Default to true
+                     represented.send_notifications != false
+                   end,
+                   setter: ->(fragment:, **) do
+                     represented.send_notifications = fragment
+                   end
+
+          def model_required?
+            false
+          end
         end
       end
-
-      protected
-
-      attr_reader :meta
     end
   end
 end

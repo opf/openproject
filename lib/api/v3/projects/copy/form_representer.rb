@@ -28,39 +28,32 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Grids
-  ##
-  # Base class for any grid-based model's copy service.
-  class CopyService < ::BaseServices::Copy
-    ##
-    # DependentServices can be specialised through a class in the
-    # concrete model's namespace, e.g. Boards::Copy::WidgetsDependentService.
-    def self.copy_dependencies
-      [
-        widgets_dependency
-      ]
+module API
+  module V3
+    module Projects
+      module Copy
+        class FormRepresenter < ::API::V3::Projects::FormRepresenter
+          private
+
+          def payload_representer
+            ProjectCopyPayloadRepresenter
+              .create(represented, meta: meta, current_user: current_user)
+          end
+
+          ##
+          # Instantiate the copy schema with the source project
+          # to correctly derive available modules and counts
+          def schema_representer
+            contract = contract_class.new(meta.source, current_user)
+
+            ProjectCopySchemaRepresenter
+              .create(contract,
+                      form_embedded: true,
+                      current_user: current_user)
+          end
+
+        end
+      end
     end
-
-    def self.widgets_dependency
-      module_parent::Copy::WidgetsDependentService
-    rescue NameError
-      Copy::WidgetsDependentService
-    end
-
-    def initialize(user:, source:, contract_class: ::EmptyContract)
-      super user: user, source: source, contract_class: contract_class
-    end
-
-    protected
-
-    def initialize_copy(source, params)
-      grid = source.dup
-
-      initialize_new_grid! grid, source, params
-
-      ServiceResult.new success: grid.save, result: grid
-    end
-
-    def initialize_new_grid!(_new_grid, _original_grid, _params); end
   end
 end

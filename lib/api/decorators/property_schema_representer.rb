@@ -34,9 +34,11 @@ require 'roar/json/hal'
 module API
   module Decorators
     class PropertySchemaRepresenter < ::API::Decorators::Single
+      include API::Decorators::FormattableProperty
+
       def initialize(
         type:, name:, location: nil, required: true, has_default: false, writable: true,
-        attribute_group: nil, current_user: nil
+        attribute_group: nil, description: nil, current_user: nil
       )
         @type = type
         @name = name
@@ -45,6 +47,7 @@ module API
         @writable = writable
         @attribute_group = attribute_group
         @location = derive_location(location)
+        @description = description
 
         super(nil, current_user: current_user)
       end
@@ -59,7 +62,8 @@ module API
                     :max_length,
                     :regular_expression,
                     :options,
-                    :location
+                    :location,
+                    :description
 
       property :type, exec_context: :decorator
       property :name, exec_context: :decorator
@@ -73,6 +77,15 @@ module API
       property :options, exec_context: :decorator
 
       property :location, exec_context: :decorator, render_nil: false
+
+      formattable_property :description,
+                           exec_context: :decorator,
+                           render_nil: false,
+                           setter: nil,
+                           getter: ->(*) do
+                             next unless description.present?
+                             ::API::Decorators::Formattable.new(description)
+                           end
 
       private
 

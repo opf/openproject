@@ -28,39 +28,27 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Grids
-  ##
-  # Base class for any grid-based model's copy service.
-  class CopyService < ::BaseServices::Copy
-    ##
-    # DependentServices can be specialised through a class in the
-    # concrete model's namespace, e.g. Boards::Copy::WidgetsDependentService.
-    def self.copy_dependencies
-      [
-        widgets_dependency
-      ]
+module Projects::Copy
+  class WikiPageAttachmentsDependentService < Dependency
+    include ::Copy::Concerns::CopyAttachments
+
+    def self.human_name
+      I18n.t(:label_wiki_page_attachments)
     end
 
-    def self.widgets_dependency
-      module_parent::Copy::WidgetsDependentService
-    rescue NameError
-      Copy::WidgetsDependentService
-    end
-
-    def initialize(user:, source:, contract_class: ::EmptyContract)
-      super user: user, source: source, contract_class: contract_class
+    def source_count
+      source.wiki && source.wiki.pages.joins(:attachments).count('attachments.id')
     end
 
     protected
 
-    def initialize_copy(source, params)
-      grid = source.dup
+    def copy_dependency(params:)
+      # If no wiki pages copied, we cannot copy their attachments
+      return unless state.wiki_page_id_lookup
 
-      initialize_new_grid! grid, source, params
-
-      ServiceResult.new success: grid.save, result: grid
+      state.wiki_page_id_lookup.each do |old_id, new_id|
+        copy_attachments(old_id, new_id)
+      end
     end
-
-    def initialize_new_grid!(_new_grid, _original_grid, _params); end
   end
 end

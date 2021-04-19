@@ -128,7 +128,7 @@ describe 'Project templates', type: :feature, js: true do
 
       expect(mail).not_to be_nil
 
-      expect(page).to have_current_path '/projects/foo-bar/', wait: 20
+      expect(page).to have_current_path /\/projects\/foo-bar\/?/, wait: 20
 
       project = Project.find_by identifier: 'foo-bar'
       expect(project.name).to eq 'Foo bar'

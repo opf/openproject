@@ -36,6 +36,10 @@ module Projects::Copy
       I18n.t(:label_wiki_page_plural)
     end
 
+    def source_count
+      source.wiki && source.wiki.pages.count
+    end
+
     protected
 
     def copy_dependency(params:)
@@ -56,21 +60,15 @@ module Projects::Copy
       # Copying top down so that the hierarchy (parent attribute)
       # can be rewritten along the way.
       pages_top_down do |page|
-        new_parent = wiki_pages_map[page.parent]
-        wiki_pages_map[page] = copy_wiki_page(page, new_parent)
+        new_parent_id = wiki_pages_map[page.parent_id]
+        new_wiki_page = copy_wiki_page(page, new_parent_id)
+        wiki_pages_map[page.id] = new_wiki_page.id if new_wiki_page
       end
 
-      # Copy attachments
-      if should_copy?(params, :wiki_page_attachments)
-        wiki_pages_map.each do |old_page, new_page|
-          next unless old_page && new_page
-
-          copy_attachments(old_page, new_page.id)
-        end
-      end
+      state.wiki_page_id_lookup = wiki_pages_map
     end
 
-    def copy_wiki_page(source_page, new_parent)
+    def copy_wiki_page(source_page, new_parent_id)
       # Skip pages without content
       return if source_page.content.nil?
 
@@ -79,7 +77,7 @@ module Projects::Copy
       service_call = WikiPages::CopyService
                      .new(user: user, model: source_page, contract_class: WikiPages::CopyContract)
                      .call(wiki: target.wiki,
-                           parent: new_parent,
+                           parent_id: new_parent_id,
                            send_notifications: ActionMailer::Base.perform_deliveries)
 
       if service_call.success?

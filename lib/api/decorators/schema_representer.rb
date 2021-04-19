@@ -65,7 +65,8 @@ module API
                    max_length: nil,
                    regular_expression: nil,
                    options: {},
-                   show_if: true)
+                   show_if: true,
+                   description: nil)
           getter = ->(*) do
             schema_property_getter(type,
                                    name_source,
@@ -77,7 +78,8 @@ module API
                                    max_length,
                                    regular_expression,
                                    options,
-                                   location)
+                                   location,
+                                   description)
           end
 
           schema_property(property,
@@ -290,12 +292,14 @@ module API
                                  max_length,
                                  regular_expression,
                                  options,
-                                 location)
+                                 location,
+                                 description)
         name = call_or_translate(name_source)
         schema = ::API::Decorators::PropertySchemaRepresenter
                  .new(type: call_or_use(type),
                       name: name,
                       location: location,
+                      description: call_or_use(description),
                       required: call_or_use(required),
                       has_default: call_or_use(has_default),
                       writable: call_or_use(writable),

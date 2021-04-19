@@ -34,6 +34,10 @@ module Projects::Copy
       I18n.t(:label_version_plural)
     end
 
+    def source_count
+      source.versions.count
+    end
+
     protected
 
     def copy_dependency(params:)

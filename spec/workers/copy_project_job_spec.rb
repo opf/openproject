@@ -109,7 +109,7 @@ describe CopyProjectJob, type: :model do
       # expect to create a status
       expect(copy_job.job_status).to be_present
       expect(copy_job.job_status[:status]).to eq 'success'
-      expect(copy_job.job_status[:payload]['redirect']).to eq '/projects/copy'
+      expect(copy_job.job_status[:payload]['redirect']).to include '/projects/copy'
     end
   end
 

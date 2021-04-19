@@ -34,6 +34,10 @@ module Projects::Copy
       I18n.t(:'boards.label_boards')
     end
 
+    def source_count
+      ::Boards::Grid.where(project: source).count
+    end
+
     protected
 
     # Copies boards from +project+
