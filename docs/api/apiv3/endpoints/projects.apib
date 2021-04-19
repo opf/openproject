@@ -1312,11 +1312,29 @@ The returned payload part of the form will be contain a merge between the alread
 
 For available properties, please see the project endpoint.
 
-The copy form has a `_meta` property that allows defining which associations to copy. Please check the copy schema embedded in the copy form response for available options.
+The copy form has a `_meta` property that allows defining which associations to copy. Please check the table below
+and copy schema embedded in the copy form response for available options.
 
 The embedded schema of this form describes all associations to copy with a human readable string including the total count of associated objects in the source project.
 
 For more details and all possible responses see the general specification of [Forms](#forms).
+
+### Available meta parameters
+
+| Meta property              | Description                                          | Type       | Constraints | Supported operations |Condition |
+| :------------------------: | ---------------------------------------------------  | ----       | ----------- | -------------------- |----------|
+| sendNotifications          | Whether to send out notifications                    | Boolean    | not null    | READ/WRITE           |          |
+| copyMembers                | Whether to copy project members                      | Boolean    | not null    | READ/WRITE           |          |
+| copyVersions               | Whether to copy project versions                     | Boolean    | not null    | READ/WRITE           |          |
+| copyCategories             | Whether to copy project categories                   | Boolean    | not null    | READ/WRITE           |          |
+| copyWorkPackages           | Whether to copy project work packages                | Boolean    | not null    | READ/WRITE           |          |
+| copyWorkPackageAttachments | Whether to copy project attachments of work packages | Boolean    | not null    | READ/WRITE           |          |
+| copyWiki                   | Whether to copy project wiki pages                   | Boolean    | not null    | READ/WRITE           |          |
+| copyWikiPageAttachments    | Whether to copy project wiki page attachments        | Boolean    | not null    | READ/WRITE           |          |
+| copyForums                 | Whether to copy project forums                       | Boolean    | not null    | READ/WRITE           |          |
+| copyQueries                | Whether to copy project queries                      | Boolean    | not null    | READ/WRITE           |          |
+| copyBoards                 | Whether to copy project boards                       | Boolean    | not null    | READ/WRITE           |          |
+| copyOverview               | Whether to copy the project overview page            | Boolean    | not null    | READ/WRITE           |          |
 
 ## Project copy form [POST]
 
