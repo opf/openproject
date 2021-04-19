@@ -88,8 +88,9 @@ class Setting < ApplicationRecord
 
   cattr_accessor :available_settings
 
-  def self.create_setting(name, value = nil)
-    @@available_settings[name] = value
+  def self.create_setting(name, value = {})
+    binding.pry
+    @@available_settings << Settings::Available.new(name, **value)
   end
 
   def self.create_setting_accessors(name)
@@ -123,21 +124,27 @@ class Setting < ApplicationRecord
     class_eval src, __FILE__, __LINE__
   end
 
-  @@available_settings = YAML::load(File.open(Rails.root.join('config/settings.yml')))
+  @@available_settings = YAML::load(File.open(Rails.root.join('config/settings.yml'))).map do |name, config|
+    Settings::Available.new name,
+                            format: config['format'],
+                            default: config['default'],
+                            serialized: config.fetch('serialized', false)
+  end
 
   # Defines getter and setter for each setting
   # Then setting values can be read using: Setting.some_setting_name
   # or set using Setting.some_setting_name = "some value"
-  @@available_settings.each do |name, _params|
-    create_setting_accessors(name)
+  @@available_settings.each do |setting|
+    create_setting_accessors(setting.name)
   end
 
   validates_uniqueness_of :name
+  #TODO rework to check for config to exist
   validates_inclusion_of :name, in: lambda { |_setting|
-                                      @@available_settings.keys
+                                      @@available_settings.map(&:name)
                                     } # lambda, because @available_settings changes at runtime
   validates_numericality_of :value, only_integer: true, if: Proc.new { |setting|
-                                                              @@available_settings[setting.name]['format'] == 'int'
+                                                              setting.format == 'int'
                                                             }
 
   def value
@@ -191,7 +198,7 @@ class Setting < ApplicationRecord
 
   # Check whether a setting was defined
   def self.exists?(name)
-    @@available_settings.has_key?(name)
+    @@available_settings.detect { |available| available.name == name }
   end
 
   def self.installation_uuid
@@ -301,12 +308,12 @@ class Setting < ApplicationRecord
 
   # Unserialize a serialized settings value
   def self.deserialize(name, v)
-    default = @@available_settings[name]
+    default = @@available_settings.detect { |available| available.name == name }
 
-    if default['serialized'] && v.is_a?(String)
+    if default.serialized? && v.is_a?(String)
       YAML::load(v)
     elsif v.present?
-      read_formatted_setting v, default["format"]
+      read_formatted_setting v, default.format
     else
       v
     end
@@ -334,4 +341,13 @@ class Setting < ApplicationRecord
 
   require_dependency 'setting/aliases'
   extend Aliases
+
+  protected
+
+  def config
+    @config ||= available_settings.detect { |config| config.name == name }
+  end
+
+  delegate :format,
+           to: :config
 end
