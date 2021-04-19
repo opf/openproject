@@ -83,13 +83,15 @@ export class CurrentUserService {
   }
 
   // Everything below this is deprecated legacy interfacing and should not be used
-  
+
+
   private setupLegacyDataListeners() {
     this.currentUserQuery.user$.subscribe(user => this._user = user);
     this.currentUserQuery.isLoggedIn$.subscribe(isLoggedIn => this._isLoggedIn = isLoggedIn);
   }
 
   private _isLoggedIn = false;
+  /** @deprecated Use the store mechanism `currentUserQuery.isLoggedIn$` */
   public get isLoggedIn() {
     return this._isLoggedIn;
   }
@@ -99,22 +101,28 @@ export class CurrentUserService {
     name: null,
     mail: null,
   };
+
+  /** @deprecated Use the store mechanism `currentUserQuery.user$` */
   public get userId() {
     return this._user.id || '';
   }
 
+  /** @deprecated Use the store mechanism `currentUserQuery.user$` */
   public get name() {
     return this._user.name || '';
   }
 
+  /** @deprecated Use the store mechanism `currentUserQuery.user$` */
   public get mail() {
     return this._user.mail || '';
   }
 
+  /** @deprecated Use the store mechanism `currentUserQuery.user$` */
   public get href() {
     return `/api/v3/users/${this.userId}`;
   }
 
+  /** @deprecated Use `I18nService.locale` instead */
   public get language() {
     return I18n.locale || 'en';
   }
