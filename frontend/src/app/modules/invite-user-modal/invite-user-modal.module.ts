@@ -19,6 +19,7 @@ import { RoleSearchComponent } from "./role/role-search.component";
 import { MessageComponent } from "./message/message.component";
 import { SummaryComponent } from "./summary/summary.component";
 import { SuccessComponent } from "./success/success.component";
+import { DynamicFormsModule } from "core-app/modules/common/dynamic-forms/dynamic-forms.module";
 
 export function initializeServices(injector:Injector) {
   return function () {
@@ -34,6 +35,7 @@ export function initializeServices(injector:Injector) {
     NgSelectModule,
     ReactiveFormsModule,
     TextFieldModule,
+    DynamicFormsModule,
   ],
   exports: [
     InviteUserButtonComponent,
