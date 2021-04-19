@@ -83,10 +83,12 @@ module SettingsHelper
           choices.map do |choice|
             text, value, choice_options = (choice.is_a?(Array) ? choice : [choice, choice])
             choice_options = (choice_options || {}).merge(options.except(:id))
+            choice_options[:id] = "#{setting}_#{value}"
 
             content_tag(:label, class: 'form--label-with-check-box') do
               styled_check_box_tag("settings[#{setting}][]", value,
                                    Setting.send(setting).include?(value), choice_options) + text.to_s
+
             end
           end.join.html_safe
       end
@@ -100,6 +102,18 @@ module SettingsHelper
   end
 
   def setting_text_field(setting, options = {})
+    setting_field_wrapper(setting, options) do
+      styled_text_field_tag("settings[#{setting}]", Setting.send(setting), options)
+    end
+  end
+
+  def setting_number_field(setting, options = {})
+    setting_field_wrapper(setting, options) do
+      styled_number_field_tag("settings[#{setting}]", Setting.send(setting), options)
+    end
+  end
+
+  def setting_field_wrapper(setting, options)
     unit = options.delete(:unit)
     unit_html = ''
 
@@ -115,8 +129,7 @@ module SettingsHelper
 
     setting_label(setting, options) +
       wrap_field_outer(options) do
-        styled_text_field_tag("settings[#{setting}]", Setting.send(setting), options) +
-          unit_html
+        yield + unit_html
       end
   end
 
