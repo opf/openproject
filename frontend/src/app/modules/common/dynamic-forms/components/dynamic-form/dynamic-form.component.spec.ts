@@ -104,13 +104,6 @@ describe('DynamicFormComponent', () => {
           "placeholder": "",
           "disabled": false
         },
-        "id": "formly_9_textInput_name_0",
-        "hooks": {},
-        "modelOptions": {},
-        "resetOnHide": true,
-        "wrappers": [],
-        "expressionProperties": {},
-        "validation": {}
       },
       {
         "type": "integerInput",
@@ -123,13 +116,6 @@ describe('DynamicFormComponent', () => {
           "placeholder": "",
           "disabled": false
         },
-        "id": "formly_9_numberInput_name_0",
-        "hooks": {},
-        "modelOptions": {},
-        "resetOnHide": true,
-        "wrappers": [],
-        "expressionProperties": {},
-        "validation": {}
       },
       {
         "type": "textInput",
@@ -142,13 +128,6 @@ describe('DynamicFormComponent', () => {
           "placeholder": "",
           "disabled": false
         },
-        "id": "formly_9_textInput_identifier_1",
-        "hooks": {},
-        "modelOptions": {},
-        "resetOnHide": true,
-        "wrappers": [],
-        "expressionProperties": {},
-        "validation": {}
       },
       {
         "type": "formattableInput",
@@ -162,13 +141,6 @@ describe('DynamicFormComponent', () => {
           "placeholder": "",
           "disabled": false
         },
-        "id": "formly_9_formattableInput_description_2",
-        "hooks": {},
-        "modelOptions": {},
-        "resetOnHide": true,
-        "wrappers": [],
-        "expressionProperties": {},
-        "validation": {}
       },
       {
         "type": "booleanInput",
@@ -181,13 +153,6 @@ describe('DynamicFormComponent', () => {
           "placeholder": "",
           "disabled": false
         },
-        "id": "formly_9_booleanInput_public_3",
-        "hooks": {},
-        "modelOptions": {},
-        "resetOnHide": true,
-        "wrappers": [],
-        "expressionProperties": {},
-        "validation": {}
       },
       {
         "type": "booleanInput",
@@ -200,13 +165,6 @@ describe('DynamicFormComponent', () => {
           "placeholder": "",
           "disabled": false
         },
-        "id": "formly_9_booleanInput_active_4",
-        "hooks": {},
-        "modelOptions": {},
-        "resetOnHide": true,
-        "wrappers": [],
-        "expressionProperties": {},
-        "validation": {}
       },
       {
         "type": "selectInput",
@@ -233,12 +191,6 @@ describe('DynamicFormComponent', () => {
           "clearable": true,
           "multiple": false
         },
-        "id": "formly_9_selectInput_status_5",
-        "hooks": {},
-        "modelOptions": {},
-        "resetOnHide": true,
-        "wrappers": [],
-        "validation": {}
       },
       {
         "type": "formattableInput",
@@ -252,13 +204,6 @@ describe('DynamicFormComponent', () => {
           "placeholder": "",
           "disabled": false
         },
-        "id": "formly_9_formattableInput_statusExplanation_6",
-        "hooks": {},
-        "modelOptions": {},
-        "resetOnHide": true,
-        "wrappers": [],
-        "expressionProperties": {},
-        "validation": {}
       },
       {
         "type": "selectInput",
@@ -282,12 +227,6 @@ describe('DynamicFormComponent', () => {
           },
           "options": of([])
         },
-        "id": "formly_9_selectInput__links.parent_7",
-        "hooks": {},
-        "modelOptions": {},
-        "resetOnHide": true,
-        "wrappers": [],
-        "validation": {}
       },
       {
         "type": "dateInput",
@@ -299,13 +238,6 @@ describe('DynamicFormComponent', () => {
           "placeholder": "",
           "disabled": false
         },
-        "id": "formly_9_dateInput_customField12_8",
-        "hooks": {},
-        "modelOptions": {},
-        "resetOnHide": true,
-        "wrappers": [],
-        "expressionProperties": {},
-        "validation": {}
       }
     ],
     model: {

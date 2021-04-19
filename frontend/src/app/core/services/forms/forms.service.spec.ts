@@ -26,7 +26,7 @@ describe('FormsService', () => {
       ]
     }
   };
-  const formBuilder = new FormBuilder()
+  const formBuilder = new FormBuilder();
 
   beforeEach(() => {
     TestBed.configureTestingModule({

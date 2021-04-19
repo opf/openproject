@@ -1,25 +1,35 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { fakeAsync } from '@angular/core/testing';
+import {
+  createDynamicInputFicture,
+  testDynamicInputControValueAccessor,
+} from "core-app/modules/common/dynamic-forms/spec/helpers";
 
-import { TextInputComponent } from './text-input.component';
+describe('TextComponent', () => {
+  it('should load the field', fakeAsync(() => {
+    const fieldsConfig = [
+      {
+        "type": "textInput" as "textInput",
+        "className": "op-form--field inline-edit--field",
+        "key": "testControl",
+        "templateOptions": {
+          "required": true,
+          "label": "testControl",
+          "type": "text",
+          "placeholder": "",
+          "disabled": false
+        },
+      }
+    ];
+    const formModel = {
+      testControl: 'testValue',
+    };
+    const testModel = {
+      initialValue: 'testValue',
+      changedValue: 'testValue2',
+    };
 
-xdescribe('TextComponent', () => {
-  let component: TextInputComponent;
-  let fixture: ComponentFixture<TextInputComponent>;
+    const fixture = createDynamicInputFicture(fieldsConfig, formModel);
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ TextInputComponent ]
-    })
-    .compileComponents();
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TextInputComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    testDynamicInputControValueAccessor(fixture, testModel, 'op-text-input input');
+  }));
 });
