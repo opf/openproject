@@ -28,8 +28,10 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Configuration::ConfigurationRepresenter do
+describe ::API::V3::Configuration::ConfigurationRepresenter, 'rendering' do
   include ::API::V3::Utilities::PathHelper
+
+  subject { representer.to_json }
 
   let(:represented) { Setting }
   let(:current_user) do
@@ -43,50 +45,67 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
   let(:representer) do
     described_class.new(represented, current_user: current_user, embed_links: embed_links)
   end
+  let(:setting_max_updated_at) { DateTime.now }
 
-  context 'generation' do
-    subject { representer.to_json }
+  before do
+    allow(Setting)
+      .to receive(:maximum)
+      .with(:updated_at)
+      .and_return(setting_max_updated_at)
+  end
 
-    describe '_links' do
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'self' }
-        let(:href) { api_v3_paths.configuration }
-      end
+  describe '_links' do
+    it_behaves_like 'has an untitled link' do
+      let(:link) { 'self' }
+      let(:href) { api_v3_paths.configuration }
+    end
 
-      context 'userPreferences' do
-        context 'if logged in' do
-          it_behaves_like 'has an untitled link' do
-            let(:link) { 'userPreferences' }
-            let(:href) { api_v3_paths.my_preferences }
-          end
-        end
-
-        context 'if not logged in' do
-          let(:current_user) { FactoryBot.build_stubbed(:anonymous) }
-
-          it_behaves_like 'has an untitled link' do
-            let(:link) { 'userPreferences' }
-            let(:href) { api_v3_paths.my_preferences }
-          end
+    context 'userPreferences' do
+      context 'if logged in' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'userPreferences' }
+          let(:href) { api_v3_paths.my_preferences }
         end
       end
+
+      context 'if not logged in' do
+        let(:current_user) { FactoryBot.build_stubbed(:anonymous) }
+
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'userPreferences' }
+          let(:href) { api_v3_paths.my_preferences }
+        end
+      end
+    end
+  end
+
+  describe 'properties' do
+    describe '_type' do
+      it_behaves_like 'property', :_type do
+        let(:value) { 'Configuration' }
+      end
     end
 
-    it 'indicates its type' do
-      is_expected.to be_json_eql('Configuration'.to_json).at_path('_type')
+    describe 'updatedAt' do
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { setting_max_updated_at }
+        let(:json_path) { 'updatedAt' }
+      end
     end
 
-    it 'indicates maximumAttachmentFileSize in Bytes' do
-      allow(Setting).to receive(:attachment_max_size).and_return('1024')
-      is_expected.to be_json_eql((1024 * 1024).to_json).at_path('maximumAttachmentFileSize')
+    describe 'maximumAttachmentFileSize', with_settings: { attachment_max_size: '1024' } do
+      it_behaves_like 'property', :maximumAttachmentFileSize do
+        let(:value) { 1024 * 1024 }
+      end
     end
 
-    it 'indicates perPageOptions as array of integers' do
-      allow(Setting).to receive(:per_page_options).and_return('1, 50 ,   100  ')
-      is_expected.to be_json_eql([1, 50, 100].to_json).at_path('perPageOptions')
+    describe 'perPageOptionse', with_settings: { per_page_options: '1, 50 ,   100  ' } do
+      it_behaves_like 'property', :perPageOptions do
+        let(:value) { [1, 50, 100] }
+      end
     end
 
-    context 'timeFormat' do
+    describe 'timeFormat' do
       context 'with time format', with_settings: { time_format: '%I:%M %p' } do
         it 'indicates the timeFormat' do
           is_expected
@@ -112,7 +131,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
       end
     end
 
-    context 'dateFormat' do
+    describe 'dateFormat' do
       context 'without a date format', with_settings: { date_format: '' } do
         it 'indicates the dateFormat' do
           is_expected
@@ -194,7 +213,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
       end
     end
 
-    context 'startOfWeek' do
+    describe 'startOfWeek' do
       context 'without a setting', with_settings: { start_of_week: '' } do
         it 'is null' do
           is_expected
@@ -212,23 +231,33 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
       end
     end
 
-    describe '_embedded' do
-      context 'userPreferences' do
-        context 'if embedding' do
-          let(:embed_links) { true }
+    Setting.available_settings.each do |name, config|
+      next unless %w(boolean).include?(config['format'])
 
-          it 'embedds the user preferences' do
-            is_expected
-              .to be_json_eql('UserPreferences'.to_json)
-              .at_path('_embedded/userPreferences/_type')
-          end
+      describe name, with_settings: { name => true } do
+        it_behaves_like 'property', name.camelize(:lower).to_sym do
+          let(:value) { true }
         end
+      end
+    end
+  end
 
-        context 'if not embedding' do
-          it 'embedds the user preferences' do
-            is_expected
-              .not_to have_json_path('_embedded/userPreferences/_type')
-          end
+  describe '_embedded' do
+    context 'userPreferences' do
+      context 'if embedding' do
+        let(:embed_links) { true }
+
+        it 'embedds the user preferences' do
+          is_expected
+            .to be_json_eql('UserPreferences'.to_json)
+            .at_path('_embedded/userPreferences/_type')
+        end
+      end
+
+      context 'if not embedding' do
+        it 'embedds the user preferences' do
+          is_expected
+            .not_to have_json_path('_embedded/userPreferences/_type')
         end
       end
     end

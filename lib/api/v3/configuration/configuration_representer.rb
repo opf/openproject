@@ -75,6 +75,20 @@ module API
                  },
                  render_nil: true
 
+        Setting.available_settings.each do |name, config|
+          next unless %w(boolean).include?(config['format'])
+
+          property name,
+                   getter: ->(*) {
+                     Setting[name]
+                   }
+        end
+
+        property :updatedAt,
+                 getter: ->(decorator:, **) {
+                   decorator.datetime_formatter.format_datetime(Setting.maximum(:updated_at), allow_nil: true)
+                 }
+
         property :user_preferences,
                  embedded: true,
                  exec_context: :decorator,

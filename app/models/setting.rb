@@ -151,7 +151,7 @@ class Setting < ApplicationRecord
   def formatted_value(value)
     return value unless value.present?
 
-    default = @@available_settings[name]
+    default = self.available_settings[name]
 
     if default['serialized']
       return value.to_yaml
