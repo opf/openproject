@@ -43,6 +43,9 @@ module Projects::Copy
     protected
 
     def copy_dependency(params:)
+      # If no work packages were copied, we cannot copy their attachments
+      return unless state.work_package_id_lookup
+
       state.work_package_id_lookup.each do |old_wp_id, new_wp_id|
         copy_attachments(old_wp_id, new_wp_id)
       end

@@ -43,6 +43,9 @@ module Projects::Copy
     protected
 
     def copy_dependency(params:)
+      # If no wiki pages copied, we cannot copy their attachments
+      return unless state.wiki_page_id_lookup
+
       state.wiki_page_id_lookup.each do |old_id, new_id|
         copy_attachments(old_id, new_id)
       end
