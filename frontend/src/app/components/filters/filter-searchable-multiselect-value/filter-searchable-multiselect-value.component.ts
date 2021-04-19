@@ -9,28 +9,21 @@ import { HalResourceSortingService } from 'core-app/modules/hal/services/hal-res
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { APIV3Service } from 'core-app/modules/apiv3/api-v3.service';
 import { DebouncedRequestSwitchmap, errorNotificationHandler } from 'core-app/helpers/rxjs/debounced-input-switchmap';
-import { ValueOption } from 'core-app/modules/fields/edit/field-types/select-edit-field.component';
+import { ValueOption } from 'core-app/modules/fields/edit/field-types/select-edit-field/select-edit-field.component';
 import { Observable } from 'rxjs';
 import { HalResourceNotificationService } from 'core-app/modules/hal/services/hal-resource-notification.service';
 import { CurrentProjectService } from 'core-app/components/projects/current-project.service';
 import { ApiV3FilterBuilder, FilterOperator } from 'core-app/components/api/api-v3/api-v3-filter-builder';
 import { map } from 'rxjs/operators';
 import { APIv3ResourceCollection } from 'core-app/modules/apiv3/paths/apiv3-resource';
-import { UserResource } from 'core-app/modules/hal/resources/user-resource';
-import { APIv3UserPaths } from 'core-app/modules/apiv3/endpoints/users/apiv3-user-paths';
-import { APIV3WorkPackagePaths } from 'core-app/modules/apiv3/endpoints/work_packages/api-v3-work-package-paths';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 import { UntilDestroyedMixin } from 'core-app/helpers/angular/until-destroyed.mixin';
 import { CachableAPIV3Resource } from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
-export interface FilterConditions {name:string; operator:FilterOperator; values:unknown[]|boolean; }
 
 @Component({
   selector: 'filter-searchable-multiselect-value',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl:'./filter-searchable-multiselect-value.component.html'
 })
-
-
 export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
   @Input() public filter:QueryFilterInstanceResource;
   @Input() public shouldFocus = false;

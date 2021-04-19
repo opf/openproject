@@ -32,7 +32,7 @@ import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 import { DatePickerModal } from "core-components/datepicker/datepicker.modal";
 import { OpModalService } from "core-app/modules/modal/modal.service";
 import { take } from "rxjs/operators";
-import { DateEditFieldComponent } from "core-app/modules/fields/edit/field-types/date-edit-field.component";
+import { DateEditFieldComponent } from "core-app/modules/fields/edit/field-types/date-edit-field/date-edit-field.component";
 import { OpModalComponent } from "core-app/modules/modal/modal.component";
 
 @Component({

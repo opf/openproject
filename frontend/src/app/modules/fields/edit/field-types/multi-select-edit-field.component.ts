@@ -31,7 +31,7 @@ import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { EditFieldComponent } from "core-app/modules/fields/edit/edit-field.component";
-import { ValueOption } from "core-app/modules/fields/edit/field-types/select-edit-field.component";
+import { ValueOption } from "core-app/modules/fields/edit/field-types/select-edit-field/select-edit-field.component";
 import { NgSelectComponent } from "@ng-select/ng-select";
 import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
