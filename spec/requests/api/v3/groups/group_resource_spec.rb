@@ -215,6 +215,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
         .new(group, current_user: admin)
         .call(ids: members.map(&:id))
 
+      another_user
       group_updated_at
 
       perform_enqueued_jobs do

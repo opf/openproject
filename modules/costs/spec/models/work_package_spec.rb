@@ -32,9 +32,7 @@ describe WorkPackage, type: :model do
   let(:user) { FactoryBot.create(:admin) }
   let(:role) { FactoryBot.create(:role) }
   let(:project) do
-    project = FactoryBot.create(:project_with_types)
-    project.add_member!(user, role)
-    project
+    FactoryBot.create(:project_with_types, members: { user => role })
   end
 
   let(:project2) { FactoryBot.create(:project_with_types, types: project.types) }

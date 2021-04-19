@@ -210,11 +210,9 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       let(:projects) { [project, other_project, parent_project] }
 
       let(:parent_project) do
-        parent_project = FactoryBot.create(:project, public: false)
+        parent_project = FactoryBot.create(:project, public: false, members: { current_user => role })
 
         project.update_attribute(:parent_id, parent_project.id)
-
-        parent_project.add_member! current_user, role
 
         parent_project
       end

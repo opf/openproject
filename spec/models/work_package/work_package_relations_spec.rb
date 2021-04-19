@@ -36,12 +36,20 @@ describe WorkPackage, type: :model do
     end
 
     describe '#duplicate' do
-      let(:original) { FactoryBot.create(:work_package) }
+      let(:status) { FactoryBot.create(:status) }
+      let(:type) { FactoryBot.create(:type) }
+      let(:original) do
+        FactoryBot.create(:work_package,
+                          project: project,
+                          type: type,
+                          status: status)
+      end
+      let(:project) { FactoryBot.create(:project, members: { current_user => workflow.role }) }
       let(:dup_1) do
         FactoryBot.create(:work_package,
-                          project: original.project,
-                          type: original.type,
-                          status: original.status)
+                          project: project,
+                          type: type,
+                          status: status)
       end
       let(:relation_org_dup_1) do
         FactoryBot.create(:relation,
@@ -51,24 +59,18 @@ describe WorkPackage, type: :model do
       end
       let(:workflow) do
         FactoryBot.create(:workflow,
-                          old_status: original.status,
+                          old_status: status,
                           new_status: closed_state,
-                          type_id: original.type_id)
+                          type_id: type.id)
       end
-      let(:user) { FactoryBot.create(:user) }
-
-      before do
-        allow(User).to receive(:current).and_return user
-
-        original.project.add_member!(user, workflow.role)
-      end
+      current_user { FactoryBot.create(:user) }
 
       context 'closes duplicates' do
         let(:dup_2) do
           FactoryBot.create(:work_package,
-                            project: original.project,
-                            type: original.type,
-                            status: original.status)
+                            project: project,
+                            type: type,
+                            status: status)
         end
         let(:relation_dup_1_dup_2) do
           FactoryBot.create(:relation,

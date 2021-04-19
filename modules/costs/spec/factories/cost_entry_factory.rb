@@ -38,7 +38,14 @@ FactoryBot.define do
 
     before(:create) do |ce|
       ce.work_package.project = ce.project
-      ce.project.add_member!(ce.user, [FactoryBot.create(:role)]) unless ce.project.users.include?(ce.user)
+
+      unless ce.project.users.include?(ce.user)
+        Members::CreateService
+          .new(user: nil, contract_class: EmptyContract)
+          .call(principal: ce.user,
+                project: ce.project,
+                roles: [FactoryBot.create(:role)])
+      end
     end
   end
 end

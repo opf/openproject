@@ -63,13 +63,9 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
   end
 
   describe 'user with manage_members permission' do
-    let(:project) { FactoryBot.create(:project) }
+    let(:project) { FactoryBot.create(:project, members: { placeholder => role }) }
     let(:role) { FactoryBot.create :role, permissions: %i[manage_members]}
     let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
-
-    before do
-      project.add_member! placeholder, [role]
-    end
 
     it_behaves_like 'represents the placeholder'
   end

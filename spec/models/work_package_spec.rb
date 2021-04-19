@@ -158,8 +158,12 @@ describe WorkPackage, type: :model do
 
   describe 'responsible' do
     let(:group) { FactoryBot.create(:group) }
-
-    before { work_package.project.add_member! group, FactoryBot.create(:role) }
+    let!(:member) do
+      FactoryBot.create(:member,
+                        principal: group,
+                        project: work_package.project,
+                        roles: [FactoryBot.create(:role)])
+    end
 
     shared_context 'assign group as responsible' do
       before { work_package.responsible = group }

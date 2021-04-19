@@ -1,5 +1,9 @@
 shared_context 'principal membership management context' do
-  shared_let(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
+  shared_let(:project) do
+    FactoryBot.create :project,
+                      name: 'Project 1',
+                      identifier: 'project1'
+  end
   shared_let(:project2) { FactoryBot.create :project, name: 'Project 2', identifier: 'project2' }
 
   shared_let(:manager)   { FactoryBot.create :role, name: 'Manager', permissions: %i[view_members manage_members] }
@@ -43,13 +47,23 @@ end
 shared_examples 'global user principal membership management flows' do |permission|
   context 'as global user' do
     shared_let(:global_user) { FactoryBot.create :user, global_permission: permission }
+    shared_let(:project_members) { { global_user => manager } }
     current_user { global_user }
 
     context 'when the user is member in the projects' do
       it_behaves_like 'principal membership management flows' do
       before do
-          project.add_member! global_user, [manager]
-          project2.add_member! global_user, [manager]
+        Members::CreateService
+          .new(user: nil, contract_class: EmptyContract)
+          .call(principal: global_user,
+                project: project,
+                roles: [manager])
+
+        Members::CreateService
+          .new(user: nil, contract_class: EmptyContract)
+          .call(principal: global_user,
+                project: project2,
+                roles: [manager])
         end
       end
     end
@@ -64,7 +78,11 @@ shared_examples 'global user principal membership management flows' do |permissi
       end
 
       it 'does not show the membership' do
-        project.add_member! principal, [developer]
+        Members::CreateService
+          .new(user: nil, contract_class: EmptyContract)
+          .call(principal: principal,
+                project: project,
+                roles: [developer])
 
         principal_page.visit!
         principal_page.open_projects_tab!
