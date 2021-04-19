@@ -29,6 +29,8 @@
 #++
 
 class BaseMailer < ActionMailer::Base
+  layout 'mailer'
+
   helper :application, # for format_text
          :work_packages, # for css classes
          :custom_fields # for show_value

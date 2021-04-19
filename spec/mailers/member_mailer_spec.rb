@@ -88,9 +88,24 @@ describe MemberMailer, type: :mailer do
   end
 
   shared_examples_for 'has the expected body' do
-    it 'has the expected contents highlighting the roles received' do
-      expect(subject.body.parts.detect { |part| part['Content-Type'].value == 'text/html' }.body.to_s)
-        .to be_html_eql expected
+    let(:body) { subject.body.parts.detect { |part| part['Content-Type'].value == 'text/html' }.body.to_s }
+
+    it 'has the expected header' do
+      expect(body)
+        .to have_text(expected_header)
+    end
+
+    it 'highlights the roles received' do
+      expected = <<~MSG
+        <ul>
+          <li> #{roles.first.name} </li>
+          <li> #{roles.last.name} </li>
+        </ul>
+      MSG
+
+      expect(body)
+        .to be_html_eql(expected)
+        .at_path('body/ul')
     end
   end
 
@@ -102,16 +117,8 @@ describe MemberMailer, type: :mailer do
     it_behaves_like 'sets the expected message_id header'
     it_behaves_like 'sets the expected openproject header'
     it_behaves_like 'has the expected body' do
-      let(:expected) do
-        <<~MSG
-          #{current_user.name} added you as a member to the project '#{project.name}'.
-
-          You have the following roles:
-          <ul>
-            <li> #{roles.first.name} </li>
-            <li> #{roles.last.name} </li>
-          </ul>
-        MSG
+      let(:expected_header) do
+        "#{current_user.name} added you as a member to the project '#{project.name}'."
       end
     end
     it_behaves_like 'fails for a group'
@@ -125,16 +132,8 @@ describe MemberMailer, type: :mailer do
     it_behaves_like 'sets the expected message_id header'
     it_behaves_like 'sets the expected openproject header'
     it_behaves_like 'has the expected body' do
-      let(:expected) do
-        <<~MSG
-          #{current_user.name} updated the roles you have in the project '#{project.name}'.
-
-          You now have the following roles:
-          <ul>
-            <li> #{roles.first.name} </li>
-            <li> #{roles.last.name} </li>
-          </ul>
-        MSG
+      let(:expected_header) do
+        "#{current_user.name} updated the roles you have in the project '#{project.name}'."
       end
     end
     it_behaves_like 'fails for a group'
@@ -149,16 +148,8 @@ describe MemberMailer, type: :mailer do
     it_behaves_like 'has a subject', :'mail_member_updated_global.subject'
     it_behaves_like 'sets the expected message_id header'
     it_behaves_like 'has the expected body' do
-      let(:expected) do
-        <<~MSG
-          #{current_user.name} updated the roles you have globally.
-
-          You now have the following roles:
-          <ul>
-            <li> #{roles.first.name} </li>
-            <li> #{roles.last.name} </li>
-          </ul>
-        MSG
+      let(:expected_header) do
+        "#{current_user.name} updated the roles you have globally."
       end
     end
     it_behaves_like 'fails for a group'
