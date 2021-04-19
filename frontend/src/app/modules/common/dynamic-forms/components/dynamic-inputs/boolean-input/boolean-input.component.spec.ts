@@ -1,25 +1,32 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { fakeAsync } from '@angular/core/testing';
+import {
+  createDynamicInputFicture,
+  testDynamicInputControValueAccessor,
+} from "core-app/modules/common/dynamic-forms/spec/helpers";
 
-import { BooleanInputComponent } from './boolean-input.component';
+describe('BooleanInputComponent', () => {
+  it('should load the field', fakeAsync(() => {
+    const fieldsConfig = [
+      {
+        "type": "booleanInput" as "booleanInput",
+        "className": "op-form--field inline-edit--field",
+        "key": "testControl",
+        "templateOptions": {
+          "required": true,
+          "label": "testControl",
+        },
+      }
+    ];
+    const formModel = {
+      testControl: true,
+    };
+    const testModel = {
+      initialValue: true,
+      changedValue: false,
+    };
 
-xdescribe('BooleanInputComponent', () => {
-  let component: BooleanInputComponent;
-  let fixture: ComponentFixture<BooleanInputComponent>;
+    const fixture = createDynamicInputFicture(fieldsConfig, formModel);
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ BooleanInputComponent ]
-    })
-    .compileComponents();
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(BooleanInputComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    testDynamicInputControValueAccessor(fixture, testModel, 'op-boolean-input input');
+  }));
 });
