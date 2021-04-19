@@ -1,28 +1,42 @@
 <div class='pull-request'>
   <span>
-    <div class='title' [textContent]="pullRequest.title"></div>
+    <div class='title'
+         [textContent]="pullRequest.title"
+         *ngIf="state !== 'partial'">
+    </div>
+
+    <div class='title' *ngIf="state === 'partial'">
+      Pull request comment
+    </div>
+
     <span *ngIf="pullRequest.githubUser">
       <img alt='PR author avatar' class='avatar' [src]="pullRequest.githubUser.avatarUrl" />
       <span class='user'>
         <a [href]="pullRequest.githubUser.htmlUrl" [textContent]="pullRequest.githubUser.login"></a>
       </span>
     </span>
+
     <span class='date'>
       Updated on:
       <op-date-time [dateTimeValue]="pullRequest.githubUpdatedAt"></op-date-time>
     </span>
   </span>
+
   <div class='details'>
-   <span class='state' [ngClass]="'state-' + state()">{{state()}}</span><br />
+   <span class='state' [ngClass]="'state-' + state">{{state}}</span><br />
     <a [href]="pullRequest.htmlUrl" [textContent]="pullRequest.repository + '#' + pullRequest.number"></a>
   </div>
+
   <div class='check-runs' *ngIf="pullRequest.checkRuns.length > 0">
     Checks
     <ul>
       <li class='check-run' *ngFor="let checkRun of pullRequest.checkRuns">
         <span class='check-run--avatar'><img alt='app owner avatar' [src]="checkRun.appOwnerAvatarUrl" /></span>
+
         <span class='check-run--name' [textContent]="checkRun.name"></span>
+
         <span class='check-run--status' [textContent]="checkRunState(checkRun)"></span>
+
         <div class='check-run--details'><a [href]="checkRun.detailsUrl">Details</a></div>
       </li>
     </ul>
