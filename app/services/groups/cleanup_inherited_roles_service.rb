@@ -56,7 +56,7 @@ module Groups
     end
 
     def remove_member_roles_sql(member_role_ids)
-      if member_role_ids
+      if member_role_ids.present?
         sql_query = <<~SQL
           DELETE FROM #{MemberRole.table_name}
           WHERE id IN (:member_role_ids)
