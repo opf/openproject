@@ -113,6 +113,7 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
     let(:params) do
       {
         name: 'My copied project',
+        identifier: 'foobar',
         "customField#{text_custom_field.id}": {
           "raw": "CF text"
         },
@@ -132,6 +133,10 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
               .at_path("_embedded/payload/name")
 
       expect(response.body)
+        .to be_json_eql('foobar'.to_json)
+              .at_path("_embedded/payload/identifier")
+
+      expect(response.body)
         .to be_json_eql('on track'.to_json)
               .at_path("_embedded/payload/status")
 
@@ -146,6 +151,22 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
       expect(response.body)
         .to be_json_eql(list_custom_field.custom_options.first.value.to_json)
               .at_path("_embedded/payload/_links/customField#{list_custom_field.id}/title")
+
+      expect(response.body)
+        .to be_json_eql({}.to_json)
+              .at_path("_embedded/validationErrors")
+
+      expect(response.body)
+        .to be_json_eql("/api/v3/projects/#{source_project.id}/copy".to_json)
+              .at_path("_links/commit/href")
+
+      expect(response.body)
+        .to be_json_eql("/api/v3/projects/#{source_project.id}/copy/form".to_json)
+              .at_path("_links/validate/href")
+
+      expect(response.body)
+        .to be_json_eql("/api/v3/projects/#{source_project.id}/copy/form".to_json)
+              .at_path("_links/self/href")
     end
   end
 
@@ -158,11 +179,11 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
       }
     end
 
-    it 'sets that value to true and all others to false' do
+    it 'sets all values to true' do
       ::Projects::CopyService.copyable_dependencies.each do |dep|
         identifier = dep[:identifier].to_s.camelize
         expect(response.body)
-          .to be_json_eql((identifier == 'Overview').to_json)
+          .to be_json_eql(true.to_json)
                 .at_path("_embedded/payload/_meta/copy#{identifier}")
       end
     end
