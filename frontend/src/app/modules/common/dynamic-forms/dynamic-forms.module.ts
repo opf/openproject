@@ -50,8 +50,6 @@ import { DatePickerModule } from "core-app/modules/common/op-date-picker/date-pi
     NgOptionHighlightModule,
     FormattableEditFieldModule,
     OpenprojectEditorModule,
-    OpenprojectFieldsModule,
-    OpenprojectCommonModule,
   ],
   declarations: [
     DynamicFieldGroupWrapperComponent,
