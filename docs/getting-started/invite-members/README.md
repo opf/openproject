@@ -72,7 +72,7 @@ Please note that removing a member who has not accepted the invite yet from a pr
 
 Groups have the following impact on a project members list and behave slightly different than individual users:
 
-- the group is shown as a separate line on the project members list
+- the group name is shown as a separate line on the project members list
 - the group members cannot be removed from the members list individually (no delete icon)
 - adding a group with members who are already in a project member list will add the group's role to their (the members') project roles
 - a project member belonging to a group can have additional roles added individually
@@ -84,7 +84,7 @@ Find out more about the management of groups [here](../../system-admin-guide/use
 
 ## Behavior of placeholder users as project members
 
-Placeholder users have the following impact on a project members list and behave slightly different than regular users:
+Placeholder will look slightly different from regular users in a project member list:
 
 - will be shown without email address
-- can't be part of a group
+- can't be part of a group, i.e. they will be shown without group affiliation

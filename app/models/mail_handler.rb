@@ -98,10 +98,10 @@ class MailHandler < ActionMailer::Base
       when 'accept'
         @user = User.anonymous
       when 'create'
-        @user = MailHandler.create_user_from_email(email)
+        @user, password = MailHandler.create_user_from_email(email)
         if @user
           log "[#{@user.login}] account created"
-          UserMailer.account_information(@user, @user.password).deliver_later
+          UserMailer.account_information(@user, password).deliver_later
         else
           log "could not create account for [#{sender_email}]", :error
           return false
@@ -442,8 +442,9 @@ class MailHandler < ActionMailer::Base
     end
     if addr.present?
       user = new_user_from_attributes(addr, name)
+      password = user.password
       if user.save
-        user
+        [user, password]
       else
         log "failed to create User: #{user.errors.full_messages}", :error
         nil
