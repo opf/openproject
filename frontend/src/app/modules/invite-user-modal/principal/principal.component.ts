@@ -5,13 +5,13 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
 import {
   FormGroup,
   FormControl,
   Validators,
 } from '@angular/forms';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
-import { DynamicFormService } from "core-app/modules/common/dynamic-forms/services/dynamic-form/dynamic-form.service";
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 import { PrincipalLike } from "core-app/modules/principal/principal-types";
 import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
@@ -92,14 +92,18 @@ export class PrincipalComponent implements OnInit {
 
   constructor(
     readonly I18n:I18nService,
-    readonly dynamicFormService:DynamicFormService,
+    readonly httpClient:HttpClient,
   ) {}
 
   ngOnInit() {
     this.principalControl?.setValue(this.storedPrincipal);
-    this.dynamicFormService.getSettingsFromBackend$('/api/v3/users/schema').subscribe((data) => {
-      console.log(data);
-    });
+
+    this.httpClient
+      .post<IOPFormSettings>('/api/v3/users/form', {}, { withCredentials: true, responseType: 'json' })
+      .subscribe((formConfig) => {
+        this.userDynamicFieldConfig.schema = formConfig._embedded?.schema;
+        this.userDynamicFieldConfig.payload = formConfig._embedded?.payload;
+      });
   }
 
 
