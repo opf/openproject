@@ -3,7 +3,7 @@ import {
   OnInit,
   Input,
   Output,
-  EventEmitter, ChangeDetectorRef,
+  EventEmitter,
 } from '@angular/core';
 import {
   FormGroup,
@@ -11,10 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
-import {
-  IOPDynamicFormSettings,
-  IOPFormlyFieldConfig,
-} from "core-app/modules/common/dynamic-forms/typings";
+import { DynamicFormService } from "core-app/modules/common/dynamic-forms/services/dynamic-form/dynamic-form.service";
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 import { PrincipalLike } from "core-app/modules/principal/principal-types";
 import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
@@ -93,11 +90,18 @@ export class PrincipalComponent implements OnInit {
     return !!this.principalControl?.value?.memberships?.elements?.find((mem:any) => mem.project.id === this.project.id);
   }
 
-  constructor(readonly I18n:I18nService) {}
+  constructor(
+    readonly I18n:I18nService,
+    readonly dynamicFormService:DynamicFormService,
+  ) {}
 
   ngOnInit() {
     this.principalControl?.setValue(this.storedPrincipal);
+    this.dynamicFormService.getSettingsFromBackend$('/api/v3/users/schema').subscribe((data) => {
+      console.log(data);
+    });
   }
+
 
   createNewFromInput(input:PrincipalLike) {
     this.principalControl?.setValue(input);

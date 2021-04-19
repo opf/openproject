@@ -38,7 +38,8 @@ import {DynamicModule} from 'ng-dynamic-component';
 import {StateService, UIRouterModule} from '@uirouter/angular';
 import {HookService} from '../plugins/hook-service';
 import {OpenprojectAccessibilityModule} from 'core-app/modules/a11y/openproject-a11y.module';
-import {CurrentUserModule} from 'core-app/modules/current-user/current-user.module';
+import {DynamicFormsModule} from "core-app/modules/common/dynamic-forms/dynamic-forms.module";
+
 import {IconTriggeredContextMenuComponent} from 'core-components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component';
 import {CurrentProjectService} from 'core-components/projects/current-project.service';
 import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
@@ -120,9 +121,7 @@ export function bootstrapModule(injector:Injector) {
 
     DynamicBootstrapModule,
     OpenprojectPrincipalRenderingModule,
-
-    DatePickerModule,
-    FocusModule,
+    DynamicFormsModule,
   ],
   exports: [
     // Re-export all commonly used
