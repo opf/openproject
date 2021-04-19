@@ -38,17 +38,6 @@ sendmail_arguments:
   default: "-i"
 smtp_openssl_verify_mode:
   default: "none"
-smtp_enable_starttls_auto:
-  default: 0
-  format: boolean
-smtp_ssl:
-  default: 0
-  format: boolean
-smtp_address:
-  default: ""
-smtp_port:
-  default: 587
-  format: int
 smtp_domain:
   default: "your.domain.com"
 smtp_authentication:

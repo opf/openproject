@@ -28,36 +28,54 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Settings::Available
-  attr_accessor :name,
-                :format,
-                :default,
-                :api_name,
-                :serialized
+module Settings
+  class Available
+    attr_accessor :name,
+                  :format,
+                  :default,
+                  :api_name,
+                  :serialized,
+                  :api
 
-  def initialize(name, format:, default:, api_name: name, serialized: false)
-    self.name = name
-    self.format = format
-    self.default = default
-    self.api_name = api_name
-    self.serialized = serialized
-  end
-
-  def serialized?
-    !!serialized
-  end
-
-  class << self
-    def add(name, format:, default:, api_name: name, serialized: false)
-      @all ||= []
-
-      @all << Settings::Available.new(name,
-                                      format: format,
-                                      default: default,
-                                      api_name: api_name,
-                                      serialized: serialized)
+    def initialize(name, format:, default:, api_name: name, serialized: false, api: true)
+      self.name = name.to_s
+      self.format = format.to_s
+      self.default = default
+      self.api_name = api_name
+      self.serialized = serialized
+      self.api = api
     end
 
-    attr_reader :all
+    def serialized?
+      !!serialized
+    end
+
+    def api?
+      !!api
+    end
+
+    class << self
+      def add(name, default:, format: :undefined, api_name: name, serialized: false, api: true)
+        return if @by_name.present? && @by_name[name.to_s].present?
+
+        @all ||= []
+        @by_name = nil
+
+        @all << new(name,
+                    format: format,
+                    default: default,
+                    api_name: api_name,
+                    serialized: serialized,
+                    api: api)
+      end
+
+      def [](name)
+        @by_name ||= all.group_by(&:name).transform_values(&:first)
+
+        @by_name[name.to_s]
+      end
+
+      attr_reader :all
+    end
   end
 end

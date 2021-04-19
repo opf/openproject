@@ -39,12 +39,12 @@ class Setting < ApplicationRecord
     '%d %B %Y',
     '%b %d, %Y',
     '%B %d, %Y'
-  ]
+  ].freeze
 
   TIME_FORMATS = [
     '%H:%M',
     '%I:%M %p'
-  ]
+  ].freeze
 
   ENCODINGS = %w(US-ASCII
                  windows-1250
@@ -84,64 +84,73 @@ class Setting < ApplicationRecord
                  EUC-KR
                  Big5
                  Big5-HKSCS
-                 TIS-620)
+                 TIS-620).freeze
 
-  cattr_accessor :available_settings
+  class << self
+    def create_setting(name, value = {})
+      ::Settings::Available.add(name, **value.symbolize_keys)
+    end
 
-  def self.create_setting(name, value = {})
-    binding.pry
-    @@available_settings << Settings::Available.new(name, **value)
-  end
+    def create_setting_accessors(name)
+      return if [:installation_uuid].include?(name.to_sym)
 
-  def self.create_setting_accessors(name)
-    return if [:installation_uuid].include?(name.to_sym)
-
-    # Defines getter and setter for each setting
-    # Then setting values can be read using: Setting.some_setting_name
-    # or set using Setting.some_setting_name = "some value"
-    src = <<-END_SRC
-      def self.#{name}
-        # when running too early, there is no settings table. do nothing
-        self[:#{name}] if settings_table_exists_yet?
-      end
-
-      def self.#{name}?
-        # when running too early, there is no settings table. do nothing
-        return unless settings_table_exists_yet?
-        value = self[:#{name}]
-        ActiveRecord::Type::Boolean.new.cast(value)
-      end
-
-      def self.#{name}=(value)
-        if settings_table_exists_yet?
-          self[:#{name}] = value
-        else
-          logger.warn "Trying to save a setting named '#{name}' while there is no 'setting' table yet. This setting will not be saved!"
-          nil # when running too early, there is no settings table. do nothing
+      # Defines getter and setter for each setting
+      # Then setting values can be read using: Setting.some_setting_name
+      # or set using Setting.some_setting_name = "some value"
+      src = <<-END_SRC
+        def self.#{name}
+          # when running too early, there is no settings table. do nothing
+          self[:#{name}] if settings_table_exists_yet?
         end
+
+        def self.#{name}?
+          # when running too early, there is no settings table. do nothing
+          return unless settings_table_exists_yet?
+          value = self[:#{name}]
+          ActiveRecord::Type::Boolean.new.cast(value)
+        end
+
+        def self.#{name}=(value)
+          if settings_table_exists_yet?
+            self[:#{name}] = value
+          else
+            logger.warn "Trying to save a setting named '#{name}' while there is no 'setting' table yet. This setting will not be saved!"
+            nil # when running too early, there is no settings table. do nothing
+          end
+        end
+      END_SRC
+      class_eval src, __FILE__, __LINE__
+    end
+
+    def available
+      Settings::Available.all
+    end
+
+    def method_missing(method, *args, &block)
+      if exists?(accessor_base_name(method))
+        create_setting_accessors(accessor_base_name(method))
+
+        send(method, *args)
+      else
+        super
       end
-    END_SRC
-    class_eval src, __FILE__, __LINE__
-  end
+    end
 
-  @@available_settings = YAML::load(File.open(Rails.root.join('config/settings.yml'))).map do |name, config|
-    Settings::Available.new name,
-                            format: config['format'],
-                            default: config['default'],
-                            serialized: config.fetch('serialized', false)
-  end
+    def respond_to_missing?(method_name, include_private = false)
+      exists?(accessor_base_name(method_name)) || super
+    end
 
-  # Defines getter and setter for each setting
-  # Then setting values can be read using: Setting.some_setting_name
-  # or set using Setting.some_setting_name = "some value"
-  @@available_settings.each do |setting|
-    create_setting_accessors(setting.name)
+    private
+
+    def accessor_base_name(name)
+      name.to_s.gsub(/[?=]?\z/, '')
+    end
   end
 
   validates_uniqueness_of :name
   #TODO rework to check for config to exist
   validates_inclusion_of :name, in: lambda { |_setting|
-                                      @@available_settings.map(&:name)
+                                      Settings::Available.all.map(&:name)
                                     } # lambda, because @available_settings changes at runtime
   validates_numericality_of :value, only_integer: true, if: Proc.new { |setting|
                                                               setting.format == 'int'
@@ -158,7 +167,7 @@ class Setting < ApplicationRecord
   def formatted_value(value)
     return value unless value.present?
 
-    default = self.available_settings[name]
+    default = Settings::Available[name]
 
     if default['serialized']
       return value.to_yaml
@@ -198,7 +207,7 @@ class Setting < ApplicationRecord
 
   # Check whether a setting was defined
   def self.exists?(name)
-    @@available_settings.detect { |available| available.name == name }
+    Settings::Available[name].present?
   end
 
   def self.installation_uuid
@@ -273,7 +282,7 @@ class Setting < ApplicationRecord
     name = name.to_s
     raise "There's no setting named #{name}" unless exists? name
 
-    value = cached_settings.fetch(name) { @@available_settings[name]['default'] }
+    value = cached_settings.fetch(name) { Settings::Available[name].default }
     deserialize(name, value)
   end
 
@@ -308,7 +317,7 @@ class Setting < ApplicationRecord
 
   # Unserialize a serialized settings value
   def self.deserialize(name, v)
-    default = @@available_settings.detect { |available| available.name == name }
+    default = Settings::Available[name]
 
     if default.serialized? && v.is_a?(String)
       YAML::load(v)
@@ -345,7 +354,7 @@ class Setting < ApplicationRecord
   protected
 
   def config
-    @config ||= available_settings.detect { |config| config.name == name }
+    @config ||= Settings::Available[name]
   end
 
   delegate :format,

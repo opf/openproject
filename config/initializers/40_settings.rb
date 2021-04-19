@@ -36,3 +36,28 @@ Settings::Available.add :smtp_enable_starttls_auto,
                         format: :boolean,
                         api_name: 'smtpEnableStartTLSAuto',
                         default: false
+
+Settings::Available.add :smtp_ssl,
+                        format: :boolean,
+                        api_name: 'smtpSSL',
+                        default: false
+
+Settings::Available.add :smtp_address,
+                        format: :string,
+                        default: ''
+
+Settings::Available.add :smtp_port,
+                        format: :int,
+                        default: 587
+
+Settings::Available.add :smtp_port,
+                        format: :int,
+                        default: 587
+
+YAML::load(File.open(Rails.root.join('config/settings.yml'))).map do |name, config|
+  Settings::Available.add name,
+                          format: config['format'],
+                          default: config['default'],
+                          serialized: config.fetch('serialized', false),
+                          api: false
+end

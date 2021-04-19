@@ -29,6 +29,7 @@
 require_dependency 'open_project/ui/extensible_tabs'
 require_dependency 'config/constants/api_patch_registry'
 require_dependency 'config/constants/open_project/activity'
+require_dependency 'config/constants/settings/available'
 
 module OpenProject::Plugins
   module ActsAsOpEngine
@@ -194,18 +195,6 @@ module OpenProject::Plugins
             end
           end
           p.instance_eval(&block) if p && block
-        end
-
-        # Workaround to ensure settings are available after unloading in development mode
-        plugin_name = engine_name
-        if options.include? :settings
-          self.class.class_eval do
-            config.to_prepare do
-              Setting.create_setting("plugin_#{plugin_name}",
-                                     'default' => options[:settings][:default], 'serialized' => true)
-              Setting.create_setting_accessors("plugin_#{plugin_name}")
-            end
-          end
         end
       end
 

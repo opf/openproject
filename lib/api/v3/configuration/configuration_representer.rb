@@ -75,12 +75,10 @@ module API
                  },
                  render_nil: true
 
-        Setting.available_settings.each do |name, config|
-          next unless %w(boolean).include?(config['format'])
-
-          property name,
+        Setting.available.select(&:api?).each do |available|
+          property available.api_name,
                    getter: ->(*) {
-                     Setting[name]
+                     Setting[available.name]
                    }
         end
 
