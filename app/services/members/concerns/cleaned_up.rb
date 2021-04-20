@@ -30,26 +30,20 @@ module Members::Concerns::CleanedUp
   extend ActiveSupport::Concern
 
   included do
-    prepend AfterPerform
+    around_call :cleanup_members
 
     protected
 
-    def cleanup(member)
+    def cleanup_members
+      service_call = yield
+
+      return unless service_call.success?
+
+      member = service_call.result
+
       Members::CleanupService
         .new(member.principal, member.project_id)
         .call
-    end
-  end
-
-  module AfterPerform
-    protected
-
-    def after_perform(service_call)
-      super.tap do |call|
-        member = call.result
-
-        cleanup(member)
-      end
     end
   end
 end
