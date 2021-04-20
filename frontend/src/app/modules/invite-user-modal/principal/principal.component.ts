@@ -103,6 +103,7 @@ export class PrincipalComponent implements OnInit {
       .subscribe((formConfig) => {
         this.userDynamicFieldConfig.schema = formConfig._embedded?.schema;
         this.userDynamicFieldConfig.payload = formConfig._embedded?.payload;
+        debugger;
       });
   }
 

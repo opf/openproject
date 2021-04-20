@@ -129,7 +129,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   private loadPrincipalData(searchTerm:string) {
     const nonMemberFilter = new ApiV3FilterBuilder();
     if (searchTerm) {
-      nonMemberFilter.add('name', '~', [searchTerm]);
+      nonMemberFilter.add('any_name_attribute', '~', [searchTerm]);
     }
     nonMemberFilter.add('status', '!', [3]);
     nonMemberFilter.add('type', '=', [this.type]);
@@ -138,7 +138,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
 
     const memberFilter = new ApiV3FilterBuilder();
     if (searchTerm) {
-      memberFilter.add('name', '~', [searchTerm]);
+      memberFilter.add('any_name_attribute', '~', [searchTerm]);
     }
     memberFilter.add('status', '!', [3]);
     memberFilter.add('type', '=', [this.type]);
