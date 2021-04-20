@@ -38,8 +38,8 @@ import { HalResourceNotificationService } from 'core-app/modules/hal/services/ha
 import { InjectField } from 'core-app/helpers/angular/inject-field.decorator';
 import { PermissionsService } from 'core-app/core/services/permissions/permissions.service';
 import { CreateAutocompleterComponent } from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component";
-import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
-import {StateService} from "@uirouter/core";
+import { EditFormComponent } from "core-app/modules/fields/edit/edit-form/edit-form.component";
+import { StateService } from "@uirouter/core";
 
 export interface ValueOption {
   name:string;

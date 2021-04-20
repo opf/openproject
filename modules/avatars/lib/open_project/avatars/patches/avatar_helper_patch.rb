@@ -85,8 +85,8 @@ AvatarHelper.class_eval do
 
       content_tag 'op-principal',
                   '',
+                  class: tag_options[:class],
                   data: {
-                    'avatar-classes': tag_options[:class],
                     'principal-id': user.id,
                     'principal-name': user.name,
                     'principal-type': user.type.underscore,
@@ -97,7 +97,6 @@ AvatarHelper.class_eval do
 
     def merge_default_avatar_options(user, options)
       default_options = {
-        class: '',
         size: 'default',
         hide_name: true
       }

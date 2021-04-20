@@ -15,7 +15,7 @@ module Users
     end
 
     def login
-      icon = avatar user, class: 'avatar-mini'
+      icon = avatar user, size: :mini
       link = link_to h(user.login), edit_user_path(user)
 
       icon + link

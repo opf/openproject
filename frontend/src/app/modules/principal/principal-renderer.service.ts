@@ -12,7 +12,6 @@ export type AvatarSize = 'default'|'medium'|'mini';
 export interface AvatarOptions {
   hide:boolean;
   size:AvatarSize;
-  classes?:string;
 }
 
 export interface NameOptions {
@@ -88,7 +87,6 @@ export class PrincipalRendererService {
     const colorCode = this.colors.toHsl(principal.name);
 
     const fallback = document.createElement('div');
-    fallback.className = options.classes || '';
     fallback.classList.add('op-principal-avatar');
     fallback.classList.add(`op-principal-avatar_${options.size}`);
     fallback.classList.add(`op-principal-avatar_${type.replace('_', '-')}`);
@@ -106,7 +104,6 @@ export class PrincipalRendererService {
 
   private renderUserAvatar(principal:PrincipalLike, fallback:HTMLElement, options:AvatarOptions) {
     const image = new Image();
-    image.className = options.classes || '';
     image.classList.add('op-principal-avatar');
     image.classList.add(`op-principal-avatar_${options.size}`);
     image.src = this.apiV3Service.users.id(principal.id || '').avatar.toString();

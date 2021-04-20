@@ -50,7 +50,6 @@ export class OpPrincipalComponent implements OnInit {
   @Input('hide-name') hideName:boolean = false;
   @Input() link:boolean = true;
   @Input() size:AvatarSize = 'default';
-  @Input('avatar-classes') avatarClasses:string = '';
 
   public constructor(readonly elementRef:ElementRef,
                      readonly PathHelper:PathHelperService,
@@ -70,7 +69,6 @@ export class OpPrincipalComponent implements OnInit {
       this.hideName = element.dataset.hideName === 'true';
       this.link = element.dataset.link === 'true';
       this.size = element.dataset.size ?? 'default';
-      this.avatarClasses = element.dataset.avatarClasses ?? '';
     }
 
     this.principalRenderer.render(
@@ -82,8 +80,7 @@ export class OpPrincipalComponent implements OnInit {
       },
       {
         hide: this.hideAvatar,
-        size: this.size,
-        classes: this.avatarClasses,
+        size: this.size
       },
     );
   }
