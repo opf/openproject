@@ -62,6 +62,12 @@ export class WorkPackageStatesInitializationService {
     this.querySpace.query.putValue(query);
     this.initializeFromQuery(query, results);
 
+    // If the form is loaded, update it with the query
+    const form = this.querySpace.queryForm.value;
+    if (form) {
+      this.updateStatesFromForm(query, form);
+    }
+
     // Update the (local) table states
     this.updateQuerySpace(query, results);
 
