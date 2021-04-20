@@ -31,6 +31,8 @@ module Groups::Concerns
     extend ActiveSupport::Concern
 
     def after_validate(params, _call)
+      params ||= {}
+
       with_error_handled do
         ::Group.transaction do
           exec_query!(params, params.delete(:send_notifications) { true })
