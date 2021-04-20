@@ -101,17 +101,24 @@ describe ::API::V3::Memberships::CreateFormAPI, content_type: :json do
       let!(:list_cf) { FactoryBot.create(:list_version_custom_field) }
       let(:parameters) do
         {
-          principal: {
-            href: api_v3_paths.user(other_user.id)
+          _links: {
+            principal: {
+              href: api_v3_paths.user(other_user.id)
+            },
+            project: {
+              href: api_v3_paths.project(project.id)
+            },
+            roles: [
+              {
+                href: api_v3_paths.role(role.id)
+              }
+            ]
           },
-          project: {
-            href: api_v3_paths.project(project.id)
-          },
-          roles: [
-            {
-              href: api_v3_paths.role(role.id)
+          _meta: {
+            notificationMessage: {
+              raw: "Join the **dark** side."
             }
-          ]
+          }
         }
       end
 
@@ -137,6 +144,10 @@ describe ::API::V3::Memberships::CreateFormAPI, content_type: :json do
         expect(last_response.body)
           .to be_json_eql(api_v3_paths.role(role.id).to_json)
           .at_path('_embedded/payload/_links/roles/0/href')
+
+        expect(last_response.body)
+          .to be_json_eql("Join the **dark** side.".to_json)
+          .at_path('_embedded/payload/_meta/notificationMessage/raw')
       end
 
       it 'has a commit link' do

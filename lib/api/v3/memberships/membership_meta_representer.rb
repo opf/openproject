@@ -31,12 +31,13 @@
 module API
   module V3
     module Memberships
-      class MembershipPayloadRepresenter < MembershipRepresenter
-        include ::API::Utilities::PayloadRepresenter
-        include ::API::Utilities::MetaProperty
+      class MembershipMetaRepresenter < ::API::Decorators::Single
+        include API::Decorators::FormattableProperty
 
-        def meta_representer_class
-          MembershipMetaRepresenter
+        formattable_property :notification_message
+
+        def model_required?
+          false
         end
       end
     end

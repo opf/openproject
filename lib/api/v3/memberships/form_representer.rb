@@ -36,11 +36,13 @@ module API
           Member
         end
 
-        private
-
-        def payload_representer_class
+        # TODO: extract into module. Use module in projects/copy/form_representer.rb
+        def payload_representer
           API::V3::Memberships::MembershipPayloadRepresenter
+            .create(represented, meta: meta, current_user: current_user)
         end
+
+        private
 
         def schema_representer_class
           API::V3::Memberships::Schemas::MembershipSchemaRepresenter
