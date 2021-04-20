@@ -86,6 +86,7 @@ export class PrincipalRendererService {
     fallback.className = options.classes || '';
     fallback.classList.add('avatar');
     fallback.classList.add(`avatar-${options.size}`);
+    fallback.classList.add(`avatar_${type}`);
     fallback.classList.add('avatar--fallback');
     fallback.textContent = userInitials;
     fallback.style.background = colorCode;
