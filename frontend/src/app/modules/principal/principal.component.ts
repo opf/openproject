@@ -26,18 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, Input, OnInit} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {TimezoneService} from 'core-components/datetime/timezone.service';
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { TimezoneService } from 'core-components/datetime/timezone.service';
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
-import {
-  PrincipalRendererService,
-  AvatarSize,
-} from "./principal-renderer.service";
-import {PrincipalLike} from "./principal-types";
-import {PrincipalHelper} from "./principal-helper";
+import { AvatarSize, PrincipalRendererService } from "./principal-renderer.service";
+import { PrincipalLike } from "./principal-types";
+import { PrincipalHelper } from "./principal-helper";
 import PrincipalPluralType = PrincipalHelper.PrincipalPluralType;
 
 export const principalSelector = 'op-principal';
@@ -45,7 +42,6 @@ export const principalSelector = 'op-principal';
 @Component({
   template: '',
   selector: principalSelector,
-  host: {'class': 'op-principal'}
 })
 export class OpPrincipalComponent implements OnInit {
   /** If coming from angular, pass a principal resource if available */
@@ -103,6 +99,6 @@ export class OpPrincipalComponent implements OnInit {
       id,
       name,
       href,
-    }
+    };
   }
 }
