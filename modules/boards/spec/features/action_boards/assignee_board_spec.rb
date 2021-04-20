@@ -149,7 +149,7 @@ describe 'Assignee action board',
       board_page.expect_card 'Bob Self', 'Some Task', present: false
 
       # Expect to have changed the avatar
-      expect(page).to have_selector('.wp-card--assignee .avatar-mini', text: 'FB', wait: 10)
+      expect(page).to have_selector('.wp-card--assignee .op-principal-avatar_mini', text: 'FB', wait: 10)
 
       work_package.reload
       expect(work_package.assigned_to).to eq(foobar_user)
@@ -161,7 +161,7 @@ describe 'Assignee action board',
       board_page.expect_card 'Bob Self', 'Some Task', present: false
 
       # Expect to have changed the avatar
-      expect(page).to have_selector('.wp-card--assignee .avatar-mini', text: 'GG', wait: 10)
+      expect(page).to have_selector('.wp-card--assignee .op-principal-avatar_mini', text: 'GG', wait: 10)
 
       work_package.reload
       expect(work_package.assigned_to).to eq(group)
