@@ -38,7 +38,6 @@ require 'open_project/custom_styles/design'
 require 'redmine/hook'
 require 'open_project/hooks'
 require 'redmine/plugin'
-require 'redmine/notifiable'
 
 require 'csv'
 

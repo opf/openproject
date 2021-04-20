@@ -63,7 +63,10 @@ describe 'API v3 Principals resource', type: :request do
                                lastname: 'Aaaa',
                                mail: 'aaaa@example.com')
 
-      other_project.add_member! user, role
+      FactoryBot.create(:member,
+                        project: other_project,
+                        principal: user,
+                        roles: [role])
 
       user
     end
@@ -80,25 +83,21 @@ describe 'API v3 Principals resource', type: :request do
                         lastname: 'Cccc')
     end
     let!(:group) do
-      group = FactoryBot.create(:group,
-                                lastname: 'Gggg')
-
-      project.add_member! group, role
-
-      user
+      FactoryBot.create(:group,
+                        member_in_project: project,
+                        member_through_role: role,
+                        lastname: 'Gggg')
     end
     let!(:placeholder_user) do
-      placeholder = FactoryBot.create(:placeholder_user,
-                                      name: 'Pppp')
-
-      project.add_member! placeholder, role
-
-      user
+      FactoryBot.create(:placeholder_user,
+                        member_in_project: project,
+                        member_through_role: role,
+                        name: 'Pppp')
     end
 
-    before do
-      login_as(user)
+    current_user { user }
 
+    before do
       get path
     end
 

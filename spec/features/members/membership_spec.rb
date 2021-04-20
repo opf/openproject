@@ -60,12 +60,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
                       lastname: "<script>alert('h4x');</script>"
   end
   let!(:group) do
-    FactoryBot.create(:group, lastname: 'A-Team').tap do |group|
-      User.execute_as User.admin.first do
-        group.add_members! peter
-        group.add_members! hannibal
-      end
-    end
+    FactoryBot.create(:group, lastname: 'A-Team', members: [peter, hannibal])
   end
 
   let!(:manager)   { FactoryBot.create :role, name: 'Manager', permissions: [:manage_members] }
@@ -137,7 +132,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
 
     SeleniumHubWaiter.wait
     members_page.remove_user! 'Hannibal Smith'
-    expect(page).to have_text 'Hannibal Smith has been removed from the project and deleted.'
+    expect(page).to have_text 'Removed Hannibal Smith from project'
     expect(page).to have_text 'There are currently no members part of this project.'
   end
 

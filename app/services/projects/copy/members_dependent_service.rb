@@ -41,23 +41,27 @@ module Projects::Copy
     protected
 
     def copy_dependency(*)
-      # Copy users first, then groups to handle members with inherited and given roles
-      members_to_copy = []
-      members_to_copy += source.memberships.select { |m| m.principal.is_a?(User) }
-      members_to_copy += source.memberships.reject { |m| m.principal.is_a?(User) }
-      members_to_copy.each do |member|
-        # only copy non inherited roles
-        # inherited roles will be added when copying the group membership
-        role_ids = member.member_roles.reject(&:inherited?).map(&:role_id)
-
-        next if role_ids.empty?
-
-        attributes = member
-          .attributes.dup.except('id', 'project_id', 'created_at')
-          .merge(role_ids: role_ids)
-
-        target.memberships.create attributes
+      # Copy users and placeholder users first,
+      # then groups to handle members with inherited and given roles
+      source.memberships.sort_by { |m| m.principal.is_a?(Group) ? 1 : 0 }.each do |member|
+        create_membership(member)
       end
+    end
+
+    def create_membership(member)
+      # only copy non inherited roles
+      # inherited roles will be added when copying the group membership
+      role_ids = member.member_roles.reject(&:inherited?).map(&:role_id)
+
+      return if role_ids.empty?
+
+      attributes = member
+                     .attributes.dup.except('id', 'project_id', 'created_at', 'updated_at')
+                     .merge(role_ids: role_ids, project: target)
+
+      Members::CreateService
+        .new(user: User.current, contract_class: EmptyContract)
+        .call(attributes)
     end
   end
 end

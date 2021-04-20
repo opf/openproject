@@ -36,6 +36,7 @@ class Principals::DeleteJob < ApplicationJob
       delete_associated(principal)
       replace_references(principal)
       update_cost_queries(principal)
+      remove_members(principal)
 
       principal.destroy
     end
@@ -61,7 +62,6 @@ class Principals::DeleteJob < ApplicationJob
     CostQuery.where(user_id: principal.id, is_public: false).delete_all
   end
 
-  # rubocop:disable Rails/SkipsModelValidations
   def update_cost_queries(principal)
     CostQuery.in_batches.each_record do |query|
       serialized = query.serialized
@@ -73,13 +73,20 @@ class Principals::DeleteJob < ApplicationJob
       CostQuery.where(id: query.id).update_all(serialized: serialized)
     end
   end
-  # rubocop:enable Rails/SkipsModelValidations
 
   def remove_cost_query_values(name, options, principal)
     options[:values].delete(principal.id.to_s) if %w[UserId AuthorId AssignedToId ResponsibleId].include?(name)
 
     if options[:values].nil? || options[:values].any?
       [name, options]
+    end
+  end
+
+  def remove_members(principal)
+    principal.members.each do |member|
+      Members::DeleteService
+        .new(user: User.current, contract_class: EmptyContract, model: member)
+        .call
     end
   end
 end

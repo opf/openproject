@@ -60,29 +60,6 @@ end
 
 require_relative '../lib/open_project/configuration'
 
-env = ENV['RAILS_ENV'] || 'production'
-db_config = ActiveRecord::Base.configurations[env] || {}
-db_adapter = db_config['adapter']
-if db_adapter&.start_with? 'mysql'
-  warn <<~ERROR
-    ======= INCOMPATIBLE DATABASE DETECTED =======
-    Your database is set up for use with a MySQL or MySQL-compatible variant.
-    This installation of OpenProject no longer supports these variants.
-
-    The following guides provide extensive documentation for migrating
-    your installation to a PostgreSQL database:
-
-    https://www.openproject.org/migration-guides/
-
-    This process is mostly automated so you can continue using your
-    OpenProject installation within a few minutes!
-
-    ==============================================
-  ERROR
-
-  Kernel.exit 1
-end
-
 module OpenProject
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.

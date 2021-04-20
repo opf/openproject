@@ -5,13 +5,14 @@ class FixInheritedGroupMemberRoles < ActiveRecord::Migration[6.0]
 
     # For all group memberships, recreate the member_roles for all users
     # which will auto-create members for the users if necessary
-    MemberRole
-      .joins(member: [:principal])
-      .includes(member: %i[principal member_roles])
-      .where("#{Principal.table_name}.type" => 'Group')
-      .find_each do |member_role|
+    Member
+      .includes(%i[principal])
+      .where(users: { type: 'Group' })
+      .find_each do |member|
       # Recreate member_roles for all group members
-      member_role.send :add_role_to_group_users
+      Groups::UpdateRolesService
+        .new(member.principal, current_user: SystemUser.first, contract_class: EmptyContract)
+        .call(member: member, send_notifications: false)
     end
   end
 
