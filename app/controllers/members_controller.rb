@@ -99,7 +99,9 @@ class MembersController < ApplicationController
                                        (@principals | @project.principals)
 
     respond_to do |format|
-      format.json
+      format.json do
+        render json: build_members
+      end
     end
   end
 
@@ -107,6 +109,23 @@ class MembersController < ApplicationController
 
   def authorize_for(controller, action)
     current_user.allowed_to?({ controller: controller, action: action }, @project)
+  end
+
+  def build_members
+    paths = API::V3::Utilities::PathHelper::ApiV3Path
+    principals = @principals.map do |principal|
+      {
+        id: principal.id,
+        name: principal.name,
+        href: paths.send(principal.type.underscore, principal.id)
+      }
+    end
+
+    if @email
+      principals << { id: @email, name: I18n.t('members.invite_by_mail', mail: @email) }
+    end
+
+    principals
   end
 
   def members_table_options(roles)
