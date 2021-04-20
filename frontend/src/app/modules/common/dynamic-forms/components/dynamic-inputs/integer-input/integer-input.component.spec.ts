@@ -4,7 +4,7 @@ import {
   testDynamicInputControValueAccessor,
 } from "core-app/modules/common/dynamic-forms/spec/helpers";
 
-fdescribe('IntegerInputComponent', () => {
+describe('IntegerInputComponent', () => {
   it('should load the field', fakeAsync(() => {
     const fieldsConfig = [
       {
