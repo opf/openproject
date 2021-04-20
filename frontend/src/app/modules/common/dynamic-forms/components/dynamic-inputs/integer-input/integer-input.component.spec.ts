@@ -1,25 +1,33 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { fakeAsync } from '@angular/core/testing';
+import {
+  createDynamicInputFixture,
+  testDynamicInputControValueAccessor,
+} from "core-app/modules/common/dynamic-forms/spec/helpers";
 
-import { IntegerInputComponent } from './integer-input.component';
+fdescribe('IntegerInputComponent', () => {
+  it('should load the field', fakeAsync(() => {
+    const fieldsConfig = [
+      {
+        "type": "integerInput" as "integerInput",
+        "className": "op-form--field inline-edit--field",
+        "key": "testControl",
+        "templateOptions": {
+          "required": true,
+          "label": "testControl",
+        },
+      }
+    ];
+    const formModel = {
+      testControl: 'testValue',
+    };
+    const testModel = {
+      initialValue: formModel.testControl,
+      changedValue: 'testValue2',
+    };
 
-xdescribe('IntegerInputComponent', () => {
-  let component: IntegerInputComponent;
-  let fixture: ComponentFixture<IntegerInputComponent>;
+    const fixture = createDynamicInputFixture(fieldsConfig, formModel);
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ IntegerInputComponent ]
-    })
-    .compileComponents();
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(IntegerInputComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    testDynamicInputControValueAccessor(fixture, testModel, 'op-integer-input input');
+  }));
 });
+
