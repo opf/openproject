@@ -1,6 +1,6 @@
 import { fakeAsync } from '@angular/core/testing';
 import {
-  createDynamicInputFicture,
+  createDynamicInputFixture,
   testDynamicInputControValueAccessor,
 } from "core-app/modules/common/dynamic-forms/spec/helpers";
 
@@ -25,7 +25,7 @@ describe('BooleanInputComponent', () => {
       changedValue: false,
     };
 
-    const fixture = createDynamicInputFicture(fieldsConfig, formModel);
+    const fixture = createDynamicInputFixture(fieldsConfig, formModel);
 
     testDynamicInputControValueAccessor(fixture, testModel, 'op-boolean-input input');
   }));

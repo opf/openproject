@@ -1,6 +1,6 @@
 import { fakeAsync } from '@angular/core/testing';
 import {
-  createDynamicInputFicture,
+  createDynamicInputFixture,
   testDynamicInputControValueAccessor,
 } from "core-app/modules/common/dynamic-forms/spec/helpers";
 
@@ -28,7 +28,7 @@ describe('TextComponent', () => {
       changedValue: 'testValue2',
     };
 
-    const fixture = createDynamicInputFicture(fieldsConfig, formModel);
+    const fixture = createDynamicInputFixture(fieldsConfig, formModel);
 
     testDynamicInputControValueAccessor(fixture, testModel, 'op-text-input input');
   }));
