@@ -11,7 +11,7 @@ import { TabHeaderComponent } from "core-app/modules/plugins/linked/openproject-
 import { By } from "@angular/platform-browser";
 
 
-fdescribe('GitHubTabComponent.', () => {
+describe('GitHubTabComponent.', () => {
   let component:GitHubTabComponent;
   let fixture:ComponentFixture<GitHubTabComponent>;
   let element:DebugElement;
@@ -50,7 +50,7 @@ fdescribe('GitHubTabComponent.', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create', () => {
+  it('should render header and pull requests components', () => {
     const tabHeader = fixture.debugElement.query(By.css('tab-header'));
     const tabPrs = fixture.debugElement.query(By.css('tab-prs'));
 
