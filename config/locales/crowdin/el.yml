@@ -171,6 +171,8 @@ el:
       no_results_content_text: Δημιουργία νέου προσαρμοσμένου πεδίου
   concatenation:
     single: 'ή'
+  documentation:
+    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -899,6 +901,10 @@ el:
     succeeded: "Δημιουργήθηκε το έργο %{target_project_name}"
     errors: "Σφάλμα"
     project_custom_fields: 'Προσαρμοσμένα πεδία του έργου'
+    x_objects_of_this_type:
+      zero: 'No objects of this type'
+      one: 'One object of this type'
+      other: '%{count} objects of this type'
     text:
       failed: "Δεν ήταν δυνατή η αντιγραφή του έργου \"%{source_project_name}\" στο έργο \"%{target_project_name}\"."
       succeeded: "Αντιγράφτηκε το έργο \"%{source_project_name}\" στο \"%{target_project_name}\"."
@@ -2181,6 +2187,7 @@ el:
   setting_consent_required: "Απαιτείται συγκατάθεση"
   setting_consent_decline_mail: "Συγκατάθεση επικοινωνίας διεύθυνσης email"
   setting_cross_project_work_package_relations: "Επιτρέψτε συσχετισμό πακέτων εργασίας μεταξύ έργων"
+  setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Μορφηποίηση ημερομηνίας"
   setting_default_language: "Προεπιλεγμένη γλώσσα"
   setting_default_notification_option: "Προεπιλεγμένη επιλογή ειδοποιήσεων"
@@ -2262,6 +2269,11 @@ el:
     passwords: "Κωδικοί πρόσβασης"
     session: "Συνεδρία"
     brute_force_prevention: "Αυτόματο μπλοκάρισμα χρήστη"
+    display:
+      first_date_of_week_and_year_present: >
+        If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
     projects:
       section_new_projects: "Ρυθμίσεις για νέα έργα"
       section_project_overview: "Ρυθμίσεις για τη λίστα επισκόπησης έργου"

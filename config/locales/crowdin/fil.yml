@@ -175,6 +175,8 @@ fil:
       no_results_content_text: Gumawa ng bagong patlang na custom
   concatenation:
     single: 'or'
+  documentation:
+    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -904,6 +906,10 @@ fil:
     succeeded: "Nilikhang proyekto %{target_project_name}"
     errors: "Mali"
     project_custom_fields: 'Ang mga custom na patlang sa proyekto'
+    x_objects_of_this_type:
+      zero: 'No objects of this type'
+      one: 'One object of this type'
+      other: '%{count} objects of this type'
     text:
       failed: "Hindi makopya ang proyekto \"%{source_project_name}\" sa proyektong \"%{target_project_name}\"."
       succeeded: "Kinopyang proyekto \"%{source_project_name}'\" sa \"%{target_project_name}\"."
@@ -2185,6 +2191,7 @@ fil:
   setting_consent_required: "Consent required"
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "Pahintulutan ang cross-project na relasyon ng work package"
+  setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Format ng petsa"
   setting_default_language: "Default na linggwahe"
   setting_default_notification_option: "Opsyon ng default na abiso"
@@ -2266,6 +2273,11 @@ fil:
     passwords: "Ang mga password"
     session: "Sesyon"
     brute_force_prevention: "Naka-automate na user block"
+    display:
+      first_date_of_week_and_year_present: >
+        If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"

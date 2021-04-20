@@ -175,6 +175,8 @@ tr:
       no_results_content_text: Yeni bir özel alan oluştur
   concatenation:
     single: 'ya da'
+  documentation:
+    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Viki"
@@ -904,6 +906,10 @@ tr:
     succeeded: "%{target_project_name} project oluşturuldu"
     errors: "Hata"
     project_custom_fields: 'Projedeki özel alanlar'
+    x_objects_of_this_type:
+      zero: 'No objects of this type'
+      one: 'One object of this type'
+      other: '%{count} objects of this type'
     text:
       failed: "\"%{source_project_name}\" project \"%{target_project_name}\" projesine kopyalanamadı."
       succeeded: "\"%{source_project_name}\" projesini \"%{target_project_name}\" dosyasına kopyaladı."
@@ -2187,6 +2193,7 @@ tr:
   setting_consent_required: "Onay gerekli"
   setting_consent_decline_mail: "Onay iletişim posta adresi"
   setting_cross_project_work_package_relations: "Projeler arası iş paketi ilişkilerine izin ver"
+  setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Tarih formatı"
   setting_default_language: "Varsayılan dil"
   setting_default_notification_option: "Varsayılan bildirim seçeneği"
@@ -2268,6 +2275,11 @@ tr:
     passwords: "Parolalar"
     session: "Oturum"
     brute_force_prevention: "Otomatik kullanıcı engelleme"
+    display:
+      first_date_of_week_and_year_present: >
+        If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
     projects:
       section_new_projects: "Yeni projeler için ayarlar"
       section_project_overview: "Projeye genel bakış listesi ayarları"

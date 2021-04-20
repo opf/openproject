@@ -172,6 +172,8 @@ lt:
       no_results_content_text: Sukurti naują pasirinktinį lauką
   concatenation:
     single: 'arba'
+  documentation:
+    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -908,6 +910,10 @@ lt:
     succeeded: "Sukurtas projektas pavadinimu „%{target_project_name}“"
     errors: "Klaida"
     project_custom_fields: 'Vartotojo laukai projektui'
+    x_objects_of_this_type:
+      zero: 'No objects of this type'
+      one: 'One object of this type'
+      other: '%{count} objects of this type'
     text:
       failed: "Nepavyko nukopijuoti „%{source_project_name}“ projekto į „%{target_project_name}“ projektą."
       succeeded: "Projektas „%{source_project_name}“ sėkmingai nukopijuotas į „%{target_project_name}“."
@@ -2215,6 +2221,7 @@ lt:
   setting_consent_required: "Reikia sutikimo"
   setting_consent_decline_mail: "Sutikimo kontaktinis pašto adresas"
   setting_cross_project_work_package_relations: "Leisti tarp-projektinius darbų paketo ryšius"
+  setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Datos formatas"
   setting_default_language: "Numatytoji kalba"
   setting_default_notification_option: "Numatytoji pranešimų nuostata"
@@ -2296,6 +2303,11 @@ lt:
     passwords: "Slaptažodžiai"
     session: "Sesija"
     brute_force_prevention: "Automatinis vartotojų blokavimas"
+    display:
+      first_date_of_week_and_year_present: >
+        If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
     projects:
       section_new_projects: "Naujų projektų nustatymai"
       section_project_overview: "Nustatymai projektų peržiūros sąrašui"
