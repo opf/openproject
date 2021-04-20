@@ -16,7 +16,7 @@ import { IOPFormlyFieldConfig } from "core-app/modules/common/dynamic-forms/typi
 import { FormlyField } from "@ngx-formly/core";
 import { OpFormFieldComponent } from "core-app/modules/common/form-field/form-field.component";
 import { By } from "@angular/platform-browser";
-export function createDynamicInputFicture(fields: IOPFormlyFieldConfig[], model:any, providers?:any[]): ComponentFixture<any> {
+export function createDynamicInputFixture(fields: IOPFormlyFieldConfig[], model:any, providers?:any[]): ComponentFixture<any> {
 
   @Component({
     template:`
