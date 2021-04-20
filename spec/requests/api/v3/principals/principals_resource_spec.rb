@@ -60,7 +60,8 @@ describe 'API v3 Principals resource', type: :request do
       user = FactoryBot.create(:user,
                                member_in_project: project,
                                member_through_role: role,
-                               lastname: 'Aaaa')
+                               lastname: 'Aaaa',
+                               mail: 'aaaa@example.com')
 
       other_project.add_member! user, role
 
@@ -168,6 +169,16 @@ describe 'API v3 Principals resource', type: :request do
       let(:user) { FactoryBot.create(:user) }
 
       # The user herself
+      it_behaves_like 'API V3 collection response', 1, 1, 'User' do
+        let(:response) { last_response }
+      end
+    end
+
+    context 'provide filter for any name attribute' do
+      let(:filter) do
+        [{ any_name_attribute: { operator: '~', values: ['aaaa@example.com'] } }]
+      end
+
       it_behaves_like 'API V3 collection response', 1, 1, 'User' do
         let(:response) { last_response }
       end
