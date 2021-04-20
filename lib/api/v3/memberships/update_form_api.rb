@@ -35,18 +35,16 @@ module API
             authorize :manage_members, global: true
           end
 
-          post &::API::V3::Utilities::Endpoints::UpdateForm.new(model: Member,
-                                                                api_name: 'Membership',
-                                                                params_modifier: ->(params, **) do
-                                                                  params.merge(params.delete(:meta).to_h)
-                                                                end,
-                                                                process_state: ->(params:, **) do
-                                                                  # Hack exploiting the side effect of manipulating the params via #delete.
-                                                                  # Only works because process_state is called before the params are passed
-                                                                  # to the SetAttributesService.
-                                                                  { notification_message: params.delete(:notification_message) }
-                                                                end)
-                                                           .mount
+          post &::API::V3::Utilities::Endpoints::UpdateForm
+                  .new(model: Member,
+                       api_name: 'Membership',
+                       params_modifier: ->(params, **) do
+                         params.except(:meta)
+                       end,
+                       process_state: ->(pristine_params:, **) do
+                         pristine_params[:meta].deep_dup
+                       end)
+                  .mount
         end
       end
     end

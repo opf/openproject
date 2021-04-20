@@ -76,11 +76,15 @@ module API
 
             params = update.parse(current_user, request_body)
 
+            # TODO: prevent this from happening all the time
+            pristine_params = params.deep_dup
+
             params = instance_exec(params, &update.params_modifier)
 
             call = update.process(current_user,
                                   instance_exec(params, &update.instance_generator),
-                                  params)
+                                  params,
+                                  pristine_params)
 
             update.render(current_user, call) do
               status update.success_status
@@ -97,14 +101,14 @@ module API
             .result
         end
 
-        def process(current_user, instance, params)
+        def process(current_user, instance, params, pristine_params)
           args = { user: current_user,
                    model: instance,
                    contract_class: process_contract }
 
           process_service
             .new(**args.compact)
-            .with_state(process_state.call(model: instance, params: params))
+            .with_state(process_state.call(model: instance, params: params, pristine_params: pristine_params))
             .call(**params)
         end
 
