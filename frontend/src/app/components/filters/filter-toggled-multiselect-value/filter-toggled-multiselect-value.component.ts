@@ -163,7 +163,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
   }
 
   private addMeValue(currentUser:UserResource) {
-    if (!(currentUser && currentUser.$href)) {
+    if (!(currentUser && currentUser.href)) {
       return;
     }
 

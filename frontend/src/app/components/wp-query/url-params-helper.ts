@@ -295,8 +295,8 @@ export class UrlParamsHelperService {
       return '';
     } else if (value.id) {
       return value.id.toString();
-    } else if (value.$href) {
-      return value.$href.split('/').pop().toString();
+    } else if (value.href) {
+      return value.href.split('/').pop().toString();
     } else {
       return value.toString();
     }
@@ -340,7 +340,7 @@ export class UrlParamsHelperService {
   }
 
   public buildV3GetFilterIdFromFilter(filter:QueryFilterInstanceResource) {
-    const href = filter.filter ? filter.filter.$href : filter._links.filter.href;
+    const href = filter.filter ? filter.filter.href : filter._links.filter.href;
 
     return this.idFromHref(href);
   }

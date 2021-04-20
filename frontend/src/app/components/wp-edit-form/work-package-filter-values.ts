@@ -102,7 +102,7 @@ export class WorkPackageFilterValues {
       return value;
     }
 
-    if (value instanceof HalResource && value.$href === '/api/v3/users/me' && this.currentUser.isLoggedIn) {
+    if (value instanceof HalResource && value.href === '/api/v3/users/me' && this.currentUser.isLoggedIn) {
       return this.halResourceService.fromSelfLink(`/api/v3/users/${this.currentUser.userId}`);
     }
 

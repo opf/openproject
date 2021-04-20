@@ -275,7 +275,7 @@ export class WorkPackagesListService {
 
         let id;
         if (query.project) {
-          id = query.project.$href!.split('/').pop();
+          id = query.project.href!.split('/').pop();
         }
 
         this.loadDefaultQuery(id);
@@ -337,7 +337,7 @@ export class WorkPackagesListService {
   private conditionallyLoadForm(query:QueryResource):void {
     const currentForm = this.querySpace.queryForm.value;
 
-    if (!currentForm || query.$links.update.$href !== currentForm.$href) {
+    if (!currentForm || query.$links.update.href !== currentForm.href) {
       setTimeout(() => this.loadForm(query), 0);
     }
   }

@@ -52,7 +52,7 @@ import { AngularTrackingHelpers } from "core-components/angular/tracking-functio
 
 export interface CreateAutocompleterValueOption {
   name:string;
-  $href:string|null;
+  href:string|null;
 }
 
 @Component({
@@ -169,6 +169,6 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
   }
 
   public isPrincipal(item:CreateAutocompleterValueOption) {
-    return item.$href && PrincipalHelper.typeFromHref(item.$href) !== null;
+    return item.href && PrincipalHelper.typeFromHref(item.href) !== null;
   }
 }

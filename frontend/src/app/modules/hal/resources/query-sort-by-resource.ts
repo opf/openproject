@@ -48,6 +48,6 @@ export class QuerySortByResource extends HalResource {
  */
 export class QuerySortByDirection extends HalResource {
   public get id():string {
-    return this.$href!.split('/').pop()!;
+    return this.href!.split('/').pop()!;
   }
 }
