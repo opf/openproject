@@ -38,15 +38,7 @@ AvatarHelper.class_eval do
     # Returns the avatar image tag for the given +user+ if avatars are enabled
     # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
     def avatar(principal, options = {})
-      return build_default_avatar_image_tag(principal, options) unless principal.is_a?(User)
-
-      if local_avatar? principal
-        local_avatar_image_tag principal, options
-      elsif avatar_manager.gravatar_enabled?
-        build_gravatar_image_tag principal, options
-      else
-        build_default_avatar_image_tag principal, options
-      end
+      build_principal_avatar_tag principal, options
     rescue StandardError => e
       Rails.logger.error "Failed to create avatar for #{principal}: #{e}"
       ''.html_safe
@@ -54,7 +46,7 @@ AvatarHelper.class_eval do
 
     def avatar_url(user, options = {})
       if local_avatar? user
-        local_avatar_image_url user
+        user_avatar_url(user.id)
       elsif avatar_manager.gravatar_enabled?
         build_gravatar_image_url user, options
       else
@@ -63,10 +55,6 @@ AvatarHelper.class_eval do
     rescue StandardError => e
       Rails.logger.error "Failed to create avatar url for #{user}: #{e}"
       ''.html_safe
-    end
-
-    def any_avatar?(user)
-      avatar_manager.gravatar_enabled? || local_avatar?(user)
     end
 
     def local_avatar?(user)
@@ -79,35 +67,12 @@ AvatarHelper.class_eval do
       ::OpenProject::Avatars::AvatarManager
     end
 
-    def build_gravatar_image_tag(user, options = {})
-      mail = extract_email_address(user)
-      raise ArgumentError.new('Invalid Mail') unless mail.present?
-
-      opts = options.merge(gravatar: default_gravatar_options)
-
-      tag_options = merge_image_options(user, opts)
-      tag_options[:class] = [
-        tag_options[:class],
-        'avatar--gravatar-image',
-        'avatar--fallback'
-      ].reject(&:empty?).join(' ')
-
-      content_tag 'op-principal',
-                  '',
-                  'data-avatar-classes': tag_options[:class],
-                  'data-size': tag_options[:size],
-                  'data-principal-id': user.id,
-                  'data-principal-name': user.name,
-                  'data-principal-type': 'user',
-                  'data-hide-name': 'true'
-    end
-
     def build_gravatar_image_url(user, options = {})
       mail = extract_email_address(user)
       raise ArgumentError.new('Invalid Mail') unless mail.present?
 
       opts = options.merge(gravatar: default_gravatar_options)
-      # gravatar_image_url expects grvatar options as second arg
+      # gravatar_image_url expects gravatar options as second arg
       if opts[:gravatar]
         opts.merge!(opts.delete(:gravatar))
       end
@@ -115,28 +80,28 @@ AvatarHelper.class_eval do
       gravatar_image_url(mail, opts)
     end
 
-    def local_avatar_image_url(user)
-      user_avatar_url(user.id)
-    end
-
-    def local_avatar_image_tag(user, options = {})
-      tag_options = merge_image_options(user, options)
+    def build_principal_avatar_tag(user, options = {})
+      tag_options = merge_default_avatar_options(user, options)
 
       content_tag 'op-principal',
                   '',
-                  'data-avatar-classes': tag_options[:class],
-                  'data-principal-id': user.id,
-                  'data-principal-name': user.name,
-                  'data-principal-type': 'user',
-                  'data-size': tag_options[:size],
-                  'data-hide-name': 'true'
+                  data: {
+                    'avatar-classes': tag_options[:class],
+                    'principal-id': user.id,
+                    'principal-name': user.name,
+                    'principal-type': user.type.underscore,
+                    'size': tag_options[:size],
+                    'hide-name': tag_options[:hide_name]
+                  }
     end
 
-    def merge_image_options(user, options)
+    def merge_default_avatar_options(user, options)
       default_options = {
         class: '',
-        size: 'default'
+        size: 'default',
+        hide_name: true
       }
+
       default_options[:title] = h(user.name) if user.respond_to?(:name)
 
       options.reverse_merge(default_options)
@@ -154,23 +119,8 @@ AvatarHelper.class_eval do
     def extract_email_address(object)
       if object.respond_to?(:mail)
         object.mail
-      elsif object.to_s =~ %r{<(.+?)>}
-        $1
       end
     end
-  end
-
-  def build_default_avatar_image_tag(user, options = {})
-    tag_options = merge_image_options(user, options)
-
-    content_tag 'op-principal',
-                '',
-                'data-avatar-classes': tag_options[:class],
-                'data-size': tag_options[:size],
-                'data-principal-name': user.name,
-                'data-principal-id': user.id,
-                'data-principal-type': 'user',
-                'data-hide-name': 'true'
   end
 
   prepend InstanceMethods

@@ -48,25 +48,6 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
     content_tag 'op-principal', '', tag_options
   end
 
-  def gravatar_expected_user_avatar_tag(_digest, _options = {})
-    tag_options = { 'data-principal-id': user.id,
-                    'data-principal-name': user.name,
-                    'data-hide-name': 'true',
-                    'data-principal-type': 'user',
-                    'data-size': 'default',
-                    'data-avatar-classes': 'avatar--gravatar-image avatar--fallback' }
-
-    content_tag 'op-principal', '', tag_options
-  end
-
-  def gravatar_expected_image_tag(digest, options = {})
-    tag_options = options.reverse_merge(title: user.name,
-                                        alt: 'Gravatar',
-                                        class: 'avatar--gravatar-image avatar--fallback').delete_if { |key, value| value.nil? || key == :ssl }
-
-    image_tag gravatar_expected_url(digest, options), tag_options
-  end
-
   def gravatar_expected_url(digest, options = {})
     ssl = !!options[:ssl]
 
@@ -91,7 +72,7 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
       it "should return the gravatar image if no image uploaded for the user" do
         allow(user).to receive(:local_avatar_attachment).and_return nil
 
-        expect(helper.avatar(user)).to be_html_eql(gravatar_expected_user_avatar_tag(mail_digest))
+        expect(helper.avatar(user)).to be_html_eql(default_expected_user_avatar_tag(user))
       end
     end
 
@@ -166,7 +147,7 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
 
       context 'with http', with_settings: { protocol: 'http' } do
         it 'should return a gravatar image tag if a user is provided' do
-          expect(helper.avatar(user)).to be_html_eql(gravatar_expected_user_avatar_tag(mail_digest))
+          expect(helper.avatar(user)).to be_html_eql(default_expected_user_avatar_tag(user))
         end
 
         it 'should return a gravatar url if a user is provided' do
@@ -176,7 +157,7 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
 
       context 'with https', with_settings: { protocol: 'https' } do
         it 'should return a gravatar image tag with ssl if the request was ssl required' do
-          expect(helper.avatar(user)).to be_html_eql(gravatar_expected_user_avatar_tag(mail_digest, ssl: true))
+          expect(helper.avatar(user)).to be_html_eql(default_expected_user_avatar_tag(user))
         end
 
         it 'should return a gravatar image tag with ssl if the request was ssl required' do
@@ -196,13 +177,6 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
         mail = '<e-mail@mail.de>'
 
         expect(helper.avatar(mail)).to eq('')
-      end
-
-      it 'should return a gravatar url if a parsable e-mail string is provided' do
-        mail = '<e-mail@mail.de>'
-        digest = Digest::MD5.hexdigest('e-mail@mail.de')
-
-        expect(helper.avatar_url(mail)).to eq(gravatar_expected_url(digest))
       end
 
       it 'should return an empty string if a non parsable (e-mail) string is provided' do
