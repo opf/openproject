@@ -35,24 +35,24 @@ require Rails.root.join('config/constants/settings/available')
 Settings::Available.add :smtp_enable_starttls_auto,
                         format: :boolean,
                         api_name: 'smtpEnableStartTLSAuto',
-                        default: false
+                        default: false,
+                        admin: true
 
 Settings::Available.add :smtp_ssl,
                         format: :boolean,
                         api_name: 'smtpSSL',
-                        default: false
+                        default: false,
+                        admin: true
 
 Settings::Available.add :smtp_address,
                         format: :string,
-                        default: ''
+                        default: '',
+                        admin: true
 
 Settings::Available.add :smtp_port,
                         format: :int,
-                        default: 587
-
-Settings::Available.add :smtp_port,
-                        format: :int,
-                        default: 587
+                        default: 587,
+                        admin: true
 
 YAML::load(File.open(Rails.root.join('config/settings.yml'))).map do |name, config|
   Settings::Available.add name,

@@ -77,6 +77,8 @@ module API
 
         Setting.available.select(&:api?).each do |available|
           property available.api_name,
+                   if: ->(*) { !available.admin? || current_user.admin? },
+                   exec_context: :decorator,
                    getter: ->(*) {
                      Setting[available.name]
                    }
@@ -148,9 +150,9 @@ module API
         end
 
         def reformated(setting, &block)
-          format = setting.gsub(/%\w/, &block)
-
-          format.blank? ? nil : format
+          setting
+            .gsub(/%\w/, &block)
+            .presence
         end
       end
     end

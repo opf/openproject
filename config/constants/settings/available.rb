@@ -35,15 +35,17 @@ module Settings
                   :default,
                   :api_name,
                   :serialized,
-                  :api
+                  :api,
+                  :admin
 
-    def initialize(name, format:, default:, api_name: name, serialized: false, api: true)
+    def initialize(name, format:, default:, api_name: name, serialized: false, api: true, admin: true)
       self.name = name.to_s
       self.format = format.to_s
       self.default = default
       self.api_name = api_name
       self.serialized = serialized
       self.api = api
+      self.admin = true
     end
 
     def serialized?
@@ -54,8 +56,12 @@ module Settings
       !!api
     end
 
+    def admin?
+      !!admin
+    end
+
     class << self
-      def add(name, default:, format: :undefined, api_name: name, serialized: false, api: true)
+      def add(name, default:, format: :undefined, api_name: name, serialized: false, api: true, admin: true)
         return if @by_name.present? && @by_name[name.to_s].present?
 
         @all ||= []
@@ -66,7 +72,8 @@ module Settings
                     default: default,
                     api_name: api_name,
                     serialized: serialized,
-                    api: api)
+                    api: api,
+                    admin: true)
       end
 
       def [](name)
