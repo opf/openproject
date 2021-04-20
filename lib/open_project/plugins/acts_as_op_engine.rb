@@ -29,7 +29,7 @@
 require_dependency 'open_project/ui/extensible_tabs'
 require_dependency 'config/constants/api_patch_registry'
 require_dependency 'config/constants/open_project/activity'
-require_dependency 'config/constants/settings/available'
+require_dependency 'config/constants/settings/definition'
 
 module OpenProject::Plugins
   module ActsAsOpEngine

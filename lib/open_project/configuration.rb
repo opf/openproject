@@ -39,7 +39,6 @@ module OpenProject
 
     # Configuration default values
     @defaults = {
-      'edition' => 'standard',
       'attachments_storage' => 'file',
       'attachments_storage_path' => nil,
       'attachments_grace_period' => 180,
@@ -212,6 +211,14 @@ module OpenProject
         env = options[:env] || Rails.env
 
         @config = @defaults.dup
+
+        setting_definitions = Settings::Definition
+                              .all
+                              .reject(&:writable?)
+                              .map { |definition| [definition.name, definition.default] }
+                              .to_h
+
+        @config.merge!(setting_definitions)
 
         load_config_from_file(filename, env, @config)
 

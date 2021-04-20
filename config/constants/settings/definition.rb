@@ -29,23 +29,25 @@
 #++
 
 module Settings
-  class Available
+  class Definition
     attr_accessor :name,
                   :format,
                   :default,
                   :api_name,
                   :serialized,
                   :api,
-                  :admin
+                  :admin,
+                  :writable
 
-    def initialize(name, format:, default:, api_name: name, serialized: false, api: true, admin: true)
+    def initialize(name, format:, default:, api_name: name, serialized: false, api: true, admin: true, writable: true)
       self.name = name.to_s
       self.format = format.to_s
       self.default = default
       self.api_name = api_name
       self.serialized = serialized
       self.api = api
-      self.admin = true
+      self.admin = admin
+      self.writable = writable
     end
 
     def serialized?
@@ -60,20 +62,28 @@ module Settings
       !!admin
     end
 
+    def writable?
+      !!writable
+    end
+
     class << self
-      def add(name, default:, format: :undefined, api_name: name, serialized: false, api: true, admin: true)
+      def add(name, default:, format: :undefined, api_name: name, serialized: false, api: true, admin: true, writable: true)
         return if @by_name.present? && @by_name[name.to_s].present?
 
-        @all ||= []
         @by_name = nil
 
-        @all << new(name,
-                    format: format,
-                    default: default,
-                    api_name: api_name,
-                    serialized: serialized,
-                    api: api,
-                    admin: true)
+        all << new(name,
+                   format: format,
+                   default: default,
+                   api_name: api_name,
+                   serialized: serialized,
+                   api: api,
+                   admin: admin,
+                   writable: writable)
+      end
+
+      def define(&block)
+        instance_exec(&block)
       end
 
       def [](name)
@@ -82,7 +92,20 @@ module Settings
         @by_name[name.to_s]
       end
 
-      attr_reader :all
+      def all
+        @all ||= []
+
+        unless loaded
+          self.loaded = true
+          require_relative 'definitions'
+        end
+
+        @all
+      end
+
+      private
+
+      attr_accessor :loaded
     end
   end
 end

@@ -88,7 +88,7 @@ class Setting < ApplicationRecord
 
   class << self
     def create_setting(name, value = {})
-      ::Settings::Available.add(name, **value.symbolize_keys)
+      ::Settings::Definition.add(name, **value.symbolize_keys)
     end
 
     def create_setting_accessors(name)
@@ -123,7 +123,7 @@ class Setting < ApplicationRecord
     end
 
     def available
-      Settings::Available.all
+      Settings::Definition.all
     end
 
     def method_missing(method, *args, &block)
@@ -150,7 +150,7 @@ class Setting < ApplicationRecord
   validates_uniqueness_of :name
   #TODO rework to check for config to exist
   validates_inclusion_of :name, in: lambda { |_setting|
-                                      Settings::Available.all.map(&:name)
+                                      Settings::Definition.all.map(&:name)
                                     } # lambda, because @available_settings changes at runtime
   validates_numericality_of :value, only_integer: true, if: Proc.new { |setting|
                                                               setting.format == 'int'
@@ -167,7 +167,7 @@ class Setting < ApplicationRecord
   def formatted_value(value)
     return value unless value.present?
 
-    default = Settings::Available[name]
+    default = Settings::Definition[name]
 
     if default['serialized']
       return value.to_yaml
@@ -207,7 +207,7 @@ class Setting < ApplicationRecord
 
   # Check whether a setting was defined
   def self.exists?(name)
-    Settings::Available[name].present?
+    Settings::Definition[name].present?
   end
 
   def self.installation_uuid
@@ -282,7 +282,7 @@ class Setting < ApplicationRecord
     name = name.to_s
     raise "There's no setting named #{name}" unless exists? name
 
-    value = cached_settings.fetch(name) { Settings::Available[name].default }
+    value = cached_settings.fetch(name) { Settings::Definition[name].default }
     deserialize(name, value)
   end
 
@@ -317,7 +317,7 @@ class Setting < ApplicationRecord
 
   # Unserialize a serialized settings value
   def self.deserialize(name, v)
-    default = Settings::Available[name]
+    default = Settings::Definition[name]
 
     if default.serialized? && v.is_a?(String)
       YAML::load(v)
@@ -354,7 +354,7 @@ class Setting < ApplicationRecord
   protected
 
   def config
-    @config ||= Settings::Available[name]
+    @config ||= Settings::Definition[name]
   end
 
   delegate :format,
