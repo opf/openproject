@@ -87,10 +87,10 @@ export class PrincipalRendererService {
     const colorCode = this.colors.toHsl(principal.name);
 
     const fallback = document.createElement('div');
-    fallback.classList.add('op-principal-avatar');
-    fallback.classList.add(`op-principal-avatar_${options.size}`);
-    fallback.classList.add(`op-principal-avatar_${type.replace('_', '-')}`);
-    fallback.classList.add('op-principal-avatar--fallback');
+    fallback.classList.add('op-avatar');
+    fallback.classList.add(`op-avatar_${options.size}`);
+    fallback.classList.add(`op-avatar_${type.replace('_', '-')}`);
+    fallback.classList.add('op-avatar--fallback');
     fallback.textContent = userInitials;
     fallback.style.background = colorCode;
 
@@ -104,8 +104,8 @@ export class PrincipalRendererService {
 
   private renderUserAvatar(principal:PrincipalLike, fallback:HTMLElement, options:AvatarOptions) {
     const image = new Image();
-    image.classList.add('op-principal-avatar');
-    image.classList.add(`op-principal-avatar_${options.size}`);
+    image.classList.add('op-avatar');
+    image.classList.add(`op-avatar_${options.size}`);
     image.src = this.apiV3Service.users.id(principal.id || '').avatar.toString();
     image.title = principal.name;
     image.alt = principal.name;

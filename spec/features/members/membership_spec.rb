@@ -118,7 +118,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
     members_page.add_user! 'A-Team', as: 'Manager'
 
     expect(members_page).to have_added_group('A-Team')
-    expect(page).to have_selector '.op-principal-avatar_group'
+    expect(page).to have_selector '.op-avatar_group'
     SeleniumHubWaiter.wait
 
     members_page.remove_group! 'A-Team'
@@ -130,7 +130,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
     members_page.add_user! 'Hannibal Smith', as: 'Manager'
 
     expect(members_page).to have_added_user 'Hannibal Smith'
-    expect(page).to have_selector '.op-principal-avatar_user'
+    expect(page).to have_selector '.op-avatar_user'
 
     SeleniumHubWaiter.wait
     members_page.remove_user! 'Hannibal Smith'
@@ -142,7 +142,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
     members_page.add_user! developer_placeholder.name, as: developer.name
 
     expect(members_page).to have_added_user developer_placeholder.name
-    expect(page).to have_selector '.op-principal-avatar_placeholder-user'
+    expect(page).to have_selector '.op-avatar_placeholder-user'
 
     SeleniumHubWaiter.wait
     members_page.remove_user! developer_placeholder.name
