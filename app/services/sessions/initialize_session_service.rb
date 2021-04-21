@@ -42,7 +42,7 @@ module Sessions
 
         if drop_old_sessions?
           Rails.logger.info { "Deleting all other sessions for #{user}." }
-          ::Sessions::ActiveRecord.for_user(user).delete_all
+          ::Sessions::UserSession.for_user(user).delete_all
         end
 
         ServiceResult.new(success: true, result: session)

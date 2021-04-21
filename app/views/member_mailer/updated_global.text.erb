@@ -1,0 +1,6 @@
+<%= I18n.t(:'mail_member_updated_global.body.added_by', user: User.current.name) %>
+
+<%= I18n.t(:'mail_member_updated_global.body.roles') %>
+<% @roles.each do |role| %>
+  * <%= h(role.name) %>
+<% end %>

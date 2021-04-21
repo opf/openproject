@@ -48,7 +48,7 @@ describe 'my',
     expect(page).to have_content I18n.t(:notice_account_other_session_expired)
 
     # expect session to be removed
-    expect(::Sessions::ActiveRecord.for_user(user).where(session_id: 'other').count).to eq 0
+    expect(::Sessions::UserSession.for_user(user).where(session_id: 'other').count).to eq 0
 
     user.reload
     expect(user.mail).to eq 'foo@mail.com'
@@ -62,7 +62,7 @@ describe 'my',
     session = ::Sessions::SqlBypass.new data: { user_id: user.id }, session_id: 'other'
     session.save
 
-    expect(::Sessions::ActiveRecord.for_user(user).where(session_id: 'other').count).to eq 1
+    expect(::Sessions::UserSession.for_user(user).where(session_id: 'other').count).to eq 1
   end
 
   context 'user' do

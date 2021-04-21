@@ -147,6 +147,7 @@ services:
       CAPYBARA_APP_HOSTNAME: backend-test
       OPENPROJECT_CLI_PROXY: http://frontend-test:4200
       OPENPROJECT_TESTING_NO_HEADLESS: "true"
+      OPENPROJECT_TESTING_AUTO_DEVTOOLS: "true"
     volumes:
       - ".:/home/dev/openproject"
       - "fedata-test:/home/dev/openproject/public/assets/frontend"

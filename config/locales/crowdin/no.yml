@@ -175,6 +175,8 @@
       no_results_content_text: Opprett nytt egendefinert felt
   concatenation:
     single: 'eller'
+  documentation:
+    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -904,6 +906,10 @@
     succeeded: "Opprettet prosjektet %{target_project_name}"
     errors: "Feil"
     project_custom_fields: 'Custom fields on project'
+    x_objects_of_this_type:
+      zero: 'No objects of this type'
+      one: 'One object of this type'
+      other: '%{count} objects of this type'
     text:
       failed: "Kunne ikke kopiere prosjektet \"%{source_project_name}\" til prosjektetet \"%{target_project_name}\"."
       succeeded: "Prosjektet \"%{source_project_name}\" ble kopiert til \"%{target_project_name}\"."
@@ -1491,6 +1497,8 @@
   label_member_new: "Nytt medlem"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Medlemmer"
+  lable_membership_added: 'Member added'
+  lable_membership_updated: 'Member updated'
   label_menu_item_name: "Navn på menyelement"
   label_message: "Melding"
   label_message_last: "Siste melding"
@@ -1834,6 +1842,21 @@
   mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "Wiki-siden '%{id}' er lagt til"
   mail_subject_wiki_content_updated: "Wiki-siden '%{id}' er oppdatert"
+  mail_member_added_project:
+    subject: "%{project} - You have been added as a member"
+    body:
+      added_by: "%{user} added you as a member to the project '%{project}'."
+      roles: "You have the following roles:"
+  mail_member_updated_project:
+    subject: "%{project} - Your roles have been updated"
+    body:
+      added_by: "%{user} updated the roles you have in the project '%{project}'."
+      roles: "You now have the following roles:"
+  mail_member_updated_global:
+    subject: "Your global permissions have been updated"
+    body:
+      added_by: "%{user} updated the roles you have globally."
+      roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: User activation limit reached
     message: |
@@ -2187,6 +2210,7 @@
   setting_consent_required: "Consent required"
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "Tillat relasjoner mellom arbeidspakker i ulike prosjekter"
+  setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Datoformat"
   setting_default_language: "Standardspråk"
   setting_default_notification_option: "Standard varslingsalternativ"
@@ -2268,6 +2292,11 @@
     passwords: "Passord"
     session: "Sesjon"
     brute_force_prevention: "Automatisk blokkering av brukere"
+    display:
+      first_date_of_week_and_year_present: >
+        If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"

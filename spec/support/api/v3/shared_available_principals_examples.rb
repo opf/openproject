@@ -31,7 +31,7 @@ require 'rack/test'
 shared_examples_for 'available principals' do |principals|
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) do
+  current_user do
     FactoryBot.create(:user,
                       member_in_project: project,
                       member_through_role: role)
@@ -44,9 +44,9 @@ shared_examples_for 'available principals' do |principals|
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:project) { FactoryBot.create(:project) }
   let(:group) do
-    group = FactoryBot.create(:group)
-    project.add_member! group, FactoryBot.create(:role)
-    group
+    FactoryBot.create(:group,
+                      member_in_project: project,
+                      member_through_role: role)
   end
   let(:placeholder_user) do
     FactoryBot.create(:placeholder_user,
@@ -57,10 +57,6 @@ shared_examples_for 'available principals' do |principals|
 
   shared_context "request available #{principals}" do
     before { get href }
-  end
-
-  before do
-    login_as(current_user)
   end
 
   describe 'response' do

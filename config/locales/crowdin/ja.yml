@@ -173,6 +173,8 @@ ja:
       no_results_content_text: 新しいカスタム フィールドを作成
   concatenation:
     single: 'または'
+  documentation:
+    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -261,7 +263,7 @@ ja:
   statuses:
     edit:
       status_readonly_html: |
-        このステータスを読み取り専用としてマークするにはこのオプションを選択します。ステータスを除く属性は変更できません。<br/>
+        このステータスのワークパッケージを読み取り専用としてマークするにはこのオプションを選択します。ステータスを除く属性は変更できません。<br/>
         <strong>注</strong>：継承された値（子や関係）は引き続き適用されます。
       status_color_text: |
         このステータスの色を割り当てたり変更する場合にクリックします。
@@ -326,8 +328,8 @@ ja:
     deleted: "アカウントが正常に削除されました。"
     deletion_info:
       data_consequences:
-        other: "ユーザーが作成した殆どのデータ (例えば電子メール、設定、ワークパッケージ 、wiki記載 )が削除されます。ただし、他のユーザーの作業を妨害することがなくワークパッケージやwiki 記載のようなデータは削除できません。それ故に、このようなデータは「削除されたユーザー」と呼ばれるアカウントに再割り当てます。削除された各アカウントのデータがこのアカウントに再割り当ているので、削除された別のユーザーのデータと区別できなくなります。"
-        self: "ユーザーが作成した殆どのデータ (例えば電子メール、設定、ワークパッケージ 、wiki記載 )が削除されます。ただし、他のユーザーの作業を妨害することがなくワークパッケージやwiki 記載のようなデータは削除できません。それ故に、このようなデータは「削除されたユーザー」と呼ばれるアカウントに再割り当てます。削除された各アカウントのデータがこのアカウントに再割り当ているので、削除された別のユーザーのデータと区別できなくなります。"
+        other: "ユーザーが作成した殆どのデータ (例えば電子メール、設定、ワークパッケージ 、wiki記載 )が削除されます。ただし、他のユーザーの作業を妨害することがなくワークパッケージやwiki 記載のようなデータは削除することはできません。それ故に、このようなデータは「削除されたユーザー」と呼ばれるアカウントに再割り当てされます。削除された各アカウントのデータがこのアカウントに再割り当てされるので、そのユーザーが作成したデータと削除された別のユーザーのデータとを区別することができなくなります。"
+        self: "あなたが作成した殆どのデータ (例えば電子メール、設定、ワークパッケージ 、wiki記載 )が削除されます。ただし、他のユーザーの作業を妨害することがなくワークパッケージやwiki 記載のようなデータは削除することはできません。それ故に、このようなデータは「削除されたユーザー」と呼ばれるアカウントに再割り当てされます。削除された各アカウントのデータがこのアカウントに再割り当てされるので、あなたが作成したデータと削除された別のユーザーのデータとを区別することができなくなります。"
       heading: "アカウント名「 %{name} 」を削除します。"
       info:
         other: "ユーザアカウントの削除は復元できない操作です。"
@@ -896,6 +898,10 @@ ja:
     succeeded: "「%{target_project_name}」プロジェクトを作成しました。"
     errors: "エラー！"
     project_custom_fields: 'プロジェクトのカスタムフィールド'
+    x_objects_of_this_type:
+      zero: 'No objects of this type'
+      one: 'One object of this type'
+      other: '%{count} objects of this type'
     text:
       failed: "プロジェクト「%{target_project_name}」にプロジェクト「%{source_project_name}」をコピーできませんでした。"
       succeeded: "プロジェクト「%{target_project_name}」にプロジェクト「%{source_project_name}」をコピーしました。"
@@ -1471,6 +1477,8 @@ ja:
   label_member_new: "新規メンバー"
   label_member_all_admin: "(管理ステータスのすべての役割)"
   label_member_plural: "メンバー"
+  lable_membership_added: 'Member added'
+  lable_membership_updated: 'Member updated'
   label_menu_item_name: "メニュー項目の名称"
   label_message: "メッセージ"
   label_message_last: "最新のメッセージ"
@@ -1814,6 +1822,21 @@ ja:
   mail_subject_group_reminder: "グループ \"%{group}\" の %{count} 件のワークパッケージが %{days} 日内に期限を迎えます"
   mail_subject_wiki_content_added: "Wikiページ'%{id}'が追加されました"
   mail_subject_wiki_content_updated: "Wikiページ'%{id}'が更新されました"
+  mail_member_added_project:
+    subject: "%{project} - You have been added as a member"
+    body:
+      added_by: "%{user} added you as a member to the project '%{project}'."
+      roles: "You have the following roles:"
+  mail_member_updated_project:
+    subject: "%{project} - Your roles have been updated"
+    body:
+      added_by: "%{user} updated the roles you have in the project '%{project}'."
+      roles: "You now have the following roles:"
+  mail_member_updated_global:
+    subject: "Your global permissions have been updated"
+    body:
+      added_by: "%{user} updated the roles you have globally."
+      roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: ユーザーのアクティブ化の上限に達しました。
     message: |
@@ -2166,6 +2189,7 @@ ja:
   setting_consent_required: "同意が必要です。"
   setting_consent_decline_mail: "連絡先メールアドレスに同意します。"
   setting_cross_project_work_package_relations: "他プロジェクトとの間にワークパッケージの関連付けを許可する"
+  setting_first_week_of_year: "First week in year contains"
   setting_date_format: "日付の形式"
   setting_default_language: "デフォルトの言語"
   setting_default_notification_option: "デフォルトのメール通知オプション"
@@ -2247,6 +2271,11 @@ ja:
     passwords: "パスワード"
     session: "セッション"
     brute_force_prevention: "自動的にユーザをロック"
+    display:
+      first_date_of_week_and_year_present: >
+        If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
     projects:
       section_new_projects: "新規プロジェクトの設定"
       section_project_overview: "プロジェクト概要リストの設定"

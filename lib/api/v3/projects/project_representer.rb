@@ -172,8 +172,12 @@ module API
                             }
 
         property :id
-        property :identifier
-        property :name
+        property :identifier,
+                 render_nil: true
+
+        property :name,
+                 render_nil: true
+
         property :active
         property :public
 

@@ -46,13 +46,16 @@ FactoryBot.define do
     callback(:after_build) do |principal, evaluator| # this is also done after :create
       (projects = evaluator.member_in_projects || [])
       projects << evaluator.member_in_project if evaluator.member_in_project
-      if !projects.empty?
+      if projects.any?
         role = evaluator.member_through_role || FactoryBot.build(:role,
                                                                  permissions: evaluator.member_with_permissions || %i[
                                                                    view_work_packages edit_work_packages
                                                                  ])
-        projects.each do |project|
-          project.add_member! principal, role if project
+        projects.compact.each do |project|
+          FactoryBot.create(:member,
+                            project: project,
+                            principal: principal,
+                            roles: Array(role))
         end
       end
     end

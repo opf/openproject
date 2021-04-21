@@ -39,7 +39,7 @@ module Members
     end
 
     def roles
-      label = h member.roles.sort.collect(&:name).join(', ')
+      label = h member.roles.uniq.sort.collect(&:name).join(', ')
 
       if principal&.admin?
         label << tag(:br)

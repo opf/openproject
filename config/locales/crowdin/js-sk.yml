@@ -466,6 +466,7 @@ sk:
         help_menu: 'V ponuke <b>Help</b> nájdete používateľskú príručku a ďalšie zdroje pomoci. <br> Užite si svoju prácu s programom OpenProject!'
         members: 'Pozvať nových <b>Členov</b> do vášho projektu.'
         project_selection: 'Vyberte jeden z projektov s užitočnými demo dátami: <br><b>"Demo projekt"</b> je vhodný pre klasické riadenie projektov, <b>"Scrum projekt"</b> je vhodný pre agilné riadenie projektov.'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "Pomocou šípky sa môžete vrátiť späť k projektom <b>Hlavná ponuka</b>."
         welcome: 'Urobte si tri minúty čas na úvodnú prehliadku, aby ste sa naučili čo najviac <b>dôležité funkcie</b>.<br> Doporučujeme dokončiť prehliadku až do konca. Prehliadku môžete kedykoľvek reštartovať.'
         wiki: 'V rámci <b>Wiki</b> možno dokumentovať a zdieľať znalosti spolu so svojím tímom.'

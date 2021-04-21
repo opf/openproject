@@ -175,6 +175,8 @@ cs:
       no_results_content_text: Vytvořit nové vlastní pole
   concatenation:
     single: 'nebo'
+  documentation:
+    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -912,6 +914,10 @@ cs:
     succeeded: "Projekt \"%{target_project_name}\" vytvořen"
     errors: "Chyba"
     project_custom_fields: 'Vlastní pole projektu'
+    x_objects_of_this_type:
+      zero: 'No objects of this type'
+      one: 'One object of this type'
+      other: '%{count} objects of this type'
     text:
       failed: "Nebylo možné zkopírovat projekt \"%{source_project_name}\" do \"%{target_project_name}\"."
       succeeded: "Projekt \"%{source_project_name}\" zkopírován do \"%{target_project_name}\"."
@@ -1523,6 +1529,8 @@ cs:
   label_member_new: "Nový člen"
   label_member_all_admin: "(Všechny role z důvodu stavu správce)"
   label_member_plural: "Členové"
+  lable_membership_added: 'Member added'
+  lable_membership_updated: 'Member updated'
   label_menu_item_name: "Název položky menu"
   label_message: "Zpráva"
   label_message_last: "Poslední zpráva"
@@ -1866,6 +1874,21 @@ cs:
   mail_subject_group_reminder: "Pro skupinu \"%{group}\" %{count} pracovních balíčků splatných během následujících %{days} dnů"
   mail_subject_wiki_content_added: "'%{id}' wiki stránka byla přidána"
   mail_subject_wiki_content_updated: "'%{id}' wiki stránka byla aktualizována"
+  mail_member_added_project:
+    subject: "%{project} - You have been added as a member"
+    body:
+      added_by: "%{user} added you as a member to the project '%{project}'."
+      roles: "You have the following roles:"
+  mail_member_updated_project:
+    subject: "%{project} - Your roles have been updated"
+    body:
+      added_by: "%{user} updated the roles you have in the project '%{project}'."
+      roles: "You now have the following roles:"
+  mail_member_updated_global:
+    subject: "Your global permissions have been updated"
+    body:
+      added_by: "%{user} updated the roles you have globally."
+      roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: Dosažen limit aktivace uživatelů
     message: |
@@ -2220,6 +2243,7 @@ cs:
   setting_consent_required: "Souhlas vyžadován"
   setting_consent_decline_mail: "Kontaktní e-mailová adresa pro souhlas"
   setting_cross_project_work_package_relations: "Povolit vztahy mezi projekty a pracovními balíčky"
+  setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Formát data"
   setting_default_language: "Výchozí jazyk"
   setting_default_notification_option: "Výchozí nastavení oznámení"
@@ -2301,6 +2325,11 @@ cs:
     passwords: "Hesla"
     session: "Relace"
     brute_force_prevention: "Automatizované blokování uživatelů"
+    display:
+      first_date_of_week_and_year_present: >
+        If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"

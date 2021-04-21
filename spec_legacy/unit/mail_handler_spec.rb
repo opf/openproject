@@ -35,7 +35,7 @@ describe MailHandler, type: :model do
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 
   before do
-    allow(Setting).to receive(:notified_events).and_return(Redmine::Notifiable.all.map(&:name))
+    allow(Setting).to receive(:notified_events).and_return(OpenProject::Notifiable.all.map(&:name))
   end
 
   it 'should add work package with attributes override' do

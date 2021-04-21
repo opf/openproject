@@ -102,6 +102,13 @@ Naming/PredicateName:
     - is_
 
 
+# There are valid cases in which to use methods like:
+# * update_all
+# * touch_all
+Rails/SkipsModelValidations:
+  Enabled: false
+
+
 Style/Alias:
   Enabled: false
 
@@ -291,6 +298,7 @@ Style/HashTransformValues:
 
 RSpec/MultipleMemoizedHelpers:
   Max: 15
+  AllowSubject: true
 
 RSpec/MultipleExpectations:
   Max: 15

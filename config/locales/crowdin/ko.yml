@@ -175,6 +175,8 @@ ko:
       no_results_content_text: 새 사용자 필드 생성
   concatenation:
     single: '또는'
+  documentation:
+    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "위키"
@@ -899,6 +901,10 @@ ko:
     succeeded: "프로젝트 %{target_project_name} 생성함"
     errors: "오류"
     project_custom_fields: '프로젝트의 사용자 지정 필드'
+    x_objects_of_this_type:
+      zero: 'No objects of this type'
+      one: 'One object of this type'
+      other: '%{count} objects of this type'
     text:
       failed: "프로젝트 \"%{source_project_name}\"을(를) 프로젝트 \"%{target_project_name}\"에 복사할 수 없습니다."
       succeeded: "프로젝트 \"%{source_project_name}\"을(를) 프로젝트 \"%{target_project_name}\"에 복사했습니다."
@@ -1474,6 +1480,8 @@ ko:
   label_member_new: "새 멤버"
   label_member_all_admin: "(관리 상태에 따른 모든 역할)"
   label_member_plural: "멤버"
+  lable_membership_added: 'Member added'
+  lable_membership_updated: 'Member updated'
   label_menu_item_name: "메뉴 항목의 이름"
   label_message: "메시지"
   label_message_last: "마지막 메시지"
@@ -1817,6 +1825,21 @@ ko:
   mail_subject_group_reminder: "\"%{group}\" 그룹에 대한 향후 %{days}일 후 만료되는 %{count}개 작업 패키지"
   mail_subject_wiki_content_added: "'%{id}' 위키 페이지가 추가되었습니다."
   mail_subject_wiki_content_updated: "'%{id}' 위키 페이지가 업데이트되었습니다."
+  mail_member_added_project:
+    subject: "%{project} - You have been added as a member"
+    body:
+      added_by: "%{user} added you as a member to the project '%{project}'."
+      roles: "You have the following roles:"
+  mail_member_updated_project:
+    subject: "%{project} - Your roles have been updated"
+    body:
+      added_by: "%{user} updated the roles you have in the project '%{project}'."
+      roles: "You now have the following roles:"
+  mail_member_updated_global:
+    subject: "Your global permissions have been updated"
+    body:
+      added_by: "%{user} updated the roles you have globally."
+      roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: 사용자 활성화 제한에 도달함
     message: |
@@ -2167,6 +2190,7 @@ ko:
   setting_consent_required: "동의 필요"
   setting_consent_decline_mail: "동의 연락처 메일 주소"
   setting_cross_project_work_package_relations: "교차 프로젝트 작업 패키지 관계 허용"
+  setting_first_week_of_year: "First week in year contains"
   setting_date_format: "날짜 형식"
   setting_default_language: "기본 언어"
   setting_default_notification_option: "기본 알림 옵션"
@@ -2248,6 +2272,11 @@ ko:
     passwords: "암호"
     session: "세션"
     brute_force_prevention: "자동화된 사용자 차단"
+    display:
+      first_date_of_week_and_year_present: >
+        If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
     projects:
       section_new_projects: "새 프로젝트의 설정"
       section_project_overview: "프로젝트 개요 목록의 설정"

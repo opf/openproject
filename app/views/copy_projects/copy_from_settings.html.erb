@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= error_messages_for 'copy_project' %>
+<%= error_messages_for_contract @copy_project, @errors %>
 <%= toolbar title: t(:label_project_new) %>
 
 <%= labelled_tabular_form_for @copy_project, url: { action: 'copy', coming_from: 'settings' } do |f| %>

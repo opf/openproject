@@ -44,3 +44,6 @@ de:
       **Referenziert in PR:** ""%{github_user}":%{github_user_url} hat dieses Arbeitspaket in
       Pull Request %{pr_number} “%{pr_title}”":%{pr_url} in "%{repository}":%{repository_url}
       referenziert.
+    pull_request_ready_for_review_comment: >
+      **PR Bereit zum Review:** Pull request %{pr_number} [%{pr_title}](%{pr_url}) in [%{repository}](%{repository_url})
+      wurde als bereit zum Review markiert von [%{github_user}](%{github_user_url}).

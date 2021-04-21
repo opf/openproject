@@ -26,4 +26,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Groups::DeleteService < ::BaseServices::Delete; end
+class Groups::DeleteService < ::BaseServices::Delete
+  protected
+
+  def destroy(group)
+    ::Principals::DeleteJob.perform_later(group)
+    true
+  end
+end

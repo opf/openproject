@@ -6,12 +6,11 @@ describe 'Login with 2FA remember cookie',
          with_2fa_ee: true,
          with_config: { '2fa': { active_strategies: [:developer], allow_remember_for_days: 30 } },
          js: true do
-  let(:user) do
-    FactoryBot.create(:user)
-  end
   let(:user_password) do
-    # Works because the user is not reloaded
-    user.password
+    "user!user!"
+  end
+  let(:user) do
+    FactoryBot.create(:user, password: user_password, password_confirmation: user_password)
   end
   let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, active: true, default: true }
 

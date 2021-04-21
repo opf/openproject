@@ -30,7 +30,7 @@ FactoryBot.define do
   factory :journal do
     user factory: :user
     created_at { Time.now }
-    sequence(:version) { |n| n + 1 }
+    sequence(:version, 1)
 
     callback(:after_create) do |journal, evaluator|
       data = evaluator.data

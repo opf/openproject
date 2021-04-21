@@ -244,6 +244,8 @@ notified_events:
   - message_posted
   - wiki_content_added
   - wiki_content_updated
+  - membership_added
+  - membership_updated
 mail_handler_body_delimiters:
   default: ''
 mail_handler_ignore_filenames:
@@ -316,6 +318,8 @@ emails_footer:
       You have received this notification because you have either subscribed to it, or are involved in it.
       To change your notification preferences, please click here: http://hostname/my/account
 start_of_week:
+  default: ''
+first_week_of_year:
   default: ''
 rest_api_enabled:
   default: 1

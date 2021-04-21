@@ -30,14 +30,14 @@
 
 module Queries
   class CopyService < ::BaseServices::Copy
-    protected
-
-    def copy_dependencies
+    def self.copy_dependencies
       [
         ::Queries::Copy::MenuItemDependentService,
         ::Queries::Copy::OrderedWorkPackagesDependentService
       ]
     end
+
+    protected
 
     def initialize_copy(source, _params)
       new_query = ::Query.new source.attributes.dup.except(*skipped_attributes)

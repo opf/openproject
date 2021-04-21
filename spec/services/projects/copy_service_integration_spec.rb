@@ -194,8 +194,11 @@ describe Projects::CopyService, 'integration', type: :model do
       end
 
       it 'will copy them as well' do
-        source.add_member! group, another_role
-        source.reload
+        Members::CreateService
+          .new(user: current_user, contract_class: EmptyContract)
+          .call(principal: group, roles: [another_role], project: source)
+
+        source.users.reload
         expect(source.users).to include current_user
         expect(source.users).to include user
         expect(project_copy.groups).to include group

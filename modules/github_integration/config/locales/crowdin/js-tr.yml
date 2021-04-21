@@ -25,20 +25,20 @@ tr:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull Requests"
+        title: "Çekme Talepleri"
         copy_menu:
           label: Git
-          description: Copy important git content to clipboard
+          description: Önemli git içeriğini panoya kopyalayın
         git_actions:
           branch: Dal
-          branch_help: Copy the default branch name.
+          branch_help: Varsayılan şube adını kopyalayın.
           message: İleti
-          message_help: Copy the default commit message.
-          cmd: Command
-          cmd_help: Copy a shell command which creates a new branch and an empty commit using the default branch name and commit message.
-          title: Copy to Clipboard
+          message_help: Varsayılan kaydetme mesajını kopyalayın.
+          cmd: Komut
+          cmd_help: Varsayılan şube adını ve commit mesajını kullanarak yeni bir dal ve boş bir commit oluşturan bir kabuk komutunu kopyalayın.
+          title: Panoya kopyala
           copy_button_help: Panoya kopyala
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          copy_success: '✅ Kopyalandı!'
+          copy_error: '❌ Kopyalanamadı!'
       tab_prs:
-        empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
+        empty: 'Henüz bağlanan herhangi bir çekme isteği yok. PR açıklamasında <code>OP#%{wp_id}</code> kodunu kullanarak mevcut bir PR''yi bağlayın veya yeni bir PR oluşturun.'

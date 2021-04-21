@@ -465,6 +465,7 @@ zh-TW:
         help_menu: '您可以在<b>幫助</b>選單裡找到使用者手冊和更多的幫助資源．'
         members: '邀請新的 <b>會員</b> 加入您的專案。'
         project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "使用箭頭, 您可以導航回專案的 <b>主功能表</b>。"
         welcome: '觀看三分鐘的介紹導覽, 以瞭解最多 <b>重要功能</b>。 <br> 我們建議完成所有步驟直到結束。您可以隨時重新開始導覽。'
         wiki: '在 <b>wiki</b> 中, 您可以與您的團隊一起記錄和分享知識。'

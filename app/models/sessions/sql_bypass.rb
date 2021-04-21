@@ -44,18 +44,31 @@ module Sessions
       # @param session_id [String] The session ID as found in the `_open_project_session` cookie
       # @return [Hash] The saved session data (user_id, updated_at, etc.) or nil if no session was found.
       def lookup_data(session_id)
+        rack_session = Rack::Session::SessionId.new(session_id)
         if Rails.application.config.session_store == ActionDispatch::Session::ActiveRecordStore
-          find_by_session_id(session_id)&.data
+          find_by_session_id(rack_session.private_id)&.data
         else
           session_store = Rails.application.config.session_store.new nil, {}
           _id, data = session_store.instance_eval do
-            find_session({}, Rack::Session::SessionId.new(session_id))
+            find_session({}, rack_session)
           end
 
           data.presence
         end
       end
+
+      def connection_pool
+        ::ActiveRecord::Base.connection_pool
+      end
+
+      def connection
+        ::ActiveRecord::Base.connection
+      end
     end
+
+    # Ensure we use our own class methods for delegation of the connection
+    # otherwise the memoized superclass is being used
+    delegate :connection, :connection_pool, to: :class
 
     ##
     # Save while updating the user_id reference and updated_at column
@@ -112,7 +125,7 @@ module Sessions
       uid = user_id
       return unless uid && OpenProject::Configuration.drop_old_sessions_on_logout?
 
-      ::Sessions::ActiveRecord.for_user(uid).delete_all
+      ::Sessions::UserSession.for_user(uid).delete_all
     end
   end
 end

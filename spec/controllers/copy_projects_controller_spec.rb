@@ -31,13 +31,11 @@ require 'spec_helper'
 describe CopyProjectsController, type: :controller do
   let(:current_user) { FactoryBot.create(:admin) }
   let(:permission) { :copy_projects }
-  let(:project) { FactoryBot.create(:project_with_types, public: false) }
+  let(:project) { FactoryBot.create(:project, public: false) }
   let(:copy_project_params) do
     {
-      'description' => 'Some pretty description',
-      'enabled_module_names' => ['work_package_tracking', 'boards', ''],
-      'public' => project.public,
-      'type_ids' => project.types.map(&:id)
+      description: 'Some pretty description',
+      public: false
     }
   end
 
@@ -74,7 +72,7 @@ describe CopyProjectsController, type: :controller do
 
     it { expect(response).to render_template('copy_from_settings') }
     it 'should display error validation messages' do
-      expect(assigns(:copy_project).errors).not_to be_empty
+      expect(assigns(:errors)).not_to be_empty
     end
   end
 

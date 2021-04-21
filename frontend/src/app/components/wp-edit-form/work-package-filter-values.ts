@@ -1,6 +1,6 @@
 import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
-import { CurrentUserService } from "core-components/user/current-user.service";
+import { CurrentUserService } from "core-app/modules/current-user/current-user.service";
 import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
 import { Injector } from '@angular/core';
 import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";

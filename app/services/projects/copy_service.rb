@@ -32,6 +32,22 @@ module Projects
   class CopyService < ::BaseServices::Copy
     include Projects::Concerns::NewProjectService
 
+    def self.copy_dependencies
+      [
+        ::Projects::Copy::MembersDependentService,
+        ::Projects::Copy::VersionsDependentService,
+        ::Projects::Copy::CategoriesDependentService,
+        ::Projects::Copy::WorkPackagesDependentService,
+        ::Projects::Copy::WorkPackageAttachmentsDependentService,
+        ::Projects::Copy::WikiDependentService,
+        ::Projects::Copy::WikiPageAttachmentsDependentService,
+        ::Projects::Copy::ForumsDependentService,
+        ::Projects::Copy::QueriesDependentService,
+        ::Projects::Copy::BoardsDependentService,
+        ::Projects::Copy::OverviewDependentService
+      ]
+    end
+
     ##
     # In case a rollback is needed,
     # destroy the copied project again.
@@ -46,20 +62,6 @@ module Projects
     # Useful when copying nested dependencies
     def skip_dependency?(params, dependency_cls)
       !Copy::Dependency.should_copy?(params, dependency_cls.identifier.to_sym)
-    end
-
-    def copy_dependencies
-      [
-        ::Projects::Copy::MembersDependentService,
-        ::Projects::Copy::VersionsDependentService,
-        ::Projects::Copy::CategoriesDependentService,
-        ::Projects::Copy::WorkPackagesDependentService,
-        ::Projects::Copy::WikiDependentService,
-        ::Projects::Copy::ForumsDependentService,
-        ::Projects::Copy::QueriesDependentService,
-        ::Projects::Copy::BoardsDependentService,
-        ::Projects::Copy::OverviewDependentService
-      ]
     end
 
     def initialize_copy(source, params)
@@ -88,7 +90,8 @@ module Projects
         .new(user: user,
              model: target,
              contract_class: Projects::CopyContract,
-             contract_options: { copy_source: source })
+             contract_options: { copy_source: source, validate_model: true })
+        .with_state(state)
         .call(target_project_params)
 
       # Retain values after the set attributes service

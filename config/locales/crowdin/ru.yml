@@ -174,6 +174,8 @@ ru:
       no_results_content_text: Создать новое настраиваемое поле
   concatenation:
     single: 'или'
+  documentation:
+    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -911,6 +913,10 @@ ru:
     succeeded: "Созданный проект %{target_project_name}"
     errors: "Ошибка"
     project_custom_fields: 'Настраиваемые поля проекта'
+    x_objects_of_this_type:
+      zero: 'No objects of this type'
+      one: 'One object of this type'
+      other: '%{count} objects of this type'
     text:
       failed: "Не удалось скопировать проект «%{source_project_name}» в проект «%{target_project_name}»."
       succeeded: "Скопированный проект «%{source_project_name}» в «%{target_project_name}»."
@@ -1522,6 +1528,8 @@ ru:
   label_member_new: "Новый участник"
   label_member_all_admin: "(Все роли из-за статуса администратора)"
   label_member_plural: "Участники"
+  lable_membership_added: 'Member added'
+  lable_membership_updated: 'Member updated'
   label_menu_item_name: "Название пункта меню"
   label_message: "Сообщение"
   label_message_last: "Последнее сообщение"
@@ -1865,6 +1873,21 @@ ru:
   mail_subject_group_reminder: "В группе \"%{group}\" есть комплексы работ (%{count}), срок выполнения которых истекает в следующие %{days} дн."
   mail_subject_wiki_content_added: "'%{id}' wiki-страница добавлена"
   mail_subject_wiki_content_updated: "'%{id}' wiki страница была обновлена"
+  mail_member_added_project:
+    subject: "%{project} - You have been added as a member"
+    body:
+      added_by: "%{user} added you as a member to the project '%{project}'."
+      roles: "You have the following roles:"
+  mail_member_updated_project:
+    subject: "%{project} - Your roles have been updated"
+    body:
+      added_by: "%{user} updated the roles you have in the project '%{project}'."
+      roles: "You now have the following roles:"
+  mail_member_updated_global:
+    subject: "Your global permissions have been updated"
+    body:
+      added_by: "%{user} updated the roles you have globally."
+      roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: Достигнут лимит активации пользователя
     message: |
@@ -2217,6 +2240,7 @@ ru:
   setting_consent_required: "Требуется согласие"
   setting_consent_decline_mail: "Контактный почтовый адрес для согласия"
   setting_cross_project_work_package_relations: "Разрешить перектестные связи пакетов работ проекта"
+  setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Формат даты"
   setting_default_language: "Язык по умолчанию"
   setting_default_notification_option: "Опция уведомления по умолчанию"
@@ -2298,6 +2322,11 @@ ru:
     passwords: "Пароли"
     session: "Сессия"
     brute_force_prevention: "Автоматическое блокирование пользователя"
+    display:
+      first_date_of_week_and_year_present: >
+        If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
     projects:
       section_new_projects: "Настройки для новых проектов"
       section_project_overview: "Настройки списка обзоров проекта"

@@ -175,6 +175,8 @@ bg:
       no_results_content_text: Създаване на ново персонализирано поле
   concatenation:
     single: 'or'
+  documentation:
+    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -904,6 +906,10 @@ bg:
     succeeded: "Създаден проект %{target_project_name}"
     errors: "Грешка"
     project_custom_fields: 'Custom fields on project'
+    x_objects_of_this_type:
+      zero: 'No objects of this type'
+      one: 'One object of this type'
+      other: '%{count} objects of this type'
     text:
       failed: "Не можа да се копира проект \"%{source_project_name}\" в проект \"%{target_project_name}\"."
       succeeded: "Копиран проект \"%{source_project_name}\" в \"%{target_project_name}\"."
@@ -1491,6 +1497,8 @@ bg:
   label_member_new: "Нов потребител"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Потребители"
+  lable_membership_added: 'Member added'
+  lable_membership_updated: 'Member updated'
   label_menu_item_name: "Име на елемент от меню"
   label_message: "Message"
   label_message_last: "Последно съобщение"
@@ -1834,6 +1842,21 @@ bg:
   mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
+  mail_member_added_project:
+    subject: "%{project} - You have been added as a member"
+    body:
+      added_by: "%{user} added you as a member to the project '%{project}'."
+      roles: "You have the following roles:"
+  mail_member_updated_project:
+    subject: "%{project} - Your roles have been updated"
+    body:
+      added_by: "%{user} updated the roles you have in the project '%{project}'."
+      roles: "You now have the following roles:"
+  mail_member_updated_global:
+    subject: "Your global permissions have been updated"
+    body:
+      added_by: "%{user} updated the roles you have globally."
+      roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: User activation limit reached
     message: |
@@ -2187,6 +2210,7 @@ bg:
   setting_consent_required: "Consent required"
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "Allow cross-project work package relations"
+  setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Формат на датата"
   setting_default_language: "Език по подразбиране"
   setting_default_notification_option: "Default notification option"
@@ -2268,6 +2292,11 @@ bg:
     passwords: "Пароли"
     session: "Сесия"
     brute_force_prevention: "Automated user blocking"
+    display:
+      first_date_of_week_and_year_present: >
+        If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
     projects:
       section_new_projects: "Настройки за нови проекти"
       section_project_overview: "Настройки за списък с преглед на проекти"

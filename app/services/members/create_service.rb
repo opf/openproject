@@ -28,4 +28,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Members::CreateService < ::BaseServices::Create; end
+class Members::CreateService < ::BaseServices::Create
+  def after_perform(service_call)
+    member = service_call.result
+
+    if member.principal.is_a?(Group)
+      Groups::AddUsersService
+        .new(member.principal, current_user: user, contract_class: EmptyContract)
+        .call(ids: member.principal.user_ids, send_notifications: false)
+    end
+
+    OpenProject::Notifications.send(OpenProject::Events::MEMBER_CREATED,
+                                    member: member)
+
+    service_call
+  end
+end

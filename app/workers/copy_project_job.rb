@@ -92,7 +92,7 @@ class CopyProjectJob < ApplicationJob
   private
 
   def successful_status_update
-    payload = redirect_payload(url_helpers.project_path(target_project))
+    payload = redirect_payload(url_helpers.project_url(target_project))
 
     if errors.any?
       payload[:errors] = errors

@@ -7,13 +7,14 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import {OpModalLocalsMap} from 'core-app/modules/modal/modal.types';
-import {OpModalComponent} from 'core-app/modules/modal/modal.component';
-import {OpModalLocalsToken} from "core-app/modules/modal/modal.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {RoleResource} from "core-app/modules/hal/resources/role-resource";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import { OpModalLocalsMap } from 'core-app/modules/modal/modal.types';
+import { OpModalComponent } from 'core-app/modules/modal/modal.component';
+import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { ApiV3FilterBuilder } from "core-components/api/api-v3/api-v3-filter-builder";
+import { RoleResource } from "core-app/modules/hal/resources/role-resource";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
 
 enum Steps {
   ProjectSelection,

@@ -15,15 +15,15 @@ da:
       file_invalid: "BCF file invalid"
     x_bcf_issues:
       zero: 'No BCF issues'
-      one: 'One BCF issue'
-      other: '%{count} BCF issues'
+      one: 'Et BCF- problem'
+      other: '%{count} BCF sager'
     bcf_xml:
       xml_file: 'BCF XML File'
       import_title: 'Import'
       export: 'Eksportér'
       import_update_comment: '(Updated in BCF import)'
       import_failed: 'Cannot import BCF file: %{error}'
-      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
+      import_failed_unsupported_bcf_version: 'Kunne ikke læse BCF- filen: BCF- versionen understøttes ikke. Kontroller, at versionen er mindst %{minimal_version} eller højere.'
       import_successful: 'Imported %{count} BCF issues'
       import_canceled: 'BCF-XML import canceled.'
       type_not_active: "The issue type is not activated for this project."
@@ -31,7 +31,7 @@ da:
         num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
         button_prepare: 'Prepare import'
         button_perform_import: 'Confirm import'
-        button_proceed: 'Proceed with import'
+        button_proceed: 'Fortsæt med import'
         button_back_to_list: 'Back to list'
         no_permission_to_add_members: 'You do not have sufficient permissions to add them as members to the project.'
         contact_project_admin: 'Contact your project admin to add them as members and start this import again.'
@@ -57,7 +57,7 @@ da:
         import_as_system_user: 'Import them as "System" user.'
         what_to_do: "Hvad vil du lave?"
         work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
-        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
+        bcf_file_not_found: "Kunne ikke finde BCF- fil. Start venligst upload processen igen."
   export:
     format:
       bcf: "BCF-XML"
@@ -67,14 +67,14 @@ da:
   project_module_bim: "BCF"
   permission_view_linked_issues: "View BCF issues"
   permission_manage_bcf: "Import and manage BCF issues"
-  permission_delete_bcf: "Delete BCF issues"
+  permission_delete_bcf: "Slet BCF sager"
   oauth:
     scopes:
       bcf_v2_1: "Full access to the BCF v2.1 API"
       bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
   activerecord:
     models:
-      bim/ifc_models/ifc_model: "IFC model"
+      bim/ifc_models/ifc_model: "IFC-model"
     attributes:
       bim/ifc_models/ifc_model:
         ifc_attachment: "IFC file"
@@ -101,7 +101,7 @@ da:
           snapshot_data_blank: "snapshot_data needs to be provided."
           unsupported_key: "An unsupported json property is included."
         bim/bcf/issue:
-          uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
+          uuid_already_taken: "Kan ikke importere dette BCF problem, da der allerede er en anden med den samme GUID. Kunne det være, at dette BCF-problem allerede var blevet importeret til et andet projekt?"
   ifc_models:
     label_ifc_models: 'IFC models'
     label_new_ifc_model: 'New IFC model'
