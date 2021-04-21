@@ -79,7 +79,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
       if defined?(custom_message)
         expect(ActionMailer::Base.deliveries.map { |mail| mail.body.encoded })
-          .to all include(custom_message)
+          .to all include(OpenProject::TextFormatting::Renderer.format_text(custom_message))
       end
     end
   end
@@ -714,6 +714,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
   describe 'PATCH api/v3/memberships/:id' do
     let(:path) { api_v3_paths.membership(other_member.id) }
     let(:another_role) { FactoryBot.create(:role) }
+    let(:custom_message) { 'Wish you where **here**.' }
     let(:body) do
       {
         _links: {
@@ -722,6 +723,11 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
               href: api_v3_paths.role(another_role.id)
             }
           ]
+        },
+        _meta: {
+          notificationMessage: {
+            raw: custom_message
+          }
         }
       }.to_json
     end

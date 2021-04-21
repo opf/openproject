@@ -35,7 +35,7 @@ module Groups::Concerns
 
       with_error_handled do
         ::Group.transaction do
-          exec_query!(params, params.delete(:send_notifications) { true })
+          exec_query!(params, params.fetch(:send_notifications, true), params[:message])
         end
       end
     end
@@ -51,12 +51,12 @@ module Groups::Concerns
                         message: I18n.t(:notice_internal_server_error, app_title: Setting.app_title))
     end
 
-    def exec_query!(params, send_notifications)
+    def exec_query!(params, send_notifications, message)
       affected_member_ids = modify_members_and_roles(params)
 
       touch_updated(affected_member_ids)
 
-      send_notifications(affected_member_ids) if affected_member_ids.any? && send_notifications
+      send_notifications(affected_member_ids, message) if affected_member_ids.any? && send_notifications
     end
 
     def modify_members_and_roles(_params)
@@ -77,8 +77,8 @@ module Groups::Concerns
         .touch_all
     end
 
-    def send_notifications(member_ids)
-      Notifications::GroupMemberAlteredJob.perform_later(member_ids)
+    def send_notifications(member_ids, message)
+      Notifications::GroupMemberAlteredJob.perform_later(member_ids, message)
     end
   end
 end

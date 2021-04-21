@@ -38,7 +38,8 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
   let(:role) { FactoryBot.create :role }
   let(:current_user) { FactoryBot.create :admin }
   let(:roles) { [role] }
-  let(:params) { {} }
+  let(:params) { { message: message } }
+  let(:message) { "Some message" }
 
   let!(:group) do
     FactoryBot.create(:group,
@@ -137,7 +138,8 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
 
       expect(Notifications::GroupMemberAlteredJob)
         .to have_received(:perform_later)
-        .with([first_user_member.id])
+        .with([first_user_member.id],
+              message)
     end
   end
 
@@ -176,7 +178,8 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
 
       expect(Notifications::GroupMemberAlteredJob)
         .to have_received(:perform_later)
-        .with([first_user_member.id])
+        .with([first_user_member.id],
+              message)
     end
   end
 

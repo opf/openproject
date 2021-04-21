@@ -85,6 +85,8 @@ class Mails::MemberJob < ApplicationJob
       .each(&block)
   end
 
+  # TODO: pass in message to see if it is defined. If it is, always send the notification
+  # even if the setting is disabled
   def sending_disabled?(setting)
     !Setting.notified_events.include?("membership_#{setting}")
   end

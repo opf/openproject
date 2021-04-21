@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Groups::UpdateRolesService, 'integration', type: :model do
-  subject(:service_call) { instance.call(member: member) }
+  subject(:service_call) { instance.call(member: member, message: message) }
 
   let(:project) { FactoryBot.create :project }
   let(:role) { FactoryBot.create :role }
@@ -51,6 +51,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
   end
   let(:users) { FactoryBot.create_list :user, 2 }
   let(:member) { Member.find_by(principal: group) }
+  let(:message) { "Some message" }
 
   let(:instance) do
     described_class.new(group, current_user: current_user)
@@ -81,7 +82,8 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
 
       expect(Notifications::GroupMemberAlteredJob)
         .to have_received(:perform_later)
-        .with(a_collection_containing_exactly(*Member.where(principal: user).pluck(:id)))
+        .with(a_collection_containing_exactly(*Member.where(principal: user).pluck(:id)),
+              message)
     end
   end
 

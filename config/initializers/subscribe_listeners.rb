@@ -62,5 +62,6 @@ end
 OpenProject::Notifications.subscribe(OpenProject::Events::MEMBER_UPDATED) do |payload|
   Mails::MemberUpdatedJob
     .perform_later(current_user: User.current,
-                   member: payload[:member])
+                   member: payload[:member],
+                   message: payload[:message])
 end

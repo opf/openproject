@@ -32,7 +32,7 @@ require 'spec_helper'
 
 describe Notifications::GroupMemberAlteredJob, type: :model do
   subject(:service_call) do
-    described_class.new.perform(members_ids)
+    described_class.new.perform(members_ids, message)
   end
   let(:time) { Time.now }
   let(:member1) do
@@ -43,6 +43,7 @@ describe Notifications::GroupMemberAlteredJob, type: :model do
   end
   let(:members) { [member1, member2] }
   let(:members_ids) { members.map(&:id) }
+  let(:message) { "Some message" }
 
   before do
     allow(OpenProject::Notifications)
@@ -59,7 +60,7 @@ describe Notifications::GroupMemberAlteredJob, type: :model do
 
     expect(OpenProject::Notifications)
       .to have_received(:send)
-      .with(OpenProject::Events::MEMBER_CREATED, member: member1)
+      .with(OpenProject::Events::MEMBER_CREATED, member: member1, message: message)
   end
 
   it 'sends an updated notification for the membership with the mismatching timestamps' do
@@ -67,6 +68,6 @@ describe Notifications::GroupMemberAlteredJob, type: :model do
 
     expect(OpenProject::Notifications)
       .to have_received(:send)
-      .with(OpenProject::Events::MEMBER_UPDATED, member: member2)
+      .with(OpenProject::Events::MEMBER_UPDATED, member: member2, message: message)
   end
 end
