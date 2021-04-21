@@ -38,11 +38,11 @@ module API
           post &::API::V3::Utilities::Endpoints::UpdateForm
                   .new(model: Member,
                        api_name: 'Membership',
-                       params_modifier: ->(params, **) do
+                       params_modifier: ->(params) do
                          params.except(:meta)
                        end,
-                       process_state: ->(pristine_params:, **) do
-                         pristine_params[:meta].deep_dup
+                       process_state: ->(params:, **) do
+                         params[:meta].deep_dup
                        end)
                   .mount
         end

@@ -35,24 +35,24 @@ module API
             index = self
 
             -> do
-              query = index.parse(params)
+              query = index.parse(self)
 
-              self_path = api_v3_paths.send(index.self_path)
-              base_scope = index.scope ? instance_exec(&index.scope) : index.model
-
-              index.render(query, params, self_path, base_scope)
+              index.render(self, query)
             end
           end
 
-          def parse(params)
+          def parse(request)
             ParamsToQueryService
-              .new(model, User.current)
-              .call(params)
+              .new(model, request.current_user)
+              .call(request.params)
           end
 
-          def render(query, params, self_path, base_scope)
+          def render(request, query)
             if query.valid?
-              render_success(query, params, self_path, base_scope)
+              render_success(query,
+                             request.params,
+                             request.api_v3_paths.send(self_path),
+                             scope ? request.instance_exec(&scope) : model)
             else
               render_error(query)
             end
