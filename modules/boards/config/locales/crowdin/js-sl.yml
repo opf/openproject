@@ -34,11 +34,11 @@ sl:
       board_type:
         text: 'Vrsta table'
         free: 'osnovno'
-        select_board_type: 'Izberite vrsto odložišča.'
+        select_board_type: 'Izberite vrsto table.'
         free_text: >
-          Začni s praznim odložiščem in ročno dodaj kartice in stolpce.
-        action: 'Tabela opravil'
-        action_by_attribute: 'Tabela opravil (%{attribute})'
+          Začni s praznim tablo in ročno dodaj kartice in stolpce.
+        action: 'Tabla opravil'
+        action_by_attribute: 'Tabla opravil (%{attribute})'
         action_text: >
           Ustvarite tablo s filtriranimi seznami %{attribute} z eno lastnostjo. Če premaknete delovne pakete na druge sezname, boste posodobili njihove lastnosti.
         action_text_subprojects: >
@@ -53,10 +53,10 @@ sl:
         action_text_version: >
           Tabla s samodejnimi stolpci glede na verzijo lastnosti. Popoln za načrtovanje razvoja projekta.
         action_type:
-          assignee: Nosilec
-          status: Stanje
+          assignee: nosilec
+          status: stanje
           version: različica
-          subproject: Podprojekt
+          subproject: podprojekt
           subtasks: starš-otrok
         board_type_title:
           assignee: Prenosnik
@@ -81,7 +81,7 @@ sl:
           no_member: Ta projekt trenutno nima članov, ki bi jih lahko dodali. <br>
           add_members: <a href="%{link}">V ta projekt dodajte novega člana </a>, da znova izberete uporabnike.
       configuration_modal:
-        title: 'Konfigurirajte to tabelo'
+        title: 'Konfigurirajte to tablo'
         display_settings:
           card_mode: "Prikaži kot kartice"
           table_mode: "Prikaži kot tabele"

@@ -1492,6 +1492,8 @@ de:
   label_member_new: "Neues Mitglied"
   label_member_all_admin: "(Alle Rollen, da Administrator)"
   label_member_plural: "Mitglieder"
+  lable_membership_added: 'Member added'
+  lable_membership_updated: 'Member updated'
   label_menu_item_name: "Name des Menüpunktes"
   label_message: "Nachricht"
   label_message_last: "Letzter Forenbeitrag"
@@ -1835,6 +1837,21 @@ de:
   mail_subject_group_reminder: "Für Gruppe \"%{group}\" sind/ist %{count} Arbeitspaket(e) fällig in den nächsten %{days} Tagen"
   mail_subject_wiki_content_added: "Wiki-Seite '%{id}' hinzugefügt"
   mail_subject_wiki_content_updated: "Wiki-Seite '%{id}' erfolgreich aktualisiert"
+  mail_member_added_project:
+    subject: "%{project} - You have been added as a member"
+    body:
+      added_by: "%{user} added you as a member to the project '%{project}'."
+      roles: "You have the following roles:"
+  mail_member_updated_project:
+    subject: "%{project} - Your roles have been updated"
+    body:
+      added_by: "%{user} updated the roles you have in the project '%{project}'."
+      roles: "You now have the following roles:"
+  mail_member_updated_global:
+    subject: "Your global permissions have been updated"
+    body:
+      added_by: "%{user} updated the roles you have globally."
+      roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: Nutzer aktivierungs Limit erreicht
     message: |

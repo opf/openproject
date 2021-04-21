@@ -1492,6 +1492,8 @@ el:
   label_member_new: "Νέο μέλος"
   label_member_all_admin: "(Όλοι οι ρόλοι λόγω κατάστασης διαχειριστή)"
   label_member_plural: "Μέλη"
+  lable_membership_added: 'Member added'
+  lable_membership_updated: 'Member updated'
   label_menu_item_name: "Όνομα στοιχείου μενού"
   label_message: "Μήνυμα"
   label_message_last: "Τελευταίο μήνυμα"
@@ -1835,6 +1837,21 @@ el:
   mail_subject_group_reminder: "Για την ομάδα \"%{group}\" %{count} πακέτα εργασίας έχουν προθεσμία στις επόμενες %{days} ημέρες"
   mail_subject_wiki_content_added: "προστέθηκε η σελίδα wiki '%{id}'"
   mail_subject_wiki_content_updated: "ενημερώθηκε η σελίδα wiki '%{id}'"
+  mail_member_added_project:
+    subject: "%{project} - You have been added as a member"
+    body:
+      added_by: "%{user} added you as a member to the project '%{project}'."
+      roles: "You have the following roles:"
+  mail_member_updated_project:
+    subject: "%{project} - Your roles have been updated"
+    body:
+      added_by: "%{user} updated the roles you have in the project '%{project}'."
+      roles: "You now have the following roles:"
+  mail_member_updated_global:
+    subject: "Your global permissions have been updated"
+    body:
+      added_by: "%{user} updated the roles you have globally."
+      roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: Επετεύχθη το όριο ενεργοποίησης χρηστών
     message: |

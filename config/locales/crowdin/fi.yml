@@ -1497,6 +1497,8 @@ fi:
   label_member_new: "Uusi jäsen"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Jäsenet"
+  lable_membership_added: 'Member added'
+  lable_membership_updated: 'Member updated'
   label_menu_item_name: "Valinnan nimi"
   label_message: "Vesti"
   label_message_last: "Viimeisin viesti"
@@ -1840,6 +1842,21 @@ fi:
   mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki-sivu on poistettu"
   mail_subject_wiki_content_updated: "'%{id}' Wiki-sivu on päivitetty"
+  mail_member_added_project:
+    subject: "%{project} - You have been added as a member"
+    body:
+      added_by: "%{user} added you as a member to the project '%{project}'."
+      roles: "You have the following roles:"
+  mail_member_updated_project:
+    subject: "%{project} - Your roles have been updated"
+    body:
+      added_by: "%{user} updated the roles you have in the project '%{project}'."
+      roles: "You now have the following roles:"
+  mail_member_updated_global:
+    subject: "Your global permissions have been updated"
+    body:
+      added_by: "%{user} updated the roles you have globally."
+      roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: User activation limit reached
     message: |

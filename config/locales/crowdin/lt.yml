@@ -1525,6 +1525,8 @@ lt:
   label_member_new: "Naujas narys"
   label_member_all_admin: "(Visos rolės, nes turite administratoriaus statusą)"
   label_member_plural: "Nariai"
+  lable_membership_added: 'Member added'
+  lable_membership_updated: 'Member updated'
   label_menu_item_name: "Meniu punkto pavadinimas"
   label_message: "Pranešimas"
   label_message_last: "Paskutinis pranešimas"
@@ -1868,6 +1870,21 @@ lt:
   mail_subject_group_reminder: "Grupės „%{group}“ %{count} darbo paketas(ai) turi būti baigti per kitas %{days} dienas"
   mail_subject_wiki_content_added: "Wiki puslapis '%{id}' buvo pridėtas"
   mail_subject_wiki_content_updated: "Wiki puslapis '%{id}' buvo atnaujintas"
+  mail_member_added_project:
+    subject: "%{project} - You have been added as a member"
+    body:
+      added_by: "%{user} added you as a member to the project '%{project}'."
+      roles: "You have the following roles:"
+  mail_member_updated_project:
+    subject: "%{project} - Your roles have been updated"
+    body:
+      added_by: "%{user} updated the roles you have in the project '%{project}'."
+      roles: "You now have the following roles:"
+  mail_member_updated_global:
+    subject: "Your global permissions have been updated"
+    body:
+      added_by: "%{user} updated the roles you have globally."
+      roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: Pasiekta vartotojų aktyvinimo riba
     message: |

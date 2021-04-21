@@ -1495,6 +1495,8 @@ da:
   label_member_new: "Nyt medlem"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Medlemmer"
+  lable_membership_added: 'Member added'
+  lable_membership_updated: 'Member updated'
   label_menu_item_name: "Navn på menupunkt"
   label_message: "Message"
   label_message_last: "Seneste meddelelse"
@@ -1838,6 +1840,21 @@ da:
   mail_subject_group_reminder: "Gruppen \"%{group}\" har %{count} arbejdspakke(r) med deadline indenfor %{days} dage"
   mail_subject_wiki_content_added: "'%{id}' wikisider er blevet tilføjet"
   mail_subject_wiki_content_updated: "'%{id}' wikiside er blevet opdateret"
+  mail_member_added_project:
+    subject: "%{project} - You have been added as a member"
+    body:
+      added_by: "%{user} added you as a member to the project '%{project}'."
+      roles: "You have the following roles:"
+  mail_member_updated_project:
+    subject: "%{project} - Your roles have been updated"
+    body:
+      added_by: "%{user} updated the roles you have in the project '%{project}'."
+      roles: "You now have the following roles:"
+  mail_member_updated_global:
+    subject: "Your global permissions have been updated"
+    body:
+      added_by: "%{user} updated the roles you have globally."
+      roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: User activation limit reached
     message: |

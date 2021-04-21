@@ -1477,6 +1477,8 @@ zh-CN:
   label_member_new: "新成员"
   label_member_all_admin: "（所有角色都由管理员状态决定）"
   label_member_plural: "成员"
+  lable_membership_added: 'Member added'
+  lable_membership_updated: 'Member updated'
   label_menu_item_name: "菜单项名称"
   label_message: "消息"
   label_message_last: "最后一条消息"
@@ -1819,6 +1821,21 @@ zh-CN:
   mail_subject_group_reminder: "对于组“%{group}”，%{count} 个工作包将在 %{days} 天后到期"
   mail_subject_wiki_content_added: "'%{id}' wiki页面已添加"
   mail_subject_wiki_content_updated: "'%{id}' wiki页面已更新"
+  mail_member_added_project:
+    subject: "%{project} - You have been added as a member"
+    body:
+      added_by: "%{user} added you as a member to the project '%{project}'."
+      roles: "You have the following roles:"
+  mail_member_updated_project:
+    subject: "%{project} - Your roles have been updated"
+    body:
+      added_by: "%{user} updated the roles you have in the project '%{project}'."
+      roles: "You now have the following roles:"
+  mail_member_updated_global:
+    subject: "Your global permissions have been updated"
+    body:
+      added_by: "%{user} updated the roles you have globally."
+      roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: 已达到用户激活限制
     message: |

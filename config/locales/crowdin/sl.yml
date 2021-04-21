@@ -31,7 +31,7 @@ sl:
       color_theme: "Barvna tema"
       color_theme_custom: "(Po meri)"
       colors:
-        alternative-color: "Alternative"
+        alternative-color: "Alternativno"
         content-link-color: "Pisava povezave"
         primary-color: "Primarna"
         primary-color-dark: "Primarna (temna)"
@@ -78,7 +78,7 @@ sl:
     is_active: Trenutno prikazano
     is_inactive: trenutno ni prikazano
   attribute_help_texts:
-    note_public: 'Vsa dodana besedila in slike so javno vidna vsem prijavljenim uporabnikom'
+    note_public: 'Vsa dodana besedila in slike so javno vidna vsem prijavljenim uporabnikom!'
     text_overview: 'V tem pogledu lahko ustvarite besedila pomoči po meri za pogled atributov. Ob definiciji lahko ta besedila prikažemo s klikom ikone pomoči poleg pripadajočega atributa.'
     label_plural: 'Tekst pomoči atributa'
     show_preview: 'Predogled besedila'
@@ -175,7 +175,7 @@ sl:
   concatenation:
     single: 'ali'
   documentation:
-    see_more_link: For more information, please see our documentation on this topic.
+    see_more_link: Za več informacij si poglejte našo dokumentacijo na to temo.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -243,7 +243,7 @@ sl:
       no_results_title_text: Ta uporabnik trenutno ni član projekta.
   placeholder_users:
     deletion_info:
-      heading: "Izbriši nadomestnega uporabniško %{name}"
+      heading: "Izbriši nadomestnega uporabnika %{name}"
       data_consequences: >
         Vsi pojavi nadomestnega uporabnika (npr., kot nosilec naloge, odgovorni ali druge vrednosti) bodo preneseni na račun imenovan "Izbrisan uporabnik".
         Podatki iz vsakega izbrisanega računa so preneseni na ta račun, zato ne bo možno razlikovati med podatki, ki jih je uporabnik ustvaril in podatki iz drugega izbirsanega računa.
@@ -531,7 +531,7 @@ sl:
         confirmation: "se ne ujema %{attribute}"
         could_not_be_copied: "%{dependency} ni bilo mogoče (v celoti) kopirati."
         does_not_exist: "ne obstaja"
-        error_enterprise_only: "je na voljo samo v OpenProject podjetniški verziji"
+        error_enterprise_only: "je na voljo samo v OpenProject Enterprise Edition"
         error_unauthorized: "morda ni mogoče dostopati."
         error_readonly: "poskušano je bilo napisati, vendar ni mogoče pisati."
         empty: "ne sme biti prazno. "
@@ -571,7 +571,7 @@ sl:
             global: 'Globalno'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "treba je vključiti vsaj en filter za to načelo, kontekst ali id z '=' operatorjem."
         custom_field:
           at_least_one_custom_option: "Na voljo mora biti vsaj ena možnost."
         custom_actions:
@@ -663,7 +663,7 @@ sl:
         wiki_page:
           attributes:
             slug:
-              undeducible: "cannot be deduced from the title '%{title}'."
+              undeducible: "ni mogoče razbrati iz naslova '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Delovni paket #%{id}%{id} ni veljaven cilj za prerazporeditev časovnih vnosov."
           attributes:
@@ -913,9 +913,9 @@ sl:
     errors: "Napaka"
     project_custom_fields: 'Polja po meri na projektu '
     x_objects_of_this_type:
-      zero: 'No objects of this type'
-      one: 'One object of this type'
-      other: '%{count} objects of this type'
+      zero: 'Ni objektov tega tipa'
+      one: 'En objekt tega tipa'
+      other: '%{count} objekte tega tipa'
     text:
       failed: "Projekta \"%{source_project_name}\" ni mogoče kopirati v projekt \"%{target_project_name}\"."
       succeeded: "Kopiran projekt \"%{source_project_name}\" v \"%{target_project_name}\"."
@@ -1265,7 +1265,7 @@ sl:
   instructions_after_error: "Lahko se poskusite znova prijaviti s klikom na %{signin}. Če napaka še vedno traja, za pomoč prosite svojega skrbnika."
   menus:
     quick_add:
-      label: "Open quick add menu"
+      label: "Odpri meni za hitro dodajanje"
   my_account:
     access_tokens:
       no_results:
@@ -1527,6 +1527,8 @@ sl:
   label_member_new: "Nov član"
   label_member_all_admin: "(Vse vloge zaradi statusa skrbnika)"
   label_member_plural: "Člani"
+  lable_membership_added: 'Member added'
+  lable_membership_updated: 'Member updated'
   label_menu_item_name: "Ime postavke menija"
   label_message: "Sporočilo"
   label_message_last: "Zadnje sporočilo"
@@ -1870,6 +1872,21 @@ sl:
   mail_subject_group_reminder: "Za skupino \"%{group}\"  delovni paketi %{count} zapadejo v naslednjih %{days} dnevih"
   mail_subject_wiki_content_added: "'%{id}' je bil dodan strani wiki"
   mail_subject_wiki_content_updated: "'%{id}' strani wiki je bil posodobljen"
+  mail_member_added_project:
+    subject: "%{project} - You have been added as a member"
+    body:
+      added_by: "%{user} added you as a member to the project '%{project}'."
+      roles: "You have the following roles:"
+  mail_member_updated_project:
+    subject: "%{project} - Your roles have been updated"
+    body:
+      added_by: "%{user} updated the roles you have in the project '%{project}'."
+      roles: "You now have the following roles:"
+  mail_member_updated_global:
+    subject: "Your global permissions have been updated"
+    body:
+      added_by: "%{user} updated the roles you have globally."
+      roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: Aktivacijski limit uporabnika je bil dosežen
     message: |
@@ -1978,7 +1995,7 @@ sl:
   permission_add_messages: "Objavi sporočila"
   permission_add_project: "Ustvari projekt"
   permission_manage_user: "Ustvari in urejaj uporabnike"
-  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
+  permission_manage_placeholder_user: "Ustvari, uredi in izbriši nadomestne uporabnike"
   permission_add_subprojects: "Ustvari podprojekte"
   permission_add_work_package_watchers: "Dodaj opazovalce"
   permission_assign_versions: "Dodeli verzije"
@@ -2224,7 +2241,7 @@ sl:
   setting_consent_required: "Soglasje potrebno"
   setting_consent_decline_mail: "Kontaktni naslov elektronske pošte"
   setting_cross_project_work_package_relations: "Dovoli povezave delovnih paketov od različnih projektov"
-  setting_first_week_of_year: "First week in year contains"
+  setting_first_week_of_year: "Prvi teden v letu vsebuje"
   setting_date_format: "Format datuma"
   setting_default_language: "Privzeti jezik"
   setting_default_notification_option: "Privzeta možnost obveščanja"
@@ -2308,9 +2325,9 @@ sl:
     brute_force_prevention: "Avtomatično blokiranje uporabnika"
     display:
       first_date_of_week_and_year_present: >
-        If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Če je nastavljena opcija "Prvi datum v tednu" ali "Prvi teden v letu vsebuje", mora biti druga prav tako nastavljena, da se izognemo nesosledjem v frontendu.
       first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+        Izberi datum v januarju, ki je v prvem tednu leta. Ta vrednost skupaj s prvim dnevom tedna določi skupno število tednov v letu.
     projects:
       section_new_projects: "Nastavitve za nove projekte"
       section_project_overview: "Nastavitve za seznam pregleda projekta."
@@ -2715,8 +2732,8 @@ sl:
       invalid_relation: "Relacija ni veljavna."
       invalid_resource: "Za lastnost '%{property}' se pričakuje povezava, kot je '%{expected}, vendar je dobila '%{actual}'."
       invalid_signal:
-        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
-        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
+        embed: "Zahtevana vdelava %{invalid} ni podprta. Podprte vdelave so %{supported}."
+        select: "Zahtevani izbor %{invalid} ni podprt. Podprti izbori so %{supported}."
       invalid_user_status_transition: "Trenutno stanje uporabniškega računa ne omogoča te operacije.\n"
       missing_content_type: "Ni določeno"
       missing_request_body: "Ni bilo organa zahteve."
