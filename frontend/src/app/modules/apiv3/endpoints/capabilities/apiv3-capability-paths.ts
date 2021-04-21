@@ -26,35 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from "@angular/core";
+import { CapabilityResource } from "core-app/modules/hal/resources/capability-resource";
+import { CachableAPIV3Resource } from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
+import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
+import { Apiv3CapabilitiesPaths } from "core-app/modules/apiv3/endpoints/capabilities/apiv3-capabilities-paths";
 
-@Injectable({ providedIn: 'root' })
-export class CurrentUserService {
-  public get isLoggedIn() {
-    return this.userMeta.length > 0;
-  }
-
-  public get userId() {
-    return this.userMeta.data('id');
-  }
-
-  public get href() {
-    return `/api/v3/users/${this.userId}`;
-  }
-
-  public get name() {
-    return this.userMeta.data('name');
-  }
-
-  public get mail() {
-    return this.userMeta.data('mail');
-  }
-
-  public get language() {
-    return I18n.locale || 'en';
-  }
-
-  private get userMeta():JQuery {
-    return jQuery('meta[name=current_user]');
+export class Apiv3CapabilityPaths extends CachableAPIV3Resource<CapabilityResource> {
+  protected createCache():StateCacheService<CapabilityResource> {
+    return (this.parent as Apiv3CapabilitiesPaths).cache;
   }
 }

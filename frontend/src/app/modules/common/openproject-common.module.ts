@@ -40,10 +40,10 @@ import {StateService, UIRouterModule} from '@uirouter/angular';
 import {HookService} from '../plugins/hook-service';
 
 import {OpenprojectAccessibilityModule} from 'core-app/modules/a11y/openproject-a11y.module';
+import {CurrentUserModule} from 'core-app/modules/current-user/current-user.module';
 
 import {IconTriggeredContextMenuComponent} from 'core-components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component';
 import {CurrentProjectService} from 'core-components/projects/current-project.service';
-import {CurrentUserService} from 'core-components/user/current-user.service';
 import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
 import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
 import {ZenModeButtonComponent} from 'core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
@@ -87,14 +87,9 @@ import {OpenprojectPrincipalRenderingModule} from "core-app/modules/principal/pr
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
   const currentProject = injector.get(CurrentProjectService);
-  const currentUser = injector.get(CurrentUserService);
   const routerState = injector.get(StateService);
 
   window.ErrorReporter.addContext((scope) => {
-    if (currentUser.isLoggedIn) {
-      scope.setUser({ name: currentUser.name, id: currentUser.userId, email: currentUser.mail });
-    }
-
     if (currentProject.inProjectContext) {
       scope.setTag('project', currentProject.identifier!);
     }
@@ -124,6 +119,7 @@ export function bootstrapModule(injector:Injector) {
     DragulaModule,
     // Our own A11y module
     OpenprojectAccessibilityModule,
+    CurrentUserModule,
     NgSelectModule,
     NgOptionHighlightModule,
 
