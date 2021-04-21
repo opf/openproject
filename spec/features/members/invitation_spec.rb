@@ -55,9 +55,9 @@ feature 'invite user via email', type: :feature, js: true do
       click_on 'Add member'
 
       members_page.search_and_select_principal! 'finkelstein@openproject.com',
-                                                'Invite finkelstein@openproject.com'
+                                                'Send invite to finkelstein@openproject.com'
       members_page.select_role! 'Developer'
-      expect(members_page).to have_selected_new_principal('Invite finkelstein@openproject.com')
+      expect(members_page).to have_selected_new_principal('finkelstein@openproject.com')
 
       click_on 'Add'
 

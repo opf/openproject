@@ -170,7 +170,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
         resource!.attachments.elements,
         (attachment:HalResource) => attachment.id);
 
-        const removedUrls = missingAttachments.map(attachment => attachment.downloadLocation.$href);
+        const removedUrls = missingAttachments.map(attachment => attachment.downloadLocation.href);
 
         if (removedUrls.length) {
           editor.model.fire('op:attachment-removed', removedUrls);

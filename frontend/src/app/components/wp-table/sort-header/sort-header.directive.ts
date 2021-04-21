@@ -102,7 +102,7 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
       .subscribe(() => {
         const latestSortElement = this.wpTableSortBy.current[0];
 
-        if (!latestSortElement || this.headerColumn.$href !== latestSortElement.column.$href) {
+        if (!latestSortElement || this.headerColumn.href !== latestSortElement.column.href) {
           this.currentSortDirection = null;
         } else {
           this.currentSortDirection = latestSortElement.direction;
@@ -200,7 +200,7 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
       return '';
     }
 
-    switch (this.currentSortDirection.$href) {
+    switch (this.currentSortDirection.href) {
     case QUERY_SORT_BY_ASC:
       return 'asc';
     case QUERY_SORT_BY_DESC:

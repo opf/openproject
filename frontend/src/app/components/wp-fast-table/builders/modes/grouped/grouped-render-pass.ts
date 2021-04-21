@@ -80,8 +80,8 @@ export class GroupedRenderPass extends PlainRenderPass {
 
       //// If its a linked resource, compare the href,
       //// which is an array of links the resource offers
-      if (property && property.$href) {
-        return !!_.find(group._links.valueLink, (l:any):any => property.$href === l.href);
+      if (property && property.href) {
+        return !!_.find(group._links.valueLink, (l:any):any => property.href === l.href);
       }
 
       // Otherwise, fall back to simple value comparison.

@@ -90,7 +90,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
         this.isHidden = !sum;
         if (sum && resource.sumsSchema) {
           this.schemaCache
-            .ensureLoaded(resource.sumsSchema.$href!)
+            .ensureLoaded(resource.sumsSchema.href!)
             .then((schema:SchemaResource) => {
               this.refresh(columns, resource, schema);
             });

@@ -18,7 +18,7 @@ module Members
     end
 
     def name
-      icon = avatar principal, class: 'avatar-mini'
+      icon = avatar principal, size: :mini
 
       icon + principal_link
     end

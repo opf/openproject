@@ -71,7 +71,7 @@ describe('UrlParamsHelper', function() {
           id: '='
         },
         filter: {
-          $href: '/api/filter/soße'
+          href: '/api/filter/soße'
         },
         values: ['knoblauch']
       };
@@ -82,7 +82,7 @@ describe('UrlParamsHelper', function() {
           id: '<t-'
         },
         filter: {
-          $href: '/api/filter/created_at'
+          href: '/api/filter/created_at'
         },
         values: ['5']
       };
@@ -172,7 +172,7 @@ describe('UrlParamsHelper', function() {
           id: '='
         },
         filter: {
-          $href: '/api/filter/soße'
+          href: '/api/filter/soße'
         },
         values: ['knoblauch']
       };
@@ -183,7 +183,7 @@ describe('UrlParamsHelper', function() {
           id: '<t-'
         },
         filter: {
-          $href: '/api/filter/created_at'
+          href: '/api/filter/created_at'
         },
         values: ['5']
       };
@@ -254,18 +254,18 @@ describe('UrlParamsHelper', function() {
           id: '='
         },
         filter: {
-          $href: '/api/filter/customField1'
+          href: '/api/filter/customField1'
         },
         values: [
           {
             _type: "CustomOption",
             value: "cde",
-            $href: "/api/v3/custom_options/2"
+            href: "/api/v3/custom_options/2"
           },
           {
             _type: "CustomOption",
             value: "abc",
-            $href: "/api/v3/custom_options/7"
+            href: "/api/v3/custom_options/7"
           }
         ]
       };

@@ -92,7 +92,7 @@ export class RelationResource extends HalResource {
    * @return {{id, href, relationType: string, workPackageType}}
    */
   public denormalized(workPackage:WorkPackageResource):DenormalizedRelationData {
-    const target = (this.to.href === workPackage.$href) ? 'from' : 'to';
+    const target = (this.to.href === workPackage.href) ? 'from' : 'to';
 
     return {
       target: this[target],

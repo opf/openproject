@@ -35,8 +35,8 @@ export class QueryOperatorResource extends HalResource {
   }
 
   public get idFromLink():string {
-    if (this.$href) {
-      const idPart = HalResource.idFromLink(this.$href);
+    if (this.href) {
+      const idPart = HalResource.idFromLink(this.href);
       return decodeURIComponent(idPart);
     }
 

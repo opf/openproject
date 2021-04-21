@@ -1,16 +1,19 @@
-<div class="work-package-details-activities-activity-contents"
+<div class="op-user-activity work-package-details-activities-activity-contents"
      *ngIf="workPackage"
      (mouseenter)="focus()"
      (mouseleave)="blur()">
-  <op-principal
-    *ngIf="userName"
-    [principal]="user"
-    [hide-name]="true"
-  ></op-principal>
 
-  <span class="user">
-    <user-link [user]="user"></user-link>
-  </span>
+  <div class="op-user-activity--user-line">
+    <op-principal
+      *ngIf="userName"
+      [principal]="user"
+      [hide-name]="true"
+    ></op-principal>
+
+    <span class="user">
+      <user-link [user]="user"></user-link>
+    </span>
+  </div>
   <span class="date">
     {{ isInitial ? text.label_created_on : text.label_updated_on }}
     <op-date-time [dateTimeValue]="activity.createdAt"></op-date-time>

@@ -87,7 +87,7 @@ export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
 
       return {
         name: `${prefix}#${ (value as WorkPackageResource).id } ${suffix}`,
-        $href: value.$href
+        href: value.href
       };
     } else {
       return value;

@@ -102,7 +102,7 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   public loadAvailable(matching:string):Observable<HalResource[]> {
     const filters:ApiV3FilterBuilder = this.createFilters(matching);
-    const href = (this.filter.currentSchema!.values!.allowedValues as any).$href;
+    const href = (this.filter.currentSchema!.values!.allowedValues as any).href;
 
     const filteredData = (this.apiV3Service.collectionFromString(href) as
       APIv3ResourceCollection<HalResource, CachableAPIV3Resource>)

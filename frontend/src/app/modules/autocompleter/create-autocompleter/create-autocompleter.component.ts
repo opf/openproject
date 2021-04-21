@@ -47,10 +47,12 @@ import { AddTagFn } from "@ng-select/ng-select/lib/ng-select.component";
 import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 import { Subject } from 'rxjs';
+import { PrincipalHelper } from "core-app/modules/principal/principal-helper";
+import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
 
 export interface CreateAutocompleterValueOption {
   name:string;
-  $href:string|null;
+  href:string|null;
 }
 
 @Component({
@@ -87,6 +89,7 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
   @InjectField() readonly currentProject:CurrentProjectService;
   @InjectField() readonly pathHelper:PathHelperService;
 
+  public compareByHref = AngularTrackingHelpers.compareByHref;
   public text:{ [key:string]:string } = {};
   public createAllowed:boolean|AddTagFn = false;
   private _openDirectly = false;
@@ -163,5 +166,9 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   public focusInputField() {
     this.ngSelectComponent && this.ngSelectComponent.focus();
+  }
+
+  public isPrincipal(item:CreateAutocompleterValueOption) {
+    return item.href && PrincipalHelper.typeFromHref(item.href) !== null;
   }
 }

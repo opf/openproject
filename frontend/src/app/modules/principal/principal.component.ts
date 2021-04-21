@@ -26,18 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, Input, OnInit} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {TimezoneService} from 'core-components/datetime/timezone.service';
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { TimezoneService } from 'core-components/datetime/timezone.service';
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
-import {
-  PrincipalRendererService,
-  AvatarSize,
-} from "./principal-renderer.service";
-import {PrincipalLike} from "./principal-types";
-import {PrincipalHelper} from "./principal-helper";
+import { AvatarSize, PrincipalRendererService } from "./principal-renderer.service";
+import { PrincipalLike } from "./principal-types";
+import { PrincipalHelper } from "./principal-helper";
 import PrincipalPluralType = PrincipalHelper.PrincipalPluralType;
 
 export const principalSelector = 'op-principal';
@@ -45,7 +42,6 @@ export const principalSelector = 'op-principal';
 @Component({
   template: '',
   selector: principalSelector,
-  host: {'class': 'op-principal'}
 })
 export class OpPrincipalComponent implements OnInit {
   /** If coming from angular, pass a principal resource if available */
@@ -54,7 +50,6 @@ export class OpPrincipalComponent implements OnInit {
   @Input('hide-name') hideName:boolean = false;
   @Input() link:boolean = true;
   @Input() size:AvatarSize = 'default';
-  @Input('avatar-classes') avatarClasses:string = '';
 
   public constructor(readonly elementRef:ElementRef,
                      readonly PathHelper:PathHelperService,
@@ -74,7 +69,6 @@ export class OpPrincipalComponent implements OnInit {
       this.hideName = element.dataset.hideName === 'true';
       this.link = element.dataset.link === 'true';
       this.size = element.dataset.size ?? 'default';
-      this.avatarClasses = element.dataset.avatarClasses ?? '';
     }
 
     this.principalRenderer.render(
@@ -86,8 +80,7 @@ export class OpPrincipalComponent implements OnInit {
       },
       {
         hide: this.hideAvatar,
-        size: this.size,
-        classes: this.avatarClasses,
+        size: this.size
       },
     );
   }
@@ -103,6 +96,6 @@ export class OpPrincipalComponent implements OnInit {
       id,
       name,
       href,
-    }
+    };
   }
 }

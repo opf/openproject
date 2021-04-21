@@ -41,6 +41,13 @@ import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 export const usersAutocompleterSelector = 'user-autocompleter';
 
+export interface UserAutocompleteItem {
+  name:string;
+  id:string|null;
+  href:string|null;
+}
+
+
 @Component({
   templateUrl: './user-autocompleter.component.html',
   selector: usersAutocompleterSelector
@@ -64,7 +71,7 @@ export class UserAutocompleterComponent implements OnInit {
   private updateInputField:HTMLInputElement|undefined;
 
   /** Keep a switchmap for search term and loading state */
-  public requests = new DebouncedRequestSwitchmap<string, {[key:string]:string|null}>(
+  public requests = new DebouncedRequestSwitchmap<string, UserAutocompleteItem>(
     (searchTerm:string) => this.getAvailableUsers(this.url, searchTerm),
     errorNotificationHandler(this.halNotification)
   );
@@ -141,7 +148,7 @@ export class UserAutocompleterComponent implements OnInit {
     }
   }
 
-  protected getAvailableUsers(url:string, searchTerm:any):Observable<{[key:string]:string|null}[]> {
+  protected getAvailableUsers(url:string, searchTerm:any):Observable<UserAutocompleteItem[]> {
     // Need to clone the filters to not add additional filters on every
     // search term being processed.
     const searchFilters = this.inputFilters.clone();
