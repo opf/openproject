@@ -7,30 +7,28 @@ import { HalSource } from "core-app/modules/hal/resources/hal-resource";
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.scss']
+  styleUrls: ['./projects.component.scss'],
 })
 export class ProjectsComponent extends UntilDestroyedMixin implements OnInit {
-  resourceId:string;
+  resourceId:string|null;
   projectsPath:string;
   text:{ [key:string]:string };
 
   constructor(
-    private _uIRouterGlobals:UIRouterGlobals,
-    private _pathHelperService:PathHelperService,
-    private _$state:StateService,
+    private uIRouterGlobals:UIRouterGlobals,
+    private pathHelperService:PathHelperService,
   ) {
     super();
   }
 
-  ngOnInit(): void {
-    this.projectsPath = this._pathHelperService.projectsPath();
-    this.resourceId = this._uIRouterGlobals.params.projectPath;
+  ngOnInit():void {
+    this.projectsPath = this.pathHelperService.projectsPath();
+    this.resourceId = this.uIRouterGlobals.params.projectPath;
   }
 
   onSubmitted(formResource:HalSource) {
-    // TODO: Filter out if this.resourceId === 'new'?
-    if (!this.resourceId) {
-      this._$state.go('.', { ...this._$state.params, projectPath: formResource.identifier });
+    if (!this.resourceId && typeof formResource.identifier === 'string') {
+      window.location.href = this.pathHelperService.projectPath(formResource.identifier);
     }
   }
 }
