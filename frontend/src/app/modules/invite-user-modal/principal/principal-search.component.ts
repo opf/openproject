@@ -122,7 +122,8 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
     setTimeout(() => this.input$.next(''));
   }
 
-  createNewFromInput() {
+  public createNewFromInput() {
+    console.log('Creating new', this.input);
     this.createNew.emit({ name: this.input });
   }
 
@@ -159,7 +160,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
             principal: member,
             disabled: true,
           })),
-        ]),
+        ].slice(0, 5)),
         shareReplay(1),
       );
   }

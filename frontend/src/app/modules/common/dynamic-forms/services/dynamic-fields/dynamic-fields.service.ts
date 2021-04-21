@@ -96,9 +96,17 @@ export class DynamicFieldsService {
         },
       },
       useForFields: [
-        'Priority', 'Status', 'Type', 'User', 'Version', 'TimeEntriesActivity',
-        'Category', 'CustomOption', 'Project', 'ProjectStatus'
-      ]
+        'Priority',
+        'Status',
+        'Type',
+        'User',
+        'Version',
+        'TimeEntriesActivity',
+        'Category',
+        'CustomOption',
+        'Project',
+        'ProjectStatus',
+      ],
     },
   ]
 

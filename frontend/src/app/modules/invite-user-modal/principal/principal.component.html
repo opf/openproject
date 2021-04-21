@@ -52,7 +52,7 @@
     <op-dynamic-form
       formControlName="userDynamicFields"
       [settings]="userDynamicFieldConfig"
-      *ngIf="isNewPrincipal && type === PrincipalType.User"
+      *ngIf="isNewPrincipal && type === PrincipalType.User && userDynamicFieldConfig.schema"
     ></op-dynamic-form>
   </div>
 

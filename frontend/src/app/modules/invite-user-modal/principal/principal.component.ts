@@ -17,6 +17,20 @@ import { PrincipalLike } from "core-app/modules/principal/principal-types";
 import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
 import { PrincipalType } from '../invite-user.component';
 
+function extractCustomFieldsFromSchema(schema: IOPFormSettings['_embedded']['schema']) {
+  return Object.keys(schema)
+    .reduce((fields, name) => {
+      if (name.startsWith('customField') && schema[name].required) {
+        return {
+          ...fields,
+          [name]: schema[name],
+        };
+      }
+
+      return fields;
+    }, {});
+}
+
 @Component({
   selector: 'op-ium-principal',
   templateUrl: './principal.component.html',
@@ -59,15 +73,15 @@ export class PrincipalComponent implements OnInit {
 
   public principalForm = new FormGroup({
     principal: new FormControl(null, [ Validators.required ]),
-    userDynamicFields: new FormGroup({}),
+    userDynamicFields: new FormControl(null),
   });
 
   public userDynamicFieldConfig: {
-    payload: IOPFormSettings['_embedded']['payload'],
-    schema: IOPFormSettings['_embedded']['schema'],
+    payload: IOPFormSettings['_embedded']['payload']|null,
+    schema: IOPFormSettings['_embedded']['schema']|null,
   } = {
-    payload: {},
-    schema: {},
+    payload: null,
+    schema: null,
   };
 
   get principalControl() {
@@ -83,6 +97,7 @@ export class PrincipalComponent implements OnInit {
   }
 
   get isNewPrincipal() {
+    console.log(this.hasPrincipalSelected, !(this.principal instanceof HalResource), this.type);
     return this.hasPrincipalSelected && !(this.principal instanceof HalResource);
   }
 
@@ -101,12 +116,10 @@ export class PrincipalComponent implements OnInit {
     this.httpClient
       .post<IOPFormSettings>('/api/v3/users/form', {}, { withCredentials: true, responseType: 'json' })
       .subscribe((formConfig) => {
-        this.userDynamicFieldConfig.schema = formConfig._embedded?.schema;
+        this.userDynamicFieldConfig.schema = extractCustomFieldsFromSchema(formConfig._embedded?.schema);
         this.userDynamicFieldConfig.payload = formConfig._embedded?.payload;
-        debugger;
       });
   }
-
 
   createNewFromInput(input:PrincipalLike) {
     this.principalControl?.setValue(input);
@@ -115,8 +128,18 @@ export class PrincipalComponent implements OnInit {
   onSubmit($e:Event) {
     $e.preventDefault();
 
+    if (this.isNewPrincipal && this.type === PrincipalType.User) {
+      return this.httpClient
+        .post<IOPFormSettings>(
+          '/api/v3/users/form',
+          this.principalForm.get('userDynamicFields')?.value, { withCredentials: true, responseType: 'json' })
+        .subscribe((formConfig) => {
+          console.log(formConfig);
+
+        });
+    }
+
     if (this.principalForm.invalid) {
-      this.principalForm.markAsDirty();
       return;
     }
 

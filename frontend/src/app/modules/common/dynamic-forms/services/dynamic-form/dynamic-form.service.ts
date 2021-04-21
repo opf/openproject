@@ -3,14 +3,11 @@ import { Injectable } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { FormlyForm } from "@ngx-formly/core";
 import { Observable } from "rxjs";
-import {
-  map,
-} from "rxjs/operators";
-import {
-  IOPDynamicFormSettings,
-} from "../../typings";
+import { map } from "rxjs/operators";
+import { IOPDynamicFormSettings } from "../../typings";
 import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
 import { FormsService } from "core-app/core/services/forms/forms.service";
+
 @Injectable()
 export class DynamicFormService {
   dynamicForm:FormlyForm;
