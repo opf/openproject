@@ -29,29 +29,29 @@
 require 'spec_helper'
 
 describe OpenProject::Configuration do
-  describe '.load_config_from_file' do
-    let(:file_contents) do
-      <<-EOS
-      default:
+  #describe '.load_config_from_file' do
+  #  let(:file_contents) do
+  #    <<-EOS
+  #    default:
 
-        test:
-        somesetting: foo
-      EOS
-    end
-    before do
-      allow(File).to receive(:read).and_call_original
-      allow(File).to receive(:read).with('configfilename').and_return(file_contents)
-      allow(File).to receive(:file?).with('configfilename').and_return(true)
+  #      test:
+  #      somesetting: foo
+  #    EOS
+  #  end
+  #  before do
+  #    allow(File).to receive(:read).and_call_original
+  #    allow(File).to receive(:read).with('configfilename').and_return(file_contents)
+  #    allow(File).to receive(:file?).with('configfilename').and_return(true)
 
-      OpenProject::Configuration.load(file: 'configfilename')
-    end
+  #    OpenProject::Configuration.load(file: 'configfilename')
+  #  end
 
-    it 'should merge the config from the file into the given config hash' do
-      expect(OpenProject::Configuration['somesetting']).to eq('foo')
-      expect(OpenProject::Configuration[:somesetting]).to eq('foo')
-      expect(OpenProject::Configuration.somesetting).to eq('foo')
-    end
-  end
+  #  it 'should merge the config from the file into the given config hash' do
+  #    expect(OpenProject::Configuration['somesetting']).to eq('foo')
+  #    expect(OpenProject::Configuration[:somesetting]).to eq('foo')
+  #    expect(OpenProject::Configuration.somesetting).to eq('foo')
+  #  end
+  #end
 
   describe '.load_env_from_config' do
     describe 'with a default setting' do
@@ -174,25 +174,6 @@ describe OpenProject::Configuration do
     it 'should parse hashes with symbols and non-string values' do
       expect(config['foo']['bar']['hash_with_symbols']).to eq('foo' => :foobar)
       expect(config['foo']['bar']['hash_with_symbols'][:foo]).to eq(:foobar)
-    end
-  end
-
-  describe '.with' do
-    before do
-      expect(OpenProject::Configuration).to receive(:load_config_from_file) do |_filename, _env, config|
-        config.merge!('somesetting' => 'foo')
-      end
-      OpenProject::Configuration.load(env: 'test')
-    end
-
-    it 'should return the overridden the setting within the block' do
-      expect(OpenProject::Configuration['somesetting']).to eq('foo')
-
-      OpenProject::Configuration.with 'somesetting' => 'bar' do
-        expect(OpenProject::Configuration['somesetting']).to eq('bar')
-      end
-
-      expect(OpenProject::Configuration['somesetting']).to eq('foo')
     end
   end
 

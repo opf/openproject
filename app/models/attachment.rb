@@ -48,7 +48,7 @@ class Attachment < ApplicationRecord
   acts_as_event title: -> { file.name },
                 url: (Proc.new do |o|
                         { controller: '/attachments', action: 'download', id: o.id, filename: o.filename }
-                      end)
+                end)
 
   mount_uploader :file, OpenProject::Configuration.file_uploader
 

@@ -32,17 +32,17 @@ module Settings
   class Definition
     attr_accessor :name,
                   :format,
-                  :default,
+                  :value,
                   :api_name,
                   :serialized,
                   :api,
                   :admin,
                   :writable
 
-    def initialize(name, format:, default:, api_name: name, serialized: false, api: true, admin: true, writable: true)
+    def initialize(name, format:, value:, api_name: name, serialized: false, api: true, admin: true, writable: true)
       self.name = name.to_s
       self.format = format.to_s
-      self.default = default
+      self.value = value
       self.api_name = api_name
       self.serialized = serialized
       self.api = api
@@ -67,14 +67,14 @@ module Settings
     end
 
     class << self
-      def add(name, default:, format: :undefined, api_name: name, serialized: false, api: true, admin: true, writable: true)
+      def add(name, value:, format: nil, api_name: name, serialized: false, api: true, admin: true, writable: true)
         return if @by_name.present? && @by_name[name.to_s].present?
 
         @by_name = nil
 
         all << new(name,
                    format: format,
-                   default: default,
+                   value: value,
                    api_name: api_name,
                    serialized: serialized,
                    api: api,
@@ -98,12 +98,61 @@ module Settings
         unless loaded
           self.loaded = true
           require_relative 'definitions'
+
+          load_config_from_file
         end
 
         @all
       end
 
+      def add_key_value(key, value)
+        format = case value
+                 when TrueClass, FalseClass
+                   :boolean
+                 when Integer, Date, DateTime
+                   value.class.name.downcase.to_sym
+                 end
+
+        add key,
+            format: format,
+            value: value,
+            api: false,
+            admin: true,
+            writable: false
+      end
+
+      def load_config_from_file
+        filename = Rails.root.join('config/configuration.yml')
+
+        if File.file?(filename)
+          file_config = YAML::load(ERB.new(File.read(filename)).result)
+
+          if file_config.is_a? Hash
+            load_env_from_config(file_config, Rails.env)
+          else
+            warn "#{filename} is not a valid OpenProject configuration file, ignoring."
+          end
+        end
+      end
+
+      def load_env_from_config(config, env)
+        config['default']&.each do |name, value|
+          override_value(name, value)
+        end
+        config[env]&.each do |name, value|
+          override_value(name, value)
+        end
+      end
+
       private
+
+      def override_value(name, value)
+        if self[name]
+          self[name].value = value
+        else
+          add_key_value(name, value)
+        end
+      end
 
       attr_accessor :loaded
     end

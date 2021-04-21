@@ -153,7 +153,7 @@ class Setting < ApplicationRecord
                                       Settings::Definition.all.map(&:name)
                                     } # lambda, because @available_settings changes at runtime
   validates_numericality_of :value, only_integer: true, if: Proc.new { |setting|
-                                                              setting.format == 'int'
+                                                              setting.format == :integer
                                                             }
 
   def value
@@ -330,15 +330,15 @@ class Setting < ApplicationRecord
 
   def self.read_formatted_setting(value, format)
     case format
-    when "boolean"
+    when :boolean
       ActiveRecord::Type::Boolean.new.cast(value)
-    when "symbol"
+    when :symbol
       value.to_sym
-    when "int"
+    when :integer
       value.to_i
-    when "date"
+    when :date
       Date.parse value
-    when "datetime"
+    when :datetime
       DateTime.parse value
     else
       value

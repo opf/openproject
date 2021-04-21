@@ -110,7 +110,7 @@ module Redmine #:nodoc:
 
       if p.settings
         Settings::Definition.add("plugin_#{id}",
-                                 default: p.settings[:default],
+                                 value: p.settings[:default],
                                  serialized: true,
                                  api: false)
       end
