@@ -48,7 +48,7 @@ shared_examples 'BaseServices update service' do
                         model: model_instance,
                         contract_class: contract_class)
   end
-  let(:call_attributes) { { name: 'Some name', identifier: 'Some identifier' } }
+  let(:call_attributes) { instance_double(Hash) }
   let(:set_attributes_success) do
     true
   end

@@ -39,7 +39,10 @@ module API
                                                      .mount
 
           post &::API::V3::Utilities::Endpoints::Create.new(model: Member,
-                                                            api_name: 'Membership')
+                                                            api_name: 'Membership',
+                                                            params_modifier: ->(params) {
+                                                              params.except(:meta).merge(params.fetch(:meta, {}).to_h)
+                                                            })
                                                        .mount
 
           mount ::API::V3::Memberships::AvailableProjectsAPI

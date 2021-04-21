@@ -59,7 +59,7 @@ module BaseServices
              model: instance(params),
              contract_class: contract_class,
              contract_options: contract_options)
-        .call(params)
+        .call(**set_attributes_params(params))
     end
 
     def attributes_service_class
@@ -76,6 +76,10 @@ module BaseServices
 
     def instance_class
       namespace.singularize.constantize
+    end
+
+    def set_attributes_params(params)
+      params
     end
   end
 end

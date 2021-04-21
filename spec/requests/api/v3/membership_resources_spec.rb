@@ -76,6 +76,11 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
       expect(ActionMailer::Base.deliveries.map(&:to).flatten)
         .to match_array expected_receivers.map(&:mail)
+
+      if defined?(custom_message)
+        expect(ActionMailer::Base.deliveries.map { |mail| mail.body.encoded })
+          .to all include(custom_message)
+      end
     end
   end
 
@@ -369,6 +374,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     let(:path) { api_v3_paths.memberships }
     let(:principal) { other_user }
     let(:principal_path) { api_v3_paths.user(principal.id) }
+    let(:custom_message) { 'Wish you where **here**.' }
     let(:body) do
       {
         _links: {
@@ -383,6 +389,11 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
               href: api_v3_paths.role(other_role.id)
             }
           ]
+        },
+        _meta: {
+          notificationMessage: {
+            raw: custom_message
+          }
         }
       }.to_json
     end
@@ -459,6 +470,11 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
                 href: api_v3_paths.role(other_role.id)
               }
             ]
+          },
+          _meta: {
+            notificationMessage: {
+              raw: custom_message
+            }
           }
         }.to_json
       end
@@ -482,17 +498,24 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       let(:principal_path) { api_v3_paths.placeholder_user(placeholder_user.id) }
       let(:body) do
         {
-          project: {
-            href: api_v3_paths.project(project.id)
+          _links: {
+            project: {
+              href: api_v3_paths.project(project.id)
+            },
+            principal: {
+              href: principal_path
+            },
+            roles: [
+              {
+                href: api_v3_paths.role(other_role.id)
+              }
+            ]
           },
-          principal: {
-            href: principal_path
-          },
-          roles: [
-            {
-              href: api_v3_paths.role(other_role.id)
+          _meta: {
+            notificationMessage: {
+              raw: custom_message
             }
-          ]
+          }
         }.to_json
       end
 
@@ -519,6 +542,11 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
                 href: api_v3_paths.role(global_role.id)
               }
             ]
+          },
+          _meta: {
+            notificationMessage: {
+              raw: custom_message
+            }
           }
         }.to_json
       end

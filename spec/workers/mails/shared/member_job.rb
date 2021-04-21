@@ -29,7 +29,11 @@
 require 'spec_helper'
 
 shared_examples 'member job' do
-  subject(:run_job) { described_class.perform_now(current_user: current_user, member: member) }
+  subject(:run_job) do
+    described_class.perform_now(current_user: current_user,
+                                member: member,
+                                message: message)
+  end
 
   let(:member) do
     FactoryBot.build_stubbed(:member,
@@ -85,6 +89,7 @@ shared_examples 'member job' do
   let(:group_user_members) { [] }
   let(:role) { FactoryBot.build_stubbed(:role) }
   let(:member_role_inherited_from) { nil }
+  let(:message) { "Some message" }
 
   current_user { FactoryBot.build_stubbed(:user) }
 
@@ -116,7 +121,7 @@ shared_examples 'member job' do
 
         expect(MemberMailer)
           .to have_received(:updated_global)
-          .with(current_user, member)
+          .with(current_user, member, message)
       end
     end
 
@@ -132,7 +137,7 @@ shared_examples 'member job' do
 
         expect(MemberMailer)
           .to have_received(user_project_mail_method)
-          .with(current_user, member)
+          .with(current_user, member, message)
       end
     end
 

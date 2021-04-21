@@ -30,49 +30,50 @@ class Mails::MemberJob < ApplicationJob
   queue_with_priority :notification
 
   def perform(current_user:,
-              member:)
+              member:,
+              message: nil)
     if member.project.nil?
-      send_updated_global(current_user, member)
+      send_updated_global(current_user, member, message)
     elsif member.principal.is_a?(Group)
       every_group_user_member(member) do |user_member|
-        send_for_group_user(current_user, user_member, member)
+        send_for_group_user(current_user, user_member, member, message)
       end
     elsif member.principal.is_a?(User)
-      send_for_project_user(current_user, member)
+      send_for_project_user(current_user, member, message)
     end
   end
 
   private
 
-  def send_for_group_user(_current_user, _member, _group)
+  def send_for_group_user(_current_user, _member, _group, _message)
     raise NotImplementedError, "subclass responsibility"
   end
 
-  def send_for_project_user(_current_user, _member)
+  def send_for_project_user(_current_user, _member, _message)
     raise NotImplementedError, "subclass responsibility"
   end
 
-  def send_updated_global(current_user, member)
+  def send_updated_global(...)
     return if sending_disabled?(:updated)
 
     MemberMailer
-      .updated_global(current_user, member)
+      .updated_global(...)
       .deliver_now
   end
 
-  def send_added_project(current_user, member)
+  def send_added_project(...)
     return if sending_disabled?(:added)
 
     MemberMailer
-      .added_project(current_user, member)
+      .added_project(...)
       .deliver_now
   end
 
-  def send_updated_project(current_user, member)
+  def send_updated_project(...)
     return if sending_disabled?(:updated)
 
     MemberMailer
-      .updated_project(current_user, member)
+      .updated_project(...)
       .deliver_now
   end
 
