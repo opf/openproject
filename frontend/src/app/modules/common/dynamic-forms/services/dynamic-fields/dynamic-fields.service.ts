@@ -26,6 +26,16 @@ export class DynamicFieldsService {
     },
     {
       config: {
+        type: 'textInput',
+        className: 'inline-edit--field',
+        templateOptions: {
+          type: 'password',
+        },
+      },
+      useForFields: ['Password']
+    },
+    {
+      config: {
         type: 'integerInput',
         className: `inline-edit--field`,
         templateOptions: {
@@ -70,7 +80,7 @@ export class DynamicFieldsService {
         templateOptions: {
           type: 'number',
           locale: I18n.locale,
-          bindLabel: 'title',
+          bindLabel: 'name',
           searchable: false,
           virtualScroll: true,
           typeahead: false,
@@ -83,10 +93,12 @@ export class DynamicFieldsService {
         },
         expressionProperties: {
           'templateOptions.clearable': (model:any, formState:any, field:FormlyFieldConfig) => !field.templateOptions?.required,
-          'templateOptions.multiple': (model:any, formState:any, field:FormlyFieldConfig) => (field.key! as string).replace('_links.', '').startsWith('[]'),
         },
       },
-      useForFields: ['Priority', 'Status', 'Type', 'User', 'Version', 'TimeEntriesActivity', 'Category', 'CustomOption', 'Project', 'ProjectStatus']
+      useForFields: [
+        'Priority', 'Status', 'Type', 'User', 'Version', 'TimeEntriesActivity',
+        'Category', 'CustomOption', 'Project', 'ProjectStatus'
+      ]
     },
   ]
 
@@ -183,12 +195,21 @@ export class DynamicFieldsService {
   }
 
   private _getFieldTypeConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldSettings {
-    let inputType = this.inputsCatalogue.find(inputType => inputType.useForFields.includes(field.type))!;
+    const fieldType = field.type.replace('[]', '') as OPFieldType;
+    let inputType = this.inputsCatalogue.find(inputType => inputType.useForFields.includes(fieldType))!;
     let inputConfig = inputType.config;
     let configCustomizations;
 
     if (inputConfig.type === 'integerInput' || inputConfig.type === 'selectInput') {
-      configCustomizations = { className: `${inputConfig.className} ${field.name}` };
+      configCustomizations = {
+        className: `${inputConfig.className} ${field.name}`,
+        ...field.type.startsWith('[]') && {
+          templateOptions: {
+            ...inputConfig.templateOptions,
+            multiple: true
+          }
+        },
+      };
     } else if (inputConfig.type === 'formattableInput') {
       configCustomizations = {
         templateOptions: {
@@ -209,15 +230,29 @@ export class DynamicFieldsService {
       return;
     }
 
-    return Array.isArray(allowedValues) ?
-      of(allowedValues) :
-      this._httpClient
-        .get(allowedValues!.href)
+    if (Array.isArray(allowedValues)) {
+      const options = allowedValues[0]?._links?.self?.title ?
+        this._formatAllowedValues(allowedValues) :
+        allowedValues;
+
+      return of(options);
+    } else if (allowedValues!.href) {
+      return this._httpClient
+        .get(allowedValues!.href!)
         .pipe(
           map((response: api.v3.Result) => response._embedded.elements),
           // TODO: Handle the Status options (currently void)
-          map(options => options.map((option:IOPFieldSchema['options']) => ({...option, title: option._links?.self?.title})))
+          map(options => this._formatAllowedValues(options)),
         );
+    }
+
+    return;
+  }
+
+  // ng-select needs a 'name' in order to show the label
+  // We need to add it in case of the form payload (HalLinkSource)
+  private _formatAllowedValues(options: IOPAllowedValue[]) {
+    return options.map((option:IOPFieldSchema['options']) => ({...option, name: option._links?.self?.title}));
   }
 
   private _getFormlyFormWithFieldGroups(fieldGroups:IOPAttributeGroup[] = [], formFields:IOPFormlyFieldSettings[] = []):IOPFormlyFieldSettings[] {
