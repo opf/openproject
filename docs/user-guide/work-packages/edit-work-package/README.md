@@ -78,7 +78,6 @@ You can add a comment or notify team members via [@notification](#notification).
 
 <div class="glossary">
 **Watchers** can be added to a work package in order to notify members about changes . They will receive emails according to their notification settings if changes are made to the respective work package.
-
 </div>
 
 To add watchers, open the work package [details view](#work-package-full-screen-view), select the tab watchers on the right hand side and choose the members you want to add with the drop-down menu or by starting to type their name.

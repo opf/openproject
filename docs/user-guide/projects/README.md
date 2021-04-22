@@ -181,7 +181,7 @@ In order to archive a project, navigate to the [project settings](project-settin
 </div>
 ![archive-project](image-20210204171059565.png)
 
- Then, the project cannot be selected from the project selection anymore. It is still available in the **View all projects** dashboard if you expand the filter and select the Archived projects.
+Then, the project cannot be selected from the project selection anymore. It is still available in the **View all projects** dashboard if you expand the filter and select the Archived projects. You can un-archive it there, too.
 
 ![view-archived-projects-in-projects-overview](image-20210204171251754.png)
 
