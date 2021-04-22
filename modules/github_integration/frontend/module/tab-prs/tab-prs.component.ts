@@ -26,13 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Injectable, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
-
-import { WorkPackagesGithubPrsService } from './wp-github-prs.service';
 import { APIV3Service } from 'core-app/modules/apiv3/api-v3.service';
 import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
 import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
@@ -48,20 +44,22 @@ export class TabPrsComponent implements OnInit {
 
   public pullRequests:GithubPullRequestResource[] = [];
 
-  constructor(readonly PathHelper:PathHelperService,
-              readonly I18n:I18nService,
-              readonly wpGithubPrsService:WorkPackagesGithubPrsService,
-              readonly apiV3Service:APIV3Service,
-              readonly halResourceService:HalResourceService,
-              readonly changeDetector:ChangeDetectorRef,
-              ) {}
+  constructor(
+    readonly I18n:I18nService,
+    readonly apiV3Service:APIV3Service,
+    readonly halResourceService:HalResourceService,
+    readonly changeDetector:ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
     const pullRequestsPath = this.apiV3Service.work_packages.id({id: this.workPackage.id }).github_pull_requests.path;
-    this.halResourceService.get<CollectionResource<GithubPullRequestResource>>(pullRequestsPath).toPromise().then((value) => {
-      this.pullRequests = value.elements;
-      this.changeDetector.detectChanges();
-    });
+
+    this.halResourceService
+      .get<CollectionResource<GithubPullRequestResource>>(pullRequestsPath)
+      .subscribe((value) => {
+        this.pullRequests = value.elements;
+        this.changeDetector.detectChanges();
+      });
   }
 
   public getEmptyText() {
