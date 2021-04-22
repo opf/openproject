@@ -66,6 +66,19 @@ module OpenProject
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
+    # Sets up logging for STDOUT and configures the default logger formatter
+    # so that all environments receive level and timestamp information
+    #
+    # Use default logging formatter so that PID and timestamp are not suppressed.
+    config.log_formatter = ::Logger::Formatter.new
+
+    # Set up STDOUT logging if requested
+    if ENV["RAILS_LOG_TO_STDOUT"].present?
+      logger           = ActiveSupport::Logger.new(STDOUT)
+      logger.formatter = config.log_formatter
+      config.logger    = ActiveSupport::TaggedLogging.new(logger)
+    end
+
     # Use Rack::Deflater to gzip/deflate all the responses if the
     # HTTP_ACCEPT_ENCODING header is set appropriately. As Rack::ETag as
     # Rack::Deflater adds a timestamp to the content which would result in a
