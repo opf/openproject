@@ -17,6 +17,8 @@ The search bar can be found at the upper right of the application. To search for
 
 Searching for e.g. "big cat" will also return work packages with the description "big old cat".
 
+![search-bar](image-20210422101143600.png)
+
 ## Advanced search
 
 To access the more detailed, advanced search, choose one of the options shown below the search bar with your arrow keys (then press the Enter key) or by using the mouse.
@@ -29,4 +31,4 @@ Now, you can find the results for your search term from different categories/par
 
 ![search-result-categories](image-20210412205730857.png)
 
-Please note: It is not possible to find content from archived projects. You will have to un-archive them first.
+Please note: It is not possible to find content from archived projects. You will have to un-archive them first on the [global projects overview page](../projects/#view-all-projects).
