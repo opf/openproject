@@ -8,9 +8,9 @@ keywords: email configuration
 ---
 # Email settings
 
-Configure **email settings** in OpenProject, i.e. Email notifications and incoming email configuration.
+Configure **email settings** in OpenProject, i.e. email notifications and incoming email configuration.
 
-Navigate to -> *Administration* -> *Emails*.
+Navigate to *Administration -> Emails*.
 
 # Email notifications settings
 
@@ -23,6 +23,8 @@ To adapt email notification settings, go to Email and choose *Email notification
 5. Select for which **actions email notification should be sent**. You have the possibility to check all or uncheck all at the top right.
 
 ![System-admin-guide-emails](System-admin-guide-emails.png)
+
+The frequency of sending e-mails per work package can be set in [this way](../system-settings/display-settings/#time-and-date-formatting,-aggregation-of-changes-in-activity).
 
 ## Configure email header and email footer
 

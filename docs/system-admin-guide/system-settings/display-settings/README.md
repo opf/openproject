@@ -22,7 +22,7 @@ At the moment there are more than 30 languages available.
 </div>
 You can [choose your language in your user profile](../../../getting-started/my-account/#change-your-language).
 
-## Time and date formatting
+## Time and date formatting, aggregation of changes in activity
 
 Change time and date formats in OpenProject and configure the display of journal aggregation.
 
@@ -30,7 +30,7 @@ Change time and date formats in OpenProject and configure the display of journal
 2. Set the **date format**, default is based on user's language. You can choose various formats to display dates in the system.
 3. Set the **time format**, default is based on user's language. You can choose various formats to display time in the system.
 4. Choose the **users display format**, default is Firstname Lastname. You can change to various different formats.
-5. **Display journals as aggregated within** will enable you to choose a time to combine journals of this timespan, e.g. for work package notifications. This way if you do several updates at in a short period of time, you will not receive a notification for each update but only a notification for the chosen period.
+5. **Display journals as aggregated within** will enable you to choose a time to combine journals of this timespan, e.g. for work package notifications. This way if you do several updates at in a short period of time, you will not receive an email notification for each update but only a notification for the chosen period.
 6. Do not forget to **save** your changes.
 
 ![Sys-admin-display-settings](Sys-admin-display-settings.png)
