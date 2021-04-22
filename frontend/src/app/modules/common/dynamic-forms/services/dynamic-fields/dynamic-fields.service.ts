@@ -206,17 +206,22 @@ export class DynamicFieldsService {
     return formlyFieldConfig;
   }
 
-  private _getFieldTypeConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldConfig|null {
-    let inputType = this.inputsCatalogue.find(inputType => inputType.useForFields.includes(field.type))!;
-    if (!inputType) {
-      console.warn(`No input found for input type ${field.type}`);
-      return null;
-    }
+  private _getFieldTypeConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldSettings {
+    const fieldType = field.type.replace('[]', '') as OPFieldType;
+    let inputType = this.inputsCatalogue.find(inputType => inputType.useForFields.includes(fieldType))!;
     let inputConfig = inputType.config;
     let configCustomizations;
 
     if (inputConfig.type === 'integerInput' || inputConfig.type === 'selectInput') {
-      configCustomizations = { className: `${inputConfig.className} ${field.name}` };
+      configCustomizations = {
+        className: `${inputConfig.className} ${field.name}`,
+        ...field.type.startsWith('[]') && {
+          templateOptions: {
+            ...inputConfig.templateOptions,
+            multiple: true
+          }
+        },
+      };
     } else if (inputConfig.type === 'formattableInput') {
       configCustomizations = {
         templateOptions: {
@@ -248,7 +253,12 @@ export class DynamicFieldsService {
         .get(allowedValues!.href!)
         .pipe(
           map((response: api.v3.Result) => response._embedded.elements),
+<<<<<<< HEAD
           map(options => options.map((option:IOPFieldSchema['options']) => ({...option, title: option._links?.self?.title})))
+=======
+          // TODO: Handle the Status options (currently void)
+          map(options => this._formatAllowedValues(options)),
+>>>>>>> c9c252e067 (Handling multi-values (also as links) and passwords)
         );
     }
 
