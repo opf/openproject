@@ -72,6 +72,11 @@ interface IOPApiCall {
   method?: string;
 }
 
+interface IOPApiOption {
+  href: string;
+  title?: string;
+}
+
 interface IOPAttributeGroup {
   _type:
     | "WorkPackageFormAttributeGroup"
@@ -87,14 +92,14 @@ interface IOPAllowedValue {
   name: string;
   [key: string]: unknown;
   _links: {
-    self: HalSource;
+    self: HalSource | IOPApiOption;
     [key: string]: HalSource;
   };
 }
 
 type OPFieldType = 'String' | 'Integer' | 'Boolean' | 'Date' | 'DateTime' | 'Formattable' |
   'Priority' | 'Status' | 'Type' | 'User' | 'Version' | 'TimeEntriesActivity' | 'Category' |
-  'CustomOption' | 'Project' | 'ProjectStatus';
+  'CustomOption' | 'Project' | 'ProjectStatus' | 'Password';
 
 interface IOPFormError {
   errorIdentifier:string;
