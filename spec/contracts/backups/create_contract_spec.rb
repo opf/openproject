@@ -33,7 +33,8 @@ require 'contracts/shared/model_contract_shared_context'
 
 describe Backups::CreateContract do
   let(:backup) { Backup.new }
-  let(:contract) { described_class.new backup, current_user }
+  let(:contract) { described_class.new backup, current_user, options: { backup_token: backup_token.plain_value } }
+  let(:backup_token) { FactoryBot.create :backup_token }
 
   include_context 'ModelContract shared context'
 

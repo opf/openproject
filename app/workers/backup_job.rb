@@ -32,25 +32,6 @@ require 'tempfile'
 require 'zip'
 
 class BackupJob < ::ApplicationJob
-  class << self
-    def include_attachments?
-      val = configuration['include_attachments']
-      
-      val.nil? ? true : val.to_s.to_bool # default to true
-    end
-
-    ##
-    # Don't include attachments in archive if they are larger than
-    # this value combined.
-    def attachment_size_max_sum_mb
-      (configuration['attachment_size_max_sum_mb'].presence || 1024).to_i
-    end
-
-    def configuration
-      @configuration ||= Hash(OpenProject::Configuration['backup_job'])
-    end
-  end
-
   queue_with_priority :low
 
   attr_reader :backup, :user
@@ -58,8 +39,8 @@ class BackupJob < ::ApplicationJob
   def perform(
     backup:,
     user:,
-    include_attachments: self.class.include_attachments?,
-    attachment_size_max_sum_mb: self.class.attachment_size_max_sum_mb
+    include_attachments: Backup.include_attachments?,
+    attachment_size_max_sum_mb: Backup.attachment_size_max_sum_mb
   )
     @backup = backup
     @user = user
@@ -153,19 +134,10 @@ class BackupJob < ::ApplicationJob
   end
 
   def attachments_to_include
-    return Attachment.none unless include_attachments? && attachments_size_in_bounds?
+    return Attachment.none unless include_attachments? &&
+      Backup.attachments_size_in_bounds?(max: attachment_size_max_sum_mb)
 
-    attachments_query
-  end
-
-  def attachments_query
-    Attachment
-      .where.not(container_type: nil)
-      .where.not(container_type: Export.name)
-  end
-
-  def attachments_size_in_bounds?
-    attachments_size_in_mb <= attachment_size_max_sum_mb
+    Backup.attachments_query
   end
 
   def date_tag
@@ -187,10 +159,6 @@ class BackupJob < ::ApplicationJob
 
   def attachment_size_max_sum_mb
     @attachment_size_max_sum_mb
-  end
-
-  def attachments_size_in_mb
-    attachments_query.pluck(:filesize).sum / 1024.0 / 1024.0
   end
 
   def dump_database!(path)

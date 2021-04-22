@@ -30,6 +30,7 @@
 
 class Admin::BackupsController < ApplicationController
   include ActionView::Helpers::TagHelper
+  include BackupHelper
 
   layout 'admin'
 
@@ -47,13 +48,15 @@ class Admin::BackupsController < ApplicationController
       @last_backup_date = I18n.localize(last_backup.updated_at)
       @last_backup_attachment_id = last_backup.attachments.first&.id
     end
+
+    @may_include_attachments = may_include_attachments? ? "true" : "false"
   end
 
   def reset_token
     if request.post?
-      token = Token::Backup.create! user: current_user
+      token = create_backup_token user: current_user
 
-      UserMailer.backup_token_reset(current_user).deliver_later
+      notify_user_and_admins current_user, backup_token: token
 
       flash[:warning] = [
         t('my.access_token.notice_reset_token', type: 'Backup').html_safe,
@@ -87,6 +90,12 @@ class Admin::BackupsController < ApplicationController
   end
 
   def check_enabled
-    render_404 unless OpenProject::Configuration.enable_user_initiated_backups?
+    render_404 unless OpenProject::Configuration.backup_enabled?
+  end
+
+  private
+
+  def may_include_attachments?
+    Backup.include_attachments? && Backup.attachments_size_in_bounds?
   end
 end

@@ -129,7 +129,7 @@ namespace :backup do
 
   desc 'Allows user-initiated backups right away, skipping the cooldown period after a new token was created.'
   task allow_now: :environment do
-    date = DateTime.now - OpenProject::Configuration.backup_token_cooldown
+    date = DateTime.now - OpenProject::Configuration.backup_initial_waiting_period
 
     Token::Backup.where("created_at > ?", date).each do |token|
       token.update_column :created_at, date

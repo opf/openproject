@@ -40,14 +40,14 @@ module Backups
     def backup_token
       token = Token::Backup.find_by_plaintext_value options[:backup_token].to_s
 
-      if token.blank?
+      if token.blank? || token.user_id != user.id
         errors.add :base, :invalid_token, message: I18n.t("backup.error.invalid_token")
         return
       end
 
-      if (Time.now - token.created_at) < OpenProject::Configuration.backup_token_cooldown.to_i
-        valid_at = token.created_at + OpenProject::Configuration.backup_token_cooldown
-        hours = ((valid_at - DateTime.now) / 60.0 / 60.0).round
+      if token.waiting?
+        valid_at = token.created_at + OpenProject::Configuration.backup_initial_waiting_period
+        hours = ((valid_at - Time.zone.now) / 60.0 / 60.0).round
 
         errors.add :base, :token_cooldown, message: I18n.t("backup.error.token_cooldown", hours: hours)
       end

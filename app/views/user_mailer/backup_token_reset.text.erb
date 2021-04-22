@@ -27,4 +27,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= t(:mail_body_backup_token_reset) %>
+<%= @admin_notification ?
+  t(:mail_body_backup_token_reset_admin_info, user: @user_login) :
+  t(:mail_body_backup_token_reset_user_info)
+%><% if @waiting_period %> <%= t(:mail_body_backup_waiting_period, hours: @waiting_period.in_hours.to_i) %><% end %>
+
+<% if !@admin_notification %><%= t(:mail_body_backup_token_warning) %><% end %>

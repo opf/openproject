@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'backup', type: :feature, js: true do
   let(:current_user) { FactoryBot.create :admin }
-  let(:backup_token) { Token::Backup.create user: current_user, created_at: DateTime.now - 24.hours }
+  let!(:backup_token) { FactoryBot.create :backup_token }
 
   before do
     @download_list = DownloadList.new

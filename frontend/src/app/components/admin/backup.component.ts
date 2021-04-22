@@ -54,11 +54,13 @@ export class BackupComponent implements AfterViewInit {
     options: this.i18n.t('js.backup.options'),
     downloadBackup: this.i18n.t('js.backup.download_backup'),
     requestBackup: this.i18n.t('js.backup.request_backup'),
+    attachmentsDisabled: this.i18n.t('js.backup.attachments_disabled'),
   };
 
   public jobStatusId:string = this.elementRef.nativeElement.dataset['jobStatusId'];
   public lastBackupDate:string = this.elementRef.nativeElement.dataset['lastBackupDate'];
   public lastBackupAttachmentId:string = this.elementRef.nativeElement.dataset['lastBackupAttachmentId'];
+  public mayIncludeAttachments:boolean = this.elementRef.nativeElement.dataset['mayIncludeAttachments'] != "false";
 
   public isInProgress:boolean = false;
   public includeAttachments:boolean = true;
@@ -76,6 +78,7 @@ export class BackupComponent implements AfterViewInit {
     protected opModalService:OpModalService,
     protected pathHelper:PathHelperService
   ) {
+    this.includeAttachments = this.mayIncludeAttachments;
   }
 
   ngAfterViewInit() {
@@ -89,6 +92,14 @@ export class BackupComponent implements AfterViewInit {
 
   public getDownloadUrl():string {
     return this.pathHelper.attachmentDownloadPath(this.lastBackupAttachmentId, undefined);
+  }
+
+  public includeAttachmentsDefault():boolean {
+    return this.mayIncludeAttachments;
+  }
+
+  public includeAttachmentsTitle():string {
+    return this.mayIncludeAttachments ? '' : this.text.attachmentsDisabled;
   }
 
   public triggerBackup(event?:JQuery.TriggeredEvent) {

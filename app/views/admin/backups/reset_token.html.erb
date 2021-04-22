@@ -50,10 +50,13 @@ See docs/COPYRIGHT.rdoc for more details.
         <%= t("backup.reset_token.implications") %>
       </p>
 
+      <% if !allow_instant_backup_for_user? current_user %>
       <p class="danger-zone--warning">
         <span class="icon icon-error"></span>
         <span><%= t("backup.reset_token.warning") %></span>
       </p>
+      <% end %>
+
       <p>
         <%= t(
           "backup.reset_token.verification",

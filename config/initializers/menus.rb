@@ -337,7 +337,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :backups,
             { controller: '/admin/backups', action: 'show' },
-            if: Proc.new { OpenProject::Configuration.enable_user_initiated_backups? && User.current.admin? },
+            if: Proc.new { OpenProject::Configuration.backup_enabled? && User.current.admin? },
             caption: :label_backup,
             last: true,
             icon: 'icon2 icon-save'

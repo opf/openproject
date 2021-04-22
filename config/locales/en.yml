@@ -876,6 +876,7 @@ en:
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
     label_reset_token: "Reset backup token"
+    label_token_users: "The following users have active backup tokens"
     reset_token:
       action_create: Create
       action_reset: Reset
@@ -1892,9 +1893,11 @@ en:
   mail_body_account_information: "Your account information"
   mail_body_account_information_external: "You can use your %{value} account to log in."
   mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
-  mail_body_backup_token_reset: >
-    Your backup token has been reset. The previous token is no longer valid.
-    The new token will be enabled in 24 hours.
+  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
+  mail_body_backup_token_reset_user_info: Your backup token has been reset.
+  mail_body_backup_token_info: The previous token is no longer valid.
+  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
+  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "To change your password, click on the following link:"
   mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
@@ -2974,3 +2977,5 @@ en:
     authorization_error: "An authorization error has occurred."
     revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
     my_registered_applications: "Registered OAuth applications"
+  
+  you: you

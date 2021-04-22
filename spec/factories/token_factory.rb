@@ -49,10 +49,10 @@ FactoryBot.define do
     user
 
     after(:build) do |token|
-      token.created_at = DateTime.now - OpenProject::Configuration.backup_token_cooldown
+      token.created_at = DateTime.now - OpenProject::Configuration.backup_initial_waiting_period
     end
 
-    trait :on_cooldown do
+    trait :with_waiting_period do
       transient do
         since { 0.seconds }
       end

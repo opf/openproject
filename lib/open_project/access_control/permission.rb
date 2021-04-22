@@ -43,7 +43,7 @@ module OpenProject
         @public = options[:public] || false
         @require = options[:require]
         @global = options[:global] || false
-        @enabled = options[:enabled] || true
+        @enabled = options.include?(:enabled) ? options[:enabled] : true
         @dependencies = Array(options[:dependencies]) || []
         @project_module = options[:project_module]
         @contract_actions = options[:contract_actions] || []

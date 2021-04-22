@@ -69,10 +69,28 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= t("backup.reset_token.info") %>
 </p>
 
+<% if Token::Backup.count > 0 %>
+  <p>
+    <span><%= I18n.t("backup.label_token_users") %></span>:
+
+    <div class="wiki">
+      <ul>
+        <% Token::Backup.all.includes(:user).each do |token| %>
+          <li>
+            <%= link_to token.user.name, edit_user_path(token.user) %>
+            <%= token.user == current_user ? "(#{I18n.t(:you)})" : '' %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </p>
+<% end %>
+
 <% if @backup_token.present? %>
 <%= tag :backup, data: {
   'job-status-id': @job_status_id,
   'last-backup-date': @last_backup_date,
-  'last-backup-attachment-id': @last_backup_attachment_id
+  'last-backup-attachment-id': @last_backup_attachment_id,
+  'may-include-attachments': @may_include_attachments
 } %>
 <% end %>

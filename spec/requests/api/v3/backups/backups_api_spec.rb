@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe API::V3::Backups::BackupsAPI, type: :request, with_config: { enable_user_initiated_backups: true } do
+describe API::V3::Backups::BackupsAPI, type: :request, with_config: { backup_enabled: true } do
   include API::V3::Utilities::PathHelper
 
   let(:user) { FactoryBot.create :user, global_permissions: [:create_backup] }
@@ -117,6 +117,17 @@ describe API::V3::Backups::BackupsAPI, type: :request, with_config: { enable_use
       end
     end
 
+    context "with another user's token" do
+      let(:other_user) { FactoryBot.create :user }
+      let(:backup_token) { FactoryBot.create :backup_token, user: other_user }
+
+      include_context "request"
+
+      it "is forbidden" do
+        expect(last_response.status).to eq 403
+      end
+    end
+
     context "with daily backup limit reached", with_config: { backup_daily_limit: -1 } do
       include_context "request"
 
@@ -125,9 +136,8 @@ describe API::V3::Backups::BackupsAPI, type: :request, with_config: { enable_use
       end
     end
 
-    context "with backup token on cooldown", with_config: { backup_token_cooldown: 24.hours } do
-      # let(:backup_token) { Token::Backup.create user: user, created_at: DateTime.now - 5.hours }
-      let(:backup_token) { FactoryBot.create :backup_token, :on_cooldown, since: 5.hours }
+    context "with backup token on cooldown", with_config: { backup_initial_waiting_period: 24.hours } do
+      let(:backup_token) { FactoryBot.create :backup_token, :with_waiting_period, user: user, since: 5.hours }
 
       include_context "request"
 

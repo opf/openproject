@@ -39,13 +39,14 @@
           <legend class="form--fieldset-legend">
             {{ text.options }}
           </legend>
-          <label class="form--label-with-check-box">
+          <label class="form--label-with-check-box" [title]="includeAttachmentsTitle()">
             <div class="form--check-box-container">
               <input
                 type="checkbox"
                 class="form--check-box"
                 [checked]="includeAttachments"
                 (change)="includeAttachments = !includeAttachments"
+                [disabled]="!mayIncludeAttachments"
               >
             </div>
             {{ text.includeAttachments }}
