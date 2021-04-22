@@ -3,32 +3,49 @@ import { StateService, UIRouterGlobals } from "@uirouter/core";
 import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { HalSource } from "core-app/modules/hal/resources/hal-resource";
+import { IOPFormlyFieldSettings } from "core-app/modules/common/dynamic-forms/typings";
 
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.scss'],
+  styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent extends UntilDestroyedMixin implements OnInit {
-  resourceId:string|null;
+  resourceId:string;
   projectsPath:string;
-  text:{ [key:string]:string };
+  text:{[key:string]:string};
+  dynamicFieldsSettingsPipe:(dynamicFieldsSettings:IOPFormlyFieldSettings[]) => IOPFormlyFieldSettings[];
 
   constructor(
-    private uIRouterGlobals:UIRouterGlobals,
-    private pathHelperService:PathHelperService,
+    private _uIRouterGlobals:UIRouterGlobals,
+    private _pathHelperService:PathHelperService,
+    private _$state:StateService,
   ) {
     super();
   }
 
-  ngOnInit():void {
-    this.projectsPath = this.pathHelperService.projectsPath();
-    this.resourceId = this.uIRouterGlobals.params.projectPath;
+  ngOnInit(): void {
+    this.projectsPath = this._pathHelperService.projectsPath();
+    this.resourceId = this._uIRouterGlobals.params.projectPath;
+    this.dynamicFieldsSettingsPipe = (dynamicFieldsSettings) => {
+      return dynamicFieldsSettings
+        .reduce((formattedDynamicFieldsSettings, dynamicFormField) => {
+          if (dynamicFormField.key === 'identifier') {
+            dynamicFormField = {
+              ...dynamicFormField,
+              hide: true,
+            }
+          }
+
+          return [...formattedDynamicFieldsSettings, dynamicFormField];
+        }, []);
+    }
   }
 
   onSubmitted(formResource:HalSource) {
-    if (!this.resourceId && typeof formResource.identifier === 'string') {
-      window.location.href = this.pathHelperService.projectPath(formResource.identifier);
+    // TODO: Filter out if this.resourceId === 'new'?
+    if (!this.resourceId) {
+      this._$state.go('.', { ...this._$state.params, projectPath: formResource.identifier });
     }
   }
 }

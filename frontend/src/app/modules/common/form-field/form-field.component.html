@@ -1,19 +1,21 @@
-<label class="op-form-field--label-wrap">
-  <ng-container *ngTemplateOutlet="inputLabelTemplate"></ng-container>
+<ng-container *ngIf="!hidden">
+  <label class="op-form-field--label-wrap">
+    <ng-container *ngTemplateOutlet="inputLabelTemplate"></ng-container>
 
-  <ng-container *ngIf="!noWrapLabel">
+    <ng-container *ngIf="!noWrapLabel">
+      <ng-container *ngTemplateOutlet="inputTemplate"></ng-container>
+    </ng-container>
+  </label>
+
+  <ng-container *ngIf="noWrapLabel">
     <ng-container *ngTemplateOutlet="inputTemplate"></ng-container>
   </ng-container>
-</label>
 
-<ng-container *ngIf="noWrapLabel">
-  <ng-container *ngTemplateOutlet="inputTemplate"></ng-container>
+  <div class="op-form-field--errors"
+       *ngIf="showErrorMessage">
+    <ng-content select="[slot=errors]"></ng-content>
+  </div>
 </ng-container>
-
-<div class="op-form-field--errors"
-     *ngIf="showErrorMessage">
-  <ng-content select="[slot=errors]"></ng-content>
-</div>
 
 <ng-template #inputTemplate>
   <div class="op-form-field--description">

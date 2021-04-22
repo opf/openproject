@@ -52,6 +52,10 @@ export class OpFormFieldComponent {
     return showErrorMessage;
   }
 
+  get hidden () {
+    return this.dynamicControl?.field?.hide;
+  }
+
   constructor(
     @Optional() private _formGroupDirective:FormGroupDirective,
   ) {}
