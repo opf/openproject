@@ -74,5 +74,39 @@ Rails.autoloaders.main.ignore(Rails.root.join('lib/open_project/patches'))
 Rails.autoloaders.main.ignore(Rails.root.join('lib/generators'))
 Rails.autoloaders.main.ignore(Bundler.bundle_path.join('**/*.rb'))
 
+Rails.application.reloader.to_prepare do
+  contract_namespaces = Rails.autoloaders.main.autoloads.keys.grep(/contracts/).map do |x|
+    matches = x.match(/contracts((?:\/[^\/]+)*)$/)
+    constant_parts = matches.present? && matches[1].present? ? matches[1][1..].split('/') : nil
+
+    next if constant_parts.nil?
+
+    constant_parts.pop if constant_parts.last.end_with?('.rb')
+
+    next if constant_parts.empty?
+
+    constant = constant_parts.map(&:camelcase).join('::')
+
+    if constant && Object.const_defined?(constant.to_sym)
+      constant.constantize
+    end
+  end
+
+
+  contract_namespaces.each do |mod|
+    mod.define_singleton_method(:const_missing) do |name|
+      if %i[UpdateService CreateService DeleteService].include?(name)
+        service = Class.new("::BaseServices::#{name.to_s.gsub('Service', '')}".constantize)
+
+        mod.const_set(name, service)
+
+        return service
+      else
+        super(name)
+      end
+    end
+  end
+end
+
 # Comment in to enable zeitwerk logging.
 # Rails.autoloaders.main.log!
