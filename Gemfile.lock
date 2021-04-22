@@ -36,12 +36,6 @@ GIT
       rubyzip
 
 PATH
-  remote: ../ownplugins/openproject-proto_plugin
-  specs:
-    openproject-proto_plugin (7.1.0)
-      rails (~> 6.0)
-
-PATH
   remote: modules/auth_plugins
   specs:
     openproject-auth_plugins (1.0.0)
@@ -1042,7 +1036,6 @@ DEPENDENCIES
   openproject-meeting!
   openproject-openid_connect!
   openproject-pdf_export!
-  openproject-proto_plugin!
   openproject-recaptcha!
   openproject-reporting!
   openproject-token (~> 2.1.1)
