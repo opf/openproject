@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
-  IOPDynamicInputTypeConfig,
-  IOPFormlyFieldConfig,
+  IOPDynamicInputTypeSettings,
+  IOPFormlyFieldSettings,
 } from "../../typings";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { of } from "rxjs";
@@ -13,7 +13,7 @@ import { HttpClient } from "@angular/common/http";
   providedIn: 'root'
 })
 export class DynamicFieldsService {
-  readonly inputsCatalogue:IOPDynamicInputTypeConfig[] = [
+  readonly inputsCatalogue:IOPDynamicInputTypeSettings[] = [
     {
       config: {
         type: 'textInput',
@@ -94,7 +94,7 @@ export class DynamicFieldsService {
     private _httpClient:HttpClient,
   ) { }
 
-  getConfig(formSchema:IOPFormSchema, formPayload:IOPFormModel):IOPFormlyFieldConfig[] {
+  getConfig(formSchema:IOPFormSchema, formPayload:IOPFormModel):IOPFormlyFieldSettings[] {
     const formFieldGroups = formSchema._attributeGroups;
     const fieldSchemas = this._getFieldsSchemasWithKey(formSchema, formPayload);
     const formlyFields = fieldSchemas.map(fieldSchema => this._getFormlyFieldConfig(fieldSchema));
@@ -163,7 +163,7 @@ export class DynamicFieldsService {
     }, {});
   }
 
-  private _getFormlyFieldConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldConfig {
+  private _getFormlyFieldConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldSettings {
     const { key, name:label, required } = field;
     const { templateOptions, ...fieldTypeConfig } = this._getFieldTypeConfig(field);
     const fieldOptions = this._getFieldOptions(field);
@@ -182,7 +182,7 @@ export class DynamicFieldsService {
     return formlyFieldConfig;
   }
 
-  private _getFieldTypeConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldConfig {
+  private _getFieldTypeConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldSettings {
     let inputType = this.inputsCatalogue.find(inputType => inputType.useForFields.includes(field.type))!;
     let inputConfig = inputType.config;
     let configCustomizations;
@@ -220,7 +220,7 @@ export class DynamicFieldsService {
         );
   }
 
-  private _getFormlyFormWithFieldGroups(fieldGroups:IOPAttributeGroup[] = [], formFields:IOPFormlyFieldConfig[] = []):IOPFormlyFieldConfig[] {
+  private _getFormlyFormWithFieldGroups(fieldGroups:IOPAttributeGroup[] = [], formFields:IOPFormlyFieldSettings[] = []):IOPFormlyFieldSettings[] {
     // TODO: Handle sort fields in schema order
     // TODO: Handle nested groups?
     // TODO: Handle form fields with integer key?
@@ -232,7 +232,7 @@ export class DynamicFieldsService {
         !fieldGroupKeys.includes(formFieldKey) :
         true;
     });
-    const formFieldGroups = fieldGroups.reduce((formWithFieldGroups: IOPFormlyFieldConfig[], fieldGroup) => {
+    const formFieldGroups = fieldGroups.reduce((formWithFieldGroups: IOPFormlyFieldSettings[], fieldGroup) => {
       const newFormFieldGroup = {
         wrappers: ['op-dynamic-field-group-wrapper'],
         fieldGroupClassName: 'op-form--field-group',

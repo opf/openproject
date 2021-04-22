@@ -11,7 +11,7 @@ import { FormlyForm } from "@ngx-formly/core";
 import { DynamicFormService } from "../../services/dynamic-form/dynamic-form.service";
 import {
   IOPDynamicFormSettings,
-  IOPFormlyFieldConfig,
+  IOPFormlyFieldSettings,
 } from "../../typings";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
@@ -39,7 +39,7 @@ import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mi
 * - FormControl:
 * The DynamicFormComponent can be used inside a FormGroup as a FormControl:
 *
-*   <op-dynamic-form  formControlName="workpackage" [settings]="formConfig">
+*   <op-dynamic-form  formControlName="workpackage" [settings]="formSettings">
 *   </op-dynamic-form>
 *
 * In this case, we need to provide the 'settings' @Input, which is basically an
@@ -70,9 +70,12 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
   @Input() resourceId:string;
   @Input() resourcePath:string;
   @Input() settings:{
-    payload: IOPFormSettings['_embedded']['payload'],
-    schema: IOPFormSettings['_embedded']['schema'],
+    payload: IOPFormModel,
+    schema: IOPFormSchema,
+    [nonUsedSchemaKeys:string]:any,
   };
+  // Chance to modify the dynamicFormFields settings before the form is rendered
+  @Input() fieldsSettingsPipe: (dynamicFieldsSettings:IOPFormlyFieldSettings[]) => IOPFormlyFieldSettings[];
   @Input() showNotifications = true;
 
   @Output() modelChange = new EventEmitter<IOPFormModel>();
@@ -80,7 +83,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
   @Output() errored = new EventEmitter<IOPFormError>();
 
   isStandaloneForm:boolean;
-  fields: IOPFormlyFieldConfig[];
+  fields: IOPFormlyFieldSettings[];
   model: IOPFormModel;
   form: FormGroup;
   resourceEndpoint:string;
@@ -195,7 +198,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
 
   private _setupDynamicForm({fields, model, form}:IOPDynamicFormSettings) {
     this.form = form;
-    this.fields = fields;
+    this.fields = this.fieldsSettingsPipe ? this.fieldsSettingsPipe(fields) : fields;
     this.model = model;
 
     if (!this.isStandaloneForm) {
