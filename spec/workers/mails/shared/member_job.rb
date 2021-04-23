@@ -125,8 +125,20 @@ shared_examples 'member job' do
       end
     end
 
-    context 'with sending disabled', with_settings: { notified_events: [] } do
+    context 'with sending disabled and no message', with_settings: { notified_events: [] } do
+      let(:message) { '' }
+
       it_behaves_like 'sends no mail'
+    end
+
+    context 'with sending disabled and a message', with_settings: { notified_events: [] } do
+      it 'sends mail' do
+        run_job
+
+        expect(MemberMailer)
+          .to have_received(:updated_global)
+                .with(current_user, member, message)
+      end
     end
   end
 
@@ -141,8 +153,20 @@ shared_examples 'member job' do
       end
     end
 
-    context 'with sending disabled', with_settings: { notified_events: [] } do
+    context 'with sending disabled and no message', with_settings: { notified_events: [] } do
+      let(:message) { '' }
+
       it_behaves_like 'sends no mail'
+    end
+
+    context 'with sending disabled and a message', with_settings: { notified_events: [] } do
+      it 'sends mail' do
+        run_job
+
+        expect(MemberMailer)
+          .to have_received(user_project_mail_method)
+                .with(current_user, member, message)
+      end
     end
   end
 end

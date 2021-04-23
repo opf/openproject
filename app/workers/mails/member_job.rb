@@ -53,27 +53,27 @@ class Mails::MemberJob < ApplicationJob
     raise NotImplementedError, "subclass responsibility"
   end
 
-  def send_updated_global(...)
-    return if sending_disabled?(:updated)
+  def send_updated_global(current_user, member, member_message)
+    return if sending_disabled?(:updated, member_message)
 
     MemberMailer
-      .updated_global(...)
+      .updated_global(current_user, member, member_message)
       .deliver_now
   end
 
-  def send_added_project(...)
-    return if sending_disabled?(:added)
+  def send_added_project(current_user, member, member_message)
+    return if sending_disabled?(:added, member_message)
 
     MemberMailer
-      .added_project(...)
+      .added_project(current_user, member, member_message)
       .deliver_now
   end
 
-  def send_updated_project(...)
-    return if sending_disabled?(:updated)
+  def send_updated_project(current_user, member, member_message)
+    return if sending_disabled?(:updated, member_message)
 
     MemberMailer
-      .updated_project(...)
+      .updated_project(current_user, member, member_message)
       .deliver_now
   end
 
@@ -85,9 +85,7 @@ class Mails::MemberJob < ApplicationJob
       .each(&block)
   end
 
-  # TODO: pass in message to see if it is defined. If it is, always send the notification
-  # even if the setting is disabled
-  def sending_disabled?(setting)
-    !Setting.notified_events.include?("membership_#{setting}")
+  def sending_disabled?(setting, message)
+    message.blank? && !Setting.notified_events.include?("membership_#{setting}")
   end
 end
