@@ -976,6 +976,7 @@ tr:
         required: 'Lütfen bir proje seçin'
         next_button: 'Sonraki'
         no_results: 'Hiç proje bulunamadı'
+        no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: 'Lütfen davet edilecek türü seçin'
         user:

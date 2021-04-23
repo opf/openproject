@@ -225,6 +225,7 @@ hu:
     index:
       no_results_title_text: Jelenleg egy tagja sincs a projektnek.
       no_results_content_text: Tag hozzáadása a projekthez
+    invite_by_mail: "Send invite to %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Hozzáférési token helyreállítása sikertelen: %{error}"

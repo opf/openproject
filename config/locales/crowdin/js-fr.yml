@@ -976,6 +976,7 @@ fr:
         required: 'Veuillez sélectionner un projet'
         next_button: 'Suivante'
         no_results: 'Aucun projet trouvé'
+        no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: 'Veuillez sélectionner le type d''invité'
         user:

@@ -979,6 +979,7 @@ ru:
         required: 'Пожалуйста, выберите проект'
         next_button: 'Следующие'
         no_results: 'Проекты не найдены'
+        no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: 'Пожалуйста, выберите тип для приглашения'
         user:

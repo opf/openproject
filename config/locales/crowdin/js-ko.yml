@@ -974,6 +974,7 @@ ko:
         required: 'Please select a project'
         next_button: '다음'
         no_results: 'No projects were found'
+        no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: 'Please select the type to be invited'
         user:

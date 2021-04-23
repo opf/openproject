@@ -226,6 +226,7 @@ sk:
     index:
       no_results_title_text: Tento projekt nemá momentálne pridelených žiadnych členov.
       no_results_content_text: Pridať člena do projektu
+    invite_by_mail: "Send invite to %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Nepodarilo sa obnoviť prístupový token: %{error}"

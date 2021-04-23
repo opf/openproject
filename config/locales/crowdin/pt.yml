@@ -225,6 +225,7 @@ pt:
     index:
       no_results_title_text: Atualmente, não há membros deste projeto.
       no_results_content_text: Adicionar um membro ao projeto
+    invite_by_mail: "Send invite to %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Falha ao redefinir o token de acesso: %{error}"

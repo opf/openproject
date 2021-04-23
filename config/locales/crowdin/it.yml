@@ -223,6 +223,7 @@ it:
     index:
       no_results_title_text: Al momento non vi sono partecipanti a questo progetto.
       no_results_content_text: Aggiungi un membro al progetto
+    invite_by_mail: "Send invite to %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Impossibile reimpostare il token di accesso: %{error}"

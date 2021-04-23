@@ -223,6 +223,7 @@ lt:
     index:
       no_results_title_text: Nėra nė vieno šio projekto dalyvio.
       no_results_content_text: Įtraukti narį į projektą
+    invite_by_mail: "Send invite to %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Atpažinimo rakto nepavyko nustatyti iš naujo: %{error}"

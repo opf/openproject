@@ -975,6 +975,7 @@ el:
         required: 'Παρακαλώ επιλέξτε ένα έργο'
         next_button: 'Επόμενο'
         no_results: 'Δεν βρέθηκαν έργα'
+        no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: 'Παρακαλώ επιλέξτε τον τύπο που θα προσκληθεί'
         user:

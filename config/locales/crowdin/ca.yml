@@ -226,6 +226,7 @@ ca:
     index:
       no_results_title_text: Actualment no hi ha cap membre que formi part d'aquest projecte.
       no_results_content_text: Afegeix un membre al projecte
+    invite_by_mail: "Send invite to %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Failed to reset access token: %{error}"

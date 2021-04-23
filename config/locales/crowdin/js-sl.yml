@@ -979,6 +979,7 @@ sl:
         required: 'Prosim izberi projekt'
         next_button: 'Naprej'
         no_results: 'Nobeni projekti niso bili najdeni'
+        no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: 'Prosim izberi tip za povabilo'
         user:

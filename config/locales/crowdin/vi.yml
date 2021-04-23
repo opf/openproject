@@ -228,6 +228,7 @@ vi:
     index:
       no_results_title_text: Hiện có không có thành viên của dự án này.
       no_results_content_text: Thêm một thành viên vào dự án
+    invite_by_mail: "Send invite to %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Lỗi cập nhật mã truy cập: %{error}"

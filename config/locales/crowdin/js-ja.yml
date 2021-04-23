@@ -979,6 +979,7 @@ ja:
         required: 'プロジェクトを選択してください'
         next_button: '次へ'
         no_results: 'プロジェクトが見つかりませんでした'
+        no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: '招待するタイプを選択してください '
         user:

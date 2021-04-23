@@ -226,6 +226,7 @@ ko:
     index:
       no_results_title_text: 프로젝트에 멤버 파트가 없습니다.
       no_results_content_text: 프로젝트에 새 멤버 추가
+    invite_by_mail: "Send invite to %{mail}"
   my:
     access_token:
       failed_to_reset_token: "액세스 토큰을 재설정하지 못함: %{error}"

@@ -223,6 +223,7 @@ pl:
     index:
       no_results_title_text: Nie ma jeszcze żadnych członków projektu.
       no_results_content_text: Dodaj członka projektu
+    invite_by_mail: "Send invite to %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Nie można zresetować tokena dostępu: %{error}"

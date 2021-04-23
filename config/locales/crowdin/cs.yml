@@ -226,6 +226,7 @@ cs:
     index:
       no_results_title_text: Momentálně nejsou žádní členové součástí tohoto projektu.
       no_results_content_text: Přidání člena do projektu
+    invite_by_mail: "Send invite to %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Nepodařilo se obnovit přístupový token: %{error}"

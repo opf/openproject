@@ -975,6 +975,7 @@ da:
         required: 'Vælg et projekt'
         next_button: 'Næste'
         no_results: 'Ingen projekter blev fundet'
+        no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: 'Vælg venligst den type, der skal inviteres'
         user:
