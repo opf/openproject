@@ -59,16 +59,9 @@ class Admin::BackupsController < ApplicationController
   def perform_token_reset
     token = create_backup_token user: current_user
 
-    notify_user_and_admins current_user, backup_token: token
-
-    flash[:warning] = [
-      t('my.access_token.notice_reset_token', type: 'Backup').html_safe,
-      content_tag(:strong, token.plain_value),
-      t('my.access_token.token_value_warning')
-    ]
+    token_reset_successful! token
   rescue StandardError => e
-    Rails.logger.error "Failed to reset user ##{current_user.id}'s Backup key: #{e}"
-    flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
+    token_reset_failed! e
   ensure
     redirect_to action: 'show'
   end
@@ -94,6 +87,26 @@ class Admin::BackupsController < ApplicationController
   end
 
   private
+
+  def token_reset_successful!(token)
+    notify_user_and_admins current_user, backup_token: token
+
+    flash[:warning] = token_reset_flash_message token
+  end
+
+  def token_reset_flash_message(token)
+    [
+      t('my.access_token.notice_reset_token', type: 'Backup').html_safe,
+      content_tag(:strong, token.plain_value),
+      t('my.access_token.token_value_warning')
+    ]
+  end
+
+  def token_reset_failed!(e)
+    Rails.logger.error "Failed to reset user ##{current_user.id}'s Backup key: #{e}"
+
+    flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
+  end
 
   def may_include_attachments?
     Backup.include_attachments? && Backup.attachments_size_in_bounds?

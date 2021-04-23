@@ -47,23 +47,8 @@ class BackupJob < ::ApplicationJob
     @include_attachments = include_attachments
     @attachment_size_max_sum_mb = attachment_size_max_sum_mb
 
-    db_dump_file_name = tmp_file_name "openproject", ".sql"
-    archive_file_name = tmp_file_name "openproject-backup", ".zip"
-    dumped = dump_database! db_dump_file_name # sets error on failure
-
-    return unless dumped
-
-    archive_file_name = create_backup_archive!(
-      file_name: archive_file_name,
-      db_dump_file_name: db_dump_file_name
-    )
-
-    store_backup archive_file_name, backup: backup, user: user
-
-    cleanup_previous_backups!
-
-    UserMailer.backup_ready(user).deliver_later
-  rescue => e
+    run_backup!
+  rescue StandardError => e
     failure! error: e.message
 
     raise e
@@ -75,8 +60,40 @@ class BackupJob < ::ApplicationJob
     Rails.logger.info(
       "BackupJob(include_attachments: #{include_attachments}) finished " \
       "with status #{job_status.status} " \
-      "(dumped: #{dumped}, archived: #{archive_file_name.present?})"
+      "(dumped: #{dumped?}, archived: #{archived?})"
     )
+  end
+
+  def run_backup!
+    @dumped = dump_database! db_dump_file_name # sets error on failure
+
+    return unless dumped?
+
+    file_name = create_backup_archive!(
+      file_name: archive_file_name,
+      db_dump_file_name: db_dump_file_name
+    )
+
+    store_backup file_name, backup: backup, user: user
+    cleanup_previous_backups!
+
+    UserMailer.backup_ready(user).deliver_later
+  end
+
+  def dumped?
+    @dumped
+  end
+
+  def archived?
+    @archived
+  end
+
+  def db_dump_file_name
+    @db_dump_file_name ||= tmp_file_name "openproject", ".sql"
+  end
+
+  def archive_file_name
+    @archive_file_name ||= tmp_file_name "openproject-backup", ".zip"
   end
 
   def status_reference
@@ -118,8 +135,6 @@ class BackupJob < ::ApplicationJob
   end
 
   def create_backup_archive!(file_name:, db_dump_file_name:, attachments: attachments_to_include)
-    prefix = file_name.sub "/" + Pathname(file_name).basename.to_s, ""
-
     Zip::File.open(file_name, Zip::File::CREATE) do |zipfile|
       attachments.each do |attachment|
         path = attachment.diskfile.path
@@ -130,18 +145,23 @@ class BackupJob < ::ApplicationJob
       zipfile.get_output_stream("openproject.sql") { |f| f.write File.read(db_dump_file_name) }
     end
 
+    @archived = true
+
     file_name
   end
 
   def attachments_to_include
-    return Attachment.none unless include_attachments? &&
-      Backup.attachments_size_in_bounds?(max: attachment_size_max_sum_mb)
+    return Attachment.none if skip_attachments?
 
     Backup.attachments_query
   end
 
+  def skip_attachments?
+    !(include_attachments? && Backup.attachments_size_in_bounds?(max: attachment_size_max_sum_mb))
+  end
+
   def date_tag
-    Date.today.iso8601
+    Time.zone.today.iso8601
   end
 
   def tmp_file_name(name, ext)

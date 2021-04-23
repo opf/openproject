@@ -44,8 +44,10 @@ module BackupHelper
   def allow_instant_backup_for_user?(user, date: instant_backup_threshold_date)
     return true if just_installed_openproject? after: date
 
-    !user.uses_external_authentication? && # user doesn't use OpenIDConnect (so can be asked to confirm their password)
-      (user.passwords.empty? || user.passwords.first.updated_at < date) # user cannot change password in OP (LDAP) or hasn't changed it recently
+    # user doesn't use OpenIDConnect (so can be asked to confirm their password)
+    !user.uses_external_authentication? &&
+      # user cannot change password in OP (LDAP) or hasn't changed it recently
+      (user.passwords.empty? || user.passwords.first.updated_at < date)
   end
 
   def instant_backup_threshold_date
@@ -53,7 +55,7 @@ module BackupHelper
   end
 
   def just_installed_openproject?(after: instant_backup_threshold_date)
-    created_at = Project.order(created_at: :asc).limit(1).pluck(:created_at).first
+    created_at = Project.order(created_at: :asc).limit(1).pick(:created_at)
 
     created_at && created_at >= after
   end

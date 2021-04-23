@@ -59,7 +59,7 @@ module API
 
             if call.failure?
               errors = call.errors.errors
-              
+
               if err = errors.find { |e| e.type == :invalid_token || e.type == :token_cooldown }
                 fail ::API::Errors::Unauthorized, message: err.full_message
               elsif err = errors.find { |e| e.type == :backup_pending }

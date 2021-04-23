@@ -6,7 +6,7 @@ class Backup < Export
 
     def include_attachments?
       val = OpenProject::Configuration.backup_include_attachments
-      
+
       val.nil? ? true : val.to_s.to_bool # default to true
     end
 
