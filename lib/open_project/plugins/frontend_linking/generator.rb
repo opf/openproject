@@ -58,7 +58,7 @@ module ::OpenProject::Plugins
       # Register plugins with an Angular frontend to the CLI build.
       # For that, search all gems with the group :opf_plugins
       def regenerate_angular_links
-        all_angular_frontend_plugins.tap do |plugins|
+        all_frontend_plugins.tap do |plugins|
           target_dir = Rails.root.join('frontend', 'src', 'app', 'modules', 'plugins', 'linked')
           puts "Cleaning linked target directory #{target_dir}"
 
@@ -74,7 +74,15 @@ module ::OpenProject::Plugins
             FileUtils.ln_sf(source, target)
           end
 
-          generate_plugin_module(plugins)
+          generate_plugin_module(all_angular_frontend_plugins)
+          generate_plugin_sass(all_plugins_with_global_styles)
+        end
+      end
+
+      def all_frontend_plugins
+        openproject_plugins.select do |_, path|
+          frontend_entry = File.join(path, 'frontend', 'module')
+          File.directory? frontend_entry
         end
       end
 
@@ -82,6 +90,13 @@ module ::OpenProject::Plugins
         openproject_plugins.select do |_, path|
           frontend_entry = File.join(path, 'frontend', 'module', 'main.ts')
           File.readable? frontend_entry
+        end
+      end
+
+      def all_plugins_with_global_styles
+        openproject_plugins.select do |_, path|
+          style_file = File.join(path, 'frontend', 'module', 'global_styles.*')
+          !Dir.glob(style_file).empty?
         end
       end
 
@@ -93,6 +108,19 @@ module ::OpenProject::Plugins
         template = ::ERB.new template_file, trim_mode: '-'
 
         puts "Regenerating frontend plugin registry #{file_register}."
+        context = ::OpenProject::Plugins::FrontendLinking::ErbContext.new plugins
+        result = template.result(context.get_binding)
+        File.open(file_register, 'w') { |file| file.write(result) }
+      end
+
+      ##
+      # Regenerate the frontend plugin sass files
+      def generate_plugin_sass(plugins)
+        file_register = Rails.root.join('frontend', 'src', 'app', 'modules', 'plugins', 'linked-plugins.styles.sass')
+        template_file = File.read(File.expand_path('linked-plugins.styles.sass.erb', __dir__))
+        template = ::ERB.new template_file, trim_mode: '-'
+
+        puts "Regenerating frontend plugin sass #{file_register}."
         context = ::OpenProject::Plugins::FrontendLinking::ErbContext.new plugins
         result = template.result(context.get_binding)
         File.open(file_register, 'w') { |file| file.write(result) }
