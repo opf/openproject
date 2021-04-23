@@ -41,7 +41,6 @@ export const backupSelector = 'backup';
 @Component({
   selector: backupSelector,
   templateUrl: './backup.component.html',
-  styleUrls: ['./backup.component.sass']
 })
 export class BackupComponent implements AfterViewInit {
   public text = {
