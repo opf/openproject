@@ -207,7 +207,7 @@ tr:
         upsale:
           become_hero: "Kahraman olun!"
           benefits:
-            description: "Avantajı nedir?"
+            description: "Enterprise on-premises Edition'ın avantajları nelerdir?"
             high_security: "Güvenlik özellikleri"
             high_security_text: "Tek oturum açma (SAML, OpenID Connect, CAS), iki faktörlü kimlik doğrulama ve LDAP gruplarının otomatik senkronizasyonu."
             installation: "Kurulum desteği"
@@ -273,11 +273,11 @@ tr:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              Sürüm, çeşitli yeni özellikler ve iyileştirmeler içerir: <br> <ul class = "%{list_styling_class}"> <li> Yeni bir <b> yer tutucu kullanıcılar </b> kavramı (premium özellik), e-posta olmadan ön kullanıcıların eklenmesine olanak tanır OpenProject adresine ve bu kaynaklara görev atamak için. </li> <li> İş paketi <b> filtreleri bir üst seçenek tarafından genişletilir </b>, tüm doğrudan alt öğeleri ve <b> ID'ye göre < / b> listeye yalnızca bu tam iş paketlerini dahil etmek veya hariç tutmak için. </li> <li> Kullanıcı yönetimi, yönetici olmayanlara <b> yeni bir genel rol </b> ile dağıtılır ve yönetme ve davet etme tam yönetici ayrıcalıklarına sahip olmayan kullanıcılar. </li> <li> Diğer kullanıcı arayüzü ve kullanıcı deneyimi iyileştirmeleri, yani maliyet raporlama gezinmesini uyumlu hale getirmek, iş paketi listesinde toplam ve grup satırlarının arka plan renklerini uyarlamak, bir grup şov sayfası eklemek. </li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              Sürüm, çeşitli yeni özellikler ve iyileştirmeler içerir: <br> <ul class = "%{list_styling_class}"> <li> Yeni bir <b> yer tutucu kullanıcılar </b> kavramı (premium özellik), e-posta olmadan ön kullanıcıların eklenmesine olanak tanır OpenProject adresine ve bu kaynaklara görev atamak için. </li> <li> İş paketi <b> filtreleri bir üst seçenek tarafından genişletilir </b>, tüm doğrudan alt öğeleri ve <b> ID'ye göre < / b> listeye yalnızca bu tam iş paketlerini dahil etmek veya hariç tutmak için. </li> <li> Kullanıcı yönetimi, yönetici olmayanlara <b> yeni bir genel rol </b> ile dağıtılır ve yönetme ve davet etme tam yönetici ayrıcalıklarına sahip olmayan kullanıcılar. </li> <li> Diğer kullanıcı arayüzü ve kullanıcı deneyimi iyileştirmeleri, yani maliyet raporlama gezinmesini uyumlu hale getirmek, iş paketi listesinde toplam ve grup satırlarının arka plan renklerini uyarlamak, bir grup şov sayfası eklemek. </li> </ul>
     label_activate: "Etkinleştir"
     label_add_column_after: "Sonrasına sütun ekle"
     label_add_column_before: "Öncesine sütun ekle"
@@ -517,7 +517,7 @@ tr:
         reset_title: "Form ayarlarlarını sıfırlayın"
         confirm_reset: >
           Uyarı: Form yapılandırmasını sıfırlamak istediğinizden emin misiniz? Bu, nitelikleri varsayılan gruplarına sıfırlar ve TÜM özel alanları devre dışı bırakır.
-        upgrade_to_ee: "Enterprise Edition sürümüne yükseltme"
+        upgrade_to_ee: "Enterprise on-premises Edition'a yükseltin"
         upgrade_to_ee_text: "Vay canına! Eğer bu özelliğe ihtiyaç duyuyorsanız süper bir profesyonelsiniz! Açık Kaynak kodu desteklemeyi düşünüyorseniz bizim geliştiricilerimize katkı sağlamak için Enterprise sürüm müşterimiz olur musunuz?"
         more_information: "Daha fazla bilgi"
         nevermind: "Boşver"
@@ -940,9 +940,9 @@ tr:
         one: "bir alt iş paketi"
         other: "%{count} alt iş paketi"
       hour:
+        one: "1 saat"
+        other: "%{count} saat"
         zero: "0 s"
-        one: ""
-        other: ""
     zen_mode:
       button_activate: 'Zen modunu etkinleştir'
       button_deactivate: 'Zen modunu devre dışı bırak'

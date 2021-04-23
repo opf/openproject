@@ -22,7 +22,7 @@
 el:
   button_save_as: "Αποθήκευση αναφοράς ως..."
   comments: "Σχόλιο"
-  cost_reports_title: "Time and costs"
+  cost_reports_title: "Χρόνος και κόστος"
   label_cost_report: "Αναφορά κόστους"
   label_cost_report_plural: "Αναφορές κόστους"
   description_drill_down: "Εμφάνιση λεπτομερειών"
@@ -69,7 +69,7 @@ el:
   label_inactive: "«αδρανές»"
   label_no: "Όχι"
   label_none: "(δεν υπάρχουν δεδομένα)"
-  label_no_reports: "There are no cost reports yet."
+  label_no_reports: "Δεν υπάρχουν ακόμη αναφορές κόστους."
   label_report: "Αναφορά"
   label_yes: "Ναι"
   load_query_question: "Η αναφορά θα έχει %{size} κελιά πίνακα και μπορεί να πάρει κάποιο χρόνο για να γίνει. Θέλετε ακόμα να δοκιμάσετε την απόδοση;"

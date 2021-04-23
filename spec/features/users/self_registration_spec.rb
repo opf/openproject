@@ -29,7 +29,8 @@
 require 'spec_helper'
 
 describe 'user self registration', type: :feature, js: true do
-  let(:admin) { FactoryBot.create :admin, password: 'Test123Test123', password_confirmation: 'Test123Test123' }
+  let(:admin_password) { 'Test123Test123' }
+  let(:admin) { FactoryBot.create :admin, password: admin_password, password_confirmation: admin_password }
   let(:home_page) { Pages::Home.new }
 
   context 'with "manual account activation"',
@@ -104,7 +105,7 @@ describe 'user self registration', type: :feature, js: true do
         .to have_content I18n.t(:'account.error_inactive_manual_activation')
 
       # activation as admin
-      login_with admin.login, admin.password
+      login_with admin.login, admin_password
 
       user_page = Pages::Admin::Users::Edit.new(registered_user.id)
 

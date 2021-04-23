@@ -15,10 +15,8 @@ pl:
       file_invalid: "Nieprawidłowy plik BCF"
     x_bcf_issues:
       zero: 'Brak problemów BCF'
-      one: ''
-      few: ''
-      many: ''
-      other: ''
+      one: 'Jeden problem BCF'
+      other: 'Liczba problemów BCF: %{count}'
     bcf_xml:
       xml_file: 'Plik BCF-XML'
       import_title: 'Importuj'
@@ -103,7 +101,7 @@ pl:
           snapshot_data_blank: "snapshot_data musi zostać podany."
           unsupported_key: "Dodana jest nieobsługiwana właściwość JSON."
         bim/bcf/issue:
-          uuid_already_taken: "Nie można zaimportować problemu BCF, ponieważ istnieje już inny z tym samym identyfikatorem GUID. Być może ten BCF został już zaimportowany do innego projektu ? "
+          uuid_already_taken: "Nie można zaimportować tego problemu BCF, ponieważ istnieje już inny z tym samym GUID. Czy ten problem BCF mógł być już zaimportowany do innego projektu?"
   ifc_models:
     label_ifc_models: 'Modele IFC'
     label_new_ifc_model: 'Nowy model IFC'

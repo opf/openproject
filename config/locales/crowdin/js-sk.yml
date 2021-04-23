@@ -42,7 +42,7 @@ sk:
     button_back_to_list_view: "Späť na zobrazenie zoznamu"
     button_cancel: "Zrušíť"
     button_close: "Zatvoriť"
-    button_change_project: "Change project"
+    button_change_project: "Zmeniť projekt"
     button_check_all: "Označiť všetko"
     button_configure-form: "Konfigurácia formulára"
     button_confirm: "Potvrdiť"
@@ -207,7 +207,7 @@ sk:
         upsale:
           become_hero: "Staň sa hrdinom!"
           benefits:
-            description: "Aké sú výhody?"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Security features"
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
             installation: "Installation support"
@@ -380,7 +380,7 @@ sk:
     label_project_plural: "Projekty"
     label_visibility_settings: "Nastavenia viditeľnosti"
     label_quote_comment: "Citovať tento komentár"
-    label_recent: "Recent"
+    label_recent: "Nedávne"
     label_reset: "Vynulovať"
     label_remove_column: "Odstrániť stĺpec"
     label_remove_columns: "Odstrániť vybraté stĺpce"
@@ -454,7 +454,7 @@ sk:
     label_upload_counter: "%{done} z %{count} súborov hotové"
     label_validation_error: "Pracovný balík sa nepodarilo uložiť z nasledujúcich chýb:"
     label_version_plural: "Verzie"
-    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    label_view_has_changed: "V tomto náhľade sú neuložené zmeny. Klikni pre uloženie."
     help_texts:
       show_modal: 'Zobraziť nápovedu pre tento atribút'
     onboarding:
@@ -517,7 +517,7 @@ sk:
         reset_title: "Obnoviť konfiguráciu formulára"
         confirm_reset: >
           Upozornenie: Naozaj chcete resetovať konfiguráciu formulára? Týmto sa obnovia atribúty na ich predvolenú skupinu a vypnú sa VŠETKY vlastné polia.
-        upgrade_to_ee: "Upgrade na Enterprise Edition"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
         upgrade_to_ee_text: "Wow! Ak potrebujete túto funkciu, ste super profesionál! Mohli by ste podporiť vývojárov Open Source tým, že sa staneme klientom Enterprise Edition?"
         more_information: "Viac informácií"
         nevermind: "Nie ďakujem"
@@ -842,7 +842,7 @@ sk:
           type: 'Typ'
         sorting_mode:
           description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
+          automatic: 'Automaticky'
           manually: 'Manually'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
         columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
@@ -944,11 +944,9 @@ sk:
         many: "%{count} podradených pracovných balíčkov"
         other: "%{count} podradených pracovných balíčkov"
       hour:
+        one: "1 h"
+        other: "%{count} h"
         zero: "0 h"
-        one: ""
-        few: ""
-        many: ""
-        other: ""
     zen_mode:
       button_activate: 'Aktivovať zen režim'
       button_deactivate: 'Deaktivovať zen režim'
@@ -963,6 +961,6 @@ sk:
         project_and_subprojects: "a všetky podprojekty"
         search_for: "Hľadať"
     views:
-      card: 'Cards'
+      card: 'Karty'
       list: 'Table'
       timeline: 'Ganttov graf'
