@@ -35,6 +35,7 @@ shared_examples 'BaseServices create service' do
   let(:namespace) { service_class.to_s.deconstantize }
   let(:model_class) { namespace.singularize.constantize }
   let(:contract_class) { "#{namespace}::CreateContract".constantize }
+  let(:contract_options) { {} }
   let(:factory) { namespace.singularize.underscore }
 
   let(:set_attributes_class) { "#{namespace}::SetAttributesService".constantize }
@@ -64,7 +65,7 @@ shared_examples 'BaseServices create service' do
       .with(user: user,
             model: model_instance,
             contract_class: contract_class,
-            contract_options: {})
+            contract_options: contract_options)
       .and_return(service)
 
     allow(service)
