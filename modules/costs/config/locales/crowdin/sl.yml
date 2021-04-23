@@ -24,7 +24,7 @@ sl:
     attributes:
       cost_entry:
         work_package: "Zahtevek"
-        overridden_costs: "Vsiljeni stroški "
+        overridden_costs: "Povoženi stroški "
         spent: "Porabljeno"
         spent_on: "Datum"
       cost_type:

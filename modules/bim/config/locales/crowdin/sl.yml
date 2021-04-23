@@ -26,7 +26,7 @@ sl:
       import_failed_unsupported_bcf_version: 'Datoteke BCF ni bilo mogoče prebrati: Različica BCF ni podprta. Prepričajte se, da je različica vsaj %{minimal_version} ali višja.'
       import_successful: 'Uvožene %{count} težave BCF'
       import_canceled: "BCF-XML uvoz preklican\n"
-      type_not_active: "Vrsta težave za ta projekt ni aktivirana"
+      type_not_active: "Vrsta zahtevka za ta projekt ni aktivirana"
       import:
         num_issues_found: '%{x_bcf_issues} vsebujejo datoteko BCF-XML, njihove podrobnosti so navedene spodaj.'
         button_prepare: 'Pripravi uvoz'
@@ -42,7 +42,7 @@ sl:
         invalid_priorities_found: 'Najdena so neveljavna imena prioritet'
         invalid_emails_found: 'Najdeni so neveljavni e-poštni naslovi'
         unknown_emails_found: 'Najdeni so neznani e-poštni naslovi'
-        unknown_property: 'Neznana lastnina'
+        unknown_property: 'Neznana lastnost'
         non_members_found: 'Ni najdenih članov projekta'
         import_types_as: 'Nastavite vse te vrste na'
         import_statuses_as: 'Nastavite vsa ta stanja na'
