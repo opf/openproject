@@ -53,24 +53,24 @@ class Admin::BackupsController < ApplicationController
   end
 
   def reset_token
-    if request.post?
-      token = create_backup_token user: current_user
+    @backup_token = Token::Backup.find_by user: current_user
+  end
 
-      notify_user_and_admins current_user, backup_token: token
+  def perform_token_reset
+    token = create_backup_token user: current_user
 
-      flash[:warning] = [
-        t('my.access_token.notice_reset_token', type: 'Backup').html_safe,
-        content_tag(:strong, token.plain_value),
-        t('my.access_token.token_value_warning')
-      ]
-    else
-      @backup_token = Token::Backup.find_by user: current_user
-    end
+    notify_user_and_admins current_user, backup_token: token
+
+    flash[:warning] = [
+      t('my.access_token.notice_reset_token', type: 'Backup').html_safe,
+      content_tag(:strong, token.plain_value),
+      t('my.access_token.token_value_warning')
+    ]
   rescue StandardError => e
     Rails.logger.error "Failed to reset user ##{current_user.id}'s Backup key: #{e}"
     flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
   ensure
-    redirect_to action: 'show' if request.post?
+    redirect_to action: 'show'
   end
 
   def delete_token

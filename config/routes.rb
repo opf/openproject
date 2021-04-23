@@ -411,7 +411,7 @@ OpenProject::Application.routes.draw do
     resource :backups, controller: '/admin/backups', only: %i[show] do
       collection do
         get :reset_token
-        post :reset_token
+        post :reset_token, action: :perform_token_reset
 
         post :delete_token
       end

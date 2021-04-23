@@ -75,7 +75,7 @@ module BackupHelper
     users = ([user] + User.admin.active).uniq
 
     users.each do |recipient|
-      UserMailer.backup_token_reset(recipient, user: user, cooldown: cooldown).deliver_later
+      UserMailer.backup_token_reset(recipient, user: user, waiting_period: waiting_period).deliver_later
     end
   end
 end
