@@ -280,6 +280,7 @@ describe('DynamicFormComponent', () => {
   beforeEach(async () => {
     const notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', ['addError', 'addSuccess']);
     const dynamicFormServiceSpy = jasmine.createSpyObj('DynamicFormService', ['getSettings', 'getSettingsFromBackend$', 'registerForm', 'submit$']);
+
     await TestBed
       .configureTestingModule({
         imports: [

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { Component, ViewChild } from "@angular/core";
-import { FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { Component, forwardRef, ViewChild } from "@angular/core";
+import { FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { TextInputComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/text-input/text-input.component";
 import { IntegerInputComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/integer-input/integer-input.component";
@@ -16,8 +16,13 @@ import { IOPFormlyFieldSettings } from "core-app/modules/common/dynamic-forms/ty
 import { FormlyField } from "@ngx-formly/core";
 import { OpFormFieldComponent } from "core-app/modules/common/form-field/form-field.component";
 import { By } from "@angular/platform-browser";
-export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], model:any, providers?:any[]): ComponentFixture<any> {
+import { FormattableControlComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.component";
+import { OpCkeditorComponent } from "core-app/modules/common/ckeditor/op-ckeditor.component";
+import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
+import { CKEditorSetupService } from "core-app/modules/common/ckeditor/ckeditor-setup.service";
+import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 
+export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], model:any, providers?:any[]): ComponentFixture<any> {
   @Component({
     template:`
       <form [formGroup]="form">
@@ -46,6 +51,8 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
 
     @ViewChild(FormlyField) dynamicControl:FormlyField;
   }
+
+  const notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', ['addError', 'addSuccess']);
 
   TestBed
     .configureTestingModule({
@@ -78,11 +85,33 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
         BooleanInputComponent,
         OpFormFieldComponent,
         DateInputComponent,
+        OpCkeditorComponent,
+        FormattableControlComponent,
         FormattableTextareaInputComponent,
         DynamicInputsTestingComponent,
       ],
       providers: []
     })
+    .overrideComponent(
+      FormattableControlComponent,
+      {
+        set: {
+          providers: [
+            CKEditorSetupService,
+            { provide: NotificationsService, useValue: notificationsServiceSpy },
+            {
+              provide: NG_VALUE_ACCESSOR,
+              multi: true,
+              useExisting: forwardRef(() => FormattableControlComponent),
+            },
+            {
+              provide: ConfigurationService,
+              useValue: {}
+            },
+          ]
+        }
+      }
+    )
 
   TestBed.compileComponents();
 
