@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'backup', type: :feature, js: true do
   let(:current_user) { FactoryBot.create :admin }
-  let!(:backup_token) { FactoryBot.create :backup_token }
+  let!(:backup_token) { FactoryBot.create :backup_token, user: current_user }
 
   before do
     @download_list = DownloadList.new
@@ -66,6 +66,7 @@ describe 'backup', type: :feature, js: true do
     it "shows the error" do
       visit "/admin/backups"
 
+      fill_in 'backupToken', with: "foobar"
       click_on "Request backup"
 
       expect(page).to have_content I18n.t("backup.error.invalid_token")
