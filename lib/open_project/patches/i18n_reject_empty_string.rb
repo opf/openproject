@@ -25,7 +25,6 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require 'open_project/patches'
 
 module OpenProject
   module Patches

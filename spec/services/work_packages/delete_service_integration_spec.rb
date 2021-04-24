@@ -29,21 +29,16 @@
 require 'spec_helper'
 
 describe WorkPackages::DeleteService, 'integration', type: :model do
-  let(:user) do
+  shared_let(:project) { FactoryBot.create(:project) }
+  shared_let(:role) do
+    FactoryBot.create(:role,
+                      permissions: %i[delete_work_packages view_work_packages add_work_packages manage_subtasks])
+  end
+  shared_let(:user) do
     FactoryBot.create(:user,
                       member_in_project: project,
                       member_through_role: role)
   end
-  let(:role) do
-    FactoryBot.create(:role,
-                      permissions: permissions)
-  end
-
-  let(:permissions) do
-    %i(delete_work_packages view_work_packages add_work_packages manage_subtasks)
-  end
-
-  let(:project) { FactoryBot.create(:project) }
 
   describe 'deleting a child with estimated_hours set' do
     let(:parent) { FactoryBot.create(:work_package, project: project) }
@@ -76,6 +71,25 @@ describe WorkPackages::DeleteService, 'integration', type: :model do
       parent.reload
 
       expect(parent.estimated_hours).to eq(nil)
+    end
+  end
+
+  describe 'with a stale work package reference' do
+    let!(:work_package) { FactoryBot.create :work_package, project: project }
+
+    let(:instance) do
+      described_class.new(user: user,
+                          model: work_package)
+    end
+
+    subject { instance.call }
+
+    it 'still destroys it' do
+      # Cause lock version changes
+      WorkPackage.where(id: work_package.id).update_all(lock_version: work_package.lock_version + 1)
+
+      expect(subject).to be_success
+      expect { work_package.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end
