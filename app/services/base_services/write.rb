@@ -59,7 +59,7 @@ module BaseServices
              model: instance(params),
              contract_class: contract_class,
              contract_options: contract_options)
-        .call(**set_attributes_params(params))
+        .call(set_attributes_params(params))
     end
 
     def attributes_service_class
