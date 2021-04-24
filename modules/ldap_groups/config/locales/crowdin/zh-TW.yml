@@ -30,8 +30,9 @@ zh-TW:
       singular: 'LDAP群組同步篩選'
       plural: 'LDAP群組同步篩選'
       label_n_groups_found:
+        one: "1 group found by the filter"
+        other: "%{count} groups found by the filter"
         zero: "No groups were found by the filter"
-        other: ""
       destroy:
         title: '移除同步篩選 %{name}'
         confirmation: "如果繼續,本同步篩選 %{name} 和藉此創建的群組 %{groups_count} 將會刪除"

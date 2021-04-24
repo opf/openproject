@@ -66,7 +66,7 @@ pl:
       upgrade_to_ee: "Uaktualnij do wersji Enterprise"
       add_token: "Wyślij swój token wsparcia edycji Enterprise"
       replace_token: "Wymień swój obecny token wsparcia"
-      order: "Zamów edycję Enterprise"
+      order: "Zamów rozwiązanie lokalne w wersji Enterprise"
       paste: "Wklej swój token wsparcia edycji Enterprise"
       required_for_feature: "Ta funkcja jest dostępna tylko z aktywnym tokenem wsparcia wersji Enterprise."
       enterprise_link: "Aby uzyskać więcej informacji, kliknij tutaj."
@@ -78,7 +78,7 @@ pl:
     is_active: obecnie wyświetlane
     is_inactive: obecnie nie są wyświetlane
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
+    note_public: 'Każdy tekst i obrazy, które dodasz do tego pola, będą publicznie widoczne dla wszystkich zalogowanych użytkowników!'
     text_overview: 'W tym widoku możesz utworzyć własny widok tekstów pomocy dla atrybutów. Gdy zostaną zdefiniowane, będą widoczna po kliknięciu w ikonę pomocy danego atrybutu.'
     label_plural: 'Teksty pomocy atrybutów'
     show_preview: 'Podgląd tekstu'
@@ -189,7 +189,7 @@ pl:
       Określ listę nazw, które mają być ignorowane podczas przetwarzania załączników do poczty przychodzącej (np. sygnatur lub ikon). W każdym wierszu prowadź jedną nazwę pliku.
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
+      scheduled: "Usunięcie zostało zaplanowane i jest wykonywane w tle. Otrzymasz powiadomienie o wyniku."
       schedule_failed: "Nie można usunąc projektu: %{errors}"
       failed: "Usunięcie projektu %{name} nie powiodło się"
       failed_text: "Żądanie usunięcia projektu %{name} nie powiodło się. Projekt pozostał zarchiwizowany."
@@ -239,12 +239,15 @@ pl:
       no_results_title_text: Użytkownik jeszcze nie jest członkiem projektu.
   placeholder_users:
     deletion_info:
-      heading: "Delete placeholder user %{name}"
+      heading: "Usuń użytkownika zastępczego %{name}"
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
-        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
-      irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+        Wszystkie wystąpienia użytkownika zastępczego (np. jako osoby przypisanej, odpowiedzialnej lub inne wartości użytkownika) zostaną przypisane do konta o nazwie „Usunięty użytkownik”.
+        Jako że do tego konta przypisywane są dane każdego usuniętego konta, nie można odróżnić danych utworzonych przez użytkownika od danych innego usuniętego konta.
+      irreversible: "To działanie jest nieodwracalne."
+      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+    upsale:
+      title: Przypisz pracę osobom, które nie są członkami projektu.
+      description: Istnieje wiele scenariuszy, w których chcesz przypisać pracę osobom, które nie są członkami projektu. Może się po prostu zdarzyć, że nadal musisz zatrudnić odpowiednią osobę do danej pracy. Lub też po prostu nie chcesz udzielać tej osobie dostępu do informacji o projekcie, ale nadal chcesz śledzić zadania przypisane do tej osoby.
   prioritiies:
     edit:
       priority_color_text: |
@@ -525,7 +528,7 @@ pl:
         confirmation: "nie pasuje do %{attribute}."
         could_not_be_copied: "Nie można było (w pełni) skopiować %{dependency}."
         does_not_exist: "nie istnieje."
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "jest funkcją dostępną tylko w OpenProject Enterprise Edition"
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
         empty: "nie może być puste."
@@ -541,7 +544,7 @@ pl:
         invalid_url: 'nie jest poprawnym adresem URL.'
         invalid_url_scheme: 'nie jest obsługiwanym protokołem (dozwolone: %{allowed_schemes}).'
         less_than_or_equal_to: "musi być mniejsze niż lub równe %{count}."
-        not_deletable: "cannot be deleted."
+        not_deletable: "— nie można usunąć."
         not_current_user: "nie jest bieżącym użytkownikiem."
         not_a_date: "nie jest poprawną datą."
         not_a_datetime: "nie jest poprawną datą i czasem."
@@ -648,6 +651,10 @@ pl:
           attributes:
             hours:
               day_limit: "jest zbyt wysoki, ponieważ pod jedną datą można zarejestrować maksymalnie 24 godziny."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Zadanie #%{id} jest niepoprawnym celem do ponownego rozpisania czasu."
           attributes:
@@ -730,7 +737,7 @@ pl:
       status: "Status pakietu roboczego"
       member: "Członek"
       news: "Aktualności"
-      placeholder_user: "Placeholder user"
+      placeholder_user: "Użytkownik zastępczy"
       project: "Projekt"
       query: "Kwerenda użytkownika"
       role:
@@ -773,7 +780,7 @@ pl:
     default_columns: "Domyślne kolumny"
     description: "Opis"
     derived_due_date: "Wyprowadzona data zakończenia"
-    derived_estimated_time: "Wyprowadzony szacowany czas"
+    derived_estimated_hours: "Wyprowadzony szacowany czas"
     derived_start_date: "Wyprowadzona data rozpoczęcia"
     display_sums: "Wyświetl sumy"
     due_date: "Data zakończenia"
@@ -1167,7 +1174,7 @@ pl:
   error_menu_item_not_saved: Nie można zapisać elementu menu
   error_wiki_root_menu_item_conflict: >
     Nie można zmienić nazwy "%{old_name}" na "%{new_name}", ze względu na konflikt w istniejącym elemencie menu "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed: "Podczas uwierzytelniania zewnętrznego wystąpił błąd. Spróbuj ponownie."
   error_attribute_not_highlightable: "Atrybuty, których nie można wyróżnić: %{attributes}"
   events:
     project: 'Projekt edytowany'
@@ -1368,7 +1375,7 @@ pl:
   label_custom_field_plural: "Pola niestandardowe"
   label_custom_field_default_type: "Typ pusty"
   label_custom_style: "Kompozycja"
-  label_database_version: "PostgreSQL version"
+  label_database_version: "Wersja PostgreSQL"
   label_date: "Data"
   label_date_and_time: "Data i czas"
   label_date_from: "Od"
@@ -1577,9 +1584,9 @@ pl:
   label_permissions: "Uprawnienia"
   label_permissions_report: "Raport uprawnień"
   label_personalize_page: "Personalizacja tej strony"
-  label_placeholder_user: "Placeholder user"
-  label_placeholder_user_new: "New placeholder user"
-  label_placeholder_user_plural: "Placeholder users"
+  label_placeholder_user: "Użytkownik zastępczy"
+  label_placeholder_user_new: "Nowy użytkownik zastępczy"
+  label_placeholder_user_plural: "Użytkownicy zastępczy"
   label_planning: "Planowanie"
   label_please_login: "Proszę się zalogować"
   label_plugins: "Wtyczki"
@@ -1777,29 +1784,21 @@ pl:
   label_workflow_plural: "Przepływ zadań"
   label_workflow_summary: "Podsumowanie"
   label_x_closed_work_packages_abbr:
+    one: "1 zamknięty"
+    other: "Liczba zamkniętych: %{count}"
     zero: "0 zamknięty"
-    one: ""
-    few: ""
-    many: ""
-    other: ""
   label_x_comments:
+    one: "1 komentarz"
+    other: "Liczba komentarzy: %{count}"
     zero: "brak komentarzy"
-    one: ""
-    few: ""
-    many: ""
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1 otwarty"
+    other: "Liczba otwartych: %{count}"
     zero: "0 otwarty"
-    one: ""
-    few: ""
-    many: ""
-    other: ""
   label_x_projects:
+    one: "1 projekt"
+    other: "Liczba projektów: %{count}"
     zero: "brak projektów"
-    one: ""
-    few: ""
-    many: ""
-    other: ""
   label_yesterday: "wczoraj"
   label_role_type: "Typ"
   label_member_role: "Rola projektu"
@@ -1896,7 +1895,7 @@ pl:
   notice_email_sent: "E-mail został wysłany do %{value}"
   notice_failed_to_save_work_packages: "Nie udało się zapisać %{count} z %{total} wybranych pakietów roboczych: %{ids}."
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
-  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
+  notice_deletion_scheduled: "Usunięcie zostało zaplanowane i jest wykonywane asynchronicznie."
   notice_file_not_found: "Strona, do której próbowano uzyskać dostęp nie istnieje lub została usunięta."
   notice_forced_logout: "Będziesz automatycznie wylogowany po %{ttl_time} minutach braku aktywności."
   notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."
@@ -1962,8 +1961,8 @@ pl:
   permission_add_work_packages: "Dodawanie pakietów roboczych"
   permission_add_messages: "Wysyłanie wiadomości"
   permission_add_project: "Tworzenie projektu"
-  permission_manage_user: "Create and edit users"
-  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
+  permission_manage_user: "Tworzenie i edycja użytkowników"
+  permission_manage_placeholder_user: "Tworzenie, edycja i usuwanie użytkowników zastępczych"
   permission_add_subprojects: "Tworzenie podprojektów"
   permission_add_work_package_watchers: "Dodawanie obserwatorów"
   permission_assign_versions: "Przypisz wersje"
@@ -2003,7 +2002,7 @@ pl:
   permission_manage_project_activities: "Zarządzanie działaniami projektu"
   permission_manage_public_queries: "Zarządzaj widokami publicznymi"
   permission_manage_repository: "Zarządzanie repozytorium"
-  permission_manage_subtasks: "Zarządzaj hierarchiami pakietów roboczych"
+  permission_manage_subtasks: "Zarządzaj hierarchiami pakietów prac"
   permission_manage_versions: "Zarządzanie wersjami"
   permission_manage_wiki: "Zarządzanie wiki"
   permission_manage_wiki_menu: "Zarządzanie menu wiki"
@@ -2163,7 +2162,7 @@ pl:
       username: "Użytkownik repozytorium"
     truncated: "Niestety, musieliśmy obciąć ten katalog do %{limit} plików. %{truncated} wpisów pominięto na liście."
     named_repository: "%{vendor_name} repozytorium"
-    update_settings_successful: "The settings have been successfully saved."
+    update_settings_successful: "Ustawienia zostały zapisane."
     url: "Adres URL do repozytorium"
     warnings:
       cannot_annotate: "Ten plik nie może być odnotowany."

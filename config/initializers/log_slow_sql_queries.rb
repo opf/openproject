@@ -2,6 +2,9 @@ OpenProject::Application.configure do
   config.after_initialize do
     next if Rails.env.test?
 
+    # Avoid running this on migrations or when the database is incomplete
+    next if OpenProject::Database.migrations_pending?
+
     slow_sql_threshold = OpenProject::Configuration.sql_slow_query_threshold.to_i
     next if slow_sql_threshold == 0
 

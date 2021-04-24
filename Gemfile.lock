@@ -1,4 +1,11 @@
 GIT
+  remote: https://github.com/opf/mimemagic
+  revision: bf8d7c2b32d9c5aadb46013402af55f23eb71c90
+  ref: bf8d7c2
+  specs:
+    mimemagic (0.3.6)
+
+GIT
   remote: https://github.com/opf/omniauth
   revision: fe862f986b2e846e291784d2caa3d90a658c67f0
   ref: fe862f986b2e846e291784d2caa3d90a658c67f0
@@ -580,8 +587,7 @@ GEM
     method_source (1.0.0)
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2020.1104)
-    mimemagic (0.3.5)
+    mime-types-data (3.2021.0225)
     mini_magick (4.11.0)
     mini_mime (1.0.2)
     mini_portile2 (2.5.0)
@@ -997,6 +1003,7 @@ DEPENDENCIES
   livingstyleguide (~> 2.1.0)
   lograge (~> 0.11.0)
   meta-tags (~> 2.14.0)
+  mimemagic!
   mini_magick (~> 4.11.0)
   multi_json (~> 1.15.0)
   my_page!

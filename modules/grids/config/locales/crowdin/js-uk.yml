@@ -5,8 +5,8 @@ uk:
       remove: 'Видалити віджет'
       configure: 'Configure widget'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the "
-        link: 'enterprise edition.'
+        text: "Деякі віджети, доступні тільки в "
+        link: 'Enterprise Edition'
       widgets:
         custom_text:
           title: 'Текстовий блок'
@@ -34,12 +34,12 @@ uk:
           on_track: 'On track'
           off_track: 'Off track'
           at_risk: 'At risk'
-          not_set: 'Not set'
+          not_set: 'Не встановлено'
         subprojects:
           title: 'Підпроекти'
           no_results: 'Немає підпроектів.'
         time_entries_current_user:
-          title: 'My spent time'
+          title: 'Мій витрачений час'
           displayed_days: 'Days displayed in the widget:'
         time_entries_list:
           title: 'Витрачений час (останні 7 днів)'
@@ -53,11 +53,11 @@ uk:
         work_packages_watched:
           title: 'Пакети робіт переглянуті мною'
         work_packages_table:
-          title: 'Work packages table'
+          title: 'Таблиця робочих пакетів'
         work_packages_graph:
-          title: 'Work packages graph'
+          title: 'Графік робочих пакетів'
         work_packages_calendar:
           title: 'Календар'
         work_packages_overview:
-          title: 'Work packages overview'
+          title: 'Огляд робочих пакетів'
           placeholder: 'Натисніть для редагування...'

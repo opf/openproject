@@ -206,7 +206,7 @@ ro:
         upsale:
           become_hero: "Become a hero!"
           benefits:
-            description: "What are the benefits?"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Security features"
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
             installation: "Installation support"
@@ -516,7 +516,7 @@ ro:
         reset_title: "Reset form configuration"
         confirm_reset: >
           Antenție: Sunteți sigur că doriți să resetați congurația formularului? Această acțiune va reseta toate atributele înapoi la grupul implicit și va dezactiva TOATE câmpurile personalizate.
-        upgrade_to_ee: "Achiziționați versiunea Enterprise"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
         upgrade_to_ee_text: "Hopa! Dacă aveți nevoie de această opțiune înseamnă că sunteți un profesionist! Dacă doriți, puteți susține acest produs achiziționând Versiunea Enterprise."
         more_information: "More information"
         nevermind: "Asta e..."
@@ -941,10 +941,9 @@ ro:
         few: "%{count} work package children"
         other: "%{count} work package children"
       hour:
+        one: "1 h"
+        other: "%{count} h"
         zero: "0 h"
-        one: ""
-        few: ""
-        other: ""
     zen_mode:
       button_activate: 'Activați modul zen'
       button_deactivate: 'Dezactivați modul zen'

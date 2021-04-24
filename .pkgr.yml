@@ -25,7 +25,6 @@ targets:
       - ImageMagick
       - unzip
       - poppler-utils
-      - tesseract
   centos-8:
     <<: *centos7
   sles-12:

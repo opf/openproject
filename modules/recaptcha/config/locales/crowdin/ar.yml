@@ -2,11 +2,11 @@
 ar:
   recaptcha:
     label_recaptcha: "reCAPTCHA"
-    button_please_wait: 'Please wait ...'
-    verify_account: "Verify your account"
-    error_captcha: "Your account could not be verified. Please contact an administrator."
+    button_please_wait: 'الرجاء الانتظار...'
+    verify_account: "تحقق من حسابك"
+    error_captcha: "تعذر التحقق من حسابك. الرجاء التواصل مع المسؤول"
     settings:
-      website_key: 'Website key'
+      website_key: 'مفتاح الموقع'
       website_key_text: 'Enter the website key you created on the reCAPTCHA admin console for this domain.'
       secret_key: 'Secret key'
       secret_key_text: 'Enter the secret key you created on the reCAPTCHA admin console.'

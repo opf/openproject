@@ -207,7 +207,7 @@ lt:
         upsale:
           become_hero: "Tapti didvyriu!"
           benefits:
-            description: "Kokie privalumai?"
+            description: "Kokie yra Enterprise on-premises Edition privalumai?"
             high_security: "Saugumo funkcijos"
             high_security_text: "Vienas prisijungimas (naudojant SAML, OpenID Connect, CAS), dviejų lygių autentifikacija ir automatinis LDAP grupių sinchronizavimas."
             installation: "Instaliavimo pagalba"
@@ -517,7 +517,7 @@ lt:
         reset_title: "Nustatyti iš naujo formos konfigūraciją"
         confirm_reset: >
           Įspėjimas: Ar tikrai norite grįžti prie pradinės formos konfigūracijos? Atributai bus perkelti į jų numatytąsias grupes ir išjungs VISUS pritaikytus laukelius.
-        upgrade_to_ee: "Patobulinti į „Enterprise Edition“ versiją"
+        upgrade_to_ee: "Patobulinkite į Enterprise on-premises Edition"
         upgrade_to_ee_text: "Vau! Jei Jums reikia šios funkcijos, esate super pro! Ar nenorėtumėte paremti mus, OpenSource (atviro kodo) kūrėjus, tapdami Enterprise Edition klientu?"
         more_information: "Daugiau informacijos"
         nevermind: "Nekreipti dėmesio"
@@ -944,11 +944,9 @@ lt:
         many: "%{count} darbų paketo vaikai"
         other: "%{count} darbų paketo vaikai"
       hour:
+        one: "1 val."
+        other: "%{count} val"
         zero: "0 h"
-        one: ""
-        few: ""
-        many: ""
-        other: ""
     zen_mode:
       button_activate: 'Įjungti Zen režimą'
       button_deactivate: 'Išjungti Zen režimą'

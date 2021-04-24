@@ -66,7 +66,7 @@
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
       replace_token: "Replace your current support token"
-      order: "Bestill Bedriftsversjonen"
+      order: "Order Enterprise on-premises Edition"
       paste: "Paste your Enterprise Edition support token"
       required_for_feature: "This feature is only available with an active Enterprise Edition support token."
       enterprise_link: "For more information, click here."
@@ -247,7 +247,10 @@
         All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
         As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
       irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+    upsale:
+      title: Assign work to people that are not members of the project.
+      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -649,6 +652,10 @@
           attributes:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Arbeidspakke nr. %{id} er ikke et gyldig mål for nytildeling av tidsoppføringer."
           attributes:
@@ -768,7 +775,7 @@
     default_columns: "Standardkolonner"
     description: "Beskrivelse"
     derived_due_date: "Derived finish date"
-    derived_estimated_time: "Derived estimated time"
+    derived_estimated_hours: "Derived estimated time"
     derived_start_date: "Derived start date"
     display_sums: "Vis summer"
     due_date: "Sluttdato"
@@ -1231,7 +1238,7 @@
   label_activate_user: 'Aktiver bruker'
   label_active_in_new_projects: "Active in new projects"
   label_activity: "Aktivitet"
-  label_add_edit_translations: "Add and edit translations"
+  label_add_edit_translations: "Legg til og rediger oversettelser"
   label_add_another_file: "Legg til en annen fil"
   label_add_columns: "Legg til valgte kolonner"
   label_add_note: "Legg til et notat"
@@ -1273,7 +1280,7 @@
   label_available_project_forums: 'Available forums'
   label_available_project_versions: 'Available versions'
   label_available_project_repositories: 'Available repositories'
-  label_api_documentation: "API documentation"
+  label_api_documentation: "API dokumentasjon"
   label_between: "mellom"
   label_blocked_by: "blokkert av"
   label_blocks: "blokkeringer"
@@ -1564,7 +1571,7 @@
   label_principal_search: "Add existing users or groups"
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "Produktversjon"
-  label_professional_support: "Professional support"
+  label_professional_support: "Profesjonell hjelp"
   label_profile: "Profil"
   label_project_all: "Alle prosjekter"
   label_project_count: "Antall prosjekter"
@@ -1748,21 +1755,21 @@
   label_workflow_plural: "Arbeidsflyt"
   label_workflow_summary: "Sammendrag"
   label_x_closed_work_packages_abbr:
+    one: "1 closed"
+    other: "%{count} closed"
     zero: "0 closed"
-    one: ""
-    other: ""
   label_x_comments:
+    one: "1 comment"
+    other: "%{count} comments"
     zero: "no comments"
-    one: ""
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1 open"
+    other: "%{count} open"
     zero: "0 open"
-    one: ""
-    other: ""
   label_x_projects:
+    one: "1 project"
+    other: "%{count} projects"
     zero: "no projects"
-    one: ""
-    other: ""
   label_yesterday: "i går"
   label_role_type: "Type"
   label_member_role: "Project Role"
