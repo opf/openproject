@@ -30,6 +30,9 @@
 
 module Settings
   class Definition
+
+    ENV_PREFIX ||= 'OPENPROJECT_'.freeze
+
     attr_accessor :name,
                   :format,
                   :value,
@@ -66,6 +69,14 @@ module Settings
       !!writable
     end
 
+    def merge_value(other_value)
+      if serialized?
+        self.value.deep_merge! other_value
+      else
+        self.value = other_value
+      end
+    end
+
     class << self
       def add(name, value:, format: nil, api_name: name, serialized: false, api: true, admin: true, writable: true)
         return if @by_name.present? && @by_name[name.to_s].present?
@@ -100,6 +111,8 @@ module Settings
           require_relative 'definitions'
 
           load_config_from_file
+
+          override_config
         end
 
         @all
@@ -118,6 +131,7 @@ module Settings
             value: value,
             api: false,
             admin: true,
+            serialized: value.is_a?(Hash) || value.is_a?(Array),
             writable: false
       end
 
@@ -140,11 +154,89 @@ module Settings
           override_value(name, value)
         end
         config[env]&.each do |name, value|
-          override_value(name, value)
+          override_value(name, value  )
         end
       end
 
+      # Replace config values for which an environment variable with the same key in upper case
+      # exists
+      def override_config(source = default_override_source)
+        all
+          .map(&:name)
+          .select { |key| source.include? key.upcase }
+          .each { |key| self[key] = extract_value key, source[key.upcase] }
+
+        merge_config(source)
+      end
+
+      def merge_config(source, prefix: ENV_PREFIX)
+        source.select { |k, _| k =~ /^#{prefix}/i }.each do |k, value|
+          path_config = path_to_hash(*path(prefix, k),
+                                     extract_value(k, value))
+
+          self[path_config.keys.first]
+            .merge_value(path_config.values.first)
+        end
+      end
+
+      def path(prefix, env_var_name)
+        env_var_name
+          .sub(/^#{prefix}/, '')
+          .gsub(/([a-zA-Z0-9]|(__))+/)
+          .map do |seg|
+          unescape_underscores(seg.downcase)
+        end
+      end
+
+      # takes the path provided and transforms it into a deeply nested hash
+      # where the last parameter becomes the value.
+      #
+      # e.g. path_to_hash(:a, :b, :c, :d) => { a: { b: { c: :d } } }
+
+      def path_to_hash(*path)
+        value = path.pop
+
+        path.reverse.inject(value) do |path_hash, key|
+          { key => path_hash }
+        end
+      end
+
+      def unescape_underscores(path_segment)
+        path_segment.gsub '__', '_'
+      end
+
       private
+
+      ##
+      # Extract the configuration value from the given input
+      # using YAML.
+      #
+      # @param key [String] The key of the input within the source hash.
+      # @param original_value [String] The string from which to extract the actual value.
+      # @return A ruby object (e.g. Integer, Float, String, Hash, Boolean, etc.)
+      # @raise [ArgumentError] If the string could not be parsed.
+      def extract_value(key, original_value)
+        # YAML parses '' as false, but empty ENV variables will be passed as that.
+        # To specify specific values, one can use !!str (-> '') or !!null (-> nil)
+        return original_value if original_value == ''
+
+        parsed = YAML.load(original_value)
+
+        if parsed.is_a?(String)
+          original_value
+        else
+          parsed
+        end
+      rescue StandardError => e
+        raise ArgumentError, "Configuration value for '#{key}' is invalid: #{e.message}"
+      end
+
+      ##
+      # The default source for overriding configuration values
+      # is ENV, but may be changed for testing purposes
+      def default_override_source
+        ENV
+      end
 
       def override_value(name, value)
         if self[name]

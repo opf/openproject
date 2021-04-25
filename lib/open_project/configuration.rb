@@ -35,8 +35,6 @@ module OpenProject
   module Configuration
     extend Helpers
 
-    ENV_PREFIX ||= 'OPENPROJECT_'.freeze
-
     @config = nil
 
     class << self
@@ -50,66 +48,13 @@ module OpenProject
 
         convert_old_email_settings(@config)
 
-        override_config!(@config)
-
         define_config_methods
 
         @config = @config.with_indifferent_access
       end
 
-      # Replace config values for which an environment variable with the same key in upper case
-      # exists
-      def override_config!(config, source = default_override_source)
-        config.keys.select { |key| source.include? key.upcase }
-              .each { |key| config[key] = extract_value key, source[key.upcase] }
-
-        config.deep_merge! merge_config(config, source)
-      end
-
-      def merge_config(config, source, prefix: ENV_PREFIX)
-        new_config = config.dup.with_indifferent_access
-
-        source.select { |k, _| k =~ /^#{prefix}/i }.each do |k, value|
-          path = self.path prefix, k
-
-          path_config = path_to_hash(*path, extract_value(k, value))
-
-          new_config.deep_merge! path_config
-        end
-
-        new_config
-      end
-
-      def path(prefix, env_var_name)
-        path = []
-        env_var_name = env_var_name.sub /^#{prefix}/, ''
-
-        env_var_name.gsub(/([a-zA-Z0-9]|(__))+/) do |seg|
-          path << unescape_underscores(seg.downcase).to_sym
-        end
-
-        path
-      end
-
-      # takes the path provided and transforms it into a deeply nested hash
-      # where the last parameter becomes the value.
-      #
-      # e.g. path_to_hash(:a, :b, :c, :d) => { a: { b: { c: :d } } }
-
-      def path_to_hash(*path)
-        value = path.pop
-
-        path.reverse.inject(value) do |path_hash, key|
-          { key => path_hash }
-        end
-      end
-
       def get_value(value)
         value
-      end
-
-      def unescape_underscores(path_segment)
-        path_segment.gsub '__', '_'
       end
 
       # Returns a configuration setting
@@ -257,37 +202,6 @@ module OpenProject
         ActionMailer::Base.smtp_settings[:ssl] = Setting.smtp_ssl?
       end
 
-      ##
-      # The default source for overriding configuration values
-      # is ENV, but may be changed for testing purposes
-      def default_override_source
-        ENV
-      end
-
-      ##
-      # Extract the configuration value from the given input
-      # using YAML.
-      #
-      # @param key [String] The key of the input within the source hash.
-      # @param original_value [String] The string from which to extract the actual value.
-      # @return A ruby object (e.g. Integer, Float, String, Hash, Boolean, etc.)
-      # @raise [ArgumentError] If the string could not be parsed.
-      def extract_value(key, original_value)
-        # YAML parses '' as false, but empty ENV variables will be passed as that.
-        # To specify specific values, one can use !!str (-> '') or !!null (-> nil)
-        return original_value if original_value == ''
-
-        parsed = YAML.load(original_value)
-
-        if parsed.is_a?(String)
-          original_value
-        else
-          parsed
-        end
-      rescue StandardError => e
-        raise ArgumentError, "Configuration value for '#{key}' is invalid: #{e.message}"
-      end
-
       # Convert old mail settings
       #
       # SMTP Example:
@@ -344,7 +258,7 @@ module OpenProject
       end
 
       def define_config_methods
-        @config.keys.each do |setting|
+        @config.each_key do |setting|
           next if respond_to? setting
 
           define_singleton_method setting do
