@@ -106,7 +106,7 @@ export class DynamicFieldsService {
 
   getConfig(formSchema:IOPFormSchema, formPayload:IOPFormModel):IOPFormlyFieldSettings[] {
     const formFieldGroups = formSchema._attributeGroups;
-    const fieldSchemas = this._getFieldsSchemasWithKey(formSchema, formPayload);
+    const fieldSchemas = this._getFieldsSchemasWithKey(formSchema);
     const formlyFields = fieldSchemas.map(fieldSchema => this._getFormlyFieldConfig(fieldSchema));
     const formlyFormWithFieldGroups = this._getFormlyFormWithFieldGroups(formFieldGroups, formlyFields);
 
@@ -114,13 +114,13 @@ export class DynamicFieldsService {
   }
 
   getModel(formSchema:IOPFormSchema, formPayload:IOPFormModel):IOPFormModel {
-    const fieldSchemas = this._getFieldsSchemasWithKey(formSchema, formPayload);
+    const fieldSchemas = this._getFieldsSchemasWithKey(formSchema);
     const fieldsModel = this._getFieldsModel(fieldSchemas, formPayload);
 
     return fieldsModel;
   }
 
-  private _getFieldsSchemasWithKey(formSchema:IOPFormSchema, formModel:IOPFormModel):IOPFieldSchemaWithKey[] {
+  private _getFieldsSchemasWithKey(formSchema:IOPFormSchema):IOPFieldSchemaWithKey[] {
     return Object.keys(formSchema)
       .map(fieldSchemaKey => {
         const fieldSchema = {
@@ -136,7 +136,7 @@ export class DynamicFieldsService {
   }
 
   private _isResourceSchema(fieldSchema: IOPFieldSchema):boolean {
-    return fieldSchema.parent?.location === '_links';
+    return fieldSchema.location === '_links';
   }
 
   private _isFieldSchema(schemaValue:IOPFieldSchemaWithKey | any):boolean {

@@ -43,12 +43,10 @@ interface IOPFieldSchema {
   hasDefault: boolean;
   name?: string;
   attributeGroup?: string;
+  location?: '_links' | string;
   options: {
     [key: string]: any;
   };
-  parent?: {
-    location?: '_links' | string;
-  },
   _embedded?: {
     allowedValues?: IOPApiCall | IOPAllowedValue[];
   };
