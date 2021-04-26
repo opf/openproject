@@ -102,7 +102,7 @@ Configure a button or link to target the work package creation screen in the cur
 
 ### Include wiki page
 
-Include the content of a given wiki page in the current, or another visible project.ww
+Include the content of a given wiki page in the current, or another visible project.
 
 
 

@@ -15,7 +15,7 @@ If you find a bug please create a bug report.
 3. Open the [bug form](https://community.openproject.org/projects/openproject/work_packages/new?type=1).
 4. Add a precise subject.
 5. Add a detailed description using the template.
-6. Attach a file (optional).
+6. Attach a screen-shot or log-file file (optional).
 7. Press **Create**.
 
 
