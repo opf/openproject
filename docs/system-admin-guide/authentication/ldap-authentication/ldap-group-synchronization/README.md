@@ -81,7 +81,7 @@ When the synchronization task is executed, the filter is being queried against t
 
 
 
-![LDAP synchronized filter form](/Users/oliver/openproject/dev/docs/system-admin-guide/authentication/ldap-authentication/ldap-group-synchronization/ldap-groups-filter.png)
+![LDAP synchronized filter form](ldap-groups-filter.png)
 
 ### Create a synchronized filter
 
