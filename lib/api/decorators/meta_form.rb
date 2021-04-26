@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -29,24 +27,11 @@
 #++
 
 module API
-  module V3
-    module Memberships
-      class FormRepresenter < ::API::Decorators::SimpleForm
-        include ::API::Decorators::MetaForm
-
-        def model
-          Member
-        end
-
-        private
-
-        def payload_representer_class
-          API::V3::Memberships::MembershipPayloadRepresenter
-        end
-
-        def schema_representer_class
-          API::V3::Memberships::Schemas::MembershipSchemaRepresenter
-        end
+  module Decorators
+    module MetaForm
+      def payload_representer
+        payload_representer_class
+          .create(represented, meta: meta, current_user: current_user)
       end
     end
   end
