@@ -76,3 +76,5 @@ To export a wiki page, open the **More** functions menu on a wiki page and selec
 You can choose between **Atom** or **Markdown** export of your wiki page:
 
 ![wiki-export-options](1568277748319.png)
+
+Alternatively, you can use your browser's print feature to print a PDF from a wiki page.
