@@ -187,24 +187,35 @@ module API
 
         date_time_property :updated_at
 
-        property :status,
-                 name_source: ->(*) { I18n.t('activerecord.attributes.projects/status.code') },
-                 render_nil: true,
+        resource :status,
                  getter: ->(*) {
-                   next unless status&.code
+                   next unless represented.status&.code
 
-                   status.code.to_s.tr('_', ' ')
+                   ::API::V3::Projects::Statuses::StatusRepresenter
+                     .create(represented.status.code, current_user: current_user, embed_links: embed_links)
                  },
-                 reader: ->(doc:, represented:, **) {
-                   next unless doc.key?('status')
+                 link: ->(*) {
+                   if represented.status&.code
+                     {
+                       href: api_v3_paths.project_status(represented.status.code),
+                       title: I18n.t(:"activerecord.attributes.projects/status.codes.#{represented.status.code}")
+                     }
+                   else
+                     {
+                       href: nil
+                     }
+                   end
+                 },
+                 setter: ->(fragment:, represented:, **) {
+                   represented.status_attributes ||= OpenStruct.new
 
-                   represented.status_attributes ||= {}
-                   represented.status_attributes[:code] =
-                     if doc['status'].nil?
-                       nil
-                     else
-                       doc['status'].strip.tr(' ', '_').underscore.to_sym
-                     end
+                   link = ::API::Decorators::LinkObject.new(represented.status_attributes,
+                                                            path: :project_status,
+                                                            property_name: :status,
+                                                            getter: :code,
+                                                            setter: :"code=")
+
+                   link.from_hash(fragment)
                  }
 
         property :status_explanation,
@@ -215,7 +226,7 @@ module API
                                                       plain: false)
                  },
                  setter: ->(fragment:, represented:, **) {
-                   represented.status_attributes ||= {}
+                   represented.status_attributes ||= OpenStruct.new
                    represented.status_attributes[:explanation] = fragment["raw"]
                  }
 
