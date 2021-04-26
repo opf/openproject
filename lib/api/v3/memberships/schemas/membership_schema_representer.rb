@@ -47,7 +47,7 @@ module API
           schema :updated_at,
                  type: 'DateTime'
 
-          schema :custom_message,
+          schema :notification_message,
                  type: 'Formattable',
                  name_source: ->(*) { I18n.t(:label_message) },
                  writable: true,

@@ -120,8 +120,8 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
       end
     end
 
-    describe 'customMessage' do
-      let(:path) { 'customMessage' }
+    describe 'notificationMessage' do
+      let(:path) { 'notificationMessage' }
 
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'Formattable' }
