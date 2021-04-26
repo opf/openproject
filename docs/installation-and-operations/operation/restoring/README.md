@@ -43,7 +43,7 @@ sudo tar xzf /var/db/openproject/backup/attachments-20191119210038.tar.gz -C /va
 Untar the configuration files to their destination:
 
 ```bash
-sudo tar xzf /var/db/openproject/backup/conf-20191119210038.tar.gz -C /etc/openproject/conf.d/
+sudo tar xzf /var/db/openproject/backup/conf-20191119210038.tar.gz -C /etc/openproject
 ```
 
 If you want to change anything in the configuration, you can also inspect the `/etc/openproject` folder afterwards and change them accordingly.
