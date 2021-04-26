@@ -113,7 +113,7 @@ Depending on custom fields defined for projects, additional properties might exi
 
 + Parameters
     
-+ id (required, integer, `1`) ... Project id
+  + id (required, integer, `1`) ... Project id
     
 + Response 200 (application/hal+json)
 
@@ -143,7 +143,7 @@ Updates the given project by applying the attributes provided in the body.
 
 + Parameters
     
-+ id (required, integer, `1`) ... Project id
+  + id (required, integer, `1`) ... Project id
     
 + Request Update project
 
@@ -234,7 +234,7 @@ the project scheduled for deletion, it is archived at once.
 
 + Parameters
     
-+ id (required, integer, `1`) ... Project id
+  + id (required, integer, `1`) ... Project id
     
 + Response 204 (application/hal+json)
 
@@ -1319,7 +1319,7 @@ The embedded schema of this form describes all associations to copy with a human
 
 For more details and all possible responses see the general specification of [Forms](#forms).
 
-### Available meta parameters
+### Meta parameters
 
 | Meta property              | Description                                          | Type       | Constraints | Supported operations |Condition |
 | :------------------------: | ---------------------------------------------------  | ----       | ----------- | -------------------- |----------|
@@ -2038,7 +2038,7 @@ but are also limited to the projects that the current user is allowed to see.
 
 + Parameters
     
-+ id (required, integer, `1`) ... Version id
+  + id (required, integer, `1`) ... Version id
     
 + Response 200 (application/hal+json)
 

@@ -33,11 +33,12 @@ module API
     module Projects
       module Copy
         class FormRepresenter < ::API::V3::Projects::FormRepresenter
+          include ::API::Decorators::MetaForm
+
           private
 
-          def payload_representer
+          def payload_representer_class
             ProjectCopyPayloadRepresenter
-              .create(represented, meta: meta, current_user: current_user)
           end
 
           ##
