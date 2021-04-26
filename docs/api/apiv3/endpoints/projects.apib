@@ -16,15 +16,16 @@ As containers, they also control behaviour of the elements within them. One of t
 
 ## Linked Properties
 
-| Link         | Description                          | Type       | Constraints | Supported operations |Condition                                              |
-| :----------: | -------------                        | ----       | ----------- | -------------------- |-----------------------------------------              |
-| self         | This project                         | Project    | not null    | READ                 |                                                       |
-| categories   | Categories available in this project | Collection | not null    | READ                 |                                                       |
-| types        | Types available in this project      | Collection | not null    | READ                 | **Permission**: view work packages or manage types    |
-| versions     | Versions available in this project   | Collection | not null    | READ                 | **Permission**: view work packages or manage versions |
-| memberships  | Memberships in the  project          | Collection | not null    | READ                 | **Permission**: view members                          |
-| workPackages | Work Packages of this project        | Collection | not null    | READ                 |                                                       |
-| parent       | Parent project of the project        | Project    |             | READ/WRITE           | **Permission** edit project                           |
+| Link         | Description                                                                                           | Type          | Constraints | Supported operations |Condition                                              |
+| :----------: | -------------                                                                                         | ----          | ----------- | -------------------- |-----------------------------------------              |
+| self         | This project                                                                                          | Project       | not null    | READ                 |                                                       |
+| categories   | Categories available in this project                                                                  | Collection    | not null    | READ                 |                                                       |
+| types        | Types available in this project                                                                       | Collection    | not null    | READ                 | **Permission**: view work packages or manage types    |
+| versions     | Versions available in this project                                                                    | Collection    | not null    | READ                 | **Permission**: view work packages or manage versions |
+| memberships  | Memberships in the  project                                                                           | Collection    | not null    | READ                 | **Permission**: view members                          |
+| workPackages | Work Packages of this project                                                                         | Collection    | not null    | READ                 |                                                       |
+| parent       | Parent project of the project                                                                         | Project       |             | READ/WRITE           | **Permission** edit project                           |
+| status       | Denotes the status of the project, so whether the project is on track, at risk or is having trouble.  | ProjectStatus |             | READ/WRITE           | **Permission** edit project                           |
 
 Depending on custom fields defined for projects, additional links might exist.
 
@@ -36,7 +37,6 @@ Depending on custom fields defined for projects, additional links might exist.
 | identifier             |                                                                                                       | String            |                                      | READ/WRITE           |
 | name                   |                                                                                                       | String            |                                      | READ/WRITE           |
 | active                 | Indicates whether the project is currently active or already archived                                 | Boolean           |                                      | READ/WRITE           |
-| status                 | Denotes the status of the project, so whether the project is on track, at risk or is having trouble.  | String            | "on track", "at risk" or "off track" | READ/WRITE           |
 | statusExplanation      | A text detailing and explaining why the project has the reported status                               | Formattable       |                                      | READ/WRITE           |
 | public                 | Indicates whether the project is accessible for everybody                                             | Boolean           |                                      | READ/WRITE           |
 | description            |                                                                                                       | Formattable       |                                      | READ/WRITE           |
@@ -45,7 +45,7 @@ Depending on custom fields defined for projects, additional links might exist.
 
 Depending on custom fields defined for projects, additional properties might exist.
 
-## Project [/api/v3/projects/{id}]
+## View project [/api/v3/projects/{id}]
 
 + Model
     + Body
@@ -86,6 +86,10 @@ Depending on custom fields defined for projects, additional properties might exi
                     },
                     "projects": {
                       "href": "/api/v3/projects/123"
+                    },
+                    "status": {
+                      "href": "/api/v3/project_statuses/on_track",
+                      "title": "On track"
                     }
                 },
                 "id": 1,
@@ -93,7 +97,6 @@ Depending on custom fields defined for projects, additional properties might exi
                 "name": "Project example",
                 "active": true,
                 "public": false,
-                "status": "on track",
                 "statusExplanation": {
                     "format": "markdown",
                     "raw": "Everything **fine**",
@@ -117,7 +120,7 @@ Depending on custom fields defined for projects, additional properties might exi
     
 + Response 200 (application/hal+json)
 
-    [Project][]
+    [View project][]
 
 + Response 404 (application/hal+json)
 
@@ -134,8 +137,93 @@ Depending on custom fields defined for projects, additional properties might exi
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
-                "message": "The specified project does not exist."
+                "message": "The requested resource could not be found."
             }
+
+## Create project [/api/v3/projects]
+
+## Create project [POST]
+
+Creates a new project, applying the attributes provided in the body.
+
+You can use the form and schema to be retrieve the valid attribute values and by that be guided towards successful creation.
+
++ Request Create project
+
+    + Body
+
+            {
+              "identifier": "new_project_identifier",
+              "name": "New project name",
+              "customField35": "Text custom field value",
+              "statusExplanation": {
+                  "format": "markdown",
+                  "raw": "Everything **fine**",
+                  "html": "<p>Everything <strong>fine</strong></p>"
+              },
+              "_links": {
+                "customField12": {
+                  "href": "/api/v3/users/5"
+                },
+                "parent": {
+                  "href": "/api/v3/projects/6"
+                },
+                "status": {
+                  "href": "/api/v3/project_statuses/on_track"
+                }
+              }
+            }
+
++ Response 201
+
+    [View project][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** add project which is a global permission
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Name can't be blank.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "name"
+                    }
+                }
+            }
+
+## Update project [/api/v3/projects/{id}]
 
 ## Update Project [PATCH]
 
@@ -151,17 +239,19 @@ Updates the given project by applying the attributes provided in the body.
 
             {
                 "name": "A new project name",
-                "status": "at risk",
                 "_links": {
                     "customField35": {
                         "href": "/api/v3/users/3"
+                    },
+                    "status": {
+                      "href": "/api/v3/project_statuses/at_risk",
                     }
                 }
             }
 
 + Response 200
 
-    [Project][]
+    [View project][]
 
 + Response 400 (application/hal+json)
 
@@ -226,6 +316,8 @@ Updates the given project by applying the attributes provided in the body.
                 }
             }
 
+## Delete project [/api/v3/projects/{id}]
+
 ## Delete Project [DELETE]
 
 Deletes the project permanently. As this is a lengthy process, the actual deletion is carried out asynchronously.
@@ -289,7 +381,7 @@ the project scheduled for deletion, it is archived at once.
                    "_embedded": { "details": { "attribute": "base" } }
             }
 
-## Projects [/api/v3/projects{?filters,sortBy}]
+## List projects [/api/v3/projects{?filters,sortBy}]
 
 + Model
     + Body
@@ -328,13 +420,16 @@ the project scheduled for deletion, it is archived at once.
                       },
                       "projects": {
                         "href": "/api/v3/projects/123"
+                      },
+                      "status": {
+                        "href": "/api/v3/project_statuses/on_track",
+                        "title": "On track"
                       }
                     },
                     "id": 6,
                     "identifier": "a_project",
                     "name": "A project",
                     "active": true,
-                    "status": "on track",
                     "statusExplanation": {
                         "format": "markdown",
                         "raw": "Everything **fine**",
@@ -373,13 +468,16 @@ the project scheduled for deletion, it is archived at once.
                       },
                       "projects": {
                         "href": null
+                      },
+                      "status": {
+                        "href": "/api/v3/project_statuses/off_track",
+                        "title": "Off track"
                       }
                     },
                     "id": 14,
                     "identifier": "another_project",
                     "name": "Another project",
                     "active": false,
-                    "status": "off track",
                     "statusExplanation": {
                         "format": "markdown",
                         "raw": "Uh **oh**",
@@ -430,88 +528,7 @@ Returns a collection of projects. The collection can be filtered via query param
 
 + Response 200 (application/hal+json)
 
-    [Projects][]
-
-## Create project [POST]
-
-Creates a new project, applying the attributes provided in the body.
-
-You can use the form and schema to be retrieve the valid attribute values and by that be guided towards successful creation.
-
-+ Parameters
-
-+ Request Create project
-
-    + Body
-
-            {
-              "identifier": "new_project_identifier",
-              "name": "New project name",
-              "customField35": "Text custom field value",
-              "status": "on track",
-              "statusExplanation": {
-                  "format": "markdown",
-                  "raw": "Everything **fine**",
-                  "html": "<p>Everything <strong>fine</strong></p>"
-              },
-              "_links": {
-                "customField12": {
-                  "href": "/api/v3/users/5"
-                },
-                "parent": {
-                  "href": "/api/v3/projects/6"
-                }
-              }
-            }
-
-+ Response 201
-
-    [Project][]
-
-+ Response 400 (application/hal+json)
-
-    Occurs when the client did not send a valid JSON object in the request body.
-
-    + Body
-
-            {
-                "_type": "Error",
-                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
-                "message": "The request body was not a single JSON object."
-            }
-
-+ Response 403 (application/hal+json)
-
-    Returned if the client does not have sufficient permissions.
-
-    **Required permission:** add project which is a global permission
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
-                "message": "You are not authorized to access this resource."
-            }
-
-+ Response 422 (application/hal+json)
-
-    Returned if:
-
-    * a constraint for a property was violated (`PropertyConstraintViolation`)
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
-                "message": "Name can't be blank.",
-                "_embedded": {
-                    "details": {
-                        "attribute": "name"
-                    }
-                }
-            }
+    [List projects][]
 
 ## Projects schema [/api/v3/projects/schemas]
 
@@ -568,11 +585,27 @@ You can use the form and schema to be retrieve the valid attribute values and by
                     "writable": true
                 },
                 "status": {
-                    "type": "String",
+                    "type": "ProjectStatus",
                     "name": "Status",
-                    "required": true,
+                    "required": false,
                     "hasDefault": true,
-                    "writable": true
+                    "writable": true,
+                    "_links": {
+                      "allowedValues": [
+                        {
+                            "href": "/api/v3/project_statuses/on_track",
+                            "title": "On track"
+                        },
+                        {
+                            "href": "/api/v3/project_statuses/at_risk",
+                            "title": "At risk"
+                        },
+                        {
+                            "href": "/api/v3/project_statuses/off_track",
+                            "title": "Off track"
+                        }
+                      ]
+                    }
                 },
                 "statusExplanation": {
                     "type": "Formattable",
@@ -706,7 +739,6 @@ For more details and all possible responses see the general specification of [Fo
                             "html": ""
                         },
                         "customField42": null,
-                        "status": null,
                         "statusExplanation": {
                             "format": "markdown",
                             "raw": null,
@@ -723,6 +755,9 @@ For more details and all possible responses see the general specification of [Fo
                             },
                             "parent": {
                                 "href": null
+                            },
+                            "status": {
+                              "href": null
                             }
                         }
                     },
@@ -776,11 +811,27 @@ For more details and all possible responses see the general specification of [Fo
                             "writable": true
                         },
                         "status": {
-                            "type": "String",
+                            "type": "ProjectStatus",
                             "name": "Status",
-                            "required": true,
+                            "required": false,
                             "hasDefault": true,
-                            "writable": true
+                            "writable": true,
+                            "_links": {
+                              "allowedValues": [
+                                {
+                                    "href": "/api/v3/project_statuses/on_track",
+                                    "title": "On track"
+                                },
+                                {
+                                    "href": "/api/v3/project_statuses/at_risk",
+                                    "title": "At risk"
+                                },
+                                {
+                                    "href": "/api/v3/project_statuses/off_track",
+                                    "title": "Off track"
+                                }
+                              ]
+                            }
                         },
                         "statusExplanation": {
                             "type": "Formattable",
@@ -995,6 +1046,10 @@ For more details and all possible responses see the general specification of [Fo
 
 ## Project update form [POST]
 
++ Parameters
+
+  + id (required, integer, `1`) ... Project id
+
 + Request Update project form
 
     + Body
@@ -1031,7 +1086,6 @@ For more details and all possible responses see the general specification of [Fo
                             "html": ""
                         },
                         "customField42": null,
-                        "status": "at risk",
                         "statusExplanation": {
                             "format": "markdown",
                             "raw": "There is some risk of failure",
@@ -1048,6 +1102,9 @@ For more details and all possible responses see the general specification of [Fo
                             },
                             "parent": {
                                 "href": "/api/v3/projects/45"
+                            },
+                            "status": {
+                              "href": "/api/v3/project_statuses/at_risk"
                             }
                         }
                     },
@@ -1098,10 +1155,33 @@ For more details and all possible responses see the general specification of [Fo
                             "name": "Active",
                             "required": true,
                             "hasDefault": true,
-                            "writable": true,
+                            "writable": true
                         },
                         "status": {
-                            "type": "String",
+                            "type": "ProjectStatus",
+                            "name": "Status",
+                            "required": false,
+                            "hasDefault": true,
+                            "writable": true,
+                            "_links": {
+                              "allowedValues": [
+                                {
+                                    "href": "/api/v3/project_statuses/on_track",
+                                    "title": "On track"
+                                },
+                                {
+                                    "href": "/api/v3/project_statuses/at_risk",
+                                    "title": "At risk"
+                                },
+                                {
+                                    "href": "/api/v3/project_statuses/off_track",
+                                    "title": "Off track"
+                                }
+                              ]
+                            }
+                        },
+                        "statusExplanation": {
+                            "type": "Formattable",
                             "name": "Status",
                             "required": true,
                             "hasDefault": true,
@@ -1338,6 +1418,10 @@ For more details and all possible responses see the general specification of [Fo
 
 ## Project copy form [POST]
 
++ Parameters
+
+  + id (required, integer, `1`) ... Project id
+
 + Request copy project form
 
   + Body
@@ -1378,7 +1462,6 @@ For more details and all possible responses see the general specification of [Fo
                         "html": ""
                     },
                     "customField42": null,
-                    "status": "at risk",
                     "statusExplanation": {
                         "format": "markdown",
                         "raw": "There is some risk of failure",
@@ -1393,7 +1476,10 @@ For more details and all possible responses see the general specification of [Fo
                             "href": null,
                             "title": null
                         },
-                        "parent": null
+                        "parent": null,
+                        "status": {
+                          "href": "/api/v3/project_statuses/at_risk"
+                        }
                     },
                     "_meta": {
                     	"copyOverview": false,
@@ -1456,10 +1542,33 @@ For more details and all possible responses see the general specification of [Fo
                         "name": "Active",
                         "required": true,
                         "hasDefault": true,
-                        "writable": true,
+                        "writable": true
                     },
                     "status": {
-                        "type": "String",
+                        "type": "ProjectStatus",
+                        "name": "Status",
+                        "required": false,
+                        "hasDefault": true,
+                        "writable": true,
+                        "_links": {
+                          "allowedValues": [
+                            {
+                                "href": "/api/v3/project_statuses/on_track",
+                                "title": "On track"
+                            },
+                            {
+                                "href": "/api/v3/project_statuses/at_risk",
+                                "title": "At risk"
+                            },
+                            {
+                                "href": "/api/v3/project_statuses/off_track",
+                                "title": "Off track"
+                            }
+                          ]
+                        }
+                    },
+                    "statusExplanation": {
+                        "type": "Formattable",
                         "name": "Status",
                         "required": true,
                         "hasDefault": true,
@@ -1763,6 +1872,11 @@ The copy endpoint has a `_meta` property that allows defining which associations
 
 ## Create project copy [POST]
 
++ Parameters
+
+  + id (required, integer, `1`) ... Project id
+
+
 + Request Create copy project 
 
   + Body
@@ -1832,7 +1946,7 @@ The copy endpoint has a `_meta` property that allows defining which associations
 
 
 
-## Available parent project candidates [/api/v3/projects/available_parent_projects{?filters,of,sortBy}]
+## List available parent project candidates [/api/v3/projects/available_parent_projects{?filters,of,sortBy}]
 
 + Model
     + Body
@@ -1868,13 +1982,16 @@ The copy endpoint has a `_meta` property that allows defining which associations
                       },
                       "versions": {
                         "href": "/api/v3/projects/6/versions"
+                      },
+                      "status": {
+                        "href": "/api/v3/project_statuses/on_track",
+                        "title": "On track"
                       }
                     },
                     "id": 6,
                     "identifier": "a_project",
                     "name": "A project",
                     "active": true,
-                    "status": "on track",
                     "statusExplanation": {
                         "format": "markdown",
                         "raw": "Everything **fine**",
@@ -1910,13 +2027,16 @@ The copy endpoint has a `_meta` property that allows defining which associations
                       },
                       "versions": {
                         "href": "/api/v3/projects/14/versions"
+                      },
+                      "status": {
+                        "href": "/api/v3/project_statuses/on_track",
+                        "title": "On track"
                       }
                     },
                     "id": 14,
                     "identifier": "another_project",
                     "name": "Another project",
                     "active": true,
-                    "status": "on track",
                     "statusExplanation": {
                         "format": "markdown",
                         "raw": "Everything super **fine**",
@@ -1962,7 +2082,7 @@ For instance to find all parent candidates with "rollout" in their name:
 
 + Response 200 (application/hal+json)
 
-    [Available parent project candidates][]
+    [List available parent project candidates][]
 
 + Response 403 (application/hal+json)
 
@@ -1978,7 +2098,7 @@ For instance to find all parent candidates with "rollout" in their name:
                 "message": "You are not authorized to access this resource."
             }
 
-## Projects by version [/api/v3/versions/{id}/projects]
+## List projects by version [/api/v3/versions/{id}/projects]
 
 + Model
     + Body
@@ -2005,7 +2125,11 @@ For instance to find all parent candidates with "rollout" in their name:
                                     "title": "Lorem"
                                 },
                                 "categories": { "href": "/api/v3/projects/1/categories" },
-                                "versions": { "href": "/api/v3/projects/1/versions" }
+                                "versions": { "href": "/api/v3/projects/1/versions" },
+                                "status": {
+                                  "href": "/api/v3/project_statuses/on_track",
+                                  "title": "On track"
+                                }
                             },
                             "id": 1,
                             "identifier": "project_identifier",
@@ -2016,7 +2140,6 @@ For instance to find all parent candidates with "rollout" in their name:
                                 "html": "<p>Lorem <strong>ipsum</strong> dolor sit amet</p>"
                             },
                             "active": true,
-                            "status": "on track",
                             "statusExplanation": {
                                 "format": "markdown",
                                 "raw": "Everything **fine**",
@@ -2042,7 +2165,7 @@ but are also limited to the projects that the current user is allowed to see.
     
 + Response 200 (application/hal+json)
 
-    [Projects by version][]
+    [List projects by version][]
 
 + Response 404 (application/hal+json)
 
@@ -2059,6 +2182,48 @@ but are also limited to the projects that the current user is allowed to see.
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
-                "message": "The specified version does not exist."
+                "message": "The requested resource could not be found."
             }
 
+## View project status
+
+The project status enumerations are a fixed set set status a project can be in: "On track", "At risk" and "Off track". They can be
+used to communicate a judgement on the project's likeliness to succeed.
+
+## View project status [/api/v3/project_statuses/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "ProjectStatus",
+                "id": "on_track",
+                "name": "On track",
+                "_links": {
+                  "self": {
+                    "href": "/api/v3/project_statuses/on_track"
+                  }
+                }
+            }
+
+## View project status [GET]
+
++ Parameters
+
+  + id (required, string, `on_track`) ... Project status id
+
++ Response 200 (application/hal+json)
+
+    [View project status][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the project status does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
