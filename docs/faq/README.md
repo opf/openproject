@@ -65,7 +65,7 @@ Here are resources to get to know OpenProject:
 - The [overview of our features](https://www.openproject.org/collaboration-software-features) 
 - Our [English demo video](https://www.youtube.com/watch?v=un6zCm8_FT4) or [German demo video](https://www.youtube.com/watch?v=doVtVArSSvk) to get an overview of Openproject. There are additional videos explaining certain features to be found on our [YouTube channel](https://www.youtube.com/c/OpenProjectCommunity/videos), too.
 - The [Getting started guide](../getting-started) and the [User guide](../user-guide)
-- Our free trial: Click the green button [here](https://www.openproject.org/enterprise-edition) for Enterprise on-premises or go to [start.openproject.com](start.openproject.com) for the Enterprise cloud.
+- Our free trial: Click the green button [here](https://www.openproject.org/enterprise-edition) for Enterprise on-premises or go to start.openproject.com for the Enterprise cloud.
 - Our [development roadmap](https://community.openproject.com/projects/openproject/work_packages?query_id=1993) (to get to know future features)
 - Our [training and consulting offers](https://www.openproject.org/training-and-consulting) 
 
@@ -77,7 +77,7 @@ Our minimum plan for the Enterprise cloud edition and Enterprise on-premises edi
 
 OpenProject comes with the GNU General Public License v3 (GPLv3). You can find out more about the copyright [here](https://github.com/opf/openproject/blob/dev/docs/COPYRIGHT.rdoc).
 In accordance with the terms set by the GPLv3 license, users can make modifications, create copies and redistribute the work. 
-Terms and conditions regarding GPLv3 are available at[ ](http://www.gnu.org/licenses/gpl-3.0.html.)[http://www.gnu.org/licenses/gpl-3.0.html](http://www.gnu.org/licenses/gpl-3.0.html.).
+Terms and conditions regarding GPLv3 are available at http://www.gnu.org/licenses/gpl-3.0.en.html.
 
 ### Is OpenProject free of charge?
 
