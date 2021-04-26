@@ -11,7 +11,7 @@ keywords: project overview page
 
 The **Project overview** page is a dashboard with important project information. You can display relevant information for your team, such as members, news, project description, work package reports, or a project status. 
 
-| Feature                                                      | Documentation for                                       |
+| Topic                                                        | Content                                                 |
 | ------------------------------------------------------------ | ------------------------------------------------------- |
 | [What is the project overview?](#what-is-the-project-overview) | What can I do with the project overview page?           |
 | [Add a widget to the project overview](#add-a-widget-to-the-project-overview) | How can I add a new widget to the project overview?     |

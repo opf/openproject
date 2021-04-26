@@ -31,7 +31,7 @@ sl:
       color_theme: "Barvna tema"
       color_theme_custom: "(Po meri)"
       colors:
-        alternative-color: "Alternative"
+        alternative-color: "Alternativno"
         content-link-color: "Pisava povezave"
         primary-color: "Primarna"
         primary-color-dark: "Primarna (temna)"
@@ -78,7 +78,7 @@ sl:
     is_active: Trenutno prikazano
     is_inactive: trenutno ni prikazano
   attribute_help_texts:
-    note_public: 'Vsa dodana besedila in slike so javno vidna vsem prijavljenim uporabnikom'
+    note_public: 'Vsa dodana besedila in slike so javno vidna vsem prijavljenim uporabnikom!'
     text_overview: 'V tem pogledu lahko ustvarite besedila pomoči po meri za pogled atributov. Ob definiciji lahko ta besedila prikažemo s klikom ikone pomoči poleg pripadajočega atributa.'
     label_plural: 'Tekst pomoči atributa'
     show_preview: 'Predogled besedila'
@@ -241,7 +241,7 @@ sl:
       no_results_title_text: Ta uporabnik trenutno ni član projekta.
   placeholder_users:
     deletion_info:
-      heading: "Izbriši nadomestnega uporabniško %{name}"
+      heading: "Izbriši nadomestnega uporabnika %{name}"
       data_consequences: >
         Vsi pojavi nadomestnega uporabnika (npr., kot nosilec naloge, odgovorni ali druge vrednosti) bodo preneseni na račun imenovan "Izbrisan uporabnik".
         Podatki iz vsakega izbrisanega računa so preneseni na ta račun, zato ne bo možno razlikovati med podatki, ki jih je uporabnik ustvaril in podatki iz drugega izbirsanega računa.
@@ -529,7 +529,7 @@ sl:
         confirmation: "se ne ujema %{attribute}"
         could_not_be_copied: "%{dependency} ni bilo mogoče (v celoti) kopirati."
         does_not_exist: "ne obstaja"
-        error_enterprise_only: "je na voljo samo v OpenProject podjetniški verziji"
+        error_enterprise_only: "je na voljo samo v OpenProject Enterprise Edition"
         error_unauthorized: "morda ni mogoče dostopati."
         error_readonly: "poskušano je bilo napisati, vendar ni mogoče pisati."
         empty: "ne sme biti prazno. "
@@ -655,7 +655,7 @@ sl:
         wiki_page:
           attributes:
             slug:
-              undeducible: "cannot be deduced from the title '%{title}'."
+              undeducible: "ni mogoče razbrati iz naslova '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Delovni paket #%{id}%{id} ni veljaven cilj za prerazporeditev časovnih vnosov."
           attributes:

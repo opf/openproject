@@ -294,7 +294,7 @@ sl:
     label_and: "in"
     label_ascending: "Naraščajoče"
     label_author: "Avtor: %{user}"
-    label_avatar: "Podoba"
+    label_avatar: "Avatar"
     label_between: "med"
     label_board: "Board"
     label_board_locked: "Zaklenjen"
