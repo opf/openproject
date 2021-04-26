@@ -198,8 +198,9 @@ module API
                    if represented.status&.code
                      {
                        href: api_v3_paths.project_status(represented.status.code),
-                       title: I18n.t(:"activerecord.attributes.projects/status.codes.#{represented.status.code}")
-                     }
+                       title: I18n.t(:"activerecord.attributes.projects/status.codes.#{represented.status.code}",
+                                     default: nil)
+                     }.compact
                    else
                      {
                        href: nil
