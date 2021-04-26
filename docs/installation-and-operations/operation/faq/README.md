@@ -14,6 +14,10 @@ keywords: operation FAQ, upgrading, database
 Please note the steps that have been outlined in the blue box at the top [here](./operation/upgrading). It's important to change the branch for this.
 We implemented this to prevent users from upgrading to a major release (which could be not backwards compatible) by mistake.
 
+## Will my data be lost when I upgrade OpenProject?
+
+We strongly recommend a [backup](../backing-up) of your data before updating. Your data won't be lost in the regular update process, though.
+
 ## I lost access to my admin account, how do I reset my password?
 
 You can reset your admin account through the Rails console.

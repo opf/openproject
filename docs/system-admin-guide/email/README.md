@@ -17,7 +17,6 @@ Navigate to *Administration* -> *Email*.
 | ---------------------------------------------------- | ---------------------------------------------- |
 | [Email notifications](#email-notifications-settings) | How to configure outgoing email notifications? |
 | [Incoming emails](#incoming-emails-settings)         | How to configure settings for inbound emails?  |
-| [FAQ](frequently-asked-questions---faq)              | Frequently asked questions.                    |
 
 
 ## Email notifications settings

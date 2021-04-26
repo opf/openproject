@@ -39,7 +39,7 @@ The Enterprise token is sent to the email address used to create the subscriptio
 
 ## Can I use my own domain name?
 
-Yes, for Enterprise on-premises and for Community Edition you will have to choose your own domain name during [initial configuration](../../installation-and-operations/installation/packaged/#initial-configuration) after installing OpenProject.
+Yes, for Enterprise on-premises and for Community Edition you will have to choose your own domain name during [initial configuration](../../../installation-and-operations/installation/packaged/#initial-configuration) after installing OpenProject.
 
 ## How can I change my payment details (e.g. new credit card)?
 
