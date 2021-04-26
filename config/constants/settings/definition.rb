@@ -103,6 +103,10 @@ module Settings
         @by_name[name.to_s]
       end
 
+      def exists?(name)
+        @by_name.keys.include?(name)
+      end
+
       def all
         @all ||= []
 

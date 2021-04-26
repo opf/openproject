@@ -35,38 +35,15 @@ module OpenProject
   module Configuration
     extend Helpers
 
-    @config = nil
-
     class << self
-      # Loads the OpenProject configuration file (config/configuration.yml)
-      def load
-        @config = Settings::Definition
-                  .all
-                  .reject(&:writable?)
-                  .map { |definition| [definition.name, definition.value] }
-                  .to_h
-
-        convert_old_email_settings(@config)
-
-        define_config_methods
-
-        @config = @config.with_indifferent_access
-      end
-
-      def get_value(value)
-        value
-      end
-
       # Returns a configuration setting
       def [](name)
-        load unless @config
-        @config[name]
+        Settings::Definition[name]&.value
       end
 
       # Sets configuration setting
       def []=(name, value)
-        load unless @config
-        @config[name] = value
+        Settings::Definition[name].value = value
       end
 
       def configure_cache(application_config)
@@ -74,13 +51,12 @@ module OpenProject
 
         # rails defaults to :file_store, use :mem_cache_store when :memcache is configured in configuration.yml
         # Also use :mem_cache_store for when :dalli_store is configured
-        cache_store = @config['rails_cache_store'].try(:to_sym)
+        cache_store = self['rails_cache_store'].try(:to_sym)
 
         case cache_store
         when :memcache, :dalli_store
           cache_config = [:mem_cache_store]
-          cache_config << @config['cache_memcache_server'] \
-            if @config['cache_memcache_server']
+          cache_config << self['cache_memcache_server'] if self['cache_memcache_server']
         # default to :file_store
         when NilClass, :file_store
           cache_config = [:file_store, Rails.root.join('tmp/cache')]
@@ -88,7 +64,7 @@ module OpenProject
           cache_config = [cache_store]
         end
 
-        parameters = cache_parameters(@config)
+        parameters = cache_parameters
         cache_config << parameters if parameters.size > 0
 
         application_config.cache_store = cache_config
@@ -100,7 +76,7 @@ module OpenProject
         # or there is something to overwrite it
         application_config.cache_store.nil? ||
           application_config.cache_store == :file_store ||
-          @config['rails_cache_store'].present?
+          Settings::Definition['rails_cache_store'].present?
       end
 
       def migrate_mailer_configuration!
@@ -202,45 +178,16 @@ module OpenProject
         ActionMailer::Base.smtp_settings[:ssl] = Setting.smtp_ssl?
       end
 
-      # Convert old mail settings
-      #
-      # SMTP Example:
-      # mail_delivery.smtp_settings.<key> is converted to smtp_<key>
-      # options:
-      # disable_deprecation_message - used by testing
-      def convert_old_email_settings(config, options = {})
-        if config['email_delivery']
-          unless options[:disable_deprecation_message]
-            ActiveSupport::Deprecation.warn 'Deprecated mail delivery settings used. Please ' +
-                                            'update them in config/configuration.yml or use ' +
-                                            'environment variables. See doc/CONFIGURATION.md for ' +
-                                            'more information.'
-          end
-
-          config['email_delivery_method'] = config['email_delivery']['delivery_method'] || :smtp
-
-          ['sendmail', 'smtp'].each do |settings_type|
-            settings_key = "#{settings_type}_settings"
-            if config['email_delivery'][settings_key]
-              config['email_delivery'][settings_key].each do |key, value|
-                config["#{settings_type}_#{key}"] = value
-              end
-            end
-          end
-          config.delete('email_delivery')
-        end
-      end
-
-      def cache_parameters(config)
+      def cache_parameters
         mapping = {
           'cache_expires_in_seconds' => %i[expires_in to_i],
           'cache_namespace' => %i[namespace to_s]
         }
         parameters = {}
         mapping.each_pair do |from, to|
-          if config[from]
+          if self[from]
             to_key, method = to
-            parameters[to_key] = config[from].method(method).call
+            parameters[to_key] = self[from].method(method).call
           end
         end
         parameters
@@ -255,6 +202,24 @@ module OpenProject
           end
         end
         filtered_hash
+      end
+
+      def method_missing(name, *args, &block)
+        setting_name = name.to_s.sub('(=|\?)$', '')
+
+        if Settings::Definition.exists?(setting_name)
+          define_singleton_method setting_name do
+            self[setting_name]
+          end
+
+          define_singleton_method "#setting_name}?" do
+            ['true', true, '1'].include? self[setting_name]
+          end
+        end
+      end
+
+      def respond_to_missing?(name, include_private = false)
+        Settings::Definition.exists?(name.to_ s.sub('(=|\?)$', '')) || super
       end
 
       def define_config_methods

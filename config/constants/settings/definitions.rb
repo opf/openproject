@@ -225,21 +225,40 @@ Settings::Definition.define do
     # Slow query logging threshold in ms
     'sql_slow_query_threshold' => 2000
   }.each do |key, value|
-    add_key_value(key, value)
+    if key == 'email_delivery'
+      ActiveSupport::Deprecation.warn <<~MSG
+        Deprecated mail delivery settings used. Please
+        update them in config/configuration.yml or use
+        environment variables. See doc/CONFIGURATION.md for
+        more information.
+      MSG
+
+      add_key_value('email_delivery_method', value['delivery_method'] || :smtp)
+
+      %w[sendmail smtp].each do |settings_type|
+        value["#{settings_type}_settings"]&.each do |key, value|
+          add_key_value("#{settings_type}_#{key}", value)
+        end
+      end
+    else
+      add_key_value(key, value)
+    end
+  end
+
+
+  YAML::load(File.open(Rails.root.join('config/settings.yml'))).map do |name, config|
+    format = case format
+             when "boolean", "symbol", "date", "datetime"
+               format.to_sym
+             when "int"
+               :integer
+             end
+
+    add name,
+        format: format,
+        value: config['default'],
+        serialized: config.fetch('serialized', false),
+        api: false
   end
 end
 
-YAML::load(File.open(Rails.root.join('config/settings.yml'))).map do |name, config|
-  format = case format
-           when "boolean", "symbol", "date", "datetime"
-             format.to_sym
-           when "int"
-             :integer
-           end
-
-  Settings::Definition.add name,
-                           format: format,
-                           value: config['default'],
-                           serialized: config.fetch('serialized', false),
-                           api: false
-end
