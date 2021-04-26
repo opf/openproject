@@ -28,45 +28,36 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects
-  class DeleteProjectJob < UserJob
-    queue_with_priority :low
-    include OpenProject::LocaleHelper
+require 'spec_helper'
 
-    attr_reader :project
-
-    def execute(project:)
-      @project = project
-
-      service_call = delete_project
-
-      if service_call.failure?
-        log_service_failure(service_call)
+describe UserJob do
+  let(:test_job) do
+    Class.new(::UserJob) do
+      def execute(foo:)
+        user.admin?
       end
-    rescue StandardError => e
-      log_standard_error(e)
     end
+  end
 
-    private
+  subject do
+    test_job.new(user: user, foo: 'foo').perform_now
+  end
 
-    def delete_project
-      ::Projects::DeleteService
-        .new(user: user, model: project)
-        .call
+  describe 'with system user' do
+    let(:user) { User.system }
+    it 'sets admin privileges' do
+      expect(subject).to eq true
+
+      # But does not retain admin privileges
+      expect(user).not_to be_admin
     end
+  end
 
-    def log_standard_error(e)
-      logger.error('Encountered an error when trying to delete project '\
-                   "'#{project}' : #{e.message} #{e.backtrace.join("\n")}")
-    end
-
-    def log_service_failure(service_call)
-      logger.error "Failed to delete project #{project} in background job: " \
-                   "#{service_call.message}"
-    end
-
-    def logger
-      Delayed::Worker.logger
+  describe 'with a regular user' do
+    let(:user) { FactoryBot.build_stubbed :user }
+    it 'just uses that' do
+      expect(subject).to eq false
+      expect(user).not_to be_admin
     end
   end
 end

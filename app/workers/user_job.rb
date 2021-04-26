@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,45 +26,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Projects
-  class DeleteProjectJob < UserJob
-    queue_with_priority :low
-    include OpenProject::LocaleHelper
+class UserJob < ApplicationJob
+  attr_reader :user
 
-    attr_reader :project
+  def perform(user:, **args)
+    @user = user
 
-    def execute(project:)
-      @project = project
-
-      service_call = delete_project
-
-      if service_call.failure?
-        log_service_failure(service_call)
-      end
-    rescue StandardError => e
-      log_standard_error(e)
+    as_user do
+      execute(**args)
     end
+  rescue StandardError => e
+    Rails.logger.error "Failed to execute job #{self.class.name} for #{user}: #{e}"
+    raise e
+  end
 
-    private
+  private
 
-    def delete_project
-      ::Projects::DeleteService
-        .new(user: user, model: project)
-        .call
-    end
-
-    def log_standard_error(e)
-      logger.error('Encountered an error when trying to delete project '\
-                   "'#{project}' : #{e.message} #{e.backtrace.join("\n")}")
-    end
-
-    def log_service_failure(service_call)
-      logger.error "Failed to delete project #{project} in background job: " \
-                   "#{service_call.message}"
-    end
-
-    def logger
-      Delayed::Worker.logger
+  ##
+  # Returns the user for using in delayed job
+  # If a system user was passed, assume that it receives
+  # admin privileges.
+  def as_user(&block)
+    if user.is_a?(SystemUser)
+      user.run_given(&block)
+    else
+      User.execute_as(user, &block)
     end
   end
 end
