@@ -308,6 +308,14 @@ If you want to code, a good starting point would be to make yourself familiar wi
 
 If in doubt on how you should start, you can also just [contact us](https://www.openproject.org/contact-us/).
 
+### How can I receive support?
+
+We offer our Professional Support for Enterprise on-premises users and Enterprise cloud users. Please write an email to support@openproject.com. 
+
+If you use the Community Edition please feel free to use our [forums](https://community.openproject.org/projects/openproject/forums) for exchange with other users.
+
+To learn more about OpenProject and how its features work please have a look at [this FAQ](#how-can-i-learn-more-about-openproject-and-how-to-use-it).
+
 ### Do you support Univention users?
 
 If you're an Enterprise on-premises user you're eligible for Professional Support. However, we can't support you in all Univention-related topics (e.g. server not reachable, authentication setup, ...).
@@ -335,10 +343,12 @@ You can find the price calculator [here](https://www.openproject.org/pricing) an
 
 ## Topic-specific FAQ
 
-## [FAQ for work packages](../user-guide/work-packages/faq)
+Here are some selected links to other FAQ pages. Please use the menu to navigate to a topic's section to find more FAQs or use the search bar in the header.
 
-## [FAQ for Gantt chart](../user-guide/gantt-chart/faq)
+- [FAQ for work packages](../user-guide/work-packages/faq)
+- [FAQ for Gantt chart](../user-guide/gantt-chart/faq)
+- [FAQ for Enterprise on-premises](../enterprise-guide/faq)
 
-## [FAQ for Enterprise on-premises](../enterprise-edition-guide/faq)
-
-## [FAQ for Enterprise cloud](../cloud-edition-guide/faq) 
+- [FAQ for Enterprise cloud](../cloud-edition-guide/faq) 
+- [FAQ for system administration](../system-admin-guide/faq)
+- [FAQ for installation, operation and upgrades](../installation-and-operations/faq) 
