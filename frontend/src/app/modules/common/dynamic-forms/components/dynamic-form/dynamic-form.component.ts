@@ -77,7 +77,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
 
   @Output() modelChange = new EventEmitter<IOPFormModel>();
   @Output() submitted = new EventEmitter<HalSource>();
-  @Output() errored = new EventEmitter<IOPFormError>();
+  @Output() errored = new EventEmitter<IOPFormErrorResponse>();
 
   isStandaloneForm:boolean;
   fields: IOPFormlyFieldConfig[];
@@ -158,7 +158,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
           this.submitted.emit(formResource);
           this.showNotifications && this._notificationsService.addSuccess(this.text.submit_success_message);
         },
-        (error:IOPFormError) => {
+        (error:IOPFormErrorResponse) => {
           this.errored.emit(error);
           this.showNotifications && this._notificationsService.addError(this.text.validation_error_message);
         },
