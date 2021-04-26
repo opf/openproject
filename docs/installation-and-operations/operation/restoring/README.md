@@ -46,6 +46,10 @@ Untar the configuration files to their destination:
 sudo tar xzf /var/db/openproject/backup/conf-20191119210038.tar.gz -C /etc/openproject/conf.d/
 ```
 
+If you want to change anything in the configuration, you can also inspect the `/etc/openproject` folder afterwards and change them accordingly.
+To go through all configured wizards steps, use the `openproject reconfigure` option. [See the configuration guide](../reconfiguring) for more information.
+
+
 Untar the repositories to their destination:
 
 ```bash
@@ -76,6 +80,8 @@ This is necessary since the backups of OpenProject does not clean statements to 
 ```bash
 sudo pg_restore --clean --if-exists --dbname $(sudo openproject config:get DATABASE_URL) postgresql-dump-20200804094017.pgdump
 ```
+
+As the `pg_restore` tries to apply the username from the dumped database as the owner, you might see errors if you restoring to a database with a different username. In this case, please add `--no-owner` as a command line argument.
 
 #### Troubleshooting
 
