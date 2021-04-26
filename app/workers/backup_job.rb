@@ -137,7 +137,11 @@ class BackupJob < ::ApplicationJob
   def create_backup_archive!(file_name:, db_dump_file_name:, attachments: attachments_to_include)
     Zip::File.open(file_name, Zip::File::CREATE) do |zipfile|
       attachments.each do |attachment|
-        path = attachment.diskfile.path
+        # If an attachment is destroyed on disk, skip i
+        diskfile = attachment.diskfile
+        next unless diskfile
+
+        path = diskfile.path
 
         zipfile.add "attachment/file/#{attachment.id}/#{attachment[:file]}", path
       end
