@@ -36,7 +36,7 @@ export class FormsService {
       );
   }
 
-  validateForm$(formValue: {[key:string]: any}, resourceEndpoint:string, limitValidationToKey?:string,) {
+  validateForm$(formValue: {[key:string]: any}, resourceEndpoint:string, limitValidationToKeys?:string | string[]) {
     const modelToSubmit = this._formatModelToSubmit(formValue);
 
     return this._httpClient
@@ -52,7 +52,7 @@ export class FormsService {
         }
       )
       .pipe(
-        map((response: HalSource) => this._getFormValidationErrors(response._embedded.validationErrors, limitValidationToKey))
+        map((response: HalSource) => this._getFormValidationErrors(response._embedded.validationErrors, limitValidationToKeys))
       );
   }
 
@@ -95,14 +95,15 @@ export class FormsService {
     }
   }
 
-  private _getFormValidationErrors(validationErrors:IOPValidationErrors, formControlKey?:string) {
+  private _getFormValidationErrors(validationErrors:IOPValidationErrors, formControlKeys?:string | string[]) {
     const errors = Object.values(validationErrors);
+    const keysToValidate = Array.isArray(formControlKeys) ? formControlKeys : [formControlKeys];
     const formErrors = this._getFormattedErrors(errors)
       .filter(error => {
-        if (!formControlKey) {
+        if (!formControlKeys) {
           return true;
         } else {
-          return error.key === formControlKey;
+          return keysToValidate.includes(error.key);
         }
       })
       .reduce((result, { key, message }) => {
