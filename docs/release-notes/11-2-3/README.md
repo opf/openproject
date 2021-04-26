@@ -8,6 +8,7 @@ release_date: 2021-04-23
 
 # OpenProject 11.2.3
 
+Release date: 2021-04-23
 We released [OpenProject 11.2.3](https://community.openproject.com/versions/1474).
 The release contains several bug fixes and we recommend updating to the newest version.
 
