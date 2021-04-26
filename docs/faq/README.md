@@ -13,9 +13,9 @@ Welcome to the central overview of frequently asked questions for OpenProject.
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Learn more about OpenProject](#learn-more-about-openproject) | General questions about OpenProject, security, setup and much more |
-| [How to ... in OpenProject?](#how-to-...-in-openproject)     | Questions about how to achieve certain outcomes in OpenProject that do not fit elsewhere |
+| [How to ... in OpenProject?](#how-to--in-openproject)        | Questions about how to achieve certain outcomes in OpenProject that do not fit elsewhere |
 | [FAQ regarding features](#faq-regarding-features)            | Information about frequent feature requests                  |
-| [FAQ regarding OpenProject BIM edition](#FAQ-regarding-OpenProject-BIM-edition) | Questions concerning the additional BCF module for OpenProject and the BIM edition |
+| [FAQ regarding OpenProject BIM edition](#faq-regarding-openproject-bim-edition) | Questions concerning the additional BCF module for OpenProject and the BIM edition |
 | [Migration](#migration)                                      | Questions regarding migrating to OpenProject from e.g. Bitnami or from other OpenProject versions |
 | [Other](#other)                                              | Additional questions, e.g. about contribution, training, support |
 | [Topic-specific FAQ](#topic-specific-faq)                    | Links to other FAQ sections                                  |
@@ -347,8 +347,7 @@ Here are some selected links to other FAQ pages. Please use the menu to navigate
 
 - [FAQ for work packages](../user-guide/work-packages/faq)
 - [FAQ for Gantt chart](../user-guide/gantt-chart/faq)
-- [FAQ for Enterprise on-premises](../enterprise-guide/faq)
-
-- [FAQ for Enterprise cloud](../cloud-edition-guide/faq) 
+- [FAQ for Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/faq)
+- [FAQ for Enterprise cloud](../enterprise-guide/enterprise-cloud-guide/faq)
 - [FAQ for system administration](../system-admin-guide/faq)
-- [FAQ for installation, operation and upgrades](../installation-and-operations/faq) 
+- [FAQ for installation, operation and upgrades](../installation-and-operations/faq)
