@@ -47,6 +47,13 @@ module API
           schema :updated_at,
                  type: 'DateTime'
 
+          schema :custom_message,
+                 type: 'Formattable',
+                 name_source: ->(*) { I18n.t(:label_message) },
+                 writable: true,
+                 required: false,
+                 location: :meta
+
           schema_with_allowed_link :project,
                                    has_default: false,
                                    required: false,
