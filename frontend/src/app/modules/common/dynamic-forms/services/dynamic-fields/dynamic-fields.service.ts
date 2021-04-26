@@ -125,7 +125,7 @@ export class DynamicFieldsService {
       .map(fieldSchemaKey => {
         const fieldSchema = {
           ...formSchema[fieldSchemaKey],
-          key: this._isResourceSchema(fieldSchemaKey, formModel) ?
+          key: this._isResourceSchema(formSchema[fieldSchemaKey]) ?
             `_links.${fieldSchemaKey}` :
             fieldSchemaKey
         };
@@ -135,8 +135,8 @@ export class DynamicFieldsService {
       .filter(fieldSchema => this._isFieldSchema(fieldSchema) && fieldSchema.writable);
   }
 
-  private _isResourceSchema(fieldSchemaKey:string, formModel:IOPFormModel):boolean {
-    return !!(formModel?._links && fieldSchemaKey in formModel._links);
+  private _isResourceSchema(fieldSchema: IOPFieldSchema):boolean {
+    return fieldSchema.parent?.location === '_links';
   }
 
   private _isFieldSchema(schemaValue:IOPFieldSchemaWithKey | any):boolean {

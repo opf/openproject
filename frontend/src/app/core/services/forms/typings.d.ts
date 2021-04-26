@@ -46,6 +46,9 @@ interface IOPFieldSchema {
   options: {
     [key: string]: any;
   };
+  parent?: {
+    location?: '_links' | string;
+  },
   _embedded?: {
     allowedValues?: IOPApiCall | IOPAllowedValue[];
   };
