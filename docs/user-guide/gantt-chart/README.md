@@ -153,8 +153,6 @@ The zen mode gives you more space to focus on the tasks at hand. It's almost lik
 
 
 
-
-
 ## Aggregation by project
 
 You can get a **quick overview of multiple projects** in the Gantt chart. To accomplish this navigate to the Work packages module of a project or the [project overarching work packages list](../projects/#project-overarching-reports).
@@ -177,4 +175,3 @@ This will give you an **aggregated view of the projects' milestones**.
 Apart from the set filters the list of displayed projects depends on your [permissions](../../system-admin-guide/users-permissions/roles-permissions/). You can only see private projects that you are a member of and public projects.
 In some cases (many work packages per project) you will have to increase the objects per page in bottom right corner to display multiple projects. Change the available options in the [system settings](../../system-admin-guide/system-settings/general-settings/) if necessary.
  ![image-20201211131803961](image-20201211131803961.png)
-

@@ -6,7 +6,7 @@ es:
     label_bcf: 'BCF'
     label_imported_failed: 'No se pudieron importar los temas de BCF'
     label_imported_successfully: 'Los temas de BCF se importaron correctamente'
-    issues: "Problemas"
+    issues: "Incidencias"
     recommended: 'recomendado'
     not_recommended: 'no recomendado'
     no_viewpoints: 'Sin áreas de visualización'
@@ -14,9 +14,9 @@ es:
     exceptions:
       file_invalid: "Archivo BCF no válido"
     x_bcf_issues:
-      zero: 'Sin problemas de BCF'
-      one: ''
-      other: ''
+      zero: 'No hay incidencias de BCF'
+      one: 'Una incidencia de BCF'
+      other: '%{count} incidencias de BCF'
     bcf_xml:
       xml_file: 'Archivo XML de BCF'
       import_title: 'Importar'
@@ -24,9 +24,9 @@ es:
       import_update_comment: '(Actualizado en la importación de BCF)'
       import_failed: 'No se puede importar el archivo BCF: %{error}'
       import_failed_unsupported_bcf_version: 'No se puede leer el archivo BCF: la versión de BCF no es compatible. Asegúrese de que la versión sea como mínimo %{minimal_version} o posteriores.'
-      import_successful: 'Se importaron %{count} problemas de BCF'
+      import_successful: 'Se importaron %{count} incidencias de BCF'
       import_canceled: 'La importación de BCF-XML se ha cancelado.'
-      type_not_active: "El tipo de problema no está activo para este proyecto."
+      type_not_active: "El tipo de incidencia no está activo para este proyecto."
       import:
         num_issues_found: '%{x_bcf_issues} están presentes en el archivo BCF-XML y a continuación se muestran los detalles.'
         button_prepare: 'Preparar importación'
@@ -52,7 +52,7 @@ es:
         no_type_provided: 'No se ha especificado ningún tipo'
         no_status_provided: 'No se ha especificado ningún estado'
         no_priority_provided: 'No se ha especificado ninguna prioridad'
-        perform_description: "¿Quiere importar o actualizar los problemas de la lista anterior?"
+        perform_description: "¿Quiere importar o actualizar las incidencias de la lista anterior?"
         replace_with_system_user: 'Reemplazarlos con el usuario “System”'
         import_as_system_user: 'Se importan como el usuario “System”.'
         what_to_do: "¿Qué quieres hacer?"
@@ -65,8 +65,8 @@ es:
     bcf_thumbnail: "Instantánea de BCF"
   project_module_bcf: "BCF"
   project_module_bim: "BCF"
-  permission_view_linked_issues: "Ver problemas de BCF"
-  permission_manage_bcf: "Importar y administrar problemas de BCF"
+  permission_view_linked_issues: "Ver incidencias de BCF"
+  permission_manage_bcf: "Importar y administrar incidencias de BCF"
   permission_delete_bcf: "Eliminar incidencias BCF"
   oauth:
     scopes:

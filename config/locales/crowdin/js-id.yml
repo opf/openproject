@@ -207,7 +207,7 @@ id:
         upsale:
           become_hero: "Menjadi seorang pahlawan!"
           benefits:
-            description: "What are the benefits?"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Security features"
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
             installation: "Installation support"
@@ -517,7 +517,7 @@ id:
         reset_title: "Setel ulang konfigurasi formulir"
         confirm_reset: >
           Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
-        upgrade_to_ee: "Tingkatkan ke edisi enterprise"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
         upgrade_to_ee_text: "Wow! Kalau Anda membutuhkan fitur ini, Anda adalah profesional yang super! Bersediakah Anda mendukung kami, pengembang OpenSource, untuk menjadi pelanggan Edisi Perusahaan?"
         more_information: "Informasi lebih lanjut"
         nevermind: "Tidak masalah"
@@ -938,8 +938,9 @@ id:
       child_work_packages:
         other: "Paket kerja %{count} turunan"
       hour:
+        one: "1 h"
+        other: "%{count} h"
         zero: "0 h"
-        other: ""
     zen_mode:
       button_activate: 'Mengaktifkan modus zen'
       button_deactivate: 'Menonaktifkan modus zen'

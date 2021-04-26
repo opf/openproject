@@ -165,7 +165,6 @@ Use it to quickly collapse or expand all groups at the same time. Find out [here
 
 
 
-
 ## Attribute highlighting (Premium Feature)
 
 You can highlight attributes in the work package list to emphasize the importance of certain attributes and have important topics at a glance.

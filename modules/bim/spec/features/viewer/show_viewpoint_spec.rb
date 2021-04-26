@@ -60,11 +60,12 @@ describe 'Show viewpoint in model viewer',
     it 'loads the minimal viewpoint in the viewer' do
       model_tree.select_sidebar_tab 'Objects'
       model_tree.expand_tree
-      model_tree.expect_checked 'minimal'
-      model_tree.all_checkboxes.each do |label, checkbox|
-        retry_block do
-          if (label.text == 'minimal' || label.text == 'LUB_Segment_new:S_WHG_Ess:7243035') != checkbox.checked?
-            raise 'Checkbox checked status is wrong'
+      retry_block do
+        model_tree.expect_checked 'minimal'
+        model_tree.all_checkboxes.each do |label, checkbox|
+          expect_checked = (label.text == 'minimal' || label.text == 'LUB_Segment_new:S_WHG_Ess:7243035')
+          if expect_checked != checkbox.checked?
+            raise "Expected #{label.text} to be #{expect_checked ? 'checked' : 'unchecked'}, but wasn't."
           end
         end
       end
@@ -80,6 +81,10 @@ describe 'Show viewpoint in model viewer',
 
   context 'clicking on the card' do
     before do
+      # We need to wait a bit for xeokit to be initialized
+      # otherwise the viewpoint selection won't go through
+      sleep 2
+
       card_view.select_work_package work_package
       card_view.expect_work_package_selected work_package, true
     end
@@ -91,6 +96,10 @@ describe 'Show viewpoint in model viewer',
     before do
       card_view.open_full_screen_by_details work_package
       bcf_details.expect_viewpoint_count 1
+
+      # We need to wait a bit for xeokit to be initialized
+      # otherwise the viewpoint selection won't go through
+      sleep 2
       bcf_details.show_current_viewpoint
     end
 

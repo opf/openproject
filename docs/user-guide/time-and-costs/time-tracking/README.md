@@ -19,12 +19,12 @@ Users can book their time or units spent on an activity within a project directl
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Logging time](#logging-time-in-the-work-package-view)       | How to log time to work packages?                            |
-| [Track time with Toggl](./toggl-integration)                 | How to stop spent time with Toggl integration?               |
 | [Logging time via commit message](#logging-time-via-commit-message) | How to log time via a commit message to a work package?      |
 | [Edit logged time](#edit-logged-time)                        | How to edit logged time on a work package?                   |
 | [Delete time entries](#delete-time-entires)                  | How to delete time entries logged to a work package?         |
 | [Spent time widget on the My Page](#spent-time-widget-on-the-my-page) | How to easily track and display spent time in the spent time widget on the MyPage? |
-| [Define hourly rate for labor costs](#define-hourly-rate-for-labor-costs) | How to set the hourly rate to track labor costs?    |
+| [Track time with Toggl](./toggl-integration)                 | How to track spent time with Toggl integration?              |
+
 
 ## Logging time in the work package view
 
@@ -102,4 +102,4 @@ Here, you can click the **Edit button** on the top right corner of the user prof
 
 Alternatively, you can navigate to *Administration -> Users & Permissions -> Users* and click on the respective user name.
 
-Click on the **Rate history** tab. Find out [here](../../../system-admin-guide/users-permissions/users/#rate-history) how to continue.
+Click on the **Rate history** tab. Find out [here](../../../system-admin-guide/users-permissions/users/#rate-history) how to continue. 

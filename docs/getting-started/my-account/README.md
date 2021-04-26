@@ -155,7 +155,9 @@ The following options are available for the email notifications (ranging from re
 - **Only for things I am the owner of** - When you select this setting you only receive email updates for activities which you created (e.g. work packages, wiki pages). This makes sense if you are not actively involved in a project but want to only be notified if your activities are updated.
 - **No event** - With this setting you receive no emails at all. You need to log into OpenProject to verify the status of your tasks. Unless you check the status within OpenProject very frequently or are not actively involved in any project this setting is typically too restrictive.
 
-By default you do not receive any email notifications about your own changes. If you want to receive emails for your own changes (e.g. to make sure you that emails for changes you made have been sent), activate the checkbox **I want to be notified of changes that I make myself**.
+By default you do not receive any email notifications about your own changes. If you want to receive emails for your own changes (e.g. to make sure that emails for changes you made have been sent), activate the checkbox **I want to be notified of changes that I make myself**.
+
+Please read [these instructions](../../system-admin-guide/email) to learn about the global settings for email notifications and [these FAQ](../../system-admin-guide/email/faq) if you have questions.
 
 
 

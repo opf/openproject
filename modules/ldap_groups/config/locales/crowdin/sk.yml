@@ -30,11 +30,9 @@ sk:
       singular: 'LDAP Group synchronization filter'
       plural: 'LDAP Group synchronization filters'
       label_n_groups_found:
+        one: "1 group found by the filter"
+        other: "%{count} groups found by the filter"
         zero: "No groups were found by the filter"
-        one: ""
-        few: ""
-        many: ""
-        other: ""
       destroy:
         title: 'Remove synchronized filter %{name}'
         confirmation: "If you continue, the synchronized filter %{name} and all groups %{groups_count} created through it will be removed."

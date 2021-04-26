@@ -37,6 +37,10 @@ gem 'activerecord-session_store', '~> 1.1.0'
 gem 'rails', '~> 6.1.0'
 gem 'responders', '~> 3.0'
 
+# Keep mimemagic at older version until rails provides its own
+# solution without adding a system dependency. We are GPL ourselves so this is fine.
+gem 'mimemagic', git: 'https://github.com/opf/mimemagic', ref: 'bf8d7c2'
+
 gem 'rdoc', '>= 2.4.2'
 
 # Maintain our own omniauth due to relative URL root issues

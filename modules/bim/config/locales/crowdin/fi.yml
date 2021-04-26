@@ -15,11 +15,11 @@ fi:
       file_invalid: "BCF file invalid"
     x_bcf_issues:
       zero: 'No BCF issues'
-      one: ''
-      other: ''
+      one: 'One BCF issue'
+      other: '%{count} BCF issues'
     bcf_xml:
       xml_file: 'BCF XML File'
-      import_title: 'Import'
+      import_title: 'Tuo'
       export: 'Vie'
       import_update_comment: '(Updated in BCF import)'
       import_failed: 'Cannot import BCF file: %{error}'
@@ -77,9 +77,9 @@ fi:
       bim/ifc_models/ifc_model: "IFC model"
     attributes:
       bim/ifc_models/ifc_model:
-        ifc_attachment: "IFC file"
+        ifc_attachment: "IFC-tiedosto"
         is_default: "Default model"
-        attachments: "IFC file"
+        attachments: "IFC-tiedosto"
     errors:
       models:
         bim/ifc_models/ifc_model:
@@ -105,9 +105,9 @@ fi:
   ifc_models:
     label_ifc_models: 'IFC models'
     label_new_ifc_model: 'New IFC model'
-    label_show_defaults: 'Show defaults'
+    label_show_defaults: 'Näytä oletukset'
     label_default_ifc_models: 'Default IFC models'
-    label_edit_defaults: 'Edit defaults'
+    label_edit_defaults: 'Muokkaa oletuksia'
     no_defaults_warning:
       title: 'No IFC model was set as default for this project.'
       check_1: 'Check that you have uploaded at least one IFC model.'

@@ -257,6 +257,3 @@ In this project overarching list, you can search, filter, group by, sort, highli
 You can group by projects by clicking in the header of the work package list next to PROJECT and select **Group by**. Collapsing the groups will allow you an **overview of the projects' aggregated milestones** as described [here](../../user-guide/work-packages/work-package-table-configuration/#aggregation-by-project).
 
 ![project-overarching-report](project-overarching-report.gif)
-
-
-

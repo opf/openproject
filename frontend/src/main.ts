@@ -6,6 +6,7 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {SentryReporter} from "core-app/sentry/sentry-reporter";
 import {whenDebugging} from "core-app/helpers/debug_output";
 import {enableReactiveStatesLogging} from "reactivestates";
+import {initializeLocale} from "core-app/init-locale";
 
 (window as any).global = window;
 
@@ -26,10 +27,6 @@ window.ErrorReporter = new SentryReporter();
 require('core-app/init-vendors');
 require('core-app/init-globals');
 
-const meta = jQuery('meta[name=openproject_initializer]');
-I18n.locale = meta.data('locale') || 'en';
-I18n.firstDayOfWeek = parseInt(meta.data('firstDayOfWeek'), 10);
-
 if (environment.production) {
   enableProdMode();
 }
@@ -41,7 +38,7 @@ whenDebugging(() => {
 });
 
 // Import the correct locale early on
-import(/* webpackChunkName: "locale" */ `./locales/${I18n.locale}.js`)
+initializeLocale()
   .then(() => {
     jQuery(function () {
       // Due to the behaviour of the Edge browser we need to wait for 'DOM ready'

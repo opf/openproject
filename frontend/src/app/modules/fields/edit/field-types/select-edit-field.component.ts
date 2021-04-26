@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, OnInit} from "@angular/core";
+import {Component, InjectFlags, OnInit} from "@angular/core";
 import {HalResourceSortingService} from "core-app/modules/hal/services/hal-resource-sorting.service";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
@@ -37,6 +37,8 @@ import {from} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
+import {StateService} from "@uirouter/core";
 
 export interface ValueOption {
   name:string;
@@ -50,6 +52,8 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   @InjectField() selectAutocompleterRegister:SelectAutocompleterRegisterService;
   @InjectField() halNotification:HalResourceNotificationService;
   @InjectField() halSorting:HalResourceSortingService;
+  @InjectField() $state:StateService;
+  @InjectField(EditFormComponent, null, InjectFlags.Optional) editFormComponent:EditFormComponent;
 
   public availableOptions:any[];
   public valueOptions:ValueOption[];
@@ -111,6 +115,8 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
           this._autocompleterComponent.openDirectly = true;
         });
       });
+
+    this._syncUrlParamsOnChangeIfNeeded(this.handler.fieldName, this.editFormComponent?.editMode);
   }
 
   public get selectedOption() {
@@ -269,5 +275,19 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   private getEmptyOption():ValueOption|undefined {
     return _.find(this.availableOptions, el => el.name === this.text.placeholder);
+  }
+
+  private _syncUrlParamsOnChangeIfNeeded(fieldName:string, editMode:boolean) {
+    // Work package type changes need to be synced with the type url param
+    // in order to keep the form changes (changeset) between route/state changes
+    if (fieldName === 'type' && editMode) {
+      this.handler.registerOnBeforeSubmit(() => {
+        const newType = this.value?.$source?.id;
+
+        if (newType) {
+          this.$state.go('.', { type: newType }, { notify: false });
+        }
+      });
+    }
   }
 }

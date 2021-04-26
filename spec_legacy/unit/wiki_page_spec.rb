@@ -37,20 +37,6 @@ describe WikiPage, type: :model do
     @page = @wiki.pages.first
   end
 
-  it 'should create' do
-    page = WikiPage.new(wiki: @wiki)
-    assert !page.save
-    assert_equal 1, page.errors.count
-
-    page.title = 'Page'
-    assert page.save
-    page.reload
-    assert !page.protected?
-
-    @wiki.reload
-    assert @wiki.pages.include?(page)
-  end
-
   it 'should find or new page' do
     page = @wiki.find_or_new_page('CookBook documentation')
     assert_kind_of WikiPage, page
