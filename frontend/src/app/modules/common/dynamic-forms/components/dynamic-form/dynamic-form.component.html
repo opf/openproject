@@ -1,29 +1,51 @@
-<div class="op-form--container"
-     *ngIf="form">
-  <form [formGroup]="form"
-        (submit)="submitForm(form)">
-    <formly-form [form]="form"
-                 [model]="model"
-                 [fields]="fields"
-                 (modelChange)="onModelChange($event)">
-      <ng-template formlyTemplate let-field>
-        <op-form-field *ngFor="let field of fields"
-                       [label]="field.templateOptions?.label"
-                       [noWrapLabel]="field.templateOptions?.noWrapLabel"
-                       [required]="field.templateOptions?.required">
-          <formly-field [field]="field" slot=input></formly-field>
+<div class="op-form--container" *ngIf="form">
+  <ng-container *ngIf="!isStandaloneForm">
+    <ng-container *ngTemplateOutlet="formlyForm">
+    </ng-container>
+  </ng-container>
 
-          <formly-validation-message [field]="field" slot=errors></formly-validation-message>
-        </op-form-field>
-      </ng-template>
-    </formly-form>
+  <form [formGroup]="form"
+        *ngIf="isStandaloneForm"
+        (submit)="submitForm(form)">
+    <ng-container *ngTemplateOutlet="formlyForm"></ng-container>
 
     <button type="submit"
             class="button -highlight"
-            *ngIf="isStandaloneForm"
             [disabled]="inFlight">
       {{text.save}}
     </button>
   </form>
 </div>
+
+<ng-template #formlyForm>
+  <div class="op-form--container"
+       *ngIf="form">
+    <form [formGroup]="form"
+          (submit)="submitForm(form)">
+      <formly-form [form]="form"
+                   [model]="model"
+                   [fields]="fields"
+                   (modelChange)="onModelChange($event)">
+        <ng-template formlyTemplate let-field>
+          <op-form-field *ngFor="let field of fields"
+                         [label]="field.templateOptions?.label"
+                         [noWrapLabel]="field.templateOptions?.noWrapLabel"
+                         [required]="field.templateOptions?.required">
+            <formly-field [field]="field" slot=input></formly-field>
+
+            <formly-validation-message [field]="field" slot=errors></formly-validation-message>
+          </op-form-field>
+        </ng-template>
+      </formly-form>
+
+      <button type="submit"
+              class="button -highlight"
+              *ngIf="isStandaloneForm"
+              [disabled]="inFlight">
+        {{text.save}}
+      </button>
+    </form>
+  </div>
+</ng-template>
+
 
