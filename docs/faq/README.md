@@ -65,7 +65,7 @@ Here are resources to get to know OpenProject:
 - The [overview of our features](https://www.openproject.org/collaboration-software-features) 
 - Our [English demo video](https://www.youtube.com/watch?v=un6zCm8_FT4) or [German demo video](https://www.youtube.com/watch?v=doVtVArSSvk) to get an overview of Openproject. There are additional videos explaining certain features to be found on our [YouTube channel](https://www.youtube.com/c/OpenProjectCommunity/videos), too.
 - The [Getting started guide](../getting-started) and the [User guide](../user-guide)
-- Our free trial: Click the green button [here](https://www.openproject.org/enterprise-edition) for Enterprise on-premises or go to start.openproject.com for the Enterprise cloud.
+- Our free trial: Click the green button [here](https://www.openproject.org/enterprise-edition) for Enterprise on-premises or go to [start.openproject.com](https://start.openproject.com) for the Enterprise cloud.
 - Our [development roadmap](https://community.openproject.com/projects/openproject/work_packages?query_id=1993) (to get to know future features)
 - Our [training and consulting offers](https://www.openproject.org/training-and-consulting) 
 
@@ -163,12 +163,12 @@ Please go to https://www.openproject.org/newsletter/ and submit your data to rec
 
 ## FAQ regarding features
 
-Please find information on the features of OpenProject [here](https://www.openproject.org/collaboration-software-features/) and a comparison between Enterprise on-premises, Enterprise cloud and Community Edition [here](https://www.openproject.org/pricing/#compare). The community platform to see and [issue](../development/submit-feature-idea/) feature ideas can be found [here](community.openproject.com).
+Please find information on the features of OpenProject [here](https://www.openproject.org/collaboration-software-features/) and a comparison between Enterprise on-premises, Enterprise cloud and Community Edition [here](https://www.openproject.org/pricing/#compare). The community platform to see and [issue](../development/submit-feature-idea/) feature ideas can be found [here](https://community.openproject.com).
 
 ### Is it possible to use multiple languages in OpenProject?
 
 Yes, it is possible to use OpenProject in multiple languages. We support English, German, French and a number of additional languages. Each user can select their own preferred language by signing into OpenProject, clicking on the user avatar on the upper right side and selecting "My account" from the dropdown menu.
-You can then select "Settings" from the side menu on the left side and [change the language](../my-account/#change-your-language).
+You can then select "Settings" from the side menu on the left side and [change the language](../getting-started/my-account/#change-your-language).
 
 ### Is there an OpenProject app?
 
@@ -176,7 +176,7 @@ There is no native iOS or Android app for OpenProject, but OpenProject is respon
 
 ### Is it possible to connect MS Project and OpenProject or to migrate from MS Project to OpenProject?
 
-Yes, please use the free [Excel synchronization](../user-guide/integrations/excel synchronization) for this.
+Yes, please use the free [Excel synchronization](../user-guide/integrations/Excel Synchronization/) for this.
 
 ### Are there plan/actual comparisons in OpenProject?
 

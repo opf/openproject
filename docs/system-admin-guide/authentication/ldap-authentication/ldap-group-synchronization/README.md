@@ -79,8 +79,6 @@ Instead of manually synchronizing groups from a given DN, you can also create fi
 
 When the synchronization task is executed, the filter is being queried against the LDAP and resulting group objects will be created as synchronized groups *and* as OpenProject groups.
 
-
-
 ![LDAP synchronized filter form](ldap-groups-filter.png)
 
 ### Create a synchronized filter
