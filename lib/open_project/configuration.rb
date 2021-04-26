@@ -65,7 +65,7 @@ module OpenProject
       # use dalli defaults for memcache
       'cache_memcache_server' => nil,
       # where to store session data
-      'session_store' => :cache_store,
+      'session_store' => :active_record_store,
       'session_cookie_name' => '_open_project_session',
       # Destroy all sessions for current_user on logout
       'drop_old_sessions_on_logout' => true,
