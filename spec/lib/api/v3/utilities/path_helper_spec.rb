@@ -269,6 +269,10 @@ describe ::API::V3::Utilities::PathHelper do
     end
   end
 
+  describe 'project status paths' do
+    it_behaves_like 'show', :project_status
+  end
+
   describe 'query paths' do
     it_behaves_like 'resource', :query
 
