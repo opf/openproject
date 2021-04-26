@@ -14,7 +14,7 @@ keywords: work packages table configuration, work package list, columns, filter,
 | [Add or remove columns](#add-or-remove-columns-in-the-work-package-table) | How to add or remove columns in the work package table?      |
 | [Filter work packages](#filter-work-packages)                | How to filter in the work package list?                      |
 | [Sort the work package list](#sort-the-work-package-list)    | How to sort within the work package list?                    |
-| [Display settings](#flat-list-hierarchy-mode-and-group-by)   | Get to know the flat list, the hierarchy mode and the group by feature. |
+| [Display settings](#flat-list-hierarchy-mode-and-group-by)   | Get to know the flat list, the hierarchy mode, the group by and the sum feature. |
 | [Attribute highlighting (Premium Feature)](#attribute-highlighting-premium-feature) | How to highlight certain attributes in the work package list? |
 | [Save work package views](#save-work-package-views)          | How to save a new work package view and how to change existing ones? |
 
@@ -156,14 +156,19 @@ You have to choose either option when displaying work packages in the list.
 
 To switch between the different criteria, open the [work package table configuration](#work-package-table-configuration) and open the tab **Display settings**. Choose how to display the work packages in the list and click the blue **Apply** button.
 
-![display-settings](1566397517070.png)
+![display-settings](image-20210426164224748.png)
 
-When you group the work package list by an attribute or by project a button to collapse groups shows up:
+
+
+When you group the work package list by an attribute or by project a **button to collapse groups** shows up:
 ![collapse-button](collapse-all-expand-all.png)
 
 Use it to quickly collapse or expand all groups at the same time. Find out [here](../../gantt-chart/#aggregation-by-project) how to use this feature for a **quick overview of several projects** at once.
 
+### Display sums in work package list
 
+To display the sums of eligible work package attributes, go to the work package table configuration and click on the tab **Display settings** (see screenshot above). When you tick the box next to **Display sums** the sums of Estimated time and Remaining hours as well as custom fields of the type Integer or Float will be displayed at the bottom of the work package list. 
+If you group the work package list, sums will be shown for each group.
 
 ## Attribute highlighting (Premium Feature)
 
