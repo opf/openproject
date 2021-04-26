@@ -3,9 +3,7 @@ interface IOPFormSettings {
   _embedded: {
     payload: IOPFormModel;
     schema: IOPFormSchema;
-    validationErrors?: {
-      [key: string]: unknown;
-    };
+    validationErrors?: IOPValidationErrors;
   };
   _links?: {
     self: IOPApiCall;
@@ -106,6 +104,10 @@ interface IOPFormError {
   errorIdentifier:string;
   message:string;
   _type:string;
+  _embedded: IOPFormErrorDetails;
+}
+
+interface IOPFormErrorResponse extends IOPFormError {
   _embedded: IOPFormErrorDetails | IOPFormErrors;
 }
 
@@ -118,4 +120,11 @@ interface IOPFormErrorDetails {
 interface IOPFormErrors {
   errors: IOPFormError[];
 }
+
+interface IOPValidationErrors {
+  [key: string]: IOPFormError;
+}
+
+
+
 
