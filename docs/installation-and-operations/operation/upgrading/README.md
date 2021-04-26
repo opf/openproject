@@ -7,10 +7,16 @@ sidebar_navigation:
 # Upgrading your OpenProject installation
 
 <div class="alert alert-warning" role="alert">
-
 **Note**: In the rest of this guide, we assume that you have taken the necessary steps to [backup](../backing-up) your OpenProject installation before upgrading.
-
 </div>
+
+| Topic                                                        | Content                                                     |
+| ------------------------------------------------------------ | ----------------------------------------------------------- |
+| [Package-based installation](#package-based-installation-(DEB/RPM)) | How to upgrade a package-based installation of OpenProject. |
+| [Docker-based installation](#docker-based-installation)      | How to upgrade a Docker-based installation of OpenProject.  |
+| [Upgrade notes for 8.x to 9.x](#upgrade-notes-for-8x-to-9x)  | How to upgrade from OpenProject 8.x to OpenProject 9.x.     |
+| [Upgrade notes for 7.x to 8.x](#upgrade-notes-for-openproject-7x-to-8x) | How to upgrade from OpenProject 7.x to OpenProject 8.x.     |
+| [FAQ](frequently-asked-questions---faq)                      | Frequently asked questions.                                 |
 
 ## Package-based installation (DEB/RPM)
 
@@ -48,14 +54,13 @@ sudo openproject configure
 
 
 <div class="alert alert-info" role="alert">
-
 Using `openproject configure`, the wizard will display new steps that weren't available yet or had not been configured in previous installations.
 
 If you want to perform changes to your configuration or are unsure what steps are available, you can safely run `openproject reconfigure` to walk through the entire configuration process again.
 
 Note that this still takes previous values into consideration. Values that should not change from your previous configurations can be skipped by pressing `<Return>`. This also applies for steps with passwords, which are shown as empty even though they may have a value. Skipping those steps equals to re-use the existing value.
-
 </div>
+
 
 ## Docker-based installation
 
@@ -184,3 +189,9 @@ rm -rf /opt/openproject/frontend/node_modules
 OpenProject 8.0. has removed Textile, all previous content is migrated to GFM Markdown using [pandoc](https://pandoc.org). This will happen automatically during the migration run. A recent pandoc version will be downloaded by OpenProject.
 
 For more information, please visit [this separate guide](../../misc/textile-migration).
+
+## Frequently asked questions - FAQ 
+
+### Will my data be lost when I upgrade OpenProject?
+
+We strongly recommend a [backup](../backing-up) of your data before updating. Your data won't be lost in the regular update process, though.

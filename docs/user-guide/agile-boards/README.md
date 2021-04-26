@@ -196,17 +196,3 @@ Of course you don’t need to use groups as assignees, you can also use individu
 The Version board facilitates the planning of a product development in several iterations. With every iteration you can add and improve features and let your product become the best version for your customers. If a certain feature is e.g. too complex to be developed in one specific version because you have other features to develop with higher priority, just drag it to the next version and it will update automatically. This board gives you a perfect overview of what is coming and you can see at a glance if it fits your priorities. If not, adjust with drag and drop.
 
 ![action-board-version-docs](action-board-version-docs.png)
-
-
-## Frequently asked questions (FAQ)
-
-
-#### How can I activate Boards in OpenProject? 
-
-The Boards module is a premium feature of OpenProject Enterprise on-premises and OpenProject Enterprise cloud. You can upgrade your Community Edition installation by entering a valid subscription token in the application administration. You can purchase the token on our [website](https://www.openproject.org/enterprise-edition/).
-In addition, you need to activate the Boards module in the project settings.
-
-#### What does the error message "Parent is invalid because the work package (...) is a backlog task and therefore cannot have a parent outside of the current project" mean?
-
-This message appears when the Backlogs module is activated and you try to set a work package belonging to project A as a child of another work package belonging to project B. 
-In the Backlogs module work packages can only have children of the same version and the same project. To avoid displaying different information in the backlog and in the boards view this restriction is in place. You can solve it by disabling the Backlogs module or by changing the project (and if necessary version) of the work package you'd like to move.
