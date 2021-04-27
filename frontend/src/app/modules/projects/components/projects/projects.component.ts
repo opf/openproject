@@ -41,11 +41,4 @@ export class ProjectsComponent extends UntilDestroyedMixin implements OnInit {
         }, []);
     }
   }
-
-  onSubmitted(formResource:HalSource) {
-    // TODO: Filter out if this.resourceId === 'new'?
-    if (!this.resourceId) {
-      this._$state.go('.', { ...this._$state.params, projectPath: formResource.identifier });
-    }
-  }
 }

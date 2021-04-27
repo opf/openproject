@@ -30,6 +30,7 @@
         "@kolkov/ngx-gallery": "^1.0.11",
         "@ng-select/ng-option-highlight": "0.0.5",
         "@ng-select/ng-select": "^4.0.4",
+        "@ngx-formly/core": "^6.0.0-next.1",
         "@sentry/angular": "^6.2.3",
         "@sentry/tracing": "^6.2.3",
         "@types/chart.js": "^2.9.20",
@@ -3006,6 +3007,18 @@
         "node": ">= 10.13.0",
         "npm": "^6.11.0 || ^7.5.6",
         "yarn": ">= 1.13.0"
+      }
+    },
+    "node_modules/@ngx-formly/core": {
+      "version": "6.0.0-next.1",
+      "resolved": "https://registry.npmjs.org/@ngx-formly/core/-/core-6.0.0-next.1.tgz",
+      "integrity": "sha512-YMmLNJyi3UZn1PyvmsF0gKe9t8ihHdhvLyHQn7oxdd96551beVZmylxnlazKV4+5To/SolZSbup3QcmcOj6z8g==",
+      "dependencies": {
+        "tslib": "^2.0.0"
+      },
+      "peerDependencies": {
+        "@angular/forms": ">=11.0.0",
+        "rxjs": ">=6.5.0"
       }
     },
     "node_modules/@nodelib/fs.scandir": {
@@ -22234,6 +22247,14 @@
         "@angular-devkit/core": "11.2.2",
         "enhanced-resolve": "5.7.0",
         "webpack-sources": "2.2.0"
+      }
+    },
+    "@ngx-formly/core": {
+      "version": "6.0.0-next.1",
+      "resolved": "https://registry.npmjs.org/@ngx-formly/core/-/core-6.0.0-next.1.tgz",
+      "integrity": "sha512-YMmLNJyi3UZn1PyvmsF0gKe9t8ihHdhvLyHQn7oxdd96551beVZmylxnlazKV4+5To/SolZSbup3QcmcOj6z8g==",
+      "requires": {
+        "tslib": "^2.0.0"
       }
     },
     "@nodelib/fs.scandir": {

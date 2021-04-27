@@ -34,12 +34,15 @@ import { UIRouterModule } from "@uirouter/angular";
 import { PROJECTS_ROUTES, uiRouterProjectsConfiguration } from "core-app/modules/projects/projects-routes";
 import { ProjectsComponent } from './components/projects/projects.component';
 import { DynamicFormsModule } from "core-app/modules/common/dynamic-forms/dynamic-forms.module";
+import { NewProjectComponent } from "core-app/modules/projects/components/new-project/new-project.component";
+import { ReactiveFormsModule } from "@angular/forms";
 
 
 @NgModule({
   imports: [
     // Commons
     OpenprojectCommonModule,
+    ReactiveFormsModule,
 
     OpenprojectHalModule,
     OpenprojectFieldsModule,
@@ -49,7 +52,10 @@ import { DynamicFormsModule } from "core-app/modules/common/dynamic-forms/dynami
     }),
     DynamicFormsModule,
   ],
-  declarations: [ProjectsComponent]
+  declarations: [
+    ProjectsComponent,
+    NewProjectComponent,
+  ]
 })
 export class OpenprojectProjectsModule {
 }
