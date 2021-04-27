@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -29,20 +31,23 @@
 module API
   module V3
     module Projects
-      module Copy
-        class ParseCopyParamsService < ::API::V3::ParseResourceParamsService
-          private
-
-          def parse_attributes(request_body)
-            attributes = super
-            meta = attributes.delete(:meta) || {}
-
+      module Statuses
+        class StatusRepresenter < ::API::Decorators::Single
+          link :self do
             {
-              target_project_params: attributes,
-              attributes_only: true,
-              only: meta[:only],
-              send_notifications: meta[:send_notifications] != false
+              href: api_v3_paths.project_status(represented),
+              title: I18n.t(:"activerecord.attributes.projects/status.codes.#{represented}")
             }
+          end
+
+          property :id,
+                   getter: ->(*) { self }
+
+          property :name,
+                   getter: ->(*) { I18n.t(:"activerecord.attributes.projects/status.codes.#{self}") }
+
+          def _type
+            'ProjectStatus'
           end
         end
       end

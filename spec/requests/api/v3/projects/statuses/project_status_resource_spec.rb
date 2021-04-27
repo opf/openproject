@@ -26,24 +26,49 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Projects
-      module Copy
-        class ParseCopyParamsService < ::API::V3::ParseResourceParamsService
-          private
+require 'spec_helper'
+require 'rack/test'
 
-          def parse_attributes(request_body)
-            attributes = super
-            meta = attributes.delete(:meta) || {}
+describe 'API v3 Project status resource', type: :request, content_type: :json do
+  include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
-            {
-              target_project_params: attributes,
-              attributes_only: true,
-              only: meta[:only],
-              send_notifications: meta[:send_notifications] != false
-            }
-          end
+  current_user { FactoryBot.create(:user) }
+
+  describe '#get /project_statuses/:id' do
+    subject(:response) do
+      get get_path
+
+      last_response
+    end
+
+    let(:status) { Projects::Status.codes.keys.last }
+    let(:get_path) { api_v3_paths.project_status status }
+
+    context 'logged in user' do
+      it 'responds with 200 OK' do
+        expect(subject.status).to eq(200)
+      end
+
+      it 'responds with the correct project' do
+        expect(subject.body)
+          .to be_json_eql('ProjectStatus'.to_json)
+                .at_path('_type')
+        expect(subject.body)
+          .to be_json_eql(status.to_json)
+                .at_path('id')
+      end
+
+      context 'requesting nonexistent status' do
+        let(:status) { 'bogus' }
+
+        before do
+          response
+        end
+
+        it_behaves_like 'not found' do
+          let(:id) { 'bogus' }
+          let(:type) { 'ProjectStatus' }
         end
       end
     end

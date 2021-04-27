@@ -29,20 +29,28 @@
 module API
   module V3
     module Projects
-      module Copy
-        class ParseCopyParamsService < ::API::V3::ParseResourceParamsService
-          private
+      module Statuses
+        class StatusesAPI < ::API::OpenProjectAPI
+          resources :project_statuses do
+            params do
+              requires :id, desc: 'Project status identifier'
+            end
+            route_param :id do
+              helpers do
+                def status_exists?
+                  ::Projects::Status.codes.keys.include?(params[:id])
+                end
+              end
 
-          def parse_attributes(request_body)
-            attributes = super
-            meta = attributes.delete(:meta) || {}
+              after_validation do
+                raise API::Errors::NotFound unless status_exists?
+              end
 
-            {
-              target_project_params: attributes,
-              attributes_only: true,
-              only: meta[:only],
-              send_notifications: meta[:send_notifications] != false
-            }
+              get do
+                API::V3::Projects::Statuses::StatusRepresenter
+                  .new(params[:id], current_user: current_user, embed_links: true)
+              end
+            end
           end
         end
       end
