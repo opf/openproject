@@ -20,6 +20,7 @@
 
     <button type="submit"
             class="button -highlight"
+            *ngIf="handleSubmit"
             [disabled]="inFlight">
       {{text.save}}
     </button>
