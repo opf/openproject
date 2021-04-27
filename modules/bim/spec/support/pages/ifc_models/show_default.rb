@@ -58,7 +58,7 @@ module Pages
 
         if visible
           within ('.ifc-model-viewer--toolbar-container') do
-            expect(page).to have_selector(selector, count: 8)
+            expect(page).to have_selector(selector, count: 9)
           end
         else
           expect(page).to have_no_selector(selector)
