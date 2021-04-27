@@ -80,9 +80,7 @@ module OpenProject
 
           def authenticate_user(username, password)
             if username == self.class.user && password == self.class.password
-              User.system.tap do |user|
-                user.grant_privileges
-              end
+              User.system
             end
           end
         end
