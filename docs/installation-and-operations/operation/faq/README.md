@@ -11,13 +11,12 @@ keywords: operation FAQ, upgrading, database
 
 ## OpenProject says it's the newest version, although I know there's been a major release (e.g. 11.0). What's the problem? Why can't I upgrade?
 
-Please note the steps that have been outlined in the blue box at the top [here](./operation/upgrading). It's important to change the branch for this.
+Please note the steps that have been outlined in the blue box at the top [here](../upgrading). It's important to change the branch for this.
 We implemented this to prevent users from upgrading to a major release (which could be not backwards compatible) by mistake.
 
 ## I lost access to my admin account, how do I reset my password?
 
-You can reset your admin account through the Rails console.
-[Please see this separate page on how to start the console](https://docs.openproject.org/installation-and-operations/operation/control/).
+You can reset your admin account through the Rails console. [Please see this separate page on how to start the console](https://docs.openproject.org/installation-and-operations/operation/control/).
 
 Assuming you have started the rails console, perform these steps:
 

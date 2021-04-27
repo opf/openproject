@@ -63,7 +63,8 @@ module Projects
     end
 
     def log_service_failure(service_call)
-      logger.error("Failed to delete project #{project} in background job: #{service_call.errors.join("\n")}")
+      logger.error "Failed to delete project #{project} in background job: " \
+                   "#{service_call.message}"
     end
 
     def user

@@ -9,9 +9,9 @@ keywords: synchronize ldap groups
 
 # Synchronize LDAP and OpenProject groups (Premium feature)
 
-Note: This feature is available for the Enterprise Edition only for  OpenProject versions 7.4+. For more information and differences to CE, [see this page](https://www.openproject.org/enterprise-edition/).
+Note: This feature is available for the Enterprise on-premises only, for OpenProject versions 7.4+. For more information and differences to Community Edition, [see this page](https://www.openproject.org/enterprise-edition/).
 
-In OpenProject EE, you can synchronize LDAP group memberships defined through the [groupOfNames](https://tools.ietf.org/html/rfc4519#section-3.5) LDAP object class. This guide assumes that you:
+In OpenProject Enterprise on-premises, you can synchronize LDAP group memberships defined through the [groupOfNames](https://tools.ietf.org/html/rfc4519#section-3.5) LDAP object class. This guide assumes that you:
 
 - - have at least one group defined in OpenProject (See the “[Managing groups](../../../users-permissions/groups/)” guide for more information on how to create and edit groups),
   - have set up your LDAP authentication source (See the “[Manage LDAP authentication](../../ldap-authentication/)” guide)
@@ -23,7 +23,7 @@ In OpenProject EE, you can synchronize LDAP group memberships defined through th
 
 For the sake of simplicity, we assume that in this guide, your LDAP structure looks like the following:
 
-![ldap groups](ldap-groups-1-900x363@2x.png)
+![ldap-groups](ldap-groups-1-900x363@2x.png)
 
 You have two groups *cn=groupA,ou=groups,ou=example,ou=com and cn=groupB,ou=groups,ou=example,ou=com* with two and one users, respectively*.* Your base DN is *ou=people,ou=example,ou=com.*
 
@@ -79,9 +79,7 @@ Instead of manually synchronizing groups from a given DN, you can also create fi
 
 When the synchronization task is executed, the filter is being queried against the LDAP and resulting group objects will be created as synchronized groups *and* as OpenProject groups.
 
-
-
-![LDAP synchronized filter form](/Users/oliver/openproject/dev/docs/system-admin-guide/authentication/ldap-authentication/ldap-group-synchronization/ldap-groups-filter.png)
+![LDAP synchronized filter form](ldap-groups-filter.png)
 
 ### Create a synchronized filter
 

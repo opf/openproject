@@ -13,9 +13,9 @@ Welcome to the central overview of frequently asked questions for OpenProject.
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Learn more about OpenProject](#learn-more-about-openproject) | General questions about OpenProject, security, setup and much more |
-| [How to ... in OpenProject?](#how-to-...-in-openproject)     | Questions about how to achieve certain outcomes in OpenProject that do not fit elsewhere |
+| [How to ... in OpenProject?](#how-to--in-openproject)        | Questions about how to achieve certain outcomes in OpenProject that do not fit elsewhere |
 | [FAQ regarding features](#faq-regarding-features)            | Information about frequent feature requests                  |
-| [FAQ regarding OpenProject BIM edition](#FAQ-regarding-OpenProject-BIM-edition) | Questions concerning the additional BCF module for OpenProject and the BIM edition |
+| [FAQ regarding OpenProject BIM edition](#faq-regarding-openproject-bim-edition) | Questions concerning the additional BCF module for OpenProject and the BIM edition |
 | [Migration](#migration)                                      | Questions regarding migrating to OpenProject from e.g. Bitnami or from other OpenProject versions |
 | [Other](#other)                                              | Additional questions, e.g. about contribution, training, support |
 | [Topic-specific FAQ](#topic-specific-faq)                    | Links to other FAQ sections                                  |
@@ -65,7 +65,7 @@ Here are resources to get to know OpenProject:
 - The [overview of our features](https://www.openproject.org/collaboration-software-features) 
 - Our [English demo video](https://www.youtube.com/watch?v=un6zCm8_FT4) or [German demo video](https://www.youtube.com/watch?v=doVtVArSSvk) to get an overview of Openproject. There are additional videos explaining certain features to be found on our [YouTube channel](https://www.youtube.com/c/OpenProjectCommunity/videos), too.
 - The [Getting started guide](../getting-started) and the [User guide](../user-guide)
-- Our free trial: Click the green button [here](https://www.openproject.org/enterprise-edition) for Enterprise on-premises or go to [start.openproject.com](start.openproject.com) for the Enterprise cloud.
+- Our free trial: Click the green button [here](https://www.openproject.org/enterprise-edition) for Enterprise on-premises or go to [start.openproject.com](https://start.openproject.com) for the Enterprise cloud.
 - Our [development roadmap](https://community.openproject.com/projects/openproject/work_packages?query_id=1993) (to get to know future features)
 - Our [training and consulting offers](https://www.openproject.org/training-and-consulting) 
 
@@ -77,7 +77,7 @@ Our minimum plan for the Enterprise cloud edition and Enterprise on-premises edi
 
 OpenProject comes with the GNU General Public License v3 (GPLv3). You can find out more about the copyright [here](https://github.com/opf/openproject/blob/dev/docs/COPYRIGHT.rdoc).
 In accordance with the terms set by the GPLv3 license, users can make modifications, create copies and redistribute the work. 
-Terms and conditions regarding GPLv3 are available at[ ](http://www.gnu.org/licenses/gpl-3.0.html.)[http://www.gnu.org/licenses/gpl-3.0.html](http://www.gnu.org/licenses/gpl-3.0.html.).
+Terms and conditions regarding GPLv3 are available at http://www.gnu.org/licenses/gpl-3.0.en.html.
 
 ### Is OpenProject free of charge?
 
@@ -163,12 +163,12 @@ Please go to https://www.openproject.org/newsletter/ and submit your data to rec
 
 ## FAQ regarding features
 
-Please find information on the features of OpenProject [here](https://www.openproject.org/collaboration-software-features/) and a comparison between Enterprise on-premises, Enterprise cloud and Community Edition [here](https://www.openproject.org/pricing/#compare). The community platform to see and [issue](../development/submit-feature-idea/) feature ideas can be found [here](community.openproject.com).
+Please find information on the features of OpenProject [here](https://www.openproject.org/collaboration-software-features/) and a comparison between Enterprise on-premises, Enterprise cloud and Community Edition [here](https://www.openproject.org/pricing/#compare). The community platform to see and [issue](../development/submit-feature-idea/) feature ideas can be found [here](https://community.openproject.com).
 
 ### Is it possible to use multiple languages in OpenProject?
 
 Yes, it is possible to use OpenProject in multiple languages. We support English, German, French and a number of additional languages. Each user can select their own preferred language by signing into OpenProject, clicking on the user avatar on the upper right side and selecting "My account" from the dropdown menu.
-You can then select "Settings" from the side menu on the left side and [change the language](../my-account/#change-your-language).
+You can then select "Settings" from the side menu on the left side and [change the language](../getting-started/my-account/#change-your-language).
 
 ### Is there an OpenProject app?
 
@@ -176,7 +176,7 @@ There is no native iOS or Android app for OpenProject, but OpenProject is respon
 
 ### Is it possible to connect MS Project and OpenProject or to migrate from MS Project to OpenProject?
 
-Yes, please use the free [Excel synchronization](../user-guide/integrations/excel synchronization) for this.
+Yes, please use the free [Excel synchronization](../user-guide/integrations/Excel Synchronization/) for this.
 
 ### Are there plan/actual comparisons in OpenProject?
 
@@ -347,8 +347,7 @@ Here are some selected links to other FAQ pages. Please use the menu to navigate
 
 - [FAQ for work packages](../user-guide/work-packages/faq)
 - [FAQ for Gantt chart](../user-guide/gantt-chart/faq)
-- [FAQ for Enterprise on-premises](../enterprise-guide/faq)
-
-- [FAQ for Enterprise cloud](../cloud-edition-guide/faq) 
+- [FAQ for Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/faq)
+- [FAQ for Enterprise cloud](../enterprise-guide/enterprise-cloud-guide/faq)
 - [FAQ for system administration](../system-admin-guide/faq)
-- [FAQ for installation, operation and upgrades](../installation-and-operations/faq) 
+- [FAQ for installation, operation and upgrades](../installation-and-operations/faq)

@@ -66,7 +66,7 @@ There are several **types of Action boards** available:
 When creating a new Status board a list with all work packages in the default status (usually this is the status "New") will be added automatically, while additional lists need to be added manually.
 Please note: You can't move work packages from or to every status. Please find out more about the work-flow logics restricting this here: [Allowed transitions between status](../../system-admin-guide/manage-work-packages/work-package-workflows/)
 
-**Assignee board:** Every list represents one assignee. You can choose regular users, [placeholder users](../../system-admin-guide/users-permissions/placeholder-user) and groups as assignees.
+**Assignee board:** Every list represents one assignee. You can choose regular users, [placeholder users](../../system-admin-guide/users-permissions/placeholder-users) and groups as assignees.
 
 **Version board:** Every list represents a version. This board is ideal for product development or planning software releases. When creating a new Version board a list with all work packages in the version(s) belonging to the current project will be added automatically, while additional lists need to be added manually.
 
