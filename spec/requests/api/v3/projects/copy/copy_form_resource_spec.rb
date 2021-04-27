@@ -117,11 +117,13 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
         "customField#{text_custom_field.id}": {
           "raw": "CF text"
         },
-        status: 'on track',
         statusExplanation: { raw: "A magic dwells in each beginning." },
         "_links": {
           "customField#{list_custom_field.id}": {
             "href": api_v3_paths.custom_option(list_custom_field.custom_options.first.id)
+          },
+          "status": {
+            "href": api_v3_paths.project_status('on_track')
           }
         }
       }
@@ -137,8 +139,8 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
               .at_path("_embedded/payload/identifier")
 
       expect(response.body)
-        .to be_json_eql('on track'.to_json)
-              .at_path("_embedded/payload/status")
+        .to be_json_eql(api_v3_paths.project_status('on_track').to_json)
+              .at_path("_embedded/payload/_links/status/href")
 
       expect(response.body)
         .to be_json_eql('A magic dwells in each beginning.'.to_json)

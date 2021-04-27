@@ -33,6 +33,10 @@ require 'services/base_services/behaves_like_update_service'
 
 describe Members::UpdateService, type: :model do
   it_behaves_like 'BaseServices update service' do
+    let(:call_attributes) do
+      { role_ids: ["2"], notification_message: "Wish you where **here**." }
+    end
+
     let!(:allow_notification_call) do
       allow(OpenProject::Notifications)
         .to receive(:send)
@@ -43,7 +47,8 @@ describe Members::UpdateService, type: :model do
         expect(OpenProject::Notifications)
           .to receive(:send)
           .with(OpenProject::Events::MEMBER_UPDATED,
-                member: model_instance)
+                member: model_instance,
+                message: call_attributes[:notification_message])
 
         subject
       end

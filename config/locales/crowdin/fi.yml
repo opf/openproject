@@ -1846,17 +1846,23 @@ fi:
   mail_member_added_project:
     subject: "%{project} - You have been added as a member"
     body:
-      added_by: "%{user} added you as a member to the project '%{project}'."
+      added_by:
+        without_message: "%{user} added you as a member to the project '%{project}'."
+        with_message: "%{user} added you as a member to the project '%{project}' writing:"
       roles: "You have the following roles:"
   mail_member_updated_project:
     subject: "%{project} - Your roles have been updated"
     body:
-      added_by: "%{user} updated the roles you have in the project '%{project}'."
+      updated_by:
+        without_message: "%{user} updated the roles you have in the project '%{project}'."
+        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
       roles: "You now have the following roles:"
   mail_member_updated_global:
     subject: "Your global permissions have been updated"
     body:
-      added_by: "%{user} updated the roles you have globally."
+      updated_by:
+        without_message: "%{user} updated the roles you have globally."
+        with_message: "%{user} updated the roles you have globally writing:"
       roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: User activation limit reached

@@ -48,7 +48,7 @@ module Projects
     end
 
     def persist(call)
-      DeleteProjectJob.perform_later(user_id: user.id, project_id: model.id)
+      DeleteProjectJob.perform_later(user: user, project: model)
       call
     end
   end

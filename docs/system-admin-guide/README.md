@@ -43,6 +43,3 @@ Click on one of the categories in order to proceed with the configuration.
 | [GitHub Integration](github-integration)               | How to combine GitHub and OpenProject.                       |
 | [Enterprise on-premises](../enterprise-edition-guide/) | Upgrading your Community Edition to Enterprise on-premises and other administrative topics. |
 | [Enterprise cloud](../cloud-edition-guide/)            | Manage your OpenProject Enterprise cloud and other administrative topics. |
-
-
-

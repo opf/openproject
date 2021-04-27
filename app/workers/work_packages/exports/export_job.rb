@@ -1,3 +1,5 @@
+require 'active_storage/filename'
+
 module WorkPackages
   module Exports
     class ExportJob < ::ApplicationJob
@@ -42,11 +44,18 @@ module WorkPackages
       end
 
       def store_from_tempfile(export, export_result)
-        renamed_file_path = File.join(File.dirname(export_result.content.path), export_result.title)
+        renamed_file_path = target_file_name(export_result)
         File.rename(export_result.content.path, renamed_file_path)
         file = File.open(renamed_file_path)
         store_attachment(export, file)
         file.close
+      end
+
+      ##
+      # Create a target file name, replacing any invalid characters
+      def target_file_name(export_result)
+        target_name = ActiveStorage::Filename.new(export_result.title).sanitized
+        File.join(File.dirname(export_result.content.path), target_name)
       end
 
       def schedule_cleanup

@@ -34,13 +34,13 @@ module Bim::Bcf::API::V2_1::Endpoints
       index = self
 
       -> do
-        collection = index.scope ? instance_exec(&index.scope) : index.model
-
-        index.render(collection)
+        index.render(self)
       end
     end
 
-    def render(collection)
+    def render(request)
+      collection = scope ? request.instance_exec(&scope) : model
+
       collection
         .map do |instance|
         render_representer

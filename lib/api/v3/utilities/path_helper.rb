@@ -236,6 +236,8 @@ module API
 
           resources :project
 
+          show :project_status
+
           def self.projects_available_parents
             "#{projects}/available_parent_projects"
           end
