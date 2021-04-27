@@ -234,6 +234,26 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       end
     end
 
+    context 'with filtering by capability action' do
+      let(:other_project) do
+        FactoryBot.create(:project, members: [current_user])
+      end
+      let(:projects) { [project, other_project] }
+      let(:role) { FactoryBot.create(:role, permissions: [:copy_projects]) }
+
+      let(:get_path) do
+        api_v3_paths.path_for :projects, filters: [{ "user_action": { "operator": "=", "values": ["projects/copy"] } }]
+      end
+
+      it_behaves_like 'API V3 collection response', 1, 1, 'Project'
+
+      it 'returns the project the current user has the capability in' do
+        expect(response.body)
+          .to be_json_eql(api_v3_paths.project(project.id).to_json)
+                .at_path('_embedded/elements/0/_links/self/href')
+      end
+    end
+
     context 'filtering for principals (members)' do
       let(:other_project) do
         Role.non_member

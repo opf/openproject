@@ -54,6 +54,10 @@ module Queries::Register
       @columns[query] << column
     end
 
+    def register(&block)
+      instance_exec(&block)
+    end
+
     attr_accessor :filters,
                   :orders,
                   :columns
