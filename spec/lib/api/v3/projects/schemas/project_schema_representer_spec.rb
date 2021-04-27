@@ -125,6 +125,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
         let(:type) { 'String' }
         let(:name) { I18n.t('activerecord.attributes.project.identifier') }
         let(:required) { true }
+        let(:has_default) { true }
         let(:writable) { true }
       end
 
