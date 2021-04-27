@@ -1,7 +1,25 @@
-<div class="op-form--container"
-     *ngIf="form">
+<div class="op-form--container" *ngIf="form">
+  <ng-container *ngIf="!isStandaloneForm">
+    <ng-container *ngTemplateOutlet="formlyForm">
+    </ng-container>
+  </ng-container>
+
   <form [formGroup]="form"
+        *ngIf="isStandaloneForm"
         (submit)="submitForm(form)">
+    <ng-container *ngTemplateOutlet="formlyForm"></ng-container>
+
+    <button type="submit"
+            class="button -highlight"
+            [disabled]="inFlight">
+      {{text.save}}
+    </button>
+  </form>
+</div>
+
+<ng-template #formlyForm>
+  <div class="op-form--container"
+       *ngIf="form">
     <formly-form [form]="form"
                  [model]="model"
                  [fields]="fields"
@@ -17,13 +35,7 @@
         </op-form-field>
       </ng-template>
     </formly-form>
+  </div>
+</ng-template>
 
-    <button type="submit"
-            class="button -highlight"
-            *ngIf="isStandaloneForm"
-            [disabled]="inFlight">
-      {{text.save}}
-    </button>
-  </form>
-</div>
 
