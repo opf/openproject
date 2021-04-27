@@ -28,32 +28,35 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Projects
-  filters = ::Queries::Projects::Filters
-  orders = ::Queries::Projects::Orders
-  query = ::Queries::Projects::ProjectQuery
+module Queries
+  module Projects
+    module Filters
+      class UserActionFilter < ::Queries::Projects::Filters::ProjectFilter
+        def allowed_values
+          @allowed_values ||= Action.default.pluck(:id, :id)
+        end
 
-  ::Queries::Register.register do
-    filter query, filters::AncestorFilter
-    filter query, filters::TypeFilter
-    filter query, filters::ActiveFilter
-    filter query, filters::TemplatedFilter
-    filter query, filters::PublicFilter
-    filter query, filters::NameAndIdentifierFilter
-    filter query, filters::CustomFieldFilter
-    filter query, filters::CreatedAtFilter
-    filter query, filters::LatestActivityAtFilter
-    filter query, filters::PrincipalFilter
-    filter query, filters::ParentFilter
-    filter query, filters::IdFilter
-    filter query, filters::ProjectStatusFilter
-    filter query, filters::UserActionFilter
+        def type
+          :list
+        end
 
-    order query, orders::DefaultOrder
-    order query, orders::LatestActivityAtOrder
-    order query, orders::RequiredDiskSpaceOrder
-    order query, orders::CustomFieldOrder
-    order query, orders::ProjectStatusOrder
-    order query, orders::NameOrder
+        def where
+          capability_select = Capability
+                                .where(action: values)
+                                .where(principal: User.current)
+                                .reselect(:context_id)
+
+          sql_operator = if operator_class == ::Queries::Operators::Equals
+                           "IN"
+                         elsif operator_class == ::Queries::Operators::NotEquals
+                           "NOT IN"
+                         else
+                           raise ArgumentError
+                         end
+
+          "#{Project.table_name}.id #{sql_operator} (#{capability_select.to_sql})"
+        end
+      end
+    end
   end
 end

@@ -28,32 +28,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Projects
-  filters = ::Queries::Projects::Filters
-  orders = ::Queries::Projects::Orders
-  query = ::Queries::Projects::ProjectQuery
+require 'spec_helper'
 
-  ::Queries::Register.register do
-    filter query, filters::AncestorFilter
-    filter query, filters::TypeFilter
-    filter query, filters::ActiveFilter
-    filter query, filters::TemplatedFilter
-    filter query, filters::PublicFilter
-    filter query, filters::NameAndIdentifierFilter
-    filter query, filters::CustomFieldFilter
-    filter query, filters::CreatedAtFilter
-    filter query, filters::LatestActivityAtFilter
-    filter query, filters::PrincipalFilter
-    filter query, filters::ParentFilter
-    filter query, filters::IdFilter
-    filter query, filters::ProjectStatusFilter
-    filter query, filters::UserActionFilter
-
-    order query, orders::DefaultOrder
-    order query, orders::LatestActivityAtOrder
-    order query, orders::RequiredDiskSpaceOrder
-    order query, orders::CustomFieldOrder
-    order query, orders::ProjectStatusOrder
-    order query, orders::NameOrder
+describe Queries::Projects::Filters::UserActionFilter, type: :model do
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :user_action }
+    let(:type) { :list }
+    let(:model) { Project }
+    let(:attribute) { :user_action }
+    let(:values) { ['projects/view'] }
   end
 end
