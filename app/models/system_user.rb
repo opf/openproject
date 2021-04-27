@@ -55,7 +55,9 @@ class SystemUser < User
 
   def destroy; false end
 
-  def run_given(&block)
-    User.execute_as(self, &block)
+  def run_given
+    User.execute_as(self) do
+      yield self
+    end
   end
 end
