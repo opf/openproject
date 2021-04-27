@@ -2,38 +2,57 @@ import { Component, OnInit } from '@angular/core';
 import { StateService, UIRouterGlobals } from "@uirouter/core";
 import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
-import { HalSource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource, HalSource } from "core-app/modules/hal/resources/hal-resource";
 import { IOPFormlyFieldSettings } from "core-app/modules/common/dynamic-forms/typings";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { FormControl, FormGroup } from "@angular/forms";
-import { of } from "rxjs";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { ApiV3FilterBuilder } from "core-components/api/api-v3/api-v3-filter-builder";
+import { map } from "rxjs/operators";
+import { Observable } from "rxjs";
+
+export interface ProjectTemplateOption {
+  href:string|null;
+  title:string;
+}
 
 @Component({
-  selector: 'app-projects',
-  templateUrl: './new-project.component.html'
+  selector: 'op-new-project',
+  templateUrl: './new-project.component.html',
 })
 export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   resourcePath:string;
   dynamicFieldsSettingsPipe:(dynamicFieldsSettings:IOPFormlyFieldSettings[]) => IOPFormlyFieldSettings[];
 
   text = {
-    use_template: this.I18n.t('js.project.use_template')
-  }
+    use_template: this.I18n.t('js.project.use_template'),
+  };
 
-  // TODO
-  templateOptions$ = of([
-    { href: null, title: '(none)' },
-    { href: '/api/v3/projects/12', title: 'First project' },
-    { href: '/api/v3/projects/13', title: 'Second project' },
-  ]);
+  copyableTemplateFilter = new ApiV3FilterBuilder()
+    .add('user_action', '=', ["projects/copy"]) // no null values
+    .add('templated', '=', true);
+
+  templateOptions$:Observable<ProjectTemplateOption[]> =
+    this
+      .apiV3Service
+      .projects
+      .filtered(this.copyableTemplateFilter)
+      .get()
+      .pipe(
+        map(response =>
+          response.elements.map((el:HalResource) => ({ href: el.href, name: el.name }))),
+      );
 
   templateForm = new FormGroup({
-    template: new FormControl()
+    template: new FormControl(),
   });
 
-  get templateControl() { return this.templateForm.get('template'); }
+  get templateControl() {
+    return this.templateForm.get('template');
+  }
 
   constructor(
+    private apiV3Service:APIV3Service,
     private uIRouterGlobals:UIRouterGlobals,
     private pathHelperService:PathHelperService,
     private $state:StateService,
@@ -42,7 +61,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     super();
   }
 
-  ngOnInit(): void {
+  ngOnInit():void {
     this.resourcePath = this.pathHelperService.projectsPath();
 
     // TODO extract common
@@ -52,13 +71,13 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
           if (dynamicFormField.key === 'identifier') {
             dynamicFormField = {
               ...dynamicFormField,
-              hide: true,
-            }
+              hide: false,
+            };
           }
 
           return [...formattedDynamicFieldsSettings, dynamicFormField];
         }, []);
-    }
+    };
   }
 
   onSubmitted(formResource:HalSource) {
@@ -67,6 +86,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
 
   onTemplateSelected(selected:{ href:string|null }) {
     if (selected.href) {
+      // TODO avoid resourcePath handling by passing form endpoint
       this.resourcePath = selected.href.replace('/api/v3', '') + '/copy';
     } else {
       this.resourcePath = this.pathHelperService.projectsPath();
