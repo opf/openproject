@@ -79,6 +79,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
   @Input() fieldsSettingsPipe: (dynamicFieldsSettings:IOPFormlyFieldSettings[]) => IOPFormlyFieldSettings[];
   @Input() showNotifications = true;
   @Input() showValidationErrorsOn: 'change' | 'blur' | 'submit' | 'never' = 'submit';
+  @Input() handleSubmit = true;
 
   @Output() modelChange = new EventEmitter<IOPFormModel>();
   @Output() submitted = new EventEmitter<HalSource>();
@@ -149,7 +150,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
   }
 
   submitForm(form:FormGroup) {
-    if (!this.isStandaloneForm) {
+    if (!(this.isStandaloneForm && this.handleSubmit)) {
       return;
     }
 
