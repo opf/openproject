@@ -13,7 +13,11 @@
                        [required]="field.templateOptions?.required">
           <formly-field [field]="field" slot=input></formly-field>
 
-          <formly-validation-message [field]="field" slot=errors></formly-validation-message>
+          <formly-validation-message
+            class="op-form-field--error"
+            [field]="field"
+            slot="errors"
+          ></formly-validation-message>
         </op-form-field>
       </ng-template>
     </formly-form>
