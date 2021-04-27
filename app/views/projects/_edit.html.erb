@@ -39,11 +39,17 @@ See docs/COPYRIGHT.rdoc for more details.
       <% end %>
     </li>
   <% end %>
+  <li class="toolbar-item hidden-for-mobile">
+    <%= link_to identifier_project_path(@project), class: 'button' do %>
+      <%= op_icon('button--icon icon-edit') %>
+      <span class="button--text"><%= t('projects.settings.change_identifier') %></span>
+    <% end %>
+  </li>
   <% if @project.copy_allowed? %>
     <li class="toolbar-item hidden-for-mobile">
       <%= link_to copy_from_project_path(@project, coming_from: :settings), class: 'button copy', accesskey: accesskey(:copy) do %>
         <%= op_icon('button--icon icon-copy') %>
-        <span class="button--text"><%= t(:label_copy_project) %></span>
+        <span class="button--text"><%= t(:button_copy) %></span>
       <% end %>
     </li>
   <% end %>
@@ -55,7 +61,7 @@ See docs/COPYRIGHT.rdoc for more details.
                   title: t(:label_archive_project),
                   class: 'button') do %>
         <%= op_icon('button--icon icon-locked') %>
-        <span class="button--text"><%= t(:label_archive_project) %></span>
+        <span class="button--text"><%= t(:button_archive) %></span>
       <% end %>
     </li>
     <li class="toolbar-item hidden-for-mobile">
@@ -76,7 +82,7 @@ See docs/COPYRIGHT.rdoc for more details.
                   class: 'button delete',
                   title: t(:label_delete_project) do %>
         <%= op_icon('button--icon icon-delete') %>
-        <span class="button--text"><%= t(:label_delete_project) %></span>
+        <span class="button--text"><%= t(:button_delete) %></span>
       <% end %>
     </li>
   <% end %>
