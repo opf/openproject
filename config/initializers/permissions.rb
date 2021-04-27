@@ -117,7 +117,8 @@ OpenProject::AccessControl.map do |map|
                    {
                      copy_projects: %i[copy copy_project]
                    },
-                   require: :member
+                   require: :member,
+                   contract_actions: { projects: %i[copy] }
   end
 
   map.project_module :work_package_tracking, order: 90 do |wpt|
