@@ -120,7 +120,7 @@ describe WikiPage, type: :model do
 
       it 'ensures that there is still a wiki menu item named like the wiki start page' do
         expect(wiki.wiki_menu_items).to be_one
-        expect(wiki.wiki_menu_items.first.name).to eq(wiki.start_page.to_url)
+        expect(wiki.wiki_menu_items.first.name).to WikiPage.slug(eq(wiki.start_page))
       end
     end
   end

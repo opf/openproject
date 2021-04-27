@@ -67,7 +67,7 @@ class Wiki < ApplicationRecord
   def find_page(title, options = {})
     title = start_page if title.blank?
 
-    page = pages.where(slug: title.to_url).first
+    page = pages.where(slug: WikiPage.slug(title)).first
     if !page && !(options[:with_redirect] == false)
       # search for a redirect
       redirect = matching_redirect(title)
@@ -113,7 +113,7 @@ class Wiki < ApplicationRecord
   # Tries to find a redirect for the given slug,
   # falls back to finding a redirect for the title
   def matching_redirect(title)
-    page = redirects.where(title: title.to_url).first
+    page = redirects.where(title: WikiPage.slug(title)).first
 
     if page.nil?
       page = redirects.where(title: title).first
