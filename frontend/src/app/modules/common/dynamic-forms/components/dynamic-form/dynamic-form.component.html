@@ -1,25 +1,7 @@
-<div class="op-form--container" *ngIf="form">
-  <ng-container *ngIf="!isStandaloneForm">
-    <ng-container *ngTemplateOutlet="formlyForm">
-    </ng-container>
-  </ng-container>
-
+<div class="op-form--container"
+     *ngIf="form && isStandaloneForm">
   <form [formGroup]="form"
-        *ngIf="isStandaloneForm"
         (submit)="submitForm(form)">
-    <ng-container *ngTemplateOutlet="formlyForm"></ng-container>
-
-    <button type="submit"
-            class="button -highlight"
-            [disabled]="inFlight">
-      {{text.save}}
-    </button>
-  </form>
-</div>
-
-<ng-template #formlyForm>
-  <div class="op-form--container"
-       *ngIf="form">
     <formly-form [form]="form"
                  [model]="model"
                  [fields]="fields"
@@ -35,7 +17,39 @@
         </op-form-field>
       </ng-template>
     </formly-form>
-  </div>
-</ng-template>
+
+    <button type="submit"
+            class="button -highlight"
+            [disabled]="inFlight">
+      {{text.save}}
+    </button>
+  </form>
+</div>
+
+<!-- When used as a FormControl, the Dynamic Form doesn't need a wrapping form -->
+<!--
+  TODO: Issue: sharing the form as an ng-template between this two HTML blocks doesn't work because
+  the nested OpFormFieldComponent don't find the injected FormGroupDirective.
+--->
+<div class="op-form--container"
+     *ngIf="form && !isStandaloneForm">
+  <formly-form [form]="form"
+               [model]="model"
+               [fields]="fields"
+               (modelChange)="onModelChange($event)">
+    <ng-template formlyTemplate let-field>
+      <op-form-field *ngFor="let field of fields"
+                     [label]="field.templateOptions?.label"
+                     [noWrapLabel]="field.templateOptions?.noWrapLabel"
+                     [required]="field.templateOptions?.required">
+        <formly-field [field]="field" slot=input></formly-field>
+
+        <formly-validation-message [field]="field" slot=errors></formly-validation-message>
+      </op-form-field>
+    </ng-template>
+  </formly-form>
+</div>
+
+
 
 
