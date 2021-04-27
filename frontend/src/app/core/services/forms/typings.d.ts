@@ -107,6 +107,11 @@ interface IOPFormError {
   _embedded: IOPFormErrorDetails;
 }
 
+interface IFormattedValidationError {
+  key:string;
+  message:string;
+}
+
 interface IOPFormErrorResponse extends IOPFormError {
   _embedded: IOPFormErrorDetails | IOPFormErrors;
 }
