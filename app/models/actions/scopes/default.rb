@@ -64,7 +64,7 @@ module Actions::Scopes
       end
 
       def action_v3_name(name)
-        API::Utilities::PropertyNameConverter.from_ar_name(name.to_s.singularize).pluralize
+        API::Utilities::PropertyNameConverter.from_ar_name(name.to_s.singularize).pluralize.underscore
       end
 
       def quote_string(string)

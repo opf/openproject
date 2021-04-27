@@ -92,7 +92,7 @@ export class ProjectSelectionComponent implements OnInit {
       });
     } else {
       this.currentUserService.capabilities$.pipe(take(1)).subscribe((capabilities) => {
-        if (!capabilities.find(c => c.action.href.endsWith('/placeholderUsers/read'))) {
+        if (!capabilities.find(c => c.action.href.endsWith('/placeholder_users/read'))) {
           return;
         }
         // We only add the option if the user has placeholder read rights
