@@ -85,9 +85,12 @@ module LdapGroups
       base_dn = ldap.base_dn
 
       users = {}
+      # Override the default search attributes from the ldap
+      # if we have sync_users enabled, to also get user attributes
+      search_attributes = ldap.search_attributes(group.sync_users)
       ldap_con.search(base: base_dn,
                       filter: memberof_filter(group),
-                      attributes: ldap.search_attributes) do |entry|
+                      attributes: search_attributes) do |entry|
         data = ldap.get_user_attributes_from_ldap_entry(entry)
         users[data[:login]] = data.except(:dn)
       end
