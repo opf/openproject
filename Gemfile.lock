@@ -420,7 +420,7 @@ GEM
     dry-core (0.5.0)
       concurrent-ruby (~> 1.0)
     dry-inflector (0.2.0)
-    dry-logic (1.1.1)
+    dry-logic (1.2.0)
       concurrent-ruby (~> 1.0)
       dry-core (~> 0.5, >= 0.5)
     dry-types (1.5.1)
