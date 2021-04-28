@@ -107,7 +107,9 @@ export class DynamicFieldsService {
   getConfig(formSchema:IOPFormSchema, formPayload:IOPFormModel):IOPFormlyFieldSettings[] {
     const formFieldGroups = formSchema._attributeGroups;
     const fieldSchemas = this._getFieldsSchemasWithKey(formSchema);
-    const formlyFields = fieldSchemas.map(fieldSchema => this._getFormlyFieldConfig(fieldSchema));
+    const formlyFields = fieldSchemas
+      .map(fieldSchema => this._getFormlyFieldConfig(fieldSchema))
+      .filter(f => f !== null) as IOPFormlyFieldSettings[];
     const formlyFormWithFieldGroups = this._getFormlyFormWithFieldGroups(formFieldGroups, formlyFields);
 
     return formlyFormWithFieldGroups;
@@ -171,9 +173,13 @@ export class DynamicFieldsService {
     }, {});
   }
 
-  private _getFormlyFieldConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldSettings {
+  private _getFormlyFieldConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldSettings|null {
     const { key, name:label, required } = field;
-    const { templateOptions, ...fieldTypeConfig } = this._getFieldTypeConfig(field);
+    const fieldTypeConfigSearch = this._getFieldTypeConfig(field);
+    if (!fieldTypeConfigSearch) {
+      return null;
+    }
+    const { templateOptions, ...fieldTypeConfig } = fieldTypeConfigSearch;
     const fieldOptions = this._getFieldOptions(field);
     const formlyFieldConfig = {
       ...fieldTypeConfig,
@@ -190,9 +196,16 @@ export class DynamicFieldsService {
     return formlyFieldConfig;
   }
 
-  private _getFieldTypeConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldSettings {
+  private _getFieldTypeConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldSettings|null {
     const fieldType = field.type.replace('[]', '') as OPFieldType;
     let inputType = this.inputsCatalogue.find(inputType => inputType.useForFields.includes(fieldType))!;
+    if (!inputType) {
+      console.warn(
+        `Could not find a input definition for a field with the folowing type: ${fieldType}.
+          The full field configuration is ${field}`
+      ); 
+      return null;
+    }
     let inputConfig = inputType.config;
     let configCustomizations;
 
