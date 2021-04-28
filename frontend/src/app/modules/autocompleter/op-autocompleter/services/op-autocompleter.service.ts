@@ -10,10 +10,6 @@ import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {of, Observable} from "rxjs";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-// import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
-// import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
-// import { CurrentProjectService } from "core-components/projects/current-project.service";
-// import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
 
 @Injectable()
 
@@ -21,21 +17,13 @@ export class OpAutocompleterService extends UntilDestroyedMixin {
 
   constructor(
     private apiV3Service:APIV3Service,
-    // private readonly querySpace:IsolatedQuerySpace,
-    // private readonly pathHelper:PathHelperService,
-    // readonly CurrentProject:CurrentProjectService,
-    // private readonly urlParamsHelper:UrlParamsHelperService,
   ) {
     super();
   }
   // A method for fetching data with different resource type and different filter
   public loadAvailable(matching:string, resource:resource, filters?: IAPIFilter[], searchKey?:string):Observable<HalResource[]> {
-
     const finalFilters:ApiV3FilterBuilder = this.createFilters(filters ?? [], matching, searchKey);
 
-    if (matching === null || matching.length === 0) {
-      return of([]);
-    }
     const filteredData = (this.apiV3Service[resource] as
       APIv3ResourceCollection<UserResource|WorkPackageResource, APIv3UserPaths|APIV3WorkPackagePaths>)
       .filtered(finalFilters).get()
@@ -56,37 +44,6 @@ export class OpAutocompleterService extends UntilDestroyedMixin {
     }
     return finalFilters;
   }
-
-  // private getWPForBoards(matching:string, resource:resource, filters?:IAPIFilter[], searchKey?:string):Observable<HalResource[]> {
-  //   // Return when the search string is empty
-  //   if (matching.length === 0) {
-  //     return of([]);
-  //   }
-
-  //   const finalFilters:ApiV3FilterBuilder = this.createFilters(filters ?? [], matching, searchKey);
-  //   const results = this.querySpace.results.value;
-
-  //   if (results && results.elements.length > 0) {
-  //     finalFilters.add('id', '!', results.elements.map((wp:HalResource) => wp.id!));
-  //   }
-
-  //   // Add the subproject filter, if any
-  //   const query = this.querySpace.query.value;
-  //   if (query?.filters) {
-  //     const currentFilters = this.urlParamsHelper.buildV3GetFilters(query.filters);
-  //     finalFilters.merge(currentFilters, 'subprojectId');
-  //   }
-
-  //   return this
-  //     .apiV3Service
-  //     .withOptionalProject(this.CurrentProject.id)
-  //     .work_packages
-  //     .filtered(finalFilters)
-  //     .get()
-  //     .pipe(
-  //       map(collection => collection.elements)
-  //     );
-  // }
 
   // A method for returning data based on the resource type
   // If you need to fetch our default date sources like work_packages or users,

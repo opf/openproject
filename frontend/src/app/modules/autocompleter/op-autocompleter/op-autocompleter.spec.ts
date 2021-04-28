@@ -93,6 +93,7 @@ fdescribe('autocompleter', () => {
     fixture.componentInstance.hasDefaultContent = true;
     fixture.componentInstance.virtualScroll = true;
     fixture.componentInstance.classes = 'wp-inline-create--reference-autocompleter';
+    fixture.componentInstance.defaulData = true;
 
     // @ts-ignore
     opAutocompleterServiceSpy.loadData.and.returnValue(of(workPackagesStub));
@@ -109,14 +110,21 @@ fdescribe('autocompleter', () => {
   it('should load WorkPackages', fakeAsync(() => {
     tick();
     fixture.detectChanges();
- 
-    const select =  fixture.componentInstance.ngSelectInstance as NgSelectComponent;
+    fixture.componentInstance.ngAfterViewInit();
+    tick(1000);
+    fixture.detectChanges();
+    var select =  fixture.componentInstance.ngSelectInstance as NgSelectComponent;
+    expect(fixture.componentInstance.ngSelectInstance.isOpen).toBeFalse();
+    fixture.componentInstance.ngSelectInstance.open();
+    fixture.componentInstance.ngSelectInstance.focus();
+    expect(fixture.componentInstance.ngSelectInstance.isOpen).toBeTrue();
     select.filter('a');
 
     fixture.detectChanges();
     tick(1000);
     fixture.detectChanges();
     tick(1000);
+    
   expect(opAutocompleterServiceSpy.loadData).toHaveBeenCalledWith('a', 
   fixture.componentInstance.resource, fixture.componentInstance.filters, fixture.componentInstance.searchKey);
   

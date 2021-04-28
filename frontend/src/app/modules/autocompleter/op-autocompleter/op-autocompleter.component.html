@@ -1,3 +1,4 @@
+
 <div class="inline-label ng-select-container">
   <ng-select #ngSelectInstance
         [(ngModel)]="model"
@@ -60,6 +61,11 @@
         (remove)="removed($event)"
         >
         
+        <ng-template ng-header-tmp let-item="item">
+          <ng-container [ngTemplateOutlet]="headerTemplate ? headerTemplate : ''" [ngTemplateOutletContext]="{$implicit:item}">
+          </ng-container>
+        </ng-template>
+
           <ng-template ng-label-tmp let-item="item">
             <ng-container [ngTemplateOutlet]="labelTemplate ? labelTemplate : defaultLabel" [ngTemplateOutletContext]="{$implicit:item}">
             </ng-container>
@@ -74,9 +80,9 @@
 </div>
 
 
-<ng-template let-item  #defaultOption [ngSwitch]="resource">
+<ng-template let-item  #defaultOption [ngSwitch]="true">
 
-  <ng-container *ngSwitchCase="'work_packages'">
+  <ng-container *ngSwitchCase="resource === 'work_packages' || resource === 'parent-child'">
     
     <div class="op-autocompleter--option-wrapper">
       
@@ -107,7 +113,7 @@
     </div>
   </ng-container>
 
-  <ng-container *ngSwitchCase="'user'">
+  <ng-container *ngSwitchCase="resource ==='user' || resource ==='assignee'">
     <op-principal
     *ngIf="item && item.href"
     [principal]="item"
@@ -117,6 +123,10 @@
   {{ item.name }}
   </ng-container>
 
+
+  <ng-container *ngSwitchCase="resource ==='subproject' || resource ==='version' || resource ==='status'">
+  {{ item.name }}
+  </ng-container>
 </ng-template>
 
 
@@ -127,8 +137,7 @@
     {{item.type.name }} #{{ item.id }} {{ item.subject }}
   </ng-container>
 
-  <ng-container *ngSwitchCase="'user'">
+  <ng-container *ngSwitchDefault>
     {{ item.name }}
-  </ng-container>
-
+    </ng-container>
 </ng-template>

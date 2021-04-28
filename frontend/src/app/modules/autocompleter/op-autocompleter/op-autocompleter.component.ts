@@ -13,6 +13,7 @@ import { UntilDestroyedMixin } from 'core-app/helpers/angular/until-destroyed.mi
 import { GroupValueFn } from '@ng-select/ng-select/lib/ng-select.component';
 import { OpAutocompleterOptionTemplateDirective } from "./directives/op-autocompleter-option-template.directive";
 import { OpAutocompleterLabelTemplateDirective } from "./directives/op-autocompleter-label-template.directive";
+import { OpAutocompleterHeaderTemplateDirective } from "./directives/op-autocompleter-header-template.directive";
 import { OpAutocompleterService } from "./services/op-autocompleter.service";
 import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 
@@ -27,13 +28,13 @@ import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/
 // it has all inputs and outputs of ng-select
 // in order to use it, you only need to pass the data type and its filters
 // you also can change the value of ng-select default options by changing @inputs and @outputs
-export class OpAutocompleterComponent extends UntilDestroyedMixin implements AfterContentInit{
+export class OpAutocompleterComponent extends UntilDestroyedMixin implements AfterViewInit{
 
   @Input() public filters?:IAPIFilter[];
   @Input() public resource:resource;
   @Input() public model?:any;
   @Input() public searchKey?:string;
-  @Input() public defaultOpen?:boolean = false;
+  @Input() public defaulData?:boolean = false;
   @Input() public name?:string;
   @Input() public required?:boolean = false;
   @Input() public disabled?:string;
@@ -44,6 +45,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   @Input() public clearSearchOnAdd?:boolean = true;
   @Input() public classes?:string;
   @Input() public multiple?:boolean = false;
+  @Input() public openOnStart?:boolean = false;
   @Input() public bindLabel?:string;
   @Input() public bindValue?:string;
   @Input() public markFirst ? = true;
@@ -81,6 +83,8 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   @Input() public keyDownFn ? = (_:KeyboardEvent) => true;
   @Input() public hasDefaultContent:boolean;
   @Input() public typeahead?:Subject<string>;
+  // a function for setting the options of ng-select
+  @Input() public getOptionsFn: (searchTerm:string) => any;
 
   @Output() public open = new EventEmitter<any>();
   @Output() public close = new EventEmitter<any>();
@@ -99,11 +103,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   public active:Set<string>;
   public searchInput$ = new Subject<string>();
 
-  public results$:Observable<HalResource[]> = this.searchInput$.pipe(
-    debounceTime(250),
-    distinctUntilChanged(),
-    switchMap(queryString => this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey))
-  );
+  public results$ :any;
 
   public isLoading = false;
 
@@ -115,6 +115,9 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   @ContentChild(OpAutocompleterLabelTemplateDirective, { read: TemplateRef })
   labelTemplate:TemplateRef<any>;
 
+  @ContentChild(OpAutocompleterHeaderTemplateDirective, { read: TemplateRef })
+  headerTemplate:TemplateRef<any>;
+
   constructor(
     readonly opAutocompleterService:OpAutocompleterService,
     readonly cdRef:ChangeDetectorRef,
@@ -123,12 +126,23 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     super();
   }
 
-  ngAfterContentInit():void {
+  ngAfterViewInit():void {
+
     if (!this.ngSelectInstance) {
       return;
     }
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
+        this.results$ = this.defaulData ? (this.searchInput$.pipe(
+          debounceTime(250),
+          distinctUntilChanged(),
+          switchMap(queryString => this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey))
+        )) : (this.searchInput$.pipe(
+          debounceTime(250),
+          distinctUntilChanged(),
+          switchMap(queryString => this.getOptionsFn(queryString))
+        ));
+
         this.ngSelectInstance.focus();
         this.repositionDropdown();
       }, 25);
@@ -150,6 +164,13 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   }
 
   public opened(val:any) {
+
+   if (this.openOnStart) {
+    this.results$ = this.defaulData 
+    ? (this.opAutocompleterService.loadData('', this.resource, this.filters, this.searchKey))
+    : (this.getOptionsFn(''));
+    this.repositionDropdown();
+   }
     this.open.emit();
   }
 
@@ -166,6 +187,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   }
 
   public focused(val:any) {
+
     this.ngSelectInstance.focus();
     this.focus.emit(val);
   }

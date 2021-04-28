@@ -17,6 +17,7 @@ import { DragulaModule } from "ng2-dragula";
 import {OpAutocompleterComponent} from "core-app/modules/autocompleter/op-autocompleter/op-autocompleter.component";
 import {OpAutocompleterOptionTemplateDirective} from "core-app/modules/autocompleter/op-autocompleter/directives/op-autocompleter-option-template.directive";
 import {OpAutocompleterLabelTemplateDirective} from "core-app/modules/autocompleter/op-autocompleter/directives/op-autocompleter-label-template.directive";
+import {OpAutocompleterHeaderTemplateDirective} from "core-app/modules/autocompleter/op-autocompleter/directives/op-autocompleter-header-template.directive";
 
 export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   CreateAutocompleterComponent,
@@ -30,6 +31,7 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   OpAutocompleterComponent,
   OpAutocompleterOptionTemplateDirective,
   OpAutocompleterLabelTemplateDirective,
+  OpAutocompleterHeaderTemplateDirective,
 ];
 
 @NgModule({
