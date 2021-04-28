@@ -28,6 +28,7 @@
 
 import { Injectable } from "@angular/core";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { FilterOperator } from 'core-components/api/api-v3/api-v3-filter-builder';
 import { take, map, distinctUntilChanged } from 'rxjs/operators';
 import { CurrentUserStore, CurrentUser } from "./current-user.store";
 import { CurrentUserQuery } from "./current-user.query";
@@ -66,7 +67,7 @@ export class CurrentUserService {
         return;
       }
 
-      const filters = [ ['principal', '=', [user.id]] ];
+      const filters: [string, FilterOperator, string[]][] = [ ['principal', '=', [user.id]] ];
       if (context !== '') {
         const contextFilter = context === 'global' ? 'g' : `p${context}`;
         filters.push(['context', '=', [contextFilter]]);
@@ -106,7 +107,7 @@ export class CurrentUserService {
       map((capabilities) => capabilities.reduce(
         (acc, cap) => acc && !!actions.find(action => cap.actions.href.endsWith(`/${action}`)),
         true,
-      )))
+      )),
       distinctUntilChanged(),
     );
   }
@@ -115,12 +116,12 @@ export class CurrentUserService {
    * Returns an Observable<boolean> indicating whether the user has any of the required capabilities in the provided context. 
    */
   public hasAnyCapabilityOf$(actions: string|string[], contextId: string = 'global') {
-    const actions = _.castArray(actions);
+    const actionsToFilter = _.castArray(actions);
     return this.capabilitiesForContext$(contextId).pipe(
       map((capabilities) => capabilities.reduce(
-        (acc, cap) => acc || !!actions.find(action => cap.actions.href.endsWith(`/${action}`)),
+        (acc, cap) => acc || !!actionsToFilter.find(action => cap.actions.href.endsWith(`/${action}`)),
         false,
-      )))
+      )),
       distinctUntilChanged(),
     );
   }
