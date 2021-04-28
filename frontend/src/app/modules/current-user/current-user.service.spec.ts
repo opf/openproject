@@ -206,27 +206,33 @@ describe('CurrentUserService', function () {
       }); 
     });
 
-    it('Should filter by context and action', () => {
-      currentUserService.hasCapabilities$('asdf/asdf').subscribe((caps) => {
-        expect(caps.length).toEqual(0);
+    it('Should filter by context and all actions', () => {
+      currentUserService.hasCapabilities$('asdf/asdf').subscribe((hasCaps) => {
+        expect(hasCaps).toEqual(false);
       }); 
-      currentUserService.hasCapabilities$('placeholder_users/read').subscribe((caps) => {
-        expect(caps.length).toEqual(1);
+      currentUserService.hasCapabilities$('placeholder_users/read').subscribe((hasCaps) => {
+        expect(hasCaps).toEqual(true);
       }); 
-      currentUserService.hasCapabilities$(['memberships/update', 'memberships/read'], '6').subscribe((caps) => {
-        expect(caps).toEqual(true);
+      currentUserService.hasCapabilities$(['memberships/update', 'memberships/read'], '6').subscribe((hasCaps) => {
+        expect(hasCaps).toEqual(true);
       }); 
-      currentUserService.hasCapabilities$(['memberships/update', 'memberships/nonexistent'], '6').subscribe((caps) => {
-        expect(caps).toEqual(false);
+      currentUserService.hasCapabilities$(['memberships/update', 'memberships/nonexistent'], '6').subscribe((hasCaps) => {
+        expect(hasCaps).toEqual(false);
       }); 
-      currentUserService.hasAnyCapabilityOf$(['memberships/update', 'memberships/read'], '6').subscribe((caps) => {
-        expect(caps.length).toEqual(true);
+    });
+
+    it('Should filter by context and any of the actions', () => {
+      currentUserService.hasAnyCapabilityOf$('memberships/update', '6').subscribe((hasCaps) => {
+        expect(hasCaps.length).toEqual(true);
       }); 
-      currentUserService.hasAnyCapabilityOf$(['memberships/update', 'memberships/nonexistent'], '6').subscribe((caps) => {
-        expect(caps.length).toEqual(true);
+      currentUserService.hasAnyCapabilityOf$(['memberships/update', 'memberships/read'], '6').subscribe((hasCaps) => {
+        expect(hasCaps.length).toEqual(true);
       }); 
-      currentUserService.hasAnyCapabilityOf$(['memberships/nonexistent'], '6').subscribe((caps) => {
-        expect(caps.length).toEqual(false);
+      currentUserService.hasAnyCapabilityOf$(['memberships/update', 'memberships/nonexistent'], '6').subscribe((hasCaps) => {
+        expect(hasCaps.length).toEqual(true);
+      }); 
+      currentUserService.hasAnyCapabilityOf$('memberships/nonexistent', '6').subscribe((hasCaps) => {
+        expect(hasCaps.length).toEqual(false);
       }); 
     });
   });
