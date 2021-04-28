@@ -224,16 +224,16 @@ describe('CurrentUserService', function () {
 
     it('Should filter by context and any of the actions', () => {
       currentUserService.hasAnyCapabilityOf$('memberships/update', '6').subscribe((hasCaps) => {
-        expect(hasCaps.length).toEqual(true);
+        expect(hasCaps).toEqual(true);
       }); 
       currentUserService.hasAnyCapabilityOf$(['memberships/update', 'memberships/read'], '6').subscribe((hasCaps) => {
-        expect(hasCaps.length).toEqual(true);
+        expect(hasCaps).toEqual(true);
       }); 
       currentUserService.hasAnyCapabilityOf$(['memberships/update', 'memberships/nonexistent'], '6').subscribe((hasCaps) => {
-        expect(hasCaps.length).toEqual(true);
+        expect(hasCaps).toEqual(true);
       }); 
       currentUserService.hasAnyCapabilityOf$('memberships/nonexistent', '6').subscribe((hasCaps) => {
-        expect(hasCaps.length).toEqual(false);
+        expect(hasCaps).toEqual(false);
       }); 
     });
   });
