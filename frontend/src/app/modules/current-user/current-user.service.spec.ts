@@ -31,6 +31,7 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
 import { CurrentUserService } from './current-user.service';
 import { CurrentUser } from './current-user.store';
 
@@ -124,12 +125,15 @@ describe('CurrentUserService', function () {
   let httpMock:HttpTestingController;
 
   const compile = (user: CurrentUser) => {
+    const ConfigurationServiceStub = {};
+
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
       ],
       providers: [
         HalResourceService,
+        { provide: ConfigurationService, useValue: ConfigurationServiceStub },
       ],
     });
 
