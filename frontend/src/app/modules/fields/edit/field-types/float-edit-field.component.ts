@@ -32,7 +32,7 @@ import { EditFieldComponent } from "core-app/modules/fields/edit/edit-field.comp
   template: `
     <input type="number"
            step="any"
-           class="inline-edit--field"
+           class="inline-edit--field op-input"
            [attr.aria-required]="required"
            [attr.required]="required"
            [disabled]="inFlight"

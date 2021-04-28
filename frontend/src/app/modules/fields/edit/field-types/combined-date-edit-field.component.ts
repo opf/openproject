@@ -39,6 +39,7 @@ import { OpModalComponent } from "core-app/modules/modal/modal.component";
   template: `
     <input [value]="dates"
            (click)="handleClick()"
+           class="op-input"
            type="text" />
   `
 })
