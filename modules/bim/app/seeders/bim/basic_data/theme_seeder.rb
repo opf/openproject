@@ -41,7 +41,7 @@ module Bim
       end
 
       def applicable?
-        !DesignColor.any?
+        DesignColor.empty?
       end
     end
   end
