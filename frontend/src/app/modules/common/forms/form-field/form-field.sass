@@ -3,6 +3,10 @@
 .op-form-field
   display: flex
   flex-direction: column
+
+  // This is a fix for the formly-forms, which render the wrapper around a non-visible input
+  &:empty
+    display: none
   
   &--label,
   &--description,
