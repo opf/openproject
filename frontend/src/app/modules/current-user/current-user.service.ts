@@ -28,11 +28,10 @@
 
 import { Injectable } from "@angular/core";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
-import { take } from 'rxjs/operators';
+import { take, map } from 'rxjs/operators';
 import { CurrentUserStore, CurrentUser } from "./current-user.store";
 import { CapabilityResource } from "core-app/modules/hal/resources/capability-resource";
 import { CurrentUserQuery } from "./current-user.query";
-
 
 @Injectable({ providedIn: 'root' })
 export class CurrentUserService {
@@ -54,10 +53,10 @@ export class CurrentUserService {
       ...user,
     }));
 
-    this.getCapabilities();
+    this.fetchCapabilities();
   }
 
-  public getCapabilities() {
+  public fetchCapabilities(context:string = '') {
     this.user$.pipe(take(1)).subscribe((user) => {
       if (!user.id) {
         this.currentUserStore.update(state => ({
@@ -68,9 +67,15 @@ export class CurrentUserService {
         return;
       }
 
+      const filters = [ ['principal', '=', [user.id]] ];
+      if (context !== '') {
+        const contextFilter = context === 'global' ? 'g' : `p${context}`;
+        filters.push(['context', '=', context]);
+      }
+
       this.apiV3Service.capabilities.list({
-        filters: [ ['principal', '=', [user.id]], ],
         pageSize: 1000,
+        filters,
       }).subscribe((data) => {
         this.currentUserStore.update(state => ({
           ...state,
@@ -80,6 +85,45 @@ export class CurrentUserService {
     });
 
     return this.currentUserQuery.capabilities$;
+  }
+
+  /**
+   * Returns the users' capabilities filtered by context
+   */
+  public capabilitiesForContext$(contextId: string) {
+    this.apiV3Service.fetchCapabilities(contextId);
+    return this.capabilities$.pipe(
+      map((capabilities) => capabilities.filter(cap => cap.context.href.endsWith(`/${contextId}`))),
+      distinctUntilChanged(),
+    );
+  }
+
+  /**
+   * Returns an Observable<boolean> indicating whether the user has the required capabilities in the provided context. 
+   */
+  public hasCapabilities$(action: string|string[], contextId: string = 'global') {
+    const actions = _.castArray(action);
+    return this.capabilitiesForContext$(contextId).pipe(
+      map((capabilities) => capabilities.reduce(
+        (acc, cap) => acc && !!actions.find(action => cap.actions.href.endsWith(`/${action}`)),
+        true,
+      )))
+      distinctUntilChanged(),
+    );
+  }
+
+  /**
+   * Returns an Observable<boolean> indicating whether the user has any of the required capabilities in the provided context. 
+   */
+  public hasAnyCapabilityOf$(actions: string|string[], contextId: string = 'global') {
+    const actions = _.castArray(actions);
+    return this.capabilitiesForContext$(contextId).pipe(
+      map((capabilities) => capabilities.reduce(
+        (acc, cap) => acc || !!actions.find(action => cap.actions.href.endsWith(`/${action}`)),
+        false,
+      )))
+      distinctUntilChanged(),
+    );
   }
 
   // Everything below this is deprecated legacy interfacing and should not be used
