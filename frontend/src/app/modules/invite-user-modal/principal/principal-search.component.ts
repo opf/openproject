@@ -65,7 +65,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
     this.items$,
     this.input$,
     this.currentUserService.capabilities$.pipe(
-      map(capabilities => !!capabilities.find(c => c.action.href.endsWith('/placeholderUsers/create'))),
+      map(capabilities => !!capabilities.find(c => c.action.href.endsWith('/placeholder_users/create'))),
       distinctUntilChanged(),
     ),
   ).pipe(
