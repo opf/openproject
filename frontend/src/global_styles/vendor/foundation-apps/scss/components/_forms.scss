@@ -87,7 +87,7 @@ $meter-radius: 0 !default;
   padding: $form-padding;
   margin: 0 0 $global-padding 0;
   border: $input-border;
-  border-radius: 0;
+  border-radius: 2px;
   background: $input-background;
   color: $input-color;
   font-size: $form-fontsize;
