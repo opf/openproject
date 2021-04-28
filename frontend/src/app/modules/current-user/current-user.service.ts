@@ -28,9 +28,8 @@
 
 import { Injectable } from "@angular/core";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
-import { take, map } from 'rxjs/operators';
+import { take, map, distinctUntilChanged } from 'rxjs/operators';
 import { CurrentUserStore, CurrentUser } from "./current-user.store";
-import { CapabilityResource } from "core-app/modules/hal/resources/capability-resource";
 import { CurrentUserQuery } from "./current-user.query";
 
 @Injectable({ providedIn: 'root' })
@@ -70,7 +69,7 @@ export class CurrentUserService {
       const filters = [ ['principal', '=', [user.id]] ];
       if (context !== '') {
         const contextFilter = context === 'global' ? 'g' : `p${context}`;
-        filters.push(['context', '=', context]);
+        filters.push(['context', '=', [contextFilter]]);
       }
 
       this.apiV3Service.capabilities.list({
@@ -91,7 +90,7 @@ export class CurrentUserService {
    * Returns the users' capabilities filtered by context
    */
   public capabilitiesForContext$(contextId: string) {
-    this.apiV3Service.fetchCapabilities(contextId);
+    this.fetchCapabilities(contextId);
     return this.capabilities$.pipe(
       map((capabilities) => capabilities.filter(cap => cap.context.href.endsWith(`/${contextId}`))),
       distinctUntilChanged(),

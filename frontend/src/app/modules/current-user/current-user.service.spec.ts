@@ -32,6 +32,7 @@ import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
 import { CurrentUserService } from './current-user.service';
+import { CurrentUser } from './current-user.store';
 
 const globalCapability = {
   _type: 'Capability',
@@ -122,7 +123,7 @@ describe('CurrentUserService', function () {
   let currentUserService:CurrentUserService;
   let httpMock:HttpTestingController;
 
-  const compile = (user) => {
+  const compile = (user: CurrentUser) => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule
