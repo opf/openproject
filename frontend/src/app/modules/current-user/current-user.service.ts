@@ -54,6 +54,11 @@ export class CurrentUserService {
   public isLoggedIn$ = this.currentUserQuery.isLoggedIn$;
   public user$ = this.currentUserQuery.user$;
 
+  /**
+   * Set the current user object
+   *
+   * This refetches the global and current project capabilities
+   */
   public setUser(user: CurrentUser) {
     this.currentUserStore.update(state => ({
       ...state,
@@ -64,6 +69,9 @@ export class CurrentUserService {
     this.fetchCapabilities(contextsToFetch);
   }
 
+  /**
+   * Fetch all capabilities for certain contexts
+   */
   public fetchCapabilities(contexts:string[] = []) {
     this.user$.pipe(take(1)).subscribe((user) => {
       if (!user.id) {
@@ -90,6 +98,9 @@ export class CurrentUserService {
       })
       .pipe(
         mergeMap((data: CollectionResource<CapabilityResource>) => {
+          // The data we've loaded might not contain all capabilities. Some responses might have thousands of
+          // capabilites, and our page size is restricted. If this is the case, we branch out and sent out parallel
+          // requests for each of the other pages.
           if (data.total > this.PAGE_FETCH_SIZE) {
             const remaining = data.total - this.PAGE_FETCH_SIZE;
             const pagesRemaining = Math.ceil(remaining / this.PAGE_FETCH_SIZE);
@@ -101,6 +112,8 @@ export class CurrentUserService {
                 filters,
               }));
 
+            // Branch out and fetch all remaining pages in parallel.
+            // Afterwards, merge the resulting list
             return forkJoin(...calls).pipe(
               map(
                 (results: CollectionResource<CapabilityResource>[]) => results.reduce(
@@ -111,6 +124,7 @@ export class CurrentUserService {
             );
           }
 
+          // The current page is the only page, return the results.
           return of(data.elements);
         }),
       )
