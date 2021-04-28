@@ -150,6 +150,7 @@ describe('CurrentUserService', function () {
     currentUserService.setUser(user);
 
     httpMock.match('/api/v3/capabilities').forEach((req) => {
+      console.log(req);
       expect(req.request.method).toBe('GET');
       req.flush({
         _type: 'Collection',
@@ -179,6 +180,7 @@ describe('CurrentUserService', function () {
 
     it('Should have no capabilities', () => {
       currentUserService.capabilities$.subscribe((caps) => {
+        console.log(caps);
         expect(caps.length).toEqual(0);
       }); 
     });
