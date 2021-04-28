@@ -68,6 +68,7 @@ module JobStatus
       resource = ::JobStatus::Status.find_or_initialize_by(job_id: job_id)
 
       if resource.new_record?
+        resource.user = User.current # needed so `resource.user` works below
         resource.user_id = User.current.id
         resource.reference = status_reference
       end

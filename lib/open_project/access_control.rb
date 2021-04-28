@@ -55,7 +55,7 @@ module OpenProject
       end
 
       def permissions
-        @permissions
+        @permissions.select(&:enabled?)
       end
 
       def modules

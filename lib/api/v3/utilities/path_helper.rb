@@ -169,6 +169,8 @@ module API
             "#{capabilities}/contexts/global"
           end
 
+          index :backup
+
           index :category
           show :category
 

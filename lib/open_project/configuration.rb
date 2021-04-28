@@ -46,6 +46,12 @@ module OpenProject
       'autologin_cookie_name' => 'autologin',
       'autologin_cookie_path' => '/',
       'autologin_cookie_secure' => false,
+      # Allow users with the required permissions to create backups via the web interface or API.
+      'backup_enabled' => true,
+      'backup_daily_limit' => 3,
+      'backup_initial_waiting_period' => 24.hours,
+      'backup_include_attachments' => true,
+      'backup_attachment_size_max_sum_mb' => 1024,
       'database_cipher_key' => nil,
       # only applicable in conjunction with fog (effectively S3) attachments
       # which will be uploaded directly to the cloud storage rather than via OpenProject's
