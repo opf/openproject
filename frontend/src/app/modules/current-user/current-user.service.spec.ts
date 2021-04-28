@@ -34,6 +34,8 @@ import { States } from "core-components/states.service";
 import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
 import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
 import { CurrentUserService } from './current-user.service';
+import { CurrentUserStore } from "./current-user.store";
+import { CurrentUserQuery } from "./current-user.query";
 import { CurrentUser } from './current-user.store';
 
 const globalCapability = {
@@ -134,6 +136,8 @@ describe('CurrentUserService', function () {
       ],
       providers: [
         HalResourceService,
+        CurrentUserStore,
+        CurrentUserQuery,
         { provide: ConfigurationService, useValue: ConfigurationServiceStub },
         { provide: States, useValue: new States() },
       ],
