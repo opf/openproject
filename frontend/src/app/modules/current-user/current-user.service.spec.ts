@@ -126,11 +126,11 @@ describe('CurrentUserService', function () {
   const compile = (user: CurrentUser) => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule
+        HttpClientTestingModule,
       ],
       providers: [
-        HalResourceService
-      ]
+        HalResourceService,
+      ],
     });
 
     injector = getTestBed();
