@@ -4,12 +4,12 @@ ro:
       ldap_groups/synchronized_group:
         dn: 'DN'
         auth_source: 'LDAP connection'
-        sync_users: 'Sync users'
+        sync_users: 'Sincronizați utilizatorii'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP filter'
         auth_source: 'LDAP connection'
         group_name_attribute: "Group name attribute"
-        sync_users: 'Sync users'
+        sync_users: 'Sincronizați utilizatorii'
         base_dn: "Search base DN"
     models:
       ldap_groups/synchronized_group: 'Synchronized LDAP group'

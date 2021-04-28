@@ -6,12 +6,12 @@ ro:
       configure: 'Configure widget'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the "
-        link: 'enterprise edition.'
+        link: 'Acţiunile particularizate sunt o caracteristică a Ediţiei Enterprise'
       widgets:
         custom_text:
-          title: 'Custom text'
+          title: 'Text customizat'
         documents:
-          title: 'Documents'
+          title: 'Documente'
           no_results: 'No documents yet.'
         members:
           title: 'Membri'
@@ -21,23 +21,23 @@ ro:
           too_many: 'Displaying %{count} of %{total} members.'
         news:
           title: 'Noutăţi'
-          at: 'at'
+          at: 'la'
           no_results: 'Nimic nou de raportat.'
         project_description:
           title: 'Project description'
           no_results: "No description has been written yet. One can be provided in the 'Project settings'."
         project_details:
-          title: 'Project details'
+          title: 'Arată detaliile proietului'
           no_results: 'No custom fields have been defined for projects.'
         project_status:
           title: 'Stare proiect'
-          on_track: 'On track'
-          off_track: 'Off track'
-          at_risk: 'At risk'
-          not_set: 'Not set'
+          on_track: 'Urmărește'
+          off_track: 'Deraiat'
+          at_risk: 'Riscant'
+          not_set: 'Nesetat'
         subprojects:
           title: 'Subproiecte'
-          no_results: 'No subprojects.'
+          no_results: 'Cu subproiecte'
         time_entries_current_user:
           title: 'My spent time'
           displayed_days: 'Days displayed in the widget:'
@@ -60,4 +60,4 @@ ro:
           title: 'Calendar'
         work_packages_overview:
           title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
+          placeholder: 'Dă clic pentru a edita acest meniu.'

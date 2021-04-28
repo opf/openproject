@@ -5,10 +5,10 @@ ro:
     attributes:
       openid_connect/provider:
         name: Nume
-        display_name: Display name
+        display_name: Nume afișat
         identifier: Identificator
         secret: Secret
-        scope: Scope
+        scope: Scop
   openid_connect:
     menu_title: OpenID providers
     providers:

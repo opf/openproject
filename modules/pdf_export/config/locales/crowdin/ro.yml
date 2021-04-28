@@ -28,7 +28,7 @@ ro:
   label_export_card_configuration: "Export Card Config"
   label_export_card_configuration_plural: "Export Card Configs"
   label_export_card_activate: "Activare"
-  label_export_card_deactivate: "De-activate"
+  label_export_card_deactivate: "Dezactivează"
   notice_export_card_configuration_activated: "Config succesfully activated"
   notice_export_card_configuration_deactivated: "Config succesfully de-activated"
   error_can_not_activate_export_card_configuration: "This config cannot be activated"
@@ -39,13 +39,13 @@ ro:
   yaml_error: "YAML error:"
   help_link_rows_format: "Rows Formatting"
   export_config_per_page: "Pe pagină"
-  export_config_page_size: "Page size"
-  export_config_orientation: "Orientation"
+  export_config_page_size: "Dimensiune pagină PDF"
+  export_config_orientation: "Orientare"
   export_config_rows: "Rânduri"
   activerecord:
     attributes:
       export_card_configuration:
         rows: "Rânduri"
         per_page: "Pe pagină"
-        page_size: "Page size"
-        orientation: "Orientation"
+        page_size: "Dimensiune pagină PDF"
+        orientation: "Orientare"

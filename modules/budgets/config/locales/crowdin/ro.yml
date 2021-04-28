@@ -24,11 +24,11 @@ ro:
     attributes:
       budget:
         author: "Autor"
-        available: "Available"
-        budget: "Planned"
+        available: "Disponibile"
+        budget: "Planificat"
         budget_ratio: "Spent (ratio)"
         description: "Descriere"
-        spent: "Spent"
+        spent: "Cheltuit"
         status: "Stare"
         subject: "Subiect"
         type: "Cost type"
@@ -37,10 +37,10 @@ ro:
       work_package:
         budget_subject: "Budget title"
     models:
-      budget: "Budget"
-      material_budget_item: "Unit"
+      budget: "Buget"
+      material_budget_item: "Unitate"
   attributes:
-    budget: "Budget"
+    budget: "Buget"
   button_add_budget_item: "Add planned costs"
   button_add_budget: "Add budget"
   button_add_cost_type: "Add cost type"
@@ -52,14 +52,14 @@ ro:
   budgets_title: "Budgets"
   events:
     budget: "Budget edited"
-  help_click_to_edit: "Click here to edit."
+  help_click_to_edit: "Câmpul %s este gol. Click aici pentru a-l edita."
   help_currency_format: "Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit."
   help_override_rate: "Enter a value here to override the default rate."
-  label_budget: "Budget"
+  label_budget: "Buget"
   label_budget_new: "New budget"
   label_budget_plural: "Budgets"
   label_budget_id: "Budget #%{id}"
-  label_deliverable: "Budget"
+  label_deliverable: "Buget"
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "View all budgets"
   label_yes: "Da"

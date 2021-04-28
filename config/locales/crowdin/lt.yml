@@ -173,7 +173,7 @@ lt:
   concatenation:
     single: 'arba'
   documentation:
-    see_more_link: For more information, please see our documentation on this topic.
+    see_more_link: Daugiau informacijos galima rasti dokumentacijoje šia tema.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -223,7 +223,7 @@ lt:
     index:
       no_results_title_text: Nėra nė vieno šio projekto dalyvio.
       no_results_content_text: Įtraukti narį į projektą
-    invite_by_mail: "Send invite to %{mail}"
+    invite_by_mail: "Siųsti pakvietimą adresu %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Atpažinimo rakto nepavyko nustatyti iš naujo: %{error}"
@@ -912,9 +912,9 @@ lt:
     errors: "Klaida"
     project_custom_fields: 'Vartotojo laukai projektui'
     x_objects_of_this_type:
-      zero: 'No objects of this type'
-      one: 'One object of this type'
-      other: '%{count} objects of this type'
+      zero: 'Nėra šio tipo objektų'
+      one: 'Vienas šio tipo objektas'
+      other: '%{count} šio tipo objektų'
     text:
       failed: "Nepavyko nukopijuoti „%{source_project_name}“ projekto į „%{target_project_name}“ projektą."
       succeeded: "Projektas „%{source_project_name}“ sėkmingai nukopijuotas į „%{target_project_name}“."
@@ -1526,8 +1526,8 @@ lt:
   label_member_new: "Naujas narys"
   label_member_all_admin: "(Visos rolės, nes turite administratoriaus statusą)"
   label_member_plural: "Nariai"
-  lable_membership_added: 'Member added'
-  lable_membership_updated: 'Member updated'
+  lable_membership_added: 'Narys pridėtas'
+  lable_membership_updated: 'Narys atnaujintas'
   label_menu_item_name: "Meniu punkto pavadinimas"
   label_message: "Pranešimas"
   label_message_last: "Paskutinis pranešimas"
@@ -1872,26 +1872,26 @@ lt:
   mail_subject_wiki_content_added: "Wiki puslapis '%{id}' buvo pridėtas"
   mail_subject_wiki_content_updated: "Wiki puslapis '%{id}' buvo atnaujintas"
   mail_member_added_project:
-    subject: "%{project} - You have been added as a member"
+    subject: "%{project} - Jūs buvote pridėtas kaip narys"
     body:
       added_by:
-        without_message: "%{user} added you as a member to the project '%{project}'."
-        with_message: "%{user} added you as a member to the project '%{project}' writing:"
-      roles: "You have the following roles:"
+        without_message: "%{user} pridėjo jus kaip narį į projektą '%{project}'."
+        with_message: "%{user} pridėjo jus kaip narį į projektą '%{project}' su prierašu:"
+      roles: "Jūs turite tokias roles"
   mail_member_updated_project:
-    subject: "%{project} - Your roles have been updated"
+    subject: "%{project} - Jūsų rolės buvo atnaujintos"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have in the project '%{project}'."
-        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
-      roles: "You now have the following roles:"
+        without_message: "%{user} atnaujino roles, kurias jūs turite projekte '%{project}'."
+        with_message: "%{user} atnaujino jūsų roles projekte '%{project}' su prierašu:"
+      roles: "Jūs dabar turite tokias roles:"
   mail_member_updated_global:
-    subject: "Your global permissions have been updated"
+    subject: "Jūsų globalios teisės buvo atnaujintos"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have globally."
-        with_message: "%{user} updated the roles you have globally writing:"
-      roles: "You now have the following roles:"
+        without_message: "%{user} atnaujino teises, kurias jūs turite globaliai."
+        with_message: "%{user} atnaujino jūsų globaliai turimas roles su prierašu:"
+      roles: "Jūs dabar turite tokias roles:"
   mail_user_activation_limit_reached:
     subject: Pasiekta vartotojų aktyvinimo riba
     message: |
@@ -2245,7 +2245,7 @@ lt:
   setting_consent_required: "Reikia sutikimo"
   setting_consent_decline_mail: "Sutikimo kontaktinis pašto adresas"
   setting_cross_project_work_package_relations: "Leisti tarp-projektinius darbų paketo ryšius"
-  setting_first_week_of_year: "First week in year contains"
+  setting_first_week_of_year: "Pirma metų savaitė turi"
   setting_date_format: "Datos formatas"
   setting_default_language: "Numatytoji kalba"
   setting_default_notification_option: "Numatytoji pranešimų nuostata"
@@ -2329,9 +2329,9 @@ lt:
     brute_force_prevention: "Automatinis vartotojų blokavimas"
     display:
       first_date_of_week_and_year_present: >
-        If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Jei vienas iš „Pirma savaitės diena“ ir „Pirma metų savaitė turi“ yra nustatytas, tai kitas taip pat turi būti nustatytas vengiant netikslumų vartotojo sąsajoje.
       first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+        Pasirinkite sausio datą, kuri yra pirmoje metų savaitėje. Ši reikšmė kartu su savaitės pirmos dienos nustatymu lemia savaičių skaičių metuose.
     projects:
       section_new_projects: "Naujų projektų nustatymai"
       section_project_overview: "Nustatymai projektų peržiūros sąrašui"

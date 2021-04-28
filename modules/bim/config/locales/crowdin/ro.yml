@@ -6,9 +6,9 @@ ro:
     label_bcf: 'BCF'
     label_imported_failed: 'Failed imports of BCF topics'
     label_imported_successfully: 'Successfully imported BCF topics'
-    issues: "Issues"
-    recommended: 'recommended'
-    not_recommended: 'not recommended'
+    issues: "Sunt câteva probleme cu produsele din coșul tău. Te rog mergi înapoi la pagina coșului și remediază aceste probleme înainte de finalizarea comenzii."
+    recommended: 'recomandat'
+    not_recommended: 'Recomandat'
     no_viewpoints: 'No viewpoints'
     new_badge: "Nou"
     exceptions:
@@ -19,7 +19,7 @@ ro:
       other: '%{count} BCF issues'
     bcf_xml:
       xml_file: 'BCF XML File'
-      import_title: 'Import'
+      import_title: 'Importă'
       export: 'Exportare'
       import_update_comment: '(Updated in BCF import)'
       import_failed: 'Cannot import BCF file: %{error}'
@@ -32,7 +32,7 @@ ro:
         button_prepare: 'Prepare import'
         button_perform_import: 'Confirm import'
         button_proceed: 'Proceed with import'
-        button_back_to_list: 'Back to list'
+        button_back_to_list: 'Înapoi la listă'
         no_permission_to_add_members: 'You do not have sufficient permissions to add them as members to the project.'
         contact_project_admin: 'Contact your project admin to add them as members and start this import again.'
         continue_anyways: 'Do you want to proceed and finish the import anyways?'
@@ -114,9 +114,9 @@ ro:
       check_2: 'Check that at least one IFC model is set to "Default".'
     no_results: "No IFC models have been uploaded in this project."
     processing_state:
-      label: 'Processing?'
+      label: 'Se procesează...'
       in_progress: 'În lucru'
-      completed: 'Completed'
+      completed: 'Finalizat'
     processing_notice:
       processing_default: 'The following default IFC models are still being processed and are thus not available, yet:'
     flash_messages:

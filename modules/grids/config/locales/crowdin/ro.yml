@@ -4,13 +4,13 @@ ro:
   activerecord:
     attributes:
       grids/grid:
-        page: "Page"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
-        widgets: "Widgets"
+        page: "Pagină"
+        row_count: "Număr de rânduri"
+        column_count: "Număr de coloane"
+        widgets: "Widget-uri"
     errors:
       models:
         grids/grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          overlaps: 'suprapunere.'
+          outside: 'este în afara grilei.'
+          end_before_start: 'valoarea de sfârșit trebuie să fie mai mare decât valoarea de început.'

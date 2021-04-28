@@ -4,18 +4,18 @@ ro:
       webhooks/webhook:
         url: 'Payload URL'
         secret: 'Signature secret'
-        events: 'Events'
-        projects: 'Enabled projects'
+        events: 'Evenimente'
+        projects: 'Proiecte activate'
       webhooks/log:
         event_name: 'Event name'
         url: 'Payload URL'
-        response_code: 'Response code'
-        response_body: 'Response'
+        response_code: 'Un rezumat prietenos al răspunsului, inclusiv codul de răspuns HTTP, mesajul și corpul.'
+        response_body: 'Răspuns'
     models:
       webhooks/outgoing_webhook: "Outgoing webhook"
   webhooks:
-    singular: Webhook
-    plural: Webhooks
+    singular: Activare Webhook
+    plural: Cârlige web
     resources:
       time_entry:
         name: "Time entry"
@@ -26,7 +26,7 @@ ro:
       label_event_resources: Event resources
       events:
         created: "Creat pe"
-        updated: "Updated"
+        updated: "Actualizat"
       status:
         enabled: 'Webhook is enabled'
         disabled: 'Webhook is disabled'
@@ -35,7 +35,7 @@ ro:
       deliveries:
         no_results_table: No deliveries have been made for this webhook.
         title: 'Recent deliveries'
-        time: 'Delivery time'
+        time: 'Termen de livrare'
       form:
         introduction: >
           Send a POST request to the payload URL below for any event in the project your subscribe. Payload will correspond to the APIv3 representation of the object being modified.
@@ -48,9 +48,9 @@ ro:
         events:
           title: 'Enabled events'
         project_ids:
-          title: 'Enabled projects'
+          title: 'Proiecte activate'
           description: 'Select for which projects this webhook should be executed for.'
-          all: 'All projects'
+          all: 'Toate Proiectele'
           selected: 'Selected projects only'
         selected_project_ids:
           title: 'Selected projects'

@@ -980,7 +980,7 @@ lt:
         required: 'Pasirinkite projektą'
         next_button: 'Kitas'
         no_results: 'Nerasta jokių projektų'
-        no_invite_rights: 'You are not allowed to invite members to this project'
+        no_invite_rights: 'Jums neleidžiama kviesti narius į projektą'
       type:
         required: 'Prašome pasirinkti kokio tipo dalyvį kviesti'
         user:

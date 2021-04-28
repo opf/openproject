@@ -34,11 +34,11 @@ ro:
           branch_help: Copy the default branch name.
           message: Mesaj
           message_help: Copy the default commit message.
-          cmd: Command
+          cmd: Comanda
           cmd_help: Copy a shell command which creates a new branch and an empty commit using the default branch name and commit message.
-          title: Copy to Clipboard
+          title: Copiați în Clipboard
           copy_button_help: Copiere în clipboard
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          copy_success: Copiat
+          copy_error: Copiere eşuată
       tab_prs:
         empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'

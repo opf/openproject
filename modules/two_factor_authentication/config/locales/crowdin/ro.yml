@@ -4,9 +4,9 @@ ro:
     attributes:
       two_factor_authentication/device:
         identifier: 'Identificator'
-        default: 'Use as default'
+        default: 'URL a paginii dorinței (lăsați gol pentru a utiliza setările implicite)'
       two_factor_authentication/device/sms:
-        phone_number: "Phone number"
+        phone_number: "Număr de telefon"
     errors:
       models:
         two_factor_authentication/device:
@@ -17,7 +17,7 @@ ro:
               error_phone_number_format: "must be of format +XX XXXXXXXXX"
     models:
       two_factor_authentication/device: "2FA device"
-      two_factor_authentication/device/sms: "Mobile phone"
+      two_factor_authentication/device/sms: "Telefon mobil"
       two_factor_authentication/device/totp: "Authenticator application"
   two_factor_authentication:
     error_2fa_disabled: "2FA delivery has been disabled."
@@ -112,7 +112,7 @@ ro:
       totp:
         title: 'Use your app-based authenticator'
         provisioning_uri: 'Provisioning URI'
-        secret_key: 'Secret key'
+        secret_key: 'Testați cheia secretă'
         time_based: 'Time based'
         account: 'Account name / Issuer'
         setup: |
@@ -143,18 +143,18 @@ ro:
       sns: 'Amazon SNS'
       resdt: 'SMS Rest API'
     mobile_transmit_notification: "A one-time password has been sent to your cell phone."
-    label_two_factor_authentication: 'Two-factor authentication'
+    label_two_factor_authentication: 'Autentificare cu doi factori'
     forced_registration:
       required_to_add_device: 'An active security policy requires you to enable two-factor authentication. Please use the following form to register a device.'
     remember:
       active_session_notice: >
         Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
       other_active_session_notice: Your account has an active remember cookie on another session.
-      label: 'Remember'
+      label: 'Reține autentificarea'
       clear_cookie: 'Click here to remove all remembered 2FA sessions.'
       cookie_removed: 'All remembered 2FA sessions have been removed.'
       dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
-  field_phone: "Cell phone"
+  field_phone: "Telefon mobil"
   field_otp: "One-time password"
   notice_account_otp_invalid: "Invalid one-time password."
   notice_account_otp_expired: "The one-time password you entered expired."
@@ -162,7 +162,7 @@ ro:
   notice_account_otp_send_failed: "Your one-time password could not be sent."
   notice_account_has_no_phone: "No cell phone number is associated with your account."
   label_expiration_hint: "%{date} or on logout"
-  label_actions: 'Actions'
+  label_actions: 'Acțiuni'
   label_confirmed: 'Confirmat'
   button_continue: 'Continuaţi'
   button_make_default: 'Mark as default'
@@ -170,7 +170,7 @@ ro:
   notice_phone_number_format: "Please enter the number in the following format: +XX XXXXXXXX."
   text_otp_not_receive: "Other verification methods"
   text_send_otp_again: "Resend one-time password by:"
-  button_resend_otp_form: "Resend"
+  button_resend_otp_form: "Retrimitere"
   button_otp_by_voice: "Voice call"
   button_otp_by_sms: "SMS"
   label_otp_channel: "Delivery channel"
