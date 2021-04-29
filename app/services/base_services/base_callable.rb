@@ -36,12 +36,16 @@ module BaseServices
     include ::WithReversibleState
 
     def call(*params)
+      self.params = params.first
+
       run_callbacks(:call) do
         perform(*params)
       end
     end
 
     protected
+
+    attr_accessor :params
 
     def perform(*)
       raise NotImplementedError

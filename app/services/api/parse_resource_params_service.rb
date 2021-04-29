@@ -68,13 +68,26 @@ module API
     end
 
     def parse_attributes(request_body)
-      parsing_representer
-        .from_hash(request_body)
-        .to_h
+      struct = parsing_representer
+               .from_hash(request_body)
+
+      deep_to_h(struct)
     end
 
     def struct
       OpenStruct.new
+    end
+
+    def deep_to_h(value)
+      # Does not yet factor in Arrays. There hasn't been the need to do that, yet.
+      case value
+      when OpenStruct, Hash
+        value.to_h.transform_values do |sub_value|
+          deep_to_h(sub_value)
+        end
+      else
+        value
+      end
     end
   end
 end

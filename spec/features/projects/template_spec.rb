@@ -90,7 +90,6 @@ describe 'Project templates', type: :feature, js: true do
 
       # Updates the identifier in advanced settings
       page.find('#advanced-project-settings').click
-      expect(page).to have_field 'project_identifier', with: 'foo-bar'
       expect(page).to have_select 'project_status_code', selected: 'On track'
 
       # Changing the template now causes a dialog
@@ -106,7 +105,6 @@ describe 'Project templates', type: :feature, js: true do
 
       # Expend advanced settings
       page.find('#advanced-project-settings').click
-      expect(page).to have_field 'project_identifier', with: 'foo-bar'
       expect(page).to have_select 'project_status_code', selected: 'On track'
 
       # Update status to off track

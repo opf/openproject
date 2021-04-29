@@ -827,6 +827,33 @@ pl:
     user: "Użytkownik"
     version: "Wersja"
     work_package: "Zadanie"
+  backup:
+    label_backup_token: "Backup token"
+    label_create_token: "Create backup token"
+    label_delete_token: "Delete backup token"
+    label_reset_token: "Reset backup token"
+    label_token_users: "The following users have active backup tokens"
+    reset_token:
+      action_create: Utwórz
+      action_reset: Reset
+      heading_reset: "Reset backup token"
+      heading_create: "Create backup token"
+      implications: >
+        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+      info: >
+        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+      verification: >
+        Enter %{word} to confirm you want to %{action} the backup token.
+      verification_word_reset: reset
+      verification_word_create: create
+      warning: >
+        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
+    text_token_deleted: Backup token deleted. Backups are now disabled.
+    error:
+      invalid_token: Invalid or missing backup token
+      token_cooldown: The backup token will be valid in %{hours} hours.
+      backup_pending: There is already a backup pending.
+      limit_reached: You can only do %{limit} backups per day.
   button_add: "Dodaj"
   button_add_comment: "Dodaj komentarz"
   button_add_member: Dodaj członka projektu
@@ -1325,6 +1352,7 @@ pl:
   label_available_project_versions: 'Dostępne wersje'
   label_available_project_repositories: 'Dostępne repozytoria'
   label_api_documentation: "Dokumentacja API"
+  label_backup: "Backup"
   label_between: "pomiędzy"
   label_blocked_by: "Zablokowane przez"
   label_blocks: "Bloki"
@@ -1850,6 +1878,12 @@ pl:
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Informacje o koncie"
   mail_body_account_information_external: "You can use your %{value} account to log in."
+  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
+  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
+  mail_body_backup_token_reset_user_info: Your backup token has been reset.
+  mail_body_backup_token_info: The previous token is no longer valid.
+  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
+  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "Aby zmienić hasło, kliknij na poniższy link:"
   mail_body_register: "Witamy w OpenProject. Aktywuj swoje konto, klikając ten link:"
   mail_body_register_header_title: "Wiadomość e-mail z zaproszeniem członka projektu"
@@ -1866,6 +1900,8 @@ pl:
   mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} account activation request"
+  mail_subject_backup_ready: "Your backup is ready"
+  mail_subject_backup_token_reset: "Your backup token has been reset"
   mail_subject_lost_password: "Twoje hasło do %{value}"
   mail_subject_register: "Your %{value} account activation"
   mail_subject_reminder: "Termin wykonania %{count} pakietów roboczych kończy się w ciągu %{days} dni"
@@ -1875,17 +1911,23 @@ pl:
   mail_member_added_project:
     subject: "%{project} - You have been added as a member"
     body:
-      added_by: "%{user} added you as a member to the project '%{project}'."
+      added_by:
+        without_message: "%{user} added you as a member to the project '%{project}'."
+        with_message: "%{user} added you as a member to the project '%{project}' writing:"
       roles: "You have the following roles:"
   mail_member_updated_project:
     subject: "%{project} - Your roles have been updated"
     body:
-      added_by: "%{user} updated the roles you have in the project '%{project}'."
+      updated_by:
+        without_message: "%{user} updated the roles you have in the project '%{project}'."
+        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
       roles: "You now have the following roles:"
   mail_member_updated_global:
     subject: "Your global permissions have been updated"
     body:
-      added_by: "%{user} updated the roles you have globally."
+      updated_by:
+        without_message: "%{user} updated the roles you have globally."
+        with_message: "%{user} updated the roles you have globally writing:"
       roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: Osiągnięto limit aktywacji użytkownika
@@ -2720,6 +2762,7 @@ pl:
       code_403: "Nie masz uprawnień do tego zasobu."
       code_404: "Nie można odnaleźć żądanego zasobu."
       code_409: "Nie można zaktualizować zasobu ze względu na modyfikacje powodujące konflikt."
+      code_429: "Too many requests. Please try again later."
       code_500: "Wystąpił błąd wewnętrzny."
       expected:
         date: "RRRR-MM-DD (tylko data ISO 8601)"
@@ -2840,3 +2883,4 @@ pl:
     authorization_error: "Wystąpił błąd autoryzacji."
     revoke_my_application_confirmation: "Czy na pewno chcesz usunąć tę aplikację? Unieważni to jej aktywne tokeny (%{token_count})."
     my_registered_applications: "Zarejestrowane aplikacje OAuth"
+  you: you

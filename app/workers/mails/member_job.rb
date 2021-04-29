@@ -30,49 +30,50 @@ class Mails::MemberJob < ApplicationJob
   queue_with_priority :notification
 
   def perform(current_user:,
-              member:)
+              member:,
+              message: nil)
     if member.project.nil?
-      send_updated_global(current_user, member)
+      send_updated_global(current_user, member, message)
     elsif member.principal.is_a?(Group)
       every_group_user_member(member) do |user_member|
-        send_for_group_user(current_user, user_member, member)
+        send_for_group_user(current_user, user_member, member, message)
       end
     elsif member.principal.is_a?(User)
-      send_for_project_user(current_user, member)
+      send_for_project_user(current_user, member, message)
     end
   end
 
   private
 
-  def send_for_group_user(_current_user, _member, _group)
+  def send_for_group_user(_current_user, _member, _group, _message)
     raise NotImplementedError, "subclass responsibility"
   end
 
-  def send_for_project_user(_current_user, _member)
+  def send_for_project_user(_current_user, _member, _message)
     raise NotImplementedError, "subclass responsibility"
   end
 
-  def send_updated_global(current_user, member)
-    return if sending_disabled?(:updated)
+  def send_updated_global(current_user, member, member_message)
+    return if sending_disabled?(:updated, member_message)
 
     MemberMailer
-      .updated_global(current_user, member)
+      .updated_global(current_user, member, member_message)
       .deliver_now
   end
 
-  def send_added_project(current_user, member)
-    return if sending_disabled?(:added)
+  def send_added_project(current_user, member, member_message)
+    return if sending_disabled?(:added, member_message)
 
     MemberMailer
-      .added_project(current_user, member)
+      .added_project(current_user, member, member_message)
       .deliver_now
   end
 
-  def send_updated_project(current_user, member)
-    return if sending_disabled?(:updated)
+  def send_updated_project(current_user, member, member_message)
+    return if sending_disabled?(:updated, member_message)
 
     MemberMailer
-      .updated_project(current_user, member)
+      .updated_project(current_user, member, member_message)
       .deliver_now
   end
 
@@ -84,7 +85,7 @@ class Mails::MemberJob < ApplicationJob
       .each(&block)
   end
 
-  def sending_disabled?(setting)
-    !Setting.notified_events.include?("membership_#{setting}")
+  def sending_disabled?(setting, message)
+    message.blank? && !Setting.notified_events.include?("membership_#{setting}")
   end
 end

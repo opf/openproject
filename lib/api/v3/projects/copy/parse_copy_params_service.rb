@@ -35,13 +35,13 @@ module API
 
           def parse_attributes(request_body)
             attributes = super
-            meta = attributes.delete(:meta) || OpenStruct.new
+            meta = attributes.delete(:meta) || {}
 
             {
               target_project_params: attributes,
               attributes_only: true,
-              only: meta.only,
-              send_notifications: meta.send_notifications != false
+              only: meta[:only],
+              send_notifications: meta[:send_notifications] != false
             }
           end
         end

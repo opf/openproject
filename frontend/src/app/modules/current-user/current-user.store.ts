@@ -37,7 +37,7 @@ export interface CurrentUser {
 }
 
 export interface CurrentUserState extends CurrentUser {
-  capabilities: CapabilityResource[];
+  capabilities: CapabilityResource[]|null;
 }
 
 export function createInitialState(): CurrentUserState {
@@ -45,7 +45,7 @@ export function createInitialState(): CurrentUserState {
     id: null,
     name: null,
     mail: null,
-    capabilities: [],
+    capabilities: null,
   };
 }
 

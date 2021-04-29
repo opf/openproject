@@ -119,29 +119,9 @@ describe ::API::V3::Projects::ProjectRepresenter do
         let(:value) { project.description }
       end
 
-      context 'status' do
+      context 'statusExplanation' do
         it_behaves_like 'formattable property', 'statusExplanation' do
           let(:value) { status.explanation }
-        end
-
-        it 'includes the project status code' do
-          expect(subject)
-            .to be_json_eql(status.code.tr('_', ' ').to_json)
-            .at_path('status')
-        end
-
-        context 'if the status is nil' do
-          let(:status) { nil }
-
-          it_behaves_like 'formattable property', 'statusExplanation' do
-            let(:value) { nil }
-          end
-
-          it 'includes the project status code' do
-            expect(subject)
-              .to be_json_eql(nil.to_json)
-              .at_path('status')
-          end
         end
       end
 
@@ -237,6 +217,23 @@ describe ::API::V3::Projects::ProjectRepresenter do
             let(:link) { 'parent' }
             let(:href) { nil }
             let(:title) { nil }
+          end
+        end
+      end
+
+      context 'status' do
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'status' }
+          let(:href) { api_v3_paths.project_status(project.status.code) }
+          let(:title) { I18n.t(:"activerecord.attributes.projects/status.codes.#{project.status.code}") }
+        end
+
+        context 'if the status is nil' do
+          let(:status) { nil }
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'status' }
+            let(:href) { nil }
           end
         end
       end

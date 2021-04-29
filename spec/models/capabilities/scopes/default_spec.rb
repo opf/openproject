@@ -223,7 +223,7 @@ describe Capabilities::Scopes::Default, type: :model do
         let(:expected) do
           # This complicated and programmatic way is chosen so that the test can deal with additional actions being defined
           item = ->(namespace, action, global) {
-            ["#{API::Utilities::PropertyNameConverter.from_ar_name(namespace.to_s.singularize).pluralize}/#{action}",
+            ["#{API::Utilities::PropertyNameConverter.from_ar_name(namespace.to_s.singularize).pluralize.underscore}/#{action}",
              user.id,
              global ? nil : project.id]
           }
@@ -249,7 +249,7 @@ describe Capabilities::Scopes::Default, type: :model do
           item = ->(namespace, action, global) {
             return if namespace == :work_packages
 
-            ["#{API::Utilities::PropertyNameConverter.from_ar_name(namespace.to_s.singularize).pluralize}/#{action}",
+            ["#{API::Utilities::PropertyNameConverter.from_ar_name(namespace.to_s.singularize).pluralize.underscore}/#{action}",
              user.id,
              global ? nil : project.id]
           }

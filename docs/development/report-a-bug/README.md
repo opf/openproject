@@ -1,6 +1,7 @@
 ---
 sidebar_navigation:
   title: Report a bug
+  priority: 995
 description: How to submit a bug report for OpenProject
 robots: index, follow
 keywords: bug report, bug, error, not working

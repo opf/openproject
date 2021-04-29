@@ -175,7 +175,7 @@ ru:
   concatenation:
     single: 'или'
   documentation:
-    see_more_link: For more information, please see our documentation on this topic.
+    see_more_link: Для получения дополнительной информации смотрите нашу документацию по этой теме.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -225,7 +225,7 @@ ru:
     index:
       no_results_title_text: На данный момент у этого проекта нет участников.
       no_results_content_text: Добавить участника в проект
-    invite_by_mail: "Send invite to %{mail}"
+    invite_by_mail: "Отправить приглашение на %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Не удалось сбросить маркер доступа: %{error}"
@@ -829,6 +829,33 @@ ru:
     user: "Пользователь"
     version: "Стадия"
     work_package: "Пакет работ"
+  backup:
+    label_backup_token: "Backup token"
+    label_create_token: "Create backup token"
+    label_delete_token: "Delete backup token"
+    label_reset_token: "Reset backup token"
+    label_token_users: "The following users have active backup tokens"
+    reset_token:
+      action_create: Создать
+      action_reset: Сброс
+      heading_reset: "Reset backup token"
+      heading_create: "Create backup token"
+      implications: >
+        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+      info: >
+        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+      verification: >
+        Enter %{word} to confirm you want to %{action} the backup token.
+      verification_word_reset: reset
+      verification_word_create: create
+      warning: >
+        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
+    text_token_deleted: Backup token deleted. Backups are now disabled.
+    error:
+      invalid_token: Invalid or missing backup token
+      token_cooldown: The backup token will be valid in %{hours} hours.
+      backup_pending: There is already a backup pending.
+      limit_reached: You can only do %{limit} backups per day.
   button_add: "Добавить"
   button_add_comment: "Добавить комментарий"
   button_add_member: Добавить участника
@@ -915,9 +942,9 @@ ru:
     errors: "Ошибка"
     project_custom_fields: 'Настраиваемые поля проекта'
     x_objects_of_this_type:
-      zero: 'No objects of this type'
-      one: 'One object of this type'
-      other: '%{count} objects of this type'
+      zero: 'Нет объектов данного типа'
+      one: 'Один объект этого типа'
+      other: '%{count} объектов этого типа'
     text:
       failed: "Не удалось скопировать проект «%{source_project_name}» в проект «%{target_project_name}»."
       succeeded: "Скопированный проект «%{source_project_name}» в «%{target_project_name}»."
@@ -1327,6 +1354,7 @@ ru:
   label_available_project_versions: 'Имеющиеся этапы проекта'
   label_available_project_repositories: 'Доступные репозитории'
   label_api_documentation: "Документация по API"
+  label_backup: "Backup"
   label_between: "между"
   label_blocked_by: "заблокировано"
   label_blocks: "блоки"
@@ -1529,8 +1557,8 @@ ru:
   label_member_new: "Новый участник"
   label_member_all_admin: "(Все роли из-за статуса администратора)"
   label_member_plural: "Участники"
-  lable_membership_added: 'Member added'
-  lable_membership_updated: 'Member updated'
+  lable_membership_added: 'Участник добавлен'
+  lable_membership_updated: 'Участник обновлен'
   label_menu_item_name: "Название пункта меню"
   label_message: "Сообщение"
   label_message_last: "Последнее сообщение"
@@ -1852,6 +1880,12 @@ ru:
   mail_body_account_activation_request: "Новый пользователь (%{value}) зарегистрирован. Учетная запись ожидает вашего подтверждения:"
   mail_body_account_information: "Информация о вашей учетной записи"
   mail_body_account_information_external: "Вы можете использовать учетную запись %{value} для входа."
+  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
+  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
+  mail_body_backup_token_reset_user_info: Your backup token has been reset.
+  mail_body_backup_token_info: The previous token is no longer valid.
+  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
+  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "Чтобы изменить пароль, щёлкните по следующей ссылке:"
   mail_body_register: "Добро пожаловать в OpenProject. Пожалуйста, активируйте свой аккаунт, нажав на эту ссылку:"
   mail_body_register_header_title: "Приглашение участника проекта по электронной почте"
@@ -1868,6 +1902,8 @@ ru:
   mail_body_wiki_content_added: "%{author} добавил wiki-страницу '«%{id}»'."
   mail_body_wiki_content_updated: "%{author} обновил wiki-страницу '%{id}'."
   mail_subject_account_activation_request: "Запрос на активацию учетной записи %{value}"
+  mail_subject_backup_ready: "Your backup is ready"
+  mail_subject_backup_token_reset: "Your backup token has been reset"
   mail_subject_lost_password: "Ваш пароль %{value}"
   mail_subject_register: "Активация вашей учетной записи %{value}"
   mail_subject_reminder: "%{count}  пакет(-ов) работ на  следующие %{days}"
@@ -1875,20 +1911,26 @@ ru:
   mail_subject_wiki_content_added: "'%{id}' wiki-страница добавлена"
   mail_subject_wiki_content_updated: "'%{id}' wiki страница была обновлена"
   mail_member_added_project:
-    subject: "%{project} - You have been added as a member"
+    subject: "%{project} - Вы были добавлены как участник"
     body:
-      added_by: "%{user} added you as a member to the project '%{project}'."
-      roles: "You have the following roles:"
+      added_by:
+        without_message: "%{user} добавил вас как участника проекта '%{project}'."
+        with_message: "%{user} добавил вас как участника проекта '%{project}' запись:"
+      roles: "У вас есть следующие роли:"
   mail_member_updated_project:
-    subject: "%{project} - Your roles have been updated"
+    subject: "%{project} - Ваши роли были обновлены"
     body:
-      added_by: "%{user} updated the roles you have in the project '%{project}'."
-      roles: "You now have the following roles:"
+      updated_by:
+        without_message: "%{user} обновил ваши роли в проекте '%{project}'."
+        with_message: "%{user} обновил ваши роли в проекте '%{project}' запись:"
+      roles: "Теперь у вас есть следующие роли:"
   mail_member_updated_global:
-    subject: "Your global permissions have been updated"
+    subject: "Ваши общие права доступа были обновлены"
     body:
-      added_by: "%{user} updated the roles you have globally."
-      roles: "You now have the following roles:"
+      updated_by:
+        without_message: "%{user} обновил ваши глобальные роли."
+        with_message: "%{user} обновил ваши глобальные роли записав:"
+      roles: "Теперь у вас есть следующие роли:"
   mail_user_activation_limit_reached:
     subject: Достигнут лимит активации пользователя
     message: |
@@ -2241,7 +2283,7 @@ ru:
   setting_consent_required: "Требуется согласие"
   setting_consent_decline_mail: "Контактный почтовый адрес для согласия"
   setting_cross_project_work_package_relations: "Разрешить перектестные связи пакетов работ проекта"
-  setting_first_week_of_year: "First week in year contains"
+  setting_first_week_of_year: "Первая неделя в году содержит"
   setting_date_format: "Формат даты"
   setting_default_language: "Язык по умолчанию"
   setting_default_notification_option: "Опция уведомления по умолчанию"
@@ -2325,9 +2367,9 @@ ru:
     brute_force_prevention: "Автоматическое блокирование пользователя"
     display:
       first_date_of_week_and_year_present: >
-        If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Если заданы опции "Первая дата недели" или "Первая неделя года", другие опции должны быть установлены тоже, во избежание несоответствий в интерфейсе.
       first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+        Выберите дату января, которая содержится в первой неделе года. Она вместе с первым днем недели определяет общее количество недель в году.
     projects:
       section_new_projects: "Настройки для новых проектов"
       section_project_overview: "Настройки списка обзоров проекта"
@@ -2721,6 +2763,7 @@ ru:
       code_403: "Вы не авторизованы для доступа к этому ресурсу."
       code_404: "Не удалось найти запрошенный ресурс."
       code_409: "Не удалось обновить ресурс из-за конфликтующих изменений."
+      code_429: "Too many requests. Please try again later."
       code_500: "Произошла внутренняя ошибка."
       expected:
         date: "ГГГГ-мм-дд (только для даты ISO 8601)"
@@ -2841,3 +2884,4 @@ ru:
     authorization_error: "Произошла ошибка авторизации."
     revoke_my_application_confirmation: "Вы действительно хотите удалить это приложение? Это действие будет отменено %{token_count}."
     my_registered_applications: "Зарегистрированные OAuth приложения"
+  you: you

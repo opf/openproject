@@ -121,4 +121,3 @@ Then you have the possibility to:
 At the bottom of the page you can decide whether email updates regarding these changes should be sent or not. It makes sense not to tick the box for large updates to prevent users from getting flooded by emails.
 
 ![bulk-edit_email-updates](image-20201119163714831.png)
-

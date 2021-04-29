@@ -21,7 +21,7 @@
 #++
 ru:
   project_module_github: "GitHub"
-  permission_show_github_content: "Show GitHub content"
+  permission_show_github_content: "Показать контент GitHub"
   github_integration:
     pull_request_opened_comment: >
       **Открыт PR:** Pull-запрос %{pr_number} [%{pr_title}](%{pr_url}) для [%{repository}](%{repository_url}) был открыт [%{github_user}](%{github_user_url}).
@@ -32,4 +32,4 @@ ru:
     pull_request_referenced_comment: >
       **Ссылалась в PR:** [%{github_user}](%{github_user_url}) сослалась на этот пакет работ в Pull-запросе %{pr_number} [%{pr_title}](%{pr_url}) на [%{repository}](%{repository_url}).
     pull_request_ready_for_review_comment: >
-      **PR Ready for Review:** Pull request %{pr_number} [%{pr_title}](%{pr_url}) for [%{repository}](%{repository_url}) was marked as ready for review by [%{github_user}](%{github_user_url}).
+      **Готово для просмотра:** Запрос на слияние %{pr_number} [%{pr_title}](%{pr_url}) для [%{repository}](%{repository_url}) был отмечен как готовый для просмотра [%{github_user}](%{github_user_url}).

@@ -33,6 +33,19 @@ nl:
         single: "Selecteer \"%{name}\""
       remove: "Verwijder %{name}"
       active: "Actieve %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Opties
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Popup sluiten"
     close_filter_title: "Sluit filter"
     close_form_title: "Sluit formulier"

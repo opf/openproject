@@ -4,12 +4,12 @@ ro:
     label_preview: 'Previzualizare'
     button_update: 'Actualizare'
     avatars:
-      label_choose_avatar: "Choose Avatar from file"
+      label_choose_avatar: "Alegeți Avatar din fișier"
       uploading_avatar: "Se încarcă avatarul tău."
       text_upload_instructions: |
-        Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
-        A preview of your avatar will be shown before uploading, once you selected an image.
+        Încărcați propriul avatar personalizat de 128 pe 128 pixeli. Fișierele mai mari vor fi redimensionate și decupate pentru a se potrivi.
+        O previzualizare a avatarului dvs. va fi afișată înainte de a fi încărcat, după ce ați selectat o imagine.
       error_image_too_large: "Imaginea este prea mare."
-      wrong_file_format: "Allowed formats are jpg, png, gif"
-      empty_file_error: "Please upload a valid image (jpg, png, gif)"
+      wrong_file_format: "Formatele permise sunt jpg, png, gif"
+      empty_file_error: "Vă rugăm să încărcați o imagine validă (jpg, png, gif)"
 

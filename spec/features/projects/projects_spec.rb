@@ -46,15 +46,11 @@ describe 'Projects', type: :feature do
       click_on 'New project'
 
       fill_in 'project[name]', with: 'Foo bar'
-      click_on 'Advanced settings'
-      fill_in 'project[identifier]', with: 'foo'
-      sleep 1
-
       click_on 'Create'
 
       expect(page).to have_content 'Successful creation.'
       expect(page).to have_content 'Foo bar'
-      expect(current_path).to eq '/projects/foo/work_packages'
+      expect(current_path).to eq '/projects/foo-bar/work_packages'
     end
 
     context 'work_packages module disabled',
@@ -63,14 +59,11 @@ describe 'Projects', type: :feature do
         click_on 'New project'
 
         fill_in 'project[name]', with: 'Foo bar'
-        click_on 'Advanced settings'
-        fill_in 'project[identifier]', with: 'foo'
-        sleep 1
         click_on 'Create'
 
         expect(page).to have_content 'Successful creation.'
         expect(page).to have_content 'Foo bar'
-        expect(current_path).to eq '/projects/foo/'
+        expect(current_path).to eq '/projects/foo-bar/'
       end
     end
 
@@ -106,7 +99,6 @@ describe 'Projects', type: :feature do
 
         fill_in 'project[name]', with: 'Foo bar'
         click_on 'Advanced settings'
-        fill_in 'project[identifier]', with: 'foo'
 
         select 'A', from: 'List CF'
         select 'B', from: 'List CF'
@@ -117,7 +109,7 @@ describe 'Projects', type: :feature do
 
         expect(page).to have_content 'Successful creation.'
         expect(page).to have_content 'Foo bar'
-        expect(current_path).to eq '/projects/foo/work_packages'
+        expect(current_path).to eq '/projects/foo-bar/work_packages'
 
         project = Project.last
         expect(project.name).to eq 'Foo bar'
@@ -184,7 +176,7 @@ describe 'Projects', type: :feature do
       SeleniumHubWaiter.wait
       click_on 'Project settings'
       SeleniumHubWaiter.wait
-      click_on 'Edit'
+      click_on 'Change identifier'
 
       expect(page).to have_content "CHANGE THE PROJECT'S IDENTIFIER"
       expect(current_path).to eq '/projects/foo/identifier'
