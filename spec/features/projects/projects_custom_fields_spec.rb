@@ -114,12 +114,12 @@ describe 'Projects custom fields', type: :feature, js: true do
       # single hash autocomplete
       editor.insert_link 'http://example.org/link with spaces'
 
+      sleep 2
+
       # Save project settings
       click_on 'Save'
 
       expect(page).to have_text I18n.t('js.notice_successful_update')
-
-      sleep 2
 
       project.reload
       cv = project.custom_values.find_by(custom_field_id: custom_field.id).value
