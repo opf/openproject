@@ -119,6 +119,8 @@ describe 'Projects custom fields', type: :feature, js: true do
 
       expect(page).to have_text I18n.t('js.notice_successful_update')
 
+      sleep 2
+
       project.reload
       cv = project.custom_values.find_by(custom_field_id: custom_field.id).value
 
