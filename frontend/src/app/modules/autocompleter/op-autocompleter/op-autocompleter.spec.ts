@@ -23,7 +23,7 @@ function getNgSelectElement(fixture:ComponentFixture<any>):DebugElement {
   return fixture.debugElement.query(By.css('ng-select'));
 }
 
-fdescribe('autocompleter', () => {
+describe('autocompleter', () => {
   let fixture:ComponentFixture<OpAutocompleterComponent>;
   let opAutocompleterServiceSpy:jasmine.SpyObj<OpAutocompleterService>;
   const workPackagesStub = [

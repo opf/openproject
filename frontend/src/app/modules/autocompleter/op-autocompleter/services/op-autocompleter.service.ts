@@ -51,11 +51,7 @@ export class OpAutocompleterService extends UntilDestroyedMixin {
   // your desired resourse
   public loadData(matching:string,  resource:resource, filters?:IAPIFilter[], searchKey?:string) {
     switch (resource) {
-      // TODO
-      // case 'boards' : {
-      //   return this.getWPForBoards(matching, resource, filters, searchKey);
-      //    break;
-      // }
+      // in this case we can add more functions for fetching usual resources
       default: {
          return this.loadAvailable(matching, resource, filters, searchKey);
          break;
