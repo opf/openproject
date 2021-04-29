@@ -13,7 +13,7 @@
   #ngselect
 >
   <ng-template ng-label-tmp let-item="item">
-    {{ item.principal.name || item.name }}
+    {{ item.principal?.name || item.name }}
   </ng-template>
 
   <ng-template ng-option-tmp let-item="item" let-search="searchTerm">

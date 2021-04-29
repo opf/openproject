@@ -34,6 +34,7 @@ export interface Apiv3ListParameters {
   filters?:[string, FilterOperator, string[]][];
   sortBy?:[string, string][];
   pageSize?:number;
+  offset?:number;
 }
 
 export interface Apiv3ListResourceInterface<T> {
@@ -50,6 +51,11 @@ export function listParamsString(params?:Apiv3ListParameters):string {
   // 0 should not be treated as false
   if (params && params.pageSize !== undefined) {
     queryProps.push(`pageSize=${params.pageSize}`);
+  }
+
+  // 0 should not be treated as false
+  if (params && params.offset !== undefined) {
+    queryProps.push(`offset=${params.offset}`);
   }
 
   if (params && params.filters) {
