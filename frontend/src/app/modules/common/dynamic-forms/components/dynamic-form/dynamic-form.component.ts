@@ -95,7 +95,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
     save: this._I18n.t('js.button_save'),
     validation_error_message: this._I18n.t('js.forms.validation_error_message'),
     load_error_message: this._I18n.t('js.forms.load_error_message'),
-    submit_success_message: this._I18n.t('js.forms.submit_success_message'),
+    submit_success_message: this._I18n.t('js.notice_successful_update'),
   };
   onChange = (_:any) => { }
   onTouch = () => { }
