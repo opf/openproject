@@ -44,6 +44,11 @@ module Pages
         defaults_bcf_project_ifc_models_path(project)
       end
 
+      def visit_and_wait_until_finished_loading!
+        visit!
+        finished_loading
+      end
+
       def finished_loading
         expect(page).to have_selector('.xeokit-busy-modal', visible: false, wait: 30)
       end

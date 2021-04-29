@@ -58,8 +58,7 @@ describe 'model viewer',
       before do
         login_as(user)
         work_package
-        show_model_page.visit!
-        show_model_page.finished_loading
+        show_model_page.visit_and_wait_until_finished_loading!
       end
 
       it 'loads and shows the viewer correctly' do
@@ -67,11 +66,28 @@ describe 'model viewer',
         show_model_page.model_viewer_shows_a_toolbar true
         show_model_page.page_shows_a_toolbar true
         model_tree.sidebar_shows_viewer_menu true
+        model_tree.expect_model_management_available true
       end
 
       it 'shows a work package list as cards next to the viewer' do
         show_model_page.model_viewer_visible true
         card_view.expect_work_package_listed work_package
+      end
+
+      it 'can trigger creation, update and deletion of IFC models from within the model tree view' do
+        model_tree.click_add_model
+        expect(page).to have_current_path new_bcf_project_ifc_model_path(project)
+
+        show_model_page.visit_and_wait_until_finished_loading!
+
+        model_tree.select_model_menu_item(model.title, "Edit")
+        expect(page).to have_current_path edit_bcf_project_ifc_model_path(project, model.id)
+
+        show_model_page.visit_and_wait_until_finished_loading!
+
+        model_tree.select_model_menu_item(model.title, "Delete")
+        show_model_page.finished_loading
+        expect(page).to have_text(I18n.t('js.ifc_models.empty_warning'))
       end
     end
 
@@ -94,8 +110,7 @@ describe 'model viewer',
 
     before do
       login_as(view_user)
-      show_model_page.visit!
-      show_model_page.finished_loading
+      show_model_page.visit_and_wait_until_finished_loading!
     end
 
     it 'loads and shows the viewer correctly, but has no possibility to edit the model' do
@@ -103,6 +118,7 @@ describe 'model viewer',
       show_model_page.model_viewer_shows_a_toolbar true
       show_model_page.page_shows_a_toolbar false
       model_tree.sidebar_shows_viewer_menu true
+      model_tree.expect_model_management_available false
     end
   end
 

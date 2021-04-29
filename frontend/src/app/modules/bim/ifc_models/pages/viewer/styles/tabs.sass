@@ -135,3 +135,8 @@ $pill-padding-left: 8px
 
       &.disabled:hover
         cursor: default
+
+// Temporary fix until fixed upstream: The first two buttons in the "Models" tab are separate by a space character
+// between the elements. There is no such space before the "Add model" button. We need to emulate it.
+.xeokit-addModel
+  margin-left: 4px
