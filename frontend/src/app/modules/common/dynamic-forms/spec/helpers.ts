@@ -14,13 +14,13 @@ import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
 import { FormlyModule } from "@ngx-formly/core";
 import { IOPFormlyFieldSettings } from "core-app/modules/common/dynamic-forms/typings";
 import { FormlyField } from "@ngx-formly/core";
-import { OpFormFieldComponent } from "core-app/modules/common/form-field/form-field.component";
 import { By } from "@angular/platform-browser";
 import { FormattableControlComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.component";
 import { OpCkeditorComponent } from "core-app/modules/common/ckeditor/op-ckeditor.component";
 import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
 import { CKEditorSetupService } from "core-app/modules/common/ckeditor/ckeditor-setup.service";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { OpFormFieldComponent } from "core-app/modules/common/forms/form-field/form-field.component";
 
 export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], model:any, providers?:any[]): ComponentFixture<any> {
   @Component({
@@ -111,7 +111,7 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
           ]
         }
       }
-    )
+    );
 
   TestBed.compileComponents();
 
