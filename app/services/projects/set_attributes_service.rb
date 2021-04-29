@@ -53,8 +53,12 @@ module Projects
     end
 
     def set_default_identifier(provided)
-      if !provided && Setting.sequential_project_identifiers?
+      return if provided
+
+      if Setting.sequential_project_identifiers?
         model.identifier = Project.next_identifier
+      elsif model.name.present?
+        model.identifier = model.name.to_localized_slug(limit: Project::IDENTIFIER_MAX_LENGTH)
       end
     end
 

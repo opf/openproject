@@ -46,6 +46,8 @@ module API
 
           schema :identifier,
                  type: 'String',
+                 required: true,
+                 has_default: true,
                  min_length: 1,
                  max_length: 100
 
