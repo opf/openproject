@@ -38,6 +38,10 @@ In addition, we ask you to check if there are general difficulties with sending 
 
 Yes, for Enterprise on-premises and Community Edition there is a [configuration option](../../../installation-and-operations/configuration/#disable-password-login) to disable the password login.
 
+## Which authentication providers are supported for single sign-on?
+
+We do support the main authentication providers, such as CAS, SAML, OpenID Connect, Kerberos, and Okta. Please note that single sign-on is a premium feature and can only be activated for Enterprise cloud and Enterprise on-premises.
+
 ## Is it possible to use a custom SSO provider (e.g. Keycloak) with the Enterprise cloud edition?
 
 It is possible to use Keycloak, but you can't configure it yourself at the moment as there's no user interface (UI) for custom SSO providers. We can set up the custom provider for you. Then you can access and edit it in the administration. You will be able to enter client ID and client secret via the OpenProject UI.
