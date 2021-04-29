@@ -822,6 +822,33 @@ fil:
     user: "Gumagamit"
     version: "Bersyon"
     work_package: "Work package"
+  backup:
+    label_backup_token: "Backup token"
+    label_create_token: "Create backup token"
+    label_delete_token: "Delete backup token"
+    label_reset_token: "Reset backup token"
+    label_token_users: "The following users have active backup tokens"
+    reset_token:
+      action_create: Lumikha
+      action_reset: I-reset
+      heading_reset: "Reset backup token"
+      heading_create: "Create backup token"
+      implications: >
+        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+      info: >
+        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+      verification: >
+        Enter %{word} to confirm you want to %{action} the backup token.
+      verification_word_reset: reset
+      verification_word_create: create
+      warning: >
+        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
+    text_token_deleted: Backup token deleted. Backups are now disabled.
+    error:
+      invalid_token: Invalid or missing backup token
+      token_cooldown: The backup token will be valid in %{hours} hours.
+      backup_pending: There is already a backup pending.
+      limit_reached: You can only do %{limit} backups per day.
   button_add: "Magdagdag"
   button_add_comment: "Magdagdag ng komento"
   button_add_member: Magdagdag ng miyembro
@@ -1296,6 +1323,7 @@ fil:
   label_available_project_versions: 'Ang magagamit na bersyon'
   label_available_project_repositories: 'Magagamit na mga respository'
   label_api_documentation: "API dokumentasyon"
+  label_backup: "Backup"
   label_between: "sa pagitan ng"
   label_blocked_by: "hinarangan ni"
   label_blocks: "mga hinarang"
@@ -1821,6 +1849,12 @@ fil:
   mail_body_account_activation_request: "Ang bagong gumagamit (%{value}) ay naka-rehistro na. Ang akwant ay naghihhintay para sa pag-apruba:"
   mail_body_account_information: "Ang akwant na impormasyon"
   mail_body_account_information_external: "Maari mong gamitin ang iyong %{value} akwant sa pag-log in."
+  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
+  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
+  mail_body_backup_token_reset_user_info: Your backup token has been reset.
+  mail_body_backup_token_info: The previous token is no longer valid.
+  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
+  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "Upang baguhin ang iyong password, pindutin ang mga sumusunod na link:"
   mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
@@ -1837,6 +1871,8 @@ fil:
   mail_body_wiki_content_added: "Ang '%{id}' wiking pahina ay naidagdag sa %{author}."
   mail_body_wiki_content_updated: "Ang '%{id}' wiking pahina ay na i-update sa %{author}."
   mail_subject_account_activation_request: "%{value} kahilingan ng akwant aktibasyon"
+  mail_subject_backup_ready: "Your backup is ready"
+  mail_subject_backup_token_reset: "Your backup token has been reset"
   mail_subject_lost_password: "Ang iyong %{value} password"
   mail_subject_register: "Ang iyong %{value} akwant aktibasyon"
   mail_subject_reminder: "%{count} work package dahil sa susunod na mga %{days} araw"
@@ -2692,6 +2728,7 @@ fil:
       code_403: "Ikaw ay hindi pwedeng magpatunay na mag-akses sa mapagkukunan na ito."
       code_404: "Ang hinihiling na mapagkukunan ay hindi nakita."
       code_409: "Could not update the resource because of conflicting modifications."
+      code_429: "Too many requests. Please try again later."
       code_500: "Isang internal error ang naganap."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
@@ -2810,3 +2847,4 @@ fil:
     authorization_error: "An authorization error has occurred."
     revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
     my_registered_applications: "Registered OAuth applications"
+  you: you

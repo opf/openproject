@@ -25,20 +25,20 @@ ro:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull Requests"
+        title: "Cereri de tragere"
         copy_menu:
           label: Git
-          description: Copy important git content to clipboard
+          description: Copiați conținutul important al git în clipboard
         git_actions:
           branch: Ramură
-          branch_help: Copy the default branch name.
+          branch_help: Copiați numele implicit al ramurii.
           message: Mesaj
-          message_help: Copy the default commit message.
+          message_help: Copiați mesajul implicit de confirmare.
           cmd: Comanda
-          cmd_help: Copy a shell command which creates a new branch and an empty commit using the default branch name and commit message.
+          cmd_help: Copiați o comandă shell care creează o nouă ramură și o confirmare goală, utilizând numele ramurii și mesajul de confirmare implicite.
           title: Copiați în Clipboard
           copy_button_help: Copiere în clipboard
           copy_success: Copiat
           copy_error: Copiere eşuată
       tab_prs:
-        empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
+        empty: 'Nu există încă nicio cerere de extragere legată. Conectați un PR existent folosind codul <code>OP#%{wp_id}</code> în descrierea PR sau creați un nou PR.'

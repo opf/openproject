@@ -1,6 +1,6 @@
 ro:
   logout_warning: >
-    You have been logged out. The contents of any form you submit may be lost. Please [log in].
+    Ați fost deconectat. Conținutul oricărui formular pe care îl trimiteți poate fi pierdut. Vă rugăm să [vă conectați].
   activemodel:
     attributes:
       openid_connect/provider:
@@ -10,10 +10,10 @@ ro:
         secret: Secret
         scope: Scop
   openid_connect:
-    menu_title: OpenID providers
+    menu_title: Furnizori OpenID
     providers:
-      label_add_new: Add a new OpenID provider
-      label_edit: Edit OpenID provider %{name}
-      no_results_table: No providers have been defined yet.
-      plural: OpenID providers
-      singular: OpenID provider
+      label_add_new: Adăugare stare nouă
+      label_edit: Editați furnizorul OpenID %{name}
+      no_results_table: Încă nu au fost definiți furnizori.
+      plural: Furnizori OpenID
+      singular: Furnizor de autentificare
