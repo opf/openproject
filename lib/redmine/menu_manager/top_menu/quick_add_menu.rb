@@ -108,12 +108,17 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   end
 
   def show_quick_add_menu?
-    %i[add_work_packages add_project manage_members].any? do |permission|
-      User.current.allowed_to_globally?(permission)
-    end
+    !anonymous_and_login_required? &&
+      %i[add_work_packages add_project manage_members].any? do |permission|
+        User.current.allowed_to_globally?(permission)
+      end
   end
 
   def in_project_context?
     @project&.persisted?
+  end
+
+  def anonymous_and_login_required?
+    Setting.login_required? && User.current.anonymous?
   end
 end
