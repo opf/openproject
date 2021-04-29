@@ -80,6 +80,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
   @Input() showNotifications = true;
   @Input() showValidationErrorsOn: 'change' | 'blur' | 'submit' | 'never' = 'submit';
   @Input() handleSubmit = true;
+  @Input() helpTextAttributeScope = '';
 
   @Output() modelChange = new EventEmitter<IOPFormModel>();
   @Output() submitted = new EventEmitter<HalSource>();

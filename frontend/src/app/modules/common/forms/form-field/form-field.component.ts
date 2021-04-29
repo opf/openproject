@@ -25,6 +25,8 @@ export class OpFormFieldComponent implements OnInit{
   }
 
   @Input() label = '';
+  @Input() helpTextAttribute = '';
+  @Input() helpTextAttributeScope = '';
   @Input() noWrapLabel = true;
   @Input() required = false;
   @Input() showValidationErrorOn: 'change' | 'blur' | 'submit' | 'never';

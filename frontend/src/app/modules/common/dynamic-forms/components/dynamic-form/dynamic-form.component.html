@@ -9,10 +9,14 @@
                  (modelChange)="onModelChange($event)"
                  class="op-fieldset">
       <ng-template formlyTemplate let-field>
-        <op-form-field *ngFor="let field of fields"
-                       [label]="field.templateOptions?.label"
-                       [noWrapLabel]="field.templateOptions?.noWrapLabel"
-                       [required]="field.templateOptions?.required">
+        <op-form-field
+          *ngFor="let field of fields"
+          [label]="field.templateOptions?.label"
+          [noWrapLabel]="field.templateOptions?.noWrapLabel"
+          [required]="field.templateOptions?.required"
+          [helpTextAttribute]="field.key"
+          [helpTextAttributeScope]="helpTextAttributeScopr"
+        >
           <formly-field [field]="field" slot=input></formly-field>
 
           <formly-validation-message
