@@ -366,7 +366,7 @@ describe('DynamicFormComponent', () => {
 
     fixture.detectChanges();
 
-    expect(fixture.debugElement.query(By.css('.op-form--container'))).toBeTruthy()
+    expect(fixture.debugElement.query(By.css('[data-qa="op-form--container"]'))).toBeTruthy()
     expect(fixture.debugElement.queryAll(By.css('formly-form')).length).toEqual(1);
     expect(fixture.debugElement.queryAll(By.css('op-form-field')).length).toEqual(10);
     expect(fixture.debugElement.queryAll(By.css('op-text-input')).length).toEqual(2);

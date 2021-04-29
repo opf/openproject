@@ -21,6 +21,7 @@ import { NotificationsService } from "core-app/modules/common/notifications/noti
 import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
 import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { FormsService } from "core-app/core/services/forms/forms.service";
 
 /*
 * The DynamicFormComponent can be used in two different ways:
@@ -48,7 +49,7 @@ import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mi
 *
 * When used as a FormControl (formControlName), the DynamicFormComponent will set
 * the entire form value as the value of the FormControl. Using it as a FormGroup
-* (formGroupName) would require to pass down the configuration of form in order
+* (formGroupName) would require to pass down the configuration of the form in order
 * to use the DynamicFormComponent, which would make no sense for this use case.
 */
 
@@ -77,6 +78,8 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
   // Chance to modify the dynamicFormFields settings before the form is rendered
   @Input() fieldsSettingsPipe: (dynamicFieldsSettings:IOPFormlyFieldSettings[]) => IOPFormlyFieldSettings[];
   @Input() showNotifications = true;
+  @Input() showValidationErrorsOn: 'change' | 'blur' | 'submit' | 'never' = 'submit';
+  @Input() handleSubmit = true;
 
   @Output() modelChange = new EventEmitter<IOPFormModel>();
   @Output() submitted = new EventEmitter<HalSource>();
@@ -107,6 +110,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
     private _I18n:I18nService,
     private _pathHelperService:PathHelperService,
     private _notificationsService:NotificationsService,
+    private _formsService: FormsService,
   ) {
     super();
   }
@@ -146,7 +150,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
   }
 
   submitForm(form:FormGroup) {
-    if (!this.isStandaloneForm) {
+    if (!(this.isStandaloneForm && this.handleSubmit)) {
       return;
     }
 
@@ -166,6 +170,10 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
           this.showNotifications && this._notificationsService.addError(this.text.validation_error_message);
         },
       );
+  }
+
+  validateForm() {
+    this._formsService.validateForm$(this.form, this.resourceEndpoint).subscribe();
   }
 
   private _setupStandaloneDynamicForm() {

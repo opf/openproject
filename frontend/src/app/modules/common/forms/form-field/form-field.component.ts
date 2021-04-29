@@ -4,6 +4,7 @@ import {
   HostBinding,
   ContentChild,
   Optional,
+  OnInit,
 } from "@angular/core";
 import {
   NgControl,
@@ -11,12 +12,13 @@ import {
   FormGroupDirective,
 } from "@angular/forms";
 import { FormlyField } from "@ngx-formly/core";
+import { DynamicFormComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-form/dynamic-form.component";
 
 @Component({
   selector: 'op-form-field',
   templateUrl: './form-field.component.html',
 })
-export class OpFormFieldComponent {
+export class OpFormFieldComponent implements OnInit{
   @HostBinding('class.op-form-field') className = true;
   @HostBinding('class.op-form-field_invalid') get errorClassName() {
     return this.showErrorMessage;
@@ -25,7 +27,7 @@ export class OpFormFieldComponent {
   @Input() label = '';
   @Input() noWrapLabel = true;
   @Input() required = false;
-  @Input() showValidationErrorOn: 'change' | 'blur' | 'submit' | 'never' = 'submit';
+  @Input() showValidationErrorOn: 'change' | 'blur' | 'submit' | 'never';
 
   @ContentChild(NgControl) ngControl:NgControl;
   @ContentChild(FormlyField) dynamicControl:FormlyField;
@@ -58,5 +60,12 @@ export class OpFormFieldComponent {
 
   constructor(
     @Optional() private _formGroupDirective:FormGroupDirective,
+    @Optional() private _dynamicFormComponent:DynamicFormComponent,
   ) {}
+
+  ngOnInit() {
+    this.showValidationErrorOn = this.showValidationErrorOn ||
+      this._dynamicFormComponent?.showValidationErrorsOn ||
+      'submit';
+  }
 }
