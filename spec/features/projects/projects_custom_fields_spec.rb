@@ -31,7 +31,7 @@ require 'spec_helper'
 describe 'Projects custom fields', type: :feature, js: true do
   shared_let(:current_user) { FactoryBot.create(:admin) }
   shared_let(:project) { FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project') }
-  let(:identifier) { "project_custom_field_values_#{custom_field.id}" }
+  let(:identifier) { "[data-field-name='customField#{custom_field.id}'] input[type=checkbox]" }
 
   before do
     login_as current_user
@@ -41,6 +41,7 @@ describe 'Projects custom fields', type: :feature, js: true do
     let!(:custom_field) do
       FactoryBot.create(:version_project_custom_field)
     end
+    let(:identifier) { "project_custom_field_values_#{custom_field.id}" }
 
     scenario 'allows creating a new project (regression #29099)' do
       visit new_project_path
@@ -50,7 +51,7 @@ describe 'Projects custom fields', type: :feature, js: true do
       expect(page).to have_selector "##{identifier}"
 
       click_on 'Create'
-      expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_create))
+      expect(page).to have_text I18n.t(:notice_successful_create)
     end
   end
 
@@ -85,14 +86,16 @@ describe 'Projects custom fields', type: :feature, js: true do
 
       created_project = Project.last
 
-      visit project_settings_project_path(created_project)
+      visit settings_project_path(created_project)
 
-      expect(page)
-        .to have_field default_int_custom_field.name, with: default_int_custom_field.default_value.to_s
-      expect(page)
-        .to have_field default_string_custom_field.name, with: 'Overwritten'
-      expect(page)
-        .to have_field no_default_string_custom_field.name, with: nil
+      int_field = page.find "[data-field-name='customField#{default_int_custom_field.id}'] input"
+      expect(int_field.value).to eq(default_int_custom_field.default_value.to_s)
+
+      string_field = page.find "[data-field-name='customField#{default_string_custom_field.id}'] input"
+      expect(string_field.value).to eq('Overwritten')
+
+      string_field = page.find "[data-field-name='customField#{no_default_string_custom_field.id}'] input"
+      expect(string_field.value).to eq('')
     end
   end
 
@@ -100,7 +103,7 @@ describe 'Projects custom fields', type: :feature, js: true do
     let!(:custom_field) do
       FactoryBot.create(:text_project_custom_field)
     end
-    let(:editor) { ::Components::WysiwygEditor.new ".form--field.custom_field_#{custom_field.id}" }
+    let(:editor) { ::Components::WysiwygEditor.new "[data-field-name='customField#{custom_field.id}']" }
 
     scenario 'allows settings the project boolean CF (regression #26313)' do
       visit settings_generic_project_path(project.id)
@@ -114,13 +117,13 @@ describe 'Projects custom fields', type: :feature, js: true do
       # Save project settings
       click_on 'Save'
 
-      expect(page).to have_selector('.flash.notice')
+      expect(page).to have_text I18n.t('js.notice_successful_update')
 
       project.reload
       cv = project.custom_values.find_by(custom_field_id: custom_field.id).value
 
       expect(cv).to include '[http://example.org/link with spaces](http://example.org/link%20with%20spaces)'
-      expect(page).to have_selector('a[href="http://example.org/link%20with%20spaces"]')
+      expect(page).to have_selector('a[href="http://example.org/link with spaces"]')
     end
   end
 
@@ -131,12 +134,17 @@ describe 'Projects custom fields', type: :feature, js: true do
 
     scenario 'allows settings the project boolean CF (regression #26313)' do
       visit settings_generic_project_path(project.id)
-      expect(page).to have_no_checked_field identifier
-      check identifier
+      field = page.find(identifier)
+      expect(field).not_to be_checked
+
+      field.check
 
       click_on 'Save'
-      expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_update))
-      expect(page).to have_checked_field identifier
+      expect(page).to have_text I18n.t(:notice_successful_update)
+
+      field = page.find(identifier)
+      expect(field).to be_checked
+
     end
   end
 end
