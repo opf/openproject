@@ -8,15 +8,15 @@ keywords: email configuration
 ---
 # Email settings
 
-Configure **email settings** in OpenProject, i.e. Email notifications and incoming email configuration.
+Configure **email settings** in OpenProject, i.e. email notifications and incoming email configuration.
 
 Navigate to *Administration* -> *Email*.
+
 
 | Topic                                                | Content                                        |
 | ---------------------------------------------------- | ---------------------------------------------- |
 | [Email notifications](#email-notifications-settings) | How to configure outgoing email notifications? |
 | [Incoming emails](#incoming-emails-settings)         | How to configure settings for inbound emails?  |
-| [FAQ](frequently-asked-questions---faq)              | Frequently asked questions.                    |
 
 
 ## Email notifications settings
@@ -31,6 +31,9 @@ To adapt email notification settings, go to Email and choose *Email notification
 
 ![System-admin-guide-emails](System-admin-guide-emails.png)
 
+The frequency of sending e-mails per work package can be set in [this way](../system-settings/display-settings/#time-and-date-formatting,-aggregation-of-changes-in-activity).
+
+
 ### Configure email header and email footer
 
 Configure your notification email header and footer which will be sent out for email notifications from the system.
@@ -38,7 +41,7 @@ Configure your notification email header and footer which will be sent out for e
 1. **Formulate header and/or footer** for the email notifications. These are used for all the email notifications from OpenProject (e.g. when creating a work package).
 2. **Choose a language** for which the email header and footer will apply.
 3. **Send a test email**.
-   Please note: This test email does *not* test the notifications for work package changes etc. Find out more on the FAQ page for emails.
+   Please note: This test email does *not* test the notifications for work package changes etc. Find out more in [this FAQ](../../../installation-and-operations/faq#i-dont-receive-emails-test-email-works-fine-but-not-the-one-for-work-package-updates).
 4. Do not forget to **save** your changes.![Sys-admin-email-notifications-email-header-footer](Sys-admin-email-notifications-email-header-footer.png)
 
 

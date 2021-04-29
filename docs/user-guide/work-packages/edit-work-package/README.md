@@ -64,9 +64,9 @@ To add a comment to a work package, open the [details view](#work-package-full-s
 
 ![comment-work-packages1](comment-work-packages1.png)
 
-### @ notification
+### @ notification (mention)
 
-You can add a comment or notify team members via [@notification](#notification). They will receive an email about the updates (according to their [email preferences](#email-notification) in the **My account** settings).
+You can mention and notify team members via [@notification](#notification). They will receive an email about the updates (according to their [email preferences](#email-notification) in the **My account** settings).
 
 **Full-screen view**:
 
@@ -77,17 +77,19 @@ You can add a comment or notify team members via [@notification](#notification).
 ### How to add watchers to a work package?
 
 <div class="glossary">
-**Watchers** can be added to a work package in order to notify members about changes . They will receive emails according to their notification settings if changes are made to the respective work package.
-
+**Watchers** can be added to a work package in order to notify members about changes. They will receive emails according to their notification settings if changes are made to the respective work package.
 </div>
 
 To add watchers, open the work package [details view](#work-package-full-screen-view), select the tab watchers on the right hand side and choose the members you want to add with the drop-down menu or by starting to type their name.
+
+It is also possible to add oneself as watcher (if you have sufficient permissions).
 
 ![watchers](watchers.png)
 
 ### How to remove watchers from a work package?
 
-To remove watchers, navigate to the work package [details view](#work-package-full-screen-view) and select the tab Watchers. Click the cross icon next to a watcher to remove the watcher from a a work package. The user will no longer get email notifications about changes to this work package according to the email notification settings.
+To remove watchers, navigate to the work package [details view](#work-package-full-screen-view) and select the tab Watchers. Click the cross icon next to a watcher to remove the watcher from a a work package. 
+The user will no longer get email notifications about changes to this work package according to their email notification settings. However, if he/she is the author, assignee or accountable of the work package there still might be email notifications. Read [here](../../../getting-started/my-account/#email-notifications) for more information.
 
 ![remove-watchers](remove-watchers.png)
 

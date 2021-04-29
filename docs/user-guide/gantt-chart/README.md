@@ -18,10 +18,10 @@ The **Gantt chart** in OpenProject displays the work packages in a timeline. You
 | [Activate the Gantt chart](#activate-the-gantt-chart)        | How to activate the Gantt chart in OpenProject?              |
 | [Create a new element](#create-a-new-element-in-the-gantt-chart) | How to add a new item to the Gantt chart?                    |
 | [Relations in the Gantt chart](#relations-in-the-gantt-chart) | Create and display dependencies in the Gantt chart.          |
-| [Understanding the colours and lines in the Gantt chart](#understanding-the-colours-and-lines-in-the-gantt-chart) | What do the clamps, lines and symbols in the Gantt chart mean? |
+| [Understanding the colors and lines in the Gantt chart](#understanding-the-colors-and-lines-in-the-gantt-chart) | What do the clamps, lines and symbols in the Gantt chart mean? |
 | [Gantt chart configuration](#gantt-chart-configuration)      | How to configure the view of your Gantt chart, e.g. add labels? |
-| [Synchronize data between OpenProject and Excel](#synchronize-data-between-openproject-and-excel) | How to synchronize data from OpenProject to Excel?           |
 | [Gantt chart views](#gantt-chart-views)                      | How to zoom in and out and activate the Zen mode?            |
+| [Aggregation by project](#aggregation-by-project)            | How to display an aggregated view of all milestones of multiple projects? |
 
 
 <video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Project-Plan-and-Timelines-Gantt-charts.mp4" type="video/mp4" controls="" style="width:100%"></video>
@@ -68,13 +68,15 @@ Select the item to which you want to create a dependency. The precede and follow
 
 To find out about **how work packages behave**, when you move their predecessor or follower or change the date of a child work package please read our guide for the [Automatic and manual scheduling mode](scheduling).
 
-## Understanding the colours and lines in the Gantt chart
+Relations between work packages that are not predecessor/follower or parent/child relations won't be displayed in the Gantt chart. Find out more about other work package relations [here](../../work-packages/work-package-relations-hierarchies).
+
+## Understanding the colors and lines in the Gantt chart
 
 - A **blue line** connects two work packages, they are predecessor and follower.
 - The **vertical red dotted line** indicates today's date.
 - A **black clamp** indicates the duration from the start date of a work packages earliest starting child until the end date of a work packages latest ending child.
 - A **red clamp** indicates the same as the black clamp, with an important difference: The clamp turns red if the dates derived from the children are before or after the manually scheduled dates (of this parent work package).
-  The clambs are black in case the derived dates are within the set dates (of this parent).
+  The clamps are black in case the derived dates are within the set dates (of this parent).
 - A **diamond symbol** stands for a milestone.
 - A **bar** stands for work packages like phases and tasks.
 
@@ -123,11 +125,7 @@ Press the **Print** button.
 
 For other browsers, please simply follow the browser's printing instruction to optimize results.
 
-## Synchronize data between OpenProject and Excel
-
-You can synchronize your work package data between OpenProject and Excel (two-way synchronization). By extension you could import MS Project files - by saving them as Excel files and importing them into OpenProject. You can download a free Excel synchronization template to do this.
-
-Follow our [Step by step guide how to synchronize your Excel Sheet with OpenProject](../integrations/Excel Synchronization).
+To synchronize your work package data between OpenProject and Excel (two-way synchronization) please have a look at [this instruction](../integrations/Excel Synchronization).
 
 ## Gantt chart views
 
@@ -135,16 +133,45 @@ Follow our [Step by step guide how to synchronize your Excel Sheet with OpenProj
 
 To zoom in and zoom out in the Gantt chart view, click on the button with the **+** and **- icon** on top of the chart.
 
-![Gantt-chart-zoom](Gantt-chart-zoom.png)
+![zoom-in-Gantt-chart](image-20210204173135173.png)
+
+
 
 ### Auto zoom
 
 Select the **auto zoom button** on top of the Gantt chart to have the best view of your Gantt chart.
 
-![Gantt-chart-autozoom](Gantt-chart-autozoom.png)
+![auto-zoom-Gantt](image-20210204173248266.png)
+
+
 
 ### Zen mode
 
 The zen mode gives you more space to focus on the tasks at hand. It's almost like activating the full screen view in your browser. To exit press the *Esc* key or click on the **zen mode** symbol again.
 
-![image-20201007164653327](image-20201007164653327.png)
+![zen-mode-Gantt-chart](image-20210204173420592.png)
+
+
+
+## Aggregation by project
+
+You can get a **quick overview of multiple projects** in the Gantt chart. To accomplish this navigate to the Work packages module of a project or the [project overarching work packages list](../projects/#project-overarching-reports).
+
+**Group the list** by project by using the [work packages table configuration](../work-packages/work-package-table-configuration/#flat-list-hierarchy-mode-and-group-by) (accessible in the upper right corner) or by clicking on the small triangle next to "Project" in the table header.
+ ![group-by-project](image-20201211020614221.png)
+
+**Display the Gantt chart** by clicking on the button in the upper right corner.
+![insert-gantt-chart-button](image-20201211020748715.png)
+
+Use the minus next to the project's name or the **collapse button** in the upper right corner to collapse some or all projects.
+
+![collapse-button](collapse-all-expand-all.png)
+
+This will give you an **aggregated view of the projects' milestones**.
+
+![aggregated-projects-milestones](image-20201211131511543.png)
+
+**Please note**: If you want to make use of this feature, it is necessary to add milestones for the most important dates to your projects. At the moment this feature is not available for other [work package types](../../getting-started/work-packages-introduction/#what-is-a-work-package). 
+Apart from the set filters the list of displayed projects depends on your [permissions](../../system-admin-guide/users-permissions/roles-permissions/). You can only see private projects that you are a member of and public projects.
+In some cases (many work packages per project) you will have to increase the objects per page in bottom right corner to display multiple projects. Change the available options in the [system settings](../../system-admin-guide/system-settings/general-settings/) if necessary.
+ ![image-20201211131803961](image-20201211131803961.png)

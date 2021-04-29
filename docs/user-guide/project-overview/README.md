@@ -9,7 +9,7 @@ keywords: project overview page
 
 # Project overview
 
-The **Project overview** page is a dashboard with important project information. You can display relevant information for your team, such as members, news, project description, work package reports, or a project status. 
+The **Project overview** page is a dashboard with important information about the respective project. You can display relevant information for your team, such as members, news, project description, work package reports, or a project status. 
 
 | Topic                                                        | Content                                                 |
 | ------------------------------------------------------------ | ------------------------------------------------------- |
@@ -55,7 +55,7 @@ You can add various widgets to your project overview.
 
 ### Calendar widget
 
-The calendar widget displays your current work packages in a calendar. It shows work packages that are being worked on at the current date.
+The calendar widget displays your current work packages in a calendar. It shows work packages that are being worked on at the current date. The maximum number of displayable work packages is 100.
 
 ![calendar](image-20191112142555628.png)
 

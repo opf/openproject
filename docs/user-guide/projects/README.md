@@ -26,7 +26,7 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [Copy a project](#copy-a-project)                            | Copy an existing project.                                    |
 | [Archive a project](#archive-a-project)                      | Find out how to archive completed projects.                  |
 | [Delete a project](#delete-a-project)                        | How to delete a project?                                     |
-| [View all projects](#view-all-projects)                      | Get an overview of all your projects in the projects overview list. |
+| [Global projects overview](#Global-projects-overview---view-all-projects) | Get an overview of all your projects in the projects overview list ("View all projects"). |
 | [Project overarching reports](#project-overarching-reports)  | How to create project overarching reports across multiple projects? |
 
 <video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Projects-Introduction.mp4" type="video/mp4" controls="" style="width:100%"></video>
@@ -41,11 +41,13 @@ Find out in our Getting started guide how to [create a new project](../../gettin
 
 ## Create a subproject
 
-To create a subproject for an existing project, navigate to the [project settings](#project-settings) -> *Information* and click on the green **+ Subproject** button.
+To create a subproject for an existing project, navigate to [*Project settings*](#project-settings) -> *Information* and click on the green **+ Subproject** button.
 
-Follow the instructions to [create a new project](../../getting-started/projects/#create-a-new-project).
+Then follow the instructions to [create a new project](../../getting-started/projects/#create-a-new-project).
 
-![create-a-subproject](image-20200921153208651.png)
+![create-subproject](image-20210204165705788.png)
+
+
 
 ## Project structure
 
@@ -92,17 +94,17 @@ You can specify further advanced settings for your project. Navigate to your pro
 - You see the default project **Identifier**. The identifier will be shown in the URL. 
 
 <div class="alert alert-info" role="alert">
-**Note**: The Identifier cannot be changed later after creating the project.
-
+**Note**: Changing the project identifier while the project is already being worked on can have major effects and is therefore not recommended. For example, repositories may not be loaded correctly and deep links may no longer work (since the project URL changes when the project identifier is changed).
 </div>
+
 
 - You can set a project to **Public**. This means it can be accessed without signing in to OpenProject.
 
 - Click the blue **Create** button in order to save your new project. Or click the blue **Save** button to save your changes.
 
-![project settings](image-20200131100735316.png)
+![project-settings](image-20210204170357754.png)
 
-Find out more detailed information about the [Project settings](project-settings).
+Find out more detailed information about the Project settings [here](project-settings).
 
 ### Change the project hierarchy
 
@@ -110,7 +112,7 @@ To change the project's hierarchy, navigate to the [project settings](project-se
 
 Press the blue **Save** button to apply your changes.
 
-![User-guide-change-subproject](User-guide-change-subproject.png)
+![set-parent-project](image-20210204170603014.png)
 
 
 
@@ -119,7 +121,9 @@ Press the blue **Save** button to apply your changes.
 If you want to set a project to public, you can do so by ticking the box next to "Public" in the [project settings](project-settings) *->Information*.
 
 Setting a project to public will make it accessible to all people within your OpenProject instance. 
+
 (Should your instance be [accessible without authentication](../../system-admin-guide/authentication/authentication-settings) this option will make the project visible to the general public outside your registered users, too)
+
 
 
 ### Create a project template
@@ -139,12 +143,9 @@ Navigate to the [project settings](project-settings) and click **Set as template
 <div class="alert alert-info" role="alert">
 **Please note**: The option to set a project as template or to remove it from templates is only available for Administrators.
 </div>
+![set-as-template](image-20210204170739796.png)
 
 
-
-
-
-![image-20200921120538872](image-20200921120538872.png)
 
 ### Use a project template
 
@@ -157,7 +158,9 @@ Another way for using a template project would be to [copy it](#copy-a-project).
 
 You can copy an existing project by navigating to the [project settings](project-settings) and clicking **Copy project** in the upper right of the project settings.
 
-![User-guide-copy-project](User-guide-copy-project.png)
+![copy-project](image-20210204170859459.png)
+
+
 
 Give the new project a name. Select which modules and settings you want to copy and whether or not you want to notify users via email during copying. 
 You can copy existing [boards](../agile-boards) (apart from the Subproject board) and the [Project overview](../project-overview/#project-overview) dashboards along with your project, too.
@@ -172,30 +175,32 @@ Then click the blue **Copy** button.
 
 ### Archive a project
 
-In order to archive a project, navigate to the [project settings](project-settings), and click the **Archive project** button. Then, the project cannot be selected from the project selection anymore. It is still available in the **View all projects** dashboard if you expand the filter and select the Archived projects.
+In order to archive a project, navigate to the [project settings](project-settings), and click the **Archive project** button.
 <div class="alert alert-info" role="alert">
 **Note**: This option is only available for Administrators.
 </div>
+![archive-project](image-20210204171059565.png)
 
-![User-guide-archive-project](User-guide-archive-project.png)
+Then, the project cannot be selected from the project selection anymore. It is still available in the **View all projects** dashboard if you set the "Active" filter to "off" (move slider to the left). You can un-archive it there, too, using the three dots at the right end of a row.
+
+![view-archived-projects-in-projects-overview](image-20210204171251754.png)
 
 
-![archived-projects](1566219072615.png)
+
 
 ### Delete a project
 
-If you want to delete a project, navigate to the [project settings](project-settings). Click the button **Delete project** on the top right of the page. 
+If you want to delete a project, navigate to the [Project settings](project-settings). Click the button **Delete project** on the top right of the page. 
 
-![User-guide-delete-project](User-guide-delete-project.png)
+![delete-project](image-20210204171422693.png)
 
-Also, you can delete a project via the [projects overview](#view-all-projects).
+Also, you can delete a project via the [projects overview](#global-projects-overview---view-all-projects).
 <div class="alert alert-info" role="alert">
-**Note**: This option is only available for Administrators.
+**Please note**: Deleting projects is only available for System administrators.
 </div>
 
 
-
-## View all projects
+## Global projects overview - View all projects
 
 To get an overview of all your projects, select the **View all projects** option from the **Select a project** menu in the top left header navigation. 
 
@@ -207,22 +212,20 @@ You will then get a list of all your projects in OpenProject. You can use this p
 
 With the **arrow** on the right you can display the **project description**.
 
-With the horizontal **three dots** icon on the right side of the list you can open **further features**, such as [creating a new subproject](#create-a-subproject), [project settings](project-settings), [archiving a project](#archive-a-project), [copying](#copy-a-project) and [deleting a project](#delete-a-project). Please note that you have to be a System Administrator in OpenProject to access these features.
+With the horizontal **three dots** icon on the right side of the list you can open **further features**, such as [creating a new subproject](#create-a-subproject), [project settings](project-settings), [archiving a project](#archive-a-project), [copying](#copy-a-project) and [deleting a project](#delete-a-project). Please note that you have to be a System Administrator in OpenProject to access these features. Find out how to un-archive projects [here](#archive-a-project).
 
-![projects-overview](image-20201005092427629.png)
+![projects-overview-view-all-projects](image-20210204171811255.png)
 
-You can choose the **columns displayed by default** in the [System Settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration. To access it quickly use the **vertical three dots** icon on the upper right.
+You can choose the **columns displayed by default** in the [System settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration. To access it quickly use the **vertical three dots** icon on the upper right.
 
-![configure-columns-for-view-all-projects](image-20201210234705031.png)
+![configure-projects-list](image-20210204172213314.png)
 
-
-
-To change the order of the displayed [custom fields](../../system-admin-guide/custom-fields) (columns) follow the instructions here: [Displaying a project custom field](/system-admin-guide/custom-fields/custom-fields-projects/#displaying-project-custom-fields) 
+To change the order of the displayed [custom fields](../../system-admin-guide/custom-fields) (columns) follow the instructions here: [Displaying a project custom field](../../system-admin-guide/custom-fields/custom-fields-projects/#displaying-project-custom-fields) 
 
 
 
 To **display the work packages** of all your projects **in a Gantt chart** click on the **Open as Gantt view** icon on the upper right. This is a shortcut to quickly get to the report described in the [chapter below](#project-overarching-reports). 
-The Gantt chart view can be configured in the [System Settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration.
+The Gantt chart view can be configured in the [System settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration.
 
 ![open-global-gantt-chart](image-20201007161248903.png)
 
@@ -238,7 +241,7 @@ Click on the **Modules** icon with the dots in the header navigation. These are 
 
 Here you will find
 
-- The [global projects list](#view-all-projects)
+- The [global projects list](#Global-projects-overview-view-all-projects)
 - The global work packages list (see below)
 - The global news overview
 - The global time and costs module

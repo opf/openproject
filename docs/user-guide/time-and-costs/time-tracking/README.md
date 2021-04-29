@@ -88,3 +88,18 @@ See more information about the My spent time widget on the [MyPage](../../../get
 
 ![spent time widget](image-20200211160311662.png)
 
+## Define hourly rate for labor costs
+
+You can define an hourly rate to **track labor costs per user**. You will need system admin permissions for this. Please navigate to the user profile, e.g. by clicking on a hyper link of the user name on a work package.
+
+ ![User-profile](User-profile.png)
+
+You will be directed to the user's profile page.
+
+Here, you can click the **Edit button** on the top right corner of the user profile page.
+
+ ![User-profile-edit](User-profile-edit.png)
+
+Alternatively, you can navigate to *Administration -> Users & Permissions -> Users* and click on the respective user name.
+
+Click on the **Rate history** tab. Find out [here](../../../system-admin-guide/users-permissions/users/#rate-history) how to continue. 

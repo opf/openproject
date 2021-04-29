@@ -23,8 +23,6 @@ Work packages have a **type**, an **ID**, a **subject** and may have various add
 </div>
 
 
-
-
 Work packages can be displayed in a projects timeline, e.g. as a milestone or a phase. In order to use the work packages, the work package module has to be activated in the project settings.
 
 ## Overview

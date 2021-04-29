@@ -16,7 +16,6 @@ sidebar_navigation:
 | [Docker-based installation](#docker-based-installation)      | How to upgrade a Docker-based installation of OpenProject.  |
 | [Upgrade notes for 8.x to 9.x](#upgrade-notes-for-8x-to-9x)  | How to upgrade from OpenProject 8.x to OpenProject 9.x.     |
 | [Upgrade notes for 7.x to 8.x](#upgrade-notes-for-openproject-7x-to-8x) | How to upgrade from OpenProject 7.x to OpenProject 8.x.     |
-| [FAQ](frequently-asked-questions---faq)                      | Frequently asked questions.                                 |
 
 ## Package-based installation (DEB/RPM)
 
@@ -131,14 +130,9 @@ These following points are some known issues regarding the update to 9.0.
 
 ### MySQL is being deprecated
 
-OpenProject 9.0. is deprecating MySQL support. You can expect full MySQL
-support for the course of 9.0 releases, but we are likely going to be dropping
-MySQL completely in one of the following releases.
+OpenProject 9.0. is deprecating MySQL support. You can expect full MySQL support for the course of 9.0 releases, but we are likely going to be dropping MySQL completely in one of the following releases.
 
-For more information regarding motivation behind this and migration steps,
-please see https://www.openproject.org/deprecating-mysql-support/ In this post,
-you will find documentation for a mostly-automated migration script to
-PostgreSQL to help you get up and running with PostgreSQL.
+For more information regarding motivation behind this and migration steps, please see [https://www.openproject.org/deprecating-mysql-support](https://www.openproject.org/deprecating-mysql-support)/ In this post, you will find documentation for a mostly-automated migration script to PostgreSQL to help you get up and running with PostgreSQL.
 
 ### Package repository moved into opf/openproject
 
@@ -189,9 +183,3 @@ rm -rf /opt/openproject/frontend/node_modules
 OpenProject 8.0. has removed Textile, all previous content is migrated to GFM Markdown using [pandoc](https://pandoc.org). This will happen automatically during the migration run. A recent pandoc version will be downloaded by OpenProject.
 
 For more information, please visit [this separate guide](../../misc/textile-migration).
-
-## Frequently asked questions - FAQ 
-
-### Will my data be lost when I upgrade OpenProject?
-
-We strongly recommend a [backup](../backing-up) of your data before updating. Your data won't be lost in the regular update process, though.

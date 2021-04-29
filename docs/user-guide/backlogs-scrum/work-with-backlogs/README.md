@@ -1,19 +1,19 @@
 ---
 sidebar_navigation:
-  title: Backlogs view
+  title: Working with backlogs
   priority: 990
 description: Working with backlogs (scrum)
 robots: index, follow
-keywords: backlogs, scrum
+keywords: backlogs, scrum, agile, burndown
 ---
 
 # Working with Backlogs
 
-The starting point for effective work in Scrum teams is a well-maintained and prioritized product backlog as well as the creation of sprint backlogs. In OpenProject, you can easily record and specify requirements represented by user stories. Moreover, you can respond to  inquiries and sort them by priority for implementation.
+The starting point for effective work in Scrum teams is a well-maintained and prioritized product backlog as well as the creation of sprint backlogs. In OpenProject, you can easily record and specify requirements represented by user stories. Moreover, you can respond to inquiries and sort them by priority for implementation.
 
 Moreover, please note that the backlogs module is not available in the accessibility mode, since it uses drag&drop functionalities which are not accessible. If you use the accessibility mode you can however perform the same actions (like viewing and editing work packages such as user stories and epics) from the work package list view.
 
-| Feature                                             | Documentation for                                            |
+| Topic                                               | Content                                                      |
 | --------------------------------------------------- | ------------------------------------------------------------ |
 | [Create a new backlog](#create-a-new-backlog)       | How to create a new product backlog or sprint?               |
 | [Create a new user story](#create-a-new-user-story) | How to create a new user story, epic, bug in the backlogs view? |
@@ -46,9 +46,9 @@ A new line will be added in the backlogs to enter work package information.
 
 ![User-guide-create-story-backlogs](User-guide-create-story-backlogs.png)
 
-Clicking on the work package ID opens the work package full screen in a  separate tab, where you can specify additional work package attributes.
+Clicking on the work package ID opens the work package full screen in a separate tab, where you can specify additional work package attributes.
 
-Of course, new user stories can also be directly created following the usual procedure of [creating a new work package](../../work-packages/create-work-package/). In order to do so, choose a work package type and target version which are activated in the [backlogs settings in the Administration](../../../system-admin-guide/backlogs) – such as feature or bug, and  product or sprint backlog, respectively.
+Of course, new user stories can also be directly created following the usual procedure of [creating a new work package](../../work-packages/create-work-package/). In order to do so, choose a work package type and target version which are activated in the [backlogs settings in the Administration](../../../system-admin-guide/backlogs) – such as feature or bug, and product or sprint backlog, respectively.
 
 **Displaying of all user stories and tasks for a sprint** is also possible by selecting *Stories/Tasks* in the drop-down menu next to the sprint title.
 
@@ -57,8 +57,9 @@ Of course, new user stories can also be directly created following the usual pro
 This will take you to the filtered work package view of all user stories and tasks in a sprint.
 
 <div class="alert alert-info" role="alert">
-**Note**: All tasks created for a user story via the task board view  are automatically configured as child work packages of a user story. The task is thus always automatically assigned to the target version of the parent work package  (i.e. the user story).
+**Note**: All tasks created for a user story via the task board view are automatically configured as child work packages of a user story. The task is thus always automatically assigned to the target version of the parent work package (i.e. the user story).
 </div>
+
 
 ## Prioritize user stories
 
@@ -72,19 +73,17 @@ You can prioritize different work packages within the product backlog using drag
 
 ## Working with story points
 
-In a sprint, you can directly document necessary effort as story points. The overall effort for a sprint is automatically calculated,  whereby the sum of story points is displayed in the top row.
+In a sprint, you can directly document necessary effort as story points. The overall effort for a sprint is automatically calculated, whereby the sum of story points is displayed in the top row.
 
 <div class="glossary">
-
 **Story points** are defined as numbers assigned to a work package used to estimate (relatively) the size of the work.
-
 </div>
 
 ![User-guide-backlogs-estimate-story-points](User-guide-backlogs-estimate-story-points.png)
 
 You can easily edit story points directly from the backlogs view. In order to do so, simply click in the line of the work package you want to edit, and make the desired changes.
 
-In the same way, you can also edit the name, start and end date and status of a work package. To confirm your  changes, press “*Enter*” on your keyboard. To cancel your changes, press  “*Escape*”.
+In the same way, you can also edit the name, start and end date and status of a work package. To confirm your changes, press “*Enter*” on your keyboard. To cancel your changes, press **Escape*”.
 
 ![User-guide-backlogs-edit-story-points](User-guide-backlogs-edit-story-points.png)
 
@@ -99,20 +98,21 @@ Moreover, you can adjust the start and end date of a backlog in the backlogs vie
 ![User-guide-backlogs-sprint-duration](User-guide-backlogs-sprint-duration.png)
 
 <div class="alert alert-info" role="alert">
-**Note**: a backlog version will be shown under [Roadmap](../../roadmap/), but not in a [Gantt chart](../../gantt-chart). If you want to display a sprint in a timeline, you can create a new work package, select a phase as a work package type, give it the same  name as to a specific version (for example Sprint 1) and assign the same start and end date.
+**Note**: A backlog version will be shown under [Roadmap](../../roadmap/), but not in a [Gantt chart](../../gantt-chart). If you want to display a sprint in a timeline, you can create a new work package, select a phase as a work package type, give it the same name as to a specific version (for example Sprint 1) and assign the same start and end date.
 </div>
+
 
 ## Burndown chart
 
-**Burndown charts** are a helpful tool to visualize a sprint’s progress. With OpenProject, you can generate sprint and task burndown charts  automatically. As a precondition, the sprint’s start and end date must be entered in the title and the information on story points is well maintained.
+**Burndown charts** are a helpful tool to visualize a sprint’s progress. With OpenProject, you can generate sprint and task burndown charts automatically. As a precondition, the sprint’s start and end date must be entered in the title and the information on story points is well maintained.
 
 ![User-guide-backlogs-burndown-chart](User-guide-backlogs-burndown-chart.png)
 
-The sprint burndown is calculated from the sum of estimated story  points. If a user story is set to “closed“ (or another status which is  defined as closed (see admin settings)), it counts for the burndown.
+The sprint burndown is calculated from the sum of estimated story points. If a user story is set to “closed“ (or another status which is defined as closed (see admin settings)), it counts for the burndown.
 
-The task burndown is calculated from the estimated number of hours  necessary to complete a task. If a task is set to “closed“, the burndown is adjusted.
+The task burndown is calculated from the estimated number of hours necessary to complete a task. If a task is set to “closed“, the burndown is adjusted.
 
-The remaining story points per sprint are displayed in the chart.  Optionally, the ideal burndown can be displayed for reference. The ideal burndown assumes a linear completion of story points from the beginning to the end of a sprint.
+The remaining story points per sprint are displayed in the chart. Optionally, the ideal burn-down can be displayed for reference. The ideal burndown assumes a linear completion of story points from the beginning to the end of a sprint.
 
 ![Burndown chart graph](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2014/10/17_BurndownChart2.png)
 
@@ -122,26 +122,26 @@ The remaining story points per sprint are displayed in the chart.  Optionally, t
 
 If you do not want to do without the real project pin board in your project management, OpenProject offers the option to print the user stories and tasks.
 
-In order to so, select the *Export* option from the sprint drop-down menu in the backlogs view.
+In order to do so, select the **Export** option from the sprint drop-down menu in the backlogs view.
 
 ![User-guide-print-story-cards](User-guide-print-story-cards.png)
 
-Choose a story card format from the list that will open. The format  selection can only be adjusted by a system admin  in the -> *Administration* -> *Backlogs* and applies to all projects in OpenProject.
+Choose a story card format from the list that will open. The format selection can only be adjusted by a system admin in the *Administration* -> *Backlogs* and applies to all projects in OpenProject.
 
-Now, a PDF file is created which displays one or several stories or tasks per page (listing the work packages of the selected sprint),  depending on the selected settings.
+Now, a PDF file is created which displays one or several stories or tasks per page (listing the work packages of the selected sprint), depending on the selected settings.
 
 ## Sprint wiki
 
-OpenProject also allows you to create a wiki page associated with a sprint directly from the backlog. You can document sprint information, e.g. ratios, sprint meetings, retrospecitve, sprint planning or sprint review meetings.
+OpenProject also allows you to create a wiki page associated with a sprint directly from the backlog. You can document sprint information, e.g. ratios, sprint meetings, retrospective, sprint planning or sprint review meetings.
 
-In order to do so, click on the arrow on the left of the respective Sprint title to open the drop-down menu. A click on *Wiki* will take you to the Wiki editing page.
+In order to do so, click on the arrow on the left of the respective Sprint title to open the drop-down menu. A click on **Wiki** will take you to the Wiki editing page.
 
 ![User-guide-sprint-wiki](User-guide-sprint-wiki.png)
 
-Here, you have all the tools for creating wiki pages at your disposal, with the title already pre-set and related to the selected sprint. You can insert and edit content using the text field and make  changes to the formatting using the navigation pane above. You can also  add comments and files from your hard drive. Once you have configured  the wiki page according to your preferences, click *Save.*
+Here, you have all the tools for creating wiki pages at your disposal, with the title already pre-set and related to the selected sprint. You can insert and edit content using the text field and make changes to the formatting using the navigation pane above. You can also add comments and files from your hard drive. Once you have configured the wiki page according to your preferences, click **Save**.
 
 ![sprint wiki](image-20200129140655485.png)
 
 <div class="alert alert-info" role="alert">
-**Note**: You can configure the sprint wiki template in the -> Administration -> Backlogs. If you create a wiki page with the respective name, e.g. sprintwiki, all sprint wikis will use this wiki page as a template.
+**Note**: You can configure the sprint wiki template in the Administration -> Backlogs. If you create a wiki page with the respective name, e.g. "sprintwiki", all sprint wikis will use this wiki page as a template.
 </div>

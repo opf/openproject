@@ -26,7 +26,7 @@ Do you already have an Enterprise on-premises token?
 
 Yes: Then you can proceed entering your token as described below.
 
-No: Then you will need to [order your Enterprise on-premises token](#order-the-enterprise-on-premises-edition) or [request a trial token](../enterprise-trial) first.
+No: Then you will need to [order your Enterprise on-premises token](#order-the-enterprise-on-premises-edition) or [request a trial token](../enterprise-on-premises-trial) first.
 
 In the Enterprise on-premises edition section, copy and paste the full content of your Enterprise on-premises support token into the input field and press the blue **Save** button.
 
@@ -36,7 +36,7 @@ Your Enterprise on-premises edition is now active.
 
 ## Order the Enterprise on-premises edition
 
-If you want to **order the Enterprise on-premises edition** click on the **+ Order Enterprise Edition** button shown on the page. You can also [request a trial token](../enterprise-trial) to test the premium features included in the Enterprise on-premises edition.
+If you want to **order the Enterprise on-premises edition** click on the **+ Order Enterprise Edition** button shown on the page. You can also [request a trial token](../enterprise-on-premises-trial) to test the premium features included in the Enterprise on-premises edition.
 
 ![Order-Enterprise-on-premises](Upgrade-to-Enterprise-on-premises.png)
 

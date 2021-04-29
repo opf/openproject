@@ -204,14 +204,15 @@ To print the Gantt chart please have a look at [these tips](../../gantt-chart/#h
 
 The work package export is run as a background job (such as e.g. copying projects). Therefore, the export may be delayed.
 The following factors can have an impact on the duration of the export:
-\- Number of work packages to be exported
-\- Chosen export (e.g. XLS with relations will possibly perform many more calculations)
-\- Number of columns in the export (less of an impact)
+
+- Number of work packages to be exported
+- Chosen export (e.g. XLS with relations will possibly perform many more calculations)
+- Number of columns in the export (less of an impact)
 
 To identify how many background jobs have run or are delayed, enter "/health_checks/full" after the URL (e.g. myopenprojectinstance.com/health_checks/full).
-This provides an overview of "delayed_jobs_never_ran" which shows the number of background jobs that could not get ran within the last 10 minutes. If there are multiple entries this can indicate that the number of web workers should be increased.
+This provides an overview of "delayed_jobs_never_ran" which shows the number of background jobs that could not get ran within the last 10 minutes. If there are multiple entries, this can indicate that the number of web workers should be increased.
 
-For a documentation of how to do this, please refer to [these instructions](../operation/control) (see section "Scaling the number of web workers").
+For a documentation of how to do this, please refer to [these instructions](../../../installation-and-operations/operation/control) (see section "Scaling the number of web workers").
 
 
 
