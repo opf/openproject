@@ -28,7 +28,7 @@
 
 import { Injectable } from "@angular/core";
 import { of, forkJoin } from 'rxjs';
-import { take, map, mergeMap, distinctUntilChanged } from 'rxjs/operators';
+import { take, map, mergeMap, distinctUntilChanged, tap } from 'rxjs/operators';
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 import { FilterOperator } from 'core-components/api/api-v3/api-v3-filter-builder';
 import { CurrentProjectService } from 'core-components/projects/current-project.service';
@@ -158,10 +158,12 @@ export class CurrentUserService {
     const actions = _.castArray(action);
     return this.capabilitiesForContext$(contextId).pipe(
       map((capabilities) => capabilities.reduce(
-        (acc, cap) => acc && !!actions.find(action => cap.actions.href.endsWith(`/${action}`)),
-        true,
+        (acc, cap) => {
+          return acc && !!actions.find(action => cap.action.href.endsWith(`/${action}`));
+        },
+        capabilities.length > 0,
       )),
-      distinctUntilChanged(),
+      distinctUntilChanged()
     );
   }
 
@@ -172,7 +174,7 @@ export class CurrentUserService {
     const actionsToFilter = _.castArray(actions);
     return this.capabilitiesForContext$(contextId).pipe(
       map((capabilities) => capabilities.reduce(
-        (acc, cap) => acc || !!actionsToFilter.find(action => cap.actions.href.endsWith(`/${action}`)),
+        (acc, cap) => acc || !!actionsToFilter.find(action => cap.action.href.endsWith(`/${action}`)),
         false,
       )),
       distinctUntilChanged(),

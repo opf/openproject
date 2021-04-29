@@ -43,20 +43,20 @@ const globalCapability = {
   id: 'placeholder_users/read/g-3',
   _links: {
     self: {
-      href: '/api/v3/capabilities/placeholder_users/read/g-3'
+      href: '/api/v3/capabilities/placeholder_users/read/g-3',
     },
     action: {
-      href: '/api/v3/actions/placeholder_users/read'
+      href: '/api/v3/actions/placeholder_users/read',
     },
     context: {
       href: '/api/v3/capabilities/contexts/global',
-      title: 'Global'
+      title: 'Global',
     },
     principal: {
       href: '/api/v3/users/1',
-      title: 'OpenProject Admin'
-    }
-  }
+      title: 'OpenProject Admin',
+    },
+  },
 };
 
 const projectCapabilityp63Update = {
@@ -64,20 +64,20 @@ const projectCapabilityp63Update = {
   id: 'memberships/update/p6-3',
   _links: {
     self: {
-      href: '/api/v3/capabilities/memberships/update/p6-3'
+      href: '/api/v3/capabilities/memberships/update/p6-3',
     },
     action: {
-      href: '/api/v3/actions/memberships/update'
+      href: '/api/v3/actions/memberships/update',
     },
     context: {
       href: '/api/v3/projects/6',
-      title: 'Project 6'
+      title: 'Project 6',
     },
     principal: {
       href: '/api/v3/users/1',
-      title: 'OpenProject Admin'
-    }
-  }
+      title: 'OpenProject Admin',
+    },
+  },
 };
 
 const projectCapabilityp63Read = {
@@ -85,20 +85,20 @@ const projectCapabilityp63Read = {
   id: 'memberships/read/p6-3',
   _links: {
     self: {
-      href: '/api/v3/capabilities/memberships/read/p6-3'
+      href: '/api/v3/capabilities/memberships/read/p6-3',
     },
     action: {
-      href: '/api/v3/actions/memberships/read'
+      href: '/api/v3/actions/memberships/read',
     },
     context: {
       href: '/api/v3/projects/6',
-      title: 'Project 6'
+      title: 'Project 6',
     },
     principal: {
       href: '/api/v3/users/1',
-      title: 'OpenProject Admin'
-    }
-  }
+      title: 'OpenProject Admin',
+    },
+  },
 };
 
 const projectCapabilityp53Update = {
@@ -106,20 +106,20 @@ const projectCapabilityp53Update = {
   id: 'memberships/update/p5-3',
   _links: {
     self: {
-      href: '/api/v3/capabilities/memberships/update/p5-3'
+      href: '/api/v3/capabilities/memberships/update/p5-3',
     },
     action: {
-      href: '/api/v3/actions/memberships/update'
+      href: '/api/v3/actions/memberships/update',
     },
     context: {
       href: '/api/v3/projects/5',
-      title: 'Project 5'
+      title: 'Project 5',
     },
     principal: {
       href: '/api/v3/users/1',
-      title: 'OpenProject Admin'
-    }
-  }
+      title: 'OpenProject Admin',
+    },
+  },
 };
 
 describe('CurrentUserService', function () {
@@ -127,7 +127,7 @@ describe('CurrentUserService', function () {
   let currentUserService:CurrentUserService;
   let httpMock:HttpTestingController;
 
-  const compile = (user: CurrentUser) => {
+  const compile = (user:CurrentUser) => {
     const ConfigurationServiceStub = {};
 
     TestBed.configureTestingModule({
@@ -145,30 +145,33 @@ describe('CurrentUserService', function () {
 
     injector = getTestBed();
     currentUserService = TestBed.inject(CurrentUserService);
-    httpMock = injector.get(HttpTestingController);
+    httpMock = TestBed.inject(HttpTestingController);
 
     currentUserService.setUser(user);
-
-    httpMock.match('/api/v3/capabilities').forEach((req) => {
-      console.log(req);
-      expect(req.request.method).toBe('GET');
-      req.flush({
-        _type: 'Collection',
-        count: 4,
-        total: 4,
-        pageSize: 1000,
-        offset: 1,
-        _embedded: {
-          elements: [
-            globalCapability,
-            projectCapabilityp63Update,
-            projectCapabilityp63Read,
-            projectCapabilityp53Update,
-          ],
-        }
-      });
-    });
   };
+
+  const mockRequest = () => {
+    httpMock
+      .match((req) => req.url.includes('/api/v3/capabilities'))
+      .forEach((req) => {
+        expect(req.request.method).toBe('GET');
+        req.flush({
+          _type: 'Collection',
+          count: 4,
+          total: 4,
+          pageSize: 1000,
+          offset: 1,
+          _embedded: {
+            elements: [
+              globalCapability,
+              projectCapabilityp63Update,
+              projectCapabilityp63Read,
+              projectCapabilityp53Update,
+            ],
+          },
+        });
+      });
+  }
 
 
   afterEach(() => {
@@ -182,13 +185,17 @@ describe('CurrentUserService', function () {
       currentUserService.capabilities$.subscribe((caps) => {
         console.log(caps);
         expect(caps.length).toEqual(0);
-      }); 
+      });
+
+      mockRequest();
     });
 
     it('Should not think it is', () => {
       currentUserService.isLoggedIn$.subscribe((loggedIn) => {
         expect(loggedIn).toEqual(false);
-      }); 
+      });
+
+      mockRequest();
     });
   });
 
@@ -198,55 +205,65 @@ describe('CurrentUserService', function () {
     it('Should know it is', () => {
       currentUserService.isLoggedIn$.subscribe((loggedIn) => {
         expect(loggedIn).toEqual(true);
-      }); 
+      });
+
+      mockRequest();
     });
 
     it('Should have all capabilities', () => {
       currentUserService.capabilities$.subscribe((caps) => {
         expect(caps.length).toEqual(4);
-      }); 
+      });
+
+      mockRequest();
     });
 
     it('Should filter by context', () => {
       currentUserService.capabilitiesForContext$('global').subscribe((caps) => {
         expect(caps.length).toEqual(1);
-      }); 
-      currentUserService.capabilitiesForContext$('p6').subscribe((caps) => {
+      });
+      currentUserService.capabilitiesForContext$('6').subscribe((caps) => {
         expect(caps.length).toEqual(2);
-      }); 
-      currentUserService.capabilitiesForContext$('p5').subscribe((caps) => {
+      });
+      currentUserService.capabilitiesForContext$('5').subscribe((caps) => {
         expect(caps.length).toEqual(1);
-      }); 
+      });
+
+      mockRequest();
     });
 
     it('Should filter by context and all actions', () => {
       currentUserService.hasCapabilities$('asdf/asdf').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(false);
-      }); 
+      });
       currentUserService.hasCapabilities$('placeholder_users/read').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
-      }); 
+      });
       currentUserService.hasCapabilities$(['memberships/update', 'memberships/read'], '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
-      }); 
+      });
       currentUserService.hasCapabilities$(['memberships/update', 'memberships/nonexistent'], '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(false);
-      }); 
+      });
+
+      mockRequest();
     });
 
     it('Should filter by context and any of the actions', () => {
       currentUserService.hasAnyCapabilityOf$('memberships/update', '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
-      }); 
+      });
       currentUserService.hasAnyCapabilityOf$(['memberships/update', 'memberships/read'], '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
-      }); 
+      });
       currentUserService.hasAnyCapabilityOf$(['memberships/update', 'memberships/nonexistent'], '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
-      }); 
+      });
       currentUserService.hasAnyCapabilityOf$('memberships/nonexistent', '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(false);
-      }); 
+      });
+
+      mockRequest();
     });
   });
 });
