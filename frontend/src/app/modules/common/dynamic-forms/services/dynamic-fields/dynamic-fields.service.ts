@@ -184,6 +184,7 @@ export class DynamicFieldsService {
     const formlyFieldConfig = {
       ...fieldTypeConfig,
       key,
+      property: this.getFieldProperty(key),
       className: `op-form--field ${fieldTypeConfig.className}`,
       templateOptions: {
         required,
@@ -263,10 +264,15 @@ export class DynamicFieldsService {
     return options.map((option:IOPFieldSchema['options']) => ({...option, name: option._links?.self?.title}));
   }
 
+  // Map a field key that may be a _links.property to the property name
+  private getFieldProperty(key:string) {
+    return key.split('.').pop();
+  }
+
   private _getFormlyFormWithFieldGroups(fieldGroups:IOPAttributeGroup[] = [], formFields:IOPFormlyFieldSettings[] = []):IOPFormlyFieldSettings[] {
     const fieldGroupKeys = fieldGroups.reduce((groupKeys, fieldGroup) => [...groupKeys, ...fieldGroup.attributes], []);
     const fomFieldsWithoutGroup = formFields.filter(formField => {
-      const formFieldKey = formField.key?.split('.')?.pop();
+    const formFieldKey = formField.key && this.getFieldProperty(formField.key);
 
       return formFieldKey ?
         !fieldGroupKeys.includes(formFieldKey) :
@@ -280,7 +286,7 @@ export class DynamicFieldsService {
           label: fieldGroup.name,
         },
         fieldGroup: formFields.filter(formField => {
-          const formFieldKey = formField.key?.split('.')?.pop();
+          const formFieldKey = formField.key && this.getFieldProperty(formField.key);
 
           return formFieldKey ?
             fieldGroup.attributes.includes(formFieldKey) :

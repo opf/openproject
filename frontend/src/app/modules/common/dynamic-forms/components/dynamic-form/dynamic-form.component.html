@@ -12,7 +12,9 @@
         <op-form-field *ngFor="let field of fields"
                        [label]="field.templateOptions?.label"
                        [noWrapLabel]="field.templateOptions?.noWrapLabel"
-                       [required]="field.templateOptions?.required">
+                       [required]="field.templateOptions?.required"
+                       [attr.data-field-name]="field.property"
+          >
           <formly-field [field]="field" slot=input></formly-field>
 
           <formly-validation-message
