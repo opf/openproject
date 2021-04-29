@@ -171,7 +171,7 @@ OpenProject::Application.routes.draw do
       ProjectSettingsHelper.project_settings_tabs.each do |tab|
         get "settings/#{tab[:name]}", controller: "project_settings/#{tab[:name]}", action: 'show', as: "settings_#{tab[:name]}"
       end
-      get "settings", controller: "project_settings/generic", action: 'show', as: "project_settings"
+      get "settings"
 
       get 'identifier', action: 'identifier'
       patch 'identifier', action: 'update_identifier'
