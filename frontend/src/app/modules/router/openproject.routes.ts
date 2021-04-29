@@ -37,11 +37,6 @@ import { BackRoutingService } from "core-app/modules/common/back-routing/back-ro
 
 export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
   {
-    name: 'new_project.**',
-    url: '/projects/new',
-    loadChildren: () => import('../projects/openproject-projects.module').then(m => m.OpenprojectProjectsModule)
-  },
-  {
     name: 'root',
     url: '/{projects}/{projectPath}',
     component: ApplicationBaseComponent,
