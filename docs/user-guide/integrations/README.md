@@ -47,3 +47,7 @@ To activate it in the Enterprise cloud please [get in touch](https://www.openpro
 
 ## Timesheet
 Currently, there is no direct integration between OpenProject and Timesheet. If you are looking for a time tracking tool with a simple push of a button, consider the integration with [Toggl](../time-and-costs/time-tracking/toggl-integration/).
+
+## Mattermost
+
+There is a user-provided integration with Mattermost. Please note that it is not officially supported and that we do not take any liability when you use it. You can find it [here](https://github.com/girish17/op-mattermost).
