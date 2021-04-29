@@ -185,7 +185,7 @@ describe 'Projects', type: :feature do
       click_on 'Update'
 
       expect(page).to have_content 'Successful update.'
-      expect(current_path).to eq '/projects/foo-bar/settings/generic'
+      expect(current_path).to match '/projects/foo-bar/settings/generic'
       expect(Project.first.identifier).to eq 'foo-bar'
     end
 
