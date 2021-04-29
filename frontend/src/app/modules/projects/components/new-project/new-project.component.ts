@@ -10,6 +10,8 @@ import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 import { ApiV3FilterBuilder } from "core-components/api/api-v3/api-v3-filter-builder";
 import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
+import { JobStatusModal } from "core-app/modules/job-status/job-status-modal/job-status.modal";
+import { OpModalService } from "core-app/modules/modal/modal.service";
 
 export interface ProjectTemplateOption {
   href:string|null;
@@ -55,6 +57,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     private apiV3Service:APIV3Service,
     private uIRouterGlobals:UIRouterGlobals,
     private pathHelperService:PathHelperService,
+    private modalService:OpModalService,
     private $state:StateService,
     private I18n:I18nService,
   ) {
@@ -80,8 +83,12 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     };
   }
 
-  onSubmitted(formResource:HalSource) {
-    this.$state.go('.', { projectPath: formResource.identifier });
+  onSubmitted(response:HalSource) {
+    if (response._type === 'JobStatus') {
+      this.modalService.show(JobStatusModal, 'global', { jobId: response.jobId });
+    } else {
+      this.$state.go('.', { projectPath: response.identifier });
+    }
   }
 
   onTemplateSelected(selected:{ href:string|null }) {
