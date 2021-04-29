@@ -31,7 +31,6 @@ import { of, forkJoin } from 'rxjs';
 import { take, map, mergeMap, distinctUntilChanged, tap } from 'rxjs/operators';
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 import { FilterOperator } from 'core-components/api/api-v3/api-v3-filter-builder';
-import { CurrentProjectService } from 'core-components/projects/current-project.service';
 import { CapabilityResource } from "core-app/modules/hal/resources/capability-resource";
 import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
 import { CurrentUserStore, CurrentUser } from "./current-user.store";
@@ -45,7 +44,6 @@ export class CurrentUserService {
     private apiV3Service: APIV3Service,
     private currentUserStore: CurrentUserStore,
     private currentUserQuery: CurrentUserQuery,
-    private currentProjectService:CurrentProjectService,
   ) {
     this.setupLegacyDataListeners();
   }
@@ -65,8 +63,7 @@ export class CurrentUserService {
       ...user,
     }));
 
-    const contextsToFetch = ['global', this.currentProjectService.id].filter(c => c !== null) as string[];
-    this.fetchCapabilities(contextsToFetch);
+    this.fetchCapabilities([]);
   }
 
   /**
@@ -83,14 +80,10 @@ export class CurrentUserService {
         return;
       }
 
-      const filters: [string, FilterOperator, string[]][] = [
-        ['principal', '=', [user.id]],
-        [
-          'context',
-          '=',
-          contexts.map(context => context === 'global' ? 'g' : `p${context}`),
-        ],
-      ];
+      const filters: [string, FilterOperator, string[]][] = [ ['principal', '=', [user.id]] ];
+      if (contexts.length) {
+        filters.push([ 'context', '=', contexts.map(context => context === 'global' ? 'g' : `p${context}`) ]);
+      }
 
       this.apiV3Service.capabilities.list({
         pageSize: this.PAGE_FETCH_SIZE,
@@ -131,7 +124,10 @@ export class CurrentUserService {
       .subscribe((capabilities) => {
         this.currentUserStore.update(state => ({
           ...state,
-          capabilities,
+          capabilities: [
+            ...capabilities,
+            ...(state.capabilities || []).filter(cap => !!capabilities.find(newCap => newCap.id === cap.id)),
+          ],
         }));
       });
     });
@@ -143,8 +139,6 @@ export class CurrentUserService {
    * Returns the users' capabilities filtered by context
    */
   public capabilitiesForContext$(contextId: string) {
-    // TODO: Debounce this
-    this.fetchCapabilities([contextId]);
     return this.capabilities$.pipe(
       map((capabilities) => capabilities.filter(cap => cap.context.href.endsWith(`/${contextId}`))),
       distinctUntilChanged(),
@@ -157,9 +151,9 @@ export class CurrentUserService {
   public hasCapabilities$(action: string|string[], contextId: string = 'global') {
     const actions = _.castArray(action);
     return this.capabilitiesForContext$(contextId).pipe(
-      map((capabilities) => capabilities.reduce(
-        (acc, cap) => {
-          return acc && !!actions.find(action => cap.action.href.endsWith(`/${action}`));
+      map((capabilities) => actions.reduce(
+        (acc, action) => {
+          return acc && !!capabilities.find(cap => cap.action.href === `/api/v3/actions/${action}`);
         },
         capabilities.length > 0,
       )),
@@ -174,7 +168,7 @@ export class CurrentUserService {
     const actionsToFilter = _.castArray(actions);
     return this.capabilitiesForContext$(contextId).pipe(
       map((capabilities) => capabilities.reduce(
-        (acc, cap) => acc || !!actionsToFilter.find(action => cap.action.href.endsWith(`/${action}`)),
+        (acc, cap) => acc || !!actionsToFilter.find(action => cap.action.href === `/api/v3/actions/${action}`),
         false,
       )),
       distinctUntilChanged(),
