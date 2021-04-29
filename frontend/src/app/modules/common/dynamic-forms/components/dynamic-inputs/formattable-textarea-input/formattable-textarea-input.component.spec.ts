@@ -6,7 +6,7 @@ import { By } from "@angular/platform-browser";
 // @ts-ignore
 import(/* webpackChunkName: "ckeditor" */ 'core-vendor/ckeditor/ckeditor.js');
 
-fdescribe('FormattableTextareaInputComponent', () => {
+describe('FormattableTextareaInputComponent', () => {
   it('should load the field', fakeAsync(() => {
     const fieldsConfig = [
       {
