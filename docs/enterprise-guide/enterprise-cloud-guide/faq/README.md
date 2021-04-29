@@ -11,7 +11,7 @@ keywords: Enterprise cloud FAQ, Cloud Edition, hosted by OpenProject
 
 ## How can I book additional users for the Enterprise cloud?
 
-You can do this in your OpenProject instance in the administration. The number of users can be increased in steps of 5. Find out [here](../manage-cloud-subscription/#upgrade-or-downgrade-subscription) how to change the number of users in your system administration. A reduction in the number of users would take effect at the beginning of the next subscription period.
+You can do this in your OpenProject instance in the administration. The number of users can be increased in steps of 5. Find out [here](../manage-cloud-subscription/#upgrade-or-downgrade-subscription) how to change the number of users in your system administration. A reduction in the number of users takes effect at the beginning of the next subscription period.
 
 ## How can I change my payment details (e.g. new credit card)?
 
@@ -46,10 +46,9 @@ To import your community instance into our cloud environment, please send us the
 2. The attachments of your local installation
 
 For a package-based installation, you can create both as root user on your environment as follows: `openproject run backup`
-This creates the attachment and postgresql-dump or mysql-dump under /var/db/openproject/backup.
+This creates the attachment and PostgreSQL-dump or MySQL-dump under /var/db/openproject/backup.
 If you are still running OpenProject under MySQL, your dump will be converted to PostgreSQL before importing, we will do this for you. More information about the backup tool can be found [here](../../../operations/backup/backup-guide-packaged-installation/).
-Before uploading the attachments securely to us using the [this form](https://openproject.org/saas-import), please contact us via support@openproject.com.
-The form generates a direct upload to our secure S3 environment from which the import will take place.
+Please upload these documents as an attachment to a work package within your new OpenProject Enterprise cloud environment and send us the link to this work package via email.
 
 ## How can I export the documents loaded on OpenProject?
 

@@ -137,7 +137,7 @@ Click the blue **Continue** button to finish the registration.
 
 ## Email notifications
 
-To configure the email notifications which you will receive from the system, navigate to **My account** and choose **Email notifications** in the menu. Your system administrator can also set them for you or [change](../../system-admin-guide/email/#email-notifications-settings) the global default settings.
+To configure the email notifications which you receive from the system, navigate to **My account** and choose **Email notifications** in the menu. Your system administrator can also set them for you or [change](../../system-admin-guide/email/#email-notifications-settings) the global default settings.
 
 You can choose between several email notifications.
 **Default: Send email notifications Only for things I watch or I'm involved in.**
