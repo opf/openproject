@@ -29,7 +29,6 @@
 #++
 
 class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackages::Filter::WorkPackageFilter
-  include Queries::WorkPackages::Filter::FilterOnTsvMixin
   include Queries::WorkPackages::Filter::TextFilterOnJoinMixin
 
   def type
@@ -59,7 +58,6 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
     OpenProject::FullTextSearch.tsv_where(attachment_table,
                                           search_column,
                                           values.first,
-                                          concatenation: concatenation,
                                           normalization: normalization_type)
   end
 

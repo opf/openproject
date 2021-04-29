@@ -31,7 +31,6 @@
 class Queries::WorkPackages::Filter::SearchFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
   include Queries::WorkPackages::Filter::OrFilterForWpMixin
-  include Queries::WorkPackages::Filter::FilterOnTsvMixin
 
   CONTAINS_OPERATOR = '~'.freeze
 
