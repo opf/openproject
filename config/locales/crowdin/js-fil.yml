@@ -33,6 +33,19 @@ fil:
         single: "Pumili ng \"%{name}\""
       remove: "Alisin ang %{name}"
       active: "I-aktibo ang %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Mga opsyon
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Isara ang popup"
     close_filter_title: "Isara ang filter"
     close_form_title: "Isara ang form"

@@ -1,6 +1,6 @@
 ro:
   grids:
-    label_widget_in_grid: "Widget contained in Grid %{grid_name}"
+    label_widget_in_grid: "Widget conținut în grila %{grid_name}"
   activerecord:
     attributes:
       grids/grid:
@@ -12,5 +12,5 @@ ro:
       models:
         grids/grid:
           overlaps: 'suprapunere.'
-          outside: 'este în afara grilei.'
-          end_before_start: 'valoarea de sfârșit trebuie să fie mai mare decât valoarea de început.'
+          outside: 'se află în afara rețelei.'
+          end_before_start: 'valoarea finală trebuie să fie mai mare decât valoarea inițială.'

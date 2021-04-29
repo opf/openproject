@@ -25,8 +25,8 @@ ro:
       property_groups:
         costs: "Costuri"
       properties:
-        overallCosts: "Overall costs"
-        spentUnits: "Spent units"
-    button_log_costs: "Log unit costs"
+        overallCosts: "Costuri totale"
+        spentUnits: "Unități consumate"
+    button_log_costs: "Costurile unitare ale buștenilor"
     label_hour: "oră"
     label_hours: "ore"
