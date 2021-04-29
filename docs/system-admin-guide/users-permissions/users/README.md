@@ -129,6 +129,12 @@ On the General tab the following fields are shown:
 
 ![administration-user-settings-manage-user](image-20210302092958881.png)
 
+#### Reset a user's password
+
+To create a new password for a user (e.g. if he/she lost it) navigate to the *Authentication* section of the *General* tab. You can either assign a random password (check the box on top) or set a new password manually and send it to them (preferably through secured communication). Consider checking the box next to "Enforce password change ...".
+
+![reset-user-password](image-20210429114602604.png)
+
 ### Add users to a project
 
 In order to see and work in a project, a user has to be a member of a project and needs to be added with a certain role to this project.
