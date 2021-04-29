@@ -74,6 +74,14 @@ There are only key value pairs for properties that failed validation, the elemen
 However note that even in the case of validation errors, the response you receive from the form endpoint will be an HTTP 200.
 That is because the main purpose of a form is helping the client to sort out validation errors.
 
+### Meta object
+
+Form resources may have an additional `_meta` object that contains parameters to be sent together with the resource,
+but that do not belong to the resource itself. For example, parameters on if and how to send notifications for the action
+performed with the API request can be sent.
+
+Each individual endpoint will describe their meta properties, if available.
+
 ## Example Form [/api/v3/example/form]
 
 + Model

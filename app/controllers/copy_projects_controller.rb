@@ -33,15 +33,20 @@ class CopyProjectsController < ApplicationController
   before_action :authorize
 
   def copy
-    @copy_project = Project.new
-    call = project_copy(@copy_project)
+    request_params = params
+                       .permit(:send_notifications, only: [])
+                       .to_h
+                       .merge(target_project_params: target_project_params)
+    call = Projects::EnqueueCopyService
+      .new(user: current_user, model: @project)
+      .call(request_params)
 
     if call.success?
-      job = enqueue_copy_job
-
+      job = call.result
       copy_started_notice
       redirect_to job_status_path job.job_id
     else
+      @copy_project = call.result
       @errors = call.errors
       render action: copy_action
     end
@@ -50,21 +55,17 @@ class CopyProjectsController < ApplicationController
   def copy_project
     @copy_project = Projects::CopyService
       .new(user: current_user, source: @project)
-      .call(target_project_params: {}, attributes_only: true)
+      .call(target_project_params: target_project_params, attributes_only: true)
       .result
 
-    if @copy_project
-      project_copy(@copy_project, EmptyContract)
-
-      render action: copy_action
-    else
-      redirect_to :back
-    end
-  rescue ActiveRecord::RecordNotFound
-    redirect_to :back
+    render action: copy_action
   end
 
   private
+
+  def target_project_params
+    params[:project] ? permitted_params.project.to_h : {}
+  end
 
   def copy_action
     from = (%w(admin settings).include?(params[:coming_from]) ? params[:coming_from] : 'settings')
@@ -72,36 +73,8 @@ class CopyProjectsController < ApplicationController
     "copy_from_#{from}"
   end
 
-  def project_copy(nucleus, contract = Projects::CreateContract)
-    Projects::SetAttributesService
-      .new(user: current_user,
-           model: nucleus,
-           contract_class: contract)
-      .call(params[:project] ? permitted_params.project : {})
-  end
-
   def origin
     params[:coming_from] == 'admin' ? projects_path : settings_generic_project_path(@project.id)
-  end
-
-  def enqueue_copy_job
-    CopyProjectJob.perform_later(user_id: User.current.id,
-                                 source_project_id: @project.id,
-                                 target_project_params: target_project_params,
-                                 associations_to_copy: params[:only],
-                                 send_mails: params[:notifications] == '1')
-  end
-
-  ##
-  # Returns the target project params for
-  # the project to be copied. Stringifies id keys of custom field values
-  # due to serialization
-  def target_project_params
-    @copy_project
-      .attributes
-      .compact
-      .with_indifferent_access
-      .merge(custom_field_values: @copy_project.custom_value_attributes.transform_keys(&:to_s))
   end
 
   def copy_started_notice

@@ -152,6 +152,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
         let(:name) { custom_field.name }
         let(:required) { true }
         let(:writable) { true }
+        let(:location) { '_links' }
       end
 
       it_behaves_like 'links to allowed values directly' do
@@ -192,6 +193,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
         let(:name) { custom_field.name }
         let(:required) { true }
         let(:writable) { true }
+        let(:location) { '_links' }
       end
 
       it_behaves_like 'links to and embeds allowed values directly' do
@@ -217,6 +219,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
         let(:name) { custom_field.name }
         let(:required) { true }
         let(:writable) { true }
+        let(:location) { '_links' }
       end
 
       it_behaves_like 'links to allowed values via collection link' do

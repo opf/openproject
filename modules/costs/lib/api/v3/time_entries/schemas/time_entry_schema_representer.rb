@@ -54,7 +54,8 @@ module API
                  type: 'Duration'
 
           schema :user,
-                 type: 'User'
+                 type: 'User',
+                 location: :link
 
           schema :comment,
                  type: 'Formattable',

@@ -35,6 +35,7 @@ module Queries::Capabilities
   Queries::Register.filter query, filter_ns::IdFilter
   Queries::Register.filter query, filter_ns::PrincipalIdFilter
   Queries::Register.filter query, filter_ns::ContextFilter
+  Queries::Register.filter query, filter_ns::ActionFilter
 
   order_ns = Queries::Capabilities::Orders
 

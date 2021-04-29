@@ -54,10 +54,10 @@ require 'test_prof/recipes/rspec/before_all'
 require_relative "./support/parallel_helper"
 require_relative "./support/download_list"
 require_relative "./support/capybara"
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require_relative f }
-Dir[Rails.root.join('spec/features/support/**/*.rb')].each { |f| require f }
-Dir[Rails.root.join('spec/lib/api/v3/support/**/*.rb')].each { |f| require f }
-Dir[Rails.root.join('spec/requests/api/v3/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require_relative f }
+Dir[Rails.root.join('spec/features/support/**/*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('spec/lib/api/v3/support/**/*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('spec/requests/api/v3/support/**/*.rb')].sort.each { |f| require f }
 
 # Checks for pending migration and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.

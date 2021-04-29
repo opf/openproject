@@ -194,8 +194,11 @@ describe Projects::CopyService, 'integration', type: :model do
       end
 
       it 'will copy them as well' do
-        source.add_member! group, another_role
-        source.reload
+        Members::CreateService
+          .new(user: current_user, contract_class: EmptyContract)
+          .call(principal: group, roles: [another_role], project: source)
+
+        source.users.reload
         expect(source.users).to include current_user
         expect(source.users).to include user
         expect(project_copy.groups).to include group
@@ -642,6 +645,28 @@ describe Projects::CopyService, 'integration', type: :model do
           expect(cv).to be_present
           expect(cv.value).to eq user_value.id.to_s
           expect(cv.typed_value).to eq user_value
+        end
+      end
+
+      context 'with multi selection project list CF' do
+        let(:list_custom_field) { FactoryBot.create(:list_project_custom_field, multi_value: true) }
+
+        before do
+          source.custom_values << CustomValue.new(custom_field: list_custom_field, value: list_custom_field.value_of('A'))
+          source.custom_values << CustomValue.new(custom_field: list_custom_field, value: list_custom_field.value_of('B'))
+
+          source.save!
+        end
+
+        let(:only_args) { %w[wiki] }
+
+        it 'copies the custom_field' do
+          expect(subject).to be_success
+
+          cv = project_copy.custom_values.reload.where(custom_field: list_custom_field).to_a
+          expect(cv).to be_kind_of Array
+          expect(cv.count).to eq 2
+          expect(cv.map(&:formatted_value)).to contain_exactly('A', 'B')
         end
       end
     end

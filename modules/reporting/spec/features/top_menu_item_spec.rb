@@ -33,7 +33,7 @@ feature 'Top menu items', js: true do
   let(:open_menu) { true }
 
   def has_menu_items?(*labels)
-    within '#top-menu' do
+    within '.op-app-header' do
       labels.each do |l|
         expect(page).to have_link(l)
       end
@@ -41,7 +41,7 @@ feature 'Top menu items', js: true do
   end
 
   def expect_no_menu_item(*labels)
-    within '#top-menu' do
+    within '.op-app-header' do
       labels.each do |l|
         expect(page).not_to have_link(l)
       end
@@ -52,7 +52,7 @@ feature 'Top menu items', js: true do
     # if the menu is not completely expanded (e.g. if the frontend thread is too fast),
     # the click might be ignored
 
-    within '.drop-down.open ul[aria-expanded=true]' do
+    within '.op-app-menu--item_has-dropdown .op-app-menu--dropdown[aria-expanded=true]' do
       expect(page).not_to have_selector('[style~=overflow]')
 
       page.find_link(title).find('span').click

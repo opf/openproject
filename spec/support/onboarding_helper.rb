@@ -61,6 +61,9 @@ module OnboardingHelper
     expect(page).to have_text 'Within the Wiki you can document and share knowledge together with your team.'
 
     next_button.click
+    expect(page).to have_text 'Create a new project or invite coworkers.'
+
+    next_button.click
     expect(page).to have_text 'In the Help menu you will find a user guide and additional help resources.'
 
     next_button.click

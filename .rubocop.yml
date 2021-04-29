@@ -7,6 +7,12 @@ AllCops:
   Exclude:
     - db/schema.rb
 
+
+Gemspec/RequiredRubyVersion:
+  Exclude:
+    - modules/**/*.gemspec
+
+
 Layout/ConditionPosition:
   Enabled: false
 
@@ -94,6 +100,13 @@ Naming/FileName:
 Naming/PredicateName:
   ForbiddenPrefixes:
     - is_
+
+
+# There are valid cases in which to use methods like:
+# * update_all
+# * touch_all
+Rails/SkipsModelValidations:
+  Enabled: false
 
 
 Style/Alias:
@@ -282,5 +295,13 @@ Style/HashTransformKeys:
 Style/HashTransformValues:
   Enabled: true
 
-Rspec/MultipleMemoizedHelpers:
+
+RSpec/MultipleMemoizedHelpers:
   Max: 15
+  AllowSubject: true
+
+RSpec/MultipleExpectations:
+  Max: 15
+
+RSpec/ExampleLength:
+  Max: 25

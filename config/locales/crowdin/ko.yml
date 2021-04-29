@@ -66,7 +66,7 @@ ko:
       upgrade_to_ee: "Enterprise Edition으로 업그레이드"
       add_token: "Enterprise Edition 지원 토큰을 업로드하세요."
       replace_token: "당신의 현재 지원 토큰을 바꾸세요."
-      order: "Enterprise Edition을 주문하세요."
+      order: "Order Enterprise on-premises Edition"
       paste: "당신의 Enterprise Edition 지원 토큰을 붙여넣으세요."
       required_for_feature: "이 기능은 활성화 된 Enterprise Edition 지원 토큰에서만 가능합니다."
       enterprise_link: "더 자세한 내용은 여기를 클릭하세요."
@@ -78,7 +78,7 @@ ko:
     is_active: 현재 표시됨
     is_inactive: 현재 표시 안 됨
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
+    note_public: '이 필드에 추가하는 모든 텍스트와 이미지는 로그인한 모든 사용자에게 공개됩니다!'
     text_overview: '이 보기에서 특성 보기에 대한 사용자 지정 도움말 텍스트를 작성할 수 있습니다. 이 텍스트를 정의하면 속하는 특성 옆에 있는 도움말 아이콘을 클릭하여 표시할 수 있습니다.'
     label_plural: '특성 도움말 텍스트'
     show_preview: '미리 보기 텍스트'
@@ -175,6 +175,8 @@ ko:
       no_results_content_text: 새 사용자 필드 생성
   concatenation:
     single: '또는'
+  documentation:
+    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "위키"
@@ -192,7 +194,7 @@ ko:
       받는 메일의 첨부 파일을 처리할 때 무시할 이름 목록을 지정하십시오(예: 서명 또는 아이콘). 라인 하나에 파일 이름 하나를 입력하십시오.
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
+      scheduled: "삭제가 예약되었으며 백그라운드에서 수행됩니다. 결과 알림이 제공될 것입니다."
       schedule_failed: "프로젝트를 삭제할 수 없습니다: %{errors}"
       failed: "프로젝트 %{name} 삭제가 실패했습니다."
       failed_text: "프로젝트 %{name} 삭제 요청이 실패했습니다. 프로젝트가 보관되었습니다."
@@ -224,6 +226,7 @@ ko:
     index:
       no_results_title_text: 프로젝트에 멤버 파트가 없습니다.
       no_results_content_text: 프로젝트에 새 멤버 추가
+    invite_by_mail: "Send invite to %{mail}"
   my:
     access_token:
       failed_to_reset_token: "액세스 토큰을 재설정하지 못함: %{error}"
@@ -242,12 +245,15 @@ ko:
       no_results_title_text: 이 사용자는 프로젝트의 멤버가 아닙니다.
   placeholder_users:
     deletion_info:
-      heading: "Delete placeholder user %{name}"
+      heading: "플레이스홀더 사용자 %{name} 삭제"
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
-        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
-      irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder name %{name} to confirm the deletion."
+        플레이스홀더 사용자의 모든 항목(예: 담당자, 책임자, 기타 사용자 값 등)은 "삭제된 사용자"라는 계정에 다시 할당됩니다.
+        삭제된 모든 계정의 데이터는 이 계정에 다시 할당되기 때문에 사용자가 생성한 데이터와 다른 삭제된 계정의 데이터를 구별할 수 없습니다.
+      irreversible: "이 작업은 취소할 수 없습니다"
+      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+    upsale:
+      title: Assign work to people that are not members of the project.
+      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -524,7 +530,7 @@ ko:
         confirmation: "%{attribute} 속성에 부합하지 않습니다."
         could_not_be_copied: "%{dependency}을(를) (완전히) 복사할 수 없습니다."
         does_not_exist: "존재하지 않음"
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "- OpenProject Enterprise Edition에서만 사용할 수 있습니다"
         error_unauthorized: "액세스하지 못할 수 있습니다."
         error_readonly: "- 쓰려고 했지만 쓸 수 없습니다."
         empty: "비워둘 수 없습니다."
@@ -540,7 +546,7 @@ ko:
         invalid_url: '은(는) 올바른 URL이 아닙니다.'
         invalid_url_scheme: '은(는) 지원되는 프로토콜(허용: %{allowed_schemes})이 아닙니다.'
         less_than_or_equal_to: "은(는) %{count} 보다 작거나 같아야 합니다"
-        not_deletable: "cannot be deleted."
+        not_deletable: "- 삭제할 수 없습니다."
         not_current_user: "은(는) 현재 유효한 사용자가 아닙니다."
         not_a_date: "은(는) 유효한 날짜가 아닙니다."
         not_a_datetime: "은(는) 유효한 날짜가 아닙니다."
@@ -559,6 +565,12 @@ ko:
         unremovable: "- 제거할 수 없습니다."
         wrong_length: "너무 짧습니다 (최소 %{count} 자 이상이어야 합니다)."
       models:
+        capability:
+          context:
+            global: '글로벌'
+          query:
+            filters:
+              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "하나 이상의 옵션을 사용할 수 있어야 합니다."
         custom_actions:
@@ -647,6 +659,10 @@ ko:
           attributes:
             hours:
               day_limit: "하루 최대 24시간을 기록할 수 있으므로 너무 높습니다."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "작업 패키지 #%{id}은(는) 시간 항목 재할당에 올바른 대상이 아닙니다."
           attributes:
@@ -723,7 +739,7 @@ ko:
       status: "작업 패키지 상태"
       member: "멤버"
       news: "뉴스"
-      placeholder_user: "Placeholder user"
+      placeholder_user: "플레이스홀더 사용자"
       project: "프로젝트"
       query: "사용자 지정 쿼리"
       role:
@@ -763,7 +779,7 @@ ko:
     default_columns: "기본 칼럼"
     description: "설명"
     derived_due_date: "파생된 완료 날짜"
-    derived_estimated_time: "파생된 예상 시간"
+    derived_estimated_hours: "파생된 예상 시간"
     derived_start_date: "파생된 시작 날짜"
     display_sums: "합계 표시"
     due_date: "완료 날짜"
@@ -801,6 +817,33 @@ ko:
     user: "사용자"
     version: "버전"
     work_package: "작업 패키지"
+  backup:
+    label_backup_token: "Backup token"
+    label_create_token: "Create backup token"
+    label_delete_token: "Delete backup token"
+    label_reset_token: "Reset backup token"
+    label_token_users: "The following users have active backup tokens"
+    reset_token:
+      action_create: 만들기
+      action_reset: 재설정
+      heading_reset: "Reset backup token"
+      heading_create: "Create backup token"
+      implications: >
+        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+      info: >
+        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+      verification: >
+        Enter %{word} to confirm you want to %{action} the backup token.
+      verification_word_reset: reset
+      verification_word_create: create
+      warning: >
+        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
+    text_token_deleted: Backup token deleted. Backups are now disabled.
+    error:
+      invalid_token: Invalid or missing backup token
+      token_cooldown: The backup token will be valid in %{hours} hours.
+      backup_pending: There is already a backup pending.
+      limit_reached: You can only do %{limit} backups per day.
   button_add: "추가"
   button_add_comment: "댓글 달기"
   button_add_member: 멤버 추가
@@ -886,6 +929,10 @@ ko:
     succeeded: "프로젝트 %{target_project_name} 생성함"
     errors: "오류"
     project_custom_fields: '프로젝트의 사용자 지정 필드'
+    x_objects_of_this_type:
+      zero: 'No objects of this type'
+      one: 'One object of this type'
+      other: '%{count} objects of this type'
     text:
       failed: "프로젝트 \"%{source_project_name}\"을(를) 프로젝트 \"%{target_project_name}\"에 복사할 수 없습니다."
       succeeded: "프로젝트 \"%{source_project_name}\"을(를) 프로젝트 \"%{target_project_name}\"에 복사했습니다."
@@ -1120,7 +1167,7 @@ ko:
   error_menu_item_not_saved: 메뉴 항목을 저장할 수 없습니다.
   error_wiki_root_menu_item_conflict: >
     결과 메뉴 항목에서 기존 메뉴 항목 "%{existing_caption}" (%{existing_identifier})과(와)의 충돌로 인해 "%{old_name}"을(를) "%{new_name}"(으)로 이름을 바꿀 수 없습니다.
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed: "외부 인증 중에 오류가 발생했습니다. 다시 시도하세요."
   error_attribute_not_highlightable: "강조 표시되지 않는 특성: %{attributes}"
   events:
     project: '프로젝트 편집됨'
@@ -1197,6 +1244,9 @@ ko:
   instructions_after_registration: "%{signin}을(를) 클릭하여 계정이 활성화되면 바로 로그인할 수 있습니다."
   instructions_after_logout: "%{signin}을(를) 클릭하면 다시 로그인할 수 있습니다."
   instructions_after_error: "%{signin}을(를) 클릭하여 다시 로그인해 볼 수 있습니다. 오류가 계속되면 관리자에게 도움을 요청하세요."
+  menus:
+    quick_add:
+      label: "Open quick add menu"
   my_account:
     access_tokens:
       no_results:
@@ -1256,6 +1306,7 @@ ko:
   label_available_project_versions: '사용 가능한 버전'
   label_available_project_repositories: '사용 가능한 저장소'
   label_api_documentation: "API 설명서"
+  label_backup: "Backup"
   label_between: "사이에"
   label_blocked_by: "차단한 사용자"
   label_blocks: "블록"
@@ -1321,7 +1372,7 @@ ko:
   label_custom_field_plural: "사용자 정의 필드"
   label_custom_field_default_type: "빈 유형"
   label_custom_style: "디자인"
-  label_database_version: "PostgreSQL version"
+  label_database_version: "PostgreSQL 버전"
   label_date: "날짜"
   label_date_and_time: "날짜 및 시간"
   label_date_from: "시작"
@@ -1458,6 +1509,8 @@ ko:
   label_member_new: "새 멤버"
   label_member_all_admin: "(관리 상태에 따른 모든 역할)"
   label_member_plural: "멤버"
+  lable_membership_added: 'Member added'
+  lable_membership_updated: 'Member updated'
   label_menu_item_name: "메뉴 항목의 이름"
   label_message: "메시지"
   label_message_last: "마지막 메시지"
@@ -1530,9 +1583,9 @@ ko:
   label_permissions: "권한"
   label_permissions_report: "권한 보고서"
   label_personalize_page: "이 페이지 개인 설정"
-  label_placeholder_user: "Placeholder user"
-  label_placeholder_user_new: "New placeholder user"
-  label_placeholder_user_plural: "Placeholder users"
+  label_placeholder_user: "플레이스홀더 사용자"
+  label_placeholder_user_new: "새로운 플레이스홀더 사용자"
+  label_placeholder_user_plural: "플레이스홀더 사용자"
   label_planning: "계획"
   label_please_login: "로그인하세요."
   label_plugins: "플러그인"
@@ -1730,17 +1783,21 @@ ko:
   label_workflow_plural: "워크플로"
   label_workflow_summary: "요약"
   label_x_closed_work_packages_abbr:
+    one: "1개 닫힘"
+    other: "%{count}개 닫힘"
     zero: "0개 닫힘"
-    other: ""
   label_x_comments:
+    one: "1개 코멘트"
+    other: "%{count}개 코멘트"
     zero: "코멘트 없음"
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1개 열림"
+    other: "%{count}개 열림"
     zero: "0개 열림"
-    other: ""
   label_x_projects:
+    one: "1개 프로젝트"
+    other: "%{count}개 프로젝트"
     zero: "프로젝트 없음"
-    other: ""
   label_yesterday: "어제"
   label_role_type: "타입"
   label_member_role: "프로젝트 역할"
@@ -1775,6 +1832,12 @@ ko:
   mail_body_account_activation_request: "새 사용자(%{value})가 등록되었습니다. 이 계정은 관리자 승인을 기다리는 중입니다."
   mail_body_account_information: "계정 정보"
   mail_body_account_information_external: "%{value} 계정을 사용하여 로그인할 수 있습니다."
+  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
+  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
+  mail_body_backup_token_reset_user_info: Your backup token has been reset.
+  mail_body_backup_token_info: The previous token is no longer valid.
+  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
+  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "암호를 변경하려면 다음 링크를 클릭하세요."
   mail_body_register: "OpenProject입니다. 다음 링크를 클릭하여 계정을 활성화하세요:"
   mail_body_register_header_title: "프로젝트 멤버 초대 이메일"
@@ -1791,12 +1854,35 @@ ko:
   mail_body_wiki_content_added: "%{author}이(가) '%{id}' 위키 페이지를 추가했습니다."
   mail_body_wiki_content_updated: "%{author}이(가) '%{id}' 위키 페이지를 업데이트했습니다."
   mail_subject_account_activation_request: "%{value} 계정 활성화 요청"
+  mail_subject_backup_ready: "Your backup is ready"
+  mail_subject_backup_token_reset: "Your backup token has been reset"
   mail_subject_lost_password: "%{value} 암호"
   mail_subject_register: "%{value} 계정 활성화"
   mail_subject_reminder: "다음 %{days}일 후 만료되는 %{count} 작업 패키지"
   mail_subject_group_reminder: "\"%{group}\" 그룹에 대한 향후 %{days}일 후 만료되는 %{count}개 작업 패키지"
   mail_subject_wiki_content_added: "'%{id}' 위키 페이지가 추가되었습니다."
   mail_subject_wiki_content_updated: "'%{id}' 위키 페이지가 업데이트되었습니다."
+  mail_member_added_project:
+    subject: "%{project} - You have been added as a member"
+    body:
+      added_by:
+        without_message: "%{user} added you as a member to the project '%{project}'."
+        with_message: "%{user} added you as a member to the project '%{project}' writing:"
+      roles: "You have the following roles:"
+  mail_member_updated_project:
+    subject: "%{project} - Your roles have been updated"
+    body:
+      updated_by:
+        without_message: "%{user} updated the roles you have in the project '%{project}'."
+        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
+      roles: "You now have the following roles:"
+  mail_member_updated_global:
+    subject: "Your global permissions have been updated"
+    body:
+      updated_by:
+        without_message: "%{user} updated the roles you have globally."
+        with_message: "%{user} updated the roles you have globally writing:"
+      roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: 사용자 활성화 제한에 도달함
     message: |
@@ -1838,7 +1924,7 @@ ko:
   notice_email_sent: "%{value}님에게 이메일이 전송되었습니다."
   notice_failed_to_save_work_packages: "선택된 %{total}개에서 %{count}개 작업 패키지를 저장하지 못했습니다. %{ids}."
   notice_failed_to_save_members: "멤버를 저장하지 못했습니다. %{errors}."
-  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
+  notice_deletion_scheduled: "삭제가 예약되었으며 비동기적으로 수행됩니다."
   notice_file_not_found: "액세스하려는 페이지가 존재하지 않거나 제거되었습니다."
   notice_forced_logout: "비활성화된지 %{ttl_time}분 후 자동으로 로그아웃되었습니다."
   notice_internal_server_error: "액세스하려는 페이지에 오류가 발생했습니다. 계속하여 문제가 발생하는 경우 %{app_title} 관리자에게 문의하여 지원을 받으세요."
@@ -1901,8 +1987,8 @@ ko:
   permission_add_work_packages: "작업 패키지 추가"
   permission_add_messages: "메시지 게시"
   permission_add_project: "프로젝트 만들기"
-  permission_manage_user: "Create and edit users"
-  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
+  permission_manage_user: "사용자 생성 및 편집"
+  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "하위 프로젝트 만들기"
   permission_add_work_package_watchers: "주시자 추가"
   permission_assign_versions: "버전 할당"
@@ -2102,7 +2188,7 @@ ko:
       username: "리포지토리 사용자 이름"
     truncated: "죄송하지만, 이 디렉터리를 %{limit}개 파일로 잘라야 했습니다. %{truncated}개 항목이 목록에서 생략되었습니다."
     named_repository: "%{vendor_name} 리포지토리"
-    update_settings_successful: "The settings have been successfully saved."
+    update_settings_successful: "설정이 저장되었습니다."
     url: "리포지토리의 URL"
     warnings:
       cannot_annotate: "이 파일에는 주석을 지정할 수 없습니다."
@@ -2147,6 +2233,7 @@ ko:
   setting_consent_required: "동의 필요"
   setting_consent_decline_mail: "동의 연락처 메일 주소"
   setting_cross_project_work_package_relations: "교차 프로젝트 작업 패키지 관계 허용"
+  setting_first_week_of_year: "First week in year contains"
   setting_date_format: "날짜 형식"
   setting_default_language: "기본 언어"
   setting_default_notification_option: "기본 알림 옵션"
@@ -2228,6 +2315,11 @@ ko:
     passwords: "암호"
     session: "세션"
     brute_force_prevention: "자동화된 사용자 차단"
+    display:
+      first_date_of_week_and_year_present: >
+        If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
     projects:
       section_new_projects: "새 프로젝트의 설정"
       section_project_overview: "프로젝트 개요 목록의 설정"
@@ -2616,6 +2708,7 @@ ko:
       code_403: "접근 권한이 없습니다."
       code_404: "요청한 리소스를 찾을 수 없습니다."
       code_409: "수정 사항이 출동하여 리소스를 업데이트할 수 없습니다."
+      code_429: "Too many requests. Please try again later."
       code_500: "내부 오류가 발생하였습니다."
       expected:
         date: "YYYY-MM-DD(ISO 8601 날짜만)"
@@ -2625,6 +2718,9 @@ ko:
       invalid_json: "요청을 JSON으로 구문 분석할 수 없습니다."
       invalid_relation: "관계가 잘못되었습니다."
       invalid_resource: "속성 '%{property}'의 경우 '%{expected}' 같은 링크가 필요하지만 '%{actual}'이(가) 있습니다."
+      invalid_signal:
+        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
+        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "현재 사용자의 계정 상태는이 작업을 허용 하지 않습니다."
       missing_content_type: "지정되지 않음"
       missing_request_body: "요청 본문이 없습니다."
@@ -2730,3 +2826,4 @@ ko:
     authorization_error: "권한 부여 오류가 발생했습니다."
     revoke_my_application_confirmation: "이 애플리케이션을 제거하시겠습니까? 그러면 이 애플리케이션에 대해 활성화된 %{token_count}개가 취소됩니다."
     my_registered_applications: "등록된 OAuth 애플리케이션"
+  you: you

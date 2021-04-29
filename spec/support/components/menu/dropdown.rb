@@ -38,15 +38,15 @@ module Components
     end
 
     def expect_closed
-      expect(page).to have_no_selector('ul.menu-drop-down-container')
+      expect(page).to have_no_selector('.op-app-menu--dropdown')
     end
 
     def expect_open
-      expect(page).to have_selector('ul.menu-drop-down-container')
+      expect(page).to have_selector('.op-app-menu--dropdown')
     end
 
     def within_dropdown(&block)
-      page.within('ul.menu-drop-down-container', &block)
+      page.within('.op-app-menu--dropdown', &block)
     end
 
     def trigger_element

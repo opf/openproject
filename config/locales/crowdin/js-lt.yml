@@ -33,6 +33,19 @@ lt:
         single: "Pasirinkti „%{name}“"
       remove: "Pašalinti %{name}"
       active: "Aktyvus %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Nustatymai
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Užverti iškylantį langą"
     close_filter_title: "Užverti filtrą"
     close_form_title: "Užverti formą"
@@ -207,7 +220,7 @@ lt:
         upsale:
           become_hero: "Tapti didvyriu!"
           benefits:
-            description: "Kokie privalumai?"
+            description: "Kokie yra Enterprise on-premises Edition privalumai?"
             high_security: "Saugumo funkcijos"
             high_security_text: "Vienas prisijungimas (naudojant SAML, OpenID Connect, CAS), dviejų lygių autentifikacija ir automatinis LDAP grupių sinchronizavimas."
             installation: "Instaliavimo pagalba"
@@ -466,6 +479,7 @@ lt:
         help_menu: 'Meniu <b>Žinynas</b> rasite vartotojo vadovą ir papildomos pagalbos šaltinius. <br>Mėgaukitės darbu su OpenProject!'
         members: 'Pakvieskite naujus <b>Narius</b> prisijungti prie projekto.'
         project_selection: 'Prašome paspausti ant vieno iš projektų su įdėtais naudingais demonstraciniais duomenimis. <br> <b>Demo project</b> geriausiai tinka klasikiniam projektų valdymui, o <b>Scrum project</b> labiau tinka Agile projektų valdymui.'
+        quick_add_button: 'Sukurkite naują projektą arba pakvieskite bendradarbius.'
         sidebar_arrow: "Rodykle galite pereiti atgal į projekto <b>Pagrindinį meniu</b>."
         welcome: 'Paskirkite tris minutes įvadinei kelionei ir išmokite daugumą <b>svarbių sistemos galimybių</b>. <br>Rekomenduojame atlikti visus veiksmus iki pabaigos. Ekskursiją galite paleisti iš naujo bet kuriuo metu.'
         wiki: '<b>Wiki</b>''yje galite dokumentuoti ir dalintis žiniomis su savo komandos nariais.'
@@ -517,7 +531,7 @@ lt:
         reset_title: "Nustatyti iš naujo formos konfigūraciją"
         confirm_reset: >
           Įspėjimas: Ar tikrai norite grįžti prie pradinės formos konfigūracijos? Atributai bus perkelti į jų numatytąsias grupes ir išjungs VISUS pritaikytus laukelius.
-        upgrade_to_ee: "Patobulinti į „Enterprise Edition“ versiją"
+        upgrade_to_ee: "Patobulinkite į Enterprise on-premises Edition"
         upgrade_to_ee_text: "Vau! Jei Jums reikia šios funkcijos, esate super pro! Ar nenorėtumėte paremti mus, OpenSource (atviro kodo) kūrėjus, tapdami Enterprise Edition klientu?"
         more_information: "Daugiau informacijos"
         nevermind: "Nekreipti dėmesio"
@@ -944,11 +958,9 @@ lt:
         many: "%{count} darbų paketo vaikai"
         other: "%{count} darbų paketo vaikai"
       hour:
+        one: "1 val."
+        other: "%{count} val"
         zero: "0 h"
-        one: ""
-        few: ""
-        many: ""
-        other: ""
     zen_mode:
       button_activate: 'Įjungti Zen režimą'
       button_deactivate: 'Išjungti Zen režimą'
@@ -966,3 +978,68 @@ lt:
       card: 'Kortelės'
       list: 'Stalas'
       timeline: 'Gantt'
+    invite_user_modal:
+      back: 'Atgal'
+      invite: 'Pakviesti'
+      title:
+        invite: 'Pakviesti vartotoją'
+        invite_to_project: 'Pakviesti %{type} į %{project}'
+        User: 'vartotojas'
+        Group: 'grupė'
+        PlaceholderUser: 'statytinis vartotojas'
+        invite_principal_to_project: 'Pakviesti %{principal} į %{project}'
+      project:
+        label: 'Projektas'
+        required: 'Pasirinkite projektą'
+        next_button: 'Kitas'
+        no_results: 'Nerasta jokių projektų'
+        no_invite_rights: 'Jums neleidžiama kviesti narius į projektą'
+      type:
+        required: 'Prašome pasirinkti kokio tipo dalyvį kviesti'
+        user:
+          title: 'Vartotojas'
+          description: 'Teisės, suteiktos pagal pasirinktame projekte turimą rolę'
+        group:
+          title: 'Grupė'
+          description: 'Teisės, suteiktos pagal pasirinktame projekte turimą rolę'
+        placeholder:
+          title: 'Statytinis vartotojas'
+          title_no_ee: 'Statytiniai vartotojai (galimybė pasiekiama tik Enterprise Edition)'
+          description: 'Neturi prieigos prie projekto ir jokie el. pašto laiškai nebuvo išsiųsti.'
+          description_no_ee: 'Neturi prieigos prie projekto ir jokie el. pašto laiškai nebuvo išsiųsti. <br>Patikrinkite <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+      principal:
+        label:
+          name_or_email: 'Vardas arba elektroninio pašto adresas'
+          name: 'Vardas'
+        already_member_message: 'Jau yra %{project} narys'
+        no_results_user: 'Nerasta jokių vartotojų.'
+        invite_user: 'Pakviesti:'
+        change_user_selection: 'Pakeiskite el. pašto adresą arba pasirinkite jau esamą vartotoją'
+        no_results_placeholder: 'Nerasta jokių statytinių vartotojų.'
+        change_placeholder_selection: 'Pakeiskite vardą arba pasirinkite jau esamą statytinį vartotoją'
+        create_new_placeholder: 'Sukurkite naują statytinį vartotoją:'
+        no_results_group: 'Nerasta jokių grupių.'
+        change_group_selection: 'Pakeiskite vardą arba pasirinkite jau esamą grupę'
+        next_button: 'Kitas'
+        required:
+          user: 'Pasirinkite naudotoją'
+          placeholder: 'Prašome pasirinkti statytinį vartotoją'
+          group: 'Prašome pasirinkti grupę'
+      role:
+        label: 'Rolė projekte %{project}'
+        description: 'Tai yra rolė, kurią %{principal} gaus, kai prisijungs prie projekto. Ši rolė nurodo, kokius veiksmus galės atlikti ir kokią informaciją matyti. <a href="%{href}" target="_blank">Sužinokite daugiau apie roles ir teises. </a>'
+        required: 'Prašome pasirinkti rolę'
+        next_button: 'Kitas'
+      message:
+        label: 'Kvietimo pranešimas'
+        description: 'Mes siųsime el. pašto laišką %{principal}, į kurį jūs galite pridėti asmeninį pranešimą. Paaiškinimas, kodėl šis pranešimas buvo atsiųstas galėtų būti naudingas gavėjui. Arba šiek tiek informacijos apie projektą galbūt galėtų padėti pradėti darbą su projektu.'
+        next_button: 'Peržiūrėti kvietimą'
+      summary:
+        next_button: 'Siųsti pakvietimą'
+      success:
+        title: '%{principal} buvo pakviestas!'
+        description:
+          user: 'Vartotojas gali prisijungti ir pasiekti %{project}. Tuo pačiu, jūs jau galite planuoti darbus su šiuo vartotoju ir pavyzdžiui priskirti jam darbo užduotis.'
+          placeholder: 'Statytinis vartotojas gali prisijungti ir pasiekti %{project}. Tuo pačiu, jūs jau galite planuoti darbus su šiuo vartotoju ir pavyzdžiui priskirti jam darbo užduotis.'
+          group: 'Grupė jau tapo %{project} dalimi. Tuo pačiu, jūs jau galite planuoti darbus su šia grupe ir pavyzdžiui priskirti jai darbo užduotis.'
+        next_button: 'Tęsti'

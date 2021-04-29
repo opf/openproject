@@ -11,10 +11,10 @@ log_ko() {
 }
 
 # try to get a setting to make sure database connection works
-if rake setting:get[protocol] &>/dev/null; then
-  log_ok "MySQL configuration is working"
+if rake openproject:db:check_connection 2>/dev/null; then
+  log_ok "PostgreSQL configuration is working"
 else
-  log_ko "MySQL connection is NOT working"
+  log_ko "PostgreSQL connection is NOT working"
 fi
 
 if ps -u "$SERVER_USER" &>/dev/null ; then

@@ -1,23 +1,22 @@
-import {Injectable} from "@angular/core";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {ColorsService} from "core-app/modules/common/colors/colors.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { Injectable } from "@angular/core";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { ColorsService } from "core-app/modules/common/colors/colors.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
-import {PrincipalLike} from "./principal-types";
-import {PrincipalHelper} from "./principal-helper";
+import { PrincipalLike } from "./principal-types";
+import { PrincipalHelper } from "./principal-helper";
 import PrincipalType = PrincipalHelper.PrincipalType;
 
 export type AvatarSize = 'default'|'medium'|'mini';
 
 export interface AvatarOptions {
-  hide: boolean,
-  size: AvatarSize,
-  classes?: string,
+  hide:boolean;
+  size:AvatarSize;
 }
 
 export interface NameOptions {
-  hide: boolean,
-  link: boolean,
+  hide:boolean;
+  link:boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -29,17 +28,20 @@ export class PrincipalRendererService {
 
   }
 
-  renderMultiple(container:HTMLElement,
-                 users:PrincipalLike[],
-                 name: NameOptions = { hide: false, link: false },
-                 avatar:AvatarOptions = { hide: false, size: 'default' },
-                 multiLine:boolean = false) {
+  renderMultiple(
+    container:HTMLElement,
+    users:PrincipalLike[],
+    name:NameOptions = { hide: false, link: false },
+    avatar:AvatarOptions = { hide: false, size: 'default' },
+    multiLine:boolean = false,
+  ) {
+    container.classList.add('op-principal');
     const list = document.createElement('span');
 
     for (let i = 0; i < users.length; i++) {
       const userElement = document.createElement('span');
       if (multiLine) {
-        userElement.classList.add('user-avatar--multi-line');
+        userElement.classList.add('op-principal--multi-line');
       }
 
       this.render(userElement, users[i], name, avatar);
@@ -59,11 +61,11 @@ export class PrincipalRendererService {
   render(
     container:HTMLElement,
     principal:PrincipalLike,
-    name: NameOptions = { hide: false, link: true },
+    name:NameOptions = { hide: false, link: true },
     avatar:AvatarOptions = { hide: false, size: 'default' },
   ):void {
-    const type = PrincipalHelper.typeFromHref(principal.href || '')!;
     container.classList.add('op-principal');
+    const type = PrincipalHelper.typeFromHref(principal.href || '')!;
 
     if (!avatar.hide) {
       const el = this.renderAvatar(principal, avatar, type);
@@ -76,17 +78,19 @@ export class PrincipalRendererService {
     }
   }
 
-  private renderAvatar(principal:PrincipalLike, options:AvatarOptions, type:PrincipalType) {
+  private renderAvatar(
+    principal:PrincipalLike,
+    options:AvatarOptions,
+    type:PrincipalType,
+  ) {
     const userInitials = this.getInitials(principal.name);
     const colorCode = this.colors.toHsl(principal.name);
 
-    console.log('rendering avatar', options, userInitials);
-
-    let fallback = document.createElement('div');
-    fallback.className = options.classes || '';
-    fallback.classList.add('avatar');
-    fallback.classList.add(`avatar-${options.size}`);
-    fallback.classList.add('avatar--fallback');
+    const fallback = document.createElement('div');
+    fallback.classList.add('op-avatar');
+    fallback.classList.add(`op-avatar_${options.size}`);
+    fallback.classList.add(`op-avatar_${type.replace('_', '-')}`);
+    fallback.classList.add('op-avatar--fallback');
     fallback.textContent = userInitials;
     fallback.style.background = colorCode;
 
@@ -100,9 +104,8 @@ export class PrincipalRendererService {
 
   private renderUserAvatar(principal:PrincipalLike, fallback:HTMLElement, options:AvatarOptions) {
     const image = new Image();
-    image.className = options.classes || '';
-    image.classList.add('avatar');
-    image.classList.add(`avatar-${options.size}`);
+    image.classList.add('op-avatar');
+    image.classList.add(`op-avatar_${options.size}`);
     image.src = this.apiV3Service.users.id(principal.id || '').avatar.toString();
     image.title = principal.name;
     image.alt = principal.name;
@@ -139,10 +142,10 @@ export class PrincipalRendererService {
   }
 
   private getInitials(name:string) {
-    let characters = [...name];
-    let lastSpace = name.lastIndexOf(' ');
-    let first = characters[0]?.toUpperCase();
-    let last = name[lastSpace + 1]?.toUpperCase();
+    const characters = [...name];
+    const lastSpace = name.lastIndexOf(' ');
+    const first = characters[0]?.toUpperCase();
+    const last = name[lastSpace + 1]?.toUpperCase();
 
     return [first, last].join("");
   }

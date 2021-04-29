@@ -78,40 +78,6 @@
 </script>
 ```
 
-```
-@javascript
-(function($){
-
-  var viewArea = $('.notification-box--casing');
-  var notificationMessageTemplate = {
-    notificationNumber: 0,
-    printNotification: function(){
-      this.notificationNumber++;
-      return $('#warning-message-zx00x').html()
-        .replace(/{{number}}/g, this.notificationNumber);
-    }
-  };
-
-  $('#test-notifier').on('click', function(e){
-    e.preventDefault();
-    viewArea.prepend(notificationMessageTemplate.printNotification());
-  });
-
-  $(document).on('click', '.notification-box--close', function(e){
-    e.preventDefault();
-    $(this).closest('.notification-box').animate({
-                'padding-top': 0,
-                'padding-bottom': 0,
-                'height': 0,
-                'opacity': 0
-            }, 'fast', function() {
-                $(this).remove();
-            });
-  });
-
-})(jQuery);
-```
-
 ## Upload notifications
 
 ### Upload progress

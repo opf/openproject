@@ -433,7 +433,7 @@ describe 'API v3 Work package resource',
         context 'not set' do
           let(:params) { update_params }
 
-          it { expect(NotifyJournalCompletedJob).to have_been_enqueued.at_least(1) }
+          it { expect(Notifications::JournalCompletedJob).to have_been_enqueued.at_least(1) }
         end
 
         context 'disabled' do
@@ -441,7 +441,7 @@ describe 'API v3 Work package resource',
           let(:params) { update_params }
 
           it do
-            expect(NotifyJournalCompletedJob)
+            expect(Notifications::JournalCompletedJob)
               .to have_been_enqueued
               .at_least(1)
           end
@@ -452,7 +452,7 @@ describe 'API v3 Work package resource',
           let(:params) { update_params }
 
           it do
-            expect(NotifyJournalCompletedJob)
+            expect(Notifications::JournalCompletedJob)
               .to have_been_enqueued
               .at_least(1)
           end
@@ -1256,7 +1256,7 @@ describe 'API v3 Work package resource',
       let(:permissions) { %i[add_work_packages view_project view_work_packages] }
 
       it 'sends a mail by default' do
-        expect(DeliverWorkPackageNotificationJob)
+        expect(Mails::WorkPackageJob)
           .to have_been_enqueued
           .at_least(1)
       end
@@ -1265,7 +1265,7 @@ describe 'API v3 Work package resource',
         let(:path) { "#{api_v3_paths.work_packages}?notify=false" }
 
         it 'should not send a mail' do
-          expect(DeliverWorkPackageNotificationJob).not_to have_been_enqueued
+          expect(Mails::WorkPackageJob).not_to have_been_enqueued
         end
       end
 
@@ -1273,7 +1273,7 @@ describe 'API v3 Work package resource',
         let(:path) { "#{api_v3_paths.work_packages}?notify=true" }
 
         it 'should send a mail' do
-          expect(DeliverWorkPackageNotificationJob)
+          expect(Mails::WorkPackageJob)
             .to have_been_enqueued
             .at_least(1)
         end

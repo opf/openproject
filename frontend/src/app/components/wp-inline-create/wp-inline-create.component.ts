@@ -34,7 +34,8 @@ import {
   HostListener,
   Injector,
   Input,
-  OnInit
+  EventEmitter,
+  OnInit, Output
 } from '@angular/core';
 import { AuthorisationService } from 'core-app/modules/common/model-auth/model-auth.service';
 import { WorkPackageViewFocusService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
@@ -67,6 +68,8 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
   @Input('wp-inline-create--table') table:WorkPackageTable;
   @Input('wp-inline-create--project-identifier') projectIdentifier:string;
+
+  @Output('wp-inline-create--showing') showing = new EventEmitter<boolean>();
 
   // inner state
   public canAdd = false;
@@ -117,12 +120,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
         this.canAdd = this.wpInlineCreate.canAdd;
         this.cdRef.detectChanges();
 
-        if (this.canAdd || this.canReference) {
-          // Add this row's height as a padding to the timeline
-          // so the table and the timeline keep aligned
-          const container = jQuery(this.table.timelineBody);
-          container.addClass('-inline-create-mirror');
-        }
+        this.showing.emit(this.canAdd || this.canReference);
       });
 
     // Register callback on newly created work packages

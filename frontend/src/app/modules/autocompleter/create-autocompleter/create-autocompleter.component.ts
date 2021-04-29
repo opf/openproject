@@ -33,19 +33,26 @@ import {
   EventEmitter,
   Input,
   Output,
-  ViewChild
+  ViewChild,
+  Injector,
 } from '@angular/core';
 import { NgSelectComponent } from "@ng-select/ng-select";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { InviteUserModalComponent } from "core-app/modules/invite-user-modal/invite-user.component";
+import { OpInviteUserModalService } from "core-app/modules/invite-user-modal/invite-user-modal.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 import { AddTagFn } from "@ng-select/ng-select/lib/ng-select.component";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 import { Subject } from 'rxjs';
+import { PrincipalHelper } from "core-app/modules/principal/principal-helper";
+import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
 
 export interface CreateAutocompleterValueOption {
   name:string;
-  $href:string|null;
+  href:string|null;
 }
 
 @Component({
@@ -53,7 +60,7 @@ export interface CreateAutocompleterValueOption {
   selector: 'create-autocompleter',
   styleUrls: ['./create-autocompleter.component.sass']
 })
-export class CreateAutocompleterComponent implements AfterViewInit {
+export class CreateAutocompleterComponent extends UntilDestroyedMixin implements AfterViewInit {
   @Input() public availableValues:CreateAutocompleterValueOption[];
   @Input() public appendTo:string;
   @Input() public model:any;
@@ -76,22 +83,32 @@ export class CreateAutocompleterComponent implements AfterViewInit {
 
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
-  public text:{ [key:string]:string } = {
-    add_new_action: this.I18n.t('js.label_create'),
-  };
+  @InjectField() readonly opInviteUserModalService:OpInviteUserModalService;
+  @InjectField() readonly I18n:I18nService;
+  @InjectField() readonly cdRef:ChangeDetectorRef;
+  @InjectField() readonly currentProject:CurrentProjectService;
+  @InjectField() readonly pathHelper:PathHelperService;
 
+  public compareByHref = AngularTrackingHelpers.compareByHref;
+  public text:{ [key:string]:string } = {};
   public createAllowed:boolean|AddTagFn = false;
-
   private _openDirectly = false;
 
-  constructor(readonly I18n:I18nService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly currentProject:CurrentProjectService,
-              readonly pathHelper:PathHelperService,
-  ) { }
+  constructor(readonly injector:Injector) {
+    super();
+
+    this.text.add_new_action = this.I18n.t('js.label_create');
+  }
 
   ngAfterViewInit() {
     this.onAfterViewInit.emit(this);
+    if (this.opInviteUserModalService) {
+      this.opInviteUserModalService.close
+        .pipe(this.untilDestroyed())
+        .subscribe((user: HalResource) => {
+          this.onChange.emit(user);
+        });
+    }
   }
 
   public openSelect() {
@@ -151,7 +168,7 @@ export class CreateAutocompleterComponent implements AfterViewInit {
     this.ngSelectComponent && this.ngSelectComponent.focus();
   }
 
-  public onUserInvited(user:HalResource) {
-    this.onChange.emit(user);
+  public isPrincipal(item:CreateAutocompleterValueOption) {
+    return item.href && PrincipalHelper.typeFromHref(item.href) !== null;
   }
 }

@@ -148,6 +148,3 @@ Select the **auto zoom button** on top of the Gantt chart to have the best view 
 The zen mode gives you more space to focus on the tasks at hand. It's almost like activating the full screen view in your browser. To exit press the *Esc* key or click on the **zen mode** symbol again.
 
 ![image-20201007164653327](image-20201007164653327.png)
-
-
-

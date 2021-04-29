@@ -5,13 +5,17 @@
     <meta charset="utf-8">
     <meta content="ie=edge" http-equiv="x-ua-compatible">
     <meta content="width=device-width,initial-scale=1" name="viewport">
+    <meta name="openproject_initializer"
+          data-locale="en"
+          data-default-locale="en" />
     <meta content="livingstyleguide.org <%= LivingStyleGuide::VERSION %>" name="generator">
     <title>Living Style Guide for OpenProject</title>
-    <script src="http://localhost:4200/assets/frontend/vendor.js"></script>
-    <script src="http://localhost:4200/assets/frontend/polyfills.js"></script>
-    <script src="http://localhost:4200/assets/frontend/runtime.js"></script>
-    <script src="http://localhost:4200/assets/frontend/main.js"></script>
-    <script src="http://localhost:4200/assets/frontend/styles.js"></script>
+    <script type="application/javascript" src="/assets/frontend/vendor.js"></script>
+    <script type="application/javascript" src="/assets/frontend/polyfills.js"></script>
+    <script type="application/javascript" src="/assets/frontend/runtime.js"></script>
+    <script type="application/javascript" src="/assets/frontend/main.js"></script>
+    <link rel="stylesheet" media="all" href="/assets/frontend/styles.css">
+
     <style>
       body {
         max-width: 65vw;
@@ -71,8 +75,6 @@
       }
 
       .styleguide-banner {
-        padding: 200px 0 0;
-        background: urt('/assets/styleguide/logo_openproject.png');
         background-position: top center;
         background-repeat: no-repeat;
         background-size: contain;
@@ -150,7 +152,6 @@
 
   <nav class="styleguide-nav">
     <ul class="styleguide-nav--menu-items">
-      <li><a target="_self" href="#color-variables">Colors</a></li>
       <li><a target="_self" href="#fonts">Fonts</a></li>
       <li><a target="_self" href="#forms">Forms</a></li>
       <li><a target="_self" href="#notifications">Notifications</a></li>

@@ -3,25 +3,25 @@ ro:
   js:
     bcf:
       label_bcf: 'BCF'
-      import: 'Import'
-      import_bcf_xml_file: 'Import BCF XML file (BCF version 2.1)'
+      import: 'Importă'
+      import_bcf_xml_file: 'Importați fișierul BCF XML (BCF versiunea 2.1)'
       export: 'Exportare'
-      export_bcf_xml_file: 'Export BCF XML file (BCF version 2.1)'
-      viewpoint: 'Viewpoint'
-      add_viewpoint: 'Add viewpoint'
-      show_viewpoint: 'Show viewpoint'
-      delete_viewpoint: 'Delete viewpoint'
-      management: 'BCF management'
+      export_bcf_xml_file: 'Exportați fișierul BCF XML (BCF versiunea 2.1)'
+      viewpoint: 'Punct de vedere'
+      add_viewpoint: 'Adăugați un punct de vedere'
+      show_viewpoint: 'Arată punctul de vedere'
+      delete_viewpoint: 'Ștergeți punctul de vedere'
+      management: 'Managementul BCF'
     ifc_models:
-      empty_warning: "This project does not yet have any IFC models."
-      use_this_link_to_manage: "Use this link to upload and manage your IFC models"
-      keyboard_input_disabled: "Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer."
+      empty_warning: "Acest proiect nu are încă niciun model IFC."
+      use_this_link_to_manage: "Utilizați acest link pentru a încărca și gestiona modelele IFC"
+      keyboard_input_disabled: "Vizualizatorul nu dispune de comenzi de tastatură. Faceți clic pe vizualizator pentru a da control de tastatură vizualizatorului."
       models:
-        ifc_models: 'IFC models'
+        ifc_models: 'Modele IFC'
       views:
-        viewer: 'Viewer'
-        split: 'Viewer and table'
-        split_cards: 'Viewer and cards'
+        viewer: 'Vizualizare'
+        split: 'Vizualizator și tabel'
+        split_cards: 'Vizualizator și carduri'
     revit:
-      revit_add_in: "Revit Add-In"
-      revit_add_in_settings: "Revit Add-In settings"
+      revit_add_in: "Adăugare Revit"
+      revit_add_in_settings: "Setări Revit Add-In"

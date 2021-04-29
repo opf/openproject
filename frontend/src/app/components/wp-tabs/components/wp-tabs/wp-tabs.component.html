@@ -1,0 +1,5 @@
+<li *ngFor="let tab of tabs" [uiSref]="uiSref"
+    [uiParams]="{workPackageId: workPackage.id, tabIdentifier: tab.identifier}"
+    uiSrefActive="selected">
+  <a href="" [textContent]="tab.displayName"></a>
+</li>

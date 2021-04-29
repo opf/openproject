@@ -43,6 +43,7 @@ module API
                      name:,
                      value_representer:,
                      link_factory:,
+                     location: :link,
                      required: true,
                      has_default: false,
                      writable: true,
@@ -59,6 +60,7 @@ module API
               has_default: has_default,
               writable: writable,
               attribute_group: attribute_group,
+              location: location,
               current_user: current_user)
       end
 

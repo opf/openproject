@@ -5,12 +5,12 @@ Gem::Specification.new do |s|
   s.version     = '1.0.0'
   s.authors     = "OpenProject GmbH"
   s.email       = "info@openproject.com"
-  s.homepage    = "https://community.openproject.org/projects/github-integration"
+  s.homepage    = "https://docs.openproject.org/system-admin-guide/github-integration/"
   s.summary     = 'OpenProject Github Integration'
   s.description = 'Integrates OpenProject and Github for a better workflow'
   s.license     = 'GPLv3'
 
-  s.files = Dir["{app,config,db,doc,lib}/**/*"] + %w(README.md)
+  s.files = Dir["{app,config,db,frontend,lib}/**/*"] + %w(README.md)
 
   s.add_dependency "openproject-webhooks"
 end

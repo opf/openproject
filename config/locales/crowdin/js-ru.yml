@@ -33,6 +33,19 @@ ru:
         single: "Выбрать «%{name}»"
       remove: "Удалить %{name}"
       active: "Активировать %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Параметры
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Закрыть всплывающее"
     close_filter_title: "Закрыть фильтр"
     close_form_title: "Закрыть форму"
@@ -206,7 +219,7 @@ ru:
         upsale:
           become_hero: "Станьте героем!"
           benefits:
-            description: "Каковы преимущества?"
+            description: "Каковы преимущества корпоративной версии?"
             high_security: "Функции безопасности"
             high_security_text: "Единый вход (SAML, OpenID Connect, CAS), двухфакторная аутентификация и автоматическая синхронизация LDAP-групп."
             installation: "Поддержка установки"
@@ -272,11 +285,11 @@ ru:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Новая концепция <b>замещающих пользователей</b> (премиум-функция) позволяет добавлять предварительных пользователей без адреса электронной почты в OpenProject и назначать задачи для этих ресурсов.</li> <li>Пакет работ <b>фильтров продлевается родительским параметром </b>для того, чтобы легко увидеть всех прямых дочерних процессов, а также <b>по ID</b> для включения или исключения только этих точных пакетов работ в списке.</li> <li>Администрация пользователя распределена среди неадминов <b>новой глобальной ролью</b>, позволяет управлять и приглашать пользователей без полных прав администратора.</li> <li>Дальнейшие улучшения пользовательского интерфейса и интерфейса UX, т.е. согласование ценовой отчетности, адаптированные фоновые цвета суммарных и групповых строк в списке пакетов работ, добавление групповой страницы.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Новая концепция <b>замещающих пользователей</b> (премиум-функция) позволяет добавлять предварительных пользователей без адреса электронной почты в OpenProject и назначать задачи для этих ресурсов.</li> <li>Пакет работ <b>фильтров продлевается родительским параметром </b>для того, чтобы легко увидеть всех прямых дочерних процессов, а также <b>по ID</b> для включения или исключения только этих точных пакетов работ в списке.</li> <li>Администрация пользователя распределена среди неадминов <b>новой глобальной ролью</b>, позволяет управлять и приглашать пользователей без полных прав администратора.</li> <li>Дальнейшие улучшения пользовательского интерфейса и интерфейса UX, т.е. согласование ценовой отчетности, адаптированные фоновые цвета суммарных и групповых строк в списке пакетов работ, добавление групповой страницы.</li> </ul>
     label_activate: "Активировать"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"
@@ -465,6 +478,7 @@ ru:
         help_menu: 'В меню <b>Справка</b> руководство пользователя и дополнительные справочные материалы. <br>Приятной работы с OpenProject!'
         members: 'Предложите новому <b>участнику</b> присоединиться к вашему проекту.'
         project_selection: 'Пожалуйста, кликните по проекту с полезными демонстрационными данными. <br> <b>Демонстрационный проект</b> подходит лучше всего для классического проекта управления, пока <b>проект Scrum</b> лучший в Agile-управлении проектами.'
+        quick_add_button: 'Создайте новый проект или пригласите коллег.'
         sidebar_arrow: "Стрелка возвращает к <b>главному меню</b> проекта."
         welcome: 'Совершите вводный трехминутный тур для знакомства с наиболее <b>важными особенностями</b>. <br>Рекомендуем пройти все шаги до конца. Пройти вводный тур повторно можно в любое время.'
         wiki: 'В пределах <b>вики</b> возможно документирование и обмен знаниями в вашей команде.'
@@ -516,7 +530,7 @@ ru:
         reset_title: "Сбросить настройки формы"
         confirm_reset: >
           Предупреждение: хотите сбросить форму? Это сбросит атрибуты к первоначальным значениям группы и запретит правку настраиваемых полей.
-        upgrade_to_ee: "Обновите до корпоративной версии"
+        upgrade_to_ee: "Обновление до корпоративной версии"
         upgrade_to_ee_text: "Ух ты! Если вам нужна эта функция, вы – супер профессионал! Не хотите поддержать OpenSource разработчиков, став клиентом корпоративной версии?"
         more_information: "Больше информации"
         nevermind: "Неважно"
@@ -844,7 +858,7 @@ ru:
           automatic: 'Автоматически'
           manually: 'Вручную'
           warning: 'При активации режима автоматического упорядования вы потеряете свою предыдущую сортировку.'
-        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Используйте поле ввода выше, чтобы добавить столбцы в вид таблицы. Вы можете перетаскивать колонки для их сортировки."
         upsale:
           attribute_highlighting: 'Хотите выделить некоторые пакеты работ из общей массы?'
           relation_columns: 'Нужно видеть отношения в списке пакетов работ?'
@@ -943,11 +957,9 @@ ru:
         many: "пакет работ с %{count} дочерними"
         other: "пакет работ с %{count} дочерними"
       hour:
+        one: "1 ч"
+        other: "%{count} ч"
         zero: "0 ч"
-        one: ""
-        few: ""
-        many: ""
-        other: ""
     zen_mode:
       button_activate: 'Включить дзен-режим'
       button_deactivate: 'Отключить дзен-режим'
@@ -965,3 +977,68 @@ ru:
       card: 'Карточки'
       list: 'Таблица'
       timeline: 'Гант'
+    invite_user_modal:
+      back: 'Назад'
+      invite: 'Пригласить'
+      title:
+        invite: 'Пригласить пользователя'
+        invite_to_project: 'Пригласить %{type} в %{project}'
+        User: 'пользователь'
+        Group: 'группа'
+        PlaceholderUser: 'пользователь плейсхолдера'
+        invite_principal_to_project: 'Пригласить %{principal} в %{project}'
+      project:
+        label: 'Проект'
+        required: 'Пожалуйста, выберите проект'
+        next_button: 'Следующие'
+        no_results: 'Проекты не найдены'
+        no_invite_rights: 'Вы не можете пригласить участников в этот проект'
+      type:
+        required: 'Пожалуйста, выберите тип для приглашения'
+        user:
+          title: 'Пользователь'
+          description: 'Права доступа, основанные на назначенной роли в выбранном проекте'
+        group:
+          title: 'Группа'
+          description: 'Права доступа, основанные на назначенной роли в выбранном проекте'
+        placeholder:
+          title: 'Пользователь-заполнитель'
+          title_no_ee: 'Пользователь-заполнитель (только для корпоративной версии)'
+          description: 'Нет доступа к проекту и письма не отправляются.'
+          description_no_ee: 'Нет доступа к проекту и письма не отправляются. <br>Проверьте <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+      principal:
+        label:
+          name_or_email: 'Имя или email адрес'
+          name: 'Имя'
+        already_member_message: 'Уже член %{project}'
+        no_results_user: 'Пользователи не найдены.'
+        invite_user: 'Приглашение:'
+        change_user_selection: 'Изменить адрес электронной почты или выбрать существующего пользователя'
+        no_results_placeholder: 'Заполнители не найдены'
+        change_placeholder_selection: 'Изменить имя или выбрать существующий плейсхолдер'
+        create_new_placeholder: 'Создать новый плейсхолдер:'
+        no_results_group: 'Группы не найдены'
+        change_group_selection: 'Изменить имя или выбрать существующую группу'
+        next_button: 'Следующие'
+        required:
+          user: 'Пожалуйста, выберите пользователя'
+          placeholder: 'Пожалуйста, выберите заполнитель'
+          group: 'Пожалуйста, выберите группу'
+      role:
+        label: 'Роль в %{project}'
+        description: 'Это роль получит %{principal} после присоединения вашему проекту. Роль определяет, какие действия ему разрешено принимать и какую информацию он сможет видеть. <a href="%{href}" target="_blank"> Узнайте больше о ролях и разрешениях. </a>'
+        required: 'Пожалуйста, выберите роль'
+        next_button: 'Следующие'
+      message:
+        label: 'Сообщение о приглашении'
+        description: 'Мы отправим письмо на адрес %{principal}, в которое вы можете добавить личное сообщение здесь. Может быть полезным объяснить причину приглашения или, возможно, добавить немного информации о проекте, чтобы помочь им начать работу.'
+        next_button: 'Просмотреть приглашение'
+      summary:
+        next_button: 'Отправить приглашение'
+      success:
+        title: '%{principal} был приглашен!'
+        description:
+          user: 'Теперь пользователь может войти в систему и получить доступ к %{project}. Тем временем вы уже можете планировать работу с этим пользователем и назначать пакеты работ.'
+          placeholder: 'Теперь плейсхолдер может быть использован в %{project}. Тем временем вы уже можете планировать с этим пользователем и назначать рабочие пакеты.'
+          group: 'Теперь группа является частью %{project}. Тем временем вы уже можете спланировать работу с этой группой и назначить пакеты работ.'
+        next_button: 'Далее'

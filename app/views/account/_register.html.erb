@@ -76,12 +76,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
         <%= call_hook :view_account_register_after_basic_information, f: f %>
 
-        <%= render partial:     'customizable/field',
-                   collection:  @user.custom_field_values.select { |v|
-                                  v.editable? || v.required?
-                                },
-                   as:          :value,
-                   locals:      { form: f, wide_labels: true } %>
+        <%= render partial: "customizable/form",
+                   locals: { form: f, all_fields: false, only_required: true, wide_labels: true } %>
 
         <br/><br/>
         <% if @user.change_password_allowed? %>

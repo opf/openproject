@@ -40,19 +40,30 @@ module API
           end
         end
 
+        def default_process_state
+          ->(**) do
+            {}
+          end
+        end
+
         def initialize(model:,
                        api_name: model.name.demodulize,
                        instance_generator: default_instance_generator(model),
                        params_modifier: default_params_modifier,
+                       process_state: default_process_state,
+                       parse_representer: nil,
+                       render_representer: nil,
                        process_service: nil,
+                       process_contract: nil,
                        parse_service: nil)
           self.model = model
           self.api_name = api_name
           self.instance_generator = instance_generator
           self.params_modifier = params_modifier
-          self.parse_representer = deduce_parse_representer
-          self.render_representer = deduce_render_representer
-          self.process_contract = deduce_process_contract
+          self.process_state = process_state
+          self.parse_representer = parse_representer || deduce_parse_representer
+          self.render_representer = render_representer || deduce_render_representer
+          self.process_contract = process_contract || deduce_process_contract
           self.process_service = process_service || deduce_process_service
           self.parse_service = parse_service || deduce_parse_service
         end
@@ -61,43 +72,41 @@ module API
           update = self
 
           -> do
-            params = update.parse(current_user, request_body)
+            params = update.parse(self)
+            call = update.process(self, params)
 
-            params = instance_exec(params, &update.params_modifier)
-
-            call = update.process(current_user,
-                                  instance_exec(params, &update.instance_generator),
-                                  params)
-
-            update.render(current_user, call) do
+            update.render(self, call) do
               status update.success_status
             end
           end
         end
 
-        def parse(current_user, request_body)
+        def parse(request)
           parse_service
-            .new(current_user,
+            .new(request.current_user,
                  model: model,
                  representer: parse_representer)
-            .call(request_body)
+            .call(request.request_body)
             .result
         end
 
-        def process(current_user, instance, params)
-          args = { user: current_user,
+        def process(request, params)
+          instance = request.instance_exec(params, &instance_generator)
+
+          args = { user: request.current_user,
                    model: instance,
                    contract_class: process_contract }
 
           process_service
             .new(**args.compact)
-            .call(**params)
+            .with_state(request.instance_exec(**{ model: instance, params: params }, &process_state))
+            .call(**request.instance_exec(params, &params_modifier))
         end
 
-        def render(current_user, call)
+        def render(request, call)
           if success?(call)
             yield
-            present_success(current_user, call)
+            present_success(request, call)
           else
             present_error(call)
           end
@@ -115,11 +124,12 @@ module API
                       :params_modifier,
                       :process_contract,
                       :process_service,
-                      :parse_service
+                      :parse_service,
+                      :process_state
 
         private
 
-        def present_success(_current_user, _call)
+        def present_success(_request, _call)
           raise NotImplementedError
         end
 

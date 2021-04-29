@@ -61,14 +61,14 @@ describe('HalResource', () => {
     })
       .compileComponents()
       .then(() => {
-        halResourceService = TestBed.get(HalResourceService);
-        injector = TestBed.get(Injector);
+        halResourceService = TestBed.inject(HalResourceService);
+        injector = TestBed.inject(Injector);
       });
   }));
 
   it('should be instantiable using a default object', () => {
     const resource = halResourceService.createHalResource({}, true);
-    expect(resource.$href).toEqual(null);
+    expect(resource.href).toEqual(null);
   });
 
   describe('when updating a loaded resource using `$update()`', () => {

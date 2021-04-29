@@ -26,7 +26,7 @@ SecureHeaders::Configuration.default do |config|
   # Allow requests to CLI in dev mode
   connect_src = default_src
 
-  if OpenProject::Configuration.sentry_dsn.present?
+  if OpenProject::Configuration.sentry_frontend_dsn.present?
     connect_src += [OpenProject::Configuration.sentry_host]
   end
 

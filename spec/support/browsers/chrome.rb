@@ -9,24 +9,23 @@ def register_chrome(language, name: :"chrome_#{language}")
 
     if ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_TESTING_NO_HEADLESS'])
       # Maximize the window however large the available space is
-      options.add_argument('start-maximized')
-      # options.add_argument('window-size=1920,1080')
+      options.add_argument('--start-maximized')
       # Open dev tools for quick access
       if ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_TESTING_AUTO_DEVTOOLS'])
-        options.add_argument('auto-open-devtools-for-tabs')
+        options.add_argument('--auto-open-devtools-for-tabs')
       end
     else
-      options.add_argument('window-size=1920,1080')
-      options.add_argument('headless')
+      options.add_argument('--window-size=1920,1080')
+      options.add_argument('--headless')
     end
 
-    options.add_argument('no-sandbox')
-    options.add_argument('disable-gpu')
-    options.add_argument('disable-popup-blocking')
-    options.add_argument("lang=#{language}")
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--disable-popup-blocking')
+    options.add_argument("--lang=#{language}")
     # This is REQUIRED for running in a docker container
     # https://github.com/grosser/parallel_tests/issues/658
-    options.add_argument('disable-dev-shm-usage')
+    options.add_argument('--disable-dev-shm-usage')
 
     options.add_preference(:download,
                            directory_upgrade: true,
@@ -45,20 +44,26 @@ def register_chrome(language, name: :"chrome_#{language}")
     client.read_timeout = 180
     client.open_timeout = 180
 
-    service = ::Selenium::WebDriver::Service.chrome(args: { verbose: true, log_path: '/tmp/chromedriver.log' })
+    is_grid = ENV['SELENIUM_GRID_URL'].present?
 
-    driver = Capybara::Selenium::Driver.new(
-      app,
-      # browser: ENV['SELENIUM_GRID_URL'] ? :remote : :chrome,
-      browser: :chrome,
-      url: ENV['SELENIUM_GRID_URL'],
+    driver_opts = {
+      browser: is_grid ? :remote : :chrome,
       desired_capabilities: capabilities,
       http_client: client,
       options: options,
-      service: service
-    )
+    }
 
-    if !ENV['SELENIUM_GRID_URL']
+    if is_grid
+      driver_opts[:url] = ENV['SELENIUM_GRID_URL']
+    else
+      driver_opts[:service] = ::Selenium::WebDriver::Service.chrome(
+        args: { verbose: true, log_path: '/tmp/chromedriver.log' }
+      )
+    end
+
+    driver = Capybara::Selenium::Driver.new app, **driver_opts
+
+    if !is_grid
       # Enable file downloads in headless mode
       # https://bugs.chromium.org/p/chromium/issues/detail?id=696481
       bridge = driver.browser.send :bridge

@@ -111,7 +111,7 @@ FactoryBot.define do
     end
     stage { nil }
     labels { [] }
-    sequence(:index) { |n| n }
+    sequence(:index)
 
     factory :bcf_issue_with_viewpoint do
       after(:create) do |issue|

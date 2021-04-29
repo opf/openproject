@@ -66,7 +66,7 @@ ja:
       upgrade_to_ee: "エンタープライズ版にアップグレード"
       add_token: "エンタープライズ版サポートのトークンをアップロード"
       replace_token: "現在のサポート トークンを置き換え"
-      order: "エンタープライズ版を注文"
+      order: "エンタープライズ オンプレミス エディションを注文する"
       paste: "エンタープライズ版サポートのトークンを貼り付け"
       required_for_feature: "この機能は、アクティブなエンタープライズ版のサポート トークンでのみ利用可能です。"
       enterprise_link: "詳細については、ここをクリックしてください。"
@@ -173,6 +173,8 @@ ja:
       no_results_content_text: 新しいカスタム フィールドを作成
   concatenation:
     single: 'または'
+  documentation:
+    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -222,6 +224,7 @@ ja:
     index:
       no_results_title_text: 現在、このプロジェクトのメンバーはいません。
       no_results_content_text: プロジェクトにメンバーを追加
+    invite_by_mail: "Send invite to %{mail}"
   my:
     access_token:
       failed_to_reset_token: "アクセストークンをリセットできませんでした: %{error}"
@@ -245,12 +248,15 @@ ja:
         プレースホルダー ユーザのすべての発生(担当者、担当者、その他のユーザ値など)は、「削除されたユーザー」というアカウントに再割り当てられます。
         削除されたすべてのアカウントのデータがこのアカウントに再割り当てられるため、ユーザーが作成したデータと別の削除されたアカウントのデータを区別することはできません。
       irreversible: "この操作は元に戻せません"
-      confirmation: "削除を確認するためにプレースホルダ名 %{name} を入力します。"
+      confirmation: "削除を確認するため、プレースホルダーユーザー名 %{name} を入力してください。"
+    upsale:
+      title: プロジェクトのメンバーではないユーザーに作業を割り当てる
+      description: プロジェクトのメンバーではない人に作業を割り当てたいと思うことは多々あります。それは単に、その仕事に適した人を雇う必要があるということかもしれません。あるいは、その人にプロジェクトの情報へのアクセスを許可したくないが、その人に割り当てられたタスクを追跡したいという場合もあります。
   prioritiies:
     edit:
       priority_color_text: |
         この優先順位の色を割り当てたり変更する場合にクリックします。
-        テーブル内の作業パッケージを強調表示するために使用できます。
+        テーブル内のワークパッケージを強調表示するために使用できます。
   reportings:
     index:
       no_results_title_text: 現在、ステータス報告はありません。
@@ -258,11 +264,11 @@ ja:
   statuses:
     edit:
       status_readonly_html: |
-        このステータスを読み取り専用としてマークするにはこのオプションを選択します。ステータスを除く属性は変更できません。<br/>
+        このステータスのワークパッケージを読み取り専用としてマークするにはこのオプションを選択します。ステータスを除く属性は変更できません。<br/>
         <strong>注</strong>：継承された値（子や関係）は引き続き適用されます。
       status_color_text: |
         このステータスの色を割り当てたり変更する場合にクリックします。
-        ステータスボタンに表示され、テーブル内の作業パッケージを強調表示するために使用できます。
+        ステータスボタンに表示され、テーブル内のワークパッケージを強調表示するために使用できます。
     index:
       no_results_title_text: 現在、ワークパッケージのステータスはありません。
       no_results_content_text: 新しいステータスを追加
@@ -279,8 +285,8 @@ ja:
       query_group_placeholder: "テーブルに名前を付けます"
       reset: "デフォルトに戻す"
       type_color_text: |
-        クリックして、このタイプの色を割り当てたり、変更します。選択した色は、ガントチャートのワークパッケージを区別します。
-        したがって、はっきりした色を使用することをお勧めします。
+        クリックして、このタイプの色を割り当てたり、変更したりします。選択した色は、ガントチャートのワークパッケージを区別します。
+        このため、はっきりした色を使用することをお勧めします。
   versions:
     overview:
       no_results_title_text: このバージョンに割り当てられているワークパッケージはありません。
@@ -298,7 +304,7 @@ ja:
     bulk:
       could_not_be_saved: "次のワークパッケージを保存できませんでした:"
     move:
-      no_common_statuses_exists: "選択されたすべての項目に利用可能なステータスはありません。 それらの状態は変更できません。"
+      no_common_statuses_exists: "選択されたすべてのワークパッケージに利用できるステータスはありません。 それらの状態は変更できません。"
       unsupported_for_multiple_projects: '複数のプロジェクトからのワークパッケージの一括移動 / コピーはサポートされていません'
     summary:
       reports:
@@ -323,8 +329,8 @@ ja:
     deleted: "アカウントが正常に削除されました。"
     deletion_info:
       data_consequences:
-        other: "ユーザーが作成した殆どのデータ (例えば電子メール、設定、ワークパッケージ 、wiki記載 )が削除されます。ただし、他のユーザーの作業を妨害することがなくワークパッケージやwiki 記載のようなデータは削除できません。それ故に、このようなデータは「削除されたユーザー」と呼ばれるアカウントに再割り当てます。削除された各アカウントのデータがこのアカウントに再割り当ているので、削除された別のユーザーのデータと区別できなくなります。"
-        self: "ユーザーが作成した殆どのデータ (例えば電子メール、設定、ワークパッケージ 、wiki記載 )が削除されます。ただし、他のユーザーの作業を妨害することがなくワークパッケージやwiki 記載のようなデータは削除できません。それ故に、このようなデータは「削除されたユーザー」と呼ばれるアカウントに再割り当てます。削除された各アカウントのデータがこのアカウントに再割り当ているので、削除された別のユーザーのデータと区別できなくなります。"
+        other: "ユーザーが作成した殆どのデータ (例えば電子メール、設定、ワークパッケージ 、wiki記載 )が削除されます。ただし、他のユーザーの作業を妨害することがなくワークパッケージやwiki 記載のようなデータは削除することはできません。それ故に、このようなデータは「削除されたユーザー」と呼ばれるアカウントに再割り当てされます。削除された各アカウントのデータがこのアカウントに再割り当てされるので、そのユーザーが作成したデータと削除された別のユーザーのデータとを区別することができなくなります。"
+        self: "あなたが作成した殆どのデータ (例えば電子メール、設定、ワークパッケージ 、wiki記載 )が削除されます。ただし、他のユーザーの作業を妨害することがなくワークパッケージやwiki 記載のようなデータは削除することはできません。それ故に、このようなデータは「削除されたユーザー」と呼ばれるアカウントに再割り当てされます。削除された各アカウントのデータがこのアカウントに再割り当てされるので、あなたが作成したデータと削除された別のユーザーのデータとを区別することができなくなります。"
       heading: "アカウント名「 %{name} 」を削除します。"
       info:
         other: "ユーザアカウントの削除は復元できない操作です。"
@@ -333,8 +339,8 @@ ja:
         other: "このアカウントはシステムから削除されます。したがって、このユーザは現在の認証情報でログイン不可能になります。再度このアプリケーションのユーザになることは可能です。"
         self: "自分のアカウントがシステムから削除されます。したがって、現在の認証情報ではログイン不可能になります。再度このアプリケーションのユーザになることは可能です。"
       login_verification:
-        other: "削除を確認するためログイン %{name} してください。 送信した後は、パスワードの確認が求められます。"
-        self: "削除を確認するためログイン %{name} してください。 一度提出すると、パスワードの確認を求められます。"
+        other: "削除を確認するためにログイン名 %{name} を入力してください。送信した後は、パスワードの確認が求められます。"
+        self: "削除を確認するためにあなたのログイン名 %{name} を入力してください。送信した後は、パスワードの確認を求められます。"
     error_inactive_activation_by_mail: >
       アカウントが有効化されていません。アカウントを有効にするために、受信したメール内のリンクをクリックしてください。
     error_inactive_manual_activation: >
@@ -556,6 +562,12 @@ ja:
         unremovable: "削除できません。"
         wrong_length: "は%{count}文字を入力してください。"
       models:
+        capability:
+          context:
+            global: '全般'
+          query:
+            filters:
+              minimum: "'=' 演算子を使用した、プリンシパル、コンテキスト、ID に対するフィルターを少なくとも 1 つ含める必要があります。"
         custom_field:
           at_least_one_custom_option: "少なくとも 1 つオプションが有効である必要があります。"
         custom_actions:
@@ -644,6 +656,10 @@ ja:
           attributes:
             hours:
               day_limit: "1日あたり最大24時間まで記録できます。"
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "タイトル '%{title}' から推測することができません。"
         work_package:
           is_not_a_valid_target_for_time_entries: "ワークパッケージ #%{id} は、作業時間の再割り当ての対象としては有効ではありません。"
           attributes:
@@ -701,7 +717,7 @@ ja:
             principal:
               unassignable: "はプロジェクトに割り当てできません。"
         version:
-          undeletable_work_packages_attached: "作業パッケージが添付されているため、バージョンを削除できません。"
+          undeletable_work_packages_attached: "ワークパッケージが添付されているため、バージョンを削除できません。"
         status:
           readonly_default_exlusive: "デフォルトとしてマークされている状態では有効にできません。"
       template:
@@ -760,7 +776,7 @@ ja:
     default_columns: "既定の列"
     description: "説明"
     derived_due_date: "派生終了日"
-    derived_estimated_time: "派生予定工数"
+    derived_estimated_hours: "派生予定工数"
     derived_start_date: "派生開始日"
     display_sums: "合計を表示"
     due_date: "終了日"
@@ -783,7 +799,7 @@ ja:
     priority: "優先度"
     project: "プロジェクト"
     public: "公開"
-    responsible: "責任がある"
+    responsible: "責任者"
     role: "ロール"
     roles: "ロール"
     start_date: "開始日"
@@ -798,6 +814,33 @@ ja:
     user: "ユーザ"
     version: "バージョン"
     work_package: "ワーク パッケージ"
+  backup:
+    label_backup_token: "Backup token"
+    label_create_token: "Create backup token"
+    label_delete_token: "Delete backup token"
+    label_reset_token: "Reset backup token"
+    label_token_users: "The following users have active backup tokens"
+    reset_token:
+      action_create: 作成
+      action_reset: リセット
+      heading_reset: "Reset backup token"
+      heading_create: "Create backup token"
+      implications: >
+        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+      info: >
+        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+      verification: >
+        Enter %{word} to confirm you want to %{action} the backup token.
+      verification_word_reset: reset
+      verification_word_create: create
+      warning: >
+        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
+    text_token_deleted: Backup token deleted. Backups are now disabled.
+    error:
+      invalid_token: Invalid or missing backup token
+      token_cooldown: The backup token will be valid in %{hours} hours.
+      backup_pending: There is already a backup pending.
+      limit_reached: You can only do %{limit} backups per day.
   button_add: "追加"
   button_add_comment: "コメントを追加"
   button_add_member: メンバーを追加
@@ -883,6 +926,10 @@ ja:
     succeeded: "「%{target_project_name}」プロジェクトを作成しました。"
     errors: "エラー！"
     project_custom_fields: 'プロジェクトのカスタムフィールド'
+    x_objects_of_this_type:
+      zero: 'No objects of this type'
+      one: 'One object of this type'
+      other: '%{count} objects of this type'
     text:
       failed: "プロジェクト「%{target_project_name}」にプロジェクト「%{source_project_name}」をコピーできませんでした。"
       succeeded: "プロジェクト「%{target_project_name}」にプロジェクト「%{source_project_name}」をコピーしました。"
@@ -1194,6 +1241,9 @@ ja:
   instructions_after_registration: "%{signin}をクリックして、アカウントが有効された後にログインできます。"
   instructions_after_logout: "%{signin}をクリックして再びログインできます。"
   instructions_after_error: "%{signin} をクリックして再びログインを試行できます。エラーが解決しない場合は、管理者にお問い合わせください。"
+  menus:
+    quick_add:
+      label: "クイック追加メニューを開く"
   my_account:
     access_tokens:
       no_results:
@@ -1253,6 +1303,7 @@ ja:
   label_available_project_versions: '利用できるバージョン'
   label_available_project_repositories: '使用できるリポジトリ'
   label_api_documentation: "APIドキュメント"
+  label_backup: "Backup"
   label_between: "次の範囲内"
   label_blocked_by: "ブロックされている"
   label_blocks: "ブロックしている"
@@ -1455,6 +1506,8 @@ ja:
   label_member_new: "新規メンバー"
   label_member_all_admin: "(管理ステータスのすべての役割)"
   label_member_plural: "メンバー"
+  lable_membership_added: 'Member added'
+  lable_membership_updated: 'Member updated'
   label_menu_item_name: "メニュー項目の名称"
   label_message: "メッセージ"
   label_message_last: "最新のメッセージ"
@@ -1727,17 +1780,21 @@ ja:
   label_workflow_plural: "ワークフロー"
   label_workflow_summary: "サマリ"
   label_x_closed_work_packages_abbr:
+    one: "1件完了"
+    other: "%{count}件完了"
     zero: "0 クローズ"
-    other: ""
   label_x_comments:
+    one: "1件のコメント"
+    other: "%{count}件のコメント"
     zero: "コメントがありません"
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1件未完了"
+    other: "%{count}件未完了"
     zero: "0 オープン"
-    other: ""
   label_x_projects:
+    one: "1 プロジェクト"
+    other: "%{count} プロジェクト"
     zero: "プロジェクトがありません"
-    other: ""
   label_yesterday: "昨日"
   label_role_type: "タイプ"
   label_member_role: "プロジェクトの役割"
@@ -1772,15 +1829,21 @@ ja:
   mail_body_account_activation_request: "新規ユーザー(%{value})が登録されました。このアカウントは承認待ちです："
   mail_body_account_information: "アカウント情報"
   mail_body_account_information_external: "%{value} アカウントを使ってログインできます。"
+  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
+  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
+  mail_body_backup_token_reset_user_info: Your backup token has been reset.
+  mail_body_backup_token_info: The previous token is no longer valid.
+  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
+  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "パスワードを変更するには、以下のリンクをクリックしてください:"
   mail_body_register: "OpenProjectへようこそ。このリンクをクリックしてアカウントを有効化してください："
   mail_body_register_header_title: "プロジェクトへの招待メール"
   mail_body_register_user: "%{name}さん"
   mail_body_register_links_html: |
-    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
-    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    私たちがウェビナー (%{webinar_link}) の場としている YouTube チャンネル (%{youtube_link}) を自由に閲覧して下さい。
+    OpenProject の最初のステップを簡単にする “Get started”(はじめに) ビデオ (%{get_started_link}) があります。
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+    さらに質問がある場合、ドキュメント (%{documentation_link}) を参照するか、問い合わせ先 (%{contact_us_link}) に連絡してください。
   mail_body_register_closing: "あなたのOpenProjectチーム"
   mail_body_register_ending: "連絡をお待ちしています！よろしくお願いいたします。"
   mail_body_reminder: "担当している %{count}件 のワークパッケージが %{days} 日内に期限を迎えます："
@@ -1788,12 +1851,35 @@ ja:
   mail_body_wiki_content_added: "%{author}によってWikiページ'%{id}'が追加されました。"
   mail_body_wiki_content_updated: "%{author}によってWikiページ'%{id}'が更新されました。"
   mail_subject_account_activation_request: "%{value} アカウントの承認要求"
+  mail_subject_backup_ready: "Your backup is ready"
+  mail_subject_backup_token_reset: "Your backup token has been reset"
   mail_subject_lost_password: "%{value} パスワード再発行"
   mail_subject_register: "%{value} アカウント登録の確認"
   mail_subject_reminder: "%{count} 件のワークパッケージが %{days} 日内に期限を迎えます"
   mail_subject_group_reminder: "グループ \"%{group}\" の %{count} 件のワークパッケージが %{days} 日内に期限を迎えます"
   mail_subject_wiki_content_added: "Wikiページ'%{id}'が追加されました"
   mail_subject_wiki_content_updated: "Wikiページ'%{id}'が更新されました"
+  mail_member_added_project:
+    subject: "%{project} - You have been added as a member"
+    body:
+      added_by:
+        without_message: "%{user} added you as a member to the project '%{project}'."
+        with_message: "%{user} added you as a member to the project '%{project}' writing:"
+      roles: "You have the following roles:"
+  mail_member_updated_project:
+    subject: "%{project} - Your roles have been updated"
+    body:
+      updated_by:
+        without_message: "%{user} updated the roles you have in the project '%{project}'."
+        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
+      roles: "You now have the following roles:"
+  mail_member_updated_global:
+    subject: "Your global permissions have been updated"
+    body:
+      updated_by:
+        without_message: "%{user} updated the roles you have globally."
+        with_message: "%{user} updated the roles you have globally writing:"
+      roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: ユーザーのアクティブ化の上限に達しました。
     message: |
@@ -1899,7 +1985,7 @@ ja:
   permission_add_messages: "メッセージの投稿"
   permission_add_project: "プロジェクトの作成"
   permission_manage_user: "ユーザーの作成と編集"
-  permission_manage_placeholder_user: "プレースホルダーユーザの作成、編集、削除"
+  permission_manage_placeholder_user: "プレースホルダーユーザーの作成、編集、削除"
   permission_add_subprojects: "子プロジェクトの追加"
   permission_add_work_package_watchers: "ウォッチャーの追加"
   permission_assign_versions: "バージョンの割り当て"
@@ -2146,6 +2232,7 @@ ja:
   setting_consent_required: "同意が必要です。"
   setting_consent_decline_mail: "連絡先メールアドレスに同意します。"
   setting_cross_project_work_package_relations: "他プロジェクトとの間にワークパッケージの関連付けを許可する"
+  setting_first_week_of_year: "First week in year contains"
   setting_date_format: "日付の形式"
   setting_default_language: "デフォルトの言語"
   setting_default_notification_option: "デフォルトのメール通知オプション"
@@ -2227,6 +2314,11 @@ ja:
     passwords: "パスワード"
     session: "セッション"
     brute_force_prevention: "自動的にユーザをロック"
+    display:
+      first_date_of_week_and_year_present: >
+        If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
     projects:
       section_new_projects: "新規プロジェクトの設定"
       section_project_overview: "プロジェクト概要リストの設定"
@@ -2260,7 +2352,7 @@ ja:
   text_are_you_sure_with_children: "仕事項目と子項目を削除してもよろしいですか？"
   text_assign_to_project: "プロジェクト自体に割り当てする"
   text_form_configuration: >
-    作業パッケージのフォームに表示されるフィールドをカスタマイズできます。自由にフィールドをグループ化して、あなたのドメインのニーズを反映できます。
+    ワークパッケージのフォームに表示されるフィールドをカスタマイズできます。自由にフィールドをグループ化して、あなたのドメインのニーズを反映できます。
   text_form_configuration_required_attribute: "属性が必須とマークされています。 したがって常に示されます"
   text_caracters_maximum: "最大%{count}文字です。"
   text_caracters_minimum: "最低%{count}文字の長さが必要です。"
@@ -2615,6 +2707,7 @@ ja:
       code_403: "このリソースにアクセスする権限がありません。"
       code_404: "要求したリソースが見つかりません。"
       code_409: "競合する変更のためにリソースを更新できませんでした。"
+      code_429: "Too many requests. Please try again later."
       code_500: "内部エラーが発生しました。"
       expected:
         date: "YYYY-MM-DD (ISO 8601 日付のみ)"
@@ -2624,6 +2717,9 @@ ja:
       invalid_json: "JSONとして要求を解析できませんでした。"
       invalid_relation: "関係は無効です。"
       invalid_resource: "プロパティ '%{property}' は '%{expected}'のようなリンクであることが期待されていますが実際は '%{actual}'が指定されています。"
+      invalid_signal:
+        embed: "要求された %{invalid} の埋め込みはサポートされていません。 サポートされている埋め込みは %{supported} です。"
+        select: "要求された %{invalid} の選択はサポートされていません。 サポートされている選択は %{supported} です。"
       invalid_user_status_transition: "現在のユーザーのアカウントステータスはこの操作を許可していません。"
       missing_content_type: "指定されていません。"
       missing_request_body: "要求の本体がありませんでした。"
@@ -2729,3 +2825,4 @@ ja:
     authorization_error: "認証エラーが発生しました。"
     revoke_my_application_confirmation: "本当にこのアプリケーションを削除しますか？ これにより %{token_count} が無効になります。"
     my_registered_applications: "登録済みのOAuthアプリケーション"
+  you: you

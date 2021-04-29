@@ -18,7 +18,7 @@ module Members
     end
 
     def name
-      icon = avatar principal, class: 'avatar-mini'
+      icon = avatar principal, size: :mini
 
       icon + principal_link
     end
@@ -39,7 +39,7 @@ module Members
     end
 
     def roles
-      label = h member.roles.sort.collect(&:name).join(', ')
+      label = h member.roles.uniq.sort.collect(&:name).join(', ')
 
       if principal&.admin?
         label << tag(:br)

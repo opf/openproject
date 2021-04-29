@@ -59,11 +59,21 @@ module API
           schema :active,
                  type: 'Boolean'
 
-          schema :status,
-                 type: 'ProjectStatus',
-                 name_source: ->(*) { I18n.t('activerecord.attributes.projects/status.code') },
-                 required: false,
-                 writable: ->(*) { represented.writable?(:status) }
+          schema_with_allowed_collection :status,
+                                         type: 'ProjectStatus',
+                                         name_source: ->(*) { I18n.t('activerecord.attributes.projects/status.code') },
+                                         required: false,
+                                         writable: ->(*) { represented.writable?(:status) },
+                                         values_callback: ->(*) {
+                                           ::Projects::Status.codes.keys
+                                         },
+                                         value_representer: ::API::V3::Projects::Statuses::StatusRepresenter,
+                                         link_factory: ->(value) {
+                                           {
+                                             href: api_v3_paths.project_status(value),
+                                             title: I18n.t(:"activerecord.attributes.projects/status.codes.#{value}")
+                                           }
+                                         }
 
           schema :status_explanation,
                  type: 'Formattable',

@@ -37,7 +37,6 @@ export class MainMenuNavigationService {
             .addClass('open')
             .find('li > a:first, .tree-menu--title:first').first().focus();
 
-          console.log("Activating " + targetLi.data('name'));
           that.navigationEvents$.next(targetLi.data('name'));
         }
         return false;
@@ -108,7 +107,7 @@ export class MainMenuNavigationService {
     }
 
     jQuery('#main-menu ul.main-menu--children').each(function(_i, child) {
-      var title = jQuery(child).parents('li').find('.main-item-wrapper .menu-item--title').contents()[0].textContent;
+      var title = jQuery(child).parents('li').find('.main-item-wrapper .op-menu--item-title').contents()[0].textContent;
       var parentURL = jQuery(child).parents('li').find('.main-item-wrapper > a').attr('href');
       var header = jQuery('<div class="main-menu--children-menu-header"></div>');
       var upLink = jQuery('<a class="main-menu--arrow-left-to-project" href="#"><i class="icon-arrow-left1" aria-hidden="true"></i></a>');

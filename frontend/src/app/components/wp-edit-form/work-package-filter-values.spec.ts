@@ -27,7 +27,7 @@
 //++
 
 import { TestBed } from "@angular/core/testing";
-import { CurrentUserService } from "core-components/user/current-user.service";
+import { CurrentUserService } from "core-app/modules/current-user/current-user.service";
 import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
 import { Injector } from "@angular/core";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
@@ -97,7 +97,7 @@ describe('WorkPackageFilterValues', () => {
       ]
     }).compileComponents();
 
-    injector = TestBed.get(Injector);
+    injector = TestBed.inject(Injector);
     halResourceService = injector.get(HalResourceService);
 
     resource = halResourceService.createHalResourceOfClass(WorkPackageResource, source, true);

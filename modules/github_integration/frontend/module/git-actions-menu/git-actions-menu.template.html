@@ -1,0 +1,24 @@
+<div class="git-actions-menu dropdown-relative dropdown -overflow-in-view dropdown-anchor-right">
+  <h3 class="title">
+    <op-icon icon-classes="button--icon icon-console-light"></op-icon>
+    {{text.title}}
+  </h3>
+  <ul class="tabrow">
+    <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
+              properly. Thus, don't remove the hrefs or the empty URLs! -->
+    <li *ngFor="let tab of tabs" (click)="selectTab(tab)" [class.selected]="tab.selected">
+      <a href="" [textContent]="tab.label"></a>
+    </li>
+  </ul>
+  <div class="copy-wrapper">
+    <textarea class="copy-content" [textContent]="selectedTab().textToCopy()" [style.height.em]="selectedTab().lines" readonly="true"></textarea>
+    <button class="button copy-button"
+        type="button"
+        [attr.aria-label]="text.copyButtonHelpText"
+        (click)="onCopyButtonClick()">
+      <op-icon icon-classes="button--icon icon-copy"></op-icon>
+    </button>
+    <div class="copy-result-message" *ngIf="showCopyResult" [textContent]="lastCopyResult"></div>
+  </div>
+  <div class="help-text" [textContent]="selectedTab().help"></div>
+</div>

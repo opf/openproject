@@ -33,6 +33,19 @@ da:
         single: "Vælg \"%{name}\""
       remove: "Fjern %{name};"
       active: "Aktiv %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Muligheder
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Luk popup"
     close_filter_title: "Luk filter"
     close_form_title: "Luk formular"
@@ -86,7 +99,7 @@ da:
     caption_rate_history: "Satshistorik"
     clipboard:
       browser_error: "Din browser understøtter ikke kopiering til Udklipsholder. Kopiér venligst den markerede tekst manuelt."
-      copied_successful: "Successfully copied to clipboard!"
+      copied_successful: "Kopieret til udklipsholder!"
     chart:
       type: 'Chart type'
       axis_criteria: 'Axis criteria'
@@ -172,58 +185,58 @@ da:
         reset_to_defaults: 'Reset to defaults'
       enterprise:
         trial:
-          confirmation: "Confirmation of email address"
+          confirmation: "Bekræft mailadresse"
           confirmation_info: >
             We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
-              I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
-            invalid_email: "Invalid email address"
-            label_company: "Company"
+              Jeg er enig i <a target="_blank" href="%{link_terms}">vilkår for service</a> og <a target="_blank" href="%{link_privacy}">privatlivspolitik</a>.
+            invalid_email: "Ugynldig email adresse"
+            label_company: "Virksomhed"
             label_first_name: "Fornavn"
             label_last_name: "Efternavn"
             label_email: "E-mail"
-            label_domain: "Domain"
+            label_domain: "Domæne"
             label_subscriber: "Subscriber"
             label_maximum_users: "Maximum active users"
-            label_starts_at: "Starts at"
+            label_starts_at: "Starter fra"
             label_expires_at: "Expires at"
-            receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
-            taken_domain: There can only be one active trial per domain.
-            taken_email: Each user can only create one trial.
-          email_not_received: "You did not receive an email? You can resend the email with the link on the right."
-          try_another_email: "Or try it with another email address."
-          next_steps: "Next steps"
+            receive_newsletter: Jeg ønsker at modtage OpenProject <a target="_blank" href="%{link}">nyhedsbrevet</a>.
+            taken_domain: Der kan kun være én aktiv prøve pr. domæne.
+            taken_email: Hver bruger kan kun oprette en prøveversion.
+          email_not_received: "Du har ikke modtaget en e-mail? Du kan gensende e-mailen med linket til højre."
+          try_another_email: "Eller prøv det med en anden e-mail-adresse."
+          next_steps: "Næste trin"
           resend_link: "Resend"
-          resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
-          resend_warning: "Could not resend email."
-          session_timeout: "Your session timed out. Please try to reload the page or resend email."
+          resend_success: "E-mail er blevet gensendt. Tjek dine e-mails og klik på det angivne bekræftelseslink."
+          resend_warning: "Kunne ikke gensende e-mail."
+          session_timeout: "Din session fik timeout. Prøv at genindlæse siden eller gensende e-mail."
           status_label: "Status:"
-          status_confirmed: "confirmed"
-          status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise Edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
+          status_confirmed: "Bekræftet"
+          status_waiting: "e-mail sendt - venter på bekræftelse"
+          test_ee: "Test Enterprise Version 14 dage gratis"
+          quick_overview: "Få et hurtigt overblik over projektledelse og teamsamarbejde med OpenProject Enterprise Edition."
         upsale:
           become_hero: "Become a hero!"
           benefits:
-            description: "What are the benefits?"
-            high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
-            installation: "Installation support"
-            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Premium features"
-            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
+            description: "Hvad er fordelene ved Enterprise on-premises Edition?"
+            high_security: "Sikkerheds funktioner"
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), to-faktor godkendelse og automatisk synkronisering af LDAP-grupper."
+            installation: "Installations support"
+            installation_text: "Erfarne software ingeniører guide dig gennem den komplette installation og setup proces i din egen infrastruktur."
+            premium_features: "Premium-funktioner"
+            premium_features_text: "Agile tavler, brugerdefineret tema og logo, grafer, intelligente arbejdsgange med brugerdefinerede handlinger, fuld tekst søgning efter vedhæftede filer arbejde og multi-valgs brugerdefinerede felter."
             professional_support: "Professionel support"
-            professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
-          button_start_trial: "Start free trial"
-          button_book_now: "Book now"
+            professional_support_text: "Få pålidelig, høj-touch support fra senior support ingeniører med ekspert viden om at køre OpenProject i forretningskritiske miljøer."
+          button_start_trial: "Start gratis prøveperiode"
+          button_book_now: "Bestil nu"
           confidence: >
-            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
-          link_quote: "Get a quote"
+            Vi leverer tillid til en testet og understøttet enterprise-klasse projektstyringssoftware - med Open Source og et åbent sind.
+          link_quote: "Få et tilbud"
           text: >
-            The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
-          unlimited: "Unlimited"
-          you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
+            OpenProject Enterprise Edition bygger oven på Community Edition. Det omfatter premium-funktioner og professionel support primært rettet mod organisationer med mere end 10 brugere, der administrerer forretningskritiske projekter med OpenProject.
+          unlimited: "Ubegrænset"
+          you_contribute: "Udviklere skal også betale deres regninger. Med Enterprise Edition bidrager du væsentligt til denne Open Source-fællesskabsindsats."
     custom_actions:
       date:
         specific: 'på'
@@ -272,11 +285,11 @@ da:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              Udgivelsen indeholder forskellige nye funktioner og forbedringer: <br> <ul class="%{list_styling_class}"> <li>Et nyt koncept med <b>pladsholderbrugere</b> (premium-funktion) gør det muligt at tilføje foreløbige brugere uden e-mail-adresse til OpenProject og tildele opgaver til disse ressourcer.</li> <li>Arbejdspakken <b>filtre udvides med en overordnet indstilling </b>for nemt at se alle direkte underpakker samt <b>ved ID</b> for kun at inkludere eller udelukke disse eksakte arbejdspakker på listen.</li> <li>Brugeradministrationen distribueres til ikke-administratorer af en <b>ny global rolle</b>, giver mulighed for at administrere og invitere brugere uden at have fulde administratorrettigheder.</li> <li>Yderligere UI og UX forbedringer, dvs. harmonisering af omkostningsrapportering navigation, tilpassede baggrundsfarver af sum og gruppe rækker i arbejdspakken listen, tilføje en gruppe show side.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              Udgivelsen indeholder forskellige nye funktioner og forbedringer: <br> <ul class="%{list_styling_class}"> <li>Et nyt koncept med <b>pladsholderbrugere</b> (premium-funktion) gør det muligt at tilføje foreløbige brugere uden e-mail-adresse til OpenProject og tildele opgaver til disse ressourcer.</li> <li>Arbejdspakken <b>filtre udvides med en overordnet indstilling </b>for nemt at se alle direkte underpakker samt <b>ved ID</b> for kun at inkludere eller udelukke disse eksakte arbejdspakker på listen.</li> <li>Brugeradministrationen distribueres til ikke-administratorer af en <b>ny global rolle</b>, giver mulighed for at administrere og invitere brugere uden at have fulde administratorrettigheder.</li> <li>Yderligere UI og UX forbedringer, dvs. harmonisering af omkostningsrapportering navigation, tilpassede baggrundsfarver af sum og gruppe rækker i arbejdspakken listen, tilføje en gruppe show side.</li> </ul>
     label_activate: "Aktivér"
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
@@ -328,7 +341,7 @@ da:
     label_expand_all: "Fold alle ud"
     label_expand_project_menu: "Expand project menu"
     label_export: "Eksportér"
-    label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_export_preparing: "Eksporten er under forberedelse og vil blive hentet om lidt."
     label_filename: "Fil"
     label_filesize: "Størrelse"
     label_general: "Generelle"
@@ -362,7 +375,7 @@ da:
     label_next: "Næste"
     label_no_color: "Ingen farve"
     label_no_data: "Ingen data at vise"
-    label_no_due_date: "no finish date"
+    label_no_due_date: "ingen slutdato"
     label_no_start_date: "ingen startdato"
     label_no_value: "Ingen værdi tildelt"
     label_none: "ingen"
@@ -402,7 +415,7 @@ da:
     label_public_query: "Offentlig"
     label_sum: "Sum"
     label_sum_for: "Sum for"
-    label_total_sum: "Total sum"
+    label_total_sum: "I alt"
     label_subject: "Emne"
     label_this_week: "denne uge"
     label_today: "Today"
@@ -465,6 +478,7 @@ da:
         help_menu: 'In the <b>Help</b> menu you will find a user guide and additional help resources. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>Members</b> to join your project.'
         project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
+        quick_add_button: 'Opret et nyt projekt eller inviter kolleger.'
         sidebar_arrow: "With the arrow you can navigate back to the project's <b>Main menu</b>."
         welcome: 'Tag en tre minutters introduktionsturné for at lære de mest <b> vigtige funktioner </b>. <br> Vi anbefaler at du gennemfører trinende til slutningen. Du kan når som helst genstarte turen.'
         wiki: 'Within the <b>Wiki</b> you can document and share knowledge together with your team.'
@@ -516,7 +530,7 @@ da:
         reset_title: "Reset form configuration"
         confirm_reset: >
           Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
-        upgrade_to_ee: "Opgradér til Enterprise Edition"
+        upgrade_to_ee: "Opgrader til Enterprise on-premises Edition"
         upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise Edition client?"
         more_information: "More information"
         nevermind: "Nevermind"
@@ -844,7 +858,7 @@ da:
           automatic: 'Automatic'
           manually: 'Manually'
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
-        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Brug indtastningsfeltet ovenfor for at tilføje kolonner til tabelvisningen. Du kan trække og slippe kolonnerne for at ændre rækkefølgen."
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'
@@ -939,9 +953,9 @@ da:
         one: "one child work package"
         other: "%{count} work package children"
       hour:
+        one: "1 t"
+        other: "%{count} t"
         zero: "0 h"
-        one: ""
-        other: ""
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'
@@ -959,3 +973,68 @@ da:
       card: 'Cards'
       list: 'Table'
       timeline: 'Gantt'
+    invite_user_modal:
+      back: 'Tilbage'
+      invite: 'Invitér'
+      title:
+        invite: 'Invitér bruger'
+        invite_to_project: 'Inviter %{type} til %{project}'
+        User: 'bruger'
+        Group: 'gruppe'
+        PlaceholderUser: 'pladsholder bruger'
+        invite_principal_to_project: 'Inviter %{principal} til %{project}'
+      project:
+        label: 'Prjoekt'
+        required: 'Vælg et projekt'
+        next_button: 'Næste'
+        no_results: 'Ingen projekter blev fundet'
+        no_invite_rights: 'Du har ikke tilladelse til at invitere medlemmer til dette projekt'
+      type:
+        required: 'Vælg venligst den type, der skal inviteres'
+        user:
+          title: 'Bruger'
+          description: 'Tilladelser baseret på den tildelte rolle i det valgte projekt'
+        group:
+          title: 'Gruppe'
+          description: 'Tilladelser baseret på den tildelte rolle i det valgte projekt'
+        placeholder:
+          title: 'Pladsholder bruger'
+          title_no_ee: 'Pladsholder bruger (Enterprise Edition kun funktion)'
+          description: 'Har ikke adgang til projektet, og ingen e-mails er sendt ud.'
+          description_no_ee: 'Har ikke adgang til projektet, og der sendes ingen e-mails. <br>Tjek <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+      principal:
+        label:
+          name_or_email: 'Navn eller e-mailadresse'
+          name: 'Navn'
+        already_member_message: 'Allerede medlem af %{project}'
+        no_results_user: 'Ingen brugere blev fundet'
+        invite_user: 'Invitér:'
+        change_user_selection: 'Skift e-mail-adresse eller vælg en eksisterende bruger'
+        no_results_placeholder: 'Ingen pladsholdere blev fundet'
+        change_placeholder_selection: 'Skift navn eller vælg en eksisterende pladsholder'
+        create_new_placeholder: 'Opret ny pladsholder:'
+        no_results_group: 'Ingen grupper blev fundet'
+        change_group_selection: 'Skift navn eller vælg en eksisterende gruppe'
+        next_button: 'Næste'
+        required:
+          user: 'Vælg venligst en bruger'
+          placeholder: 'Vælg venligst en pladsholder'
+          group: 'Vælg venligst en gruppe'
+      role:
+        label: 'Rolle i %{project}'
+        description: 'Dette er den rolle, %{principal} vil modtage, når de deltager i dit projekt. Rollen definerer, hvilke foranstaltninger de har lov til at træffe, og hvilke oplysninger de har lov til at se. <a href="%{href}" target="_blank"> Lær mere om roller og tilladelser. </a>'
+        required: 'Vælg venligst en rolle'
+        next_button: 'Næste'
+      message:
+        label: 'Invitations besked'
+        description: 'Vi sender en e-mail til %{principal}, som du kan tilføje en personlig besked til her. En forklaring på invitationen kunne være nyttig eller måske lidt information om projektet for at hjælpe dem med at komme i gang.'
+        next_button: 'Gennemse invitation'
+      summary:
+        next_button: 'Send invitation'
+      success:
+        title: '%{principal} blev inviteret!'
+        description:
+          user: 'Brugeren kan nu logge ind for at få adgang til %{project}. I mellemtiden kan du allerede planlægge med den pågældende bruger og tildele arbejdspakker for eksempel.'
+          placeholder: 'Pladsholderen kan nu bruges i %{project}. I mellemtiden kan du allerede planlægge med den pågældende bruger og tildele arbejdspakker for eksempel.'
+          group: 'Gruppen er nu en del af %{project}. I mellemtiden kan du allerede planlægge med denne gruppe og tildele arbejdspakker for eksempel.'
+        next_button: 'Fortsæt'

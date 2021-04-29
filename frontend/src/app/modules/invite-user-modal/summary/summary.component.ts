@@ -59,8 +59,7 @@ export class SummaryComponent {
     readonly I18n:I18nService,
     readonly elementRef:ElementRef,
     readonly api:APIV3Service,
-  ) {
-  }
+  ) { }
 
   invite() {
     return of(this.principal)
@@ -81,6 +80,7 @@ export class SummaryComponent {
   }
 
   private createPrincipal(principal:PrincipalLike):Observable<HalResource> {
+    console.log(principal);
     if (principal instanceof HalResource) {
       return of(principal);
     }

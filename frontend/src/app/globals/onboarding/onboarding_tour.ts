@@ -23,6 +23,7 @@ declare global {
 
 
 export function start(name:OnboardingTourNames) {
+  console.log('star tour', name);
   switch (name) {
   case 'backlogs':
     initializeTour('startTaskBoardTour');
@@ -68,6 +69,7 @@ function initializeTour(storageValue:any, disabledElements?:any, projectSelectio
 }
 
 function startTour(steps:any) {
+  console.log('startTour', steps);
   window.onboardingTourInstance.set(steps);
   window.onboardingTourInstance.run();
 }

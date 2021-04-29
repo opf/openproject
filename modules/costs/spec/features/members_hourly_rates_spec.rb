@@ -32,8 +32,7 @@ describe 'hourly rates on a member', type: :feature, js: true do
   let(:project) { FactoryBot.build :project }
   let(:user) do
     FactoryBot.create :admin,
-                      member_in_project: project,
-                      member_through_role: [FactoryBot.create(:role)]
+                      member_in_project: project
   end
   let(:member) { Member.find_by(project: project, principal: user) }
 

@@ -19,9 +19,7 @@ Here you will learn about all functionalities in OpenProject.
 Your work in OpenProject can be organized in multiple projects with a distinct set of members and their respective roles in that project. Each project can be individually configured with regards to the enabled features, which are called *Modules* in OpenProject. This distinction between projects provides you with a lot of flexibility to set up your work, and control what users are allowed to collaborate in each indivudal project.
 
 <div class="glossary">
-
 **Module** is defined as an independent unit of functionality that can be used to extend and improve the existing core functions. Modules can be activated and deactivated in the project settings (information tab).
-
 </div>
 
 Both the community edition and enterprise edition allows you to create an unlimited number of projects to separate your work. To learn more about the creation and management of projects within OpenProject, [please visit our separate section on projects](projects/).
@@ -53,12 +51,3 @@ Please choose the module or topic you want to learn more about.
 | [Documents](documents)                    | How to upload and share documents in OpenProject?            |
 | [Meetings](meetings)                      | How to manage meetings to create and share meeting agenda and meeting minutes? |
 | [Manage projects](projects)               | Edit, create, copy, delete projects and change project settings. |
-
-
-
-## Frequently asked questions - FAQ
-
-
-### Is there an OpenProject app?
-
-There is no native iOS or Android app for OpenProject, but OpenProject is responsive - so it is displayed well on smaller displays.

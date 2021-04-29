@@ -26,8 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Scope } from "@sentry/hub";
-import { Severity, Event as SentryEvent } from "@sentry/types";
+import { Hub, Severity, Scope, Event as SentryEvent } from "@sentry/types";
 import { environment } from "../../environments/environment";
 
 export type ScopeCallback = (scope:Scope) => void;
@@ -65,33 +64,51 @@ export class SentryReporter implements ErrorReporter {
 
   private readonly sentryConfigured:boolean = true;
 
-  private client:any;
+  private client:Hub;
 
   constructor() {
     const sentryElement = document.querySelector('meta[name=openproject_sentry]') as HTMLElement|null;
-    if (sentryElement) {
-      import('@sentry/browser').then((sentry) => {
-        sentry.init({
-          dsn: sentryElement.dataset.dsn!,
-          debug: !environment.production,
-          ignoreErrors: [
-            // Transition movements,
-            'The transition has been superseded by a different transition',
-            // Uncaught promise rejections
-            'Uncaught (in promise)',
-          ],
-          beforeSend: (event) => this.filterEvent(event),
-        });
-
-        this.sentryLoaded(sentry);
-      });
+    if (sentryElement !== null) {
+      this.loadSentry(sentryElement);
     } else {
       this.sentryConfigured = false;
       this.messageStack = [];
     }
   }
 
-  public sentryLoaded(client:any) {
+  private loadSentry(sentryElement:HTMLElement) {
+    const dsn = sentryElement.dataset.dsn || '';
+    const version = sentryElement.dataset.version || 'unknown';
+    const traceRate = parseFloat(sentryElement.dataset.tracesSampleRate || '0.1');
+
+    import('./sentry-dependency').then((imported) => {
+      const sentry = imported.Sentry;
+      sentry.init({
+        dsn: dsn,
+        debug: !environment.production,
+        release: 'op-frontend@' + version,
+        environment: environment.production ? 'production' : 'development',
+
+        // Integrations
+        integrations: [new imported.Integrations.BrowserTracing()],
+
+        // Tracing rate for performance
+        tracesSampleRate: traceRate,
+
+        ignoreErrors: [
+          // Transition movements,
+          'The transition has been superseded by a different transition',
+          // Uncaught promise rejections
+          'Uncaught (in promise)',
+        ],
+        beforeSend: (event) => this.filterEvent(event),
+      });
+
+      this.sentryLoaded(sentry as any);
+    });
+  }
+
+  public sentryLoaded(client:Hub):void {
     this.client = client;
     client.configureScope(this.setupContext.bind(this));
 

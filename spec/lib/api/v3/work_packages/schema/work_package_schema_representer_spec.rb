@@ -644,6 +644,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:name) { I18n.t('attributes.author') }
         let(:required) { true }
         let(:writable) { false }
+        let(:location) { '_links' }
       end
     end
 
@@ -657,6 +658,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:name) { I18n.t('attributes.project') }
           let(:required) { true }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
       end
 
@@ -669,6 +671,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:name) { I18n.t('attributes.project') }
           let(:required) { true }
           let(:writable) { false }
+          let(:location) { '_links' }
         end
       end
 
@@ -725,6 +728,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:name) { I18n.t('activerecord.attributes.work_package.parent') }
         let(:required) { false }
         let(:writable) { true }
+        let(:location) { '_links' }
       end
     end
 
@@ -735,6 +739,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:name) { I18n.t('activerecord.attributes.work_package.type') }
         let(:required) { true }
         let(:writable) { true }
+        let(:location) { '_links' }
       end
 
       it_behaves_like 'has a collection of allowed values' do
@@ -752,6 +757,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:required) { true }
         let(:writable) { true }
         let(:has_default) { true }
+        let(:location) { '_links' }
       end
 
       it_behaves_like 'has a collection of allowed values' do
@@ -768,6 +774,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:name) { I18n.t('attributes.category') }
         let(:required) { false }
         let(:writable) { true }
+        let(:location) { '_links' }
       end
 
       it_behaves_like 'has a collection of allowed values' do
@@ -787,6 +794,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:name) { I18n.t('activerecord.attributes.work_package.version') }
           let(:required) { false }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
 
         it_behaves_like 'has a collection of allowed values' do
@@ -805,6 +813,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:name) { I18n.t('activerecord.attributes.work_package.version') }
           let(:required) { false }
           let(:writable) { false }
+          let(:location) { '_links' }
         end
       end
     end
@@ -821,6 +830,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:required) { true }
         let(:writable) { true }
         let(:has_default) { true }
+        let(:location) { '_links' }
       end
 
       it_behaves_like 'has a collection of allowed values' do
@@ -841,6 +851,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:required) { true }
           let(:writable) { false }
           let(:has_default) { true }
+          let(:location) { '_links' }
         end
       end
     end
@@ -855,6 +866,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:name) { I18n.t('attributes.assigned_to') }
           let(:required) { false }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
 
         it_behaves_like 'links to allowed values via collection link' do
@@ -888,6 +900,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:name) { I18n.t('attributes.responsible') }
           let(:required) { false }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
 
         it_behaves_like 'links to allowed values via collection link' do
@@ -925,6 +938,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:name) { I18n.t('attributes.budget') }
           let(:required) { false }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
 
         it_behaves_like 'has a collection of allowed values' do

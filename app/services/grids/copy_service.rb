@@ -32,26 +32,26 @@ module Grids
   ##
   # Base class for any grid-based model's copy service.
   class CopyService < ::BaseServices::Copy
-    def initialize(user:, source:, contract_class: ::EmptyContract)
-      super user: user, source: source, contract_class: contract_class
-    end
-
-    protected
-
     ##
     # DependentServices can be specialised through a class in the
     # concrete model's namespace, e.g. Boards::Copy::WidgetsDependentService.
-    def copy_dependencies
+    def self.copy_dependencies
       [
         widgets_dependency
       ]
     end
 
-    def widgets_dependency
-      self.class.module_parent::Copy::WidgetsDependentService
+    def self.widgets_dependency
+      module_parent::Copy::WidgetsDependentService
     rescue NameError
       Copy::WidgetsDependentService
     end
+
+    def initialize(user:, source:, contract_class: ::EmptyContract)
+      super user: user, source: source, contract_class: contract_class
+    end
+
+    protected
 
     def initialize_copy(source, params)
       grid = source.dup

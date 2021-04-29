@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 2.7.2'
+ruby '~> 2.7.3'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -36,10 +36,6 @@ gem 'activerecord-import', '~> 1.0.2'
 gem 'activerecord-session_store', '~> 2.0.0'
 gem 'rails', '~> 6.1.3'
 gem 'responders', '~> 3.0'
-
-# Keep mimemagic at older version until rails provides its own
-# solution without adding a system dependency. We are GPL ourselves so this is fine.
-gem 'mimemagic', git: 'https://github.com/opf/mimemagic', ref: 'bf8d7c2'
 
 gem 'rdoc', '>= 2.4.2'
 
@@ -193,6 +189,13 @@ gem 'ruby-progressbar', '~> 1.11.0', require: false
 
 gem 'mini_magick', '~> 4.11.0', require: false
 
+# Sentry error reporting, loaded on demand
+group :sentry do
+  gem "sentry-ruby", '~> 4.3.1',  require: false
+  gem "sentry-rails", '~> 4.3.3', require: false
+  gem "sentry-delayed_job", '~> 4.3.0', require: false
+end
+
 group :test do
   gem 'launchy', '~> 2.5.0'
   gem 'rack-test', '~> 1.1.0'
@@ -245,7 +248,7 @@ group :ldap do
 end
 
 group :development do
-  gem 'listen', '~> 3.4.0' # Use for event-based reloaders
+  gem 'listen', '~> 3.5.1' # Use for event-based reloaders
 
   gem 'faker'
   gem 'letter_opener'

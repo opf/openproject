@@ -15,8 +15,8 @@ fr:
       file_invalid: "Fichier BCF invalide"
     x_bcf_issues:
       zero: 'Aucun problème BCF'
-      one: ''
-      other: ''
+      one: 'Un problème BCF'
+      other: '%{count} problèmes BCF'
     bcf_xml:
       xml_file: 'Fichier XML BCF'
       import_title: 'Importer'
@@ -91,7 +91,7 @@ fr:
           bitmaps_not_writable: "bitmaps n'est pas accessible en écriture car il n'est pas encore implémenté."
           index_not_integer: "l'index n'est pas un entier."
           invalid_clipping_planes: "clipping_planes n'est pas valide."
-          invalid_components: "components n'est pas valide."
+          invalid_components: "les composants sont invalides."
           invalid_lines: "lines n'est pas valide."
           invalid_orthogonal_camera: "orthogonal_camera n'est pas valide."
           invalid_perspective_camera: "perspective_camera n'est pas valide."

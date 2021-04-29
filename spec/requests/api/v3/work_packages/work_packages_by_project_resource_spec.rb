@@ -318,14 +318,14 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
       let(:permissions) { %i[add_work_packages view_project view_work_packages] }
 
       it 'sends a mail by default' do
-        expect(DeliverWorkPackageNotificationJob).to have_been_enqueued
+        expect(Mails::WorkPackageJob).to have_been_enqueued
       end
 
       context 'without notifications' do
         let(:path) { "#{api_v3_paths.work_packages_by_project(project.id)}?notify=false" }
 
         it 'should not send a mail' do
-          expect(DeliverWorkPackageNotificationJob).not_to have_been_enqueued
+          expect(Mails::WorkPackageJob).not_to have_been_enqueued
         end
       end
 
@@ -333,7 +333,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
         let(:path) { "#{api_v3_paths.work_packages_by_project(project.id)}?notify=true" }
 
         it 'should send a mail' do
-          expect(DeliverWorkPackageNotificationJob).to have_been_enqueued
+          expect(Mails::WorkPackageJob).to have_been_enqueued
         end
       end
     end

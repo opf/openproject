@@ -133,7 +133,7 @@ export class WorkPackageViewAdditionalElementsService {
     if (results.sumsSchema) {
       return this
         .schemaCache
-        .ensureLoaded(results.sumsSchema.$href!)
+        .ensureLoaded(results.sumsSchema.href!)
         .then(() => []);
     }
 

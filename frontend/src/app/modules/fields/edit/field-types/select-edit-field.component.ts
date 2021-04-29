@@ -38,12 +38,12 @@ import { HalResourceNotificationService } from 'core-app/modules/hal/services/ha
 import { InjectField } from 'core-app/helpers/angular/inject-field.decorator';
 import { PermissionsService } from 'core-app/core/services/permissions/permissions.service';
 import { CreateAutocompleterComponent } from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component";
-import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
-import {StateService} from "@uirouter/core";
+import { EditFormComponent } from "core-app/modules/fields/edit/edit-form/edit-form.component";
+import { StateService } from "@uirouter/core";
 
 export interface ValueOption {
   name:string;
-  $href:string|null;
+  href:string|null;
 }
 
 @Component({
@@ -70,16 +70,24 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     onAfterViewInit: (component:CreateAutocompleterComponent) => this._autocompleterComponent = component
   };
   public get selectedOption() {
-    const href = this.value ? this.value.$href : null;
-    return _.find(this.valueOptions, o => o.$href === href)!;
+    const href = this.value ? this.value.href : null;
+    return _.find(this.valueOptions, o => o.href === href)!;
   }
-  public set selectedOption(val:ValueOption) {
-    const option = _.find(this.availableOptions, o => o.$href === val.$href);
+  public set selectedOption(val:ValueOption|HalResource) {
+    // The InviteUserModal gives us a resource that is not in availableOptions yet,
+    // but we also don't want to wait for a refresh of the options every time we want to
+    // select an option, so if we get a HalResource we trust it exists
+    if (val instanceof HalResource) {
+      this.value = val;
+      return;
+    }
+
+    const option = _.find(this.availableOptions, o => o.href === val.href);
 
     // Special case 'null' value, which angular
     // only understands in ng-options as an empty string.
-    if (option && option.$href === '') {
-      option.$href = null;
+    if (option && option.href === '') {
+      option.href = null;
     }
 
     this.value = option;
@@ -205,12 +213,12 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   private addValue(val:HalResource) {
     this.availableOptions.push(val);
-    this.valueOptions.push({ name: val.name, $href: val.$href });
+    this.valueOptions.push({ name: val.name, href: val.href });
   }
 
   public get currentValueInvalid():boolean {
     return !!(
-      (this.value && !_.some(this.availableOptions, (option:HalResource) => (option.$href === this.value.$href)))
+      (this.value && !_.some(this.availableOptions, (option:HalResource) => (option.href === this.value.href)))
       ||
       (!this.value && this.schema.required)
     );
@@ -218,7 +226,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   public onCreate(newElement:HalResource) {
     this.addValue(newElement);
-    this.selectedOption = { name: newElement.name, $href: newElement.$href };
+    this.selectedOption = { name: newElement.name, href: newElement.href };
     this.handler.handleUserSubmit();
   }
 
@@ -232,9 +240,9 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     // Nothing to do
   }
 
-  public onChange(value:HalResource|undefined) {
-    if (value !== undefined) {
-      this.selectedOption = { name: value.name, $href: value.$href };
+  public onChange(value:HalResource|undefined|null) {
+    if (value) {
+      this.selectedOption = value;
       this.handler.handleUserSubmit();
       return;
     }
@@ -259,7 +267,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     if (emptyOption === undefined) {
       this.availableOptions.unshift({
         name: this.text.placeholder,
-        $href: ''
+        href: ''
       });
     }
   }
@@ -273,7 +281,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   protected mapAllowedValue(value:HalResource):ValueOption {
-    return { name: value.name, $href: value.$href };
+    return { name: value.name, href: value.href };
   }
 
   // Subclasses shall be able to override the filters with which the

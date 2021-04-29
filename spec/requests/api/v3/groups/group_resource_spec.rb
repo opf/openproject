@@ -180,7 +180,12 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
 
   describe 'PATCH api/v3/groups/:id' do
     let(:path) { api_v3_paths.group(group.id) }
-    let(:another_user) { FactoryBot.create(:user) }
+    let(:another_role) { FactoryBot.create(:role) }
+    let(:another_user) do
+      FactoryBot.create(:user,
+                        member_in_project: project,
+                        member_through_role: another_role)
+    end
     let(:body) do
       {
         _links: {
@@ -205,16 +210,17 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     end
 
     before do
-      # Setup the memberships in the group has
+      # Setup the memberships the group has
       ::Groups::AddUsersService
         .new(group, current_user: admin)
         .call(ids: members.map(&:id))
 
+      another_user
       group_updated_at
 
-      login_as current_user
-
-      patch path, body
+      perform_enqueued_jobs do
+        patch path, body
+      end
     end
 
     context 'when the user is allowed and the input is valid' do
@@ -253,6 +259,18 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
         # includes the memberships the group has applied to the added user
         expect(other_project.reload.users)
           .to match_array [members.last, another_user]
+      end
+
+      it 'sends a mail notifying of the added project memberships to the added user' do
+        expect(ActionMailer::Base.deliveries.size)
+          .to eql 2
+
+        expect(ActionMailer::Base.deliveries.map(&:to).flatten.uniq)
+          .to match_array another_user.mail
+
+        expect(ActionMailer::Base.deliveries.map(&:subject).flatten)
+          .to match_array [I18n.t(:'mail_member_added_project.subject', project: other_project.name),
+                           I18n.t(:'mail_member_updated_project.subject', project: project.name)]
       end
     end
 
@@ -317,6 +335,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
                         project: other_project,
                         roles: [FactoryBot.create(:role)])
     end
+    let(:another_role) { FactoryBot.create(:role) }
 
     before do
       # Setup the memberships in the group has
@@ -324,9 +343,16 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
         .new(group, current_user: admin)
         .call(ids: members.map(&:id))
 
+      # Have one user have a role independent of the group
+      Member
+        .find_by(principal: members.first, project: other_project)
+        .roles << another_role
+
       login_as current_user
 
-      delete path
+      perform_enqueued_jobs do
+        delete path
+      end
     end
 
     subject(:response) { last_response }
@@ -334,8 +360,8 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     context 'with required permissions' do
       current_user { admin }
 
-      it 'responds with HTTP No Content' do
-        expect(response.status).to eq 204
+      it 'should respond with 202' do
+        expect(subject.status).to eq 202
       end
 
       it 'deletes the group' do
@@ -343,9 +369,12 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
           .not_to exist(group.id)
       end
 
-      it 'deletes the memberships of the members' do
+      it 'deletes the memberships of the members but keeps the ones a user had independently of the group' do
         expect(other_project.users)
-          .to be_empty
+          .to match_array([members.first])
+
+        expect(Member.find_by(principal: members.first).roles)
+          .to match_array([another_role])
       end
 
       context 'for a non-existent group' do

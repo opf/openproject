@@ -969,4 +969,32 @@ describe 'Projects index page',
       expect(page).to_not have_select('add_filter_select', with_options: ["Subproject of"])
     end
   end
+
+  context 'with a multi-value custom field' do
+    let!(:list_custom_field) { FactoryBot.create(:list_project_custom_field, multi_value: true) }
+
+    before do
+      project.custom_values << CustomValue.new(custom_field: list_custom_field, value: list_custom_field.value_of('A'))
+      project.custom_values << CustomValue.new(custom_field: list_custom_field, value: list_custom_field.value_of('B'))
+
+      project.save!
+
+      allow_enterprise_edition
+      allow(Setting)
+        .to receive(:enabled_projects_columns) #<< "cf_#{list_custom_field.id}"
+        .and_return ["cf_#{list_custom_field.id}"]
+
+      login_as(admin)
+      visit projects_path
+    end
+
+    it 'shows the multi selection' do
+      expected_sort = list_custom_field
+                        .custom_options
+                        .where(value: %w[A B])
+                        .reorder(:id)
+                        .pluck(:value)
+      expect(page).to have_selector(".cf_#{list_custom_field.id}.format-list", text: expected_sort.join(", "))
+    end
+  end
 end

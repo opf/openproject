@@ -59,10 +59,9 @@ Redmine::MenuManager.map :top_menu do |menu|
             OpenProject::Static::Links.help_link,
             last: true,
             caption: '',
-            icon: 'icon5 icon-help',
+            icon: 'icon-help op-app-help--icon',
             html: { accesskey: OpenProject::AccessKeys.key_for(:help),
                     title: I18n.t('label_help'),
-                    class: 'top-menu-help',
                     target: '_blank' }
 end
 
@@ -334,6 +333,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: Proc.new { User.current.admin? },
             last: true,
             icon: 'icon2 icon-plugins'
+
+  menu.push :backups,
+            { controller: '/admin/backups', action: 'show' },
+            if: Proc.new { OpenProject::Configuration.backup_enabled? && User.current.admin? },
+            caption: :label_backup,
+            last: true,
+            icon: 'icon2 icon-save'
 
   menu.push :info,
             { controller: '/admin', action: 'info' },

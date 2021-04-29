@@ -32,6 +32,8 @@ module API
   module V3
     module Memberships
       class FormRepresenter < ::API::Decorators::SimpleForm
+        include ::API::Decorators::MetaForm
+
         def model
           Member
         end

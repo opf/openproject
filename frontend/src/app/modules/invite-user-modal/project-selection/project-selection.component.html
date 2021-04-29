@@ -23,24 +23,26 @@
       </div>
     </op-form-field>
 
-    <div class="op-form-field">
+    <op-form-field>
       <op-option-list
         [options]="typeOptions"
         formControlName="type"
+        slot="input"
       ></op-option-list>
 
       <div
         *ngIf="projectAndTypeForm?.dirty && typeControl?.invalid"
         class="op-form-field--errors"
+        slot="errors"
       >
         <div class="op-form-field--error">
           {{ text.type.required }}
         </div>
       </div>
-    </div>
+    </op-form-field>
   </div>
 
   <div class="op-modal--footer">
-    <button class="button">{{ text.nextButton }}</button>
+    <button class="button -highlight">{{ text.nextButton }}</button>
   </div>
 </form>

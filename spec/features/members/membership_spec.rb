@@ -60,12 +60,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
                       lastname: "<script>alert('h4x');</script>"
   end
   let!(:group) do
-    FactoryBot.create(:group, lastname: 'A-Team').tap do |group|
-      User.execute_as User.admin.first do
-        group.add_members! peter
-        group.add_members! hannibal
-      end
-    end
+    FactoryBot.create(:group, lastname: 'A-Team', members: [peter, hannibal])
   end
 
   let!(:manager)   { FactoryBot.create :role, name: 'Manager', permissions: [:manage_members] }
@@ -123,6 +118,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
     members_page.add_user! 'A-Team', as: 'Manager'
 
     expect(members_page).to have_added_group('A-Team')
+    expect(page).to have_selector '.op-avatar_group'
     SeleniumHubWaiter.wait
 
     members_page.remove_group! 'A-Team'
@@ -134,10 +130,11 @@ feature 'Administrating memberships via the project settings', type: :feature, j
     members_page.add_user! 'Hannibal Smith', as: 'Manager'
 
     expect(members_page).to have_added_user 'Hannibal Smith'
+    expect(page).to have_selector '.op-avatar_user'
 
     SeleniumHubWaiter.wait
     members_page.remove_user! 'Hannibal Smith'
-    expect(page).to have_text 'Hannibal Smith has been removed from the project and deleted.'
+    expect(page).to have_text 'Removed Hannibal Smith from project'
     expect(page).to have_text 'There are currently no members part of this project.'
   end
 
@@ -145,6 +142,7 @@ feature 'Administrating memberships via the project settings', type: :feature, j
     members_page.add_user! developer_placeholder.name, as: developer.name
 
     expect(members_page).to have_added_user developer_placeholder.name
+    expect(page).to have_selector '.op-avatar_placeholder-user'
 
     SeleniumHubWaiter.wait
     members_page.remove_user! developer_placeholder.name

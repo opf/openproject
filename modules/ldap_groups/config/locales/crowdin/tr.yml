@@ -30,9 +30,9 @@ tr:
       singular: 'LDAP Grubu senkronizasyon filtresi'
       plural: 'LDAP Grubu senkronizasyon filtreleri'
       label_n_groups_found:
+        one: "Filtre tarafından 1 grup bulundu"
+        other: "Filtrede %{count} grup bulundu"
         zero: "Filtrede grup bulunamadı"
-        one: ""
-        other: ""
       destroy:
         title: '%{name} senkronize filtresini kaldır'
         confirmation: "Devam ederseniz, senkronize edilmiş %{name} filtresi ve bu kanaldan oluşturulan %{groups_count} tüm gruplar kaldırılacak."

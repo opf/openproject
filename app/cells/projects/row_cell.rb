@@ -28,10 +28,12 @@ module Projects
 
     def custom_field_column(column)
       cf = custom_field(column)
-      custom_value = project.custom_value_for(cf).formatted_value
+      custom_value = project.formatted_custom_value_for(cf)
 
       if cf.field_format == 'text'
         custom_value.html_safe
+      elsif custom_value.is_a?(Array)
+        safe_join(Array(custom_value).compact_blank, ', ')
       else
         custom_value
       end

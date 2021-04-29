@@ -91,8 +91,8 @@ describe('WorkPackage', () => {
     })
       .compileComponents()
       .then(() => {
-        halResourceService = TestBed.get(HalResourceService);
-        injector = TestBed.get(Injector);
+        halResourceService = TestBed.inject(HalResourceService);
+        injector = TestBed.inject(Injector);
         notificationsService = injector.get(NotificationsService);
         halResourceNotification = injector.get(HalResourceNotificationService);
 
@@ -153,7 +153,6 @@ describe('WorkPackage', () => {
   describe('when using removeAttachment', () => {
     let file:any;
     let attachment:any;
-    let result:any;
 
     beforeEach(() => {
       file = {};
@@ -214,5 +213,4 @@ describe('WorkPackage', () => {
       });
     });
   });
-
 });

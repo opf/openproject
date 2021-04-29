@@ -15,10 +15,8 @@ cs:
       file_invalid: "Neplatný soubor BCF"
     x_bcf_issues:
       zero: 'No BCF issues'
-      one: ''
-      few: ''
-      many: ''
-      other: ''
+      one: 'One BCF issue'
+      other: '%{count} BCF issues'
     bcf_xml:
       xml_file: 'BCF XML soubor'
       import_title: 'Importovat'
@@ -76,7 +74,7 @@ cs:
       bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
   activerecord:
     models:
-      bim/ifc_models/ifc_model: "IFC model"
+      bim/ifc_models/ifc_model: "Model IFC"
     attributes:
       bim/ifc_models/ifc_model:
         ifc_attachment: "IFC file"

@@ -51,7 +51,8 @@ import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 @Component({
   selector: 'user-activity',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './user-activity.component.html'
+  templateUrl: './user-activity.component.html',
+  styleUrls: ['./user-activity.component.sass']
 })
 export class UserActivityComponent extends WorkPackageCommentFieldHandler implements OnInit {
   @Input() public workPackage:WorkPackageResource;

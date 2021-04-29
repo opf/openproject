@@ -1469,6 +1469,7 @@ Returns the form resource that was created. See [Forms](/api/forms) section for 
                 "required": false,
                 "hasDefault": false,
                 "writable": true,
+                "location": "_links",
                 "_links": {}
               },
               "public": {
@@ -1518,7 +1519,8 @@ Returns the form resource that was created. See [Forms](/api/forms) section for 
                 "name": "Highlighted attributes",
                 "required": false,
                 "hasDefault": true,
-                "writable": true
+                "writable": true,
+                "location": "_links"
               },
               "showHierarchies": {
                 "type": "Boolean",
@@ -1540,6 +1542,7 @@ Returns the form resource that was created. See [Forms](/api/forms) section for 
                 "required": false,
                 "hasDefault": true,
                 "writable": true,
+                "location": "_links",
                 "_links": {}
               },
               "filters": {
@@ -1548,6 +1551,7 @@ Returns the form resource that was created. See [Forms](/api/forms) section for 
                 "required": false,
                 "writable": true,
                 "hasDefault": true,
+                "location": "_links",
                 "_links": {
                   "allowedValuesSchemas": {
                     "href": "/api/v3/queries/filter_instance_schemas"

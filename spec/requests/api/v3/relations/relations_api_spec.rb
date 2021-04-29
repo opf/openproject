@@ -317,14 +317,12 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
       FactoryBot.create :existing_role, permissions: permissions
     end
 
-    let(:project) { FactoryBot.create :project }
+    let(:project) { FactoryBot.create :project, members: { user => role } }
 
     let!(:from) { FactoryBot.create :work_package, project: project }
     let!(:to) { FactoryBot.create :work_package, project: project }
 
     before do
-      project.add_member! user, role
-
       header "Content-Type", "application/json"
       post "/api/v3/work_packages/#{from.id}/relations", params.to_json
     end

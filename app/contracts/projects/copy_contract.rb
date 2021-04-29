@@ -31,7 +31,7 @@ module Projects
     protected
 
     def validate_model?
-      false
+      options.fetch(:validate_model, false)
     end
 
     private

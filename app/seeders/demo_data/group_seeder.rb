@@ -43,6 +43,10 @@ module DemoData
       end
     end
 
+    def applicable?
+      Group.count.zero?
+    end
+
     def add_projects_to_groups
       groups = demo_data_for('groups')
       if groups.present?

@@ -6,7 +6,7 @@ sl:
       configure: 'Oblikuj gradnik'
       upsale:
         text: "Nekateri gradniki, kot delovni paket graf Gradnik, so dostopni samo v"
-        link: 'podjetniška verzija. '
+        link: 'enterprise edition. '
       widgets:
         custom_text:
           title: 'Besedilo po meri'
@@ -22,7 +22,7 @@ sl:
         news:
           title: 'Novice'
           at: 'na'
-          no_results: 'Ni novih poročil.'
+          no_results: 'Ni ničesar novega za poročati.'
         project_description:
           title: 'Opis projekta'
           no_results: "Opis še ni bil napisan. Lahko ga dodate v 'Projektnih nastavitvah'. "

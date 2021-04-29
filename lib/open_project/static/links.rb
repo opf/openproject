@@ -191,6 +191,9 @@ module OpenProject
             security_badge_documentation: {
               href: 'https://docs.openproject.org/system-admin-guide/information/#security-badge'
             },
+            display_settings_documentation: {
+              href: 'https://docs.openproject.org/system-admin-guide/system-settings/display-settings/'
+            },
             chargebee: {
               href: 'https://js.chargebee.com/v2/chargebee.js'
             },

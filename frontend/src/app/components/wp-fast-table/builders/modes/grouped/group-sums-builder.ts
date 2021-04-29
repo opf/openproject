@@ -51,7 +51,7 @@ export class GroupSumsBuilder extends SingleRowBuilder {
   private get sumsSchema():SchemaResource {
     // The schema is ensured to be loaded by wpViewAdditionalElementsService
     const results = this.querySpace.results.value!;
-    const href = results.sumsSchema!.$href!;
+    const href = results.sumsSchema!.href!;
 
     return this.schemaCache.state(href).value!;
   }

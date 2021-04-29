@@ -26,6 +26,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+require_relative '../ng_select_autocomplete_helpers'
+
 module Components
   module WorkPackages
     class Columns

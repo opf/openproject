@@ -12,6 +12,7 @@
            [clearSearchOnAdd]="false"
            [appendTo]="appendTo"
            [hideSelected]="hideSelected"
+           [compareWith]="compareByHref"
            [id]="id"
            (change)="changeModel($event)"
            (open)="opened()"
@@ -23,10 +24,19 @@
   </ng-template>
 
   <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-    <div [ngOptionHighlight]="search" class="ng-option-label ellipsis">{{ item.name }}</div>
+    <op-principal
+      *ngIf="isPrincipal(item)"
+      [hide-name]="true"
+      [principal]="item"
+      size="mini"
+    ></op-principal>
+    <span [ngOptionHighlight]="search"
+          [textContent]="item.name"
+          class="ng-option-label ellipsis">
+    </span>
   </ng-template>
 
   <ng-template ng-footer-tmp *ngIf="showAddNewButton">
-    <op-invite-user-button (invited)="onUserInvited($event)"></op-invite-user-button>
+    <op-invite-user-button></op-invite-user-button>
   </ng-template>
 </ng-select>

@@ -34,6 +34,19 @@ ja:
         single: "\"%{name}\" を選択"
       remove: "%{name} を削除"
       active: "アクティブ %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: オプション
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "ポップアップを閉じる"
     close_filter_title: "フィルタを閉じる"
     close_form_title: "フォームを閉じる"
@@ -208,7 +221,7 @@ ja:
         upsale:
           become_hero: "ヒーローになる!"
           benefits:
-            description: "メリットは何ですか？"
+            description: "オンプレミス版エンタープライズエディションにはどのようなメリットがありますか？"
             high_security: "セキュリティ機能"
             high_security_text: "シングルサインオン(SAML、OpenID Connect、CAS)、2要素認証、LDAPグループの自動同期。"
             installation: "インストールサポート"
@@ -274,11 +287,13 @@ ja:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              このリリースには、さまざまな新機能と改善点が含まれています: <br> <ul class="%{list_styling_class}"> <li> <b>プレースホルダーユーザー</b>の新しい概念 (プレミアム機能) を使用すると、メールアドレスのない予備ユーザーを OpenProject に追加し、これらのリソースにタスクを割り当てることができます。</li> <li>ワークパッケージフィルターは、すべての直接の子を簡単に表示するための<b>親オプション</b>と、リストにこれらの正確なワークパッケージのみを含めるまたは除外するための <b>ID によって拡張されます</b>。</li> <li>ユーザー管理は<b>新しいグローバルロール</b>によって非管理者に配布され、完全な管理者権限がなくてもユーザーの管理および招待ができます。</li> <li>UI と UX のさらなる改善。つまり、コストレポートナビゲーションの調和、ワークパッケージリストの合計行とグループ行の背景色の調整、グループ表示ページを追加。</li> </ul>
+
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              このリリースには、さまざまな新機能と改善点が含まれています: <br> <ul class="%{list_styling_class}"> <li> <b>プレースホルダーユーザー</b>の新しい概念 (プレミアム機能) を使用すると、メールアドレスのない予備ユーザーを OpenProject に追加し、これらのリソースにタスクを割り当てることができます。</li> <li>ワークパッケージフィルターは、すべての直接の子を簡単に表示するための<b>親オプション</b>と、リストにこれらの正確なワークパッケージのみを含めるまたは除外するための <b>ID によって拡張されます</b>。</li> <li>ユーザー管理は<b>新しいグローバルロール</b>によって非管理者に配布され、完全な管理者権限がなくてもユーザーの管理および招待ができます。</li> <li>UI と UX のさらなる改善。つまり、コストレポートナビゲーションの調和、ワークパッケージリストの合計行とグループ行の背景色の調整、グループ表示ページを追加。</li> </ul>
+
     label_activate: "有効にする"
     label_add_column_after: "後に列を追加"
     label_add_column_before: "前に列を追加"
@@ -467,6 +482,7 @@ ja:
         help_menu: '<b>ヘルプ</b>メニューには、ユーザーガイドとその他のヘルプリソースがあります。 <br> OpenProjectであなたの仕事をお楽しみください！'
         members: '新しい<b>メンバー</b>を招待してプロジェクトに参加してください。'
         project_selection: '便利なデモデータを含むプロジェクトを１つ選択して開始してください。 <br> <b>デモプロジェクト</b>は伝統的なプロジェクト管理に最適ですが、<b>スクラムプロジェクト</b>はアジャイルプロジェクト管理に適しています。'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "矢印を使って、プロジェクトの<b>メインメニュー</b>に戻ることができます。"
         welcome: '3分間の導入ツアーで、最も<b>重要な機能</b>を確認します。 <br>最後まで手順を完了することをお勧めします。 ツアーはいつでも再開できます。'
         wiki: '<b>Wiki</b>内ではチームと一緒に知識を文書化して共有することができます。'
@@ -482,7 +498,7 @@ ja:
           drag: 'リスト内のカードをドラッグアンドドロップして並べ替えたり、別のリストに入れます。 ダブルクリックすると詳細ビューが開きます。'
         wp:
           toggler: "次に、<b>作業パッケージ</b>セクションを見て、作業の詳細を確認してください。"
-          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
+          list: 'これは、タスク、マイルストーン、フェーズなど、プロジェクト内の重要な作業を含む<b>ワークパッケージ</ b>のリストです。 <br>このリスト内で直接ワークパッケージの作成または編集ができます。 詳細を表示するには、行をダブルクリックします。'
           full_view: '<b>ワークパッケージの詳細</b>には、説明、ステータス、優先度、アクティビティ、依存関係、コメントなどの関連情報がすべて表示されます。'
           back_button: '矢印を使用するとワークパッケージリストに戻ることができます。'
           create_button: '<b>作成</b>ボタンをクリックすると、プロジェクトに新しいワークパッケージが追加されます。'
@@ -520,7 +536,7 @@ ja:
           警告：フォーム設定をリセットしてもよろしいですか？ これにより、属性が規定のグループにリセットされ、すべてのカスタムフィールドが無効になります。
            
           コンテキスト| リクエストコンテキスト
-        upgrade_to_ee: "エンタープライズ版にアップグレード"
+        upgrade_to_ee: "オンプレミス版エンタープライズエディションへのアップグレード"
         upgrade_to_ee_text: "この機能が必要な場合、あなたは超プロです! Enterprise Edition クライアントになることによって私達のオープン ソース開発者を支援していただけませんか?"
         more_information: "詳細情報"
         nevermind: "無視"
@@ -941,8 +957,9 @@ ja:
       child_work_packages:
         other: "%{count} 件の子ワークパッケージ"
       hour:
+        one: "1 h"
+        other: "%{count} h"
         zero: "0 h"
-        other: ""
     zen_mode:
       button_activate: 'マナーモードをアクティブにする'
       button_deactivate: 'マナーモードを非アクティブにする'
@@ -960,3 +977,68 @@ ja:
       card: 'カード'
       list: '表'
       timeline: 'ガント'
+    invite_user_modal:
+      back: '戻る'
+      invite: '招待'
+      title:
+        invite: 'ユーザを招待'
+        invite_to_project: '%{type} を %{project} に招待する'
+        User: 'ユーザー'
+        Group: 'グループ'
+        PlaceholderUser: 'プレースホルダー ユーザー'
+        invite_principal_to_project: '%{principal} を %{project} に招待する'
+      project:
+        label: 'プロジェクト'
+        required: 'プロジェクトを選択してください'
+        next_button: '次へ'
+        no_results: 'プロジェクトが見つかりませんでした'
+        no_invite_rights: 'You are not allowed to invite members to this project'
+      type:
+        required: '招待するタイプを選択してください '
+        user:
+          title: 'ユーザ'
+          description: '選択したプロジェクトで割り当てられたロールに基づく権限'
+        group:
+          title: 'グループ'
+          description: '選択したプロジェクトで割り当てられたロールに基づく権限'
+        placeholder:
+          title: 'プレースホルダー ユーザー'
+          title_no_ee: 'プレースホルダー ユーザー（Enterprise Edition のみの機能） '
+          description: 'プロジェクトにアクセスできず、電子メールも送信されません。'
+          description_no_ee: 'プロジェクトにアクセスできず、電子メールも送信されません。<br><a href="%{eeHref}" target="_blank">Enterprise Edition</a> をチェックしてください。'
+      principal:
+        label:
+          name_or_email: '名前またはメールアドレス'
+          name: '名称'
+        already_member_message: '既に %{project} のメンバーです'
+        no_results_user: 'ユーザーが見つかりませんでした'
+        invite_user: '招待:'
+        change_user_selection: 'メールアドレスを変更するか、既存のユーザーを選択してください'
+        no_results_placeholder: 'プレースホルダが見つかりません'
+        change_placeholder_selection: '名前を変更するか、既存のプレースホルダを選択してください'
+        create_new_placeholder: '新しいプレースホルダを作成:'
+        no_results_group: 'グループが見つかりませんでした'
+        change_group_selection: '名前を変更するか、既存のグループを選択してください'
+        next_button: '次へ'
+        required:
+          user: 'ユーザーを選択してください'
+          placeholder: 'プレースホルダを選択してください'
+          group: 'グループを選択してください'
+      role:
+        label: '%{project} でのロール'
+        description: 'これは、 %{principal} がプロジェクトに参加したときに受け取るロールです。ロールは、どのような行動を取ることができるか、どのような情報を見ることができるかを定義します。<a href="%{href}" target="_blank">ロールとパーミッションについての詳細はこちら。</a>'
+        required: 'ロールを選択してください'
+        next_button: '次へ'
+      message:
+        label: '招待メッセージ'
+        description: '私たちは %{principal} にメールを送りますが、ここで個人的なメッセージを追加することができます。招待状の説明があれば便利ですし、プロジェクトに関するちょっとした情報があれば、彼らの助けになるでしょう。'
+        next_button: '招待状を確認'
+      summary:
+        next_button: '招待状を送信'
+      success:
+        title: '%{principal} が招待されました！'
+        description:
+          user: 'ユーザはログインして %{project} にアクセスできるようになりました。一方で、そのユーザを使って計画を立てたり、ワークパッケージを割り当てたりすることができます。'
+          placeholder: 'プレースホルダーを %{project} で使用できるようになりました。一方で、そのユーザを使って計画を立てたり、ワークパッケージを割り当てたりすることができます。'
+          group: 'グループは %{project} の一部になりました。一方で、そのグループを使って計画を立てたり、ワークパッケージを割り当てたりすることができます。'
+        next_button: '続行'

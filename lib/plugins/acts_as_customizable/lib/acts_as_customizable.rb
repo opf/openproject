@@ -122,10 +122,21 @@ module Redmine
           end
         end
 
+        ##
+        # Maps custom_values into a hash that can be passed to attributes
+        # but keeps multivalue custom fields as array values
         def custom_value_attributes
-          custom_field_values
-            .map { |cv| [cv.custom_field_id, cv.value] }
-            .to_h
+          custom_field_values.each_with_object({}) do |cv, hash|
+            key = cv.custom_field_id
+            value = cv.value
+
+            hash[key] =
+              if existing = hash[key]
+                Array(existing) << value
+              else
+                value
+              end
+          end
         end
 
         def visible_custom_field_values

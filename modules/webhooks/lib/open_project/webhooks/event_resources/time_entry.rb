@@ -5,7 +5,7 @@ module OpenProject::Webhooks::EventResources
     class << self
       def notification_names
         [
-          OpenProject::Events::NEW_TIME_ENTRY_CREATED
+          OpenProject::Events::TIME_ENTRY_CREATED
         ]
       end
 

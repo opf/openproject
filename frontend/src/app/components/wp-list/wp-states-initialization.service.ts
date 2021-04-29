@@ -62,6 +62,12 @@ export class WorkPackageStatesInitializationService {
     this.querySpace.query.putValue(query);
     this.initializeFromQuery(query, results);
 
+    // If the form is loaded, update it with the query
+    const form = this.querySpace.queryForm.value;
+    if (form) {
+      this.updateStatesFromForm(query, form);
+    }
+
     // Update the (local) table states
     this.updateQuerySpace(query, results);
 
@@ -79,7 +85,7 @@ export class WorkPackageStatesInitializationService {
     const schema:QuerySchemaResource = form.schema as any;
 
     _.each(schema.filtersSchemas.elements, (schema) => {
-      this.states.schemas.get(schema.$href as string).putValue(schema as any);
+      this.states.schemas.get(schema.href as string).putValue(schema as any);
     });
 
     this.wpTableFilters.initializeFilters(query, schema);

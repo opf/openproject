@@ -63,7 +63,7 @@ module Components
         confirmation_step
 
         # Step 6: Perform invite
-        click_modal_button 'Send Invitation'
+        click_modal_button 'Send invitation'
 
         if invite_user?
           expect_text "Invite #{principal.mail} to #{project.name}"
@@ -98,6 +98,12 @@ module Components
         click_next if next_step
       end
 
+      def open_select_in_step(query = '')
+        search_autocomplete modal_element.find('.ng-select-container'),
+                            query: query,
+                            results_selector: 'body'
+      end
+
       def principal_step(next_step: true)
         if invite_user?
           autocomplete principal_name, select_text: "Invite: #{principal_name}"
@@ -116,7 +122,7 @@ module Components
 
       def invitation_step(next_step: true)
         invitation_message invite_message
-        click_modal_button 'Review Invitation' if next_step
+        click_modal_button 'Review invitation' if next_step
       end
 
       def confirmation_step

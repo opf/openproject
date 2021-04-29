@@ -28,7 +28,7 @@
 
 default:
   rails_cache_store: <%= ENV.fetch('RAILS_CACHE_STORE') { :memcache }.to_sym %>
-  session_store: <%= ENV.fetch('SESSION_STORE') { :cache_store }.to_sym %>
+  session_store: <%= ENV.fetch('SESSION_STORE') { :active_record_store }.to_sym %>
   email_delivery_method: <%= ENV.fetch('EMAIL_DELIVERY_METHOD') { :sendmail } %>
   smtp_address: <%= ENV['SMTP_HOST'] %>
   smtp_port: <%= ENV.fetch('SMTP_PORT') { 25 }.to_i %>

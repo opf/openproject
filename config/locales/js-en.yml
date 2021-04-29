@@ -43,6 +43,25 @@ en:
        single: "Select \"%{name}\""
       remove: "Remove %{name}"
       active: "Active %{label} %{name}"
+
+    backup:
+      attachments_disabled:
+        Attachments may not be included since they exceed the maximum overall size allowed.
+        You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount
+        of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day
+        can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Options
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
+
     close_popup_title: "Close popup"
     close_filter_title: "Close filter"
     close_form_title: "Close form"
@@ -506,6 +525,7 @@ en:
         help_menu: 'In the <b>Help</b> menu you will find a user guide and additional help resources. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>Members</b> to join your project.'
         project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "With the arrow you can navigate back to the project's <b>Main menu</b>."
         welcome: 'Take a three minutes introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.'
         wiki: 'Within the <b>Wiki</b> you can document and share knowledge together with your team.'
@@ -1049,6 +1069,7 @@ en:
         required: 'Please select a project'
         next_button: 'Next'
         no_results: 'No projects were found'
+        no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: 'Please select the type to be invited'
         user:
@@ -1094,7 +1115,7 @@ en:
             <a
               href="%{href}"
               target="_blank">
-              learn more about roles and permissions.
+              Learn more about roles and permissions.
             </a>'
         required: 'Please select a role'
         next_button: 'Next'
@@ -1102,10 +1123,10 @@ en:
       message:
         label: 'Invitation message'
         description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
-        next_button: 'Review Invitation'
+        next_button: 'Review invitation'
 
       summary:
-        next_button: 'Send Invitation'
+        next_button: 'Send invitation'
 
       success:
         title: '%{principal} was invited!'

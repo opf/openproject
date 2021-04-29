@@ -60,6 +60,7 @@ import { WorkPackageTimelineTableController } from "core-components/wp-table/tim
 import { WorkPackageTable } from "core-components/wp-fast-table/wp-fast-table";
 import { WorkPackageViewTimelineService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import {WorkPackageViewSumService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sum.service";
 
 export interface WorkPackageFocusContext {
   /** Work package that was focused */
@@ -122,6 +123,11 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
 
   public limitedResults = false;
 
+  // We need to sync certain height difference to the timeline
+  // depending on whether inline create or sums rows are being shown
+  public inlineCreateVisible = false;
+  public sumVisible = false;
+
   constructor(readonly elementRef:ElementRef,
               readonly injector:Injector,
               readonly states:States,
@@ -132,7 +138,9 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
               readonly wpTableGroupBy:WorkPackageViewGroupByService,
               readonly wpTableTimeline:WorkPackageViewTimelineService,
               readonly wpTableColumns:WorkPackageViewColumnsService,
-              readonly wpTableSortBy:WorkPackageViewSortByService) {
+              readonly wpTableSortBy:WorkPackageViewSortByService,
+              readonly wpTableSums:WorkPackageViewSumService,
+  ) {
     super();
   }
 
@@ -167,15 +175,17 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
       this.wpTableGroupBy.live$(),
       this.wpTableColumns.live$(),
       this.wpTableTimeline.live$(),
-      this.wpTableSortBy.live$()
+      this.wpTableSortBy.live$(),
+      this.wpTableSums.live$()
     ]);
 
     statesCombined.pipe(
       this.untilDestroyed()
-    ).subscribe(([results, groupBy, columns, timelines, sort]) => {
+    ).subscribe(([results, groupBy, columns, timelines, sort, sums]) => {
       this.query = this.querySpace.query.value!;
 
       this.results = results;
+      this.sumVisible = sums;
 
       this.groupBy = groupBy;
       this.columns = columns;
