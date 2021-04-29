@@ -26,7 +26,7 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [Copy a project](#copy-a-project)                            | Copy an existing project.                                    |
 | [Archive a project](#archive-a-project)                      | Find out how to archive completed projects.                  |
 | [Delete a project](#delete-a-project)                        | How to delete a project?                                     |
-| [Global projects overview](#Global-projects-overview-view-all-projects) | Get an overview of all your projects in the projects overview list ("View all projects"). |
+| [Global projects overview](#Global-projects-overview---view-all-projects) | Get an overview of all your projects in the projects overview list ("View all projects"). |
 | [Project overarching reports](#project-overarching-reports)  | How to create project overarching reports across multiple projects? |
 
 <video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Projects-Introduction.mp4" type="video/mp4" controls="" style="width:100%"></video>
@@ -181,7 +181,7 @@ In order to archive a project, navigate to the [project settings](project-settin
 </div>
 ![archive-project](image-20210204171059565.png)
 
-Then, the project cannot be selected from the project selection anymore. It is still available in the **View all projects** dashboard if you expand the filter and select the Archived projects. You can un-archive it there, too.
+Then, the project cannot be selected from the project selection anymore. It is still available in the **View all projects** dashboard if you set the "Active" filter to "off" (move slider to the left). You can un-archive it there, too, using the three dots at the right end of a row.
 
 ![view-archived-projects-in-projects-overview](image-20210204171251754.png)
 
@@ -194,12 +194,10 @@ If you want to delete a project, navigate to the [Project settings](project-sett
 
 ![delete-project](image-20210204171422693.png)
 
-Also, you can delete a project via the [projects overview](#view-all-projects).
+Also, you can delete a project via the [projects overview](#global-projects-overview---view-all-projects).
 <div class="alert alert-info" role="alert">
 **Please note**: Deleting projects is only available for System administrators.
 </div>
-
-
 
 
 ## Global projects overview - View all projects
@@ -214,7 +212,7 @@ You will then get a list of all your projects in OpenProject. You can use this p
 
 With the **arrow** on the right you can display the **project description**.
 
-With the horizontal **three dots** icon on the right side of the list you can open **further features**, such as [creating a new subproject](#create-a-subproject), [project settings](project-settings), [archiving a project](#archive-a-project), [copying](#copy-a-project) and [deleting a project](#delete-a-project). Please note that you have to be a System Administrator in OpenProject to access these features.
+With the horizontal **three dots** icon on the right side of the list you can open **further features**, such as [creating a new subproject](#create-a-subproject), [project settings](project-settings), [archiving a project](#archive-a-project), [copying](#copy-a-project) and [deleting a project](#delete-a-project). Please note that you have to be a System Administrator in OpenProject to access these features. Find out how to un-archive projects [here](#archive-a-project).
 
 ![projects-overview-view-all-projects](image-20210204171811255.png)
 
