@@ -65,14 +65,6 @@ class Queries::WorkPackages::Filter::SearchFilter <
     )
   ].freeze
 
-  def self.key
-    :search
-  end
-
-  def name
-    :search
-  end
-
   def type
     :search
   end
