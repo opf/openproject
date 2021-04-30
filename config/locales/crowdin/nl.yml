@@ -207,6 +207,7 @@ nl:
       no_results_title_text: Er zijn momenteel geen projecten
       no_results_content_text: Maak een nieuw project
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: Er zijn momenteel geen activiteiten beschikbaar.
       forums:

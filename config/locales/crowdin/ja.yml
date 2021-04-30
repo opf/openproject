@@ -205,6 +205,7 @@ ja:
       no_results_title_text: 現在、プロジェクトはありません
       no_results_content_text: プロジェクトを新規作成
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: 現在、有効な活動はありません。
       forums:

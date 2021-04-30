@@ -207,6 +207,7 @@ zh-TW:
       no_results_title_text: 目前沒有專案
       no_results_content_text: 建立新專案
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: 目前沒有可用的活動
       forums:

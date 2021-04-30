@@ -207,6 +207,7 @@ ro:
       no_results_title_text: În acest moment nu există proiecte
       no_results_content_text: Creare proiect nou
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: În acest moment nu există activități disponibile.
       forums:

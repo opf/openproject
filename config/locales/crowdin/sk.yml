@@ -207,6 +207,7 @@ sk:
       no_results_title_text: V súčasnosti neexistujú žiadne projekty
       no_results_content_text: Vytvoriť nový projekt
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: Momentálne neexistujú žiadne aktivity.
       forums:

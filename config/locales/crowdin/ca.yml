@@ -207,6 +207,7 @@ ca:
       no_results_title_text: Actualment no hi ha projectes
       no_results_content_text: Crear un nou projecte
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: Actualment no hi ha activitats disponibles.
       forums:

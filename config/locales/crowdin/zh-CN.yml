@@ -204,6 +204,7 @@ zh-CN:
       no_results_title_text: 目前没有项目。
       no_results_content_text: 创建一个新的项目
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: 目前有可用的任何活动。
       forums:

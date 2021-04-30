@@ -207,6 +207,7 @@ cs:
       no_results_title_text: V současné době nejsou žádné projekty
       no_results_content_text: Vytvořit nový projekt
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: V současné době nejsou k dispozici žádné aktivity.
       forums:

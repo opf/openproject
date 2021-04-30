@@ -176,7 +176,7 @@ fr:
   concatenation:
     single: 'ou'
   documentation:
-    see_more_link: For more information, please see our documentation on this topic.
+    see_more_link: Pour plus d'informations, consultez notre documentation sur ce sujet.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -207,6 +207,7 @@ fr:
       no_results_title_text: Aucun projet pour le moment
       no_results_content_text: Créer un nouveau projet
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: Aucune activité disponible pour le moment.
       forums:

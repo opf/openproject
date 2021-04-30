@@ -207,6 +207,7 @@ bg:
       no_results_title_text: В момента няма проекти
       no_results_content_text: Създаване на нов проект
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: В момента има няма дейности на разположение.
       forums:

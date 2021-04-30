@@ -207,6 +207,7 @@ sv:
       no_results_title_text: Det finns för närvarande inga projekt
       no_results_content_text: Skapa ett nytt projekt
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: Det finns för närvarande inga tillgängliga aktiviteter.
       forums:

@@ -204,6 +204,7 @@ it:
       no_results_title_text: Al momento non esistono progetti
       no_results_content_text: Crea un nuovo progetto
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: Al momento non vi sono attività disponibili.
       forums:

@@ -207,6 +207,7 @@ fi:
       no_results_title_text: Tällä hetkellä ei ole projekteja
       no_results_content_text: Luo uusi projekti
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: Ei tapahtumia.
       forums:

@@ -206,6 +206,7 @@ sl:
       no_results_title_text: Trenutno ni projektov
       no_results_content_text: Kreiraj nov projekt
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: Trenutno ni na voljo nobenih aktivnosti.
       forums:

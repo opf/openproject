@@ -207,6 +207,7 @@ uk:
       no_results_title_text: Наразі немає проектів
       no_results_content_text: Створіть новий проект
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: Наразі немає доступних заходів.
       forums:

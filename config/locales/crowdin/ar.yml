@@ -207,6 +207,7 @@ ar:
       no_results_title_text: لا يوجد حالياً مشاريع
       no_results_content_text: إنشاء مشروع جديد
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: لا يوجد حالياً أنشطة متاحة.
       forums:

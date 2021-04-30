@@ -206,6 +206,7 @@ hu:
       no_results_title_text: Jelenleg nincsenek projektek
       no_results_content_text: Új projekt létrehozása
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: Jelenleg nincs elérhető esemény.
       forums:

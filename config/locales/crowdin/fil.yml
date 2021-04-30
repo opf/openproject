@@ -207,6 +207,7 @@ fil:
       no_results_title_text: Sa kasalukuyan ay walang mga proyekto
       no_results_content_text: Gumawa ng bagong proyekto
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: Sa kasalukuyan ay walang mga aktibidad na available.
       forums:

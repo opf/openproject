@@ -209,6 +209,7 @@ vi:
       no_results_title_text: Không có dự án nào
       no_results_content_text: Tạo một dự án mới
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: Không có hoạt động nào hiện tại.
       forums:

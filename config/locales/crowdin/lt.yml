@@ -204,6 +204,7 @@ lt:
       no_results_title_text: Nėra jokių projektų
       no_results_content_text: Sukurti naują projektą
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: Kolkas neprieinama jokia veikla.
       forums:

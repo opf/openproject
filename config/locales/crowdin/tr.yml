@@ -207,6 +207,7 @@ tr:
       no_results_title_text: Şu anda hiç proje bulunmamakta
       no_results_content_text: Yeni bir proje oluşturun
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: Şu anda hiç bir etkinlik mevcut değil.
       forums:

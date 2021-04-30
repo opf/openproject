@@ -207,6 +207,7 @@ ko:
       no_results_title_text: 프로젝트가 없습니다.
       no_results_content_text: 새 프로젝트 생성
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: 가능한 활동이 없습니다.
       forums:

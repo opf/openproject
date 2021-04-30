@@ -207,6 +207,7 @@ hr:
       no_results_title_text: Trenutno nema projekata
       no_results_content_text: Novi projekt
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: Trenutno nema dostupnih aktivnosti.
       forums:
