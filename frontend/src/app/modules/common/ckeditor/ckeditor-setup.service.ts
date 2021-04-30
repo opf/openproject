@@ -14,6 +14,7 @@ export interface ICKEditorInstance {
   config:any;
   ui:any;
   element:HTMLElement;
+  isReadOnly:boolean;
 }
 
 export interface ICKEditorStatic {

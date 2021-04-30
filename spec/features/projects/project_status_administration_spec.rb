@@ -29,6 +29,8 @@
 require 'spec_helper'
 
 describe 'Projects status administration', type: :feature, js: true do
+  include_context 'ng-select-autocomplete helpers'
+
   let(:current_user) do
     FactoryBot.create(:user).tap do |u|
       FactoryBot.create(:global_member,
@@ -45,8 +47,8 @@ describe 'Projects status administration', type: :feature, js: true do
         .and_return(r.id.to_s)
     end
   end
+  let(:edit_status_description) { Components::WysiwygEditor.new('[data-field-name="statusExplanation"]') }
   let(:create_status_description) { Components::WysiwygEditor.new('.form--field:nth-of-type(4)') }
-  let(:edit_status_description) { Components::WysiwygEditor.new('.form--field:nth-of-type(5)') }
 
   before do
     login_as current_user
@@ -59,7 +61,9 @@ describe 'Projects status administration', type: :feature, js: true do
     click_link 'Advanced settings'
 
     fill_in 'Name', with: 'New project'
+
     select 'On track', from: 'Status'
+
     create_status_description.set_markdown 'Everything is fine at the start'
     create_status_description.expect_supports_no_macros
 
@@ -71,28 +75,16 @@ describe 'Projects status administration', type: :feature, js: true do
     # Check that the status has been set correctly
     visit settings_generic_project_path(Project.last)
 
-    expect(page)
-      .to have_select('Status', selected: 'On track')
+    expect(page).to have_selector('[data-field-name="status"] .ng-value', text: 'On track')
 
     edit_status_description.expect_value 'Everything is fine at the start'
 
-    select '', from: 'Status'
-    edit_status_description.set_markdown 'Now we do not know'
-
-    click_button 'Save'
-
-    expect(page)
-      .to have_select('Status', selected: '')
-
-    edit_status_description.expect_value 'Now we do not know'
-
-    select 'Off track', from: 'Status'
+    select_autocomplete page.find('[data-field-name="status"]'), query: 'Off track'
     edit_status_description.set_markdown 'Oh no'
 
     click_button 'Save'
 
-    expect(page)
-      .to have_select('Status', selected: 'Off track')
+    expect(page).to have_selector('[data-field-name="status"] .ng-value', text: 'Off track')
 
     edit_status_description.expect_value 'Oh no'
   end

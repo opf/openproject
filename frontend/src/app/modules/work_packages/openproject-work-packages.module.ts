@@ -171,6 +171,7 @@ import { WorkPackagesTableComponent } from "core-components/wp-table/wp-table.co
 import { WorkPackageGroupToggleDropdownMenuDirective } from "core-components/op-context-menu/handlers/wp-group-toggle-dropdown-menu.directive";
 import { OpenprojectAutocompleterModule } from "core-app/modules/autocompleter/openproject-autocompleter.module";
 import { OpWpTabsModule } from "core-components/wp-tabs/wp-tabs.module";
+import { EditFieldControlsModule } from "core-app/modules/fields/edit/field-controls/edit-field-controls.module";
 
 @NgModule({
   imports: [
@@ -192,6 +193,8 @@ import { OpWpTabsModule } from "core-components/wp-tabs/wp-tabs.module";
     OpenprojectAutocompleterModule,
 
     OpWpTabsModule,
+
+    EditFieldControlsModule,
   ],
   providers: [
     // Notification service

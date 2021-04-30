@@ -58,7 +58,7 @@ describe 'menu permissions', type: :feature, js: true do
 
       # Clicking the menu parent item leads to the version page
       find('.main-menu--parent-node', text: 'Project settings').click
-      expect(page).to have_current_path(settings_generic_project_path(project))
+      expect(page).to have_current_path "/projects/#{project.identifier}/settings/generic/"
     end
   end
 

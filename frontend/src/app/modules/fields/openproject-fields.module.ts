@@ -36,18 +36,11 @@ import { EditFieldService } from "core-app/modules/fields/edit/edit-field.servic
 import { DisplayFieldService } from "core-app/modules/fields/display/display-field.service";
 import { initializeCoreEditFields } from "core-app/modules/fields/edit/edit-field.initializer";
 import { initializeCoreDisplayFields } from "core-app/modules/fields/display/display-field.initializer";
-import { BooleanEditFieldComponent } from "core-app/modules/fields/edit/field-types/boolean-edit-field.component";
-import { DateEditFieldComponent } from "core-app/modules/fields/edit/field-types/date-edit-field.component";
 import { DurationEditFieldComponent } from "core-app/modules/fields/edit/field-types/duration-edit-field.component";
 import { FloatEditFieldComponent } from "core-app/modules/fields/edit/field-types/float-edit-field.component";
-import { IntegerEditFieldComponent } from "core-app/modules/fields/edit/field-types/integer-edit-field.component";
 import { MultiSelectEditFieldComponent } from "core-app/modules/fields/edit/field-types/multi-select-edit-field.component";
-import { SelectEditFieldComponent } from "core-app/modules/fields/edit/field-types/select-edit-field.component";
-import { FormattableEditFieldComponent } from "core-app/modules/fields/edit/field-types/formattable-edit-field.component";
-import { TextEditFieldComponent } from "core-app/modules/fields/edit/field-types/text-edit-field.component";
 import { EditFormPortalComponent } from "core-app/modules/fields/edit/editing-portal/edit-form-portal.component";
-import { EditFieldControlsComponent, } from "core-app/modules/fields/edit/field-controls/edit-field-controls.component";
-import { SelectAutocompleterRegisterService } from "core-app/modules/fields/edit/field-types/select-autocompleter-register.service";
+import { SelectAutocompleterRegisterService } from "core-app/modules/fields/edit/field-types/select-edit-field/select-autocompleter-register.service";
 import { EditFormComponent } from "core-app/modules/fields/edit/edit-form/edit-form.component";
 import { WorkPackageEditFieldComponent } from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
 import { EditableAttributeFieldComponent } from "core-app/modules/fields/edit/field/editable-attribute-field.component";
@@ -61,6 +54,13 @@ import { AttributeHelpTextModal } from "core-app/modules/fields/help-texts/attri
 import { WorkPackageQuickinfoMacroComponent } from "core-app/modules/fields/macros/work-package-quickinfo-macro.component";
 import { DisplayFieldComponent } from "core-app/modules/fields/display/display-field.component";
 import { OpenprojectAutocompleterModule } from "core-app/modules/autocompleter/openproject-autocompleter.module";
+import { BooleanEditFieldModule } from "core-app/modules/fields/edit/field-types/boolean-edit-field/boolean-edit-field.module";
+import { IntegerEditFieldModule } from "core-app/modules/fields/edit/field-types/integer-edit-field/integer-edit-field.module";
+import { TextEditFieldModule } from "core-app/modules/fields/edit/field-types/text-edit-field/text-edit-field.module";
+import { DateEditFieldModule } from "core-app/modules/fields/edit/field-types/date-edit-field/date-edit-field.module";
+import { SelectEditFieldModule } from "core-app/modules/fields/edit/field-types/select-edit-field/select-edit-field.module";
+import { FormattableEditFieldModule } from "core-app/modules/fields/edit/field-types/formattable-edit-field/formattable-edit-field.module";
+import { EditFieldControlsModule } from "core-app/modules/fields/edit/field-controls/edit-field-controls.module";
 
 @NgModule({
   imports: [
@@ -70,9 +70,16 @@ import { OpenprojectAutocompleterModule } from "core-app/modules/autocompleter/o
     OpenprojectEditorModule,
     OpenprojectModalModule,
     OpenprojectAutocompleterModule,
+    // Input Modules
+    BooleanEditFieldModule,
+    IntegerEditFieldModule,
+    TextEditFieldModule,
+    DateEditFieldModule,
+    SelectEditFieldModule,
+    FormattableEditFieldModule,
+    EditFieldControlsModule,
   ],
   exports: [
-    EditFieldControlsComponent,
     EditFormPortalComponent,
     EditFormComponent,
     EditableAttributeFieldComponent,
@@ -94,17 +101,10 @@ import { OpenprojectAutocompleterModule } from "core-app/modules/autocompleter/o
   ],
   declarations: [
     EditFormPortalComponent,
-    BooleanEditFieldComponent,
-    DateEditFieldComponent,
     DurationEditFieldComponent,
     FloatEditFieldComponent,
-    IntegerEditFieldComponent,
-    FormattableEditFieldComponent,
     PlainFormattableEditFieldComponent,
     MultiSelectEditFieldComponent,
-    SelectEditFieldComponent,
-    TextEditFieldComponent,
-    EditFieldControlsComponent,
     WorkPackageEditFieldComponent,
     TimeEntryWorkPackageEditFieldComponent,
     EditFormComponent,

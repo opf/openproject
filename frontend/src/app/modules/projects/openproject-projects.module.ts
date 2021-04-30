@@ -30,6 +30,10 @@ import { OpenprojectCommonModule } from 'core-app/modules/common/openproject-com
 import { OpenprojectFieldsModule } from 'core-app/modules/fields/openproject-fields.module';
 import { NgModule } from '@angular/core';
 import { OpenprojectHalModule } from "core-app/modules/hal/openproject-hal.module";
+import { UIRouterModule } from "@uirouter/angular";
+import { PROJECTS_ROUTES, uiRouterProjectsConfiguration } from "core-app/modules/projects/projects-routes";
+import { ProjectsComponent } from './components/projects/projects.component';
+import { DynamicFormsModule } from "core-app/modules/common/dynamic-forms/dynamic-forms.module";
 
 
 @NgModule({
@@ -39,7 +43,13 @@ import { OpenprojectHalModule } from "core-app/modules/hal/openproject-hal.modul
 
     OpenprojectHalModule,
     OpenprojectFieldsModule,
-  ]
+    UIRouterModule.forChild({
+      states: PROJECTS_ROUTES,
+      config: uiRouterProjectsConfiguration
+    }),
+    DynamicFormsModule,
+  ],
+  declarations: [ProjectsComponent]
 })
 export class OpenprojectProjectsModule {
 }

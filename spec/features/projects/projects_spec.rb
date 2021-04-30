@@ -28,14 +28,14 @@
 
 require 'spec_helper'
 
-describe 'Projects', type: :feature do
+describe 'Projects', type: :feature, js: true do
   let(:current_user) { FactoryBot.create(:admin) }
 
   before do
     allow(User).to receive(:current).and_return current_user
   end
 
-  describe 'creation', js: true do
+  describe 'creation' do
     shared_let(:project) { FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project') }
 
     before do
@@ -138,7 +138,7 @@ describe 'Projects', type: :feature do
     end
   end
 
-  describe 'deletion', js: true do
+  describe 'deletion' do
     let(:project) { FactoryBot.create(:project) }
     let(:projects_page) { Pages::Projects::Destroy.new(project) }
 
@@ -167,7 +167,7 @@ describe 'Projects', type: :feature do
     end
   end
 
-  describe 'identifier edit', js: true do
+  describe 'identifier edit' do
     let!(:project) { FactoryBot.create(:project, identifier: 'foo') }
 
     it 'updates the project identifier' do
@@ -185,7 +185,7 @@ describe 'Projects', type: :feature do
       click_on 'Update'
 
       expect(page).to have_content 'Successful update.'
-      expect(current_path).to eq '/projects/foo-bar/settings/generic'
+      expect(current_path).to match '/projects/foo-bar/settings/generic'
       expect(Project.first.identifier).to eq 'foo-bar'
     end
 
@@ -200,7 +200,7 @@ describe 'Projects', type: :feature do
     end
   end
 
-  describe 'form', js: true do
+  describe 'form' do
     let(:project) { FactoryBot.build(:project, name: 'Foo project', identifier: 'foo-project') }
     let!(:optional_custom_field) do
       FactoryBot.create(:custom_field, name: 'Optional Foo',
@@ -256,20 +256,29 @@ describe 'Projects', type: :feature do
         fill_in 'Foo', with: '1234'
 
         click_on 'Save'
-        expect(page).to have_selector('#errorExplanation', text: 'Foo is too long (maximum is 2 characters)')
+        expect(page).to have_selector('.op-form-field--errors', text: 'Foo is too long (maximum is 2 characters)')
       end
     end
   end
 
   context 'with a multi-select custom field' do
+    include_context 'ng-select-autocomplete helpers'
+
     let(:project) { FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project') }
     let!(:list_custom_field) { FactoryBot.create(:list_project_custom_field, name: 'List CF', multi_value: true) }
 
     it 'can create a project' do
       visit settings_generic_project_path(project.id)
 
-      select 'A', from: 'List CF'
-      select 'B', from: 'List CF'
+      select = page.find("[data-field-name='customField#{list_custom_field.id}']")
+
+      select.find('.ng-select-container').click
+      select.find('.ng-option', text: 'A').click
+
+      sleep 1
+
+      select.find('.ng-select-container').click
+      select.find('.ng-option', text: 'B').click
 
       sleep 1
 
@@ -277,7 +286,9 @@ describe 'Projects', type: :feature do
 
       expect(page).to have_content 'Successful update.'
 
-      expect(page).to have_select('List CF', selected: %w[A B])
+      select = page.find("[data-field-name='customField#{list_custom_field.id}']")
+      expect(select).to have_selector('.ng-value', text: 'A')
+      expect(select).to have_selector('.ng-value', text: 'B')
 
       cvs = project.reload.custom_value_for(list_custom_field)
       expect(cvs.count).to eq 2
