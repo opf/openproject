@@ -94,7 +94,33 @@ export class DynamicFieldsService {
       },
       useForFields: [
         'Priority', 'Status', 'Type', 'User', 'Version', 'TimeEntriesActivity',
-        'Category', 'CustomOption', 'Project', 'ProjectStatus'
+        'Category', 'CustomOption', 'Project'
+      ]
+    },
+    {
+      config: {
+        type: 'selectProjectStatusInput',
+        className: `inline-edit--field`,
+        templateOptions: {
+          type: 'number',
+          locale: I18n.locale,
+          bindLabel: 'name',
+          searchable: true,
+          virtualScroll: true,
+          typeahead: false,
+          clearOnBackspace: false,
+          clearSearchOnAdd: false,
+          hideSelected: false,
+          text: {
+            add_new_action: I18n.t('js.label_create'),
+          },
+        },
+        expressionProperties: {
+          'templateOptions.clearable': (model:any, formState:any, field:FormlyFieldConfig) => !field.templateOptions?.required,
+        },
+      },
+      useForFields: [
+        'ProjectStatus'
       ]
     },
   ];
