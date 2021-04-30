@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { StateService, UIRouterGlobals } from "@uirouter/core";
 import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
-import { HalSource } from "core-app/modules/hal/resources/hal-resource";
 import { IOPFormlyFieldSettings } from "core-app/modules/common/dynamic-forms/typings";
 
 @Component({
@@ -39,13 +38,6 @@ export class ProjectsComponent extends UntilDestroyedMixin implements OnInit {
 
           return [...formattedDynamicFieldsSettings, dynamicFormField];
         }, []);
-    }
-  }
-
-  onSubmitted(formResource:HalSource) {
-    // TODO: Filter out if this.resourceId === 'new'?
-    if (!this.resourceId) {
-      this._$state.go('.', { ...this._$state.params, projectPath: formResource.identifier });
     }
   }
 }
