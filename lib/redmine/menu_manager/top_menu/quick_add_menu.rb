@@ -80,12 +80,10 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
   end
 
   def visible_types
-    @visible_types ||= begin
-                         if user_can_create_work_package?
-                           in_project_context? ? @project.types : Type.all
-                         else
-                           Type.none
-                         end
+    @visible_types ||= if user_can_create_work_package?
+                         in_project_context? ? @project.types : Type.all
+                       else
+                         Type.none
                        end
   end
 
