@@ -10,10 +10,10 @@
                  class="op-fieldset">
     </formly-form>
 
-    <div class="op-form--submit">
+    <div class="op-form--submit"
+         *ngIf="handleSubmit">
       <button type="submit"
               class="button -highlight"
-              *ngIf="handleSubmit"
               [disabled]="inFlight">
         {{text.save}}
       </button>
