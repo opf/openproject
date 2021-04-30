@@ -52,7 +52,7 @@ export class DynamicFormService {
     return dynamicForm;
   }
 
-  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string) {
-    return this._formsService.submit$(form, resourceEndpoint, resourceId);
+  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?: 'post' | 'patch') {
+    return this._formsService.submit$(form, resourceEndpoint, resourceId, formHttpMethod);
   }
 }

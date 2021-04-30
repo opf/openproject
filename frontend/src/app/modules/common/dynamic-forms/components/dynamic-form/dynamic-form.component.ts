@@ -15,7 +15,7 @@ import {
 } from "../../typings";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
-import { catchError, finalize, take } from "rxjs/operators";
+import { catchError, finalize } from "rxjs/operators";
 import { HalSource } from "core-app/modules/hal/resources/hal-resource";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
@@ -83,8 +83,16 @@ import { FormsService } from "core-app/core/services/forms/forms.service";
   ]
 })
 export class DynamicFormComponent extends UntilDestroyedMixin implements ControlValueAccessor, OnChanges {
-  @Input() resourceId:string;
+  // Backend form URL (e.g. https://community.openproject.org/api/v3/projects/dev-large/form)
+  @Input() formUrl:string;
+  // When using the formUrl @Input(), set the http method to use if it is not 'POST'
+  @Input() formHttpMethod: 'post' | 'patch' = 'post';
+  // Part of the URL that belongs to the resource type (e.g. '/projects' in the previous example)
+  // Use this option when you don't have a form URL, the DynamicForm will build it from the resourcePath
+  // for you (⌐■_■).
   @Input() resourcePath:string;
+  // Pass the resourceId in case you are editing an existing resource and you don't have the Form URL.
+  @Input() resourceId:string;
   @Input() settings:{
     payload:IOPFormModel,
     schema:IOPFormSchema,
@@ -103,7 +111,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
   fields:IOPFormlyFieldSettings[];
   model:IOPFormModel;
   form: FormGroup;
-  resourceEndpoint:string | null;
+  formEndpoint:string | null;
   inFlight:boolean;
   text = {
     save: this._I18n.t('js.button_save'),
@@ -176,13 +184,13 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
       return;
     }
 
-    if (!this.resourceEndpoint) {
+    if (!this.formEndpoint) {
       throw new Error(this.noPathToSubmitToError);
     }
 
     this.inFlight = true;
     this._dynamicFormService
-      .submit$(form, this.resourceEndpoint, this.resourceId)
+      .submit$(form, this.formEndpoint, this.resourceId, this.formHttpMethod)
       .pipe(
         finalize(() => this.inFlight = false)
       )
@@ -199,21 +207,25 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
   }
 
   validateForm() {
-    if (!this.resourceEndpoint) {
+    if (!this.formEndpoint) {
       throw new Error(this.noPathToSubmitToError);
     }
 
-    this._formsService.validateForm$(this.form, this.resourceEndpoint).subscribe();
+    this._formsService.validateForm$(this.form, this.formEndpoint).subscribe();
   }
 
   private _initializeDynamicForm() {
-    this.resourceEndpoint = this.resourcePath ?
-      `${this._pathHelperService.api.v3.apiV3Base}${this.resourcePath}` :
-      null;
+    if (this.formUrl) {
+      this.formEndpoint = this.formUrl.replace(`/form`, ``);
+    } else if (this.resourcePath) {
+      this.formEndpoint = `${this._pathHelperService.api.v3.apiV3Base}${this.resourcePath}`;
+    } else {
+      this.formEndpoint = null;
+    }
 
     if (this.settings) {
       this._setupDynamicFormFromSettings();
-    } else if (this.resourceEndpoint) {
+    } else if (this.formEndpoint) {
       this._setupDynamicFormFromBackend();
     } else {
       console.error(this.noSettingsSourceErrorMessage);
@@ -221,7 +233,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
   }
 
   private _setupDynamicFormFromBackend() {
-    const url = `${this.resourceEndpoint}/${this.resourceId ? this.resourceId + '/' : ''}form`;
+    const url = `${this.formEndpoint}/${this.resourceId ? this.resourceId + '/' : ''}form`;
 
     this._dynamicFormService
       .getSettingsFromBackend$(url)

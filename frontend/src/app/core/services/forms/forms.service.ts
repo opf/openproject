@@ -13,9 +13,9 @@ export class FormsService {
     private _httpClient:HttpClient,
   ) { }
 
-  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string):Observable<any> {
+  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?: 'post' | 'patch'):Observable<any> {
     const modelToSubmit = this._formatModelToSubmit(form.value);
-    const httpMethod = resourceId ? 'patch' : 'post';
+    const httpMethod = resourceId ? 'patch' : (formHttpMethod || 'post');
     const url = resourceId ? `${resourceEndpoint}/${resourceId}` : resourceEndpoint;
 
     return this._httpClient
