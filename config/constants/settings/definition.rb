@@ -98,13 +98,17 @@ module Settings
       end
 
       def [](name)
-        @by_name ||= all.group_by(&:name).transform_values(&:first)
+        by_name ||= all.group_by(&:name).transform_values(&:first)
 
-        @by_name[name.to_s]
+        by_name[name.to_s]
       end
 
       def exists?(name)
-        @by_name.keys.include?(name)
+        by_name.keys.include?(name.to_s)
+      end
+
+      def all_of_prefix(prefix)
+        all.select { |definition| definition.name.start_with?(prefix) }
       end
 
       def all
@@ -113,8 +117,6 @@ module Settings
         unless loaded
           self.loaded = true
           require_relative 'definitions'
-
-          load_config_from_file
 
           override_config
         end
@@ -137,6 +139,12 @@ module Settings
             admin: true,
             serialized: value.is_a?(Hash) || value.is_a?(Array),
             writable: false
+      end
+
+      private
+
+      def by_name
+        @by_name ||= all.group_by(&:name).transform_values(&:first)
       end
 
       def load_config_from_file

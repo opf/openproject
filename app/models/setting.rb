@@ -282,7 +282,7 @@ class Setting < ApplicationRecord
     name = name.to_s
     raise "There's no setting named #{name}" unless exists? name
 
-    value = cached_settings.fetch(name) { Settings::Definition[name].default }
+    value = cached_settings.fetch(name) { Settings::Definition[name].value }
     deserialize(name, value)
   end
 

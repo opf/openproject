@@ -29,29 +29,29 @@
 require 'spec_helper'
 
 describe OpenProject::Configuration do
-  #describe '.load_config_from_file' do
-  #  let(:file_contents) do
-  #    <<-EOS
-  #    default:
+  describe '.load_config_from_file' do
+    let(:file_contents) do
+      <<-EOS
+      default:
 
-  #      test:
-  #      somesetting: foo
-  #    EOS
-  #  end
-  #  before do
-  #    allow(File).to receive(:read).and_call_original
-  #    allow(File).to receive(:read).with('configfilename').and_return(file_contents)
-  #    allow(File).to receive(:file?).with('configfilename').and_return(true)
+        test:
+        somesetting: foo
+      EOS
+    end
+    before do
+      allow(File).to receive(:read).and_call_original
+      allow(File).to receive(:read).with('configfilename').and_return(file_contents)
+      allow(File).to receive(:file?).with('configfilename').and_return(true)
 
-  #    OpenProject::Configuration.load(file: 'configfilename')
-  #  end
+      OpenProject::Configuration.load(file: 'configfilename')
+    end
 
-  #  it 'should merge the config from the file into the given config hash' do
-  #    expect(OpenProject::Configuration['somesetting']).to eq('foo')
-  #    expect(OpenProject::Configuration[:somesetting]).to eq('foo')
-  #    expect(OpenProject::Configuration.somesetting).to eq('foo')
-  #  end
-  #end
+    it 'should merge the config from the file into the given config hash' do
+      expect(OpenProject::Configuration['somesetting']).to eq('foo')
+      expect(OpenProject::Configuration[:somesetting]).to eq('foo')
+      expect(OpenProject::Configuration.somesetting).to eq('foo')
+    end
+  end
 
   describe '.load_env_from_config' do
     describe 'with a default setting' do
@@ -382,13 +382,25 @@ describe OpenProject::Configuration do
 
   describe '.configure_legacy_action_mailer' do
     let(:action_mailer) { double('ActionMailer::Base', deliveries: []) }
-    let(:config) do
+    let(:settings) do
       { 'email_delivery_method' => 'smtp',
         'smtp_address' => 'smtp.example.net',
-        'smtp_port' => '25' }
+        'smtp_port' => '25' }.map do |name, value|
+        OpenStruct.new name: name, value: value
+      end
     end
 
     before do
+      allow(Settings::Definition)
+        .to receive(:[]) do |name|
+        settings.detect { |s| s.name == name }
+      end
+
+      allow(Settings::Definition)
+        .to receive(:all_of_prefix) do |prefix|
+        settings.select { |s| s.name.start_with?(prefix) }
+      end
+
       stub_const('ActionMailer::Base', action_mailer)
     end
 
@@ -397,7 +409,7 @@ describe OpenProject::Configuration do
       expect(action_mailer).to receive(:delivery_method=).with(:smtp)
       expect(action_mailer).to receive(:smtp_settings=).with(address: 'smtp.example.net',
                                                              port: '25')
-      OpenProject::Configuration.send(:configure_legacy_action_mailer, config)
+      OpenProject::Configuration.send(:configure_legacy_action_mailer)
     end
   end
 

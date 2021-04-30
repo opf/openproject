@@ -76,43 +76,43 @@ module OpenProject
         # or there is something to overwrite it
         application_config.cache_store.nil? ||
           application_config.cache_store == :file_store ||
-          Settings::Definition['rails_cache_store'].present?
+          self['rails_cache_store'].present?
       end
 
       def migrate_mailer_configuration!
         # do not migrate if forced to legacy configuration (using settings or ENV)
-        return true if @config['email_delivery_configuration'] == 'legacy'
+        return true if self['email_delivery_configuration'] == 'legacy'
         # do not migrate if no legacy configuration
-        return true if @config['email_delivery_method'].blank?
+        return true if self['email_delivery_method'].blank?
         # do not migrate if the setting already exists and is not blank
         return true if Setting.email_delivery_method.present?
 
         Rails.logger.info 'Migrating existing email configuration to the settings table...'
-        Setting.email_delivery_method = @config['email_delivery_method'].to_sym
+        Setting.email_delivery_method = self['email_delivery_method'].to_sym
 
         ['smtp_', 'sendmail_'].each do |config_type|
-          mail_delivery_config = filter_hash_by_key_prefix(@config, config_type)
+          mail_delivery_configs = Settings::Definition.all_of_prefix(config_type)
 
-          unless mail_delivery_config.empty?
-            mail_delivery_config.symbolize_keys! if mail_delivery_config.respond_to?(:symbolize_keys!)
-            mail_delivery_config.each do |k, v|
-              Setting["#{config_type}#{k}"] = case v
-                                              when TrueClass
-                                                1
-                                              when FalseClass
-                                                0
-                                              else
-                                                v
-                                              end
-            end
+          next if mail_delivery_configs.empty?
+
+          mail_delivery_configs.each do |config|
+            Setting["#{config_type}#{config.name}"] = case config.value
+                                                      when TrueClass
+                                                        1
+                                                      when FalseClass
+                                                        0
+                                                      else
+                                                        v
+                                                      end
           end
         end
+
         true
       end
 
       def reload_mailer_configuration!
-        if @config['email_delivery_configuration'] == 'legacy'
-          configure_legacy_action_mailer(@config)
+        if self['email_delivery_configuration'] == 'legacy'
+          configure_legacy_action_mailer
         else
           case Setting.email_delivery_method
           when :smtp
@@ -133,19 +133,18 @@ module OpenProject
       # This is used to configure email sending from users who prefer to
       # continue using environment variables of configuration.yml settings. Our
       # hosted SaaS version requires this.
-      def configure_legacy_action_mailer(config)
-        return true if config['email_delivery_method'].blank?
+      def configure_legacy_action_mailer
+        return true if self['email_delivery_method'].blank?
 
         ActionMailer::Base.perform_deliveries = true
-        ActionMailer::Base.delivery_method = config['email_delivery_method'].to_sym
+        ActionMailer::Base.delivery_method = self['email_delivery_method'].to_sym
 
         ['smtp_', 'sendmail_'].each do |config_type|
-          mail_delivery_config = filter_hash_by_key_prefix(config, config_type)
+          config = settings_of_prefix(config_type)
 
-          unless mail_delivery_config.empty?
-            mail_delivery_config.symbolize_keys! if mail_delivery_config.respond_to?(:symbolize_keys!)
-            ActionMailer::Base.send("#{config_type + 'settings'}=", mail_delivery_config)
-          end
+          next if config.empty?
+
+          ActionMailer::Base.send("#{config_type + 'settings'}=", config)
         end
       end
 
@@ -193,47 +192,40 @@ module OpenProject
         parameters
       end
 
-      # Filters a hash with String keys by a key prefix and removes the prefix from the keys
-      def filter_hash_by_key_prefix(hash, prefix)
-        filtered_hash = {}
-        hash.each do |key, value|
-          if key.start_with? prefix
-            filtered_hash[key[prefix.length..-1]] = value
-          end
-        end
-        filtered_hash
-      end
-
       def method_missing(name, *args, &block)
-        setting_name = name.to_s.sub('(=|\?)$', '')
+        setting_name = name.to_s.sub(/(=|\?)$/, '')
 
         if Settings::Definition.exists?(setting_name)
-          define_singleton_method setting_name do
-            self[setting_name]
-          end
+          define_config_methods(setting_name)
 
-          define_singleton_method "#setting_name}?" do
-            ['true', true, '1'].include? self[setting_name]
-          end
+          send(setting_name, *args, &block)
+        else
+          super
         end
       end
 
       def respond_to_missing?(name, include_private = false)
-        Settings::Definition.exists?(name.to_ s.sub('(=|\?)$', '')) || super
+        Settings::Definition.exists?(name.to_s.sub(/(=|\?)$/, '')) || super
       end
 
-      def define_config_methods
-        @config.each_key do |setting|
-          next if respond_to? setting
-
-          define_singleton_method setting do
-            self[setting]
-          end
-
-          define_singleton_method "#{setting}?" do
-            ['true', true, '1'].include? self[setting]
-          end
+      def define_config_methods(setting_name)
+        define_singleton_method setting_name do
+          self[setting_name]
         end
+
+        define_singleton_method "#{setting_name}?" do
+          ['true', true, '1'].include? self[setting_name]
+        end
+      end
+
+
+      # Filters a hash with String keys by a key prefix and removes the prefix from the keys
+      def settings_of_prefix(prefix)
+        Settings::Definition
+          .all_of_prefix(prefix)
+          .map { |setting| [setting.name.delete_prefix(prefix), setting.value] }
+          .to_h
+          .symbolize_keys!
       end
     end
   end
