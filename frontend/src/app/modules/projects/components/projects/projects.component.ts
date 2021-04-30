@@ -13,8 +13,9 @@ import { IOPFormlyFieldSettings } from "core-app/modules/common/dynamic-forms/ty
 export class ProjectsComponent extends UntilDestroyedMixin implements OnInit {
   resourceId:string;
   projectsPath:string;
-  text:{[key:string]:string};
+  text:{ [key:string]:string };
   dynamicFieldsSettingsPipe:(dynamicFieldsSettings:IOPFormlyFieldSettings[]) => IOPFormlyFieldSettings[];
+  hiddenFields = ['identifier', 'active'];
 
   constructor(
     private _uIRouterGlobals:UIRouterGlobals,
@@ -24,13 +25,13 @@ export class ProjectsComponent extends UntilDestroyedMixin implements OnInit {
     super();
   }
 
-  ngOnInit(): void {
+  ngOnInit():void {
     this.projectsPath = this._pathHelperService.projectsPath();
     this.resourceId = this._uIRouterGlobals.params.projectPath;
     this.dynamicFieldsSettingsPipe = (dynamicFieldsSettings) => {
       return dynamicFieldsSettings
         .reduce((formattedDynamicFieldsSettings, dynamicFormField) => {
-          if (dynamicFormField.key === 'identifier') {
+          if (this.isFieldHidden(dynamicFormField.key)) {
             dynamicFormField = {
               ...dynamicFormField,
               hide: true,
@@ -47,5 +48,9 @@ export class ProjectsComponent extends UntilDestroyedMixin implements OnInit {
     if (!this.resourceId) {
       this._$state.go('.', { ...this._$state.params, projectPath: formResource.identifier });
     }
+  }
+
+  private isFieldHidden(name:string|undefined) {
+    return this.hiddenFields.includes(name || '');
   }
 }

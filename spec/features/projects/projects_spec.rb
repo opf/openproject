@@ -45,7 +45,7 @@ describe 'Projects', type: :feature, js: true do
     it 'can create a project' do
       click_on 'New project'
 
-      fill_in 'project[name]', with: 'Foo bar'
+      fill_in 'Name', with: 'Foo bar'
       click_on 'Create'
 
       expect(page).to have_content 'Successful creation.'
@@ -58,7 +58,7 @@ describe 'Projects', type: :feature, js: true do
       it 'creates a project and redirects to settings' do
         click_on 'New project'
 
-        fill_in 'project[name]', with: 'Foo bar'
+        fill_in 'Name', with: 'Foo bar'
         click_on 'Create'
 
         expect(page).to have_content 'Successful creation.'
@@ -202,42 +202,65 @@ describe 'Projects', type: :feature, js: true do
 
   describe 'form' do
     let(:project) { FactoryBot.build(:project, name: 'Foo project', identifier: 'foo-project') }
-    let!(:optional_custom_field) do
-      FactoryBot.create(:custom_field, name: 'Optional Foo',
-                                       type: ProjectCustomField,
-                                       is_for_all: true)
-    end
-    let!(:required_custom_field) do
-      FactoryBot.create(:custom_field, name: 'Required Foo',
-                                       type: ProjectCustomField,
-                                       is_for_all: true,
-                                       is_required: true)
-    end
 
-    it 'seperates optional and required custom fields for new' do
-      visit new_project_path
+    context 'when creating' do
+      it 'hides the active field and the identifier' do
+        visit new_project_path
 
-      expect(page).to have_content 'Required Foo'
-
-      click_on 'Advanced settings'
-
-      within('#advanced-project-settings') do
-        expect(page).to have_content 'Optional Foo'
-        expect(page).not_to have_content 'Required Foo'
+        expect(page).not_to have_field 'Active'
+        expect(page).not_to have_field 'Identifier'
       end
     end
 
-    it 'shows optional and required custom fields for edit without an seperation' do
-      project.custom_field_values.last.value = 'FOO'
-      project.save!
+    context 'when editing' do
+      it 'hides the active field' do
+        project.save!
 
-      visit settings_generic_project_path(project.id)
+        visit settings_generic_project_path(project.id)
 
-      expect(page).to have_content 'Required Foo'
-      expect(page).to have_content 'Optional Foo'
+        expect(page).not_to have_field 'Active'
+        expect(page).not_to have_field 'Identifier'
+      end
     end
 
-    context 'with a restricted custom field' do
+    context 'with optional and required custom fields' do
+      let!(:optional_custom_field) do
+        FactoryBot.create(:custom_field, name: 'Optional Foo',
+                          type: ProjectCustomField,
+                          is_for_all: true)
+      end
+      let!(:required_custom_field) do
+        FactoryBot.create(:custom_field, name: 'Required Foo',
+                          type: ProjectCustomField,
+                          is_for_all: true,
+                          is_required: true)
+      end
+
+      it 'seperates optional and required custom fields for new' do
+        visit new_project_path
+
+        expect(page).to have_content 'Required Foo'
+
+        click_on 'Advanced settings'
+
+        within('#advanced-project-settings') do
+          expect(page).to have_content 'Optional Foo'
+          expect(page).not_to have_content 'Required Foo'
+        end
+      end
+
+      it 'shows optional and required custom fields for edit without a separation' do
+        project.custom_field_values.last.value = 'FOO'
+        project.save!
+
+        visit settings_generic_project_path(project.id)
+
+        expect(page).to have_content 'Required Foo'
+        expect(page).to have_content 'Optional Foo'
+      end
+    end
+
+    context 'with a length restricted custom field' do
       let(:project) { FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project') }
       let!(:required_custom_field) do
         FactoryBot.create(:string_project_custom_field,
