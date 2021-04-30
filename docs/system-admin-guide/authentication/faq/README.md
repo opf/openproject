@@ -23,7 +23,7 @@ For on premises installations the functionality can be deactivated the same way 
 
 ## Can we ensure that passwords are secure / have a high strength?
 
-Password parameters for OpenProject can be configured on each OpenProject environment. Typically passwords require 10+ characters, as well as special characters. Please find the respective instruction [here]([../authentication-settings/#configure-password-settings.).
+Password parameters for OpenProject can be configured on each OpenProject environment. Typically passwords require 10+ characters, as well as special characters. Please find the respective instruction [here](../authentication-settings/#configure-password-settings).
 
 ## How can a user change his/her authentication method?
 
@@ -32,11 +32,15 @@ Users who want to change their authentication method can just be re-invited. Go 
 ## I am an administrator of an on-premises installation of OpenProject. Our users can't login and when I send them a link to login they don't receive it. What can I do?
 
 Probably it has something to do with the configuration of the email server if messages do not arrive. As a workaround, you can first [manually set a password](../../users-permissions/users/#manage-user-settings) for the users and send it to them by protected channels (then the users can log in in any case). 
-In addition, we ask you to check if there are general difficulties with sending emails. There is a possibility to send a test email (you can see it quite well [here](../../email/#configure-email-header-and-email-footer) in the screenshot (under point 3). If the test email arrives, then the email dispatch from OpenProject works. Otherwise you would have to look in the [server logs](../../installation-and-operations/operation/monitoring), whether there is an error displayed when a user is invited again.
+In addition, we ask you to check if there are general difficulties with sending emails. There is a possibility to send a test email (you can see it quite well [here](../../email/#configure-email-header-and-email-footer) in the screenshot (under point 3). If the test email arrives, then the email dispatch from OpenProject works. Otherwise you would have to look in the [server logs](../../../installation-and-operations/operation/monitoring), whether there is an error displayed when a user is invited again.
 
 ## Is it possible to only allow authentication via SSO (not via user name / password)?
 
-Yes, for Enterprise on-premises and Community Edition there is a [configuration option](../installation-and-operations/configuration/#disable-password-login) to disable the password login.
+Yes, for Enterprise on-premises and Community Edition there is a [configuration option](../../../installation-and-operations/configuration/#disable-password-login) to disable the password login.
+
+## Which authentication providers are supported for single sign-on?
+
+We do support the main authentication providers, such as CAS, SAML, OpenID Connect, Kerberos, and Okta. Please note that single sign-on is a premium feature and can only be activated for Enterprise cloud and Enterprise on-premises.
 
 ## Is it possible to use a custom SSO provider (e.g. Keycloak) with the Enterprise cloud edition?
 

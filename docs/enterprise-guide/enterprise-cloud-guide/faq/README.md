@@ -11,11 +11,11 @@ keywords: Enterprise cloud FAQ, Cloud Edition, hosted by OpenProject
 
 ## How can I book additional users for the Enterprise cloud?
 
-You can do this in your OpenProject instance in the administration. The number of users can be increased in steps of 5. Find out [here](../manage-subscription/#upgrade-or-downgrade-subscription) how to change the number of users in your system administration. A reduction in the number of users would take effect at the beginning of the next subscription period.
+You can do this in your OpenProject instance in the administration. The number of users can be increased in steps of 5. Find out [here](../manage-cloud-subscription/#upgrade-or-downgrade-subscription) how to change the number of users in your system administration. A reduction in the number of users takes effect at the beginning of the next subscription period.
 
 ## How can I change my payment details (e.g. new credit card)?
 
-Please have a look at [this instruction](./manage-subscription/).
+Please have a look at [this instruction](../manage-cloud-subscription/).
 
 
 ## Does OpenProject comply with GDPR?
@@ -46,10 +46,9 @@ To import your community instance into our cloud environment, please send us the
 2. The attachments of your local installation
 
 For a package-based installation, you can create both as root user on your environment as follows: `openproject run backup`
-This creates the attachment and postgresql-dump or mysql-dump under /var/db/openproject/backup.
-If you are still running OpenProject under MySQL, your dump will be converted to PostgreSQL before importing, we will do this for you. More information about the backup tool can be found [here](../../operations/backup/backup-guide-packaged-installation/).
-Before uploading the attachments securely to us using the [this form](https://openproject.org/saas-import), please contact us via support@openproject.com.
-The form generates a direct upload to our secure S3 environment from which the import will take place.
+This creates the attachment and PostgreSQL-dump or MySQL-dump under /var/db/openproject/backup.
+If you are still running OpenProject under MySQL, your dump will be converted to PostgreSQL before importing, we will do this for you. More information about the backup tool can be found [here](../../../operations/backup/backup-guide-packaged-installation/).
+Please upload these documents as an attachment to a work package within your new OpenProject Enterprise cloud environment and send us the link to this work package via email.
 
 ## How can I export the documents loaded on OpenProject?
 
@@ -57,5 +56,5 @@ Currently, there is unfortunately no option to export all the documents in OpenP
 
 ## Is it possible to access the PostgreSQL tables (read-only) on a hosted OpenProject instance via ODBC or another protocol (e.g. to extract data for PowerBI)?
 
-Access to the database (including the PostgreSQL tables) is restricted for the Enterprise cloud edition due to technical and security reasons. Instead, you can use the OpenProject [API](../../api) to both read and write data (where supported). If you require direct database access, you may want to take a look at the OpenProject [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition) which you can run on your own server.
+Access to the database (including the PostgreSQL tables) is restricted for the Enterprise cloud edition due to technical and security reasons. Instead, you can use the OpenProject [API](../../../api) to both read and write data (where supported). If you require direct database access, you may want to take a look at the OpenProject [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition) which you can run on your own server.
 

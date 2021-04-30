@@ -129,6 +129,12 @@ On the General tab the following fields are shown:
 
 ![administration-user-settings-manage-user](image-20210302092958881.png)
 
+#### Reset a user's password
+
+To create a new password for a user (e.g. if he/she lost it) navigate to the *Authentication* section of the *General* tab. You can either assign a random password (check the box on top) or set a new password manually and send it to them (preferably through secured communication). Consider checking the box next to "Enforce password change ...".
+
+![reset-user-password](image-20210429114602604.png)
+
 ### Add users to a project
 
 In order to see and work in a project, a user has to be a member of a project and needs to be added with a certain role to this project.
@@ -153,9 +159,23 @@ On the **Global roles** tab, select or de-select the global role(s) for this use
 
 ### Rate history
 
-The rate history shows the hourly rates that have been defined for the user. The "Default rate" is applied to projects with no rate defined. All projects that the user is a member of are listed with the user's rates.
+The rate history tab shows the hourly rates that have been defined for the user. The "Default rate" is applied to projects with no rate defined. All projects that the user is a member of are listed with the user's rates.
 
-The "Valid from" date will effect the rate used when creating a [budget](../../../user-guide/budgets/) and when [logging time](../../../user-guide/time-and-costs/time-tracking/). Find out more [here](../../../user-guide/time-and-costs/time-tracking/#define-hourly-rate-for-labor-costs).
+The "Valid from" date will effect the rate used when creating a [budget](../../../user-guide/budgets/) and when [logging time](../../../user-guide/time-and-costs/time-tracking/).
+
+If you want to set a different hourly rate for the user on different projects, you can overwrite the default rate with a different rate below in the respective projects.
+
+To enter a new hourly rate, click on the **Update** icon next to the rate history. You can either set a **default hourly rate** or define a rate for a certain project.
+
+![set-hourly-rate-administration](image-20210413112220100.png)
+
+1. Enter a date from which the rate is **Valid from**.
+2. Enter the (hourly) **Rate**. The currency can only be changed in the [respective settings](../../time-and-costs).
+3. You can delete an hourly rate.
+4. You can **add a rate** for a different time period.
+5. **Save** your changes.
+
+![Rate-history-change](Rate-history-change.png)
 
 ### Avatar
 

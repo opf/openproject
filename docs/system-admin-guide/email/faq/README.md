@@ -32,9 +32,17 @@ You can also send files, which will then be attached to the work package.
 
 Find out more about how to format the emails [here](https://docs.openproject.org/installation-and-operations/configuration/incoming-emails/#format-of-the-emails).
 
+## How can I change the frequency of email updates?
+
+You can change how often you receive email notifications [this way](../../system-settings/display-settings/#time-and-date-formatting). Another option would be to change you [notification settings](../../../getting-started/my-account/#email-notifications).
+
+## Will I receive emails if a work package is due or overdue?
+
+At the moment you won't receive emails if the deadline for a work package approaches. There is already a [feature request for this](https://community.openproject.org/projects/openproject/work_packages/7693/activity).
+
 ## I don't receive work package updates
 
-If you use Community Edition or Enterprise on-premises and your email updates do not work please have a look at [this FAQ](../../../installation-and-operations/faq#i-dont-receive-emails-test-email-works-fine-but-not-the-one-for-work-package-updates).
+If you use Community Edition or Enterprise on-premises and your email updates do not work please have a look at [this FAQ](../../../installation-and-operations/faq/#i-dont-receive-emails-test-email-works-fine-but-not-the-one-for-work-package-updates).
 
 ## Does my role in a project influence the email notifications I get?
 

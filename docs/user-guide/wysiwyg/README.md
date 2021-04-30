@@ -73,9 +73,9 @@ In supported resources of OpenProject where attachments are allowed, you can add
 - pasting an image from your clipboard,
 - or drag & drop an image onto the editor.
 
+The image will be automatically uploaded and stored as an attachment. You can adjust the image size in the editor using your mouse.
 
-
-The attachment will be automatically uploaded and stored as an attachment.
+![resize-imagesshort](resize-imagesshort.gif)
 
  
 
@@ -102,7 +102,7 @@ Configure a button or link to target the work package creation screen in the cur
 
 ### Include wiki page
 
-Include the content of a given wiki page in the current, or another visible project.ww
+Include the content of a given wiki page in the current, or another visible project.
 
 
 
@@ -157,7 +157,7 @@ For work packages and users, typing `#` or `@` will open an autocompleter for vi
 You can embed specific attributes of work packages or projects using a certain syntax.
 Examples:
 
-- **Linking to the subject of work package with id #1234**: `workPackageValue:1234:subject`
+- **Linking to the subject of work package with id #1234**: `workPackageValue:1234:subject` (this also works for other attributes, too. See table below.)
 - **Linking to the current project's status**: `projectValue:status`
 - **Linking to the subject of work package with subject "Project start"**: `workPackageValue:"Project start":subject`
 
@@ -192,8 +192,9 @@ The following list contains all supported attribute names for the `workPackageVa
 | Author              | `workPackageValue:1234:author`                               |
 | Category            | `workPackageValue:1234:category`                             |
 | Creation date       | `workPackageValue:1234:createdAt`                            |
-| Finish date         | `workPackageValue:1234:dueDate`                              |
+| Description         | `workPackageValue:1234:description`                          |
 | Estimated time      | `workPackageValue:1234:estimatedTime`                        |
+| Finish date         | `workPackageValue:1234:dueDate`                              |
 | Parent work package | `workPackageValue:1234:parent`                               |
 | Priority            | `workPackageValue:1234:priority`                             |
 | Project             | `workPackageValue:1234:project`                              |
