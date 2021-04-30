@@ -98,7 +98,7 @@ export class DynamicFieldsService {
         'Category', 'CustomOption', 'Project', 'ProjectStatus'
       ]
     },
-  ]
+  ];
 
   constructor(
     private _httpClient:HttpClient,
@@ -184,9 +184,10 @@ export class DynamicFieldsService {
     const formlyFieldConfig = {
       ...fieldTypeConfig,
       key,
-      property: this.getFieldProperty(key),
       className: `op-form--field ${fieldTypeConfig.className}`,
+      wrappers: [`op-dynamic-field-wrapper`],
       templateOptions: {
+        property: this.getFieldProperty(key),
         required,
         label,
         ...templateOptions,
@@ -272,7 +273,7 @@ export class DynamicFieldsService {
   private _getFormlyFormWithFieldGroups(fieldGroups:IOPAttributeGroup[] = [], formFields:IOPFormlyFieldSettings[] = []):IOPFormlyFieldSettings[] {
     const fieldGroupKeys = fieldGroups.reduce((groupKeys, fieldGroup) => [...groupKeys, ...fieldGroup.attributes], []);
     const fomFieldsWithoutGroup = formFields.filter(formField => {
-    const formFieldKey = formField.key && this.getFieldProperty(formField.key);
+      const formFieldKey = formField.key && this.getFieldProperty(formField.key);
 
       return formFieldKey ?
         !fieldGroupKeys.includes(formFieldKey) :
@@ -281,9 +282,12 @@ export class DynamicFieldsService {
     const formFieldGroups = fieldGroups.reduce((formWithFieldGroups: IOPFormlyFieldSettings[], fieldGroup) => {
       const newFormFieldGroup = {
         wrappers: ['op-dynamic-field-group-wrapper'],
-        fieldGroupClassName: 'op-form--field-group',
+        fieldGroupClassName: 'op-form-group',
         templateOptions: {
           label: fieldGroup.name,
+          isFieldGroup: true,
+          collapsibleFieldGroups: false,
+          collapsibleFieldGroupsCollapsed: true,
         },
         fieldGroup: formFields.filter(formField => {
           const formFieldKey = formField.key && this.getFieldProperty(formField.key);

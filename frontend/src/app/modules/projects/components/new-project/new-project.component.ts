@@ -67,20 +67,23 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   ngOnInit():void {
     this.resourcePath = this.pathHelperService.projectsPath();
 
-    // TODO extract common
     this.dynamicFieldsSettingsPipe = (dynamicFieldsSettings) => {
-      return dynamicFieldsSettings
-        .reduce((formattedDynamicFieldsSettings, dynamicFormField) => {
-          if (dynamicFormField.key === 'identifier') {
-            dynamicFormField = {
-              ...dynamicFormField,
-              hide: false,
-            };
-          }
+      const advancedSettingsFields = dynamicFieldsSettings.filter(field => field.key !== 'name');
+      const nameField = dynamicFieldsSettings.find(field => field.key === 'name')!;
+      const advancedSettingsGroup = {
+        fieldGroup: advancedSettingsFields,
+        fieldGroupClassName: "op-form--field-group",
+        templateOptions: {
+          label: this.I18n.t("js.forms.advanced_settings"),
+          collapsibleFieldGroups: true,
+          collapsibleFieldGroupsCollapsed: true,
+        },
+        type: "formly-group" as "formly-group",
+        wrappers: ["op-dynamic-field-group-wrapper"],
+      }
 
-          return [...formattedDynamicFieldsSettings, dynamicFormField];
-        }, []);
-    };
+      return [nameField, advancedSettingsGroup];
+    }
   }
 
   onSubmitted(response:HalSource) {
