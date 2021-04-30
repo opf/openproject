@@ -1,0 +1,25 @@
+<form
+  class="op-form"
+  [formGroup]="templateForm"
+>
+  <op-form-field
+    [label]="text.use_template"
+  >
+    <ng-select
+      [virtualScroll]="true"
+      [formControl]="templateControl"
+      [items]="templateOptions$ | async"
+      (ngModelChange)="onTemplateSelected($event)"
+      bindLabel="name"
+      slot="input"
+    >
+    </ng-select>
+  </op-form-field>
+</form>
+
+<op-dynamic-form
+  [resourcePath]="resourcePath"
+  [fieldsSettingsPipe]="dynamicFieldsSettingsPipe"
+  (submitted)="onSubmitted($event)"
+>
+</op-dynamic-form>
