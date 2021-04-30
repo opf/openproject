@@ -1,21 +1,14 @@
 <ng-select [items]="to?.options | async"
+           [(ngModel)]="currentStatus"
            [formControl]="formControl"
            [formlyAttributes]="field"
-           [attr.aria-required]="to.required"
-           [attr.required]="to.required"
-           [multiple]="to.multiple"
-           [bindLabel]="to.bindLabel"
-           [searchable]="to.searchable"
-           [virtualScroll]="to.virtualScroll"
-           [clearable]="to.clearable"
-           [typeahead]="to.typeahead"
+           bindLabel="name"
+           [searchable]="true"
+           [virtualScroll]="true"
+           [clearable]="false"
            [clearOnBackspace]="false"
            [clearSearchOnAdd]="false"
-           [hideSelected]="to.hideSelected">
-  <ng-template ng-tag-tmp let-search="searchTerm">
-    <b [textContent]="to.text.add_new_action"></b>: {{search}}
-  </ng-template>
-
+           [hideSelected]="true">
   <ng-template ng-label-tmp let-item="item">
     <span class="project-status--bulb -inline" [ngClass]="cssClass(item)"></span>
     <span class="project-status--name" [ngClass]="cssClass(item)">{{item.name}}</span>

@@ -75,15 +75,15 @@ describe 'Projects status administration', type: :feature, js: true do
     # Check that the status has been set correctly
     visit settings_generic_project_path(id: 'new-project')
 
-    status_field.expect_selected 'On track'
+    status_field.expect_selected 'ON TRACK'
     status_description.expect_value 'Everything is fine at the start'
 
-    status_field.select_option 'Off track'
+    status_field.select_option 'OFF TRACK'
     status_description.set_markdown 'Oh no'
 
     click_button 'Save'
 
-    status_field.expect_selected 'Off track'
+    status_field.expect_selected 'OFF TRACK'
     status_description.expect_value 'Oh no'
   end
 end
