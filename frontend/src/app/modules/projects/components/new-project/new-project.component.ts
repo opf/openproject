@@ -68,10 +68,24 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     this.resourcePath = this.pathHelperService.projectsPath();
 
     this.dynamicFieldsSettingsPipe = (dynamicFieldsSettings) => {
-      const advancedSettingsFields = dynamicFieldsSettings.filter(field => field.key !== 'name');
-      const nameField = dynamicFieldsSettings.find(field => field.key === 'name')!;
+      const fieldsLayoutConfig = dynamicFieldsSettings
+        .reduce((result, field) => {
+        if (
+          (field.templateOptions?.required &&
+          !field.templateOptions.hasDefault &&
+          field.templateOptions.payloadValue == null) ||
+          field.templateOptions?.property === 'name' ||
+          field.templateOptions?.property === 'parent'
+        ) {
+          result.firstLevelFields = [...result.firstLevelFields, field];
+        } else {
+          result.advancedSettingsFields = [...result.advancedSettingsFields, field];
+        }
+
+        return result;
+      }, {firstLevelFields: [], advancedSettingsFields: []} as {firstLevelFields: IOPFormlyFieldSettings[], advancedSettingsFields: IOPFormlyFieldSettings[]});
       const advancedSettingsGroup = {
-        fieldGroup: advancedSettingsFields,
+        fieldGroup: fieldsLayoutConfig.advancedSettingsFields,
         fieldGroupClassName: "op-form--field-group",
         templateOptions: {
           label: this.I18n.t("js.forms.advanced_settings"),
@@ -82,7 +96,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
         wrappers: ["op-dynamic-field-group-wrapper"],
       }
 
-      return [nameField, advancedSettingsGroup];
+      return [...fieldsLayoutConfig.firstLevelFields, advancedSettingsGroup];
     }
   }
 

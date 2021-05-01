@@ -14,6 +14,9 @@ export interface IOPFormlyFieldSettings extends FormlyFieldConfig {
 }
 
 export interface IOPFormlyTemplateOptions extends FormlyTemplateOptions {
+  property?: string;
+  label?: string;
+  hasDefault?: boolean;
   isFieldGroup?:boolean;
   collapsibleFieldGroups?:boolean;
   collapsibleFieldGroupsCollapsed?:boolean;

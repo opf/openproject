@@ -40,6 +40,8 @@ interface IOPFieldSchema {
   required?: boolean;
   hasDefault: boolean;
   name?: string;
+  minLength?: number,
+  maxLength?: number,
   attributeGroup?: string;
   location?: '_links' | string;
   options: {

@@ -108,7 +108,7 @@ export class DynamicFieldsService {
     const formFieldGroups = formSchema._attributeGroups;
     const fieldSchemas = this._getFieldsSchemasWithKey(formSchema);
     const formlyFields = fieldSchemas
-      .map(fieldSchema => this._getFormlyFieldConfig(fieldSchema))
+      .map(fieldSchema => this._getFormlyFieldConfig(fieldSchema, formPayload))
       .filter(f => f !== null) as IOPFormlyFieldSettings[];
     const formlyFormWithFieldGroups = this._getFormlyFormWithFieldGroups(formFieldGroups, formlyFields);
 
@@ -142,7 +142,7 @@ export class DynamicFieldsService {
   }
 
   private _isFieldSchema(schemaValue:IOPFieldSchemaWithKey | any):boolean {
-    return schemaValue?.type;
+    return !!schemaValue?.type;
   }
 
   private _getFieldsModel(fieldSchemas:IOPFieldSchemaWithKey[], formModel:IOPFormModel = {}):IOPFormModel {
@@ -173,23 +173,29 @@ export class DynamicFieldsService {
     }, {});
   }
 
-  private _getFormlyFieldConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldSettings|null {
-    const { key, name:label, required } = field;
-    const fieldTypeConfigSearch = this._getFieldTypeConfig(field);
+  private _getFormlyFieldConfig(fieldSchema:IOPFieldSchemaWithKey, formPayload:IOPFormModel):IOPFormlyFieldSettings|null {
+    const {key, name:label, required, hasDefault, minLength, maxLength} = fieldSchema;
+    const fieldTypeConfigSearch = this._getFieldTypeConfig(fieldSchema);
     if (!fieldTypeConfigSearch) {
       return null;
     }
     const { templateOptions, ...fieldTypeConfig } = fieldTypeConfigSearch;
-    const fieldOptions = this._getFieldOptions(field);
+    const fieldOptions = this._getFieldOptions(fieldSchema);
+    const property = this.getFieldProperty(key);
+    const payloadValue = property && formPayload[property];
     const formlyFieldConfig = {
       ...fieldTypeConfig,
       key,
       className: `op-form--field ${fieldTypeConfig.className}`,
       wrappers: [`op-dynamic-field-wrapper`],
       templateOptions: {
-        property: this.getFieldProperty(key),
+        property,
         required,
         label,
+        hasDefault,
+        ...payloadValue != null && {payloadValue},
+        ...minLength && {minLength},
+        ...maxLength && {maxLength},
         ...templateOptions,
         ...fieldOptions && {options: fieldOptions},
       },
