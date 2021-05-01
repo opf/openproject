@@ -6,6 +6,7 @@ import {
   ViewChild,
   EventEmitter,
   forwardRef,
+  SimpleChanges,
 } from "@angular/core";
 import { FormlyForm } from "@ngx-formly/core";
 import { DynamicFormService } from "../../services/dynamic-form/dynamic-form.service";
@@ -93,11 +94,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
   @Input() resourcePath:string;
   // Pass the resourceId in case you are editing an existing resource and you don't have the Form URL.
   @Input() resourceId:string;
-  @Input() settings:{
-    payload:IOPFormModel,
-    schema:IOPFormSchema,
-    [nonUsedSchemaKeys:string]:any,
-  };
+  @Input() settings:IOPFormSettings;
   // Chance to modify the dynamicFormFields settings before the form is rendered
   @Input() fieldsSettingsPipe: (dynamicFieldsSettings:IOPFormlyFieldSettings[]) => IOPFormlyFieldSettings[];
   @Input() showNotifications = true;
@@ -166,8 +163,13 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
     disabled ? this.form.disable() : this.form.enable();
   }
 
-  ngOnChanges() {
-    this._initializeDynamicForm();
+  ngOnChanges(changes:SimpleChanges) {
+    this._initializeDynamicForm(
+      changes?.settings?.currentValue,
+      this.resourcePath,
+      this.resourceId,
+      this.formUrl,
+    );
   }
 
   onModelChange(changes:any) {
@@ -214,31 +216,45 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
     this._formsService.validateForm$(this.form, this.formEndpoint).subscribe();
   }
 
-  private _initializeDynamicForm() {
-    if (this.formUrl) {
-      this.formEndpoint = this.formUrl.endsWith(`/form`) ?
-        this.formUrl.replace(`/form`, ``) :
-        this.formUrl;
-    } else if (this.resourcePath) {
-      this.formEndpoint = `${this._pathHelperService.api.v3.apiV3Base}${this.resourcePath}`;
-    } else {
-      this.formEndpoint = null;
-    }
-
-    if (this.settings) {
+  private _initializeDynamicForm(
+    settings?:IOPFormSettings,
+    resourcePath?:string,
+    resourceId?:string,
+    formUrl?:string,
+  ) {
+    if (settings) {
       this._setupDynamicFormFromSettings();
-    } else if (this.formEndpoint) {
-      this._setupDynamicFormFromBackend();
     } else {
-      console.error(this.noSettingsSourceErrorMessage);
+      const newFormEndPoint = this._getFormEndPoint(formUrl, resourcePath);
+
+      if (newFormEndPoint && newFormEndPoint !== this.formEndpoint) {
+        this.formEndpoint = newFormEndPoint;
+        this._setupDynamicFormFromBackend(this.formEndpoint, resourceId);
+      } else if (!newFormEndPoint) {
+        console.error(this.noSettingsSourceErrorMessage);
+      }
     }
   }
 
-  private _setupDynamicFormFromBackend() {
-    const url = `${this.formEndpoint}/${this.resourceId ? this.resourceId + '/' : ''}form`;
+  private _getFormEndPoint(formUrl?:string, resourcePath?:string): string | null {
+    let formEndpoint;
 
+    if (formUrl) {
+      formEndpoint = formUrl.endsWith(`/form`) ?
+        formUrl.replace(`/form`, ``) :
+        formUrl;
+    } else if (resourcePath) {
+      formEndpoint = `${this._pathHelperService.api.v3.apiV3Base}${resourcePath}`;
+    } else {
+      formEndpoint = null;
+    }
+
+    return formEndpoint;
+  }
+
+  private _setupDynamicFormFromBackend(formEndpoint?:string, resourceId?:string) {
     this._dynamicFormService
-      .getSettingsFromBackend$(url)
+      .getSettingsFromBackend$(formEndpoint, resourceId)
       .pipe(
         catchError(error => {
           this._notificationsService.addError(this.text.load_error_message);
@@ -249,7 +265,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
   }
 
   private _setupDynamicFormFromSettings() {
-    const formattedSettings:IOPFormSettings = {
+    const formattedSettings:IOPFormSettingsResource = {
       _embedded: {
         payload: this.settings.payload,
         schema: this.settings.schema,

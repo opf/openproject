@@ -14,7 +14,7 @@ describe('DynamicFormService', () => {
   let dynamicFormService:DynamicFormService;
   let formsService:jasmine.SpyObj<FormsService>;
   const testFormUrl = 'http://op.com/form';
-  const formSchema:IOPFormSettings = {
+  const formSchema:IOPFormSettingsResource = {
     "_type": "Form",
     "_embedded": {
       "payload": {

@@ -25,9 +25,13 @@ export class DynamicFormService {
     this.dynamicForm = dynamicForm;
   }
 
-  getSettingsFromBackend$(url:string):Observable<IOPDynamicFormSettings>{
+  getSettingsFromBackend$(formEndpoint?:string, resourceId?:string):Observable<IOPDynamicFormSettings>{
+    const resourcePath = resourceId ? `/${resourceId}` : '';
+    const formPath = formEndpoint?.endsWith('/form') ? '' : '/form';
+    const url = `${formEndpoint}${resourcePath}${formPath}`;
+
     return this._httpClient
-      .post<IOPFormSettings>(
+      .post<IOPFormSettingsResource>(
         url,
         {},
         {
@@ -40,7 +44,7 @@ export class DynamicFormService {
       );
   }
 
-  getSettings(formConfig:IOPFormSettings):IOPDynamicFormSettings {
+  getSettings(formConfig:IOPFormSettingsResource):IOPDynamicFormSettings {
     const formSchema = formConfig._embedded?.schema;
     const formPayload = formConfig._embedded?.payload;
     const dynamicForm = {

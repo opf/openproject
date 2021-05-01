@@ -35,7 +35,7 @@ class DynamicFormsTestingComponent {
 describe('DynamicFormComponent', () => {
   let component: DynamicFormComponent;
   let fixture: ComponentFixture<DynamicFormComponent>;
-  const formSchema:IOPFormSettings = {
+  const formSchema:IOPFormSettingsResource = {
     "_type": "Form",
     "_embedded": {
       "payload": {

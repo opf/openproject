@@ -17,6 +17,7 @@
 </form>
 
 <op-dynamic-form
+  [formUrl]="formUrl"
   [resourcePath]="resourcePath"
   [fieldsSettingsPipe]="dynamicFieldsSettingsPipe"
   (submitted)="onSubmitted($event)"
