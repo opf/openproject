@@ -131,6 +131,10 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
   onTouch:Function;
   innerModel:IOPFormModel;
 
+  get model() {
+    return this.form.value;
+  }
+
   get isFormControl():boolean {
     return !!this.onChange && !!this.onTouch;
   }
