@@ -216,7 +216,9 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
 
   private _initializeDynamicForm() {
     if (this.formUrl) {
-      this.formEndpoint = this.formUrl.replace(`/form`, ``);
+      this.formEndpoint = this.formUrl.endsWith(`/form`) ?
+        this.formUrl.replace(`/form`, ``) :
+        this.formUrl;
     } else if (this.resourcePath) {
       this.formEndpoint = `${this._pathHelperService.api.v3.apiV3Base}${this.resourcePath}`;
     } else {
