@@ -100,13 +100,20 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
   @Input() showNotifications = true;
   @Input() showValidationErrorsOn: 'change' | 'blur' | 'submit' | 'never' = 'submit';
   @Input() handleSubmit = true;
+  @Input() set model (payload:IOPFormModel) {
+    if (!this.innerModel && !payload) {
+      return;
+    }
+
+    const formattedModel = this._dynamicFieldsService.getFormattedFieldsModel(payload);
+    this.innerModel = formattedModel;
+  };
 
   @Output() modelChange = new EventEmitter<IOPFormModel>();
   @Output() submitted = new EventEmitter<HalSource>();
   @Output() errored = new EventEmitter<IOPFormErrorResponse>();
 
   fields:IOPFormlyFieldSettings[];
-  model:IOPFormModel;
   form: FormGroup;
   formEndpoint:string | null;
   inFlight:boolean;
@@ -122,6 +129,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
   and validated. Please provide one.`;
   onChange:Function;
   onTouch:Function;
+  innerModel:IOPFormModel;
 
   get isFormControl():boolean {
     return !!this.onChange && !!this.onTouch;
@@ -137,6 +145,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
 
   constructor(
     private _dynamicFormService: DynamicFormService,
+    private _dynamicFieldsService: DynamicFieldsService,
     private _I18n:I18nService,
     private _pathHelperService:PathHelperService,
     private _notificationsService:NotificationsService,
@@ -147,7 +156,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
 
   writeValue(value:{[key:string]:any}):void {
     if (value) {
-      this.model = value;
+      this.innerModel = value;
     }
   }
 
@@ -279,10 +288,10 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
   private _setupDynamicForm({fields, model, form}:IOPDynamicFormSettings) {
     this.form = form;
     this.fields = this.fieldsSettingsPipe ? this.fieldsSettingsPipe(fields) : fields;
-    this.model = model;
+    this.innerModel = model;
 
     if (!this.isStandaloneForm) {
-      this.onChange(this.model);
+      this.onChange(this.innerModel);
     }
   }
 }

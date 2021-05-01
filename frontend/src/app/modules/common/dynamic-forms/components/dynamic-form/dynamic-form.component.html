@@ -4,7 +4,7 @@
         (submit)="submitForm(form)"
         class="op-form">
     <formly-form [form]="form"
-                 [model]="model"
+                 [model]="innerModel"
                  [fields]="fields"
                  (modelChange)="onModelChange($event)"
                  class="op-fieldset">
@@ -27,7 +27,7 @@
 <div data-qa="op-form--container"
      *ngIf="form && !isStandaloneForm">
   <formly-form [form]="form"
-               [model]="model"
+               [model]="innerModel"
                [fields]="fields"
                (modelChange)="onModelChange($event)"
                class="op-fieldset">

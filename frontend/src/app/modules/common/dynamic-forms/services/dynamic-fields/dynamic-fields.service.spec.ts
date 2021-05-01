@@ -138,7 +138,7 @@ describe('DynamicFieldsService', () => {
     };
 
     // @ts-ignore
-    const formModel = service.getModel(formSchema, formPayload);
+    const formModel = service.getModel(formPayload);
     const titleName = formModel.title;
     const parentProjectName = !Array.isArray(formModel._links!.parent) && formModel._links!.parent!.name;
     const childrenProjectsNames = Array.isArray(formModel._links!.children) && formModel._links!.children!.map((childProject: IOPFieldModel) => childProject.name);

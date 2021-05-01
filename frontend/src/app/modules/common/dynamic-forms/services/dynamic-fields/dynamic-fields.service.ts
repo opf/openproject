@@ -115,11 +115,18 @@ export class DynamicFieldsService {
     return formlyFormWithFieldGroups;
   }
 
-  getModel(formSchema:IOPFormSchema, formPayload:IOPFormModel):IOPFormModel {
-    const fieldSchemas = this._getFieldsSchemasWithKey(formSchema);
-    const fieldsModel = this._getFieldsModel(fieldSchemas, formPayload);
+  getModel(formPayload:IOPFormModel):IOPFormModel {
+    return this.getFormattedFieldsModel(formPayload);
+  }
 
-    return fieldsModel;
+  getFormattedFieldsModel(formModel:IOPFormModel = {}):IOPFormModel {
+    const {_links:resourcesModel, ...otherElementsModel} = formModel;
+    const model = {
+      ...otherElementsModel,
+      _links: this._getFormattedResourcesModel(resourcesModel),
+    }
+
+    return model;
   }
 
   private _getFieldsSchemasWithKey(formSchema:IOPFormSchema):IOPFieldSchemaWithKey[] {
@@ -145,24 +152,14 @@ export class DynamicFieldsService {
     return !!schemaValue?.type;
   }
 
-  private _getFieldsModel(fieldSchemas:IOPFieldSchemaWithKey[], formModel:IOPFormModel = {}):IOPFormModel {
-    const {_links:resourcesModel, ...otherElementsModel} = formModel;
-    const model = {
-      ...otherElementsModel,
-      _links: this._getFormattedResourcesModel(resourcesModel),
-    }
-
-    return model;
-  }
-
   private _getFormattedResourcesModel(resourcesModel:IOPFormModel['_links'] = {}): IOPFormModel['_links']{
     return Object.keys(resourcesModel).reduce((result, resourceKey) => {
       const resource = resourcesModel[resourceKey];
       // ng-select needs a 'name' in order to show the label
       // We need to add it in case of the form payload (HalLinkSource)
       const resourceModel = Array.isArray(resource) ?
-        resource.map(resourceElement => resourceElement?.href && { ...resourceElement, name: resourceElement?.title }) :
-        resource?.href && { ...resource, name: resource?.title };
+        resource.map(resourceElement => resourceElement?.href && { ...resourceElement, name: resourceElement?.name || resourceElement?.title }) :
+        resource?.href && { ...resource, name: resource?.name || resource?.title };
 
       result = {
         ...result,
