@@ -87,6 +87,13 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   dynamicFieldsSettingsPipe = (dynamicFieldsSettings:IOPFormlyFieldSettings[]):IOPFormlyFieldSettings[] => {
     const fieldsLayoutConfig = dynamicFieldsSettings
       .reduce((result, field) => {
+        if (field.templateOptions?.property === 'identifier') {
+          field = {
+            ...field,
+            hide: true,
+          }
+        }
+
         if (
           (field.templateOptions?.required &&
             !field.templateOptions.hasDefault &&
