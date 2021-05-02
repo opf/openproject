@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: OpenProject FAQ
+  title: FAQ
   priority: 980
 description: Frequently asked questions for development
 robots: index, follow
