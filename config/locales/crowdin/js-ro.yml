@@ -1040,3 +1040,7 @@ ro:
           placeholder: 'Marca de poziție poate fi utilizată acum în %{project}. Între timp, puteți deja să planificați cu acel utilizator și să atribuiți pachete de lucru, de exemplu.'
           group: 'Grupul este acum o parte din %{project}. Între timp, puteți deja să planificați cu acest grup și să atribuiți pachete de lucru, de exemplu.'
         next_button: 'Continuaţi'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'

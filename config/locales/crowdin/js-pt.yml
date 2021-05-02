@@ -1038,3 +1038,7 @@ pt:
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: 'Continuar'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
