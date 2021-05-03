@@ -7,7 +7,6 @@
     data-qa-field-name="use_template"
   >
     <ng-select
-      [virtualScroll]="true"
       [formControl]="templateControl"
       [items]="templateOptions$ | async"
       (ngModelChange)="onTemplateSelected($event)"

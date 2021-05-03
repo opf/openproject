@@ -24,7 +24,7 @@ export interface ProjectTemplateOption {
 })
 export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   resourcePath:string;
-  dynamicFieldsSettingsPipe:(dynamicFieldsSettings:IOPFormlyFieldSettings[]) => IOPFormlyFieldSettings[];
+  dynamicFieldsSettingsPipe = this.fieldSettingsPipe.bind(this);
 
   initialPayload = {};
 
@@ -79,46 +79,6 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     if (this.uIRouterGlobals.params.parent_id) {
       this.setParentAsPayload(this.uIRouterGlobals.params.parent_id);
     }
-
-    this.dynamicFieldsSettingsPipe = (dynamicFieldsSettings) => {
-      const fieldsLayoutConfig = dynamicFieldsSettings
-        .reduce((result, field) => {
-          field = {
-            ...field,
-            hide: this.isHiddenField(field.key),
-          }
-
-          if (
-            (field.templateOptions?.required &&
-              !field.templateOptions.hasDefault &&
-              field.templateOptions.payloadValue == null) ||
-            field.templateOptions?.property === 'name' ||
-            field.templateOptions?.property === 'parent'
-          ) {
-            result.firstLevelFields = [...result.firstLevelFields, field];
-          } else {
-            result.advancedSettingsFields = [...result.advancedSettingsFields, field];
-          }
-
-          return result;
-        }, {
-          firstLevelFields: [],
-          advancedSettingsFields: []
-        } as { firstLevelFields:IOPFormlyFieldSettings[], advancedSettingsFields:IOPFormlyFieldSettings[] });
-      const advancedSettingsGroup = {
-        fieldGroup: fieldsLayoutConfig.advancedSettingsFields,
-        fieldGroupClassName: "op-form--field-group",
-        templateOptions: {
-          label: this.I18n.t("js.forms.advanced_settings"),
-          collapsibleFieldGroups: true,
-          collapsibleFieldGroupsCollapsed: true,
-        },
-        type: "formly-group" as "formly-group",
-        wrappers: ["op-dynamic-field-group-wrapper"],
-      }
-
-      return [...fieldsLayoutConfig.firstLevelFields, advancedSettingsGroup];
-    }
   }
 
   onSubmitted(response:HalSource) {
@@ -155,5 +115,46 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
         }
       }
     };
+  }
+
+  private fieldSettingsPipe(dynamicFieldsSettings:IOPFormlyFieldSettings[]):IOPFormlyFieldSettings[] {
+    const fieldsLayoutConfig = dynamicFieldsSettings
+      .reduce((result, field) => {
+        field = {
+          ...field,
+          hide: this.isHiddenField(field.key),
+        }
+
+        if (
+          (field.templateOptions?.required &&
+            !field.templateOptions.hasDefault &&
+            field.templateOptions.payloadValue == null) ||
+          field.templateOptions?.property === 'name' ||
+          field.templateOptions?.property === 'parent'
+        ) {
+          result.firstLevelFields = [...result.firstLevelFields, field];
+        } else {
+          result.advancedSettingsFields = [...result.advancedSettingsFields, field];
+        }
+
+        return result;
+      }, {
+        firstLevelFields: [],
+        advancedSettingsFields: []
+      } as { firstLevelFields:IOPFormlyFieldSettings[], advancedSettingsFields:IOPFormlyFieldSettings[] });
+
+    const advancedSettingsGroup = {
+      fieldGroup: fieldsLayoutConfig.advancedSettingsFields,
+      fieldGroupClassName: "op-form--field-group",
+      templateOptions: {
+        label: this.I18n.t("js.forms.advanced_settings"),
+        collapsibleFieldGroups: true,
+        collapsibleFieldGroupsCollapsed: true,
+      },
+      type: "formly-group" as "formly-group",
+      wrappers: ["op-dynamic-field-group-wrapper"],
+    }
+
+    return [...fieldsLayoutConfig.firstLevelFields, advancedSettingsGroup];
   }
 }
