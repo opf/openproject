@@ -46,14 +46,23 @@ FactoryBot.define do
     admin { false }
     first_login { false if User.table_exists? and User.columns.map(&:name).include? 'first_login' }
 
+    transient do
+      global_permissions { [] }
+    end
+
     callback(:after_build) do |user, evaluator|
       evaluator.preferences.each do |key, val|
         user.pref[key] = val
       end
     end
 
-    callback(:after_create) do |user, evaluator|
-      user.pref.save unless evaluator.preferences&.empty?
+    callback(:after_create) do |user, factory|
+      user.pref.save unless factory.preferences&.empty?
+
+      if factory.global_permissions.present?
+        global_role = FactoryBot.create :global_role, permissions: factory.global_permissions
+        FactoryBot.create :global_member, principal: user, roles: [global_role]
+      end
     end
 
     factory :admin do

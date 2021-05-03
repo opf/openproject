@@ -34,10 +34,12 @@ feature 'Invite user modal', type: :feature, js: true do
   shared_let(:work_package) { FactoryBot.create :work_package, project: project }
 
   let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
+  let(:global_permissions) { %i[] }
   current_user do
     FactoryBot.create :user,
                       member_in_project: project,
-                      member_through_role: role
+                      member_through_role: role,
+                      global_permissions: global_permissions
   end
 
   let!(:role) do
@@ -100,7 +102,8 @@ feature 'Invite user modal', type: :feature, js: true do
         let(:principal) { FactoryBot.build :invited_user }
 
         context 'when the current user has permissions to create a user' do
-          let(:permissions) { %i[view_work_packages edit_work_packages manage_members manage_user] }
+          let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
+          let(:global_permissions) { %i[manage_user] }
 
           it_behaves_like 'invites the principal to the project' do
             let(:added_principal) { User.find_by!(mail: principal.mail) }
@@ -118,7 +121,8 @@ feature 'Invite user modal', type: :feature, js: true do
         end
 
         context 'when the current user does not have permissions to invite a user in this project' do
-          let(:permissions) { %i[view_work_packages edit_work_packages manage_members manage_user] }
+          let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
+          let(:global_permissions) { %i[manage_user] }
 
           let(:project_no_permissions) { FactoryBot.create :project }
           let(:role_no_permissions) { FactoryBot.create :role,
@@ -144,7 +148,8 @@ feature 'Invite user modal', type: :feature, js: true do
         context 'an enterprise system', with_ee: %i[placeholder_users] do
           describe 'create a new placeholder' do
             context 'with permissions to manage placeholders' do
-              let(:permissions) { %i[view_work_packages edit_work_packages manage_members manage_placeholder_user] }
+              let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
+              let(:global_permissions) { %i[manage_placeholder_user] }
 
               it_behaves_like 'invites the principal to the project' do
                 let(:added_principal) { PlaceholderUser.find_by!(name: 'MY NEW PLACEHOLDER') }
@@ -163,7 +168,8 @@ feature 'Invite user modal', type: :feature, js: true do
 
           context 'with an existing placeholder' do
             let(:principal) { FactoryBot.create :placeholder_user, name: 'EXISTING PLACEHOLDER' }
-            let(:permissions) { %i[view_work_packages edit_work_packages manage_members manage_placeholder_user] }
+            let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
+            let(:global_permissions) { %i[manage_placeholder_user] }
 
             it_behaves_like 'invites the principal to the project' do
               let(:added_principal) { principal }

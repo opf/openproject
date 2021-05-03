@@ -1,6 +1,7 @@
 ---
 sidebar_navigation:
   title: Submit a feature idea
+  priority: 990
 description: How to submit an idea for a feature for OpenProject
 robots: index, follow
 keywords: feature requests, ideas, open feature request
@@ -14,7 +15,6 @@ keywords: feature requests, ideas, open feature request
 3. Open the [feature create form](https://community.openproject.org/projects/openproject/work_packages/new?type=6).
 4. Add a subject and detailed description using the template.
 5. Attach a file (optional).
-6. Set version to "Wish List".
 7. Press **Create**.
 
 ## Feature idea guideline

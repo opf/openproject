@@ -171,7 +171,7 @@ OpenProject::Application.routes.draw do
       ProjectSettingsHelper.project_settings_tabs.each do |tab|
         get "settings/#{tab[:name]}", controller: "project_settings/#{tab[:name]}", action: 'show', as: "settings_#{tab[:name]}"
       end
-      get "settings", controller: "project_settings/generic", action: 'show', as: "project_settings"
+      get "settings"
 
       get 'identifier', action: 'identifier'
       patch 'identifier', action: 'update_identifier'
@@ -406,6 +406,15 @@ OpenProject::Application.routes.draw do
       # Plugin settings
       get 'plugin/:id', action: :show_plugin
       post 'plugin/:id', action: :update_plugin
+    end
+
+    resource :backups, controller: '/admin/backups', only: %i[show] do
+      collection do
+        get :reset_token
+        post :reset_token, action: :perform_token_reset
+
+        post :delete_token
+      end
     end
   end
 

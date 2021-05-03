@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
-  IOPDynamicInputTypeConfig,
-  IOPFormlyFieldConfig,
+  IOPDynamicInputTypeSettings,
+  IOPFormlyFieldSettings,
 } from "../../typings";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { of } from "rxjs";
@@ -9,11 +9,9 @@ import { map } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
 
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class DynamicFieldsService {
-  readonly inputsCatalogue:IOPDynamicInputTypeConfig[] = [
+  readonly inputsCatalogue:IOPDynamicInputTypeSettings[] = [
     {
       config: {
         type: 'textInput',
@@ -96,17 +94,9 @@ export class DynamicFieldsService {
         },
       },
       useForFields: [
-        'Priority',
-        'Status',
-        'Type',
-        'User',
-        'Version',
-        'TimeEntriesActivity',
-        'Category',
-        'CustomOption',
-        'Project',
-        'ProjectStatus',
-      ],
+        'Priority', 'Status', 'Type', 'User', 'Version', 'TimeEntriesActivity',
+        'Category', 'CustomOption', 'Project', 'ProjectStatus'
+      ]
     },
   ]
 
@@ -116,12 +106,12 @@ export class DynamicFieldsService {
 
   getConfig(formSchema:IOPFormSchema, formPayload:IOPFormModel):IOPFormlyFieldSettings[] {
     const formFieldGroups = formSchema._attributeGroups;
-    const fieldSchemas = this._getFieldsSchemasWithKey(formSchema, formPayload);
+    const fieldSchemas = this._getFieldsSchemasWithKey(formSchema);
     const formlyFields = fieldSchemas
       .map(fieldSchema => this._getFormlyFieldConfig(fieldSchema))
-      .filter(n => n !== null) as IOPFormlyFieldConfig[];
-
+      .filter(f => f !== null) as IOPFormlyFieldSettings[];
     const formlyFormWithFieldGroups = this._getFormlyFormWithFieldGroups(formFieldGroups, formlyFields);
+
     return formlyFormWithFieldGroups;
   }
 
@@ -132,7 +122,7 @@ export class DynamicFieldsService {
     return fieldsModel;
   }
 
-  private _getFieldsSchemasWithKey(formSchema:IOPFormSchema, formModel:IOPFormModel):IOPFieldSchemaWithKey[] {
+  private _getFieldsSchemasWithKey(formSchema:IOPFormSchema):IOPFieldSchemaWithKey[] {
     return Object.keys(formSchema)
       .map(fieldSchemaKey => {
         const fieldSchema = {
@@ -147,8 +137,8 @@ export class DynamicFieldsService {
       .filter(fieldSchema => this._isFieldSchema(fieldSchema) && fieldSchema.writable);
   }
 
-  private _isResourceSchema(fieldSchemaKey:string, formModel:IOPFormModel):boolean {
-    return !!(formModel?._links && fieldSchemaKey in formModel._links);
+  private _isResourceSchema(fieldSchema: IOPFieldSchema):boolean {
+    return fieldSchema.location === '_links';
   }
 
   private _isFieldSchema(schemaValue:IOPFieldSchemaWithKey | any):boolean {
@@ -183,17 +173,18 @@ export class DynamicFieldsService {
     }, {});
   }
 
-  private _getFormlyFieldConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldConfig|null {
+  private _getFormlyFieldConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldSettings|null {
     const { key, name:label, required } = field;
-    const maybeFieldTypeConfig = this._getFieldTypeConfig(field);
-    if (!maybeFieldTypeConfig) {
+    const fieldTypeConfigSearch = this._getFieldTypeConfig(field);
+    if (!fieldTypeConfigSearch) {
       return null;
     }
-    const { templateOptions, ...fieldTypeConfig } = maybeFieldTypeConfig;
+    const { templateOptions, ...fieldTypeConfig } = fieldTypeConfigSearch;
     const fieldOptions = this._getFieldOptions(field);
     const formlyFieldConfig = {
       ...fieldTypeConfig,
       key,
+      property: this.getFieldProperty(key),
       className: `op-form--field ${fieldTypeConfig.className}`,
       templateOptions: {
         required,
@@ -206,9 +197,16 @@ export class DynamicFieldsService {
     return formlyFieldConfig;
   }
 
-  private _getFieldTypeConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldSettings {
+  private _getFieldTypeConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldSettings|null {
     const fieldType = field.type.replace('[]', '') as OPFieldType;
     let inputType = this.inputsCatalogue.find(inputType => inputType.useForFields.includes(fieldType))!;
+    if (!inputType) {
+      console.warn(
+        `Could not find a input definition for a field with the folowing type: ${fieldType}.
+          The full field configuration is ${field}`
+      ); 
+      return null;
+    }
     let inputConfig = inputType.config;
     let configCustomizations;
 
@@ -253,12 +251,7 @@ export class DynamicFieldsService {
         .get(allowedValues!.href!)
         .pipe(
           map((response: api.v3.Result) => response._embedded.elements),
-<<<<<<< HEAD
-          map(options => options.map((option:IOPFieldSchema['options']) => ({...option, title: option._links?.self?.title})))
-=======
-          // TODO: Handle the Status options (currently void)
           map(options => this._formatAllowedValues(options)),
->>>>>>> c9c252e067 (Handling multi-values (also as links) and passwords)
         );
     }
 
@@ -271,10 +264,15 @@ export class DynamicFieldsService {
     return options.map((option:IOPFieldSchema['options']) => ({...option, name: option._links?.self?.title}));
   }
 
-  private _getFormlyFormWithFieldGroups(fieldGroups:IOPAttributeGroup[] = [], formFields:IOPFormlyFieldConfig[] = []):IOPFormlyFieldConfig[] {
+  // Map a field key that may be a _links.property to the property name
+  private getFieldProperty(key:string) {
+    return key.split('.').pop();
+  }
+
+  private _getFormlyFormWithFieldGroups(fieldGroups:IOPAttributeGroup[] = [], formFields:IOPFormlyFieldSettings[] = []):IOPFormlyFieldSettings[] {
     const fieldGroupKeys = fieldGroups.reduce((groupKeys, fieldGroup) => [...groupKeys, ...fieldGroup.attributes], []);
     const fomFieldsWithoutGroup = formFields.filter(formField => {
-      const formFieldKey = formField.key?.split('.')?.pop();
+    const formFieldKey = formField.key && this.getFieldProperty(formField.key);
 
       return formFieldKey ?
         !fieldGroupKeys.includes(formFieldKey) :
@@ -288,7 +286,7 @@ export class DynamicFieldsService {
           label: fieldGroup.name,
         },
         fieldGroup: formFields.filter(formField => {
-          const formFieldKey = formField.key?.split('.')?.pop();
+          const formFieldKey = formField.key && this.getFieldProperty(formField.key);
 
           return formFieldKey ?
             fieldGroup.attributes.includes(formFieldKey) :

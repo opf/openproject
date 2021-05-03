@@ -4,16 +4,26 @@ import {
   testDynamicInputControValueAccessor,
 } from "core-app/modules/common/dynamic-forms/spec/helpers";
 
-xdescribe('IntegerInputComponent', () => {
-  let component: IntegerInputComponent;
-  let fixture: ComponentFixture<IntegerInputComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ IntegerInputComponent ]
-    })
-    .compileComponents();
-  });
+describe('IntegerInputComponent', () => {
+  it('should load the field', fakeAsync(() => {
+    const fieldsConfig = [
+      {
+        "type": "integerInput" as "integerInput",
+        "className": "op-form--field inline-edit--field",
+        "key": "testControl",
+        "templateOptions": {
+          "required": true,
+          "label": "testControl",
+        },
+      }
+    ];
+    const formModel = {
+      testControl: 'testValue',
+    };
+    const testModel = {
+      initialValue: formModel.testControl,
+      changedValue: 'testValue2',
+    };
 
     const fixture = createDynamicInputFixture(fieldsConfig, formModel);
 

@@ -196,6 +196,12 @@ class ProjectsController < ApplicationController
     end
   end
 
+  ##
+  # Redirect as action as routes can only redirect by full path
+  def settings
+    redirect_to settings_generic_project_path(@project)
+  end
+
   private
 
   def find_optional_project

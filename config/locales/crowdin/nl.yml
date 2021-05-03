@@ -207,6 +207,7 @@ nl:
       no_results_title_text: Er zijn momenteel geen projecten
       no_results_content_text: Maak een nieuw project
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: Er zijn momenteel geen activiteiten beschikbaar.
       forums:
@@ -822,6 +823,33 @@ nl:
     user: "Gebruiker"
     version: "Versie"
     work_package: "Werkpakket"
+  backup:
+    label_backup_token: "Backup token"
+    label_create_token: "Create backup token"
+    label_delete_token: "Delete backup token"
+    label_reset_token: "Reset backup token"
+    label_token_users: "The following users have active backup tokens"
+    reset_token:
+      action_create: Maken
+      action_reset: Herstel
+      heading_reset: "Reset backup token"
+      heading_create: "Create backup token"
+      implications: >
+        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+      info: >
+        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+      verification: >
+        Enter %{word} to confirm you want to %{action} the backup token.
+      verification_word_reset: reset
+      verification_word_create: create
+      warning: >
+        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
+    text_token_deleted: Backup token deleted. Backups are now disabled.
+    error:
+      invalid_token: Invalid or missing backup token
+      token_cooldown: The backup token will be valid in %{hours} hours.
+      backup_pending: There is already a backup pending.
+      limit_reached: You can only do %{limit} backups per day.
   button_add: "Toevoegen"
   button_add_comment: "Commentaar toevoegen"
   button_add_member: Lid toevoegen
@@ -1296,6 +1324,7 @@ nl:
   label_available_project_versions: 'Beschikbare versies'
   label_available_project_repositories: 'Beschikbare opslagplaatsen'
   label_api_documentation: "API documentatie"
+  label_backup: "Backup"
   label_between: "tussen"
   label_blocked_by: "vergrendeld door"
   label_blocks: "vergrendelingen"
@@ -1821,6 +1850,12 @@ nl:
   mail_body_account_activation_request: "Een nieuwe gebruiker (%{value}) heeft zich geregistreerd. Het account wacht op uw goedkeuring:"
   mail_body_account_information: "Uw accountinformatie"
   mail_body_account_information_external: "U kunt uw account %{value} gebruiken om in te loggen."
+  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
+  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
+  mail_body_backup_token_reset_user_info: Your backup token has been reset.
+  mail_body_backup_token_info: The previous token is no longer valid.
+  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
+  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "Om uw wachtwoord te wijzigen, klikt u op op de volgende link:"
   mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
@@ -1837,6 +1872,8 @@ nl:
   mail_body_wiki_content_added: "De '%{id}' wikipagina is toegevoegd door %{author}."
   mail_body_wiki_content_updated: "De '%{id}' wikipagina is bijgewerkt door %{author}."
   mail_subject_account_activation_request: "%{value} account aanvraag dient geactiveerd te worden"
+  mail_subject_backup_ready: "Your backup is ready"
+  mail_subject_backup_token_reset: "Your backup token has been reset"
   mail_subject_lost_password: "Uw wachtwoord %{value}"
   mail_subject_register: "Uw %{value} account activatie"
   mail_subject_reminder: "%{count} werkpakket(ten) vervallen in de volgende %{days} dagen"
@@ -1846,17 +1883,23 @@ nl:
   mail_member_added_project:
     subject: "%{project} - You have been added as a member"
     body:
-      added_by: "%{user} added you as a member to the project '%{project}'."
+      added_by:
+        without_message: "%{user} added you as a member to the project '%{project}'."
+        with_message: "%{user} added you as a member to the project '%{project}' writing:"
       roles: "You have the following roles:"
   mail_member_updated_project:
     subject: "%{project} - Your roles have been updated"
     body:
-      added_by: "%{user} updated the roles you have in the project '%{project}'."
+      updated_by:
+        without_message: "%{user} updated the roles you have in the project '%{project}'."
+        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
       roles: "You now have the following roles:"
   mail_member_updated_global:
     subject: "Your global permissions have been updated"
     body:
-      added_by: "%{user} updated the roles you have globally."
+      updated_by:
+        without_message: "%{user} updated the roles you have globally."
+        with_message: "%{user} updated the roles you have globally writing:"
       roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: Activering gebruikerslimiet bereikt
@@ -2686,6 +2729,7 @@ nl:
       code_403: "U bent niet gemachtigd om toegang te hebben tot deze resource."
       code_404: "De gevraagde resource kan niet worden gevonden."
       code_409: "De bron kan niet worden bijgewerkt vanwege conflicterende wijzigingen."
+      code_429: "Too many requests. Please try again later."
       code_500: "Een interne fout is opgetreden."
       expected:
         date: "JJJJ-MM-DD (alleen ISO 8601 datum)"
@@ -2804,3 +2848,4 @@ nl:
     authorization_error: "Er is een autorisatiefout opgetreden."
     revoke_my_application_confirmation: "Weet u zeker dat u deze applicatie wilt verwijderen? Dit zal %{token_count} actief voor deze verwijderen."
     my_registered_applications: "Geregistreerde OAuth toepassingen"
+  you: you

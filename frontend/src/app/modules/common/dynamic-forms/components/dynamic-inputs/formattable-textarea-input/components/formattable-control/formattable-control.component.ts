@@ -2,7 +2,7 @@ import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { FormlyTemplateOptions } from "@ngx-formly/core";
 import { ICKEditorContext, ICKEditorInstance } from "core-app/modules/common/ckeditor/ckeditor-setup.service";
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { NG_VALUE_ACCESSOR } from "@angular/forms";
 import { OpCkeditorComponent } from "core-app/modules/common/ckeditor/op-ckeditor.component";
 
 @Component({
@@ -17,7 +17,7 @@ import { OpCkeditorComponent } from "core-app/modules/common/ckeditor/op-ckedito
     }
   ]
 })
-export class FormattableControlComponent implements ControlValueAccessor, OnInit {
+export class FormattableControlComponent implements OnInit {
   @Input()
   templateOptions:FormlyTemplateOptions;
 
@@ -34,7 +34,11 @@ export class FormattableControlComponent implements ControlValueAccessor, OnInit
 
   public get ckEditorContext():ICKEditorContext {
     return {
+      // TODO: Can the current editor work without resource??
+      // resource: this.change.pristineResource,
       macros: 'none' as const,
+      // TODO: Do we need a previewContext
+      // previewContext: this.previewContext,
       options: { rtl: this.templateOptions?.rtl }
     };
   }
@@ -86,5 +90,9 @@ export class FormattableControlComponent implements ControlValueAccessor, OnInit
         this.onTouch();
       }
     } );
+    // TODO: Check if it is new without resource
+    /*if (!this.resource.isNew) {
+      setTimeout(() => editor.editing.view.focus());
+    }*/
   }
 }

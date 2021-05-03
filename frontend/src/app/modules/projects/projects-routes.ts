@@ -8,11 +8,6 @@ export const PROJECTS_ROUTES:Ng2StateDeclaration[] = [
     parent: 'root',
     component: ProjectsComponent,
   },
-  {
-    name: 'new_project',
-    url: '/projects/new',
-    component: ProjectsComponent,
-  },
 ];
 
 export function uiRouterProjectsConfiguration(uiRouter:UIRouter) {

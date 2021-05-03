@@ -41,6 +41,7 @@ interface IOPFieldSchema {
   hasDefault: boolean;
   name?: string;
   attributeGroup?: string;
+  location?: '_links' | string;
   options: {
     [key: string]: any;
   };
@@ -104,6 +105,11 @@ interface IOPFormError {
   message:string;
   _type:string;
   _embedded: IOPFormErrorDetails;
+}
+
+interface IFormattedValidationError {
+  key:string;
+  message:string;
 }
 
 interface IOPFormErrorResponse extends IOPFormError {

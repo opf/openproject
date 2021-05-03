@@ -169,6 +169,8 @@ module API
             "#{capabilities}/contexts/global"
           end
 
+          index :backup
+
           index :category
           show :category
 
@@ -235,6 +237,8 @@ module API
           end
 
           resources :project
+
+          show :project_status
 
           def self.projects_available_parents
             "#{projects}/available_parent_projects"

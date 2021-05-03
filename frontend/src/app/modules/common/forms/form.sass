@@ -1,0 +1,27 @@
+.op-form
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+
+  &--submit
+    margin: 1.5rem 0
+    display: flex
+
+  > *
+    max-width: 100%
+    width: 50rem
+
+  // TODO: The selector below is annoying to write, and it's mostly because we cannot use `>` to be more specific.
+  // This has to be fixed in html. The biggest offender right now are the dynamic forms since formly inserts a
+  // <formly-field> and then puts the op-form-fields inside that.
+  .op-form-field + .op-form-field,
+  .op-form-field + .op-fieldset,
+  .op-form-field + .op-button,
+  .op-fieldset + .op-form-field,
+  .op-fieldset + .op-fieldset,
+  .op-fieldset + .button,
+  .button + .op-form-field,
+  .button + .op-fieldset,
+  .button + .button
+    margin-top: 1.5rem
+    

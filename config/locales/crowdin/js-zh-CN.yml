@@ -33,6 +33,19 @@ zh-CN:
         single: "选择“%{name}”"
       remove: "移除%{name}"
       active: "活跃的%{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: 选项
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "关闭弹出窗口"
     close_filter_title: "关闭过滤器"
     close_form_title: "关闭表单"
@@ -1024,3 +1037,7 @@ zh-CN:
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: '继续'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'

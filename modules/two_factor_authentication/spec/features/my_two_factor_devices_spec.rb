@@ -1,10 +1,11 @@
 require_relative '../spec_helper'
 
-describe 'My Account 2FA configuration', with_2fa_ee: true, type: :feature,
+describe 'My Account 2FA configuration', with_2fa_ee: true,
+                                         type: :feature,
                                          with_config: { '2fa': { active_strategies: %i[developer totp] } },
                                          js: true do
   let(:dialog) { ::Components::PasswordConfirmationDialog.new }
-  let(:user_password) { 'bob!' * 4 }
+  let(:user_password) { 'boB!4' * 4 }
   let(:user) do
     FactoryBot.create(:user,
                       login: 'bob',

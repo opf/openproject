@@ -98,12 +98,16 @@ module API
       # Derive the frontend location value to be passed
       # either nil, _links, or _meta depending on the input
       def derive_location(location)
-        return if location.nil?
-
-        return :_links if location.to_s == 'link'
-        return :_meta if location.to_s == 'meta'
-
-        raise ArgumentError, "Invalid location attribute #{location}"
+        case location.to_s
+        when 'link'
+          :_links
+        when 'meta'
+          :_meta
+        when ''
+          nil
+        else
+          raise ArgumentError, "Invalid location attribute #{location}"
+        end
       end
     end
   end

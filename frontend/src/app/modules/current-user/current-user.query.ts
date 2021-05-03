@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Query } from '@datorama/akita';
+import { filterNilValue, Query } from '@datorama/akita';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
@@ -17,5 +17,5 @@ export class CurrentUserQuery extends Query<CurrentUserState> {
 
   isLoggedIn$ = this.select(state => !!state.id);
   user$ = this.select(({ id, name, mail }) => ({ id, name, mail }));
-  capabilities$ = this.select('capabilities');
+  capabilities$ = this.select('capabilities').pipe(filterNilValue());
 }

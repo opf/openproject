@@ -33,6 +33,19 @@ sl:
         single: "Izberi \"%{name}\""
       remove: "Odstrani \"%{name}\""
       active: "Aktivno %{label}%{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Možnosti
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Zapri pojavna okna"
     close_filter_title: "Zapri filter"
     close_form_title: "Zapri obliko"
@@ -1029,3 +1042,7 @@ sl:
           placeholder: 'Rezervirano mesto se zdaj lahko uporabi v %{project}. Medtem lahko planirate s tem uporabnikom in mu dodelite delovne naloge.'
           group: 'Skupina je zdaj del %{project}. Medtem lahko planirate s to skupino in ji dodelite delovne naloge.'
         next_button: 'Nadaljuj'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'

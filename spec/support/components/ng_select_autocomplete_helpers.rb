@@ -6,7 +6,7 @@ module Components
       element.click
       # Insert the text to find
       within(element) do
-        page.find('input').set(query)
+        page.find('input', visible: :all).set(query)
       end
       sleep(0.5)
 

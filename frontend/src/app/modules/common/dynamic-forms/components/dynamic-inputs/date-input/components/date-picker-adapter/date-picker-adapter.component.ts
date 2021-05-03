@@ -2,7 +2,7 @@ import { Component, forwardRef } from '@angular/core';
 import { OpDatePickerComponent } from "core-app/modules/common/op-date-picker/op-date-picker.component";
 import { TimezoneService } from "core-components/datetime/timezone.service";
 import * as moment from "moment";
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { NG_VALUE_ACCESSOR } from "@angular/forms";
 
 @Component({
   selector: 'op-date-picker-adapter',
@@ -15,7 +15,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
     }
   ]
 })
-export class DatePickerAdapterComponent extends OpDatePickerComponent implements ControlValueAccessor {
+export class DatePickerAdapterComponent extends OpDatePickerComponent {
   onControlChange = (_:any) => { }
   onControlTouch = () => { }
 

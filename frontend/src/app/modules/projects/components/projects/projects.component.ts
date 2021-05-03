@@ -13,8 +13,9 @@ import { IOPFormlyFieldSettings } from "core-app/modules/common/dynamic-forms/ty
 export class ProjectsComponent extends UntilDestroyedMixin implements OnInit {
   resourceId:string;
   projectsPath:string;
-  text:{[key:string]:string};
+  text:{ [key:string]:string };
   dynamicFieldsSettingsPipe:(dynamicFieldsSettings:IOPFormlyFieldSettings[]) => IOPFormlyFieldSettings[];
+  hiddenFields = ['identifier', 'active'];
 
   constructor(
     private _uIRouterGlobals:UIRouterGlobals,
@@ -24,21 +25,32 @@ export class ProjectsComponent extends UntilDestroyedMixin implements OnInit {
     super();
   }
 
-  ngOnInit(): void {
+  ngOnInit():void {
     this.projectsPath = this._pathHelperService.projectsPath();
-    this._uIRouterGlobals
-      .params$!
-      .pipe(
-        this.untilDestroyed(),
-        pluck('projectPath'),
-        distinctUntilChanged(),
-      )
-      .subscribe(resourceId => this.resourceId = resourceId);
+    this.resourceId = this._uIRouterGlobals.params.projectPath;
+    this.dynamicFieldsSettingsPipe = (dynamicFieldsSettings) => {
+      return dynamicFieldsSettings
+        .reduce((formattedDynamicFieldsSettings, dynamicFormField) => {
+          if (this.isFieldHidden(dynamicFormField.key)) {
+            dynamicFormField = {
+              ...dynamicFormField,
+              hide: true,
+            }
+          }
+
+          return [...formattedDynamicFieldsSettings, dynamicFormField];
+        }, []);
+    }
   }
 
   onSubmitted(formResource:HalSource) {
+    // TODO: Filter out if this.resourceId === 'new'?
     if (!this.resourceId) {
       this._$state.go('.', { ...this._$state.params, projectPath: formResource.identifier });
     }
+  }
+
+  private isFieldHidden(name:string|undefined) {
+    return this.hiddenFields.includes(name || '');
   }
 }

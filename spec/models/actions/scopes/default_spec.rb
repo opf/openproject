@@ -35,7 +35,7 @@ describe Actions::Scopes::Default, type: :model do
     let(:expected) do
       # This complicated and programmatic way is chosen so that the test can deal with additional actions being defined
       item = ->(permission, namespace, action, global, module_name) {
-        ["#{API::Utilities::PropertyNameConverter.from_ar_name(namespace.to_s.singularize).pluralize}/#{action}",
+        ["#{API::Utilities::PropertyNameConverter.from_ar_name(namespace.to_s.singularize).pluralize.underscore}/#{action}",
          permission.to_s,
          global,
          module_name&.to_s]

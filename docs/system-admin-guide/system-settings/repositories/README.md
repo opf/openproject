@@ -21,7 +21,7 @@ To adapt repositories settings, go to System settings on the tab **Repositories*
 9. Define the **maximum number of files displayed in the repository browser**.
 10. **Enable caching for authentication request of version control software**. This option allows saving the authentication so that a user doesn’t have to authenticate every time a repository is accessed (for  example during commits).
 
-![System-admin-guide-repository](System-admin-guide-repository.png)
+![repository-settings-administration](image-20210422095627477.png)
 
 
 
@@ -41,7 +41,7 @@ Show checkout instructions for Subversion and GIT.
 2. Define **fixing keywords for work packages** in commit messages. Fixing keywords allow status or progress changes using certain keywords in commit messages, e.g. changing a work package to closed and set to 100%.
 3. Define which **status will be applied** to a work package if a fixing word is used in a commit message.
 4. Define which **percentage of done is applied** to a work package if a fixing word is used in a commit message for that work package.
-5. **Enable time logging**. Activating this option enables [logging time to a work package ](../../../user-guide/time-and-costs/time-tracking/)via commit message.
+5. **Enable time logging**. Activating this option enables [logging time to a work package](../../../user-guide/time-and-costs/time-tracking) via commit message.
 6. Define **activity for logged time**. This activity is used for time logging via a commit.
 
 ![Sys-admin-system-settings-repositories-fixing-commit-messages](Sys-admin-system-settings-repositories-fixing-commit-messages.png)

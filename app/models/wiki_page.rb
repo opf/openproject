@@ -88,6 +88,14 @@ class WikiPage < ApplicationRecord
 
   after_destroy :delete_wiki_menu_item
 
+  ##
+  # Create a slug for the given title
+  # We always want to generate english slugs
+  # to avoid using the current user's locale
+  def self.slug(title)
+    title.to_localized_slug(locale: :en)
+  end
+
   def delete_wiki_menu_item
     menu_item&.destroy
     # ensure there is a menu item for the wiki
@@ -107,7 +115,7 @@ class WikiPage < ApplicationRecord
     # Manage redirects if the title has changed
     if !@previous_title.blank? && (@previous_title != title) && !new_record?
       # Update redirects that point to the old title
-      previous_slug = @previous_title.to_url
+      previous_slug = WikiPage.slug(@previous_title)
       wiki.redirects.where(redirects_to: previous_slug).each do |r|
         r.redirects_to = title
         r.title == r.redirects_to ? r.destroy : r.save
@@ -227,7 +235,7 @@ class WikiPage < ApplicationRecord
   end
 
   def to_param
-    slug || title.to_url
+    slug || WikiPage.slug(title)
   end
 
   def save_with_content

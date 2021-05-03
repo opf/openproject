@@ -37,7 +37,7 @@ module Contracted
 
     def contract_class=(cls)
       unless cls <= ::BaseContract
-        raise ArgumentError "#{cls.name} is not an instance of BaseContract."
+        raise ArgumentError, "#{cls.name} is not an instance of BaseContract."
       end
 
       @contract_class = cls

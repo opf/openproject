@@ -1,63 +1,63 @@
 ro:
   js:
     grid:
-      add_widget: 'Add widget'
-      remove: 'Remove widget'
-      configure: 'Configure widget'
+      add_widget: 'Adăugați widget'
+      remove: 'Eliminați widget-ul'
+      configure: 'Configurați widget-ul'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the "
-        link: 'enterprise edition.'
+        text: "Unele widget-uri, cum ar fi widget-ul grafic al pachetului de lucru, sunt disponibile numai în"
+        link: 'Acţiunile particularizate sunt o caracteristică a Ediţiei Enterprise'
       widgets:
         custom_text:
-          title: 'Custom text'
+          title: 'Text customizat'
         documents:
-          title: 'Documents'
-          no_results: 'No documents yet.'
+          title: 'Documente'
+          no_results: 'Încă nu există documente.'
         members:
           title: 'Membri'
-          no_results: 'No visible members.'
+          no_results: 'Nu există membri vizibili.'
           view_all_members: 'Vizualizare toți participanții'
           add: 'Membru'
-          too_many: 'Displaying %{count} of %{total} members.'
+          too_many: 'Afișarea a %{count} din %{total} membri.'
         news:
           title: 'Noutăţi'
-          at: 'at'
+          at: 'la'
           no_results: 'Nimic nou de raportat.'
         project_description:
-          title: 'Project description'
-          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+          title: 'Descrierea proiectului'
+          no_results: "Nu a fost scrisă încă nicio descriere. Aceasta poate fi furnizată în \"Setări proiect\"."
         project_details:
-          title: 'Project details'
-          no_results: 'No custom fields have been defined for projects.'
+          title: 'Arată detaliile proietului'
+          no_results: 'Nu au fost definite câmpuri personalizate pentru proiecte.'
         project_status:
           title: 'Stare proiect'
-          on_track: 'On track'
-          off_track: 'Off track'
-          at_risk: 'At risk'
-          not_set: 'Not set'
+          on_track: 'Urmărește'
+          off_track: 'În afara pistei'
+          at_risk: 'În pericol'
+          not_set: 'Nesetat'
         subprojects:
           title: 'Subproiecte'
-          no_results: 'No subprojects.'
+          no_results: 'Cu subproiecte'
         time_entries_current_user:
-          title: 'My spent time'
-          displayed_days: 'Days displayed in the widget:'
+          title: 'Timpul meu petrecut'
+          displayed_days: 'Zile afișate în lista de activități a proiectului'
         time_entries_list:
-          title: 'Spent time (last 7 days)'
-          no_results: 'No time entries for the last 7 days.'
+          title: 'Timp petrecut (ultimele 7 zile)'
+          no_results: 'Nu există înregistrări de timp pentru ultimele 7 zile.'
         work_packages_accountable:
-          title: "Work packages I am accountable for"
+          title: "Pachete de lucru pentru care sunt responsabil"
         work_packages_assigned:
           title: 'Pachete de lucru atribuite mie'
         work_packages_created:
-          title: 'Work packages created by me'
+          title: 'Pachete de lucru create de mine'
         work_packages_watched:
-          title: 'Work packages watched by me'
+          title: 'Pachete de lucru supravegheate de mine'
         work_packages_table:
-          title: 'Work packages table'
+          title: 'Tabelul pachetelor de lucru'
         work_packages_graph:
-          title: 'Work packages graph'
+          title: 'Graficul pachetelor de lucru'
         work_packages_calendar:
           title: 'Calendar'
         work_packages_overview:
-          title: 'Work packages overview'
-          placeholder: 'Click to edit ...'
+          title: 'Prezentare generală a pachetelor de lucru'
+          placeholder: 'Dă clic pentru a edita acest meniu.'

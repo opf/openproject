@@ -33,6 +33,19 @@ de:
         single: "Auswählen \"%{name}\""
       remove: "Entferne %{name}"
       active: "Aktive %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Optionen
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Dialog schließen"
     close_filter_title: "Filter schließen"
     close_form_title: "Formular schließen"
@@ -465,7 +478,7 @@ de:
         help_menu: 'Im <b>Hilfe</b> Menü finden Sie ein Benutzerhandbuch sowie weitere Hilfematerialien. <br> Viel Spaß mit OpenProject!'
         members: 'Sie können hier neue <b>Mitglieder</b> zu Ihrem Projekt hinzufügen.'
         project_selection: 'Bitte wählen Sie eines der Projekte mit hilfreichen Demodaten aus: <br> Das <b>„Demo project“</b> passt für klassisches Projektmanagement, das <b>„Scrum project“</b> ist geeignet für agiles Projektmanagement.'
-        quick_add_button: 'Create a new project or invite coworkers.'
+        quick_add_button: 'Erstellen Sie ein neues Projekt oder laden Sie Mitarbeiter ein.'
         sidebar_arrow: "Mit dem Pfeil gelangen Sie zurück zum <b>Hauptmenü</b> des Projektes."
         welcome: 'Lernen Sie in drei Minuten die <b>wichtigen Funktionen</b> kennen. <br> Wir empfehlen Ihnen die Tour bis zum Ende zu machen. Sie können diese jeder Zeit wieder neu starten.'
         wiki: 'Im <b>Wiki</b> können Sie gemeinsam mit dem Team Informationen dokumentieren und eine Wissensdatenbank aufbauen.'
@@ -975,33 +988,33 @@ de:
         required: 'Bitte wählen Sie ein Projekt'
         next_button: 'Weiter'
         no_results: 'Keine Projekte gefunden'
-        no_invite_rights: 'You are not allowed to invite members to this project'
+        no_invite_rights: 'Sie dürfen keine Mitglieder zu diesem Projekt hinzufügen'
       type:
-        required: 'Please select the type to be invited'
+        required: 'Bitte wählen Sie die Typen aus, die eingeladen werden sollen'
         user:
           title: 'Benutzer'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: 'Berechtigungen basierend auf der zugewiesenen Rolle im ausgewählten Projekt'
         group:
           title: 'Gruppe'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: 'Berechtigungen basierend auf der zugewiesenen Rolle im ausgewählten Projekt'
         placeholder:
           title: 'Platzhalter-Benutzer'
-          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
+          title_no_ee: 'Platzhalter-Benutzer (nur Enterprise Edition)'
           description: 'Hat keinen Zugriff auf das Projekt und es werden keine E-Mails verschickt.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+          description_no_ee: 'Hat keinen Zugriff auf das Projekt und es werden keine E-Mails versendet. <br>Schau dir die <a href="%{eeHref}" target="_blank">Enterprise Edition an</a>'
       principal:
         label:
           name_or_email: 'Name oder E-Mail-Adresse'
           name: 'Name'
-        already_member_message: 'Already a member of %{project}'
+        already_member_message: 'Bereits ein Mitglied von %{project}'
         no_results_user: 'Keine Benutzer gefunden'
         invite_user: 'Einladen:'
-        change_user_selection: 'Change e-mail-address or select an existing user'
+        change_user_selection: 'E-Mail-Adresse ändern oder einen bestehenden Benutzer auswählen'
         no_results_placeholder: 'Keine Platzhalter-Benutzer gefunden.'
-        change_placeholder_selection: 'Change name or select an existing placeholder'
-        create_new_placeholder: 'Create new placeholder:'
-        no_results_group: 'No groups were found'
-        change_group_selection: 'Change name or select an existing group'
+        change_placeholder_selection: 'Name ändern oder Platzhalter auswählen'
+        create_new_placeholder: 'Erstelle neuen Platzhalter:'
+        no_results_group: 'Es wurden keine Gruppen gefunden.'
+        change_group_selection: 'Name ändern oder Platzhalter auswählen'
         next_button: 'Weiter'
         required:
           user: 'Bitte einen Benutzer auswählen'
@@ -1015,7 +1028,7 @@ de:
       message:
         label: 'Einladungsnachricht'
         description: 'Wir werden eine E-Mail an %{principal} senden, zu der Sie hier eine persönliche Nachricht hinzufügen können. Eine Erklärung für die Einladung könnte nützlich sein oder vielleicht ein paar Informationen über das Projekt, um den Start zu erleichtern.'
-        next_button: 'Review invitation'
+        next_button: 'Einladung überprüfen'
       summary:
         next_button: 'Einladung senden'
       success:
@@ -1025,3 +1038,7 @@ de:
           placeholder: 'Der Platzhalter kann jetzt in %{project} verwendet werden. In der Zwischenzeit können Sie bereits mit diesem Benutzer planen und beispielsweise Arbeitspakete zuweisen.'
           group: 'Die Gruppe ist nun %{project} zugewiesen. In der Zwischenzeit können Sie bereits mit dieser Gruppe planen und ihr zum Beispiel Arbeitspakete zuweisen.'
         next_button: 'Fortfahren'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
