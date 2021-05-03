@@ -12,6 +12,7 @@ import {map} from "rxjs/operators";
 import {Observable} from "rxjs";
 import {JobStatusModal} from "core-app/modules/job-status/job-status-modal/job-status.modal";
 import {OpModalService} from "core-app/modules/modal/modal.service";
+import { FormlyFieldConfig } from "@ngx-formly/core";
 
 export interface ProjectTemplateOption {
   href:string|null;
@@ -129,8 +130,8 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
           (field.templateOptions?.required &&
             !field.templateOptions.hasDefault &&
             field.templateOptions.payloadValue == null) ||
-          field.templateOptions?.property === 'name' ||
-          field.templateOptions?.property === 'parent'
+            field.templateOptions?.property === 'name' ||
+            field.templateOptions?.property === 'parent'
         ) {
           result.firstLevelFields = [...result.firstLevelFields, field];
         } else {
@@ -148,11 +149,31 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
       fieldGroupClassName: "op-form--field-group",
       templateOptions: {
         label: this.I18n.t("js.forms.advanced_settings"),
+        isFieldGroup: true,
         collapsibleFieldGroups: true,
         collapsibleFieldGroupsCollapsed: true,
       },
       type: "formly-group" as "formly-group",
       wrappers: ["op-dynamic-field-group-wrapper"],
+      expressionProperties: {
+        'templateOptions.collapsibleFieldGroupsCollapsed': (model:unknown, formState:unknown, field:FormlyFieldConfig) => {
+          // Uncollapse field groups when the form has errors and has been submitted
+          if (
+            field.type !== 'formly-group' ||
+            !field.templateOptions?.collapsibleFieldGroups ||
+            !field.templateOptions?.collapsibleFieldGroupsCollapsed
+          ) {
+            return;
+          } else {
+            return !(
+              field.fieldGroup?.some(groupField =>
+                groupField?.formControl?.errors &&
+                !groupField.hide &&
+                field.options?.parentForm?.submitted
+              ));
+          }
+        },
+      }
     }
 
     return [...fieldsLayoutConfig.firstLevelFields, advancedSettingsGroup];

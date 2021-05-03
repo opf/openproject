@@ -299,6 +299,25 @@ export class DynamicFieldsService {
             fieldGroup.attributes.includes(formFieldKey) :
             false;
         }),
+        expressionProperties: {
+          'templateOptions.collapsibleFieldGroupsCollapsed': (model:any, formState:any, field:FormlyFieldConfig) => {
+            // Uncollapse field groups when the form has errors and is submitted
+            if (
+              field.type !== 'formly-group' ||
+              !field.templateOptions?.collapsibleFieldGroups ||
+              !field.templateOptions?.collapsibleFieldGroupsCollapsed
+            ) {
+              return;
+            } else {
+              return !(
+                field.fieldGroup?.some(groupField =>
+                  groupField?.formControl?.errors &&
+                  !groupField.hide &&
+                  field.options?.parentForm?.submitted
+                ));
+            }
+          },
+        }
       }
 
       if (newFormFieldGroup.fieldGroup.length) {
