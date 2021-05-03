@@ -54,7 +54,7 @@ describe OpenProject::Hook do
       end
     end
   end
-  let!(:previous_listener_classes) { described_class.class_variable_get(:@@listener_classes) }
+  let!(:previous_listener_classes) { described_class.listener_classes.dup }
 
   before do
     described_class.clear_listeners
@@ -62,7 +62,7 @@ describe OpenProject::Hook do
 
   after do
     described_class.clear_listeners
-    described_class.class_variable_set(:@@listener_classes, previous_listener_classes)
+    described_class.instance_variable_set(:@listener_classes, previous_listener_classes)
   end
 
   describe '#add_listeners' do

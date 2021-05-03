@@ -30,40 +30,41 @@
 
 module OpenProject
   module Hook
-    @@listener_classes = []
-    @@listeners = nil
-    @@hook_listeners = {}
-
     class << self
       # Adds a listener class.
       # Automatically called when a class inherits from OpenProject::Hook::Listener.
       def add_listener(klass)
         raise ArgumentError, 'Hooks must include Singleton module.' unless klass.included_modules.include?(Singleton)
 
-        @@listener_classes << klass
+        listener_classes << klass
         clear_listeners_instances
       end
 
       # Returns all the listener instances.
       def listeners
-        @@listeners ||= @@listener_classes.map(&:instance)
+        @listeners ||= listener_classes.map(&:instance)
+      end
+
+      def listener_classes
+        @listener_classes ||= []
       end
 
       # Returns the listener instances for the given hook.
       def hook_listeners(hook)
-        @@hook_listeners[hook] ||= listeners.select { |listener| listener.respond_to?(hook) }
+        @hook_listeners ||= {}
+        @hook_listeners[hook] ||= listeners.select { |listener| listener.respond_to?(hook) }
       end
 
       # Clears all the listeners.
       def clear_listeners
-        @@listener_classes = []
+        @listener_classes = []
         clear_listeners_instances
       end
 
       # Clears all the listeners instances.
       def clear_listeners_instances
-        @@listeners = nil
-        @@hook_listeners = {}
+        @listeners = nil
+        @hook_listeners = {}
       end
 
       # Calls a hook.
