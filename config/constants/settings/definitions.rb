@@ -247,11 +247,14 @@ Settings::Definition.define do
 
 
   YAML::load(File.open(Rails.root.join('config/settings.yml'))).map do |name, config|
-    format = case format
-             when "boolean", "symbol", "date", "datetime"
+    format = if %w[boolean symbol date datetime].include?(format)
                format.to_sym
-             when "int"
+             elsif %w[int].include?(format)
                :integer
+             elsif config['default'].is_a?(Array)
+               :array
+             elsif config['default'].is_a?(Hash)
+               :hash
              end
 
     add name,

@@ -165,11 +165,11 @@ class Setting < ApplicationRecord
   end
 
   def formatted_value(value)
-    return value unless value.present?
+    return value if value.blank?
 
     default = Settings::Definition[name]
 
-    if default['serialized']
+    if default.serialized?
       return value.to_yaml
     end
 

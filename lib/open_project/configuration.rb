@@ -218,7 +218,6 @@ module OpenProject
         end
       end
 
-
       # Filters a hash with String keys by a key prefix and removes the prefix from the keys
       def settings_of_prefix(prefix)
         Settings::Definition

@@ -70,8 +70,8 @@ module Settings
     end
 
     def merge_value(other_value)
-      if serialized?
-        self.value.deep_merge! other_value
+      if format == 'hash'
+        value.deep_merge! other_value
       else
         self.value = other_value
       end
@@ -116,7 +116,7 @@ module Settings
 
         unless loaded
           self.loaded = true
-          require_relative 'definitions'
+          load './config/constants/settings/definitions.rb'
 
           override_config
         end
@@ -142,6 +142,13 @@ module Settings
       end
 
       private
+
+      # Currently only required for testing
+      def reset
+        @all = nil
+        @loaded = false
+        @by_name = nil
+      end
 
       def by_name
         @by_name ||= all.group_by(&:name).transform_values(&:first)
@@ -171,23 +178,34 @@ module Settings
       end
 
       # Replace config values for which an environment variable with the same key in upper case
-      # exists
+      # exists.
+      # Also merges the existing values that are hashes with values from ENV if they follow the naming
+      # schema.
       def override_config(source = default_override_source)
+        override_config_values(source)
+        merge_hash_config(source)
+      end
+
+      def override_config_values(source)
         all
           .map(&:name)
           .select { |key| source.include? key.upcase }
           .each { |key| self[key] = extract_value key, source[key.upcase] }
-
-        merge_config(source)
       end
 
-      def merge_config(source, prefix: ENV_PREFIX)
-        source.select { |k, _| k =~ /^#{prefix}/i }.each do |k, value|
-          path_config = path_to_hash(*path(prefix, k),
-                                     extract_value(k, value))
+      def merge_hash_config(source, prefix: ENV_PREFIX)
+        source.select { |k, _| k =~ /^#{prefix}/i }.each do |k, raw_value|
+          name, value = path_to_hash(*path(prefix, k),
+                                     extract_value(k, raw_value))
+                          .first
 
-          self[path_config.keys.first]
-            .merge_value(path_config.values.first)
+          setting = self[name]
+          # There might be ENV vars that match the OPENPROJECT_ prefix but are no OP instance
+          # settings, e.g. OPENPROJECT_DISABLE_DEV_ASSET_PROXY
+          next unless setting
+
+          setting.merge_value(value)
+          setting.writable = false
         end
       end
 
@@ -216,8 +234,6 @@ module Settings
       def unescape_underscores(path_segment)
         path_segment.gsub '__', '_'
       end
-
-      private
 
       ##
       # Extract the configuration value from the given input
