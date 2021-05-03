@@ -10,7 +10,6 @@ import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 import { ViewpointsService } from "core-app/modules/bim/bcf/helper/viewpoints.service";
 import { CurrentProjectService} from "core-app/components/projects/current-project.service";
 import { HttpClient } from "@angular/common/http";
-import { finalize } from "rxjs/operators";
 
 
 export interface XeokitElements {
@@ -51,7 +50,7 @@ export class IFCViewerService extends ViewerBridgeService {
   }
 
   public newViewer(elements:XeokitElements, projects:any[]) {
-    import('@xeokit/xeokit-bim-viewer/dist/main').then((XeokitViewerModule:any) => {
+    import('@xeokit/xeokit-bim-viewer/dist/xeokit-bim-viewer.es').then((XeokitViewerModule:any) => {
       const server = new XeokitServer(this.pathHelper);
       const viewerUI = new XeokitViewerModule.BIMViewer(server, elements);
 
