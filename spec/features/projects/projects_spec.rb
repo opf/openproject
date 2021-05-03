@@ -68,13 +68,18 @@ describe 'Projects', type: :feature, js: true do
     end
 
     it 'can create a subproject' do
-      click_on 'Foo project'
+      click_on project.name
       SeleniumHubWaiter.wait
       click_on 'Project settings'
       SeleniumHubWaiter.wait
       click_on 'New subproject'
 
-      fill_in 'project[name]', with: 'Foo child'
+      fill_in 'Name', with: 'Foo child'
+
+      # This will also check that the "Advanced settings" are opened
+      expect(page)
+        .to have_field('Subproject of', with: project.id)
+
       click_on 'Create'
 
       expect(page).to have_content 'Successful creation.'
