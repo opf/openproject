@@ -29,18 +29,7 @@
 #++
 
 class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackages::Filter::WorkPackageFilter
-  include Queries::WorkPackages::Filter::FilterOnTsvMixin
   include Queries::WorkPackages::Filter::TextFilterOnJoinMixin
-
-  attr_reader :join_table_suffix
-
-  def initialize(name, options = {})
-    super name, options
-
-    # Generate a uniq suffix to add to the join table
-    # because attachment filters may be used multiple times
-    @join_table_suffix = SecureRandom.hex(4)
-  end
 
   def type
     :text
@@ -50,33 +39,25 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
     EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv?
   end
 
-  def where
-    Queries::Operators::All.sql_for_field(values, join_table_alias, 'id')
-  end
-
   protected
 
-  def join_table_alias
-    "#{self.class.key}_#{join_table}_#{join_table_suffix}"
-  end
-
-  def join_table
-    Attachment.table_name
-  end
-
-  def join_condition
+  def where_condition
     <<-SQL
-      #{join_table_alias}.container_id = #{WorkPackage.table_name}.id
-      AND #{join_table_alias}.container_type = '#{WorkPackage.name}'
+      SELECT 1 FROM #{attachment_table}
+      WHERE #{attachment_table}.container_id = #{WorkPackage.table_name}.id
+      AND #{attachment_table}.container_type = '#{WorkPackage.name}'
       AND #{tsv_condition}
     SQL
   end
 
+  def attachment_table
+    Attachment.table_name
+  end
+
   def tsv_condition
-    OpenProject::FullTextSearch.tsv_where(join_table_alias,
+    OpenProject::FullTextSearch.tsv_where(attachment_table,
                                           search_column,
                                           values.first,
-                                          concatenation: concatenation,
                                           normalization: normalization_type)
   end
 
