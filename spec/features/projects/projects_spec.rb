@@ -212,8 +212,8 @@ describe 'Projects', type: :feature, js: true do
 
         visit settings_generic_project_path(project.id)
 
-        expect(page).to have_no_text 'Active', visible: :all
-        expect(page).to have_no_text 'Identifier', visible: :all
+        expect(page).to have_no_text :all, 'Active'
+        expect(page).to have_no_text :all, 'Identifier'
       end
     end
 
