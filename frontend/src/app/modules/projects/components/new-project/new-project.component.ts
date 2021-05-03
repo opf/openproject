@@ -125,7 +125,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     if (response._type === 'JobStatus') {
       this.modalService.show(JobStatusModal, 'global', { jobId: response.jobId });
     } else {
-      this.$state.go('.', { projectPath: response.identifier });
+      window.location.href = this.pathHelperService.projectPath(response.identifier as string);
     }
   }
 
