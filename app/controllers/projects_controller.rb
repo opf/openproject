@@ -32,13 +32,10 @@ class ProjectsController < ApplicationController
   menu_item :overview
   menu_item :roadmap, only: :roadmap
 
-  before_action :find_project, except: %i[index level_list new create]
-  before_action :authorize, only: %i[update modules types custom_fields]
-  before_action :authorize_global, only: %i[new create]
+  before_action :find_project, except: %i[index level_list new]
+  before_action :authorize, only: %i[modules types custom_fields]
+  before_action :authorize_global, only: %i[new]
   before_action :require_admin, only: %i[archive unarchive destroy destroy_info]
-
-  before_action :assign_default_create_variables, only: %i[new]
-  before_action :new_project, only: %i[new]
 
   include SortHelper
   include PaginationHelper
@@ -66,33 +63,7 @@ class ProjectsController < ApplicationController
   end
 
   def new
-    Projects::SetAttributesService
-      .new(user: current_user, model: @project, contract_class: EmptyContract)
-      .call(params.permit(:parent_id))
-
     render layout: 'no_menu'
-  end
-
-  current_menu_item :new do
-    :new_project
-  end
-
-  def create
-    call_result =
-      if params[:from_template].present?
-        create_from_template
-      else
-        create_from_params
-      end
-
-    # In success case, nothing to do
-    call_result.on_failure do
-      @project = call_result.result
-      @errors = call_result.errors
-      assign_default_create_variables
-
-      render action: 'new', layout: 'no_menu'
-    end
   end
 
   def update
@@ -263,33 +234,6 @@ class ProjectsController < ApplicationController
 
   protected
 
-  def create_from_params
-    call_result = Projects::CreateService
-      .new(user: current_user)
-      .call(permitted_params.project)
-    @project = call_result.result
-
-    call_result.on_success do
-      flash[:notice] = t(:notice_successful_create)
-      redirect_work_packages_or_overview
-    end
-
-    call_result
-  end
-
-  def create_from_template
-    call_result = Projects::InstantiateTemplateService
-      .new(user: current_user, template_id: params[:from_template])
-      .call(permitted_params.project)
-
-    call_result.on_success do
-      flash[:notice] = t('project.template.copying')
-      redirect_to job_status_path(call_result.result.job_id)
-    end
-
-    call_result
-  end
-
   def load_projects(query)
     query
       .results
@@ -307,38 +251,6 @@ class ProjectsController < ApplicationController
     # e.g. when one of the demo projects gets deleted or a archived
     if project.identifier == 'your-scrum-project' || project.identifier == 'demo-project'
       Setting.demo_projects_available = value
-    end
-  end
-
-  def assign_default_create_variables
-    @wp_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
-    @types = ::Type.all
-  end
-
-  def new_project
-    # If a template is passed, assign that as default
-    @template_project = template_project_from_param
-    @project =
-      if @template_project.nil?
-        Project.new
-      else
-        Projects::CopyService
-          .new(user: current_user, source: @template_project)
-          .call(target_project_params: {}, attributes_only: true)
-          .result
-      end
-
-    # Allow setting the name when selecting template
-    if params[:name]
-      @project.name = params[:name]
-    end
-  end
-
-  def template_project_from_param
-    if params[:template_project]
-      ::Projects::InstantiateTemplateContract
-        .visible_templates(current_user)
-        .find_by(id: params[:template_project])
     end
   end
 end
