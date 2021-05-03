@@ -124,7 +124,8 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
     save: this._I18n.t('js.button_save'),
     validation_error_message: this._I18n.t('js.forms.validation_error_message'),
     load_error_message: this._I18n.t('js.forms.load_error_message'),
-    submit_success_message: this._I18n.t('js.notice_successful_update'),
+    successful_update: this._I18n.t('js.notice_successful_update'),
+    successful_create: this._I18n.t('js.notice_successful_create'),
   };
   noSettingsSourceErrorMessage = `DynamicFormComponent needs a settings or resourcePath @Input
   in order to fetch its setting. Please provide one.`;
@@ -185,7 +186,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
       this.resourcePath,
       this.resourceId,
       this.formUrl,
-      this.initialPayload
+      this.innerModel || this.initialPayload
     );
   }
 
@@ -216,13 +217,18 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
       .subscribe(
         (formResource:HalSource) => {
           this.submitted.emit(formResource);
-          this.showNotifications && this._notificationsService.addSuccess(this.text.submit_success_message);
+          this.showNotifications && this.showSuccessNotification();
         },
         (error:IOPFormErrorResponse) => {
           this.errored.emit(error);
           this.showNotifications && this._notificationsService.addError(this.text.validation_error_message);
         },
       );
+  }
+
+  private showSuccessNotification():void {
+    let submit_message = this.resourceId ? this.text.successful_update : this.text.successful_create;
+    this._notificationsService.addSuccess(submit_message);
   }
 
   validateForm() {
