@@ -29,9 +29,9 @@
 #++
 require 'spec_helper'
 
-describe Redmine::Hook do
+describe OpenProject::Hook do
   let(:test_hook_class) do
-    Class.new(Redmine::Hook::ViewListener)
+    Class.new(OpenProject::Hook::ViewListener)
   end
   let(:test_hook1_class) do
     Class.new(test_hook_class) do

@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Redmine
+module OpenProject
   module Hook
     @@listener_classes = []
     @@listeners = nil
@@ -36,7 +36,7 @@ module Redmine
 
     class << self
       # Adds a listener class.
-      # Automatically called when a class inherits from Redmine::Hook::Listener.
+      # Automatically called when a class inherits from OpenProject::Hook::Listener.
       def add_listener(klass)
         raise ArgumentError, 'Hooks must include Singleton module.' unless klass.included_modules.include?(Singleton)
 
@@ -87,7 +87,7 @@ module Redmine
 
       # Registers the listener
       def self.inherited(child)
-        Redmine::Hook.add_listener(child)
+        OpenProject::Hook.add_listener(child)
         super
       end
     end
@@ -120,7 +120,7 @@ module Redmine
 
       # Helper method to directly render a partial using the context:
       #
-      #   class MyHook < Redmine::Hook::ViewListener
+      #   class MyHook < OpenProject::Hook::ViewListener
       #     render_on :view_issues_show_details_bottom, partial: "show_more_data"
       #   end
       #

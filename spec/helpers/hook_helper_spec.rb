@@ -52,12 +52,12 @@ describe HookHelper do
       end
 
       it 'adds to the context' do
-        allow(Redmine::Hook)
+        allow(OpenProject::Hook)
           .to receive(:call_hook)
 
         instance.call_hook(:some_hook_identifier, {})
 
-        expect(Redmine::Hook)
+        expect(OpenProject::Hook)
           .to have_received(:call_hook)
                 .with(:some_hook_identifier, { project: project,
                                                controller: instance,
@@ -98,14 +98,14 @@ describe HookHelper do
 
       it 'adds to the context' do
         # mimicks having two different classes registered for the hook
-        allow(Redmine::Hook)
+        allow(OpenProject::Hook)
           .to receive(:call_hook)
           .and_return(%w[response1 response2])
 
         expect(instance.call_hook(:some_hook_identifier, {}))
           .to eql "response1 response2"
 
-        expect(Redmine::Hook)
+        expect(OpenProject::Hook)
           .to have_received(:call_hook)
                 .with(:some_hook_identifier, { project: project,
                                                controller: controller_instance,
