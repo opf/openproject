@@ -35,11 +35,11 @@ ja:
       remove: "%{name} を削除"
       active: "アクティブ %{label} %{name}"
     backup:
-      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      attachments_disabled: 添付ファイルは、許容されている最大サイズを超えているため、含まれない場合があります。これは、設定で変更できます（サーバーの再起動が必要です）。
       info: >
-        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+        ここでは、バックアップをトリガーすることができます。データ（特に添付ファイル）の量によっては、処理に時間がかかる場合があります。準備が整うとメールが届きます。
       note: >
-        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+        新しいバックアップは以前のバックアップを上書きします。1日にリクエストできるバックアップの数には限りがあります。
       last_backup: Last backup
       last_backup_from: Last backup from
       title: Backup OpenProject
@@ -992,7 +992,7 @@ ja:
         required: 'プロジェクトを選択してください'
         next_button: '次へ'
         no_results: 'プロジェクトが見つかりませんでした'
-        no_invite_rights: 'You are not allowed to invite members to this project'
+        no_invite_rights: 'このプロジェクトにメンバーを招待することは許可されていません'
       type:
         required: '招待するタイプを選択してください '
         user:
@@ -1042,3 +1042,7 @@ ja:
           placeholder: 'プレースホルダーを %{project} で使用できるようになりました。一方で、そのユーザを使って計画を立てたり、ワークパッケージを割り当てたりすることができます。'
           group: 'グループは %{project} の一部になりました。一方で、そのグループを使って計画を立てたり、ワークパッケージを割り当てたりすることができます。'
         next_button: '続行'
+    forms:
+      submit_success_message: 'フォームは正常に送信されました'
+      load_error_message: 'フォームの読み込み中にエラーが発生しました'
+      validation_error_message: 'フォームに存在するエラーを修正してください'

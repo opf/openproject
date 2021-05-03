@@ -51,10 +51,6 @@ module OpenProject::Backlogs
       sql_for_field(values)
     end
 
-    def order
-      20
-    end
-
     def type
       :list
     end

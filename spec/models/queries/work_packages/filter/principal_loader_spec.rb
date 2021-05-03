@@ -139,10 +139,6 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
         let(:matching_principals) { [] }
 
         it 'is empty' do
-          allow(project)
-            .to receive(:principals)
-            .and_return([])
-
           expect(instance.principal_values).to be_empty
         end
       end

@@ -1038,3 +1038,7 @@ da:
           placeholder: 'Pladsholderen kan nu bruges i %{project}. I mellemtiden kan du allerede planlægge med den pågældende bruger og tildele arbejdspakker for eksempel.'
           group: 'Gruppen er nu en del af %{project}. I mellemtiden kan du allerede planlægge med denne gruppe og tildele arbejdspakker for eksempel.'
         next_button: 'Fortsæt'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'

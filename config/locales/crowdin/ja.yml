@@ -174,7 +174,7 @@ ja:
   concatenation:
     single: 'または'
   documentation:
-    see_more_link: For more information, please see our documentation on this topic.
+    see_more_link: 詳細については、このトピックに関するドキュメントを参照してください。
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -205,7 +205,7 @@ ja:
       no_results_title_text: 現在、プロジェクトはありません
       no_results_content_text: プロジェクトを新規作成
     settings:
-      change_identifier: Change identifier
+      change_identifier: 識別子の変更
       activities:
         no_results_title_text: 現在、有効な活動はありません。
       forums:
@@ -816,32 +816,32 @@ ja:
     version: "バージョン"
     work_package: "ワーク パッケージ"
   backup:
-    label_backup_token: "Backup token"
-    label_create_token: "Create backup token"
-    label_delete_token: "Delete backup token"
-    label_reset_token: "Reset backup token"
-    label_token_users: "The following users have active backup tokens"
+    label_backup_token: "バックアップトークン"
+    label_create_token: "バックアップトークンを作成する"
+    label_delete_token: "バックアップトークンを削除する"
+    label_reset_token: "バックアップトークンをリセットする"
+    label_token_users: "以下のユーザーはアクティブなバックアップトークンを持っています。"
     reset_token:
       action_create: 作成
       action_reset: リセット
-      heading_reset: "Reset backup token"
-      heading_create: "Create backup token"
+      heading_reset: "バックアップトークンをリセットする"
+      heading_create: "バックアップトークンを作成する"
       implications: >
-        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+        バックアップを有効にすると、必要な権限とこのバックアップトークンを持つすべてのユーザーが、この OpenProject にインストールされたすべてのデータを含むバックアップをダウンロードできるようになります。これには、他のすべてのユーザーのデータも含まれます。
       info: >
-        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+        バックアップを作成するためには、バックアップトークンを生成する必要があります。バックアップを要求するたびに、このトークンを指定する必要があります。バックアップトークンを削除すると、このユーザーのバックアップを無効にすることができます。
       verification: >
-        Enter %{word} to confirm you want to %{action} the backup token.
-      verification_word_reset: reset
-      verification_word_create: create
+        %{word} と入力して、バックアップトークンを %{action} することを確認します。
+      verification_word_reset: リセット
+      verification_word_create: 作成
       warning: >
-        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
-    text_token_deleted: Backup token deleted. Backups are now disabled.
+        新しいトークンを作成すると、24時間経過後にバックアップをリクエストできます。これは安全対策のためです。その後は、そのトークンを使っていつでもバックアップをリクエストすることができます。
+    text_token_deleted: バックアップトークンを削除しました。このため、バックアップが無効になりました。
     error:
-      invalid_token: Invalid or missing backup token
-      token_cooldown: The backup token will be valid in %{hours} hours.
-      backup_pending: There is already a backup pending.
-      limit_reached: You can only do %{limit} backups per day.
+      invalid_token: バックアップトークンが無効か、または見つかりません。
+      token_cooldown: バックアップトークンは %{hours} 時間で有効になります。
+      backup_pending: 既に保留中のバックアップがあります。
+      limit_reached: バックアップは 1日あたり %{limit} 回までしかできません。
   button_add: "追加"
   button_add_comment: "コメントを追加"
   button_add_member: メンバーを追加
@@ -1304,7 +1304,7 @@ ja:
   label_available_project_versions: '利用できるバージョン'
   label_available_project_repositories: '使用できるリポジトリ'
   label_api_documentation: "APIドキュメント"
-  label_backup: "Backup"
+  label_backup: "バックアップ"
   label_between: "次の範囲内"
   label_blocked_by: "ブロックされている"
   label_blocks: "ブロックしている"
@@ -1830,12 +1830,12 @@ ja:
   mail_body_account_activation_request: "新規ユーザー(%{value})が登録されました。このアカウントは承認待ちです："
   mail_body_account_information: "アカウント情報"
   mail_body_account_information_external: "%{value} アカウントを使ってログインできます。"
-  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
-  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
-  mail_body_backup_token_reset_user_info: Your backup token has been reset.
-  mail_body_backup_token_info: The previous token is no longer valid.
-  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
-  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_backup_ready: "要求されたバックアップの準備ができました。ここからダウンロードできます:"
+  mail_body_backup_token_reset_admin_info: ユーザー '%{user}' のバックアップトークンがリセットされました。
+  mail_body_backup_token_reset_user_info: バックアップトークンがリセットされました。
+  mail_body_backup_token_info: 以前のトークンは無効になりました。
+  mail_body_backup_waiting_period: 新しいトークンは %{hours} 時間後に有効になります。
+  mail_body_backup_token_warning: これがあなたでなかった場合、すぐに OpenProject にログインして、再度リセットしてください。
   mail_body_lost_password: "パスワードを変更するには、以下のリンクをクリックしてください:"
   mail_body_register: "OpenProjectへようこそ。このリンクをクリックしてアカウントを有効化してください："
   mail_body_register_header_title: "プロジェクトへの招待メール"
@@ -1852,8 +1852,8 @@ ja:
   mail_body_wiki_content_added: "%{author}によってWikiページ'%{id}'が追加されました。"
   mail_body_wiki_content_updated: "%{author}によってWikiページ'%{id}'が更新されました。"
   mail_subject_account_activation_request: "%{value} アカウントの承認要求"
-  mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Your backup token has been reset"
+  mail_subject_backup_ready: "バックアップの準備ができました"
+  mail_subject_backup_token_reset: "バックアップトークンがリセットされました"
   mail_subject_lost_password: "%{value} パスワード再発行"
   mail_subject_register: "%{value} アカウント登録の確認"
   mail_subject_reminder: "%{count} 件のワークパッケージが %{days} 日内に期限を迎えます"
@@ -1861,26 +1861,26 @@ ja:
   mail_subject_wiki_content_added: "Wikiページ'%{id}'が追加されました"
   mail_subject_wiki_content_updated: "Wikiページ'%{id}'が更新されました"
   mail_member_added_project:
-    subject: "%{project} - You have been added as a member"
+    subject: "%{project} - メンバーとして追加されました。"
     body:
       added_by:
-        without_message: "%{user} added you as a member to the project '%{project}'."
-        with_message: "%{user} added you as a member to the project '%{project}' writing:"
-      roles: "You have the following roles:"
+        without_message: "%{user} はあなたをプロジェクト '%{project}' のメンバーに追加しました。"
+        with_message: "%{user} はあなたをプロジェクト '%{project}' のメンバーに追加しました :"
+      roles: "次の役割があります:"
   mail_member_updated_project:
-    subject: "%{project} - Your roles have been updated"
+    subject: "%{project} - あなたの役割が更新されました"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have in the project '%{project}'."
-        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
-      roles: "You now have the following roles:"
+        without_message: "%{user} は、プロジェクト '%{project}' でのあなたの役割を更新しました。"
+        with_message: "%{user} は、プロジェクト '%{project}' でのあなたの役割を更新しました:"
+      roles: "次の役割があります:"
   mail_member_updated_global:
-    subject: "Your global permissions have been updated"
+    subject: "グローバル権限が更新されました"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have globally."
-        with_message: "%{user} updated the roles you have globally writing:"
-      roles: "You now have the following roles:"
+        without_message: "%{user} は、あなたがグローバルに持っている役割を更新しました。"
+        with_message: "%{user} は、あなたがグローバルに持っている役割を更新しました:"
+      roles: "次の役割があります:"
   mail_user_activation_limit_reached:
     subject: ユーザーのアクティブ化の上限に達しました。
     message: |
@@ -2233,7 +2233,7 @@ ja:
   setting_consent_required: "同意が必要です。"
   setting_consent_decline_mail: "連絡先メールアドレスに同意します。"
   setting_cross_project_work_package_relations: "他プロジェクトとの間にワークパッケージの関連付けを許可する"
-  setting_first_week_of_year: "First week in year contains"
+  setting_first_week_of_year: "年の最初の週に含む"
   setting_date_format: "日付の形式"
   setting_default_language: "デフォルトの言語"
   setting_default_notification_option: "デフォルトのメール通知オプション"
@@ -2319,7 +2319,7 @@ ja:
       first_date_of_week_and_year_present: >
         If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+        その年の最初の週に含まれる1月の日付を選択します。 この値と週の開始の日によって、1年の合計週数が決定されます。
     projects:
       section_new_projects: "新規プロジェクトの設定"
       section_project_overview: "プロジェクト概要リストの設定"
@@ -2708,7 +2708,7 @@ ja:
       code_403: "このリソースにアクセスする権限がありません。"
       code_404: "要求したリソースが見つかりません。"
       code_409: "競合する変更のためにリソースを更新できませんでした。"
-      code_429: "Too many requests. Please try again later."
+      code_429: "リクエストが多すぎます。 後でもう一度やり直してください。"
       code_500: "内部エラーが発生しました。"
       expected:
         date: "YYYY-MM-DD (ISO 8601 日付のみ)"
@@ -2826,4 +2826,4 @@ ja:
     authorization_error: "認証エラーが発生しました。"
     revoke_my_application_confirmation: "本当にこのアプリケーションを削除しますか？ これにより %{token_count} が無効になります。"
     my_registered_applications: "登録済みのOAuthアプリケーション"
-  you: you
+  you: あなた
