@@ -31,7 +31,6 @@
 class Queries::WorkPackages::Filter::SearchFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
   include Queries::WorkPackages::Filter::OrFilterForWpMixin
-  include Queries::WorkPackages::Filter::FilterOnTsvMixin
 
   CONTAINS_OPERATOR = '~'.freeze
 
@@ -65,14 +64,6 @@ class Queries::WorkPackages::Filter::SearchFilter <
       CONTAINS_OPERATOR
     )
   ].freeze
-
-  def self.key
-    :search
-  end
-
-  def name
-    :search
-  end
 
   def type
     :search

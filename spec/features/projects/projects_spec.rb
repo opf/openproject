@@ -31,6 +31,7 @@ require 'spec_helper'
 describe 'Projects', type: :feature, js: true do
   let(:current_user) { FactoryBot.create(:admin) }
   let(:name_field) { ::FormFields::InputFormField.new :name }
+  let(:parent_field) { ::FormFields::SelectFormField.new :parent }
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -54,13 +55,15 @@ describe 'Projects', type: :feature, js: true do
     end
 
     it 'can create a subproject' do
-      click_on 'Foo project'
+      click_on project.name
       SeleniumHubWaiter.wait
       click_on 'Project settings'
       SeleniumHubWaiter.wait
       click_on 'New subproject'
 
       name_field.set_value 'Foo child'
+      parent_field.expect_selected project.name
+
       click_button 'Save'
 
       expect(page).to have_current_path /\/projects\/foo-child\/?/

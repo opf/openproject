@@ -109,6 +109,30 @@ Rails/SkipsModelValidations:
   Enabled: false
 
 
+# For feature specs, we tend to have longer specs that cover a larger part of the functionality.
+# This is done for multiple reasons:
+# * performance, as setting up integration tests is costly
+# * following a scenario that is closer to how a user interacts
+RSpec/ExampleLength:
+  Max: 25
+  Enabled: true
+  Exclude:
+    - 'spec/features/**/*.rb'
+    - 'modules/*/spec/features/**/*.rb'
+
+# See RSpec/ExampleLength for why feature specs are excluded
+RSpec/MultipleExpectations:
+  Max: 15
+  Enabled: true
+  Exclude:
+    - 'spec/features/**/*.rb'
+    - 'modules/*/spec/features/**/*.rb'
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 15
+  AllowSubject: true
+
+
 Style/Alias:
   Enabled: false
 
@@ -294,14 +318,3 @@ Style/HashTransformKeys:
 
 Style/HashTransformValues:
   Enabled: true
-
-
-RSpec/MultipleMemoizedHelpers:
-  Max: 15
-  AllowSubject: true
-
-RSpec/MultipleExpectations:
-  Max: 15
-
-RSpec/ExampleLength:
-  Max: 25

@@ -41,10 +41,6 @@ module Queries::WorkPackages::Filter
       :budget_id
     end
 
-    def order
-      14
-    end
-
     def type
       :list_optional
     end
