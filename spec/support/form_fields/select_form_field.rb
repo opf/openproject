@@ -15,7 +15,7 @@ module FormFields
     def select_option(*values)
       values.each do |val|
         field_container.find('.ng-select-container').click
-        page.find('.ng-option', text: val).click
+        page.find('.ng-option', text: val, visible: :all).click
         sleep 1
       end
     end

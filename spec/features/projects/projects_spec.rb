@@ -212,10 +212,8 @@ describe 'Projects', type: :feature, js: true do
 
         visit settings_generic_project_path(project.id)
 
-        find('.form--fieldset-legend a', text: 'ADVANCED SETTINGS').click
-
-        expect(page).to have_no_content 'Active'
-        expect(page).to have_no_content 'Identifier'
+        expect(page).to have_no_text 'Active', visible: :all
+        expect(page).to have_no_text 'Identifier', visible: :all
       end
     end
 
@@ -272,12 +270,16 @@ describe 'Projects', type: :feature, js: true do
         visit settings_generic_project_path(project.id)
 
         expect(page).to have_content 'Foo'
+
         # Enter something too long
         foo_field.set_value '1234'
-        fill_in 'Foo', with: '1234'
+
+        # It should cut of that remaining value
+        foo_field.expect_value '12'
 
         click_button 'Save'
-        expect(page).to have_selector('.op-form-field--errors', text: 'Foo is too long (maximum is 2 characters)')
+
+        expect(page).to have_text 'Successful update.'
       end
     end
   end
