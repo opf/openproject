@@ -65,6 +65,7 @@ describe 'Global role: Global Create project', type: :feature, js: true do
 
   describe 'Create Project displayed to user' do
     let!(:global_role) { FactoryBot.create(:global_role, name: 'Global', permissions: %i[add_project]) }
+    let!(:member_role) { FactoryBot.create(:role, name: 'Member', permissions: %i[view_project]) }
 
     let(:user) { FactoryBot.create :user }
     let!(:global_member) do
@@ -73,6 +74,8 @@ describe 'Global role: Global Create project', type: :feature, js: true do
                         roles: [global_role])
     end
 
+    let(:name_field) { ::FormFields::InputFormField.new :name }
+
     it 'does show the global permission' do
       visit projects_path
       expect(page).to have_selector('.button.-alt-highlight', text: 'Project')
@@ -80,11 +83,11 @@ describe 'Global role: Global Create project', type: :feature, js: true do
       # Can add new project
       visit new_project_path
 
-      fill_in 'project_name', with: 'New project name'
-      click_on 'Create'
+      name_field.set_value 'New project name'
 
-      expect(page).to have_text 'Successful creation.'
-      expect(current_path).to match /projects\/new-project-name/
+      page.find('button:not([disabled])', text: 'Save').click
+
+      expect(page).to have_current_path '/projects/new-project-name/'
     end
   end
 

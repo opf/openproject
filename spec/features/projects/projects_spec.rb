@@ -289,29 +289,18 @@ describe 'Projects', type: :feature, js: true do
 
     let(:project) { FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project') }
     let!(:list_custom_field) { FactoryBot.create(:list_project_custom_field, name: 'List CF', multi_value: true) }
+    let(:form_field) { ::FormFields::SelectFormField.new list_custom_field }
 
     it 'can create a project' do
       visit settings_generic_project_path(project.id)
 
-      select = page.find("[data-field-name='customField#{list_custom_field.id}']")
-
-      select.find('.ng-select-container').click
-      select.find('.ng-option', text: 'A').click
-
-      sleep 1
-
-      select.find('.ng-select-container').click
-      select.find('.ng-option', text: 'B').click
-
-      sleep 1
+      form_field.select_option 'A', 'B'
 
       click_on 'Save'
 
       expect(page).to have_content 'Successful update.'
 
-      select = page.find("[data-field-name='customField#{list_custom_field.id}']")
-      expect(select).to have_selector('.ng-value', text: 'A')
-      expect(select).to have_selector('.ng-value', text: 'B')
+      form_field.expect_selected 'A', 'B'
 
       cvs = project.reload.custom_value_for(list_custom_field)
       expect(cvs.count).to eq 2
