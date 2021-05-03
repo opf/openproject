@@ -19,9 +19,13 @@ apt-get install -y \
 	catdoc \
 	postgresql-9.6 \
 	postgresql-client-9.6 \
+	postgresql-13 \
+	postgresql-client-13 \
 	imagemagick
 
-rm -rf "$PGDATA_LEGACY"
+# remove any existing cluster
+service postgresql stop
+rm -rf /var/lib/postgresql
 
 # Specifics for BIM edition
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -

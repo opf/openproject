@@ -14,8 +14,7 @@ if [ "$PGDATA" == "" ]; then
 	exit 2
 fi
 
-export PGBIN="$(pg_config --bindir)"
-export PGCONF_FILE="/etc/postgresql/9.6/main/postgresql.conf"
+export PGCONF_FILE="/etc/postgresql/$PGVERSION/main/postgresql.conf"
 PGUSER=${PGUSER:=postgres}
 PGPASSWORD=${PGPASSWORD:=postgres}
 PG_STARTUP_WAIT_TIME=${PG_STARTUP_WAIT_TIME:=10}
@@ -103,7 +102,7 @@ configure_local_postgres() {
 	rm -f $PGDATA/postmaster.pid
 
 	# Set up pg defaults
-	echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.6/main/pg_hba.conf
+	echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/$PGVERSION/main/pg_hba.conf
 	echo "listen_addresses='0.0.0.0'" >> "$PGCONF_FILE"
 	echo "data_directory='$PGDATA'" >> "$PGCONF_FILE"
 }
@@ -114,6 +113,10 @@ if [ "$dbhost" = "127.0.0.1" ]; then
 	# initialize cluster if it does not exist yet
 	if [ -f "$PGDATA/PG_VERSION" ]; then
 		echo "-----> Database cluster already exists, not modifying."
+		if [ "$(cat "$PGDATA/PG_VERSION")" != "$PGVERSION" ]; then
+			echo "     ! PostgreSQL version outdated. Please upgrade to PostgreSQL v$PGVERSION: <LINK TO DOC>"
+			exit 1
+		fi
 		su - postgres -c "$PGBIN/pg_ctl -w -l /dev/null -o '-c config_file=$PGCONF_FILE' -D '$PGDATA' start" | indent
 		(install_plugins && migrate) | indent
 		su - postgres -c "$PGBIN/pg_ctl -D '$PGDATA' stop" | indent
