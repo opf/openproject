@@ -7,7 +7,7 @@ module FormFields
 
     def initialize(property, selector: nil)
       @property = property
-      @selector = selector || "[data-field-name='#{property_name}']"
+      @selector = selector || "[data-qa-field-name='#{property_name}']"
     end
 
     def expect_visible

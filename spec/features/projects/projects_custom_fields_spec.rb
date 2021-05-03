@@ -32,7 +32,7 @@ describe 'Projects custom fields', type: :feature, js: true do
   shared_let(:current_user) { FactoryBot.create(:admin) }
   shared_let(:project) { FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project') }
   let(:name_field) { ::FormFields::InputFormField.new :name }
-  let(:identifier) { "[data-field-name='customField#{custom_field.id}'] input[type=checkbox]" }
+  let(:identifier) { "[data-qa-field-name='customField#{custom_field.id}'] input[type=checkbox]" }
 
   before do
     login_as current_user
@@ -104,7 +104,7 @@ describe 'Projects custom fields', type: :feature, js: true do
     let!(:custom_field) do
       FactoryBot.create(:text_project_custom_field)
     end
-    let(:editor) { ::Components::WysiwygEditor.new "[data-field-name='customField#{custom_field.id}']" }
+    let(:editor) { ::Components::WysiwygEditor.new "[data-qa-field-name='customField#{custom_field.id}']" }
 
     scenario 'allows settings the project boolean CF (regression #26313)' do
       visit settings_generic_project_path(project.id)

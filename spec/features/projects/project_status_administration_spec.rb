@@ -47,7 +47,7 @@ describe 'Projects status administration', type: :feature, js: true do
         .and_return(r.id.to_s)
     end
   end
-  let(:status_description) { Components::WysiwygEditor.new('[data-field-name="statusExplanation"]') }
+  let(:status_description) { Components::WysiwygEditor.new('[data-qa-field-name="statusExplanation"]') }
 
   let(:name_field) { ::FormFields::InputFormField.new :name }
   let(:status_field) { ::FormFields::SelectFormField.new :status }
