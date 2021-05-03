@@ -62,6 +62,13 @@ describe Queries::WorkPackages::Filter::AttachmentFileNameFilter, type: :model d
         end
       end
 
+      describe '#available_operators' do
+        it 'supports ~ and !~' do
+          expect(instance.available_operators)
+            .to eql [Queries::Operators::Contains, Queries::Operators::NotContains]
+        end
+      end
+
       it_behaves_like 'non ar filter'
     end
   end

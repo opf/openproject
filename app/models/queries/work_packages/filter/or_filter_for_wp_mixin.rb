@@ -45,14 +45,6 @@ module Queries::WorkPackages::Filter::OrFilterForWpMixin
     @filters.keep_if(&:validate)
   end
 
-  def joins
-    filters.map(&:joins).flatten.compact
-  end
-
-  def includes
-    filters.map(&:includes).flatten.uniq.reject(&:blank?)
-  end
-
   def where
     filters.map(&:where).join(' OR ')
   end
