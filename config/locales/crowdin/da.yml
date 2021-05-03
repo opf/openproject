@@ -822,30 +822,30 @@ da:
     version: "Version"
     work_package: "Arbejdspakke"
   backup:
-    label_backup_token: "Backup token"
-    label_create_token: "Create backup token"
-    label_delete_token: "Delete backup token"
-    label_reset_token: "Reset backup token"
-    label_token_users: "The following users have active backup tokens"
+    label_backup_token: "Sikkerhedskopiér token"
+    label_create_token: "Opret sikkerhedskopi token"
+    label_delete_token: "Slet sikkerhedskopi token"
+    label_reset_token: "Nulstil sikkerhedskopi token"
+    label_token_users: "Følgende brugere har aktive sikkerhedskopi tokens"
     reset_token:
       action_create: Opret
       action_reset: Nulstil
-      heading_reset: "Reset backup token"
-      heading_create: "Create backup token"
+      heading_reset: "Nulstil sikkerhedskopi token"
+      heading_create: "Opret sikkerhedskopi token"
       implications: >
-        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+        Aktivering af sikkerhedskopier vil tillade enhver bruger med de nødvendige tilladelser og denne sikkerhedskopi token til at downloade en sikkerhedskopi, der indeholder alle data fra denne OpenProject installation. Dette omfatter data fra alle andre brugere.
       info: >
-        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+        Du bliver nødt til at generere en backup token for at kunne oprette en backup. Hver gang du ønsker at anmode om en sikkerhedskopi, bliver du nødt til at give denne token. Du kan slette sikkerhedskopi token for at deaktivere sikkerhedskopier for denne bruger.
       verification: >
-        Enter %{word} to confirm you want to %{action} the backup token.
-      verification_word_reset: reset
-      verification_word_create: create
+        Indtast %{word} for at bekræfte, at du ønsker at %{action} backup token.
+      verification_word_reset: nulstil
+      verification_word_create: opret
       warning: >
-        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
-    text_token_deleted: Backup token deleted. Backups are now disabled.
+        Når du opretter en ny token, vil du kun få lov til at anmode om en backup efter 24 timer. Dette er en sikkerhedsforanstaltning. Derefter kan du anmode om en sikkerhedskopi når som helst ved hjælp af dette token.
+    text_token_deleted: Backup token slettet. Backups er nu deaktiveret.
     error:
-      invalid_token: Invalid or missing backup token
-      token_cooldown: The backup token will be valid in %{hours} hours.
+      invalid_token: Ugyldigt eller manglende sikkerhedskopi token
+      token_cooldown: Sikkerhedskopi token vil være gyldig om %{hours} timer.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
   button_add: "Tilføj"
