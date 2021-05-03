@@ -57,34 +57,6 @@ describe ProjectsController, type: :routing do
     end
   end
 
-  describe 'create' do
-    it do
-      expect(post('/projects')).to route_to(
-        controller: 'projects', action: 'create'
-      )
-    end
-
-    it do
-      expect(post('/projects.xml')).to route_to(
-        controller: 'projects', action: 'create', format: 'xml'
-      )
-    end
-  end
-
-  describe 'update' do
-    it do
-      expect(put('/projects/123')).to route_to(
-        controller: 'projects', action: 'update', id: '123'
-      )
-    end
-
-    it do
-      expect(put('/projects/123.xml')).to route_to(
-        controller: 'projects', action: 'update', id: '123', format: 'xml'
-      )
-    end
-  end
-
   describe 'destroy_info' do
     it do
       expect(get('/projects/123/destroy_info')).to route_to(
