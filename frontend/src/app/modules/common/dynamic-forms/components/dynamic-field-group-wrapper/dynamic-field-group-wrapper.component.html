@@ -13,7 +13,7 @@
        [ngStyle]="{
           'height': to.collapsibleFieldGroupsCollapsed ? 0 : 'auto',
           'visibility': to.collapsibleFieldGroupsCollapsed ? 'hidden' : 'visible',
-          'overflow': 'hidden'
+          'overflow': to.collapsibleFieldGroupsCollapsed ? 'hidden' : 'visible'
         }">
     <ng-container #fieldComponent></ng-container>
   </div>
