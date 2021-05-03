@@ -6,7 +6,7 @@ import { checkedClassName } from '../../builders/ui-state-link-builder';
 import { locateTableRow, scrollTableRowIntoView } from '../../helpers/wp-table-row-helpers';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
-import { FocusHelperService } from 'core-app/modules/common/focus/focus-helper';
+import { FocusHelperService } from 'core-app/modules/focus/focus-helper';
 import {
   WorkPackageViewSelectionService,
   WorkPackageViewSelectionState

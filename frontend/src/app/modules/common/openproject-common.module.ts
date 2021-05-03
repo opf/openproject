@@ -36,9 +36,13 @@ import {NgOptionHighlightModule} from '@ng-select/ng-option-highlight';
 import {DragulaModule} from 'ng2-dragula';
 import {DynamicModule} from 'ng-dynamic-component';
 import {StateService, UIRouterModule} from '@uirouter/angular';
+
 import {HookService} from '../plugins/hook-service';
 import {OpenprojectAccessibilityModule} from 'core-app/modules/a11y/openproject-a11y.module';
 import {CurrentUserModule} from 'core-app/modules/current-user/current-user.module';
+import {IconModule} from 'core-app/modules/icon/icon.module';
+import {AttributeHelpTextModule} from 'core-app/modules/attribute-help-texts/attribute-help-text.module';
+
 import {IconTriggeredContextMenuComponent} from 'core-components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component';
 import {CurrentProjectService} from 'core-components/projects/current-project.service';
 import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
@@ -52,7 +56,6 @@ import {BoardVideoTeaserModalComponent} from 'core-app/modules/boards/board/boar
 import {highlightColBootstrap} from './highlight-col/highlight-col.directive';
 import {HighlightColDirective} from './highlight-col/highlight-col.directive';
 import {CopyToClipboardDirective} from './copy-to-clipboard/copy-to-clipboard.directive';
-import {AuthoringComponent} from './authoring/authoring.component';
 import {OpDateTimeComponent} from './date/op-date-time.component';
 import {NotificationComponent} from './notifications/notification.component';
 import {NotificationsContainerComponent} from './notifications/notifications-container.component';
@@ -74,10 +77,9 @@ import {DynamicBootstrapModule} from './dynamic-bootstrap/dynamic-bootstrap.modu
 import {OpFormFieldComponent} from './forms/form-field/form-field.component';
 import {OpFormBindingDirective} from './forms/form-field/form-binding.directive';
 import {OpOptionListComponent} from './option-list/option-list.component';
-import {OpIconComponent} from './icon/icon.component';
 import {OpenprojectPrincipalRenderingModule} from "core-app/modules/principal/principal-rendering.module";
 import { DatePickerModule } from "core-app/modules/common/op-date-picker/date-picker.module";
-import { FocusModule } from "core-app/modules/common/focus/focus.module";
+import { FocusModule } from "core-app/modules/focus/focus.module";
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
@@ -123,6 +125,8 @@ export function bootstrapModule(injector:Injector) {
 
     DatePickerModule,
     FocusModule,
+    IconModule,
+    AttributeHelpTextModule,
   ],
   exports: [
     // Re-export all commonly used
@@ -132,6 +136,8 @@ export function bootstrapModule(injector:Injector) {
     FormsModule,
     PortalModule,
     DragDropModule,
+    IconModule,
+    AttributeHelpTextModule,
     OpenprojectAccessibilityModule,
     NgSelectModule,
     NgOptionHighlightModule,
@@ -142,8 +148,6 @@ export function bootstrapModule(injector:Injector) {
     FocusModule,
     OpDateTimeComponent,
     AutofocusDirective,
-
-    AuthoringComponent,
 
     // Notifications
     NotificationsContainerComponent,
@@ -182,13 +186,10 @@ export function bootstrapModule(injector:Injector) {
     OpFormFieldComponent,
     OpFormBindingDirective,
     OpOptionListComponent,
-    OpIconComponent,
   ],
   declarations: [
     OpDateTimeComponent,
     AutofocusDirective,
-
-    AuthoringComponent,
 
     // Notifications
     NotificationsContainerComponent,
@@ -243,7 +244,6 @@ export function bootstrapModule(injector:Injector) {
     OpFormFieldComponent,
     OpFormBindingDirective,
     OpOptionListComponent,
-    OpIconComponent,
   ]
 })
 export class OpenprojectCommonModule {

@@ -27,11 +27,13 @@
 //++
 
 import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { CommonModule } from "@angular/common";
 import { OpenprojectAccessibilityModule } from "core-app/modules/a11y/openproject-a11y.module";
 import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
 import { OpenprojectEditorModule } from 'core-app/modules/editor/openproject-editor.module';
 import { OpenprojectAttachmentsModule } from "core-app/modules/attachments/openproject-attachments.module";
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
+import { AttributeHelpTextModule } from "core-app/modules/attribute-help-texts/attribute-help-text.module";
 import { EditFieldService } from "core-app/modules/fields/edit/edit-field.service";
 import { DisplayFieldService } from "core-app/modules/fields/display/display-field.service";
 import { initializeCoreEditFields } from "core-app/modules/fields/edit/edit-field.initializer";
@@ -50,8 +52,6 @@ import { PlainFormattableEditFieldComponent } from "core-app/modules/fields/edit
 import { TimeEntryWorkPackageEditFieldComponent } from "core-app/modules/fields/edit/field-types/te-work-package-edit-field.component";
 import { AttributeValueMacroComponent } from "core-app/modules/fields/macros/attribute-value-macro.component";
 import { AttributeLabelMacroComponent } from "core-app/modules/fields/macros/attribute-label-macro.component";
-import { AttributeHelpTextComponent } from "core-app/modules/fields/help-texts/attribute-help-text.component";
-import { AttributeHelpTextModal } from "core-app/modules/fields/help-texts/attribute-help-text.modal";
 import { WorkPackageQuickinfoMacroComponent } from "core-app/modules/fields/macros/work-package-quickinfo-macro.component";
 import { DisplayFieldComponent } from "core-app/modules/fields/display/display-field.component";
 import { OpenprojectAutocompleterModule } from "core-app/modules/autocompleter/openproject-autocompleter.module";
@@ -64,12 +64,14 @@ import { FormattableEditFieldModule } from "core-app/modules/fields/edit/field-t
 
 @NgModule({
   imports: [
+    CommonModule,
     OpenprojectCommonModule,
     OpenprojectAttachmentsModule,
     OpenprojectAccessibilityModule,
     OpenprojectEditorModule,
     OpenprojectModalModule,
     OpenprojectAutocompleterModule,
+    AttributeHelpTextModule,
     // Input Modules
     BooleanEditFieldModule,
     IntegerEditFieldModule,
@@ -83,7 +85,6 @@ import { FormattableEditFieldModule } from "core-app/modules/fields/edit/field-t
     EditFormPortalComponent,
     EditFormComponent,
     EditableAttributeFieldComponent,
-    AttributeHelpTextComponent,
   ],
   providers: [
     {
@@ -115,9 +116,6 @@ import { FormattableEditFieldModule } from "core-app/modules/fields/edit/field-t
     AttributeValueMacroComponent,
     AttributeLabelMacroComponent,
 
-    // Help texts
-    AttributeHelpTextComponent,
-    AttributeHelpTextModal,
     WorkPackageQuickinfoMacroComponent,
   ]
 })
