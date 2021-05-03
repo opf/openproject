@@ -169,6 +169,12 @@ Click on the Filter tab in order to configure the work packages which shall be d
 
 Click the blue **Apply** button to save your changes.
 
+If you want to build exactly the widgets shown in the screen-shot above:
+
+- For the "Assignees" graph please choose the widget "work packages overview" and change to "assignees".
+- For the Work packages status graph please select "work package graph", click on the three dots in the upper right corner of the widget, choose "configure view", then choose "status" as axis criteria and "pie chart" as chart type.
+- For the Work package progress graph please select "work package graph", click on the three dots in the upper right corner of the widget, choose "configure view", then choose "progress (%)" as axis criteria and "line" as chart type.
+
 ### Work package overview widget
 
 The work package over widget displays all work packages in a project differentiated by a certain criteria.
