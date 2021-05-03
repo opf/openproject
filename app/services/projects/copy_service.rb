@@ -66,6 +66,7 @@ module Projects
 
     def initialize_copy(source, params)
       target = Project.new
+
       target.attributes = source.attributes.dup.except(*skipped_attributes)
       # Clear enabled modules
       target.enabled_modules = []
@@ -126,7 +127,7 @@ module Projects
     end
 
     def skipped_attributes
-      %w[id created_at updated_at name identifier active lft rgt]
+      %w[id created_at updated_at name identifier active templated lft rgt]
     end
   end
 end

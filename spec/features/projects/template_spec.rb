@@ -102,11 +102,10 @@ describe 'Project templates', type: :feature, js: true do
       status_field.select_option 'Off track'
       parent_field.select_option other_project.name
 
-      click_on 'Save'
+      page.find('button:not([disabled])', text: 'Save').click
 
-      expect(page).to have_content I18n.t('project.template.copying')
+      expect(page).to have_content I18n.t(:label_copy_project)
       expect(page).to have_content I18n.t('js.job_status.generic_messages.in_queue')
-      expect(page).to have_current_path /\/job_statuses\/[\w-]+/
 
       # Email notification should be sent
       perform_enqueued_jobs
