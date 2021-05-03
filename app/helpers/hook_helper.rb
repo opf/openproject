@@ -22,12 +22,12 @@ module HookHelper
   def call_hook(hook, context = {})
     if is_a?(ActionController::Base)
       default_context = { controller: self, project: @project, request: request, hook_caller: self }
-      Redmine::Hook.call_hook(hook, default_context.merge(context))
+      OpenProject::Hook.call_hook(hook, default_context.merge(context))
     else
       default_context = { project: @project, hook_caller: self }
       default_context[:controller] = controller if respond_to?(:controller)
       default_context[:request] = request if respond_to?(:request)
-      Redmine::Hook.call_hook(hook, default_context.merge(context)).join(' ').html_safe
+      OpenProject::Hook.call_hook(hook, default_context.merge(context)).join(' ').html_safe
     end
   end
 end

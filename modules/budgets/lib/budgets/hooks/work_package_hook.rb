@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Budgets::Hooks::WorkPackageHook < Redmine::Hook::ViewListener
+class Budgets::Hooks::WorkPackageHook < OpenProject::Hook::ViewListener
   # Updates the cost object after a move
   #
   # Context:

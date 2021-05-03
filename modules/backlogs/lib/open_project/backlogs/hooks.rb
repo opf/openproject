@@ -27,7 +27,7 @@
 #++
 
 module OpenProject::Backlogs::Hooks
-  class LayoutHook < Redmine::Hook::ViewListener
+  class LayoutHook < OpenProject::Hook::ViewListener
     include RbCommonHelper
 
     def view_versions_show_bottom(context = {})
