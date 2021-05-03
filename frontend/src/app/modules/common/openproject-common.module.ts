@@ -148,8 +148,6 @@ export function bootstrapModule(injector:Injector) {
     OpDateTimeComponent,
     AutofocusDirective,
 
-    AuthoringComponent,
-
     // Notifications
     NotificationsContainerComponent,
     NotificationComponent,

@@ -1,15 +1,19 @@
+import { NgSelectModule } from "@ng-select/ng-select";
+import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
+import { Component, forwardRef, ViewChild } from "@angular/core";
 import { ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { By } from "@angular/platform-browser";
+import { defer, of } from "rxjs";
+import { FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { FormlyModule } from "@ngx-formly/core";
+
 import { DynamicFormComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-form/dynamic-form.component";
 import { DynamicFormService } from "core-app/modules/common/dynamic-forms/services/dynamic-form/dynamic-form.service";
 import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
-import { By } from "@angular/platform-browser";
-import { defer, of } from "rxjs";
-import { FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from "@angular/forms";
-import { CommonModule } from "@angular/common";
-import { FormlyModule } from "@ngx-formly/core";
 import { TextInputComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/text-input/text-input.component";
 import { IntegerInputComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/integer-input/integer-input.component";
 import { SelectInputComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/select-input/select-input.component";
@@ -17,10 +21,7 @@ import { BooleanInputComponent } from "core-app/modules/common/dynamic-forms/com
 import { DateInputComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/date-input/date-input.component";
 import { FormattableTextareaInputComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/formattable-textarea-input.component";
 import { DynamicFieldGroupWrapperComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-field-group-wrapper/dynamic-field-group-wrapper.component";
-import { NgSelectModule } from "@ng-select/ng-select";
-import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
-import { OpFormFieldComponent } from "core-app/modules/common/form-field/form-field.component";
-import { Component, forwardRef, ViewChild } from "@angular/core";
+import { OpFormFieldComponent } from "core-app/modules/common/forms/form-field/form-field.component";
 
 @Component({
   template: `<op-dynamic-form [formControl]="control"></op-dynamic-form>`,
