@@ -42,7 +42,7 @@ Most parts of the documentation are feature oriented (rather than use case orien
 Within a section/chapter, there are a few main elements:
 
 - **Meta data** for the structure of the documentation and for search engines. 
-  The title will be shown in the menu/hierarchy. The priority influences the relative position of the respective documentation page within a section.
+  The title will be shown in the menu/hierarchy. The priority influences the relative position of the respective documentation page within a section: The higher the further up.
   The description, "robots" and the keywords are meant for search engines.
   ![meta-data-documentation](image-20210503104831431.png)
   Depending on the tool, it makes sense to edit this in the source code mode. Feel free to copy this from another page if you're unsure and adapt it afterwards.
@@ -99,6 +99,14 @@ Please try to be precise: Use the exact names of buttons and modules. If you're 
 
 Use imperative ("do X") or a more descriptive approach ("it is possible to do X"), depending on what suits the situation best.
 
+### Highlighting
+
+For very important information, considering setting a highlighted box. You can use this markdown part for it:
+
+'<div class="alert alert-info" role="alert">
+**Note**: There is no possibility to undo changes to work packages (Ctrl+Z).
+</div>'
+
 ## Contributing
 
 The creation and editing of this documentation is based on repositories in GitHub (like the code of OpenProject). You will need a GitHub account to contribute. 
@@ -118,4 +126,4 @@ For people who (only) want to contribute to the documentation we can recommend a
 
 ### Folder structure
 
-For each chapter, there is a folder. The folder name influences the URL of the docs page. Within the folder, there is a file called "README.md"; this is the content of the documentation page. Screen-shots should be put in the same folder and can be inserted as shown above.
+For each chapter, there is a folder. The folder name influences the URL of the docs page (e.g. this page is in the folder "documentation" within the folder "development". Within the folder, there is a file called "README.md"; this is the content of the documentation page. Screen-shots should be put in the same folder and can be inserted as shown above.
