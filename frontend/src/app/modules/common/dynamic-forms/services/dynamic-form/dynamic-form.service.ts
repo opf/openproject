@@ -25,11 +25,15 @@ export class DynamicFormService {
     this.dynamicForm = dynamicForm;
   }
 
-  getSettingsFromBackend$(url:string):Observable<IOPDynamicFormSettings>{
+  getSettingsFromBackend$(formEndpoint?:string, resourceId?:string, payload:Object = {}):Observable<IOPDynamicFormSettings>{
+    const resourcePath = resourceId ? `/${resourceId}` : '';
+    const formPath = formEndpoint?.endsWith('/form') ? '' : '/form';
+    const url = `${formEndpoint}${resourcePath}${formPath}`;
+
     return this._httpClient
-      .post<IOPFormSettings>(
+      .post<IOPFormSettingsResource>(
         url,
-        {},
+        payload,
         {
           withCredentials: true,
           responseType: 'json'
@@ -40,19 +44,19 @@ export class DynamicFormService {
       );
   }
 
-  getSettings(formConfig:IOPFormSettings):IOPDynamicFormSettings {
+  getSettings(formConfig:IOPFormSettingsResource):IOPDynamicFormSettings {
     const formSchema = formConfig._embedded?.schema;
     const formPayload = formConfig._embedded?.payload;
     const dynamicForm = {
       fields: this._dynamicFieldsService.getConfig(formSchema, formPayload),
-      model: this._dynamicFieldsService.getModel(formSchema, formPayload),
+      model: this._dynamicFieldsService.getModel(formPayload),
       form: new FormGroup({}),
     };
 
     return dynamicForm;
   }
 
-  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string) {
-    return this._formsService.submit$(form, resourceEndpoint, resourceId);
+  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?: 'post' | 'patch') {
+    return this._formsService.submit$(form, resourceEndpoint, resourceId, formHttpMethod);
   }
 }

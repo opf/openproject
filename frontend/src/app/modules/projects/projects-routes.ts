@@ -11,7 +11,7 @@ export const PROJECTS_ROUTES:Ng2StateDeclaration[] = [
   },
   {
     name: 'new_project',
-    url: '/projects/new',
+    url: '/projects/new?parent_id',
     component: NewProjectComponent,
   },
 ];

@@ -30,10 +30,9 @@ export class OpFormFieldComponent implements OnInit{
   @Input() showValidationErrorOn: 'change' | 'blur' | 'submit' | 'never';
 
   @ContentChild(NgControl) ngControl:NgControl;
-  @ContentChild(FormlyField) dynamicControl:FormlyField;
 
   get formControl ():AbstractControl|undefined|null {
-    return this.ngControl?.control || this.dynamicControl?.field?.formControl;
+    return this.ngControl?.control || this._dynamicControl?.field?.formControl;
   }
 
   get showErrorMessage():boolean {
@@ -55,10 +54,11 @@ export class OpFormFieldComponent implements OnInit{
   }
 
   get hidden () {
-    return this.dynamicControl?.field?.hide;
+    return this._dynamicControl?.field?.hide;
   }
 
   constructor(
+    @Optional() private _dynamicControl: FormlyField,
     @Optional() private _formGroupDirective:FormGroupDirective,
     @Optional() private _dynamicFormComponent:DynamicFormComponent,
   ) {}

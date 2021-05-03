@@ -4,32 +4,16 @@
         (submit)="submitForm(form)"
         class="op-form">
     <formly-form [form]="form"
-                 [model]="model"
+                 [model]="innerModel"
                  [fields]="fields"
                  (modelChange)="onModelChange($event)"
                  class="op-fieldset">
-      <ng-template formlyTemplate let-field>
-        <op-form-field *ngFor="let field of fields"
-                       [label]="field.templateOptions?.label"
-                       [noWrapLabel]="field.templateOptions?.noWrapLabel"
-                       [required]="field.templateOptions?.required"
-                       [attr.data-field-name]="field.property"
-          >
-          <formly-field [field]="field" slot=input></formly-field>
-
-          <formly-validation-message
-            class="op-form-field--error"
-            [field]="field"
-            slot="errors"
-          ></formly-validation-message>
-        </op-form-field>
-      </ng-template>
     </formly-form>
 
-    <div class="op-form--submit">
+    <div class="op-form--submit"
+         *ngIf="handleSubmit">
       <button type="submit"
               class="button -highlight"
-              *ngIf="handleSubmit"
               [disabled]="inFlight">
         {{text.save}}
       </button>
@@ -39,24 +23,14 @@
 
 <!-- When used as a FormControl, the Dynamic Form doesn't need a wrapping form -->
 <!-- TODO: Issue: sharing the form as an ng-template between this two HTML blocks doesn't work because
-     the nested OpFormFieldComponent don't find the injected FormGroupDirective. --->
+     the nested OpFormFieldComponent doesn't find the injected FormGroupDirective. --->
 <div data-qa="op-form--container"
      *ngIf="form && !isStandaloneForm">
   <formly-form [form]="form"
-               [model]="model"
+               [model]="innerModel"
                [fields]="fields"
                (modelChange)="onModelChange($event)"
                class="op-fieldset">
-    <ng-template formlyTemplate let-field>
-      <op-form-field *ngFor="let field of fields"
-                     [label]="field.templateOptions?.label"
-                     [noWrapLabel]="field.templateOptions?.noWrapLabel"
-                     [required]="field.templateOptions?.required">
-        <formly-field [field]="field" slot=input></formly-field>
-
-        <formly-validation-message [field]="field" slot=errors></formly-validation-message>
-      </op-form-field>
-    </ng-template>
   </formly-form>
 </div>
 

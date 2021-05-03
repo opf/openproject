@@ -26,7 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OpenprojectCommonModule } from 'core-app/modules/common/openproject-common.module';
 import { OpenprojectFieldsModule } from 'core-app/modules/fields/openproject-fields.module';
 import { NgModule } from '@angular/core';
 import { OpenprojectHalModule } from "core-app/modules/hal/openproject-hal.module";
@@ -36,6 +35,7 @@ import { ProjectsComponent } from './components/projects/projects.component';
 import { DynamicFormsModule } from "core-app/modules/common/dynamic-forms/dynamic-forms.module";
 import { NewProjectComponent } from "core-app/modules/projects/components/new-project/new-project.component";
 import { ReactiveFormsModule } from "@angular/forms";
+import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
 
 
 @NgModule({
