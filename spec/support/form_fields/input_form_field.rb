@@ -7,6 +7,10 @@ module FormFields
       expect(field_container).to have_selector('input') { |el| el.value == value }
     end
 
+    def expect_visible
+      expect(field_container).to have_selector('input')
+    end
+
     ##
     # Set or select the given value.
     # For fields of type select, will check for an option with that value.

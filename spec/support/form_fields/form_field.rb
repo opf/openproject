@@ -10,6 +10,10 @@ module FormFields
       @selector = selector || "[data-field-name='#{property_name}']"
     end
 
+    def expect_visible
+      raise NotImplementedError
+    end
+
     def field_container
       page.find(selector)
     end

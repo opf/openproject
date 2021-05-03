@@ -47,8 +47,10 @@ describe 'Projects status administration', type: :feature, js: true do
         .and_return(r.id.to_s)
     end
   end
-  let(:edit_status_description) { Components::WysiwygEditor.new('[data-field-name="statusExplanation"]') }
-  let(:create_status_description) { Components::WysiwygEditor.new('.form--field:nth-of-type(4)') }
+  let(:status_description) { Components::WysiwygEditor.new('[data-field-name="statusExplanation"]') }
+
+  let(:name_field) { ::FormFields::InputFormField.new :name }
+  let(:status_field) { ::FormFields::SelectFormField.new :status }
 
   before do
     login_as current_user
@@ -60,32 +62,28 @@ describe 'Projects status administration', type: :feature, js: true do
     # Create the project with status
     click_link 'Advanced settings'
 
-    fill_in 'Name', with: 'New project'
+    name_field.set_value 'New project'
+    status_field.select_option 'On track'
 
-    select 'On track', from: 'Status'
-
-    create_status_description.set_markdown 'Everything is fine at the start'
-    create_status_description.expect_supports_no_macros
-
-    click_button 'Create'
-
-    expect(page)
-      .to have_content('Successful creation.')
-
-    # Check that the status has been set correctly
-    visit settings_generic_project_path(Project.last)
-
-    expect(page).to have_selector('[data-field-name="status"] .ng-value', text: 'On track')
-
-    edit_status_description.expect_value 'Everything is fine at the start'
-
-    select_autocomplete page.find('[data-field-name="status"]'), query: 'Off track'
-    edit_status_description.set_markdown 'Oh no'
+    status_description.set_markdown 'Everything is fine at the start'
+    status_description.expect_supports_no_macros
 
     click_button 'Save'
 
-    expect(page).to have_selector('[data-field-name="status"] .ng-value', text: 'Off track')
+    expect(page).to have_current_path /projects\/new-project\/?/
 
-    edit_status_description.expect_value 'Oh no'
+    # Check that the status has been set correctly
+    visit settings_generic_project_path(id: 'new-project')
+
+    status_field.expect_selected 'On track'
+    status_description.expect_value 'Everything is fine at the start'
+
+    status_field.select_option 'Off track'
+    status_description.set_markdown 'Oh no'
+
+    click_button 'Save'
+
+    status_field.expect_selected 'Off track'
+    status_description.expect_value 'Oh no'
   end
 end
