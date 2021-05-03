@@ -42,7 +42,6 @@ import { DurationEditFieldComponent } from "core-app/modules/fields/edit/field-t
 import { FloatEditFieldComponent } from "core-app/modules/fields/edit/field-types/float-edit-field.component";
 import { MultiSelectEditFieldComponent } from "core-app/modules/fields/edit/field-types/multi-select-edit-field.component";
 import { EditFormPortalComponent } from "core-app/modules/fields/edit/editing-portal/edit-form-portal.component";
-import { EditFieldControlsComponent, } from "core-app/modules/fields/edit/field-controls/edit-field-controls.component";
 import { SelectAutocompleterRegisterService } from "core-app/modules/fields/edit/field-types/select-edit-field/select-autocompleter-register.service";
 import { EditFormComponent } from "core-app/modules/fields/edit/edit-form/edit-form.component";
 import { WorkPackageEditFieldComponent } from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
@@ -61,6 +60,7 @@ import { TextEditFieldModule } from "core-app/modules/fields/edit/field-types/te
 import { DateEditFieldModule } from "core-app/modules/fields/edit/field-types/date-edit-field/date-edit-field.module";
 import { SelectEditFieldModule } from "core-app/modules/fields/edit/field-types/select-edit-field/select-edit-field.module";
 import { FormattableEditFieldModule } from "core-app/modules/fields/edit/field-types/formattable-edit-field/formattable-edit-field.module";
+import { EditFieldControlsModule } from "core-app/modules/fields/edit/field-controls/edit-field-controls.module";
 
 @NgModule({
   imports: [
@@ -79,9 +79,9 @@ import { FormattableEditFieldModule } from "core-app/modules/fields/edit/field-t
     DateEditFieldModule,
     SelectEditFieldModule,
     FormattableEditFieldModule,
+    EditFieldControlsModule,
   ],
   exports: [
-    EditFieldControlsComponent,
     EditFormPortalComponent,
     EditFormComponent,
     EditableAttributeFieldComponent,
@@ -106,7 +106,6 @@ import { FormattableEditFieldModule } from "core-app/modules/fields/edit/field-t
     FloatEditFieldComponent,
     PlainFormattableEditFieldComponent,
     MultiSelectEditFieldComponent,
-    EditFieldControlsComponent,
     WorkPackageEditFieldComponent,
     TimeEntryWorkPackageEditFieldComponent,
     EditFormComponent,

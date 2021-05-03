@@ -140,11 +140,14 @@ feature 'Quick-add menu', js: true, selenium: true do
     end
   end
 
-  context 'as an anonymous user' do
-    current_user { FactoryBot.create :anonymous }
+  context 'as an anonymous user', with_settings: { login_required: true } do
+    current_user do
+      FactoryBot.create(:anonymous_role, permissions: %i[add_work_packages])
+      FactoryBot.create :anonymous
+    end
 
     it 'does not show the quick add menu on the home screen' do
-      visit home_path
+      visit signin_path
       quick_add.expect_invisible
     end
   end

@@ -16,6 +16,7 @@
           [required]="field.templateOptions?.required"
           [helpTextAttribute]="field.key"
           [helpTextAttributeScope]="helpTextAttributeScope"
+          [attr.data-field-name]="field.property"
         >
           <formly-field [field]="field" slot="input"></formly-field>
 

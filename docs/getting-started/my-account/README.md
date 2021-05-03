@@ -19,7 +19,7 @@ Change your personal settings in My account. Here you can adapt, e.g. the langua
 | [Profile settings: change your language, time zone or display of comments](#profile-settings) | How to change the language, time zone or display of comments in OpenProject? |
 | [Two-factor authentication](#two-factor-authentication-premium-feature) | How to set up a two-factor authentication?                   |
 | [Email notifications](#email-notifications)                  | How to change email notifications sent by OpenProject?       |
-| [Set anaAvatar](#set-an-avatar)                              | How to set an avatar in OpenProject and change the profile picture? |
+| [Set an Avatar](#set-an-avatar)                              | How to set an avatar in OpenProject and change the profile picture? |
 | [Delete account](#delete-account)                            | How to delete my own account?                                |
 
 ## Open My account settings
@@ -137,7 +137,7 @@ Click the blue **Continue** button to finish the registration.
 
 ## Email notifications
 
-To configure the email notifications which you will receive from the system, navigate to **My account** and choose **Email notifications** in the menu.
+To configure the email notifications which you receive from the system, navigate to **My account** and choose **Email notifications** in the menu. Your system administrator can also set them for you or [change](../../system-admin-guide/email/#email-notifications-settings) the global default settings.
 
 You can choose between several email notifications.
 **Default: Send email notifications Only for things I watch or I'm involved in.**
@@ -150,12 +150,16 @@ The following options are available for the email notifications (ranging from re
 
 - **For any event on all my projects** - When selecting this option you receive an email for any action in the projects you are a member of (independent of whether or not you are involved in this action). This can be useful for managers who want to always stay up to date of all developments without having to log into OpenProject. This setting will typically lead to receiving a lot of emails.
 - **For any event on the selected projects only** - This option lets you choose the projects for which you receive all email updates. In addition, you receive email notifications from other projects about activities you watch or are involved in (e.g. when you are the author, assignee or responsible of a work package.). This is useful for project managers who need to be informed about any change in the project(s) they manage but who want to only receive email notifications from other projects if the activities directly affect them.
-- **Only for things I watch or I am involved in** - This is the default option for new users (unless configured differently in the [administration (email notification settings)](../../system-admin-guide/email)). Users with this setting receive emails for activities in which they are involved (e.g. if they watch an activity, are the author, assignee or responsible). This option is usually the best option since users only get email updates about activities in which they are involved therefore reducing the number of emails they receive.
+- **Only for things I watch or I am involved in** - This is the default option for new users (unless configured differently in the [administration (email notification settings)](../../system-admin-guide/email)). Users with this setting receive emails for activities in which they are involved (i.e. if they are the author, assignee or responsible or are set as watcher). This option is usually the best option since users only get email updates about activities in which they are involved therefore reducing the number of emails they receive. No emails are sent to users who only added a comment or changed the work package.
 - **Only for things I am assigned to** - With this email setting you only receive email updates of activities to which you are assigned (e.g. work packages). This is useful for users who want to only be notified via email if they are actively working on a task, not if they are responsible for or watching the activity.
 - **Only for things I am the owner of** - When you select this setting you only receive email updates for activities which you created (e.g. work packages, wiki pages). This makes sense if you are not actively involved in a project but want to only be notified if your activities are updated.
-- **No event** - With this setting you receive no emails at all. You need to log into OpenProject to verify the status of your tasks. Unless you check the status within OpenProject very frequently or are not actively involved in any project this setting is typically too restrictive.
+- **No event** - With this setting you receive no emails at all. You need to log into OpenProject to verify the status of your tasks. Unless you check the status within OpenProject very frequently or are not actively involved in any project, this setting is typically too restrictive.
 
-By default you do not receive any email notifications about your own changes. If you want to receive emails for your own changes (e.g. to make sure you that emails for changes you made have been sent), activate the checkbox **I want to be notified of changes that I make myself**.
+When someone [mentions](../../user-guide/work-packages/edit-work-package/#-notification-mention) you in e.g. a work package description or comment you will only receive a notification if you are a member of the respective project and did not choose "No event" as notification setting.
+
+By default you do not receive any email notifications about your own changes. If you want to receive emails for your own changes (e.g. to make sure that emails for changes you made have been sent), activate the check-box **I want to be notified of changes that I make myself**.
+
+Please read [these instructions](../../system-admin-guide/email) to learn about the global settings for email notifications and [these FAQ](../../system-admin-guide/email/faq) if you have questions.
 
 
 

@@ -59,12 +59,18 @@ describe ::API::V3::Memberships::UpdateFormAPI, content_type: :json do
             href: api_v3_paths.role(other_role.id)
           }
         ]
+      },
+      _meta: {
+        notificationMessage: {
+          raw: "Join the **dark** side."
+        }
       }
     }
   end
 
+  current_user { user }
+
   before do
-    login_as(user)
     post path, parameters.to_json
   end
 
@@ -98,6 +104,12 @@ describe ::API::V3::Memberships::UpdateFormAPI, content_type: :json do
       expect(response.body)
         .to be_json_eql(api_v3_paths.role(other_role.id).to_json)
         .at_path('_embedded/payload/_links/roles/1/href')
+    end
+
+    it 'contains the notification message' do
+      expect(response.body)
+        .to be_json_eql("Join the **dark** side.".to_json)
+              .at_path('_embedded/payload/_meta/notificationMessage/raw')
     end
 
     it 'does not contain the project in the payload' do

@@ -40,43 +40,51 @@
 # need to be mailed to individually.
 
 class MemberMailer < BaseMailer
-  def added_project(current_user, member)
+  include OpenProject::StaticRouting::UrlHelpers
+  include OpenProject::TextFormatting
+
+  def added_project(current_user, member, message)
     alter_project(current_user,
                   member,
-                  in_member_locale(member) { I18n.t(:'mail_member_added_project.subject', project: member.project.name) })
+                  in_member_locale(member) { I18n.t(:'mail_member_added_project.subject', project: member.project.name) },
+                  message)
   end
 
-  def updated_project(current_user, member)
+  def updated_project(current_user, member, message)
     alter_project(current_user,
                   member,
-                  in_member_locale(member) { I18n.t(:'mail_member_updated_project.subject', project: member.project.name) })
+                  in_member_locale(member) { I18n.t(:'mail_member_updated_project.subject', project: member.project.name) },
+                  message)
   end
 
-  def updated_global(current_user, member)
+  def updated_global(current_user, member, message)
     send_mail(current_user,
               member,
-              in_member_locale(member) { I18n.t(:'mail_member_updated_global.subject') })
+              in_member_locale(member) { I18n.t(:'mail_member_updated_global.subject') },
+              message)
   end
 
   private
 
-  def alter_project(current_user, member, subject)
+  def alter_project(current_user, member, subject, message)
     send_mail(current_user,
               member,
-              subject) do
+              subject,
+              message) do
       open_project_headers Project: member.project.identifier
 
       @project = member.project
     end
   end
 
-  def send_mail(current_user, member, subject)
+  def send_mail(current_user, member, subject, message)
     in_member_locale(member) do
       User.execute_as(current_user) do
         message_id member, current_user
 
         @roles = member.roles
         @principal = member.principal
+        @message = message
 
         yield if block_given?
 

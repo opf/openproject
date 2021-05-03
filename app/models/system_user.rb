@@ -55,28 +55,9 @@ class SystemUser < User
 
   def destroy; false end
 
-  def grant_privileges
-    self.admin = true
-  end
-
-  def remove_privileges
-    self.admin = false
-  end
-
-  def run_given(&_block)
-    if block_given?
-      grant_privileges
-      old_user = User.current
-      User.current = self
-
-      begin
-        yield self
-      ensure
-        remove_privileges
-        User.current = old_user
-      end
-    else
-      raise 'no block given'
+  def run_given
+    User.execute_as(self) do
+      yield self
     end
   end
 end

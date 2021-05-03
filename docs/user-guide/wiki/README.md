@@ -4,7 +4,7 @@ sidebar_navigation:
   priority: 800
 description: Create and manage a wiki in OpenProject.
 robots: index, follow
-keywords: wiki
+keywords: wiki, documentation
 ---
 
 # Wiki
@@ -40,7 +40,7 @@ Instead of creating a new paragraph with Enter, you can also press SHIFT+Enter t
 
 ### Links
 
-Create hyperlinks by pressing the toolbar (optionally with some selected text), or by pressing CTRL+k to open a popup to enter the link href.
+Create hyperlinks by pressing the link icon in the toolbar (optionally with some selected text), or by pressing CTRL+k to open a popup to enter the link href.
 
 ### Widgets and Newlines
 

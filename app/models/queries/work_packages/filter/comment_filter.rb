@@ -35,21 +35,22 @@ class Queries::WorkPackages::Filter::CommentFilter < Queries::WorkPackages::Filt
     :text
   end
 
-  def join_condition
+  private
+
+  def where_condition
     <<-SQL
-     #{join_table_alias}.journable_id = #{WorkPackage.table_name}.id
-	   AND #{join_table_alias}.journable_type = '#{WorkPackage.name}'
+     SELECT 1 FROM #{journal_table}
+     WHERE #{journal_table}.journable_id = #{WorkPackage.table_name}.id
+	   AND #{journal_table}.journable_type = '#{WorkPackage.name}'
      AND #{notes_condition}
     SQL
   end
 
-  private
-
-  def join_table
-    Journal.table_name
+  def notes_condition
+    Queries::Operators::Contains.sql_for_field(values, journal_table, 'notes')
   end
 
-  def notes_condition
-    Queries::Operators::Contains.sql_for_field(values, join_table_alias, 'notes')
+  def journal_table
+    Journal.table_name
   end
 end

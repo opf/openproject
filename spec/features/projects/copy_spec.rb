@@ -160,13 +160,14 @@ describe 'Projects copy',
       copied_settings_page.visit!
 
       # has the parent of the original project
-      expect(page)
-        .to have_select('Subproject of',
-                        selected: parent_project.name)
+      page.within('label', text: 'Subproject of') do
+        expect(page)
+          .to have_selector('.ng-value', text: parent_project.name)
+      end
 
       # copies over the value of the custom field
-      editor = ::Components::WysiwygEditor.new ".form--field.custom_field_#{project_custom_field.id}"
-      editor.expect_value 'some text cf'
+      # has the parent of the original project
+      expect(page).to have_selector('.op-uc-container', text: 'some text cf')
 
       # has wp custom fields of original project active
       copied_settings_page.visit_tab!('custom_fields')

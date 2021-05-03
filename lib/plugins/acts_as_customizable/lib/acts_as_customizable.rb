@@ -225,22 +225,14 @@ module Redmine
         end
 
         def add_custom_value_errors!(custom_value)
-          custom_value.errors.each do |attribute, _|
-            # Relies on patch to AR::Errors in 10-patches.rb.
-            # We need to take the original symbol used to set the message to
-            # make the same symbol available on the customized object itself.
-            # This is important e.g. in the API v3 where the error messages are
-            # post processed.
+          custom_value.errors.each do |error|
             name = custom_value.custom_field.accessor_name.to_sym
 
-            custom_value
-              .errors
-              .details[attribute]
-              .each do |hash|
-                # Use the generated message by the custom field
-                # as it may contain specific parameters (e.g., :too_long requires :count)
-                errors.add(name, hash[:error], **hash.except(:error))
-              end
+            details = error.details
+
+            # Use the generated message by the custom field
+            # as it may contain specific parameters (e.g., :too_long requires :count)
+            errors.add(name, details[:error], **details.except(:error))
           end
         end
 

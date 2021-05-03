@@ -1,0 +1,96 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2021 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See docs/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% html_title t(:label_administration), t(:label_backup) -%>
+
+<%= toolbar title: t('label_backup') do %>
+  <li class="toolbar-item">
+    <% label_action = @backup_token.present? ? 'reset' : 'create' %>
+    <% label = t("backup.label_#{label_action}_token") %>
+    <%=
+      link_to(
+        { action: 'reset_token' },
+        method: :get,
+        class: 'button -alt-highlight',
+        aria: {label: label},
+        title: label
+      ) do
+    %>
+      <%= op_icon("button--icon icon-#{@backup_token.present? ? 'reload' : 'add'}") %>
+      <span class="button--text"><%= t('backup.label_backup_token') %></span>
+    <% end %>
+  </li>
+  <% if @backup_token.present? %>
+  <li class="toolbar-item">
+    <% label = t("backup.label_delete_token") %>
+    <%=
+      link_to(
+        { action: 'delete_token' },
+        method: :post,
+        class: 'button -alt-highlight',
+        aria: {label: label},
+        title: label
+      ) do
+    %>
+      <%= op_icon("button--icon icon-delete") %>
+      <span class="button--text"><%= t('backup.label_backup_token') %></span>
+    <% end %>
+  </li>
+  <% end %>
+<% end %>
+
+<p>
+<%= t("backup.reset_token.info") %>
+</p>
+
+<% if Token::Backup.count > 0 %>
+  <p>
+    <span><%= I18n.t("backup.label_token_users") %></span>:
+
+    <div class="wiki">
+      <ul>
+        <% Token::Backup.all.includes(:user).each do |token| %>
+          <li>
+            <%= link_to token.user.name, edit_user_path(token.user) %>
+            <%= token.user == current_user ? "(#{I18n.t(:you)})" : '' %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </p>
+<% end %>
+
+<% if @backup_token.present? %>
+<%= tag :backup, data: {
+  'job-status-id': @job_status_id,
+  'last-backup-date': @last_backup_date,
+  'last-backup-attachment-id': @last_backup_attachment_id,
+  'may-include-attachments': @may_include_attachments
+} %>
+<% end %>

@@ -25,20 +25,20 @@ de:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull Requests"
+        title: "Pull-Request"
         copy_menu:
           label: Git
-          description: Copy important git content to clipboard
+          description: Wichtige Git-Inhalte in die Zwischenablage kopieren
         git_actions:
           branch: Zweig
-          branch_help: Copy the default branch name.
+          branch_help: Den Standard-Branchennamen kopieren.
           message: Nachricht
-          message_help: Copy the default commit message.
-          cmd: Command
-          cmd_help: Copy a shell command which creates a new branch and an empty commit using the default branch name and commit message.
-          title: Copy to Clipboard
+          message_help: Die Standard-Commit-Nachricht kopieren.
+          cmd: Command (Automatic Copy)
+          cmd_help: Kopieren Sie einen Shell-Befehl, der einen neuen Zweig und einen leeren Commit mit dem Standard-Branch-Namen und Commit erzeugt.
+          title: In Zwischenablage kopieren
           copy_button_help: In Zwischenablage kopieren
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          copy_success: '✅ kopiert!'
+          copy_error: Kopieren fehlgeschlagen!
       tab_prs:
-        empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
+        empty: 'Es sind noch keine Pull-Requests verknüpft. Verknüpfen Sie eine existierende PR mit dem Code <code>OP#%{wp_id}</code> in der PR-Beschreibung oder erstellen Sie einen neuen PR.'

@@ -25,7 +25,7 @@ export class DynamicFormService {
     this.dynamicForm = dynamicForm;
   }
 
-  getSettingsFromBackend$(url:string): Observable<IOPDynamicFormSettings>{
+  getSettingsFromBackend$(url:string):Observable<IOPDynamicFormSettings>{
     return this._httpClient
       .post<IOPFormSettings>(
         url,

@@ -58,11 +58,11 @@ else
   echo "* No attachments folder. Ignoring." >&2
 fi
 
-if [ -d "/etc/${APP_NAME}/conf.d" ]; then
+if [ -d "/etc/${APP_NAME}" ]; then
   dst="${TARGET}/conf-${timestamp}.tar.gz"
   touch "$dst" && chmod 0640 "$dst"
   echo -n "* Saving configuration..." >&2
-  if tar czf "$dst" -C /etc/${APP_NAME}/conf.d . ; then
+  if tar czf "$dst" -C /etc/${APP_NAME} . ; then
     echo " done" >&2
     echo "$dst"
   else

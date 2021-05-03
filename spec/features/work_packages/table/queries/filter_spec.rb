@@ -404,8 +404,8 @@ describe 'filter work packages', js: true do
                               'attachmentContent')
 
         loading_indicator_saveguard
-        wp_table.expect_work_package_listed wp_with_attachment_b
-        wp_table.ensure_work_package_not_listed! wp_without_attachment, wp_with_attachment_a
+        wp_table.expect_work_package_listed wp_with_attachment_b, wp_without_attachment
+        wp_table.ensure_work_package_not_listed! wp_with_attachment_a
 
         filters.remove_filter 'attachmentContent'
 

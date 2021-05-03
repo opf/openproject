@@ -36,11 +36,11 @@ module API
 
           private
 
-          def present_success(current_user, call)
-            redirect_to_status(call.result)
+          def present_success(request, call)
+            redirect_to_status(request, call.result)
           end
 
-          def redirect_to_status(job)
+          def redirect_to_status(request, job)
             request.redirect api_v3_paths.job_status(job.job_id)
           end
         end

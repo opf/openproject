@@ -32,32 +32,11 @@ module Queries::WorkPackages::Filter::TextFilterOnJoinMixin
   def where
     case operator
     when '~'
-      Queries::Operators::All.sql_for_field(values, join_table_alias, 'id')
+      "EXISTS (#{where_condition})"
     when '!~'
-      Queries::Operators::None.sql_for_field(values, join_table_alias, 'id')
+      "NOT EXISTS (#{where_condition})"
     else
       raise 'Unsupported operator'
     end
-  end
-
-  def joins
-    <<-SQL
-     LEFT OUTER JOIN #{join_table} #{join_table_alias}
-     ON #{join_condition}
-    SQL
-  end
-
-  private
-
-  def join_table
-    raise NotImplementedError
-  end
-
-  def join_condition
-    raise NotImplementedError
-  end
-
-  def join_table_alias
-    "#{self.class.key}_#{join_table}"
   end
 end

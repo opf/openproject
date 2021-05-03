@@ -204,6 +204,7 @@ it:
       no_results_title_text: Al momento non esistono progetti
       no_results_content_text: Crea un nuovo progetto
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: Al momento non vi sono attività disponibili.
       forums:
@@ -818,6 +819,33 @@ it:
     user: "Utente"
     version: "Versione"
     work_package: "Macro-attività"
+  backup:
+    label_backup_token: "Backup token"
+    label_create_token: "Create backup token"
+    label_delete_token: "Delete backup token"
+    label_reset_token: "Reset backup token"
+    label_token_users: "The following users have active backup tokens"
+    reset_token:
+      action_create: Crea
+      action_reset: Reimposta
+      heading_reset: "Reset backup token"
+      heading_create: "Create backup token"
+      implications: >
+        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+      info: >
+        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+      verification: >
+        Enter %{word} to confirm you want to %{action} the backup token.
+      verification_word_reset: reset
+      verification_word_create: create
+      warning: >
+        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
+    text_token_deleted: Backup token deleted. Backups are now disabled.
+    error:
+      invalid_token: Invalid or missing backup token
+      token_cooldown: The backup token will be valid in %{hours} hours.
+      backup_pending: There is already a backup pending.
+      limit_reached: You can only do %{limit} backups per day.
   button_add: "Aggiungi"
   button_add_comment: "Aggiungi un commento"
   button_add_member: Aggiungi membro
@@ -1292,6 +1320,7 @@ it:
   label_available_project_versions: 'Versioni disponibili'
   label_available_project_repositories: 'Archivi disponibili'
   label_api_documentation: "Documentazione API"
+  label_backup: "Backup"
   label_between: "tra"
   label_blocked_by: "bloccato da"
   label_blocks: "blocca"
@@ -1817,6 +1846,12 @@ it:
   mail_body_account_activation_request: "Un nuovo utente (%{value}) si è registrato. L'account è in attesa di approvazione:"
   mail_body_account_information: "Informazioni sul tuo account"
   mail_body_account_information_external: "Puoi usare il tuo %{value} account per accedere."
+  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
+  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
+  mail_body_backup_token_reset_user_info: Your backup token has been reset.
+  mail_body_backup_token_info: The previous token is no longer valid.
+  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
+  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "Per cambiare la password, clicca nel link seguente:"
   mail_body_register: "Benvenuto in OpenProject. Attiva il tuo account cliccando su questo link:"
   mail_body_register_header_title: "Email di invito come membro del progetto"
@@ -1833,6 +1868,8 @@ it:
   mail_body_wiki_content_added: "La pagina wiki '%{id}' è stata aggiunta da %{author}."
   mail_body_wiki_content_updated: "La pagina wiki '%{id}' è stata aggiornata da %{author}."
   mail_subject_account_activation_request: "%{value} richiesta di attivazione account"
+  mail_subject_backup_ready: "Your backup is ready"
+  mail_subject_backup_token_reset: "Your backup token has been reset"
   mail_subject_lost_password: "La tua %{value} password"
   mail_subject_register: "La tua %{value} attivazione dell'account"
   mail_subject_reminder: "%{count} macro-attività in scadenza nei prossimi %{days} giorni"
@@ -1842,17 +1879,23 @@ it:
   mail_member_added_project:
     subject: "%{project} - You have been added as a member"
     body:
-      added_by: "%{user} added you as a member to the project '%{project}'."
+      added_by:
+        without_message: "%{user} added you as a member to the project '%{project}'."
+        with_message: "%{user} added you as a member to the project '%{project}' writing:"
       roles: "You have the following roles:"
   mail_member_updated_project:
     subject: "%{project} - Your roles have been updated"
     body:
-      added_by: "%{user} updated the roles you have in the project '%{project}'."
+      updated_by:
+        without_message: "%{user} updated the roles you have in the project '%{project}'."
+        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
       roles: "You now have the following roles:"
   mail_member_updated_global:
     subject: "Your global permissions have been updated"
     body:
-      added_by: "%{user} updated the roles you have globally."
+      updated_by:
+        without_message: "%{user} updated the roles you have globally."
+        with_message: "%{user} updated the roles you have globally writing:"
       roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: Limite di attivazione dell'utente raggiunto
@@ -2684,6 +2727,7 @@ it:
       code_403: "Non sei autorizzato ad accedere a questa risorsa."
       code_404: "La risorsa richiesta non è stata trovata."
       code_409: "Impossibile aggiornare la risorsa a causa di modifiche in conflitto."
+      code_429: "Too many requests. Please try again later."
       code_500: "Si è verificato un errore interno."
       expected:
         date: "AAAA-MM-GG (solo date ISO 8601)"
@@ -2802,3 +2846,4 @@ it:
     authorization_error: "Si è verificato un errore di autorizzazione."
     revoke_my_application_confirmation: "Vuoi davvero rimuovere questa applicazione? Questo revocherà %{token_count} attivo per essa."
     my_registered_applications: "Applicazioni OAuth registrate"
+  you: you

@@ -9,12 +9,13 @@ keywords: enumerations, time tracking, priority, document categories
 # Manage Enumerations
 
 <div class="glossary">
-**Enumerations** are a menu item in admin settings that allows the configuration of Activities (for time tracking), project status and work package priorities. 
+**Enumerations** is a menu item in admin settings that allows the configuration of Activities (for time tracking), project status and work package priorities. 
 </div>
 
 
 
-To get an overview of existing enumeration values for all of these categories, navigate to the -> *Administration* -> *Enumerations*. You will see the enumerations overview, divided into respective sections.
+
+To get an overview of existing enumeration values for all of these categories, navigate to *Administration -> Enumerations*. You will see the enumerations overview, divided into respective sections.
 
 ![enumerations](image-20200122161732016.png)
 
@@ -43,5 +44,5 @@ To **change the color of work package priorities** choose the respective priorit
  
 
 <div class="alert alert-info" role="alert">
-**Note**: To activate the [Activities (for time tracking)](../../user-guide/projects/project-settings/activities-time-tracking) in a certain project, navigate to -> *Project settings* -> *Time tracking activities*. 
+**Note**: To activate the [Activities for time tracking](../../user-guide/projects/project-settings/activities-time-tracking) in a certain project, navigate to *Project settings -> Time tracking activities*. 
 </div> 

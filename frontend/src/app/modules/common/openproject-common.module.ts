@@ -36,7 +36,6 @@ import {NgOptionHighlightModule} from '@ng-select/ng-option-highlight';
 import {DragulaModule} from 'ng2-dragula';
 import {DynamicModule} from 'ng-dynamic-component';
 import {StateService, UIRouterModule} from '@uirouter/angular';
-
 import {HookService} from '../plugins/hook-service';
 import {OpenprojectAccessibilityModule} from 'core-app/modules/a11y/openproject-a11y.module';
 import {CurrentUserModule} from 'core-app/modules/current-user/current-user.module';
@@ -148,6 +147,8 @@ export function bootstrapModule(injector:Injector) {
     FocusModule,
     OpDateTimeComponent,
     AutofocusDirective,
+
+    AuthoringComponent,
 
     // Notifications
     NotificationsContainerComponent,

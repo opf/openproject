@@ -47,7 +47,7 @@ describe Mails::MemberUpdatedJob, type: :model do
 
           expect(MemberMailer)
             .to have_received(:updated_project)
-                  .with(current_user, group_user_member)
+                  .with(current_user, group_user_member, message)
         end
       end
 
