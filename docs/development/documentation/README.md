@@ -35,11 +35,11 @@ The documentation is structured along different topics or section of the softwar
 - **API documentation**: Documentation of the API(s) of OpenProject and e.g. their endpoints.
 
 In each of these main chapters there are several sub-sections with up to two hierarchical levels. The User guide and the System admin guide and structured along the structure of the software. The rest is structured along topics. 
-Most parts of the documentation are feature oriented (rather than use case oriented). There will be additional documentation and resources that look at OpenProject more from a "how do I..." perspective.
+Most parts of the documentation are feature oriented (rather than use case oriented). In the future, there will be additional documentation and resources that look at OpenProject more from a "how do I..." perspective.
 
-### Structure within a section
+### Key elements
 
-Within a section/chapter, there are a few main elements:
+Within a page, there are a few main elements. To get to know the general style of the documentation please also have a look at existing chapters.
 
 - **Meta data** for the structure of the documentation and for search engines. 
   The title will be shown in the menu/hierarchy. The priority influences the relative position of the respective documentation page within a section: The higher the further up.
@@ -47,11 +47,11 @@ Within a section/chapter, there are a few main elements:
   ![meta-data-documentation](image-20210503104831431.png)
   Depending on the tool, it makes sense to edit this in the source code mode. Feel free to copy this from another page if you're unsure and adapt it afterwards.
 - A **table of contents**: With its headers "Topic" and "Content" it gives an overview of the chapter. There's no general rule or agreement on the structure of the description (below "Content"), yet (e.g. "How to ...", "Main features of button X", "How can you ...?").
-  The table of contents only contains the main headers (h2) of a chapter or (in a case like [Enterprise guide](../../enterprise-guide)) links to its sub-sections that are not on the same page.
+  The table of contents only contains the main headers (h2) of a chapter, or (in a case like [Enterprise guide](../../enterprise-guide)) links to its sub-sections that are not on the same page.
   For short chapters it is not absolutely necessary to add a table of contents. 
   ![example-table-of-contents](image-20210503104238350.png)
   The table of contents is made up of a simple table. If your text editor does not offer tables, feel free to copy the markdown from another chapter.
-- **Headers**: Put a main header (h1) directly below the meta data of each chapter. There should only be one h1-header per chapter. Structure the chapter with h2- and more headers. At the moment, all headers will be shown on the right hand side of the documentation.
+- **Headers**: Put a main header (h1) directly below the meta data of each chapter. There should only be one h1-header per chapter. Structure the chapter with h2 and h3 headers. At the moment, all headers will be shown on the right hand side of the documentation.
 - **Links**: There are three types of links in the documentation:
   - Links to other chapters: Use relative links. This means that you may have to use (multiple)"../" to link to a higher hierarchical level.
     Example: Linking from this chapter to https://docs.openproject.org/user-guide/work-packages/work-package-table-configuration/#sort-the-work-package-list looks like this: Put the word that should be linked in square brackets, directly followed by round brackets that contain the link. Each "../" brings you up one hierarchical level (in this case we need to reach the level above the User guide). Then you can enter the regular path. As you can see in the example, a combination of links to other chapters and within a chapter ("#sort-...", see below) works. Make sure to spell-check.
@@ -59,7 +59,7 @@ Within a section/chapter, there are a few main elements:
   - Links within a chapter: You can link to headers. The link starts with a hash sign (#) and contains the name of the header with hyphens in-between. The basic formatting is the same as shown above
     Watch out if there are special characters or capitalizations in the header (e.g. "screen-shot" has to be linked as "#screen-shot" whereas "FAQ - frequently" has to be linked as "#faq---frequently" and "highlighting (Premium)" has to be linked as "#highlighting-premium"). Do not put brackets or commas from a header in the link.
     Please only put links to headers within the same page for rather long pages, not on short pages.
-  - External links: When linking to e.g. the OpenProject blog or GitHub, put the "https://" or "http://" in front of the URL. Do not enter the link without this formatting as it might be understood as a relative link and thus not work properly.
+  - External links: When linking to e.g. the OpenProject blog or GitHub, put the scheme "https://" or "http://" in front of the URL. Do not enter the link without this formatting as it might be understood as a relative link and thus not work properly.
 - **Screen-shots**: To add a screen-shot, paste it into the editor you use or put it in the same folder as the text file you're about to change is. if necessary, link the image it like in the screen-shot below. Add a name (with hyphens).
   ![screenshots-documentation](image-20210503105826872.png)
   The description of a screen-shot goes above it. In other words, the image belonging to an instruction should be inserted *after* the instruction.
@@ -75,8 +75,8 @@ Here are some guidelines to ensure a consistent look and feel of the documentati
 
 | Guideline                                                    | Examples                                                     |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Sections of the documentation start with a capital letter, no additional capital letters | User guide, System admin guide                               |
-| Proper names, names of modules and names of buttons start with a capital letter | My page, Activity, Project settings, View all projects, Gantt chart; Enterprise on-premises, Enterprise cloud, but: Community Edition |
+| Names of sections of the documentation start with a capital letter, no additional capital letters | User guide, System admin guide                               |
+| Proper names, names of modules and names of buttons start with a capital letter, no additional capital letters | My page, Activity, Project settings, View all projects, Gantt chart; Enterprise on-premises, Enterprise cloud, but: Community Edition |
 | General terms start with a lowercase letter                  | work package list, board, time tracking, filter, administrator |
 
 
@@ -101,11 +101,13 @@ Use imperative ("do X") or a more descriptive approach ("it is possible to do X"
 
 ### Highlighting
 
-For very important information, considering setting a highlighted box. You can use this markdown part for it:
+For very important information, considering setting a highlighted box. You can use this markdown element for it:
 
-'<div class="alert alert-info" role="alert">
+`<div class="alert alert-info" role="alert">
 **Note**: There is no possibility to undo changes to work packages (Ctrl+Z).
-</div>'
+</div>`
+
+
 
 ## Contributing
 
@@ -123,7 +125,11 @@ Please have a look at [this more extended documentation](../git-workflow/) to be
 ### Tools
 
 For people who (only) want to contribute to the documentation we can recommend a combination of GitHub Desktop and Typora. 
+You can download GitHub desktop [here](https://desktop.github.com/). Find out [here](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/configuring-a-default-editor) how to set up a default text editor (e.g. Typora). The instructions for forking the OpenProject repository can be found [here](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/cloning-and-forking-repositories-from-github-desktop#forking-a-repository).
 
 ### Folder structure
 
-For each chapter, there is a folder. The folder name influences the URL of the docs page (e.g. this page is in the folder "documentation" within the folder "development". Within the folder, there is a file called "README.md"; this is the content of the documentation page. Screen-shots should be put in the same folder and can be inserted as shown above.
+For each chapter, there is a folder. The folder name influences the URL of the docs page (e.g. this page is in the folder "documentation" within the folder "development"). Within the folder, there is a file called "README.md"; this is the content of the documentation page. Screen-shots should be put in the same folder and can be inserted as shown above.
+
+### Licensing, Code of Conduct, Accessibility checklist, etc.
+
