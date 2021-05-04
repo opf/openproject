@@ -121,7 +121,7 @@ OpenProject::AccessControl.map do |map|
 
     map.permission :copy_projects,
                    {
-                     copy_projects: %i[copy copy_project]
+                     projects: %i[copy]
                    },
                    require: :member,
                    contract_actions: { projects: %i[copy] }

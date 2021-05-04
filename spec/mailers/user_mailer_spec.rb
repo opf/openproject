@@ -31,6 +31,8 @@
 require 'spec_helper'
 
 describe UserMailer, type: :mailer do
+  subject(:deliveries) { ActionMailer::Base.deliveries }
+
   let(:type_standard) { FactoryBot.build_stubbed(:type_standard) }
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:journal) do
@@ -63,15 +65,15 @@ describe UserMailer, type: :mailer do
     let(:letters_sent_count) { 1 }
 
     it 'actually sends a mail' do
-      expect(ActionMailer::Base.deliveries.size).to eql(letters_sent_count)
+      expect(deliveries.size).to eql(letters_sent_count)
     end
 
     it 'is sent to the recipient' do
-      expect(ActionMailer::Base.deliveries.first.to).to include(recipient.mail)
+      expect(deliveries.first.to).to include(recipient.mail)
     end
 
     it 'is sent from the configured address' do
-      expect(ActionMailer::Base.deliveries.first.from).to include('john@doe.com')
+      expect(deliveries.first.from).to match_array([Setting.mail_from])
     end
   end
 
@@ -83,7 +85,8 @@ describe UserMailer, type: :mailer do
 
   shared_examples_for 'mail is not sent' do
     it 'sends no mail' do
-      expect(ActionMailer::Base.deliveries.size).to eql(0)
+      expect(deliveries)
+        be_empty
     end
   end
 
@@ -106,18 +109,29 @@ describe UserMailer, type: :mailer do
 
   describe '#test_mail' do
     let(:test_email) { 'bob.bobbi@example.com' }
-    let(:test_user) { User.new(firstname: 'Bob', lastname: 'Bobbi', mail: test_email) }
-    let(:mail) { UserMailer.test_mail(test_user) }
+    let(:recipient) { FactoryBot.build_stubbed(:user, firstname: 'Bob', lastname: 'Bobbi', mail: test_email) }
 
     before do
-      # the name method uses a format setting to determine how to concatenate first name
-      # and last name whereby an unescaped comma will lead to have two email addresses
-      # defined instead of one (['Bobbi', 'bob.bobbi@example.com'] vs. ['bob.bobbi@example.com'])
-      allow(test_user).to receive(:name).and_return('Bobbi, Bob')
+      UserMailer.test_mail(recipient).deliver_now
     end
 
-    it 'escapes the name attribute properly' do
-      expect(mail.to).to eql [test_email]
+    it_behaves_like 'mail is sent' do
+      it 'has the expected subject' do
+        expect(deliveries.first.subject)
+          .to eql 'OpenProject Test'
+      end
+
+      it 'includes the url to the instance' do
+        expect(deliveries.first.body.encoded)
+          .to match Regexp.new("OpenProject URL: #{Setting.protocol}://#{Setting.host_name}")
+      end
+    end
+
+    # the name method uses a format setting to determine how to concatenate first name
+    # and last name whereby an unescaped comma will lead to have two email addresses
+    # defined instead of one (['Bobbi', 'bob.bobbi@example.com'] vs. ['bob.bobbi@example.com'])
+    context 'with the user name setting prone to trip up email address separation', with_settings: { user_format: :lastname_coma_firstname } do
+      it_behaves_like 'mail is sent'
     end
   end
 
@@ -126,10 +140,21 @@ describe UserMailer, type: :mailer do
       UserMailer.work_package_added(recipient, journal, user).deliver_now
     end
 
-    it_behaves_like 'mail is sent'
+    it_behaves_like 'mail is sent' do
+      it 'contains the WP subject in the mail subject' do
+        expect(deliveries.first.subject)
+          .to include(work_package.subject)
+      end
 
-    it 'contains the WP subject in the mail subject' do
-      expect(ActionMailer::Base.deliveries.first.subject).to include(work_package.subject)
+      it 'has the desired "Precedence" header' do
+        expect(deliveries.first['Precedence'].value)
+          .to eql 'bulk'
+      end
+
+      it 'has the desired "Auto-Submitted" header' do
+        expect(deliveries.first['Auto-Submitted'].value)
+          .to eql 'auto-generated'
+      end
     end
 
     it_behaves_like 'does only send mails to author if permitted'
@@ -155,7 +180,7 @@ describe UserMailer, type: :mailer do
     include_examples 'multiple mails are sent', 2
 
     it 'contains the WP subject in the mail subject' do
-      expect(ActionMailer::Base.deliveries.first.subject).to include(work_package.subject)
+      expect(deliveries.first.subject).to include(work_package.subject)
     end
   end
 
@@ -181,7 +206,7 @@ describe UserMailer, type: :mailer do
     it_behaves_like 'mail is sent'
 
     it 'should link to the latest version diff page' do
-      expect(ActionMailer::Base.deliveries.first.body.encoded).to include 'diff/1'
+      expect(deliveries.first.body.encoded).to include 'diff/1'
     end
 
     it_behaves_like 'does only send mails to author if permitted'

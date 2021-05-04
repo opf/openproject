@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe SysController, type: :controller do
+describe SysController, type: :controller, with_settings: { sys_api_enabled: true } do
   let(:commit_role) do
     FactoryBot.create(:role, permissions: %i[commit_access browse_repository])
   end
@@ -46,18 +46,15 @@ describe SysController, type: :controller do
 
   let(:public) { false }
   let(:project) { FactoryBot.create(:project, public: public) }
+  let!(:repository_project) do
+    FactoryBot.create(:project, public: false, members: { valid_user => [browse_role] })
+  end
 
   before(:each) do
     FactoryBot.create(:non_member, permissions: [:browse_repository])
     DeletedUser.first # creating it first in order to avoid problems with should_receive
 
-    random_project = FactoryBot.create(:project, public: false)
-    FactoryBot.create(:member,
-                      user: valid_user,
-                      roles: [browse_role],
-                      project: random_project)
     allow(Setting).to receive(:sys_api_key).and_return(api_key)
-    allow(Setting).to receive(:sys_api_enabled?).and_return(true)
     allow(Setting).to receive(:repository_authentication_caching_enabled?).and_return(true)
 
     Rails.cache.clear
@@ -676,6 +673,86 @@ describe SysController, type: :controller do
             end
           end
         end
+      end
+    end
+  end
+
+  describe '#projects' do
+    before do
+      request.env['HTTP_AUTHORIZATION'] =
+        ActionController::HttpAuthentication::Basic.encode_credentials(
+          valid_user.login,
+          valid_user_password
+        )
+
+      get 'projects', params: { key: api_key }
+    end
+
+    it 'is successful' do
+      expect(response)
+        .to have_http_status(:ok)
+    end
+
+    it 'returns an xml with the projects having a repository' do
+      expect(response.content_type)
+        .to eql 'application/xml; charset=utf-8'
+
+      expect(Nokogiri::XML::Document.parse(response.body).xpath('//projects[1]//id').text)
+        .to eql repository_project.id.to_s
+    end
+
+    context 'when disabled', with_settings: { sys_api_enabled?: false } do
+      it 'is 403 forbidden' do
+        expect(response)
+          .to have_http_status(:forbidden)
+      end
+    end
+  end
+
+  describe '#fetch_changesets' do
+    let(:params) { { id: repository_project.identifier } }
+
+    before do
+      request.env['HTTP_AUTHORIZATION'] =
+        ActionController::HttpAuthentication::Basic.encode_credentials(
+          valid_user.login,
+          valid_user_password
+        )
+
+      allow_any_instance_of(Repository::Subversion).to receive(:fetch_changesets).and_return(true)
+
+      get 'fetch_changesets', params: params.merge({ key: api_key })
+    end
+
+    context 'with a project identifier' do
+      it 'is successful' do
+        expect(response)
+          .to have_http_status(:ok)
+      end
+    end
+
+    context 'without a project identifier' do
+      let(:params) { {} }
+
+      it 'is successful' do
+        expect(response)
+          .to have_http_status(:ok)
+      end
+    end
+
+    context 'for an unknown project' do
+      let(:params) { { id: 0 } }
+
+      it 'returns 404' do
+        expect(response)
+          .to have_http_status(:not_found)
+      end
+    end
+
+    context 'when disabled', with_settings: { sys_api_enabled?: false } do
+      it 'is 403 forbidden' do
+        expect(response)
+          .to have_http_status(:forbidden)
       end
     end
   end

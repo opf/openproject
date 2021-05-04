@@ -119,6 +119,8 @@ describe 'Projects copy',
                         attachments: [FactoryBot.build(:attachment, container: nil, filename: 'attachment.pdf')]
     end
 
+    let(:parent_field) { ::FormFields::SelectFormField.new :parent }
+
     before do
       login_as user
 
@@ -132,22 +134,22 @@ describe 'Projects copy',
       original_settings_page = Pages::Projects::Settings.new(project)
       original_settings_page.visit!
 
-      click_link 'Copy'
-      fill_in 'Name', with: 'Copied project'
+      find('.toolbar a', text: 'Copy').click
 
-      # Check copy wiki page attachments
-      check 'only_wiki_page_attachments'
+      expect(page).to have_text "Copy project \"#{project.name}\""
+
+      fill_in 'Name', with: 'Copied project', wait: 10
+
+      # Expand advanced settings
+      click_on 'Advanced settings'
 
       # the value of the custom field should be preselected
-      editor = ::Components::WysiwygEditor.new ".form--field.custom_field_#{project_custom_field.id}"
+      editor = ::Components::WysiwygEditor.new "[data-qa-field-name='customField#{project_custom_field.id}']"
       editor.expect_value 'some text cf'
 
-      click_button 'Copy'
+      click_button 'Save'
 
-      original_settings_page.expect_notification message: I18n.t('copy_project.started',
-                                                                 source_project_name: project.name,
-                                                                 target_project_name: 'Copied project'),
-                                                 type: 'notice'
+      expect(page).to have_text 'The job has been queued and will be processed shortly.'
 
       perform_enqueued_jobs
 
@@ -160,14 +162,12 @@ describe 'Projects copy',
       copied_settings_page.visit!
 
       # has the parent of the original project
-      page.within('label', text: 'Subproject of') do
-        expect(page)
-          .to have_selector('.ng-value', text: parent_project.name)
-      end
+      parent_field.expect_selected parent_project.name
 
       # copies over the value of the custom field
       # has the parent of the original project
-      expect(page).to have_selector('.op-uc-container', text: 'some text cf')
+      editor = ::Components::WysiwygEditor.new "[data-qa-field-name='customField#{project_custom_field.id}']"
+      editor.expect_value 'some text cf'
 
       # has wp custom fields of original project active
       copied_settings_page.visit_tab!('custom_fields')
@@ -281,15 +281,13 @@ describe 'Projects copy',
       original_settings_page = Pages::Projects::Settings.new(project)
       original_settings_page.visit!
 
-      click_link 'Copy'
+      find('.toolbar a', text: 'Copy').click
+
       fill_in 'Name', with: 'Copied project'
 
-      click_button 'Copy'
+      click_button 'Save'
 
-      original_settings_page.expect_notification message: I18n.t('copy_project.started',
-                                                                 source_project_name: project.name,
-                                                                 target_project_name: 'Copied project'),
-                                                 type: 'notice'
+      expect(page).to have_text 'The job has been queued and will be processed shortly.'
 
       perform_enqueued_jobs
 

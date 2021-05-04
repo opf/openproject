@@ -7,6 +7,7 @@ import {
   EventEmitter,
   forwardRef,
   SimpleChanges,
+  ChangeDetectorRef,
 } from "@angular/core";
 import { FormlyForm } from "@ngx-formly/core";
 import { DynamicFormService } from "../../services/dynamic-form/dynamic-form.service";
@@ -149,6 +150,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     private _pathHelperService:PathHelperService,
     private _notificationsService:NotificationsService,
     private _formsService: FormsService,
+    private _changeDetectorRef: ChangeDetectorRef,
   ) {
     super();
   }
@@ -223,7 +225,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
       throw new Error(this.noSettingsSourceErrorMessage);
     }
 
-    const isNewEndpoint = newFormEndPoint !== this.formEndpoint; 
+    const isNewEndpoint = newFormEndPoint !== this.formEndpoint;
     if (isNewEndpoint) {
       this.formEndpoint = newFormEndPoint;
     }
@@ -244,7 +246,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
 
     if (resourcePath) {
       return `${this._pathHelperService.api.v3.apiV3Base}${resourcePath}`;
-    } 
+    }
 
     return;
   }
@@ -276,5 +278,11 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   private _setupDynamicForm({fields, model}:IOPDynamicFormSettings) {
     this.fields = this.fieldsSettingsPipe ? this.fieldsSettingsPipe(fields) : fields;
     this.innerModel = model;
+
+    this._changeDetectorRef.detectChanges();
+
+    if (!this.isStandaloneForm) {
+      this.onChange(this.innerModel);
+    }
   }
 }

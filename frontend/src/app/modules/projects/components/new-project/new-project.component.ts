@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {StateService, UIRouterGlobals} from "@uirouter/core";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
@@ -13,6 +13,7 @@ import {Observable} from "rxjs";
 import {JobStatusModal} from "core-app/modules/job-status/job-status-modal/job-status.modal";
 import {OpModalService} from "core-app/modules/modal/modal.service";
 import { FormlyFieldConfig } from "@ngx-formly/core";
+import {ProjectFormAttributeGroups} from "core-app/modules/projects/form-helpers/form-attribute-groups";
 
 export interface ProjectTemplateOption {
   href:string|null;
@@ -21,7 +22,7 @@ export interface ProjectTemplateOption {
 
 @Component({
   selector: 'op-new-project',
-  templateUrl: './new-project.component.html',
+  templateUrl: './new-project.component.html'
 })
 export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   resourcePath:string;
@@ -32,6 +33,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   formUrl:string;
   text = {
     use_template: this.I18n.t('js.project.use_template'),
+    advancedSettingsLabel: this.I18n.t("js.forms.advanced_settings"),
   };
 
   hiddenFields:string[] = [
@@ -144,38 +146,9 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
         advancedSettingsFields: []
       } as { firstLevelFields:IOPFormlyFieldSettings[], advancedSettingsFields:IOPFormlyFieldSettings[] });
 
-    const advancedSettingsGroup = {
-      fieldGroup: fieldsLayoutConfig.advancedSettingsFields,
-      fieldGroupClassName: "op-form--field-group",
-      templateOptions: {
-        label: this.I18n.t("js.forms.advanced_settings"),
-        isFieldGroup: true,
-        collapsibleFieldGroups: true,
-        collapsibleFieldGroupsCollapsed: true,
-      },
-      type: "formly-group" as "formly-group",
-      wrappers: ["op-dynamic-field-group-wrapper"],
-      expressionProperties: {
-        'templateOptions.collapsibleFieldGroupsCollapsed': (model:unknown, formState:unknown, field:FormlyFieldConfig) => {
-          // Uncollapse field groups when the form has errors and has been submitted
-          if (
-            field.type !== 'formly-group' ||
-            !field.templateOptions?.collapsibleFieldGroups ||
-            !field.templateOptions?.collapsibleFieldGroupsCollapsed
-          ) {
-            return;
-          } else {
-            return !(
-              field.fieldGroup?.some(groupField =>
-                groupField?.formControl?.errors &&
-                !groupField.hide &&
-                field.options?.parentForm?.submitted
-              ));
-          }
-        },
-      }
-    }
-
-    return [...fieldsLayoutConfig.firstLevelFields, advancedSettingsGroup];
+    return [
+      ...fieldsLayoutConfig.firstLevelFields,
+      ProjectFormAttributeGroups.collapsibleFieldset(fieldsLayoutConfig.advancedSettingsFields, this.text.advancedSettingsLabel),
+    ];
   }
 }

@@ -26,68 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-/**
- * API interfaces
- *
- * @see {@link http://opf.github.io/apiv3-doc/|Api V3 documentation}
- */
+import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
+import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {SimpleResource} from "core-app/modules/apiv3/paths/path-resources";
 
-declare namespace api {
-
-  /**
-   * API v3
-   */
-  namespace v3 {
-    interface Result {
-      _links:any;
-      _embedded:any;
-      _type:string;
-    }
-
-    interface Collection extends Result {
-      total:number;
-      pageSize:number;
-      count:number;
-      offset:number;
-      groups:any;
-      totalSums:any;
-    }
-
-    interface Duration extends String {
-    }
-
-    interface Formattable {
-      format?:string;
-      raw:string;
-      html?:string;
-    }
+export class APIv3ProjectCopyPaths extends SimpleResource {
+  constructor(protected apiRoot:APIV3Service,
+              public basePath:string) {
+    super(basePath, 'copy');
   }
-}
 
-/**
- * OpenProject interfaces
- */
-
-interface Function {
-  $link?:any;
-  name:string;
-  _type:string;
-}
-
-interface JQuery {
-  topShelf:any;
-  mark:any;
-}
-
-declare var Factory:any;
-
-declare namespace op {
-  interface QueryParams {
-    offset?:number;
-    pageSize?:number;
-    filters?:any[];
-    groupBy?:string;
-    showSums?:boolean;
-    sortBy?:any[];
-  }
+  // /api/v3/projects/:project_id/copy/form
+  public readonly form = new APIv3FormResource(this.apiRoot, this.path, 'form');
 }

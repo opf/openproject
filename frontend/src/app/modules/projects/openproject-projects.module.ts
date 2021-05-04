@@ -36,6 +36,7 @@ import { DynamicFormsModule } from "core-app/modules/common/dynamic-forms/dynami
 import { NewProjectComponent } from "core-app/modules/projects/components/new-project/new-project.component";
 import { ReactiveFormsModule } from "@angular/forms";
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
+import {CopyProjectComponent} from "core-app/modules/projects/components/copy-project/copy-project.component";
 
 @NgModule({
   imports: [
@@ -54,6 +55,7 @@ import { OpenprojectCommonModule } from "core-app/modules/common/openproject-com
   declarations: [
     ProjectsComponent,
     NewProjectComponent,
+    CopyProjectComponent,
   ]
 })
 export class OpenprojectProjectsModule {

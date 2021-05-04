@@ -33,7 +33,7 @@ class ProjectsController < ApplicationController
   menu_item :roadmap, only: :roadmap
 
   before_action :find_project, except: %i[index level_list new]
-  before_action :authorize, only: %i[modules types custom_fields]
+  before_action :authorize, only: %i[modules types custom_fields copy]
   before_action :authorize_global, only: %i[new]
   before_action :require_admin, only: %i[archive unarchive destroy destroy_info]
 
@@ -81,6 +81,10 @@ class ProjectsController < ApplicationController
       @errors = service_call.errors
       render template: 'project_settings/generic'
     end
+  end
+
+  def copy
+    render
   end
 
   def update_identifier
