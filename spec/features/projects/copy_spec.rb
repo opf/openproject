@@ -281,15 +281,13 @@ describe 'Projects copy',
       original_settings_page = Pages::Projects::Settings.new(project)
       original_settings_page.visit!
 
-      click_link 'Copy'
+      find('.toolbar a', text: 'Copy').click
+
       fill_in 'Name', with: 'Copied project'
 
-      click_button 'Copy'
+      click_button 'Save'
 
-      original_settings_page.expect_notification message: I18n.t('copy_project.started',
-                                                                 source_project_name: project.name,
-                                                                 target_project_name: 'Copied project'),
-                                                 type: 'notice'
+      expect(page).to have_text 'The job has been queued and will be processed shortly.'
 
       perform_enqueued_jobs
 
