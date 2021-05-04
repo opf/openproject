@@ -8,13 +8,12 @@ import {
 } from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {Observable, BehaviorSubject, combineLatest, forkJoin} from "rxjs";
-import {debounceTime, distinctUntilChanged, tap, shareReplay, map, switchMap} from "rxjs/operators";
+import {debounceTime, distinctUntilChanged, share, map, shareReplay, switchMap} from "rxjs/operators";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {CapabilityResource} from "core-app/modules/hal/resources/capability-resource";
 import {PrincipalLike} from "core-app/modules/principal/principal-types";
 import {CurrentUserService} from "core-app/modules/current-user/current-user.service";
 import {PrincipalType} from '../invite-user.component';
@@ -37,13 +36,13 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
 
   public input$ = new BehaviorSubject<string>('');
   public input = '';
-  public items$: Observable<NgSelectPrincipalOption[]> = this.input$
-    .pipe(
-      this.untilDestroyed(),
-      debounceTime(200),
-      distinctUntilChanged(),
-      switchMap(this.loadPrincipalData.bind(this)),
-    );
+  public items$: Observable<NgSelectPrincipalOption[]> = this.input$.pipe(
+    this.untilDestroyed(),
+    debounceTime(200),
+    distinctUntilChanged(),
+    switchMap(this.loadPrincipalData.bind(this)),
+    share(),
+  );
     
   public canInviteByEmail$ = combineLatest(
     this.items$,
@@ -119,7 +118,6 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   public createNewFromInput() {
     this.createNew.emit({ name: this.input });
   }
-
   private loadPrincipalData(searchTerm:string) {
     const nonMemberFilter = new ApiV3FilterBuilder();
     if (searchTerm) {
