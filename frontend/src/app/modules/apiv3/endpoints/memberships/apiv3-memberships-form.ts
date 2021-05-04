@@ -47,6 +47,11 @@ export class Apiv3MembershipsForm extends APIv3FormResource {
         project: { href: resource.project.href },
         principal: { href: resource.principal.href },
         roles: resource.roles.map(role => ({ href: role.href })),
+      },
+      _meta: {
+        notificationMessage: {
+          raw: resource.notificationMessage.raw
+        }
       }
     }
   }

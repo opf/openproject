@@ -27,9 +27,9 @@
 //++
 
 import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
-import { UserResource } from "core-app/modules/hal/resources/user-resource";
 import { RoleResource } from "core-app/modules/hal/resources/role-resource";
 import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
+import Formattable = api.v3.Formattable;
 
 export interface MembershipResourceLinks {
   update(payload:unknown):Promise<unknown>;
@@ -41,6 +41,7 @@ export interface MembershipResourceEmbedded {
   principal:HalResource;
   roles:RoleResource[];
   project:ProjectResource;
+  notificationMessage:Formattable;
 }
 
 export class MembershipResource extends HalResource {
