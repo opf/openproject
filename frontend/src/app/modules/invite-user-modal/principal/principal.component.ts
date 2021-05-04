@@ -167,14 +167,13 @@ export class PrincipalComponent implements OnInit {
     const links = this.customFields!._links || {};
     const customFields = {
       ...this.customFields!,
-      ...Object.keys(links).reduce((cfs, name) => ({
+      _links: Object.keys(links).reduce((cfs, name) => ({
         ...cfs,
         [name]: Array.isArray(links[name])
           ? links[name].map((opt: any) => opt._links ? opt._links.self : opt)
-          : links[name],
+          : (links[name]._links ? links[name]._links.self : links[name])
       }), {}),
-      _links: undefined,
-    }
+    };
 
     this.save.emit({
       principalData: {

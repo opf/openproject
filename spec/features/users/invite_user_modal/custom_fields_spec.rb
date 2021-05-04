@@ -50,7 +50,8 @@ feature 'Invite user modal custom fields', type: :feature, js: true do
   let!(:integer_cf) { FactoryBot.create :integer_user_custom_field, name: 'int', is_required: true }
   let!(:text_cf) { FactoryBot.create :text_user_custom_field, name: 'Text', is_required: true }
   let!(:string_cf) { FactoryBot.create :string_user_custom_field, name: 'String', is_required: true }
-  let!(:float_cf) { FactoryBot.create :float_user_custom_field, name: 'Float', is_required: true }
+  # TODO float not supported yet
+  #let!(:float_cf) { FactoryBot.create :float_user_custom_field, name: 'Float', is_required: true }
   let!(:list_cf) { FactoryBot.create :list_user_custom_field, name: 'List', is_required: true }
   let!(:list_multi_cf) { FactoryBot.create :list_user_custom_field, name: 'Multi list', multi_value: true, is_required: true }
 
@@ -60,7 +61,8 @@ feature 'Invite user modal custom fields', type: :feature, js: true do
   let(:integer_field) { ::FormFields::InputFormField.new integer_cf }
   let(:text_field) { ::FormFields::EditorFormField.new text_cf }
   let(:string_field) { ::FormFields::InputFormField.new string_cf }
-  let(:float_field) { ::FormFields::InputFormField.new float_cf }
+  # TODO float not supported yet
+  #let(:float_field) { ::FormFields::InputFormField.new float_cf }
   let(:list_field) { ::FormFields::SelectFormField.new list_cf }
   let(:list_multi_field) { ::FormFields::SelectFormField.new list_multi_cf }
 
@@ -123,11 +125,17 @@ feature 'Invite user modal custom fields', type: :feature, js: true do
 
     # Close
     modal.click_modal_button 'Send invitation'
-    modal.expect_closed
+    modal.expect_text "#{principal.mail} was invited!"
 
     # Expect to be added to project
     invited = project.users.last
     expect(invited.mail).to eq principal.mail
-    expect(invited.custom_values).to eq principal.mail
+
+    expect(invited.custom_value_for(boolean_cf).typed_value).to eq true
+    expect(invited.custom_value_for(integer_cf).typed_value).to eq 1234
+    expect(invited.custom_value_for(text_cf).typed_value).to eq 'A **markdown** value'
+    expect(invited.custom_value_for(string_cf).typed_value).to eq 'String value'
+    expect(invited.custom_value_for(list_cf).typed_value).to eq '1'
+    expect(invited.custom_value_for(list_multi_cf).map(&:typed_value)).to eq %w[1 2]
   end
 end
