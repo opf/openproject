@@ -1,27 +1,23 @@
 import {
+  ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   Output,
-  ViewChild,
-  EventEmitter,
-  forwardRef,
   SimpleChanges,
-  ChangeDetectorRef,
+  ViewChild,
 } from "@angular/core";
 import { FormlyForm } from "@ngx-formly/core";
 import { DynamicFormService } from "../../services/dynamic-form/dynamic-form.service";
-import {
-  IOPDynamicFormSettings,
-  IOPFormlyFieldSettings,
-} from "../../typings";
+import { IOPDynamicFormSettings, IOPFormlyFieldSettings } from "../../typings";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { catchError, finalize } from "rxjs/operators";
 import { HalSource } from "core-app/modules/hal/resources/hal-resource";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
-import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { FormGroup } from "@angular/forms";
 import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 import { FormsService } from "core-app/core/services/forms/forms.service";
 
@@ -83,7 +79,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   // Backend form URL (e.g. https://community.openproject.org/api/v3/projects/dev-large/form)
   @Input() formUrl:string;
   // When using the formUrl @Input(), set the http method to use if it is not 'POST'
-  @Input() formHttpMethod: 'post' | 'patch' = 'post';
+  @Input() formHttpMethod:'post'|'patch' = 'post';
   // Part of the URL that belongs to the resource type (e.g. '/projects' in the previous example)
   // Use this option when you don't have a form URL, the DynamicForm will build it from the resourcePath
   // for you (⌐■_■).
@@ -92,20 +88,20 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   @Input() resourceId:string;
   @Input() settings:IOPFormSettings;
   // Chance to modify the dynamicFormFields settings before the form is rendered
-  @Input() fieldsSettingsPipe: (dynamicFieldsSettings:IOPFormlyFieldSettings[]) => IOPFormlyFieldSettings[];
+  @Input() fieldsSettingsPipe:(dynamicFieldsSettings:IOPFormlyFieldSettings[]) => IOPFormlyFieldSettings[];
   @Input() showNotifications = true;
-  @Input() showValidationErrorsOn: 'change' | 'blur' | 'submit' | 'never' = 'submit';
+  @Input() showValidationErrorsOn:'change'|'blur'|'submit'|'never' = 'submit';
   @Input() handleSubmit = true;
-  @Input('dynamicFormGroup') form: FormGroup = new FormGroup({});
+  @Input('dynamicFormGroup') form:FormGroup = new FormGroup({});
 
-  @Input() set model (payload:IOPFormModel) {
+  @Input() set model(payload:IOPFormModel) {
     if (!this.innerModel && !payload) {
       return;
     }
 
     const formattedModel = this._dynamicFieldsService.getFormattedFieldsModel(payload);
     this.innerModel = formattedModel;
-  };
+  }
 
   /** Initial payload to POST to the form */
   @Input() initialPayload:Object = {};
@@ -139,23 +135,23 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   }
 
   @ViewChild(FormlyForm)
-  set dynamicForm(dynamicForm: FormlyForm) {
+  set dynamicForm(dynamicForm:FormlyForm) {
     this._dynamicFormService.registerForm(dynamicForm);
   }
 
   constructor(
-    private _dynamicFormService: DynamicFormService,
-    private _dynamicFieldsService: DynamicFieldsService,
+    private _dynamicFormService:DynamicFormService,
+    private _dynamicFieldsService:DynamicFieldsService,
     private _I18n:I18nService,
     private _pathHelperService:PathHelperService,
     private _notificationsService:NotificationsService,
-    private _formsService: FormsService,
-    private _changeDetectorRef: ChangeDetectorRef,
+    private _formsService:FormsService,
+    private _changeDetectorRef:ChangeDetectorRef,
   ) {
     super();
   }
 
-  setDisabledState(disabled: boolean): void {
+  setDisabledState(disabled:boolean):void {
     disabled ? this.form.disable() : this.form.enable();
   }
 
@@ -165,7 +161,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
       this.resourcePath,
       this.resourceId,
       this.formUrl,
-      this.innerModel || this.initialPayload
+      this.innerModel || this.initialPayload,
     );
   }
 
@@ -186,7 +182,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     this._dynamicFormService
       .submit$(form, this.formEndpoint, this.resourceId, this.formHttpMethod)
       .pipe(
-        finalize(() => this.inFlight = false)
+        finalize(() => this.inFlight = false),
       )
       .subscribe(
         (formResource:HalSource) => {
@@ -201,7 +197,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   }
 
   private showSuccessNotification():void {
-    let submit_message = this.resourceId ? this.text.successful_update : this.text.successful_create;
+    const submit_message = this.resourceId ? this.text.successful_update : this.text.successful_create;
     this._notificationsService.addSuccess(submit_message);
   }
 
@@ -237,7 +233,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     }
   }
 
-  private _getFormEndPoint(formUrl?:string, resourcePath?:string): string | undefined {
+  private _getFormEndPoint(formUrl?:string, resourcePath?:string):string|undefined {
     if (formUrl) {
       return formUrl.endsWith(`/form`) ?
         formUrl.replace(`/form`, ``) :
@@ -258,7 +254,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
         catchError(error => {
           this._notificationsService.addError(this.text.load_error_message);
           throw error;
-        })
+        }),
       )
       .subscribe(dynamicFormSettings => this._setupDynamicForm(dynamicFormSettings));
   }
@@ -268,21 +264,17 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
       _embedded: {
         payload: this.settings.payload,
         schema: this.settings.schema,
-      }
-    }
+      },
+    };
     const dynamicFormSettings = this._dynamicFormService.getSettings(formattedSettings);
 
     this._setupDynamicForm(dynamicFormSettings);
   }
 
-  private _setupDynamicForm({fields, model}:IOPDynamicFormSettings) {
+  private _setupDynamicForm({ fields, model }:IOPDynamicFormSettings) {
     this.fields = this.fieldsSettingsPipe ? this.fieldsSettingsPipe(fields) : fields;
     this.innerModel = model;
 
     this._changeDetectorRef.detectChanges();
-
-    if (!this.isStandaloneForm) {
-      this.onChange(this.innerModel);
-    }
   }
 }

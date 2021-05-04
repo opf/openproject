@@ -43,7 +43,7 @@ FactoryBot.define do
     created_at { Time.now }
     updated_at { Time.now }
 
-    callback(:after_build) do |principal, evaluator| # this is also done after :create
+    callback(:after_create) do |principal, evaluator|
       (projects = evaluator.member_in_projects || [])
       projects << evaluator.member_in_project if evaluator.member_in_project
       if projects.any?
