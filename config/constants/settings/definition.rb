@@ -42,9 +42,9 @@ module Settings
                   :admin,
                   :writable
 
-    def initialize(name, format:, value:, api_name: name, serialized: false, api: true, admin: true, writable: true)
+    def initialize(name, value:, format: nil, api_name: name, serialized: false, api: true, admin: true, writable: true)
       self.name = name.to_s
-      self.format = format&.to_sym
+      self.format = format ? format.to_sym : deduce_format(value)
       self.value = value
       self.api_name = api_name
       self.serialized = serialized
@@ -69,12 +69,14 @@ module Settings
       !!writable
     end
 
-    def merge_value(other_value)
+    def override_value(other_value)
       if format == :hash
         value.deep_merge! other_value
       else
         self.value = other_value
       end
+
+      self.writable = false
     end
 
     class << self
@@ -118,27 +120,11 @@ module Settings
           self.loaded = true
           load './config/constants/settings/definitions.rb'
 
+          load_config_from_file
           override_config
         end
 
         @all
-      end
-
-      def add_key_value(key, value)
-        format = case value
-                 when TrueClass, FalseClass
-                   :boolean
-                 when Integer, Date, DateTime, String
-                   value.class.name.downcase.to_sym
-                 end
-
-        add key,
-            format: format,
-            value: value,
-            api: false,
-            admin: true,
-            serialized: value.is_a?(Hash) || value.is_a?(Array),
-            writable: false
       end
 
       private
@@ -158,7 +144,7 @@ module Settings
         filename = Rails.root.join('config/configuration.yml')
 
         if File.file?(filename)
-          file_config = YAML::load(ERB.new(File.read(filename)).result)
+          file_config = YAML.load_file(filename)
 
           if file_config.is_a? Hash
             load_env_from_config(file_config, Rails.env)
@@ -170,10 +156,10 @@ module Settings
 
       def load_env_from_config(config, env)
         config['default']&.each do |name, value|
-          override_value(name, value)
+          self[name]&.override_value(value)
         end
         config[env]&.each do |name, value|
-          override_value(name, value  )
+          self[name]&.override_value(value)
         end
       end
 
@@ -199,13 +185,9 @@ module Settings
                                      extract_value(k, raw_value))
                           .first
 
-          setting = self[name]
           # There might be ENV vars that match the OPENPROJECT_ prefix but are no OP instance
           # settings, e.g. OPENPROJECT_DISABLE_DEV_ASSET_PROXY
-          next unless setting
-
-          setting.merge_value(value)
-          setting.writable = false
+          self[name]&.override_value(value)
         end
       end
 
@@ -266,15 +248,18 @@ module Settings
         ENV
       end
 
-      def override_value(name, value)
-        if self[name]
-          self[name].value = value
-        else
-          add_key_value(name, value)
-        end
-      end
-
       attr_accessor :loaded
+    end
+
+    private
+
+    def deduce_format(value)
+      case value
+      when TrueClass, FalseClass
+        :boolean
+      when Integer, Date, DateTime, String, Hash, Array
+        value.class.name.underscore.to_sym
+      end
     end
   end
 end

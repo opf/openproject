@@ -29,152 +29,16 @@
 require 'spec_helper'
 
 describe OpenProject::Configuration do
-  describe '.load_config_from_file' do
-    let(:file_contents) do
-      <<-EOS
-      default:
+  let!(:definitions_before) { Settings::Definition.all.dup }
 
-        test:
-        somesetting: foo
-      EOS
-    end
-    before do
-      allow(File).to receive(:read).and_call_original
-      allow(File).to receive(:read).with('configfilename').and_return(file_contents)
-      allow(File).to receive(:file?).with('configfilename').and_return(true)
-
-      OpenProject::Configuration.load(file: 'configfilename')
-    end
-
-    it 'should merge the config from the file into the given config hash' do
-      expect(OpenProject::Configuration['somesetting']).to eq('foo')
-      expect(OpenProject::Configuration[:somesetting]).to eq('foo')
-      expect(OpenProject::Configuration.somesetting).to eq('foo')
-    end
+  before do
+    Settings::Definition.send(:reset)
   end
 
-  describe '.load_env_from_config' do
-    describe 'with a default setting' do
-      let(:config) do
-        OpenProject::Configuration.send(:load_env_from_config, {
-                                          'default' => { 'somesetting' => 'foo' },
-                                          'test' => {},
-                                          'someother' => { 'somesetting' => 'bar' }
-                                        }, 'test')
-      end
-
-      it 'should load a default setting' do
-        expect(config['somesetting']).to eq('foo')
-      end
-    end
-
-    describe 'with an environment-specific setting' do
-      let(:config) do
-        OpenProject::Configuration.send(:load_env_from_config, {
-                                          'default' => {},
-                                          'test' => { 'somesetting' => 'foo' }
-                                        }, 'test')
-      end
-
-      it 'should load a setting' do
-        expect(config['somesetting']).to eq('foo')
-      end
-    end
-
-    describe 'with a default and an overriding environment-specific setting' do
-      let(:config) do
-        OpenProject::Configuration.send(:load_env_from_config, {
-                                          'default' => { 'somesetting' => 'foo' },
-                                          'test' => { 'somesetting' => 'bar' }
-                                        }, 'test')
-      end
-
-      it 'should load the overriding value' do
-        expect(config['somesetting']).to eq('bar')
-      end
-    end
-  end
-
-  describe '.load_overrides_from_environment_variables' do
-    let(:config) do
-      {
-        'someemptysetting' => nil,
-        'nil' => 'foobar',
-        'str_empty' => 'foobar',
-        'somesetting' => 'foo',
-        'invalid_yaml' => nil,
-        'some_list_entry' => nil,
-        'nested' => {
-          'key' => 'value',
-          'hash' => 'somethingelse',
-          'deeply_nested' => {
-            'key' => nil
-          }
-        },
-        'foo' => {
-          'bar' => {
-            'hash_with_symbols': 1234
-          }
-        }
-      }
-    end
-
-    let(:env_vars) do
-      {
-        'SOMEEMPTYSETTING' => '',
-        'SOMESETTING' => 'bar',
-        'NIL' => '!!null',
-        'INVALID_YAML' => "'foo'! #234@@½%%%",
-        'OPTEST_SOME__LIST__ENTRY' => '[foo, bar , xyz, whut wat]',
-        'OPTEST_NESTED_KEY' => 'baz',
-        'OPTEST_NESTED_DEEPLY__NESTED_KEY' => '42',
-        'OPTEST_NESTED_HASH' => '{ foo: bar, xyz: bla }',
-        'OPTEST_FOO_BAR_HASH__WITH__SYMBOLS' => '{ foo: !ruby/symbol foobar }'
-      }
-    end
-
-    before do
-      stub_const('OpenProject::Configuration::ENV_PREFIX', 'OPTEST')
-
-      OpenProject::Configuration.send :override_config!, config, env_vars
-    end
-
-    it 'returns the original string, not the invalid YAML one' do
-      expect(config['invalid_yaml']).to eq env_vars['INVALID_YAML']
-    end
-
-    it 'should not parse the empty value' do
-      expect(config['someemptysetting']).to eq('')
-    end
-
-    it 'should parse the null identifier' do
-      expect(config['nil']).to be_nil
-    end
-
-    it 'should override the previous setting value' do
-      expect(config['somesetting']).to eq('bar')
-    end
-
-    it 'should override a nested value' do
-      expect(config['nested']['key']).to eq('baz')
-    end
-
-    it 'should override values nested several levels deep' do
-      expect(config['nested']['deeply_nested']['key']).to eq(42)
-    end
-
-    it 'should parse simple comma-separated lists' do
-      expect(config['some_list_entry']).to eq(['foo', 'bar', 'xyz', 'whut wat'])
-    end
-
-    it 'should parse simple hashes' do
-      expect(config['nested']['hash']).to eq('foo' => 'bar', 'xyz' => 'bla')
-    end
-
-    it 'should parse hashes with symbols and non-string values' do
-      expect(config['foo']['bar']['hash_with_symbols']).to eq('foo' => :foobar)
-      expect(config['foo']['bar']['hash_with_symbols'][:foo]).to eq(:foobar)
-    end
+  after do
+    Settings::Definition.send(:reset)
+    Settings::Definition.instance_variable_set(:@all, definitions_before)
+    Setting.clear_cache
   end
 
   describe '.convert_old_email_settings' do
@@ -194,7 +58,8 @@ describe OpenProject::Configuration do
 
     context 'with delivery_method' do
       before do
-        OpenProject::Configuration.send(:convert_old_email_settings, settings,
+        OpenProject::Configuration.send(:convert_old_email_settings,
+                                        settings,
                                         disable_deprecation_message: true)
       end
 
@@ -225,15 +90,6 @@ describe OpenProject::Configuration do
   end
 
   describe '.migrate_mailer_configuration!' do
-    after do
-      # reset this setting value
-      Setting[:email_delivery_method] = nil
-      # reload configuration to isolate specs
-      OpenProject::Configuration.load
-      # clear settings cache to isolate specs
-      Setting.clear_cache
-    end
-
     it 'does nothing if no legacy configuration given' do
       OpenProject::Configuration['email_delivery_method'] = nil
       expect(Setting).to_not receive(:email_delivery_method=)
@@ -278,13 +134,6 @@ describe OpenProject::Configuration do
 
     before do
       stub_const('ActionMailer::Base', action_mailer)
-    end
-
-    after do
-      # reload configuration to isolate specs
-      OpenProject::Configuration.load
-      # clear settings cache to isolate specs
-      Setting.clear_cache
     end
 
     it 'uses the legacy method to configure email settings' do
@@ -416,11 +265,6 @@ describe OpenProject::Configuration do
   describe '.configure_cache' do
     let(:application_config) do
       Rails::Application::Configuration.new Rails.root
-    end
-
-    after do
-      # reload configuration to isolate specs
-      OpenProject::Configuration.load
     end
 
     context 'with cache store already set' do

@@ -69,6 +69,10 @@ Settings::Definition.define do
     'attachments_storage' => 'file',
     'attachments_storage_path' => nil,
     'attachments_grace_period' => 180,
+
+    # Configure fog, e.g. when using an S3 uploader
+    'fog' => {},
+
     'autologin_cookie_name' => 'autologin',
     'autologin_cookie_path' => '/',
     'autologin_cookie_secure' => false,
@@ -233,32 +237,22 @@ Settings::Definition.define do
         more information.
       MSG
 
-      add_key_value('email_delivery_method', value['delivery_method'] || :smtp)
+      add('email_delivery_method', value: value['delivery_method'] || :smtp)
 
       %w[sendmail smtp].each do |settings_type|
         value["#{settings_type}_settings"]&.each do |key, value|
-          add_key_value("#{settings_type}_#{key}", value)
+          add("#{settings_type}_#{key}", value: value)
         end
       end
     else
-      add_key_value(key, value)
+      add(key, value: value)
     end
   end
 
 
   YAML::load(File.open(Rails.root.join('config/settings.yml'))).map do |name, config|
-    format = if %w[boolean symbol date datetime].include?(config['format'])
-               config['format'].to_sym
-             elsif %w[int].include?(config['format'])
-               :integer
-             elsif config['default'].is_a?(Array)
-               :array
-             elsif config['default'].is_a?(Hash)
-               :hash
-             end
-
     add name,
-        format: format,
+        format: config['format'],
         value: config['default'],
         serialized: config.fetch('serialized', false),
         api: false

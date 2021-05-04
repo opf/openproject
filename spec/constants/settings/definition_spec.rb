@@ -30,12 +30,15 @@ require 'spec_helper'
 
 describe Settings::Definition do
   shared_context 'clean definitions' do
+    let!(:definitions_before) { described_class.all.dup }
+
     before do
       described_class.send(:reset)
     end
 
     after do
       described_class.send(:reset)
+      described_class.instance_variable_set(:@all, definitions_before)
     end
   end
 
@@ -116,6 +119,87 @@ describe Settings::Definition do
       end
     end
 
+    context 'when overriding from file' do
+      include_context 'clean definitions'
+
+      let(:file_contents) do
+        {
+          'default' => {
+            'edition' => 'default edition',
+            'sendmail_location' => 'default location'
+          },
+          'test' => {
+            'smtp_address' => 'test address',
+            'sendmail_location' => 'test location',
+            'bogus' => 'bogusvalue'
+          }
+        }
+      end
+
+      before do
+        allow(YAML)
+          .to receive(:load_file)
+          .with(Rails.root.join('config/configuration.yml'))
+          .and_return(file_contents)
+
+        allow(File)
+          .to receive(:file?)
+          .with(Rails.root.join('config/configuration.yml'))
+          .and_return(true)
+      end
+
+      it 'overrides from file default' do
+        expect(all.detect { |d| d.name == 'edition' }.value)
+          .to eql 'default edition'
+      end
+
+      it 'marks the value overwritten from file default unwritable' do
+        expect(all.detect { |d| d.name == 'edition' })
+          .not_to be_writable
+      end
+
+      it 'overrides from file default path but once again from current env' do
+        expect(all.detect { |d| d.name == 'sendmail_location' }.value)
+          .to eql 'test location'
+      end
+
+      it 'marks the value overwritten from file default and again from current unwritable' do
+        expect(all.detect { |d| d.name == 'sendmail_location' })
+          .not_to be_writable
+      end
+
+      it 'overrides from file current env' do
+        expect(all.detect { |d| d.name == 'smtp_address' }.value)
+          .to eql 'test address'
+      end
+
+      it 'marks the value overwritten from file current unwritable' do
+        expect(all.detect { |d| d.name == 'smtp_address' })
+          .not_to be_writable
+      end
+
+      it 'does not accept undefined settings' do
+        expect(all.detect { |d| d.name == 'bogus' })
+          .to eql nil
+      end
+
+      context 'when overwritten from ENV' do
+        before do
+          stub_const('ENV', { 'OPENPROJECT_SENDMAIL__LOCATION' => 'env location' })
+        end
+
+        it 'overrides from ENV' do
+          expect(all.detect { |d| d.name == 'sendmail_location' }.value)
+            .to eql 'env location'
+        end
+
+        it 'marks the overwritten value unwritable' do
+          expect(all.detect { |d| d.name == 'sendmail_location' })
+            .not_to be_writable
+        end
+      end
+    end
+
     context 'when adding an additional setting' do
       include_context 'clean definitions'
 
@@ -181,8 +265,8 @@ describe Settings::Definition do
     end
   end
 
-  describe '#merge_value' do
-    let(:format) { 'string' }
+  describe '#override_value' do
+    let(:format) { :string }
     let(:value) { 'abc' }
 
     let(:instance) do
@@ -193,16 +277,23 @@ describe Settings::Definition do
     end
 
     context 'with string format' do
-      it 'overwrites' do
-        instance.merge_value('xyz')
+      before do
+        instance.override_value('xyz')
+      end
 
+      it 'overwrites' do
         expect(instance.value)
           .to eql 'xyz'
+      end
+
+      it 'turns the definition unwritable' do
+        expect(instance)
+          .not_to be_writable
       end
     end
 
     context 'with hash format' do
-      let(:format) { 'hash' }
+      let(:format) { :hash }
       let(:value) do
         {
           abc: {
@@ -213,9 +304,11 @@ describe Settings::Definition do
         }
       end
 
-      it 'deep merges' do
-        instance.merge_value({ abc: { a: 5 }, xyz: 2 })
+      before do
+        instance.override_value({ abc: { a: 5 }, xyz: 2 })
+      end
 
+      it 'deep merges' do
         expect(instance.value)
           .to eql({
                     abc: {
@@ -226,17 +319,29 @@ describe Settings::Definition do
                     xyz: 2
                   })
       end
+
+      it 'turns the definition unwritable' do
+        expect(instance)
+          .not_to be_writable
+      end
     end
 
     context 'with array format' do
-      let(:format) { 'array' }
+      let(:format) { :array }
       let(:value) { [1, 2, 3] }
 
-      it 'overwrites' do
-        instance.merge_value([4, 5, 6])
+      before do
+        instance.override_value([4, 5, 6])
+      end
 
+      it 'overwrites' do
         expect(instance.value)
           .to eql [4, 5, 6]
+      end
+
+      it 'turns the definition unwritable' do
+        expect(instance)
+          .not_to be_writable
       end
     end
   end
@@ -253,6 +358,192 @@ describe Settings::Definition do
       it 'is truthy' do
         expect(described_class)
           .not_to exist('foobar')
+      end
+    end
+  end
+
+  describe '.new' do
+    context 'with all the attributes' do
+      let(:instance) do
+        described_class.new 'bogus',
+                            format: :integer,
+                            value: 1,
+                            api_name: 'boGus',
+                            serialized: true,
+                            api: false,
+                            admin: false,
+                            writable: false
+      end
+
+      it 'has the name' do
+        expect(instance.name)
+          .to eql 'bogus'
+      end
+
+      it 'has the format (in symbol)' do
+        expect(instance.format)
+          .to eql :integer
+      end
+
+      it 'has the value' do
+        expect(instance.value)
+          .to eql 1
+      end
+
+      it 'has the api_name' do
+        expect(instance.api_name)
+          .to eql 'boGus'
+      end
+
+      it 'has the serialized' do
+        expect(instance.serialized)
+          .to eql true
+      end
+
+      it 'has the api' do
+        expect(instance.api)
+          .to eql false
+      end
+
+      it 'has the admin value' do
+        expect(instance.admin)
+          .to eql false
+      end
+
+      it 'has the writable value' do
+        expect(instance.writable)
+          .to eql false
+      end
+    end
+
+    context 'with the minimal attributes (integer value)' do
+      let(:instance) do
+        described_class.new 'bogus',
+                            value: 1
+      end
+
+      it 'has the name' do
+        expect(instance.name)
+          .to eql 'bogus'
+      end
+
+      it 'has the format (in symbol) deduced' do
+        expect(instance.format)
+          .to eql :integer
+      end
+
+      it 'has the value' do
+        expect(instance.value)
+          .to eql 1
+      end
+
+      it 'has the api_name' do
+        expect(instance.api_name)
+          .to eql 'bogus'
+      end
+
+      it 'has the serialized' do
+        expect(instance.serialized)
+          .to eql false
+      end
+
+      it 'has the api' do
+        expect(instance.api)
+          .to eql true
+      end
+
+      it 'has the admin value' do
+        expect(instance.admin)
+          .to eql true
+      end
+
+      it 'has the writable value' do
+        expect(instance.writable)
+          .to eql true
+      end
+    end
+
+    context 'with the minimal attributes (hash value)' do
+      let(:instance) do
+        described_class.new 'bogus',
+                            value: { a: 'b' }
+      end
+
+      it 'has the format (in symbol) deduced' do
+        expect(instance.format)
+          .to eql :hash
+      end
+    end
+
+    context 'with the minimal attributes (array value)' do
+      let(:instance) do
+        described_class.new 'bogus',
+                            value: [:a, :b]
+      end
+
+      it 'has the format (in symbol) deduced' do
+        expect(instance.format)
+          .to eql :array
+      end
+    end
+
+    context 'with the minimal attributes (true value)' do
+      let(:instance) do
+        described_class.new 'bogus',
+                            value: true
+      end
+
+      it 'has the format (in symbol) deduced' do
+        expect(instance.format)
+          .to eql :boolean
+      end
+    end
+
+    context 'with the minimal attributes (false value)' do
+      let(:instance) do
+        described_class.new 'bogus',
+                            value: false
+      end
+
+      it 'has the format (in symbol) deduced' do
+        expect(instance.format)
+          .to eql :boolean
+      end
+    end
+
+    context 'with the minimal attributes (date value)' do
+      let(:instance) do
+        described_class.new 'bogus',
+                            value: Date.today
+      end
+
+      it 'has the format (in symbol) deduced' do
+        expect(instance.format)
+          .to eql :date
+      end
+    end
+
+    context 'with the minimal attributes (datetime value)' do
+      let(:instance) do
+        described_class.new 'bogus',
+                            value: DateTime.now
+      end
+
+      it 'has the format (in symbol) deduced' do
+        expect(instance.format)
+          .to eql :date_time
+      end
+    end
+
+    context 'with the minimal attributes (string value)' do
+      let(:instance) do
+        described_class.new 'bogus',
+                            value: 'abc'
+      end
+
+      it 'has the format (in symbol) deduced' do
+        expect(instance.format)
+          .to eql :string
       end
     end
   end
