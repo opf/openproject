@@ -176,7 +176,7 @@ OpenProject::Application.routes.draw do
       get 'identifier', action: 'identifier'
       patch 'identifier', action: 'update_identifier'
 
-      get :copy, to: 'copy_projects#show', as: :copy
+      get :copy
 
       put :modules
       put :custom_fields
