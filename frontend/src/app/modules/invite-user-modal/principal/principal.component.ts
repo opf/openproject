@@ -161,6 +161,9 @@ export class PrincipalComponent implements OnInit {
       return;
     }
 
+    // The code below transforms the model value as it comes from the dynamic form to the value accepted by the API.
+    // This is not just necessary for submit, but also so that we can reseed the initial values to the payload
+    // when going back to this step after having completed it once.
     const links = this.customFields!._links || {};
     const customFields = {
       ...this.customFields!,
