@@ -1,4 +1,4 @@
-import { fakeAsync, flush, tick } from '@angular/core/testing';
+import { fakeAsync, flush } from '@angular/core/testing';
 import {
   createDynamicInputFixture,
 } from "core-app/modules/common/dynamic-forms/spec/helpers";

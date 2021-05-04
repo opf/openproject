@@ -114,7 +114,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   @Output() errored = new EventEmitter<IOPFormErrorResponse>();
 
   fields:IOPFormlyFieldSettings[];
-  formEndpoint:string | null;
+  formEndpoint?:string;
   inFlight:boolean;
   text = {
     save: this._I18n.t('js.button_save'),
@@ -218,34 +218,35 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     formUrl?:string,
     payload?:Object,
   ) {
+    const newFormEndPoint = this._getFormEndPoint(formUrl, resourcePath);
+    if (!newFormEndPoint) {
+      throw new Error(this.noSettingsSourceErrorMessage);
+    }
+
+    const isNewEndpoint = newFormEndPoint !== this.formEndpoint; 
+    if (isNewEndpoint) {
+      this.formEndpoint = newFormEndPoint;
+    }
+
     if (settings) {
       this._setupDynamicFormFromSettings();
     } else {
-      const newFormEndPoint = this._getFormEndPoint(formUrl, resourcePath);
-
-      if (newFormEndPoint && newFormEndPoint !== this.formEndpoint) {
-        this.formEndpoint = newFormEndPoint;
-        this._setupDynamicFormFromBackend(this.formEndpoint, resourceId, payload);
-      } else if (!newFormEndPoint) {
-        console.error(this.noSettingsSourceErrorMessage);
-      }
+      this._setupDynamicFormFromBackend(this.formEndpoint, resourceId, payload);
     }
   }
 
-  private _getFormEndPoint(formUrl?:string, resourcePath?:string): string | null {
-    let formEndpoint;
-
+  private _getFormEndPoint(formUrl?:string, resourcePath?:string): string | undefined {
     if (formUrl) {
-      formEndpoint = formUrl.endsWith(`/form`) ?
+      return formUrl.endsWith(`/form`) ?
         formUrl.replace(`/form`, ``) :
         formUrl;
-    } else if (resourcePath) {
-      formEndpoint = `${this._pathHelperService.api.v3.apiV3Base}${resourcePath}`;
-    } else {
-      formEndpoint = null;
     }
 
-    return formEndpoint;
+    if (resourcePath) {
+      return `${this._pathHelperService.api.v3.apiV3Base}${resourcePath}`;
+    } 
+
+    return;
   }
 
   private _setupDynamicFormFromBackend(formEndpoint?:string, resourceId?:string, payload?:Object) {

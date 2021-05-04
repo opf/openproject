@@ -19,7 +19,7 @@ import { FormattableTextareaInputComponent } from "core-app/modules/common/dynam
 import { DynamicFieldGroupWrapperComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-field-group-wrapper/dynamic-field-group-wrapper.component";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
-import { OpFormFieldComponent } from "core-app/modules/common/form-field/form-field.component";
+import { OpFormFieldComponent } from "core-app/modules/common/forms/form-field/form-field.component";
 import { Component, forwardRef, ViewChild } from "@angular/core";
 
 @Component({
@@ -358,7 +358,7 @@ describe('DynamicFormComponent', () => {
     // @ts-ignore
     dynamicFormService.getSettingsFromBackend$.and.returnValue(defer(() => Promise.resolve(dynamicFormSettings)));
 
-    component.ngOnChanges();
+    component.ngOnChanges({});
 
     expect(dynamicFormService.getSettingsFromBackend$).toHaveBeenCalled();
 
@@ -387,7 +387,7 @@ describe('DynamicFormComponent', () => {
       schema: formSchema._embedded.schema,
     };
 
-    component.ngOnChanges();
+    component.ngOnChanges({});
 
     expect(dynamicFormService.getSettings).toHaveBeenCalled();
 
@@ -414,7 +414,7 @@ describe('DynamicFormComponent', () => {
     // Should not show notifications when showNotifications === false
     component.showNotifications = false;
 
-    component.ngOnChanges();
+    component.ngOnChanges({});
     flush();
     fixture.detectChanges();
     submitButton = fixture.debugElement.query(By.css('button[type=submit]'));
@@ -479,7 +479,7 @@ describe('DynamicFormComponent', () => {
     // Get @ViewChild(DynamicFormComponent) dynamicFormControl:DynamicFormComponent;
     testingHostComponentFixture.detectChanges();
     // Bootstrap DynamicFormComponent
-    testingHostComponent.dynamicFormControl.ngOnChanges();
+    testingHostComponent.dynamicFormControl.ngOnChanges({});
     flush();
     // Render DynamicFormComponent
     testingHostComponentFixture.detectChanges();

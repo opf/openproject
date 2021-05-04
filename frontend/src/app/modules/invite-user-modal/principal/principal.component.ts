@@ -170,7 +170,7 @@ export class PrincipalComponent implements OnInit {
       ...Object.keys(links).reduce((cfs, name) => ({
         ...cfs,
         [name]: Array.isArray(links[name])
-          ? links[name].map((opt: any) => opt._links.self)
+          ? links[name].map((opt: any) => opt._links ? opt._links.self : opt)
           : links[name],
       }), {}),
       _links: undefined,

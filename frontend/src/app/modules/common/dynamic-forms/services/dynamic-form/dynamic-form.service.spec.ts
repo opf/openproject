@@ -116,7 +116,6 @@ xdescribe('DynamicFormService', () => {
         }
       }
     },
-    "form": new FormGroup({}),
   };
 
   beforeEach(() => {
@@ -164,7 +163,7 @@ xdescribe('DynamicFormService', () => {
   });
 
   it('should submit the dynamic form value', () => {
-    const dynamicForm = dynamicFormConfig.form;
+    const dynamicForm = new FormGroup({});
 
     formsService.submit$.and.returnValue(of('ok response'));
 
