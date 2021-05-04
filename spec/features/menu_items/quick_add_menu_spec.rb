@@ -55,6 +55,8 @@ feature 'Quick-add menu', js: true, selenium: true do
                           member_with_permissions: %i[add_project view_project add_subprojects]
       end
 
+      let(:field) { ::FormFields::SelectFormField.new :parent }
+
       it 'moves to a form with parent_id set' do
         visit project_path(project)
 
@@ -65,7 +67,7 @@ feature 'Quick-add menu', js: true, selenium: true do
         quick_add.click_link 'Project'
         expect(page).to have_current_path new_project_path(parent_id: project.id)
 
-        expect(page).to have_select('project_parent_id', selected: project.name, visible: true)
+        field.expect_selected project.name
       end
     end
   end

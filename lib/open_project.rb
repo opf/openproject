@@ -35,7 +35,7 @@ require 'open_project/logging/log_delegator'
 require 'open_project/patches'
 require 'redmine/mime_type'
 require 'open_project/custom_styles/design'
-require 'redmine/hook'
+require 'open_project/hook'
 require 'open_project/hooks'
 require 'redmine/plugin'
 

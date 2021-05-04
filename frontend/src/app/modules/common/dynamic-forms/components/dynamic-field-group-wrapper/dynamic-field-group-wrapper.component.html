@@ -1,7 +1,30 @@
-<div class="op-field-group-wrapper">
-	<div class="op-field-group-wrapper--header">{{ to.label }}</div>
+<fieldset class="form--fieldset -collapsible"
+          [ngClass]="{'collapsed': to.collapsibleFieldGroupsCollapsed}"
+          *ngIf="to?.collapsibleFieldGroups">
+  <legend class="form--fieldset-legend"
+          title="Show/hide"
+          (click)="to.collapsibleFieldGroupsCollapsed = !to.collapsibleFieldGroupsCollapsed">
+    <a href="#" class="op-form-group--label">
+      {{ to.label }}
+    </a>
+  </legend>
 
-	<div class="op-field-group-wrapper--body">
-		<ng-container #fieldComponent></ng-container>
-	</div>
-</div>
+  <div class="op-form-group--content"
+       [ngStyle]="{
+          'height': to.collapsibleFieldGroupsCollapsed ? 0 : 'auto',
+          'visibility': to.collapsibleFieldGroupsCollapsed ? 'hidden' : 'visible',
+          'overflow': to.collapsibleFieldGroupsCollapsed ? 'hidden' : 'visible'
+        }">
+    <ng-container #fieldComponent></ng-container>
+  </div>
+</fieldset>
+
+<ng-container *ngIf="!to?.collapsibleFieldGroups">
+  <div class="op-form-group--label">
+    {{ to.label }}
+  </div>
+
+  <div class="op-form-group--content">
+    <ng-container #fieldComponent></ng-container>
+  </div>
+</ng-container>

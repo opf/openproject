@@ -60,7 +60,7 @@ Also, you can activate a **warning if you are leaving a work package with unsave
 
 Additionally, you can activate to **auto-hide success notifications** from the system. This (only) means that the green pop-up success notifications will be removed automatically after five seconds.
 
-![my-account-settings](my-account-settings.png)
+![my-account-settings](image-20210503211553255.png)
 
 ### Change your language
 
@@ -92,7 +92,11 @@ If you choose reverse chronological order the latest comment will appear on top 
 
 ![display comments](1572883259523.png)
 
+### Backlogs settings
 
+There are two personal settings available for the [Backlogs module](../../user-guide/backlogs-scrum):
+**Task color**: Here you can enter the color in which your tasks on the task board (on the Backlogs page) are displayed. Tasks on the task board are color-coded based on who they are assigned to. Every user has a default color assigned but if you prefer a different color, you can change it here.
+**Show versions folded**: When you navigate to the "Backlogs" module in a project, the available versions (e.g. Product backlog, Sprints) are displayed. By default they are expanded, i.e. all work packages included in those versions are shown right away. If you have a large number of versions that are shown on the "Backlogs" page, you may opt to collapse them by default. This way you see all the versions on a page and can then choose to expand those versions for which you want to see details.
 
 ## Two-factor authentication (Premium feature)
 

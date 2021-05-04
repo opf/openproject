@@ -1,16 +1,19 @@
-interface IOPFormSettings {
+interface IOPFormSettingsResource {
   _type?: "Form";
-  _embedded: {
-    payload: IOPFormModel;
-    schema: IOPFormSchema;
-    validationErrors?: IOPValidationErrors;
-  };
+  _embedded: IOPFormSettings;
   _links?: {
     self: IOPApiCall;
     validate: IOPApiCall;
     commit: IOPApiCall;
     previewMarkup?: IOPApiCall;
   };
+}
+
+interface IOPFormSettings {
+  payload: IOPFormModel;
+  schema: IOPFormSchema;
+  validationErrors?: IOPValidationErrors;
+  [nonUsedSchemaKeys:string]:any,
 }
 
 interface IOPFormSchema {
@@ -40,6 +43,8 @@ interface IOPFieldSchema {
   required?: boolean;
   hasDefault: boolean;
   name?: string;
+  minLength?: number,
+  maxLength?: number,
   attributeGroup?: string;
   location?: '_links' | string;
   options: {
