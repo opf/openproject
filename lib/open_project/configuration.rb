@@ -192,6 +192,10 @@ module OpenProject
       'ldap_auth_source_tls_options' => nil,
       'ldap_force_no_page' => false,
 
+      # Allow users to manually sync groups in a different way
+      # than the provided job using their own cron
+      'ldap_groups_disable_sync_job' => false,
+
       # Slow query logging threshold in ms
       'sql_slow_query_threshold' => 2000
     }

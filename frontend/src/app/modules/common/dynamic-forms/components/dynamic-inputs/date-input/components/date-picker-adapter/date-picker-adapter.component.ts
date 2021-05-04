@@ -1,4 +1,4 @@
-import { Component, forwardRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, forwardRef, NgZone } from '@angular/core';
 import { OpDatePickerComponent } from "core-app/modules/common/op-date-picker/op-date-picker.component";
 import { TimezoneService } from "core-components/datetime/timezone.service";
 import * as moment from "moment";
@@ -15,12 +15,14 @@ import { NG_VALUE_ACCESSOR } from "@angular/forms";
     }
   ]
 })
-export class DatePickerAdapterComponent extends OpDatePickerComponent {
+export class DatePickerAdapterComponent extends OpDatePickerComponent implements AfterViewInit {
   onControlChange = (_:any) => { }
   onControlTouch = () => { }
 
   constructor(
     timezoneService:TimezoneService,
+    private _ngZone: NgZone,
+    private _changeDetectorRef:ChangeDetectorRef,
   ) {
     super(timezoneService);
   }
@@ -39,6 +41,15 @@ export class DatePickerAdapterComponent extends OpDatePickerComponent {
 
   setDisabledState(disabled: boolean): void {
     this.disabled = disabled;
+  }
+
+  ngAfterViewInit():void {
+    this._ngZone.runOutsideAngular(() => {
+      setTimeout(() => {
+        this.initializeDatepicker();
+        this._changeDetectorRef.detectChanges();
+      });
+    });
   }
 
   onInputChange(_event:KeyboardEvent) {

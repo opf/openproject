@@ -480,7 +480,7 @@ sl:
         hide_mail: "Skrij moj e-naslov"
         impaired: "Dostopnost"
         time_zone: "Časovni pas"
-        auto_hide_popups: "Samodejno skri obvestila o uspehu"
+        auto_hide_popups: "Samodejno skrij obvestila o uspehu"
         warn_on_leaving_unsaved: "Opozori me, kadar zapuščam stran z neshranjenim besedilom"
       version:
         effective_date: "Končni datum"
@@ -1359,7 +1359,7 @@ sl:
   label_blocked_by: "blokirano od"
   label_blocks: "Bloki"
   label_blog: "Blog"
-  label_forums_locked: "Zaklenjen"
+  label_forums_locked: "Zaklenjeno"
   label_forum_new: "Nov forum"
   label_forum_plural: "Forumi"
   label_forum_sticky: "Lepljivo"
@@ -2097,7 +2097,7 @@ sl:
   permission_view_messages: "Poglej sporočila"
   permission_view_members: "Poglej člane"
   permission_view_reportings: "Ogled poročil"
-  permission_view_time_entries: "Poglej porabljen čas"
+  permission_view_time_entries: "Porabljen čas"
   permission_view_timelines: "Oglejte si časovnice"
   permission_view_wiki_edits: "Poglej wiki zgodovino"
   permission_view_wiki_pages: "Poglej wiki"
@@ -2391,7 +2391,7 @@ sl:
   status_active: "aktiven"
   status_archived: "Arhiviran"
   status_invited: Povabljen
-  status_locked: zaklenjen
+  status_locked: zaklenjeno
   status_registered: registriran
   #Used in array.to_sentence.
   support:
@@ -2687,9 +2687,9 @@ sl:
       Ta uporabnik overja prek zunanjega ponudnika overjanja, tako da v OpenProjectu ni gesla, ki bi ga bilo treba spremeniti.
     authorization_rejected: "Nimate dovoljenja za prijavo."
     assign_random_password: "Dodelite naključno geslo (poslano uporabniku po e-pošti)"
-    blocked: "začasno zaklenjen"
+    blocked: "začasno zaklenjeno"
     blocked_num_failed_logins:
-      one: "začasno zaklenjen (en neuspeli poskus prijave)"
+      one: "začasno zaklenjeno (en neuspeli poskus prijave)"
       two: "začasno zaklenjen (dva neuspela poskusa prijave)"
       few: "začasno zaklenjen (več neuspelih poskusov prijave)"
       other: "začasno zaklenjen (% {count} neuspeli poskusi prijave)"
@@ -2699,7 +2699,7 @@ sl:
     invite: Povabi uporabnika preko e-sporočila
     invited: Povabljen
     lock: "Zakleni permanentno"
-    locked: "Zaklenjeno permanentno"
+    locked: "Trajno zaklenjeno"
     no_login: "Ta uporabnik se overi preko vpisa z geslom. Odkar je onemogočeno, se ne more vpisati."
     password_change_unsupported: Sprememba gesla ni podprta.
     registered: "registriran"
@@ -2714,7 +2714,7 @@ sl:
     unlock: "Odkleni"
     unlock_and_reset_failed_logins: "Odklepanje in ponastavitev neuspelih prijav"
   version_status_closed: "Zaprto"
-  version_status_locked: "zaklenjen"
+  version_status_locked: "zaklenjeno"
   version_status_open: "odpri"
   note: Opomba
   note_password_login_disabled: "Prijava z geslom je bila onemogočena zaradi %{configuration}."

@@ -250,10 +250,10 @@ pt:
         Todas as ocorrências do usuário de espaço reservado (por exemplo, como responsável, competente ou outros valores de usuário) serão reatribuídas a uma conta chamada "Usuário excluído".
         Como os dados de todas as contas excluídas são reatribuídos a esta conta, não será possível diferenciar os dados criados por usuários de dados excluídos por outra conta.
       irreversible: "Esta ação é irreversível"
-      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+      confirmation: "Digite o nome de usuário placeholder %{name} para confirmar a exclusão."
     upsale:
-      title: Assign work to people that are not members of the project.
-      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+      title: Atribuir trabalho a pessoas que não são membros do projeto.
+      description: Existem vários cenários em que você deseja atribuir trabalho a pessoas que não são membros do seu projeto. Pode ser simplesmente que você ainda precise contratar a pessoa certa para o trabalho. Ou você não quer dar acesso a essas informações do projeto, mas ainda quer acompanhar as tarefas atribuídas a essa pessoa.
   prioritiies:
     edit:
       priority_color_text: |
@@ -663,7 +663,7 @@ pt:
         wiki_page:
           attributes:
             slug:
-              undeducible: "cannot be deduced from the title '%{title}'."
+              undeducible: "não pode ser deduzido do título '%{title}' '."
         work_package:
           is_not_a_valid_target_for_time_entries: "Pacote de trabalho #%{id} não é válido para re-atribuir os registros de horas gastas."
           attributes:

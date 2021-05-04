@@ -1,0 +1,27 @@
+<form
+  class="op-form"
+  [formGroup]="templateForm"
+>
+  <op-form-field
+    [label]="text.use_template"
+    data-qa-field-name="use_template"
+  >
+    <ng-select
+      [formControl]="templateControl"
+      [items]="templateOptions$ | async"
+      (ngModelChange)="onTemplateSelected($event)"
+      bindLabel="name"
+      slot="input"
+    >
+    </ng-select>
+  </op-form-field>
+</form>
+
+<op-dynamic-form
+  [formUrl]="formUrl"
+  [resourcePath]="resourcePath"
+  [initialPayload]="initialPayload"
+  [fieldsSettingsPipe]="dynamicFieldsSettingsPipe"
+  (submitted)="onSubmitted($event)"
+>
+</op-dynamic-form>

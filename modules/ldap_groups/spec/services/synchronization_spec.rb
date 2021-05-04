@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 require 'ladle'
 
-describe LdapGroups::SynchronizationService, with_ee: %i[ldap_groups] do
+describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
   let(:plugin_settings) do
     { group_base: 'ou=groups,dc=example,dc=com', group_key: 'cn' }
   end

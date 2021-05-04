@@ -147,7 +147,7 @@ sl:
   rb_label_copy_tasks: "Kopiraj delovne pakete"
   rb_label_copy_tasks_all: "Vse"
   rb_label_copy_tasks_none: "Brez"
-  rb_label_copy_tasks_open: "Odprto"
+  rb_label_copy_tasks_open: "Odpri"
   rb_label_link_to_original: "Vključi povezavo do izvirne zgodbe"
   remaining_hours: "Preostale ure"
   required_burn_rate_hours: "potrebna hitrost porabe (ure)"

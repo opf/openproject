@@ -92,7 +92,13 @@ export class PrincipalRendererService {
     fallback.classList.add(`op-avatar_${type.replace('_', '-')}`);
     fallback.classList.add('op-avatar--fallback');
     fallback.textContent = userInitials;
-    fallback.style.background = colorCode;
+
+    if (type === "placeholder_user") {
+      fallback.style.color = colorCode;
+      fallback.style.borderColor = colorCode;
+    } else {
+      fallback.style.background = colorCode;
+    }
 
     // Image avatars are only supported for users
     if (type === 'user') {
