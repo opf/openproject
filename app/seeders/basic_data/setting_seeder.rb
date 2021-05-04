@@ -49,8 +49,8 @@ module BasicData
 
     def data
       @settings ||= begin
-        settings = Setting.available_settings.each_with_object({}) do |(k, v), hash|
-          hash[k] = v['default'] || ''
+        settings = Setting.definitions.each_with_object({}) do |definition, hash|
+          hash[definition.name] = definition.value || ''
         end
 
         # deviate from the defaults specified in settings.yml here
