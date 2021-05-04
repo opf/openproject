@@ -7,6 +7,7 @@ import {
   EventEmitter,
   forwardRef,
   SimpleChanges,
+  ChangeDetectorRef,
 } from "@angular/core";
 import { FormlyForm } from "@ngx-formly/core";
 import { DynamicFormService } from "../../services/dynamic-form/dynamic-form.service";
@@ -158,6 +159,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
     private _pathHelperService:PathHelperService,
     private _notificationsService:NotificationsService,
     private _formsService: FormsService,
+    private _changeDetectorRef: ChangeDetectorRef,
   ) {
     super();
   }
@@ -304,6 +306,8 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
     this.form = form;
     this.fields = this.fieldsSettingsPipe ? this.fieldsSettingsPipe(fields) : fields;
     this.innerModel = model;
+
+    this._changeDetectorRef.detectChanges();
 
     if (!this.isStandaloneForm) {
       this.onChange(this.innerModel);
