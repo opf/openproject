@@ -4536,7 +4536,6 @@
       "requires": {
         "anymatch": "~3.1.1",
         "braces": "~3.0.2",
-        "fsevents": "~2.3.1",
         "glob-parent": "~5.1.0",
         "is-binary-path": "~2.1.0",
         "is-glob": "~4.0.1",
@@ -7479,12 +7478,6 @@
       "version": "1.0.0",
       "resolved": "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz",
       "integrity": "sha1-FQStJSMVjKpA20onh8sBQRmU6k8="
-    },
-    "fsevents": {
-      "version": "2.3.2",
-      "resolved": "https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz",
-      "integrity": "sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==",
-      "optional": true
     },
     "function-bind": {
       "version": "1.1.1",
@@ -12421,10 +12414,7 @@
     "rollup": {
       "version": "2.38.4",
       "resolved": "https://registry.npmjs.org/rollup/-/rollup-2.38.4.tgz",
-      "integrity": "sha512-B0LcJhjiwKkTl79aGVF/u5KdzsH8IylVfV56Ut6c9ouWLJcUK17T83aZBetNYSnZtXf2OHD4+2PbmRW+Fp5ulg==",
-      "requires": {
-        "fsevents": "~2.3.1"
-      }
+      "integrity": "sha512-B0LcJhjiwKkTl79aGVF/u5KdzsH8IylVfV56Ut6c9ouWLJcUK17T83aZBetNYSnZtXf2OHD4+2PbmRW+Fp5ulg=="
     },
     "run-async": {
       "version": "2.4.1",
@@ -12674,7 +12664,6 @@
             "anymatch": "^2.0.0",
             "async-each": "^1.0.0",
             "braces": "^2.3.0",
-            "fsevents": "^1.2.2",
             "glob-parent": "^3.1.0",
             "inherits": "^2.0.1",
             "is-binary-path": "^1.0.0",
@@ -12715,16 +12704,6 @@
                 "is-extendable": "^0.1.0"
               }
             }
-          }
-        },
-        "fsevents": {
-          "version": "1.2.13",
-          "resolved": "https://registry.npmjs.org/fsevents/-/fsevents-1.2.13.tgz",
-          "integrity": "sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==",
-          "optional": true,
-          "requires": {
-            "bindings": "^1.5.0",
-            "nan": "^2.12.1"
           }
         },
         "glob-parent": {
