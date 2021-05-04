@@ -55,7 +55,7 @@ class BackupJob < ::ApplicationJob
   ensure
     remove_files! db_dump_file_name, archive_file_name
 
-    attachments.each(&:destroy) unless success?
+    backup.attachments.each(&:destroy) unless success?
 
     Rails.logger.info(
       "BackupJob(include_attachments: #{include_attachments}) finished " \

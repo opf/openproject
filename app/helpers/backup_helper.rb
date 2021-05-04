@@ -55,7 +55,7 @@ module BackupHelper
   end
 
   def just_installed_openproject?(after: instant_backup_threshold_date)
-    created_at = Project.order(created_at: :asc).limit(1).pick(:created_at)
+    created_at = User.order(created_at: :asc).limit(1).pick(:created_at)
 
     created_at && created_at >= after
   end
