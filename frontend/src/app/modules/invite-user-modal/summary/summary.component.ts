@@ -71,6 +71,9 @@ export class SummaryComponent {
               principal,
               project: this.project,
               roles: [this.role],
+              notificationMessage: {
+                raw: this.message
+              }
             })
             .pipe(
               mapTo(principal)
