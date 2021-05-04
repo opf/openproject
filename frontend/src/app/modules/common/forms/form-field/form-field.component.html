@@ -4,7 +4,6 @@
       {{ label }}
       <span *ngIf="required" class="op-form-field--label-indicator">*</span>
       <attribute-help-text
-        *ngIf="helpTextAttribute && helpTextAttributeScope"
         [attribute]="helpTextAttribute"
         [attributeScope]="helpTextAttributeScope"
       ></attribute-help-text>

@@ -100,8 +100,6 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
   @Input() showNotifications = true;
   @Input() showValidationErrorsOn: 'change' | 'blur' | 'submit' | 'never' = 'submit';
   @Input() handleSubmit = true;
-
-  /** TODO pass this to the template options of every field */
   @Input() helpTextAttributeScope:string|undefined;
   @Input() set model (payload:IOPFormModel) {
     if (!this.innerModel && !payload) {
@@ -114,7 +112,6 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
 
   /** Initial payload to POST to the form */
   @Input() initialPayload:Object = {};
-
   @Output() modelChange = new EventEmitter<IOPFormModel>();
   @Output() submitted = new EventEmitter<HalSource>();
   @Output() errored = new EventEmitter<IOPFormErrorResponse>();

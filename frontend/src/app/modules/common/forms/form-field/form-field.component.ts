@@ -25,8 +25,12 @@ export class OpFormFieldComponent implements OnInit{
   }
 
   @Input() label = '';
-  @Input() helpTextAttribute = '';
-  @Input() helpTextAttributeScope:string|undefined;
+  @Input() set helpTextAttribute(helpTextAttribute:string|undefined) {
+    this._helpTextAttribute = helpTextAttribute;
+  };
+  @Input() set helpTextAttributeScope(helpTextAttributeScope:string|undefined) {
+    this._helpTextAttributeScope = helpTextAttributeScope;
+  };
   @Input() noWrapLabel = true;
   @Input() required = false;
   @Input() showValidationErrorOn: 'change' | 'blur' | 'submit' | 'never';
@@ -59,10 +63,21 @@ export class OpFormFieldComponent implements OnInit{
     return this._dynamicControl?.field?.hide;
   }
 
+  get helpTextAttribute() {
+    return this._helpTextAttribute || this._dynamicControl?.field?.templateOptions?.property;
+  }
+
+  get helpTextAttributeScope() {
+    return this._helpTextAttributeScope || this._dynamicFormComponent?.helpTextAttributeScope;
+  }
+
+  private _helpTextAttribute:string|undefined;
+  private _helpTextAttributeScope:string|undefined;
+
   constructor(
-    @Optional() private _dynamicControl: FormlyField,
     @Optional() private _formGroupDirective:FormGroupDirective,
     @Optional() private _dynamicFormComponent:DynamicFormComponent,
+    @Optional() private _dynamicControl:FormlyField,
   ) {}
 
   ngOnInit() {
