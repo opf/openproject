@@ -991,6 +991,7 @@ en:
     update_consent_last_time: "Last update of consent: %{update_time}"
 
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Started to copy project \"%{source_project_name}\" to \"%{target_project_name}\". You will be informed by mail as soon as \"%{target_project_name}\" is available."
     failed: "Cannot copy project %{source_project_name}"
     failed_internal: "Copying failed due to an internal error."

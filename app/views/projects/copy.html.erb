@@ -27,24 +27,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= error_messages_for_contract @copy_project, @errors %>
-<%= toolbar title: t(:label_project_new) %>
+<% title = t("copy_project.title", source_project_name: @project.name) %>
+<% html_title title %>
+<%= toolbar title: title %>
 
-<%= labelled_tabular_form_for @copy_project, url: { action: 'copy', coming_from: 'settings' } do |f| %>
-  <%= hidden_field_tag :coming_from, 'settings' %>
-
-  <%= render partial: 'projects/form', locals: { f: f,
-                                                 project: @copy_project,
-                                                 errors: @errors,
-                                                 is_copy: true,
-                                                 render_advanced: true,
-                                                 render_types: false,
-                                                 render_modules: false,
-                                                 render_custom_fields: false,
-                                                 no_error_messages: true
-                                               } %>
-
-  <%= render partial: "copy_projects/copy_settings/copy_associations", locals: { project: @project } %>
-
-  <%= submit_tag t(:button_copy), class: 'button -highlight' %>
-<% end %>
+<openproject-base></openproject-base>

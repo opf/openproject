@@ -47,7 +47,7 @@ module Projects::Copy
       return unless state.wiki_page_id_lookup
 
       state.wiki_page_id_lookup.each do |old_id, new_id|
-        copy_attachments(old_id, new_id)
+        copy_attachments('WikiPage', from_id: old_id, to_id: new_id)
       end
     end
   end

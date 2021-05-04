@@ -117,7 +117,7 @@ module ProjectsHelper
   def project_more_menu_copy_item(project)
     if User.current.allowed_to?(:copy_projects, project) && !project.archived?
       [t(:button_copy),
-       copy_from_project_path(project, :admin),
+       copy_project_path(project),
        { class: 'icon-context icon-copy',
          title: t(:button_copy) }]
     end

@@ -47,7 +47,7 @@ See docs/COPYRIGHT.rdoc for more details.
   </li>
   <% if @project.copy_allowed? %>
     <li class="toolbar-item hidden-for-mobile">
-      <%= link_to copy_from_project_path(@project, coming_from: :settings), class: 'button copy', accesskey: accesskey(:copy) do %>
+      <%= link_to copy_project_path(@project), class: 'button copy', accesskey: accesskey(:copy) do %>
         <%= op_icon('button--icon icon-copy') %>
         <span class="button--text"><%= t(:button_copy) %></span>
       <% end %>
