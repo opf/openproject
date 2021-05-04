@@ -11,7 +11,7 @@
     </op-form-field>
     <div class="op-ium-summary__row">
       <op-form-field [label]="text.principalLabel[type]">
-        <p slot="input">{{ principal.name }}</p>
+        <p slot="input">{{ principal?.name }}</p>
       </op-form-field>
       <op-form-field [label]="text.roleLabel()">
         <p slot="input">{{ role.name }}</p>

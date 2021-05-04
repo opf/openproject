@@ -117,7 +117,6 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   }
 
   public createNewFromInput() {
-    console.log('Creating new', this.input);
     this.createNew.emit({ name: this.input });
   }
 

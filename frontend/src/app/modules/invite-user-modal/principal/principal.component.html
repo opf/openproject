@@ -50,11 +50,11 @@
     </op-form-field>
 
     <op-dynamic-form
-      [dynamicFormGroup]="principalForm.get('userDynamicFields')"
+      *ngIf="isNewPrincipal && type === PrincipalType.User && userDynamicFieldConfig.schema"
+      [dynamicFormGroup]="dynamicFieldsControl"
       [settings]="userDynamicFieldConfig"
       [resourcePath]="pathHelper.usersPath()"
       [handleSubmit]="false"
-      *ngIf="isNewPrincipal && type === PrincipalType.User && userDynamicFieldConfig.schema"
     ></op-dynamic-form>
   </div>
 

@@ -5,6 +5,7 @@ import {
   Output,
   EventEmitter,
   ViewChild,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import {
@@ -15,7 +16,7 @@ import {
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
-import { PrincipalLike } from "core-app/modules/principal/principal-types";
+import { PrincipalData, PrincipalLike } from "core-app/modules/principal/principal-types";
 import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
 import { DynamicFormComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-form/dynamic-form.component"
 import { PrincipalType } from '../invite-user.component';
@@ -40,12 +41,12 @@ function extractCustomFieldsFromSchema(schema: IOPFormSettings['_embedded']['sch
   styleUrls: ['./principal.component.sass'],
 })
 export class PrincipalComponent implements OnInit {
-  @Input('principal') storedPrincipal:PrincipalLike|null = null;
+  @Input() principalData:PrincipalData;
   @Input() project:ProjectResource;
   @Input() type:PrincipalType;
 
   @Output() close = new EventEmitter<void>();
-  @Output() save = new EventEmitter<{ principal:PrincipalLike, isAlreadyMember:boolean }>();
+  @Output() save = new EventEmitter<{ principalData:PrincipalData, isAlreadyMember:boolean }>();
   @Output() back = new EventEmitter();
 
   @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
@@ -97,6 +98,14 @@ export class PrincipalComponent implements OnInit {
     return this.principalControl?.value;
   }
 
+  get dynamicFieldsControl() {
+    return this.principalForm.get('userDynamicFields');
+  }
+
+  get customFields():{[key:string]:any} {
+    return this.dynamicFieldsControl?.value;
+  }
+
   get hasPrincipalSelected() {
     return !!this.principal;
   }
@@ -113,17 +122,22 @@ export class PrincipalComponent implements OnInit {
     readonly I18n:I18nService,
     readonly httpClient:HttpClient,
     readonly pathHelper:PathHelperService,
+    readonly cdRef: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
-    this.principalControl?.setValue(this.storedPrincipal);
+    this.principalControl?.setValue(this.principalData.principal);
 
-    this.httpClient
-      .post<IOPFormSettings>('/api/v3/users/form', {}, { withCredentials: true, responseType: 'json' })
-      .subscribe((formConfig) => {
-        this.userDynamicFieldConfig.schema = extractCustomFieldsFromSchema(formConfig._embedded?.schema);
-        this.userDynamicFieldConfig.payload = formConfig._embedded?.payload;
-      });
+    if (this.type === PrincipalType.User) {
+      const payload = this.isNewPrincipal ? this.principalData.customFields : {};
+      this.httpClient
+        .post<IOPFormSettings>('/api/v3/users/form', payload, { withCredentials: true, responseType: 'json' })
+        .subscribe((formConfig) => {
+          this.userDynamicFieldConfig.schema = extractCustomFieldsFromSchema(formConfig._embedded?.schema);
+          this.userDynamicFieldConfig.payload = formConfig._embedded?.payload;
+          this.cdRef.detectChanges();
+        });
+    }
   }
 
   createNewFromInput(input:PrincipalLike) {
@@ -147,8 +161,23 @@ export class PrincipalComponent implements OnInit {
       return;
     }
 
+    const links = this.customFields!._links || {};
+    const customFields = {
+      ...this.customFields!,
+      ...Object.keys(links).reduce((cfs, name) => ({
+        ...cfs,
+        [name]: Array.isArray(links[name])
+          ? links[name].map((opt: any) => opt._links.self)
+          : links[name],
+      }), {}),
+      _links: undefined,
+    }
+
     this.save.emit({
-      principal: this.principal!,
+      principalData: {
+        customFields,
+        principal: this.principal!,
+      },
       isAlreadyMember: this.isMemberOfCurrentProject,
     });
   }
