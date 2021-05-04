@@ -28,6 +28,7 @@ To activate your integration to OpenProject in Nextcloud, navigate to the built 
 ![Nextcloud_app_store](../faq/Nextcloud_app_store.png)
 
 **Activate the OpenProject integration app**
+
 To activate your integration, navigate to your personal settings and choose Connected accounts in the menu on the left.
 
 ![Nextcloud_connected_account](../faq/Nextcloud_connected_account.png)
