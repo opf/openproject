@@ -44,7 +44,7 @@ module Settings
 
     def initialize(name, format:, value:, api_name: name, serialized: false, api: true, admin: true, writable: true)
       self.name = name.to_s
-      self.format = format.to_s
+      self.format = format&.to_sym
       self.value = value
       self.api_name = api_name
       self.serialized = serialized
@@ -70,7 +70,7 @@ module Settings
     end
 
     def merge_value(other_value)
-      if format == 'hash'
+      if format == :hash
         value.deep_merge! other_value
       else
         self.value = other_value
@@ -128,7 +128,7 @@ module Settings
         format = case value
                  when TrueClass, FalseClass
                    :boolean
-                 when Integer, Date, DateTime
+                 when Integer, Date, DateTime, String
                    value.class.name.downcase.to_sym
                  end
 

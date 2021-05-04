@@ -75,12 +75,14 @@ module API
                  },
                  render_nil: true
 
-        Setting.available.select(&:api?).each do |available|
-          property available.api_name,
-                   if: ->(*) { !available.admin? || current_user.admin? },
+        Setting.definitions.select(&:api?).each do |definition|
+          next unless %w(boolean).include?(definition.format)
+
+          property definition.api_name,
+                   if: ->(*) { !definition.admin? || current_user.admin? },
                    exec_context: :decorator,
                    getter: ->(*) {
-                     Setting[available.name]
+                     Setting[definition.name]
                    }
         end
 

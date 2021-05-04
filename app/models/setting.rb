@@ -122,7 +122,7 @@ class Setting < ApplicationRecord
       class_eval src, __FILE__, __LINE__
     end
 
-    def available
+    def definitions
       Settings::Definition.all
     end
 

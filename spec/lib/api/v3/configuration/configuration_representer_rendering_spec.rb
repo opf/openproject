@@ -231,11 +231,15 @@ describe ::API::V3::Configuration::ConfigurationRepresenter, 'rendering' do
       end
     end
 
-    Setting.available_settings.each do |name, config|
-      next unless %w(boolean).include?(config['format'])
+    Setting.definitions.select(&:api?).each do |definition|
+      next unless %w(boolean).include?(definition.format)
 
-      describe name, with_settings: { name => true } do
-        it_behaves_like 'property', name.camelize(:lower).to_sym do
+      describe definition.name, with_settings: { definition.name => true } do
+        current_user do
+          FactoryBot.build_stubbed(:admin)
+        end
+
+        it_behaves_like 'property', definition.api_name.to_sym do
           let(:value) { true }
         end
       end

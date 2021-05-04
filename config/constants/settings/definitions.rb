@@ -247,9 +247,9 @@ Settings::Definition.define do
 
 
   YAML::load(File.open(Rails.root.join('config/settings.yml'))).map do |name, config|
-    format = if %w[boolean symbol date datetime].include?(format)
-               format.to_sym
-             elsif %w[int].include?(format)
+    format = if %w[boolean symbol date datetime].include?(config['format'])
+               config['format'].to_sym
+             elsif %w[int].include?(config['format'])
                :integer
              elsif config['default'].is_a?(Array)
                :array

@@ -64,7 +64,6 @@ module API
       mount ::API::V3::Relations::RelationsAPI
       mount ::API::V3::Repositories::RevisionsAPI
       mount ::API::V3::Roles::RolesAPI
-      mount ::API::V3::Settings::SettingsAPI
       mount ::API::V3::Statuses::StatusesAPI
       mount ::API::V3::StringObjects::StringObjectsAPI
       mount ::API::V3::Types::TypesAPI
