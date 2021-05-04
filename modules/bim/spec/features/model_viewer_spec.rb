@@ -66,7 +66,7 @@ describe 'model viewer',
         show_model_page.model_viewer_shows_a_toolbar true
         show_model_page.page_shows_a_toolbar true
         model_tree.sidebar_shows_viewer_menu true
-        model_tree.expect_model_management_available true
+        model_tree.expect_model_management_available visible: true
       end
 
       it 'shows a work package list as cards next to the viewer' do
@@ -118,7 +118,7 @@ describe 'model viewer',
       show_model_page.model_viewer_shows_a_toolbar true
       show_model_page.page_shows_a_toolbar false
       model_tree.sidebar_shows_viewer_menu true
-      model_tree.expect_model_management_available false
+      model_tree.expect_model_management_available visible: false
     end
   end
 

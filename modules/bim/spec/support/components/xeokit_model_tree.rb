@@ -42,12 +42,12 @@ module Components
       end
     end
 
-    def expect_model_management_available(visible = true)
+    def expect_model_management_available(visible: true)
       selector = '.xeokit-btn.xeokit-addModel'
       expect(page).to have_conditional_selector(visible, selector)
     end
 
-    def click_add_model()
+    def click_add_model
       selector = '.xeokit-btn.xeokit-addModel'
       page.find(selector).click
     end
