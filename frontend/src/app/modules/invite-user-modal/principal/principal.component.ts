@@ -4,6 +4,7 @@ import {
   Input,
   Output,
   EventEmitter,
+  ViewChild,
 } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import {
@@ -11,10 +12,12 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 import { PrincipalLike } from "core-app/modules/principal/principal-types";
 import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
+import { DynamicFormComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-form/dynamic-form.component"
 import { PrincipalType } from '../invite-user.component';
 
 function extractCustomFieldsFromSchema(schema: IOPFormSettings['_embedded']['schema']) {
@@ -45,6 +48,8 @@ export class PrincipalComponent implements OnInit {
   @Output() save = new EventEmitter<{ principal:PrincipalLike, isAlreadyMember:boolean }>();
   @Output() back = new EventEmitter();
 
+  @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
+
   public PrincipalType = PrincipalType;
 
   public text = {
@@ -73,7 +78,7 @@ export class PrincipalComponent implements OnInit {
 
   public principalForm = new FormGroup({
     principal: new FormControl(null, [ Validators.required ]),
-    userDynamicFields: new FormControl(null),
+    userDynamicFields: new FormGroup({}),
   });
 
   public userDynamicFieldConfig: {
@@ -97,7 +102,6 @@ export class PrincipalComponent implements OnInit {
   }
 
   get isNewPrincipal() {
-    console.log(this.hasPrincipalSelected, !(this.principal instanceof HalResource), this.type);
     return this.hasPrincipalSelected && !(this.principal instanceof HalResource);
   }
 
@@ -108,6 +112,7 @@ export class PrincipalComponent implements OnInit {
   constructor(
     readonly I18n:I18nService,
     readonly httpClient:HttpClient,
+    readonly pathHelper:PathHelperService,
   ) {}
 
   ngOnInit() {
@@ -128,17 +133,16 @@ export class PrincipalComponent implements OnInit {
   onSubmit($e:Event) {
     $e.preventDefault();
 
-    if (this.isNewPrincipal && this.type === PrincipalType.User) {
-      return this.httpClient
-        .post<IOPFormSettings>(
-          '/api/v3/users/form',
-          this.principalForm.get('userDynamicFields')?.value, { withCredentials: true, responseType: 'json' })
-        .subscribe((formConfig) => {
-          console.log(formConfig);
-
-        });
+    if (this.dynamicForm) {
+      this.dynamicForm.validateForm().subscribe(() => {
+        this.onValidatedSubmit();
+      });
+    } else {
+      this.onValidatedSubmit();
     }
+  }
 
+  onValidatedSubmit() {
     if (this.principalForm.invalid) {
       return;
     }

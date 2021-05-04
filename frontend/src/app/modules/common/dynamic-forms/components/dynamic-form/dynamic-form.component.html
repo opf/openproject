@@ -1,5 +1,5 @@
 <div data-qa="op-form--container"
-     *ngIf="form && isStandaloneForm">
+     *ngIf="form && handleSubmit">
   <form [formGroup]="form"
         (submit)="submitForm(form)"
         class="op-form">
@@ -41,7 +41,7 @@
 <!-- TODO: Issue: sharing the form as an ng-template between this two HTML blocks doesn't work because
      the nested OpFormFieldComponent don't find the injected FormGroupDirective. --->
 <div data-qa="op-form--container"
-     *ngIf="form && !isStandaloneForm">
+     *ngIf="form && !handleSubmit">
   <formly-form [form]="form"
                [model]="model"
                [fields]="fields"

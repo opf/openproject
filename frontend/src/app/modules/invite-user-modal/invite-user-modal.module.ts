@@ -1,9 +1,11 @@
 import { APP_INITIALIZER, Injector, NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
 import { TextFieldModule } from '@angular/cdk/text-field'; 
 import { NgSelectModule } from "@ng-select/ng-select";
 import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
+import { DynamicFormsModule } from "core-app/modules/common/dynamic-forms/dynamic-forms.module";
 import { InviteUserButtonComponent } from "core-app/modules/invite-user-modal/button/invite-user-button.component";
 import { OpInviteUserModalAugmentService } from "core-app/modules/invite-user-modal/invite-user-modal-augment.service";
 import { OpInviteUserModalService } from "core-app/modules/invite-user-modal/invite-user-modal.service";
@@ -27,6 +29,7 @@ export function initializeServices(injector:Injector) {
 
 @NgModule({
   imports: [
+    CommonModule,
     OpenprojectCommonModule,
     OpenprojectModalModule,
     NgSelectModule,

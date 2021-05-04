@@ -75,14 +75,9 @@ import { FormsService } from "core-app/core/services/forms/forms.service";
   providers: [
     DynamicFormService,
     DynamicFieldsService,
-    {
-      provide: NG_VALUE_ACCESSOR,
-      multi: true,
-      useExisting: forwardRef(() => DynamicFormComponent),
-    }
   ]
 })
-export class DynamicFormComponent extends UntilDestroyedMixin implements ControlValueAccessor, OnChanges {
+export class DynamicFormComponent extends UntilDestroyedMixin implements OnChanges {
   @Input() resourceId:string;
   @Input() resourcePath:string;
   @Input() settings:{
@@ -95,6 +90,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
   @Input() showNotifications = true;
   @Input() showValidationErrorsOn: 'change' | 'blur' | 'submit' | 'never' = 'submit';
   @Input() handleSubmit = true;
+  @Input('dynamicFormGroup') form: FormGroup = new FormGroup({});
 
   @Output() modelChange = new EventEmitter<IOPFormModel>();
   @Output() submitted = new EventEmitter<HalSource>();
@@ -102,7 +98,6 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
 
   fields:IOPFormlyFieldSettings[];
   model:IOPFormModel;
-  form: FormGroup;
   resourceEndpoint:string | null;
   inFlight:boolean;
   text = {
@@ -115,14 +110,9 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
   in order to fetch its setting. Please provide one.`;
   noPathToSubmitToError = `DynamicForm needs a resourcePath input in order to be submitted 
   and validated. Please provide one.`;
-  onChange:Function;
-  onTouch:Function;
 
-  get isFormControl():boolean {
-    return !!this.onChange && !!this.onTouch;
-  }
   get isStandaloneForm():boolean {
-    return !this.isFormControl;
+    return !this.settings;
   }
 
   @ViewChild(FormlyForm)
@@ -140,20 +130,6 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
     super();
   }
 
-  writeValue(value:{[key:string]:any}):void {
-    if (value) {
-      this.model = value;
-    }
-  }
-
-  registerOnChange(fn: (_: any) => void): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouch = fn;
-  }
-
   setDisabledState(disabled: boolean): void {
     disabled ? this.form.disable() : this.form.enable();
   }
@@ -164,15 +140,10 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
 
   onModelChange(changes:any) {
     this.modelChange.emit(changes);
-
-    if (!this.isStandaloneForm) {
-      this.onChange(changes);
-      this.onTouch();
-    }
   }
 
   submitForm(form:FormGroup) {
-    if (!(this.isStandaloneForm && this.handleSubmit)) {
+    if (!this.handleSubmit) {
       return;
     }
 
@@ -203,7 +174,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
       throw new Error(this.noPathToSubmitToError);
     }
 
-    this._formsService.validateForm$(this.form, this.resourceEndpoint).subscribe();
+    return this._formsService.validateForm$(this.form, this.resourceEndpoint);
   }
 
   private _initializeDynamicForm() {
@@ -246,13 +217,8 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements Control
     this._setupDynamicForm(dynamicFormSettings);
   }
 
-  private _setupDynamicForm({fields, model, form}:IOPDynamicFormSettings) {
-    this.form = form;
+  private _setupDynamicForm({fields, model}:IOPDynamicFormSettings) {
     this.fields = this.fieldsSettingsPipe ? this.fieldsSettingsPipe(fields) : fields;
     this.model = model;
-
-    if (!this.isStandaloneForm) {
-      this.onChange(this.model);
-    }
   }
 }
