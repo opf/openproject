@@ -34,17 +34,9 @@ import {
   Apiv3ListResourceInterface, listParamsString
 } from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
 import {Observable} from "rxjs";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
 import {MembershipResource, MembershipResourceEmbedded} from "core-app/modules/hal/resources/membership-resource";
-import {ProjectResource} from 'core-app/modules/hal/resources/project-resource';
-import {UserResource} from "core-app/modules/hal/resources/user-resource";
-import {GroupResource} from "core-app/modules/hal/resources/group-resource";
-import {PlaceholderUserResource} from "core-app/modules/hal/resources/placeholder-user-resource";
-import {RoleResource} from 'core-app/modules/hal/resources/role-resource';
 import {Apiv3MembershipsForm} from "core-app/modules/apiv3/endpoints/memberships/apiv3-memberships-form";
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {map, switchMap} from "rxjs/operators";
 
 
 export class Apiv3MembershipsPaths
