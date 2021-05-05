@@ -37,7 +37,9 @@ You can add users to a group and edit a group by clicking on the **name of the g
 
 After clicking on a group's name, you can **change the group name**, **add or remove group members** and **assign groups to projects**.
 
-![edit groups](image-20200115164847858.png)
+![edit-groups](image-20210505162541644.png)
+
+
 
 ### Add users to a group
 
@@ -53,11 +55,11 @@ Removing a user from a group removes the role from that user in any project usin
 
 Click the **Projects** tab. Select the projects you want to add this group to from the "New project" drop-down list. Tick the roles that you want the group to have. Click the blue **Add** button. Users in the group are added to that project's members using the role selected.
 
-## Delete a group
+### Delete a group
 
 To delete a group click on the **delete** icon in the respective line of the group list.
 
-Deleting a group removes the role from the members of any project using that group. If any user has no other roles (i.e. who were only added as a member of this group and not individually) are removed from the respective project completely.
+Deleting a group removes the role from the members of any project using that group. If a user has no other roles (i.e. who were only added as a member of this group and not individually) he/she is removed from the respective project completely.
 
 ## Impact of groups on project members
 
