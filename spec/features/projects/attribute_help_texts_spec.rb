@@ -35,6 +35,9 @@ describe 'Project attribute help texts', type: :feature, js: true do
     FactoryBot.create :project_help_text,
                       attribute_name: :status,
                       help_text: 'Some **help text** for status.'
+    FactoryBot.create :project_help_text,
+                      attribute_name: :description,
+                      help_text: 'Some **help text** for description.'
   end
 
   let(:grid) do
@@ -81,13 +84,12 @@ describe 'Project attribute help texts', type: :feature, js: true do
     it_behaves_like 'allows to view help texts'
 
     it 'shows the help text on the project create form' do
-      skip 'Attribute help texts are not working yet on dynamic forms'
-
       visit new_project_path
 
-      page.find('.form--fieldset-legend', text: 'ADVANCED SETTINGS').click
+      # TODO: Does this page need a fieldset?
+      # page.find('.form--fieldset-legend', text: 'ADVANCED SETTINGS').click
 
-      expect(page).to have_selector('.form--label attribute-help-text', wait: 10)
+      expect(page).to have_selector('.op-form-field--label attribute-help-text', wait: 10)
 
       # Open help text modal
       modal.open!

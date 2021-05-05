@@ -1,8 +1,10 @@
 <op-form-field [label]="to?.label"
                [noWrapLabel]="to?.noWrapLabel"
                [required]="to?.required"
+               [helpTextAttribute]="field.key"
+               [helpTextAttributeScope]="to?.helpTextAttributeScope"
                [attr.data-qa-field-name]="to?.property">
-  <ng-container #fieldComponent slot=input></ng-container>
+  <ng-container #fieldComponent slot="input"></ng-container>
 
   <formly-validation-message class="op-form-field--error"
                              [field]="field"
