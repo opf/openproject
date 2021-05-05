@@ -521,6 +521,9 @@ zh-CN:
       work_package_belongs_to: '此工作包属于项目%{projectname}。'
       click_to_switch_context: '在该项目中打开此工作包。'
       confirm_template_load: '切换模板将重新加载页面，您将丢失此表单上的所有输入。是否继续？'
+      use_template: "使用模板"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: '项目自动补全'
     text_are_you_sure: "是否确定？"
@@ -1041,3 +1044,6 @@ zh-CN:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: '高级设置'
+
+

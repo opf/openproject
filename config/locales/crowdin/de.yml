@@ -924,6 +924,7 @@ de:
     text_update_consent_time: Aktivieren Sie dieses Häkchen, um Benutzer erneut zur Einwilligung einer Datenschutz- oder Nutzungserklärung aufzufordern. Aktivieren Sie es immer dann, wenn Sie rechtliche Aspekte der Zustimmung verändert haben.
     update_consent_last_time: "Letzte Änderung der Einwilligungsinformationen: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Das Kopieren des Projekts \"%{source_project_name}\" nach \"%{target_project_name}\" wurde gestartet. Sie werden per Mail benachrichtigt, sobald \"%{target_project_name}\" zur Verfügung steht."
     failed: "Das Projekt %{source_project_name} konnte nicht kopiert werden"
     failed_internal: "Kopieren fehlgeschlagen aufgrund eines internen Fehlers."
@@ -1079,7 +1080,7 @@ de:
   default_role_anonymous: "Anonym"
   default_role_developer: "Entwickler"
   default_role_project_admin: "Projekt-Admin"
-  default_role_project_creator: "Projektersteller"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Nichtmitglied"
   default_role_reader: "Leser"
   default_role_member: "Mitglied"

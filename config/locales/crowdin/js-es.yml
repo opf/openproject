@@ -521,6 +521,9 @@ es:
       work_package_belongs_to: 'Este paquete de trabajo pertenece al proyecto %{projectname}.'
       click_to_switch_context: 'Abra este paquete de trabajo en ese proyecto.'
       confirm_template_load: 'Al cambiar la plantilla, se actualizará la página y perderá todos los datos introducidos en el formulario. ¿Quiere continuar?'
+      use_template: "Usar plantilla"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Contexto | Solicitar contexto'
     text_are_you_sure: "¿Estás seguro?"
@@ -1043,3 +1046,6 @@ es:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: 'Ajustes avanzados'
+
+

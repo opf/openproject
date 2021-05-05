@@ -928,6 +928,7 @@ fr:
     text_update_consent_time: Cochez cette case pour forcer les utilisateurs à accepter à nouveau. Activer le lorsque vous avez modifié l'aspect juridique des informations de l'accord ci-dessus.
     update_consent_last_time: "Dernière mise à jour de l'accord: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "La copie du projet \"%{source_project_name}\" vers \"%{target_project_name}\" a débuté. Vous serez informé par courriel dès que \"%{target_project_name}\" sera disponible."
     failed: "Impossible de copier le projet %{source_project_name}"
     failed_internal: "La copie a échoué en raison d'une erreur interne."
@@ -1083,7 +1084,7 @@ fr:
   default_role_anonymous: "Anonyme"
   default_role_developer: "Développeur"
   default_role_project_admin: "Administrateur du projet"
-  default_role_project_creator: "Créateur du projet"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Non membre"
   default_role_reader: "Lecteur"
   default_role_member: "Membre"

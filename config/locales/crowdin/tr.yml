@@ -929,6 +929,7 @@ tr:
     text_update_consent_time: Kullanıcıları tekrar onaylamaya zorlamak için bu kutuyu işaretleyin. Yukarıdaki izin bilgilerinin yasal yönünü değiştirdiğinizde etkinleştirin.
     update_consent_last_time: "Rıza son güncelleme: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "\"%{source_project_name}\" adlı proje \"%{target_project_name}\" adlı yeni bir projeye kopyalanmaya başladı. \"%{target_project_name}\" projesi hazır olduğunda e-posta ile bilgilendirileceksiniz."
     failed: "%{source_project_name} project kopyalanamadı"
     failed_internal: "Dahili bir hata nedeniyle kopyalama başarısız oldu."
@@ -1084,7 +1085,7 @@ tr:
   default_role_anonymous: "Anonim"
   default_role_developer: "Geliştirici"
   default_role_project_admin: "Proje yöneticisi"
-  default_role_project_creator: "Proje yaratıcısı"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Üye Değil"
   default_role_reader: "Okuyucu"
   default_role_member: "Üye"

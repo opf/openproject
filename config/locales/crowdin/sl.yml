@@ -206,7 +206,7 @@ sl:
       no_results_title_text: Trenutno ni projektov
       no_results_content_text: Kreiraj nov projekt
     settings:
-      change_identifier: Change identifier
+      change_identifier: Zamenjaj identifikator
       activities:
         no_results_title_text: Trenutno ni na voljo nobenih aktivnosti.
       forums:
@@ -226,7 +226,7 @@ sl:
     index:
       no_results_title_text: Trenutno ni nobenega člana tega projekta.
       no_results_content_text: Dodaj člana v projekt
-    invite_by_mail: "Send invite to %{mail}"
+    invite_by_mail: "Pošlji vabilo %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Neuspešna poenostavitev \"dostopnega simbola\": %{error}"
@@ -830,32 +830,32 @@ sl:
     version: "Različica"
     work_package: "Zahtevek"
   backup:
-    label_backup_token: "Backup token"
-    label_create_token: "Create backup token"
-    label_delete_token: "Delete backup token"
-    label_reset_token: "Reset backup token"
-    label_token_users: "The following users have active backup tokens"
+    label_backup_token: "Žeton za varnostno kopiranje"
+    label_create_token: "Ustvari žeton za varnostno kopiranje"
+    label_delete_token: "Izbriši žeton za varnostno kopiranje"
+    label_reset_token: "Ponastavi žeton za varnostno kopiranje"
+    label_token_users: "Sledeči uporabniki imajo aktivne žetone za var. kopiranje"
     reset_token:
       action_create: Ustvari
       action_reset: Ponastavi
-      heading_reset: "Reset backup token"
-      heading_create: "Create backup token"
+      heading_reset: "Ponastavi žeton za varnostno kopiranje"
+      heading_create: "Ustvari žeton za varnostno kopiranje"
       implications: >
-        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+        Aktiviranje varnostnih kopij bo kateremu koli uporabniku z zahtevanimi dovoljenji in tem žetonom omogočilo prenos var. kopije, ki vsebuje vse podatke te OpenProject instalacije. To vključuje tudi podatke vseh drugih uporabnikov
       info: >
-        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+        Za kreiranje varnostne kopije morate najprej ustvariti žeton za varnostno kopiranje. Vsakič, ko želite kreirati var. kopijo, morate podati ta žeton. Žeton lahko izbrišete, če želite onemogočiti kreiranje var. kopij za tega uporabnika.
       verification: >
-        Enter %{word} to confirm you want to %{action} the backup token.
-      verification_word_reset: reset
-      verification_word_create: create
+        Vnesite %{word} za potrditev %{action} žetona za varnostno kopiranje.
+      verification_word_reset: ponastavi
+      verification_word_create: ustvari
       warning: >
-        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
-    text_token_deleted: Backup token deleted. Backups are now disabled.
+        Ob kreiranju novega žetona boste šele po 24 urah lahko zaprosili za kreiranje varnostne kopije. To je varnostni ukrep. Po tem lahko kadarkoli zahtevate za kreiranje var. kopije s tem žetonom.
+    text_token_deleted: Žeton za varnostno kopiranje izbrisan. Var. kopije so zdaj onemogočene.
     error:
-      invalid_token: Invalid or missing backup token
-      token_cooldown: The backup token will be valid in %{hours} hours.
-      backup_pending: There is already a backup pending.
-      limit_reached: You can only do %{limit} backups per day.
+      invalid_token: Neveljaven ali neobstoječ žeton za varnostno kopiranje
+      token_cooldown: Žeton za varnostno kopiranje bo veljaven v %{hours} urah.
+      backup_pending: Ena varnostna kopija je že na čakanju.
+      limit_reached: Na dan lahko ustvarite samo %{limit}  varnostnih kopij.
   button_add: "Dodaj"
   button_add_comment: "Dodaj komentar"
   button_add_member: Dodaj člana
@@ -935,6 +935,7 @@ sl:
     text_update_consent_time: Potrdite to polje, da uporabnike prisilite, da ponovno soglašajo. Omogočite, če spremenite pravni vidik zgornjih informacij o soglasju.
     update_consent_last_time: "Zadnja posodobitev privolitve: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Začelo je kopirati projekt \"%{source_project_name}\" v \"%{target_project_name}\". Takoj boste obveščeni po pošti, ko bo na voljo \"%{target_project_name}\"."
     failed: "Projekta %{source_project_name} ni mogoče kopirati"
     failed_internal: "Kopiranje ni uspelo zaradi notranje napake."
@@ -1114,7 +1115,7 @@ sl:
   default_role_anonymous: "Anonimno"
   default_role_developer: "Razvijalec"
   default_role_project_admin: "Skrbnik projekta"
-  default_role_project_creator: "Avtor projekta"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Nečlan"
   default_role_reader: "Bralec"
   default_role_member: "Član"
@@ -1354,7 +1355,7 @@ sl:
   label_available_project_versions: 'Razpoložljiva različica'
   label_available_project_repositories: 'Razpoložljiva odlagališča'
   label_api_documentation: "API dokumentacija"
-  label_backup: "Backup"
+  label_backup: "Varnostna kopija"
   label_between: "med"
   label_blocked_by: "blokirano od"
   label_blocks: "Bloki"
@@ -1557,8 +1558,8 @@ sl:
   label_member_new: "Nov član"
   label_member_all_admin: "(Vse vloge zaradi statusa skrbnika)"
   label_member_plural: "Člani"
-  lable_membership_added: 'Member added'
-  lable_membership_updated: 'Member updated'
+  lable_membership_added: 'Član dodan'
+  lable_membership_updated: 'Član posodobljen'
   label_menu_item_name: "Ime postavke menija"
   label_message: "Sporočilo"
   label_message_last: "Zadnje sporočilo"
@@ -1880,12 +1881,12 @@ sl:
   mail_body_account_activation_request: "Registriral se je nov uporabnik (%{value}). Račun čaka na vašo odobritev:"
   mail_body_account_information: "Informacije vašega računa"
   mail_body_account_information_external: "Za prijavo lahko uporabite vaš %{value} račun."
-  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
-  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
-  mail_body_backup_token_reset_user_info: Your backup token has been reset.
-  mail_body_backup_token_info: The previous token is no longer valid.
-  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
-  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_backup_ready: "Zahtevana varnostna kopija je pripravljena. Tukaj si jo lahko prenesete:"
+  mail_body_backup_token_reset_admin_info: Žeton za uporabnika '%{user}' je ponastavljen.
+  mail_body_backup_token_reset_user_info: Vaš žeton je ponastavljen.
+  mail_body_backup_token_info: Prejšnji žeton ni več veljaven.
+  mail_body_backup_waiting_period: Novi žeton bo omogočen v %{hours} urah.
+  mail_body_backup_token_warning: Če to niste bili vi, se takoj prijavite v OpenProject in ponovno ponastavite.
   mail_body_lost_password: "Za spremembo glesla kliknite na naslednjo povezavo:"
   mail_body_register: "Dobrodošli v OpenProject. Aktivirajte svoj uporabniški račun s klikom na povezavo:"
   mail_body_register_header_title: "E-pošta člana projekta za vabilo"
@@ -1902,8 +1903,8 @@ sl:
   mail_body_wiki_content_added: "%{author} je dodal '%{id}' stran wiki."
   mail_body_wiki_content_updated: "%{author} je posodobil '%{id}' stran wiki."
   mail_subject_account_activation_request: "%{value} zahtevek za aktivacijo računa"
-  mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Your backup token has been reset"
+  mail_subject_backup_ready: "Vaša varnostna kopija je pripravljena"
+  mail_subject_backup_token_reset: "Vaš žeton za varnostno kopiranje je ponastavljen"
   mail_subject_lost_password: "Vaše %{value} geslo"
   mail_subject_register: "Aktivacija %{value} vašega računa"
   mail_subject_reminder: "%{count} zahtevek(zahtevki) zapadejo v naslednjih %{days} dneh"
@@ -1911,26 +1912,26 @@ sl:
   mail_subject_wiki_content_added: "'%{id}' je bil dodan strani wiki"
   mail_subject_wiki_content_updated: "'%{id}' strani wiki je bil posodobljen"
   mail_member_added_project:
-    subject: "%{project} - You have been added as a member"
+    subject: "%{project} - Dodani ste bili kot član"
     body:
       added_by:
-        without_message: "%{user} added you as a member to the project '%{project}'."
-        with_message: "%{user} added you as a member to the project '%{project}' writing:"
-      roles: "You have the following roles:"
+        without_message: "%{user} vas je dodal kot člana na projektu '%{project}'."
+        with_message: "%{user} vas je dodal kot člana na projektu '%{project}' in ob tem napisal/a:"
+      roles: "Imate sledeče vloge:"
   mail_member_updated_project:
-    subject: "%{project} - Your roles have been updated"
+    subject: "%{project} - Vaše vloge so ponastavljene"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have in the project '%{project}'."
-        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
-      roles: "You now have the following roles:"
+        without_message: "%{user} je posodobil vaše vloge na projektu '%{project}'."
+        with_message: "%{user} je posodobil vaše vloge na projektu '%{project}' in ob tem napisal/a:"
+      roles: "Zdaj imate sledeče vloge:"
   mail_member_updated_global:
-    subject: "Your global permissions have been updated"
+    subject: "Vaša globalna dovoljenja so bila ponastavljena"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have globally."
-        with_message: "%{user} updated the roles you have globally writing:"
-      roles: "You now have the following roles:"
+        without_message: "%{user} je ponastavil vaše globalne vloge."
+        with_message: "%{user} je ponastavil vaše globalne vloge in ob tem napisal/a:"
+      roles: "Zdaj imate sledeče vloge:"
   mail_user_activation_limit_reached:
     subject: Aktivacijski limit uporabnika je bil dosežen
     message: |
@@ -2766,7 +2767,7 @@ sl:
       code_403: "Nimate pooblastila za dostop do tega vira."
       code_404: "Zahtevanega vira ni moč najti."
       code_409: "Vira ni bilo mogoče posodobiti zaradi nasprotujočih si sprememb."
-      code_429: "Too many requests. Please try again later."
+      code_429: "Preveč zahtev. Prosimo, poskusite kasneje."
       code_500: "Prišlo je do notranje napake."
       expected:
         date: "LLLL-MM-DD (ISO 8601 le datum)"
@@ -2889,4 +2890,4 @@ sl:
     authorization_error: "Prišlo je do napake v avtorizaciji."
     revoke_my_application_confirmation: "Ali res želite odstraniti to aplikacijo? To bo preklicalo %{token_count} aktivno."
     my_registered_applications: "Registrirane aplikacije OAuth"
-  you: you
+  you: vi

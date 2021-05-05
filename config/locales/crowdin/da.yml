@@ -927,6 +927,7 @@ da:
     text_update_consent_time: Check this box to force users to consent again. Enable when you have changed the legal aspect of the consent information above.
     update_consent_last_time: "Last update of consent: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Started to copy project \"%{source_project_name}\" to \"%{target_project_name}\". You will be informed by mail as soon as \"%{target_project_name}\" is available."
     failed: "Kan ikke kopiere projektet %{source_project_name}"
     failed_internal: "Copying failed due to an internal error."
@@ -1082,7 +1083,7 @@ da:
   default_role_anonymous: "Anonymt"
   default_role_developer: "Udvikler"
   default_role_project_admin: "Projektadmin"
-  default_role_project_creator: "Project creator"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Ikke medlem"
   default_role_reader: "Læser"
   default_role_member: "Medlem"

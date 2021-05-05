@@ -936,6 +936,7 @@ ru:
     text_update_consent_time: Установите этот флажок для повторного запроса согласия у пользователей. Включите, если вы изменили юридический аспект согласия с вышеизложенным.
     update_consent_last_time: "Последнее обновление согласования: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Копирование проекта «%{source_project_name}» в «%{target_project_name}» началось. Вы будете проинформированы по электронной почте, как только «%{target_project_name}» будет доступен."
     failed: "Не удается скопировать проект %{source_project_name}"
     failed_internal: "Копирование не удалось из-за внутренней ошибки."
@@ -1115,7 +1116,7 @@ ru:
   default_role_anonymous: "Анонимно"
   default_role_developer: "Разработчик"
   default_role_project_admin: "Администратор проекта"
-  default_role_project_creator: "Создатель проекта"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Не участник"
   default_role_reader: "Читатель"
   default_role_member: "Участник"

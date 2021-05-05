@@ -520,6 +520,9 @@ pt:
       work_package_belongs_to: 'Este pacote de trabalho pertence ao projeto %{projectname}.'
       click_to_switch_context: 'Abra esse pacote de trabalho nesse projeto.'
       confirm_template_load: 'Mudar o template irá recarregar a página e todos os dados inseridos nesse formulário serão perdidos. Continuar?'
+      use_template: "Usar modelo"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Autocompletar projeto'
     text_are_you_sure: "Você tem certeza?"
@@ -1042,3 +1045,6 @@ pt:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: 'Configurações avançadas'
+
+

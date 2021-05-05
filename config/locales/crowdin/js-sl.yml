@@ -34,18 +34,18 @@ sl:
       remove: "Odstrani \"%{name}\""
       active: "Aktivno %{label}%{name}"
     backup:
-      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      attachments_disabled: Priloge morda ne bodo vključene, saj presegajo maksimalno dovoljeno velikost. To lahko spremenite s konfiguracijo (kar zahteva restart strežnika).
       info: >
-        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+        Tukaj lahko sprožite kreiranje rezerve. Proces lahko nekaj časa traja, odvisno od količine podatkov (sploh prilog), ki jih imate. Ko bo rezerva pripravljena, boste prejeli email.
       note: >
-        A new backup will override any previous one. Only a limited number of backups per day can be requested.
-      last_backup: Last backup
-      last_backup_from: Last backup from
-      title: Backup OpenProject
+        Nova varnostna kopija bo povozila prejšnjo. Samo omejeno število var. kopij lahko v enem dnevu zahtevate.
+      last_backup: Zadnja varnostna kopija
+      last_backup_from: Zadnja varnostna kopija od
+      title: Varnostno kopiranje OpenProject-a
       options: Možnosti
-      include_attachments: Include attachments
-      download_backup: Download backup
-      request_backup: Request backup
+      include_attachments: Vključite priloge
+      download_backup: Prenos varnostne kopije
+      request_backup: Zahteva za varnostno kopijo
     close_popup_title: "Zapri pojavna okna"
     close_filter_title: "Zapri filter"
     close_form_title: "Zapri obliko"
@@ -520,6 +520,9 @@ sl:
       work_package_belongs_to: 'Ta delovni paket pripada projektu %{projectname}.'
       click_to_switch_context: 'Odpri ta delovni paket v tistem projektu. '
       confirm_template_load: 'Menjava predloge bo ponovno naložila stran in vsi podatki vnešeni v obrazec bodo izgubljeni. Ali želite nadaljevati?'
+      use_template: "Uporabi predlogo"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Samodejno dokončanje projekta'
     text_are_you_sure: "Ste prepričani?"
@@ -992,7 +995,7 @@ sl:
         required: 'Prosim izberi projekt'
         next_button: 'Naprej'
         no_results: 'Nobeni projekti niso bili najdeni'
-        no_invite_rights: 'You are not allowed to invite members to this project'
+        no_invite_rights: 'Nimate dovoljenja za vabljenje članov v ta projekt'
       type:
         required: 'Prosim izberi tip za povabilo'
         user:
@@ -1043,6 +1046,9 @@ sl:
           group: 'Skupina je zdaj del %{project}. Medtem lahko planirate s to skupino in ji dodelite delovne naloge.'
         next_button: 'Nadaljuj'
     forms:
-      submit_success_message: 'The form was successfully submitted'
-      load_error_message: 'There was an error loading the form'
-      validation_error_message: 'Please fix the errors present in the form'
+      submit_success_message: 'Obrazev je bil uspešno oddan'
+      load_error_message: 'Pri nalaganju obrazca je prišlo do napake'
+      validation_error_message: 'Prosimo popravite napake v obrazcu'
+      advanced_settings: 'Napredne nastavitve'
+
+

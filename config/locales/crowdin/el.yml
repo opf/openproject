@@ -924,6 +924,7 @@ el:
     text_update_consent_time: Επιλέξτε αυτό το κουτί για να αναγκάσετε τους χρήστες να συναινέσουν ξανά. Ενεργοποιήστε όταν έχετε αλλάξει τις νομικές πτυχές του παραπάνω περιεχομένου συναίνεσης.
     update_consent_last_time: "Τελευταία ενημέρωση συναίνεσης: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Έναρξη αντιγραφής έργου \"%{source_project_name}\" στο \"%{target_project_name}\". Θα ενημερωθείτε με email μόλις το \"%{target_project_name}\" είναι διαθέσιμο."
     failed: "Δεν είναι δυνατή η αντιγραφή του έργου %{source_project_name}"
     failed_internal: "Η αντιγραφή απέτυχε λόγω ενός εσωτερικού σφάλματος."
@@ -1079,7 +1080,7 @@ el:
   default_role_anonymous: "Ανώνυμος"
   default_role_developer: "Προγραμματιστής"
   default_role_project_admin: "Διαχειριστής"
-  default_role_project_creator: "Δημιουργός έργου"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Μη μέλη"
   default_role_reader: "Αναγνώστης"
   default_role_member: "Μέλος"

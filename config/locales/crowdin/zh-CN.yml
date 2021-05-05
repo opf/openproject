@@ -921,6 +921,7 @@ zh-CN:
     text_update_consent_time: 选中此框可强制用户再次同意。在更改上述同意信息的法律方面时启用。
     update_consent_last_time: "同意的最后更新: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "开始将项目“%{source_project_name}”复制到“%{target_project_name}“。“%{target_project_name}”可用后您将会立即收到电子邮件通知。"
     failed: "无法复制项目 %{source_project_name}"
     failed_internal: "由于内部错误，复制失败。"
@@ -1064,7 +1065,7 @@ zh-CN:
   default_role_anonymous: "匿名"
   default_role_developer: "开发者"
   default_role_project_admin: "项目管理员"
-  default_role_project_creator: "项目创建人"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "非成员"
   default_role_reader: "只读"
   default_role_member: "成员"

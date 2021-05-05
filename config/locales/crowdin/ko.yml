@@ -924,6 +924,7 @@ ko:
     text_update_consent_time: 사용자에게 다시 동의하도록 요구하려면 이 확인란을 선택합니다. 위의 동의 정보에 대한 법적 내용을 변경하는 경우에 사용합니다.
     update_consent_last_time: "동의에 대한 마지막 업데이트: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "프로젝트 \"%{source_project_name}\"을(를) \"%{target_project_name}\"(으)로 복사하기 시작했습니다. \"%{target_project_name}\"이(가) 사용 가능하게 되면 메일로 알림이 전송됩니다."
     failed: "프로젝트 %{source_project_name}을(를) 복사할 수 없습니다."
     failed_internal: "내부 오류로 인해 복사가 실패했습니다."
@@ -1067,7 +1068,7 @@ ko:
   default_role_anonymous: "익명"
   default_role_developer: "개발자"
   default_role_project_admin: "프로젝트 관리자"
-  default_role_project_creator: "프로젝트 생성자"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "멤버 없음"
   default_role_reader: "참관자"
   default_role_member: "멤버"
