@@ -108,7 +108,7 @@ export class GitActionsMenuComponent extends OPContextMenuComponent {
   }
 
   public onCopyButtonClick() {
-    const success = copy(this.selectedTab().textToCopy())
+    const success = this.copySelectedTabText();
 
     if (success) {
       this.lastCopyResult = this.text.copyResult.success;
@@ -117,5 +117,9 @@ export class GitActionsMenuComponent extends OPContextMenuComponent {
     }
     this.showCopyResult = true;
     window.setTimeout(() => { this.showCopyResult = false;}, 2000);
+  }
+
+  public copySelectedTabText() {
+    return copy(this.selectedTab().textToCopy());
   }
 }

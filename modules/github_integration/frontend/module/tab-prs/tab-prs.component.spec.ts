@@ -22,7 +22,7 @@ class OpDateTimeComponent {
   dateTimeValue:any;
 }
 
-fdescribe('TabPrsComponent', () => {
+describe('TabPrsComponent', () => {
   let component:TabPrsComponent;
   let fixture:ComponentFixture<TabPrsComponent>;
   let element:DebugElement;
