@@ -32,7 +32,7 @@ describe OpenProject::GithubIntegration::HookHandler do
   subject(:process_webhook) do
     described_class.new
     .tap { journal_counts_before }
-    .process('github', OpenStruct.new(env: environment), params, user)
+    .process('github', OpenStruct.new(env: environment), ActionController::Parameters.new(payload), user)
     .tap { [work_packages[0], work_packages[1], work_packages[2], work_packages[3]].map(&:reload) }
   end
 
@@ -103,6 +103,7 @@ describe OpenProject::GithubIntegration::HookHandler do
       expect { process_webhook }.to(change(GithubPullRequest, :count).by(1).and(change(GithubUser, :count).by(1)))
 
       pull_request = GithubPullRequest.last
+      github_user = GithubUser.last
       expect(pull_request).to have_attributes(
         title: 'A PR title',
         body: "A PR body mentioning OP##{work_packages[0].id}",
@@ -116,11 +117,11 @@ describe OpenProject::GithubIntegration::HookHandler do
         comments_count: 22,
         review_comments_count: 33,
         changed_files_count: 12,
-        repository: 'test_user/webhooks_playground'
+        repository: 'test_user/webhooks_playground',
+        github_user_id: github_user.id
       )
       expect(pull_request.work_packages).to eq [work_packages[0]]
 
-      github_user = GithubUser.last
       expect(github_user).to have_attributes(
         github_login: 'test_user',
         github_html_url: 'https://github.com/test_user',
@@ -133,15 +134,17 @@ describe OpenProject::GithubIntegration::HookHandler do
     it 'creates a partial GithubPullRequest' do
       expect { process_webhook }.to(
         change(GithubPullRequest, :count).by(1).and(
-          change(GithubUser, :count).by(0)
+          change(GithubUser, :count).by(1)
         )
       )
 
       pull_request = GithubPullRequest.last
+      github_user = GithubUser.last
+
       expect(pull_request).to have_attributes(
         number: 1,
-        state: 'partial',
-        title: nil,
+        state: issue_state,
+        title: issue_title,
         body: nil,
         merged: nil,
         draft: nil,
@@ -150,9 +153,16 @@ describe OpenProject::GithubIntegration::HookHandler do
         deletions_count: nil,
         comments_count: nil,
         review_comments_count: nil,
-        changed_files_count: nil
+        changed_files_count: nil,
+        github_user_id: github_user.id
       )
       expect(pull_request.work_packages).to eq [work_packages[0]]
+
+      expect(github_user).to have_attributes(
+                               github_login: 'test_user',
+                               github_html_url: 'https://github.com/test_user',
+                               github_avatar_url: 'https://avatars.githubusercontent.com/u/206108?v=4'
+                             )
     end
   end
 
@@ -160,14 +170,12 @@ describe OpenProject::GithubIntegration::HookHandler do
     let(:event) { 'pull_request' }
 
     context 'when opened without mentioning any work package' do
-      let(:params) do
-        ActionController::Parameters.new(
-          webhook_payload(
-            'pull_request',
-            'opened',
-            title: 'A PR title',
-            body: 'A PR body'
-          )
+      let(:payload) do
+        webhook_payload(
+          'pull_request',
+          'opened',
+          title: 'A PR title',
+          body: 'A PR body'
         )
       end
 
@@ -176,14 +184,12 @@ describe OpenProject::GithubIntegration::HookHandler do
     end
 
     context 'when opened and mentioning a work package in the PR title' do
-      let(:params) do
-        ActionController::Parameters.new(
-          webhook_payload(
-            'pull_request',
-            'opened',
-            title: "A PR title mentioning OP##{work_packages[0].id}",
-            body: 'A PR body'
-          )
+      let(:payload) do
+        webhook_payload(
+          'pull_request',
+          'opened',
+          title: "A PR title mentioning OP##{work_packages[0].id}",
+          body: 'A PR body'
         )
       end
       let(:created_journals) { journal_counts_after.sum - journal_counts_before.sum }
@@ -193,14 +199,12 @@ describe OpenProject::GithubIntegration::HookHandler do
     end
 
     context 'when opened and mentioning a work package using its code in the PR body' do
-      let(:params) do
-        ActionController::Parameters.new(
-          webhook_payload(
-            'pull_request',
-            'opened',
-            title: 'A PR title',
-            body: "A PR body mentioning OP##{work_packages[0].id}"
-          )
+      let(:payload) do
+        webhook_payload(
+          'pull_request',
+          'opened',
+          title: 'A PR title',
+          body: "A PR body mentioning OP##{work_packages[0].id}"
         )
       end
       let(:journal_entry) { 'PR Opened' }
@@ -210,20 +214,18 @@ describe OpenProject::GithubIntegration::HookHandler do
     end
 
     context 'when opened and mentioning many work packages using URLs in the PR body' do
-      let(:params) do
-        ActionController::Parameters.new(
-          webhook_payload(
-            'pull_request',
-            'opened',
-            title: 'A PR title',
-            body: "A PR body mentioning
-            * http://#{host_name}/wp/#{work_packages[0].id}
-            * http://#{host_name}/wp/#{work_packages[0].id} (second mention should not create a second comment)
-            * https://#{host_name}/work_packages/#{work_packages[1].id}
-            * http://#{host_name}/subdir/wp/#{work_packages[2].id}
-            * https://#{host_name}/subdir/work_packages/#{work_packages[3].id}
-            "
-          )
+      let(:payload) do
+        webhook_payload(
+          'pull_request',
+          'opened',
+          title: 'A PR title',
+          body: "A PR body mentioning
+          * http://#{host_name}/wp/#{work_packages[0].id}
+          * http://#{host_name}/wp/#{work_packages[0].id} (second mention should not create a second comment)
+          * https://#{host_name}/work_packages/#{work_packages[1].id}
+          * http://#{host_name}/subdir/wp/#{work_packages[2].id}
+          * https://#{host_name}/subdir/work_packages/#{work_packages[3].id}
+          "
         )
       end
 
@@ -273,19 +275,17 @@ describe OpenProject::GithubIntegration::HookHandler do
         ]
       end
 
-      let(:params) do
-        ActionController::Parameters.new(
-          webhook_payload(
-            'pull_request',
-            'opened',
-            title: 'A PR title',
-            body: "A PR body mentioning
-            * OP##{work_packages[0].id}
-            * OP##{work_packages[1].id}
-            * OP##{work_packages[2].id}
-            * OP##{work_packages[3].id}
-            "
-          )
+      let(:payload) do
+        webhook_payload(
+          'pull_request',
+          'opened',
+          title: 'A PR title',
+          body: "A PR body mentioning
+          * OP##{work_packages[0].id}
+          * OP##{work_packages[1].id}
+          * OP##{work_packages[2].id}
+          * OP##{work_packages[3].id}
+          "
         )
       end
 
@@ -325,14 +325,12 @@ describe OpenProject::GithubIntegration::HookHandler do
     end
 
     context 'when opened as draft' do
-      let(:params) do
-        ActionController::Parameters.new(
-          webhook_payload(
-            'pull_request',
-            'opened_draft',
-            title: 'A PR title',
-            body: "A PR body mentioning OP##{work_packages[0].id}"
-          )
+      let(:payload) do
+        webhook_payload(
+          'pull_request',
+          'opened_draft',
+          title: 'A PR title',
+          body: "A PR body mentioning OP##{work_packages[0].id}"
         )
       end
       let(:journal_entry) { 'PR Opened' }
@@ -343,14 +341,12 @@ describe OpenProject::GithubIntegration::HookHandler do
     end
 
     context 'when synchronized' do
-      let(:params) do
-        ActionController::Parameters.new(
-          webhook_payload(
-            'pull_request',
-            'synchronize',
-            title: 'A PR title',
-            body: "A PR body mentioning OP##{work_packages[0].id}"
-          )
+      let(:payload) do
+        webhook_payload(
+          'pull_request',
+          'synchronize',
+          title: 'A PR title',
+          body: "A PR body mentioning OP##{work_packages[0].id}"
         )
       end
 
@@ -359,14 +355,12 @@ describe OpenProject::GithubIntegration::HookHandler do
     end
 
     context 'when marked as ready_for_review' do
-      let(:params) do
-        ActionController::Parameters.new(
-          webhook_payload(
-            'pull_request',
-            'ready_for_review',
-            title: 'A PR title',
-            body: "A PR body mentioning OP##{work_packages[0].id}"
-          )
+      let(:payload) do
+        webhook_payload(
+          'pull_request',
+          'ready_for_review',
+          title: 'A PR title',
+          body: "A PR body mentioning OP##{work_packages[0].id}"
         )
       end
       let(:journal_entry) { 'PR Ready for Review' }
@@ -376,14 +370,12 @@ describe OpenProject::GithubIntegration::HookHandler do
     end
 
     context 'when the PR was re-labeled' do
-      let(:params) do
-        ActionController::Parameters.new(
-          webhook_payload(
-            'pull_request',
-            'labeled',
-            title: 'A PR title',
-            body: "A PR body mentioning OP##{work_packages[0].id}"
-          )
+      let(:payload) do
+        webhook_payload(
+          'pull_request',
+          'labeled',
+          title: 'A PR title',
+          body: "A PR body mentioning OP##{work_packages[0].id}"
         )
       end
       let(:pr_labels) do
@@ -398,15 +390,13 @@ describe OpenProject::GithubIntegration::HookHandler do
     end
 
     context 'when the PR title was edited' do
-      let(:params) do
-        ActionController::Parameters.new(
-          webhook_payload(
-            'pull_request',
-            'edited_title',
-            old_title: 'The old PR title',
-            title: 'A PR title',
-            body: "A PR body mentioning OP##{work_packages[0].id}"
-          )
+      let(:payload) do
+        webhook_payload(
+          'pull_request',
+          'edited_title',
+          old_title: 'The old PR title',
+          title: 'A PR title',
+          body: "A PR body mentioning OP##{work_packages[0].id}"
         )
       end
       let(:journal_entry) { 'Referenced in PR' }
@@ -416,15 +406,13 @@ describe OpenProject::GithubIntegration::HookHandler do
     end
 
     context 'when the PR body was edited' do
-      let(:params) do
-        ActionController::Parameters.new(
-          webhook_payload(
-            'pull_request',
-            'edited_body',
-            title: 'A PR title',
-            old_body: 'The old PR body',
-            body: "A PR body mentioning OP##{work_packages[0].id}"
-          )
+      let(:payload) do
+        webhook_payload(
+          'pull_request',
+          'edited_body',
+          title: 'A PR title',
+          old_body: 'The old PR body',
+          body: "A PR body mentioning OP##{work_packages[0].id}"
         )
       end
       let(:journal_entry) { 'Referenced in PR' }
@@ -434,14 +422,12 @@ describe OpenProject::GithubIntegration::HookHandler do
     end
 
     context 'when the PR was converted to draft' do
-      let(:params) do
-        ActionController::Parameters.new(
-          webhook_payload(
-            'pull_request',
-            'converted_to_draft',
-            title: 'A PR title',
-            body: "A PR body mentioning OP##{work_packages[0].id}"
-          )
+      let(:payload) do
+        webhook_payload(
+          'pull_request',
+          'converted_to_draft',
+          title: 'A PR title',
+          body: "A PR body mentioning OP##{work_packages[0].id}"
         )
       end
       let(:pr_draft) { true }
@@ -451,14 +437,12 @@ describe OpenProject::GithubIntegration::HookHandler do
     end
 
     context 'when the PR was closed without merging' do
-      let(:params) do
-        ActionController::Parameters.new(
-          webhook_payload(
-            'pull_request',
-            'closed_no_merge',
-            title: 'A PR title',
-            body: "A PR body mentioning OP##{work_packages[0].id}"
-          )
+      let(:payload) do
+        webhook_payload(
+          'pull_request',
+          'closed_no_merge',
+          title: 'A PR title',
+          body: "A PR body mentioning OP##{work_packages[0].id}"
         )
       end
       let(:journal_entry) { 'PR Closed' }
@@ -469,14 +453,12 @@ describe OpenProject::GithubIntegration::HookHandler do
     end
 
     context 'when the PR was reopened' do
-      let(:params) do
-        ActionController::Parameters.new(
-          webhook_payload(
-            'pull_request',
-            'reopened',
-            title: 'A PR title',
-            body: "A PR body mentioning OP##{work_packages[0].id}"
-          )
+      let(:payload) do
+        webhook_payload(
+          'pull_request',
+          'reopened',
+          title: 'A PR title',
+          body: "A PR body mentioning OP##{work_packages[0].id}"
         )
       end
       let(:journal_entry) { 'PR Opened' }
@@ -486,14 +468,12 @@ describe OpenProject::GithubIntegration::HookHandler do
     end
 
     context 'when the PR was merged' do
-      let(:params) do
-        ActionController::Parameters.new(
-          webhook_payload(
-            'pull_request',
-            'closed_merged',
-            title: 'A PR title',
-            body: "A PR body mentioning OP##{work_packages[0].id}"
-          )
+      let(:payload) do
+        webhook_payload(
+          'pull_request',
+          'closed_merged',
+          title: 'A PR title',
+          body: "A PR body mentioning OP##{work_packages[0].id}"
         )
       end
       let(:journal_entry) { 'PR Merged' }
@@ -515,13 +495,11 @@ describe OpenProject::GithubIntegration::HookHandler do
     let(:event) { 'issue_comment' }
 
     context 'when an issue comment was created' do
-      let(:params) do
-        ActionController::Parameters.new(
-          webhook_payload(
-            'issue_comment',
-            'create_not_associated_to_pr',
-            body: "A comment in an issue mentioning OP##{work_packages[0].id}"
-          )
+      let(:payload) do
+        webhook_payload(
+          'issue_comment',
+          'create_not_associated_to_pr',
+          body: "A comment in an issue mentioning OP##{work_packages[0].id}"
         )
       end
 
@@ -530,29 +508,28 @@ describe OpenProject::GithubIntegration::HookHandler do
     end
 
     context 'when a PR comment was created' do
-      let(:params) do
-        ActionController::Parameters.new(
-          webhook_payload(
-            'issue_comment',
-            'create',
-            body: "A PR comment mentioning OP##{work_packages[0].id}"
-          )
+      let(:payload) do
+        webhook_payload(
+          'issue_comment',
+          'create',
+          body: "A PR comment mentioning OP##{work_packages[0].id}"
         )
       end
       let(:journal_entry) { 'Referenced' }
 
       it_behaves_like 'it comments on the first work_package'
-      it_behaves_like 'it creates a partial pull request'
+      it_behaves_like 'it creates a partial pull request' do
+        let(:issue_state) { payload['issue']['state'] }
+        let(:issue_title) { payload['issue']['title'] }
+      end
     end
 
     context 'when an issue comment was edited' do
-      let(:params) do
-        ActionController::Parameters.new(
-          webhook_payload(
-            'issue_comment',
-            'edited_not_associated_to_pr',
-            body: "A comment in an issue mentioning OP##{work_packages[0].id}"
-          )
+      let(:payload) do
+        webhook_payload(
+          'issue_comment',
+          'edited_not_associated_to_pr',
+          body: "A comment in an issue mentioning OP##{work_packages[0].id}"
         )
       end
 
@@ -561,25 +538,26 @@ describe OpenProject::GithubIntegration::HookHandler do
     end
 
     context 'when an PR comment was edited' do
-      let(:params) do
-        ActionController::Parameters.new(
-          webhook_payload(
-            'issue_comment',
-            'edited',
-            body: "A PR comment mentioning OP##{work_packages[0].id}"
-          )
+      let(:payload) do
+        webhook_payload(
+          'issue_comment',
+          'create',
+          body: "A PR comment mentioning OP##{work_packages[0].id}"
         )
       end
       let(:journal_entry) { 'Referenced' }
 
       it_behaves_like 'it comments on the first work_package'
-      it_behaves_like 'it creates a partial pull request'
+      it_behaves_like 'it creates a partial pull request' do
+        let(:issue_state) { payload['issue']['state'] }
+        let(:issue_title) { payload['issue']['title'] }
+      end
     end
   end
 
   context 'when receiving a webhook for a ping event' do
     let(:event) { 'ping' }
-    let(:params) { ActionController::Parameters.new(webhook_payload('ping', 'ping')) }
+    let(:payload) { webhook_payload('ping', 'ping') }
 
     it_behaves_like 'it does not comment on any work package'
     it_behaves_like 'it does not create a pull request'
@@ -593,8 +571,8 @@ describe OpenProject::GithubIntegration::HookHandler do
     before { github_pull_request }
 
     context 'when a run was queued but is not associated to a PR' do
-      let(:params) do
-        ActionController::Parameters.new(webhook_payload('check_run', 'queued_no_associated_pr'))
+      let(:payload) do
+        webhook_payload('check_run', 'queued_no_associated_pr')
       end
 
       it_behaves_like 'it does not comment on any work package'
@@ -606,8 +584,8 @@ describe OpenProject::GithubIntegration::HookHandler do
     end
 
     context 'when a run was queued' do
-      let(:params) do
-        ActionController::Parameters.new(webhook_payload('check_run', 'queued'))
+      let(:payload) do
+        webhook_payload('check_run', 'queued')
       end
 
       it_behaves_like 'it does not comment on any work package'
@@ -627,8 +605,8 @@ describe OpenProject::GithubIntegration::HookHandler do
     end
 
     context 'when a run was completed successfully' do
-      let(:params) do
-        ActionController::Parameters.new(webhook_payload('check_run', 'completed_success'))
+      let(:payload) do
+        webhook_payload('check_run', 'completed_success')
       end
 
       it_behaves_like 'it does not comment on any work package'
@@ -648,8 +626,8 @@ describe OpenProject::GithubIntegration::HookHandler do
     end
 
     context 'when a run was completed with a failure' do
-      let(:params) do
-        ActionController::Parameters.new(webhook_payload('check_run', 'completed_failure'))
+      let(:payload) do
+        webhook_payload('check_run', 'completed_failure')
       end
 
       it_behaves_like 'it does not comment on any work package'

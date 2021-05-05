@@ -53,8 +53,6 @@ FactoryBot.define do
     changed_files_count { 5 }
 
     trait :partial do
-      state { 'partial' }
-
       github_user { nil }
       github_id { nil }
       labels { nil }

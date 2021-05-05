@@ -66,7 +66,10 @@ module OpenProject::GithubIntegration
       end
 
       def pull_request
-        @pull_request ||= GithubPullRequest.find_by(github_id: payload.pull_request.id)
+        @pull_request ||= GithubPullRequest
+                            .where(github_id: payload.pull_request.id)
+                            .or(GithubPullRequest.where(github_html_url: payload.pull_request.html_url))
+                            .take
       end
 
       def upsert_pull_request(work_packages)

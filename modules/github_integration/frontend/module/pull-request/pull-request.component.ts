@@ -51,13 +51,10 @@ export class PullRequestComponent {
   }
 
   get state() {
-    switch (this.pullRequest.state) {
-      case 'open':
-        return(this.pullRequest.draft ? 'draft' : 'open');
-      case 'closed':
-        return(this.pullRequest.merged ? 'merged' : 'closed');
-      default:
-        return('partial');
+    if (this.pullRequest.state === 'open') {
+      return (this.pullRequest.draft ? 'draft' : 'open');
+    } else {
+      return(this.pullRequest.merged ? 'merged' : 'closed');
     }
   }
 
