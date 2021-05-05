@@ -38,6 +38,8 @@ import {
 import { IFCViewerService } from "core-app/modules/bim/ifc_models/ifc-viewer/ifc-viewer.service";
 import { IfcModelsDataService } from "core-app/modules/bim/ifc_models/pages/viewer/ifc-models-data.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { CurrentUserService } from "core-app/modules/current-user/current-user.service";
+import { CurrentProjectService } from "core-app/components/projects/current-project.service";
 
 @Component({
   selector: 'ifc-viewer',
@@ -64,7 +66,9 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
   constructor(private I18n:I18nService,
               private elementRef:ElementRef,
               public ifcData:IfcModelsDataService,
-              private ifcViewer:IFCViewerService) {
+              private ifcViewer:IFCViewerService,
+              private currentUserService:CurrentUserService,
+              private currentProjectService:CurrentProjectService) {
   }
 
   ngOnInit():void {
@@ -76,16 +80,28 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
 
     const element = jQuery(this.elementRef.nativeElement as HTMLElement);
 
-    this.ifcViewer.newViewer(
-      {
-        canvasElement: element.find(".ifc-model-viewer--model-canvas")[0], // WebGL canvas
-        explorerElement: jQuery(".ifc-model-viewer--tree-panel")[0], // Left panel
-        toolbarElement: element.find(".ifc-model-viewer--toolbar-container")[0], // Toolbar
-        navCubeCanvasElement: element.find(".ifc-model-viewer--nav-cube-canvas")[0],
-        busyModelBackdropElement: element.find(".xeokit-busy-modal-backdrop")[0]
-      },
-      this.ifcData.projects
-    );
+    this.currentUserService
+      .hasCapabilities$(
+        [
+          'ifc_models/create',
+          'ifc_models/update',
+          'ifc_models/destroy'
+        ],
+        this.currentProjectService.id as string
+      ).subscribe((manageIfcModelsAllowed) => {
+        this.ifcViewer.newViewer(
+          {
+            canvasElement: element.find(".ifc-model-viewer--model-canvas")[0], // WebGL canvas
+            explorerElement: jQuery(".ifc-model-viewer--tree-panel")[0], // Left panel
+            toolbarElement: element.find(".ifc-model-viewer--toolbar-container")[0], // Toolbar
+            navCubeCanvasElement: element.find(".ifc-model-viewer--nav-cube-canvas")[0],
+            busyModelBackdropElement: element.find(".xeokit-busy-modal-backdrop")[0],
+            enableEditModels: manageIfcModelsAllowed
+          },
+          this.ifcData.projects
+        )
+      });
+
   }
 
   ngOnDestroy():void {

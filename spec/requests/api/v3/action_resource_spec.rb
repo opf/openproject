@@ -56,8 +56,8 @@ describe 'API v3 action resource', type: :request, content_type: :json do
         .at_path('_embedded/elements/0/id')
 
       expect(subject.body)
-        .to be_json_eql(Action.order(id: :asc).last.id.to_json)
-        .at_path("_embedded/elements/#{Action.count - 1}/id")
+        .to be_json_eql(Action.order(id: :asc).first.id.to_json)
+        .at_path("_embedded/elements/0/id")
     end
   end
 
