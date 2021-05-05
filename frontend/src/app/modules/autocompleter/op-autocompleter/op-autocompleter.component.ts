@@ -49,9 +49,9 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   @Input() public bindLabel?:string;
   @Input() public bindValue?:string;
   @Input() public markFirst ? = true;
-  @Input() public placeholder?:string;
-  @Input() public notFoundText?:string;
-  @Input() public typeToSearchText?:string;
+  @Input() public placeholder?:string = this.I18n.t('js.autocompleter.placeholder');
+  @Input() public notFoundText?:string = this.I18n.t('js.autocompleter.notFoundText');
+  @Input() public typeToSearchText?:string = this.I18n.t('js.autocompleter.typeToSearchText');
   @Input() public addTagText?:string;
   @Input() public loadingText?:string;
   @Input() public clearAllText?:string;
@@ -123,6 +123,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     readonly opAutocompleterService:OpAutocompleterService,
     readonly cdRef:ChangeDetectorRef,
     readonly ngZone:NgZone,
+    private readonly I18n:I18nService
   ) {
     super();
   }
@@ -133,7 +134,6 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
       return;
     }
 
-    this.typeToSearchText = this.typeToSearchText ? this.typeToSearchText : this.placeholder;
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         this.results$ = this.defaulData ? (this.searchInput$.pipe(
