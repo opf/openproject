@@ -33,8 +33,8 @@ import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 import { TimezoneService } from 'core-components/datetime/timezone.service';
 
 @Component({
-  templateUrl: './authoring.html',
-  styleUrls: ['./authoring.sass'],
+  templateUrl: './authoring.component.html',
+  styleUrls: ['./authoring.component.sass'],
   selector: 'authoring',
 })
 export class AuthoringComponent implements OnInit {

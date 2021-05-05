@@ -92,6 +92,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   @Input() showNotifications = true;
   @Input() showValidationErrorsOn:'change'|'blur'|'submit'|'never' = 'submit';
   @Input() handleSubmit = true;
+  @Input() helpTextAttributeScope:string|undefined;
   @Input('dynamicFormGroup') form:FormGroup = new FormGroup({});
 
   @Input() set model(payload:IOPFormModel) {
@@ -105,7 +106,6 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
 
   /** Initial payload to POST to the form */
   @Input() initialPayload:Object = {};
-
   @Output() modelChange = new EventEmitter<IOPFormModel>();
   @Output() submitted = new EventEmitter<HalSource>();
   @Output() errored = new EventEmitter<IOPFormErrorResponse>();
@@ -272,7 +272,14 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   }
 
   private _setupDynamicForm({ fields, model }:IOPDynamicFormSettings) {
-    this.fields = this.fieldsSettingsPipe ? this.fieldsSettingsPipe(fields) : fields;
+    const scopedFields = fields.map(field => ({
+      ...field,
+      templateOptions: {
+        ...field.templateOptions,
+        helpTextAttributeScope: this.helpTextAttributeScope,
+      },
+    }));
+    this.fields = this.fieldsSettingsPipe ? this.fieldsSettingsPipe(scopedFields) : scopedFields;
     this.innerModel = model;
 
     this._changeDetectorRef.detectChanges();

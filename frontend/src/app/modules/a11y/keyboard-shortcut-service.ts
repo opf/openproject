@@ -27,9 +27,10 @@
 //++
 
 import { Injectable } from "@angular/core";
-import { PathHelperService } from "../common/path-helper/path-helper.service";
-import { CurrentProjectService } from "../../components/projects/current-project.service";
-import { FocusHelperService } from "../common/focus/focus-helper";
+import { FocusHelperService } from "core-app/modules/focus/focus-helper";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { CurrentProjectService } from "core-app/components/projects/current-project.service";
+
 
 const accessKeys = {
   preview: 1,

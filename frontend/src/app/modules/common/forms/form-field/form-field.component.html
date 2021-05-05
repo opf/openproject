@@ -1,6 +1,13 @@
 <ng-container *ngIf="!hidden">
   <label class="op-form-field--label-wrap">
-    <ng-container *ngTemplateOutlet="inputLabelTemplate"></ng-container>
+    <div class="op-form-field--label">
+      {{ label }}
+      <span *ngIf="required" class="op-form-field--label-indicator">*</span>
+      <attribute-help-text
+        [attribute]="helpTextAttribute"
+        [attributeScope]="helpTextAttributeScope"
+      ></attribute-help-text>
+    </div>
 
     <ng-container *ngIf="!noWrapLabel">
       <ng-container *ngTemplateOutlet="inputTemplate"></ng-container>
@@ -28,12 +35,5 @@
 
   <div class="op-form-field--help-text">
     <ng-content select="[slot=help-text]"></ng-content>
-  </div>
-</ng-template>
-
-<ng-template #inputLabelTemplate>
-  <div class="op-form-field--label">
-    {{ label }}
-    <span *ngIf="required" class="op-form-field--label-indicator">*</span>
   </div>
 </ng-template>

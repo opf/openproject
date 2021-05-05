@@ -37,7 +37,7 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { ContainHelpers } from 'core-app/modules/common/focus/contain-helpers';
+import { ContainHelpers } from 'core-app/modules/focus/contain-helpers';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";

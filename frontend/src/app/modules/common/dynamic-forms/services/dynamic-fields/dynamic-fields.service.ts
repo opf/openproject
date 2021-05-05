@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   IOPDynamicInputTypeSettings,
   IOPFormlyFieldSettings,
 } from "../../typings";
-import {FormlyFieldConfig} from "@ngx-formly/core";
-import {of} from "rxjs";
-import {map} from "rxjs/operators";
-import {HttpClient} from "@angular/common/http";
+import { FormlyFieldConfig } from "@ngx-formly/core";
+import { of } from "rxjs";
+import { map } from "rxjs/operators";
+import { HttpClient } from "@angular/common/http";
 
 
 @Injectable()
@@ -121,11 +121,12 @@ export class DynamicFieldsService {
 
   getFormattedFieldsModel(formModel:IOPFormModel = {}):IOPFormModel {
     const { _links: resourcesModel, _meta: metaModel, ...otherElementsModel } = formModel;
+
     const model = {
       ...otherElementsModel,
       _meta: metaModel,
       _links: this._getFormattedResourcesModel(resourcesModel),
-    }
+    };
 
     return model;
   }
@@ -172,7 +173,7 @@ export class DynamicFieldsService {
       result = {
         ...result,
         [resourceKey]: resourceModel,
-      }
+      };
 
       return result;
     }, {});
