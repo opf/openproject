@@ -34,9 +34,11 @@ require 'roar/json/hal'
 module API
   module Decorators
     class PropertySchemaRepresenter < ::API::Decorators::Single
+      include API::Decorators::FormattableProperty
+
       def initialize(
         type:, name:, location: nil, required: true, has_default: false, writable: true,
-        attribute_group: nil, current_user: nil
+        attribute_group: nil, description: nil, current_user: nil
       )
         @type = type
         @name = name
@@ -45,6 +47,7 @@ module API
         @writable = writable
         @attribute_group = attribute_group
         @location = derive_location(location)
+        @description = description
 
         super(nil, current_user: current_user)
       end
@@ -59,7 +62,8 @@ module API
                     :max_length,
                     :regular_expression,
                     :options,
-                    :location
+                    :location,
+                    :description
 
       property :type, exec_context: :decorator
       property :name, exec_context: :decorator
@@ -74,6 +78,15 @@ module API
 
       property :location, exec_context: :decorator, render_nil: false
 
+      formattable_property :description,
+                           exec_context: :decorator,
+                           render_nil: false,
+                           setter: nil,
+                           getter: ->(*) do
+                             next unless description.present?
+                             ::API::Decorators::Formattable.new(description)
+                           end
+
       private
 
       def model_required?
@@ -85,12 +98,16 @@ module API
       # Derive the frontend location value to be passed
       # either nil, _links, or _meta depending on the input
       def derive_location(location)
-        return if location.nil?
-
-        return :_links if location.to_s == 'link'
-        return :_meta if location.to_s == 'meta'
-
-        raise ArgumentError, "Invalid location attribute #{location}"
+        case location.to_s
+        when 'link'
+          :_links
+        when 'meta'
+          :_meta
+        when ''
+          nil
+        else
+          raise ArgumentError, "Invalid location attribute #{location}"
+        end
       end
     end
   end

@@ -33,6 +33,19 @@ sk:
         single: "Vybrať \"%{name}\""
       remove: "Odstrániť %{name}"
       active: "Aktívne %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Voľby
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Zavrieť okno"
     close_filter_title: "Zavrieť filter"
     close_form_title: "Zavrieť formulár"
@@ -466,6 +479,7 @@ sk:
         help_menu: 'V ponuke <b>Help</b> nájdete používateľskú príručku a ďalšie zdroje pomoci. <br> Užite si svoju prácu s programom OpenProject!'
         members: 'Pozvať nových <b>Členov</b> do vášho projektu.'
         project_selection: 'Vyberte jeden z projektov s užitočnými demo dátami: <br><b>"Demo projekt"</b> je vhodný pre klasické riadenie projektov, <b>"Scrum projekt"</b> je vhodný pre agilné riadenie projektov.'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "Pomocou šípky sa môžete vrátiť späť k projektom <b>Hlavná ponuka</b>."
         welcome: 'Urobte si tri minúty čas na úvodnú prehliadku, aby ste sa naučili čo najviac <b>dôležité funkcie</b>.<br> Doporučujeme dokončiť prehliadku až do konca. Prehliadku môžete kedykoľvek reštartovať.'
         wiki: 'V rámci <b>Wiki</b> možno dokumentovať a zdieľať znalosti spolu so svojím tímom.'
@@ -507,6 +521,9 @@ sk:
       work_package_belongs_to: 'Tento pracovný balíček patrí k projektu %{projectname}.'
       click_to_switch_context: 'Otvoriť tento pracovný balík v danom projekte.'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      use_template: "Použiť šablónu"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Automatické doplňovanie projektu'
     text_are_you_sure: "Ste si istí?"
@@ -979,6 +996,7 @@ sk:
         required: 'Please select a project'
         next_button: 'Ďalšie'
         no_results: 'No projects were found'
+        no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: 'Please select the type to be invited'
         user:
@@ -1028,3 +1046,10 @@ sk:
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: 'Pokračovať'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: 'Rozšírené nastavenia'
+
+

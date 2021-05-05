@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 require 'ladle'
 
-describe LdapGroups::SynchronizationService, with_ee: %i[ldap_groups] do
+describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
   let(:plugin_settings) do
     { group_base: 'ou=groups,dc=example,dc=com', group_key: 'cn' }
   end
@@ -181,6 +181,39 @@ describe LdapGroups::SynchronizationService, with_ee: %i[ldap_groups] do
 
           expect(group_foo.users).to be_empty
           expect(group_bar.users).to eq([user_cc414])
+        end
+
+        context 'with LDAP on-the-fly disabled' do
+          let(:onthefly_register) { false }
+          let(:user_aa729) { User.find_by login: 'aa729' }
+          let(:user_bb459) { User.find_by login: 'bb459' }
+
+
+          context 'and users sync in the groups enabled' do
+            let(:sync_users) { true }
+
+            it 'creates the remaining users' do
+              subject
+              expect(synced_foo.users.count).to eq(1)
+              expect(synced_bar.users.count).to eq(3)
+
+              expect(group_foo.users).to contain_exactly(user_aa729)
+              expect(group_bar.users).to contain_exactly(user_aa729, user_bb459, user_cc414)
+            end
+          end
+
+          context 'and users sync not enabled' do
+            let(:sync_users) { false }
+
+            it 'does not create the users' do
+              subject
+              expect(synced_foo.users.count).to eq(0)
+              expect(synced_bar.users.count).to eq(1)
+
+              expect(group_foo.users).to be_empty
+              expect(group_bar.users).to contain_exactly(user_cc414)
+            end
+          end
         end
 
         context 'with LDAP on-the-fly enabled' do

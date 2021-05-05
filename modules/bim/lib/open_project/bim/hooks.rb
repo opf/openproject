@@ -27,7 +27,7 @@
 #+
 
 module OpenProject::Bim::Hooks
-  class Hook < Redmine::Hook::Listener
+  class Hook < OpenProject::Hook::Listener
     include ActionView::Helpers::TagHelper
     include ActionView::Context
     include WorkPackagesHelper

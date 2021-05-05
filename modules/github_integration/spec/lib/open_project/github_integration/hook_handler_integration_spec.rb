@@ -53,9 +53,7 @@ describe OpenProject::GithubIntegration::HookHandler do
                       permissions: %i[view_work_packages add_work_package_notes])
   end
   let(:project) do
-    FactoryBot.create(:project).tap do |p|
-      p.add_member(user, role).save
-    end
+    FactoryBot.create(:project, members: { user => role })
   end
 
   let(:work_packages) { FactoryBot.create_list :work_package, 4, project: project }

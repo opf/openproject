@@ -6,13 +6,29 @@
   [clearable]="true"
   [clearOnBackspace]="false"
   [clearSearchOnAdd]="false"
-  bindLabel="name"
+  [compareWith]="compareWith"
+  bindValue="project"
   autofocus
   #ngselect
 >
-  <!--Selectable option-->
+  <ng-template ng-label-tmp let-item="item">
+    {{ item.project?.name || item.name }}
+  </ng-template>
+
   <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-    <div [ngOptionHighlight]="search" class="ng-option-label ellipsis">{{ item.name }}</div>
+    <div
+      *ngIf="item"
+      class="ng-option-label"
+    >
+      <!--Selectable option-->
+      <div [ngOptionHighlight]="search">{{ item.project.name }}</div>
+
+      <!-- No invite rights -->
+      <div
+        *ngIf="item.disabled"
+        class="ellipsis"
+      >{{ text.noInviteRights }}</div>
+    </div>
   </ng-template>
 
   <!--Nothing found -->

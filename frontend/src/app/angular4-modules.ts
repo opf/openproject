@@ -78,6 +78,7 @@ import { OpenprojectInviteUserModalModule } from "core-app/modules/invite-user-m
 import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
 import { RevitAddInSettingsButtonService } from "core-app/modules/bim/revit_add_in/revit-add-in-settings-button.service";
 import { OpenprojectAutocompleterModule } from "core-app/modules/autocompleter/openproject-autocompleter.module";
+import { OpenProjectBackupService } from './components/api/op-backup/op-backup.service';
 
 @NgModule({
   imports: [
@@ -153,6 +154,7 @@ import { OpenprojectAutocompleterModule } from "core-app/modules/autocompleter/o
     { provide: States, useValue: new States() },
     { provide: APP_INITIALIZER, useFactory: initializeServices, deps: [Injector], multi: true },
     PaginationService,
+    OpenProjectBackupService,
     OpenProjectFileUploadService,
     OpenProjectDirectFileUploadService,
     // Split view

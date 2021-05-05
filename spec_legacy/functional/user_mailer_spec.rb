@@ -44,20 +44,6 @@ describe UserMailer, type: :mailer do
     ::Type.delete_all
   end
 
-  it 'should test mail sends a simple greeting' do
-    user = FactoryBot.create(:admin, mail: 'foo@bar.de', preferences: { no_self_notified: false })
-
-    mail = UserMailer.test_mail(user)
-    assert mail.deliver_now
-
-    assert_equal 1, ActionMailer::Base.deliveries.size
-
-    assert_equal 'OpenProject Test', mail.subject
-    assert_equal ['foo@bar.de'], mail.to
-    assert_equal ['john@doe.com'], mail.from
-    assert_match /OpenProject URL/, mail.body.encoded
-  end
-
   it 'should generated links in emails' do
     Setting.default_language = 'en'
     Setting.host_name = 'mydomain.foo'
@@ -135,16 +121,6 @@ describe UserMailer, type: :mailer do
     end
   end
 
-  it 'should email headers' do
-    user  = FactoryBot.create(:user)
-    issue = FactoryBot.create(:work_package)
-    mail = UserMailer.work_package_added(user, issue.journals.first, user)
-    assert mail.deliver_now
-    refute_nil mail
-    assert_equal 'bulk', mail.header['Precedence'].to_s
-    assert_equal 'auto-generated', mail.header['Auto-Submitted'].to_s
-  end
-
   it 'sends plain text mail' do
     Setting.plain_text_mail = 1
     user = FactoryBot.create(:user, preferences: { no_self_notified: false })
@@ -165,16 +141,6 @@ describe UserMailer, type: :mailer do
     assert_match /multipart\/alternative/, mail.content_type
     assert_equal 2, mail.parts.size
     assert mail.encoded.include?('href')
-  end
-
-  context 'with mail_from set', with_settings: { mail_from: 'Redmine app <redmine@example.net>' } do
-    it 'should mail from with phrase' do
-      user = FactoryBot.create(:user, preferences: { no_self_notified: false })
-      UserMailer.test_mail(user).deliver_now
-      mail = ActionMailer::Base.deliveries.last
-      refute_nil mail
-      assert_equal 'Redmine app <redmine@example.net>', mail.header['From'].to_s
-    end
   end
 
   it 'should not send email without recipient' do

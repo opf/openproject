@@ -35,10 +35,7 @@ describe 'API v3 Query Filter Schema resource', type: :request do
 
   let(:project) { FactoryBot.create(:project) }
   let(:visible_child) do
-    child = FactoryBot.create(:project, parent: project)
-    child.add_member! user, role
-
-    child
+    FactoryBot.create(:project, parent: project, members: { user => role })
   end
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }

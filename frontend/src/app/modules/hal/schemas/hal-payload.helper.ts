@@ -69,11 +69,11 @@ export class HalPayloadHelper {
         if (resource.$links[key]) {
           if (Array.isArray(resource[key])) {
             payload['_links'][key] = _.map(resource[key], element => {
-              return { href: (element as HalResource).$href };
+              return { href: (element as HalResource).href };
             });
           } else {
             payload['_links'][key] = {
-              href: (resource[key] && resource[key].$href)
+              href: (resource[key] && resource[key].href)
             };
           }
         } else {

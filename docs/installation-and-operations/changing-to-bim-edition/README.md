@@ -21,8 +21,7 @@ Make sure that you not only install the new package but also run `sudo openproje
 
 ### Switching to BIM Edition
 
-Now that your OpenProject instance is up to date, you can _reconfigure_ it 
-to be a BIM Edition.
+Now that your OpenProject instance is up to date, you can _reconfigure_ it to be a BIM Edition.
 
 On the command line of your server run the following command. It will open a wizard that
 guides you through through the most important installation settings of your instance.
@@ -77,4 +76,4 @@ We recommend that each type has the following status options:
 OpenProject installations with a valid Enterprise Edition token can switch to the BIM 
 theme.
 
-Go to _-> Administration -> Design_ and from the _Themes_ drop down menu chose _OpenProject BIM_.
+Go to _-> Administration -> Design_ and from the _Themes_ drop down menu choose _OpenProject BIM_.

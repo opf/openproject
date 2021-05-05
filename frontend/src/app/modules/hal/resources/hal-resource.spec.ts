@@ -68,7 +68,7 @@ describe('HalResource', () => {
 
   it('should be instantiable using a default object', () => {
     const resource = halResourceService.createHalResource({}, true);
-    expect(resource.$href).toEqual(null);
+    expect(resource.href).toEqual(null);
   });
 
   describe('when updating a loaded resource using `$update()`', () => {

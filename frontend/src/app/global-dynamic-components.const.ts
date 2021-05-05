@@ -155,6 +155,7 @@ import {
   editableQueryPropsSelector
 } from "core-app/modules/admin/editable-query-props/editable-query-props.component";
 import { SlideToggleComponent, slideToggleSelector } from "core-app/modules/common/slide-toggle/slide-toggle.component";
+import { BackupComponent, backupSelector } from "./components/admin/backup.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -201,7 +202,8 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: attributeLabelMacro, cls: AttributeLabelMacroComponent, embeddable: true },
   { selector: quickInfoMacroSelector, cls: WorkPackageQuickinfoMacroComponent, embeddable: true },
   { selector: editableQueryPropsSelector, cls: EditableQueryPropsComponent },
-  { selector: slideToggleSelector, cls: SlideToggleComponent }
+  { selector: slideToggleSelector, cls: SlideToggleComponent },
+  { selector: backupSelector, cls: BackupComponent }
 ];
 
 

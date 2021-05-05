@@ -49,7 +49,7 @@ import { HalResourceSortingService } from "core-app/modules/hal/services/hal-res
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { NgSelectComponent } from "@ng-select/ng-select";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
-import { CurrentUserService } from "core-components/user/current-user.service";
+import { CurrentUserService } from "core-app/modules/current-user/current-user.service";
 
 @Component({
   selector: 'filter-toggled-multiselect-value',
@@ -163,7 +163,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
   }
 
   private addMeValue(currentUser:UserResource) {
-    if (!(currentUser && currentUser.$href)) {
+    if (!(currentUser && currentUser.href)) {
       return;
     }
 

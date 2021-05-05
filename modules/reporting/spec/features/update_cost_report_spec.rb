@@ -30,11 +30,9 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 require_relative 'support/pages/cost_report_page'
 
 describe "updating a cost report's cost type", type: :feature, js: true do
-  let(:project) { FactoryBot.create :project_with_types }
+  let(:project) { FactoryBot.create :project_with_types, members: { user => FactoryBot.create(:role) } }
   let(:user) do
-    FactoryBot.create(:admin).tap do |user|
-      project.add_member! user, FactoryBot.create(:role)
-    end
+    FactoryBot.create(:admin)
   end
 
   let(:cost_type) do

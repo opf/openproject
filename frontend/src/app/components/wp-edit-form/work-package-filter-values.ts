@@ -1,6 +1,6 @@
 import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
-import { CurrentUserService } from "core-components/user/current-user.service";
+import { CurrentUserService } from "core-app/modules/current-user/current-user.service";
 import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
 import { Injector } from '@angular/core';
 import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
@@ -102,7 +102,7 @@ export class WorkPackageFilterValues {
       return value;
     }
 
-    if (value instanceof HalResource && value.$href === '/api/v3/users/me' && this.currentUser.isLoggedIn) {
+    if (value instanceof HalResource && value.href === '/api/v3/users/me' && this.currentUser.isLoggedIn) {
       return this.halResourceService.fromSelfLink(`/api/v3/users/${this.currentUser.userId}`);
     }
 
@@ -110,22 +110,18 @@ export class WorkPackageFilterValues {
   }
 
   /**
-   * Avoid applying filter values when
-   *  - more than one filter value selected
-   *  - changeset already matches one of the selected values
+   * Avoid applying filter values when changeset already matches one of the selected values
    * @param filter
    */
   private filterAlreadyApplied(change:WorkPackageChangeset|{[id:string]:any}, filter:any):boolean {
-    // Only applicable if more than one selected
-    if (filter.values.length <= 1) {
-      return false;
-    }
-
-    const current = change instanceof WorkPackageChangeset ? change.projectedResource[filter.id] : change[filter.id];
+    let current = change instanceof WorkPackageChangeset ? change.projectedResource[filter.id] : change[filter.id];
+    current = _.castArray(current);
 
     for (let i = 0; i < filter.values.length; i++) {
-      if (compareByHrefOrString(current, filter.values[i])) {
-        return true;
+      for (let j = 0; j < current.length; j++) {
+        if (compareByHrefOrString(current[j], filter.values[i])) {
+          return true;
+        }
       }
     }
 

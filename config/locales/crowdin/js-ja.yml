@@ -34,6 +34,19 @@ ja:
         single: "\"%{name}\" を選択"
       remove: "%{name} を削除"
       active: "アクティブ %{label} %{name}"
+    backup:
+      attachments_disabled: 添付ファイルは、許容されている最大サイズを超えているため、含まれない場合があります。これは、設定で変更できます（サーバーの再起動が必要です）。
+      info: >
+        ここでは、バックアップを開始することができます。データ（特に添付ファイル）の量によっては、処理に時間がかかる場合があります。準備が整うとメールが届きます。
+      note: >
+        新しいバックアップは以前のバックアップを上書きします。1日にリクエストできるバックアップの数には限りがあります。
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: OpenProject のバックアップ
+      options: オプション
+      include_attachments: 添付ファイルを含める
+      download_backup: Download backup
+      request_backup: バックアップをリクエスト
     close_popup_title: "ポップアップを閉じる"
     close_filter_title: "フィルタを閉じる"
     close_form_title: "フォームを閉じる"
@@ -469,6 +482,7 @@ ja:
         help_menu: '<b>ヘルプ</b>メニューには、ユーザーガイドとその他のヘルプリソースがあります。 <br> OpenProjectであなたの仕事をお楽しみください！'
         members: '新しい<b>メンバー</b>を招待してプロジェクトに参加してください。'
         project_selection: '便利なデモデータを含むプロジェクトを１つ選択して開始してください。 <br> <b>デモプロジェクト</b>は伝統的なプロジェクト管理に最適ですが、<b>スクラムプロジェクト</b>はアジャイルプロジェクト管理に適しています。'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "矢印を使って、プロジェクトの<b>メインメニュー</b>に戻ることができます。"
         welcome: '3分間の導入ツアーで、最も<b>重要な機能</b>を確認します。 <br>最後まで手順を完了することをお勧めします。 ツアーはいつでも再開できます。'
         wiki: '<b>Wiki</b>内ではチームと一緒に知識を文書化して共有することができます。'
@@ -510,6 +524,9 @@ ja:
       work_package_belongs_to: 'このワークパッケージは、プロジェクト %{projectname} に属しています。'
       click_to_switch_context: 'このワークパッケージをそのプロジェクトで開きます。'
       confirm_template_load: 'テンプレートを切り替えるとページが再読み込みされ、すべての入力が失われます。続行しますか？'
+      use_template: "テンプレートを使用"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'プロジェクト名の入力補完'
     text_are_you_sure: "よろしいですか？"
@@ -978,6 +995,7 @@ ja:
         required: 'プロジェクトを選択してください'
         next_button: '次へ'
         no_results: 'プロジェクトが見つかりませんでした'
+        no_invite_rights: 'このプロジェクトにメンバーを招待することは許可されていません'
       type:
         required: '招待するタイプを選択してください '
         user:
@@ -1027,3 +1045,10 @@ ja:
           placeholder: 'プレースホルダーを %{project} で使用できるようになりました。一方で、そのユーザを使って計画を立てたり、ワークパッケージを割り当てたりすることができます。'
           group: 'グループは %{project} の一部になりました。一方で、そのグループを使って計画を立てたり、ワークパッケージを割り当てたりすることができます。'
         next_button: '続行'
+    forms:
+      submit_success_message: 'フォームは正常に送信されました'
+      load_error_message: 'フォームの読み込み中にエラーが発生しました'
+      validation_error_message: 'フォームに存在するエラーを修正してください'
+      advanced_settings: '詳細設定'
+
+

@@ -33,6 +33,19 @@ zh-TW:
         single: "選擇 \"%{name}\""
       remove: "刪除 %{name}"
       active: "啟用 %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: 選項
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "關閉彈出式視窗"
     close_filter_title: "關閉篩選器"
     close_form_title: "關閉表單"
@@ -465,6 +478,7 @@ zh-TW:
         help_menu: '您可以在<b>幫助</b>選單裡找到使用者手冊和更多的幫助資源．'
         members: '邀請新的 <b>會員</b> 加入您的專案。'
         project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "使用箭頭, 您可以導航回專案的 <b>主功能表</b>。"
         welcome: '觀看三分鐘的介紹導覽, 以瞭解最多 <b>重要功能</b>。 <br> 我們建議完成所有步驟直到結束。您可以隨時重新開始導覽。'
         wiki: '在 <b>wiki</b> 中, 您可以與您的團隊一起記錄和分享知識。'
@@ -506,6 +520,9 @@ zh-TW:
       work_package_belongs_to: '此工作項目屬於專案 %{projectname}。'
       click_to_switch_context: '在該專案中打開此工作項目。'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      use_template: "使用範本"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: '專案自動完成'
     text_are_you_sure: "是否確定？"
@@ -972,6 +989,7 @@ zh-TW:
         required: 'Please select a project'
         next_button: '下一個'
         no_results: 'No projects were found'
+        no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: 'Please select the type to be invited'
         user:
@@ -1021,3 +1039,10 @@ zh-TW:
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: '繼續'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: '進階設定'
+
+

@@ -33,6 +33,19 @@ sv:
         single: "Välj ”%{name}”"
       remove: "Ta bort %{name}"
       active: "Aktiva %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Alternativ
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Stäng popup"
     close_filter_title: "Stäng filter"
     close_form_title: "Stäng formulär"
@@ -465,6 +478,7 @@ sv:
         help_menu: 'I menyn <b>Hjälp</b> hittar du en användarhandbok och ytterligare hjälpresurser. <br> Njut av ditt arbete med OpenProject!'
         members: 'Bjud in nya <b>medlemmar</b> att gå med i ditt projekt.'
         project_selection: 'Klicka på något av projekten med användbar demodata för att komma igång. <br> Demoprojektet <b></b> passar bäst för klassisk projektledning, medan <b>Scrum projektet</b> är bättre för Agile projektledning.'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "Med pilen kan du navigera tillbaka till projektets <b>huvudmeny</b>."
         welcome: 'Ta en tre minuters introduktionstur för att lära dig de <b>viktigaste funktionerna</b>. <br> Vi rekommenderar att du slutför stegen till slutet. Du kan starta om turen när som helst.'
         wiki: 'Inom <b>Wiki</b> kan du dokumentera och dela kunskap tillsammans med ditt team.'
@@ -506,6 +520,9 @@ sv:
       work_package_belongs_to: 'Detta arbetspaket tillhör projektet %{projectname}.'
       click_to_switch_context: 'Öppna detta arbetspaket i det projektet.'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      use_template: "Use template"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Automatisk komplettering av projekt'
     text_are_you_sure: "Är du säker?"
@@ -974,6 +991,7 @@ sv:
         required: 'Please select a project'
         next_button: 'Nästa'
         no_results: 'No projects were found'
+        no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: 'Please select the type to be invited'
         user:
@@ -1023,3 +1041,10 @@ sv:
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: 'Fortsätt'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: 'Avancerade inställningar'
+
+

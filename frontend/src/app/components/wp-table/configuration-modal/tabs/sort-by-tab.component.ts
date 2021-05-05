@@ -41,8 +41,8 @@ export class WpTableConfigurationSortByTab implements TabComponent {
   };
 
   readonly availableDirections = [
-    { $href: QUERY_SORT_BY_ASC, name: this.I18n.t('js.label_ascending') },
-    { $href: QUERY_SORT_BY_DESC, name: this.I18n.t('js.label_descending') }
+    { href: QUERY_SORT_BY_ASC, name: this.I18n.t('js.label_ascending') },
+    { href: QUERY_SORT_BY_DESC, name: this.I18n.t('js.label_descending') }
   ];
 
   public availableColumns:SortColumn[] = [];
@@ -77,11 +77,11 @@ export class WpTableConfigurationSortByTab implements TabComponent {
       .subscribe(() => {
         const allColumns:SortColumn[] = this.wpTableSortBy.available.filter(
           (sort:QuerySortByResource) => {
-            return !sort.column.$href!.endsWith('/parent');
+            return !sort.column.href!.endsWith('/parent');
           }
         ).map(
           (sort:QuerySortByResource) => {
-            return { name: sort.column.name, href: sort.column.$href };
+            return { name: sort.column.name, href: sort.column.href };
           }
         );
 
@@ -92,10 +92,10 @@ export class WpTableConfigurationSortByTab implements TabComponent {
         this.getManualSortingOption();
 
         _.each(this.wpTableSortBy.current, sort => {
-          if (!sort.column.$href!.endsWith('/parent')) {
+          if (!sort.column.href!.endsWith('/parent')) {
             this.sortationObjects.push(
-              new SortModalObject({ name: sort.column.name, href: sort.column.$href },
-                sort.direction.$href!)
+              new SortModalObject({ name: sort.column.name, href: sort.column.href },
+                sort.direction.href!)
             );
             if (sort.column.href === this.manualSortColumn.href) {
               this.updateSortingMode('manual');
@@ -127,7 +127,7 @@ export class WpTableConfigurationSortByTab implements TabComponent {
 
   private getMatchingSort(column:string, direction:string) {
     return _.find(this.wpTableSortBy.available, sort => {
-      return sort.column.$href === column && sort.direction.$href === direction;
+      return sort.column.href === column && sort.direction.href === direction;
     });
   }
 

@@ -33,6 +33,19 @@ da:
         single: "Vælg \"%{name}\""
       remove: "Fjern %{name};"
       active: "Aktiv %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Muligheder
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Luk popup"
     close_filter_title: "Luk filter"
     close_form_title: "Luk formular"
@@ -465,6 +478,7 @@ da:
         help_menu: 'In the <b>Help</b> menu you will find a user guide and additional help resources. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>Members</b> to join your project.'
         project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
+        quick_add_button: 'Opret et nyt projekt eller inviter kolleger.'
         sidebar_arrow: "With the arrow you can navigate back to the project's <b>Main menu</b>."
         welcome: 'Tag en tre minutters introduktionsturné for at lære de mest <b> vigtige funktioner </b>. <br> Vi anbefaler at du gennemfører trinende til slutningen. Du kan når som helst genstarte turen.'
         wiki: 'Within the <b>Wiki</b> you can document and share knowledge together with your team.'
@@ -506,6 +520,9 @@ da:
       work_package_belongs_to: 'This work package belongs to project %{projectname}.'
       click_to_switch_context: 'Open this work package in that project.'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      use_template: "Use template"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Project autocompletion'
     text_are_you_sure: "Er du sikker?"
@@ -974,6 +991,7 @@ da:
         required: 'Vælg et projekt'
         next_button: 'Næste'
         no_results: 'Ingen projekter blev fundet'
+        no_invite_rights: 'Du har ikke tilladelse til at invitere medlemmer til dette projekt'
       type:
         required: 'Vælg venligst den type, der skal inviteres'
         user:
@@ -1023,3 +1041,10 @@ da:
           placeholder: 'Pladsholderen kan nu bruges i %{project}. I mellemtiden kan du allerede planlægge med den pågældende bruger og tildele arbejdspakker for eksempel.'
           group: 'Gruppen er nu en del af %{project}. I mellemtiden kan du allerede planlægge med denne gruppe og tildele arbejdspakker for eksempel.'
         next_button: 'Fortsæt'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: 'Avancerede indstillinger'
+
+

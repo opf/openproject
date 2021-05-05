@@ -113,8 +113,8 @@ export class HalResource {
   }
 
   public get idFromLink():string {
-    if (this.$href) {
-      return HalResource.idFromLink(this.$href);
+    if (this.href) {
+      return HalResource.idFromLink(this.href);
     }
 
     return '';
@@ -130,8 +130,8 @@ export class HalResource {
    * be printed nicely on console and in errors
    */
   public toString() {
-    if (this.$href) {
-      return `[HalResource href=${this.$href}]`;
+    if (this.href) {
+      return `[HalResource href=${this.href}]`;
     } else {
       return `[HalResource id=${this.id}]`;
     }
@@ -212,14 +212,7 @@ export class HalResource {
     this._name = name;
   }
 
-  /**
-   * Alias for $href.
-   */
   public get href():string|null {
-    return this.$link.href;
-  }
-
-  public get $href():string|null {
     return this.$link.href;
   }
 

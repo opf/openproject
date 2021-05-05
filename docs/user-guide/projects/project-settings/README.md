@@ -21,7 +21,7 @@ Open a project via the Select a project drop-down menu and navigate to -> *Proje
 
 ## Overview
 
-| Feature                                                | Documentation for                                            |
+| Topic                                                  | Content                                                      |
 | ------------------------------------------------------ | ------------------------------------------------------------ |
 | [Project information](project-information)             | Define project name, subproject, description, project status, and much more. |
 | [Modules](modules)                                     | Activate or deactivate modules in a project.                 |

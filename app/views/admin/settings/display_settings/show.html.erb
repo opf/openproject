@@ -36,17 +36,37 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= styled_form_tag(admin_settings_update_display_path, method: :patch) do %>
 
   <section class="form--section">
-    <div class="form--field" id="setting_available_languages"><%= setting_multiselect :available_languages, all_lang_options_for_select(false) %></div>
+    <div class="form--field" id="setting_available_languages">
+      <%= setting_multiselect :available_languages, all_lang_options_for_select(false) %>
+    </div>
 
-    <div class="form--field"><%= setting_select :start_of_week, [[day_name(1),'1'], [day_name(6),'6'], [day_name(7),'7']], blank: :label_language_based, container_class: '-slim' %></div>
+    <div class="form--field">
+      <%= setting_select :start_of_week, [[day_name(1),'1'], [day_name(6),'6'], [day_name(7),'7']], blank: :label_language_based, container_class: '-slim' %>
+    </div>
 
-    <div class="form--field"><%= setting_select :date_format, Setting::DATE_FORMATS.collect {|f| [Date.today.strftime(f), f]}, blank: :label_language_based, container_class: '-slim' %></div>
+    <div class="form--field">
+      <%= setting_select :first_week_of_year, [[day_name(1),'1'], [day_name(4),'4']], blank: :label_language_based,  container_class: '-slim' %>
+      <span class="form--field-instructions">
+        <%= t('settings.display.first_week_of_year_text') %>
+        <br/>
+        <%= static_link_to :display_settings_documentation, label: t('documentation.see_more_link') %>
+      </span>
+    </div>
 
-    <div class="form--field"><%= setting_select :time_format, Setting::TIME_FORMATS.collect {|f| [Time.now.strftime(f), f]}, blank: :label_language_based, container_class: '-slim' %></div>
+    <div class="form--field">
+      <%= setting_select :date_format, Setting::DATE_FORMATS.collect {|f| [Date.today.strftime(f), f]}, blank: :label_language_based, container_class: '-slim' %>
+    </div>
 
-    <div class="form--field"><%= setting_select :user_format, @options[:user_format], container_class: '-slim' %></div>
+    <div class="form--field">
+      <%= setting_select :time_format, Setting::TIME_FORMATS.collect {|f| [Time.now.strftime(f), f]}, blank: :label_language_based, container_class: '-slim' %>
+    </div>
 
-    <div class="form--field"><%= setting_text_field :journal_aggregation_time_minutes, unit: t(:label_minute_plural), container_class: '-xslim' %>
+    <div class="form--field">
+      <%= setting_select :user_format, @options[:user_format], container_class: '-slim' %>
+    </div>
+
+    <div class="form--field">
+      <%= setting_text_field :journal_aggregation_time_minutes, unit: t(:label_minute_plural), container_class: '-xslim' %>
       <span class="form--field-instructions">
         <%= t(:text_journal_aggregation_time_explanation) %><br/>
         <%= t(:text_hint_disable_with_0) %>

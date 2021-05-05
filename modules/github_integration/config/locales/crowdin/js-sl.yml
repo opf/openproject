@@ -25,20 +25,20 @@ sl:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull Requests"
+        title: "Pull zahteve"
         copy_menu:
           label: Git
-          description: Copy important git content to clipboard
+          description: Kopiraj pomembno git vsebino na odložišče
         git_actions:
           branch: Podružnica
-          branch_help: Copy the default branch name.
+          branch_help: Kopiraj privzeto ime veje.
           message: Sporočilo
-          message_help: Copy the default commit message.
-          cmd: Command
-          cmd_help: Copy a shell command which creates a new branch and an empty commit using the default branch name and commit message.
-          title: Copy to Clipboard
+          message_help: Kopiraj privzeto commit sporočilo
+          cmd: Ukaz
+          cmd_help: Kopiraj shell ukaz, ki uporabi privzeto ime veje in commit sporočilo za kreiranje nove veje in praznega commit-a.
+          title: Kopiraj na odložišče
           copy_button_help: Kopiraj v odložišče
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          copy_success: '✅ Kopirano!'
+          copy_error: '❌ Kopiranje ni uspelo!'
       tab_prs:
-        empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
+        empty: 'Zaenkrat še ni povezanih pull zahtev. Poveži obstoječ PR z uporabo kode <code>OP#%{wp_id}</code> v PR opisu ali pa kreiraj nov PR.'

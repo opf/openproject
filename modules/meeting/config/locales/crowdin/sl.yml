@@ -33,28 +33,28 @@ sl:
         start_time_hour: "Čas začetka"
     errors:
       messages:
-        invalid_time_format: "neveljaven čas. Potreben format: HH:MM"
+        invalid_time_format: "ni veljaven čas. Potreben format: HH:MM"
     models:
       meeting_agenda: "Dnevni red"
       meeting_minutes: "Zapisnik"
-  description_attended: "Udeleženi"
+  description_attended: "se je udeležil/a"
   description_invite: "Povabljen"
   events:
     meeting: Sestanek uredil
     meeting_agenda: Dnevni red pripravil
-    meeting_agenda_closed: Dnevni red zaprl
-    meeting_agenda_opened: Dnevni red odprl
+    meeting_agenda_closed: Dnevni red zaprt
+    meeting_agenda_opened: Dnevni red odprt
     meeting_minutes: Zapisnik sestanka je bil spremenjen
     meeting_minutes_created: Zapisnik sestanka je ustvarjen
   error_notification_with_errors: "Pošiljanje obvestil je bilo neuspešno. Naslednji naslovniki nisi bili obveščeni: %{recipients}"
   label_meeting: "Sestanek"
   label_meeting_plural: "Sestanki"
   label_meeting_new: "Nov sestanek"
-  label_meeting_edit: "Spremeni sestanek"
+  label_meeting_edit: "Uredi sestanek"
   label_meeting_agenda: "Dnevni red"
   label_meeting_minutes: "Zapisnik"
   label_meeting_close: "Zapri"
-  label_meeting_open: "Odprto"
+  label_meeting_open: "Odpri"
   label_meeting_agenda_close: "Zaprite dnevni red za začetek zapisnika sestanka"
   label_meeting_date_time: "Datum/čas"
   label_meeting_diff: "Razlikovanje"
@@ -66,8 +66,8 @@ sl:
   notice_successful_notification: "Obvestila uspešno poslana"
   notice_timezone_missing: Časovni pas ni določen, %{zone} je izbran avtomatsko. Za določitev časovnega pasu kliknite tukaj.
   permission_create_meetings: "Ustvarite sestanke"
-  permission_edit_meetings: "Spremenite sestanke"
-  permission_delete_meetings: "Izbrišite sestanke"
+  permission_edit_meetings: "Uredi sestanke"
+  permission_delete_meetings: "Izbriši sestanke"
   permission_view_meetings: "Poglej sestanke"
   permission_create_meeting_agendas: "Uredi dnevne rede"
   permission_close_meeting_agendas: "Zapri dnevne rede"

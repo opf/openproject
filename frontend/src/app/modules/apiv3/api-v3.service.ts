@@ -36,6 +36,7 @@ import { Constructor } from "@angular/cdk/table";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { Apiv3GridsPaths } from "core-app/modules/apiv3/endpoints/grids/apiv3-grids-paths";
 import { Apiv3TimeEntriesPaths } from "core-app/modules/apiv3/endpoints/time-entries/apiv3-time-entries-paths";
+import { Apiv3CapabilitiesPaths } from "core-app/modules/apiv3/endpoints/capabilities/apiv3-capabilities-paths";
 import { Apiv3MembershipsPaths } from "core-app/modules/apiv3/endpoints/memberships/apiv3-memberships-paths";
 import { Apiv3UsersPaths } from "core-app/modules/apiv3/endpoints/users/apiv3-users-paths";
 import { Apiv3PlaceholderUsersPaths } from 'core-app/modules/apiv3/endpoints/placeholder-users/apiv3-placeholder-users-paths.ts';
@@ -90,6 +91,12 @@ export class APIV3Service {
   // /api/v3/time_entries
   public readonly time_entries = this.apiV3CustomEndpoint(Apiv3TimeEntriesPaths);
 
+  // /api/v3/actions
+  public readonly actions = this.apiV3CollectionEndpoint('actions');
+
+  // /api/v3/capabilities
+  public readonly capabilities = this.apiV3CustomEndpoint(Apiv3CapabilitiesPaths);
+
   // /api/v3/memberships
   public readonly memberships = this.apiV3CustomEndpoint(Apiv3MembershipsPaths);
 
@@ -114,7 +121,7 @@ export class APIV3Service {
   // /api/v3/users
   public readonly users = this.apiV3CustomEndpoint(Apiv3UsersPaths);
 
-  // /api/v3/placeholderUsers
+  // /api/v3/placeholder_users
   public readonly placeholder_users = this.apiV3CustomEndpoint(Apiv3PlaceholderUsersPaths);
 
   // /api/v3/groups

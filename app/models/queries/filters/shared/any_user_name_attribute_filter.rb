@@ -39,6 +39,11 @@ module Queries::Filters::Shared::AnyUserNameAttributeFilter
       :any_name_attribute
     end
 
+    def available_operators
+      [Queries::Operators::Contains,
+       Queries::Operators::NotContains]
+    end
+
     private
 
     def sql_concat_name

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe AccountController, type: :controller do
-  class UserHook < Redmine::Hook::ViewListener
+  class UserHook < OpenProject::Hook::ViewListener
     attr_reader :registered_user, :first_login_user
 
     def user_registered(context)

@@ -33,6 +33,19 @@ fr:
         single: "Sélectionner «%{name} »"
       remove: "Supprimer %{name}"
       active: "Activer %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Options
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Fermer popup"
     close_filter_title: "Fermer le filtre"
     close_form_title: "Fermer le formulaire"
@@ -466,6 +479,7 @@ fr:
         help_menu: 'Dans le menu <b> Help </b>, vous trouverez un guide de l''utilisateur et des ressources d''aide supplémentaires. <br> profiter de votre travail avec OpenProject!'
         members: 'Inviter des nouveaux<b>membres</b> à participer à votre projet.'
         project_selection: 'Veuillez cliquer sur l''un des projets avec des données de démonstration utile pour commencer. <br> Le <b>projet de démo</b> convient le mieux pour la gestion de projet classique, tandis que le <b>projet Scrum</b> est meilleur pour la gestion de projet Agile.'
+        quick_add_button: 'Créez un nouveau projet ou invitez des collègues.'
         sidebar_arrow: "Avec la flèche, vous pouvez naviguer vers le <b>Menu Principal</b> du projet."
         welcome: 'Faites une visite d’introduction de trois minutes d’apprendre le plus de caractéristiques importantes de <b></b>. <br> il est recommandé d’avoir effectué les étapes jusqu''à la fin. Vous pouvez redémarrer la tournée à tout moment.'
         wiki: 'Dans le <b>Wiki</b> vous pouvez documenter et partager vos connaissances avec votre équipe.'
@@ -507,6 +521,9 @@ fr:
       work_package_belongs_to: 'Ce lot de travaux appartient au projet %{projectname}.'
       click_to_switch_context: 'Ouvrir ce lot de travaux dans ce projet.'
       confirm_template_load: 'Changer de modèle rechargera la page et vous perdrez toutes les entrées de ce formulaire. Continuer ?'
+      use_template: "Utiliser le modèle"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Remplissage automatique du projet'
     text_are_you_sure: "Êtes-vous sûr ?"
@@ -975,6 +992,7 @@ fr:
         required: 'Veuillez sélectionner un projet'
         next_button: 'Suivante'
         no_results: 'Aucun projet trouvé'
+        no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: 'Veuillez sélectionner le type d''invité'
         user:
@@ -1024,3 +1042,10 @@ fr:
           placeholder: 'Le utilisateur fictif peut maintenant être utilisé dans %{project}. En attendant, vous pouvez déjà planifier des taches avec cet utilisateur et l''assigner à des lots de travaux par exemple.'
           group: 'Le groupe fait maintenant partie du %{project}. Entre-temps, vous pouvez déjà planifier avec ce groupe et l''assigner des lots de travaux par exemple.'
         next_button: 'Continuer'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: 'Paramètres avancés'
+
+

@@ -9,9 +9,13 @@ keywords: copy work package, delete work package, move work package
 
 # Copy, change project or delete a work package
 
-You can make the following changes to your work packages: you can copy a work package, change the project or delete a work package. 
+You can make the following changes to your work packages: you can copy a work package, change the project or delete a work package. You can access these features from the work package list or from within a work package.
 
-Open the work packages details view, click on the More functions (the three dots at the top right of the work package details) and select the respective menu item.
+In the work package list, right-click on a work package or use the three dots at the far right of a row to access the menu.
+
+![change-copy-delete-work-package](image-20210426163336211.png)
+
+Alternatively, open the work packages details view, click on **More functions** (the three dots at the top right of the work package details) and select the respective menu item.
 
 ![User-guide-copy-change-project-delete](User-guide-copy-change-project-delete.png)
 

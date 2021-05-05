@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Optional } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { NgSelectComponent } from "@ng-select/ng-select";
 import { OpEditingPortalSchemaToken } from "core-app/modules/fields/edit/edit-field.component";
 import { IFieldSchema } from "core-app/modules/fields/field.base";
-import { SelectEditFieldComponent } from "core-app/modules/fields/edit/field-types/select-edit-field.component";
+import { SelectEditFieldComponent } from "core-app/modules/fields/edit/field-types/select-edit-field/select-edit-field.component";
 import { MultiSelectEditFieldComponent } from "core-app/modules/fields/edit/field-types/multi-select-edit-field.component";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { PermissionsService } from "core-app/core/services/permissions/permissions.service";

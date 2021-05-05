@@ -31,15 +31,12 @@ require 'spec_helper'
 describe 'filter work packages', js: true do
   let(:user) { FactoryBot.create :admin }
   let(:watcher) { FactoryBot.create :user }
-  let(:project) { FactoryBot.create :project }
+  let(:project) { FactoryBot.create :project, members: { watcher => role } }
   let(:role) { FactoryBot.create :existing_role, permissions: [:view_work_packages] }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
-  before do
-    project.add_member! watcher, role
-    login_as(user)
-  end
+  current_user { user }
 
   context 'by watchers' do
     let(:work_package_with_watcher) do
@@ -407,8 +404,8 @@ describe 'filter work packages', js: true do
                               'attachmentContent')
 
         loading_indicator_saveguard
-        wp_table.expect_work_package_listed wp_with_attachment_b
-        wp_table.ensure_work_package_not_listed! wp_without_attachment, wp_with_attachment_a
+        wp_table.expect_work_package_listed wp_with_attachment_b, wp_without_attachment
+        wp_table.ensure_work_package_not_listed! wp_with_attachment_a
 
         filters.remove_filter 'attachmentContent'
 

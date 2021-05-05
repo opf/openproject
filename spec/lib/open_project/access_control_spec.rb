@@ -32,7 +32,7 @@ describe OpenProject::AccessControl do
   def stash_access_control_permissions
     @stashed_permissions = OpenProject::AccessControl.permissions.dup
     OpenProject::AccessControl.clear_caches
-    OpenProject::AccessControl.permissions.clear
+    OpenProject::AccessControl.instance_variable_get(:@permissions).clear
   end
 
   def restore_access_control_permissions

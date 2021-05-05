@@ -36,14 +36,11 @@ import {NgOptionHighlightModule} from '@ng-select/ng-option-highlight';
 import {DragulaModule} from 'ng2-dragula';
 import {DynamicModule} from 'ng-dynamic-component';
 import {StateService, UIRouterModule} from '@uirouter/angular';
-
 import {HookService} from '../plugins/hook-service';
-
 import {OpenprojectAccessibilityModule} from 'core-app/modules/a11y/openproject-a11y.module';
-
+import {CurrentUserModule} from 'core-app/modules/current-user/current-user.module';
 import {IconTriggeredContextMenuComponent} from 'core-components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component';
 import {CurrentProjectService} from 'core-components/projects/current-project.service';
-import {CurrentUserService} from 'core-components/user/current-user.service';
 import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
 import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
 import {ZenModeButtonComponent} from 'core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
@@ -52,9 +49,7 @@ import {EnterpriseBannerComponent} from 'core-components/enterprise-banner/enter
 import {EnterpriseBannerBootstrapComponent} from 'core-components/enterprise-banner/enterprise-banner-bootstrap.component';
 import {HomescreenNewFeaturesBlockComponent} from 'core-components/homescreen/blocks/new-features.component';
 import {BoardVideoTeaserModalComponent} from 'core-app/modules/boards/board/board-video-teaser-modal/board-video-teaser-modal.component';
-
 import {highlightColBootstrap} from './highlight-col/highlight-col.directive';
-import {FocusDirective} from './focus/focus.directive';
 import {HighlightColDirective} from './highlight-col/highlight-col.directive';
 import {CopyToClipboardDirective} from './copy-to-clipboard/copy-to-clipboard.directive';
 import {AuthoringComponent} from './authoring/authoring.component';
@@ -62,8 +57,6 @@ import {OpDateTimeComponent} from './date/op-date-time.component';
 import {NotificationComponent} from './notifications/notification.component';
 import {NotificationsContainerComponent} from './notifications/notifications-container.component';
 import {UploadProgressComponent} from './notifications/upload-progress.component';
-import {OpDatePickerComponent} from './op-date-picker/op-date-picker.component';
-import {FocusWithinDirective} from './focus/focus-within.directive';
 import {ResizerComponent} from './resizer/resizer.component';
 import {CollapsibleSectionComponent} from './collapsible-section/collapsible-section.component';
 import {NoResultsComponent} from './no-results/no-results.component';
@@ -78,23 +71,20 @@ import {AutofocusDirective} from './autofocus/autofocus.directive';
 import {ShowSectionDropdownComponent} from './hide-section/show-section-dropdown.component';
 import {SlideToggleComponent} from './slide-toggle/slide-toggle.component';
 import {DynamicBootstrapModule} from './dynamic-bootstrap/dynamic-bootstrap.module';
-import {OpFormFieldComponent} from './form-field/form-field.component';
-import {OpFormBindingDirective} from './form-field/form-binding.directive';
+import {OpFormFieldComponent} from './forms/form-field/form-field.component';
+import {OpFormBindingDirective} from './forms/form-field/form-binding.directive';
 import {OpOptionListComponent} from './option-list/option-list.component';
 import {OpIconComponent} from './icon/icon.component';
 import {OpenprojectPrincipalRenderingModule} from "core-app/modules/principal/principal-rendering.module";
+import { DatePickerModule } from "core-app/modules/common/op-date-picker/date-picker.module";
+import { FocusModule } from "core-app/modules/common/focus/focus.module";
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
   const currentProject = injector.get(CurrentProjectService);
-  const currentUser = injector.get(CurrentUserService);
   const routerState = injector.get(StateService);
 
   window.ErrorReporter.addContext((scope) => {
-    if (currentUser.isLoggedIn) {
-      scope.setUser({ name: currentUser.name, id: currentUser.userId, email: currentUser.mail });
-    }
-
     if (currentProject.inProjectContext) {
       scope.setTag('project', currentProject.identifier!);
     }
@@ -124,11 +114,15 @@ export function bootstrapModule(injector:Injector) {
     DragulaModule,
     // Our own A11y module
     OpenprojectAccessibilityModule,
+    CurrentUserModule,
     NgSelectModule,
     NgOptionHighlightModule,
 
     DynamicBootstrapModule,
     OpenprojectPrincipalRenderingModule,
+
+    DatePickerModule,
+    FocusModule,
   ],
   exports: [
     // Re-export all commonly used
@@ -144,12 +138,11 @@ export function bootstrapModule(injector:Injector) {
     DynamicBootstrapModule,
     OpenprojectPrincipalRenderingModule,
 
-    OpDatePickerComponent,
+    DatePickerModule,
+    FocusModule,
     OpDateTimeComponent,
     AutofocusDirective,
 
-    FocusWithinDirective,
-    FocusDirective,
     AuthoringComponent,
 
     // Notifications
@@ -192,12 +185,9 @@ export function bootstrapModule(injector:Injector) {
     OpIconComponent,
   ],
   declarations: [
-    OpDatePickerComponent,
     OpDateTimeComponent,
     AutofocusDirective,
 
-    FocusWithinDirective,
-    FocusDirective,
     AuthoringComponent,
 
     // Notifications

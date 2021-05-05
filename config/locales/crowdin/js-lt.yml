@@ -33,6 +33,19 @@ lt:
         single: "Pasirinkti „%{name}“"
       remove: "Pašalinti %{name}"
       active: "Aktyvus %{label} %{name}"
+    backup:
+      attachments_disabled: Prisegti failai negalėjo būti įtraukti, nes jie viršija maksimalių bendrą leidžiamą dydį. Jūs galite tai pakeisti konfigūracijoje (reikia perstartuoti serverį).
+      info: >
+        Jūs čia galite pradėti atsarginės kopijos darymą. Šis procesas gali užtrukti šiek tiek laiko priklausomai nuo jūsų turimų duomenų kiekio (ypač priedų). Kai jis bus baigtas, gausite el. pašto laišką.
+      note: >
+        Nauja atsarginė kopija perrašys senąją. Per dieną galima prašyti tik riboto kiekio atsarginių kopijų.
+      last_backup: 'Paskutinė atsarginė kopija:'
+      last_backup_from: Paskutinė atsarginė kopija nuo
+      title: OpenProject atsarginė kopija
+      options: Nustatymai
+      include_attachments: Įtraukti priedus
+      download_backup: Atsiųsti atsarginę kopiją
+      request_backup: Prašyti atsarginės kppijos
     close_popup_title: "Užverti iškylantį langą"
     close_filter_title: "Užverti filtrą"
     close_form_title: "Užverti formą"
@@ -466,6 +479,7 @@ lt:
         help_menu: 'Meniu <b>Žinynas</b> rasite vartotojo vadovą ir papildomos pagalbos šaltinius. <br>Mėgaukitės darbu su OpenProject!'
         members: 'Pakvieskite naujus <b>Narius</b> prisijungti prie projekto.'
         project_selection: 'Prašome paspausti ant vieno iš projektų su įdėtais naudingais demonstraciniais duomenimis. <br> <b>Demo project</b> geriausiai tinka klasikiniam projektų valdymui, o <b>Scrum project</b> labiau tinka Agile projektų valdymui.'
+        quick_add_button: 'Sukurkite naują projektą arba pakvieskite bendradarbius.'
         sidebar_arrow: "Rodykle galite pereiti atgal į projekto <b>Pagrindinį meniu</b>."
         welcome: 'Paskirkite tris minutes įvadinei kelionei ir išmokite daugumą <b>svarbių sistemos galimybių</b>. <br>Rekomenduojame atlikti visus veiksmus iki pabaigos. Ekskursiją galite paleisti iš naujo bet kuriuo metu.'
         wiki: '<b>Wiki</b>''yje galite dokumentuoti ir dalintis žiniomis su savo komandos nariais.'
@@ -507,6 +521,9 @@ lt:
       work_package_belongs_to: 'Šis darbų paketas priklauso projektui %{projectname}.'
       click_to_switch_context: 'Atidaryti darbų paketą tame projekte.'
       confirm_template_load: 'Šablono pakeitimas perkraus puslapį ir jūs prarasite visą šioje formoje įvesta informaciją. Tęsti?'
+      use_template: "Naudoti šabloną"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Projekto autoužpildymas'
     text_are_you_sure: "Ar esate įsitikinę?"
@@ -979,6 +996,7 @@ lt:
         required: 'Pasirinkite projektą'
         next_button: 'Kitas'
         no_results: 'Nerasta jokių projektų'
+        no_invite_rights: 'Jums neleidžiama kviesti narius į projektą'
       type:
         required: 'Prašome pasirinkti kokio tipo dalyvį kviesti'
         user:
@@ -1028,3 +1046,10 @@ lt:
           placeholder: 'Statytinis vartotojas gali prisijungti ir pasiekti %{project}. Tuo pačiu, jūs jau galite planuoti darbus su šiuo vartotoju ir pavyzdžiui priskirti jam darbo užduotis.'
           group: 'Grupė jau tapo %{project} dalimi. Tuo pačiu, jūs jau galite planuoti darbus su šia grupe ir pavyzdžiui priskirti jai darbo užduotis.'
         next_button: 'Tęsti'
+    forms:
+      submit_success_message: 'Forma buvo sėkmingai nusiųsta'
+      load_error_message: 'Įkeliant formą įvyko klaida'
+      validation_error_message: 'Prašome ištaisyti klaidas formoje'
+      advanced_settings: 'Išplėstiniai nustatymai'
+
+

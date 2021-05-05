@@ -33,6 +33,19 @@ pl:
         single: "Wybierz %{name}"
       remove: "Usuń %{name}"
       active: "Aktywne %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Opcje
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Zamknij okno"
     close_filter_title: "Zamknij filtr"
     close_form_title: "Zamknij formularz"
@@ -466,6 +479,7 @@ pl:
         help_menu: 'W menu <b>Pomoc</b> znajdziesz przewodnik użytkownika i dodatkowe zasoby pomocy. <br> Życzymy miłej pracy w OpenProject!'
         members: 'Zaproś nowych <b>członków</b> do swojego projektu.'
         project_selection: 'Aby rozpocząć, kliknij jeden z projektów z przydatnymi danymi demonstracyjnymi. <br> <b>Projekt Demo</b> najlepiej nadaje się do klasycznego zarządzania projektami, natomiast <b>projekt Scrum</b> jest lepszy do zwinnego zarządzania projektami.'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "Strzałka umożliwia powrót do <b>menu głównego</b> projektu."
         welcome: "Poświęć trzy minuty na zapoznanie się z <b>najważniejszymi funkcjami</b>. \n <br> Zalecamy wykonanie tych kroków do końca. Zwiedzanie można w każdej chwili zacząć od nowa."
         wiki: 'W <b>wiki</b> możesz dokumentować wiedzę i dzielić się nią z zespołem.'
@@ -507,6 +521,9 @@ pl:
       work_package_belongs_to: 'Ten pakiet roboczy należy do projektu %{projectname}.'
       click_to_switch_context: 'Otwórz ten pakiet roboczy w tym projekcie.'
       confirm_template_load: 'Przełączenie szablonu spowoduje ponowne załadowanie strony i utracisz wszystkie dane wprowadzone do tego formularza. Kontynuować?'
+      use_template: "Użyj szablonu"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Autouzupełnianie projektu'
     text_are_you_sure: "Jesteś pewien?"
@@ -979,6 +996,7 @@ pl:
         required: 'Please select a project'
         next_button: 'Następny'
         no_results: 'No projects were found'
+        no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: 'Please select the type to be invited'
         user:
@@ -1028,3 +1046,10 @@ pl:
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: 'Dalej'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: 'Zaawansowane ustawienia'
+
+

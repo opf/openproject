@@ -32,6 +32,13 @@ import { EditFieldComponent } from "core-app/modules/fields/edit/edit-field.comp
 import { NgSelectComponent } from "@ng-select/ng-select";
 import { projectStatusCodeCssClass, projectStatusI18n } from "core-app/modules/fields/helpers/project-status-helper";
 import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+
+interface ProjectStatusOption {
+  href:string
+  name:string
+  colorClass:string
+}
 
 @Component({
   templateUrl: './project-status-edit-field.component.html',
@@ -41,33 +48,40 @@ export class ProjectStatusEditFieldComponent extends EditFieldComponent implemen
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
   @InjectField() I18n!:I18nService;
 
-  private _availableStatusCodes:string[] = ['not set', 'off track', 'at risk', 'on track'];
-  public currentStatusCode = 'not set';
+  public availableStatuses:ProjectStatusOption[] = [{
+      href: 'not_set',
+      name: projectStatusI18n('not_set', this.I18n),
+      colorClass: projectStatusCodeCssClass('not_set')
+    }];
 
-  public availableStatuses:any[] = this._availableStatusCodes.map((code:string):any => {
-    return {
-      code: code,
-      name: projectStatusI18n(code, this.I18n),
-      colorClass: projectStatusCodeCssClass(code)
-    };
-  });
-
+  public currentStatusCode:string;
   public hiddenOverflowContainer = '#content-wrapper';
   public appendToContainer = 'body';
 
   ngOnInit() {
-    this.currentStatusCode = this.resource['status'] === null ? 'not set' : this.resource['status'];
+    this.currentStatusCode = this.resource['status'] === null ? this.availableStatuses[0].href : this.resource['status'].href;
 
-    // The timeout takes care that the opening is added to the end of the current call stack.
-    // Thus we can be sure that the select box is rendered and ready to be opened.
-    const that = this;
-    window.setTimeout(function () {
-      that.ngSelectComponent.open();
-    }, 0);
+    this.change.getForm().then((form) => {
+      form.schema['status'].allowedValues.forEach((status:HalResource) => {
+        this.availableStatuses = [...this.availableStatuses,
+                                  {
+                                    href: status.href!,
+                                    name: status.name,
+                                    colorClass: projectStatusCodeCssClass(status.id)
+                                  }];
+      });
+
+      // The timeout takes care that the opening is added to the end of the current call stack.
+      // Thus we can be sure that the select box is rendered and ready to be opened.
+      const that = this;
+      window.setTimeout(function () {
+        that.ngSelectComponent.open();
+      }, 0);
+    });
   }
 
   public onChange() {
-    this.resource['status'] = this.currentStatusCode === 'not set' ? null : this.currentStatusCode;
+    this.resource['status'] = this.currentStatusCode === this.availableStatuses[0].href ? null : { href: this.currentStatusCode };
     this.handler.handleUserSubmit();
   }
 

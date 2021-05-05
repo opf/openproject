@@ -33,6 +33,19 @@ tr:
         single: "\"%{name}\" Seç"
       remove: "%{name} kaldır"
       active: "Etkin %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Ayarlar
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Pencereyi kapat"
     close_filter_title: "Filtreyi kapat"
     close_form_title: "Formu kapat"
@@ -466,6 +479,7 @@ tr:
         help_menu: '<b> Yardım </b> menüsünde bir kullanım kılavuzu ve ek yardım kaynakları bulacaksınız. <br> OpenProject ile çalışmanın tadını çıkarın!'
         members: 'Projenize katılmak için yeni <b> Üyeler </b> davet edin.'
         project_selection: 'Başlamak için lütfen faydalı demo verileri olan projelerden birine tıklayın. <br> <b> Demo proje </b> klasik proje yönetimi için en iyisidir, <b> Scrum projesi </b> Çevik proje yönetimi için daha iyidir.'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "Ok işereti ile projenin <b> Ana menüsüne </b> geri dönebilirsiniz."
         welcome: 'En <b>önemli özellikleri</b> öğrenmek için üç dakikalık bir tanıtım gezintisine çıkın. <br> Tüm adımları tamamlamanızı öneririz. Turu istediğiniz zaman yeniden başlatabilirsiniz.'
         wiki: '<b> Wiki </b> içerisinde bilgileri ekibinizle birlikte belgeleyebilir ve paylaşabilirsiniz.'
@@ -507,6 +521,9 @@ tr:
       work_package_belongs_to: 'Bu iş paketi %{projectname} projesine ait.'
       click_to_switch_context: 'Bu iş paketini o projede aç.'
       confirm_template_load: 'Şablonu değiştirmek sayfayı yeniden yükleyecek ve bu forma yaptığınız tüm girişleri kaybedeceksiniz. Devam et?'
+      use_template: "Şablon kullan"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Proje otomatik tamamlama'
     text_are_you_sure: "Emin misiniz?"
@@ -975,6 +992,7 @@ tr:
         required: 'Lütfen bir proje seçin'
         next_button: 'Sonraki'
         no_results: 'Hiç proje bulunamadı'
+        no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: 'Lütfen davet edilecek türü seçin'
         user:
@@ -1024,3 +1042,10 @@ tr:
           placeholder: 'Kullanıcı artık %{project} ''e erişmek için oturum açabilir. Bu arada, o kullanıcıyla zaten plan yapabilir ve örneğin iş paketleri atayabilirsiniz.'
           group: 'Grup artık %{project} ''nin bir parçası. Bu arada, bu grupla zaten plan yapabilir ve örneğin iş paketleri atayabilirsiniz.'
         next_button: 'Devam et'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: 'Gelişmiş ayarlar'
+
+

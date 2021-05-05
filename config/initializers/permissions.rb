@@ -50,6 +50,12 @@ OpenProject::AccessControl.map do |map|
                    global: true,
                    contract_actions: { projects: %i[create] }
 
+    map.permission Backup.permission,
+                   { backups: %i[index] },
+                   require: :loggedin,
+                   global: true,
+                   enabled: -> { OpenProject::Configuration.backup_enabled? }
+
     map.permission :manage_user,
                    {
                      users: %i[index show new create edit update resend_invitation],
@@ -115,9 +121,10 @@ OpenProject::AccessControl.map do |map|
 
     map.permission :copy_projects,
                    {
-                     copy_projects: %i[copy copy_project]
+                     projects: %i[copy]
                    },
-                   require: :member
+                   require: :member,
+                   contract_actions: { projects: %i[copy] }
   end
 
   map.project_module :work_package_tracking, order: 90 do |wpt|

@@ -33,6 +33,19 @@ es:
         single: "Seleccione \"%{name}\""
       remove: "Elimine \"%{name}\""
       active: "Activo %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Opciones
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Cerrar ventana emergente"
     close_filter_title: "Cerrar filtro"
     close_form_title: "Cerrar formulario"
@@ -466,6 +479,7 @@ es:
         help_menu: 'En el menú <b>Ayuda</b>, encontrará una guía del usuario y recursos de ayuda adicionales. <br> ¡Disfrute de su trabajo con OpenProject!'
         members: 'Invite a nuevos <b>Miembros</b> a unirse al proyecto.'
         project_selection: 'Por favor, haga clic en uno de los proyectos con datos de demostración útiles para empezar. <br> El <b>proyecto Demo </b> se adapta mejor a la gestión clásica del proyecto, mientras que el <b>} proyecto Scrum </b> es mejor para la gestión del proyecto Agile.'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "Con la flecha, puede volver al <b>Menú principal</b> del proyecto."
         welcome: 'Realice un paseo de introducción de tres minutos para conocer las <b>características más importantes</b>. <br> Le recomendamos que complete todos los pasos. Puede volver a iniciar el paseo en cualquier momento.'
         wiki: 'En la <b>Wiki</b>, puede elaborar documentos y compartir conocimientos con su equipo.'
@@ -507,6 +521,9 @@ es:
       work_package_belongs_to: 'Este paquete de trabajo pertenece al proyecto %{projectname}.'
       click_to_switch_context: 'Abra este paquete de trabajo en ese proyecto.'
       confirm_template_load: 'Al cambiar la plantilla, se actualizará la página y perderá todos los datos introducidos en el formulario. ¿Quiere continuar?'
+      use_template: "Usar plantilla"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Contexto | Solicitar contexto'
     text_are_you_sure: "¿Estás seguro?"
@@ -975,6 +992,7 @@ es:
         required: 'Please select a project'
         next_button: 'Siguiente'
         no_results: 'No projects were found'
+        no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: 'Please select the type to be invited'
         user:
@@ -1024,3 +1042,10 @@ es:
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: 'Continuar'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: 'Ajustes avanzados'
+
+

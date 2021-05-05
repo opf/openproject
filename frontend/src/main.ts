@@ -1,12 +1,12 @@
-import {OpenProjectModule} from 'core-app/angular4-modules';
-import {enableProdMode} from '@angular/core';
+import { OpenProjectModule } from 'core-app/angular4-modules';
+import { enableProdMode } from '@angular/core';
 import * as jQuery from "jquery";
-import {environment} from './environments/environment';
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
-import {SentryReporter} from "core-app/sentry/sentry-reporter";
-import {whenDebugging} from "core-app/helpers/debug_output";
-import {enableReactiveStatesLogging} from "reactivestates";
-import {initializeLocale} from "core-app/init-locale";
+import { environment } from './environments/environment';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { SentryReporter } from "core-app/sentry/sentry-reporter";
+import { whenDebugging } from "core-app/helpers/debug_output";
+import { enableReactiveStatesLogging } from "reactivestates";
+import { initializeLocale } from "core-app/init-locale";
 
 (window as any).global = window;
 

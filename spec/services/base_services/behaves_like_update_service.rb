@@ -48,7 +48,7 @@ shared_examples 'BaseServices update service' do
                         model: model_instance,
                         contract_class: contract_class)
   end
-  let(:call_attributes) { { name: 'Some name', identifier: 'Some identifier' } }
+  let(:call_attributes) { { some: 'hash'} }
   let(:set_attributes_success) do
     true
   end
@@ -77,8 +77,10 @@ shared_examples 'BaseServices update service' do
       .and_return(set_attributes_result)
   end
 
+  let(:model_save_result) { true }
+
   before do
-    allow(model_instance).to receive(:save).and_return(true)
+    allow(model_instance).to receive(:save).and_return(model_save_result)
   end
 
   subject(:instance_call) { instance.call(call_attributes) }
@@ -120,11 +122,7 @@ shared_examples 'BaseServices update service' do
     end
 
     context 'when the model instance is invalid' do
-      before do
-        expect(model_instance)
-          .to(receive(:save))
-          .and_return(false)
-      end
+      let(:model_save_result) { false }
 
       it 'is unsuccessful and returns the errors', :aggregate_failures do
         expect(subject).to be_failure

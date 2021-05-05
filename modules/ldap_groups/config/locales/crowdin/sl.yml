@@ -44,12 +44,12 @@ sl:
         base_dn_text: >
           Vnesite iskalno osnovo DN za uporabo s tem filtrom. Mora biti pod osnovo za DN izbrane LDAP povezave. Pustite to opcijo prazno za ponovno uporabo osnove DN za povezavo
     synchronized_groups:
-      add_new: 'dodaj sinhroniziranje LDAP skupini'
+      add_new: 'dodaj sinhronizirano LDAP skupino'
       destroy:
         title: 'Odstrani sinhronizirano skupino %{name}'
         confirmation: "Če nadaljujete, bo sinhronizirana skupina %{name} in vsi %{users_count} uporabniki, ki so bili sinhronizirani prek nje, odstranjeni."
         info: "Opozorilo: Sama skupina OpenProject in člani, dodani zunaj te sinhronizacije LDAP, ne bodo odstranjeni."
-        verification: "Vnesite ime pskupine %{name}, da preverite izbris."
+        verification: "Vnesite ime skupine %{name}, da preverite izbris."
       help_text_html: |
         Ta modul vam omogoča, da nastavite sinhronizacijo med skupinama LDAP in OpenProject.
         Odvisno od tega, ali morajo skupine LDAP uporabiti atribut<em>skupinaOdIme / članOd </em>, ki deluje za OpenProject.

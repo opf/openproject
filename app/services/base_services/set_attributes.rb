@@ -29,7 +29,7 @@
 #++
 
 module BaseServices
-  class SetAttributes
+  class SetAttributes < BaseCallable
     include Contracted
 
     def initialize(user:, model:, contract_class:, contract_options: {})
@@ -40,8 +40,8 @@ module BaseServices
       self.contract_options = contract_options
     end
 
-    def call(params)
-      set_attributes(params)
+    def perform(params = nil)
+      set_attributes(params || {})
 
       validate_and_result
     end

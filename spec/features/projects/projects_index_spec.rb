@@ -980,7 +980,9 @@ describe 'Projects index page',
       project.save!
 
       allow_enterprise_edition
-      Setting.enabled_projects_columns << "cf_#{list_custom_field.id}"
+      allow(Setting)
+        .to receive(:enabled_projects_columns) #<< "cf_#{list_custom_field.id}"
+        .and_return ["cf_#{list_custom_field.id}"]
 
       login_as(admin)
       visit projects_path

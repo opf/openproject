@@ -35,8 +35,7 @@ class Queries::WorkPackages::Filter::CategoryFilter <
   end
 
   def available?
-    project &&
-      project.categories.exists?
+    project&.categories&.exists?
   end
 
   def type

@@ -41,7 +41,22 @@ end
 namespace 'openproject' do
   namespace 'db' do
     desc 'Ensure database version compatibility'
-    task ensure_database_compatibility: ['environment', 'db:load_config'] do
+    task check_connection: %w[environment db:load_config] do
+      begin
+        ActiveRecord::Base.establish_connection
+        ActiveRecord::Base.connection.execute "SELECT 1;"
+        unless ActiveRecord::Base.connected?
+          puts "Database connection failed"
+          Kernel.exit 1
+        end
+      rescue StandardError => e
+        puts "Database connection failed with error: #{e}"
+        Kernel.exit 1
+      end
+    end
+
+    desc 'Ensure database version compatibility'
+    task ensure_database_compatibility: %w[openproject:db:check_connection] do
       ##
       # Ensure database server version is compatible
       OpenProject::Database::check!

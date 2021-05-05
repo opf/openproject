@@ -33,6 +33,19 @@ sl:
         single: "Izberi \"%{name}\""
       remove: "Odstrani \"%{name}\""
       active: "Aktivno %{label}%{name}"
+    backup:
+      attachments_disabled: Priloge morda ne bodo vključene, saj presegajo maksimalno dovoljeno velikost. To lahko spremenite s konfiguracijo (kar zahteva restart strežnika).
+      info: >
+        Tukaj lahko sprožite kreiranje rezerve. Proces lahko nekaj časa traja, odvisno od količine podatkov (sploh prilog), ki jih imate. Ko bo rezerva pripravljena, boste prejeli email.
+      note: >
+        Nova varnostna kopija bo povozila prejšnjo. Samo omejeno število var. kopij lahko v enem dnevu zahtevate.
+      last_backup: Zadnja varnostna kopija
+      last_backup_from: Zadnja varnostna kopija od
+      title: Varnostno kopiranje OpenProject-a
+      options: Možnosti
+      include_attachments: Vključite priloge
+      download_backup: Prenos varnostne kopije
+      request_backup: Zahteva za varnostno kopijo
     close_popup_title: "Zapri pojavna okna"
     close_filter_title: "Zapri filter"
     close_form_title: "Zapri obliko"
@@ -294,10 +307,10 @@ sl:
     label_and: "in"
     label_ascending: "Naraščajoče"
     label_author: "Avtor: %{user}"
-    label_avatar: "Podoba"
+    label_avatar: "Avatar"
     label_between: "med"
     label_board: "Board"
-    label_board_locked: "Zaklenjen"
+    label_board_locked: "Zaklenjeno"
     label_board_plural: "Boardi"
     label_board_sticky: "Lepljivo"
     label_create: "Ustvari"
@@ -465,6 +478,7 @@ sl:
         help_menu: 'V <b>Pomoč</b> meniju boste našli uporabniški priročnik in dodatne vire pomoči. <br> Uživajte svoje delo z programsko rešitvijo OpenProject!'
         members: 'Povabite nove <b>Člane</b> k projektu. '
         project_selection: 'Prosimo kliknite na katerega od projektov z uporabnimi demo podatki za začetek. <br> Ta <b>Demo projekt</b> je najbolj primeren za klasično projektno vodenje, medtem ko je <b>Scrum project</b> boljši za agilno projektno vodenje. '
+        quick_add_button: 'Kreiraj nov projekt ali povabi sodelavce'
         sidebar_arrow: "S puščico hako navigirate nazaj na projektni <b>Glavni meni</b>."
         welcome: 'Poglejte si tri minutni ogled, da se naučite čim več <b>pomembne lastnosti</b>. <br> Priporočamo, da ogled dokončat. Ogled lahko ponovno začnete kadar koli. '
         wiki: 'V <b>Wiki</b> lahko dokumentirate in delite znanje z vašo ekipo. '
@@ -506,6 +520,9 @@ sl:
       work_package_belongs_to: 'Ta delovni paket pripada projektu %{projectname}.'
       click_to_switch_context: 'Odpri ta delovni paket v tistem projektu. '
       confirm_template_load: 'Menjava predloge bo ponovno naložila stran in vsi podatki vnešeni v obrazec bodo izgubljeni. Ali želite nadaljevati?'
+      use_template: "Uporabi predlogo"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Samodejno dokončanje projekta'
     text_are_you_sure: "Ste prepričani?"
@@ -978,8 +995,9 @@ sl:
         required: 'Prosim izberi projekt'
         next_button: 'Naprej'
         no_results: 'Nobeni projekti niso bili najdeni'
+        no_invite_rights: 'Nimate dovoljenja za vabljenje članov v ta projekt'
       type:
-        required: 'Please select the type to be invited'
+        required: 'Prosim izberi tip za povabilo'
         user:
           title: 'Uporabnik'
           description: 'Dovoljenja glede na dodeljeno vlogo v izbranem projektu'
@@ -1011,7 +1029,7 @@ sl:
           group: 'Izberite skupino.'
       role:
         label: 'Vloge v %{project}'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'To je vloga, ki jo bo %{principal} prejel/a ko si pridruži tvojemu projektu. Vloga določi katere akcije lahko ubere in katere informacije lahko vidi. <a href="%{href}" target="_blank"> Preberi več o vlogah in dovoljenjih. </a>'
         required: 'Izberite vlogo'
         next_button: 'Naprej'
       message:
@@ -1027,3 +1045,10 @@ sl:
           placeholder: 'Rezervirano mesto se zdaj lahko uporabi v %{project}. Medtem lahko planirate s tem uporabnikom in mu dodelite delovne naloge.'
           group: 'Skupina je zdaj del %{project}. Medtem lahko planirate s to skupino in ji dodelite delovne naloge.'
         next_button: 'Nadaljuj'
+    forms:
+      submit_success_message: 'Obrazev je bil uspešno oddan'
+      load_error_message: 'Pri nalaganju obrazca je prišlo do napake'
+      validation_error_message: 'Prosimo popravite napake v obrazcu'
+      advanced_settings: 'Napredne nastavitve'
+
+

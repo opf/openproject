@@ -33,6 +33,19 @@ hu:
         single: "\"%{name}\" kiválasztása"
       remove: "%{name} törlése"
       active: "%{label} %{name} aktiválása"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Beállítások
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Előugró ablak bezárása"
     close_filter_title: "Szűrő bezárása"
     close_form_title: "Űrlap bezárása"
@@ -465,6 +478,7 @@ hu:
         help_menu: 'A <b>Súgó</b> menüben találja a felhasználói útmutatót és további segítséget. <br> Élvezze az OpenProject munkáját!'
         members: 'Új <b>tagok</b> meghívása, hogy a projekthez csatlakozzanak.'
         project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "A nyíl segítségével visszatérhet a projekt <b>főmenüjébe</b>."
         welcome: 'Áldozzon három percet erre a bemutatóra, hogy megismerje a <b>legfontosabb szolgáltatásokat</b><br> Javasoljuk, hogy végezze el a lépéseket egészen a végéig. A túra bármikor újraindítható.'
         wiki: 'A <b>Wiki</b> modulban tudását dokumentálhatja és megoszthatja a csapatával.'
@@ -506,6 +520,9 @@ hu:
       work_package_belongs_to: 'Ez a feladatcsoport a(z) %{projectname} nevű projekthez tartozik.'
       click_to_switch_context: 'Munkacsomag megnyitása a projektben.'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      use_template: "Use template"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Projektnevek automatikus kiegészítése'
     text_are_you_sure: "Biztos vagy benne?"
@@ -974,6 +991,7 @@ hu:
         required: 'Please select a project'
         next_button: ' Következő'
         no_results: 'No projects were found'
+        no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: 'Please select the type to be invited'
         user:
@@ -1023,3 +1041,10 @@ hu:
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: 'Folytatás'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: 'Speciális beállítások'
+
+

@@ -33,6 +33,19 @@ ca:
         single: "Seleccionar\"%{name}\""
       remove: "Eliminar %{name}"
       active: "Activar %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Opcions
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Tanca el popup"
     close_filter_title: "Tancar filtre"
     close_form_title: "Tancar formulari"
@@ -466,6 +479,7 @@ ca:
         help_menu: 'Al menú d''<b>Ajuda</b> vostè trobarà una guia d''usuari i material adicional de suport. <br>Gaudeixi de la seva feina amb OpenProject!'
         members: 'Convidi nous <b>Membres</b> per afegir-se al seu projecte.'
         project_selection: 'Si us plau cliqui a un dels projectes amb informació útil per a introduir-se.<br>El <b>Projecte demo</b> encaixa millor per a la gestió clàssica de projectes, mentre que el <b>Projecte Scrum</b> es millor per a gestió Àgil de projectes.'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "Amb la fletxa vostè pot navegar enrrere cap al <b>Menu principal</b> del projecte."
         welcome: 'Realitzi un tour de tres minuts per aprendre els <b> aspectes més importants</b>. <br>Recomanem completar les passes fins el final. Podrà recomençar el tour en qualsevol moment.'
         wiki: 'Dintre del <b>Wiki</b> pot documentar i compartir el coneixement amb el seu equip.'
@@ -507,6 +521,9 @@ ca:
       work_package_belongs_to: 'Aquest paquet de treball pertany al projecte %{projectname}.'
       click_to_switch_context: 'Obrir aquest paquet de treball d''aquell projecte.'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      use_template: "Use template"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Autoemplenament del projecte'
     text_are_you_sure: "N'esteu segur?"
@@ -975,6 +992,7 @@ ca:
         required: 'Please select a project'
         next_button: 'Següent'
         no_results: 'No projects were found'
+        no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: 'Please select the type to be invited'
         user:
@@ -1024,3 +1042,10 @@ ca:
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: 'Continue'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: 'Configuració avançada'
+
+

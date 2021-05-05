@@ -71,6 +71,9 @@ export class SummaryComponent {
               principal,
               project: this.project,
               roles: [this.role],
+              notificationMessage: {
+                raw: this.message
+              }
             })
             .pipe(
               mapTo(principal)
@@ -80,6 +83,7 @@ export class SummaryComponent {
   }
 
   private createPrincipal(principal:PrincipalLike):Observable<HalResource> {
+    console.log(principal);
     if (principal instanceof HalResource) {
       return of(principal);
     }

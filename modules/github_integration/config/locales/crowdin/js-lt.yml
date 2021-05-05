@@ -25,20 +25,20 @@ lt:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull Requests"
+        title: "Įtraukimo užklausos"
         copy_menu:
           label: Git
-          description: Copy important git content to clipboard
+          description: Nukopijuoti svarbų git turinį į iškarpinę
         git_actions:
           branch: Šaka
-          branch_help: Copy the default branch name.
+          branch_help: Nukopijuoti numatytosios šakos pavadinimą.
           message: Pranešimas
-          message_help: Copy the default commit message.
-          cmd: Command
-          cmd_help: Copy a shell command which creates a new branch and an empty commit using the default branch name and commit message.
-          title: Copy to Clipboard
+          message_help: Nukopijuoti numatytąjį commit pranešimą.
+          cmd: Komanda
+          cmd_help: Nukopijuokite komandą, kuri sukuria naują šaką ir tuščią commit naudodama numatytąjį šakos pavadinimą ir commit pranešimą.
+          title: Kopijuoti į Iškarpinę
           copy_button_help: Kopijuoti į iškarpinę
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          copy_success: '✅ Nukopijuota!'
+          copy_error: '❌ Kopijavimas nepavyko!'
       tab_prs:
-        empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
+        empty: 'Dar nėra susietų įtraukimo užklausų (PR). Susiekite esamą PR naudojant kodą <code>OP#%{wp_id}</code> PR aprašyme arba sukurkite naują PR.'

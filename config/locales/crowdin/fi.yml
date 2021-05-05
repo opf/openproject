@@ -175,6 +175,8 @@ fi:
       no_results_content_text: Luo uusi mukautettu kenttä
   concatenation:
     single: 'tai'
+  documentation:
+    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -205,6 +207,7 @@ fi:
       no_results_title_text: Tällä hetkellä ei ole projekteja
       no_results_content_text: Luo uusi projekti
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: Ei tapahtumia.
       forums:
@@ -224,6 +227,7 @@ fi:
     index:
       no_results_title_text: Tähän projektiin ei kuulu yhtään henkilöä.
       no_results_content_text: Lisää henkilö tähän projektiin
+    invite_by_mail: "Send invite to %{mail}"
   my:
     access_token:
       failed_to_reset_token: "API-salasanan resetointi epäonnistui: %{error}"
@@ -819,6 +823,33 @@ fi:
     user: "Käyttäjä"
     version: "Versio"
     work_package: "Tehtävä"
+  backup:
+    label_backup_token: "Backup token"
+    label_create_token: "Create backup token"
+    label_delete_token: "Delete backup token"
+    label_reset_token: "Reset backup token"
+    label_token_users: "The following users have active backup tokens"
+    reset_token:
+      action_create: Uusi
+      action_reset: Nollaus
+      heading_reset: "Reset backup token"
+      heading_create: "Create backup token"
+      implications: >
+        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+      info: >
+        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+      verification: >
+        Enter %{word} to confirm you want to %{action} the backup token.
+      verification_word_reset: reset
+      verification_word_create: create
+      warning: >
+        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
+    text_token_deleted: Backup token deleted. Backups are now disabled.
+    error:
+      invalid_token: Invalid or missing backup token
+      token_cooldown: The backup token will be valid in %{hours} hours.
+      backup_pending: There is already a backup pending.
+      limit_reached: You can only do %{limit} backups per day.
   button_add: "Lisää"
   button_add_comment: "Lisää kommentti"
   button_add_member: Lisää jäsen
@@ -898,12 +929,17 @@ fi:
     text_update_consent_time: Valitse tämä ruutu pakottaaksesi käyttäjät hyväksymään suostumus uudelleen. Ota käyttöön kun olet muuttanut yllä olevia ehtoja.
     update_consent_last_time: "Suostumuksen viimeisin päivitys: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Projektin \"%{source_project_name}\" kopiointi uudeksi projektiksi \"%{target_project_name}\" alkoi. Sinulle ilmoitetaan sähköpostitse, kun \"%{target_project_name}\" on saatavilla."
     failed: "Ei voi kopioida projektia %{source_project_name}"
     failed_internal: "Copying failed due to an internal error."
     succeeded: "Projekti %{target_project_name} luotu"
     errors: "Virhe"
     project_custom_fields: 'Custom fields on project'
+    x_objects_of_this_type:
+      zero: 'No objects of this type'
+      one: 'One object of this type'
+      other: '%{count} objects of this type'
     text:
       failed: "Could not copy project \"%{source_project_name}\" to project \"%{target_project_name}\"."
       succeeded: "Copied project \"%{source_project_name}\" to \"%{target_project_name}\"."
@@ -1049,7 +1085,7 @@ fi:
   default_role_anonymous: "Anonyymi"
   default_role_developer: "Kehittäjä"
   default_role_project_admin: "Projektin ylläpitäjä"
-  default_role_project_creator: "Projektin luoja"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Ei jäsen"
   default_role_reader: "Lukuoikeus"
   default_role_member: "Jäsen"
@@ -1289,6 +1325,7 @@ fi:
   label_available_project_versions: 'Saatavana olevat versiot'
   label_available_project_repositories: 'Available repositories'
   label_api_documentation: "API-dokumentaatio"
+  label_backup: "Backup"
   label_between: "between"
   label_blocked_by: "estänyt"
   label_blocks: "estää"
@@ -1491,6 +1528,8 @@ fi:
   label_member_new: "Uusi jäsen"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Jäsenet"
+  lable_membership_added: 'Member added'
+  lable_membership_updated: 'Member updated'
   label_menu_item_name: "Valinnan nimi"
   label_message: "Vesti"
   label_message_last: "Viimeisin viesti"
@@ -1812,6 +1851,12 @@ fi:
   mail_body_account_activation_request: "Uusi käyttäjä (%{value}) on rekisteröitynyt. Hänen tili odottaa hyväksyntääsi:"
   mail_body_account_information: "Kirjautumistiedot"
   mail_body_account_information_external: "Voit nyt käyttää %{value} tiliäsi kirjautuaksesi järjestelmään."
+  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
+  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
+  mail_body_backup_token_reset_user_info: Your backup token has been reset.
+  mail_body_backup_token_info: The previous token is no longer valid.
+  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
+  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "Vaihtaaksesi salasanasi, napsauta seuraavaa linkkiä:"
   mail_body_register: "Ole hyvä ja aktivoi tilisi alla olevalla linkillä:"
   mail_body_register_header_title: "Kutsu projektin jäseneksi"
@@ -1828,12 +1873,35 @@ fi:
   mail_body_wiki_content_added: "'%{id}' wiki-sivu on lisätty %{author}."
   mail_body_wiki_content_updated: "'%{id}' wiki-sivu on päivitetty %{author}."
   mail_subject_account_activation_request: "%{value} käyttäjätiedot"
+  mail_subject_backup_ready: "Your backup is ready"
+  mail_subject_backup_token_reset: "Your backup token has been reset"
   mail_subject_lost_password: "Sinun %{value} salasanasi"
   mail_subject_register: "%{value} käyttäjätiedot"
   mail_subject_reminder: "%{count} tapahtuma(a) erääntyy %{days} lähipäivinä"
   mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki-sivu on poistettu"
   mail_subject_wiki_content_updated: "'%{id}' Wiki-sivu on päivitetty"
+  mail_member_added_project:
+    subject: "%{project} - You have been added as a member"
+    body:
+      added_by:
+        without_message: "%{user} added you as a member to the project '%{project}'."
+        with_message: "%{user} added you as a member to the project '%{project}' writing:"
+      roles: "You have the following roles:"
+  mail_member_updated_project:
+    subject: "%{project} - Your roles have been updated"
+    body:
+      updated_by:
+        without_message: "%{user} updated the roles you have in the project '%{project}'."
+        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
+      roles: "You now have the following roles:"
+  mail_member_updated_global:
+    subject: "Your global permissions have been updated"
+    body:
+      updated_by:
+        without_message: "%{user} updated the roles you have globally."
+        with_message: "%{user} updated the roles you have globally writing:"
+      roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: User activation limit reached
     message: |
@@ -2187,6 +2255,7 @@ fi:
   setting_consent_required: "Suostumus vaaditaan"
   setting_consent_decline_mail: "Suostumukseen liittyvien lisätietojen sähköpostiosoite"
   setting_cross_project_work_package_relations: "Salli projektien väliset tehtävien riippuvuudet"
+  setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Päivän muoto"
   setting_default_language: "Vakiokieli"
   setting_default_notification_option: "Oletusasetus ilmoituksille"
@@ -2268,6 +2337,11 @@ fi:
     passwords: "Salasana"
     session: "Istunto"
     brute_force_prevention: "Automaattinen käyttäjän estäminen"
+    display:
+      first_date_of_week_and_year_present: >
+        If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
@@ -2658,6 +2732,7 @@ fi:
       code_403: "Sinulla ei ole oikeutta käyttää tätä resurssia."
       code_404: "Sivua ei löydy"
       code_409: "Could not update the resource because of conflicting modifications."
+      code_429: "Too many requests. Please try again later."
       code_500: "Tapahtui sisäinen virhe."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
@@ -2776,3 +2851,4 @@ fi:
     authorization_error: "An authorization error has occurred."
     revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
     my_registered_applications: "Registered OAuth applications"
+  you: you

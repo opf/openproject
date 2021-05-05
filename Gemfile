@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 2.7.2'
+ruby '~> 2.7.3'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -248,7 +248,7 @@ group :ldap do
 end
 
 group :development do
-  gem 'listen', '~> 3.4.0' # Use for event-based reloaders
+  gem 'listen', '~> 3.5.1' # Use for event-based reloaders
 
   gem 'faker'
   gem 'letter_opener'

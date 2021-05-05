@@ -80,7 +80,7 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   public isSortable(column:QueryColumn):boolean {
     return !!_.find(
       this.available,
-      (candidate) => candidate.column.$href === column.$href
+      (candidate) => candidate.column.href === column.href
     );
   }
 
@@ -103,14 +103,14 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   public findAvailableDirection(column:QueryColumn, direction:string):QuerySortByResource | undefined {
     return _.find(
       this.available,
-      (candidate) => (candidate.column.$href === column.$href &&
-        candidate.direction.$href === direction)
+      (candidate) => (candidate.column.href === column.href &&
+        candidate.direction.href === direction)
     );
   }
 
   public add(sortBy:QuerySortByResource) {
     const newValue = _
-      .uniqBy([sortBy, ...this.current], sortBy => sortBy.column.$href)
+      .uniqBy([sortBy, ...this.current], sortBy => sortBy.column.href)
       .slice(0, 3);
 
     this.update(newValue);
@@ -159,7 +159,7 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
 
   private get manualSortObject() {
     return _.find(this.available, sort => {
-      return sort.column.$href!.endsWith('/manualSorting');
+      return sort.column.href!.endsWith('/manualSorting');
     });
   }
 }

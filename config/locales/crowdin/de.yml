@@ -172,6 +172,8 @@ de:
       no_results_content_text: Neues benutzerdefiniertes Feld anlegen
   concatenation:
     single: 'oder'
+  documentation:
+    see_more_link: Weitere Informationen finden Sie in unserer Dokumentation zu diesem Thema.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -202,6 +204,7 @@ de:
       no_results_title_text: Es gibt aktuell keine Projekte
       no_results_content_text: Neues Projekt erstellen
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: Zur Zeit stehen keine Aktivitäten zur Verfügung.
       forums:
@@ -221,6 +224,7 @@ de:
     index:
       no_results_title_text: Zur Zeit hat dieses Projekt keine Mitglieder.
       no_results_content_text: Mitglied zum Projekt hinzufügen
+    invite_by_mail: "Einladung an %{mail} senden"
   my:
     access_token:
       failed_to_reset_token: "Zusatztoken konnte nicht zurückgesetzt werden: %{error}"
@@ -246,8 +250,8 @@ de:
       irreversible: "Dieser Vorgang kann nicht rückgängig gemacht werden"
       confirmation: "Geben Sie den Namen des Platzhalter-Benutzers %{name} ein, um die Löschung zu bestätigen."
     upsale:
-      title: Assign work to people that are not members of the project.
-      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+      title: Weisen Sie Arbeit Personen zu, die nicht Mitglieder des Projekts sind
+      description: Es gibt mehrere Szenarien, in denen Sie Personen Arbeit zuweisen möchten, die nicht Mitglied Ihres Projekts sind. Es könnte einfach sein, dass Sie immer noch die richtige Person für den Job einstellen müssen. Oder Sie wollen dieser Person keinen Zugriff auf die Projektinformationen gewähren, aber dennoch die dieser Person zugewiesenen Tracking-Aufgaben aufweisen.
   prioritiies:
     edit:
       priority_color_text: |
@@ -564,7 +568,7 @@ de:
             global: 'Global'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "müssen mindestens einen Filter für Principal, Kontext oder ID mit dem '=' Operator enthalten."
         custom_field:
           at_least_one_custom_option: "Mindestens ein Wert muss verfügbar sein."
         custom_actions:
@@ -814,6 +818,33 @@ de:
     user: "Benutzer"
     version: "Version"
     work_package: "Arbeitspaket"
+  backup:
+    label_backup_token: "Backup token"
+    label_create_token: "Create backup token"
+    label_delete_token: "Delete backup token"
+    label_reset_token: "Reset backup token"
+    label_token_users: "The following users have active backup tokens"
+    reset_token:
+      action_create: Anlegen
+      action_reset: Zurücksetzen
+      heading_reset: "Reset backup token"
+      heading_create: "Create backup token"
+      implications: >
+        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+      info: >
+        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+      verification: >
+        Enter %{word} to confirm you want to %{action} the backup token.
+      verification_word_reset: reset
+      verification_word_create: create
+      warning: >
+        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
+    text_token_deleted: Backup token deleted. Backups are now disabled.
+    error:
+      invalid_token: Invalid or missing backup token
+      token_cooldown: The backup token will be valid in %{hours} hours.
+      backup_pending: There is already a backup pending.
+      limit_reached: You can only do %{limit} backups per day.
   button_add: "Hinzufügen"
   button_add_comment: "Kommentar hinzufügen"
   button_add_member: Mitglied hinzufügen
@@ -893,12 +924,17 @@ de:
     text_update_consent_time: Aktivieren Sie dieses Häkchen, um Benutzer erneut zur Einwilligung einer Datenschutz- oder Nutzungserklärung aufzufordern. Aktivieren Sie es immer dann, wenn Sie rechtliche Aspekte der Zustimmung verändert haben.
     update_consent_last_time: "Letzte Änderung der Einwilligungsinformationen: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Das Kopieren des Projekts \"%{source_project_name}\" nach \"%{target_project_name}\" wurde gestartet. Sie werden per Mail benachrichtigt, sobald \"%{target_project_name}\" zur Verfügung steht."
     failed: "Das Projekt %{source_project_name} konnte nicht kopiert werden"
     failed_internal: "Kopieren fehlgeschlagen aufgrund eines internen Fehlers."
     succeeded: "Das Projekt %{target_project_name} wurde erstellt"
     errors: "Fehler"
     project_custom_fields: 'Benutzerdefinierte Felder des Projekts'
+    x_objects_of_this_type:
+      zero: 'Kein Inhalt dieser Art.'
+      one: 'Ein Objekt dieses Typs'
+      other: '"%{count}" Ein Objekt dieses Typs'
     text:
       failed: "Das Projekt \"%{source_project_name}\" konnte nicht nach \"%{target_project_name}\" kopiert werden."
       succeeded: "Das Projekt \"%{source_project_name}\" wurde nach \"%{target_project_name}\" kopiert."
@@ -1044,7 +1080,7 @@ de:
   default_role_anonymous: "Anonym"
   default_role_developer: "Entwickler"
   default_role_project_admin: "Projekt-Admin"
-  default_role_project_creator: "Projektersteller"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Nichtmitglied"
   default_role_reader: "Leser"
   default_role_member: "Mitglied"
@@ -1284,6 +1320,7 @@ de:
   label_available_project_versions: 'Verfügbare Versionen'
   label_available_project_repositories: 'Verfügbare Projektarchive'
   label_api_documentation: "API-Dokumentation"
+  label_backup: "Backup"
   label_between: "zwischen"
   label_blocked_by: "Blockiert durch"
   label_blocks: "Blockiert"
@@ -1486,6 +1523,8 @@ de:
   label_member_new: "Neues Mitglied"
   label_member_all_admin: "(Alle Rollen, da Administrator)"
   label_member_plural: "Mitglieder"
+  lable_membership_added: 'Mitglied hinzugefügt'
+  lable_membership_updated: 'Mitglied aktualisiert'
   label_menu_item_name: "Name des Menüpunktes"
   label_message: "Nachricht"
   label_message_last: "Letzter Forenbeitrag"
@@ -1807,6 +1846,12 @@ de:
   mail_body_account_activation_request: "Ein neuer Benutzer (%{value}) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:"
   mail_body_account_information: "Ihre Konto-Informationen"
   mail_body_account_information_external: "Sie können sich mit Ihrem Konto %{value} anmelden."
+  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
+  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
+  mail_body_backup_token_reset_user_info: Your backup token has been reset.
+  mail_body_backup_token_info: The previous token is no longer valid.
+  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
+  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "Benutzen Sie den folgenden Link, um Ihr Kennwort zu ändern:"
   mail_body_register: "Willkommen bei OpenProject. Bitte aktivieren Sie Ihr Konto, indem Sie auf diesen Link klicken:"
   mail_body_register_header_title: "Einladung als Projektmitglied"
@@ -1823,12 +1868,35 @@ de:
   mail_body_wiki_content_added: "Die Wiki-Seite '%{id}' wurde von %{author} hinzugefügt."
   mail_body_wiki_content_updated: "Die Wiki-Seite '%{id}' wurde von %{author} aktualisiert."
   mail_subject_account_activation_request: "Antrag auf %{value} Kontoaktivierung"
+  mail_subject_backup_ready: "Your backup is ready"
+  mail_subject_backup_token_reset: "Your backup token has been reset"
   mail_subject_lost_password: "Ihr %{value} Kennwort"
   mail_subject_register: "Ihre %{value} Kontoaktivierung"
   mail_subject_reminder: "%{count} Arbeitspaket(e) müssen in den nächsten %{days} Tagen abgeschlossen werden"
   mail_subject_group_reminder: "Für Gruppe \"%{group}\" sind/ist %{count} Arbeitspaket(e) fällig in den nächsten %{days} Tagen"
   mail_subject_wiki_content_added: "Wiki-Seite '%{id}' hinzugefügt"
   mail_subject_wiki_content_updated: "Wiki-Seite '%{id}' erfolgreich aktualisiert"
+  mail_member_added_project:
+    subject: "%{project} - Sie wurden als Mitglied hinzugefügt"
+    body:
+      added_by:
+        without_message: "%{user} hat Sie als Mitglied zum Projekt '%{project} ' hinzugefügt."
+        with_message: "%{user} hat Sie als Mitglied zum Projekt '%{project} ' hinzugefügt."
+      roles: "Sie haben folgende Rollen:"
+  mail_member_updated_project:
+    subject: "%{project} - Ihre Rollen wurden aktualisiert"
+    body:
+      updated_by:
+        without_message: "%{user} aktualisierte die Rollen, die Sie im Projekt '%{project} ' haben."
+        with_message: "%{user} aktualisierte die Rollen, die Sie im Projekt '%{project} ' haben."
+      roles: "Sie haben jetzt folgende Rollen:"
+  mail_member_updated_global:
+    subject: "Ihre globalen Berechtigungen wurden aktualisiert"
+    body:
+      updated_by:
+        without_message: "%{user} aktualisierte die Rollen, die Sie global haben."
+        with_message: "%{user} aktualisierte die Rollen, die Sie global haben."
+      roles: "Sie haben jetzt folgende Rollen:"
   mail_user_activation_limit_reached:
     subject: Nutzer aktivierungs Limit erreicht
     message: |
@@ -2182,6 +2250,7 @@ de:
   setting_consent_required: "Einwilligung erforderlich"
   setting_consent_decline_mail: "Kontaktadresse bei Rückfragen zur Einwilligung"
   setting_cross_project_work_package_relations: "Arbeitspaket-Beziehungen zwischen Projekten erlauben"
+  setting_first_week_of_year: "Die erste Woche im Jahr enthält"
   setting_date_format: "Datumsformat"
   setting_default_language: "Standard-Sprache"
   setting_default_notification_option: "Standard Benachrichtigungsoptionen"
@@ -2263,6 +2332,11 @@ de:
     passwords: "Passwörter"
     session: "Sitzung"
     brute_force_prevention: "Automatisches Sperren von Benutzern"
+    display:
+      first_date_of_week_and_year_present: >
+        Wenn beide Optionen "Erstes Datum der Woche" oder "erste Woche des Jahres" gesetzt muss der andere ebenfalls gesetzt werden, um Ungereimtheiten im Frontend zu vermeiden.
+      first_week_of_year_text: >
+        Wählen Sie das Datum vom Januar, das in der ersten Woche des Jahres enthalten ist. Dieser Wert zusammen mit dem ersten Wochentag bestimmt die Gesamtzahl der Wochen in einem Jahr.
     projects:
       section_new_projects: "Einstellungen für neue Projekte"
       section_project_overview: "Einstellungen für Projektliste"
@@ -2652,6 +2726,7 @@ de:
       code_403: "Sie sind nicht berechtigt auf diese Ressource zuzugreifen."
       code_404: "Die angeforderte Ressource konnte nicht gefunden werden."
       code_409: "Die Ressource konnte wegen parallelen Zugriffs nicht aktualisiert werden."
+      code_429: "Too many requests. Please try again later."
       code_500: "Ein interner Fehler ist aufgetreten."
       expected:
         date: "YYYY-MM-DD (Datum nach ISO 8601)"
@@ -2662,7 +2737,7 @@ de:
       invalid_relation: "Die Beziehung ist ungültig."
       invalid_resource: "Für die Eigenschaft '%{property}' wird ein Link wie '%{expected}' erwartet. Gesandt wurde '%{actual}'."
       invalid_signal:
-        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
+        embed: "Die angeforderte Auswahl von %{invalid} wird nicht unterstützt. Unterstützte Auswahlen sind %{supported}."
         select: "Die angeforderte Auswahl von %{invalid} wird nicht unterstützt. Unterstützte Auswahlen sind %{supported}."
       invalid_user_status_transition: "Für diesen Nutzeraccount ist die angeforderte Statusänderung nicht zulässig."
       missing_content_type: "nicht angegeben"
@@ -2770,3 +2845,4 @@ de:
     authorization_error: "Ein Autorisierungsfehler ist aufgetreten."
     revoke_my_application_confirmation: "Möchten Sie diese Anwendung wirklich entfernen? Dies wird %{token_count} aktive Token widerrufen."
     my_registered_applications: "Registrierte OAuth-Anwendungen"
+  you: you

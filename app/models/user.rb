@@ -166,6 +166,7 @@ class User < Principal
       passwords.reload
 
       clean_up_former_passwords
+      clean_up_password_attribute
     end
   end
 
@@ -652,7 +653,7 @@ class User < Principal
         lastname: "System",
         login: "",
         mail: "",
-        admin: false,
+        admin: true,
         status: User.statuses[:active],
         first_login: false
       )
@@ -729,6 +730,10 @@ class User < Principal
     # minimum 1 to keep the actual user password
     keep_count = [1, Setting[:password_count_former_banned].to_i].max
     (passwords[keep_count..-1] || []).each(&:destroy)
+  end
+
+  def clean_up_password_attribute
+    self.password = self.password_confirmation = nil
   end
 
   ##

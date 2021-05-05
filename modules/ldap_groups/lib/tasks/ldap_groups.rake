@@ -32,7 +32,7 @@ namespace :ldap_groups do
   desc 'Synchronize groups and their users from the LDAP auth source.' \
        'Will only synchronize for those users already present in the application.'
   task synchronize: :environment do
-    ::LdapGroups::SynchronizationJob.perform_now
+    ::LdapGroups::SynchronizationService.synchronize!
   end
 
   namespace :development do

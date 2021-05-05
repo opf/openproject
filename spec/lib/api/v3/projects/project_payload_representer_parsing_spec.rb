@@ -43,15 +43,19 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
     context 'status' do
       let(:hash) do
         {
-          'status' => 'on track',
-          'statusExplanation' => { 'raw' => 'status code explanation' }
+          'statusExplanation' => { 'raw' => 'status code explanation' },
+          '_links' => {
+            'status' => {
+              'href' => api_v3_paths.project_status('on_track')
+            }
+          }
         }
       end
 
       it 'updates code' do
         project = representer.from_hash(hash)
         expect(project.status[:code])
-          .to eql(:on_track)
+          .to eql('on_track')
 
         expect(project.status[:explanation])
           .to eql('status code explanation')
@@ -80,14 +84,18 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
       context 'with explanation not provided' do
         let(:hash) do
           {
-            'status' => 'off track'
+            '_links' => {
+              'status' => {
+                'href' => api_v3_paths.project_status('off_track')
+              }
+            }
           }
         end
 
         it 'does set code' do
           project = representer.from_hash(hash)
           expect(project.status[:code])
-            .to eql :off_track
+            .to eql 'off_track'
         end
 
         it 'does not set explanation' do
@@ -100,7 +108,11 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
       context 'with null for a scope' do
         let(:hash) do
           {
-            'status' => nil
+            '_links' => {
+              'status' => {
+                'href' => nil
+              }
+            }
           }
         end
 
@@ -111,10 +123,10 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
             .to have_key(:status)
 
           status = project[:status]
-          expect(status)
+          expect(status.to_h)
             .to have_key(:code)
 
-          expect(status)
+          expect(status.to_h)
             .not_to have_key(:explanation)
 
           expect(status[:code])

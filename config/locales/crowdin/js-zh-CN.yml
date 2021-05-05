@@ -33,6 +33,19 @@ zh-CN:
         single: "选择“%{name}”"
       remove: "移除%{name}"
       active: "活跃的%{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: 选项
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "关闭弹出窗口"
     close_filter_title: "关闭过滤器"
     close_form_title: "关闭表单"
@@ -466,6 +479,7 @@ zh-CN:
         help_menu: '在<b>帮助</b>菜单中，您可以找到用户指南和其他帮助资源。<br>使用 OpenProject 享受您的工作！'
         members: '邀请新<b>成员</b>加入您的项目。'
         project_selection: '请点击其中一个包含有用演示数据的项目以开始。<br><b>演示项目</b>最适合经典项目管理，而 <b>Scrum 项目</b>更适合敏捷项目管理。'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "使用箭头可以导航回项目的<b>主菜单</b>。"
         welcome: '通过三分钟的导览了解<b>最重要的功能</b> 。<br>我们建议您完成所有步骤。您可以随时重新浏览介绍。'
         wiki: '在 <b>Wiki</b> 中，您可以记录并与您的团队共享知识。'
@@ -507,6 +521,9 @@ zh-CN:
       work_package_belongs_to: '此工作包属于项目%{projectname}。'
       click_to_switch_context: '在该项目中打开此工作包。'
       confirm_template_load: '切换模板将重新加载页面，您将丢失此表单上的所有输入。是否继续？'
+      use_template: "使用模板"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: '项目自动补全'
     text_are_you_sure: "是否确定？"
@@ -973,6 +990,7 @@ zh-CN:
         required: 'Please select a project'
         next_button: '下一个'
         no_results: 'No projects were found'
+        no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: 'Please select the type to be invited'
         user:
@@ -1022,3 +1040,10 @@ zh-CN:
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: '继续'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: '高级设置'
+
+

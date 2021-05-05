@@ -36,7 +36,7 @@ module Admin::Settings
 
     def show
       @deliveries = ActionMailer::Base.perform_deliveries
-      @notifiables = Redmine::Notifiable.all
+      @notifiables = OpenProject::Notifiable.all
 
       respond_to :html
     end

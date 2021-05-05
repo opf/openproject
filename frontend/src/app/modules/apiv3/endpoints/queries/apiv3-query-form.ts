@@ -53,7 +53,7 @@ export class Apiv3QueryForm extends APIv3FormResource<QueryFormResource> {
     if (query.project) {
       payload['_links'] = {
         'project': {
-          'href': query.project.$href
+          'href': query.project.href
         }
       };
     }

@@ -53,7 +53,7 @@ export class WorkPackagesListInvalidQueryService {
   private restoreFilters(query:QueryResource, payload:QueryResource, querySchema:SchemaResource) {
     let filters = _.map((payload.filters), filter => {
       const filterInstanceSchema = _.find(querySchema.filtersSchemas.elements, (schema:QueryFilterInstanceSchemaResource) => {
-        return (schema.filter.allowedValues as QueryFilterResource[])[0].$href === filter.filter.$href;
+        return (schema.filter.allowedValues as QueryFilterResource[])[0].href === filter.filter.href;
       });
 
       if (!filterInstanceSchema) {
@@ -63,7 +63,7 @@ export class WorkPackagesListInvalidQueryService {
       const recreatedFilter = filterInstanceSchema.getFilter();
 
       const operator = _.find(filterInstanceSchema.operator.allowedValues, operator => {
-        return operator.$href === filter.operator.$href;
+        return operator.href === filter.operator.href;
       });
 
       if (operator) {
@@ -86,7 +86,7 @@ export class WorkPackagesListInvalidQueryService {
   private restoreColumns(query:QueryResource, stubQuery:QueryResource, schema:SchemaResource) {
     let columns = _.map(stubQuery.columns, column => {
       return _.find((schema.columns.allowedValues as QueryColumn[]), candidate => {
-        return candidate.$href === column.$href;
+        return candidate.href === column.href;
       });
     });
 
@@ -99,7 +99,7 @@ export class WorkPackagesListInvalidQueryService {
   private restoreSortBy(query:QueryResource, stubQuery:QueryResource, schema:SchemaResource) {
     let sortBys = _.map((stubQuery.sortBy), sortBy => {
       return _.find((schema.sortBy.allowedValues as QuerySortByResource[]), candidate => {
-        return candidate.$href === sortBy.$href;
+        return candidate.href === sortBy.href;
       })!;
     });
 
@@ -111,7 +111,7 @@ export class WorkPackagesListInvalidQueryService {
 
   private restoreGroupBy(query:QueryResource, stubQuery:QueryResource, schema:SchemaResource) {
     const groupBy = _.find((schema.groupBy.allowedValues as QueryGroupByResource[]), candidate => {
-      return stubQuery.groupBy && stubQuery.groupBy.$href === candidate.$href;
+      return stubQuery.groupBy && stubQuery.groupBy.href === candidate.href;
     }) as any;
 
     query.groupBy = groupBy;

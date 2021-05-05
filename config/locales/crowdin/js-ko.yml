@@ -33,6 +33,19 @@ ko:
         single: "\"%{name}\" 선택"
       remove: "%{name} 삭제"
       active: "%{label} %{name} 활성화"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: 옵션
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "팝업 닫기"
     close_filter_title: "필터 닫기"
     close_form_title: "폼 닫기"
@@ -466,6 +479,7 @@ ko:
         help_menu: '<b>도움말</b> 메뉴에서 사용자 가이드 및 추가 도움말 리소스를 찾아볼 수 있습니다. <br> OpenProject에서 즐겁게 작업하세요!'
         members: '프로젝트에 참여할 새로운 <b>멤버</b>를 초대하세요.'
         project_selection: '시작하려면 유용한 데모 데이터가 포함된 프로젝트 중 하나를 클릭하십시오. <br> <b>데모 프로젝트</b>는 클래식 프로젝트 관리에 최적이지만, 애자일 프로젝트 관리에는 <b>스크럼 프로젝트</b>가 더 적합합니다.'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "화살표를 사용하여 프로젝트의 <b>기본 메뉴</b>로 다시 돌아갈 수 있습니다."
         welcome: '3분 소개 투어를 보고 가장 <b>중요한 기능</b>에 대해 알아보세요. <br> 끝까지 단계를 완료하는 것이 좋습니다. 언제든지 투어를 다시 시작할 수 있습니다.'
         wiki: '<b>Wiki</b>에서 문서화하고 팀과 함께 지식을 공유할 수 있습니다.'
@@ -507,6 +521,9 @@ ko:
       work_package_belongs_to: '이 작업 패키지는 프로젝트 %{projectname}에 속합니다.'
       click_to_switch_context: '해당 프로젝트에서 이 작업 패키지를 여세요.'
       confirm_template_load: '템플릿을 전환하면 페이지가 다시 로드되고 이 양식에 대한 모든 입력이 손실됩니다. 계속하시겠습니까?'
+      use_template: "템플릿 사용"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: '프로젝트 자동완성'
     text_are_you_sure: "계속하시겠습니까?"
@@ -973,6 +990,7 @@ ko:
         required: 'Please select a project'
         next_button: '다음'
         no_results: 'No projects were found'
+        no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: 'Please select the type to be invited'
         user:
@@ -1022,3 +1040,10 @@ ko:
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: '계속'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: '고급 설정'
+
+

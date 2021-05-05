@@ -58,8 +58,15 @@ describe ::PlaceholderUsers::DeleteService, type: :model do
     it_behaves_like 'deletes the user'
   end
 
-  context 'with gloal user' do
-    let(:actor) { FactoryBot.create(:user, global_permission: %i[manage_placeholder_user]) }
+  context 'with global user' do
+    let(:actor) do
+      FactoryBot.build_stubbed(:user).tap do |u|
+        allow(u)
+          .to receive(:allowed_to_globally?) do |permission|
+            [:manage_placeholder_user].include?(permission)
+          end
+      end
+    end
 
     it_behaves_like 'deletes the user'
   end

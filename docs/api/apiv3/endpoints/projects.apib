@@ -16,15 +16,16 @@ As containers, they also control behaviour of the elements within them. One of t
 
 ## Linked Properties
 
-| Link         | Description                          | Type       | Constraints | Supported operations |Condition                                              |
-| :----------: | -------------                        | ----       | ----------- | -------------------- |-----------------------------------------              |
-| self         | This project                         | Project    | not null    | READ                 |                                                       |
-| categories   | Categories available in this project | Collection | not null    | READ                 |                                                       |
-| types        | Types available in this project      | Collection | not null    | READ                 | **Permission**: view work packages or manage types    |
-| versions     | Versions available in this project   | Collection | not null    | READ                 | **Permission**: view work packages or manage versions |
-| memberships  | Memberships in the  project          | Collection | not null    | READ                 | **Permission**: view members                          |
-| workPackages | Work Packages of this project        | Collection | not null    | READ                 |                                                       |
-| parent       | Parent project of the project        | Project    |             | READ/WRITE           | **Permission** edit project                           |
+| Link         | Description                                                                                           | Type          | Constraints | Supported operations |Condition                                              |
+| :----------: | -------------                                                                                         | ----          | ----------- | -------------------- |-----------------------------------------              |
+| self         | This project                                                                                          | Project       | not null    | READ                 |                                                       |
+| categories   | Categories available in this project                                                                  | Collection    | not null    | READ                 |                                                       |
+| types        | Types available in this project                                                                       | Collection    | not null    | READ                 | **Permission**: view work packages or manage types    |
+| versions     | Versions available in this project                                                                    | Collection    | not null    | READ                 | **Permission**: view work packages or manage versions |
+| memberships  | Memberships in the  project                                                                           | Collection    | not null    | READ                 | **Permission**: view members                          |
+| workPackages | Work Packages of this project                                                                         | Collection    | not null    | READ                 |                                                       |
+| parent       | Parent project of the project                                                                         | Project       |             | READ/WRITE           | **Permission** edit project                           |
+| status       | Denotes the status of the project, so whether the project is on track, at risk or is having trouble.  | ProjectStatus |             | READ/WRITE           | **Permission** edit project                           |
 
 Depending on custom fields defined for projects, additional links might exist.
 
@@ -36,7 +37,6 @@ Depending on custom fields defined for projects, additional links might exist.
 | identifier             |                                                                                                       | String            |                                      | READ/WRITE           |
 | name                   |                                                                                                       | String            |                                      | READ/WRITE           |
 | active                 | Indicates whether the project is currently active or already archived                                 | Boolean           |                                      | READ/WRITE           |
-| status                 | Denotes the status of the project, so whether the project is on track, at risk or is having trouble.  | String            | "on track", "at risk" or "off track" | READ/WRITE           |
 | statusExplanation      | A text detailing and explaining why the project has the reported status                               | Formattable       |                                      | READ/WRITE           |
 | public                 | Indicates whether the project is accessible for everybody                                             | Boolean           |                                      | READ/WRITE           |
 | description            |                                                                                                       | Formattable       |                                      | READ/WRITE           |
@@ -45,7 +45,7 @@ Depending on custom fields defined for projects, additional links might exist.
 
 Depending on custom fields defined for projects, additional properties might exist.
 
-## Project [/api/v3/projects/{id}]
+## View project [/api/v3/projects/{id}]
 
 + Model
     + Body
@@ -86,6 +86,10 @@ Depending on custom fields defined for projects, additional properties might exi
                     },
                     "projects": {
                       "href": "/api/v3/projects/123"
+                    },
+                    "status": {
+                      "href": "/api/v3/project_statuses/on_track",
+                      "title": "On track"
                     }
                 },
                 "id": 1,
@@ -93,7 +97,6 @@ Depending on custom fields defined for projects, additional properties might exi
                 "name": "Project example",
                 "active": true,
                 "public": false,
-                "status": "on track",
                 "statusExplanation": {
                     "format": "markdown",
                     "raw": "Everything **fine**",
@@ -112,11 +115,12 @@ Depending on custom fields defined for projects, additional properties might exi
 ## View project [GET]
 
 + Parameters
-    + id (required, integer, `1`) ... Project id
-
+    
+  + id (required, integer, `1`) ... Project id
+    
 + Response 200 (application/hal+json)
 
-    [Project][]
+    [View project][]
 
 + Response 404 (application/hal+json)
 
@@ -133,33 +137,121 @@ Depending on custom fields defined for projects, additional properties might exi
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
-                "message": "The specified project does not exist."
+                "message": "The requested resource could not be found."
             }
+
+## Create project [/api/v3/projects]
+
+## Create project [POST]
+
+Creates a new project, applying the attributes provided in the body.
+
+You can use the form and schema to be retrieve the valid attribute values and by that be guided towards successful creation.
+
++ Request Create project
+
+    + Body
+
+            {
+              "identifier": "new_project_identifier",
+              "name": "New project name",
+              "customField35": "Text custom field value",
+              "statusExplanation": {
+                  "format": "markdown",
+                  "raw": "Everything **fine**",
+                  "html": "<p>Everything <strong>fine</strong></p>"
+              },
+              "_links": {
+                "customField12": {
+                  "href": "/api/v3/users/5"
+                },
+                "parent": {
+                  "href": "/api/v3/projects/6"
+                },
+                "status": {
+                  "href": "/api/v3/project_statuses/on_track"
+                }
+              }
+            }
+
++ Response 201
+
+    [View project][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** add project which is a global permission
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Name can't be blank.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "name"
+                    }
+                }
+            }
+
+## Update project [/api/v3/projects/{id}]
 
 ## Update Project [PATCH]
 
 Updates the given project by applying the attributes provided in the body.
 
 + Parameters
-    + id (required, integer, `1`) ... Project id
-
+    
+  + id (required, integer, `1`) ... Project id
+    
 + Request Update project
 
     + Body
 
             {
                 "name": "A new project name",
-                "status": "at risk",
                 "_links": {
                     "customField35": {
                         "href": "/api/v3/users/3"
+                    },
+                    "status": {
+                      "href": "/api/v3/project_statuses/at_risk",
                     }
                 }
             }
 
 + Response 200
 
-    [Project][]
+    [View project][]
 
 + Response 400 (application/hal+json)
 
@@ -224,6 +316,8 @@ Updates the given project by applying the attributes provided in the body.
                 }
             }
 
+## Delete project [/api/v3/projects/{id}]
+
 ## Delete Project [DELETE]
 
 Deletes the project permanently. As this is a lengthy process, the actual deletion is carried out asynchronously.
@@ -231,8 +325,9 @@ So the project might exist well after the request has returned successfully. To 
 the project scheduled for deletion, it is archived at once.
 
 + Parameters
-    + id (required, integer, `1`) ... Project id
-
+    
+  + id (required, integer, `1`) ... Project id
+    
 + Response 204 (application/hal+json)
 
     Returned if the project was successfully deleted. There is currently no end point to query for the actual deletion status.
@@ -286,7 +381,7 @@ the project scheduled for deletion, it is archived at once.
                    "_embedded": { "details": { "attribute": "base" } }
             }
 
-## Projects [/api/v3/projects{?filters,sortBy}]
+## List projects [/api/v3/projects{?filters,sortBy}]
 
 + Model
     + Body
@@ -325,13 +420,16 @@ the project scheduled for deletion, it is archived at once.
                       },
                       "projects": {
                         "href": "/api/v3/projects/123"
+                      },
+                      "status": {
+                        "href": "/api/v3/project_statuses/on_track",
+                        "title": "On track"
                       }
                     },
                     "id": 6,
                     "identifier": "a_project",
                     "name": "A project",
                     "active": true,
-                    "status": "on track",
                     "statusExplanation": {
                         "format": "markdown",
                         "raw": "Everything **fine**",
@@ -370,13 +468,16 @@ the project scheduled for deletion, it is archived at once.
                       },
                       "projects": {
                         "href": null
+                      },
+                      "status": {
+                        "href": "/api/v3/project_statuses/off_track",
+                        "title": "Off track"
                       }
                     },
                     "id": 14,
                     "identifier": "another_project",
                     "name": "Another project",
                     "active": false,
-                    "status": "off track",
                     "statusExplanation": {
                         "format": "markdown",
                         "raw": "Uh **oh**",
@@ -412,6 +513,7 @@ Returns a collection of projects. The collection can be filtered via query param
       + parent_id: filters projects by their parent.
       + principal: based on members of the project.
       + type_id: based on the types active in a project.
+      + user_action: based on the actions (see [Actions](#actions)) the current user has in the project.
       + id: based on projects' id.
     There might also be additional filters based on the custom fields that have been configured.
     + sortBy (optional, string, `[["id", "asc"]]`) ... JSON specifying sort criteria.
@@ -427,88 +529,7 @@ Returns a collection of projects. The collection can be filtered via query param
 
 + Response 200 (application/hal+json)
 
-    [Projects][]
-
-## Create project [POST]
-
-Creates a new project, applying the attributes provided in the body.
-
-You can use the form and schema to be retrieve the valid attribute values and by that be guided towards successful creation.
-
-+ Parameters
-
-+ Request Create project
-
-    + Body
-
-            {
-              "identifier": "new_project_identifier",
-              "name": "New project name",
-              "customField35": "Text custom field value",
-              "status": "on track",
-              "statusExplanation": {
-                  "format": "markdown",
-                  "raw": "Everything **fine**",
-                  "html": "<p>Everything <strong>fine</strong></p>"
-              },
-              "_links": {
-                "customField12": {
-                  "href": "/api/v3/users/5"
-                },
-                "parent": {
-                  "href": "/api/v3/projects/6"
-                }
-              }
-            }
-
-+ Response 201
-
-    [Project][]
-
-+ Response 400 (application/hal+json)
-
-    Occurs when the client did not send a valid JSON object in the request body.
-
-    + Body
-
-            {
-                "_type": "Error",
-                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
-                "message": "The request body was not a single JSON object."
-            }
-
-+ Response 403 (application/hal+json)
-
-    Returned if the client does not have sufficient permissions.
-
-    **Required permission:** add project which is a global permission
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
-                "message": "You are not authorized to access this resource."
-            }
-
-+ Response 422 (application/hal+json)
-
-    Returned if:
-
-    * a constraint for a property was violated (`PropertyConstraintViolation`)
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
-                "message": "Name can't be blank.",
-                "_embedded": {
-                    "details": {
-                        "attribute": "name"
-                    }
-                }
-            }
+    [List projects][]
 
 ## Projects schema [/api/v3/projects/schemas]
 
@@ -565,11 +586,27 @@ You can use the form and schema to be retrieve the valid attribute values and by
                     "writable": true
                 },
                 "status": {
-                    "type": "String",
+                    "type": "ProjectStatus",
                     "name": "Status",
-                    "required": true,
+                    "required": false,
                     "hasDefault": true,
-                    "writable": true
+                    "writable": true,
+                    "_links": {
+                      "allowedValues": [
+                        {
+                            "href": "/api/v3/project_statuses/on_track",
+                            "title": "On track"
+                        },
+                        {
+                            "href": "/api/v3/project_statuses/at_risk",
+                            "title": "At risk"
+                        },
+                        {
+                            "href": "/api/v3/project_statuses/off_track",
+                            "title": "Off track"
+                        }
+                      ]
+                    }
                 },
                 "statusExplanation": {
                     "type": "Formattable",
@@ -703,7 +740,6 @@ For more details and all possible responses see the general specification of [Fo
                             "html": ""
                         },
                         "customField42": null,
-                        "status": null,
                         "statusExplanation": {
                             "format": "markdown",
                             "raw": null,
@@ -720,6 +756,9 @@ For more details and all possible responses see the general specification of [Fo
                             },
                             "parent": {
                                 "href": null
+                            },
+                            "status": {
+                              "href": null
                             }
                         }
                     },
@@ -773,11 +812,27 @@ For more details and all possible responses see the general specification of [Fo
                             "writable": true
                         },
                         "status": {
-                            "type": "String",
+                            "type": "ProjectStatus",
                             "name": "Status",
-                            "required": true,
+                            "required": false,
                             "hasDefault": true,
-                            "writable": true
+                            "writable": true,
+                            "_links": {
+                              "allowedValues": [
+                                {
+                                    "href": "/api/v3/project_statuses/on_track",
+                                    "title": "On track"
+                                },
+                                {
+                                    "href": "/api/v3/project_statuses/at_risk",
+                                    "title": "At risk"
+                                },
+                                {
+                                    "href": "/api/v3/project_statuses/off_track",
+                                    "title": "Off track"
+                                }
+                              ]
+                            }
                         },
                         "statusExplanation": {
                             "type": "Formattable",
@@ -992,6 +1047,10 @@ For more details and all possible responses see the general specification of [Fo
 
 ## Project update form [POST]
 
++ Parameters
+
+  + id (required, integer, `1`) ... Project id
+
 + Request Update project form
 
     + Body
@@ -1028,7 +1087,6 @@ For more details and all possible responses see the general specification of [Fo
                             "html": ""
                         },
                         "customField42": null,
-                        "status": "at risk",
                         "statusExplanation": {
                             "format": "markdown",
                             "raw": "There is some risk of failure",
@@ -1045,6 +1103,9 @@ For more details and all possible responses see the general specification of [Fo
                             },
                             "parent": {
                                 "href": "/api/v3/projects/45"
+                            },
+                            "status": {
+                              "href": "/api/v3/project_statuses/at_risk"
                             }
                         }
                     },
@@ -1095,10 +1156,33 @@ For more details and all possible responses see the general specification of [Fo
                             "name": "Active",
                             "required": true,
                             "hasDefault": true,
-                            "writable": true,
+                            "writable": true
                         },
                         "status": {
-                            "type": "String",
+                            "type": "ProjectStatus",
+                            "name": "Status",
+                            "required": false,
+                            "hasDefault": true,
+                            "writable": true,
+                            "_links": {
+                              "allowedValues": [
+                                {
+                                    "href": "/api/v3/project_statuses/on_track",
+                                    "title": "On track"
+                                },
+                                {
+                                    "href": "/api/v3/project_statuses/at_risk",
+                                    "title": "At risk"
+                                },
+                                {
+                                    "href": "/api/v3/project_statuses/off_track",
+                                    "title": "Off track"
+                                }
+                              ]
+                            }
+                        },
+                        "statusExplanation": {
+                            "type": "Formattable",
                             "name": "Status",
                             "required": true,
                             "hasDefault": true,
@@ -1301,7 +1385,569 @@ For more details and all possible responses see the general specification of [Fo
                 "message": "You are not authorized to access this resource."
             }
 
-## Available parent project candidates [/api/v3/projects/available_parent_projects{?filters,of,sortBy}]
+
+## Project copy form [/api/v3/projects/{id}/copy/form]
+
+This endpoint returns a form allowing a guided copy process of existing projects.
+The returned payload part of the form will be contain a merge between the already existing properties' values of the source project (as long as they are writeable) and the provided values to be set for a new project.
+
+For available properties, please see the project endpoint.
+
+The copy form has a `_meta` property that allows defining which associations to copy. Please check the table below
+and copy schema embedded in the copy form response for available options.
+
+The embedded schema of this form describes all associations to copy with a human readable string including the total count of associated objects in the source project.
+
+For more details and all possible responses see the general specification of [Forms](#forms).
+
+### Meta parameters
+
+| Meta property              | Description                                          | Type       | Constraints | Supported operations |Condition |
+| :------------------------: | ---------------------------------------------------  | ----       | ----------- | -------------------- |----------|
+| sendNotifications          | Whether to send out notifications                    | Boolean    | not null    | READ/WRITE           |          |
+| copyMembers                | Whether to copy project members                      | Boolean    | not null    | READ/WRITE           |          |
+| copyVersions               | Whether to copy project versions                     | Boolean    | not null    | READ/WRITE           |          |
+| copyCategories             | Whether to copy project categories                   | Boolean    | not null    | READ/WRITE           |          |
+| copyWorkPackages           | Whether to copy project work packages                | Boolean    | not null    | READ/WRITE           |          |
+| copyWorkPackageAttachments | Whether to copy project attachments of work packages | Boolean    | not null    | READ/WRITE           |          |
+| copyWiki                   | Whether to copy project wiki pages                   | Boolean    | not null    | READ/WRITE           |          |
+| copyWikiPageAttachments    | Whether to copy project wiki page attachments        | Boolean    | not null    | READ/WRITE           |          |
+| copyForums                 | Whether to copy project forums                       | Boolean    | not null    | READ/WRITE           |          |
+| copyQueries                | Whether to copy project queries                      | Boolean    | not null    | READ/WRITE           |          |
+| copyBoards                 | Whether to copy project boards                       | Boolean    | not null    | READ/WRITE           |          |
+| copyOverview               | Whether to copy the project overview page            | Boolean    | not null    | READ/WRITE           |          |
+
+## Project copy form [POST]
+
++ Parameters
+
+  + id (required, integer, `1`) ... Project id
+
++ Request copy project form
+
+  + Body
+
+        {
+          "identifier": "copied_project_identifier",
+          "name": "Copied project name",
+          "customField35": "Text custom field value",
+          "_meta": {
+          	"copyOverview": false,
+          	"copyWorkPackages": true
+          }
+        }
+
++ Response 200 (application/hal+json)
+
+  + Body
+
+        {
+            "_type": "Form",
+            "_embedded": {
+                "payload": {
+                    "identifier": "copied_project_identifier",
+                    "name": "Copied project name",
+                    "active": true,
+                    "public": false,
+                    "description": {
+                        "format": "markdown",
+                        "raw": null,
+                        "html": ""
+                    },
+                    "customField30": null,
+                    "customField34": null,
+                    "customField35": "Text custom field value",
+                    "customField41": {
+                        "format": "markdown",
+                        "raw": "",
+                        "html": ""
+                    },
+                    "customField42": null,
+                    "statusExplanation": {
+                        "format": "markdown",
+                        "raw": "There is some risk of failure",
+                        "html": "<p>There is some risk of failure</p>"
+                    },
+                    "_links": {
+                        "customField26": {
+                            "href": null,
+                            "title": null
+                        },
+                        "customField31": {
+                            "href": null,
+                            "title": null
+                        },
+                        "parent": null,
+                        "status": {
+                          "href": "/api/v3/project_statuses/at_risk"
+                        }
+                    },
+                    "_meta": {
+                    	"copyOverview": false,
+                    	"copyBoards": false,
+                    	"copyForums": false,
+                    	"copyMembers": false,
+                    	"copyVersions": false,
+                    	"copyWiki": false,
+                    	"copyWikiPageAttachments": false,
+                    	"copyWorkPackages": false,
+                    	"copyWorkPackageAttachments": false,
+                    	"copyQueries": false,
+                    	"copyCategories": false
+                    }
+                },
+                "schema": {
+                    "_type": "Schema",
+                    "_dependencies": [],
+                    "id": {
+                        "type": "Integer",
+                        "name": "ID",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": false
+                    },
+                    "name": {
+                        "type": "String",
+                        "name": "Name",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": true,
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "identifier": {
+                        "type": "String",
+                        "name": "Identifier",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": true,
+                        "minLength": 1,
+                        "maxLength": 100
+                    },
+                    "description": {
+                        "type": "Formattable",
+                        "name": "Description",
+                        "required": false,
+                        "hasDefault": false,
+                        "writable": true
+                    },
+                    "public": {
+                        "type": "Boolean",
+                        "name": "Public",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": true
+                    },
+                    "active": {
+                        "type": "Boolean",
+                        "name": "Active",
+                        "required": true,
+                        "hasDefault": true,
+                        "writable": true
+                    },
+                    "status": {
+                        "type": "ProjectStatus",
+                        "name": "Status",
+                        "required": false,
+                        "hasDefault": true,
+                        "writable": true,
+                        "_links": {
+                          "allowedValues": [
+                            {
+                                "href": "/api/v3/project_statuses/on_track",
+                                "title": "On track"
+                            },
+                            {
+                                "href": "/api/v3/project_statuses/at_risk",
+                                "title": "At risk"
+                            },
+                            {
+                                "href": "/api/v3/project_statuses/off_track",
+                                "title": "Off track"
+                            }
+                          ]
+                        }
+                    },
+                    "statusExplanation": {
+                        "type": "Formattable",
+                        "name": "Status",
+                        "required": true,
+                        "hasDefault": true,
+                        "writable": true,
+                    },
+                    "parent": {
+                        "type": "Project",
+                        "name": "Subproject of",
+                        "required": false,
+                        "hasDefault": false,
+                        "writable": true,
+                        "location": "_links",
+                        "visibility": "default",
+                        "_links": {
+                            "allowedValues": {
+                                "href": "/api/v3/projects/available_parent_projects?of=123"
+                            }
+                        }
+                    },
+                    "createdAt": {
+                        "type": "DateTime",
+                        "name": "Created on",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": false
+                    },
+                    "updatedAt": {
+                        "type": "DateTime",
+                        "name": "Updated on",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": false
+                    },
+                    "customField26": {
+                        "type": "User",
+                        "name": "Project user",
+                        "required": false,
+                        "hasDefault": false,
+                        "writable": true,
+                        "location": "_links",
+                        "visibility": "default",
+                        "_links": {
+                            "allowedValues": {
+                                "href": "/api/v3/principals?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22%21%22%2C%22values%22%3A%5B%220%22%2C%223%22%5D%7D%7D%2C%7B%22type%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%22User%22%5D%7D%7D%2C%7B%22member%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%22%22%5D%7D%7D%5D&pageSize=0"
+                            }
+                        }
+                    },
+                    "customField30": {
+                        "type": "Integer",
+                        "name": "some project cf",
+                        "required": false,
+                        "hasDefault": false,
+                        "writable": true,
+                        "visibility": "default"
+                    },
+                    "customField31": {
+                        "type": "CustomOption",
+                        "name": "list project cf",
+                        "required": false,
+                        "hasDefault": false,
+                        "writable": true,
+                        "location": "_links",
+                        "visibility": "default",
+                        "_embedded": {
+                            "allowedValues": [
+                                {
+                                    "_type": "CustomOption",
+                                    "id": 513,
+                                    "value": "abc",
+                                    "_links": {
+                                        "self": {
+                                            "href": "/api/v3/custom_options/513",
+                                            "title": "abc"
+                                        }
+                                    }
+                                },
+                                {
+                                    "_type": "CustomOption",
+                                    "id": 514,
+                                    "value": "def",
+                                    "_links": {
+                                        "self": {
+                                            "href": "/api/v3/custom_options/514",
+                                            "title": "def"
+                                        }
+                                    }
+                                },
+                                {
+                                    "_type": "CustomOption",
+                                    "id": 515,
+                                    "value": "ghi",
+                                    "_links": {
+                                        "self": {
+                                            "href": "/api/v3/custom_options/515",
+                                            "title": "ghi"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "_links": {
+                            "allowedValues": [
+                                {
+                                    "href": "/api/v3/custom_options/513",
+                                    "title": "abc"
+                                },
+                                {
+                                    "href": "/api/v3/custom_options/514",
+                                    "title": "def"
+                                },
+                                {
+                                    "href": "/api/v3/custom_options/515",
+                                    "title": "ghi"
+                                }
+                            ]
+                        }
+                    },
+                    "customField34": {
+                        "type": "Boolean",
+                        "name": "Bool Project CF",
+                        "required": false,
+                        "hasDefault": false,
+                        "writable": true,
+                        "visibility": "default"
+                    },
+                    "customField35": {
+                        "type": "String",
+                        "name": "text project cf",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": true,
+                        "visibility": "default"
+                    },
+                    "customField41": {
+                        "type": "Formattable",
+                        "name": "Long text project cf",
+                        "required": false,
+                        "hasDefault": false,
+                        "writable": true,
+                        "visibility": "default"
+                    },
+                    "customField42": {
+                        "type": "Date",
+                        "name": "Date project cf",
+                        "required": false,
+                        "hasDefault": false,
+                        "writable": true,
+                        "visibility": "default"
+                    },
+                    "copyOverview": {
+                        "type": "Boolean",
+                        "name": "Overview",
+                        "required": false,
+                        "hasDefault": true,
+                        "writable": true,
+                        "location:" "_meta"
+                    },
+                    "copyBoards": {
+                        "type": "Boolean",
+                        "name": "Boards",
+                        "required": false,
+                        "hasDefault": true,
+                        "writable": true,
+                        "location:" "_meta"
+                    },
+                    "copyForums": {
+                        "type": "Boolean",
+                        "name": "Forums",
+                        "required": false,
+                        "hasDefault": true,
+                        "writable": true,
+                        "location:" "_meta"
+                    },
+                    "copyMembers": {
+                        "type": "Boolean",
+                        "name": "Members",
+                        "required": false,
+                        "hasDefault": true,
+                        "writable": true,
+                        "location:" "_meta"
+                    },
+                    "copyVersions": {
+                        "type": "Boolean",
+                        "name": "Versions",
+                        "required": false,
+                        "hasDefault": true,
+                        "writable": true,
+                        "location:" "_meta"
+                    },
+                    "copyWiki": {
+                        "type": "Boolean",
+                        "name": "Wiki",
+                        "required": false,
+                        "hasDefault": true,
+                        "writable": true,
+                        "location:" "_meta"
+                    },
+                    "copyWikiPageAttachments": {
+                        "type": "Boolean",
+                        "name": "Wiki page attachments",
+                        "required": false,
+                        "hasDefault": true,
+                        "writable": true,
+                        "location:" "_meta"
+                    },
+                    "copyWorkPackages": {
+                        "type": "Boolean",
+                        "name": "Work packages",
+                        "required": false,
+                        "hasDefault": true,
+                        "writable": true,
+                        "location:" "_meta"
+                    },
+                    "copyWorkPackageAttachments": {
+                        "type": "Boolean",
+                        "name": "Work package attachments",
+                        "required": false,
+                        "hasDefault": true,
+                        "writable": true,
+                        "location:" "_meta"
+                    },
+                    "copyQueries": {
+                        "type": "Boolean",
+                        "name": "Queries",
+                        "required": false,
+                        "hasDefault": true,
+                        "writable": true,
+                        "location:" "_meta"
+                    },
+                    "copyCategories": {
+                        "type": "Boolean",
+                        "name": "Categories",
+                        "required": false,
+                        "hasDefault": true,
+                        "writable": true,
+                        "location:" "_meta"
+                    },
+                    "_links": {}
+                },
+                "validationErrors": {
+                    "identifier": {
+                        "_type": "Error",
+                        "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                        "message": "Identifier has already been taken.",
+                        "_embedded": {
+                            "details": {
+                                "attribute": "identifier"
+                            }
+                        }
+                    }
+                }
+            },
+            "_links": {
+                "self": {
+                    "href": "/api/v3/projects/5/copy/form",
+                    "method": "post"
+                },
+                "validate": {
+                    "href": "/api/v3/projects/5/copy/form",
+                    "method": "post"
+                }
+            }
+        }
+
++ Response 400 (application/hal+json)
+
+  Occurs when the client did not send a valid JSON object in the request body.
+
+  + Body
+
+        {
+            "_type": "Error",
+             "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+            "message": "The request body was not a single JSON object."
+        }
+
++ Response 403 (application/hal+json)
+
+  Returned if the client does not have sufficient permissions.
+
+  **Required permission:** copy projects in the source project
+
+  + Body
+
+        {
+            "_type": "Error",
+            "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+            "message": "You are not authorized to access this resource."
+        }
+
+
+
+## Create project copy [/api/v3/projects/{id}/copy]
+
+This endpoint allows triggering a copy process of an existing project.
+The request payload will be passed as attributes to the new project being created. Unset values will be retained from the existing project where possible.
+
+For available properties, please see the project endpoint.
+
+The copy endpoint has a `_meta` property that allows defining which associations to copy. Please check the copy schema embedded in the project copy form response for available options.
+
+## Create project copy [POST]
+
++ Parameters
+
+  + id (required, integer, `1`) ... Project id
+
+
++ Request Create copy project 
+
+  + Body
+
+        {
+          "identifier": "copied_project_identifier",
+          "name": "Copied project name",
+          "customField35": "Text custom field value",
+          "_meta": {
+          	"copyOverview": false,
+          	"copyWorkPackages": true
+          }
+        }
+
++ Response 302 (application/hal+json)
+   
+  Returned if the request is successful. It will redirect to the job statuses API with the backend job that got created. You can query that endpoint to check the status of the copy, and eventually get the created project.
+  
+  + Body
+  
+      
+
++ Response 400 (application/hal+json)
+
+  Occurs when the client did not send a valid JSON object in the request body.
+
+  + Body
+
+        {
+            "_type": "Error",
+             "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+            "message": "The request body was not a single JSON object."
+        }
+
++ Response 403 (application/hal+json)
+
+  Returned if the client does not have sufficient permissions.
+
+  **Required permission:** copy projects in the source project
+
+  + Body
+
+        {
+            "_type": "Error",
+            "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+            "message": "You are not authorized to access this resource."
+        }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Name can't be blank.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "name"
+                    }
+                }
+            }
+
+
+
+## List available parent project candidates [/api/v3/projects/available_parent_projects{?filters,of,sortBy}]
 
 + Model
     + Body
@@ -1337,13 +1983,16 @@ For more details and all possible responses see the general specification of [Fo
                       },
                       "versions": {
                         "href": "/api/v3/projects/6/versions"
+                      },
+                      "status": {
+                        "href": "/api/v3/project_statuses/on_track",
+                        "title": "On track"
                       }
                     },
                     "id": 6,
                     "identifier": "a_project",
                     "name": "A project",
                     "active": true,
-                    "status": "on track",
                     "statusExplanation": {
                         "format": "markdown",
                         "raw": "Everything **fine**",
@@ -1379,13 +2028,16 @@ For more details and all possible responses see the general specification of [Fo
                       },
                       "versions": {
                         "href": "/api/v3/projects/14/versions"
+                      },
+                      "status": {
+                        "href": "/api/v3/project_statuses/on_track",
+                        "title": "On track"
                       }
                     },
                     "id": 14,
                     "identifier": "another_project",
                     "name": "Another project",
                     "active": true,
-                    "status": "on track",
                     "statusExplanation": {
                         "format": "markdown",
                         "raw": "Everything super **fine**",
@@ -1431,7 +2083,7 @@ For instance to find all parent candidates with "rollout" in their name:
 
 + Response 200 (application/hal+json)
 
-    [Available parent project candidates][]
+    [List available parent project candidates][]
 
 + Response 403 (application/hal+json)
 
@@ -1447,7 +2099,7 @@ For instance to find all parent candidates with "rollout" in their name:
                 "message": "You are not authorized to access this resource."
             }
 
-## Projects by version [/api/v3/versions/{id}/projects]
+## List projects by version [/api/v3/versions/{id}/projects]
 
 + Model
     + Body
@@ -1474,7 +2126,11 @@ For instance to find all parent candidates with "rollout" in their name:
                                     "title": "Lorem"
                                 },
                                 "categories": { "href": "/api/v3/projects/1/categories" },
-                                "versions": { "href": "/api/v3/projects/1/versions" }
+                                "versions": { "href": "/api/v3/projects/1/versions" },
+                                "status": {
+                                  "href": "/api/v3/project_statuses/on_track",
+                                  "title": "On track"
+                                }
                             },
                             "id": 1,
                             "identifier": "project_identifier",
@@ -1485,7 +2141,6 @@ For instance to find all parent candidates with "rollout" in their name:
                                 "html": "<p>Lorem <strong>ipsum</strong> dolor sit amet</p>"
                             },
                             "active": true,
-                            "status": "on track",
                             "statusExplanation": {
                                 "format": "markdown",
                                 "raw": "Everything **fine**",
@@ -1506,11 +2161,12 @@ The projects returned depend on the sharing settings of the given version,
 but are also limited to the projects that the current user is allowed to see.
 
 + Parameters
-    + id (required, integer, `1`) ... Version id
-
+    
+  + id (required, integer, `1`) ... Version id
+    
 + Response 200 (application/hal+json)
 
-    [Projects by version][]
+    [List projects by version][]
 
 + Response 404 (application/hal+json)
 
@@ -1527,5 +2183,48 @@ but are also limited to the projects that the current user is allowed to see.
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
-                "message": "The specified version does not exist."
+                "message": "The requested resource could not be found."
+            }
+
+## View project status
+
+The project status enumerations are a fixed set set status a project can be in: "On track", "At risk" and "Off track". They can be
+used to communicate a judgement on the project's likeliness to succeed.
+
+## View project status [/api/v3/project_statuses/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "ProjectStatus",
+                "id": "on_track",
+                "name": "On track",
+                "_links": {
+                  "self": {
+                    "href": "/api/v3/project_statuses/on_track"
+                  }
+                }
+            }
+
+## View project status [GET]
+
++ Parameters
+
+  + id (required, string, `on_track`) ... Project status id
+
++ Response 200 (application/hal+json)
+
+    [View project status][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the project status does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
             }

@@ -33,10 +33,6 @@ describe Redmine::I18n do
   include Redmine::I18n
   include ActionView::Helpers::NumberHelper
 
-  before do
-    @hook_module = Redmine::Hook
-  end
-
   it 'should date and time for each language' do
     Setting.date_format = ''
     valid_languages.each do |lang|

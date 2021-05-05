@@ -33,6 +33,19 @@ nl:
         single: "Selecteer \"%{name}\""
       remove: "Verwijder %{name}"
       active: "Actieve %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Opties
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Popup sluiten"
     close_filter_title: "Sluit filter"
     close_form_title: "Sluit formulier"
@@ -466,6 +479,7 @@ nl:
         help_menu: 'In het menu <b>Help</b> vindt u een handleiding en aanvullende help-bronnen. <br> genieten van uw werk met OpenProject!'
         members: 'Nodig nieuwe <b>leden,</b> uit voor uw project.'
         project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "U kunt met de pijl terug navigeren naar het <b>Hoofd menu</b> van het project."
         welcome: 'Neem drie minuten introductie rondleiding om de meeste <b>belangrijke kenmerken </b> te leren. <br> het is raadzaam de stappen uit te voeren tot het einde. U kunt de tour ieder moment opnieuw doen.'
         wiki: 'U kunt binnen de <b>Wiki</b> kennis delen en documenteren samen met uw team.'
@@ -507,6 +521,9 @@ nl:
       work_package_belongs_to: 'Dit werkpakket behoort tot project %{projectname}.'
       click_to_switch_context: 'Open dit werkpakket in dat project.'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      use_template: "Use template"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Project auto aanvullen'
     text_are_you_sure: "Weet u het zeker?"
@@ -975,6 +992,7 @@ nl:
         required: 'Please select a project'
         next_button: 'Volgende'
         no_results: 'No projects were found'
+        no_invite_rights: 'You are not allowed to invite members to this project'
       type:
         required: 'Please select the type to be invited'
         user:
@@ -1024,3 +1042,10 @@ nl:
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: 'Verdergaan'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: 'Geavanceerde instellingen'
+
+
