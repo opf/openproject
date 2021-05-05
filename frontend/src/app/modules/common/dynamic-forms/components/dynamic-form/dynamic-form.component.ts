@@ -276,7 +276,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
       ...field,
       templateOptions: {
         ...field.templateOptions,
-        helpTextAttributeScope: 'Project',
+        helpTextAttributeScope: this.helpTextAttributeScope,
       },
     }));
     this.fields = this.fieldsSettingsPipe ? this.fieldsSettingsPipe(scopedFields) : scopedFields;
