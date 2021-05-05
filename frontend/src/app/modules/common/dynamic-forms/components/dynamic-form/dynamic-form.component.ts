@@ -272,14 +272,14 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   }
 
   private _setupDynamicForm({ fields, model }:IOPDynamicFormSettings) {
-    this.fields = fields.map(field => ({
+    const scopedFields = fields.map(field => ({
       ...field,
       templateOptions: {
         ...field.templateOptions,
         helpTextAttributeScope: 'Project',
       },
     }));
-    this.fields = this.fieldsSettingsPipe ? this.fieldsSettingsPipe(fields) : fields;
+    this.fields = this.fieldsSettingsPipe ? this.fieldsSettingsPipe(scopedFields) : scopedFields;
     this.innerModel = model;
 
     this._changeDetectorRef.detectChanges();
