@@ -78,7 +78,7 @@ describe 'Projects status administration', type: :feature, js: true do
     status_field.expect_selected 'ON TRACK'
     status_description.expect_value 'Everything is fine at the start'
 
-    status_field.select_option 'OFF TRACK'
+    status_field.select_option 'Off track'
     status_description.set_markdown 'Oh no'
 
     click_button 'Save'
