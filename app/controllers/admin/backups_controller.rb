@@ -41,7 +41,7 @@ class Admin::BackupsController < ApplicationController
 
   def show
     @backup_token = Token::Backup.find_by user: current_user
-    last_backup = Backup.last
+    last_backup = find_backup user: current_user
 
     if last_backup
       @job_status_id = last_backup.job_status.job_id
@@ -87,6 +87,13 @@ class Admin::BackupsController < ApplicationController
   end
 
   private
+
+  def find_backup(status: :success, user: current_user)
+    Backup
+      .joins(:job_status)
+      .where(job_status: { user: user, status: status })
+      .last
+  end
 
   def token_reset_successful!(token)
     notify_user_and_admins current_user, backup_token: token
