@@ -4,7 +4,6 @@ import { FormGroup } from "@angular/forms";
 export interface IOPDynamicFormSettings {
   fields:IOPFormlyFieldSettings[];
   model:IOPFormModel;
-  form:FormGroup;
 }
 
 export interface IOPFormlyFieldSettings extends FormlyFieldConfig {

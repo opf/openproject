@@ -38,7 +38,6 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
 import {CopyProjectComponent} from "core-app/modules/projects/components/copy-project/copy-project.component";
 
-
 @NgModule({
   imports: [
     // Commons

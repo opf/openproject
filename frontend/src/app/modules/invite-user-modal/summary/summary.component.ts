@@ -10,7 +10,7 @@ import {mapTo, switchMap} from "rxjs/operators";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {RoleResource} from "core-app/modules/hal/resources/role-resource";
-import {PrincipalLike} from "core-app/modules/principal/principal-types";
+import {PrincipalData, PrincipalLike} from "core-app/modules/principal/principal-types";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ProjectResource} from 'core-app/modules/hal/resources/project-resource';
 import {PrincipalType} from '../invite-user.component';
@@ -24,7 +24,7 @@ export class SummaryComponent {
   @Input() type:PrincipalType;
   @Input() project:ProjectResource;
   @Input() role:RoleResource;
-  @Input() principal:PrincipalLike;
+  @Input() principalData:PrincipalData;
   @Input() message:string = '';
 
   @Output() close = new EventEmitter<void>();
@@ -55,6 +55,10 @@ export class SummaryComponent {
     }),
   };
 
+  public get principal() {
+    return this.principalData.principal;
+  }
+
   constructor(
     readonly I18n:I18nService,
     readonly elementRef:ElementRef,
@@ -62,9 +66,9 @@ export class SummaryComponent {
   ) { }
 
   invite() {
-    return of(this.principal)
+    return of(this.principalData)
       .pipe(
-        switchMap((principal:PrincipalLike) => this.createPrincipal(principal)),
+        switchMap((principalData:PrincipalData) => this.createPrincipal(principalData)),
         switchMap((principal:HalResource) =>
           this.api.memberships
             .post({
@@ -82,8 +86,8 @@ export class SummaryComponent {
       );
   }
 
-  private createPrincipal(principal:PrincipalLike):Observable<HalResource> {
-    console.log(principal);
+  private createPrincipal(principalData:PrincipalData):Observable<HalResource> {
+    const { principal, customFields } = principalData;
     if (principal instanceof HalResource) {
       return of(principal);
     }
@@ -91,11 +95,12 @@ export class SummaryComponent {
     switch (this.type) {
       case PrincipalType.User:
         return this.api.users.post({
-          email: principal.name,
+          email: principal!.name,
           status: 'invited',
+          ...customFields,
         });
       case PrincipalType.Placeholder:
-        return this.api.placeholder_users.post({ name: principal.name });
+        return this.api.placeholder_users.post({ name: principal!.name });
       default:
         throw new Error("Unsupported PrincipalType given");
     }

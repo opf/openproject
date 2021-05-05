@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {SimpleResource} from "core-app/modules/apiv3/paths/path-resources";
+import { APIv3FormResource } from "core-app/modules/apiv3/forms/apiv3-form-resource";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { SimpleResource } from "core-app/modules/apiv3/paths/path-resources";
 
 export class APIv3ProjectCopyPaths extends SimpleResource {
   constructor(protected apiRoot:APIV3Service,

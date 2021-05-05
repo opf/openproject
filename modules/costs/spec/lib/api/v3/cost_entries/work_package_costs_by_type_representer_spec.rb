@@ -52,7 +52,7 @@ describe ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter do
                            cost_type: cost_type_B)
   end
   let(:current_user) do
-    FactoryBot.build(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
   let(:role) { FactoryBot.build(:role, permissions: [:view_cost_entries]) }
 

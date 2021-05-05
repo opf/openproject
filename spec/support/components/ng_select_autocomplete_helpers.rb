@@ -40,7 +40,7 @@ module Components
       text = select_text.presence || query
 
       # click the element to select it
-      target_dropdown.find('.ng-option', text: text, match: :first).click
+      target_dropdown.find('.ng-option', text: text, match: :first, wait: 60).click
     end
   end
 end
