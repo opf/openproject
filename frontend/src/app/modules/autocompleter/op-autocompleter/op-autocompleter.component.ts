@@ -45,7 +45,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   @Input() public clearSearchOnAdd?:boolean = true;
   @Input() public classes?:string;
   @Input() public multiple?:boolean = false;
-  @Input() public openOnStart?:boolean = false;
+  @Input() public openDirectly?:boolean = false;
   @Input() public bindLabel?:string;
   @Input() public bindValue?:string;
   @Input() public markFirst ? = true;
@@ -101,6 +101,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   public compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
   public active:Set<string>;
+
   public searchInput$ = new Subject<string>();
 
   public results$ :any;
@@ -131,6 +132,8 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     if (!this.ngSelectInstance) {
       return;
     }
+
+    this.typeToSearchText = this.typeToSearchText ? this.typeToSearchText : this.placeholder;
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         this.results$ = this.defaulData ? (this.searchInput$.pipe(
@@ -165,7 +168,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   public opened(val:any) {
 
-   if (this.openOnStart) {
+   if (this.openDirectly) {
     this.results$ = this.defaulData 
     ? (this.opAutocompleterService.loadData('', this.resource, this.filters, this.searchKey))
     : (this.getOptionsFn(''));
@@ -173,7 +176,9 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
    }
     this.open.emit();
   }
-
+  public closeSelect() {
+    this.ngSelectInstance && this.ngSelectInstance.close();
+  }
   public closed(val:any) {
 
     this.close.emit();

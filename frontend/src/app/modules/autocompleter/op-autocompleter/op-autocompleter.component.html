@@ -61,8 +61,8 @@
         (remove)="removed($event)"
         >
         
-        <ng-template ng-header-tmp let-item="item">
-          <ng-container [ngTemplateOutlet]="headerTemplate ? headerTemplate : ''" [ngTemplateOutletContext]="{$implicit:item}">
+        <ng-template ng-header-tmp let-item="item" *ngIf="headerTemplate">
+          <ng-container [ngTemplateOutlet]="headerTemplate" [ngTemplateOutletContext]="{$implicit:item}">
           </ng-container>
         </ng-template>
 
