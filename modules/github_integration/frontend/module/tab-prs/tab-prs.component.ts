@@ -32,8 +32,8 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import { APIV3Service } from 'core-app/modules/apiv3/api-v3.service';
 import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
 import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
-import { GithubPullRequestResource } from '../hal/resources/github-pull-request-resource';
 import { ChangeDetectorRef } from '@angular/core';
+import { IGithubPullRequestResource } from "../../../../../../../../modules/github_integration/frontend/module/typings";
 
 @Component({
   selector: 'tab-prs',
@@ -42,7 +42,7 @@ import { ChangeDetectorRef } from '@angular/core';
 export class TabPrsComponent implements OnInit {
   @Input() public workPackage:WorkPackageResource;
 
-  public pullRequests:GithubPullRequestResource[] = [];
+  public pullRequests:IGithubPullRequestResource[] = [];
 
   constructor(
     readonly I18n:I18nService,
@@ -52,10 +52,10 @@ export class TabPrsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const pullRequestsPath = this.apiV3Service.work_packages.id({id: this.workPackage.id }).github_pull_requests.path;
+    const pullRequestsPath = this.apiV3Service.work_packages.id({id: this.workPackage.id })?.github_pull_requests.path;
 
     this.halResourceService
-      .get<CollectionResource<GithubPullRequestResource>>(pullRequestsPath)
+      .get<CollectionResource<IGithubPullRequestResource>>(pullRequestsPath)
       .subscribe((value) => {
         this.pullRequests = value.elements;
         this.changeDetector.detectChanges();

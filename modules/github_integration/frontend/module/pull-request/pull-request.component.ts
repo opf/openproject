@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 import { GithubCheckRunResource } from '../hal/resources/github-check-run-resource';
+import { IGithubPullRequestResource } from "../../../../../../../../modules/github_integration/frontend/module/typings";
 
 @Component({
   selector: 'github-pull-request',
@@ -38,7 +38,7 @@ import { GithubCheckRunResource } from '../hal/resources/github-check-run-resour
   styleUrls: ['./pull-request.component.sass']
 })
 export class PullRequestComponent {
-  @Input() public pullRequest:HalResource;
+  @Input() public pullRequest:IGithubPullRequestResource;
 
   public text = {
     label_updated_on: this.I18n.t('js.label_updated_on'),
@@ -47,11 +47,11 @@ export class PullRequestComponent {
   };
 
   constructor(readonly PathHelper:PathHelperService,
-              readonly I18n:I18nService,) {
+              readonly I18n:I18nService) {
   }
 
   get state() {
-    switch (this.pullRequest.state as unknown as String) { // TODO: @aleix
+    switch (this.pullRequest.state) {
       case 'open':
         return(this.pullRequest.draft ? 'draft' : 'open');
       case 'closed':
