@@ -929,6 +929,7 @@ bg:
     text_update_consent_time: Check this box to force users to consent again. Enable when you have changed the legal aspect of the consent information above.
     update_consent_last_time: "Last update of consent: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Започна копиране на проект \"%{source_project_name}\" в \"%{target_project_name}\". Ще бъдете информирани по пощата веднага, след като \"%{target_project_name}\" е достъпен."
     failed: "Не може да се копира проект %{source_project_name}"
     failed_internal: "Copying failed due to an internal error."
@@ -1084,7 +1085,7 @@ bg:
   default_role_anonymous: "Анонимен"
   default_role_developer: "Разработчик"
   default_role_project_admin: "Администратор на проект"
-  default_role_project_creator: "Създател на проект"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Не е член"
   default_role_reader: "Четящ"
   default_role_member: "Член"

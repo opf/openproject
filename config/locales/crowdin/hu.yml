@@ -926,6 +926,7 @@ hu:
     text_update_consent_time: Jelölje be ezt a négyzetet, ha újra kérni szeretné a felhasználók beleegyezését. Engedélyezem, ha megváltoztatta a fenti jóváhagyási jogi információt.
     update_consent_last_time: "Utolsó hozzájárulás frissítése: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Projekt másolása elindult a \"%{source_project_name}\" nevű projektből a \"%{target_project_name}\" projektbe. E-mailben értesítjük, amint \"%{target_project_name}\" elérhető."
     failed: "Nem lehet másolni a %{source_project_name} projektet "
     failed_internal: "Copying failed due to an internal error."
@@ -1081,7 +1082,7 @@ hu:
   default_role_anonymous: "Anonymous"
   default_role_developer: "Fejlesztő"
   default_role_project_admin: "Projekt admin"
-  default_role_project_creator: "Projekt létrehozója"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Nem tag"
   default_role_reader: "Olvasó"
   default_role_member: "Tag"

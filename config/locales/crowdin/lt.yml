@@ -204,7 +204,7 @@ lt:
       no_results_title_text: Nėra jokių projektų
       no_results_content_text: Sukurti naują projektą
     settings:
-      change_identifier: Change identifier
+      change_identifier: Pokyčio identifikatorius
       activities:
         no_results_title_text: Kolkas neprieinama jokia veikla.
       forums:
@@ -853,7 +853,7 @@ lt:
       invalid_token: Invalid or missing backup token
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
-      limit_reached: You can only do %{limit} backups per day.
+      limit_reached: Jūs galite daryti tik %{limit} atsarginės kopijas per dieną.
   button_add: "Pridėti"
   button_add_comment: "Pridėti komentarą"
   button_add_member: Pridėti narį
@@ -933,6 +933,7 @@ lt:
     text_update_consent_time: Įjunkite šią varnelę jei norite, kad naudotojai būtų priversti iš naujo sutikti. Įjunkite, kai pakeitėte teisinius aukščiau esančio sutikimo aspektus.
     update_consent_last_time: "Paskutinis sutikimo atnaujinimas: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Pradėtas kopijuoti „%{source_project_name}“ projektas į „%{target_project_name}“. Jums bus pranešta laišku, kai tik „%{target_project_name}“ projektas taps pasiekiamas."
     failed: "Negalima kopijuoti „%{source_project_name}“ projekto"
     failed_internal: "Kopijavimas nepavyko dėl vidinės klaidos."
@@ -1112,7 +1113,7 @@ lt:
   default_role_anonymous: "Anonimas"
   default_role_developer: "Kūrėjas"
   default_role_project_admin: "Projekto administratorius"
-  default_role_project_creator: "Projekto autorius"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Nėra narys"
   default_role_reader: "Skaitytojas"
   default_role_member: "Narys"
@@ -1352,7 +1353,7 @@ lt:
   label_available_project_versions: 'Galimos versijos'
   label_available_project_repositories: 'Galimos saugyklos'
   label_api_documentation: "API dokumentacija"
-  label_backup: "Backup"
+  label_backup: "Atsarginė kopija"
   label_between: "tarp"
   label_blocked_by: "blokuojamas"
   label_blocks: "blokai"
@@ -1878,12 +1879,12 @@ lt:
   mail_body_account_activation_request: "Užsiregistravo naujas vartotojas (%{value}). Jo paskyra laukia jūsų patvirtinimo:"
   mail_body_account_information: "Informacija apie Jūsų paskyrą"
   mail_body_account_information_external: "Norėdami prisijungti Jūs galite naudoti savo %{value} paskyrą."
-  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
+  mail_body_backup_ready: "Jūsų prašyta atsarginė kopija yra paruošta. Ją galite parsisiųsti čia:"
   mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
   mail_body_backup_token_reset_user_info: Your backup token has been reset.
   mail_body_backup_token_info: The previous token is no longer valid.
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
-  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_backup_token_warning: Jei tai buvote ne jūs, nedelsiant prisijunkite prie OpenProject ir atšaukite jį dar kartą.
   mail_body_lost_password: "Norėdami pakeisti slaptažodį, spauskite nuorodą:"
   mail_body_register: "Sveikinimai nuo OpenProject. Prašome aktyvuoti savo paskyrą. Tam paspauskite šią nuorodą:"
   mail_body_register_header_title: "Projekto nario kvietimo el. laiškas"
@@ -1900,7 +1901,7 @@ lt:
   mail_body_wiki_content_added: "%{author} pridėjo '%{id}' wiki puslapį."
   mail_body_wiki_content_updated: "%{author} atnaujino '%{id}' wiki puslapį."
   mail_subject_account_activation_request: "%{value} paskyros aktyvavimo prašymas"
-  mail_subject_backup_ready: "Your backup is ready"
+  mail_subject_backup_ready: "Jūsų atsarginė kopija paruošta"
   mail_subject_backup_token_reset: "Your backup token has been reset"
   mail_subject_lost_password: "Jūsų slaptažodis %{value}"
   mail_subject_register: "Jūsų %{value} paskyros aktyvavimas"
@@ -2762,7 +2763,7 @@ lt:
       code_403: "Jūs nesate autorizuotas šiam resursui pasiekti."
       code_404: "Reikalaujamas resursas nerastas."
       code_409: "Nepavyko atnaujinti resurso dėl konfliktuojančių pakeitimų."
-      code_429: "Too many requests. Please try again later."
+      code_429: "Per daug užklausų. Pabandykite vėliau."
       code_500: "Įvyko vidinė klaida."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
@@ -2883,4 +2884,4 @@ lt:
     authorization_error: "Įvyko autorizacijos klaida."
     revoke_my_application_confirmation: "Ar tikrai norite išimti šią aplikaciją? Tai atšauks %{token_count} aktyvių žetonų."
     my_registered_applications: "Registruotos OAuth aplikacijos"
-  you: you
+  you: jūs

@@ -521,6 +521,9 @@ tr:
       work_package_belongs_to: 'Bu iş paketi %{projectname} projesine ait.'
       click_to_switch_context: 'Bu iş paketini o projede aç.'
       confirm_template_load: 'Şablonu değiştirmek sayfayı yeniden yükleyecek ve bu forma yaptığınız tüm girişleri kaybedeceksiniz. Devam et?'
+      use_template: "Şablon kullan"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Proje otomatik tamamlama'
     text_are_you_sure: "Emin misiniz?"
@@ -1043,3 +1046,6 @@ tr:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: 'Gelişmiş ayarlar'
+
+

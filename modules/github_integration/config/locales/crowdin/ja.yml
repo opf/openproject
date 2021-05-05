@@ -32,4 +32,4 @@ ja:
     pull_request_referenced_comment: >
       **PR で参照:** [%{github_user}](%{github_user_url}) がこのワークパッケージを [%{repository}](%{repository_url}) のプルリクエスト %{pr_number} [%{pr_title}](%{pr_url}) で参照しました。
     pull_request_ready_for_review_comment: >
-      **PR Ready for Review:** Pull request %{pr_number} [%{pr_title}](%{pr_url}) for [%{repository}](%{repository_url}) was marked as ready for review by [%{github_user}](%{github_user_url}).
+      **PR レビューの準備完了:** [%{repository}](%{repository_url}) へのプルリクエスト %{pr_number} [%{pr_title}](%{pr_url}) が [%{github_user}](%{github_user_url}) によってレビューの準備ができたことを示すマークが付きました。

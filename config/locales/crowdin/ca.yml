@@ -929,6 +929,7 @@ ca:
     text_update_consent_time: Check this box to force users to consent again. Enable when you have changed the legal aspect of the consent information above.
     update_consent_last_time: "Last update of consent: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "S'ha començat a copiar el projecte \"%{source_project_name}\" a \"%{target_project_name}\". Se li comunicarà per correu electrònic tan aviat com \"%{target_project_name}\" estigui disponible."
     failed: "No es pot copiar el projecte %{source_project_name}"
     failed_internal: "Copying failed due to an internal error."
@@ -1084,7 +1085,7 @@ ca:
   default_role_anonymous: "Anònim"
   default_role_developer: "Desenvolupador"
   default_role_project_admin: "Administrador del projecte"
-  default_role_project_creator: "Project creator"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "No membre"
   default_role_reader: "Lector"
   default_role_member: "Membre"

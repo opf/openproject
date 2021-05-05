@@ -927,6 +927,7 @@ vi:
     text_update_consent_time: Check this box to force users to consent again. Enable when you have changed the legal aspect of the consent information above.
     update_consent_last_time: "Last update of consent: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Bắt đầu sao chép dự án \"%{source_project_name}\" sang \"%{target_project_name}\". Bạn sẽ được thông báo bằng thư ngay sau khi \"%{target_project_name}\" sẵn sàng."
     failed: "Không thể sao chép dự án %{source_project_name}"
     failed_internal: "Copying failed due to an internal error."
@@ -1070,7 +1071,7 @@ vi:
   default_role_anonymous: "Ẩn danh"
   default_role_developer: "Nhà phát triển"
   default_role_project_admin: "Quản trị dự án"
-  default_role_project_creator: "Project creator"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Không là thành viên"
   default_role_reader: "Người đọc"
   default_role_member: "Thành viên"

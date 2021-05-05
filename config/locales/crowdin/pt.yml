@@ -175,7 +175,7 @@ pt:
   concatenation:
     single: 'ou'
   documentation:
-    see_more_link: For more information, please see our documentation on this topic.
+    see_more_link: Para mais informações, por favor consulte nossa documentação sobre este tópico.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -226,7 +226,7 @@ pt:
     index:
       no_results_title_text: Atualmente, não há membros deste projeto.
       no_results_content_text: Adicionar um membro ao projeto
-    invite_by_mail: "Send invite to %{mail}"
+    invite_by_mail: "Enviar convite para %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Falha ao redefinir o token de acesso: %{error}"
@@ -571,7 +571,7 @@ pt:
             global: 'Global'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "precisa incluir pelo menos um filtro para principal, contexto ou id com o operador '='."
         custom_field:
           at_least_one_custom_option: "Pelo menos uma opção precisa estar disponível."
         custom_actions:
@@ -822,32 +822,32 @@ pt:
     version: "Versão"
     work_package: "Pacote de trabalho"
   backup:
-    label_backup_token: "Backup token"
-    label_create_token: "Create backup token"
-    label_delete_token: "Delete backup token"
-    label_reset_token: "Reset backup token"
-    label_token_users: "The following users have active backup tokens"
+    label_backup_token: "Token de backup"
+    label_create_token: "Criar token de backup"
+    label_delete_token: "Excluir token do backup"
+    label_reset_token: "Redefinir token de backup"
+    label_token_users: "Os seguintes usuários têm tokens de backup ativos"
     reset_token:
       action_create: Criar
       action_reset: Reiniciar
-      heading_reset: "Reset backup token"
-      heading_create: "Create backup token"
+      heading_reset: "Redefinir token de backup"
+      heading_create: "Criar token de backup"
       implications: >
-        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+        Habilitar backups permitirá que qualquer usuário com as permissões necessárias e este token de backup, biaxe um backup contendo todos os dados desta instalação do Open Project. Isso inclui os dados de todos os outros usuários.
       info: >
-        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+        Você precisará gerar um token de backup para poder criar um backup. Cada vez que você solicitar um backup você terá que fornecer esse token. Você pode excluir o token de backup para desabilitar backups deste usuário.
       verification: >
-        Enter %{word} to confirm you want to %{action} the backup token.
-      verification_word_reset: reset
-      verification_word_create: create
+        Digite %{word} para confirmar que você deseja %{action} o token de backup.
+      verification_word_reset: redefinir
+      verification_word_create: criar
       warning: >
-        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
-    text_token_deleted: Backup token deleted. Backups are now disabled.
+        Quando você criar um novo token, só será permitido a solicitação de um backup após 24 horas. Esta é uma medida de segurança. Depois disso, você poderá solicitar um backup a qualquer momento usando esse token.
+    text_token_deleted: Token de backup excluído. Os backups agora estão desativados.
     error:
-      invalid_token: Invalid or missing backup token
-      token_cooldown: The backup token will be valid in %{hours} hours.
-      backup_pending: There is already a backup pending.
-      limit_reached: You can only do %{limit} backups per day.
+      invalid_token: Token de backup inválido ou ausente
+      token_cooldown: O token de backup será válido em %{hours} horas
+      backup_pending: Já existe um backup pendente.
+      limit_reached: Você só pode fazer %{limit} backups por dia.
   button_add: "Adicionar"
   button_add_comment: "Adicionar comentário"
   button_add_member: Adicionar membro
@@ -927,6 +927,7 @@ pt:
     text_update_consent_time: Marque esta caixa para forçar os usuários a consentir novamente. Ative quando você alterar o aspecto legal da informação de consentimento acima.
     update_consent_last_time: "Última atualização do consentimento: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "A cópia de \"%{source_project_name}\" para \"%{target_project_name}\" foi iniciada. Você será informado por email tão logo \"%{target_project_name}\" estiver disponível."
     failed: "Não é possível copiar o projeto %{source_project_name}"
     failed_internal: "Falha ao copiar devido a um erro interno."
@@ -934,9 +935,9 @@ pt:
     errors: "Erro"
     project_custom_fields: 'Campos personalizados no projeto'
     x_objects_of_this_type:
-      zero: 'No objects of this type'
-      one: 'One object of this type'
-      other: '%{count} objects of this type'
+      zero: 'Nenhum objeto deste tipo'
+      one: 'Um objeto deste tipo'
+      other: '%{count} objetos deste tipo'
     text:
       failed: "Não foi possível copiar o projeto \"%{source_project_name}\" para o projeto \"%{target_project_name}\"."
       succeeded: "Projeto \"%{source_project_name}\" copiado para \"%{target_project_name}\"."
@@ -1082,7 +1083,7 @@ pt:
   default_role_anonymous: "Anônimo"
   default_role_developer: "Desenvolvedor"
   default_role_project_admin: "Administrador do projeto"
-  default_role_project_creator: "Criador do projeto"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Não membro"
   default_role_reader: "Leitor"
   default_role_member: "Membro"
@@ -1262,7 +1263,7 @@ pt:
   instructions_after_error: "Você pode tentar entrar novamente, clicando em %{signin}. Se o erro persistir, consulte seu administrador para obter ajuda."
   menus:
     quick_add:
-      label: "Open quick add menu"
+      label: "Abrir menu de adição rápida"
   my_account:
     access_tokens:
       no_results:
@@ -1525,8 +1526,8 @@ pt:
   label_member_new: "Novo membro"
   label_member_all_admin: "(Todos os papéis devidos ao status de administrador)"
   label_member_plural: "Membros"
-  lable_membership_added: 'Member added'
-  lable_membership_updated: 'Member updated'
+  lable_membership_added: 'Membro adicionado'
+  lable_membership_updated: 'Membro atualizado'
   label_menu_item_name: "Nome do item de menu"
   label_message: "Mensagem"
   label_message_last: "Última mensagem"
@@ -1848,12 +1849,12 @@ pt:
   mail_body_account_activation_request: "Um novo usuário (%{value}) registrou-se. A conta está aguardando sua aprovação:"
   mail_body_account_information: "Suas informações de conta"
   mail_body_account_information_external: "Você pode usar sua conta %{value} para logar."
-  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
-  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
-  mail_body_backup_token_reset_user_info: Your backup token has been reset.
-  mail_body_backup_token_info: The previous token is no longer valid.
-  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
-  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_backup_ready: "Seu backup solicitado está pronto. Você pode baixá-lo aqui:"
+  mail_body_backup_token_reset_admin_info: O token de backup para usuário %{user} foi redefinido.
+  mail_body_backup_token_reset_user_info: Seu token de backup foi redefinido.
+  mail_body_backup_token_info: O token anterior não é mais válido.
+  mail_body_backup_waiting_period: O novo token será habilitado em %{hours} horas.
+  mail_body_backup_token_warning: Se não foi você, acesse o OpenProject imediatamente e redefina-o novamente.
   mail_body_lost_password: "Para alterar sua senha, clique no link a seguir:"
   mail_body_register: "Bem-vindo ao OpenProject. Por favor, ative sua conta clicando neste link:"
   mail_body_register_header_title: "E-mail de convite a membro do projeto"
@@ -1869,8 +1870,8 @@ pt:
   mail_body_wiki_content_added: "A página wiki '%{id}' foi adicionada por %{author}."
   mail_body_wiki_content_updated: "A página wiki '%{id}' foi atualizada por %{author}."
   mail_subject_account_activation_request: "solicitação de ativação de conta %{value}"
-  mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Your backup token has been reset"
+  mail_subject_backup_ready: "Seu backup está pronto"
+  mail_subject_backup_token_reset: "Seu token de backup foi redefinido"
   mail_subject_lost_password: "Sua senha %{value}"
   mail_subject_register: "Sua ativação de conta: %{value}"
   mail_subject_reminder: "%{count} pacote(s) de trabalho finalizam nos próximos %{days} dias:"
@@ -1878,26 +1879,26 @@ pt:
   mail_subject_wiki_content_added: "página de wiki '%{id}' foi adicionada"
   mail_subject_wiki_content_updated: "página de wiki '%{id}' foi atualizada"
   mail_member_added_project:
-    subject: "%{project} - You have been added as a member"
+    subject: "%{project} - Você foi adicionado como membro"
     body:
       added_by:
-        without_message: "%{user} added you as a member to the project '%{project}'."
+        without_message: "%{user} adicionou você como membro do projeto '%{project}'."
         with_message: "%{user} added you as a member to the project '%{project}' writing:"
-      roles: "You have the following roles:"
+      roles: "Você tem as seguintes funções:"
   mail_member_updated_project:
-    subject: "%{project} - Your roles have been updated"
+    subject: "%{project} - Suas funções foram atualizadas"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have in the project '%{project}'."
+        without_message: "%{user} atualizou as funções que você tem no projeto '%{project}'."
         with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
-      roles: "You now have the following roles:"
+      roles: "Agora você tem as seguintes funções:"
   mail_member_updated_global:
-    subject: "Your global permissions have been updated"
+    subject: "Suas permissões globais foram atualizadas"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have globally."
+        without_message: "%{user} atualizou as funções que você tem globalmente."
         with_message: "%{user} updated the roles you have globally writing:"
-      roles: "You now have the following roles:"
+      roles: "Agora você tem as seguintes funções:"
   mail_user_activation_limit_reached:
     subject: Limite de ativação de usuários atingido
     message: |
@@ -2004,7 +2005,7 @@ pt:
   permission_add_messages: "Postar mensagens"
   permission_add_project: "Criar Projeto"
   permission_manage_user: "Criar e editar usuários"
-  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
+  permission_manage_placeholder_user: "Criar, editar e excluir usuários do placeholder"
   permission_add_subprojects: "Criar subprojetos"
   permission_add_work_package_watchers: "Adicionar observadores"
   permission_assign_versions: "Atribuir versões"

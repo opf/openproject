@@ -928,6 +928,7 @@ sv:
     text_update_consent_time: Kryssa i den här rutan för att tvinga användare att ge sitt samtycke igen. Aktivera när du har ändrat den juridiska aspekten av samtyckesinformationen ovan.
     update_consent_last_time: "Senaste uppdatering av samtycke: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Började kopiera projekt \"%{source_project_name}\" till \"%{target_project_name}\". Du kommer att informeras via E-post när \"%{target_project_name}\" finns tillgängligt."
     failed: "Kan inte kopiera projekt %{source_project_name}"
     failed_internal: "Kopiering misslyckades på grund av ett internt fel."
@@ -1083,7 +1084,7 @@ sv:
   default_role_anonymous: "Anonym"
   default_role_developer: "Utvecklare"
   default_role_project_admin: "Projektadministratör"
-  default_role_project_creator: "Projektskapare"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Icke medlem"
   default_role_reader: "Läsare"
   default_role_member: "Medlem"

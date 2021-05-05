@@ -929,6 +929,7 @@ nl:
     text_update_consent_time: Schakel dit selectievakje in als u wilt afdwingen dat gebruikers opnieuw toestemmen. Schakel deze in als u het juridische aspect van de toestemming van bovenstaande informatie hebt gewijzigd.
     update_consent_last_time: "Laatste update van toestemming: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Begonnen met project \"%{source_project_name}\" te kopiëren naar \"%{target_project_name}\". U wordt zo spoedig mogelijk per email op de hoogte gesteld wanneer \"%{target_project_name}\" beschikbaar is."
     failed: "Kan project niet kopiëren %{source_project_name}"
     failed_internal: "Copying failed due to an internal error."
@@ -1084,7 +1085,7 @@ nl:
   default_role_anonymous: "Anoniem"
   default_role_developer: "Ontwikkelaar"
   default_role_project_admin: "Project admin"
-  default_role_project_creator: "Project creator"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Derde"
   default_role_reader: "Lezer"
   default_role_member: "Deelnemer"
