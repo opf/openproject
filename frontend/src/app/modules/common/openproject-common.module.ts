@@ -25,7 +25,6 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-
 import {FormsModule} from '@angular/forms';
 import {Injector, NgModule} from '@angular/core';
 import {NgSelectModule} from '@ng-select/ng-select';
@@ -78,6 +77,7 @@ import {OpIconComponent} from './icon/icon.component';
 import {OpenprojectPrincipalRenderingModule} from "core-app/modules/principal/principal-rendering.module";
 import { DatePickerModule } from "core-app/modules/common/op-date-picker/date-picker.module";
 import { FocusModule } from "core-app/modules/common/focus/focus.module";
+
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
@@ -179,6 +179,7 @@ export function bootstrapModule(injector:Injector) {
 
     SlideToggleComponent,
 
+    // Autocompleter
     OpFormFieldComponent,
     OpFormBindingDirective,
     OpOptionListComponent,
@@ -231,8 +232,6 @@ export function bootstrapModule(injector:Injector) {
     // Enterprise Edition
     EnterpriseBannerComponent,
     EnterpriseBannerBootstrapComponent,
-
-
 
     HomescreenNewFeaturesBlockComponent,
     BoardVideoTeaserModalComponent,
