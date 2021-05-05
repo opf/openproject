@@ -90,11 +90,11 @@ describe('PullRequestComponent', () => {
   });
 
   it('should render pull request data', () => {
-    const titleElement = fixture.debugElement.query(By.css('.title')).nativeElement;
-    const avatarElement = fixture.debugElement.query(By.css('.avatar')).nativeElement;
-    const userElement = fixture.debugElement.query(By.css('.user')).nativeElement;
-    const detailsElement = fixture.debugElement.query(By.css('.details')).nativeElement;
-    const checkRuns = fixture.debugElement.queryAll(By.css('.check-run'));
+    const titleElement = fixture.debugElement.query(By.css('.op-pr-title')).nativeElement;
+    const avatarElement = fixture.debugElement.query(By.css('.op-avatar')).nativeElement;
+    const userElement = fixture.debugElement.query(By.css('.op-pr-user')).nativeElement;
+    const detailsElement = fixture.debugElement.query(By.css('.op-pr-link')).nativeElement;
+    const checkRuns = fixture.debugElement.queryAll(By.css('.op-pr-check'));
     const checkRunElement = checkRuns[0].nativeElement;
     const checkRunLinkElement = checkRuns[0].query(By.css('a')).nativeElement;
 
