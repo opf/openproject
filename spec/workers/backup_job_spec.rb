@@ -57,7 +57,6 @@ describe BackupJob, type: :model do
 
     let(:db_dump_success) { false }
 
-    let(:attachments) { [] }
     let(:arguments) { [{ backup: backup, user: user, **opts }] }
 
     let(:user) { FactoryBot.create :user }
@@ -65,8 +64,6 @@ describe BackupJob, type: :model do
     before do
       previous_backup; backup; status # create
 
-      allow(job).to receive(:job_status).and_return job_status
-      allow(job).to receive(:attachments).and_return attachments
       allow(job).to receive(:arguments).and_return arguments
       allow(job).to receive(:job_id).and_return job_id
 

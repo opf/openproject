@@ -173,6 +173,7 @@ import { OpenprojectAutocompleterModule } from "core-app/modules/autocompleter/o
 import { OpWpTabsModule } from "core-components/wp-tabs/wp-tabs.module";
 import { EditFieldControlsModule } from "core-app/modules/fields/edit/field-controls/edit-field-controls.module";
 
+
 @NgModule({
   imports: [
     // Commons
@@ -345,6 +346,7 @@ import { EditFieldControlsModule } from "core-app/modules/fields/edit/field-cont
     WorkPackageRelationsHierarchyComponent,
     WorkPackageRelationsAutocomplete,
     WorkPackageBreadcrumbParentComponent,
+
 
     // Split view
     WorkPackageDetailsViewButtonComponent,
