@@ -98,8 +98,6 @@ describe('PullRequestComponent', () => {
     const checkRunElement = checkRuns[0].nativeElement;
     const checkRunLinkElement = checkRuns[0].query(By.css('a')).nativeElement;
 
-    console.log(checkRunLinkElement)
-
     expect(titleElement.textContent).toContain(pullRequestStub.title);
     expect(avatarElement.src).toContain(pullRequestStub.githubUser.avatarUrl);
     expect(userElement.textContent).toContain(pullRequestStub.githubUser.login);
