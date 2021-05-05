@@ -252,7 +252,7 @@ Settings::Definition.define do
 
   YAML::load(File.open(Rails.root.join('config/settings.yml'))).map do |name, config|
     add name,
-        format: config['format'],
+        format: config['format'] == 'int' ? :integer : config['format'],
         value: config['default'],
         serialized: config.fetch('serialized', false),
         api: false
