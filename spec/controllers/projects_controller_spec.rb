@@ -113,7 +113,7 @@ describe ProjectsController, type: :controller do
     end
 
     context 'as user' do
-      let(:user) { FactoryBot.build(:user, member_in_project: project_b) }
+      let(:user) { FactoryBot.create(:user, member_in_project: project_b) }
 
       it_behaves_like 'successful index'
 

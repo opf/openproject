@@ -63,21 +63,21 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
   end
   let(:role) { FactoryBot.build(:role, permissions: [:view_work_packages]) }
   let(:assignee) do
-    FactoryBot.build(:user,
+    FactoryBot.create(:user,
                      firstname: 'An',
                      lastname: 'assignee',
                      member_in_project: project,
                      member_through_role: role)
   end
   let(:responsible) do
-    FactoryBot.build(:user,
+    FactoryBot.create(:user,
                      firstname: 'The',
                      lastname: 'responsible',
                      member_in_project: project,
                      member_through_role: role)
   end
   let(:author) do
-    FactoryBot.build(:user,
+    FactoryBot.create(:user,
                      firstname: 'The',
                      lastname: 'author',
                      member_in_project: project,
