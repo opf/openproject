@@ -81,10 +81,15 @@
 .op-pr-checks
   margin-top: 12px
   grid-area: checks
+  margin-left: 0
+
+  &:before
+    content: attr(aria-label)
 
 .op-pr-check
   list-style-type: none
   padding-top: 8px
+  margin-left: 5px
 
 .op-pr-check-avatar img
   width: 1.4em
