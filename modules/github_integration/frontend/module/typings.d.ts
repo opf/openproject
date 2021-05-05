@@ -1,5 +1,13 @@
 import { HalResource } from "../../../../frontend/src/app/modules/hal/resources/hal-resource";
 
+export interface ITab {
+  label:string,
+  help:string,
+  selected:boolean,
+  lines:number,
+  textToCopy: ()=>string
+}
+
 export interface IGithubPullRequestResource extends HalResource {
   additionsCount?:number;
   body?:{

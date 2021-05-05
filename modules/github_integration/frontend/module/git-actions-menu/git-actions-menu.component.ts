@@ -33,15 +33,8 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import { GitActionsService} from '../git-actions/git-actions.service';
 import { OPContextMenuComponent } from 'core-app/components/op-context-menu/op-context-menu.component';
 import { OpContextMenuLocalsMap, OpContextMenuLocalsToken } from 'core-app/components/op-context-menu/op-context-menu.types';
+import { ITab } from "core-app/modules/plugins/linked/openproject-github_integration/typings";
 
-
-interface Tab {
-  label:string,
-  help:string,
-  selected:boolean,
-  lines:number,
-  textToCopy: ()=>string
-}
 
 @Component({
   selector: 'git-actions-menu',
@@ -65,7 +58,7 @@ export class GitActionsMenuComponent extends OPContextMenuComponent {
   public lastCopyResult:string = this.text.copyResult.success;
   public showCopyResult:boolean = false;
 
-  public tabs:Tab[] = [
+  public tabs:ITab[] = [
     {
       label: this.I18n.t('js.github_integration.tab_header.git_actions.branch'),
       help: this.I18n.t('js.github_integration.tab_header.git_actions.branch_help'),
@@ -97,12 +90,12 @@ export class GitActionsMenuComponent extends OPContextMenuComponent {
     this.workPackage = this.locals.workPackage;
   }
 
-  public selectedTab():Tab {
+  public selectedTab():ITab {
     const selectedTabs = this.tabs.filter((tab)=>tab.selected);
     return(selectedTabs[0] || this.tabs[0]);
   }
 
-  public selectTab(tab:Tab) {
+  public selectTab(tab:ITab) {
     this.tabs.forEach(tab => tab.selected = false);
     tab.selected = true;
   }

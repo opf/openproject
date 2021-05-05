@@ -57,7 +57,7 @@ export class PullRequestComponent {
     }
   }
 
-  public checkRunState(checkRun: GithubCheckRunResource) {
+  public checkRunState(checkRun:GithubCheckRunResource) {
     /* Github apps can *optionally* add an output object (and a title) which is the most relevant information to display.
        If that is not present, we can display the conclusion (which is present only on finished runs).
        If that is not present, we can always fall back to the status. */
