@@ -17,7 +17,7 @@ export interface IGithubPullRequestResource extends HalResource {
   id?:number;
   labels?:string[];
   merged?:boolean;
-  mergedAt?:boolean;
+  mergedAt?:string;
   mergedBy?:IGithubUserResource;
   number?:number;
   repository?:string;

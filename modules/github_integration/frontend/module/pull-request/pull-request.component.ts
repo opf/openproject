@@ -35,16 +35,12 @@ import { IGithubPullRequestResource } from "../../../../../../../../modules/gith
 @Component({
   selector: 'github-pull-request',
   templateUrl: './pull-request.template.html',
-  styleUrls: ['./pull-request.component.sass']
+  styleUrls: [
+    './styles/pull-request.sass'
+  ]
 })
 export class PullRequestComponent {
   @Input() public pullRequest:IGithubPullRequestResource;
-
-  public text = {
-    label_updated_on: this.I18n.t('js.label_updated_on'),
-    label_details: this.I18n.t('js.label_details'),
-    label_actions: this.I18n.t('js.github_integration.github_actions'),
-  };
 
   constructor(readonly PathHelper:PathHelperService,
               readonly I18n:I18nService) {
