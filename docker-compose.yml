@@ -77,25 +77,6 @@ services:
     depends_on:
       - backend
 
-  db:
-    image: postgres:10
-    <<: *restart_policy
-    stop_grace_period: "3s"
-    volumes:
-      - "pgdata:/var/lib/postgresql/data"
-    environment:
-      POSTGRES_USER: ${DB_USERNAME:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
-      POSTGRES_DB: ${DB_DATABASE:-openproject}
-    networks:
-      - network
-
-  cache:
-    image: memcached
-    <<: *restart_policy
-    networks:
-      - network
-
 ######### Testing stuff below ############
 
   db-test:
@@ -103,8 +84,6 @@ services:
     stop_grace_period: "3s"
     volumes:
       - "pgdata-test:/var/lib/postgresql/data"
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_DB: openproject
       POSTGRES_USER: openproject
@@ -115,7 +94,7 @@ services:
   frontend-test:
     build:
       <<: *frontend-build
-    command: "npm run serve-test"
+    command: "npm run build-test"
     volumes:
       - ".:/home/dev/openproject"
       - "fedata-test:/home/dev/openproject/public/assets/frontend"
@@ -143,11 +122,10 @@ services:
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
       SELENIUM_GRID_URL: http://selenium-hub:4444/wd/hub
       CAPYBARA_SERVER_PORT: 3000
-      CAPYBARA_DYNAMIC_BIND_IP: 1
+      CAPYBARA_DYNAMIC_HOSTNAME: 0
       CAPYBARA_APP_HOSTNAME: backend-test
-      OPENPROJECT_CLI_PROXY: http://frontend-test:4200
+      OPENPROJECT_DISABLE_DEV_ASSET_PROXY: 1
       OPENPROJECT_TESTING_NO_HEADLESS: "true"
-      OPENPROJECT_TESTING_AUTO_DEVTOOLS: "true"
     volumes:
       - ".:/home/dev/openproject"
       - "fedata-test:/home/dev/openproject/public/assets/frontend"
