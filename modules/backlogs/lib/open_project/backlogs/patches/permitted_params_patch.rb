@@ -47,6 +47,12 @@ module OpenProject::Backlogs::Patches::PermittedParamsPatch
       backlogs_params = params.fetch(:backlogs, {}).permit(:task_color, :versions_default_fold_state)
       super.merge(backlogs: backlogs_params)
     end
+
+    def backlogs_admin_settings
+      params
+        .require(:settings)
+        .permit(:task_type, :points_burn_direction, :wiki_template, story_types: [])
+    end
   end
 end
-PermittedParams.send(:include, OpenProject::Backlogs::Patches::PermittedParamsPatch)
+PermittedParams.include OpenProject::Backlogs::Patches::PermittedParamsPatch

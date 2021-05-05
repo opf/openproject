@@ -27,17 +27,17 @@
 //++
 
 
-import {APIv3GettableResource, APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {Observable} from "rxjs";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import { APIv3GettableResource, APIv3ResourceCollection } from "core-app/modules/apiv3/paths/apiv3-resource";
+import { TimeEntryResource } from "core-app/modules/hal/resources/time-entry-resource";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { Observable } from "rxjs";
+import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
 import {
   Apiv3ListParameters,
   Apiv3ListResourceInterface,
   listParamsString
 } from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
-import {NewsResource} from "core-app/modules/hal/resources/news-resource";
+import { NewsResource } from "core-app/modules/hal/resources/news-resource";
 
 export class Apiv3NewsPaths
   extends APIv3ResourceCollection<NewsResource, APIv3GettableResource<NewsResource>>

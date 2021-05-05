@@ -54,20 +54,20 @@ git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 **Installing ruby-2.7**
 
 With both installed, we can now install the actual ruby version 2.7. You can check available ruby versions with `rbenv install --list`.
-At the time of this writing, the latest stable version is `2.7.2`, which we also require.
+At the time of this writing, the latest stable version is `2.7.3`, which we also require.
 
 We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile). Search for the `ruby '~> X.Y.Z'` line
 and install that version.
 
 ```bash
 # Install the required version as read from the Gemfile
-rbenv install 2.7.2
+rbenv install 2.7.3
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to globally activate this version
 
 ```bash
-rbenv global 2.7.2
+rbenv global 2.7.3
 rbenv rehash
 ```
 
@@ -135,11 +135,11 @@ git clone https://github.com/nodenv/node-build.git $(nodenv root)/plugins/node-b
 
 You can find the latest LTS version here: https://nodejs.org/en/download/
 
-At the time of writing this is v12.16.1 Install and activate it with:
+At the time of writing this is v14.15.4 Install and activate it with:
 
 ```bash
-nodenv install 12.16.1
-nodenv global 12.16.1
+nodenv install 14.16.0
+nodenv global 14.16.0
 nodenv rehash
 ```
 
@@ -149,16 +149,16 @@ You should now have an active ruby and node installation. Verify that it works w
 
 ```bash
 ruby --version
-ruby 2.7.2p137 (2020-10-01 revision 5445e04352) [x86_64-linux]
+ruby 2.7.3p183 (2021-04-05 revision 6847ee089d) [x86_64-linux]]
 
 bundler --version
-Bundler version 2.0.2
+Bundler version 2.1.4
 
 node --version
-v12.6.1
+v14.16.0
 
 npm --version
-6.14.4
+7.5.3
 ```
 
 # Install OpenProject
@@ -174,12 +174,12 @@ To do that, go to https://github.com/opf/openproject and press "Fork" on the upp
 git clone https://github.com/opf/openproject.git
 cd openproject
 
-# Install gem dependencies
-# If you get errors here, you're likely missing a development dependency for your distribution
-bundle install
-
-# Install node_modules
-npm install
+# Install
+# - gem dependencies (If you get errors here, you're likely missing a development dependency for your distribution)
+# - node_modules
+# - link plugin frontend modules
+# - and export frontend local files
+bin/setup_dev
 ```
 
 Note that we have checked out the `dev` branch of the OpenProject repository. Development in OpenProject happens in the `dev` branch (there is no `master` branch).

@@ -32,6 +32,7 @@ shared_examples_for 'filter dependency' do
     let(:required) { true }
     let(:writable) { true }
     let(:has_default) { false }
+    let(:location) { '_links' }
   end
 
   it_behaves_like 'does not link to allowed values'
@@ -49,6 +50,7 @@ shared_examples_for 'filter dependency with allowed link' do
     let(:required) { true }
     let(:writable) { true }
     let(:has_default) { false }
+    let(:location) { '_links' }
   end
 
   it_behaves_like 'does not link to allowed values'
@@ -66,6 +68,7 @@ shared_examples_for 'filter dependency with allowed value link collection' do
     let(:required) { true }
     let(:writable) { true }
     let(:has_default) { false }
+    let(:location) { '_links' }
   end
 
   it_behaves_like 'does not link to allowed values'
@@ -83,7 +86,6 @@ shared_examples_for 'filter dependency empty' do
       .to be_json_eql({}.to_json)
   end
 end
-
 
 shared_examples_for 'relation filter dependency' do
   include ::API::V3::Utilities::PathHelper

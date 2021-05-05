@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -37,22 +38,6 @@ describe User, type: :model do
     @admin = User.find(1)
     @jsmith = User.find(2)
     @dlopper = User.find(3)
-  end
-
-  specify 'object_daddy creation' do
-    FactoryBot.create(:user, firstname: 'Testing connection')
-    FactoryBot.create(:user, firstname: 'Testing connection')
-    assert_equal 2, User.where(firstname: 'Testing connection').count
-  end
-
-  it 'should truth' do
-    assert_kind_of User, @jsmith
-  end
-
-  it 'should mail should be stripped' do
-    u = User.new
-    u.mail = ' foo@bar.com  '
-    assert_equal 'foo@bar.com', u.mail
   end
 
   it 'should create' do
@@ -120,20 +105,6 @@ describe User, type: :model do
     assert_includes u.errors[:mail], I18n.translate('activerecord.errors.messages.taken')
   end
 
-  it 'should update' do
-    assert_equal 'admin', @admin.login
-    @admin.login = 'john'
-    assert @admin.save, @admin.errors.full_messages.join('; ')
-    @admin.reload
-    assert_equal 'john', @admin.login
-  end
-
-  it 'should destroy' do
-    User.find(2).destroy
-    assert_nil User.find_by(id: 2)
-    assert Member.where(user_id: 2).empty?
-  end
-
   it 'should validate login presence' do
     @admin.login = ''
     assert !@admin.save
@@ -155,7 +126,8 @@ describe User, type: :model do
     end
 
     it 'should select the exact matching user first' do
-      case_sensitive_user = FactoryBot.create(:user, login: 'changed', password: 'adminADMIN!', password_confirmation: 'adminADMIN!')
+      case_sensitive_user = FactoryBot.create(:user, login: 'changed', password: 'adminADMIN!',
+                                                     password_confirmation: 'adminADMIN!')
       # bypass validations to make it appear like existing data
       case_sensitive_user.update_attribute(:login, 'ADMIN')
 
@@ -189,7 +161,7 @@ describe User, type: :model do
     user = User.try_to_login('jsmith', 'jsmith')
     assert_equal @jsmith, user
 
-    @jsmith.status = User::STATUSES[:locked]
+    @jsmith.status = User.statuses[:locked]
     assert @jsmith.save
 
     user = User.try_to_login('jsmith', 'jsmith')
@@ -285,7 +257,7 @@ describe User, type: :model do
     end
 
     it 'should return nil if the key is found for an inactive user' do
-      user = FactoryBot.create(:user, status: User::STATUSES[:locked])
+      user = FactoryBot.create(:user, status: User.statuses[:locked])
       token = FactoryBot.build(:api_token, user: user)
       user.api_token = token
       user.save
@@ -294,7 +266,7 @@ describe User, type: :model do
     end
 
     it 'should return the user if the key is found for an active user' do
-      user = FactoryBot.create(:user, status: User::STATUSES[:active])
+      user = FactoryBot.create(:user, status: User.statuses[:active])
       token = FactoryBot.build(:api_token, user: user)
       user.api_token = token
       user.save

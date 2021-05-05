@@ -95,9 +95,9 @@ class Role < ApplicationRecord
 
     perms = perms.map(&:to_s)
 
-    self.role_permissions = role_permissions.reject { |rp|
+    self.role_permissions = role_permissions.reject do |rp|
       perms.include?(rp.permission)
-    }
+    end
   end
 
   # Returns true if the role has the given permission

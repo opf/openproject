@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,7 +29,7 @@
 #++
 
 class Queries::Users::Filters::UserFilter < Queries::Filters::Base
-  self.model = User
+  self.model = User.user
 
   def human_name
     User.human_attribute_name(name)

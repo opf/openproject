@@ -48,7 +48,7 @@ describe ::API::V3::Queries::Schemas::ProjectFilterDependencyRepresenter, clear_
         let(:path) { 'values' }
         let(:type) { '[]Project' }
         let(:filters) { "?filters=%5B%7B%22active%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%22t%22%5D%7D%7D%5D" }
-        let(:href) { api_v3_paths.projects + filters}
+        let(:href) { api_v3_paths.projects + filters }
 
         context "for operator 'Queries::Operators::Equals'" do
           let(:operator) { Queries::Operators::Equals }

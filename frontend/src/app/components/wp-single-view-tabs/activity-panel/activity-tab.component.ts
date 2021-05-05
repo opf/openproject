@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {ActivityPanelBaseController} from 'core-components/wp-single-view-tabs/activity-panel/activity-base.controller';
-import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
+import { Component } from '@angular/core';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { ActivityPanelBaseController } from 'core-components/wp-single-view-tabs/activity-panel/activity-base.controller';
+import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
 
 @Component({
   templateUrl: './activity-tab.html',

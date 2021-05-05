@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 feature 'group memberships through project members page', type: :feature do
-  using_shared_fixtures :admin
-  let(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
+  shared_let(:admin) { FactoryBot.create :admin }
+  let(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1', members: project_member }
 
   let(:alice) { FactoryBot.create :user, firstname: 'Alice', lastname: 'Wonderland' }
   let(:bob)   { FactoryBot.create :user, firstname: 'Bob', lastname: 'Bobbit' }
@@ -41,6 +41,7 @@ feature 'group memberships through project members page', type: :feature do
 
   let(:members_page) { Pages::Members.new project.identifier }
   let(:groups_page)  { Pages::Groups.new }
+  let(:project_member) { {} }
 
   before do
     FactoryBot.create :member, user: bob, project: project, roles: [alpha]
@@ -48,9 +49,7 @@ feature 'group memberships through project members page', type: :feature do
 
   context 'given a group with members' do
     let!(:group) { FactoryBot.create :group, lastname: 'group1', members: alice }
-    before do
-      allow(User).to receive(:current).and_return bob
-    end
+    current_user { bob }
 
     scenario 'adding group1 as a member with the beta role', js: true do
       members_page.visit!
@@ -61,9 +60,7 @@ feature 'group memberships through project members page', type: :feature do
     end
 
     context 'which has has been added to a project' do
-      before do
-        project.add_member! group, [beta]
-      end
+      let(:project_member) { { group => beta } }
 
       context 'with the members having no roles of their own' do
         scenario 'removing the group removes its members too' do
@@ -82,7 +79,7 @@ feature 'group memberships through project members page', type: :feature do
         before do
           project.members
             .select { |m| m.user_id == alice.id }
-            .each   { |m| m.add_and_save_role alpha }
+            .each   { |m| m.roles << alpha }
         end
 
         scenario 'removing the group leaves the user without their group roles' do
@@ -102,11 +99,11 @@ feature 'group memberships through project members page', type: :feature do
   end
 
   context 'given an empty group in a project' do
+    let(:project_member) { { group => beta } }
+    current_user { admin }
+
     before do
       alice # create alice
-      project.add_member! group, [beta]
-
-      allow(User).to receive(:current).and_return admin
     end
 
     scenario 'adding members to that group adds them to the project too', js: true do

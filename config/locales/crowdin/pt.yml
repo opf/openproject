@@ -66,7 +66,7 @@ pt:
       upgrade_to_ee: "Atualizar para a Enterprise Edition"
       add_token: "Fazer upload de um token de suporte Enterprise Edition"
       replace_token: "Substitua seu token atual de suporte"
-      order: "Obter a versão Enterprise Edition"
+      order: "Order Enterprise on-premises Edition"
       paste: "Cole seu token de suporte Enterprise Edition"
       required_for_feature: "Esse recurso só está disponível com um token de suporte Enterprise Edition ativo."
       enterprise_link: "Para mais informações, clique aqui."
@@ -78,7 +78,7 @@ pt:
     is_active: atualmente exibido
     is_inactive: não exibido atualmente
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
+    note_public: 'Qualquer texto e imagens que você adicionar a este campo ficará publicamente visível para todos os usuários autenticados!'
     text_overview: 'Neste modo de exibição, você pode criar textos de ajuda personalizada para a exibição de atributos. Quando definido, estes textos podem ser mostrados, clicando no ícone de ajuda ao lado de seu atributo relacionado.'
     label_plural: 'Textos de ajuda do atributo'
     show_preview: 'Pré-visualização de texto'
@@ -121,9 +121,6 @@ pt:
         Se você marcar esta caixa, o OpenProject irá automaticamente criar novos usuários a partir de suas entradas LDAP
         quando eles forem autenticados pela primeira vez com o OpenProject.
         Deixe isso desmarcado para permitir que apenas contas existentes no OpenProject possam se autenticar através do LDAP!
-      onthefly_group_sync: |
-        Se você habilitar a sincronização em grupo para esta conexão LDAP, os usuários também serão automaticamente criados
-        no OpenProject para o grupos sincronizados. Sem isso, apenas as contas existentes no OpenProjectserão adicionados aos grupos.
     connection_encryption: 'Criptografia de Conexão'
     system_account: 'Conta do sistema'
     system_account_legend: |
@@ -177,6 +174,8 @@ pt:
       no_results_content_text: Criar um novo campo personalizado
   concatenation:
     single: 'ou'
+  documentation:
+    see_more_link: Para mais informações, por favor consulte nossa documentação sobre este tópico.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -194,7 +193,7 @@ pt:
       Especifique uma lista de nomes para ignorar quando processar anexos para mensagens recebidas (por exemplo, assinaturas ou ícones). Digite um nome de arquivo por linha.
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
+      scheduled: "Exclusão foi agendada e será realizada em segundo plano. Você será notificado do resultado."
       schedule_failed: "Projeto não pode ser excluído: %{errors}"
       failed: "Exclusão do projeto %{name} falhou"
       failed_text: "A solicitação para excluir o projeto %{name} falhou. O projeto foi arquivado."
@@ -207,6 +206,7 @@ pt:
       no_results_title_text: Atualmente, não existem projetos
       no_results_content_text: Criar um novo projeto
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: Atualmente, não há atividades disponíveis.
       forums:
@@ -226,6 +226,7 @@ pt:
     index:
       no_results_title_text: Atualmente, não há membros deste projeto.
       no_results_content_text: Adicionar um membro ao projeto
+    invite_by_mail: "Enviar convite para %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Falha ao redefinir o token de acesso: %{error}"
@@ -242,6 +243,17 @@ pt:
       no_results_title_text: No momento, este usuário não é membro de nenhum grupo.
     memberships:
       no_results_title_text: Atualmente, este usuário não é um membro de um projeto.
+  placeholder_users:
+    deletion_info:
+      heading: "Excluir usuário do espaço reservado %{name}"
+      data_consequences: >
+        Todas as ocorrências do usuário de espaço reservado (por exemplo, como responsável, competente ou outros valores de usuário) serão reatribuídas a uma conta chamada "Usuário excluído".
+        Como os dados de todas as contas excluídas são reatribuídos a esta conta, não será possível diferenciar os dados criados por usuários de dados excluídos por outra conta.
+      irreversible: "Esta ação é irreversível"
+      confirmation: "Digite o nome de usuário placeholder %{name} para confirmar a exclusão."
+    upsale:
+      title: Atribuir trabalho a pessoas que não são membros do projeto.
+      description: Existem vários cenários em que você deseja atribuir trabalho a pessoas que não são membros do seu projeto. Pode ser simplesmente que você ainda precise contratar a pessoa certa para o trabalho. Ou você não quer dar acesso a essas informações do projeto, mas ainda quer acompanhar as tarefas atribuídas a essa pessoa.
   prioritiies:
     edit:
       priority_color_text: |
@@ -519,6 +531,7 @@ pt:
         confirmation: "não coincide com %{attribute}."
         could_not_be_copied: "%{dependency} não pôde ser copiado (completamente)."
         does_not_exist: "não existe."
+        error_enterprise_only: "só está disponível no OpenProject Enterprise Edition"
         error_unauthorized: "não pode ser acessado."
         error_readonly: "tentou escrever, mas não é gravável."
         empty: "não pode ser vazio."
@@ -534,7 +547,7 @@ pt:
         invalid_url: 'não é um URL válido.'
         invalid_url_scheme: 'não é um protocolo suportado (permitidos: %{allowed_schemes}).'
         less_than_or_equal_to: "deve ser menor ou igual a %{count}."
-        not_deletable: "cannot be deleted."
+        not_deletable: "não pode ser excluído."
         not_current_user: "não é o usuário atual."
         not_a_date: "não é uma data válida."
         not_a_datetime: "não é uma data/hora válida."
@@ -553,6 +566,12 @@ pt:
         unremovable: "não pode ser removido."
         wrong_length: "é o tamanho errado (deve ser %{count} caracteres)."
       models:
+        capability:
+          context:
+            global: 'Global'
+          query:
+            filters:
+              minimum: "precisa incluir pelo menos um filtro para principal, contexto ou id com o operador '='."
         custom_field:
           at_least_one_custom_option: "Pelo menos uma opção precisa estar disponível."
         custom_actions:
@@ -641,6 +660,10 @@ pt:
           attributes:
             hours:
               day_limit: "muito alto, já que só se pode registrar um máximo de 24 horas por data."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "não pode ser deduzido do título '%{title}' '."
         work_package:
           is_not_a_valid_target_for_time_entries: "Pacote de trabalho #%{id} não é válido para re-atribuir os registros de horas gastas."
           attributes:
@@ -719,6 +742,7 @@ pt:
       status: "Situação do pacote de trabalho"
       member: "Membro"
       news: "Notícias"
+      placeholder_user: "Usuário do espaço reservado"
       project: "Projeto"
       query: "Consulta personalizada"
       role:
@@ -759,7 +783,7 @@ pt:
     default_columns: "Colunas padrão"
     description: "Descrição"
     derived_due_date: "Data de término derivada"
-    derived_estimated_time: "Tempo estimado derivado"
+    derived_estimated_hours: "Tempo estimado derivado"
     derived_start_date: "Data inicial derivada"
     display_sums: "Mostrar somas"
     due_date: "Data de conclusão"
@@ -768,7 +792,7 @@ pt:
     firstname: "Nome"
     group: "Grupo"
     groups: "Grupos"
-    groupname: "Nome do grupo"
+    name: "Nome"
     id: "ID"
     is_default: "Valor padrão"
     is_for_all: "Para todos os projetos"
@@ -778,7 +802,6 @@ pt:
     lastname: "Sobrenome"
     login: "Nome de usuário"
     mail: "E-mail"
-    name: "Nome"
     password: "Senha"
     priority: "Prioridade"
     project: "Projeto"
@@ -798,6 +821,33 @@ pt:
     user: "Usuário"
     version: "Versão"
     work_package: "Pacote de trabalho"
+  backup:
+    label_backup_token: "Token de backup"
+    label_create_token: "Criar token de backup"
+    label_delete_token: "Excluir token do backup"
+    label_reset_token: "Redefinir token de backup"
+    label_token_users: "Os seguintes usuários têm tokens de backup ativos"
+    reset_token:
+      action_create: Criar
+      action_reset: Reiniciar
+      heading_reset: "Redefinir token de backup"
+      heading_create: "Criar token de backup"
+      implications: >
+        Habilitar backups permitirá que qualquer usuário com as permissões necessárias e este token de backup, biaxe um backup contendo todos os dados desta instalação do Open Project. Isso inclui os dados de todos os outros usuários.
+      info: >
+        Você precisará gerar um token de backup para poder criar um backup. Cada vez que você solicitar um backup você terá que fornecer esse token. Você pode excluir o token de backup para desabilitar backups deste usuário.
+      verification: >
+        Digite %{word} para confirmar que você deseja %{action} o token de backup.
+      verification_word_reset: redefinir
+      verification_word_create: criar
+      warning: >
+        Quando você criar um novo token, só será permitido a solicitação de um backup após 24 horas. Esta é uma medida de segurança. Depois disso, você poderá solicitar um backup a qualquer momento usando esse token.
+    text_token_deleted: Token de backup excluído. Os backups agora estão desativados.
+    error:
+      invalid_token: Token de backup inválido ou ausente
+      token_cooldown: O token de backup será válido em %{hours} horas
+      backup_pending: Já existe um backup pendente.
+      limit_reached: Você só pode fazer %{limit} backups por dia.
   button_add: "Adicionar"
   button_add_comment: "Adicionar comentário"
   button_add_member: Adicionar membro
@@ -877,12 +927,17 @@ pt:
     text_update_consent_time: Marque esta caixa para forçar os usuários a consentir novamente. Ative quando você alterar o aspecto legal da informação de consentimento acima.
     update_consent_last_time: "Última atualização do consentimento: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "A cópia de \"%{source_project_name}\" para \"%{target_project_name}\" foi iniciada. Você será informado por email tão logo \"%{target_project_name}\" estiver disponível."
     failed: "Não é possível copiar o projeto %{source_project_name}"
     failed_internal: "Falha ao copiar devido a um erro interno."
     succeeded: "Foi criado o projeto %{target_project_name}"
     errors: "Erro"
     project_custom_fields: 'Campos personalizados no projeto'
+    x_objects_of_this_type:
+      zero: 'Nenhum objeto deste tipo'
+      one: 'Um objeto deste tipo'
+      other: '%{count} objetos deste tipo'
     text:
       failed: "Não foi possível copiar o projeto \"%{source_project_name}\" para o projeto \"%{target_project_name}\"."
       succeeded: "Projeto \"%{source_project_name}\" copiado para \"%{target_project_name}\"."
@@ -1028,7 +1083,7 @@ pt:
   default_role_anonymous: "Anônimo"
   default_role_developer: "Desenvolvedor"
   default_role_project_admin: "Administrador do projeto"
-  default_role_project_creator: "Criador do projeto"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Não membro"
   default_role_reader: "Leitor"
   default_role_member: "Membro"
@@ -1129,7 +1184,7 @@ pt:
   error_menu_item_not_saved: Item de menu não pôde ser salvo
   error_wiki_root_menu_item_conflict: >
     Não é possível renomear de"%{old_name}" para "%{new_name}" devido a um conflito no item de menu resultante com o item de menu existente "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed: "Ocorreu um erro durante a autenticação externa. Por favor, tente novamente."
   error_attribute_not_highlightable: "Atributo(s) não destacado(s): %{attributes}"
   events:
     project: 'Projeto editado'
@@ -1206,6 +1261,9 @@ pt:
   instructions_after_registration: "Você pode entrar, assim que a sua conta for ativada clicando %{signin}."
   instructions_after_logout: "Você pode entrar novamente clicando em %{signin}."
   instructions_after_error: "Você pode tentar entrar novamente, clicando em %{signin}. Se o erro persistir, consulte seu administrador para obter ajuda."
+  menus:
+    quick_add:
+      label: "Abrir menu de adição rápida"
   my_account:
     access_tokens:
       no_results:
@@ -1265,6 +1323,7 @@ pt:
   label_available_project_versions: 'Versões disponíveis'
   label_available_project_repositories: 'Repositórios disponíveis'
   label_api_documentation: "Documentação da API"
+  label_backup: "Backup"
   label_between: "entre"
   label_blocked_by: "Bloqueado por"
   label_blocks: "bloqueios"
@@ -1330,6 +1389,7 @@ pt:
   label_custom_field_plural: "Campos personalizados"
   label_custom_field_default_type: "Tipo vazio"
   label_custom_style: "Design"
+  label_database_version: "Versão do PostgreSQL"
   label_date: "Data"
   label_date_and_time: "Data e hora"
   label_date_from: "De"
@@ -1466,6 +1526,8 @@ pt:
   label_member_new: "Novo membro"
   label_member_all_admin: "(Todos os papéis devidos ao status de administrador)"
   label_member_plural: "Membros"
+  lable_membership_added: 'Membro adicionado'
+  lable_membership_updated: 'Membro atualizado'
   label_menu_item_name: "Nome do item de menu"
   label_message: "Mensagem"
   label_message_last: "Última mensagem"
@@ -1488,6 +1550,7 @@ pt:
   label_my_account_data: "Dados da minha conta"
   label_my_projects: "Meus projetos"
   label_my_queries: "Minhas consultas personalizadas"
+  label_name: "Nome"
   label_never: "Nunca"
   label_new: "Novo"
   label_new_features: "Novos recursos"
@@ -1537,6 +1600,9 @@ pt:
   label_permissions: "Permissões"
   label_permissions_report: "Relatório de permissões"
   label_personalize_page: "Personalizar esta página"
+  label_placeholder_user: "Usuário do espaço reservado"
+  label_placeholder_user_new: "Nomo usuário do espaço reservado"
+  label_placeholder_user_plural: "Usuários de espaço reservado"
   label_planning: "Planejamento"
   label_please_login: "Por favor, efetue o login"
   label_plugins: "Plugins"
@@ -1734,21 +1800,21 @@ pt:
   label_workflow_plural: "Fluxos de trabalho"
   label_workflow_summary: "Sumário"
   label_x_closed_work_packages_abbr:
+    one: "1 fechado"
+    other: "%{count} fechado"
     zero: "0 fechado"
-    one: ""
-    other: ""
   label_x_comments:
+    one: "1 comentário"
+    other: "%{count} comentários"
     zero: "sem comentários"
-    one: ""
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1 aberto"
+    other: "%{count} aberto"
     zero: "0 aberto"
-    one: ""
-    other: ""
   label_x_projects:
+    one: "1 projeto"
+    other: "%{count} projetos"
     zero: "sem projetos"
-    one: ""
-    other: ""
   label_yesterday: "ontem"
   label_role_type: "Tipo"
   label_member_role: "Papel no projeto"
@@ -1783,6 +1849,12 @@ pt:
   mail_body_account_activation_request: "Um novo usuário (%{value}) registrou-se. A conta está aguardando sua aprovação:"
   mail_body_account_information: "Suas informações de conta"
   mail_body_account_information_external: "Você pode usar sua conta %{value} para logar."
+  mail_body_backup_ready: "Seu backup solicitado está pronto. Você pode baixá-lo aqui:"
+  mail_body_backup_token_reset_admin_info: O token de backup para usuário %{user} foi redefinido.
+  mail_body_backup_token_reset_user_info: Seu token de backup foi redefinido.
+  mail_body_backup_token_info: O token anterior não é mais válido.
+  mail_body_backup_waiting_period: O novo token será habilitado em %{hours} horas.
+  mail_body_backup_token_warning: Se não foi você, acesse o OpenProject imediatamente e redefina-o novamente.
   mail_body_lost_password: "Para alterar sua senha, clique no link a seguir:"
   mail_body_register: "Bem-vindo ao OpenProject. Por favor, ative sua conta clicando neste link:"
   mail_body_register_header_title: "E-mail de convite a membro do projeto"
@@ -1798,12 +1870,35 @@ pt:
   mail_body_wiki_content_added: "A página wiki '%{id}' foi adicionada por %{author}."
   mail_body_wiki_content_updated: "A página wiki '%{id}' foi atualizada por %{author}."
   mail_subject_account_activation_request: "solicitação de ativação de conta %{value}"
+  mail_subject_backup_ready: "Seu backup está pronto"
+  mail_subject_backup_token_reset: "Seu token de backup foi redefinido"
   mail_subject_lost_password: "Sua senha %{value}"
   mail_subject_register: "Sua ativação de conta: %{value}"
   mail_subject_reminder: "%{count} pacote(s) de trabalho finalizam nos próximos %{days} dias:"
   mail_subject_group_reminder: "Para o grupo \"%{group}\" %{count} pacote(s) de trabalho expirarão nos próximos %{days} dias"
   mail_subject_wiki_content_added: "página de wiki '%{id}' foi adicionada"
   mail_subject_wiki_content_updated: "página de wiki '%{id}' foi atualizada"
+  mail_member_added_project:
+    subject: "%{project} - Você foi adicionado como membro"
+    body:
+      added_by:
+        without_message: "%{user} adicionou você como membro do projeto '%{project}'."
+        with_message: "%{user} added you as a member to the project '%{project}' writing:"
+      roles: "Você tem as seguintes funções:"
+  mail_member_updated_project:
+    subject: "%{project} - Suas funções foram atualizadas"
+    body:
+      updated_by:
+        without_message: "%{user} atualizou as funções que você tem no projeto '%{project}'."
+        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
+      roles: "Agora você tem as seguintes funções:"
+  mail_member_updated_global:
+    subject: "Suas permissões globais foram atualizadas"
+    body:
+      updated_by:
+        without_message: "%{user} atualizou as funções que você tem globalmente."
+        with_message: "%{user} updated the roles you have globally writing:"
+      roles: "Agora você tem as seguintes funções:"
   mail_user_activation_limit_reached:
     subject: Limite de ativação de usuários atingido
     message: |
@@ -1845,6 +1940,7 @@ pt:
   notice_email_sent: "Um e-mail foi enviado para %{value}"
   notice_failed_to_save_work_packages: "Falha ao salvar %{count} pacote(s) de trabalho de um total de %{total} selecionado: %{ids}."
   notice_failed_to_save_members: "Falha ao salvar o(s) membro(s): %{errors}."
+  notice_deletion_scheduled: "A exclusão foi programada e foi realizada de forma assíncrona."
   notice_file_not_found: "A página que você estava tentando acessar não existe ou foi removida."
   notice_forced_logout: "Você foi automaticamente desconectado após %{ttl_time} minutos de inatividade."
   notice_internal_server_error: "Ocorreu um erro na página que você está tentando acessar. Se você continuar a ter problemas, por favor contate o %{app_title} administrador para obter assistência."
@@ -1908,6 +2004,8 @@ pt:
   permission_add_work_packages: "Adicionar pacotes de trabalho"
   permission_add_messages: "Postar mensagens"
   permission_add_project: "Criar Projeto"
+  permission_manage_user: "Criar e editar usuários"
+  permission_manage_placeholder_user: "Criar, editar e excluir usuários do placeholder"
   permission_add_subprojects: "Criar subprojetos"
   permission_add_work_package_watchers: "Adicionar observadores"
   permission_assign_versions: "Atribuir versões"
@@ -2109,7 +2207,7 @@ pt:
       username: "Nome de usuário do repositório"
     truncated: "Pedimos desculpa, mas tivemos que truncar este diretório em %{limit} arquivos. %{truncated} entradas foram omitidas da lista."
     named_repository: "repositório %{vendor_name}"
-    update_settings_successful: "The settings have been successfully saved."
+    update_settings_successful: "As configurações foram atualizadas com sucesso."
     url: "URL para repositório"
     warnings:
       cannot_annotate: "Este arquivo não pode ser anotado."
@@ -2154,6 +2252,7 @@ pt:
   setting_consent_required: "Consentimento necessário"
   setting_consent_decline_mail: "E-mail de contato do consentimento"
   setting_cross_project_work_package_relations: "Permitir relacionamento entre pacotes de trabalho de diferentes projetos"
+  setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Formato de data"
   setting_default_language: "Idioma padrão"
   setting_default_notification_option: "Opção de notificação padrão"
@@ -2235,6 +2334,11 @@ pt:
     passwords: "Senhas"
     session: "Sessão"
     brute_force_prevention: "Bloqueio automatizado de usuário"
+    display:
+      first_date_of_week_and_year_present: >
+        If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
     projects:
       section_new_projects: "Configurações para novos projetos"
       section_project_overview: "Configurações para a lista de visão geral do projeto"
@@ -2624,6 +2728,7 @@ pt:
       code_403: "Você não está autorizado a acessar este recurso."
       code_404: "O recurso solicitado não pôde ser encontrado."
       code_409: "Não foi possível atualizar o recurso devido a modificações conflitantes."
+      code_429: "Too many requests. Please try again later."
       code_500: "Ocorreu um erro interno."
       expected:
         date: "AAAA-MM-DD (somente data no formato ISO 8601)"
@@ -2633,6 +2738,9 @@ pt:
       invalid_json: "A solicitação não pôde ser analisada como JSON."
       invalid_relation: "A relação é inválida."
       invalid_resource: "Para a propriedade '%{property}' é esperado um link como '%{expected}' mas foi encontrado '%{actual}'."
+      invalid_signal:
+        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
+        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "A situação da conta do usuário atual não permite esta operação."
       missing_content_type: "não especificado"
       missing_request_body: "Não havia corpo da requisição."
@@ -2739,3 +2847,4 @@ pt:
     authorization_error: "Ocorreu um erro de autorização."
     revoke_my_application_confirmation: "Você quer realmente remover esta aplicação? Isso irá revogar %{token_count} ativo(s) para ele."
     my_registered_applications: "Aplicações OAuth registradas"
+  you: you

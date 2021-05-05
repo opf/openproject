@@ -57,7 +57,7 @@ module API
         resources :watchers do
           helpers do
             def watchers_collection
-              watchers = @work_package.watcher_users.active_or_registered
+              watchers = @work_package.watcher_users.merge(Principal.not_locked)
               self_link = api_v3_paths.work_package_watchers(@work_package.id)
               Users::UserCollectionRepresenter.new(watchers,
                                                    self_link: self_link,
@@ -89,8 +89,8 @@ module API
             user = User.find user_id
 
             Services::CreateWatcher.new(@work_package, user).run(
-              success: -> (result) { status(200) unless result[:created] },
-              failure: -> (watcher) {
+              success: ->(result) { status(200) unless result[:created] },
+              failure: ->(watcher) {
                 raise ::API::Errors::ErrorBase.create_and_merge_errors(watcher.errors)
               }
             )

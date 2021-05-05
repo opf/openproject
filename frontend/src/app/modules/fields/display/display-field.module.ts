@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Field, IFieldSchema} from "core-app/modules/fields/field.base";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {DisplayFieldContext} from "core-app/modules/fields/display/display-field.service";
-import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { Field, IFieldSchema } from "core-app/modules/fields/field.base";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { DisplayFieldContext } from "core-app/modules/fields/display/display-field.service";
+import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export const cssClassCustomOption = 'custom-option';
 
@@ -81,8 +81,7 @@ export class DisplayField<T extends HalResource = HalResource> extends Field {
 
     if (this.activeChange) {
       return this.activeChange.projectedResource[this.name];
-    }
-    else {
+    } else {
       return this.attribute;
     }
   }

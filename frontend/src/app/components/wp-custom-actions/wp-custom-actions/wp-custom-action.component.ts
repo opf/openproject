@@ -27,17 +27,17 @@
 //++
 
 
-import {Component, HostListener, Input} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {CustomActionResource} from 'core-app/modules/hal/resources/custom-action-resource';
-import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import { Component, HostListener, Input } from '@angular/core';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { CustomActionResource } from 'core-app/modules/hal/resources/custom-action-resource';
+import { WorkPackagesActivityService } from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'wp-custom-action',
@@ -66,7 +66,7 @@ export class WpCustomActionComponent {
   }
 
   public update() {
-    let payload = {
+    const payload = {
       lockVersion: this.workPackage.lockVersion,
       _links: {
         workPackage: {

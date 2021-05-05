@@ -26,33 +26,38 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {AfterViewInit, Directive, ElementRef, Injector, Input} from '@angular/core';
-import {takeUntil} from 'rxjs/operators';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
-import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
-import {States} from '../../states.service';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
-import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {QueryColumn} from "core-components/wp-query/query-column";
-import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
-import {WorkPackageViewSumService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sum.service";
-import {combineLatest} from "rxjs";
-import {GroupSumsBuilder} from "core-components/wp-fast-table/builders/modes/grouped/group-sums-builder";
-import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import { AfterViewInit, Directive, ElementRef, Injector, Input } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { SchemaResource } from 'core-app/modules/hal/resources/schema-resource';
+import { WorkPackageCollectionResource } from 'core-app/modules/hal/resources/wp-collection-resource';
+import { States } from '../../states.service';
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { DisplayFieldService } from "core-app/modules/fields/display/display-field.service";
+import { IFieldSchema } from "core-app/modules/fields/field.base";
+import { QueryColumn } from "core-components/wp-query/query-column";
+import { WorkPackageViewColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import { WorkPackageViewSumService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sum.service";
+import { combineLatest } from "rxjs";
+import { GroupSumsBuilder } from "core-components/wp-fast-table/builders/modes/grouped/group-sums-builder";
+import { WorkPackageTable } from "core-components/wp-fast-table/wp-fast-table";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 
 @Directive({
-  selector: '[wpTableSumsRow]'
+  selector: '[wpTableSumsRow]',
+  host: {
+    '[class.-hidden]': 'isHidden'
+  },
 })
 export class WorkPackageTableSumsRowController implements AfterViewInit {
 
   @Input('wpTableSumsRow-table') workPackageTable:WorkPackageTable;
 
+  public isHidden = true;
+
   private text:{ sum:string };
 
-  private $element:JQuery;
+  private element:HTMLTableRowElement;
 
   private groupSumsBuilder:GroupSumsBuilder;
 
@@ -71,7 +76,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
   }
 
   ngAfterViewInit():void {
-    this.$element = jQuery(this.elementRef.nativeElement);
+    this.element = this.elementRef.nativeElement;
 
     combineLatest([
       this.wpTableColumns.live$(),
@@ -82,12 +87,13 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
         takeUntil(this.querySpace.stopAllSubscriptions)
       )
       .subscribe(([columns, sum, resource]) => {
+        this.isHidden = !sum;
         if (sum && resource.sumsSchema) {
           this.schemaCache
-            .ensureLoaded(resource.sumsSchema.$href!)
+            .ensureLoaded(resource.sumsSchema.href!)
             .then((schema:SchemaResource) => {
-            this.refresh(columns, resource, schema);
-          });
+              this.refresh(columns, resource, schema);
+            });
         } else {
           this.clear();
         }
@@ -95,7 +101,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
   }
 
   private clear() {
-    this.$element.empty();
+    this.element.innerHTML = '';
   }
 
   private refresh(columns:QueryColumn[], resource:WorkPackageCollectionResource, schema:SchemaResource) {
@@ -106,6 +112,6 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
   private render(columns:QueryColumn[], resource:WorkPackageCollectionResource, schema:SchemaResource) {
     this.groupSumsBuilder = new GroupSumsBuilder(this.injector, this.workPackageTable);
     this.groupSumsBuilder.text = this.text;
-    this.groupSumsBuilder.renderColumns(resource.totalSums!, this.elementRef.nativeElement);
+    this.groupSumsBuilder.renderColumns(resource.totalSums!, this.element);
   }
 }

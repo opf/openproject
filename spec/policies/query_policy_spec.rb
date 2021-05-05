@@ -43,7 +43,7 @@ describe QueryPolicy, type: :controller do
     end
 
     shared_examples 'viewing queries' do |global|
-      context "#{ global ? 'in global context' : 'in project context' }" do
+      context (global ? 'in global context' : 'in project context').to_s do
         let(:other_user) { FactoryBot.build_stubbed(:user) }
         if global
           let(:project) { nil }
@@ -58,9 +58,9 @@ describe QueryPolicy, type: :controller do
         context 'query belongs to a different user' do
           let(:query) do
             FactoryBot.build_stubbed(:query,
-                                      project: project,
-                                      user: user,
-                                      is_public: false)
+                                     project: project,
+                                     user: user,
+                                     is_public: false)
           end
 
           it 'is true if the query is private and the owner views it' do
@@ -76,7 +76,7 @@ describe QueryPolicy, type: :controller do
     end
 
     shared_examples 'action on persisted' do |action, global|
-      context "for #{action} #{ global ? 'in global context' : 'in project context' }" do
+      context "for #{action} #{global ? 'in global context' : 'in project context'}" do
         if global
           let(:project) { nil }
         end
@@ -93,7 +93,7 @@ describe QueryPolicy, type: :controller do
         end
 
         it 'is false if the user has the save_query permission in the project ' +
-          'AND the query is not persisted' do
+           'AND the query is not persisted' do
           allow(user).to receive(:allowed_to?).with(:save_queries,
                                                     project,
                                                     global: project.nil?)
@@ -104,7 +104,7 @@ describe QueryPolicy, type: :controller do
         end
 
         it 'is true if the user has the save_query permission in the project ' +
-          'AND it is his query' do
+           'AND it is his query' do
           allow(user).to receive(:allowed_to?).with(:save_queries,
                                                     project,
                                                     global: project.nil?)
@@ -115,7 +115,7 @@ describe QueryPolicy, type: :controller do
         end
 
         it 'is false if the user has the save_query permission in the project ' +
-          'AND it is not his query' do
+           'AND it is not his query' do
           allow(user).to receive(:allowed_to?).with(:save_queries,
                                                     project,
                                                     global: project.nil?)
@@ -127,7 +127,7 @@ describe QueryPolicy, type: :controller do
         end
 
         it 'is false if the user lacks the save_query permission in the project ' +
-          'AND it is his query' do
+           'AND it is his query' do
           allow(user).to receive(:allowed_to?).with(:save_queries,
                                                     project,
                                                     global: project.nil?)
@@ -139,8 +139,8 @@ describe QueryPolicy, type: :controller do
         end
 
         it 'is true if the user has the manage_public_query permission in the project ' +
-          'AND it is anothers query ' +
-          'AND the query is public' do
+           'AND it is anothers query ' +
+           'AND the query is public' do
           allow(user).to receive(:allowed_to?).with(:manage_public_queries,
                                                     project,
                                                     global: project.nil?)
@@ -152,8 +152,8 @@ describe QueryPolicy, type: :controller do
         end
 
         it 'is false if the user lacks the manage_public_query permission in the project ' +
-          'AND it is anothers query ' +
-          'AND the query is public' do
+           'AND it is anothers query ' +
+           'AND the query is public' do
           allow(user).to receive(:allowed_to?).with(:manage_public_queries,
                                                     project,
                                                     global: project.nil?)
@@ -165,8 +165,8 @@ describe QueryPolicy, type: :controller do
         end
 
         it 'is false if the user has the manage_public_query permission in the project ' +
-          'AND it is anothers query ' +
-          'AND the query is not public' do
+           'AND it is anothers query ' +
+           'AND the query is not public' do
           allow(user).to receive(:allowed_to?).with(:manage_public_queries,
                                                     project,
                                                     global: project.nil?)
@@ -180,7 +180,7 @@ describe QueryPolicy, type: :controller do
     end
 
     shared_examples 'action on unpersisted' do |action, global|
-      context "for #{action} #{ global ? 'in global context' : 'in project context' }" do
+      context "for #{action} #{global ? 'in global context' : 'in project context'}" do
         if global
           let(:project) { nil }
         end
@@ -206,7 +206,7 @@ describe QueryPolicy, type: :controller do
         end
 
         it 'is false if the user has the save_query permission in the project ' +
-          'AND the query is persisted' do
+           'AND the query is persisted' do
           allow(user).to receive(:allowed_to?).with(:save_queries,
                                                     project,
                                                     global: global)
@@ -220,7 +220,7 @@ describe QueryPolicy, type: :controller do
     end
 
     shared_examples 'publicize' do |global|
-      context "#{ global ? 'in global context' : 'in project context' }" do
+      context (global ? 'in global context' : 'in project context').to_s do
         if global
           let(:project) { nil }
         end
@@ -232,7 +232,7 @@ describe QueryPolicy, type: :controller do
         end
 
         it 'is true if the user has the manage_public_query permission in the project ' +
-          'AND it is his query' do
+           'AND it is his query' do
           allow(user).to receive(:allowed_to?).with(:manage_public_queries,
                                                     project,
                                                     global: project.nil?)
@@ -242,8 +242,8 @@ describe QueryPolicy, type: :controller do
         end
 
         it 'is false if the user has the manage_public_query permission in the project ' +
-          'AND the query is not public ' +
-          'AND it is not his query' do
+           'AND the query is not public ' +
+           'AND it is not his query' do
           allow(user).to receive(:allowed_to?).with(:manage_public_queries,
                                                     project,
                                                     global: project.nil?)
@@ -257,7 +257,7 @@ describe QueryPolicy, type: :controller do
     end
 
     shared_examples 'depublicize' do |global|
-      context "#{ global ? 'in global context' : 'in project context' }" do
+      context (global ? 'in global context' : 'in project context').to_s do
         if global
           let(:project) { nil }
         end
@@ -269,8 +269,8 @@ describe QueryPolicy, type: :controller do
         end
 
         it 'is true if the user has the manage_public_query permission in the project ' +
-          'AND the query belongs to another user' +
-          'AND the query is public' do
+           'AND the query belongs to another user' +
+           'AND the query is public' do
           allow(user).to receive(:allowed_to?).with(:manage_public_queries,
                                                     project,
                                                     global: project.nil?)
@@ -283,7 +283,7 @@ describe QueryPolicy, type: :controller do
         end
 
         it 'is false if the user has the manage_public_query permission in the project ' +
-          'AND the query is not public' do
+           'AND the query is not public' do
           allow(user).to receive(:allowed_to?).with(:manage_public_queries,
                                                     project,
                                                     global: project.nil?)
@@ -296,7 +296,7 @@ describe QueryPolicy, type: :controller do
     end
 
     shared_examples 'star' do |global|
-      context "#{ global ? 'in global context' : 'in project context' }" do
+      context (global ? 'in global context' : 'in project context').to_s do
         if global
           let(:project) { nil }
         end
@@ -310,7 +310,7 @@ describe QueryPolicy, type: :controller do
     end
 
     shared_examples 'update ordered_work_packages' do |global|
-      context "#{ global ? 'in global context' : 'in project context' }" do
+      context (global ? 'in global context' : 'in project context').to_s do
         if global
           let(:project) { nil }
         end
@@ -351,9 +351,8 @@ describe QueryPolicy, type: :controller do
           expect(subject.allowed?(query, :reorder_work_packages)).to be_truthy
         end
 
-
         it 'is true if the user has the manage_public_query permission in the project ' +
-             'AND it is a public query' do
+           'AND it is a public query' do
           allow(user).to receive(:allowed_to?).with(:manage_public_queries,
                                                     project,
                                                     global: project.nil?)
@@ -364,8 +363,8 @@ describe QueryPolicy, type: :controller do
         end
 
         it 'is false if the user has the manage_public_query permission in the project ' +
-             'AND the query is not public ' +
-             'AND it is not his query' do
+           'AND the query is not public ' +
+           'AND it is not his query' do
           allow(user).to receive(:allowed_to?).with(:manage_public_queries,
                                                     project,
                                                     global: project.nil?)

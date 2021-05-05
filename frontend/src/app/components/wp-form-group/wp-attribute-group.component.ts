@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Injector, Input, AfterViewInit} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {FieldDescriptor, GroupDescriptor} from 'core-components/work-packages/wp-single-view/wp-single-view.component';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {fromEvent} from "rxjs";
-import {debounceTime} from "rxjs/operators";
+import { Component, Injector, Input, AfterViewInit } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { FieldDescriptor, GroupDescriptor } from 'core-components/work-packages/wp-single-view/wp-single-view.component';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { EditFormComponent } from "core-app/modules/fields/edit/edit-form/edit-form.component";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { fromEvent } from "rxjs";
+import { debounceTime } from "rxjs/operators";
 
 @Component({
   selector: 'wp-attribute-group',
@@ -91,10 +91,10 @@ export class WorkPackageFormAttributeGroupComponent extends UntilDestroyedMixin 
   private fixColumns() {
     let lastOffset = 0;
     // Find corresponding HTML of attribute fields for each group
-    let htmlAttributes = jQuery('div.attributes-group:contains(' + this.group.name + ')').find('.attributes-key-value');
+    const htmlAttributes = jQuery('div.attributes-group:contains(' + this.group.name + ')').find('.attributes-key-value');
 
     htmlAttributes.each(function() {
-      let offset = jQuery(this).position().top;
+      const offset = jQuery(this).position().top;
 
       if (offset < lastOffset) {
         // Fix position of the column start

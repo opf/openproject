@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'edit users', type: :feature, js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:current_user) { admin }
   let(:user) { FactoryBot.create :user, mail: 'foo@example.com' }
 
@@ -85,8 +85,8 @@ describe 'edit users', type: :feature, js: true do
   end
 
   context 'as global user' do
-    using_shared_fixtures :global_add_user
-    let(:current_user) { global_add_user }
+    shared_let(:global_manage_user) { FactoryBot.create :user, global_permission: :manage_user }
+    let(:current_user) { global_manage_user }
 
     it 'can too edit the user' do
       visit edit_user_path(user)
@@ -95,7 +95,7 @@ describe 'edit users', type: :feature, js: true do
       expect(page).to have_no_selector('.users-and-permissions-menu-item', text: 'Users & Permissions')
       expect(page).to have_selector('.users-menu-item.selected', text: 'Users')
 
-      expect(page).to have_no_selector 'select#user_auth_source_id'
+      expect(page).to have_selector 'select#user_auth_source_id'
       expect(page).to have_no_selector 'input#user_password'
 
       expect(page).to have_selector '#user_login'
@@ -104,6 +104,7 @@ describe 'edit users', type: :feature, js: true do
       expect(page).to have_selector '#user_mail'
 
       fill_in 'user[firstname]', with: 'NewName', fill_options: { clear: :backspace }
+      select auth_source.name, from: 'user[auth_source_id]'
 
       click_on 'Save'
 
@@ -112,6 +113,7 @@ describe 'edit users', type: :feature, js: true do
       user.reload
 
       expect(user.firstname).to eq 'NewName'
+      expect(user.auth_source).to eq auth_source
     end
 
     it 'can reinvite the user' do

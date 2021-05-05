@@ -8,13 +8,13 @@ keywords: authentication settings
 ---
 # Authentication settings
 
-To adapt general system **authentication settings**, navigate to -> *Administration* -> *Authentication* and choose -> *Settings*.
+To adapt general system **authentication settings**, navigate to *Administration -> Authentication* and choose -> *Settings*.
 
 You can adapt the following under the authentication settings:
 
 ## General authentication settings
 
-1. Select if the **authentication is required** to access OpenProject.
+1. Select if the **authentication is required** to access OpenProject. **Watch out**: If you un-tick this box your OpenProject instance will be visible to the general public without logging in. The visibility of individual projects depends on [this setting](../../../user-guide/projects/#set-a-project-to-public). 
 
 2. Select an option for **self-registration**. Self-registration can either be **disabled**, or it can be allowed with the following criteria:
 

@@ -26,22 +26,22 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, OnInit, Output} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
-import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
-import {TimezoneService} from 'core-components/datetime/timezone.service';
-import {Moment} from 'moment';
-import {AbstractDateTimeValueController} from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller';
-import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
+import { Component, Input, OnInit, Output } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import { DebouncedEventEmitter } from 'core-components/angular/debounced-event-emitter';
+import { TimezoneService } from 'core-components/datetime/timezone.service';
+import { Moment } from 'moment';
+import { AbstractDateTimeValueController } from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller';
+import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 
 @Component({
   selector: 'filter-date-time-value',
   templateUrl: './filter-date-time-value.component.html'
 })
 export class FilterDateTimeValueComponent extends AbstractDateTimeValueController implements OnInit {
-  @Input() public shouldFocus:boolean = false;
+  @Input() public shouldFocus = false;
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 

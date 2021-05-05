@@ -29,23 +29,27 @@
 require 'spec_helper'
 
 feature 'group memberships through groups page', type: :feature, js: true do
-  using_shared_fixtures :admin
-  let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
+  shared_let(:admin) { FactoryBot.create :admin }
+  let!(:project) do
+    FactoryBot.create :project, name: 'Project 1', identifier: 'project1', members: project_members
+  end
 
   let!(:peter)    { FactoryBot.create :user, firstname: 'Peter', lastname: 'Pan' }
   let!(:hannibal) { FactoryBot.create :user, firstname: 'Hannibal', lastname: 'Smith' }
-  let(:group)     { FactoryBot.create :group, lastname: 'A-Team' }
+  let(:group) do
+    FactoryBot.create(:group, lastname: 'A-Team', members: group_members)
+  end
 
   let!(:manager)   { FactoryBot.create :role, name: 'Manager' }
   let!(:developer) { FactoryBot.create :role, name: 'Developer' }
 
   let(:members_page) { Pages::Members.new project.identifier }
   let(:group_page)   { Pages::Groups.new.group(group.id) }
+  let(:group_members) { [peter] }
+  let(:project_members) { {} }
 
   before do
     allow(User).to receive(:current).and_return admin
-
-    group.add_members! peter
   end
 
   scenario 'adding a user to a group adds the user to the project as well' do
@@ -68,10 +72,8 @@ feature 'group memberships through groups page', type: :feature, js: true do
   end
 
   context 'given a group with members in a project' do
-    before do
-      group.add_members! hannibal
-      project.add_member! group, [manager]
-    end
+    let(:group_members) { [peter, hannibal] }
+    let(:project_members) { { group => [manager] } }
 
     scenario 'removing a user from the group removes them from the project too' do
       members_page.visit!
@@ -99,17 +101,15 @@ feature 'group memberships through groups page', type: :feature, js: true do
   end
 
   describe 'with the group in two projects' do
-    let!(:project2) { FactoryBot.create :project, name: 'Project 2', identifier: 'project2' }
+    let!(:project2) do
+      FactoryBot.create :project,
+                        name: 'Project 2',
+                        identifier: 'project2',
+                        members: project_members
+    end
     let(:members_page1) { Pages::Members.new project.identifier }
     let(:members_page2) { Pages::Members.new project2.identifier }
-
-    before do
-      project.add_member! peter, [manager]
-      project2.add_member! peter, [manager]
-
-      project.add_member! group, [developer]
-      project2.add_member! group, [developer]
-    end
+    let(:project_members) { { peter => manager, group => developer } }
 
     it 'can add a new user to the group with correct member roles (Regression #33659)' do
       members_page1.visit!

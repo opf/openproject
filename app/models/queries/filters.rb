@@ -47,5 +47,6 @@ module Queries::Filters
   ##
   # Wrapper class for invalid filters being created
   class InvalidError < StandardError; end
+
   class MissingError < StandardError; end
 end

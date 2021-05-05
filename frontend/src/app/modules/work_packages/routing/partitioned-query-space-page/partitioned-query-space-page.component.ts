@@ -26,19 +26,21 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from "@angular/core";
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {OpTitleService} from "core-components/html/op-title.service";
-import {WorkPackagesViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
-import {take} from "rxjs/operators";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {QueryParamListenerService} from "core-components/wp-query/query-param-listener.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {ComponentType} from "@angular/cdk/overlay";
-import {Ng2StateDeclaration} from "@uirouter/angular";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageFilterContainerComponent} from "core-components/filters/filter-container/filter-container.directive";
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from "@angular/core";
+import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { OpTitleService } from "core-components/html/op-title.service";
+import { WorkPackagesViewBase } from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
+import { take } from "rxjs/operators";
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { QueryParamListenerService } from "core-components/wp-query/query-param-listener.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { ComponentType } from "@angular/cdk/overlay";
+import { Ng2StateDeclaration } from "@uirouter/angular";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { WorkPackageFilterContainerComponent } from "core-components/filters/filter-container/filter-container.directive";
+import { OpModalService } from 'core-app/modules/modal/modal.service';
+import { InviteUserModalComponent } from 'core-app/modules/invite-user-modal/invite-user.component';
 
 export interface DynamicComponentDefinition {
   component:ComponentType<any>;
@@ -68,6 +70,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   @InjectField() I18n!:I18nService;
   @InjectField() titleService:OpTitleService;
   @InjectField() queryParamListener:QueryParamListenerService;
+  @InjectField() opModalService:OpModalService;
 
   text:{ [key:string]:string } = {
     'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
@@ -98,7 +101,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [];
 
   /** Whether filtering is allowed */
-  filterAllowed:boolean = true;
+  filterAllowed = true;
 
   /** We need to pass the correct partition state to the view to manage the grid */
   currentPartition:ViewPartitionState = '-split';
@@ -138,9 +141,9 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
         this.untilDestroyed()
       ).subscribe(() => {
       /** Ensure we reload the query from the changed props */
-      this.currentQuery = undefined;
-      this.refresh(true, true);
-    });
+        this.currentQuery = undefined;
+        this.refresh(true, true);
+      });
 
     // Update title on entering this state
     this.unRegisterTitleListener = this.$transitions.onSuccess({}, () => {
@@ -228,18 +231,18 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
     // Update the title if we're in the list state alone
     if (this.shouldUpdateHtmlTitle()) {
-      this.titleService.setFirstPart(this.selectedTitle);
+      this.titleService.setFirstPart(this.selectedTitle!);
     }
   }
 
-  refresh(visibly:boolean = false, firstPage:boolean = false):Promise<unknown> {
+  refresh(visibly = false, firstPage = false):Promise<unknown> {
     let promise:Promise<unknown>;
-    let query = this.currentQuery;
+    const query = this.currentQuery;
 
     if (firstPage || !query) {
       promise = this.loadFirstPage();
     } else {
-      let pagination = this.wpListService.getPaginationInfo();
+      const pagination = this.wpListService.getPaginationInfo();
       promise = this.wpListService
         .loadQueryFromExisting(query, pagination, this.projectIdentifier)
         .toPromise();
@@ -254,6 +257,15 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
     return promise.then((loadedQuery:QueryResource) => {
       this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
+    });
+  }
+
+  protected inviteModal = InviteUserModalComponent;
+
+  openInviteUserModal() {
+    const inviteModal = this.opModalService.show(this.inviteModal, 'global');
+    inviteModal.closingEvent.subscribe((modal:any) => {
+      console.log('Modal closed!', modal);
     });
   }
 

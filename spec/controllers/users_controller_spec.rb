@@ -30,18 +30,41 @@ require 'spec_helper'
 require 'work_package'
 
 describe UsersController, type: :controller do
-  using_shared_fixtures :admin, :anonymous
+  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:anonymous) { User.anonymous }
 
-  let(:user_password) {'bob!' * 4}
-  let(:user) do
-    FactoryBot.create(:user,
+  shared_let(:user_password) { 'bob!' * 4 }
+  shared_let(:user) do
+    FactoryBot.create :user,
                       login: 'bob',
                       password: user_password,
-                      password_confirmation: user_password,
-                       )
+                      password_confirmation: user_password
   end
 
   describe 'GET new' do
+    context "without user limit reached" do
+      before do
+        as_logged_in_user admin do
+          get :new
+        end
+      end
+
+      it 'is success' do
+        expect(response)
+          .to have_http_status(200)
+      end
+
+      it 'renders the template' do
+        expect(response)
+          .to have_rendered('new')
+      end
+
+      it 'have a user object initialized' do
+        expect(assigns(:user))
+          .to be_a(User)
+      end
+    end
+
     context "with user limit reached" do
       before do
         allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
@@ -96,8 +119,12 @@ describe UsersController, type: :controller do
         end
       end
 
-      it do expect(response).to be_successful end
-      it do expect(assigns(:user)).to eq(user) end
+      it do
+        expect(response).to be_successful
+      end
+      it do
+        expect(assigns(:user)).to eq(user)
+      end
       it { expect(response).to render_template('deletion_info') }
     end
 
@@ -145,8 +172,12 @@ describe UsersController, type: :controller do
         end
       end
 
-      it do expect(response).to be_successful end
-      it do expect(assigns(:user)).to eq(user) end
+      it do
+        expect(response).to be_successful
+      end
+      it do
+        expect(assigns(:user)).to eq(user)
+      end
       it { expect(response).to render_template('deletion_info') }
     end
 
@@ -208,6 +239,29 @@ describe UsersController, type: :controller do
     end
   end
 
+  describe 'GET edit' do
+    before do
+      as_logged_in_user admin do
+        get :edit, params: { id: user.id }
+      end
+    end
+
+    it 'is success' do
+      expect(response)
+        .to have_http_status(200)
+    end
+
+    it 'renders the template' do
+      expect(response)
+        .to have_rendered('edit')
+    end
+
+    it 'have a user object initialized' do
+      expect(assigns(:user))
+        .to eql user
+    end
+  end
+
   describe 'POST destroy' do
     let(:base_params) { { 'id' => user.id.to_s, back_url: my_account_path } }
     context 'WHEN the password confirmation is missing' do
@@ -220,13 +274,15 @@ describe UsersController, type: :controller do
         end
       end
 
-      it do expect(response).to redirect_to(controller: 'my', action: 'account') end
+      it do
+        expect(response).to redirect_to(controller: 'my', action: 'account')
+      end
       it { expect(flash[:error]).to eq(I18n.t(:notice_password_confirmation_failed)) }
     end
 
     context 'WHEN password confirmation is present' do
       let(:base_params) do
-        { 'id' => user.id.to_s, :'_password_confirmation' => user_password, back_url: my_account_path }
+        { 'id' => user.id.to_s, :_password_confirmation => user_password, back_url: my_account_path }
       end
 
       describe "WHEN the current user is the requested one
@@ -240,13 +296,14 @@ describe UsersController, type: :controller do
           end
         end
 
-        it do expect(response).to redirect_to(controller: 'account', action: 'login') end
+        it do
+          expect(response).to redirect_to(controller: 'account', action: 'login')
+        end
         it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
       end
 
       describe "WHEN the current user is the requested one
                 WHEN the setting users_deletable_by_self is set to false" do
-
         before do
           disable_flash_sweep
           allow(Setting).to receive(:users_deletable_by_self?).and_return(false)
@@ -261,7 +318,6 @@ describe UsersController, type: :controller do
 
       describe "WHEN the current user is the anonymous user
                 EVEN when the setting login_required is set to false" do
-
         before do
           allow(@controller).to receive(:find_current_user).and_return(anonymous)
           allow(Setting).to receive(:login_required?).and_return(false)
@@ -278,7 +334,7 @@ describe UsersController, type: :controller do
       describe "WHEN the current user is the admin
                 WHEN the given password does not match
                 WHEN the setting users_deletable_by_admins is set to true" do
-        using_shared_fixtures :admin
+        shared_let(:admin) { FactoryBot.create :admin }
 
         before do
           disable_flash_sweep
@@ -299,23 +355,24 @@ describe UsersController, type: :controller do
       describe "WHEN the current user is the admin
                 WHEN the given password does match
                 WHEN the setting users_deletable_by_admins is set to true" do
-
         before do
           disable_flash_sweep
           allow(Setting).to receive(:users_deletable_by_admins?).and_return(true)
 
           as_logged_in_user admin do
-            post :destroy, params: base_params.merge(:'_password_confirmation' => 'adminADMIN!')
+            post :destroy, params: base_params.merge('_password_confirmation': 'adminADMIN!')
           end
         end
 
-        it do expect(response).to redirect_to(controller: 'users', action: 'index') end
+        it do
+          expect(response).to redirect_to(controller: 'users', action: 'index')
+        end
         it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
       end
 
       describe "WHEN the current user is the admin
                 WHEN the setting users_deletable_by_admins is set to false" do
-        using_shared_fixtures :admin
+        shared_let(:admin) { FactoryBot.create :admin }
 
         before do
           disable_flash_sweep
@@ -333,7 +390,7 @@ describe UsersController, type: :controller do
 
   describe '#change_status_info' do
     let!(:registered_user) do
-      FactoryBot.create(:user, status: User::STATUSES[:registered])
+      FactoryBot.create(:user, status: User.statuses[:registered])
     end
 
     before do
@@ -386,8 +443,8 @@ describe UsersController, type: :controller do
            } do
     describe 'WHEN activating a registered user' do
       let!(:registered_user) do
-        FactoryBot.create(:user, status: User::STATUSES[:registered],
-                                  language: 'de')
+        FactoryBot.create(:user, status: User.statuses[:registered],
+                                 language: 'de')
       end
 
       let(:user_limit_reached) { false }
@@ -399,7 +456,7 @@ describe UsersController, type: :controller do
           post :change_status,
                params: {
                  id: registered_user.id,
-                 user: { status: User::STATUSES[:active] },
+                 user: { status: User.statuses[:active] },
                  activate: '1'
                }
         end
@@ -434,112 +491,160 @@ describe UsersController, type: :controller do
     end
   end
 
-  describe 'index' do
-    describe 'with session lifetime' do
-      # TODO move this section to a proper place because we test a
-      # before_action from the application controller
+  describe 'GET #index' do
+    let(:params) { {} }
 
-      after(:each) do
-        # reset, so following tests are not affected by the change
-        User.current = nil
+    before do
+      as_logged_in_user admin do
+        get :index, params: params
+      end
+    end
+
+    it 'to be success' do
+      expect(response)
+        .to have_http_status(200)
+    end
+
+    it 'renders the index' do
+      expect(response)
+        .to have_rendered('index')
+    end
+
+    it 'assigns users' do
+      expect(assigns(:users))
+        .to match_array([user, admin])
+    end
+
+    context 'with a name filter' do
+      let(:params) { { name: user.firstname } }
+
+      it 'assigns users' do
+        expect(assigns(:users))
+          .to match_array([user])
+      end
+    end
+
+    context 'with a group filter' do
+      let(:group) { FactoryBot.create(:group, members: [user]) }
+
+      let(:params) do
+        { group_id: group.id }
       end
 
-      shared_examples_for 'index action with disabled session lifetime or inactivity not exceeded' do
-        it "doesn't logout the user and renders the index action" do
-          expect(User.current).to eq(admin)
-          expect(response).to render_template 'index'
-        end
+      it 'assigns users' do
+        expect(assigns(:users))
+          .to match_array([user])
+      end
+    end
+  end
+
+  describe 'session lifetime' do
+    # TODO move this section to a proper place because we test a
+    # before_action from the application controller
+
+    after(:each) do
+      # reset, so following tests are not affected by the change
+      User.current = nil
+    end
+
+    shared_examples_for 'index action with disabled session lifetime or inactivity not exceeded' do
+      it "doesn't logout the user and renders the index action" do
+        expect(User.current).to eq(admin)
+        expect(response).to render_template 'index'
+      end
+    end
+
+    shared_examples_for 'index action with enabled session lifetime and inactivity exceeded' do
+      it 'logs out the user and redirects with a warning that he has been locked out' do
+        expect(response.redirect_url).to eq(signin_url + '?back_url=' + CGI::escape(@controller.url_for(controller: 'users',
+                                                                                                        action: 'index')))
+        expect(User.current).not_to eq(admin)
+        expect(flash[:warning]).to eq(I18n.t(:notice_forced_logout, ttl_time: Setting.session_ttl))
+      end
+    end
+
+    context 'disabled' do
+      before do
+        allow(Setting).to receive(:session_ttl_enabled?).and_return(false)
+        @controller.send(:logged_user=, admin)
+        get :index
       end
 
-      shared_examples_for 'index action with enabled session lifetime and inactivity exceeded' do
-        it 'logs out the user and redirects with a warning that he has been locked out' do
-          expect(response.redirect_url).to eq(signin_url + '?back_url=' + CGI::escape(@controller.url_for(controller: 'users', action: 'index')))
-          expect(User.current).not_to eq(admin)
-          expect(flash[:warning]).to eq(I18n.t(:notice_forced_logout, ttl_time: Setting.session_ttl))
-        end
+      it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
+    end
+
+    context 'enabled ' do
+      before do
+        allow(Setting).to receive(:session_ttl_enabled?).and_return(true)
+        allow(Setting).to receive(:session_ttl).and_return('120')
+        @controller.send(:logged_user=, admin)
       end
 
-      context 'disabled' do
+      context 'before 120 min of inactivity' do
         before do
-          allow(Setting).to receive(:session_ttl_enabled?).and_return(false)
-          @controller.send(:logged_user=, admin)
+          session[:updated_at] = Time.now - 1.hours
           get :index
         end
 
         it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
       end
 
-      context 'enabled ' do
+      context 'after 120 min of inactivity' do
         before do
-          allow(Setting).to receive(:session_ttl_enabled?).and_return(true)
-          allow(Setting).to receive(:session_ttl).and_return('120')
-          @controller.send(:logged_user=, admin)
+          session[:updated_at] = Time.now - 3.hours
+          get :index
+        end
+        it_should_behave_like 'index action with enabled session lifetime and inactivity exceeded'
+      end
+
+      context 'without last activity time in the session' do
+        before do
+          allow(Setting).to receive(:session_ttl).and_return('60')
+          session[:updated_at] = nil
+          get :index
+        end
+        it_should_behave_like 'index action with enabled session lifetime and inactivity exceeded'
+      end
+
+      context 'with ttl = 0' do
+        before do
+          allow(Setting).to receive(:session_ttl).and_return('0')
+          session[:updated_at] = Time.now - 1.hours
+          get :index
         end
 
-        context 'before 120 min of inactivity' do
-          before do
-            session[:updated_at] = Time.now - 1.hours
-            get :index
-          end
+        it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
+      end
 
-          it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
+      context 'with ttl < 0' do
+        before do
+          allow(Setting).to receive(:session_ttl).and_return('-60')
+          session[:updated_at] = Time.now - 1.hours
+          get :index
         end
 
-        context 'after 120 min of inactivity' do
-          before do
-            session[:updated_at] = Time.now - 3.hours
-            get :index
-          end
-          it_should_behave_like 'index action with enabled session lifetime and inactivity exceeded'
+        it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
+      end
+
+      context 'with ttl < 5 > 0' do
+        before do
+          allow(Setting).to receive(:session_ttl).and_return('4')
+          session[:updated_at] = Time.now - 1.hours
+          get :index
         end
 
-        context 'without last activity time in the session' do
-          before do
-            allow(Setting).to receive(:session_ttl).and_return('60')
-            session[:updated_at] = nil
-            get :index
-          end
-          it_should_behave_like 'index action with enabled session lifetime and inactivity exceeded'
-        end
-
-        context 'with ttl = 0' do
-          before do
-            allow(Setting).to receive(:session_ttl).and_return('0')
-            session[:updated_at] = Time.now - 1.hours
-            get :index
-          end
-
-          it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
-        end
-
-        context 'with ttl < 0' do
-          before do
-            allow(Setting).to receive(:session_ttl).and_return('-60')
-            session[:updated_at] = Time.now - 1.hours
-            get :index
-          end
-
-          it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
-        end
-
-        context 'with ttl < 5 > 0' do
-          before do
-            allow(Setting).to receive(:session_ttl).and_return('4')
-            session[:updated_at] = Time.now - 1.hours
-            get :index
-          end
-
-          it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
-        end
+        it_should_behave_like 'index action with disabled session lifetime or inactivity not exceeded'
       end
     end
   end
 
-  describe 'update' do
+  describe 'PATCH #update' do
     context 'fields' do
+      current_user { admin }
+
       let(:user) do
         FactoryBot.create(:user, firstname: 'Firstname',
-                                 admin: true,
+                          admin: true,
                                  login: 'testlogin',
                                  mail_notification: 'all',
                                  force_password_change: false)
@@ -562,7 +667,7 @@ describe UsersController, type: :controller do
       end
 
       before do
-        as_logged_in_user(admin) do
+        perform_enqueued_jobs do
           put :update, params: params
         end
       end
@@ -582,8 +687,50 @@ describe UsersController, type: :controller do
         expect(user_from_db.pref[:comments_sorting]).to eql('desc')
       end
 
-      it 'should not send an email' do
+      it 'sends no mail' do
         expect(ActionMailer::Base.deliveries.empty?).to be_truthy
+      end
+
+      context 'when updating the password' do
+        let(:params) do
+          {
+            id: user.id,
+            user: { password: 'newpassPASS!',
+                    password_confirmation: 'newpassPASS!' },
+            send_information: '1'
+          }
+        end
+
+        it 'sends a mail' do
+          mail = ActionMailer::Base.deliveries.last
+
+          expect(mail.to)
+            .to match_array [user.mail]
+
+          expect(mail.body.encoded)
+            .to include('newpassPASS!')
+        end
+      end
+
+      context 'with invalid params' do
+        let(:params) do
+          {
+            id: user.id,
+            user: {
+              firstname: ''
+            }
+          }
+        end
+
+        it 'is success' do
+          expect(response)
+            .to have_http_status(200)
+        end
+
+        it 'renders the edit template' do
+          expect(response)
+            .to have_rendered('edit')
+        end
       end
     end
 
@@ -656,11 +803,14 @@ describe UsersController, type: :controller do
     end
   end
 
-  describe 'show' do
+  describe 'GET #show' do
     describe 'general' do
+      let(:current_user) { user }
+      let(:params) { { id: user.id } }
+
       before do
-        as_logged_in_user user do
-          get :show, params: { id: user.id }
+        as_logged_in_user current_user do
+          get :show, params: params
         end
       end
 
@@ -674,6 +824,53 @@ describe UsersController, type: :controller do
 
       it 'assigns @user' do
         expect(assigns(:user)).to eq(user)
+      end
+
+      context 'when not being logged in' do
+        let(:current_user) { User.anonymous }
+
+        it 'responds with 404' do
+          expect(response)
+            .to have_http_status(404)
+        end
+      end
+
+      context 'when the user is locked for an admin' do
+        let(:current_user) do
+          user.locked!
+          admin
+        end
+
+        it 'responds with 200' do
+          expect(response)
+            .to have_http_status(200)
+        end
+      end
+
+      context 'when the user is locked for an non admin' do
+        let(:current_user) do
+          user.locked!
+          FactoryBot.create(:user)
+        end
+
+        it 'responds with 200' do
+          expect(response)
+            .to have_http_status(404)
+        end
+      end
+
+      context 'for the current user' do
+        let(:params) { { id: 'current' } }
+
+        it 'responds with 200' do
+          expect(response)
+            .to have_http_status(200)
+        end
+
+        it 'assigns the user' do
+          expect(assigns(:user))
+            .to eq(user)
+        end
       end
     end
 
@@ -733,6 +930,64 @@ describe UsersController, type: :controller do
 
       it 'should have more than one event for today' do
         expect(assigns(:events_by_day).first.size).to be > 1
+      end
+    end
+  end
+
+  describe 'POST #create' do
+    current_user { admin }
+
+    let(:params) do
+      {
+        user: {
+          firstname: 'John',
+          lastname: 'Doe',
+          login: 'jdoe',
+          password: 'adminADMIN!',
+          password_confirmation: 'adminADMIN!',
+          mail: 'jdoe@gmail.com',
+          mail_notification: 'none'
+        },
+        pref: {}
+      }
+    end
+
+    before do
+      perform_enqueued_jobs do
+        post :create, params: params
+      end
+    end
+
+    it 'is successful' do
+      expect(response)
+        .to redirect_to edit_user_path(User.newest.first)
+    end
+
+    it 'creates the user with the provided params' do
+      expect(User.newest.first.attributes.with_indifferent_access.slice(:firstname, :lastname, :login, :mail))
+        .to eql params[:user].with_indifferent_access.slice(:firstname, :lastname, :login, :mail)
+    end
+
+    it 'sends an activation mail' do
+      mail = ActionMailer::Base.deliveries.last
+
+      expect(mail.to)
+        .to match_array [params[:user][:mail]]
+
+      activation_link = Regexp.new(
+        "http://#{Setting.host_name}/account/activate\\?token=[a-f0-9]+",
+        Regexp::MULTILINE
+      )
+
+      assert(mail.body.encoded =~ activation_link)
+    end
+
+    context 'with invalid parameters' do
+      let(:params) { { user: { login: 'jdoe' } } }
+
+      it 'renders new' do
+        expect(response)
+          .to render_template 'new'
       end
     end
   end

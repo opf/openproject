@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -72,7 +73,7 @@ module Redmine
         raise "Message was not successfully handled." unless MailHandler.receive(msg, options)
 
         message_received(message_id, imap, imap_options)
-      rescue => e
+      rescue StandardError => e
         Rails.logger.error { "Message #{message_id} resulted in error #{e} #{e.message}" }
         message_error(message_id, imap, imap_options)
       end
@@ -84,7 +85,7 @@ module Redmine
           imap.copy(message_id, imap_options[:move_on_success])
         end
 
-        imap.store(message_id, '+FLAGS', [:Seen, :Deleted])
+        imap.store(message_id, '+FLAGS', %i[Seen Deleted])
       end
 
       def message_error(message_id, imap, imap_options)

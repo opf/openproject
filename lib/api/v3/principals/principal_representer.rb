@@ -43,7 +43,6 @@ module API
 
         link :memberships,
              cache_if: -> { current_user_allowed_to_see_members? } do
-
           filters = [
             {
               principal: {
@@ -72,16 +71,20 @@ module API
                            cache_if: -> { current_user_is_admin_or_self }
 
         def current_user_is_admin_or_self
-          current_user_is_admin || represented.id == current_user.id
+          current_user_is_admin? || current_user_is_self?
         end
 
-        def current_user_is_admin
+        def current_user_is_admin?
           current_user.admin?
         end
 
+        def current_user_is_self?
+          represented.id == current_user.id
+        end
+
         def current_user_allowed_to_see_members?
-          current_user.allowed_to?(:view_members, nil, global: true) ||
-            current_user.allowed_to?(:manage_members, nil, global: true)
+          current_user.allowed_to_globally?(:view_members) ||
+            current_user.allowed_to_globally?(:manage_members)
         end
       end
     end

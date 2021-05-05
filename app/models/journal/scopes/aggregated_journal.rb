@@ -31,16 +31,17 @@
 # Scope to fetch all fields necessary to populated AggregatedJournal collections.
 # See the AggregatedJournal model class for a description.
 module Journal::Scopes
-  class AggregatedJournal
-    class << self
-      def fetch(journable: nil, sql: nil, until_version: nil)
+  module AggregatedJournal
+    extend ActiveSupport::Concern
+
+    class_methods do
+      def aggregated_journal(journable: nil, sql: nil, until_version: nil)
         journals_preselection = raw_journals_subselect(journable, sql, until_version)
 
         # We wrap the sql with a subselect so that outside of this class,
         # The fields native to journals (e.g. id, version) can be referenced, without
         # having to also use a CASE/COALESCE statement.
-        Journal
-          .from(select_sql(journals_preselection))
+        from(select_sql(journals_preselection))
           .select("DISTINCT *")
       end
 

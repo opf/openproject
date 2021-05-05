@@ -53,7 +53,7 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
   end
 
   def project_items
-    [project_index_item, project_new_item]
+    [project_index_item]
   end
 
   def project_index_item
@@ -65,21 +65,6 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
       html: {
         accesskey: OpenProject::AccessKeys.key_for(:project_search)
       }
-    )
-  end
-
-  def project_new_item
-    Redmine::MenuManager::MenuItem.new(
-      :new_project,
-      main_app.new_project_path,
-      caption: Project.model_name.human,
-      icon: "icon-add icon4",
-      html: {
-        accesskey: OpenProject::AccessKeys.key_for(:new_project),
-        aria: {label: t(:label_project_new)},
-        title: t(:label_project_new)
-      },
-      if: Proc.new { User.current.allowed_to?(:add_project, nil, global: true) }
     )
   end
 

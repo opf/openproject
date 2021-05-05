@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 
-import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
+import { SchemaResource } from 'core-app/modules/hal/resources/schema-resource';
 import {
   ErrorResource,
   v3ErrorIdentifierMultipleErrors
@@ -38,8 +38,12 @@ export interface FormResourceLinks<T = HalResource> {
   commit(payload:any):Promise<T>;
 }
 
-export class FormResource<T = HalResource> extends HalResource {
+export interface FormResourceEmbedded {
+  schema:SchemaResource;
+  validationErrors:{ [attribute:string]:ErrorResource };
+}
 
+export class FormResource<T = HalResource> extends HalResource {
   public schema:SchemaResource;
   public validationErrors:{ [attribute:string]:ErrorResource };
 
@@ -64,4 +68,4 @@ export class FormResource<T = HalResource> extends HalResource {
   }
 }
 
-export interface FormResource extends FormResourceLinks {}
+export interface FormResource extends FormResourceEmbedded, FormResourceLinks {}

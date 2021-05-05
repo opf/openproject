@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Moment} from 'moment';
-import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
-import {TimezoneService} from 'core-components/datetime/timezone.service';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { Moment } from 'moment';
+import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import { TimezoneService } from 'core-components/datetime/timezone.service';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { OnInit, Directive } from '@angular/core';
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Directive()
 export abstract class AbstractDateTimeValueController extends UntilDestroyedMixin implements OnInit {
@@ -67,7 +67,7 @@ export abstract class AbstractDateTimeValueController extends UntilDestroyedMixi
   }
 
   public get isTimeZoneDifferent() {
-    let value = this.lowerBoundary || this.upperBoundary;
+    const value = this.lowerBoundary || this.upperBoundary;
 
     if (!value) {
       return false;

@@ -43,7 +43,7 @@ describe 'Logout', type: :feature, js: true do
   it 'prevents the user from making any more changes' do
     visit my_page_path
 
-    within '.top-menu-items-right' do
+    within '.op-app-header' do
       page.find("a[title='#{user.name}']").click
 
       click_link I18n.t(:label_logout)

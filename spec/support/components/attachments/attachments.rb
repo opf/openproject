@@ -28,7 +28,7 @@ module Components
     end
 
     def js_drop_files
-      @js_file ||= File.read(File.expand_path('../attachments_input.js', __FILE__))
+      @js_file ||= File.read(File.expand_path('attachments_input.js', __dir__))
     end
   end
 end

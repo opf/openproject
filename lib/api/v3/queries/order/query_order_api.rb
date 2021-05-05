@@ -32,9 +32,7 @@ module API
       module Order
         class QueryOrderAPI < ::API::OpenProjectAPI
           resource :order do
-
             helpers do
-
               ##
               # Remove the order for the given work package
               def remove_order(wp_id)

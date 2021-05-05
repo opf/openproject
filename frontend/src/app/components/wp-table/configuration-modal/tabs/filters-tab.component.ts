@@ -1,10 +1,10 @@
-import {Component, Injector} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
-import {WorkPackageFiltersService} from 'core-components/filters/wp-filters/wp-filters.service';
-import {WorkPackageViewFiltersService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service';
-import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
-import {BannersService} from "core-app/modules/common/enterprise/banners.service";
+import { Component, Injector } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { TabComponent } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
+import { WorkPackageFiltersService } from 'core-components/filters/wp-filters/wp-filters.service';
+import { WorkPackageViewFiltersService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import { QueryFilterInstanceResource } from "core-app/modules/hal/resources/query-filter-instance-resource";
+import { BannersService } from "core-app/modules/common/enterprise/banners.service";
 
 @Component({
   templateUrl: './filters-tab.component.html',
@@ -13,7 +13,7 @@ import {BannersService} from "core-app/modules/common/enterprise/banners.service
 export class WpTableConfigurationFiltersTab implements TabComponent {
 
   public filters:QueryFilterInstanceResource[] = [];
-  public eeShowBanners:boolean = false;
+  public eeShowBanners = false;
 
   public text = {
     columnsLabel: this.I18n.t('js.label_columns'),

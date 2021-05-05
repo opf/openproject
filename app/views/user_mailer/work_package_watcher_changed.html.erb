@@ -30,7 +30,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <hr />
 <%= render partial: 'issue_details', locals: { issue: @issue } %>
 <p>
-  <%= format_text(t(:text_latest_note, note: last_issue_note(@issue)),
+  <%= format_text(t(:text_latest_note, note: last_work_package_note(@issue)),
                     only_path: false,
                     object: @issue,
                     project: @issue.project) %>

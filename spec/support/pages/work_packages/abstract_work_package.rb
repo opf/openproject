@@ -147,13 +147,13 @@ module Pages
     def expect_zen_mode
       expect(page).to have_selector('.zen-mode')
       expect(page).to have_selector('#main-menu', visible: false)
-      expect(page).to have_selector('#top-menu', visible: false)
+      expect(page).to have_selector('.op-app-header', visible: false)
     end
 
     def expect_no_zen_mode
       expect(page).not_to have_selector('.zen-mode')
       expect(page).to have_selector('#main-menu', visible: true)
-      expect(page).to have_selector('#top-menu', visible: true)
+      expect(page).to have_selector('.op-app-header', visible: true)
     end
 
     def expect_custom_action(name)

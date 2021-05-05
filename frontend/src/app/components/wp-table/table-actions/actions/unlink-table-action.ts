@@ -3,9 +3,9 @@ import {
   OpTableAction,
   OpTableActionFactory,
 } from 'core-components/wp-table/table-actions/table-action';
-import {opIconElement} from 'core-app/helpers/op-icon-builder';
-import {Injector} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import { opIconElement } from 'core-app/helpers/op-icon-builder';
+import { Injector } from '@angular/core';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 
 export class OpUnlinkTableAction extends OpTableAction {
 
@@ -27,9 +27,9 @@ export class OpUnlinkTableAction extends OpTableAction {
    * @param {string} title
    */
   public static factoryFor(identifier:string,
-                           title:string,
-                           onClick:(workPackage:WorkPackageResource) => void,
-                           applicable:(workPackage:WorkPackageResource) => boolean = () => true):OpTableActionFactory {
+    title:string,
+    onClick:(workPackage:WorkPackageResource) => void,
+    applicable:(workPackage:WorkPackageResource) => boolean = () => true):OpTableActionFactory {
     return (injector:Injector, workPackage:WorkPackageResource) => {
       return new OpUnlinkTableAction(injector,
         workPackage,
@@ -45,7 +45,7 @@ export class OpUnlinkTableAction extends OpTableAction {
       return null;
     }
 
-    let element = document.createElement('a');
+    const element = document.createElement('a');
     element.title = this.title;
     element.href = '#';
     element.classList.add(contextColumnIcon, 'wp-table-action--unlink');

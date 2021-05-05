@@ -33,6 +33,19 @@ uk:
         single: "Виберіть %{name}"
       remove: "Видалити %{name}"
       active: "Активувати %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Опції
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Закрити вспливаюче вікно"
     close_filter_title: "Закрити фільтр"
     close_form_title: "Закрити форму"
@@ -207,7 +220,7 @@ uk:
         upsale:
           become_hero: "Стань героєм!"
           benefits:
-            description: "Які переваги?"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Security features"
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
             installation: "Installation support"
@@ -271,13 +284,13 @@ uk:
           text_new_features: "Читайте про нові функції та оновлення продуктів."
           learn_about: "Learn more about the new features"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
     label_activate: "Активувати"
     label_add_column_after: "Додати стовпець після"
     label_add_column_before: "Додати стовпець перед"
@@ -466,6 +479,7 @@ uk:
         help_menu: 'У меню <b>Довідка</b> ви знайдете посібник користувача та додаткові довідкові ресурси. <br> Насолоджуйтесь роботою з OpenProject!'
         members: 'Запросити нових <b>Членів</b> приєднатися до вашого проекту.'
         project_selection: 'Натисніть один з проектів з корисними демонстраційними даними, щоб розпочати роботу. <br> <b> Демо-проект </b> найкраще підходить для класичного управління проектами, в той час як <b> Scrum-проект </b> є кращим для Agile управління проектами.'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "За допомогою стрілки ви можете перейти назад до проекту <b> Головне меню </b>."
         welcome: 'Здійсніть трихвилинний ознайомчий огляд для вивчення <b>найважливішого функціоналу</b>. <br> Ми рекомендуємо пройти всі кроки до завершення огляду. Ви можете повернутися до цього огляду повторно в будь-який час.'
         wiki: 'У межах <b>Wiki</b> ви можете документувати та обмінюватися знаннями разом з вашою командою.'
@@ -507,6 +521,9 @@ uk:
       work_package_belongs_to: 'Цей робочий пакет належить до проекту %{projectname}'
       click_to_switch_context: 'Відкрийте цей робочий пакет у цьому проекті.'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      use_template: "Use template"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Автозавершення проекту'
     text_are_you_sure: "Ви впевненені?"
@@ -517,7 +534,7 @@ uk:
         reset_title: "Скидання конфігурації форми"
         confirm_reset: >
           Попередження: Справді скинути конфігурацію форми? Це призведе до скидання атрибутів до групи за замовчуванням і вимкнення всіх користувацьких полів.
-        upgrade_to_ee: "Оновлення до Enterprise Edition"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
         upgrade_to_ee_text: "Оце Так! Якщо вам потрібна ця функція, ви супер-про! Чи не могли б ви підтримати розробників OpenSource, ставши клієнтом Enterprise Edition?"
         more_information: "Більше інформації"
         nevermind: "Nevermind"
@@ -845,7 +862,7 @@ uk:
           automatic: 'Автоматично'
           manually: 'Вручну'
           warning: 'Ви втратите попереднє сортування при активації автоматичного сортування.'
-        columns_help_text: "Use the input above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Потрібні певні робочі пакети, щоб виділитися зі скупчення?'
           relation_columns: 'Потрібно бачити відносини у списку робочих пакетів?'
@@ -944,11 +961,9 @@ uk:
         many: "%{count} робочий пакет дітей"
         other: "%{count} робочий пакет дітей"
       hour:
+        one: "1 h"
+        other: "%{count} h"
         zero: "0 h"
-        one: ""
-        few: ""
-        many: ""
-        other: ""
     zen_mode:
       button_activate: 'Активуйте режим дзен'
       button_deactivate: 'Деактивуйте режим дзен'
@@ -966,3 +981,75 @@ uk:
       card: 'Картки'
       list: 'Таблиця'
       timeline: 'Гантт'
+    invite_user_modal:
+      back: 'Назад'
+      invite: 'Invite'
+      title:
+        invite: 'Запросити користувача'
+        invite_to_project: 'Invite %{type} to %{project}'
+        User: 'user'
+        Group: 'group'
+        PlaceholderUser: 'placeholder user'
+        invite_principal_to_project: 'Invite %{principal} to %{project}'
+      project:
+        label: 'Проект'
+        required: 'Please select a project'
+        next_button: 'Далі'
+        no_results: 'No projects were found'
+        no_invite_rights: 'You are not allowed to invite members to this project'
+      type:
+        required: 'Please select the type to be invited'
+        user:
+          title: 'Користувач'
+          description: 'Permissions based on the assigned role in the selected project'
+        group:
+          title: 'Група'
+          description: 'Permissions based on the assigned role in the selected project'
+        placeholder:
+          title: 'Placeholder user'
+          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
+          description: 'Has no access to the project and no emails are sent out.'
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+      principal:
+        label:
+          name_or_email: 'Name or email address'
+          name: 'Ім’я'
+        already_member_message: 'Already a member of %{project}'
+        no_results_user: 'No users were found'
+        invite_user: 'Invite:'
+        change_user_selection: 'Change e-mail-address or select an existing user'
+        no_results_placeholder: 'No placeholders were found'
+        change_placeholder_selection: 'Change name or select an existing placeholder'
+        create_new_placeholder: 'Create new placeholder:'
+        no_results_group: 'No groups were found'
+        change_group_selection: 'Change name or select an existing group'
+        next_button: 'Далі'
+        required:
+          user: 'Please select a user'
+          placeholder: 'Please select a placeholder'
+          group: 'Please select a group'
+      role:
+        label: 'Role in %{project}'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
+        required: 'Please select a role'
+        next_button: 'Далі'
+      message:
+        label: 'Invitation message'
+        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
+        next_button: 'Review invitation'
+      summary:
+        next_button: 'Надіслати запрошення'
+      success:
+        title: '%{principal} was invited!'
+        description:
+          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+        next_button: 'Продовжити'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: 'Розширені налаштування'
+
+

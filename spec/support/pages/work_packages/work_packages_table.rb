@@ -61,7 +61,7 @@ module Pages
       within(table_container) do
         attr_value_hash.each do |column, value|
           expect(page).to have_selector(
-            ".wp-row-#{work_package.id} td.#{column.to_s}", text: value.to_s, wait: 20
+            ".wp-row-#{work_package.id} td.#{column}", text: value.to_s, wait: 20
           )
         end
       end
@@ -294,6 +294,7 @@ module Pages
         filter_container = label_field.find(:xpath, '..')
 
         raise 'Missing ID on Filter (Angular not ready?)' if filter_container['id'].nil?
+
         filter_container['id'].gsub('filter_', '')
       end
     end

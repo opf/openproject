@@ -75,7 +75,6 @@ module Queries::Filters::Shared::GroupFilter
     def any_group_subselect
       User.within_group([]).select(:id).to_sql
     end
-
   end
 
   module ClassMethods

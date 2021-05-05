@@ -31,6 +31,7 @@
 class CustomActions::Actions::Serializer
   def self.load(value)
     return [] unless value
+
     YAML
       .safe_load(value, [Symbol])
       .map do |key, values|

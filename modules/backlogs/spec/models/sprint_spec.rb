@@ -37,7 +37,7 @@ describe Sprint, type: :model do
       describe 'WITH display set to left' do
         before(:each) do
           sprint.version_settings = [FactoryBot.build(:version_setting, project: project,
-                                                                         display: VersionSetting::DISPLAY_LEFT)]
+                                                                        display: VersionSetting::DISPLAY_LEFT)]
           sprint.project = project
           sprint.save!
         end
@@ -50,10 +50,10 @@ describe Sprint, type: :model do
       describe 'WITH a version setting defined for another project' do
         before(:each) do
           another_project = FactoryBot.build(:project, name: 'another project',
-                                                        identifier: 'another project')
+                                                       identifier: 'another project')
 
           sprint.version_settings = [FactoryBot.build(:version_setting, project: another_project,
-                                                                         display: VersionSetting::DISPLAY_RIGHT)]
+                                                                        display: VersionSetting::DISPLAY_RIGHT)]
           sprint.project = project
           sprint.save
         end
@@ -196,8 +196,10 @@ describe Sprint, type: :model do
     describe '#order_by_date' do
       before(:each) do
         @sprint1 = FactoryBot.create(:sprint, name: 'sprint1', project: project, start_date: Date.today + 2.days)
-        @sprint2 = FactoryBot.create(:sprint, name: 'sprint2', project: project, start_date: Date.today + 1.day, effective_date: Date.today + 3.days)
-        @sprint3 = FactoryBot.create(:sprint, name: 'sprint3', project: project, start_date: Date.today + 1.day, effective_date: Date.today + 2.days)
+        @sprint2 = FactoryBot.create(:sprint, name: 'sprint2', project: project, start_date: Date.today + 1.day,
+                                              effective_date: Date.today + 3.days)
+        @sprint3 = FactoryBot.create(:sprint, name: 'sprint3', project: project, start_date: Date.today + 1.day,
+                                              effective_date: Date.today + 2.days)
       end
 
       it 'sorts the dates correctly', :aggregate_failures do
@@ -205,7 +207,6 @@ describe Sprint, type: :model do
         expect(Sprint.order_by_date[1]).to eql @sprint2
         expect(Sprint.order_by_date[2]).to eql @sprint1
       end
-
     end
 
     describe '#apply_to' do

@@ -99,6 +99,7 @@ tr:
   backlogs_empty_title: "Beklentilerde kullanılacak hiçbir sürüm tanımlanmadı"
   backlogs_empty_action_text: "Geri sayımlara başlamak için yeni bir sürüm oluşturun ve bir bekleme listesi sütununa atayın."
   button_edit_wiki: "Wiki sayfalarını düzenlemek"
+  error_backlogs_task_cannot_be_story: "Ayarlar geçersiz. Seçilen görev türü aynı zamanda bir hikaye türü olamaz."
   error_intro_plural: "Aşağıdaki hatalar algılandı:"
   error_intro_singular: "Aşağıdaki hatalar algılandı:"
   error_outro: "Lütfen yukarıdaki hataları tekrar göndermeden önce düzeltin."

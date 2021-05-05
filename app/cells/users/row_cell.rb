@@ -8,14 +8,14 @@ module Users
     end
 
     def row_css_class
-      status = %w(anon active registered locked)[user.status]
+      status = user.status
       blocked = "blocked" if user.failed_too_many_recent_login_attempts?
 
       ["user", status, blocked].compact.join(" ")
     end
 
     def login
-      icon = avatar user, class: 'avatar-mini'
+      icon = avatar user, size: :mini
       link = link_to h(user.login), edit_user_path(user)
 
       icon + link

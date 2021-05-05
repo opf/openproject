@@ -59,7 +59,7 @@ module UserInvitation
                     login: login,
                     firstname: first_name,
                     lastname: last_name,
-                    status: Principal::STATUSES[:invited]
+                    status: Principal.statuses[:invited]
 
     assign_user_attributes(user)
 

@@ -36,16 +36,12 @@
 module API
   module V3
     module Queries
-      class QueryParamsRepresenter
-        def initialize(query)
-          self.query = query
-        end
-
+      class QueryParamsRepresenter < API::Decorators::QueryParamsRepresenter
         ##
         # To json hash outputs the hash to be parsed to the frontend http
         # which contains a reference to the columns array as columns[].
         # This will match the Rails +to_query+ output
-        def to_json
+        def to_json(*_args)
           to_h(column_key: 'columns[]'.to_sym).to_json
         end
 
@@ -59,17 +55,12 @@ module API
         end
 
         def to_h(column_key: :columns)
-          p = default_hash
+          p = super
 
           p[:showHierarchies] = query.show_hierarchies
           p[:showSums] = query.display_sums?
           p[:groupBy] = query.group_by if query.group_by?
-          p[:sortBy] = sort_criteria_to_v3 if query.sorted?
           p[column_key] = columns_to_v3 unless query.has_default_columns?
-
-          # an empty filter param is also relevant as this would mean to not apply
-          # the default filter (status - open)
-          p[:filters] = filters_to_v3
 
           p
         end
@@ -84,30 +75,14 @@ module API
 
         private
 
-        def columns_to_v3
-          query.column_names.map { |name| convert_to_v3(name) }
-        end
-
-        def sort_criteria_to_v3
+        def orders_to_v3
           converted = query.sort_criteria.map { |first, last| [convert_to_v3(first), last] }
 
           JSON::dump(converted)
         end
 
-        def filters_to_v3
-          converted = query.filters.map do |filter|
-            { convert_to_v3(filter.name) => { operator: filter.operator, values: filter.values } }
-          end
-
-          JSON::dump(converted)
-        end
-
-        def convert_to_v3(attribute)
-          ::API::Utilities::PropertyNameConverter.from_ar_name(attribute).to_sym
-        end
-
-        def default_hash
-          { offset: 1, pageSize: Setting.per_page_options_array.first }
+        def columns_to_v3
+          query.column_names.map { |name| convert_to_v3(name) }
         end
 
         attr_accessor :query

@@ -101,8 +101,8 @@ describe 'custom field inplace editor', js: true do
                     message: I18n.t('js.notice_successful_update'),
                     field: field2
 
-      wp_page.expect_attributes :"customField#{custom_field1.id}" => 'bar',
-                                :"customField#{custom_field2.id}" => 'Y'
+      wp_page.expect_attributes "customField#{custom_field1.id}": 'bar',
+                                "customField#{custom_field2.id}": 'Y'
 
       field1.activate!
       expect(field1.input_element).to have_text 'bar'
@@ -116,8 +116,8 @@ describe 'custom field inplace editor', js: true do
                     message: I18n.t('js.notice_successful_update'),
                     field: field2
 
-      wp_page.expect_attributes :"customField#{custom_field1.id}" => 'bar',
-                                :"customField#{custom_field2.id}" => 'X'
+      wp_page.expect_attributes "customField#{custom_field1.id}": 'bar',
+                                "customField#{custom_field2.id}": 'X'
     end
   end
 
@@ -223,6 +223,32 @@ describe 'custom field inplace editor', js: true do
         work_package.reload
         expect(work_package.custom_value_for(custom_field.id).typed_value).to eq 10000.55
       end
+    end
+  end
+
+  describe 'date type' do
+    let(:custom_field) do
+      FactoryBot.create(:date_wp_custom_field, args.merge(name: 'MyDate'))
+    end
+    let(:args) { {} }
+    let(:initial_custom_values) { {} }
+
+    it 'can set and clear the date (Regression #36727)' do
+      field.expect_state_text '-'
+      field.update '2021-03-30'
+      field.expect_state_text '03/30/2021'
+
+      work_package.reload
+      expect(work_package.custom_value_for(custom_field.id).formatted_value).to eq '03/30/2021'
+
+      field.activate!
+      field.clear
+      field.submit_by_enter
+
+      field.expect_state_text '-'
+
+      work_package.reload
+      expect(work_package.custom_value_for(custom_field.id).value).to be_nil
     end
   end
 end

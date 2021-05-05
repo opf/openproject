@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,7 +29,7 @@
 #++
 
 module OpenProject::AuthPlugins
-  class Hooks < Redmine::Hook::ViewListener
+  class Hooks < OpenProject::Hook::ViewListener
     render_on :view_account_login_auth_provider, partial: 'hooks/login/providers'
     render_on :view_layouts_base_html_head, partial: 'hooks/login/providers_css'
   end

@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: Edit Work packages
+  title: Edit work packages
   priority: 900
 description: How to edit work packages in OpenProject?
 robots: index, follow
@@ -39,6 +39,15 @@ All changes of a work package are documented in the work package [Activity](#act
 </div>
 
 
+### How to assign a team member to a work package?
+
+When you assign a team member to a work package, you can distinguish between **assignee** and **accountable**. Accountable per definition would be the one accountable for the delivery of the work package. The assignee is the person currently assigned and working on the work package.
+Choose the respective team member from the drop down for assignee or accountable. If you are looking to add a team member that is not coming up in the drop down, this team member might not yet be a member of the project and needs to be [invited](../../members/#add-members).
+
+![Assignee_accountable](Assignee_accountable-3987223.png)
+
+
+
 ### How to update the status of a work package?
 
 To update the status of a work package, click on the current status in the work package details and select the new status in the drop-down list.
@@ -55,9 +64,9 @@ To add a comment to a work package, open the [details view](#work-package-full-s
 
 ![comment-work-packages1](comment-work-packages1.png)
 
-### @ notification
+### @ notification (mention)
 
-You can add a comment or notify team members via [@notification](#notification). They will receive an email about the updates (according to their [email preferences](#email-notification) in the **My account** settings).
+You can mention and notify team members via [@notification](#notification). They will receive an email about the updates (according to their [email preferences](#email-notification) in the **My account** settings).
 
 **Full-screen view**:
 
@@ -68,17 +77,19 @@ You can add a comment or notify team members via [@notification](#notification).
 ### How to add watchers to a work package?
 
 <div class="glossary">
-**Watchers** can be added to a work package in order to notify members about changes . They will receive emails according to their notification settings if changes are made to the respective work package.
-
+**Watchers** can be added to a work package in order to notify members about changes. They will receive emails according to their notification settings if changes are made to the respective work package.
 </div>
 
 To add watchers, open the work package [details view](#work-package-full-screen-view), select the tab watchers on the right hand side and choose the members you want to add with the drop-down menu or by starting to type their name.
+
+It is also possible to add oneself as watcher (if you have sufficient permissions).
 
 ![watchers](watchers.png)
 
 ### How to remove watchers from a work package?
 
-To remove watchers, navigate to the work package [details view](#work-package-full-screen-view) and select the tab Watchers. Click the cross icon next to a watcher to remove the watcher from a a work package. The user will no longer get email notifications about changes to this work package according to the email notification settings.
+To remove watchers, navigate to the work package [details view](#work-package-full-screen-view) and select the tab Watchers. Click the cross icon next to a watcher to remove the watcher from a a work package. 
+The user will no longer get email notifications about changes to this work package according to their email notification settings. However, if he/she is the author, assignee or accountable of the work package there still might be email notifications. Read [here](../../../getting-started/my-account/#email-notifications) for more information.
 
 ![remove-watchers](remove-watchers.png)
 
@@ -112,4 +123,3 @@ Then you have the possibility to:
 At the bottom of the page you can decide whether email updates regarding these changes should be sent or not. It makes sense not to tick the box for large updates to prevent users from getting flooded by emails.
 
 ![bulk-edit_email-updates](image-20201119163714831.png)
-

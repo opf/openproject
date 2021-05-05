@@ -1,17 +1,17 @@
 ---
 sidebar_navigation:
-  title: Product Development
-  priority: 100
+  title: Product development
+  priority: 999
 description: Learn about OpenProject's product development process and the RICE score
 robots: index, follow
 keywords: product development, requirement process, RICE score
 ---
 
-<h1>OpenProject Product Development Handbook</h1>
+# OpenProject product development handbook
 
 
 
-## 1. Overview & Objectives
+## 1. Overview & objectives
 
 OpenProject aims to connect distributed teams and organizations and make project management intuitive and fun. The open source software supports classical project management and team collaboration as well as agile project management methodologies. OpenProject is continuously developed and maintained by an active international community to provide a powerful feature set and yet intuitive user interface. The overall purpose is to create customer benefit. To achieve this, OpenProject follows a requirements and product development process that empathizes identifying and building the functionality which most aligns with OpenProject’s product vision and delivers customer value.
 

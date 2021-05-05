@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -91,7 +92,7 @@ class CopyProjectJob < ApplicationJob
   private
 
   def successful_status_update
-    payload = redirect_payload(url_helpers.project_path(target_project))
+    payload = redirect_payload(url_helpers.project_url(target_project))
 
     if errors.any?
       payload[:errors] = errors

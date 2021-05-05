@@ -43,14 +43,13 @@ In the detailed view you can enter the details for your project budget, add plan
 
 ### Add planned unit costs
 
-You can add planned unit costs to a budget in your project. These [unit costs first need to be configured in the system's administration](../../system-admin-guide).
+You can add planned unit costs to a budget in your project. These [unit costs first need to be configured in the system's administration](../../system-admin-guide/time-and-costs/#create-and-manage-cost-types).
 
 5. Enter the number of **units** of the cost type to add to your project budgets.
 
-6. Choose the **cost type** you would like to plan for your budget from the drop-down list. The [cost types first need to be configured in the system administration](../../system-admin-guide).
-
-   The **unit name** will be set automatically according to the configuration of the cost types in your system administration. 
-
+6. Choose the **cost type** you would like to plan for your budget from the drop-down list. 
+The **unit name** will be set automatically according to the configuration of the cost types in your system administration. 
+   
 7. Add a **comment** to specify the unit costs.
 
 8. The **planned costs** for this cost type will be calculated automatically based on the configuration of the cost per unit for this cost type. The cost rate will be taken from the fixed date you have configured for your budget.
@@ -69,7 +68,7 @@ You can also add planned labor costs to a budget.
 11. Set the **hours** that will be planned for a user on this budget.
 12. Add a **user** from the drop-down list.
 13. You can include a **comment** for your planned labor costs if needed.
-14. The total amount of planned costs will be calculated based on the entered hours and the [hourly rate configured](../time-and-costs/cost-tracking/#define-hourly-rate-for-labor-costs) for this user in the user profile.
+14. The total amount of planned costs will be calculated based on the entered hours and the [hourly rate configured](../time-and-costs/time-tracking/#define-hourly-rate-for-labor-costs) for this user in the user profile.
     You can manually overwrite the calculated planned labor costs by clicking the edit icon (pen) next to the calculated amount.
     The costs will be calculated based on the hourly rate taken from the fixed date for your budget.
 15. With the **delete** icon you can remove the planned labor costs from the budget.

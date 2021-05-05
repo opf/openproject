@@ -77,7 +77,7 @@ class WikiController < ApplicationController
 
   # List of pages, sorted alphabetically and by parent (hierarchy)
   def index
-    slug = wiki_page_title.nil? ? 'wiki' : wiki_page_title.to_url
+    slug = wiki_page_title.nil? ? 'wiki' : WikiPage.slug(wiki_page_title)
     @related_page = WikiPage.find_by(wiki_id: @wiki.id, slug: slug)
 
     load_pages_for_index
@@ -192,6 +192,7 @@ class WikiController < ApplicationController
   # rename a page
   def rename
     return render_403 unless editable?
+
     @page.redirect_existing_links = true
     # used to display the *original* title if some AR validation errors occur
     @original_title = @page.title
@@ -205,7 +206,8 @@ class WikiController < ApplicationController
           old_name: @page.title,
           new_name: attributes["title"],
           existing_caption: item.caption,
-          existing_identifier: item.name)
+          existing_identifier: item.name
+        )
 
         redirect_to_show
       elsif @page.update(attributes)
@@ -218,7 +220,7 @@ class WikiController < ApplicationController
   def conflicting_menu_item(title)
     page.menu_item &&
       page.menu_item.parent_id.nil? &&
-      project_menu_items.find { |item| item.name.to_s == title.to_url }
+      project_menu_items.find { |item| item.name.to_s == WikiPage.slug(title) }
   end
 
   def project_menu_items
@@ -305,6 +307,7 @@ class WikiController < ApplicationController
         # Reassign children to another parent page
         reassign_to = @wiki.pages.find_by(id: params[:reassign_to_id].presence)
         return unless reassign_to
+
         @page.children.each do |child|
           child.update_attribute(:parent, reassign_to)
         end

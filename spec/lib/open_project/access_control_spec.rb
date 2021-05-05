@@ -29,11 +29,10 @@
 require 'spec_helper'
 
 describe OpenProject::AccessControl do
-
   def stash_access_control_permissions
     @stashed_permissions = OpenProject::AccessControl.permissions.dup
     OpenProject::AccessControl.clear_caches
-    OpenProject::AccessControl.permissions.clear
+    OpenProject::AccessControl.instance_variable_get(:@permissions).clear
   end
 
   def restore_access_control_permissions
@@ -43,7 +42,7 @@ describe OpenProject::AccessControl do
 
   def setup_global_permissions
     OpenProject::AccessControl.map do |map|
-      map.permission :proj0, { dont: :care }, require: :member
+      map.permission :proj0, { dont: :care }, require: :member, contract_actions: { foo: :create }
       map.permission :global0, { dont: :care }, global: true
       map.permission :proj1, { dont: :care }
 
@@ -52,12 +51,12 @@ describe OpenProject::AccessControl do
       end
 
       map.project_module :project_module do |mod|
-        mod.permission :proj2, { dont: :care }
+        mod.permission :proj2, { dont: :care }, contract_actions: { bar: %i[create read] }
       end
 
       map.project_module :mixed_module do |mod|
         mod.permission :proj3, { dont: :care }
-        mod.permission :global2, { dont: :care }, global: true
+        mod.permission :global2, { dont: :care }, global: true, contract_actions: { baz: %i[destroy] }
       end
     end
   end
@@ -80,6 +79,7 @@ describe OpenProject::AccessControl do
 
     after do
       raise 'Test outdated' unless OpenProject::AccessControl.instance_variable_defined?(:@permissions)
+
       OpenProject::AccessControl.instance_variable_set(:@permissions, all_former_permissions)
       OpenProject::AccessControl.clear_caches
     end
@@ -107,8 +107,8 @@ describe OpenProject::AccessControl do
 
   describe '#permissions' do
     it 'is an array of permissions' do
-      expect(described_class.permissions.all? { |p| p.is_a?(OpenProject::AccessControl::Permission) })
-        .to be_truthy
+      expect(described_class.permissions)
+        .to(be_all{ |p| p.is_a?(OpenProject::AccessControl::Permission) })
     end
   end
 
@@ -151,7 +151,7 @@ describe OpenProject::AccessControl do
       end
 
       it 'includes actions' do
-        expect(subject.actions)
+        expect(subject.controller_actions)
           .to include('project_settings/show')
       end
     end
@@ -205,8 +205,26 @@ describe OpenProject::AccessControl do
       restore_access_control_permissions
     end
 
-    it { expect(OpenProject::AccessControl.available_project_modules.include?(:global_module)).to be_falsey }
-    it { expect(OpenProject::AccessControl.available_project_modules.include?(:global_module)).to be_falsey }
-    it { expect(OpenProject::AccessControl.available_project_modules.include?(:mixed_module)).to be_truthy }
+    it { expect(OpenProject::AccessControl.available_project_modules).not_to include(:global_module) }
+    it { expect(OpenProject::AccessControl.available_project_modules).to include(:mixed_module) }
+  end
+
+  describe '#contract_actions_map' do
+    before do
+      stash_access_control_permissions
+
+      setup_global_permissions
+    end
+
+    after do
+      restore_access_control_permissions
+    end
+
+    it 'contains all contract actions grouped by the permission' do
+      expect(subject.contract_actions_map)
+        .to eql(global2: { actions: { baz: [:destroy] }, global: true, module: :mixed_module },
+                proj0: { actions: { foo: :create }, global: false, module: nil },
+                proj2: { actions: { bar: %i[create read] }, global: false, module: :project_module })
+    end
   end
 end

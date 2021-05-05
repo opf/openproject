@@ -1,8 +1,8 @@
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 
 export namespace AngularTrackingHelpers {
   export function halHref<T extends HalResource>(_index:number, item:T):string|null {
-    return item.$href;
+    return item.href;
   }
 
   export function compareByName<T extends HalResource>(a:T|undefined|null, b:T|undefined|null):boolean {
@@ -30,8 +30,8 @@ export namespace AngularTrackingHelpers {
 
   export function trackByHrefAndProperty(propertyName:string) {
     return (i:number, item:HalResource) => {
-      let href = _.get(item, 'href');
-      let prop = _.get(item, propertyName, 'none');
+      const href = _.get(item, 'href');
+      const prop = _.get(item, propertyName, 'none');
 
       return `${href}#${propertyName}=${prop}`;
     };
@@ -43,7 +43,7 @@ export namespace AngularTrackingHelpers {
 
   export function compareByHref<T extends HalResource>(a:T|undefined|null, b:T|undefined|null):boolean {
     const bothNil = !a && !b;
-    return bothNil || (!!a && !!b && a.$href === b.$href);
+    return bothNil || (!!a && !!b && a.href === b.href);
   }
 
   export function compareByHrefOrString<T extends HalResource>(a:T|string|undefined|null, b:T|string|undefined|null):boolean {

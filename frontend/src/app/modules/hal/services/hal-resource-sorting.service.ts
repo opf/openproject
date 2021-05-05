@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from '@angular/core';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import { Injectable } from '@angular/core';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 
 @Injectable({ providedIn: 'root' })
 export class HalResourceSortingService {

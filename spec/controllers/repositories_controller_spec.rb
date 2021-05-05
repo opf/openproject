@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -37,7 +38,7 @@ describe RepositoriesController, type: :controller do
   end
   let(:user) do
     FactoryBot.create(:user, member_in_project: project,
-                              member_through_role: role)
+                             member_through_role: role)
   end
   let(:role) { FactoryBot.create(:role, permissions: []) }
   let (:url) { 'file:///tmp/something/does/not/exist.svn' }
@@ -45,9 +46,9 @@ describe RepositoriesController, type: :controller do
   let(:repository) do
     allow(Setting).to receive(:enabled_scm).and_return(['subversion'])
     repo = FactoryBot.build_stubbed(:repository_subversion,
-                                     scm_type: 'local',
-                                     url: url,
-                                     project: project)
+                                    scm_type: 'local',
+                                    url: url,
+                                    project: project)
     allow(repo).to receive(:default_branch).and_return('master')
     allow(repo).to receive(:branches).and_return(['master'])
     allow(repo).to receive(:save).and_return(true)
@@ -127,14 +128,13 @@ describe RepositoriesController, type: :controller do
     context 'with #show and checkout' do
       render_views
 
-      let(:checkout_hash) {
+      let(:checkout_hash) do
         {
           'subversion' => { 'enabled' => '1',
                             'text' => 'foo',
-                            'base_url' => 'http://localhost'
-          }
+                            'base_url' => 'http://localhost' }
         }
-      }
+      end
 
       before do
         allow(Setting).to receive(:repository_checkout_data).and_return(checkout_hash)
@@ -154,9 +154,9 @@ describe RepositoriesController, type: :controller do
       let(:root_url) { repo_dir }
       let(:url) { "file://#{root_url}" }
 
-      let(:repository) {
+      let(:repository) do
         FactoryBot.create(:repository_subversion, project: project, url: url, root_url: url)
-      }
+      end
 
       describe 'commits per author graph' do
         before do
@@ -164,10 +164,10 @@ describe RepositoriesController, type: :controller do
         end
 
         context 'requested by an authorized user' do
-          let(:role) {
-            FactoryBot.create(:role, permissions: [:browse_repository,
-                                                    :view_commit_author_statistics])
-          }
+          let(:role) do
+            FactoryBot.create(:role, permissions: %i[browse_repository
+                                                     view_commit_author_statistics])
+          end
 
           it 'should be successful' do
             expect(response).to be_successful
@@ -221,10 +221,10 @@ describe RepositoriesController, type: :controller do
         end
 
         describe 'requested by a user with view_commit_author_statistics permission' do
-          let(:role) {
-            FactoryBot.create(:role, permissions: [:browse_repository,
-                                                    :view_commit_author_statistics])
-          }
+          let(:role) do
+            FactoryBot.create(:role, permissions: %i[browse_repository
+                                                     view_commit_author_statistics])
+          end
 
           it 'show the commits per author graph' do
             expect(assigns(:show_commits_per_author)).to eq(true)
@@ -290,14 +290,13 @@ describe RepositoriesController, type: :controller do
         render_views
 
         let(:role) { FactoryBot.create(:role, permissions: [:browse_repository]) }
-        let(:checkout_hash) {
+        let(:checkout_hash) do
           {
             'subversion' => { 'enabled' => '1',
                               'text' => 'foo',
-                              'base_url' => 'http://localhost'
-            }
+                              'base_url' => 'http://localhost' }
           }
-        }
+        end
 
         before do
           allow(Setting).to receive(:repository_checkout_data).and_return(checkout_hash)

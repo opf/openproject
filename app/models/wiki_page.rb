@@ -49,12 +49,18 @@ class WikiPage < ApplicationRecord
 
   acts_as_searchable columns: ["#{WikiPage.table_name}.title", "#{WikiContent.table_name}.text"],
                      include: [{ wiki: :project }, :content],
-                     references: [:wikis, :wiki_contents],
+                     references: %i[wikis wiki_contents],
                      project_key: "#{Wiki.table_name}.project_id"
 
   attr_accessor :redirect_existing_links
 
-  validates_presence_of :title
+  validates :title, presence: true
+  validates :slug,
+            presence: {
+              message: ->(object, _) {
+                I18n.t('activerecord.errors.models.wiki_page.attributes.slug.undeducible', title: object.title)
+              }
+            }
   validates_associated :content
 
   validate :validate_consistency_of_parent_title
@@ -82,6 +88,14 @@ class WikiPage < ApplicationRecord
 
   after_destroy :delete_wiki_menu_item
 
+  ##
+  # Create a slug for the given title
+  # We always want to generate english slugs
+  # to avoid using the current user's locale
+  def self.slug(title)
+    title.to_localized_slug(locale: :en)
+  end
+
   def delete_wiki_menu_item
     menu_item&.destroy
     # ensure there is a menu item for the wiki
@@ -101,7 +115,7 @@ class WikiPage < ApplicationRecord
     # Manage redirects if the title has changed
     if !@previous_title.blank? && (@previous_title != title) && !new_record?
       # Update redirects that point to the old title
-      previous_slug = @previous_title.to_url
+      previous_slug = WikiPage.slug(@previous_title)
       wiki.redirects.where(redirects_to: previous_slug).each do |r|
         r.redirects_to = title
         r.title == r.redirects_to ? r.destroy : r.save
@@ -131,14 +145,14 @@ class WikiPage < ApplicationRecord
   def content_for_version(version = nil)
     journal = content.versions.find_by(version: version.to_i) if version
 
-    unless journal.nil? || content.version == journal.version
+    if journal.nil? || content.version == journal.version
+      content
+    else
       content_version = WikiContent.new journal.data.attributes.except('id', 'journal_id')
       content_version.updated_at = journal.created_at
       content_version.journals = content.journals.select { |j| j.version <= version.to_i }
 
       content_version
-    else
-      content
     end
   end
 
@@ -150,7 +164,7 @@ class WikiPage < ApplicationRecord
     content_to = content.versions.find_by(version: version_to)
     content_from = content.versions.find_by(version: version_from)
 
-    (content_to && content_from) ? Wikis::Diff.new(content_to, content_from) : nil
+    content_to && content_from ? Wikis::Diff.new(content_to, content_from) : nil
   end
 
   def annotate(version = nil)
@@ -168,7 +182,11 @@ class WikiPage < ApplicationRecord
       if (time = read_attribute(:updated_at))
         # content updated_at was eager loaded with the page
         unless time.is_a? Time
-          time = Time.zone.parse(time) rescue nil
+          time = begin
+            Time.zone.parse(time)
+          rescue StandardError
+            nil
+          end
         end
         @updated_at = time
       else
@@ -188,7 +206,7 @@ class WikiPage < ApplicationRecord
   end
 
   def parent_title
-    @parent_title || (parent&.title)
+    @parent_title || parent&.title
   end
 
   def parent_title=(t)
@@ -217,7 +235,7 @@ class WikiPage < ApplicationRecord
   end
 
   def to_param
-    slug || title.to_url
+    slug || WikiPage.slug(title)
   end
 
   def save_with_content

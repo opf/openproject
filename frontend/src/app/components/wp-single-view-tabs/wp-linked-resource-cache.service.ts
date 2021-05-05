@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {input, InputState} from 'reactivestates';
-import {take} from 'rxjs/operators';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { input, InputState } from 'reactivestates';
+import { take } from 'rxjs/operators';
 
 export abstract class WorkPackageLinkedResourceCache<T> {
 
@@ -50,7 +50,7 @@ export abstract class WorkPackageLinkedResourceCache<T> {
    * @param {WorkPackageResource} workPackage
    * @returns {Promise<T>}
    */
-  public require(workPackage:WorkPackageResource, force:boolean = false):Promise<T> {
+  public require(workPackage:WorkPackageResource, force = false):Promise<T> {
     const id = workPackage.id!;
     const state = this.cache.state;
 

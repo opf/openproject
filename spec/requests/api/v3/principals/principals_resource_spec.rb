@@ -58,44 +58,46 @@ describe 'API v3 Principals resource', type: :request do
     let(:permissions) { [] }
     let(:user) do
       user = FactoryBot.create(:user,
-                                member_in_project: project,
-                                member_through_role: role,
-                                lastname: 'aaaa')
+                               member_in_project: project,
+                               member_through_role: role,
+                               lastname: 'Aaaa',
+                               mail: 'aaaa@example.com')
 
-      other_project.add_member! user, role
-
-      user
-    end
-    let(:other_user) do
-      FactoryBot.create(:user,
-                         member_in_project: other_project,
-                         member_through_role: role,
-                         lastname: 'bbbb')
-    end
-    let(:user_in_non_member_project) do
-      FactoryBot.create(:user,
-                         member_in_project: non_member_project,
-                         member_through_role: role,
-                         lastname: 'cccc')
-    end
-    let(:group) do
-      group = FactoryBot.create(:group,
-                                 lastname: 'gggg')
-
-      project.add_member! group, role
+      FactoryBot.create(:member,
+                        project: other_project,
+                        principal: user,
+                        roles: [role])
 
       user
     end
+    let!(:other_user) do
+      FactoryBot.create(:user,
+                        member_in_project: other_project,
+                        member_through_role: role,
+                        lastname: 'Bbbb')
+    end
+    let!(:user_in_non_member_project) do
+      FactoryBot.create(:user,
+                        member_in_project: non_member_project,
+                        member_through_role: role,
+                        lastname: 'Cccc')
+    end
+    let!(:group) do
+      FactoryBot.create(:group,
+                        member_in_project: project,
+                        member_through_role: role,
+                        lastname: 'Gggg')
+    end
+    let!(:placeholder_user) do
+      FactoryBot.create(:placeholder_user,
+                        member_in_project: project,
+                        member_through_role: role,
+                        name: 'Pppp')
+    end
+
+    current_user { user }
 
     before do
-      allow(User)
-        .to receive(:current)
-        .and_return(user)
-
-      other_user
-      user_in_non_member_project
-      group
-
       get path
     end
 
@@ -104,13 +106,21 @@ describe 'API v3 Principals resource', type: :request do
         .to eql(200)
     end
 
-    it_behaves_like 'API V3 collection response', 3, 3, 'User' do
+    it_behaves_like 'API V3 collection response', 4, 4 do
       let(:response) { last_response }
 
-      it 'has the group as the last element' do
+      it 'has the group as the last and the placeholder as the second to last element', :aggregate_failures do
+        is_expected
+          .to be_json_eql('PlaceholderUser'.to_json)
+          .at_path('_embedded/elements/0/_type')
+
         is_expected
           .to be_json_eql('Group'.to_json)
-          .at_path('_embedded/elements/2/_type')
+          .at_path('_embedded/elements/1/_type')
+
+        is_expected
+            .to be_json_eql('User'.to_json)
+                    .at_path('_embedded/elements/2/_type')
       end
     end
 
@@ -119,7 +129,7 @@ describe 'API v3 Principals resource', type: :request do
         [{ member: { operator: '=', values: [project.id.to_s] } }]
       end
 
-      it_behaves_like 'API V3 collection response', 2, 2, 'User' do
+      it_behaves_like 'API V3 collection response', 3, 3 do
         let(:response) { last_response }
       end
     end
@@ -129,7 +139,7 @@ describe 'API v3 Principals resource', type: :request do
         [{ type: { operator: '=', values: ['User'] } }]
       end
 
-      it_behaves_like 'API V3 collection response', 2, 2, 'User' do
+      it_behaves_like 'API V3 collection response', 2, 2, nil do
         let(:response) { last_response }
       end
     end
@@ -144,10 +154,30 @@ describe 'API v3 Principals resource', type: :request do
       end
     end
 
+    context 'provide filter for type "PlaceholderUser"' do
+      let(:filter) do
+        [{ type: { operator: '=', values: ['PlaceholderUser'] } }]
+      end
+
+      it_behaves_like 'API V3 collection response', 1, 1, 'PlaceholderUser' do
+        let(:response) { last_response }
+      end
+    end
+
     context 'user without a project membership' do
       let(:user) { FactoryBot.create(:user) }
 
       # The user herself
+      it_behaves_like 'API V3 collection response', 1, 1, 'User' do
+        let(:response) { last_response }
+      end
+    end
+
+    context 'provide filter for any name attribute' do
+      let(:filter) do
+        [{ any_name_attribute: { operator: '~', values: ['aaaa@example.com'] } }]
+      end
+
       it_behaves_like 'API V3 collection response', 1, 1, 'User' do
         let(:response) { last_response }
       end

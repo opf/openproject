@@ -49,7 +49,7 @@ module API
           end
 
           def authorize_user_cru_allowed
-            authorize_by_with_raise(current_user.allowed_to_globally?(:add_user))
+            authorize_by_with_raise(current_user.allowed_to_globally?(:manage_user))
           end
         end
 
@@ -73,10 +73,13 @@ module API
             end
           end
 
+          mount ::API::V3::Users::Schemas::UserSchemaAPI
+          mount ::API::V3::Users::CreateFormAPI
+
           params do
             requires :id, desc: 'User\'s id'
           end
-          route_param :id  do
+          route_param :id do
             after_validation do
               @user =
                 if params[:id] == 'me'
@@ -89,6 +92,8 @@ module API
             get &::API::V3::Utilities::Endpoints::Show.new(model: User).mount
             patch &::API::V3::Utilities::Endpoints::Update.new(model: User).mount
             delete &::API::V3::Utilities::Endpoints::Delete.new(model: User, success_status: 202).mount
+
+            mount ::API::V3::Users::UpdateFormAPI
 
             namespace :lock do
               # Authenticate lock transitions

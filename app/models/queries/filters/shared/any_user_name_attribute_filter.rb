@@ -39,10 +39,15 @@ module Queries::Filters::Shared::AnyUserNameAttributeFilter
       :any_name_attribute
     end
 
+    def available_operators
+      [Queries::Operators::Contains,
+       Queries::Operators::NotContains]
+    end
+
     private
 
     def sql_concat_name
-        <<-SQL
+      <<-SQL
     LOWER(
       CONCAT(
         users.firstname, ' ', users.lastname,
@@ -54,7 +59,7 @@ module Queries::Filters::Shared::AnyUserNameAttributeFilter
         users.mail
       )
     )
-        SQL
+      SQL
     end
   end
 

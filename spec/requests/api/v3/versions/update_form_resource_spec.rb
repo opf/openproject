@@ -108,11 +108,7 @@ describe ::API::V3::Versions::UpdateFormAPI, content_type: :json do
         role = FactoryBot.create(:role, permissions: permissions)
 
         FactoryBot.create(:project,
-                          members: [
-                            FactoryBot.create(:member,
-                                              roles: [role],
-                                              user: user)
-                          ])
+                          members: { user => role })
       end
       let(:parameters) do
         {

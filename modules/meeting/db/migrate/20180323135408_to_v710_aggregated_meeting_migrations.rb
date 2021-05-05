@@ -26,10 +26,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require Rails.root.join("db","migrate","migration_utils","migration_squasher").to_s
+require Rails.root.join("db", "migrate", "migration_utils", "migration_squasher").to_s
 # This migration aggregates the migrations detailed in MIGRATION_FILES
 class ToV710AggregatedMeetingMigrations < ActiveRecord::Migration[5.1]
-
   MIGRATION_FILES = <<-MIGRATIONS
     20111605171865_aggregated_meeting_migrations.rb
     20130924114042_legacy_meeting_minutes_journal_data.rb
@@ -51,7 +50,7 @@ class ToV710AggregatedMeetingMigrations < ActiveRecord::Migration[5.1]
         t.integer 'lock_version'
         t.datetime 'created_at',                      null: false
         t.datetime 'updated_at',                      null: false
-        t.boolean 'locked',       default: false
+        t.boolean 'locked', default: false
       end
 
       create_table 'meeting_participants', id: :integer do |t|
@@ -75,9 +74,8 @@ class ToV710AggregatedMeetingMigrations < ActiveRecord::Migration[5.1]
         t.datetime 'created_at', null: false
         t.datetime 'updated_at', null: false
 
-        t.index [:project_id, :updated_at]
+        t.index %i[project_id updated_at]
       end
-
 
       create_table :meeting_journals, id: :integer do |t|
         t.integer :journal_id, null: false

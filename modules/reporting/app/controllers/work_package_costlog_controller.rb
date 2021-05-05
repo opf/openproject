@@ -48,13 +48,13 @@ class WorkPackageCostlogController < ApplicationController
     filters[:values][:project_id] = [@project.id.to_s]
 
     respond_to do |format|
-      format.html {
+      format.html do
         session[CostQuery.name.underscore.to_sym] = { filters: filters, groups: { rows: [], columns: [] } }
         redirect_to_cost_reports
-      }
-      format.all {
+      end
+      format.all do
         redirect_to_cost_reports
-      }
+      end
     end
   end
 

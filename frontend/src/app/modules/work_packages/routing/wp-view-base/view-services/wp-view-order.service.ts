@@ -26,22 +26,22 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {Injectable} from '@angular/core';
-import {WorkPackageQueryStateService} from './wp-view-base.service';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {States} from "core-components/states.service";
-import {QuerySchemaResource} from "core-app/modules/hal/resources/query-schema-resource";
-import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
-import {MAX_ORDER, ReorderDeltaBuilder} from "core-app/modules/common/drag-and-drop/reorder-delta-builder";
-import {take} from "rxjs/operators";
-import {InputState} from "reactivestates";
-import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
-import {CausedUpdatesService} from "core-app/modules/boards/board/caused-updates/caused-updates.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {QueryOrder} from "core-app/modules/apiv3/endpoints/queries/apiv3-query-order";
+import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { Injectable } from '@angular/core';
+import { WorkPackageQueryStateService } from './wp-view-base.service';
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { States } from "core-components/states.service";
+import { QuerySchemaResource } from "core-app/modules/hal/resources/query-schema-resource";
+import { WorkPackageCollectionResource } from "core-app/modules/hal/resources/wp-collection-resource";
+import { MAX_ORDER, ReorderDeltaBuilder } from "core-app/modules/common/drag-and-drop/reorder-delta-builder";
+import { take } from "rxjs/operators";
+import { InputState } from "reactivestates";
+import { WorkPackageViewSortByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
+import { CausedUpdatesService } from "core-app/modules/boards/board/caused-updates/caused-updates.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { QueryOrder } from "core-app/modules/apiv3/endpoints/queries/apiv3-query-order";
 
 
 @Injectable()
@@ -75,7 +75,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
    */
   public async move(order:string[], wpId:string, toIndex:number):Promise<string[]> {
     // Find index of the work package
-    let fromIndex:number = order.findIndex((id) => id === wpId);
+    const fromIndex:number = order.findIndex((id) => id === wpId);
 
     order.splice(fromIndex, 1);
     order.splice(toIndex, 0, wpId);
@@ -97,7 +97,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
   /**
    * Add an item to the list
    */
-  public async add(order:string[], wpId:string, toIndex:number = -1):Promise<string[]> {
+  public async add(order:string[], wpId:string, toIndex = -1):Promise<string[]> {
     if (toIndex === -1) {
       order.push(wpId);
       toIndex = order.length - 1;
@@ -139,7 +139,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
    * Update the order state
    */
   public async update(delta:QueryOrder) {
-    let current = this.positions.getValueOr({});
+    const current = this.positions.getValueOr({});
     this.positions.putValue({ ...current, ...delta });
 
     // Push the update if the query is saved
@@ -178,10 +178,10 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
       // Load the current order from backend
       this.positions.putFromPromiseIfPristine(
         () => this
-        .apiV3Service
-        .queries.id(this.currentQuery)
-        .order
-        .get()
+          .apiV3Service
+          .queries.id(this.currentQuery)
+          .order
+          .get()
       );
     } else if (this.positions.isPristine()) {
       // Insert an empty fallback in case we have no data yet

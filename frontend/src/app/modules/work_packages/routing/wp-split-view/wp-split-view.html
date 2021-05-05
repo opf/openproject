@@ -24,6 +24,9 @@
           <a href="" [textContent]="text.tabs.watchers"></a>
           <wp-watchers-count [wpId]="workPackage.id"></wp-watchers-count>
         </li>
+
+        <op-wp-tabs [workPackage]="workPackage" view="split"></op-wp-tabs>
+
         <li class="tab-icon">
           <accessible-by-keyboard (execute)="switchToFullscreen()"
                                   [linkAriaLabel]="text.goTofullScreen"

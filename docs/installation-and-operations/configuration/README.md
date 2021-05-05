@@ -46,6 +46,7 @@ Configuring OpenProject through environment variables is detailed [in this separ
 * [`global_basic_auth`](#global-basic-auth)
 * [`apiv3_enable_basic_auth`](#apiv3_enable_basic_auth)
 * [`enterprise_limits`](#enterprise-limits)
+* [`backup_enabled`](#backup-enabled)
 
 ## Setting session options
 
@@ -187,7 +188,7 @@ If, for what ever reason, this is undesirable, you can disable this option.
 In that case attachments will be posted as usual to the OpenProject server which then uploads the file
 to the remote storage in an extra step.
 
-**Note**: This only works for S3 right now. When using fog with another provider this configuration will be `false`. The same goes for when no fog storage is configured.
+**Note**: This only works for S3 right now. When using fog with another provider this configuration will be `false`. The same goes for when no fog storage is configured, or when the `use_iam_profile` option is used in the fog credentials when using S3.
 
 ### fog download url expires in
 
@@ -387,7 +388,33 @@ Or through the environment like this:
 OPENPROJECT_ENTERPRISE_FAIL__FAST=true
 ```
 
+### Backup enabled
 
+*default: true*
+
+If enabled, admins (or users with the necessary permission) can download backups of the OpenProject installation
+via OpenProject's web interface or via the API.
+
+There are further configurations you can use to adjust your backups.
+
+```
+backup_enabled: true # enable/disable backups feature
+backup_daily_limit: 3 # number of times backups can be requested per day across all users
+backup_initial_waiting_period: 24.hours # time after which new backup token is usable
+backup_include_attachments: true # include/exclude attachments besides db dump
+backup_attachment_size_max_sum_mb: 1024 # if all attachments together are larger than this, they will not be included
+```
+
+Per default the maximum overall size of all attachments must not exceed 1GB for them to be included
+in the backup. If they are larger only the database dump will be included.
+
+As usual this can be override via the environment, for example like this:
+
+```
+OPENPROJECT_BACKUP__ENABLED=true
+OPENPROJECT_BACKUP__INCLUDE__ATTACHMENTS=true
+OPENPROJECT_BACKUP__ATTACHMENT__SIZE__MAX__SUM__MB=1024
+```
 
 | ----------- | :---------- |
 | [List of supported environment variables](./environment) | The full list of environment variables you can use to override the default configuration |

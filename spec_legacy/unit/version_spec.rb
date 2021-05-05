@@ -118,7 +118,7 @@ describe Version, type: :model do
     add_work_package(v, done_ratio: 20)
     add_work_package(v, status: Status.where(is_closed: true).first)
     assert_progress_equal (0.0 + 20.0 + 100.0) / 3, v.completed_percent
-    assert_progress_equal (100.0) / 3, v.closed_percent
+    assert_progress_equal 100.0 / 3, v.closed_percent
   end
 
   it 'should progress should consider estimated hours to weigth issues' do

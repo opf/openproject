@@ -28,7 +28,7 @@
 
 FactoryBot.define do
   factory :type do
-    sequence(:position) { |p| p }
+    sequence(:position)
     name { |a| "Type No. #{a.position}" }
     description { nil }
     created_at { Time.now }
@@ -49,7 +49,8 @@ FactoryBot.define do
         query = FactoryBot.create(:query)
         query.add_filter(evaluator.relation_filter.to_s, '=', [::Queries::Filters::TemplatedValue::KEY])
         query.save
-        t.attribute_groups = t.default_attribute_groups + [["Embedded table for #{evaluator.relation_filter.to_s}", ["query_#{query.id}".to_sym]]]
+        t.attribute_groups = t.default_attribute_groups + [["Embedded table for #{evaluator.relation_filter}",
+                                                            ["query_#{query.id}".to_sym]]]
       end
     end
   end

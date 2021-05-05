@@ -41,7 +41,8 @@ class Attachment < ApplicationRecord
   validates_length_of :description, maximum: 255
 
   validate :filesize_below_allowed_maximum,
-           :container_changed_more_than_once
+           if: -> { !internal_container? }
+  validate :container_changed_more_than_once
 
   acts_as_journalized
   acts_as_event title: -> { file.name },
@@ -189,7 +190,7 @@ class Attachment < ApplicationRecord
     content_type || fallback
   end
 
-  def copy(&block)
+  def copy
     attachment = dup
     attachment.file = diskfile
 
@@ -300,6 +301,10 @@ class Attachment < ApplicationRecord
     if filesize > Setting.attachment_max_size.to_i.kilobytes
       errors.add(:file, :file_too_large, count: Setting.attachment_max_size.to_i.kilobytes)
     end
+  end
+
+  def internal_container?
+    container&.is_a?(Export)
   end
 
   def container_changed_more_than_once

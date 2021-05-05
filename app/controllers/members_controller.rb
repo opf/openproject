@@ -46,21 +46,14 @@ class MembersController < ApplicationController
   end
 
   def create
-    if params[:member]
-      members = new_members_from_params(params[:member])
-      @project.members << members
-    end
+    service_call = create_members
 
-    if no_create_errors?(members)
-      flash[:notice] = members_added_notice members
+    if service_call.success?
+      display_success(members_added_notice(service_call.all_results))
 
       redirect_to project_members_path(project_id: @project, status: 'all')
     else
-      if members.present? && params[:member]
-        @member = members.first
-      else
-        flash[:error] = t(:error_check_user_and_role)
-      end
+      display_error(service_call)
 
       set_index_data!
 
@@ -71,13 +64,14 @@ class MembersController < ApplicationController
   end
 
   def update
-    member = update_member_from_params
+    service_call = Members::UpdateService
+                     .new(user: current_user, model: @member)
+                     .call(permitted_params.member)
 
-    if member.save
-      flash[:notice] = I18n.t(:notice_successful_update)
+    if service_call.success?
+      display_success(I18n.t(:notice_successful_update))
     else
-      # only possible message is about choosing at least one role
-      flash[:error] = member.errors.full_messages.first
+      display_error(service_call)
     end
 
     redirect_to project_members_path(project_id: @project,
@@ -86,32 +80,28 @@ class MembersController < ApplicationController
   end
 
   def destroy
-    if @member.deletable?
-      if @member.disposable?
-        flash.notice = I18n.t(:notice_member_deleted, user: @member.principal.name)
+    service_call = Members::DeleteService
+      .new(user: current_user, model: @member)
+      .call
 
-        @member.principal.destroy
-      else
-        flash.notice = I18n.t(:notice_member_removed, user: @member.principal.name)
-
-        @member.destroy
-      end
+    if service_call.success?
+      display_success(I18n.t(:notice_member_removed, user: @member.principal.name))
     end
 
     redirect_to project_members_path(project_id: @project)
   end
 
   def autocomplete_for_member
-    @principals = Principal
-                  .possible_members(params[:q], 100)
-                  .where.not(id: @project.principals)
+    @principals = possible_members(params[:q], 100)
 
     @email = suggest_invite_via_email? current_user,
                                        params[:q],
                                        (@principals | @project.principals)
 
     respond_to do |format|
-      format.json
+      format.json do
+        render json: build_members
+      end
     end
   end
 
@@ -121,11 +111,29 @@ class MembersController < ApplicationController
     current_user.allowed_to?({ controller: controller, action: action }, @project)
   end
 
+  def build_members
+    paths = API::V3::Utilities::PathHelper::ApiV3Path
+    principals = @principals.map do |principal|
+      {
+        id: principal.id,
+        name: principal.name,
+        href: paths.send(principal.type.underscore, principal.id)
+      }
+    end
+
+    if @email
+      principals << { id: @email, name: I18n.t('members.invite_by_mail', mail: @email) }
+    end
+
+    principals
+  end
+
   def members_table_options(roles)
     {
       project: @project,
       available_roles: roles,
-      authorize_update: authorize_for('members', 'update')
+      authorize_update: authorize_for('members', 'update'),
+      is_filtered: Members::UserFilterCell.filtered?(params)
     }
   end
 
@@ -156,7 +164,6 @@ class MembersController < ApplicationController
   def set_index_data!
     set_roles_and_principles!
 
-    @is_filtered = Members::UserFilterCell.filtered? params
     @members = index_members
     @members_table_options = members_table_options @roles
     @members_filter_options = members_filter_options @roles
@@ -165,56 +172,55 @@ class MembersController < ApplicationController
   def set_roles_and_principles!
     @roles = Role.givable
     # Check if there is at least one principal that can be added to the project
-    @principals_available = @project.possible_members('', 1)
+    @principals_available = possible_members('', 1)
+  end
+
+  def possible_members(criteria, limit)
+    Principal
+      .possible_member(@project)
+      .like(criteria)
+      .limit(limit)
   end
 
   def index_members
     filters = params.slice(:name, :group_id, :role_id, :status)
     filters[:project_id] = @project.id.to_s
 
-    @members = Member
-               .where(id: Members::UserFilterCell.filter(filters))
-               .includes(:roles, :principal, :member_roles)
+    @members_query = Members::UserFilterCell.query(filters)
   end
 
-  def new_members_from_params(member_params)
-    roles = roles_for_new_members(member_params)
+  def create_members
+    overall_result = nil
 
-    if roles.present?
-      user_ids = user_ids_for_new_members(member_params)
-      members = user_ids.map { |user_id| new_member user_id }
-      # In edge cases, the user might choose a group together with a member which is also part of a group added
-      # at the same time. If the group is added before the user, a :taken error is produced. To avoid this, we
-      # get the user to be added first.
-      members = sort_by_groups_last(members)
+    with_new_member_params do |member_params|
+      service_call = Members::CreateService
+                       .new(user: current_user)
+                       .call(member_params)
 
-      # most likely wrong user input, use a dummy member for error handling
-      if !members.present? && roles.present?
-        members << new_member(nil)
+      if overall_result
+        overall_result.merge!(service_call)
+      else
+        overall_result = service_call
       end
-
-      members
-    else
-      # Pick a user that exists but can't be chosen.
-      # We only want the missing role error message.
-      dummy = new_member User.anonymous.id
-
-      [dummy]
     end
+
+    overall_result
   end
 
-  def new_member(user_id)
-    Member.new(permitted_params.member).tap do |member|
-      member.user_id = user_id if user_id
+  def with_new_member_params
+    user_ids = user_ids_for_new_members(params[:member])
+
+    group_ids = Group.where(id: user_ids).pluck(:id)
+
+    user_ids.sort_by! { |id| group_ids.include?(id) ? 1 : -1 }
+
+    user_ids.each do |id|
+      yield permitted_params.member.merge(user_id: id, project: @project)
     end
   end
 
   def user_ids_for_new_members(member_params)
     invite_new_users possibly_seperated_ids_for_entity(member_params, :user)
-  end
-
-  def roles_for_new_members(member_params)
-    Role.where(id: possibly_seperated_ids_for_entity(member_params, :role))
   end
 
   def invite_new_users(user_ids)
@@ -225,7 +231,7 @@ class MembersController < ApplicationController
           # The invitation can pretty much only fail due to the user already
           # having been invited. So look them up if it does.
           user = UserInvitation.invite_new_user(email: id) ||
-            User.find_by_mail(id)
+                 User.find_by_mail(id)
 
           user.id if user
         end
@@ -240,17 +246,18 @@ class MembersController < ApplicationController
   end
 
   def each_comma_seperated(array, &block)
-    array.map { |e|
+    array.map do |e|
       if e.to_s.match /\d(,\d)*/
         block.call(e)
       else
         e
       end
-    }.flatten
+    end.flatten
   end
 
   def transform_array_of_comma_seperated_ids(array)
     return array unless array.present?
+
     each_comma_seperated(array) do |elem|
       elem.to_s.split(',')
     end
@@ -264,19 +271,6 @@ class MembersController < ApplicationController
     else
       []
     end
-  end
-
-  def update_member_from_params
-    # this way, mass assignment is considered and all updates happen in one transaction (autosave)
-    attrs = permitted_params.member.dup
-    attrs.merge! permitted_params.membership.dup if params[:membership].present?
-
-    if attrs.include? :role_ids
-      role_ids = attrs.delete(:role_ids).map(&:to_i).select { |i| i > 0 }
-      @member.assign_roles(role_ids)
-    end
-    @member.assign_attributes(attrs)
-    @member
   end
 
   def members_added_notice(members)
@@ -295,5 +289,13 @@ class MembersController < ApplicationController
     group_ids = Group.where(id: members.map(&:user_id)).pluck(:id)
 
     members.sort_by { |m| group_ids.include?(m.user_id) ? 1 : -1 }
+  end
+
+  def display_error(service_call)
+    flash[:error] = service_call.errors.full_messages.compact.join(', ')
+  end
+
+  def display_success(message)
+    flash[:notice] = message
   end
 end

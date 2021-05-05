@@ -33,12 +33,12 @@ require 'spec_helper'
 describe Queries::Users::Filters::NameFilter, type: :model do
   include_context 'filter tests'
   let(:values) { ['A name'] }
-  let(:model) { User }
+  let(:model) { User.user }
 
   it_behaves_like 'basic query filter' do
     let(:class_key) { :name }
     let(:type) { :string }
-    let(:model) { User }
+    let(:model) { User.user }
 
     describe '#allowed_values' do
       it 'is nil' do

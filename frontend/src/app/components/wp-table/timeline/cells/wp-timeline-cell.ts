@@ -25,21 +25,21 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {States} from '../../../states.service';
-import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
-import {RenderInfo} from '../wp-timeline';
-import {TimelineCellRenderer} from './timeline-cell-renderer';
-import {TimelineMilestoneCellRenderer} from './timeline-milestone-cell-renderer';
-import {registerWorkPackageMouseHandler} from './wp-timeline-cell-mouse-handler';
-import {Injector} from '@angular/core';
-import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { States } from '../../../states.service';
+import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
+import { RenderInfo } from '../wp-timeline';
+import { TimelineCellRenderer } from './timeline-cell-renderer';
+import { TimelineMilestoneCellRenderer } from './timeline-milestone-cell-renderer';
+import { registerWorkPackageMouseHandler } from './wp-timeline-cell-mouse-handler';
+import { Injector } from '@angular/core';
+import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
 
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 
 export const classNameLeftLabel = 'labelLeft';
 export const classNameRightContainer = 'containerRight';

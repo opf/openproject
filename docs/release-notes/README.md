@@ -12,6 +12,58 @@ Stay up to date and get an overview of the new features included in the releases
 <!--- New release notes are generated below. Do not remove comment. -->
 <!--- RELEASE MARKER -->
 
+## 11.2.3
+
+Release date: 2021-04-23
+
+[Release Notes](11-2-3/)
+
+
+## 11.2.2
+
+Release date: 2021-03-24
+
+[Release Notes](11-2-2/)
+
+
+## 11.2.1
+
+Release date: 2021-03-23
+
+[Release Notes](11-2-1/)
+
+
+## 11.2.0
+
+Release date: 2021-03-09
+
+#### Community features:
+
+* Extended filter options by parent and ID
+* Distribution of user administration
+* Harmonized navigation for the time and costs module
+* Adapted background colors of sum rows and group rows in the work package list
+* Introducing a group show page
+
+#### Premium features:
+
+* Introducing placeholder users
+
+[Release Notes](11-2-0/)
+
+## 11.1.4
+
+Release date: 2021-02-15
+
+[Release Notes](11-1-4/)
+
+## 11.1.3
+
+Release date: 2021-02-11
+
+[Release Notes](11-1-3/)
+
+
 ## 11.1.2
 
 Release date: 2021-01-21

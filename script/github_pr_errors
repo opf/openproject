@@ -1,0 +1,74 @@
+#!/usr/bin/env ruby
+
+require 'pathname'
+require 'json'
+require 'rest-client'
+require 'pry'
+require 'zip'
+require 'tempfile'
+
+# current branch
+branch_name = `git rev-parse --abbrev-ref HEAD`.strip
+
+raise "Missing GITHUB_USERNAME env" unless ENV['GITHUB_USERNAME']
+raise "Missing GITHUB_TOKEN env" unless ENV['GITHUB_TOKEN']
+
+def get_http(path, json: true)
+  url =
+    if path.start_with?('http')
+      path
+    else
+      "https://api.github.com/repos/opf/openproject/#{path}"
+    end
+
+  response = RestClient::Request.new(
+    method: :get,
+    url: url,
+    user: ENV['GITHUB_USERNAME'],
+    password: ENV['GITHUB_TOKEN']
+  ).execute
+
+  if json
+    JSON.parse(response.to_str)
+  else
+    response.to_str
+  end
+rescue => e
+  warn "Failed to perform API request #{url}: #{e} #{e.message}"
+end
+
+warn "Looking for the last action in branch #{branch_name}"
+
+response = get_http "actions/runs?branch=#{CGI.escape(branch_name)}"
+
+last_test_action =
+  response
+    .dig('workflow_runs')
+    .select { |entry| entry['name'] == 'Core/Test' }
+    .max_by { |entry| entry['run_number'] }
+
+raise "No action run found for branch #{branch_name}" unless last_test_action
+log_response = get_http last_test_action['logs_url'], json: false
+errors = []
+
+# rubyzip needs a file to read with general purpose bit set
+Tempfile.open('logs.zip') do |file|
+  file.write log_response
+  file.close
+
+  zip = Zip::File.open(file)
+  zip.each do |entry|
+    next unless entry.file?
+
+    log = entry.get_input_stream.read
+    log.scan(/^\S+ rspec (\S+) #.+$/) do |match|
+      errors << match
+    end
+  end
+end
+
+if errors.empty?
+  warn "No rspec errors found :-/"
+else
+  puts errors.flatten.uniq.join(" ")
+end

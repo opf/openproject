@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'Toggle watching', type: :feature, js: true do
   let(:project) { FactoryBot.create(:project) }
-  let(:role) { FactoryBot.create(:role, permissions: [:view_messages, :view_wiki_pages]) }
+  let(:role) { FactoryBot.create(:role, permissions: %i[view_messages view_wiki_pages]) }
   let(:user) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
   let(:news) { FactoryBot.create(:news, project: project) }
   let(:forum) { FactoryBot.create(:forum, project: project) }

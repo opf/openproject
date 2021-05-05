@@ -37,29 +37,30 @@ import {
   OnInit, Output,
   ViewEncapsulation
 } from '@angular/core';
-import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {TableEventComponent, TableHandlerRegistry} from 'core-components/wp-fast-table/handlers/table-handler-registry';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {combineLatest} from 'rxjs';
-import {States} from '../states.service';
+import { QueryGroupByResource } from 'core-app/modules/hal/resources/query-group-by-resource';
+import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { TableEventComponent, TableHandlerRegistry } from 'core-components/wp-fast-table/handlers/table-handler-registry';
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { combineLatest } from 'rxjs';
+import { States } from '../states.service';
 import {
   WorkPackageTableConfiguration,
   WorkPackageTableConfigurationObject
 } from 'core-app/components/wp-table/wp-table-configuration';
-import {QueryColumn} from 'core-components/wp-query/query-column';
-import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
-import {AngularTrackingHelpers} from "core-components/angular/tracking-functions";
-import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
-import {WorkPackageViewGroupByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
-import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
-import {createScrollSync} from "core-components/wp-table/wp-table-scroll-sync";
-import {WpTableHoverSync} from "core-components/wp-table/wp-table-hover-sync";
-import {WorkPackageTimelineTableController} from "core-components/wp-table/timeline/container/wp-timeline-container.directive";
-import {WorkPackageTable} from "core-components/wp-fast-table/wp-fast-table";
-import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import { QueryColumn } from 'core-components/wp-query/query-column';
+import { WorkPackageViewSortByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
+import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
+import { WorkPackageCollectionResource } from "core-app/modules/hal/resources/wp-collection-resource";
+import { WorkPackageViewGroupByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
+import { WorkPackageViewColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import { createScrollSync } from "core-components/wp-table/wp-table-scroll-sync";
+import { WpTableHoverSync } from "core-components/wp-table/wp-table-hover-sync";
+import { WorkPackageTimelineTableController } from "core-components/wp-table/timeline/container/wp-timeline-container.directive";
+import { WorkPackageTable } from "core-components/wp-fast-table/wp-fast-table";
+import { WorkPackageViewTimelineService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import {WorkPackageViewSumService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sum.service";
 
 export interface WorkPackageFocusContext {
   /** Work package that was focused */
@@ -122,6 +123,11 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
 
   public limitedResults = false;
 
+  // We need to sync certain height difference to the timeline
+  // depending on whether inline create or sums rows are being shown
+  public inlineCreateVisible = false;
+  public sumVisible = false;
+
   constructor(readonly elementRef:ElementRef,
               readonly injector:Injector,
               readonly states:States,
@@ -132,7 +138,9 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
               readonly wpTableGroupBy:WorkPackageViewGroupByService,
               readonly wpTableTimeline:WorkPackageViewTimelineService,
               readonly wpTableColumns:WorkPackageViewColumnsService,
-              readonly wpTableSortBy:WorkPackageViewSortByService) {
+              readonly wpTableSortBy:WorkPackageViewSortByService,
+              readonly wpTableSums:WorkPackageViewSumService,
+  ) {
     super();
   }
 
@@ -162,20 +170,22 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
       ].join(' ')
     };
 
-    let statesCombined = combineLatest([
+    const statesCombined = combineLatest([
       this.querySpace.results.values$(),
       this.wpTableGroupBy.live$(),
       this.wpTableColumns.live$(),
       this.wpTableTimeline.live$(),
-      this.wpTableSortBy.live$()
+      this.wpTableSortBy.live$(),
+      this.wpTableSums.live$()
     ]);
 
     statesCombined.pipe(
       this.untilDestroyed()
-    ).subscribe(([results, groupBy, columns, timelines, sort]) => {
+    ).subscribe(([results, groupBy, columns, timelines, sort, sums]) => {
       this.query = this.querySpace.query.value!;
 
       this.results = results;
+      this.sumVisible = sums;
 
       this.groupBy = groupBy;
       this.columns = columns;

@@ -9,9 +9,9 @@ keywords: project overview page
 
 # Project overview
 
-The **Project overview** page is a dashboard with important project information. You can display relevant information for your team, such as members, news, project description, work package reports, or a project status. 
+The **Project overview** page is a dashboard with important information about the respective project. You can display relevant information for your team, such as members, news, project description, work package reports, or a project status. 
 
-| Feature                                                      | Documentation for                                       |
+| Topic                                                        | Content                                                 |
 | ------------------------------------------------------------ | ------------------------------------------------------- |
 | [What is the project overview?](#what-is-the-project-overview) | What can I do with the project overview page?           |
 | [Add a widget to the project overview](#add-a-widget-to-the-project-overview) | How can I add a new widget to the project overview?     |
@@ -55,7 +55,7 @@ You can add various widgets to your project overview.
 
 ### Calendar widget
 
-The calendar widget displays your current work packages in a calendar. It shows work packages that are being worked on at the current date.
+The calendar widget displays your current work packages in a calendar. It shows work packages that are being worked on at the current date. The maximum number of displayable work packages is 100.
 
 ![calendar](image-20191112142555628.png)
 
@@ -69,7 +69,7 @@ You can also add files to be displayed or attached to your project overview.
 
 ### Project members widget
 
-You can add a widget which displays all project members and their corresponding role for this project at the project overview page.
+You can add a widget which displays all project members and their corresponding role for this project at the project overview page. This includes groups and placeholder users.
 
 ![project members](image-20191112134827557.png)
 
@@ -147,7 +147,7 @@ The work package graph widgets displays information about the work packages with
 
 **Configure the work package graph**
 
-You can filter the work packages to be displayed in the graph according to the [work packages table configuration](/user-guide/work-packages/work-package-table-configuration/).
+You can filter the work packages to be displayed in the graph according to the [work packages table configuration](../work-packages/work-package-table-configuration/).
 
 To configure the work package graph, click on the three dots in the top right corner and select **Configure view...**
 
@@ -169,6 +169,12 @@ Click on the Filter tab in order to configure the work packages which shall be d
 
 Click the blue **Apply** button to save your changes.
 
+If you want to build exactly the widgets shown in the screen-shot above:
+
+- For the "Assignees" graph please choose the widget "work packages overview" and change to "assignees".
+- For the Work packages status graph please select "work package graph", click on the three dots in the upper right corner of the widget, choose "configure view", then choose "status" as axis criteria and "pie chart" as chart type.
+- For the Work package progress graph please select "work package graph", click on the three dots in the upper right corner of the widget, choose "configure view", then choose "progress (%)" as axis criteria and "line" as chart type.
+
 ### Work package overview widget
 
 The work package over widget displays all work packages in a project differentiated by a certain criteria.
@@ -189,7 +195,7 @@ The widget lists all **open** and all **closed** work packages according to this
 
 ### Work package table widget
 
-The work package table widget includes a work package table to the project overview. The work package table can be filtered, grouped, sorted according to the [work package table configuration](/user-guide/work-packages/work-package-table-configuration/), e.g. display only work packages with Priority High.
+The work package table widget includes a work package table to the project overview. The work package table can be filtered, grouped, sorted according to the [work package table configuration](../work-packages/work-package-table-configuration/), e.g. to display only work packages with the priority "High".
 
 ![work package table widget](image-20191112152119523.png)
 
@@ -206,13 +212,3 @@ To **re-size** a widget, click on the grey icon in the lower right hand corner o
 To remove a widget from the project overview page, click on the three dots at the top right corner of the widget and select **Remove widget**.
 
 ![remove-widget](remove-widget.png)
-
-## Frequently asked questions (FAQ)
-
-### Is it possible that we can have a board over all OpenProject tasks and users? 
-
-Yes, to achieve the desired result you can navigate to the main project and on the Kanban view add the filter "subproject" "all". This will display the work packages in the main project and all subprojects.
-
-### What is the best way to maintain an overview of multiple projects in OpenProject? Is it possible to create a dashboard that shows all the projects you are responsible for at once?
-
-You can click on "Select a project" on the upper left side and then choose "View all projects" to get an overview of all projects. You can also apply filters to filter e.g. by projects for which you are set as the responsible. If you want to see the individual work packages in the projects, you can click on the module icon (the icon with the 9 squares) in the upper right side and choose "Work packages" from the dropdown menu. This shows all work packages across all projects you have access to. You can then click on the "Project" column header and select "Group by" to group by project. Additionally, you can then filter based on the project and e.g. only display certain projects.

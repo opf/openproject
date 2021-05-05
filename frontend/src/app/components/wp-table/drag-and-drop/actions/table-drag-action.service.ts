@@ -1,6 +1,6 @@
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {Injector} from "@angular/core";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { Injector } from "@angular/core";
 
 export class TableDragActionService {
 
@@ -51,7 +51,7 @@ export class TableDragActionService {
    * @param shadowElement
    * @param backToDefault: Shall the modifications be made undone
    */
-  public changeShadowElement(shadowElement:HTMLElement, backToDefault:boolean = false) {
+  public changeShadowElement(shadowElement:HTMLElement, backToDefault = false) {
     if (backToDefault) {
       shadowElement.classList.remove('-dragged');
     } else {

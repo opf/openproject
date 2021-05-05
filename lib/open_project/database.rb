@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -39,6 +40,7 @@ module OpenProject
     DB_VALUE_TRUE = 't'.freeze
 
     class InsufficientVersionError < StandardError; end
+
     class UnsupportedDatabaseError < StandardError; end
 
     # This method returns a hash which maps the identifier of the supported
@@ -87,9 +89,7 @@ module OpenProject
     # Raises an +InsufficientVersionError+ when the version is incompatible
     def self.check!
       if !postgresql?
-        message = "Database server is not PostgreSql. " \
-                  "As OpenProject uses non standard ANSI-SQL for performance optimizations, using a different DBMS will " \
-                  "break and is thus prevented."
+        message = "OpenProject requires a PostgreSQL database, but database adapter is set to #{adapter_name}."
 
         if adapter_name.match?(/mysql/i)
           message << " As MySql used to be supported, there is a migration script to ease the transition " \
@@ -117,6 +117,9 @@ module OpenProject
     # This string is set by the used adapter gem.
     def self.adapter_name(connection = self.connection)
       connection.adapter_name
+    rescue StandardError => e
+      Rails.logger.error "Failed to retrieve database adapter name #{e} #{e.message}"
+      "Unknown due to error #{e}"
     end
 
     # Get the AR base connection object handle
@@ -139,7 +142,7 @@ module OpenProject
     # OpenProject::Database.postgresql?(my_connection)
     supported_adapters.keys.each do |adapter|
       (class << self; self; end).class_eval do
-        define_method(:"#{adapter.to_s}?") do |connection = self.connection|
+        define_method(:"#{adapter}?") do |connection = self.connection|
           send(:name, connection) == adapter
         end
       end
@@ -157,7 +160,7 @@ module OpenProject
     def self.version(raw = false)
       @version ||= ActiveRecord::Base.connection.select_value('SELECT version()')
 
-      raw ? @version : @version.match(/\APostgreSQL ([\d\.]+)/i)[1]
+      raw ? @version : @version.match(/\APostgreSQL ([\d.]+)/i)[1]
     end
 
     def self.numeric_version

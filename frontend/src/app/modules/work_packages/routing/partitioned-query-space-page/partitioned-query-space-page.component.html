@@ -17,7 +17,6 @@
 
       <ul class="toolbar-items hide-when-print"
           *ngIf="showToolbar">
-
         <ng-container *ngFor="let definition of toolbarButtonComponents">
           <li class="toolbar-item"
               *ngIf="!definition.show || definition.show()"

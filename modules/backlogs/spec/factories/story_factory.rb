@@ -29,7 +29,7 @@
 FactoryBot.define do
   factory :story do
     association :priority, factory: :priority
-    sequence(:subject) do |n| "story#{n}" end
+    sequence(:subject) { |n| "story#{n}" }
     description { 'story story story' }
     association :type, factory: :type_feature
     association :author, factory: :user

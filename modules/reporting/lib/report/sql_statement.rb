@@ -29,8 +29,11 @@
 class Report::SqlStatement
   class Union
     attr_accessor :first, :second, :as
+
     def initialize(first, second, as = nil)
-      @first, @second, @as = first, second, as
+      @first = first
+      @second = second
+      @as = as
     end
 
     def to_s
@@ -80,6 +83,7 @@ class Report::SqlStatement
   def sum(field, name = :sum, type = :sum)
     @sql = nil
     return sum({ name => field }, nil, type) unless field.respond_to? :to_hash
+
     field.each { |k, v| field[k] = "#{type}(#{v})" }
     select field
   end
@@ -201,6 +205,7 @@ class Report::SqlStatement
   #   @return [Array<String>] All fields/statements for select part
   def select(*fields)
     return(@select || default_select) if fields.empty?
+
     (@select ||= []).tap do
       @sql = nil
       fields.reject { |f| never_select.include? f }.each do |f|

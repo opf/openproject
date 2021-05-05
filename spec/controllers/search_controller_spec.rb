@@ -206,7 +206,7 @@ describe SearchController, type: :controller do
       end
 
       before do
-        get :index, params: { q: 'note'}
+        get :index, params: { q: 'note' }
       end
 
       it_behaves_like 'successful search'

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,7 +29,6 @@
 #++
 
 class UserMailer < BaseMailer
-
   def test_mail(user)
     @welcome_url = url_for(controller: '/homescreen')
 
@@ -90,13 +90,35 @@ class UserMailer < BaseMailer
     end
   end
 
+  def backup_ready(user)
+    User.execute_as user do
+      @download_url = admin_backups_url
+
+      with_locale_for(user) do
+        mail to: user.mail, subject: I18n.t("mail_subject_backup_ready")
+      end
+    end
+  end
+
+  def backup_token_reset(recipient, user:, waiting_period: OpenProject::Configuration.backup_initial_waiting_period)
+    @admin_notification = recipient != user # notification for other admins rather than oneself
+    @user_login = user.login
+    @waiting_period = waiting_period
+
+    User.execute_as recipient do
+      with_locale_for(recipient) do
+        mail to: recipient.mail, subject: I18n.t("mail_subject_backup_token_reset")
+      end
+    end
+  end
+
   def password_lost(token)
     return unless token.user # token's can have no user
 
     @token = token
     @reset_password_url = url_for(controller: '/account',
-                                  action:     :lost_password,
-                                  token:      @token.value)
+                                  action: :lost_password,
+                                  token: @token.value)
 
     open_project_headers 'Type' => 'Account'
 
@@ -113,7 +135,7 @@ class UserMailer < BaseMailer
     @errors = errors
 
     open_project_headers 'Source-Project' => source_project.identifier,
-                         'Author'         => user.login
+                         'Author' => user.login
 
     message_id source_project, user
 
@@ -131,7 +153,7 @@ class UserMailer < BaseMailer
 
     open_project_headers 'Source-Project' => source_project.identifier,
                          'Target-Project' => target_project.identifier,
-                         'Author'         => user.login
+                         'Author' => user.login
 
     message_id target_project, user
 
@@ -163,8 +185,8 @@ class UserMailer < BaseMailer
     @user = token.user
     @token = token
     @activation_url = url_for(controller: '/account',
-                              action:     :activate,
-                              token:      @token.value)
+                              action: :activate,
+                              token: @token.value)
 
     open_project_headers 'Type' => 'Account'
 
@@ -194,9 +216,9 @@ class UserMailer < BaseMailer
   def wiki_content_added(user, wiki_content, author)
     @wiki_content = wiki_content
 
-    open_project_headers 'Project'      => @wiki_content.project.identifier,
+    open_project_headers 'Project' => @wiki_content.project.identifier,
                          'Wiki-Page-Id' => @wiki_content.page.id,
-                         'Type'         => 'Wiki'
+                         'Type' => 'Wiki'
 
     message_id @wiki_content, user
 
@@ -209,14 +231,14 @@ class UserMailer < BaseMailer
   def wiki_content_updated(user, wiki_content, author)
     @wiki_content  = wiki_content
     @wiki_diff_url = url_for(controller: '/wiki',
-                             action:     :diff,
+                             action: :diff,
                              project_id: wiki_content.project,
-                             id:         wiki_content.page.slug,
-                             version:    wiki_content.version)
+                             id: wiki_content.page.slug,
+                             version: wiki_content.version)
 
-    open_project_headers 'Project'      => @wiki_content.project.identifier,
+    open_project_headers 'Project' => @wiki_content.project.identifier,
                          'Wiki-Page-Id' => @wiki_content.page.id,
-                         'Type'         => 'Wiki'
+                         'Type' => 'Wiki'
 
     message_id @wiki_content, user
 
@@ -230,9 +252,9 @@ class UserMailer < BaseMailer
     @message     = message
     @message_url = topic_url(@message.root, r: @message.id, anchor: "message-#{@message.id}")
 
-    open_project_headers 'Project'      => @message.project.identifier,
+    open_project_headers 'Project' => @message.project.identifier,
                          'Wiki-Page-Id' => @message.parent_id || @message.id,
-                         'Type'         => 'Forum'
+                         'Type' => 'Forum'
 
     message_id @message, user
     references @message.parent, user if @message.parent
@@ -269,9 +291,9 @@ class UserMailer < BaseMailer
   def account_activation_requested(admin, user)
     @user           = user
     @activation_url = url_for(controller: '/users',
-                              action:     :index,
-                              status:     'registered',
-                              sort:       'created_at:desc')
+                              action: :index,
+                              status: 'registered',
+                              sort: 'created_at:desc')
 
     open_project_headers 'Type' => 'Account'
 
@@ -300,7 +322,7 @@ class UserMailer < BaseMailer
 
     with_locale_for(user) do
       subject = if @group
-                  t(:mail_subject_group_reminder, count: @issues.size, days: @days, group: @group.groupname)
+                  t(:mail_subject_group_reminder, count: @issues.size, days: @days, group: @group.name)
                 else
                   t(:mail_subject_reminder, count: @issues.size, days: @days)
                 end
@@ -344,10 +366,10 @@ class UserMailer < BaseMailer
   end
 
   def set_work_package_headers(work_package)
-    open_project_headers 'Project'        => work_package.project.identifier,
-                         'Issue-Id'       => work_package.id,
-                         'Issue-Author'   => work_package.author.login,
-                         'Type'           => 'WorkPackage'
+    open_project_headers 'Project' => work_package.project.identifier,
+                         'Issue-Id' => work_package.id,
+                         'Issue-Author' => work_package.author.login,
+                         'Type' => 'WorkPackage'
 
     if work_package.assigned_to
       open_project_headers 'Issue-Assignee' => work_package.assigned_to.login
@@ -370,11 +392,11 @@ class DefaultHeadersInterceptor
 
   def self.default_headers
     {
-      'X-Mailer'           => 'OpenProject',
+      'X-Mailer' => 'OpenProject',
       'X-OpenProject-Host' => Setting.host_name,
       'X-OpenProject-Site' => Setting.app_title,
-      'Precedence'         => 'bulk',
-      'Auto-Submitted'     => 'auto-generated'
+      'Precedence' => 'bulk',
+      'Auto-Submitted' => 'auto-generated'
     }
   end
 end

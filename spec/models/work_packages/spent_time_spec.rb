@@ -80,7 +80,7 @@ describe WorkPackage, 'spent_time', type: :model do
                      permissions: [:view_time_entries])
   end
   let(:user) do
-    FactoryBot.build(:user,
+    FactoryBot.create(:user,
                      member_in_project: project,
                      member_through_role: role)
   end

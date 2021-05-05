@@ -42,59 +42,14 @@ class Project < ApplicationRecord
   # reserved identifiers
   RESERVED_IDENTIFIERS = %w(new).freeze
 
-  # TODO: Is this association ever used? Groups are missing (and PlaceholderUsers).
   has_many :members, -> {
+    # TODO: check whether this should
+    # remaint to be limited to User only
     includes(:principal, :roles)
-      .where(
-        "#{Principal.table_name}.type='User' AND (
-          #{User.table_name}.status=#{Principal::STATUSES[:active]} OR
-          #{User.table_name}.status=#{Principal::STATUSES[:invited]}
-        )"
-      )
+      .merge(Principal.not_locked.user)
       .references(:principal, :roles)
   }
 
-  has_many :possible_assignee_members,
-           -> { assignable },
-           class_name: 'Member'
-
-  # Read only
-  has_many :possible_assignees,
-           ->(object) {
-             # Have to reference members and roles again although
-             # possible_assignee_members does already specify it to be able to use the
-             # assignable_principals there
-             #
-             # The .where(members_users: { project_id: object.id })
-             # part is an optimization preventing to have all the members joined
-             includes(members: :roles)
-               .where(members_users: { project_id: object.id })
-               .references(:roles)
-               .merge(Principal.order_by_name)
-           },
-           through: :possible_assignee_members,
-           source: :principal
-
-  has_many :possible_responsible_members,
-           -> { assignable },
-           class_name: 'Member'
-
-  # Read only
-  has_many :possible_responsibles,
-           ->(object) {
-             # Have to reference members and roles again although
-             # possible_responsible_members does already specify it to be able to use
-             # assignable_principals there
-             #
-             # The .where(members_users: { project_id: object.id })
-             # part is an optimization preventing to have all the members joined
-             includes(members: :roles)
-               .where(members_users: { project_id: object.id })
-               .references(:roles)
-               .merge(Principal.order_by_name)
-           },
-           through: :possible_responsible_members,
-           source: :principal
   has_many :memberships, class_name: 'Member'
   has_many :member_principals,
            -> { not_locked },
@@ -179,8 +134,8 @@ class Project < ApplicationRecord
   scope :newest, -> { order(created_at: :desc) }
   scope :active, -> { where(active: true) }
 
-  scope_classes Projects::Scopes::ActivatedTimeActivity,
-                Projects::Scopes::VisibleWithActivatedTimeActivity
+  scopes :activated_time_activity,
+         :visible_with_activated_time_activity
 
   def visible?(user = User.current)
     active? and (public? or user.admin? or user.member_of?(self))
@@ -201,22 +156,6 @@ class Project < ApplicationRecord
   def self.search_scope(query)
     # overwritten from Pagination::Model
     visible.like(query)
-  end
-
-  def possible_members(criteria, limit)
-    Principal.active_or_registered.like(criteria).not_in_project(self).limit(limit)
-  end
-
-  def add_member(user, roles)
-    members.build.tap do |m|
-      m.principal = user
-      m.roles = Array(roles)
-    end
-  end
-
-  def add_member!(user, roles)
-    add_member(user, roles)
-    save
   end
 
   # Returns all projects the user is allowed to see.
@@ -360,8 +299,8 @@ class Project < ApplicationRecord
     self
   end
 
-  def <=>(project)
-    name.downcase <=> project.name.downcase
+  def <=>(other)
+    name.downcase <=> other.name.downcase
   end
 
   def to_s
@@ -388,7 +327,11 @@ class Project < ApplicationRecord
   def enabled_module_names=(module_names)
     if module_names&.is_a?(Array)
       module_names = module_names.map(&:to_s).reject(&:blank?)
-      self.enabled_modules = module_names.map { |name| enabled_modules.detect { |mod| mod.name == name } || EnabledModule.new(name: name) }
+      self.enabled_modules = module_names.map do |name|
+        enabled_modules.detect do |mod|
+          mod.name == name
+        end || EnabledModule.new(name: name)
+      end
     else
       enabled_modules.clear
     end

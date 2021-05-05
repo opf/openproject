@@ -33,13 +33,14 @@ module Bim
     class IfcModelsController < BaseController
       helper_method :gon
 
-      before_action :find_project_by_project_id, only: %i[index new create show defaults edit update destroy direct_upload_finished]
+      before_action :find_project_by_project_id,
+                    only: %i[index new create show defaults edit update destroy direct_upload_finished]
       before_action :find_ifc_model_object, only: %i[edit update destroy]
       before_action :find_all_ifc_models, only: %i[show defaults index]
 
       # Callback done by AWS so can't be authenticated. Don't have to be either, though.
       # It only actually does anything if there is a pending upload with the key passed by AWS.
-      before_action :authorize, except: [:direct_upload_finished, :set_direct_upload_file_name]
+      before_action :authorize, except: %i[direct_upload_finished set_direct_upload_file_name]
       before_action :require_login, only: [:set_direct_upload_file_name]
       skip_before_action :verify_authenticity_token, only: [:set_direct_upload_file_name] # AJAX request in page, so skip authenticity token
 

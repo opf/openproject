@@ -52,7 +52,7 @@ module OpenProject::TextFormatting
 
             begin
               macro_class.apply(macro, result: result, context: context)
-            rescue => e
+            rescue StandardError => e
               Rails.logger.error("Failed to insert macro #{macro_class}: #{e} - #{e.message}")
               macro.replace macro_error_placeholder(macro_class, e.message)
             ensure
@@ -69,7 +69,8 @@ module OpenProject::TextFormatting
 
       def macro_error_placeholder(macro_class, message)
         ApplicationController.helpers.content_tag :macro,
-                                                  "#{I18n.t(:macro_execution_error, macro_name: macro_class.identifier)} (#{message})",
+                                                  "#{I18n.t(:macro_execution_error,
+                                                            macro_name: macro_class.identifier)} (#{message})",
                                                   class: 'macro-unavailable',
                                                   data: { macro_name: macro_class.identifier }
       end

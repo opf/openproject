@@ -28,6 +28,7 @@
 
 import {Inject, Injectable} from '@angular/core';
 import {DOCUMENT} from "@angular/common";
+import {enterpriseEditionUrl} from "core-app/globals/constants.const";
 
 @Injectable({ providedIn: 'root' })
 export class BannersService {
@@ -40,6 +41,19 @@ export class BannersService {
 
   public get eeShowBanners():boolean {
     return false;
+  }
+
+  public getEnterPriseEditionUrl({ referrer, hash }:{referrer?:string, hash?:string} = {}) {
+    const url = new URL(enterpriseEditionUrl);
+    if (referrer) {
+      url.searchParams.set('op_referrer', referrer);
+    }
+
+    if (hash) {
+      url.hash = hash;
+    }
+
+    return url.toString();
   }
 
   public conditional(bannersVisible?:() => void, bannersNotVisible?:() => void) {

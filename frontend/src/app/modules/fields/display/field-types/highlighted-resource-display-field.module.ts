@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
-import {HighlightableDisplayField} from "core-app/modules/fields/display/field-types/highlightable-display-field.module";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import { Highlighting } from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import { HighlightableDisplayField } from "core-app/modules/fields/display/field-types/highlightable-display-field.module";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 
 export class HighlightedResourceDisplayField extends HighlightableDisplayField {
 
@@ -43,8 +43,7 @@ export class HighlightedResourceDisplayField extends HighlightableDisplayField {
   public get value() {
     if (this.schema) {
       return this.attribute && this.attribute.name;
-    }
-    else {
+    } else {
       return null;
     }
   }

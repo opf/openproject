@@ -34,10 +34,10 @@ describe User, type: :model do
   let(:user) { FactoryBot.build(:user) }
   let(:project) { FactoryBot.build(:valid_project) }
   let(:project2) { FactoryBot.build(:valid_project) }
-  let(:project_hourly_rate) {
+  let(:project_hourly_rate) do
     FactoryBot.build(:hourly_rate, user: user,
-                                    project: project)
-  }
+                                   project: project)
+  end
   let(:default_hourly_rate) { FactoryBot.build(:default_hourly_rate, user: user) }
 
   describe '#allowed_to' do
@@ -114,10 +114,10 @@ describe User, type: :model do
 
     describe "WHEN providing a project
               WHEN providing attributes for an existing rate in the project" do
-      let(:new_attributes) {
+      let(:new_attributes) do
         { project_hourly_rate.id.to_s => { valid_from: (Date.today + 1.day).to_s,
                                            rate: (project_hourly_rate.rate + 5).to_s } }
-      }
+      end
 
       before do
         project_hourly_rate.save!
@@ -127,11 +127,15 @@ describe User, type: :model do
       end
 
       it 'should update the rate' do
-        expect(user.rates.detect { |r| r.id == project_hourly_rate.id }.rate).to eq(new_attributes[project_hourly_rate.id.to_s][:rate].to_i)
+        expect(user.rates.detect do |r|
+                 r.id == project_hourly_rate.id
+               end.rate).to eq(new_attributes[project_hourly_rate.id.to_s][:rate].to_i)
       end
 
       it 'should update valid_from' do
-        expect(user.rates.detect { |r| r.id == project_hourly_rate.id }.valid_from).to eq(new_attributes[project_hourly_rate.id.to_s][:valid_from].to_date)
+        expect(user.rates.detect do |r|
+                 r.id == project_hourly_rate.id
+               end.valid_from).to eq(new_attributes[project_hourly_rate.id.to_s][:valid_from].to_date)
       end
 
       it 'should not create a rate' do
@@ -141,10 +145,10 @@ describe User, type: :model do
 
     describe "WHEN providing a project
               WHEN providing attributes for an existing rate in another project" do
-      let(:new_attributes) {
+      let(:new_attributes) do
         { project_hourly_rate.id.to_s => { valid_from: (Date.today + 1.day).to_s,
                                            rate: (project_hourly_rate.rate + 5).to_s } }
-      }
+      end
 
       before do
         project_hourly_rate.save!

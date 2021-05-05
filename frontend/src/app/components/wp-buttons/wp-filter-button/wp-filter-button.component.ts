@@ -44,8 +44,8 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
   public initialized:boolean = false;
   public isAuthorized:boolean = false;
 
-  public buttonId:string = 'work-packages-filter-toggle-button';
-  public iconClass:string = 'icon-filter';
+  public buttonId = 'work-packages-filter-toggle-button';
+  public iconClass = 'icon-filter';
 
   constructor(readonly I18n:I18nService,
               protected cdRef:ChangeDetectorRef,

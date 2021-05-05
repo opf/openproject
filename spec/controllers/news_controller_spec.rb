@@ -125,7 +125,6 @@ describe NewsController, type: :controller do
         expect(news.author).to eq user
         expect(news.project).to eq project
 
-
         perform_enqueued_jobs
 
         expect(ActionMailer::Base.deliveries.size).to eq(1)

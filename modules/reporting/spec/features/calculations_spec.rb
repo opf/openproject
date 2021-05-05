@@ -9,36 +9,35 @@ describe 'Cost report calculations', type: :feature, js: true do
   let!(:hourly_rate2) { FactoryBot.create :default_hourly_rate, user: user, rate: 5.00, valid_from: 2.years.ago }
   let!(:hourly_rate3) { FactoryBot.create :default_hourly_rate, user: user, rate: 10.00, valid_from: 3.years.ago }
 
-  let!(:time_entry1) {
+  let!(:time_entry1) do
     FactoryBot.create :time_entry,
-                       spent_on: 6.months.ago,
-                       user: user,
-                       work_package: work_package,
-                       project: project,
-                       hours: 10
-  }
-  let!(:time_entry2) {
+                      spent_on: 6.months.ago,
+                      user: user,
+                      work_package: work_package,
+                      project: project,
+                      hours: 10
+  end
+  let!(:time_entry2) do
     FactoryBot.create :time_entry,
-                       spent_on: 18.months.ago,
-                       user: user,
-                       work_package: work_package,
-                       project: project,
-                       hours: 10
-  }
-  let!(:time_entry3) {
+                      spent_on: 18.months.ago,
+                      user: user,
+                      work_package: work_package,
+                      project: project,
+                      hours: 10
+  end
+  let!(:time_entry3) do
     FactoryBot.create :time_entry,
-                       spent_on: 30.months.ago,
-                       user: user,
-                       work_package: work_package,
-                       project: project,
-                       hours: 10
-  }
+                      spent_on: 30.months.ago,
+                      user: user,
+                      work_package: work_package,
+                      project: project,
+                      hours: 10
+  end
 
   before do
     login_as(user)
     visit '/cost_reports?set_filter=1'
   end
-
 
   it 'shows the correct calculations' do
     expect(page).to have_text '10.00' # 1 EUR x 10

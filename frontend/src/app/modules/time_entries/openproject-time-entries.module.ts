@@ -26,20 +26,22 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-common.module';
-import {NgModule} from '@angular/core';
-import {OpenprojectFieldsModule} from "core-app/modules/fields/openproject-fields.module";
-import {TimeEntryCreateModal} from "core-app/modules/time_entries/create/create.modal";
-import {TimeEntryEditModal} from "core-app/modules/time_entries/edit/edit.modal";
-import {TimeEntryFormComponent} from "core-app/modules/time_entries/form/form.component";
-import {TimeEntryEditService} from "core-app/modules/time_entries/edit/edit.service";
-import {TriggerActionsEntryComponent} from "core-app/modules/time_entries/edit/trigger-actions-entry.component";
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { NgModule } from '@angular/core';
+import { OpenprojectCommonModule } from 'core-app/modules/common/openproject-common.module';
+import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
+import { OpenprojectFieldsModule } from "core-app/modules/fields/openproject-fields.module";
+import { TimeEntryCreateModal } from "core-app/modules/time_entries/create/create.modal";
+import { TimeEntryEditModal } from "core-app/modules/time_entries/edit/edit.modal";
+import { TimeEntryFormComponent } from "core-app/modules/time_entries/form/form.component";
+import { TimeEntryEditService } from "core-app/modules/time_entries/edit/edit.service";
+import { TriggerActionsEntryComponent } from "core-app/modules/time_entries/edit/trigger-actions-entry.component";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 
 @NgModule({
   imports: [
     // Commons
     OpenprojectCommonModule,
+    OpenprojectModalModule,
 
     // Editable fields e.g. for modals
     OpenprojectFieldsModule,

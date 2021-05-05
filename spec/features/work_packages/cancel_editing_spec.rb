@@ -35,14 +35,14 @@ describe 'Cancel editing work package', js: true do
   let(:work_package2) { FactoryBot.create(:work_package, project: project) }
   let(:wp_page) { ::Pages::AbstractWorkPackage.new(work_package) }
   let(:wp_table) { ::Pages::WorkPackagesTable.new }
-  let(:paths) {
+  let(:paths) do
     [
       new_work_packages_path,
       new_split_work_packages_path,
       new_project_work_packages_path(project),
       new_split_project_work_packages_path(project)
     ]
-  }
+  end
 
   before do
     work_package
@@ -62,7 +62,7 @@ describe 'Cancel editing work package', js: true do
   end
 
   def move_to_home_page(alert: true)
-    find('.home-link').click
+    find('.op-logo--link').click
 
     page.driver.browser.switch_to.alert.accept if alert
     expect(page).to have_selector('#projects-menu', text: 'Select a project')
@@ -153,7 +153,7 @@ describe 'Cancel editing work package', js: true do
     expect(wp_page).not_to have_alert_dialog
 
     # Visiting another page does not create alert
-    find('.home-link').click
+    find('.op-logo--link').click
     expect(wp_page).not_to have_alert_dialog
   end
 

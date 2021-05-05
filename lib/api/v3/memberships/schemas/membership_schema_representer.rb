@@ -47,6 +47,13 @@ module API
           schema :updated_at,
                  type: 'DateTime'
 
+          schema :notification_message,
+                 type: 'Formattable',
+                 name_source: ->(*) { I18n.t(:label_message) },
+                 writable: true,
+                 required: false,
+                 location: :meta
+
           schema_with_allowed_link :project,
                                    has_default: false,
                                    required: false,
@@ -93,7 +100,7 @@ module API
           end
 
           def allowed_principals_filters
-            statuses = [Principal::STATUSES[:locked].to_s]
+            statuses = [Principal.statuses[:locked].to_s]
             status_filter = { status: { operator: '!', values: statuses } }
 
             filters = [status_filter]

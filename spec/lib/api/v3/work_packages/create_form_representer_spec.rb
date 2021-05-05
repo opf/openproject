@@ -213,10 +213,10 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
             let(:type) { FactoryBot.build_stubbed(:type) }
             let(:work_package) do
               FactoryBot.build(:work_package,
-                                id: 42,
-                                created_at: DateTime.now,
-                                updated_at: DateTime.now,
-                                type: type)
+                               id: 42,
+                               created_at: DateTime.now,
+                               updated_at: DateTime.now,
+                               type: type)
             end
 
             before do

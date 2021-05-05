@@ -50,7 +50,7 @@ module Pages
     end
 
     def alter_attributes_in_edit_story_mode(story, attributes)
-      edit_proc = ->() do
+      edit_proc = -> do
         attributes.each do |key, value|
           case key
           when :subject
@@ -92,7 +92,7 @@ module Pages
     end
 
     def save_story_from_edit_mode(story)
-      save_proc = -> () do
+      save_proc = -> do
         find('input[name=subject]').native.send_key :return
 
         expect(page)
@@ -186,14 +186,14 @@ module Pages
     def expect_story_in_sprint(story, sprint)
       within_backlog(sprint) do
         expect(page)
-          .to have_selector("#{story_selector(story)}")
+          .to have_selector(story_selector(story).to_s)
       end
     end
 
     def expect_story_not_in_sprint(story, sprint)
       within_backlog(sprint) do
         expect(page)
-          .not_to have_selector("#{story_selector(story)}")
+          .not_to have_selector(story_selector(story).to_s)
       end
     end
 
@@ -226,7 +226,7 @@ module Pages
 
     def expect_status_options(story, statuses)
       within_story(story) do
-        expect(all('.status_id option').map { |n| n.text.strip } )
+        expect(all('.status_id option').map { |n| n.text.strip })
           .to match_array(statuses.map(&:name))
       end
     end

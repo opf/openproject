@@ -33,6 +33,19 @@ pl:
         single: "Wybierz %{name}"
       remove: "Usuń %{name}"
       active: "Aktywne %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Opcje
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Zamknij okno"
     close_filter_title: "Zamknij filtr"
     close_form_title: "Zamknij formularz"
@@ -86,7 +99,7 @@ pl:
     caption_rate_history: "Historia stawek"
     clipboard:
       browser_error: "Twoja przeglądarka nie obsługuje kopiowania do schowka. Skopiuj tekst ręcznie."
-      copied_successful: "Successfully copied to clipboard!"
+      copied_successful: "Skopiowano do schowka!"
     chart:
       type: 'Typ wykresu'
       axis_criteria: 'Kryteria osi'
@@ -207,7 +220,7 @@ pl:
         upsale:
           become_hero: "Zostań bohaterem!"
           benefits:
-            description: "Jakie są korzyści?"
+            description: "Jakie są korzyści z rozwiązania lokalnego wersji Enterprise?"
             high_security: "Funkcje zabezpieczeń"
             high_security_text: "Pojedyncze logowanie (SAML, OpenID Connect, CAS), uwierzytelnianie dwuskładnikowe i automatyczna synchronizacja grup LDAP."
             installation: "Pomoc w instalacji"
@@ -271,13 +284,13 @@ pl:
           text_new_features: "Przeczytaj o nowych funkcjach i aktualizacjach produktów."
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li><b>Ulepszone style</b> edytora WYSIWYG.</li> <li>Bezpośrednie wyświetlenie <b>nazwy użytkownika @powiadomień</b> podczas edycji.</li> <li>Rozszerzony profil uwierzytelniania z <b>dostawcą OpenID Connect.</b></li> <li>Wyświetlanie <b>zagregowanych kamieni milowych</b> projektu w jednym wierszu na wykresie Gantta.</li> <li><b>Zwijanie wszystkich przycisków grup</b> na liście pakietów roboczych.</li> <li><b>Optymalizacja do druku,</b> np. stron wiki za pomocą funkcji drukowania przeglądarki</li> </ul>
+              Wydanie to zawiera wiele nowych funkcji i ulepszeń: <br> <ul class="%{list_styling_class}"> <li>Nowa koncepcja <b>użytkowników zastępczych</b> (funkcja Premium) umożliwia dodawanie do OpenProject wstępnych użytkowników bez adresu email i przypisywanie zadań do tych zasobów.</li> <li>Filtry pakietów roboczych <b>zostały rozszerzone o opcję elementu nadrzędnego</b>, pozwalającą z łatwością sprawdzić wszystkie bezpośrednie elementy podrzędne, jak również filtrowanie <b>według identyfikatora</b>, pozwalające uwzględnić lub wykluczyć jedynie żądane pakiety robocze na liście.</li> <li>Administrowanie użytkownikami zostało przekazane do użytkowników bez praw administratorów za pomocą <b>nowej roli globalnej</b>, pozwalającej na zarządzanie i zapraszanie użytkowników bez posiadania pełnych uprawnień administratora.</li> <li>Dalsze ulepszenia UI i UX, tj. ujednolicenie nawigacji w raportach kosztowych, dostosowane kolory tła wierszy sum i grup na liście pakietów roboczych, dodanie strony pokazującej grupy.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li><b>Ulepszone style</b> edytora WYSIWYG.</li> <li>Bezpośrednie wyświetlenie <b>nazwy użytkownika @powiadomień</b> podczas edycji.</li> <li>Rozszerzony profil uwierzytelniania z <b>dostawcą OpenID Connect.</b></li> <li>Wyświetlanie <b>zagregowanych kamieni milowych</b> projektu w jednym wierszu na wykresie Gantta.</li> <li><b>Zwijanie wszystkich przycisków grup</b> na liście pakietów roboczych.</li> <li><b>Optymalizacja do druku,</b> np. stron wiki za pomocą funkcji drukowania przeglądarki</li> </ul>
+              Wydanie to zawiera wiele nowych funkcji i ulepszeń: <br> <ul class="%{list_styling_class}"> <li>Nowa koncepcja <b>użytkowników zastępczych</b> (funkcja Premium) umożliwia dodawanie do OpenProject wstępnych użytkowników bez adresu email i przypisywanie zadań do tych zasobów.</li> <li>Filtry pakietów roboczych <b>zostały rozszerzone o opcję elementu nadrzędnego</b>, pozwalającą z łatwością sprawdzić wszystkie bezpośrednie elementy podrzędne, jak również filtrowanie <b>według identyfikatora</b>, pozwalające uwzględnić lub wykluczyć jedynie żądane pakiety robocze na liście.</li> <li>Administrowanie użytkownikami zostało przekazane do użytkowników bez praw administratorów za pomocą <b>nowej roli globalnej</b>, pozwalającej na zarządzanie i zapraszanie użytkowników bez posiadania pełnych uprawnień administratora.</li> <li>Dalsze ulepszenia UI i UX, tj. ujednolicenie nawigacji w raportach kosztowych, dostosowane kolory tła wierszy sum i grup na liście pakietów roboczych, dodanie strony pokazującej grupy.</li> </ul>
     label_activate: "Aktywuj"
     label_add_column_after: "Dodaj kolumnę po"
     label_add_column_before: "Dodaj kolumnę przed"
@@ -363,7 +376,7 @@ pl:
     label_next: "Następny"
     label_no_color: "Bez koloru"
     label_no_data: "Brak danych do pokazania"
-    label_no_due_date: "no finish date"
+    label_no_due_date: "brak daty ukończenia"
     label_no_start_date: "brak daty rozpoczęcia"
     label_no_value: "Brak wartości"
     label_none: "Brak"
@@ -403,7 +416,7 @@ pl:
     label_public_query: "Publiczny"
     label_sum: "Suma"
     label_sum_for: "Suma dla"
-    label_total_sum: "Total sum"
+    label_total_sum: "Suma całkowita"
     label_subject: "Temat"
     label_this_week: "ten tydzień"
     label_today: "Dzisiaj"
@@ -466,6 +479,7 @@ pl:
         help_menu: 'W menu <b>Pomoc</b> znajdziesz przewodnik użytkownika i dodatkowe zasoby pomocy. <br> Życzymy miłej pracy w OpenProject!'
         members: 'Zaproś nowych <b>członków</b> do swojego projektu.'
         project_selection: 'Aby rozpocząć, kliknij jeden z projektów z przydatnymi danymi demonstracyjnymi. <br> <b>Projekt Demo</b> najlepiej nadaje się do klasycznego zarządzania projektami, natomiast <b>projekt Scrum</b> jest lepszy do zwinnego zarządzania projektami.'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "Strzałka umożliwia powrót do <b>menu głównego</b> projektu."
         welcome: "Poświęć trzy minuty na zapoznanie się z <b>najważniejszymi funkcjami</b>. \n <br> Zalecamy wykonanie tych kroków do końca. Zwiedzanie można w każdej chwili zacząć od nowa."
         wiki: 'W <b>wiki</b> możesz dokumentować wiedzę i dzielić się nią z zespołem.'
@@ -507,6 +521,9 @@ pl:
       work_package_belongs_to: 'Ten pakiet roboczy należy do projektu %{projectname}.'
       click_to_switch_context: 'Otwórz ten pakiet roboczy w tym projekcie.'
       confirm_template_load: 'Przełączenie szablonu spowoduje ponowne załadowanie strony i utracisz wszystkie dane wprowadzone do tego formularza. Kontynuować?'
+      use_template: "Użyj szablonu"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Autouzupełnianie projektu'
     text_are_you_sure: "Jesteś pewien?"
@@ -845,7 +862,7 @@ pl:
           automatic: 'Automatycznie'
           manually: 'Ręcznie'
           warning: 'Wskutek aktywacji trybu automatycznego sortowania utracisz poprzednie sortowanie.'
-        columns_help_text: "Użyj powyższych danych wejściowych, aby dodać kolumny do widoku tabeli. Możesz przeciągać i upuszczać kolumny, aby zmienić ich kolejność."
+        columns_help_text: "Użyj powyższego pola wprowadzania danych, aby dodać kolumny do widoku tabeli. Możesz przeciągać i upuszczać kolumny, aby zmienić ich kolejność."
         upsale:
           attribute_highlighting: 'Czy określone pakiety robocze trzeba wyróżnić?'
           relation_columns: 'Chcesz zobaczyć relacje w tej liście pakietów roboczych?'
@@ -944,11 +961,9 @@ pl:
         many: "%{count} potomnych pakietów roboczych"
         other: "%{count} potomnych pakietów roboczych"
       hour:
+        one: "1 h"
+        other: "%{count} h"
         zero: "0 h"
-        one: ""
-        few: ""
-        many: ""
-        other: ""
     zen_mode:
       button_activate: 'Włącz tryb zen'
       button_deactivate: 'Wyłącz tryb zen'
@@ -966,3 +981,75 @@ pl:
       card: 'Karty'
       list: 'Tabela'
       timeline: 'Wykres Gantta'
+    invite_user_modal:
+      back: 'Wstecz'
+      invite: 'Invite'
+      title:
+        invite: 'Zaproś użytkownika'
+        invite_to_project: 'Invite %{type} to %{project}'
+        User: 'user'
+        Group: 'group'
+        PlaceholderUser: 'placeholder user'
+        invite_principal_to_project: 'Invite %{principal} to %{project}'
+      project:
+        label: 'Projekt'
+        required: 'Please select a project'
+        next_button: 'Następny'
+        no_results: 'No projects were found'
+        no_invite_rights: 'You are not allowed to invite members to this project'
+      type:
+        required: 'Please select the type to be invited'
+        user:
+          title: 'Użytkownik'
+          description: 'Permissions based on the assigned role in the selected project'
+        group:
+          title: 'Grupa'
+          description: 'Permissions based on the assigned role in the selected project'
+        placeholder:
+          title: 'Użytkownik zastępczy'
+          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
+          description: 'Has no access to the project and no emails are sent out.'
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+      principal:
+        label:
+          name_or_email: 'Name or email address'
+          name: 'Nazwa'
+        already_member_message: 'Already a member of %{project}'
+        no_results_user: 'No users were found'
+        invite_user: 'Invite:'
+        change_user_selection: 'Change e-mail-address or select an existing user'
+        no_results_placeholder: 'No placeholders were found'
+        change_placeholder_selection: 'Change name or select an existing placeholder'
+        create_new_placeholder: 'Create new placeholder:'
+        no_results_group: 'No groups were found'
+        change_group_selection: 'Change name or select an existing group'
+        next_button: 'Następny'
+        required:
+          user: 'Please select a user'
+          placeholder: 'Please select a placeholder'
+          group: 'Please select a group'
+      role:
+        label: 'Role in %{project}'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
+        required: 'Please select a role'
+        next_button: 'Następny'
+      message:
+        label: 'Invitation message'
+        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
+        next_button: 'Review invitation'
+      summary:
+        next_button: 'Wyślij zaproszenie'
+      success:
+        title: '%{principal} was invited!'
+        description:
+          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+        next_button: 'Dalej'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: 'Zaawansowane ustawienia'
+
+

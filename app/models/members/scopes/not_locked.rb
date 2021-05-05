@@ -28,14 +28,17 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-# Find all members that are whose principals are not locked.
 module Members::Scopes
-  class NotLocked
-    def self.fetch
-      Member
-        .includes(:principal)
-        .references(:principals)
-        .merge(Principal.not_builtin_but_with_placeholder_users.active_or_registered)
+  module NotLocked
+    extend ActiveSupport::Concern
+
+    class_methods do
+      # Find all members whose principals are not locked.
+      def not_locked
+        includes(:principal)
+          .references(:principals)
+          .merge(Principal.not_locked, rewhere: true)
+      end
     end
   end
 end

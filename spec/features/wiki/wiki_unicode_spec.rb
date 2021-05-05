@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Wiki unicode title spec', type: :feature, js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:user) { admin }
 
   let(:project) { FactoryBot.create :project }

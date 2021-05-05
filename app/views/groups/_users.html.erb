@@ -43,7 +43,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
   <div class="grid-content medium-6 -visible-overflow">
     <% users = User
-      .not_builtin
+      .user
       .active
       .not_in_group(@group)
       .limit(1) %>

@@ -40,6 +40,12 @@ module Members
     validate :project_set
     validate :project_manageable
 
+    def assignable_projects
+      Project
+        .active
+        .where(id: Project.allowed_to(user, :manage_members))
+    end
+
     private
 
     def user_allowed_to_manage
@@ -62,7 +68,7 @@ module Members
 
     def role_grantable?(role)
       role.builtin == Role::NON_BUILTIN &&
-        ((model.project && role.class == Role) || (!model.project && role.class == GlobalRole))
+        ((model.project && role.instance_of?(Role)) || (!model.project && role.instance_of?(GlobalRole)))
     end
 
     def user_allowed_to_manage?

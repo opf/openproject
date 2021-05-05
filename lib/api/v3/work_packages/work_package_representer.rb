@@ -432,14 +432,18 @@ module API
                             representer: ::API::V3::Users::UserRepresenter
 
         associated_resource :responsible,
-                            getter: ::API::V3::Principals::AssociatedSubclassLambda.getter(:responsible),
+                            getter: ::API::V3::Principals::PrincipalRepresenterFactory
+                                      .create_getter_lambda(:responsible),
                             setter: PrincipalSetter.lambda(:responsible),
-                            link: ::API::V3::Principals::AssociatedSubclassLambda.link(:responsible)
+                            link: ::API::V3::Principals::PrincipalRepresenterFactory
+                                    .create_link_lambda(:responsible)
 
         associated_resource :assignee,
-                            getter: ::API::V3::Principals::AssociatedSubclassLambda.getter(:assigned_to),
+                            getter: ::API::V3::Principals::PrincipalRepresenterFactory
+                                      .create_getter_lambda(:assigned_to),
                             setter: PrincipalSetter.lambda(:assigned_to, :assignee),
-                            link: ::API::V3::Principals::AssociatedSubclassLambda.link(:assigned_to)
+                            link: ::API::V3::Principals::PrincipalRepresenterFactory
+                                    .create_link_lambda(:assigned_to)
 
         associated_resource :version,
                             v3_path: :version,

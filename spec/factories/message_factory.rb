@@ -29,7 +29,7 @@
 FactoryBot.define do
   factory :message do
     forum
-    sequence(:content) do |n| "Message content #{n}" end
+    sequence(:content) { |n| "Message content #{n}" }
     sequence(:subject) { |n| "Message subject #{n}" }
   end
 end

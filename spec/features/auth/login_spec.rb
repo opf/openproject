@@ -68,7 +68,7 @@ describe 'Login', type: :feature do
     context 'with leading and trailing space in login' do
       it 'can still login' do
         # first login
-        login_with(" #{user.login} ", user.password)
+        login_with(" #{user.login} ", user_password)
 
         # on the my page
         expect(page)
@@ -83,7 +83,7 @@ describe 'Login', type: :feature do
       it 'redirects to homescreen after forced password change
          (with validation error) and first login' do
         # first login
-        login_with(user.login, user.password)
+        login_with(user.login, user_password)
         expect(current_path).to eql signin_path
 
         # change password page (giving an invalid password)
@@ -134,7 +134,6 @@ describe 'Login', type: :feature do
             with_settings: {
               autologin: 1
             } do
-
       def fake_browser_closed
         page.driver.browser.set_cookie(OpenProject::Configuration['session_cookie_name'])
       end

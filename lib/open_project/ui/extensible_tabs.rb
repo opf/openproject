@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -33,7 +34,8 @@ module OpenProject
       class << self
         def tabs
           @tabs ||= {
-            user: core_user_tabs
+            user: core_user_tabs,
+            placeholder_user: core_placeholder_user_tabs
           }
         end
 
@@ -48,6 +50,7 @@ module OpenProject
           tabs[key] = [] if tabs[key].nil?
 
           raise ArgumentError.new "Invalid entry for tab #{key}" unless entry[:name] && entry[:partial]
+
           tabs[key] << entry
         end
 
@@ -58,29 +61,45 @@ module OpenProject
             {
               name: 'general',
               partial: 'users/general',
-              path: ->(params) { tab_edit_user_path(params[:user], tab: :general) },
+              path: ->(params) { edit_user_path(params[:user], tab: :general) },
               label: :label_general
             },
             {
               name: 'memberships',
-              partial: 'users/memberships',
-              path: ->(params) { tab_edit_user_path(params[:user], tab: :memberships) },
-              label: :label_project_plural,
-              only_if: ->(*) { User.current.admin? }
+              partial: 'individual_principals/memberships',
+              path: ->(params) { edit_user_path(params[:user], tab: :memberships) },
+              label: :label_project_plural
             },
             {
               name: 'groups',
               partial: 'users/groups',
-              path: ->(params) { tab_edit_user_path(params[:user], tab: :groups) },
+              path: ->(params) { edit_user_path(params[:user], tab: :groups) },
               label: :label_group_plural,
               only_if: ->(*) { User.current.admin? && Group.any? }
             },
             {
               name: 'global_roles',
               partial: 'users/global_roles',
-              path: ->(params) { tab_edit_user_path(params[:user], tab: :global_roles) },
+              path: ->(params) { edit_user_path(params[:user], tab: :global_roles) },
               label: :label_global_roles,
               only_if: ->(*) { User.current.admin? }
+            }
+          ]
+        end
+
+        def core_placeholder_user_tabs
+          [
+            {
+              name: 'general',
+              partial: 'placeholder_users/general',
+              path: ->(params) { edit_placeholder_user_path(params[:placeholder_user], tab: :general) },
+              label: :label_general
+            },
+            {
+              name: 'memberships',
+              partial: 'individual_principals/memberships',
+              path: ->(params) { edit_placeholder_user_path(params[:placeholder_user], tab: :memberships) },
+              label: :label_project_plural
             }
           ]
         end

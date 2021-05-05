@@ -1,14 +1,14 @@
-import {Injector} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
-import {States} from '../../../states.service';
-import {isRelationColumn, QueryColumn} from '../../../wp-query/query-column';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {tdClassName} from '../cell-builder';
-import {commonRowClassName, SingleRowBuilder, tableRowClassName} from '../rows/single-row-builder';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {RelationColumnType} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { Injector } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { RelationResource } from 'core-app/modules/hal/resources/relation-resource';
+import { States } from '../../../states.service';
+import { isRelationColumn, QueryColumn } from '../../../wp-query/query-column';
+import { WorkPackageTable } from '../../wp-fast-table';
+import { tdClassName } from '../cell-builder';
+import { commonRowClassName, SingleRowBuilder, tableRowClassName } from '../rows/single-row-builder';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { RelationColumnType } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export function relationGroupClass(workPackageId:string) {
   return `__relations-expanded-from-${workPackageId}`;
@@ -70,7 +70,7 @@ export class RelationRowBuilder extends SingleRowBuilder {
    */
   public createEmptyRelationRow(from:WorkPackageResource, to:WorkPackageResource) {
     const identifier = this.relationClassIdentifier(from, to);
-    let tr = document.createElement('tr');
+    const tr = document.createElement('tr');
     tr.dataset['workPackageId'] = to.id!;
     tr.dataset['classIdentifier'] = identifier;
 

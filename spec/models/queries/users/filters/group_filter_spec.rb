@@ -56,7 +56,7 @@ describe Queries::Users::Filters::GroupFilter, type: :model do
   end
 
   it_behaves_like 'list_optional group query filter' do
-    let(:model) { User }
+    let(:model) { User.user }
     let(:valid_values) { [group1.id.to_s] }
   end
 end

@@ -46,7 +46,6 @@ OpenProject::Application.routes.draw do
     "#{rails_relative_url_root}/work_packages/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
   }
 
-
   # Respond with 410 gone for APIV2 calls
   match '/api/v2(/*unmatched_route)', to: proc { [410, {}, ['']] }, via: :all
   match '/assets/compiler.js.map', to: proc { [404, {}, ['']] }, via: :all
@@ -167,20 +166,17 @@ OpenProject::Application.routes.draw do
     match '/unwatch' => 'watchers#unwatch', via: :delete
   end
 
-  resources :projects, except: %i[show edit] do
+  resources :projects, except: %i[show edit create] do
     member do
       ProjectSettingsHelper.project_settings_tabs.each do |tab|
         get "settings/#{tab[:name]}", controller: "project_settings/#{tab[:name]}", action: 'show', as: "settings_#{tab[:name]}"
       end
-      get "settings", controller: "project_settings/generic", action: 'show', as: "project_settings"
+      get "settings"
 
       get 'identifier', action: 'identifier'
       patch 'identifier', action: 'update_identifier'
 
-      match 'copy_project_from_(:coming_from)' => 'copy_projects#copy_project', via: :get, as: :copy_from,
-            constraints: { coming_from: /(admin|settings)/ }
-      match 'copy_from_(:coming_from)' => 'copy_projects#copy', via: :post, as: :copy,
-            constraints: { coming_from: /(admin|settings)/ }
+      get :copy
 
       put :modules
       put :custom_fields
@@ -299,29 +295,29 @@ OpenProject::Application.routes.draw do
       get '(/revisions/:rev)/diff(/*repo_path)',
           action: :diff,
           format: 'html',
-          constraints: { rev: /[\w0-9\.\-_]+/, repo_path: /.*/ }
+          constraints: { rev: /[\w0-9.\-_]+/, repo_path: /.*/ }
 
       get '(/revisions/:rev)/:format/*repo_path',
           action: :entry,
           format: /raw/,
-          rev: /[\w0-9\.\-_]+/
+          rev: /[\w0-9.\-_]+/
 
       %w{diff annotate changes entry browse}.each do |action|
         get "(/revisions/:rev)/#{action}(/*repo_path)",
             format: 'html',
             action: action,
-            constraints: { rev: /[\w0-9\.\-_]+/, repo_path: /.*/ },
+            constraints: { rev: /[\w0-9.\-_]+/, repo_path: /.*/ },
             as: "#{action}_revision"
       end
 
-      get '/revision(/:rev)', rev: /[\w0-9\.\-_]+/,
+      get '/revision(/:rev)', rev: /[\w0-9.\-_]+/,
                               action: :revision,
                               as: 'show_revision'
 
       get '(/revisions/:rev)(/*repo_path)',
           action: :show,
           format: 'html',
-          constraints: { rev: /[\w0-9\.\-_]+/, repo_path: /.*/ },
+          constraints: { rev: /[\w0-9.\-_]+/, repo_path: /.*/ },
           as: 'show_revisions_path'
     end
   end
@@ -389,19 +385,33 @@ OpenProject::Application.routes.draw do
   end
 
   namespace :admin do
-    resource :incoming_mails, only: %i[show update]
-    resource :mail_notifications, only: %i[show update]
-  end
+    namespace :settings do
+      SettingsHelper.system_settings_tabs.each do |tab|
+        get tab[:name], controller: tab[:controller], action: :show, as: tab[:name].to_s
+        patch tab[:name], controller: tab[:controller], action: :update, as: "update_#{tab[:name]}"
+      end
 
-  resource :settings, only: %i(update show) do
-    SettingsHelper.system_settings_tabs.each do |tab|
-      get tab[:name], controller: "settings/#{tab[:name]}", action: 'show', as: "#{tab[:name]}"
-      patch tab[:name], controller: "settings/#{tab[:name]}", action: 'update', as: "update_#{tab[:name]}"
+      resource :authentication, controller: '/admin/settings/authentication_settings', only: %i[show update]
+      resource :incoming_mails, controller: '/admin/settings/incoming_mails_settings', only: %i[show update]
+      resource :mail_notifications, controller: '/admin/settings/mail_notifications_settings', only: %i[show update]
+      resource :work_packages, controller: '/admin/settings/work_packages_settings', only: %i[show update]
+      resource :users, controller: '/admin/settings/users_settings', only: %i[show update]
+
+      # Redirect /settings to general settings
+      get '/', to: redirect('/admin/settings/general')
+
+      # Plugin settings
+      get 'plugin/:id', action: :show_plugin
+      post 'plugin/:id', action: :update_plugin
     end
 
-    # We should fix this crappy routing (split up and rename controller methods)
-    collection do
-      match 'plugin/:id', action: 'plugin', via: %i[get post]
+    resource :backups, controller: '/admin/backups', only: %i[show] do
+      collection do
+        get :reset_token
+        post :reset_token, action: :perform_token_reset
+
+        post :delete_token
+      end
     end
   end
 
@@ -419,11 +429,6 @@ OpenProject::Application.routes.draw do
     # FIXME: this is kind of evil!! We need to remove this soonest and
     # cover the functionality. Route is being used in work-package-service.js:331
     get '/bulk' => 'bulk#destroy'
-  end
-
-  scope controller: 'work_packages/settings' do
-    get 'work_package_tracking' => 'work_packages/settings#index'
-    post 'work_package_tracking' => 'work_packages/settings#edit'
   end
 
   resources :work_packages, only: [:index] do
@@ -453,11 +458,11 @@ OpenProject::Application.routes.draw do
 
   resources :activity, :activities, only: :index, controller: 'activities'
 
-  resources :users do
+  resources :users, except: :edit do
     resources :memberships, controller: 'users/memberships', only: %i[update create destroy]
 
     member do
-      match '/edit/:tab' => 'users#edit', via: :get, as: 'tab_edit'
+      get '/edit(/:tab)' => 'users#edit', as: 'edit'
       match '/change_status/:change_action' => 'users#change_status_info', via: :get, as: 'change_status_info'
       post :change_status
       post :resend_invitation
@@ -465,13 +470,17 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  resources :placeholder_users, except: :edit do
+    resources :memberships, controller: 'placeholder_users/memberships', only: %i[update create destroy]
+
+    member do
+      get '/edit(/:tab)' => 'placeholder_users#edit', as: 'edit'
+      get :deletion_info
+    end
+  end
+
   # The show page of groups is public and thus moved out of the admin scope
   resources :groups, only: %i[show], as: :show_group
-
-  scope controller: 'users_settings' do
-    get 'users_settings' => 'users_settings#index'
-    post 'users_settings' => 'users_settings#edit'
-  end
 
   resources :forums, only: [] do
     resources :topics, controller: 'messages', except: [:index], shallow: true do
@@ -522,7 +531,8 @@ OpenProject::Application.routes.draw do
   # alternate routes for the current user
   scope 'my' do
     match '/deletion_info' => 'users#deletion_info', via: :get, as: 'delete_my_account_info'
-    match '/oauth/revoke_application/:application_id' => 'oauth/grants#revoke_application', via: :post, as: 'revoke_my_oauth_application'
+    match '/oauth/revoke_application/:application_id' => 'oauth/grants#revoke_application', via: :post,
+          as: 'revoke_my_oauth_application'
   end
 
   scope controller: 'my' do
@@ -544,12 +554,6 @@ OpenProject::Application.routes.draw do
 
   scope controller: 'onboarding' do
     patch 'user_settings', action: 'user_settings'
-  end
-
-  scope controller: 'authentication' do
-    get 'authentication' => 'authentication#index'
-    get 'authentication_settings' => 'authentication#authentication_settings'
-    post 'authentication_settings' => 'authentication#edit'
   end
 
   resources :colors do

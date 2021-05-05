@@ -33,7 +33,7 @@ describe 'Global role: Global role CRUD', type: :feature, js: true do
   # Scenario: Global Role creation
   # Given there is the global permission "glob_test" of the module "global_group"
   before do
-    mock_global_permissions [['glob_test', project_module: 'global_group']]
+    mock_global_permissions [['glob_test', { project_module: 'global_group' }]]
     login_as(current_user)
   end
 

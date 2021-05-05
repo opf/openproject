@@ -44,7 +44,7 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
       .to receive(:allowed_to?) do |permission, project|
         project == version.project && permissions.include?(permission)
       end
-    end
+  end
 
   let(:permissions) { [:manage_versions] }
 
@@ -143,7 +143,7 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
           .and_return([custom_field])
 
         allow(version)
-          .to receive(:"custom_value_for")
+          .to receive(:custom_value_for)
           .with(custom_field)
           .and_return(custom_value)
       end
@@ -270,7 +270,7 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
 
       context 'custom fields' do
         let(:version) do
-          FactoryBot.build_stubbed(:version).tap do |v|
+          FactoryBot.build_stubbed(:version).tap do |_v|
             # Use this to force the custom field to be defined before the former_cache_key is calculated
             custom_field
           end

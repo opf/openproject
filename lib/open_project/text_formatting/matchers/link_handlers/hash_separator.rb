@@ -31,7 +31,6 @@
 module OpenProject::TextFormatting::Matchers
   module LinkHandlers
     class HashSeparator < Base
-
       def self.allowed_prefixes
         %w(version message project user group document meeting)
       end
@@ -108,7 +107,9 @@ module OpenProject::TextFormatting::Matchers
       def render_user
         user = User.find_by(id: oid)
         if user
-          link_to_user(user, only_path: context[:only_path], class: 'user-mention')
+          link_to_user(user,
+                       only_path: context[:only_path],
+                       class: 'user-mention')
         end
       end
 
@@ -116,10 +117,9 @@ module OpenProject::TextFormatting::Matchers
         group = Group.find_by(id: oid)
 
         if group
-          content_tag :span,
-                      group.name,
-                      title: I18n.t(:label_group_named, name: group.name),
-                      class: 'user-mention'
+          link_to_group(group,
+                        only_path: context[:only_path],
+                        class: 'user-mention')
         end
       end
     end

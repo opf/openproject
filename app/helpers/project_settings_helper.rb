@@ -73,7 +73,18 @@ module ProjectSettingsHelper
         name: 'activities',
         action: { controller: '/project_settings/activities', action: 'show' },
         label: :enumeration_activities
-      }
+      },
+      {
+        name: :backlogs,
+        action: { controller: '/backlogs_project_settings', action: 'show' },
+        label: :label_backlogs,
+        if: ->(project) { project.module_enabled?('backlogs') }
+      },
+      {
+        name: 'storage',
+        action: { controller: '/project_settings/storage', action: 'show' },
+        label: :label_required_disk_storage
+      },
     ]
   end
 end

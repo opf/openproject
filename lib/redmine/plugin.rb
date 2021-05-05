@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -32,21 +33,25 @@ require Rails.root.join('config/constants/open_project/activity')
 module Redmine #:nodoc:
   class PluginError < StandardError
     attr_reader :plugin_id
+
     def initialize(plug_id = nil)
       super
       @plugin_id = plug_id
     end
   end
+
   class PluginNotFound < PluginError
     def to_s
       "Missing the plugin #{@plugin_id}"
     end
   end
+
   class PluginCircularDependency < PluginError
     def to_s
       "Circular plugin dependency in #{@plugin_id}"
     end
   end
+
   class PluginRequirementError < PluginError; end
 
   # Base class for Redmine plugins.
@@ -180,8 +185,8 @@ module Redmine #:nodoc:
       @id = id.to_sym
     end
 
-    def <=>(plugin)
-      id.to_s <=> plugin.id.to_s
+    def <=>(other)
+      id.to_s <=> other.id.to_s
     end
 
     # Sets a requirement on the OpenProject version.
@@ -206,6 +211,7 @@ module Redmine #:nodoc:
       unless required_version.satisfied_by? op_version
         raise PluginRequirementError.new("#{id} plugin requires OpenProject version #{required_version} but current version is #{op_version}.")
       end
+
       true
     end
 
@@ -266,9 +272,9 @@ module Redmine #:nodoc:
     #
     # +hide_if+ parameter can be a lambda accepting a project, the item will only be hidden if
     #   the condition evaluates to true.
-    def hide_menu_item(menu_name, item, hide_if: -> (*) { true })
+    def hide_menu_item(menu_name, item, hide_if: ->(*) { true })
       Redmine::MenuManager.map(menu_name) do |menu|
-        menu.add_condition(item, -> (project) { !hide_if.call(project) })
+        menu.add_condition(item, ->(project) { !hide_if.call(project) })
       end
     end
 
@@ -307,7 +313,11 @@ module Redmine #:nodoc:
     def permission(name, actions, options = {})
       if @project_scope
         mod, mod_options = @project_scope
-        OpenProject::AccessControl.map { |map| map.project_module(mod, mod_options) { |map| map.permission(name, actions, options) } }
+        OpenProject::AccessControl.map do |map|
+          map.project_module(mod, mod_options) do |map|
+            map.permission(name, actions, options)
+          end
+        end
       else
         OpenProject::AccessControl.map { |map| map.permission(name, actions, options) }
       end
@@ -388,20 +398,18 @@ module Redmine #:nodoc:
         target_dir = File.join(destination, dir.gsub(source, ''))
         begin
           FileUtils.mkdir_p(target_dir)
-        rescue => e
+        rescue StandardError => e
           raise "Could not create directory #{target_dir}: \n" + e
         end
       end
 
       source_files.each do |file|
-        begin
-          target = File.join(destination, file.gsub(source, ''))
-          unless File.exist?(target) && FileUtils.identical?(file, target)
-            FileUtils.cp(file, target)
-          end
-        rescue => e
-          raise "Could not copy #{file} to #{target}: \n" + e
+        target = File.join(destination, file.gsub(source, ''))
+        unless File.exist?(target) && FileUtils.identical?(file, target)
+          FileUtils.cp(file, target)
         end
+      rescue StandardError => e
+        raise "Could not copy #{file} to #{target}: \n" + e
       end
     end
 

@@ -27,13 +27,18 @@
 #++
 
 FactoryBot.define do
-  factory :user_session do
-    sequence(:session_id) do |n| "session_#{n}" end
-    association :user
+  factory :user_session, class: ::Sessions::SqlBypass do
+    to_create { |instance| instance.save }
+    sequence(:session_id) { |n| "session_#{n}" }
 
-    callback(:after_build) do |session|
-      session.data = {}
-      session.data['user_id'] = session.user.id if session.user.present?
+    transient do
+      user { nil }
+      data { {} }
+    end
+
+    callback(:after_build) do |session, evaluator|
+      session.data = evaluator.data
+      session.data['user_id'] = evaluator.user&.id
     end
   end
 end

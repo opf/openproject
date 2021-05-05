@@ -42,12 +42,12 @@ describe CustomValue::ListStrategy, 'integration tests' do
     )
   end
 
-  let!(:work_package) {
+  let!(:work_package) do
     FactoryBot.create :work_package,
                       project: project,
                       type: type,
                       custom_values: { custom_field.id => custom_field.custom_options.find_by(value: 'A') }
-  }
+  end
 
   it 'can handle invalid CustomOptions (Regression test)' do
     expect(work_package.public_send(:"custom_field_#{custom_field.id}")).to eq(%w(A))

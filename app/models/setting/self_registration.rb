@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -47,7 +48,7 @@ class Setting
     end
 
     def self.key(value:)
-      VALUES.find { |k, v| v == value || v.to_s == value.to_s }&.first
+      VALUES.find { |_k, v| v == value || v.to_s == value.to_s }&.first
     end
 
     def self.disabled

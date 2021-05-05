@@ -30,6 +30,7 @@
 module DemoData
   class GroupSeeder < Seeder
     attr_accessor :user
+
     include ::DemoData::References
 
     def initialize
@@ -40,6 +41,10 @@ module DemoData
       print_status '    ↳ Creating groups' do
         seed_groups
       end
+    end
+
+    def applicable?
+      Group.count.zero?
     end
 
     def add_projects_to_groups

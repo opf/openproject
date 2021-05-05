@@ -34,25 +34,6 @@ x-op-frontend-build: &frontend-build
     DEV_GID: $DEV_GID
 
 services:
-  db:
-    image: postgres:10
-    <<: *restart_policy
-    stop_grace_period: "3s"
-    volumes:
-      - "pgdata:/var/lib/postgresql/data"
-    environment:
-      POSTGRES_USER: ${DB_USERNAME:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
-      POSTGRES_DB: ${DB_DATABASE:-openproject}
-    networks:
-      - network
-
-  cache:
-    image: memcached
-    <<: *restart_policy
-    networks:
-      - network
-
   backend:
     build:
       <<: *build
@@ -65,7 +46,7 @@ services:
     environment:
       LOCAL_DEV_CHECK: "${LOCAL_DEV_CHECK:?The docker-compose file for OpenProject has moved to https://github.com/opf/openproject-deploy}"
       RAILS_ENV: development
-      RAILS_CACHE_STORE: memcache
+      RAILS_CACHE_STORE: file_store
       OPENPROJECT_CACHE__MEMCACHE__SERVER: cache:11211
       OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
       DATABASE_URL: postgresql://${DB_USERNAME:-postgres}:${DB_PASSWORD:-postgres}@${DB_HOST:-db}:${DB_PORT:-5432}/${DB_DATABASE:-openproject}
@@ -96,4 +77,150 @@ services:
     depends_on:
       - backend
 
+  db:
+    image: postgres:10
+    <<: *restart_policy
+    stop_grace_period: "3s"
+    volumes:
+      - "pgdata:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_DATABASE:-openproject}
+    networks:
+      - network
 
+  cache:
+    image: memcached
+    <<: *restart_policy
+    networks:
+      - network
+
+######### Testing stuff below ############
+
+  db-test:
+    image: postgres:10
+    stop_grace_period: "3s"
+    volumes:
+      - "pgdata-test:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: openproject
+      POSTGRES_USER: openproject
+      POSTGRES_PASSWORD: openproject
+    networks:
+      - testing
+
+  frontend-test:
+    build:
+      <<: *frontend-build
+    command: "npm run serve-test"
+    volumes:
+      - ".:/home/dev/openproject"
+      - "fedata-test:/home/dev/openproject/public/assets/frontend"
+    environment:
+      PROXY_HOSTNAME: backend-test
+    networks:
+      - testing
+
+  backend-test:
+    build:
+      <<: *build
+      target: test
+    command: setup-tests
+    hostname: backend-test
+    networks:
+      - testing
+    depends_on:
+      - db-test
+      - selenium-hub
+      - frontend-test
+    environment:
+      RAILS_ENV: test
+      OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+      DATABASE_URL: postgresql://openproject:openproject@db-test/openproject
+      DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
+      SELENIUM_GRID_URL: http://selenium-hub:4444/wd/hub
+      CAPYBARA_SERVER_PORT: 3000
+      CAPYBARA_DYNAMIC_BIND_IP: 1
+      CAPYBARA_APP_HOSTNAME: backend-test
+      OPENPROJECT_CLI_PROXY: http://frontend-test:4200
+      OPENPROJECT_TESTING_NO_HEADLESS: "true"
+      OPENPROJECT_TESTING_AUTO_DEVTOOLS: "true"
+    volumes:
+      - ".:/home/dev/openproject"
+      - "fedata-test:/home/dev/openproject/public/assets/frontend"
+      - "opdata:/var/openproject/assets"
+      - "bundle:/usr/local/bundle"
+      - "tmp-test:/home/dev/openproject/tmp"
+
+  # https://vitobotta.com/2019/09/04/rails-parallel-system-tests-selenium-docker/
+  selenium-hub:
+    image: selenium/hub:latest
+    container_name: selenium-hub
+    hostname: selenium-hub
+    environment:
+      GRID_MAX_SESSION: "${CI_JOBS:-4}"
+    depends_on:
+      - chrome
+      - firefox
+      - opera
+    networks:
+      - testing
+    ports:
+      - "4444:4444"
+
+  chrome:
+    image: selenium/node-chrome-debug:latest
+    volumes:
+      - /dev/shm:/dev/shm
+      - "downloads-test:/home/seluser/Downloads"
+    networks:
+      - testing
+    ports:
+      - "5900-5915:5900"
+    environment:
+      HUB_HOST: selenium-hub
+      HUB_PORT: 4444
+      SCREEN_WIDTH: 1920
+      SCREEN_HEIGHT: 1080
+      # in case we want multiple sessions per container
+      NODE_MAX_INSTANCES: "${CI_JOBS:-4}"
+      NODE_MAX_SESSION: "${CI_JOBS:-4}"
+
+  firefox:
+    image: selenium/node-firefox-debug:latest
+    volumes:
+      - /dev/shm:/dev/shm
+      - "downloads-test:/home/seluser/Downloads"
+    networks:
+      - testing
+    ports:
+      - "5916-5931:5900"
+    environment:
+      HUB_HOST: selenium-hub
+      HUB_PORT: 4444
+      SCREEN_WIDTH: 1920
+      SCREEN_HEIGHT: 1080
+      # in case we want multiple sessions per container
+      NODE_MAX_INSTANCES: "${CI_JOBS:-4}"
+      NODE_MAX_SESSION: "${CI_JOBS:-4}"
+
+  opera:
+    image: selenium/node-opera-debug:latest
+    volumes:
+      - /dev/shm:/dev/shm
+      - "downloads-test:/home/seluser/Downloads"
+    networks:
+      - testing
+    ports:
+      - "5932-5957:5900"
+    environment:
+      HUB_HOST: selenium-hub
+      HUB_PORT: 4444
+      SCREEN_WIDTH: 1920
+      SCREEN_HEIGHT: 1080
+      # in case we want multiple sessions per container
+      NODE_MAX_INSTANCES: "${CI_JOBS:-4}"
+      NODE_MAX_SESSION: "${CI_JOBS:-4}"

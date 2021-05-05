@@ -32,12 +32,12 @@ module LdapGroups
 
       self.class.transaction do
         # create synchronized group memberships
-        memberships = new_users.map { |user| { group_id: self.id, user_id: user_id(user) } }
+        memberships = new_users.map { |user| { group_id: id, user_id: user_id(user) } }
         # Bulk insert the memberships to improve performance
         ::LdapGroups::Membership.insert_all memberships
 
         # add users to users collection of internal group
-        group.add_members! new_users
+        add_members_to_group(new_users)
       end
     end
 
@@ -58,7 +58,8 @@ module LdapGroups
           users.delete users.where(user_id: users_to_remove).select(:id)
           group.users.delete group.users.where(id: users_to_remove).select(:id)
         else
-          raise ArgumentError, "Expected collection of Users or User IDs, got collection of #{users_to_remove.map(&:class).map(&:name).uniq.join(", ")}"
+          raise ArgumentError,
+                "Expected collection of Users or User IDs, got collection of #{users_to_remove.map(&:class).map(&:name).uniq.join(', ')}"
         end
       end
     end
@@ -66,9 +67,10 @@ module LdapGroups
     private
 
     def user_id(user)
-      if user.is_a? Integer
+      case user
+      when Integer
         user
-      elsif user.is_a? User
+      when User
         user.id
       else
         raise ArgumentError, "Expected User or User ID (Integer) but got #{user}"
@@ -77,6 +79,12 @@ module LdapGroups
 
     def remove_all_members
       remove_members! User.find(users.pluck(:user_id))
+    end
+
+    def add_members_to_group(new_users)
+      Groups::UpdateService
+        .new(user: User.current, model: group)
+        .call(user_ids: group.user_ids + new_users.map { |user| user_id(user) })
     end
   end
 end

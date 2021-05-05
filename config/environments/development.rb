@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -82,4 +83,4 @@ OpenProject::Application.configure do
   config.action_mailer.delivery_method = :letter_opener
 end
 
-ActiveRecord::Base.logger = Logger.new(STDOUT) unless String(ENV["SILENCE_SQL_LOGS"]).to_bool
+ActiveRecord::Base.logger = ActiveSupport::Logger.new(STDOUT) unless String(ENV["SILENCE_SQL_LOGS"]).to_bool

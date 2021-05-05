@@ -49,7 +49,7 @@ module FileUploader
     file.to_file
   end
 
-  def download_url(options = {})
+  def download_url(_options = {})
     file.is_path? ? file.path : file.url
   end
 
@@ -63,17 +63,17 @@ module FileUploader
     File.readable?(local_file)
   end
 
-   # store! nil's the cache_id after it finishes so we need to remember it for deletion
- def remember_cache_id(_new_file)
+  # store! nil's the cache_id after it finishes so we need to remember it for deletion
+  def remember_cache_id(_new_file)
     @cache_id_was = cache_id
   end
 
   def delete_tmp_dir(_new_file)
     # make sure we don't delete other things accidentally by checking the name pattern
-    if @cache_id_was.present? && @cache_id_was =~ /\A[\d]{8}\-[\d]{4}\-[\d]+\-[\d]{4}\z/
+    if @cache_id_was.present? && @cache_id_was =~ /\A\d{8}-\d{4}-\d+-\d{4}\z/
       FileUtils.rm_rf(File.join(cache_dir, @cache_id_was))
     end
-  rescue => e
+  rescue StandardError => e
     Rails.logger.error "Failed cleanup of upload file #{@cache_id_was}: #{e}"
   end
 
@@ -81,13 +81,13 @@ module FileUploader
   def cache!(new_file = sanitized_file)
     super
     @old_tmp_file = new_file
-  rescue => e
+  rescue StandardError => e
     Rails.logger.error "Failed cache! of temporary upload file: #{e}"
   end
 
   def delete_old_tmp_file(_dummy)
     @old_tmp_file.try :delete
-  rescue => e
+  rescue StandardError => e
     Rails.logger.error "Failed cleanup of temporary upload file: #{e}"
   end
 

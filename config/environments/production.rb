@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -118,16 +119,6 @@ OpenProject::Application.configure do
   # Disable automatic flushing of the log to improve performance.
   config.autoflush_log = false
 
-  # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
-
-  if ENV["RAILS_LOG_TO_STDOUT"].present?
-    logger           = ActiveSupport::Logger.new(STDOUT)
-    logger.formatter = config.log_formatter
-    config.logger    = ActiveSupport::TaggedLogging.new(logger)
-  end
-
-
   config.active_record.dump_schema_after_migration = false
 
   if OpenProject::Configuration.enable_internal_assets_server?
@@ -136,7 +127,7 @@ OpenProject::Application.configure do
       'Access-Control-Allow-Origin' => '*',
       'Access-Control-Allow-Methods' => 'GET, OPTIONS, HEAD',
       'Cache-Control' => 'public, s-maxage=31536000, max-age=15552000',
-      'Expires' => "#{1.year.from_now.to_formatted_s(:rfc822)}"
+      'Expires' => 1.year.from_now.to_formatted_s(:rfc822).to_s
     }
   end
 end

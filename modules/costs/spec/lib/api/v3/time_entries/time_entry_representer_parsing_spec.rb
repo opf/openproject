@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
+describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
   include ::API::V3::Utilities::PathHelper
 
   let(:time_entry) do
@@ -52,11 +52,11 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
   let(:representer) do
     described_class.create(time_entry, current_user: user, embed_links: true)
   end
-  let(:custom_field13) do
-    FactoryBot.build_stubbed(:time_entry_custom_field, field_format: 'user', id: 13)
+  let(:user_custom_field) do
+    FactoryBot.build_stubbed(:time_entry_custom_field, field_format: 'user')
   end
-  let(:custom_field11) do
-    FactoryBot.build_stubbed(:time_entry_custom_field, field_format: 'text', id: 11)
+  let(:test_custom_field) do
+    FactoryBot.build_stubbed(:time_entry_custom_field, field_format: 'text')
   end
 
   let(:hash) do
@@ -72,7 +72,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
           "href" => api_v3_paths.work_package(work_package2.id)
 
         },
-        "customField13" => {
+        "customField#{user_custom_field.id}" => {
           "href" => api_v3_paths.user(user2.id)
         }
       },
@@ -81,7 +81,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
         "raw" => "some comment"
       },
       "spentOn" => "2017-07-28",
-      "customField11" => {
+      "customField#{test_custom_field.id}" => {
         "raw" => "some text"
       }
     }
@@ -90,7 +90,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
   before do
     allow(time_entry)
       .to receive(:available_custom_fields)
-      .and_return([custom_field11, custom_field13])
+      .and_return([test_custom_field, user_custom_field])
   end
 
   describe '_links' do
@@ -122,7 +122,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
       it 'updates the custom value' do
         time_entry = representer.from_hash(hash)
 
-        expect(time_entry.custom_field_values.detect { |cv| cv.custom_field_id == custom_field13.id }.value)
+        expect(time_entry.custom_field_values.detect { |cv| cv.custom_field_id == user_custom_field.id }.value)
           .to eql(user2.id.to_s)
       end
     end
@@ -171,7 +171,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
       it 'updates the custom value' do
         time_entry = representer.from_hash(hash)
 
-        expect(time_entry.custom_field_values.detect { |cv| cv.custom_field_id == custom_field11.id }.value)
+        expect(time_entry.custom_field_values.detect { |cv| cv.custom_field_id == test_custom_field.id }.value)
           .to eql("some text")
       end
     end

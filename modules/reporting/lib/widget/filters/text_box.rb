@@ -41,7 +41,7 @@ class Widget::Filters::TextBox < Widget::Filters::Base
                              size: '6',
                              class: 'advanced-filters--text-field',
                              id: "#{filter_class.underscore_name}_arg_1_val",
-                             :'data-filter-name' => filter_class.underscore_name)
+                             'data-filter-name': filter_class.underscore_name)
     end)
   end
 end

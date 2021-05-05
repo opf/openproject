@@ -6,10 +6,6 @@ require 'carrierwave/storage/fog'
 #
 # @todo Upgrade to CarrierWave 2.0.2 to make this patch obsolete.
 
-if Gem.loaded_specs["carrierwave"].version > Gem::Version.new('1.3.1')
-  raise "Check if these patches of Carrierwave are still required"
-end
-
 module OpenProject::Patches::FogFile
   extend ActiveSupport::Concern
 
@@ -17,8 +13,8 @@ module OpenProject::Patches::FogFile
     def authenticated_url(options = {})
       if ['AWS', 'Google', 'Rackspace', 'OpenStack'].include?(@uploader.fog_credentials[:provider])
         # avoid a get by using local references
-        local_directory = connection.directories.new(:key => @uploader.fog_directory)
-        local_file = local_directory.files.new(:key => path)
+        local_directory = connection.directories.new(key: @uploader.fog_directory)
+        local_file = local_directory.files.new(key: path)
         expire_at = options[:expire_at] || ::Fog::Time.now + @uploader.fog_authenticated_url_expiration
         case @uploader.fog_credentials[:provider]
         when 'AWS', 'Google'
@@ -41,4 +37,6 @@ module OpenProject::Patches::FogFile
   end
 end
 
-CarrierWave::Storage::Fog::File.send(:include, OpenProject::Patches::FogFile)
+OpenProject::Patches.patch_gem_version 'carrierwave', '1.3.2' do
+  CarrierWave::Storage::Fog::File.include OpenProject::Patches::FogFile
+end

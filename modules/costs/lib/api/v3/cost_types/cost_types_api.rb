@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -35,7 +36,7 @@ module API
       class CostTypesAPI < ::API::OpenProjectAPI
         resources :cost_types do
           after_validation do
-            authorize_any([:view_cost_entries, :view_own_cost_entries],
+            authorize_any(%i[view_cost_entries view_own_cost_entries],
                           global: true,
                           user: current_user)
           end

@@ -26,18 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageCreateComponent} from 'core-components/wp-new/wp-create.component';
-import {Component} from '@angular/core';
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {IFCViewerService} from "core-app/modules/bim/ifc_models/ifc-viewer/ifc-viewer.service";
+import { WorkPackageCreateComponent } from 'core-components/wp-new/wp-create.component';
+import { Component } from '@angular/core';
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { IFCViewerService } from "core-app/modules/bim/ifc_models/ifc-viewer/ifc-viewer.service";
 
 @Component({
   selector: 'bcf-new-split',
   templateUrl: './bcf-new-split.component.html'
 })
 export class BCFNewSplitComponent extends WorkPackageCreateComponent {
-  public cancelState:string = '^';
+  public cancelState = '^';
 
   @InjectField()
   readonly viewer:IFCViewerService;

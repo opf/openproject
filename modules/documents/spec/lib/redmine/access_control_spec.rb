@@ -28,7 +28,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe OpenProject::AccessControl do
-
   describe 'manage documents permission' do
     it 'should be part of the documents project module' do
       permission = OpenProject::AccessControl.permission(:manage_documents)
@@ -44,5 +43,4 @@ describe OpenProject::AccessControl do
       expect(permission.project_module).to eql(:documents)
     end
   end
-
 end

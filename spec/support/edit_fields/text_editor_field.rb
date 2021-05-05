@@ -62,7 +62,8 @@ class TextEditorField < EditField
   end
 
   def control_link(action = :save)
-    raise 'Invalid link' unless [:save, :cancel].include?(action)
+    raise 'Invalid link' unless %i[save cancel].include?(action)
+
     ".inplace-edit--control--#{action}"
   end
 end

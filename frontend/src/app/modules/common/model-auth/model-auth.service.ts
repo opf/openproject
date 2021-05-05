@@ -27,10 +27,10 @@
 //++
 
 
-import {Injectable} from "@angular/core";
-import {input} from "reactivestates";
-import {Observable} from "rxjs";
-import {takeUntil} from "rxjs/operators";
+import { Injectable } from "@angular/core";
+import { input } from "reactivestates";
+import { Observable } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 
 export type ModelLinks = {[action:string]:any};
 export type ModelLinksHash = { [model:string]:ModelLinks };
@@ -41,7 +41,7 @@ export class AuthorisationService {
 
   public initModelAuth(modelName:string, modelLinks:ModelLinks) {
     this.links.doModify((value:ModelLinksHash) => {
-      let links = { ...value };
+      const links = { ...value };
       links[modelName] = modelLinks;
       return links;
     });

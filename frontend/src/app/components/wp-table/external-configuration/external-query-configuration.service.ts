@@ -1,12 +1,12 @@
-import {ApplicationRef, ComponentFactoryResolver, Injectable, Injector} from '@angular/core';
-import {ComponentPortal, DomPortalOutlet, PortalInjector} from '@angular/cdk/portal';
-import {TransitionService} from '@uirouter/core';
-import {FocusHelperService} from 'core-app/modules/common/focus/focus-helper';
+import { ApplicationRef, ComponentFactoryResolver, Injectable, Injector } from '@angular/core';
+import { ComponentPortal, DomPortalOutlet, PortalInjector } from '@angular/cdk/portal';
+import { TransitionService } from '@uirouter/core';
+import { FocusHelperService } from 'core-app/modules/common/focus/focus-helper';
 import {
   ExternalQueryConfigurationComponent,
   QueryConfigurationLocals
 } from "core-components/wp-table/external-configuration/external-query-configuration.component";
-import {OpQueryConfigurationLocalsToken} from "core-components/wp-table/external-configuration/external-query-configuration.constants";
+import { OpQueryConfigurationLocalsToken } from "core-components/wp-table/external-configuration/external-query-configuration.constants";
 
 export type Class = { new(...args:any[]):any; };
 

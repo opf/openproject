@@ -37,17 +37,23 @@ describe 'Subproject action board', type: :feature, js: true do
                       member_through_role: role)
   end
   let(:type) { FactoryBot.create(:type_standard) }
-  let(:project) { FactoryBot.create(:project, name: 'Parent', types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:subproject1) { FactoryBot.create(:project, parent: project, name: 'Child 1', types: [type], enabled_module_names: %i[work_package_tracking]) }
-  let(:subproject2) { FactoryBot.create(:project, parent: project, name: 'Child 2', types: [type], enabled_module_names: %i[work_package_tracking]) }
+  let(:project) do
+    FactoryBot.create(:project, name: 'Parent', types: [type], enabled_module_names: %i[work_package_tracking board_view])
+  end
+  let(:subproject1) do
+    FactoryBot.create(:project, parent: project, name: 'Child 1', types: [type], enabled_module_names: %i[work_package_tracking])
+  end
+  let(:subproject2) do
+    FactoryBot.create(:project, parent: project, name: 'Child 2', types: [type], enabled_module_names: %i[work_package_tracking])
+  end
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
-  let(:permissions) {
+  let(:permissions) do
     %i[show_board_views manage_board_views add_work_packages
        edit_work_packages view_work_packages manage_public_queries move_work_packages]
-  }
+  end
 
   let!(:priority) { FactoryBot.create :default_priority }
   let!(:open_status) { FactoryBot.create :default_status, name: 'Open' }
@@ -55,17 +61,17 @@ describe 'Subproject action board', type: :feature, js: true do
 
   before do
     with_enterprise_token :board_view
-    project
     subproject1
     subproject2
+    project.reload
     login_as(user)
   end
 
   context 'without the move_work_packages permission' do
-    let(:permissions) {
+    let(:permissions) do
       %i[show_board_views manage_board_views add_work_packages
-       edit_work_packages view_work_packages manage_public_queries]
-    }
+         edit_work_packages view_work_packages manage_public_queries]
+    end
 
     let(:user) do
       FactoryBot.create(:user,
@@ -166,13 +172,47 @@ describe 'Subproject action board', type: :feature, js: true do
 
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :project_id)
       expect(subjects).to match_array [['Task 1', subproject2.id]]
+    end
+  end
 
-      # Trying to access the same board as a different user
-      login_as only_parent_user
+  context 'with permissions in only one subproject' do
+    let(:user) do
+      FactoryBot.create(:user,
+                        # The membership in subproject2 gets removed later on
+                        member_in_projects: [project, subproject1, subproject2],
+                        member_through_role: role)
+    end
+
+    let!(:board) do
+      FactoryBot.create(:subproject_board,
+                        project: project,
+                        projects_columns: [subproject1, subproject2])
+    end
+
+    let(:board_page) { Pages::Board.new(board) }
+    let!(:invisible_work_package) do
+      FactoryBot.create :work_package, project: subproject2, status: open_status
+    end
+
+    before do
+      # The membership needs to first be present in order to create the board
+      # which is created as the current_user, in this case :user.
+      # After setup, we do not want to have the user to have the permissions within the project any more
+      # as this is the goal of the test.
+      Member.where(project: subproject2, principal: user).destroy_all
+    end
+
+    it 'displays only the columns for the projects in which the current user has permission' do
       board_page.visit!
 
-      # We will see an error for the two boards pages
-      expect(page).to have_selector('.notification-box.-error', count: 2)
+      board_page.expect_card subproject1.name, work_package.subject
+
+      # No error is to be displayed as erroneous columns are filtered out
+      expect(page).not_to have_selector('.notification-box.-error')
+      board_page.expect_no_list(subproject2.name)
+
+      expect(page)
+        .to have_no_content invisible_work_package.subject
     end
   end
 end

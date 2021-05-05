@@ -32,7 +32,7 @@ describe 'Wysiwyg work package user mentions',
          type: :feature,
          js: true do
   let!(:user) { FactoryBot.create :admin }
-  let!(:user2) { FactoryBot.build(:user, firstname: 'Foo', lastname: 'Bar', member_in_project: project) }
+  let!(:user2) { FactoryBot.create(:user, firstname: 'Foo', lastname: 'Bar', member_in_project: project) }
   let!(:group) { FactoryBot.create(:group, firstname: 'Foogroup', lastname: 'Foogroup') }
   let!(:group_role) { FactoryBot.create(:role) }
   let!(:group_member) do
@@ -105,7 +105,7 @@ describe 'Wysiwyg work package user mentions',
       wp_page.expect_and_dismiss_notification message: "The comment was successfully added."
 
       expect(page)
-        .to have_selector('span.user-mention', text: 'Foogroup')
+        .to have_selector('a.user-mention', text: 'Foogroup')
     end
 
     # The mention is still displayed as such when reentering the comment field

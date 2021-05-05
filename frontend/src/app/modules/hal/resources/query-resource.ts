@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {QueryColumn} from 'core-components/wp-query/query-column';
-import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
-import {ProjectResource} from 'core-app/modules/hal/resources/project-resource';
-import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-resource';
-import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
-import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
-import {QueryOrder} from "core-app/modules/apiv3/endpoints/queries/apiv3-query-order";
+import { QueryColumn } from 'core-components/wp-query/query-column';
+import { QueryGroupByResource } from 'core-app/modules/hal/resources/query-group-by-resource';
+import { ProjectResource } from 'core-app/modules/hal/resources/project-resource';
+import { QuerySortByResource } from 'core-app/modules/hal/resources/query-sort-by-resource';
+import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { WorkPackageCollectionResource } from 'core-app/modules/hal/resources/wp-collection-resource';
+import { HighlightingMode } from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
+import { QueryOrder } from "core-app/modules/apiv3/endpoints/queries/apiv3-query-order";
 
 export interface QueryResourceEmbedded {
   results:WorkPackageCollectionResource;
@@ -80,13 +80,13 @@ export class QueryResource extends HalResource {
 
     this.filters = this
       .filters
-      .map((filter:Object) => new QueryFilterInstanceResource(
-          this.injector,
-          filter,
-          true,
-          this.halInitializer,
-          'QueryFilterInstance'
-        )
+      .map((filter:unknown) => new QueryFilterInstanceResource(
+        this.injector,
+        filter,
+        true,
+        this.halInitializer,
+        'QueryFilterInstance'
+      )
       );
   }
 }
@@ -95,6 +95,5 @@ export interface QueryResourceLinks {
   updateImmediately?(attributes:any):Promise<any>;
 }
 
-export interface QueryResource extends QueryResourceLinks {
-}
+export interface QueryResource extends QueryResourceLinks {}
 

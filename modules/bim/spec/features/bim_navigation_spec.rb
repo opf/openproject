@@ -34,7 +34,9 @@ describe 'BIM navigation spec',
          js: true do
   let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
   let!(:work_package) { FactoryBot.create(:work_package, project: project) }
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages delete_work_packages]) }
+  let(:role) do
+    FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages delete_work_packages])
+  end
 
   let(:user) do
     FactoryBot.create :user,

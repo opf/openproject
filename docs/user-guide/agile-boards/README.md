@@ -11,33 +11,34 @@ keywords: agile boards, Kanban, Scrum, agile project management, action boards
 
 Boards support agile project management methodologies, such as Scrum or Kanban.
 
-Our Agile boards can be for anything you would like to keep track of within your projects: Tasks to be done, Bugs to be fixed, Things to be reviewed,  Features to be developed, Risks to be monitored, Ideas to be spread, anything! The boards consist of lists (columns) and cards. You can choose between a Basic board and various Action boards.
+Our Agile boards can be for anything you would like to keep track of within your projects: Tasks to be done, Bugs to be fixed, Things to be reviewed, Features to be developed, Risks to be monitored, Ideas to be spread, anything! The boards consist of lists (columns) and cards. You can choose between a Basic board and various Action boards.
 
 <div class="alert alert-info" role="alert">
 **Note**: OpenProject Agile boards is a Premium Feature and can only be used with [Enterprise cloud]( ../../cloud-edition-guide/) or [Enterprise on-premises](../../enterprise-edition-guide/). An upgrade from the free Community Edition is easily possible.
 </div>
 
 
-| Topic                                                     | Content                                                   |
-| --------------------------------------------------------- | --------------------------------------------------------- |
-| [Create new Boards](#create-a-new-board)                  | How to create a new Agile board.                          |
-| [Choose between board types](#choose-between-board-types) | What is the difference between the available board types? |
-| [Give the board a title](#give-the-board-a-title)         | How to name a board.                                      |
-| [Add lists to your board](#add-lists-to-your-board)       | How to add lists to a board.                              |
-| [Remove lists](#remove-lists)                             | How to remove lists from a board.                         |
-| [Add cards to a list](#add-cards-to-a-list)               | How to add cards to a list in a board.                    |
-| [Update cards](#update-cards)                             | How to update cards.                                      |
-| [Remove cards](#remove-cards)                             | How to remove cards.                                      |
-| [Manage boards](#manage-boards)                           | How to manage permissions for boards.                     |
+| Topic                                                     | Content                                                      |
+| --------------------------------------------------------- | ------------------------------------------------------------ |
+| [Create new boards](#create-a-new-board)                  | How to create a new Agile board.                             |
+| [Choose between board types](#choose-between-board-types) | What is the difference between the available board types?    |
+| [Give the board a title](#give-the-board-a-title)         | How to name a board.                                         |
+| [Add lists to your board](#add-lists-to-your-board)       | How to add lists to a board.                                 |
+| [Remove lists](#remove-lists)                             | How to remove lists from a board.                            |
+| [Add cards to a list](#add-cards-to-a-list)               | How to add cards to a list in a board.                       |
+| [Update cards](#update-cards)                             | How to update cards.                                         |
+| [Remove cards](#remove-cards)                             | How to remove cards.                                         |
+| [Manage boards](#manage-boards)                           | How to manage permissions for boards.                        |
+| [Examples for agile boards](#agile-boards-examples)       | Best practices for using the basic board and status, assignee and version board. |
 
 <video src="https://www.openproject.org/wp-content/uploads/2020/11/OpenProject-Agile-Boards.mp4" type="video/mp4" controls="" style="width:100%"></video> 
 ## Agile boards in OpenProject
 
-The new Boards are tightly integrated with all other project management functionalities in OpenProject, i.e. [work packages](#work-pages) or [Gantt charts](#gantt-charts).  This makes it so easy and practical to include the Boards in your daily  project management routines and to gain a much quicker overview of  important topics in your project.
+The new Boards are tightly integrated with all other project management functionalities in OpenProject, i.e. [work packages](#work-pages) or [Gantt charts](#gantt-charts). This makes it so easy and practical to include the Boards in your daily project management routines and to gain a much quicker overview of important topics in your project.
 
 ![openproject-board-overview](openproject-board-overview-1364050.png)
 
-## Create a new Board
+## Create a new board
 
 You can create as many Agile boards in a project as you need and configure them to your needs. First, you need to create a new Boards view. 
 
@@ -64,9 +65,9 @@ There are several **types of Action boards** available:
 
 **Status board:** Each list represents a status. That means that e.g. all work packages with the status "New" will be automatically displayed in the column "New". 
 When creating a new Status board a list with all work packages in the default status (usually this is the status "New") will be added automatically, while additional lists need to be added manually.
-Please note: You can't move work packages from or to every status. Please find out more about the workflow logics restricting this here: [Allowed transitions between status](../../system-admin-guide/manage-work-packages/work-package-workflows/)
+Please note: You can't move work packages from or to every status. Please find out more about the work-flow logics restricting this here: [Allowed transitions between status](../../system-admin-guide/manage-work-packages/work-package-workflows/)
 
-**Assignee board:** Every list represents one assignee. You can choose both individuals and groups as assignees.
+**Assignee board:** Every list represents one assignee. You can choose regular users, [placeholder users](../../system-admin-guide/users-permissions/placeholder-users) and groups as assignees.
 
 **Version board:** Every list represents a version. This board is ideal for product development or planning software releases. When creating a new Version board a list with all work packages in the version(s) belonging to the current project will be added automatically, while additional lists need to be added manually.
 
@@ -74,7 +75,7 @@ Please note: You can't move work packages from or to every status. Please find o
 
 **Parent-Child board:** Every list represents a parent work package. Within the list you will find the work package's children. 
 Only work packages from the current project can be selected as a list, i.e. can be chosen as the name of the list.
-The Parent-Child board is ideal for depicting a **work breakdown structure**.
+The Parent-Child board is ideal for depicting a **work breakdown structure (WBS)**.
 Please note: This will only display one hierarchy level below the displayed work package, i.e. only immediate children and no grandchildren.
 
 ![image-20201005160802542](image-20201005160802542.png)
@@ -140,7 +141,7 @@ Apart from the Status board you can **update a work package's status** directly 
 
 A **double click on a card** will open the work package's **fullscreen view.** The **arrow** on top will bring you back to the boards view. ![OpenProject-Boards_card-details](OpenProject-Boards_card-details-1568640191629.png)
 
-Clicking on **Open details view** (the blue "i") will open the work package's **[split screen view](../work-packages/work-package-views/#work-package-split-screen-view)**. You can close it by clicking on the **"x"** in its upper right corner.
+Clicking on **Open details view** (the blue "**i**") will open the work package's **[split screen view](../work-packages/work-package-views/#work-package-split-screen-view)**. You can close it by clicking on the **"x"** in its upper right corner.
 
 
 
@@ -152,13 +153,15 @@ To remove a card from a **Basic board** hover over the card and press the **X**.
 
 Cards from **Actions boards** will be removed automatically from a list as soon as the respective attribute (e.g. Status) is changed.
 
+Removing a card will not delete the work package, you can still add it back to the list or access it via the work packages module.
+
 ## Manage boards
 
 To **create new** boards, **open existing** boards, or **delete** boards, navigate to the main Boards menu item.
 
  ![OpenProject-manage-boards](OpenProject-manage-boards-1568640234856.png)
 
-Verify and **update roles and permissions for boards** in the [system's Administration](../../system-admin-guide/users-permissions/) if necessary.
+Verify and **update roles and permissions for boards** in the [system's administration](../../system-admin-guide/users-permissions/) if necessary.
 
 ![image-20201006120925442](image-20201006120925442.png)
 
@@ -196,17 +199,3 @@ Of course you don’t need to use groups as assignees, you can also use individu
 The Version board facilitates the planning of a product development in several iterations. With every iteration you can add and improve features and let your product become the best version for your customers. If a certain feature is e.g. too complex to be developed in one specific version because you have other features to develop with higher priority, just drag it to the next version and it will update automatically. This board gives you a perfect overview of what is coming and you can see at a glance if it fits your priorities. If not, adjust with drag and drop.
 
 ![action-board-version-docs](action-board-version-docs.png)
-
-
-## Frequently asked questions (FAQ)
-
-
-#### How can I activate Boards in OpenProject? 
-
-The Boards module is a premium feature of OpenProject Enterprise on-premises and OpenProject Enterprise cloud. You can upgrade your Community Edition installation by entering a valid subscription token in the application administration. You can purchase the token on our [website](https://www.openproject.org/enterprise-edition/).
-In addition, you need to activate the Boards module in the project settings.
-
-#### What does the error message "Parent is invalid because the work package (...) is a backlog task and therefore cannot have a parent outside of the current project" mean?
-
-This message appears when the Backlogs module is activated and you try to set a work package belonging to project A as a child of another work package belonging to project B. 
-In the Backlogs module work packages can only have children of the same version and the same project. To avoid displaying different information in the backlog and in the boards view this restriction is in place. You can solve it by disabling the Backlogs module or by changing the project (and if necessary version) of the work package you'd like to move.

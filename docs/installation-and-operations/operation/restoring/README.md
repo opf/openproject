@@ -13,7 +13,7 @@ Assuming you have a backup of all the OpenProject files at hand (see the [Backin
 As a reference, we will assume you have the following dumps on your server, located in `/var/db/openproject/backup`:
 
 ```bash
-root@ip-10-0-0-228:/home/admin# ls -al /var/db/openproject/backup/
+ubuntu@ip-10-0-0-228:/home/ubuntu# sudo ls -al /var/db/openproject/backup/
 total 1680
 drwxr-xr-x 2 openproject openproject    4096 Nov 19 21:00 .
 drwxr-xr-x 6 openproject openproject    4096 Nov 19 21:00 ..
@@ -34,29 +34,27 @@ sudo service openproject stop
 
 ### Restoring assets
 
-Go into the backup directory:
-
-```bash
-cd /var/db/openproject/backup
-```
-
 Untar the attachments to their destination:
 
 ```bash
-tar xzf attachments-20191119210038.tar.gz -C /var/db/openproject/files
+sudo tar xzf /var/db/openproject/backup/attachments-20191119210038.tar.gz -C /var/db/openproject/files
 ```
 
 Untar the configuration files to their destination:
 
 ```bash
-tar xzf conf-20191119210038.tar.gz -C /etc/openproject/conf.d/
+sudo tar xzf /var/db/openproject/backup/conf-20191119210038.tar.gz -C /etc/openproject
 ```
+
+If you want to change anything in the configuration, you can also inspect the `/etc/openproject` folder afterwards and change them accordingly.
+To go through all configured wizards steps, use the `openproject reconfigure` option. [See the configuration guide](../reconfiguring) for more information.
+
 
 Untar the repositories to their destination:
 
 ```bash
-tar xzf git-repositories-20191119210038.tar.gz -C /var/db/openproject/git
-tar xzf svn-repositories-20191119210038.tar.gz -C /var/db/openproject/svn
+sudo tar xzf /var/db/openproject/backup/git-repositories-20191119210038.tar.gz -C /var/db/openproject/git
+sudo tar xzf /var/db/openproject/backup/svn-repositories-20191119210038.tar.gz -C /var/db/openproject/svn
 ```
 
 ### Restoring the database
@@ -65,20 +63,47 @@ Note: in this section, the `<dbusername>`, `<dbhost>` and `<dbname>` variables t
 the values that are contained in the `DATABASE_URL` setting of your
 installation.
 
+> _If you are moving OpenProject to a new server and want to import the backup there, this
+will be the `DATABASE_URL` of your **new** installation on that server._
+
 First, ensure the connection details about your database is the one you want to restore
 
 ```bash
-openproject config:get DATABASE_URL
+sudo openproject config:get DATABASE_URL
 #=> e.g.: postgres://<dbusername>:<dbpassword>@<dbhost>:<dbport>/<dbname>
 ```
 
 Then, to restore the PostgreSQL dump please use the `pg_restore` command utility. **WARNING:** The command `--clean --if-exists` is used and it will drop objects in the database and you will lose all changes in this database! Double-check that the database URL above is the database you want to restore to. 
 
-This is necessary since the backups of OpenProject does not clean statements to remove existing options and will lead to duplicate index errors when trying to restore to an existing database. The alternative is to drop/recreate the database manually, if you have the permissions to do so.
+This is necessary since the backups of OpenProject does not clean statements to remove existing options and will lead to duplicate index errors when trying to restore to an existing database. The alternative is to drop/recreate the database manually (see below), if you have the permissions to do so.
 
 ```bash
-pg_restore --clean --if-exists --dbname $(openproject config:get DATABASE_URL) postgresql-dump-20200804094017.pgdump
+sudo pg_restore --clean --if-exists --dbname $(sudo openproject config:get DATABASE_URL) postgresql-dump-20200804094017.pgdump
 ```
+
+As the `pg_restore` tries to apply the username from the dumped database as the owner, you might see errors if you restoring to a database with a different username. In this case, please add `--no-owner` as a command line argument.
+
+#### Troubleshooting
+
+**Restore fails with something like 'Error while PROCESSING TOC [...] cannot drop constraint'**
+
+In this case you will have to drop and re-create the database, and then import it again.
+If you have access to the postgres user, it's simply a matter of starting the psql console like this:
+
+```bash
+sudo su - postgres -c psql
+```
+
+And once in there drop and re-create the database.
+Ensure that the new database has the correct name and owner.
+You can get these values from the `DATABASE_URL` as shown above.
+
+```psql
+DROP DATABASE openproject; CREATE DATABASE openproject OWNER openproject;
+```
+
+Once done you can exit the psql console by entering `\q`.
+Now you can restore the database as seen above.
 
 ### Restart the OpenProject processes
 

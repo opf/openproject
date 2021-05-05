@@ -50,13 +50,9 @@ class MeetingContent < ApplicationRecord
   )
 
   acts_as_journalized
-  acts_as_event type: Proc.new { |o| "#{o.class.to_s.underscore.dasherize}" },
+  acts_as_event type: Proc.new { |o| o.class.to_s.underscore.dasherize.to_s },
                 title: Proc.new { |o| "#{o.class.model_name.human}: #{o.meeting.title}" },
                 url: Proc.new { |o| { controller: '/meetings', action: 'show', id: o.meeting } }
-
-  User.before_destroy do |user|
-    MeetingContent.where(['author_id = ?', user.id]).update_all ['author_id = ?', DeletedUser.first]
-  end
 
   def editable?
     true

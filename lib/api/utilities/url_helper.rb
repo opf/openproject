@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -33,7 +34,8 @@ module API
       include ActionView::Helpers::UrlHelper
       include OpenProject::StaticRouting::UrlHelpers
 
-      def controller; end # The URL helpers need a controller, even if it's nil
+      # The URL helpers need a controller, even if it's nil
+      def controller; end
     end
   end
 end

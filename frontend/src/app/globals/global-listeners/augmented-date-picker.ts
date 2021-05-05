@@ -1,4 +1,4 @@
-import {DatePicker} from "core-app/modules/common/op-date-picker/datepicker";
+import { DatePicker } from "core-app/modules/common/op-date-picker/datepicker";
 
 /**
  * Our application is still a hybrid one, meaning most routes are still

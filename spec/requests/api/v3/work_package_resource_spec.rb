@@ -324,7 +324,6 @@ describe 'API v3 Work package resource',
             FactoryBot.create(:work_package,
                               project_id: project.id,
                               description: 'lorem ipsum').tap do |wp|
-
               FactoryBot.create(:relation, relates: 1, from: wp, to: directly_related_wp)
               FactoryBot.create(:relation, relates: 1, from: directly_related_wp, to: transitively_related_wp)
             end
@@ -434,7 +433,7 @@ describe 'API v3 Work package resource',
         context 'not set' do
           let(:params) { update_params }
 
-          it { expect(NotifyJournalCompletedJob).to have_been_enqueued.at_least(1) }
+          it { expect(Notifications::JournalCompletedJob).to have_been_enqueued.at_least(1) }
         end
 
         context 'disabled' do
@@ -442,7 +441,7 @@ describe 'API v3 Work package resource',
           let(:params) { update_params }
 
           it do
-            expect(NotifyJournalCompletedJob)
+            expect(Notifications::JournalCompletedJob)
               .to have_been_enqueued
               .at_least(1)
           end
@@ -453,7 +452,7 @@ describe 'API v3 Work package resource',
           let(:params) { update_params }
 
           it do
-            expect(NotifyJournalCompletedJob)
+            expect(Notifications::JournalCompletedJob)
               .to have_been_enqueued
               .at_least(1)
           end
@@ -652,7 +651,7 @@ describe 'API v3 Work package resource',
 
         context 'valid type changing custom fields' do
           let(:custom_field) { FactoryBot.create(:work_package_custom_field) }
-          let(:custom_field_parameter) { { :"customField#{custom_field.id}" => true } }
+          let(:custom_field_parameter) { { "customField#{custom_field.id}": true } }
           let(:params) { valid_params.merge(type_parameter).merge(custom_field_parameter) }
 
           before do
@@ -731,7 +730,7 @@ describe 'API v3 Work package resource',
 
         context 'with a custom field defined on the target project' do
           let(:custom_field) { FactoryBot.create(:work_package_custom_field) }
-          let(:custom_field_parameter) { { :"customField#{custom_field.id}" => true } }
+          let(:custom_field_parameter) { { "customField#{custom_field.id}": true } }
           let(:params) { valid_params.merge(project_parameter).merge(custom_field_parameter) }
 
           before do
@@ -759,7 +758,7 @@ describe 'API v3 Work package resource',
                             responsible: current_user)
         end
 
-        before { allow(User).to receive(:current).and_return current_user }
+        before { login_as current_user }
 
         shared_context 'setup group membership' do
           let(:group) { FactoryBot.create(:group) }
@@ -770,6 +769,12 @@ describe 'API v3 Work package resource',
                               project: project,
                               roles: [group_role])
           end
+        end
+
+        let(:placeholder_user) do
+          FactoryBot.create(:placeholder_user,
+                            member_in_project: project,
+                            member_through_role: role)
         end
 
         shared_examples_for 'handling people' do |property|
@@ -790,13 +795,14 @@ describe 'API v3 Work package resource',
 
           describe 'valid' do
             shared_examples_for 'valid user assignment' do
-              let(:title) { "#{assigned_user.name}".to_json }
+              let(:title) { assigned_user.name.to_s.to_json }
 
               it { expect(response.status).to eq(200) }
 
               it {
-                expect(response.body).to be_json_eql(title)
-                                           .at_path("_links/#{property}/title")
+                expect(response.body)
+                  .to be_json_eql(title)
+                  .at_path("_links/#{property}/title")
               }
 
               it_behaves_like 'lock version updated'
@@ -820,6 +826,16 @@ describe 'API v3 Work package resource',
 
               it_behaves_like 'valid user assignment' do
                 let(:assigned_user) { group }
+              end
+            end
+
+            context 'placeholder user' do
+              let(:user_href) { api_v3_paths.placeholder_user placeholder_user.id }
+
+              include_context 'patch request'
+
+              it_behaves_like 'valid user assignment' do
+                let(:assigned_user) { placeholder_user }
               end
             end
           end
@@ -860,7 +876,7 @@ describe 'API v3 Work package resource',
                 let(:message) do
                   I18n.t('api_v3.errors.invalid_resource',
                          property: property,
-                         expected: "/api/v3/groups/:id' or '/api/v3/users/:id",
+                         expected: "/api/v3/groups/:id' or '/api/v3/users/:id' or '/api/v3/placeholder_users/:id",
                          actual: user_href)
                 end
               end
@@ -1240,7 +1256,7 @@ describe 'API v3 Work package resource',
       let(:permissions) { %i[add_work_packages view_project view_work_packages] }
 
       it 'sends a mail by default' do
-        expect(DeliverWorkPackageNotificationJob)
+        expect(Mails::WorkPackageJob)
           .to have_been_enqueued
           .at_least(1)
       end
@@ -1249,7 +1265,7 @@ describe 'API v3 Work package resource',
         let(:path) { "#{api_v3_paths.work_packages}?notify=false" }
 
         it 'should not send a mail' do
-          expect(DeliverWorkPackageNotificationJob).not_to have_been_enqueued
+          expect(Mails::WorkPackageJob).not_to have_been_enqueued
         end
       end
 
@@ -1257,7 +1273,7 @@ describe 'API v3 Work package resource',
         let(:path) { "#{api_v3_paths.work_packages}?notify=true" }
 
         it 'should send a mail' do
-          expect(DeliverWorkPackageNotificationJob)
+          expect(Mails::WorkPackageJob)
             .to have_been_enqueued
             .at_least(1)
         end

@@ -37,13 +37,12 @@ module API
             authorize(:view_work_packages, global: true, user: current_user)
           end
 
-          get do
-            available_responsibles = @project.possible_responsibles.includes(:preference)
-            self_link = api_v3_paths.available_responsibles(@project.id)
-            Users::UserCollectionRepresenter.new(available_responsibles,
-                                                 self_link: self_link,
-                                                 current_user: current_user)
-          end
+          get &::API::V3::Utilities::Endpoints::Index.new(model: Principal,
+                                                          scope: -> {
+                                                            Principal.possible_assignee(@project).includes(:preference)
+                                                          },
+                                                          render_representer: Users::UserCollectionRepresenter)
+                                                     .mount
         end
       end
     end

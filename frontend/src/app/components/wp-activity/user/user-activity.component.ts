@@ -26,12 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {UserResource} from 'core-app/modules/hal/resources/user-resource';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import { UserResource } from 'core-app/modules/hal/resources/user-resource';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackagesActivityService } from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {
+  ApplicationRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -40,17 +41,18 @@ import {
   Input, NgZone,
   OnInit
 } from "@angular/core";
-import {CommentService} from "core-components/wp-activity/comment-service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageCommentFieldHandler} from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
-import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { CommentService } from "core-components/wp-activity/comment-service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { WorkPackageCommentFieldHandler } from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'user-activity',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './user-activity.component.html'
+  templateUrl: './user-activity.component.html',
+  styleUrls: ['./user-activity.component.sass']
 })
 export class UserActivityComponent extends WorkPackageCommentFieldHandler implements OnInit {
   @Input() public workPackage:WorkPackageResource;
@@ -91,7 +93,8 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
               readonly apiV3Service:APIV3Service,
               readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService,
-              readonly ngZone:NgZone) {
+              readonly ngZone:NgZone,
+              protected appRef:ApplicationRef) {
     super(elementRef, injector);
   }
 
@@ -210,7 +213,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   public quotedText(rawComment:string) {
-    let quoted = rawComment.split('\n')
+    const quoted = rawComment.split('\n')
       .map(function(line:string) {
         return '\n> ' + line;
       })
@@ -227,6 +230,6 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   private updateCommentText() {
-    this.postedComment = this.sanitization.bypassSecurityTrustHtml(this.activity.comment.html);
+    this.postedComment = this.activity.comment.html;
   }
 }

@@ -33,7 +33,7 @@ describe Notifications::JournalWpMailService do
   let(:project) { FactoryBot.create(:project_with_types) }
   let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
   let(:author) do
-    FactoryBot.build(:user,
+    FactoryBot.create(:user,
                      mail_notification: 'none',
                      member_in_project: project,
                      member_through_role: role)
@@ -69,7 +69,9 @@ describe Notifications::JournalWpMailService do
     work_package.journals.last
   end
   let(:send_mails) { true }
-  let(:notification_setting) { %w(work_package_added work_package_updated work_package_note_added status_updated work_package_priority_updated) }
+  let(:notification_setting) do
+    %w(work_package_added work_package_updated work_package_note_added status_updated work_package_priority_updated)
+  end
 
   def call
     described_class.call(journal, send_mails)
@@ -88,19 +90,38 @@ describe Notifications::JournalWpMailService do
 
     it 'sends a mail' do
       expect { call }
-        .to enqueue_job(DeliverWorkPackageNotificationJob)
+        .to enqueue_job(Mails::WorkPackageJob)
         .with(journal.id, recipient.id, sender.id)
     end
   end
 
   shared_examples_for 'sends no mail' do
     it 'sends no mail' do
-      expect { call }.to_not enqueue_job(DeliverWorkPackageNotificationJob)
+      expect { call }.to_not enqueue_job(Mails::WorkPackageJob)
       call
     end
   end
 
   it_behaves_like 'sends mail'
+
+  context 'assignee is placeholder user' do
+    let(:recipient) { FactoryBot.create :placeholder_user }
+
+    it_behaves_like 'sends no mail'
+  end
+
+  context 'responsible is placeholder user' do
+    let(:recipient) { FactoryBot.create :placeholder_user }
+    let(:work_package) do
+      FactoryBot.create(:work_package,
+                        project: project,
+                        author: author,
+                        responsible: recipient,
+                        type: project.types.first)
+    end
+
+    it_behaves_like 'sends no mail'
+  end
 
   context 'notification for work_package_added disabled' do
     let(:notification_setting) { %w(work_package_updated work_package_note_added) }
@@ -322,10 +343,9 @@ describe Notifications::JournalWpMailService do
 
         let(:group) do
           FactoryBot.create(:group, members: recipient) do |group|
-            FactoryBot.create(:member,
-                              project: project,
-                              principal: group,
-                              roles: [role])
+            Members::CreateService
+              .new(user: nil, contract_class: EmptyContract)
+              .call(project: project, principal: group, roles: [role])
           end
         end
 

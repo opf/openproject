@@ -34,7 +34,7 @@ describe ::Projects::ScheduleDeletionService, type: :model do
 
     allow(contract)
       .to receive(:new)
-      .with(project, user, options: { changed_by_system: [] })
+      .with(project, user, options: {})
       .and_return(contract_instance)
 
     contract
@@ -91,7 +91,7 @@ describe ::Projects::ScheduleDeletionService, type: :model do
 
       expect(::Projects::DeleteProjectJob)
         .to receive(:perform_later)
-        .with(user_id: user.id, project_id: project.id)
+        .with(user: user, project: project)
 
       expect(subject).to be_success
     end

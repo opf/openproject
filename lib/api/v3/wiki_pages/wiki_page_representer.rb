@@ -45,6 +45,7 @@ module API
         associated_resource :project,
                             link: ->(*) do
                               next unless represented.project.present?
+
                               {
                                 href: api_v3_paths.project(represented.project.id),
                                 title: represented.project.name

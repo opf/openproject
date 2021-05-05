@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {APIv3GettableResource} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
-import {Observable} from "rxjs";
-import {APIV3WorkPackagesPaths} from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-packages-paths";
-import {take, tap} from "rxjs/operators";
-import {WorkPackageCache} from "core-app/modules/apiv3/endpoints/work_packages/work-package.cache";
+import { APIv3GettableResource } from "core-app/modules/apiv3/paths/apiv3-resource";
+import { WorkPackageCollectionResource } from "core-app/modules/hal/resources/wp-collection-resource";
+import { Observable } from "rxjs";
+import { APIV3WorkPackagesPaths } from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-packages-paths";
+import { take, tap } from "rxjs/operators";
+import { WorkPackageCache } from "core-app/modules/apiv3/endpoints/work_packages/work-package.cache";
 
 export class ApiV3WorkPackageCachedSubresource extends APIv3GettableResource<WorkPackageCollectionResource> {
 

@@ -1,10 +1,10 @@
-import {BcfResourceCollectionPath} from "core-app/modules/bim/bcf/api/bcf-path-resources";
-import {BcfApiRequestService} from "core-app/modules/bim/bcf/api/bcf-api-request.service";
-import {HTTPClientHeaders, HTTPClientParamMap} from "core-app/modules/hal/http/http.interfaces";
-import {Observable} from "rxjs";
-import {BcfTopicPaths} from "core-app/modules/bim/bcf/api/topics/bcf-topic.paths";
-import {Injector} from "@angular/core";
-import {BcfTopicResource} from "core-app/modules/bim/bcf/api/topics/bcf-topic.resource";
+import { BcfResourceCollectionPath } from "core-app/modules/bim/bcf/api/bcf-path-resources";
+import { BcfApiRequestService } from "core-app/modules/bim/bcf/api/bcf-api-request.service";
+import { HTTPClientHeaders, HTTPClientParamMap } from "core-app/modules/hal/http/http.interfaces";
+import { Observable } from "rxjs";
+import { BcfTopicPaths } from "core-app/modules/bim/bcf/api/topics/bcf-topic.paths";
+import { Injector } from "@angular/core";
+import { BcfTopicResource } from "core-app/modules/bim/bcf/api/topics/bcf-topic.resource";
 
 export class BcfTopicCollectionPath extends BcfResourceCollectionPath<BcfTopicPaths> {
   readonly bcfTopicService = new BcfApiRequestService<BcfTopicResource>(this.injector, BcfTopicResource);

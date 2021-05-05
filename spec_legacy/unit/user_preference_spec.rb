@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -48,8 +49,7 @@ describe UserPreference do
   end
 
   it 'should update' do
-    user = FactoryBot.create :user
-    pref = FactoryBot.create :user_preference, user: user, hide_mail: true
+    user = FactoryBot.create :user, preferences: { hide_mail: true }
     assert_equal true, user.pref.hide_mail
 
     user.pref['preftest'] = 'value'

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -29,7 +30,6 @@
 
 class
   CustomValue::FormattableStrategy < CustomValue::FormatStrategy
-
   def formatted_value
     OpenProject::TextFormatting::Renderer.format_text value
   end

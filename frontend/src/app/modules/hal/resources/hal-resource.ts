@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {InputState} from "reactivestates";
-import {HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
-import {Injector} from '@angular/core';
-import {States} from 'core-components/states.service';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { InputState } from "reactivestates";
+import { HalLinkInterface } from 'core-app/modules/hal/hal-link/hal-link';
+import { Injector } from '@angular/core';
+import { States } from 'core-components/states.service';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export interface HalResourceClass<T extends HalResource = HalResource> {
   new(injector:Injector,
@@ -64,7 +64,7 @@ export class HalResource {
 
   // Internal initialization time for objects
   // created in the frontend
-  public __initialized_at:Number;
+  public __initialized_at:number;
 
   // The HalResource that this type maps to
   // This will almost always be equal to _type, however may be different for dynamic types
@@ -98,8 +98,8 @@ export class HalResource {
     this.$initialize($source);
   }
 
-  public static getEmptyResource(self:{ href:string|null } = {href: null}):any {
-    return {_links: {self: self}};
+  public static getEmptyResource(self:{ href:string|null } = { href: null }):any {
+    return { _links: { self: self } };
   }
 
   public $links:any = {};
@@ -113,8 +113,8 @@ export class HalResource {
   }
 
   public get idFromLink():string {
-    if (this.$href) {
-      return HalResource.idFromLink(this.$href);
+    if (this.href) {
+      return HalResource.idFromLink(this.href);
     }
 
     return '';
@@ -130,8 +130,8 @@ export class HalResource {
    * be printed nicely on console and in errors
    */
   public toString() {
-    if (this.$href) {
-      return `[HalResource href=${this.$href}]`;
+    if (this.href) {
+      return `[HalResource href=${this.href}]`;
     } else {
       return `[HalResource id=${this.id}]`;
     }
@@ -187,7 +187,7 @@ export class HalResource {
    * @returns A HalResource with the identitical copied source of other.
    */
   public $copy<T extends HalResource = HalResource>(source:Object = {}):T {
-    let clone:HalResourceClass<T> = this.constructor as any;
+    const clone:HalResourceClass<T> = this.constructor as any;
 
     return new clone(this.injector, _.merge(this.$plain(), source), this.$loaded, this.halInitializer, this.$halType);
   }
@@ -212,14 +212,7 @@ export class HalResource {
     this._name = name;
   }
 
-  /**
-   * Alias for $href.
-   */
   public get href():string|null {
-    return this.$link.href;
-  }
-
-  public get $href():string|null {
     return this.$link.href;
   }
 

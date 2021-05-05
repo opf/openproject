@@ -29,25 +29,27 @@
 require 'spec_helper'
 require 'open_project/passwords'
 
-describe OpenProject::Enterprise, :with_clean_fixture do
+describe OpenProject::Enterprise do
   describe "#user_limit_reached?" do
     let(:user_limit) { 2 }
-    let(:builtin_user_count) { 2 }
+    # create 3 built-in users, only 2 of which are active
+    # Also create a placeholder user which will not count against the limit
+    let!(:system_user) { User.system }
+    let!(:anonymous_user) { User.anonymous }
+    let!(:deleted_user) { DeletedUser.first } # locked, not active
+    let!(:placeholder_user) { FactoryBot.create(:placeholder_user) }
 
     before do
-      # create 3 built-in users, only 2 of which are active
-      User.system
-      User.anonymous
-      DeletedUser.first # locked, not active
-
-      allow(OpenProject::Enterprise).to receive(:user_limit).and_return(user_limit)
+      allow(OpenProject::Enterprise)
+        .to receive(:user_limit)
+        .and_return(user_limit)
     end
 
     context "with fewer active users than the limit allows" do
       before do
         FactoryBot.create :user
 
-        expect(User.active.count).to eq 1 + builtin_user_count # created user + built-in ones
+        expect(User.active.count).to eq 1 # created user
       end
 
       it "is false" do
@@ -62,7 +64,7 @@ describe OpenProject::Enterprise, :with_clean_fixture do
         before do
           FactoryBot.create_list :user, num_active_users
 
-          expect(User.active.count).to eq num_active_users + builtin_user_count
+          expect(User.active.count).to eq num_active_users
         end
 
         it "is true" do

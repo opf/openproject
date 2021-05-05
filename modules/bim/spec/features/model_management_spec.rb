@@ -57,7 +57,6 @@ describe 'model management',
                       uploader: user)
   end
 
-
   context 'with all permissions' do
     before do
       login_as(user)

@@ -41,8 +41,8 @@ module OpenProject
     module Evaluator
       RULES = { 'uppercase' => /.*[A-Z].*/u,
                 'lowercase' => /.*[a-z].*/u,
-                'special'   => /.*[^\da-zA-Z].*/u,
-                'numeric'   => /.*\d.*/u }
+                'special' => /.*[^\da-zA-Z].*/u,
+                'numeric' => /.*\d.*/u }
       # Check whether password conforms to password complexity settings.
       # Checks complexity rules and password length.
       def self.conforming?(password)
@@ -58,7 +58,7 @@ module OpenProject
         end
         unless password_long_enough(password)
           errors << I18n.t(:too_short,
-                           scope: [:activerecord, :errors, :messages],
+                           scope: %i[activerecord errors messages],
                            count: OpenProject::Passwords::Evaluator.min_length)
         end
         errors
@@ -114,8 +114,6 @@ module OpenProject
                count: OpenProject::Passwords::Evaluator.min_length)
       end
 
-      private
-
       # Returns the number of active rules password adheres to.
       def self.size_active_rules_adhered_by(password)
         active_rules.count do |name|
@@ -127,13 +125,13 @@ module OpenProject
       def self.active_rules_list
         active_rules.map do |rule|
           I18n.t(rule.to_sym,
-                 scope: [:activerecord, :errors, :models, :user, :attributes, :password])
+                 scope: %i[activerecord errors models user attributes password])
         end
       end
 
       def self.rules_description_locale(rules)
         I18n.t(:weak,
-               scope: [:activerecord, :errors, :models, :user, :attributes, :password],
+               scope: %i[activerecord errors models user attributes password],
                rules: rules,
                min_count: min_adhered_rules,
                all_count: active_rules.size)

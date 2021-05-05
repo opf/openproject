@@ -13,7 +13,6 @@ In OpenProject you can display the activities in a project to gain a quick overv
 
 <div class="glossary">
 **Activity** is defined as a module that displays the actions performed in a project over a certain period of time.
-
 </div>
 
 The changes are listed in reverse chronological order, with the latest changes appearing on top. Apply a filter (located below the project navigation on the left), to select which attributes are included in the activity.
@@ -40,6 +39,6 @@ You can filter for different activities, e.g. for Work packages, News, or Wiki i
 
 ### How far back can I trace the project activities?
 
-The retrospective for the project activities is not limited. You can  therefore trace all the project activities back to the beginning of the  project.
-You can [configure in the admin settings](../../system-admin-guide/)  how many days are shown on each activity page. Due to performance  reasons, the days displayed should be set at a low level (e.g. 7 days).
+The retrospective for the project activities is not limited. You can therefore trace all the project activities back to the beginning of the project.
+You can [configure in the admin settings](../../system-admin-guide/) how many days are shown on each activity page. Due to performance reasons, the days displayed should be set at a low level (e.g. 7 days).
 

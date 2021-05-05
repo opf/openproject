@@ -43,7 +43,7 @@ module JournalFormatter
     end
 
     def format_values(values, key)
-      field = key.to_s.gsub(/\_id\z/, '')
+      field = key.to_s.gsub(/_id\z/, '')
 
       values.map do |value|
         self.class.proc.call value, @journal.journable, field

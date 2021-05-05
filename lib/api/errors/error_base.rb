@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -31,6 +32,7 @@ module API
   module Errors
     class ErrorBase < Grape::Exceptions::Base
       attr_reader :message, :details, :errors, :property
+
       delegate :code, to: :class
 
       class << self

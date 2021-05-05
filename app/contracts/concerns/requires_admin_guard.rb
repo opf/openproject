@@ -32,12 +32,14 @@ module RequiresAdminGuard
   extend ActiveSupport::Concern
 
   included do
-    validate :validate_admin_only
+    validate { validate_admin_only(user, errors) }
+  end
 
-    def validate_admin_only
-      unless user.admin?
-        errors.add :base, :error_unauthorized
-      end
+  module_function
+
+  def validate_admin_only(user, errors)
+    unless user.admin? && user.active?
+      errors.add :base, :error_unauthorized
     end
   end
 end

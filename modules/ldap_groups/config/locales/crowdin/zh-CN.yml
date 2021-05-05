@@ -4,13 +4,20 @@ zh-CN:
       ldap_groups/synchronized_group:
         dn: '可分辨名称'
         auth_source: 'LDAP 连接'
+        sync_users: '同步用户'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP 筛选器'
         auth_source: 'LDAP 连接'
         group_name_attribute: "组名称属性"
+        sync_users: '同步用户'
+        base_dn: "搜索基础 DN"
     models:
       ldap_groups/synchronized_group: '同步的 LDAP 组'
       ldap_groups/synchronized_filter: 'LDAP 组同步筛选器'
+    errors:
+      models:
+        ldap_groups/synchronized_filter:
+          must_contain_base_dn: "筛选器基础 DN 必须包含在 LDAP 连接的基础 DN 中"
   ldap_groups:
     label_menu_item: 'LDAP 组同步'
     label_group_key: 'LDAP 组筛选器密钥'
@@ -22,6 +29,10 @@ zh-CN:
       add_new: '添加同步的 LDAP 筛选器'
       singular: 'LDAP 组同步筛选器'
       plural: 'LDAP 组同步筛选器'
+      label_n_groups_found:
+        one: "筛选器找到了 1 个组"
+        other: "筛选器找到了 %{count} 个组"
+        zero: "筛选器未找到组"
       destroy:
         title: '移除同步的筛选器 %{name}'
         confirmation: "如果您继续，将移除同步的筛选器 %{name} 和通过该筛选器创建的全部 %{groups_count} 个组。"
@@ -30,6 +41,9 @@ zh-CN:
       form:
         group_name_attribute_text: '输入用于设置 OpenProject 组名称的 LDAP 组的属性。'
         filter_string_text: '输入 RFC4515 LDAP 筛选器，该筛选器将返回 LDAP 中的组以与 OpenProject 同步。'
+        base_dn_text: >
+          输入用于此筛选器的搜索基础 DN。它必须低于所选 LDAP 连接的基础 DN。
+          将此选项留空以重复使用连接的基础 DN
     synchronized_groups:
       add_new: '添加同步的 LDAP 组'
       destroy:
@@ -49,6 +63,8 @@ zh-CN:
       singular: '同步的 LDAP 组'
       form:
         auth_source_text: '选择应使用哪个 LDAP 连接。'
+        sync_users_text: >
+          如果启用此选项，则还会在 OpenProject 中自动创建找到的用户。如果不启用，只有 OpenProject 中的现有帐户会被添加到组中。
         dn_text: '输入 LDAP 中组的完整可分辨名称'
         group_text: '选择 LDAP 组的成员应与其同步的现有 OpenProject 组'
 

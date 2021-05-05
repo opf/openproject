@@ -1,1 +1,1 @@
-Array.send(:include, Redmine::Diff::Diffable)
+Array.include Redmine::Diff::Diffable

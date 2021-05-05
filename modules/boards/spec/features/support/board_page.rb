@@ -177,7 +177,7 @@ module Pages
         .perform
     end
 
-    def add_list(option: nil)
+    def add_list(option: nil, query: option)
       if option.nil? && action?
         raise "Must pass value option for action boards"
       end
@@ -188,7 +188,7 @@ module Pages
         page.find('.boards-list--add-item').click
         expect(page).to have_selector('.board-list--container', count: count + 1)
       else
-        open_and_fill_add_list_modal option
+        open_and_fill_add_list_modal query
         page.find('.ng-option-label', text: option, wait: 10).click
         click_on 'Add'
       end
@@ -352,7 +352,7 @@ module Pages
     def open_and_fill_add_list_modal(name)
       open_add_list_modal
       sleep(0.1)
-      page.find('.op-modal--modal-container .new-list--action-select input').set(name)
+      page.find('.op-modal .new-list--action-select input').set(name)
     end
 
     def open_add_list_modal
@@ -361,7 +361,7 @@ module Pages
     end
 
     def add_list_modal_shows_warning(value, with_link: false)
-      within page.find('.op-modal--modal-container') do
+      within page.find('.op-modal') do
         warning = '.notification-box.-warning'
         link = '.notification-box--content a'
 

@@ -52,16 +52,20 @@ class Queries::WorkPackages::Filter::PrincipalLoader
   end
 
   def principal_values
-    if project
-      project.principals.sort
-    else
-      Principal.active_or_registered.in_visible_project.sort
-    end
+    @options ||= principals.map { |s| [s.name, s.id.to_s] }.sort
   end
 
   private
 
+  def principals
+    if project
+      project.principals.sort
+    else
+      Principal.not_locked.in_visible_project.sort
+    end
+  end
+
   def principals_by_class
-    @principals_by_class ||= principal_values.group_by(&:class)
+    @principals_by_class ||= principals.group_by(&:class)
   end
 end

@@ -26,20 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, Output} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
-import {DebouncedEventEmitter} from 'core-components/angular/debounced-event-emitter';
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
+import { Component, Input, Output } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import { DebouncedEventEmitter } from 'core-components/angular/debounced-event-emitter';
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 
 @Component({
   selector: 'filter-string-value',
   templateUrl: './filter-string-value.component.html'
 })
 export class FilterStringValueComponent extends UntilDestroyedMixin {
-  @Input() public shouldFocus:boolean = false;
+  @Input() public shouldFocus = false;
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 

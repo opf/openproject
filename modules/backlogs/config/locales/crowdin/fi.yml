@@ -45,7 +45,7 @@ fi:
   backlogs:
     add_new_story: "Uusi tarina"
     any: "kaikki"
-    backlog_settings: "Backlogs settings"
+    backlog_settings: "Työjonon asetukset"
     burndown_graph: "Edistymiskäyrä"
     card_paper_size: "Paperin koko kortille"
     chart_options: "Kaavion asetukset"
@@ -99,6 +99,7 @@ fi:
   backlogs_empty_title: "No versions are defined to be used in backlogs"
   backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
   button_edit_wiki: "Muokkaa wiki-sivua"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
   error_intro_plural: "Seuraavat virheet ilmenivät:"
   error_intro_singular: "Ilmeni seuraava virhe:"
   error_outro: "Korjaa edellä mainitut virheet ennen uudelleenlähettämistä."

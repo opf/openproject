@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {APIv3GettableResource} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {States} from "core-components/states.service";
-import {HasId, StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
-import {concat, from, merge, Observable, of} from "rxjs";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {mapTo, publish, share, shareReplay, switchMap, take, tap} from "rxjs/operators";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import { APIv3GettableResource } from "core-app/modules/apiv3/paths/apiv3-resource";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { States } from "core-components/states.service";
+import { HasId, StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
+import { concat, from, merge, Observable, of } from "rxjs";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { mapTo, publish, share, shareReplay, switchMap, take, tap } from "rxjs/operators";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 
 export abstract class CachableAPIV3Resource<T extends HasId = HalResource>
   extends APIv3GettableResource<T> {
@@ -50,7 +50,7 @@ export abstract class CachableAPIV3Resource<T extends HasId = HalResource>
    *
    * @param force Load the value anyway.
    */
-  public requireAndStream(force:boolean = false):Observable<T> {
+  public requireAndStream(force = false):Observable<T> {
     const id = this.id.toString();
 
     // Refresh when stale or being forced

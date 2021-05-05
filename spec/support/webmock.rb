@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -37,17 +38,15 @@ RSpec.configure do |config|
   end
 
   config.around(:example, webmock: true) do |example|
-    begin
-      # When we enable webmock, no connections other than stubbed ones are allowed.
-      # We will exempt local connections from this block, since selenium etc.
-      # uses localhost to communicate with the browser.
-      # Leaving this off will randomly fail some specs with WebMock::NetConnectNotAllowedError
-      WebMock.disable_net_connect!(allow_localhost: true, allow: ["selenium-hub", Capybara.server_host])
-      WebMock.enable!
-      example.run
-    ensure
-      WebMock.allow_net_connect!
-      WebMock.disable!
-    end
+    # When we enable webmock, no connections other than stubbed ones are allowed.
+    # We will exempt local connections from this block, since selenium etc.
+    # uses localhost to communicate with the browser.
+    # Leaving this off will randomly fail some specs with WebMock::NetConnectNotAllowedError
+    WebMock.disable_net_connect!(allow_localhost: true, allow: ["selenium-hub", Capybara.server_host])
+    WebMock.enable!
+    example.run
+  ensure
+    WebMock.allow_net_connect!
+    WebMock.disable!
   end
 end

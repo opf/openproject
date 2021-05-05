@@ -76,18 +76,18 @@ shared_examples_for 'time entry contract' do
         .and_return(work_package_visible)
     end
 
-    allow(TimeEntryActivity::Scopes::ActiveInProject)
-      .to receive(:fetch)
+    allow(TimeEntryActivity)
+      .to receive(:active_in_project)
       .and_return(TimeEntryActivity.none)
 
     of_user_and_day_scope = double('of_user_and_day_scope')
 
-    allow(TimeEntry::Scopes::OfUserAndDay)
-      .to receive(:fetch)
+    allow(TimeEntry)
+      .to receive(:of_user_and_day)
       .and_return(TimeEntry.none)
 
-    allow(TimeEntry::Scopes::OfUserAndDay)
-      .to receive(:fetch)
+    allow(TimeEntry)
+      .to receive(:of_user_and_day)
       .with(time_entry.user, time_entry_spent_on, excluding: time_entry)
       .and_return(of_user_and_day_scope)
 
@@ -96,8 +96,8 @@ shared_examples_for 'time entry contract' do
       .with(:hours)
       .and_return(time_entry_day_sum)
 
-    allow(TimeEntryActivity::Scopes::ActiveInProject)
-      .to receive(:fetch)
+    allow(TimeEntryActivity)
+      .to receive(:active_in_project)
       .with(time_entry_project)
       .and_return(activities_scope)
   end

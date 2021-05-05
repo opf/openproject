@@ -49,8 +49,8 @@ class CostType < ApplicationRecord
     default
   end
 
-  def <=>(cost_type)
-    name.downcase <=> cost_type.name.downcase
+  def <=>(other)
+    name.downcase <=> other.name.downcase
   end
 
   def current_rate

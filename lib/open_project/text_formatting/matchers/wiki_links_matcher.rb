@@ -51,7 +51,7 @@ module OpenProject::TextFormatting
       include OpenProject::StaticRouting::UrlHelpers
 
       def self.regexp
-        /(!)?(\[\[([^\]\n\|]+)(\|([^\]\n\|]+))?\]\])/
+        /(!)?(\[\[([^\]\n|]+)(\|([^\]\n|]+))?\]\])/
       end
 
       def self.process_match(m, matched_string, context)
@@ -96,7 +96,7 @@ module OpenProject::TextFormatting
         @context = context
 
         # Check if linking project exists
-        if page =~ /\A([^\:]+)\:(.*)\z/
+        if page =~ /\A([^:]+):(.*)\z/
           @project = Project.find_by(identifier: $1) || Project.find_by(name: $1)
           @page = $2
           @title ||= $1 if @page.blank?
@@ -138,7 +138,7 @@ module OpenProject::TextFormatting
               when :anchor
                 "##{title}" # used for single-file wiki export
               else
-                wiki_page_id = wiki_page.nil? ? page.to_url : wiki_page.slug
+                wiki_page_id = wiki_page.nil? ? WikiPage.slug(page) : wiki_page.slug
                 url_for only_path: context[:only_path],
                         controller: '/wiki',
                         action: 'show',

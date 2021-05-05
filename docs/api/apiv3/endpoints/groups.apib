@@ -2,27 +2,33 @@
 
 Groups are collections of users. They support assigning/unassigning multiple users to/from a project in one operation.
 
-This resource is currently a stub.
+This resource does not yet have the form and schema endpoints. But as all properties are static, clients should still be able
+to work with this resource.
 
 ## Actions
 
-None
+## Actions
+| Link                | Description                                                          | Condition                                                        |
+|:-------------------:| -------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| delete              | Deletes the group.                                                   | **Permission**: Administrator                                    |
+| updateImmediately   | Updates the group's attributes.                                      | **Permission**: Administrator                                    |
 
 ## Linked Properties
-|  Link       | Description                                                                                                                                                           | Type              | Constraints           | Supported operations | Condition                                                     |
-|:-----------:|--------------------------------------------------------------                                                                                                         | -------------     | --------------------- | -------------------- | -----------------------------------------                     |
-| self        | This group                                                                                                                                                            | Group             | not null              | READ                 |                                                               |
-| members     | Link to collection of all the group's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions. | MemberCollection  |                       | READ                 | **Permission**: view members or manage members in any project |
+|  Link              | Description                                                                                                                                                           | Type              | Constraints           | Supported operations | Condition                                                                |
+|:-----------:       |--------------------------------------------------------------                                                                                                         | -------------     | --------------------- | -------------------- | -----------------------------------------                                |
+| self               | This group                                                                                                                                                            | Group             | not null              | READ                 |                                                                          |
+| memberships        | Link to collection of all the group's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions. | MemberCollection  |                       | READ                 | **Permission**: view members or manage members in any project            |
+| members            | The list all all the users that are members of the group                                                                                                              | UserCollection    |                       | READ/WRITE           | **Permission**: manage members in any project to read & admin to write   |
 
 ## Local Properties
-| Property     | Description                                                | Type     | Constraints                                          | Supported operations | Condition                                                                           |
-| :----------: | ---------------------------------------------------------  | -------- | ---------------------------------------------------- | -------------------- | -----------------------------------------------------------                         |
-| id           | Group's id                                                 | Integer  | x > 0                                                | READ                 |                                                                                     |
-| name         | Group's full name, formatting depends on instance settings | String   |                                                      | READ                 |                                                                                     |
-| createdAt    | Time of creation                                           | DateTime |                                                      | READ                 |                                                                                     |
-| updatedAt    | Time of the most recent change to the user                 | DateTime |                                                      | READ                 |                                                                                     |
+| Property     | Description                                                | Type     | Constraints                                          | Supported operations | Condition                                                      |
+| :----------: | ---------------------------------------------------------  | -------- | ---------------------------------------------------- | -------------------- | -----------------------------------------------------------    |
+| id           | Group's id                                                 | Integer  | x > 0                                                | READ                 |                                                                |
+| name         | Group's full name, formatting depends on instance settings | String   |                                                      | READ/WRITE           | Admin to write                                                 |
+| createdAt    | Time of creation                                           | DateTime |                                                      | READ                 | Only visible by admins                                         |
+| updatedAt    | Time of the most recent change to the user                 | DateTime |                                                      | READ                 | Only visible by admins                                         |
 
-## Group [/api/v3/groups/{id}]
+## View group [/api/v3/groups/{id}]
 
 + Model
     + Body
@@ -37,7 +43,29 @@ None
                     "self": {
                         "href": "/api/v3/groups/9",
                         "title": "The group"
-                    }
+                    },
+                    "delete": {
+                        "href": "/api/v3/group/9",
+                        "method": "delete"
+                    },
+                    "memberships": {
+                        "href": "/api/v3/memberships?filters=[{"principal":{"operator":"=","values":["9"]}}]",
+                        "title": "Memberships"
+                    },
+                    "updateImmediately": {
+                        "href": "/api/v3/group/9",
+                        "method": "patch"
+                    },
+                    "members": [
+                        {
+                            "href": "/api/v3/users/363",
+                            "title": "First user"
+                        },
+                        {
+                            "href": "/api/v3/users/60",
+                            "title": "Second user"
+                        }
+                    ]
                 }
             }
 
@@ -48,7 +76,7 @@ None
 
 + Response 200 (application/hal+json)
 
-    [Group][]
+    [View group][]
 
 + Response 404 (application/hal+json)
 
@@ -65,3 +93,322 @@ None
                 "message": "The requested resource could not be found."
             }
 
+## Create group [/api/v3/groups]
+
+## Create group [POST]
+
+Creates a new group applying the attributes provided in the body.
+
++ Request Create group
+
+    + Body
+
+            {
+                "name": "The group",
+                "_links": {
+                    "members": [
+                        {
+                            "href": "/api/v3/users/363"
+                        },
+                        {
+                            "href": "/api/v3/users/60"
+                        }
+                    ]
+                }
+            }
+
++ Response 201
+
+    [View group][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** Administrator
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Name can't be blank.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "name"
+                    }
+                }
+            }
+
+## Update group [/api/v3/groups/{id}]
+
+## Update group [PATCH]
+
+Updates the given group by applying the attributes provided in the body.
+
++ Parameters
+    + id (required, integer, `1`) ... Group id
+
++ Request Update membership
+
+    + Body
+
+            {
+                "_links": {
+                    "members": [
+                        {
+                            "href": "/api/v3/users/363"
+                        },
+                        {
+                            "href": "/api/v3/users/60"
+                        }
+                    ]
+                }
+            }
+
++ Response 200
+
+    [View group][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                 "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** Administrator
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the membership does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission** If the user has the *manage members* permission in at least one project the user will be able to query all groups. If not, the user
+    will be able to query all groups which are members in projects, he has the *view members* permission in.
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of
+    a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if:
+
+    * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Member is already taken.",
+                "_embedded": {
+                    "details": {
+                        "attribute": "members"
+                    }
+                }
+            }
+
+## Delete group [/api/v3/group/{id}]
+
+## Delete group [DELETE]
+
+Deletes the group.
+
++ Parameters
+    + id (required, integer, `1`) ... Group id
+
++ Response 202 (application/hal+json)
+
+    Returned if the group was successfully deleted
+
+    Note that the response body is empty as of now. In future versions of the API a body
+    *might* be returned, indicating the progress of deletion.
+
+    + Body
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** Administrator
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the group does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** Administrator
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of
+    a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+
+
+## List groups [/api/v3/groups{?sortBy}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/groups" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_type": "Group",
+                            "id": 9,
+                            "name": "The group",
+                            "createdAt": "2015-09-23T11:06:36Z",
+                            "updatedAt": "2015-09-23T11:06:36Z",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/groups/9",
+                                    "title": "The group"
+                                },
+                                "memberships": {
+                                    "href": "/api/v3/memberships?filters=[{"principal":{"operator":"=","values":["9"]}}]",
+                                    "title": "Memberships"
+                                },
+                                "members": [
+                                    {
+                                        "href": "/api/v3/users/363",
+                                        "title": "First user"
+                                    },
+                                    {
+                                        "href": "/api/v3/users/60",
+                                        "title": "Second user"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "_type": "Group",
+                            "id": 123,
+                            "name": "Another group",
+                            "createdAt": "2018-09-23T11:06:36Z",
+                            "updatedAt": "2019-09-23T11:06:36Z",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/groups/123",
+                                    "title": "Another group"
+                                },
+                                "memberships": {
+                                    "href": "/api/v3/memberships?filters=[{"principal":{"operator":"=","values":["123"]}}]",
+                                    "title": "Memberships"
+                                },
+                                "members": [
+                                    {
+                                        "href": "/api/v3/users/343",
+                                        "title": "Third user"
+                                    },
+                                    {
+                                        "href": "/api/v3/users/60",
+                                        "title": "Second user"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+
+## List groups [GET]
+
+Returns a collection of groups. The client can choose to filter the groups similar to how work packages are filtered. In addition to the provided filters, the server will reduce the result set to only contain groups, for which the requesting client has sufficient permissions (*view_members*, *manage_members*).
+
++ Parameters
+    + sortBy = ["id", "asc"] (optional, string, `[["id", "asc"]]`) ... JSON specifying sort criteria.
+    Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported sorts are:
+      + id: Sort by primary key
+      + created_at: Sort by group creation datetime
+      + updated_at: Sort by the time the group was updated last
+
++ Response 200 (application/hal+json)
+
+    [List groups][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** View members or manage members in any project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }

@@ -48,6 +48,10 @@ describe WorkPackages::DeleteService do
 
   before do
     expect(work_package)
+      .to receive(:reload)
+      .and_return(work_package)
+
+    expect(work_package)
       .to receive(:destroy)
       .and_return(destroyed_result)
 

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -36,8 +37,8 @@ require 'core_extensions'
 
 # Silence deprecations early on for testing on CI and production
 ActiveSupport::Deprecation.silenced =
-    (Rails.env.production? && !ENV['OPENPROJECT_SHOW_DEPRECATIONS']) ||
-        (Rails.env.test? && ENV['CI'])
+  (Rails.env.production? && !ENV['OPENPROJECT_SHOW_DEPRECATIONS']) ||
+  (Rails.env.test? && ENV['CI'])
 
 if defined?(Bundler)
   # lib directory has to be added to the load path so that
@@ -59,34 +60,24 @@ end
 
 require_relative '../lib/open_project/configuration'
 
-env = ENV['RAILS_ENV'] || 'production'
-db_config = ActiveRecord::Base.configurations[env] || {}
-db_adapter = db_config['adapter']
-if db_adapter&.start_with? 'mysql'
-  warn <<~ERROR
-    ======= INCOMPATIBLE DATABASE DETECTED =======
-    Your database is set up for use with a MySQL or MySQL-compatible variant.
-    This installation of OpenProject no longer supports these variants.
-
-    The following guides provide extensive documentation for migrating
-    your installation to a PostgreSQL database:
-
-    https://www.openproject.org/migration-guides/
-
-    This process is mostly automated so you can continue using your
-    OpenProject installation within a few minutes!
-
-    ==============================================
-  ERROR
-
-  Kernel.exit 1
-end
-
 module OpenProject
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+
+    # Sets up logging for STDOUT and configures the default logger formatter
+    # so that all environments receive level and timestamp information
+    #
+    # Use default logging formatter so that PID and timestamp are not suppressed.
+    config.log_formatter = ::Logger::Formatter.new
+
+    # Set up STDOUT logging if requested
+    if ENV["RAILS_LOG_TO_STDOUT"].present?
+      logger           = ActiveSupport::Logger.new(STDOUT)
+      logger.formatter = config.log_formatter
+      config.logger    = ActiveSupport::TaggedLogging.new(logger)
+    end
 
     # Use Rack::Deflater to gzip/deflate all the responses if the
     # HTTP_ACCEPT_ENCODING header is set appropriately. As Rack::ETag as

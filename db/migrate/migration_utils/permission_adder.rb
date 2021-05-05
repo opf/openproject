@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -36,7 +37,6 @@ module Migration
           .where(role_permissions: { permission: having.to_s })
           .references(:role_permissions)
           .find_each do |role|
-
           role.add_permission! add
         end
       end

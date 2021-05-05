@@ -43,6 +43,5 @@ module OpenProject::Webhooks
     def handle(request = Hash.new, params = Hash.new, user = nil)
       callback.call self, request, params, user
     end
-
   end
 end

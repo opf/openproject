@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Directive, EventEmitter, HostListener, Input, Output} from '@angular/core';
-import {LinkHandling} from 'core-app/modules/common/link-handling/link-handling';
+import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { LinkHandling } from 'core-app/modules/common/link-handling/link-handling';
 
 @Directive({
   selector: '[accessibleClick]',
 })
 export class AccessibleClickDirective {
-  @Input('accessibleClickStopEvent') stopEventPropagation:boolean = true;
-  @Input('accessibleClickSkipModifiers') skipEventModifiers:boolean = false;
+  @Input('accessibleClickStopEvent') stopEventPropagation = true;
+  @Input('accessibleClickSkipModifiers') skipEventModifiers = false;
   @Output('accessibleClick') onClick = new EventEmitter<MouseEvent|KeyboardEvent>();
 
   @HostListener('click', ['$event'])

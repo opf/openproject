@@ -15,10 +15,8 @@ sl:
       file_invalid: "BCF datoteka ni veljavna"
     x_bcf_issues:
       zero: 'Ni BCF napak'
-      one: ''
-      two: ''
-      few: ''
-      other: ''
+      one: 'Ena BCF napaka'
+      other: '%{count} BCF napake'
     bcf_xml:
       xml_file: 'BCF XML datoteka'
       import_title: 'Uvozi'
@@ -28,7 +26,7 @@ sl:
       import_failed_unsupported_bcf_version: 'Datoteke BCF ni bilo mogoče prebrati: Različica BCF ni podprta. Prepričajte se, da je različica vsaj %{minimal_version} ali višja.'
       import_successful: 'Uvožene %{count} težave BCF'
       import_canceled: "BCF-XML uvoz preklican\n"
-      type_not_active: "Vrsta težave za ta projekt ni aktivirana"
+      type_not_active: "Vrsta zahtevka za ta projekt ni aktivirana"
       import:
         num_issues_found: '%{x_bcf_issues} vsebujejo datoteko BCF-XML, njihove podrobnosti so navedene spodaj.'
         button_prepare: 'Pripravi uvoz'
@@ -44,7 +42,7 @@ sl:
         invalid_priorities_found: 'Najdena so neveljavna imena prioritet'
         invalid_emails_found: 'Najdeni so neveljavni e-poštni naslovi'
         unknown_emails_found: 'Najdeni so neznani e-poštni naslovi'
-        unknown_property: 'Neznana lastnina'
+        unknown_property: 'Neznana lastnost'
         non_members_found: 'Ni najdenih članov projekta'
         import_types_as: 'Nastavite vse te vrste na'
         import_statuses_as: 'Nastavite vsa ta stanja na'
@@ -103,7 +101,7 @@ sl:
           snapshot_data_blank: "navesti je treba snapshot_data."
           unsupported_key: "Vključena je nepodprta lastnost json."
         bim/bcf/issue:
-          uuid_already_taken: "Te izdaje BCF ni mogoče uvoziti, saj je že ena z istim GUID-om. Ali je morda ta BCF problem že uvožen v drug projekt?"
+          uuid_already_taken: "Te izdaje BCF ni mogoče uvoziti, saj je že ena z istim GUID-om. Ali je bil morda ta BCF problem že uvožen v drug projekt?"
   ifc_models:
     label_ifc_models: 'model IFC'
     label_new_ifc_model: 'Nov IFC model'
@@ -116,7 +114,7 @@ sl:
       check_2: 'Preverite, ali je vsaj en model IFC nastavljen na "Privzeto".'
     no_results: "V tem projektu ni bil naložen noben model IFC."
     processing_state:
-      label: 'Obdelujem?'
+      label: 'Obdelovanje?'
       in_progress: 'V teku'
       completed: 'Zaključeno'
     processing_notice:

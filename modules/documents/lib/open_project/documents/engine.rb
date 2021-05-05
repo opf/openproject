@@ -35,7 +35,6 @@ module OpenProject::Documents
     register 'openproject-documents',
              author_url: "http://www.openproject.com",
              bundled: true do
-
       menu :project_menu,
            :documents,
            { controller: '/documents', action: 'index' },
@@ -45,20 +44,20 @@ module OpenProject::Documents
            icon: 'icon2 icon-notes'
 
       project_module :documents do |_map|
-        permission :view_documents, documents: [:index, :show, :download]
+        permission :view_documents, documents: %i[index show download]
         permission :manage_documents, {
-          documents: [:new, :create, :edit, :update, :destroy, :add_attachment]
-          }, require: :loggedin
+          documents: %i[new create edit update destroy add_attachment]
+        }, require: :loggedin
       end
 
-      Redmine::Notifiable.all << Redmine::Notifiable.new('document_added')
+      OpenProject::Notifiable.all << OpenProject::Notifiable.new('document_added')
 
       Redmine::Search.register :documents
     end
 
     activity_provider :documents, class_name: 'Activities::DocumentActivityProvider', default: false
 
-    patches [:CustomFieldsHelper, :Project]
+    patches %i[CustomFieldsHelper Project]
 
     add_api_path :documents do
       "#{root}/documents"

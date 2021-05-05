@@ -250,7 +250,7 @@ class Activities::BaseActivityProvider
   def aggregated_journal_query
     # As AggregatedJournal wraps the provided sql statement inside brackets we
     # need to provide a fully valid statement and not only the alias string.
-    Journal::Scopes::AggregatedJournal.fetch(sql: "SELECT * FROM #{aggregated_journals_alias}").arel
+    Journal.aggregated_journal(sql: "SELECT * FROM #{aggregated_journals_alias}").arel
   end
 
   def add_event_selection_query_as_cte(query, user, from, to, options)

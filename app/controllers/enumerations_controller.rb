@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -31,7 +32,7 @@ class EnumerationsController < ApplicationController
   layout 'admin'
 
   before_action :require_admin
-  before_action :find_enumeration, only: [:edit, :update, :destroy]
+  before_action :find_enumeration, only: %i[edit update destroy]
 
   include CustomFieldsHelper
 
@@ -117,6 +118,7 @@ class EnumerationsController < ApplicationController
   def enumeration_class(type)
     klass = type.to_s.constantize
     raise NameError unless klass.ancestors.include? Enumeration
+
     klass
   rescue NameError
     nil

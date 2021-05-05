@@ -2,14 +2,19 @@ require Rails.root.join('config/constants/open_project/inflector')
 
 OpenProject::Inflector.rule do |_, abspath|
   if abspath.match?(/open_project\/version(\.rb)?\z/) ||
-    abspath.match?(/lib\/open_project\/\w+\/version(\.rb)?\z/)
+     abspath.match?(/lib\/open_project\/\w+\/version(\.rb)?\z/)
     "VERSION"
   end
 end
 
 OpenProject::Inflector.rule do |basename, abspath|
-  if basename =~ /\A(.*)_api\z/
+  case basename
+  when /\Aapi_(.*)\z/
+    'API' + default_inflect($1, abspath)
+  when /\A(.*)_api\z/
     default_inflect($1, abspath) + 'API'
+  when 'api'
+    'API'
   end
 end
 
@@ -20,11 +25,12 @@ OpenProject::Inflector.rule do |basename, abspath|
 end
 
 OpenProject::Inflector.rule do |basename, abspath|
-  if basename =~ /\Aoauth_(.*)\z/
+  case basename
+  when /\Aoauth_(.*)\z/
     'OAuth' + default_inflect($1, abspath)
-  elsif basename =~ /\A(.*)_oauth\z/
+  when /\A(.*)_oauth\z/
     default_inflect($1, abspath) + 'OAuth'
-  elsif basename == 'oauth'
+  when 'oauth'
     'OAuth'
   end
 end
@@ -40,13 +46,12 @@ end
 # we simply return the general OpenProject namespace for such files.
 OpenProject::Inflector.rule do |_basename, abspath|
   if abspath =~ /openproject-\w+\/lib\/openproject-\w+.rb\z/ ||
-    abspath =~ /modules\/\w+\/lib\/openproject-\w+.rb\z/
+     abspath =~ /modules\/\w+\/lib\/openproject-\w+.rb\z/
     'OpenProject'
   end
 end
 
 OpenProject::Inflector.inflection(
-  'api' => 'API',
   'rss' => 'RSS',
   'sha1' => 'SHA1',
   'sso' => 'SSO',
@@ -57,8 +62,7 @@ OpenProject::Inflector.inflection(
   'pop3' => 'POP3',
   'cors' => 'CORS',
   'openid_connect' => 'OpenIDConnect',
-  'pdf_export' => 'PDFExport',
-  'api_controller' => 'APIController'
+  'pdf_export' => 'PDFExport'
 )
 
 Rails.autoloaders.each do |autoloader|

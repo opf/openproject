@@ -1,16 +1,19 @@
-<div class="work-package-details-activities-activity-contents"
+<div class="op-user-activity work-package-details-activities-activity-contents"
      *ngIf="workPackage"
      (mouseenter)="focus()"
      (mouseleave)="blur()">
-  <user-avatar *ngIf="userName"
-               [attr.data-user-name]="userName"
-               [attr.data-user-id]="userId"
-               data-class-list="avatar">
-  </user-avatar>
 
-  <span class="user">
-    <user-link [user]="user"></user-link>
-  </span>
+  <div class="op-user-activity--user-line">
+    <op-principal
+      *ngIf="userName"
+      [principal]="user"
+      [hide-name]="true"
+    ></op-principal>
+
+    <span class="user">
+      <user-link [user]="user"></user-link>
+    </span>
+  </div>
   <span class="date">
     {{ isInitial ? text.label_created_on : text.label_updated_on }}
     <op-date-time [dateTimeValue]="activity.createdAt"></op-date-time>
@@ -46,10 +49,11 @@
         </edit-form-portal>
       </div>
     </div>
-    <div *ngIf="!active && (isComment || isBcfComment)"
-          class="message wiki op-uc-container"
-          [innerHtml]="postedComment">
-    </div>
+    <op-dynamic-bootstrap
+      *ngIf="!active && (isComment || isBcfComment)"
+      [HTML]="postedComment"
+      class="message"
+    ></op-dynamic-bootstrap>
     <ul class="work-package-details-activities-messages" *ngIf="!isInitial">
       <li *ngFor="let detail of details">
         <span class="message" [innerHtml]="detail"></span>

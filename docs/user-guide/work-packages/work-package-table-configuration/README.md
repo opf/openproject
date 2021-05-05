@@ -14,8 +14,7 @@ keywords: work packages table configuration, work package list, columns, filter,
 | [Add or remove columns](#add-or-remove-columns-in-the-work-package-table) | How to add or remove columns in the work package table?      |
 | [Filter work packages](#filter-work-packages)                | How to filter in the work package list?                      |
 | [Sort the work package list](#sort-the-work-package-list)    | How to sort within the work package list?                    |
-| [Display settings](#flat-list,-hierarchy-mode-and-group-by)  | Get to know the flat list, the hierarchy mode and the group by feature. |
-| [Aggregation by project](#aggregation-by-project)            | How to display an aggregated view of all milestones of multiple projects? |
+| [Display settings](#flat-list-hierarchy-mode-and-group-by)   | Get to know the flat list, the hierarchy mode, the group by and the sum feature. |
 | [Attribute highlighting (Premium Feature)](#attribute-highlighting-premium-feature) | How to highlight certain attributes in the work package list? |
 | [Save work package views](#save-work-package-views)          | How to save a new work package view and how to change existing ones? |
 
@@ -56,26 +55,54 @@ Clicking the **Apply** button will save your changes and adapt the table accordi
 
 In the work package list there will soon be quite a lot of work packages in a project. To filter the work packages in the list, click on the **Filter** button on top of the work packages view. The number next to it tells you how many filter criteria you have applied to a list.
 
-In this example 1 filter criteria: Status = open.
+In this example one filter criterion is applied: Status = open.
 
 ![filter-work-packages](filter-work-packages.png)
 
-To add a filter criteria, click the **+ Add filter:** button in the grey filter area. You can choose a filter criteria from the drop-down list or start typing to search for a criteria.
+To add a filter criterion, choose one from the drop-down list next to **+ Add filter** or start typing to search for a criterion.
 
 ![add-filter](add-filter.png)
 
 You can add as many filter criteria as needed. 
 Also, you can filter by [custom fields](../../../system-admin-guide/custom-fields) if you set this in the custom field configuration.
+<div class="alert alert-info" role="alert">
+**Good to know**: Filtering a work packages list will temporarily change the default work package type and default status to the values used in the filters to make newly created work packages visible in the list.
+</div>
 
+
+### Filtering by text
 If you want to search for specific text in the subject, description or comments of a work package, type in the **Filter by text** the expression you want to filter for.
 
 The results will be displayed accordingly in the work package list.
 
 ![filter-text](filter-text.png)
 
-<div class="alert alert-info" role="alert">
-**Good to know**: Filtering a work packages list will temporarily change the default work package type and default status according to your filters to make newly created work packages visible in the list.
-</div>
+### Filtering for a work package's children
+
+If you want to only show work package with specific parents (e.g. all work packages belonging to a specific phase of your project) you can use the filter "Parent". Enter all required work packages and press Enter. This will show the selected work package(s) and its/their children. 
+If you only selected work packages without children, no work packages will be shown at all.
+
+![filter-for-parent-work-package](image-20210301182354564.png)
+
+### Filtering by ID or work package name
+
+If you want to [create a work package view](#save-work-package-views) with only specific work packages you can use the filter "ID". By entering the ID or subject of work packages you can select them. 
+Another use case would be to *exclude* specific work packages (e.g. you want to display all milestones but one). Therefore, use the "is not" option next to the filter's name on the left.
+
+![filtering-by-work-package-id](image-20210301185550169.png)
+
+### Filtering for assignees or assigned groups
+
+There are several options to filter for the assignee of a work package. You can choose one of these filters:
+
+- Assignee: Filters for work packages where the specified user or group is set as Assignee
+- Assignee or belonging group: 
+  - When filtering for a single user: Work packages assigned to this user, and any group it belongs to
+  - When filtering for a group: Work packages assigned to this group, and any users within
+- Assignee's group: Filters for work packages assigned to a user from this group
+- Assignee's role: Filters for work packages assigned to users with the specified project role
+
+![assignee-or-assignee-group-filter](image-20210413115230235.png)
 
 ## Sort the work package list
 
@@ -129,35 +156,19 @@ You have to choose either option when displaying work packages in the list.
 
 To switch between the different criteria, open the [work package table configuration](#work-package-table-configuration) and open the tab **Display settings**. Choose how to display the work packages in the list and click the blue **Apply** button.
 
-![display-settings](1566397517070.png)
-
-When you group the work package list by an attribute or by project a button to collapse groups shows up:
-![collapse-button](image-20201211021022685.png)
-
-Use it to quickly collapse or expand all groups at the same time.
-
-## Aggregation by project
-
-You can get a **quick overview of multiple projects** in the Gantt chart. To accomplish this navigate to the work package module of a project or the [project overarching work package list](../../projects/#project-overarching-reports).
-
-**Group the list** by project by using the work package table configuration (as described above) or by clicking on the small triangle next to "Project" in the table header.
- ![group-by-project](image-20201211020614221.png)
-
-**Display the [Gantt chart](../../gantt-chart)** by clicking on the button in the upper right corner.
-![insert-gantt-chart-button](image-20201211020748715.png)
-
-Use the minus next to the project's name or the **collapse button** in the upper right corner to collapse some or all projects.
-
-This will give you an **aggregated view of the projects' milestones**.
-
-![aggregated-projects-milestones](image-20201211131511543.png)
-
-**Please note**: If you want to make use of this feature, it is necessary to add milestones for the most important dates to your projects. At the moment this feature is not available for other [work package types](../../../getting-started/work-packages-introduction/#what-is-a-work-package). Apart from the set filters the list of displayed projects depends on your [permissions](../../../system-admin-guide/users-permissions/roles-permissions/). You can only see private projects that you are a member of and public projects.
-In some cases (many work packages) you will have to increase the objects per page in bottom right corner to display multiple projects. Change the available options in the [system settings](../../../system-admin-guide/system-settings/general-settings/) if necessary.
- ![image-20201211131803961](image-20201211131803961.png)
+![display-settings](image-20210426164224748.png)
 
 
 
+When you group the work package list by an attribute or by project a **button to collapse groups** shows up:
+![collapse-button](collapse-all-expand-all.png)
+
+Use it to quickly collapse or expand all groups at the same time. Find out [here](../../gantt-chart/#aggregation-by-project) how to use this feature for a **quick overview of several projects** at once.
+
+### Display sums in work package list
+
+To display the sums of eligible work package attributes, go to the work package table configuration and click on the tab **Display settings** (see screenshot above). When you tick the box next to **Display sums** the sums of Estimated time and Remaining hours as well as custom fields of the type Integer or Float will be displayed at the bottom of the work package list. 
+If you group the work package list, sums will be shown for each group.
 
 ## Attribute highlighting (Premium Feature)
 

@@ -2,6 +2,9 @@ OpenProject::Application.configure do
   config.after_initialize do
     next if Rails.env.test?
 
+    # Avoid running this on migrations or when the database is incomplete
+    next if OpenProject::Database.migrations_pending?
+
     slow_sql_threshold = OpenProject::Configuration.sql_slow_query_threshold.to_i
     next if slow_sql_threshold == 0
 
@@ -17,10 +20,10 @@ OpenProject::Application.configure do
         duration: duration,
         time: start.iso8601,
         cached: !!data[:cache],
-        sql: data[:sql],
+        sql: data[:sql]
       }
 
-      sql_log_string = data[:sql].strip.gsub(/(^([\s]+)?$\n)/, "")
+      sql_log_string = data[:sql].strip.gsub(/(^(\s+)?$\n)/, "")
       OpenProject.logger.warn "Encountered slow SQL (#{payload[:duration]} ms): #{sql_log_string}",
                               payload: payload,
                               # Hash of the query for reference/fingerprinting

@@ -29,9 +29,10 @@
 require 'spec_helper'
 
 feature 'invite user via email', type: :feature, js: true do
-  using_shared_fixtures :admin
-  let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
+  shared_let(:admin) { FactoryBot.create :admin }
+  let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1', members: project_members }
   let!(:developer) { FactoryBot.create :role, name: 'Developer' }
+  let(:project_members) { {} }
 
   let(:members_page) { Pages::Members.new project.identifier }
 
@@ -54,9 +55,9 @@ feature 'invite user via email', type: :feature, js: true do
       click_on 'Add member'
 
       members_page.search_and_select_principal! 'finkelstein@openproject.com',
-                                                'Invite finkelstein@openproject.com'
+                                                'Send invite to finkelstein@openproject.com'
       members_page.select_role! 'Developer'
-      expect(members_page).to have_selected_new_principal('Invite finkelstein@openproject.com')
+      expect(members_page).to have_selected_new_principal('finkelstein@openproject.com')
 
       click_on 'Add'
 
@@ -67,16 +68,15 @@ feature 'invite user via email', type: :feature, js: true do
       # Should show the invited user on the default filter as well
       members_page.visit!
       expect(members_page).to have_user 'finkelstein @openproject.com'
-
     end
   end
 
   context 'with a registered user' do
     let!(:user) do
       FactoryBot.create :user, mail: 'hugo@openproject.com',
-                         login: 'hugo@openproject.com',
-                         firstname: 'Hugo',
-                         lastname: 'Hurried'
+                               login: 'hugo@openproject.com',
+                               firstname: 'Hugo',
+                               lastname: 'Hurried'
     end
 
     scenario 'user lookup by email' do
@@ -92,9 +92,7 @@ feature 'invite user via email', type: :feature, js: true do
     end
 
     context 'who is already a member' do
-      before do
-        project.add_member! user, [developer]
-      end
+      let(:project_members) { { user => developer } }
 
       shared_examples 'no user to invite is found' do
         scenario 'no matches found' do

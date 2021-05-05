@@ -109,7 +109,7 @@ module Components
       end
 
       def selector
-        '.wp-table--configuration-modal'
+        '.op-modal'
       end
 
       private

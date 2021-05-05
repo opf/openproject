@@ -1,7 +1,7 @@
 /**
  * Returns the collapsed group class for the given ancestor id
  */
-export function collapsedGroupClass(ancestorId:string = ''):string {
+export function collapsedGroupClass(ancestorId = ''):string {
   return `__collapsed-group-${ancestorId}`;
 }
 

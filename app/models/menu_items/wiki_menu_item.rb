@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -37,7 +38,7 @@ class MenuItems::WikiMenuItem < MenuItem
   }
 
   def slug
-    name.to_url
+    WikiPage.slug(name)
   end
 
   def item_class

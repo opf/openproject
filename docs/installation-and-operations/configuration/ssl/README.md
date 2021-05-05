@@ -32,32 +32,29 @@ we're using.
 
 You can get an SSL certificate for free via Let's Encrypt.
 
-This requires your OpenProject server to be reachable using a domain name (e.g. openproject.mydomain.com), with port 443 or 80 open. If you don't have anything running on port 80 or 443, we recommend that you first configure OpenProject without SSL support, and only then execute the steps outline below.
+This requires your OpenProject server to be reachable using a domain name (e.g. openproject.mydomain.com), with port 443 or 80 open. If you don't have anything running on port 80 or 443, we recommend that you first configure OpenProject without SSL support, and only then execute the steps outlined below.
 
-Here is how to do it using [certbot](https://github.com/certbot/certbot):
+1. Go to [certbot.eff.org](https://certbot.eff.org), and select "Apache" and your Linux distribution (e.g. Ubuntu 20.04) to get access to the installation instructions for your specific OS.
+2. Follow the installation instructions to get the `certbot` CLI installed.
+3. Run the `certbot` CLI to generate the certificate (and only the certificate):
 
-    sudo curl https://dl.eff.org/certbot-auto -o /usr/local/bin/certbot-auto
-    sudo chmod a+x /usr/local/bin/certbot-auto
-    
-    certbot-auto certonly --webroot --webroot-path /opt/openproject/public -d openproject.mydomain.com
+        sudo certbot certonly --apache
 
-The CLI will ask for a few details and to agree to the Let's Encrypt terms of usage. Then it will perform the Let's Encrypt challenge and finally issue a certificate file and a private key file if the challenge succeeded.
+  The CLI will ask for a few details and to agree to the Let's Encrypt terms of usage. Then it will perform the Let's Encrypt challenge and finally issue a certificate file and a private key file if the challenge succeeded.
 
-At the end, it will store the certificate (`fullchain.pem`) and private key (`privkey.pem`) under `/etc/letsencrypt/live/openproject.mydomain.com/`.
+  At the end, it will store the certificate (`fullchain.pem`) and private key (`privkey.pem`) under `/etc/letsencrypt/live/openproject.mydomain.com/`.
 
-You can now configure OpenProject to use them by running `openproject reconfigure`: hit ENTER until you get to the SSL wizard, and select "Yes" when the wizard asks for SSL support:
+  You can now configure OpenProject to use them by running `openproject reconfigure`: hit ENTER until you get to the SSL wizard, and select "Yes" when the wizard asks for SSL support:
 
-* Enter the `/etc/letsencrypt/live/openproject.mydomain.com/fullchain.pem` path when asked for the `server/ssl_cert` detail.
-* Enter the `/etc/letsencrypt/live/openproject.mydomain.com/privkey.pem` path when asked for the `server/ssl_key` detail.
-* Enter the `/etc/letsencrypt/live/openproject.mydomain.com/fullchain.pem` path (same as `server/ssl_cert`) when asked for the `server/ssl_ca` detail.
+  * Enter the `/etc/letsencrypt/live/openproject.mydomain.com/fullchain.pem` path when asked for the `server/ssl_cert` detail.
+  * Enter the `/etc/letsencrypt/live/openproject.mydomain.com/privkey.pem` path when asked for the `server/ssl_key` detail.
+  * Enter the `/etc/letsencrypt/live/openproject.mydomain.com/fullchain.pem` path (same as `server/ssl_cert`) when asked for the `server/ssl_ca` detail.
 
-Hit ENTER, and after the wizard is finished your OpenProject installation should be accessible using `https://openproject.mydomain.com`.
+  Hit ENTER, and after the wizard is finished your OpenProject installation should be accessible using `https://openproject.mydomain.com`.
 
-Note that this Let's Encryt certificate is only valid for 90 days. To renew it automatically all you have to do is to add the following entry to your crontab (run `crontab -e`):
+4. Let's Encryt certificates are only valid for 90 days. An entry in your OS crontab should have automatically been added when `certbot` was installed. You can optionnally confirm that the renewal will work by issuing the following command in dry-run mode:
 
-    0 1 * * * certbot-auto renew --quiet --post-hook "service apache2 restart"
-
-This will execute `certbot renew` every day at 1am. The command checks if the certificate is expired and renews it if that is the case. The web server is restarted in a post hook in order for it to pick up the new certificate.
+        sudo certbot renew --dry-run
 
 <div class="alert alert-warning" role="alert">
 

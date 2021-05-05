@@ -31,13 +31,11 @@
 require 'digest/sha1'
 
 class User < Principal
-  include ::Scopes::Scoped
-
   USER_FORMATS_STRUCTURE = {
-    firstname_lastname: [:firstname, :lastname],
+    firstname_lastname: %i[firstname lastname],
     firstname: [:firstname],
-    lastname_firstname: [:lastname, :firstname],
-    lastname_coma_firstname: [:lastname, :firstname],
+    lastname_firstname: %i[lastname firstname],
+    lastname_coma_firstname: %i[lastname firstname],
     username: [:login]
   }.freeze
 
@@ -58,6 +56,7 @@ class User < Principal
   ].freeze
 
   include ::Associations::Groupable
+  extend DeprecatedAlias
 
   has_many :categories, foreign_key: 'assigned_to_id',
                         dependent: :nullify
@@ -88,7 +87,8 @@ class User < Principal
   scope :blocked, -> { create_blocked_scope(self, true) }
   scope :not_blocked, -> { create_blocked_scope(self, false) }
 
-  scope_classes Users::Scopes::FindByLogin
+  scopes :find_by_login,
+         :newest
 
   def self.create_blocked_scope(scope, blocked)
     scope.where(blocked_condition(blocked))
@@ -106,8 +106,7 @@ class User < Principal
 
   acts_as_customizable
 
-  attr_accessor :password, :password_confirmation
-  attr_accessor :last_before_login_on
+  attr_accessor :password, :password_confirmation, :last_before_login_on
 
   validates_presence_of :login,
                         :firstname,
@@ -118,7 +117,7 @@ class User < Principal
   validates_uniqueness_of :login, if: Proc.new { |user| !user.login.blank? }, case_sensitive: false
   validates_uniqueness_of :mail, allow_blank: true, case_sensitive: false
   # Login must contain letters, numbers, underscores only
-  validates_format_of :login, with: /\A[a-z0-9_\-@\.+ ]*\z/i
+  validates_format_of :login, with: /\A[a-z0-9_\-@.+ ]*\z/i
   validates_length_of :login, maximum: 256
   validates_length_of :firstname, :lastname, maximum: 256
   validates_format_of :mail, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, allow_blank: true
@@ -135,32 +134,8 @@ class User < Principal
   after_save :update_password
 
   before_create :sanitize_mail_notification_setting
-  before_destroy :delete_associated_private_queries
-  before_destroy :reassign_associated
-
-  scope :in_group, ->(group) {
-    within_group(group)
-  }
-  scope :not_in_group, ->(group) {
-    within_group(group, false)
-  }
-  scope :within_group, ->(group, positive = true) {
-    group_id = group.is_a?(Group) ? [group.id] : Array(group).map(&:to_i)
-
-    sql_condition = group_id.any? ? 'WHERE gu.group_id IN (?)' : ''
-    sql_not = positive ? '' : 'NOT'
-
-    sql_query = ["#{User.table_name}.id #{sql_not} IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu #{sql_condition})"]
-    if group_id.any?
-      sql_query.push group_id
-    end
-
-    where(sql_query)
-  }
 
   scope :admin, -> { where(admin: true) }
-
-  scope :newest, -> { not_builtin.order(created_at: :desc) }
 
   def self.unique_attribute
     :login
@@ -191,6 +166,7 @@ class User < Principal
       passwords.reload
 
       clean_up_former_passwords
+      clean_up_password_attribute
     end
   end
 
@@ -283,7 +259,7 @@ class User < Principal
         user.reload
         Rails.logger.info("User '#{user.login}' created from external auth source: #{user.auth_source&.type} - #{user.auth_source&.name}")
       else
-        Rails.logger.error("User '#{user.login}' could not be created: #{user.errors.full_messages.join(". ")}")
+        Rails.logger.error("User '#{user.login}' could not be created: #{user.errors.full_messages.join('. ')}")
       end
     end
   end
@@ -292,11 +268,9 @@ class User < Principal
   def self.try_to_autologin(key)
     token = Token::AutoLogin.find_by_plaintext_value(key)
     # Make sure there's only 1 token that matches the key
-    if token
-      if (token.created_at > Setting.autologin.to_i.day.ago) && token.user && token.user.active?
-        token.user.log_successful_login
-        token.user
-      end
+    if token && ((token.created_at > Setting.autologin.to_i.day.ago) && token.user && token.user.active?)
+      token.user.log_successful_login
+      token.user
     end
   end
 
@@ -318,23 +292,8 @@ class User < Principal
   # Return user's authentication provider for display
   def authentication_provider
     return if identity_url.blank?
+
     identity_url.split(':', 2).first.titleize
-  end
-
-  def status_name
-    STATUSES.invert[status].to_s
-  end
-
-  def active?
-    status == STATUSES[:active]
-  end
-
-  def registered?
-    status == STATUSES[:registered]
-  end
-
-  def locked?
-    status == STATUSES[:locked]
   end
 
   ##
@@ -347,40 +306,25 @@ class User < Principal
   alias_method :activatable?, :locked?
 
   def activate
-    self.status = STATUSES[:active]
+    self.status = self.class.statuses[:active]
   end
 
   def register
-    self.status = STATUSES[:registered]
+    self.status = self.class.statuses[:registered]
   end
 
   def invite
-    self.status = STATUSES[:invited]
+    self.status = self.class.statuses[:invited]
   end
 
   def lock
-    self.status = STATUSES[:locked]
+    self.status = self.class.statuses[:locked]
   end
 
-  def activate!
-    update_attribute(:status, STATUSES[:active])
-  end
-
-  def register!
-    update_attribute(:status, STATUSES[:registered])
-  end
-
-  def invite!
-    update_attribute(:status, STATUSES[:invited])
-  end
-
-  def invited?
-    status == STATUSES[:invited]
-  end
-
-  def lock!
-    update_attribute(:status, STATUSES[:locked])
-  end
+  deprecated_alias :activate!, :active!
+  deprecated_alias :register!, :registered!
+  deprecated_alias :invite!, :invited!
+  deprecated_alias :lock!, :locked!
 
   # Returns true if +clear_password+ is the correct user's password, otherwise false
   # If +update_legacy+ is set, will automatically save legacy passwords using the current
@@ -390,6 +334,7 @@ class User < Principal
       auth_source.authenticate(login, clear_password)
     else
       return false if current_password.nil?
+
       current_password.matches_plaintext?(clear_password, update_legacy: update_legacy)
     end
   end
@@ -399,6 +344,7 @@ class User < Principal
     return false if uses_external_authentication? ||
                     OpenProject::Configuration.disable_password_login?
     return true if auth_source_id.blank?
+
     auth_source.allow_password_changes?
   end
 
@@ -426,7 +372,8 @@ class User < Principal
   #
   def failed_too_many_recent_login_attempts?
     block_threshold = Setting.brute_force_block_after_failed_logins.to_i
-    return false if block_threshold == 0  # disabled
+    return false if block_threshold == 0 # disabled
+
     (last_failed_login_within_block_time? and
             failed_login_count >= block_threshold)
   end
@@ -689,7 +636,7 @@ class User < Principal
           u.login = ''
           u.firstname = ''
           u.mail = ''
-          u.status = User::STATUSES[:active]
+          u.status = User.statuses[:active]
         end).save
         raise 'Unable to create the anonymous user.' if anonymous_user.new_record?
       end
@@ -706,8 +653,8 @@ class User < Principal
         lastname: "System",
         login: "",
         mail: "",
-        admin: false,
-        status: User::STATUSES[:active],
+        admin: true,
+        status: User.statuses[:active],
         first_login: false
       )
 
@@ -735,18 +682,18 @@ class User < Principal
     # save. Otherwise, password is nil.
     unless password.nil? or anonymous?
       password_errors = OpenProject::Passwords::Evaluator.errors_for_password(password)
-      password_errors.each do |error| errors.add(:password, error) end
+      password_errors.each { |error| errors.add(:password, error) }
 
       if former_passwords_include?(password)
         errors.add(:password,
                    I18n.t(:reused,
                           count: Setting[:password_count_former_banned].to_i,
-                          scope: [:activerecord,
-                                  :errors,
-                                  :models,
-                                  :user,
-                                  :attributes,
-                                  :password]))
+                          scope: %i[activerecord
+                                    errors
+                                    models
+                                    user
+                                    attributes
+                                    password]))
       end
     end
   end
@@ -772,6 +719,7 @@ class User < Principal
 
   def former_passwords_include?(password)
     return false if Setting[:password_count_former_banned].to_i == 0
+
     ban_count = Setting[:password_count_former_banned].to_i
     # make reducing the number of banned former passwords immediately effective
     # by only checking this number of former passwords
@@ -784,24 +732,8 @@ class User < Principal
     (passwords[keep_count..-1] || []).each(&:destroy)
   end
 
-  def reassign_associated
-    substitute = DeletedUser.first
-
-    [WorkPackage, Attachment, WikiContent, News, Comment, Message].each do |klass|
-      klass.where(['author_id = ?', id]).update_all ['author_id = ?', substitute.id]
-    end
-
-    [TimeEntry, ::Query].each do |klass|
-      klass.where(['user_id = ?', id]).update_all ['user_id = ?', substitute.id]
-    end
-
-    Journals::UserReferenceUpdateService
-      .new(self)
-      .call(substitute)
-  end
-
-  def delete_associated_private_queries
-    ::Query.where(user_id: id, is_public: false).delete_all
+  def clean_up_password_attribute
+    self.password = self.password_confirmation = nil
   end
 
   ##

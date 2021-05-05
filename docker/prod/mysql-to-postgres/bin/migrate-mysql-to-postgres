@@ -29,16 +29,16 @@ if mysql_url.scheme == 'mysql2'
   mysql_url.scheme = 'mysql'
 end
 
-filtered_mysql_url = mysql_url.dup.tap{|url| url.password = "REDACTED"}
-filtered_db_url = db_url.dup.tap{|url| url.password = "REDACTED"}
+filtered_mysql_url = mysql_url.dup.tap { |url| url.password = "REDACTED" }
+filtered_db_url = db_url.dup.tap { |url| url.password = "REDACTED" }
 
 puts "Migrating database from MySQL to PostgreSQL."
 puts
 puts "Import"
 puts "  MySQL database"
-puts "    #{filtered_mysql_url.to_s}"
+puts "    #{filtered_mysql_url}"
 puts "  into Postgres database "
-puts "    #{filtered_db_url.to_s}"
+puts "    #{filtered_db_url}"
 puts "  ?"
 puts "WARNING: This resets the given Postgres database."
 puts
@@ -50,10 +50,14 @@ if answer.downcase == "n"
   exit 0
 end
 
-db_user, db_password, db_host, db_port, db_name = db_url.user, db_url.password, db_url.host, db_url.port, db_url.path.sub("/", "")
+db_user = db_url.user
+db_password = db_url.password
+db_host = db_url.host
+db_port = db_url.port
+db_name = db_url.path.sub("/", "")
 db_port ||= 5432
 
-if [db_host, db_name, db_port].any?{|value| [nil, ""].include?(value)}
+if [db_host, db_name, db_port].any? { |value| [nil, ""].include?(value) }
   puts "ERROR: Could not parse database URL (#{filtered_db_url})"
 
   exit 1
@@ -102,7 +106,7 @@ unless ENV['SKIP_OPENPROJECT_DB_RESET'] == 'true'
 
   puts "Creating database..."
   create_cmd = "PGPASSWORD=#{db_password} psql -U #{db_user} -h #{db_host} -p #{db_port} -d postgres -c 'CREATE DATABASE #{db_name}'"
-  create_output, _ = run create_cmd, silent: true
+  create_output, = run create_cmd, silent: true
 
   if create_output == "CREATE DATABASE"
     # created database successfully
@@ -111,7 +115,6 @@ unless ENV['SKIP_OPENPROJECT_DB_RESET'] == 'true'
     exit 1 # something went wrong
   end
 end
-
 
 puts "Importing database ..."
 
@@ -214,6 +217,5 @@ if needs_fulltext_migration
     exit 1
   end
 end
-
 
 puts "Migration from MySQL to Postgres completed successfully!"

@@ -30,14 +30,14 @@
 
 require 'spec_helper'
 
-describe 'seeds', :with_clean_fixture do
+describe 'seeds' do
   context 'BIM edition', with_config: { edition: 'bim' } do
     it 'create the demo data' do
       expect { ::Bim::BasicDataSeeder.new.seed! }.not_to raise_error
       expect { AdminUserSeeder.new.seed! }.not_to raise_error
       expect { DemoDataSeeder.new.seed! }.not_to raise_error
 
-      expect(User.where(admin: true).count).to eq 1
+      expect(User.not_builtin.where(admin: true).count).to eq 1
       expect(Project.count).to eq 4
       expect(WorkPackage.count).to eq 76
       expect(Wiki.count).to eq 3

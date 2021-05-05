@@ -35,15 +35,9 @@ class Queries::Principals::Orders::NameOrder < Queries::BaseOrder
     :name
   end
 
-  private
+  protected
 
   def order
-    ordered = self.model.order_by_name
-
-    if direction == :desc
-      ordered = ordered.reverse_order
-    end
-
-    ordered
+    model.ordered_by_name(desc: direction == :desc)
   end
 end

@@ -28,13 +28,13 @@
 
 /*jshint expr: true*/
 
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {GlobalSearchService} from "core-app/modules/global_search/services/global-search.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { GlobalSearchService } from "core-app/modules/global_search/services/global-search.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { TestBed, waitForAsync } from "@angular/core/testing";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {States} from "core-components/states.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { States } from "core-components/states.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 describe('Global search service', function() {
   let service:GlobalSearchService;
@@ -55,8 +55,8 @@ describe('Global search service', function() {
     })
     .compileComponents()
     .then(() => {
-      CurrentProject = TestBed.get(CurrentProjectService);
-      service = TestBed.get(GlobalSearchService);
+      CurrentProject = TestBed.inject(CurrentProjectService);
+      service = TestBed.inject(GlobalSearchService);
     });
   }));
 

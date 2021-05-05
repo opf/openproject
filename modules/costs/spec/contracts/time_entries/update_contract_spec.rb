@@ -57,8 +57,8 @@ describe TimeEntries::UpdateContract do
     context 'if project changed' do
       let(:new_project) do
         FactoryBot.build_stubbed(:project).tap do |p|
-          allow(TimeEntryActivity::Scopes::ActiveInProject)
-            .to receive(:fetch)
+          allow(TimeEntryActivity)
+            .to receive(:active_in_project)
             .with(p)
             .and_return(activities_scope)
 

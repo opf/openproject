@@ -125,6 +125,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
         let(:type) { 'String' }
         let(:name) { I18n.t('activerecord.attributes.project.identifier') }
         let(:required) { true }
+        let(:has_default) { true }
         let(:writable) { true }
       end
 
@@ -186,18 +187,11 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
         let(:name) { I18n.t('activerecord.attributes.projects/status.code') }
         let(:required) { false }
         let(:writable) { true }
+        let(:location) { '_links' }
       end
 
-      it 'contains no link to the allowed values' do
-        is_expected
-          .not_to have_json_path("#{path}/_links/allowedValues")
-      end
-
-      it 'embeds no values' do
-        allowed_path = "#{path}/_embedded/allowedValues"
-
-        is_expected
-          .not_to have_json_path(allowed_path)
+      it_behaves_like 'links to allowed values directly' do
+        let(:hrefs) { Projects::Status.codes.keys.map { |code| api_v3_paths.project_status code } }
       end
     end
 
@@ -243,6 +237,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
           let(:name) { Project.human_attribute_name('parent') }
           let(:required) { false }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
 
         context 'if embedding' do
@@ -270,6 +265,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
           let(:name) { Project.human_attribute_name('parent') }
           let(:required) { false }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
 
         context 'if embedding' do

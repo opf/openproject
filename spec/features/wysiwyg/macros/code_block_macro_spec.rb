@@ -31,26 +31,26 @@ require 'spec_helper'
 describe 'Wysiwyg code block macro',
          type: :feature,
          js: true do
-  using_shared_fixtures :admin
+  shared_let(:admin) { FactoryBot.create :admin }
   let(:user) { admin }
   let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { ::Components::WysiwygEditor.new }
 
-  let(:snippet) {
+  let(:snippet) do
     <<~RUBY
       def foobar
         'some ruby code'
       end
     RUBY
-  }
+  end
 
-  let(:expected) {
+  let(:expected) do
     <<~EXPECTED
       ```ruby
       #{snippet.strip}
       ```
     EXPECTED
-  }
+  end
 
   before do
     login_as(user)
@@ -98,7 +98,7 @@ describe 'Wysiwyg code block macro',
         editor.in_editor do |container,|
           editor.click_toolbar_button 'Insert code snippet'
 
-          expect(page).to have_selector('.op-modal--macro-modal')
+          expect(page).to have_selector('.op-modal')
 
           # CM wraps an accessor to the editor instance on the outer container
           cm = page.find('.CodeMirror')
@@ -133,7 +133,7 @@ describe 'Wysiwyg code block macro',
         editor.in_editor do |container,|
           editor.click_toolbar_button 'Insert code snippet'
 
-          expect(page).to have_selector('.op-modal--macro-modal')
+          expect(page).to have_selector('.op-modal')
 
           # CM wraps an accessor to the editor instance on the outer container
           cm = page.find('.CodeMirror')
@@ -176,7 +176,7 @@ describe 'Wysiwyg code block macro',
 
           widget = container.find('.op-uc-code-block')
           page.driver.browser.action.double_click(widget.native).perform
-          expect(page).to have_selector('.op-modal--macro-modal')
+          expect(page).to have_selector('.op-modal')
 
           expect(page).to have_selector('.op-uc-code-block--language', text: 'ruby')
           expect(page).to have_selector('.cm-keyword', text: 'def')

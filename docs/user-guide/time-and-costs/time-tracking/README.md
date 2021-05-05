@@ -4,7 +4,7 @@ sidebar_navigation:
   priority: 799
 description: Time tracking in OpenProject
 robots: index, follow
-keywords: time tracking, logging time
+keywords: time tracking, logging time, define rate, labor costs
 ---
 
 # Time tracking
@@ -19,11 +19,12 @@ Users can book their time or units spent on an activity within a project directl
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Logging time](#logging-time-in-the-work-package-view)       | How to log time to work packages?                            |
-| [Track time with Toggl](./toggl-integration)                 | How to stop spent time with Toggl integration?               |
 | [Logging time via commit message](#logging-time-via-commit-message) | How to log time via a commit message to a work package?      |
 | [Edit logged time](#edit-logged-time)                        | How to edit logged time on a work package?                   |
 | [Delete time entries](#delete-time-entires)                  | How to delete time entries logged to a work package?         |
 | [Spent time widget on the My Page](#spent-time-widget-on-the-my-page) | How to easily track and display spent time in the spent time widget on the MyPage? |
+| [Track time with Toggl](./toggl-integration)                 | How to track spent time with Toggl integration?              |
+
 
 ## Logging time in the work package view
 
@@ -86,3 +87,19 @@ You can easily track spent time in the **spent time widget on the MyPage** and g
 See more information about the My spent time widget on the [MyPage](../../../getting-started/my-page/#my-spent-time-widget).
 
 ![spent time widget](image-20200211160311662.png)
+
+## Define hourly rate for labor costs
+
+You can define an hourly rate to **track labor costs per user**. You will need system admin permissions for this. Please navigate to the user profile, e.g. by clicking on a hyper link of the user name on a work package.
+
+ ![User-profile](User-profile.png)
+
+You will be directed to the user's profile page.
+
+Here, you can click the **Edit button** on the top right corner of the user profile page.
+
+ ![User-profile-edit](User-profile-edit.png)
+
+Alternatively, you can navigate to *Administration -> Users & Permissions -> Users* and click on the respective user name.
+
+Click on the **Rate history** tab. Find out [here](../../../system-admin-guide/users-permissions/users/#rate-history) how to continue. 

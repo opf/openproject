@@ -43,31 +43,31 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
   let(:work_package) { FactoryBot.create(:work_package, project: project) }
   let(:available_watcher) do
     FactoryBot.create :user,
-                       firstname: 'Something',
-                       lastname: 'Strange',
-                       member_in_project: project,
-                       member_through_role: view_work_packages_role
+                      firstname: 'Something',
+                      lastname: 'Strange',
+                      member_in_project: project,
+                      member_through_role: view_work_packages_role
   end
 
   let(:watching_user) do
     FactoryBot.create :user,
-                       member_in_project: project,
-                       member_through_role: view_work_packages_role
+                      member_in_project: project,
+                      member_through_role: view_work_packages_role
   end
   let(:existing_watcher) do
     FactoryBot.create(:watcher, watchable: work_package, user: watching_user)
   end
 
   let!(:watching_blocked_user) do
-    FactoryBot.create :user, 
+    FactoryBot.create :user,
                       login: 'lockedUser',
-                      mail: 'lockedUser@gmail.com',  
+                      mail: 'lockedUser@gmail.com',
                       member_in_project: project,
                       member_through_role: view_work_packages_role
   end
   let!(:existing_blocked_watcher) do
     FactoryBot.create(:watcher, watchable: work_package, user: watching_blocked_user).tap do
-      watching_blocked_user.lock!
+      watching_blocked_user.locked!
     end
   end
 
@@ -113,7 +113,9 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
     let(:permissions) { %i[add_work_package_watchers view_work_packages] }
 
     before do
-      post post_path, post_body, 'CONTENT_TYPE' => 'application/json'
+      perform_enqueued_jobs do
+        post post_path, post_body
+      end
     end
 
     it 'should respond with 201' do
@@ -122,6 +124,19 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
 
     it 'should respond with newly added watcher' do
       expect(subject.body).to be_json_eql('User'.to_json).at_path('_type')
+    end
+
+    it 'sends mails' do
+      expect(ActionMailer::Base.deliveries.size)
+        .to eql 1
+
+      expect(ActionMailer::Base.deliveries.map(&:to).flatten.uniq)
+        .to match_array new_watcher.mail
+
+      expect(ActionMailer::Base.deliveries.first.text_part.body.encoded)
+        .to include I18n.t("text_work_package_watcher_added",
+                           id: "##{work_package.id}",
+                           watcher_changer: User.current)
     end
 
     context 'when user is already watcher' do
@@ -186,7 +201,9 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
     let(:delete_path) { api_v3_paths.watcher deleted_watcher.id, work_package.id }
 
     before do
-      delete delete_path
+      perform_enqueued_jobs do
+        delete delete_path
+      end
     end
 
     context 'authorized user' do
@@ -194,6 +211,19 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
 
       it 'should respond with 204' do
         expect(subject.status).to eq(204)
+      end
+
+      it 'sends mails' do
+        expect(ActionMailer::Base.deliveries.size)
+          .to eql 1
+
+        expect(ActionMailer::Base.deliveries.map(&:to).flatten.uniq)
+          .to match_array watching_user.mail
+
+        expect(ActionMailer::Base.deliveries.first.text_part.body.encoded)
+          .to include I18n.t("text_work_package_watcher_removed",
+                             id: "##{work_package.id}",
+                             watcher_changer: User.current)
       end
 
       context 'when removing nonexistent user' do
@@ -242,7 +272,7 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
     let(:permissions) { %i[add_work_package_watchers view_work_packages] }
     let(:available_watchers_path) { api_v3_paths.available_watchers work_package.id }
     let(:returned_user_ids) do
-      JSON.parse(subject.body)['_embedded']['elements'].map {|user| user['id'] }
+      JSON.parse(subject.body)['_embedded']['elements'].map { |user| user['id'] }
     end
 
     before do

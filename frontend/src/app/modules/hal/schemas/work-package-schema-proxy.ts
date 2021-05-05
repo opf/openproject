@@ -26,21 +26,21 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {SchemaProxy} from "core-app/modules/hal/schemas/schema-proxy";
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
+import { SchemaProxy } from "core-app/modules/hal/schemas/schema-proxy";
+import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
 
 export class WorkPackageSchemaProxy extends SchemaProxy {
   get(schema:SchemaResource, property:PropertyKey, receiver:any):any {
     switch (property) {
-      case 'isMilestone': {
-        return this.isMilestone;
-      }
-      case 'isReadonly': {
-        return this.isReadonly;
-      }
-      default: {
-        return super.get(schema, property, receiver);
-      }
+    case 'isMilestone': {
+      return this.isMilestone;
+    }
+    case 'isReadonly': {
+      return this.isReadonly;
+    }
+    default: {
+      return super.get(schema, property, receiver);
+    }
     }
   }
 
@@ -56,7 +56,7 @@ export class WorkPackageSchemaProxy extends SchemaProxy {
    */
   public ofProperty(property:string) {
     if (property === 'combinedDate') {
-      let propertySchema = super.ofProperty('startDate');
+      const propertySchema = super.ofProperty('startDate');
 
       if (!propertySchema) {
         return null;

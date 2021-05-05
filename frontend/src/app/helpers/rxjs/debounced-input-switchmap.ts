@@ -1,5 +1,5 @@
-import {concat, Observable, of, Subject} from "rxjs";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import { concat, Observable, of, Subject } from "rxjs";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 import {
   catchError,
   debounceTime,
@@ -8,8 +8,8 @@ import {
   takeUntil,
   tap
 } from "rxjs/operators";
-import {RequestSwitchmapHandler} from "core-app/helpers/rxjs/request-switchmap";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import { RequestSwitchmapHandler } from "core-app/helpers/rxjs/request-switchmap";
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
 
 export type RequestErrorHandler = (error:unknown) => void;
 

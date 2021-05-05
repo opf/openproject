@@ -32,8 +32,7 @@ describe 'hourly rates on a member', type: :feature, js: true do
   let(:project) { FactoryBot.build :project }
   let(:user) do
     FactoryBot.create :admin,
-                      member_in_project: project,
-                      member_through_role: [FactoryBot.create(:role)]
+                      member_in_project: project
   end
   let(:member) { Member.find_by(project: project, principal: user) }
 
@@ -51,7 +50,7 @@ describe 'hourly rates on a member', type: :feature, js: true do
     expect(page).to have_selector("#member-#{member.id} .currency", text: amount)
   end
 
-  def add_rate(date: nil, rate:)
+  def add_rate(rate:, date: nil)
     expect(page).to have_selector(".add-row-button")
     sleep(0.1)
     all("tr[id^='user_new_rate_attributes_'] .delete-row-button").each(&:click)

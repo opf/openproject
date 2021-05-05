@@ -9,16 +9,16 @@ import {
   OnInit,
   Output
 } from "@angular/core";
-import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
+import { EditFieldHandler } from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import {
   OpEditingPortalChangesetToken,
   OpEditingPortalHandlerToken,
   OpEditingPortalSchemaToken
 } from "core-app/modules/fields/edit/edit-field.component";
-import {createLocalInjector} from "core-app/modules/fields/edit/editing-portal/edit-form-portal.injector";
-import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {EditFieldService, IEditFieldType} from "core-app/modules/fields/edit/edit-field.service";
-import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
+import { createLocalInjector } from "core-app/modules/fields/edit/editing-portal/edit-form-portal.injector";
+import { IFieldSchema } from "core-app/modules/fields/field.base";
+import { EditFieldService, IEditFieldType } from "core-app/modules/fields/edit/edit-field.service";
+import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
 
 @Component({
   selector: 'edit-form-portal',

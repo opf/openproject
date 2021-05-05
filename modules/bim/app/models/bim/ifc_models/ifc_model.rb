@@ -24,7 +24,7 @@ module Bim
           end
 
           delete_attachment name
-          attach_files('first' => {'file' => file, 'description' => name})
+          attach_files('first' => { 'file' => file, 'description' => name })
         end
       end
 

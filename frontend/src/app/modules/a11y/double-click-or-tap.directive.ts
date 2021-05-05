@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Directive, EventEmitter, HostListener, Input, Output} from '@angular/core';
+import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
 @Directive({
   selector: '[doubleClickOrTap]',
 })
 export class DoubleClickOrTapDirective {
-  @Input('doubleClickOrTapStopEvent') stopEventPropagation:boolean = true;
+  @Input('doubleClickOrTapStopEvent') stopEventPropagation = true;
   @Output('doubleClickOrTap') eventHandler = new EventEmitter<any>();
 
   @HostListener('dblclick', ['$event'])
@@ -60,7 +60,7 @@ export class DoubleClickOrTapDirective {
     if (this.stopEventPropagation) {
       event.preventDefault();
 
-      if (!!event.stopPropagation) {
+      if (event.stopPropagation) {
         event.stopPropagation();
       }
 

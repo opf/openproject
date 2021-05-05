@@ -30,6 +30,7 @@
 
 class CustomValue::FormatStrategy
   attr_reader :custom_value
+
   delegate :custom_field, :value, to: :custom_value
 
   def initialize(custom_value)

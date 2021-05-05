@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Ng2StateDeclaration, UIRouter} from "@uirouter/angular";
-import {ReportingPageComponent} from "core-app/modules/reporting/reporting-page/reporting-page.component";
+import { Ng2StateDeclaration, UIRouter } from "@uirouter/angular";
+import { ReportingPageComponent } from "core-app/modules/reporting/reporting-page/reporting-page.component";
 
 export const REPORTING_ROUTES:Ng2StateDeclaration[] = [
   {

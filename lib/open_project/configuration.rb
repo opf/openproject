@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -38,34 +39,40 @@ module OpenProject
 
     # Configuration default values
     @defaults = {
-      'edition'                 => 'standard',
-      'attachments_storage'      => 'file',
+      'edition' => 'standard',
+      'attachments_storage' => 'file',
       'attachments_storage_path' => nil,
       'attachments_grace_period' => 180,
-      'autologin_cookie_name'   => 'autologin',
-      'autologin_cookie_path'   => '/',
+      'autologin_cookie_name' => 'autologin',
+      'autologin_cookie_path' => '/',
       'autologin_cookie_secure' => false,
-      'database_cipher_key'     => nil,
+      # Allow users with the required permissions to create backups via the web interface or API.
+      'backup_enabled' => true,
+      'backup_daily_limit' => 3,
+      'backup_initial_waiting_period' => 24.hours,
+      'backup_include_attachments' => true,
+      'backup_attachment_size_max_sum_mb' => 1024,
+      'database_cipher_key' => nil,
       # only applicable in conjunction with fog (effectively S3) attachments
       # which will be uploaded directly to the cloud storage rather than via OpenProject's
       # server process.
-      'direct_uploads'          => true,
+      'direct_uploads' => true,
       'fog_download_url_expires_in' => 21600, # 6h by default as 6 hours is max in S3 when using IAM roles
       'show_community_links' => true,
       'log_level' => 'info',
-      'scm_git_command'         => nil,
-      'scm_subversion_command'  => nil,
+      'scm_git_command' => nil,
+      'scm_subversion_command' => nil,
       'scm_local_checkout_path' => 'repositories', # relative to OpenProject directory
-      'disable_browser_cache'   => true,
+      'disable_browser_cache' => true,
       # default cache_store is :file_store in production and :memory_store in development
-      'rails_cache_store'       => nil,
+      'rails_cache_store' => nil,
       'cache_expires_in_seconds' => nil,
       'cache_namespace' => nil,
       # use dalli defaults for memcache
-      'cache_memcache_server'   => nil,
+      'cache_memcache_server' => nil,
       # where to store session data
-      'session_store'           => :cache_store,
-      'session_cookie_name'     => '_open_project_session',
+      'session_store' => :active_record_store,
+      'session_cookie_name' => '_open_project_session',
       # Destroy all sessions for current_user on logout
       'drop_old_sessions_on_logout' => true,
       # Destroy all sessions for current_user on login
@@ -78,7 +85,7 @@ module OpenProject
       'enable_internal_assets_server' => false,
 
       # Additional / overridden help links
-      'force_help_link'         => nil,
+      'force_help_link' => nil,
       'force_formatting_help_link' => nil,
 
       # Impressum link to be set, nil by default (= hidden)
@@ -174,13 +181,20 @@ module OpenProject
       'sentry_dsn' => nil,
       # Allow separate error reporting for frontend errors
       'sentry_frontend_dsn' => nil,
-      'sentry_host' => 'https://sentry.openproject.com',
+      'sentry_host' => nil,
+      # Sample rate for performance monitoring
+      'sentry_traces_sample_rate' => 0.1,
 
       # Allow connection to Augur
       'enterprise_trial_creation_host' => 'https://augur.openproject.com',
 
       # Allow override of LDAP options
       'ldap_auth_source_tls_options' => nil,
+      'ldap_force_no_page' => false,
+
+      # Allow users to manually sync groups in a different way
+      # than the provided job using their own cron
+      'ldap_groups_disable_sync_job' => false,
 
       # Slow query logging threshold in ms
       'sql_slow_query_threshold' => 2000
@@ -214,7 +228,7 @@ module OpenProject
       # exists
       def override_config!(config, source = default_override_source)
         config.keys.select { |key| source.include? key.upcase }
-              .each   { |key| config[key] = extract_value key, source[key.upcase] }
+              .each { |key| config[key] = extract_value key, source[key.upcase] }
 
         config.deep_merge! merge_config(config, source)
       end
@@ -505,8 +519,8 @@ module OpenProject
 
       def cache_parameters(config)
         mapping = {
-          'cache_expires_in_seconds' => [:expires_in, :to_i],
-          'cache_namespace' => [:namespace, :to_s]
+          'cache_expires_in_seconds' => %i[expires_in to_i],
+          'cache_namespace' => %i[namespace to_s]
         }
         parameters = {}
         mapping.each_pair do |from, to|

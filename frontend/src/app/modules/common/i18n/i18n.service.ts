@@ -1,4 +1,5 @@
-import {Injectable} from "@angular/core";
+import { Injectable } from "@angular/core";
+import { Observable, combineLatest } from "rxjs";
 
 /**
  * General components
@@ -20,7 +21,7 @@ export interface GlobalI18n {
 
   locale:string;
   firstDayOfWeek:number;
-
+  pluralization:any;
 }
 
 interface ToNumberOptions {

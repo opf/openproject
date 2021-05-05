@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, OnInit} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {TimezoneService} from 'core-components/datetime/timezone.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { TimezoneService } from 'core-components/datetime/timezone.service';
 
 @Component({
   templateUrl: './authoring.html',

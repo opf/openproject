@@ -33,6 +33,19 @@ el:
         single: "Επιλογή \"%{name}\""
       remove: "Διαγραφή %{name}"
       active: "Ενεργό %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Επιλογές
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Κλείσιμο αναδυόμενου"
     close_filter_title: "Κλείσιμο φίλτρου"
     close_form_title: "Κλείσιμο φόρμας"
@@ -86,7 +99,7 @@ el:
     caption_rate_history: "Ιστορικό αμοιβής"
     clipboard:
       browser_error: "Ο περιηγητής σας δεν υποστηρίζει αντιγραφή από το clipboard. Παρακαλούμε αντιγράψτε το επιλεγμένο κείμενο χειροκίνητα."
-      copied_successful: "Successfully copied to clipboard!"
+      copied_successful: "Αντιγράφηκε επιτυχώς στο πρόχειρο!"
     chart:
       type: 'Τύπος διαγράμματος'
       axis_criteria: 'Κριτήρια άξονα'
@@ -118,11 +131,11 @@ el:
         manual: 'Αλλαγή σε Markdown source'
         wysiwyg: 'Αλλαγή σε επεξεργαστή WYSIWYG'
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: 'Αδυναμία επέκτασης μακροεντολής: %{message}'
         attribute_reference:
-          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
-          not_found: 'Requested resource could not be found'
-          invalid_attribute: "The selected attribute '%{name}' does not exist."
+          macro_help_tooltip: 'Αυτό το τμήμα κειμένου δημιουργείται δυναμικά από μια μακροεντολή.'
+          not_found: 'Ο ζητούμενος πόρος δεν βρέθηκε.'
+          invalid_attribute: "Το επιλεγμένο χαρακτηριστικό '%{name}' δεν υπάρχει."
         child_pages:
           button: 'Σύνδεσμοι σε σελίδες-παιδιά'
           include_parent: 'Συμπεριλάβετε τον γονέα'
@@ -174,7 +187,7 @@ el:
         trial:
           confirmation: "Επιβεβαίωση της διεύθυνσης email"
           confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+            Σας στείλαμε ένα email στο %{date} στο %{email}. Παρακαλούμε ελέγξτε τα εισερχόμενά σας και κάντε κλικ στον σύνδεσμο επιβεβαίωσης που παρέχεται για να ξεκινήσετε τη δοκιμή 14 ημερών.
           form:
             general_consent: >
               Συμφωνώ με τους <a target="_blank" href="%{link_terms}">όρους χρήσης</a> και με την <a target="_blank" href="%{link_privacy}">πολιτική απορρήτου</a>.
@@ -202,26 +215,26 @@ el:
           status_confirmed: "επιβεβαιωμένο"
           status_waiting: "το email απεστάλη - αναμονή για επιβεβαίωση"
           test_ee: "Δοκιμάστε την Έκδοση για Επιχειρήσεις για 14 ημέρες δωρεάν "
-          quick_overview: "Λάβετε μια γρήγορη επισκόπηση της διαχείρισης έργων και της ομαδικής συνεργασίας με το OpenProject."
+          quick_overview: "Λάβετε μια γρήγορη επισκόπηση της διαχείρισης έργων και της ομαδικής συνεργασίας με την Enterprise έκδοση του OpenProject."
         upsale:
           become_hero: "Γίνετε ήρωας!"
           benefits:
-            description: "Ποιά είναι τα οφέλη;"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Χαρακτηριστικά ασφαλείας"
             high_security_text: "Σύστημα ενιαίας πρόσβασης (SAML, OpenID Connect, CAS), έλεγχος ταυτότητας δύο παραγόντων και αυτόματος συγχρονισμός ομάδων LDAP."
             installation: "Υποστήριξη εγκατάστασης"
             installation_text: "Οι έμπειροι μηχανικοί λογισμικού σας καθοδηγούν στην πλήρη διαδικασία εγκατάστασης και εγκατάστασης στη δική σας υποδομή."
             premium_features: "Premium λειτουργίες"
-            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
+            premium_features_text: "Agile πίνακες, προσαρμοσμένα θέματα και λογότυπα, γραφήματα, έξυπνες ροές εργασίας με προσαρμοσμένες ενέργειες, αναζήτηση κειμένου για συνημμένα πακέτων εργασίας και πολλαπλή επιλογή προσαρμοσμένων πεδίων."
             professional_support: "Επαγγελματική υποστήριξη"
-            professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
+            professional_support_text: "Αποκτήστε αξιόπιστη, high-touch υποστήριξη από ανώτερους μηχανικούς υποστήριξης με εξειδικευμένες γνώσεις σχετικά με τη λειτουργία του OpenProject σε κρίσιμα επιχειρηματικά περιβάλλοντα."
           button_start_trial: "Έναρξη δωρεάν δοκιμαστικής περιόδου"
           button_book_now: "Κάντε κράτηση τώρα"
           confidence: >
-            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
+            Παρέχουμε την εμπιστοσύνη ενός δοκιμασμένου και υποστηριζόμενου λογισμικού διαχείρισης έργων, επιχειρησιακού επιπέδου - με Ανοιχτό Κώδικα και ανοιχτό μυαλό.
           link_quote: "Λάβετε μια προσφορά"
           text: >
-            The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            Η OpenProject Enterprise έκδοση βασίζεται στην Community έκδοση. Περιλαμβάνει premium χαρακτηριστικά και επαγγελματική υποστήριξη που απευθύνεται κυρίως σε οργανισμούς με περισσότερους από 10 χρήστες που διαχειρίζονται κρίσιμα επιχειρηματικά έργα με το OpenProject.
           unlimited: "Απεριόριστα"
           you_contribute: "Και οι προγραμματιστές πρέπει να πληρώσουν τους λογαριασμούς τους. Με την Έκδοση για Επιχειρήσεις, μπορείτε να συνεισφέρετε ουσιαστικά σε αυτή προσπάθεια της Open Source κοινότητας."
     custom_actions:
@@ -270,13 +283,13 @@ el:
           text_new_features: "Διαβάστε για τις νέες λειτουργίες και τις ενημερώσεις προϊόντων."
           learn_about: "Μάθετε περισσότερα για τις νέες λειτουργίες"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
     label_activate: "Ενεργοποίηση"
     label_add_column_after: "Προσθήκη στήλης μετά"
     label_add_column_before: "Προσθήκη στήλης πριν"
@@ -287,7 +300,7 @@ el:
     label_add_row_before: "Προσθήκη γραμμής πριν"
     label_add_selected_columns: "Προσθέστε τις επιλεγμένες στήλες"
     label_added_by: "προστέθηκε από"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Προστέθηκε από <a href=%{authorLink}>%{author}</a> στις %{age}"
     label_ago: "ημέρες πριν"
     label_all: "όλα"
     label_all_work_packages: "όλα τα πακέτα εργασίας"
@@ -328,7 +341,7 @@ el:
     label_expand_all: "Ανάπτυξη όλων"
     label_expand_project_menu: "Επέκταση του μενού έργου"
     label_export: "Εξαγωγή"
-    label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_export_preparing: "Η εξαγωγή προετοιμάζεται και θα κατεβεί σύντομα."
     label_filename: "Aρχείο"
     label_filesize: "Μέγεθος"
     label_general: "Γενικά"
@@ -362,7 +375,7 @@ el:
     label_next: "Επόμενο"
     label_no_color: "Χωρίς χρώμα"
     label_no_data: "Δεν υπάρχουν δεδομένα για εμφάνιση"
-    label_no_due_date: "ημερομηνία μη ολοκλήρωσης"
+    label_no_due_date: "καμία ημερομηνία λήξης"
     label_no_start_date: "δεν υπάρχει ημερομηνία έναρξης"
     label_no_value: "Καμία τιμή"
     label_none: "κανένα"
@@ -402,10 +415,10 @@ el:
     label_public_query: "Δημόσιο"
     label_sum: "Άθροισμα"
     label_sum_for: "Άθροισμα του"
-    label_total_sum: "Total sum"
+    label_total_sum: "Συνολικό άθροισμα"
     label_subject: "Θέμα"
     label_this_week: "αυτή την εβδομάδα"
-    label_today: "Today"
+    label_today: "Σήμερα "
     label_time_entry_plural: "Χρόνος που δαπανήθηκε"
     label_up: "Πάνω"
     label_user_plural: "Χρήστες"
@@ -418,7 +431,7 @@ el:
     label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Προειδοποίηση"
     label_work_package: "Εργασία"
-    label_work_package_parent: "Parent work package"
+    label_work_package_parent: "Πακετό εργασίας γονέας"
     label_work_package_plural: "Πακέτα εργασίας"
     label_watch: "Παρακολουθήστε"
     label_watch_work_package: "Παρακολούθηση πακέτου εργασίας"
@@ -465,6 +478,7 @@ el:
         help_menu: 'Στο μενού <b>Βοήθεια</b> θα βρείτε έναν οδηγό χρήστη και επιπλέον βοηθητικούς πόρους. <br> Απολαύστε τη δουλειά σας με το OpenProject!'
         members: 'Προσκαλέστε καινούργια <b>Μέλη</b> για να συμμετάσχουν στο έργο σας.'
         project_selection: 'Παρακαλούμε κάντε κλικ σε ένα από τα έργα με χρήσιμα demo δεδομένα για ξεκινήσετε. <br> Το <b>Demo έργο</b> ταιριάζει καλύτερα στη κλασική διαχείριση έργου, ενώ το <b>Scrum έργο</b> είναι καλύτερο για Agile διαχείριση έργου.'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "Με τα βέλη μπορείτε να πλοηγηθείτε πίσω στο <b>Κύριο μενού</b> του έργου."
         welcome: 'Κάντε μια τρίλεπτη εισαγωγική περιήγηση για να μάθετε τα πιο <b>σημαντικά χαρακτηριστικά</b>. <br> Προτείνουμε να ολοκληρώσετε τα βήματα μέχρι το τέλος. Μπορείτε να επανεκκινήσετε την περιήγηση ανά πάσα στιγμή.'
         wiki: 'Μέσα στο <b>Wiki</b> μπορείτε να καταγράψετε και να μοιραστείτε γνώση μαζί με την ομάδα σας.'
@@ -505,7 +519,10 @@ el:
       context: 'Πλαίσιο έργου'
       work_package_belongs_to: 'Αυτό το πακέτο εργασίας ανήκει στο έργο %{projectname}.'
       click_to_switch_context: 'Ανοίξτε αυτό πακέτο εργασίας σε εκείνο το έργο.'
-      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      confirm_template_load: 'Η αλλαγή του προτύπου θα επαναφορτώσει τη σελίδα και θα χάσετε όλα τα στοιχεία εισόδου σε αυτή τη φόρμα. Συνέχεια?'
+      use_template: "Χρήση προτύπου"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Αυτόματη συμπλήρωση έργου'
     text_are_you_sure: "Είστε σίγουρος/η;"
@@ -516,7 +533,7 @@ el:
         reset_title: "Επαναφορά φόρμας διαμόρφωσης"
         confirm_reset: >
           Προειδοποίηση: Είστε σίγουροι ότι θέλετε να επαναφέρετε τη φόρμα διαμόρφωσης; Αυτό θα επαναφέρει τα χαρακτηριστικά στις προεπιλεγμένες ομάδες τους και θα απενεργοποιήσει ΌΛΑ τα προσαρμοσμένα πεδία.
-        upgrade_to_ee: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
         upgrade_to_ee_text: "Wow! Αν χρειάζεστε αυτή τη λειτουργία τότε είστε σούπερ επαγγελματίας! Θα θέλατε να στηρίξετε εμάς τους προγραμματιστές OpenSource με το να γίνετε πελάτης της έκδοσης για επιχειρήσεις;"
         more_information: "Περισσότερες πληροφορίες"
         nevermind: "Δεν πειράζει"
@@ -595,8 +612,8 @@ el:
     field_value_enter_prompt: "Εισαγωγή τιμής για το '%{field}'"
     project_menu_details: "Λεπτομέρειες"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      manual: 'Χειροκίνητος προγραμματισμός'
+      automatic: 'Αυτόματος προγραμματισμός'
     sort:
       sorted_asc: 'Εφαρμόστηκε αύξουσα ταξινόμηση, '
       sorted_dsc: 'Εφαρμόστηκε φθίνουσα ταξινόμηση, '
@@ -809,8 +826,8 @@ el:
           duplicate_query_title: "Το όνομα αυτής της προβολής υπάρχει ήδη. Αλλαγή παρόλα αυτά;"
         text_no_results: "Δεν βρέθηκαν προβολές που να ταιριάζουν."
       scheduling:
-        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
-        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+        is_parent: "Οι ημερομηνίες αυτού του πακέτου εργασίας προκύπτουν αυτόματα από τα παιδιά του. Ενεργοποιήστε τον \"Χειροκίνητο προγραμματισμό\" για να ορίσετε τις ημερομηνίες."
+        is_switched_from_manual_to_automatic: "Οι ημερομηνίες αυτού του πακέτου εργασίας μπορεί να χρειαστεί να υπολογιστούν εκ νέου μετά τη μετάβαση από χειροκίνητο σε αυτόματο προγραμματισμό λόγω των σχέσεων με άλλα πακέτα εργασίας."
       table:
         configure_button: 'Διαμόρφωση του πίνακα πακέτων εργασίας'
         summary: "Πίνακας με γραμμές από πακέτα εργασίας και στήλες από χαρακτηριστικά πακέτων εργασίας."
@@ -844,7 +861,7 @@ el:
           automatic: 'Αυτόματα'
           manually: 'Χειροκίνητα'
           warning: 'Θα χάσετε την προηγούμενη ταξινόμηση όταν ενεργοποιήσετε την λειτουργία αυτόματης ταξινόμησης.'
-        columns_help_text: "Χρησιμοποιήστε την παραπάνω είσοδο για να προσθέσετε στήλες στην προβολή του πίνακα σας. Μπορείτε να σύρετε και να αποθέσετε τις στήλες για να τις αναδιατάξετε."
+        columns_help_text: "Χρησιμοποιήστε το παραπάνω πεδίο εισόδου για να προσθέσετε στήλες στην προβολή πίνακα σας. Μπορείτε να σύρετε και να αποθέσετε τις στήλες για να τις αναδιατάξετε."
         upsale:
           attribute_highlighting: 'Χρειάζεστε συγκεκριμένα πακέτα εργασίας για να ξεχωρίσετε από την μάζα;'
           relation_columns: 'Χρειάζεστε να βλέπετε συσχετίσεις στη λίστα πακέτων εργασίας;'
@@ -939,9 +956,9 @@ el:
         one: "ένα παιδί πακέτο εργασίας"
         other: "%{count} παιδιά πακέτα εργασίας"
       hour:
+        one: "1 ώρα"
+        other: "%{count} ώρες"
         zero: "0 ω"
-        one: ""
-        other: ""
     zen_mode:
       button_activate: 'Ενεργοποίηση λειτουργίας zen'
       button_deactivate: 'Απενεργοποίηση λειτουργίας zen'
@@ -959,3 +976,75 @@ el:
       card: 'Κάρτες'
       list: 'Πίνακας'
       timeline: 'Gantt'
+    invite_user_modal:
+      back: 'Επιστροφή'
+      invite: 'Πρόσκληση'
+      title:
+        invite: 'Προσκαλέστε χρήστη'
+        invite_to_project: 'Προσκαλέστε %{type} στο %{project}'
+        User: 'χρήστης'
+        Group: 'ομάδα'
+        PlaceholderUser: 'placeholder χρήστης'
+        invite_principal_to_project: 'Πρόσκληση %{principal} στο %{project}'
+      project:
+        label: 'Έργο'
+        required: 'Παρακαλώ επιλέξτε ένα έργο'
+        next_button: 'Επόμενο'
+        no_results: 'Δεν βρέθηκαν έργα'
+        no_invite_rights: 'You are not allowed to invite members to this project'
+      type:
+        required: 'Παρακαλώ επιλέξτε τον τύπο που θα προσκληθεί'
+        user:
+          title: 'Χρήστης'
+          description: 'Permissions based on the assigned role in the selected project'
+        group:
+          title: 'Ομάδα'
+          description: 'Permissions based on the assigned role in the selected project'
+        placeholder:
+          title: 'Placeholder χρήστης'
+          title_no_ee: 'Placeholder χρήστης (χαρακτηριστικό μόνο της Έκδοσης Επιχειρήσεων)'
+          description: 'Has no access to the project and no emails are sent out.'
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+      principal:
+        label:
+          name_or_email: 'Όνομα ή διεύθυνση email'
+          name: 'Όνομα'
+        already_member_message: 'Ήδη ένα μέλος του %{project}'
+        no_results_user: 'Δεν βρέθηκαν χρήστες'
+        invite_user: 'Πρόσκληση:'
+        change_user_selection: 'Αλλάξτε διεύθυνση ηλεκτρονικού ταχυδρομείου ή επιλέξτε έναν υπάρχοντα χρήστη'
+        no_results_placeholder: 'Δεν βρέθηκαν placeholders'
+        change_placeholder_selection: 'Αλλαγή ονόματος ή επιλογή ενός υπάρχοντος placeholder'
+        create_new_placeholder: 'Δημιουργία νέου placeholder:'
+        no_results_group: 'Δεν βρέθηκαν ομάδες'
+        change_group_selection: 'Αλλαγή ονόματος ή επιλογή μιας υπάρχουσας ομάδας'
+        next_button: 'Επόμενο'
+        required:
+          user: 'Παρακαλώ επιλέξτε ένα χρήστη'
+          placeholder: 'Παρακαλώ επιλέξτε ένα placeholder'
+          group: 'Παρακαλούμε επιλέξτε μια ομάδα'
+      role:
+        label: 'Ρόλος στο %{project}'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
+        required: 'Παρακαλούμε επιλέξτε ένα ρόλο'
+        next_button: 'Επόμενο'
+      message:
+        label: 'Μήνυμα πρόσκλησης'
+        description: 'Θα στείλουμε ένα email στο %{principal}, στο οποίο μπορείτε να προσθέσετε ένα προσωπικό μήνυμα εδώ. Μια εξήγηση για την πρόσκληση θα ήταν χρήσιμη, ή ίσως κάποια πληροφορία σχετικά με το έργο για να τους βοηθήσει να ξεκινήσουν.'
+        next_button: 'Review invitation'
+      summary:
+        next_button: 'Αποστολή πρόσκλησης'
+      success:
+        title: '%{principal} προσκλήθηκε!'
+        description:
+          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          group: 'Η ομάδα είναι τώρα μέρος του %{project}. Εν τω μεταξύ, μπορείτε να προγραμματίσετε ήδη με αυτή την ομάδα και να αντιστοιχίσετε πακέτα εργασίας.'
+        next_button: 'Συνέχεια'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: 'Προηγμένες ρυθμίσεις'
+
+

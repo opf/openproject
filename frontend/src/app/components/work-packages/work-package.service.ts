@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {StateService} from '@uirouter/core';
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {HalDeletedEvent, HalEventsService} from "core-app/modules/hal/services/hal-events.service";
+import { StateService } from '@uirouter/core';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
+import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { HalDeletedEvent, HalEventsService } from "core-app/modules/hal/services/hal-events.service";
 
 @Injectable()
 export class WorkPackageService {
@@ -58,7 +58,7 @@ export class WorkPackageService {
     const promise = this.http
       .delete(
         this.PathHelper.workPackagesBulkDeletePath(),
-        {params: params, withCredentials: true}
+        { params: params, withCredentials: true }
       )
       .toPromise();
 
@@ -67,7 +67,7 @@ export class WorkPackageService {
         .then(() => {
           this.NotificationsService.addSuccess(this.text.successful_delete);
 
-          ids.forEach(id => this.halEvents.push({_type:'WorkPackage', id: id}, { eventType: 'deleted'} as HalDeletedEvent));
+          ids.forEach(id => this.halEvents.push({ _type:'WorkPackage', id: id }, { eventType: 'deleted' } as HalDeletedEvent));
 
           if (this.$state.includes('**.list.details.**')
             && ids.indexOf(this.$state.params.workPackageId) > -1) {

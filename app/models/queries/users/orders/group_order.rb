@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,24 +28,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Users::Orders::GroupOrder < Queries::BaseOrder
+class Queries::Users::Orders::GroupOrder < Queries::IndividualPrincipals::Orders::GroupOrder
   self.model = User
-
-  def self.key
-    :group
-  end
-
-  private
-
-  def order
-    order_string = "groups_users.lastname"
-
-    order_string += " DESC" if direction == :desc
-
-    model.order(order_string)
-  end
-
-  def joins
-    :groups
-  end
 end

@@ -672,7 +672,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
           {
             title: "A new BCF topic",
             reference_links: [
-              api_v3_paths.work_package((WorkPackage.last&.id).to_i + 42)
+              api_v3_paths.work_package(WorkPackage.last&.id.to_i + 42)
             ]
           }
         end

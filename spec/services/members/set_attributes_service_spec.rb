@@ -37,7 +37,7 @@ describe Members::SetAttributesService, type: :model do
 
     allow(contract)
       .to receive(:new)
-      .with(member, user, options: { changed_by_system: [] })
+      .with(member, user, options: {})
       .and_return(contract_instance)
 
     contract
@@ -129,6 +129,18 @@ describe Members::SetAttributesService, type: :model do
 
         it 'adds the new role' do
           expect(subject.result.roles = [second_role, third_role])
+        end
+
+        context 'with role_ids not all being present' do
+          let(:call_attributes) do
+            {
+              role_ids: [nil, '', second_role.id, third_role.id]
+            }
+          end
+
+          it 'ignores the empty values' do
+            expect(subject.result.roles = [second_role, third_role])
+          end
         end
       end
     end

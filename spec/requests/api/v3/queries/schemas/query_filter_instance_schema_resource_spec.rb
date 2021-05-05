@@ -35,17 +35,14 @@ describe 'API v3 Query Filter Schema resource', type: :request do
 
   let(:project) { FactoryBot.create(:project) }
   let(:visible_child) do
-    child = FactoryBot.create(:project, parent: project)
-    child.add_member! user, role
-
-    child
+    FactoryBot.create(:project, parent: project, members: { user => role })
   end
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }
   let(:user) do
     FactoryBot.create(:user,
-                       member_in_project: project,
-                       member_through_role: role)
+                      member_in_project: project,
+                      member_through_role: role)
   end
 
   before do
@@ -76,8 +73,8 @@ describe 'API v3 Query Filter Schema resource', type: :request do
   end
 
   describe '#get queries/filter_instance_schemas' do
-    [:global,
-     :project].each do |current_path|
+    %i[global
+       project].each do |current_path|
       context current_path do
         let(:path) { send "#{current_path}_path".to_sym }
 

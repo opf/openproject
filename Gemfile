@@ -28,21 +28,21 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 2.7.2'
+ruby '~> 2.7.3'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.0.2'
-gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 6.1.0'
+gem 'activerecord-session_store', '~> 2.0.0'
+gem 'rails', '~> 6.1.3'
 gem 'responders', '~> 3.0'
 
 gem 'rdoc', '>= 2.4.2'
 
+gem 'doorkeeper', '~> 5.5.0'
 # Maintain our own omniauth due to relative URL root issues
 # see upstream PR: https://github.com/omniauth/omniauth/pull/903
 gem 'omniauth', git: 'https://github.com/opf/omniauth', ref: 'fe862f986b2e846e291784d2caa3d90a658c67f0'
-gem 'doorkeeper', '~> 5.4.0'
 gem 'request_store', '~> 1.5.0'
 
 gem 'warden', '~> 1.2'
@@ -54,7 +54,7 @@ gem 'friendly_id', '~> 5.4.0'
 
 gem 'acts_as_list', '~> 1.0.1'
 gem 'acts_as_tree', '~> 2.9.0'
-gem 'awesome_nested_set', '~> 3.3.0'
+gem 'awesome_nested_set', '~> 3.4.0'
 gem 'rubytree', '~> 1.0.0'
 gem 'typed_dag', '~> 2.0.2'
 
@@ -110,8 +110,8 @@ gem 'multi_json', '~> 1.15.0'
 gem 'oj', '~> 3.11.0'
 
 gem 'daemons'
-gem 'delayed_job_active_record', '~> 4.1.5'
 gem 'delayed_cron_job', '~> 0.7.4'
+gem 'delayed_job_active_record', '~> 4.1.5'
 
 gem 'rack-protection', '~> 2.1.0'
 
@@ -119,7 +119,7 @@ gem 'rack-protection', '~> 2.1.0'
 # It allows whitelisting, blacklisting, throttling, and tracking based
 # on arbitrary properties of the request.
 # https://github.com/kickstarter/rack-attack
-gem 'rack-attack', '~> 6.4.0'
+gem 'rack-attack', '~> 6.5.0'
 
 # CSP headers
 gem 'secure_headers', '~> 6.3.0'
@@ -177,7 +177,7 @@ gem 'fog-aws'
 
 gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.87'
+gem 'aws-sdk-s3', '~> 1.91'
 
 gem 'openproject-token', '~> 2.1.1'
 
@@ -189,6 +189,13 @@ gem 'ruby-progressbar', '~> 1.11.0', require: false
 
 gem 'mini_magick', '~> 4.11.0', require: false
 
+# Sentry error reporting, loaded on demand
+group :sentry do
+  gem "sentry-ruby", '~> 4.3.1',  require: false
+  gem "sentry-rails", '~> 4.3.3', require: false
+  gem "sentry-delayed_job", '~> 4.3.0', require: false
+end
+
 group :test do
   gem 'launchy', '~> 2.5.0'
   gem 'rack-test', '~> 1.1.0'
@@ -198,11 +205,11 @@ group :test do
   # and other niceties
   gem 'test-prof', '~> 1.0.0'
 
-  gem 'database_cleaner', '~> 1.8'
+  gem 'database_cleaner', '~> 2.0'
   gem 'rack_session_access'
   gem 'rspec', '~> 3.10.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 4.0.0', group: :development
+  gem 'rspec-rails', '~> 5.0.0', group: :development
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
@@ -217,13 +224,13 @@ group :test do
   gem 'capybara', '~> 3.35.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'selenium-webdriver', '~> 3.14'
-  gem 'webdrivers', '~> 4.5.0'
+  gem 'webdrivers', '~> 4.6.0'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
 
   # Mock backend requests (for ruby tests)
-  gem 'webmock', '~> 3.11', require: false
+  gem 'webmock', '~> 3.12', require: false
 
   # Mock selenium requests through proxy (for feature tests)
   gem 'puffing-billy', '~> 2.4.0'
@@ -241,7 +248,7 @@ group :ldap do
 end
 
 group :development do
-  gem 'listen', '~> 3.4.0' # Use for event-based reloaders
+  gem 'listen', '~> 3.5.1' # Use for event-based reloaders
 
   gem 'faker'
   gem 'letter_opener'
@@ -250,10 +257,12 @@ group :development do
   gem 'spring-commands-rspec'
 
   gem 'rubocop'
+  gem 'rubocop-rails'
+  gem 'rubocop-rspec'
 
   # Gems for living styleguide
-  gem 'sassc-rails'
   gem 'livingstyleguide', '~> 2.1.0'
+  gem 'sassc-rails'
 end
 
 group :development, :test do
@@ -281,7 +290,7 @@ group :development, :test do
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.6.0', require: false
+gem 'bootsnap', '~> 1.7.0', require: false
 
 # API gems
 gem 'grape', '~> 1.5.0'
@@ -307,14 +316,14 @@ platforms :mri, :mingw, :x64_mingw do
 end
 
 gem 'openproject-translations',
-  git: 'https://github.com/opf/openproject-translations.git',
-  branch: 'dev'
+    git: 'https://github.com/opf/openproject-translations.git',
+    branch: 'dev'
 
 gem 'newrelic_rpm', require: ENV.has_key?('NEW_RELIC_LICENSE_KEY')
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
-gemfiles = Dir.glob File.expand_path('../{Gemfile.plugins,Gemfile.modules,Gemfile.local,lib/plugins/*/Gemfile}',
-                                     __FILE__)
+gemfiles = Dir.glob File.expand_path('{Gemfile.plugins,Gemfile.modules,Gemfile.local,lib/plugins/*/Gemfile}',
+                                     __dir__)
 gemfiles << ENV['CUSTOM_PLUGIN_GEMFILE'] unless ENV['CUSTOM_PLUGIN_GEMFILE'].nil?
 gemfiles.each do |file|
   next unless File.readable?(file)

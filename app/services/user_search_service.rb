@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -48,9 +49,9 @@ class UserSearchService
 
   def scope
     if users_only
-      project.nil? ? User : project.users
+      project.nil? ? User : project.users.user
     else
-      project.nil? ? Principal : project.principals
+      project.nil? ? Principal : project.principals.human
     end
   end
 
@@ -61,28 +62,30 @@ class UserSearchService
   def ids_search(scope)
     ids = params[:ids].split(',')
 
-    scope.not_builtin.where(id: ids)
+    scope.where(id: ids)
   end
 
   def query_search(scope)
     scope = scope.in_group(params[:group_id].to_i) if params[:group_id].present?
     c = ARCondition.new
 
-    if params[:status] == 'blocked'
+    case params[:status]
+    when 'blocked'
       @status = :blocked
       scope = scope.blocked
-    elsif params[:status] == 'all'
+    when 'all'
       @status = :all
-      scope = scope.not_builtin
+      # No scope change necessary
     else
-      @status = params[:status] ? params[:status].to_i : User::STATUSES[:active]
-      scope = scope.not_blocked if users_only && @status == User::STATUSES[:active]
+      @status = params[:status] ? params[:status].to_i : User.statuses[:active]
+      scope = scope.not_blocked if users_only && @status == User.statuses[:active]
       c << ['status = ?', @status]
     end
 
     unless params[:name].blank?
       name = "%#{params[:name].strip.downcase}%"
-      c << ['LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ? OR LOWER(mail) LIKE ?', name, name, name, name]
+      c << ['LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ? OR LOWER(mail) LIKE ?', name, name, name,
+            name]
     end
 
     scope.where(c.conditions)

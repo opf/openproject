@@ -10,11 +10,11 @@ keywords: cost type, currency, time and costs, budget
 
 You can configure costs in OpenProject and create cost types to track unit costs. Also, you can configure the currency you want to use for your cost reports.
 
-Navigate to -> *Administration* -> *Time and costs*.
+Navigate to *Administration* -> *Time and costs*.
 
 ## Settings
 
-Navigate to -> *Administration* -> *Time and costs* -> *Settings* to define settings for OpenProject costs.
+Navigate to *Administration* -> *Time and costs* -> *Settings* to define settings for costs in OpenProject.
 
 1. Configure the **currency used in the system, e.g. EUR**.
 2. **Specify the format of the currency**, if the number should be before or after the currency, e.g. 10 EUR, or $ 10.
@@ -51,6 +51,7 @@ In the overview list of all cost types you can define the following.
 4. Click on the name of a cost type to **edit an existing cost type**.
 5. **Set a current rate** (for the current valid from period) and press the save icon to apply it.
 6. **Lock** a cost type.
+   Please note that you **can only lock but not delete** cost types.
 
 ![Sys-admin-budgets-cost-types-list](Sys-admin-budgets-cost-types-list-1579853898118.png)
 

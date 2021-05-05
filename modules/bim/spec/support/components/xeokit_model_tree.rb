@@ -42,6 +42,21 @@ module Components
       end
     end
 
+    def expect_model_management_available(visible: true)
+      selector = '.xeokit-btn.xeokit-addModel'
+      expect(page).to have_conditional_selector(visible, selector)
+    end
+
+    def click_add_model
+      selector = '.xeokit-btn.xeokit-addModel'
+      page.find(selector).click
+    end
+
+    def select_model_menu_item(model_name, item_label)
+      page.find('.xeokit-form-check span', text: model_name).right_click
+      page.find('.xeokit-context-menu-item', text: item_label).click
+    end
+
     def select_sidebar_tab(tab)
       selector = '.xeokit-tab'
       page.find(selector, text: tab).click
@@ -76,7 +91,6 @@ module Components
         else
           expect(page.find('input', match: :first)).not_to be_checked
         end
-
       end
     end
   end

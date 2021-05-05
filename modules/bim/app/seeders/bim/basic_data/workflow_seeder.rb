@@ -40,13 +40,13 @@ module Bim
         resolved         = Status.find_by(name: I18n.t('seeders.bim.default_status_resolved'))
 
         {
-          types[I18n.t(:default_type_task)]                         => [new, in_progress, closed],
-          types[I18n.t(:default_type_milestone)]                    => [new, in_progress, closed],
-          types[I18n.t(:default_type_phase)]                        => [new, in_progress, closed],
-          types[I18n.t('seeders.bim.default_type_clash')]           => [new, in_progress, resolved, closed],
-          types[I18n.t('seeders.bim.default_type_issue')]           => [new, in_progress, resolved, closed],
-          types[I18n.t('seeders.bim.default_type_remark')]          => [new, in_progress, resolved, closed],
-          types[I18n.t('seeders.bim.default_type_request')]         => [new, in_progress, resolved, closed]
+          types[I18n.t(:default_type_task)] => [new, in_progress, closed],
+          types[I18n.t(:default_type_milestone)] => [new, in_progress, closed],
+          types[I18n.t(:default_type_phase)] => [new, in_progress, closed],
+          types[I18n.t('seeders.bim.default_type_clash')] => [new, in_progress, resolved, closed],
+          types[I18n.t('seeders.bim.default_type_issue')] => [new, in_progress, resolved, closed],
+          types[I18n.t('seeders.bim.default_type_remark')] => [new, in_progress, resolved, closed],
+          types[I18n.t('seeders.bim.default_type_request')] => [new, in_progress, resolved, closed]
         }
       end
 

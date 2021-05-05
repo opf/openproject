@@ -38,35 +38,35 @@ describe Story, type: :model do
   let(:sprint) { @sprint ||= FactoryBot.create(:sprint, project: project) }
   let(:issue_priority) { @issue_priority ||= FactoryBot.create(:priority) }
   let(:task_type) { FactoryBot.create(:type_task) }
-  let(:task) {
+  let(:task) do
     FactoryBot.create(:story, version: version,
-                               project: project,
-                               status: status1,
-                               type: task_type,
-                               priority: issue_priority)
-  }
-  let(:story1) {
+                              project: project,
+                              status: status1,
+                              type: task_type,
+                              priority: issue_priority)
+  end
+  let(:story1) do
     FactoryBot.create(:story, version: version,
-                               project: project,
-                               status: status1,
-                               type: type_feature,
-                               priority: issue_priority)
-  }
+                              project: project,
+                              status: status1,
+                              type: type_feature,
+                              priority: issue_priority)
+  end
 
-  let(:story2) {
+  let(:story2) do
     FactoryBot.create(:story, version: version,
-                               project: project,
-                               status: status1,
-                               type: type_feature,
-                               priority: issue_priority)
-  }
+                              project: project,
+                              status: status1,
+                              type: type_feature,
+                              priority: issue_priority)
+  end
 
   let(:project) do
     unless @project
       @project = FactoryBot.build(:project)
       @project.members = [FactoryBot.build(:member, principal: user,
-                                                     project: @project,
-                                                     roles: [role])]
+                                                    project: @project,
+                                                    roles: [role])]
     end
     @project
   end
@@ -75,10 +75,10 @@ describe Story, type: :model do
     ActionController::Base.perform_caching = false
 
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
-                                                                         'wiki_template'         => '',
-                                                                         'card_spec'             => 'Sattleford VM-5040',
-                                                                         'story_types'           => [type_feature.id.to_s],
-                                                                         'task_type'             => task_type.id.to_s })
+                                                                         'wiki_template' => '',
+                                                                         'card_spec' => 'Sattleford VM-5040',
+                                                                         'story_types' => [type_feature.id.to_s],
+                                                                         'task_type' => task_type.id.to_s })
     project.types << task_type
   end
 

@@ -102,7 +102,7 @@ describe 'Upload attachment to work package', js: true do
           sleep 2
           expect(page).not_to have_selector('notification-upload-progress')
 
-          editor.in_editor do |container, editable|
+          editor.in_editor do |_container, editable|
             expect(editable).to have_selector('img[src*="/api/v3/attachments/"]', wait: 20)
             expect(editable).not_to have_selector('.ck-upload-placeholder-loader')
           end

@@ -122,10 +122,21 @@ module Redmine
           end
         end
 
+        ##
+        # Maps custom_values into a hash that can be passed to attributes
+        # but keeps multivalue custom fields as array values
         def custom_value_attributes
-          custom_field_values
-            .map { |cv| [cv.custom_field_id, cv.value] }
-            .to_h
+          custom_field_values.each_with_object({}) do |cv, hash|
+            key = cv.custom_field_id
+            value = cv.value
+
+            hash[key] =
+              if existing = hash[key]
+                Array(existing) << value
+              else
+                value
+              end
+          end
         end
 
         def visible_custom_field_values
@@ -214,22 +225,14 @@ module Redmine
         end
 
         def add_custom_value_errors!(custom_value)
-          custom_value.errors.each do |attribute, _|
-            # Relies on patch to AR::Errors in 10-patches.rb.
-            # We need to take the original symbol used to set the message to
-            # make the same symbol available on the customized object itself.
-            # This is important e.g. in the API v3 where the error messages are
-            # post processed.
+          custom_value.errors.each do |error|
             name = custom_value.custom_field.accessor_name.to_sym
 
-            custom_value
-              .errors
-              .details[attribute]
-              .each do |hash|
-                # Use the generated message by the custom field
-                # as it may contain specific parameters (e.g., :too_long requires :count)
-                errors.add(name, hash[:error], **hash.except(:error))
-              end
+            details = error.details
+
+            # Use the generated message by the custom field
+            # as it may contain specific parameters (e.g., :too_long requires :count)
+            errors.add(name, details[:error], **details.except(:error))
           end
         end
 
@@ -339,7 +342,8 @@ module Redmine
         end
 
         def add_custom_value(custom_field_id, value)
-          new_custom_value = custom_values.build(custom_field_id: custom_field_id,
+          new_custom_value = custom_values.build(customized: self,
+                                                 custom_field_id: custom_field_id,
                                                  value: value)
 
           custom_field_values.push(new_custom_value)

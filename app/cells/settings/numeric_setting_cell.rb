@@ -7,7 +7,8 @@ module Settings
     options :unit, :title
     options size: 3
 
-    def name # name of setting and tag
+    # name of setting and tag
+    def name
       model
     end
   end

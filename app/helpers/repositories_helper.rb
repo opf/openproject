@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -63,7 +64,7 @@ module RepositoriesHelper
   end
 
   def render_changeset_changes
-    changes = @changeset.file_changes.limit(1000).order(Arel.sql('path')).map { |change|
+    changes = @changeset.file_changes.limit(1000).order(Arel.sql('path')).map do |change|
       case change.action
       when 'A'
         # Detects moved/copied files
@@ -77,7 +78,7 @@ module RepositoriesHelper
       else
         change
       end
-    }.compact
+    end.compact
 
     tree = {}
     changes.each do |change|
@@ -170,6 +171,7 @@ module RepositoriesHelper
 
   def to_utf8_for_repositories(str)
     return str if str.nil?
+
     str = to_utf8_internal(str)
     if str.respond_to?(:force_encoding)
       str.force_encoding('UTF-8')
@@ -179,21 +181,21 @@ module RepositoriesHelper
 
   def to_utf8_internal(str)
     return str if str.nil?
+
     if str.respond_to?(:force_encoding)
       str.force_encoding('ASCII-8BIT')
     end
     return str if str.empty?
     return str if /\A[\r\n\t\x20-\x7e]*\Z/n.match(str) # for us-ascii
+
     if str.respond_to?(:force_encoding)
       str.force_encoding('UTF-8')
     end
     @encodings ||= Setting.repositories_encodings.split(',').map(&:strip)
     @encodings.each do |encoding|
-      begin
-        return str.to_s.encode('UTF-8', encoding)
-      rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError
-        # do nothing here and try the next encoding
-      end
+      return str.to_s.encode('UTF-8', encoding)
+    rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError
+      # do nothing here and try the next encoding
     end
     str = replace_invalid_utf8(str)
   end
@@ -202,11 +204,12 @@ module RepositoriesHelper
 
   def replace_invalid_utf8(str)
     return str if str.nil?
+
     if str.respond_to?(:force_encoding)
       str.force_encoding('UTF-8')
       if !str.valid_encoding?
         str = str.encode("US-ASCII", invalid: :replace,
-                         undef: :replace, replace: '?').encode("UTF-8")
+                                     undef: :replace, replace: '?').encode("UTF-8")
       end
     else
       # removes invalid UTF8 sequences
@@ -251,10 +254,9 @@ module RepositoriesHelper
                data: {
                  url: url_for(controller: '/project_settings/repository',
                               action: 'show',
-                              id: @project.id),
+                              id: @project.id)
                },
-               disabled: (repository && !repository.new_record?)
-              )
+               disabled: (repository && !repository.new_record?))
   end
 
   def git_path_encoding_options(repository)
@@ -265,7 +267,7 @@ module RepositoriesHelper
   ##
   # Determines whether the repository settings save button should be shown.
   # By default, it is not shown when repository exists and is managed.
-  def show_settings_save_button?(repository)
+  def show_settings_save_button?(_repository)
     @repository.nil? ||
       @repository.new_record? ||
       !@repository.managed?

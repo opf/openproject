@@ -27,21 +27,21 @@
 //++
 
 
-import {Apiv3TimeEntryPaths} from "core-app/modules/apiv3/endpoints/time-entries/apiv3-time-entry-paths";
-import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
-import {Observable} from "rxjs";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {CachableAPIV3Collection} from "core-app/modules/apiv3/cache/cachable-apiv3-collection";
-import {MultiInputState} from "reactivestates";
+import { Apiv3TimeEntryPaths } from "core-app/modules/apiv3/endpoints/time-entries/apiv3-time-entry-paths";
+import { TimeEntryResource } from "core-app/modules/hal/resources/time-entry-resource";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIv3FormResource } from "core-app/modules/apiv3/forms/apiv3-form-resource";
+import { Observable } from "rxjs";
+import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
+import { CachableAPIV3Collection } from "core-app/modules/apiv3/cache/cachable-apiv3-collection";
+import { MultiInputState } from "reactivestates";
 import {
   Apiv3ListParameters,
   Apiv3ListResourceInterface,
   listParamsString
 } from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
-import {TimeEntryCacheService} from "core-app/modules/apiv3/endpoints/time-entries/time-entry-cache.service";
-import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
+import { TimeEntryCacheService } from "core-app/modules/apiv3/endpoints/time-entries/time-entry-cache.service";
+import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
 
 export class Apiv3TimeEntriesPaths
   extends CachableAPIV3Collection<TimeEntryResource, Apiv3TimeEntryPaths>

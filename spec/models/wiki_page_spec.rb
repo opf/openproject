@@ -31,7 +31,9 @@ require 'spec_helper'
 describe WikiPage, type: :model do
   let(:project) { FactoryBot.create(:project).reload } # a wiki is created for project, but the object doesn't know of it (FIXME?)
   let(:wiki) { project.wiki }
-  let(:wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki, title: wiki.wiki_menu_items.first.title) }
+  let(:title) { wiki.wiki_menu_items.first.title }
+  let(:wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki, title: title) }
+  let(:new_wiki_page) { FactoryBot.build(:wiki_page, wiki: wiki, title: title) }
 
   it_behaves_like 'acts_as_watchable included' do
     let(:model_instance) { FactoryBot.create(:wiki_page) }
@@ -66,11 +68,30 @@ describe WikiPage, type: :model do
         expect(wiki_page.slug).to eq('dot')
       end
     end
+
+    context 'when only having a ! for the title' do
+      let(:wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki, title: '!') }
+
+      it 'creates a non empty slug' do
+        expect(wiki_page.slug).to eq('bang')
+      end
+    end
+
+    context 'when only having a { for the title' do
+      let(:wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki, title: '{') }
+
+      it 'fails to create' do
+        expect { wiki_page }
+          .to raise_error(ActiveRecord::RecordInvalid)
+      end
+    end
   end
 
   describe '#nearest_main_item' do
     let(:child_page) { FactoryBot.create(:wiki_page, parent: wiki_page, wiki: wiki) }
-    let!(:child_page_wiki_menu_item) { FactoryBot.create(:wiki_menu_item, wiki: wiki, name: child_page.slug, parent: wiki_page.menu_item) }
+    let!(:child_page_wiki_menu_item) do
+      FactoryBot.create(:wiki_menu_item, wiki: wiki, name: child_page.slug, parent: wiki_page.menu_item)
+    end
     let(:grand_child_page) { FactoryBot.create(:wiki_page, parent: child_page, wiki: wiki) }
     let!(:grand_child_page_wiki_menu_item) { FactoryBot.create(:wiki_menu_item, wiki: wiki, name: grand_child_page.slug) }
 
@@ -81,7 +102,7 @@ describe WikiPage, type: :model do
 
   describe '#destroy' do
     context 'when the only wiki page is destroyed' do
-      before :each do
+      before do
         wiki_page.destroy
       end
 
@@ -92,15 +113,35 @@ describe WikiPage, type: :model do
     end
 
     context 'when one of two wiki pages is destroyed' do
-      before :each do
+      before do
         FactoryBot.create(:wiki_page, wiki: wiki)
         wiki_page.destroy
       end
 
       it 'ensures that there is still a wiki menu item named like the wiki start page' do
         expect(wiki.wiki_menu_items).to be_one
-        expect(wiki.wiki_menu_items.first.name).to eq(wiki.start_page.to_url)
+        expect(wiki.wiki_menu_items.first.name).to eq WikiPage.slug(wiki.start_page)
       end
+    end
+  end
+
+  describe '#title' do
+    context 'when it is blank' do
+      let(:title) { nil }
+
+      it 'is invalid' do
+        new_wiki_page.valid?
+
+        expect(new_wiki_page.errors.symbols_for(:title))
+          .to match_array [:blank]
+      end
+    end
+  end
+
+  describe '#protected?' do
+    it 'is false by default' do
+      expect(wiki_page.reload)
+        .not_to be_protected
     end
   end
 

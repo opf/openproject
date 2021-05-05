@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,15 +29,16 @@
 #++
 
 class BaseMailer < ActionMailer::Base
+  layout 'mailer'
+
   helper :application, # for format_text
          :work_packages, # for css classes
          :custom_fields # for show_value
-  helper IssuesHelper
 
   include OpenProject::LocaleHelper
 
   # Send all delayed mails with the following job
-  self.delivery_job = ::MailerJob
+  self.delivery_job = ::Mails::MailerJob
 
   # wrap in a lambda to allow changing at run-time
   default from: Proc.new { Setting.mail_from }
@@ -72,8 +74,8 @@ class BaseMailer < ActionMailer::Base
     end
 
     def remove_self_notifications(message, author)
-      if author.pref && author.pref[:no_self_notified]
-        message.to = message.to.reject { |address| address == author.mail } if message.to.present?
+      if author.pref && author.pref[:no_self_notified] && message.to.present?
+        message.to = message.to.reject { |address| address == author.mail }
       end
     end
 
@@ -85,7 +87,7 @@ class BaseMailer < ActionMailer::Base
       if OpenProject::Configuration.rails_relative_url_root.blank?
         Setting.host_name
       else
-        Setting.host_name.to_s.gsub(%r{\/.*\z}, '')
+        Setting.host_name.to_s.gsub(%r{/.*\z}, '')
       end
     end
 

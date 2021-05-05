@@ -1,10 +1,10 @@
 ---
 sidebar_navigation:
-  title: Automatic and Manual Scheduling
+  title: Automatic and manual scheduling
   priority: 999
 description: Use manual or automatic scheduling mode in OpenProject
 robots: index, follow
-keywords: gantt chart, automatic scheduling, manual scheduling, start date, finish date, relations
+keywords: Gantt chart, automatic scheduling, manual scheduling, start date, finish date, relations
 
 
 ---
@@ -13,6 +13,8 @@ keywords: gantt chart, automatic scheduling, manual scheduling, start date, fini
 
 <div class="glossary">
 To schedule work packages in the Gantt chart there is an **automatic scheduling mode (default)** and a **manual scheduling mode** (new in [release 11.0](../../../release-notes/11-0-0)). To add dependencies between work packages you can set them as predecessor or follower in the Gantt chart. The automatic and manual scheduling modes influence the work packages' behaviour when changing dates of other related work packages.</div>
+As the scheduling mode only affects individual work packages you can combine manual scheduling mode (top-down planning) and automatic scheduling mode (bottom-up planning) within the same project.
+
 
 | Topic                                                   | Content                                                      |
 | ------------------------------------------------------- | ------------------------------------------------------------ |
@@ -29,24 +31,27 @@ The automatic scheduling mode is generally set as **the default mode** for new w
 - A work package's finish date is automatically determined by the finish date of its latest ending child.
 - When you move a work package past the set start date of its follower, the followers start date will be adjusted to its predecessor's finish date. This is not the case the other way round.
   Example: Work package 1 ends on October 5th. Its follower work package 2 starts on October 13th. Now work package 1 gets delayed by ten days, you have to adjust the planning. When you set the finish date of work package 1 to October 15th, the start date of work package 2 will automatically be set to October 16th.
-- You can't change the dates of a work package with children (if it's in automatic scheduling mode).
+- You can't change the dates of a work package with children (if it is in automatic scheduling mode).
 
 ## Manual scheduling mode
 
-The manual scheduling mode is **mostly used when creating a top-down project plan** (by defining the main phases first). You can then add child work packages without affecting the original (high-level) project schedule.
+The manual scheduling mode is **mostly used when creating a top-down project plan** (e.g. by defining the main phases first). You can then add child work packages without affecting the original (high-level) project schedule.
 
 Changing to the **manual scheduling mode makes sense if**
 
+- you want to plan your project top-down without knowing all tasks yet, or
 - you want to set a parent work package’s date independently from the dates of its children, or
 - you don't want a parent work package's dates being updated automatically when changing the children's dates, or
 - you don't want a follower's start date be automatically updated when you change the predecessor's finish date
+
+Moving a child work package in the manual scheduling mode will not move the dates of the parent work package. The scheduling differences will be indicated by a black or red bracket underneath (e.g. when a child is shorter or longer than the parent phase). See [this explanation](../#understanding-the-colors-and-lines-in-the-gantt-chart) to find out more about the lines and colors in the Gantt chart.
 
 <video src="https://www.openproject.org/wp-content/uploads/2020/09/OpenProject-Top-down-Scheduling.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 
 ## Changing mode
 
-You can **activate the manual scheduling mode** by clicking on the date of a work package and selecting the box next to "Manual scheduling".
+You can **activate the manual scheduling mode** by clicking on the date of a work package and selecting the box next to "Manual scheduling". This will activate the manual scheduling mode only for the respective work package.
 
 ![image-20200929160916841](image-20200929160916841.png)
 

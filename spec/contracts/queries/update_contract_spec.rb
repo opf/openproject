@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,8 +29,11 @@
 #++
 
 require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
 describe Queries::UpdateContract do
+  include_context 'ModelContract shared context'
+
   let(:project) { FactoryBot.build_stubbed :project }
   let(:query) do
     FactoryBot.build_stubbed(:query, project: project, is_public: public, user: user)
@@ -43,19 +47,11 @@ describe Queries::UpdateContract do
       end
     end
   end
-  subject(:contract) { described_class.new(query, current_user) }
+  let(:contract) { described_class.new(query, current_user) }
 
   before do
     # Assume project is always visible
     allow(contract).to receive(:project_visible?).and_return true
-  end
-
-  def expect_valid(valid, symbols = {})
-    expect(contract.validate).to eq(valid)
-
-    symbols.each do |key, arr|
-      expect(contract.errors.symbols_for(key)).to match_array arr
-    end
   end
 
   describe 'private query' do
@@ -67,17 +63,13 @@ describe Queries::UpdateContract do
       context 'user has no permission to save' do
         let(:permissions) { %i(edit_work_packages) }
 
-        it 'is invalid' do
-          expect_valid(false, base: %i(error_unauthorized))
-        end
+        it_behaves_like 'contract user is unauthorized'
       end
 
       context 'user has permission to save' do
         let(:permissions) { %i(save_queries) }
 
-        it 'is valid' do
-          expect_valid(true)
-        end
+        it_behaves_like 'contract is valid'
       end
     end
 
@@ -85,9 +77,7 @@ describe Queries::UpdateContract do
       let(:user) { FactoryBot.build_stubbed :user }
       let(:permissions) { %i(save_queries) }
 
-      it 'is invalid' do
-        expect_valid(false, base: %i(error_unauthorized))
-      end
+      it_behaves_like 'contract user is unauthorized'
     end
   end
 
@@ -98,25 +88,19 @@ describe Queries::UpdateContract do
     context 'user has no permission to save' do
       let(:permissions) { %i(invalid_permission) }
 
-      it 'is invalid' do
-        expect_valid(false, base: %i(error_unauthorized))
-      end
+      it_behaves_like 'contract user is unauthorized'
     end
 
     context 'user has no permission to manage public' do
       let(:permissions) { %i(manage_public_queries) }
 
-      it 'is valid' do
-        expect_valid(true)
-      end
+      it_behaves_like 'contract is valid'
     end
 
     context 'user has permission to save only own' do
       let(:permissions) { %i(save_queries) }
 
-      it 'is invalid' do
-        expect_valid(false, base: %i(error_unauthorized))
-      end
+      it_behaves_like 'contract user is unauthorized'
     end
   end
 end

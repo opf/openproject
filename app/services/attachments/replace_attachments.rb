@@ -38,8 +38,8 @@ module Attachments
       def set_attributes(attributes)
         call = super
 
-        if call.success?
-          call.result.attachments = call.result.attachments_replacements if call.result.attachments_replacements
+        if call.success? && call.result.attachments_replacements
+          call.result.attachments = call.result.attachments_replacements
         end
 
         call

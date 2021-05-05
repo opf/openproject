@@ -13,7 +13,6 @@ You can easily report spent time and costs in OpenProject and filter, group and 
 
 <div class="alert alert-info" role="alert">
 **Note**: To use the time tracking functionality, the **Time and costs module** needs to be activated in the [project settings](../../projects/project-settings/modules/).
-
 </div>
 
 
@@ -32,10 +31,7 @@ To open the time and costs reports in OpenProject, navigate to the **Time and co
 
 <div class="glossary">**Time and costs** is a plugin to filter cost reports on individual or multiple users across individual or multiple projects. The plugin has to be activated as a module in the project settings to be displayed in the side navigation.
 </div>
-
-![image-20201005145643558](image-20201005145643558.png)
-
-
+![time-and-costs-report](image-20210305134828633.png)
 
 ## Change time and costs reports
 
@@ -50,7 +46,7 @@ Depending on your rights in the project, multiple users can also be selected. Th
 
 The results will the be displayed in the time and cost report below.
 
-![Time-costs-filter](Time-costs-filter.png)
+![filter-time-and-costs-report](image-20210305134143475.png)
 
 ### Group by criteria for cost reports
 
@@ -58,7 +54,7 @@ The time and cost reports can be grouped by selected criteria, such as dates, wo
 
 To add grouping criteria to the columns or rows of the report, select the drop-down field on the right to **add grouping field**.
 
-![Time-cots-group-by](Time-cots-group-by.png)
+![Time-costs-group-by](Time-cots-group-by.png)
 
 The grouping criteria will then be added to the Column or Row of the report. 
 
@@ -90,7 +86,9 @@ If you just want to report on spent **unit costs**, choose the respective unit c
 
 ## Export time and cost reports
 
-To **export reports for time and costs** to Excel you can open a report under -> *Cost Reports* in your project. For the Excel export, first [filter and group the report](#group-by-criteria-for-cost-reports) according to your needs. Select the [unit to be displayed](#select-units-to-display) (Labor, Cash value, unit costs).
+To **export reports for time and costs** to Excel you can open or create a report in the Time and costs module in your project. For the Excel export, first [filter and group the report](#group-by-criteria-for-cost-reports) according to your needs. Select the [unit to be displayed](#select-units-to-display) (Labor, Cash value, unit costs).
+
+Please note that "Group by" settings won't be applied to the exported file.
 
 Click the grey **Export XLS** (Excel) button.
 

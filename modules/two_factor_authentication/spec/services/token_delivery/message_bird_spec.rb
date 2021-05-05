@@ -8,11 +8,11 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird, wit
     let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, channel: channel }
 
     let(:service_url) { 'https://example.org/foobar' }
-    let(:params) {
+    let(:params) do
       {
-          apikey: 'whatever'
+        apikey: 'whatever'
       }
-    }
+    end
 
     before do
       allow(OpenProject::Configuration)

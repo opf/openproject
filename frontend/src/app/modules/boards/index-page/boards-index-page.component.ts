@@ -1,20 +1,20 @@
-import {AfterViewInit, Component, Injector, OnInit} from "@angular/core";
-import {Observable} from "rxjs";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {BoardService} from "core-app/modules/boards/board/board.service";
-import {Board} from "core-app/modules/boards/board/board";
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {OpModalService} from "core-components/op-modals/op-modal.service";
-import {NewBoardModalComponent} from "core-app/modules/boards/new-board-modal/new-board-modal.component";
-import {BannersService} from "core-app/modules/common/enterprise/banners.service";
-import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
-import {enterpriseDemoUrl, enterpriseEditionUrl} from "core-app/globals/constants.const";
-import {DomSanitizer} from "@angular/platform-browser";
-import {boardTeaserVideoURL} from "core-app/modules/boards/board-constants.const";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { AfterViewInit, Component, Injector, OnInit } from "@angular/core";
+import { Observable } from "rxjs";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { BoardService } from "core-app/modules/boards/board/board.service";
+import { Board } from "core-app/modules/boards/board/board";
+import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { OpModalService } from "core-app/modules/modal/modal.service";
+import { NewBoardModalComponent } from "core-app/modules/boards/new-board-modal/new-board-modal.component";
+import { BannersService } from "core-app/modules/common/enterprise/banners.service";
+import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
+import { contactUrl } from "core-app/globals/constants.const";
+import { DomSanitizer } from "@angular/platform-browser";
+import { boardTeaserVideoURL } from "core-app/modules/boards/board-constants.const";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   templateUrl: './boards-index-page.component.html',
@@ -99,10 +99,10 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
   }
 
   public eeLink() {
-    return enterpriseEditionUrl + '&op_referrer=boards';
+    return this.bannerService.getEnterPriseEditionUrl({ referrer: 'boards' });
   }
 
-  public demoLink() {
-    return enterpriseDemoUrl;
+  public demoLink():string {
+    return contactUrl[this.I18n.locale] || contactUrl.en;
   }
 }

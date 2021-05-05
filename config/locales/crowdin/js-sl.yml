@@ -33,6 +33,19 @@ sl:
         single: "Izberi \"%{name}\""
       remove: "Odstrani \"%{name}\""
       active: "Aktivno %{label}%{name}"
+    backup:
+      attachments_disabled: Priloge morda ne bodo vključene, saj presegajo maksimalno dovoljeno velikost. To lahko spremenite s konfiguracijo (kar zahteva restart strežnika).
+      info: >
+        Tukaj lahko sprožite kreiranje rezerve. Proces lahko nekaj časa traja, odvisno od količine podatkov (sploh prilog), ki jih imate. Ko bo rezerva pripravljena, boste prejeli email.
+      note: >
+        Nova varnostna kopija bo povozila prejšnjo. Samo omejeno število var. kopij lahko v enem dnevu zahtevate.
+      last_backup: Zadnja varnostna kopija
+      last_backup_from: Zadnja varnostna kopija od
+      title: Varnostno kopiranje OpenProject-a
+      options: Možnosti
+      include_attachments: Vključite priloge
+      download_backup: Prenos varnostne kopije
+      request_backup: Zahteva za varnostno kopijo
     close_popup_title: "Zapri pojavna okna"
     close_filter_title: "Zapri filter"
     close_form_title: "Zapri obliko"
@@ -86,7 +99,7 @@ sl:
     caption_rate_history: "Zgodovina tečaja"
     clipboard:
       browser_error: "Vaš brskalnik ne podpira kopiranja v odložišče. Kopirajte izbrano besedilo ročno."
-      copied_successful: "Successfully copied to clipboard!"
+      copied_successful: "Uspešno kopirano v odložišče."
     chart:
       type: 'Vrsta grafikona'
       axis_criteria: 'Merila osi'
@@ -118,11 +131,11 @@ sl:
         manual: 'Preklopite na Markdown vir'
         wysiwyg: 'Preklopi na WYSIWYG urejevalnik'
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: 'razširitev makroprograma ni možna: %{message}'
         attribute_reference:
-          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
-          not_found: 'Requested resource could not be found'
-          invalid_attribute: "The selected attribute '%{name}' does not exist."
+          macro_help_tooltip: 'Ta del besedla je izveden dinamično s pomočjo makroprograma.'
+          not_found: 'Zahtevanega vira ni mogoče najti'
+          invalid_attribute: "Izbrana lastnost '%{name}' ne obstaja."
         child_pages:
           button: 'Povezave do podrejenih strani'
           include_parent: 'Vključi nadrejen zahtevek'
@@ -172,12 +185,12 @@ sl:
         reset_to_defaults: 'Ponastavi na privzete vrednosti'
       enterprise:
         trial:
-          confirmation: "Potrdite e-poštni naslov"
+          confirmation: "Potrditev e-poštnega naslova"
           confirmation_info: >
             Na dan %{date} smo vam na elektronski naslov %{email} poslali e-pošto. Prosimo preglejte vašo pošto in kliknite na potrditveno povezavo za začetek vašega 14 dnevnega preizkusa.
           form:
             general_consent: >
-              Strinjam se z  <a target="_blank" href="%{link_terms}">terms of service</a> in <a target="_blank" href="%{link_privacy}">privacy policy</a>.
+              Strinjam se z  <a target="_blank" href="%{link_terms}">pogoji uporabe</a> in <a target="_blank" href="%{link_privacy}">politiko zasebnosti</a>.
             invalid_email: "Neveljaven e-poštni naslov"
             label_company: "Podjetje"
             label_first_name: "Ime"
@@ -188,7 +201,7 @@ sl:
             label_maximum_users: "Največje število aktivnih uporabnikov"
             label_starts_at: "Se začne z"
             label_expires_at: "Izteče ob"
-            receive_newsletter: Želim prejemati OpenProject  <a target="_blank" href="%{link}">newsletter</a>.
+            receive_newsletter: Želim prejemati OpenProject  <a target="_blank" href="%{link}">novice</a>.
             taken_domain: Možen je le en aktivni preizkus na domeno.
             taken_email: Vsak uporabnik ima na voljo le en preizkus.
           email_not_received: "Niste prejeli e-pošte? E-pošto lahko ponovno pošljete s povezavo na desni."
@@ -206,7 +219,7 @@ sl:
         upsale:
           become_hero: "Bodite heroj!"
           benefits:
-            description: "Kaj so prednosti?"
+            description: "Katere so prednosti Enterprise verzije na lokaciji?"
             high_security: "Varnostne funkcije"
             high_security_text: "Enkratna prijava na (SAML, OpenID Connect, CAS), dvofaktorska avtentikacija in samodejna sinhronizacija LDAP skupin."
             installation: "Namestitvena podpora"
@@ -270,13 +283,13 @@ sl:
           text_new_features: "Preberite o novih funkcijah in posodobitvah izdelka."
           learn_about: "Preberite več o novostih"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-1-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              Izdaja vsebuje več novih funkcij in izboljšav: <br> <ul class="%{list_styling_class}"> <li>Nov koncept <b>nadomestnih uporabnikov</b> (premium funkcija) dovoljuje dodajanje predhodnih uporabnikov brez e-mail naslova v OpenProject in dodeljevanje nalog tem virom.</li> <li>FIltri delovne naloge <b>so podaljšani s strani starševske opcije</b>za lažji pogled nad vsemi otroki, prav tako <b>preko ID-ja</b> za vključitev ali izključitev določenih delovnih pakteov iz seznama.</li> 
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-0-release
+            learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li><b>Improved stylings</b>  of the WYSIWYG editor.</li> <li>Direct display of <b>user name for @notifications</b> while editing.</li> <li>Extended authentication profile with an <b>OpenID Connect provider.</b></li> <li>Display project <b>milestones aggregated</b> in single row in Gantt chart.</li> <li><b>Collapse all button for groups</b> in the work packages list.</li> <li><b>Optimization for printing,</b> e.g. wiki pages, via the browser print function.</li> </ul>
+              Izdaja vsebuje več novih funkcij in izboljšav: <br> <ul class="%{list_styling_class}"> <li>Nov koncept <b>nadomestnih uporabnikov</b> (premium funkcija) dovoljuje dodajanje predhodnih uporabnikov brez e-mail naslova v OpenProject in dodeljevanje nalog tem virom.</li> <li>FIltri delovne naloge <b>so podaljšani s strani starševske opcije</b>za lažji pogled nad vsemi otroki, prav tako <b>preko ID-ja</b> za vključitev ali izključitev določenih delovnih pakteov iz seznama.</li> 
     label_activate: "Aktiviraj"
     label_add_column_after: "Dodaj stolpec za"
     label_add_column_before: "Dodaj stolpec pred"
@@ -294,10 +307,10 @@ sl:
     label_and: "in"
     label_ascending: "Naraščajoče"
     label_author: "Avtor: %{user}"
-    label_avatar: "Podoba"
+    label_avatar: "Avatar"
     label_between: "med"
     label_board: "Board"
-    label_board_locked: "Zaklenjen"
+    label_board_locked: "Zaklenjeno"
     label_board_plural: "Boardi"
     label_board_sticky: "Lepljivo"
     label_create: "Ustvari"
@@ -332,7 +345,7 @@ sl:
     label_filename: "Datoteka"
     label_filesize: "Velikost"
     label_general: "Splošno"
-    label_global_roles: "Globalna pravila"
+    label_global_roles: "Globalne vloge"
     label_greater_or_equal: ">="
     label_group: 'Skupina'
     label_group_by: "Razvrsti po"
@@ -355,7 +368,7 @@ sl:
     label_mail_notification: "E-poštna obvestila"
     label_me: "jaz"
     label_meeting_agenda: "Dnevni red"
-    label_meeting_minutes: "Minut"
+    label_meeting_minutes: "Zapisnik"
     label_menu_collapse: "Zapri"
     label_menu_expand: "Razširi"
     label_more_than_ago: "pred več kot nekaj dnevi"
@@ -402,10 +415,10 @@ sl:
     label_public_query: "Javno"
     label_sum: "Vsota"
     label_sum_for: "Vsota za"
-    label_total_sum: "Total sum"
+    label_total_sum: "Skupna vsota"
     label_subject: "Zadeva"
     label_this_week: "ta teden"
-    label_today: "Today"
+    label_today: "Danes"
     label_time_entry_plural: "Porabljen čas"
     label_up: "Navzgor"
     label_user_plural: "Uporabniki"
@@ -415,10 +428,10 @@ sl:
     label_total_amount: "Skupaj: %{amount}"
     label_updated_on: "Posodobljeno"
     label_value_derived_from_children: "(vrednost izpeljana iz podrejenih)"
-    label_children_derived_duration: "Work package's children derived duration"
+    label_children_derived_duration: "Trajanje podrazredov delovnih paketov."
     label_warning: "Opozorilo"
     label_work_package: "Zahtevek"
-    label_work_package_parent: "Parent work package"
+    label_work_package_parent: "Nadrazred delovnega paketa"
     label_work_package_plural: "Delovni paketi"
     label_watch: "Glej"
     label_watch_work_package: "Spremljaj delovni paket"
@@ -465,6 +478,7 @@ sl:
         help_menu: 'V <b>Pomoč</b> meniju boste našli uporabniški priročnik in dodatne vire pomoči. <br> Uživajte svoje delo z programsko rešitvijo OpenProject!'
         members: 'Povabite nove <b>Člane</b> k projektu. '
         project_selection: 'Prosimo kliknite na katerega od projektov z uporabnimi demo podatki za začetek. <br> Ta <b>Demo projekt</b> je najbolj primeren za klasično projektno vodenje, medtem ko je <b>Scrum project</b> boljši za agilno projektno vodenje. '
+        quick_add_button: 'Kreiraj nov projekt ali povabi sodelavce'
         sidebar_arrow: "S puščico hako navigirate nazaj na projektni <b>Glavni meni</b>."
         welcome: 'Poglejte si tri minutni ogled, da se naučite čim več <b>pomembne lastnosti</b>. <br> Priporočamo, da ogled dokončat. Ogled lahko ponovno začnete kadar koli. '
         wiki: 'V <b>Wiki</b> lahko dokumentirate in delite znanje z vašo ekipo. '
@@ -480,7 +494,7 @@ sl:
           drag: 'Povlecite in spustite svoje kartice znotraj seznama, če ga želite ponovno naročiti, ali na drug seznam. Z dvojnim klikom se odpre pogled s podrobnostmi.'
         wp:
           toggler: "Zdaj pa poglejmo <b>Delovni paket</b> del, ki vam da bolj podroben pregled vašega dela. "
-          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
+          list: 'To je seznam <b>delovnih paketov</b> s pomembnim delom v projektu; aktivnosti, mejniki, faze, in podobno. <br> Dodajanje in urejanje delovnih paketov je možno neposredno v tem seznamu. Za podrobnosti dvokliknite vrstico.'
           full_view: 'V <b>Podrobnostih delovnega paketa </b> najdete vse ustrezne informacije, na primer opis, stanje in prednostno nalogo, dejavnosti, odvisnosti ali komentarje.'
           back_button: 'S puščico lahko navigirate nazaj na seznam delovnih paketov. '
           create_button: 'Gumb <b>Ustvari</b> bo dodal nov delovni paket vašemu projektu. '
@@ -505,7 +519,10 @@ sl:
       context: 'Kontekst projekta'
       work_package_belongs_to: 'Ta delovni paket pripada projektu %{projectname}.'
       click_to_switch_context: 'Odpri ta delovni paket v tistem projektu. '
-      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      confirm_template_load: 'Menjava predloge bo ponovno naložila stran in vsi podatki vnešeni v obrazec bodo izgubljeni. Ali želite nadaljevati?'
+      use_template: "Uporabi predlogo"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Samodejno dokončanje projekta'
     text_are_you_sure: "Ste prepričani?"
@@ -516,7 +533,7 @@ sl:
         reset_title: "Po nastavi iz konfiguracije"
         confirm_reset: >
           Opozorilo: Ali ste prepričani, da želite po nastaviti formo konfiguracije? To bo ponastavilo atribute v njihovo privzeto skupino in onemogočilo vsa polja po meri. 
-        upgrade_to_ee: "Nadgradite v Enterprise Edition"
+        upgrade_to_ee: "Nadgradite na Enterprise verzijo na lokaciji"
         upgrade_to_ee_text: "Vau! Če potrebujete to funkcijo, ste super profesionalec! Bi bili pripravljeni podpreti OpenSource razvijalce, tako da postanete odjemalec Podjetniške verzije?"
         more_information: "Več informacij"
         nevermind: "Pozabi"
@@ -595,8 +612,8 @@ sl:
     field_value_enter_prompt: "Vnesite vrednost za '%{field}'"
     project_menu_details: "Podrobnosti"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      manual: 'Ročno razvrščanje.'
+      automatic: 'Samodejno razvrščanje'
     sort:
       sorted_asc: 'Uporabljeno je naraščajoče razvrščanje, '
       sorted_dsc: 'Uporabljeno je padajoče razvrščanje, '
@@ -809,8 +826,8 @@ sl:
           duplicate_query_title: "Ime tega pogleda že obstaja. Se vseeno spremeni?"
         text_no_results: "Ujemanj ni bilo najdenih."
       scheduling:
-        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
-        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+        is_parent: "Datumi tega delovnega paketa so samodejno ugotovljeni od njegovih podrazredov. Za nastavitev datumov aktivirajte 'Ročno razvrščanje'."
+        is_switched_from_manual_to_automatic: "Datumi delovnega paketa se bodo lahko, da morali preračunati po menjavi iz ročnega v samodejno razvrščanje zaradi razmerij z ostalimi delovnimi paketi."
       table:
         configure_button: 'Uredi tabelo delovnega paketa'
         summary: "Tabela z vrsticami delovnega paketa in stolpci atributov delovnega paketa.\n"
@@ -844,7 +861,7 @@ sl:
           automatic: 'Avtomatično'
           manually: 'Ročno'
           warning: 'Ko aktivirate način samodejnega razvrščanja, boste izgubili prejšnje razvrščanje.'
-        columns_help_text: "Uporabite zgornje vnosno polje za dodajanje stolpcev v tabelo. Vrstni red lahko spremenite tako da stolpce povlečete in spustite."
+        columns_help_text: "Uporabi vnosno polje zgoraj za dodajanje stolpcev v pogled tabele. Stolpce lahko potegneš in spustiš za zamenjavo njihovega vrstnega reda."
         upsale:
           attribute_highlighting: 'Potrebujete določene delovne pakete da izstopajo iz nereda?'
           relation_columns: 'Potrebujete videti povezave v seznamu delovnega paketa?'
@@ -943,11 +960,9 @@ sl:
         few: "%{count} podrejenih delovnih paketov"
         other: "%{count} podrejeni delovni paketi"
       hour:
+        one: "1 ura"
+        other: "%{count} ur"
         zero: "0 ur"
-        one: ""
-        two: ""
-        few: ""
-        other: ""
     zen_mode:
       button_activate: 'Omogočite zen način'
       button_deactivate: 'Onemogočite zen način'
@@ -965,3 +980,75 @@ sl:
       card: 'Kartice'
       list: 'Tabela'
       timeline: 'Gant'
+    invite_user_modal:
+      back: 'Nazaj'
+      invite: 'Povabi'
+      title:
+        invite: 'Povabi uporabnika'
+        invite_to_project: 'Povabi %{type} na %{project}'
+        User: 'uporabnik'
+        Group: 'skupina'
+        PlaceholderUser: 'nadomestni uporabnik'
+        invite_principal_to_project: 'Povabi %{principal} na %{project}'
+      project:
+        label: 'Projekt'
+        required: 'Prosim izberi projekt'
+        next_button: 'Naprej'
+        no_results: 'Nobeni projekti niso bili najdeni'
+        no_invite_rights: 'Nimate dovoljenja za vabljenje članov v ta projekt'
+      type:
+        required: 'Prosim izberi tip za povabilo'
+        user:
+          title: 'Uporabnik'
+          description: 'Dovoljenja glede na dodeljeno vlogo v izbranem projektu'
+        group:
+          title: 'Skupina'
+          description: 'Dovoljenja glede na dodeljeno vlogo v izbranem projektu'
+        placeholder:
+          title: 'Nadomestni uporabnik'
+          title_no_ee: 'Nadomestni uporabnik (funkcija samo v verziji Enterprise)'
+          description: 'Nima dostopa do projekta in nobenih e-mailov ni bilo poslanih.'
+          description_no_ee: 'Nima dostopa do projekta in nobenih e-mailov ni bilo poslanih. <br>Oglej si <a href="%{eeHref}" target="_blank">verzijo Enterprise</a>'
+      principal:
+        label:
+          name_or_email: 'Ime ali e-mail naslov'
+          name: 'Ime'
+        already_member_message: 'Je že član %{project}'
+        no_results_user: 'Nobenih uporabnikov ni bilo najdenih'
+        invite_user: 'Povabi:'
+        change_user_selection: 'Spremeni e-mail naslov ali izberi obstoječega uporabnika'
+        no_results_placeholder: 'Nobenih rezerviranih mest ni bilo najdenih'
+        change_placeholder_selection: 'Spremeni ime ali izberi obstoječe rezervirano mesto'
+        create_new_placeholder: 'Ustvari novo rezervirano mesto:'
+        no_results_group: 'Nobenih skupin ni bilo najdenih'
+        change_group_selection: 'Spremeni ime ali izberi obstoječo skupino'
+        next_button: 'Naprej'
+        required:
+          user: 'Izberite uporabnika'
+          placeholder: 'Izberite rezervirano mesto'
+          group: 'Izberite skupino.'
+      role:
+        label: 'Vloge v %{project}'
+        description: 'To je vloga, ki jo bo %{principal} prejel/a ko si pridruži tvojemu projektu. Vloga določi katere akcije lahko ubere in katere informacije lahko vidi. <a href="%{href}" target="_blank"> Preberi več o vlogah in dovoljenjih. </a>'
+        required: 'Izberite vlogo'
+        next_button: 'Naprej'
+      message:
+        label: 'Sporočilo s povabilom'
+        description: 'Poslali bomo e-mail %{principal}, kateremu tukaj lahko dodate osebno sporočilo. Razlaga za povabilo bi lahko bila uporabna, ali pa vsaj nekaj informacij o projektu za lažji začetek.'
+        next_button: 'Preglej povabilo'
+      summary:
+        next_button: 'Pošlji povabilo'
+      success:
+        title: '%{principal} je bil povabljen!'
+        description:
+          user: 'Uporabnik se lahko zdaj prijavi za dostop do %{project}. Medtem lahko planirate s tem uporabnikom in mu dodelite delovne naloge.'
+          placeholder: 'Rezervirano mesto se zdaj lahko uporabi v %{project}. Medtem lahko planirate s tem uporabnikom in mu dodelite delovne naloge.'
+          group: 'Skupina je zdaj del %{project}. Medtem lahko planirate s to skupino in ji dodelite delovne naloge.'
+        next_button: 'Nadaljuj'
+    forms:
+      submit_success_message: 'Obrazev je bil uspešno oddan'
+      load_error_message: 'Pri nalaganju obrazca je prišlo do napake'
+      validation_error_message: 'Prosimo popravite napake v obrazcu'
+      advanced_settings: 'Napredne nastavitve'
+
+

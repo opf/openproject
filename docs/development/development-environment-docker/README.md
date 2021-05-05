@@ -21,10 +21,27 @@ bin/compose start
 
 Once the containers are done booting you can access the application under http://localhost:3000.
 
-If there is an `.env` file (see below) `bin/compose` will source it.
+### Tests
+
+You can run tests using `bin/compose rspec`. You can run specific tests too. For instance:
+
+```
+bin/compose rspec spec/features/work_package_show_spec.rb
+```
+
+***
+
 More details and options follow in the next section.
 
-## Setup
+<div class="alert alert-info" role="alert">
+
+docker-compose needs access to at least 4GB of RAM. E.g. for Mac, this requires to [increase the default limit of the virtualized host.](https://docs.docker.com/docker-for-mac/)
+
+Signs of lacking memory include an "Exit status 137" in the frontend container.
+
+</div>
+
+## Step-by-step Setup
 
 ### 1) Checkout the code
 
@@ -50,17 +67,19 @@ cp .env.example .env
 Afterwards, set the environment variables to your liking. `DEV_UID` and `DEV_GID` are required to be set so your project
 directory will not end up with files owned by root.
 
+Both `docker-compose` and `bin/compose` will load the env from this file.
+
 ### 3) Setup database and install dependencies
 
 ```
 # Start the database. It needs to be running to run migrations and seeders
-docker-compose up -d db
+bin/compose up -d db
 
 # Install frontend dependencies
-docker-compose run frontend npm i
+bin/compose run frontend npm i
 
 # Install backend dependencies, migrate, and seed
-docker-compose run backend setup
+bin/compose run backend setup
 ```
 
 ### 4) Start the stack
@@ -68,13 +87,13 @@ docker-compose run backend setup
 The docker compose file also has the test containers defined. The easiest way to start only the development stack, use
 
 ```
-docker-compose up frontend
+bin/compose up frontend
 ```
 
 To see the backend logs as well, use
 
 ```
-docker-compose up frontend backend
+bin/compose up frontend backend
 ```
 
 This starts only the frontend and backend containers and their dependencies. This excludes the testing containers, which
@@ -117,13 +136,25 @@ If you want to reset the data you can delete the docker volumes via `docker volu
 Start all linked containers and migrate the test database first:
 
 ```
-docker-compose up backend-test 
+bin/compose up backend-test
 ```
 
 Afterwards, you can start the tests in the running `backend-test` container:
 
 ```
-docker-compose run backend-test bundle exec rspec
+bin/compose run backend-test bundle exec rspec
+```
+
+or for running a particular test
+
+```
+bin/compose run backend-test bundle exec rspec path/to/some_spec.rb
+```
+
+You can run specific tests too. For instance:
+
+```
+docker-compose run backend-test bundle exec rspec spec/features/work_package_show_spec.rb
 ```
 
 Tests are ran within Selenium containers, on a small local Selenium grid. You can connect to the containers via VNC if
@@ -152,3 +183,20 @@ If the backend container is already running, it will be stopped.
 Instead it will be started in the foreground.
 This way you can debug using pry just as if you had started the server locally using `rails s`.
 You can stop it simply with Ctrl + C too.
+
+## Updates
+
+When a dependency of the image or the base image itself is changed you may need
+rebuild the image. For instance when the Ruby version is updated you may run into
+an error like the following when running `bin/compose setup`:
+
+```
+Creating core_backend_run ... done
+Your Ruby version is 2.7.1, but your Gemfile specified ~> 2.7.3
+```
+
+This means that the current image is out-dated. You can update it like this:
+
+```
+bin/compose build --pull
+```

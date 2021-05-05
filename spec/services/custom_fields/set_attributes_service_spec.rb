@@ -55,7 +55,7 @@ describe CustomFields::SetAttributesService, type: :model do
   let(:contract_class) do
     allow(CustomFields::CreateContract)
       .to receive(:new)
-      .with(cf_instance, user, options: { changed_by_system: [] })
+      .with(cf_instance, user, options: {})
     .and_return(contract_instance)
 
     CustomFields::CreateContract

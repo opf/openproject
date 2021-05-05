@@ -1,56 +1,45 @@
-<div class="op-modal--portal confirm-form-submit--modal  ngdialog-theme-openproject">
-  <div class="op-modal--modal-container confirm-dialog--modal loading-indicator--location -slim"
-       data-indicator-name="modal"
-       tabindex="0">
-    <div class="op-modal--modal-header">
-      <a class="op-modal--modal-close-button" *ngIf="showClose">
-        <i
-            class="icon-close"
-            (click)="closeMe($event)"
-            [attr.title]="text.close_popup">
-        </i>
-      </a>
-      <h3 class="icon-context icon-add" [textContent]="text.title"></h3>
+<div
+  class="op-modal confirm-form-submit--modal loading-indicator--location"
+  data-indicator-name="modal"
+>
+  <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
+
+  <div class="op-modal--body">
+    <div *ngIf="showWarning && warningText"
+         class="notification-box -warning">
+      <div class="notification-box--content">
+        <p [innerHTML]="warningText"></p>
+      </div>
     </div>
 
-    <div class="ngdialog-body op-modal--modal-body">
-      <div *ngIf="showWarning && warningText"
-           class="notification-box -warning">
-        <div class="notification-box--content">
-          <p [innerHTML]="warningText"></p>
-        </div>
-      </div>
-
-        <div class="form--field">
-          <div class="form--field-container">
-            <div class="form--select-container">
-              <label class="form--label" [textContent]="actionService.label"></label>
-              <ndc-dynamic [ndcDynamicComponent]="autocompleterComponent()"
-                           [ndcDynamicInputs]="{ availableValues: availableValues,
-                                                 typeahead: requests.input$,
-                                                 appendTo: 'body',
-                                                 model: '',
-                                                 classes: 'new-list--action-select',
-                                                 finishedLoading: true}"
-                           [ndcDynamicOutputs]="referenceOutputs">
-              </ndc-dynamic>
-            </div>
+      <div class="form--field">
+        <div class="form--field-container">
+          <div class="form--select-container">
+            <label class="form--label" [textContent]="actionService.label"></label>
+            <ndc-dynamic [ndcDynamicComponent]="autocompleterComponent()"
+                         [ndcDynamicInputs]="{ availableValues: availableValues,
+                                               typeahead: requests.input$,
+                                               appendTo: 'body',
+                                               model: '',
+                                               classes: 'new-list--action-select',
+                                               finishedLoading: true}"
+                         [ndcDynamicOutputs]="referenceOutputs">
+            </ndc-dynamic>
           </div>
         </div>
-
-    </div>
-    <div class="op-modal--modal-footer">
-      <button class="button -highlight"
-              (click)="create()"
-              [disabled]="!this.selectedAttribute || inFlight"
-              [textContent]="text.button_add"
-              [attr.title]="text.button_add">
-      </button>
-      <button class="confirm-form-submit--cancel button"
-              (click)="closeMe($event)"
-              [textContent]="text.button_cancel"
-              [attr.title]="text.button_cancel">
-      </button>
-    </div>
+      </div>
+  </div>
+  <div class="op-modal--footer">
+    <button class="button -highlight"
+            (click)="create()"
+            [disabled]="!this.selectedAttribute || inFlight"
+            [textContent]="text.button_add"
+            [attr.title]="text.button_add">
+    </button>
+    <button class="confirm-form-submit--cancel button"
+            (click)="closeMe($event)"
+            [textContent]="text.button_cancel"
+            [attr.title]="text.button_cancel">
+    </button>
   </div>
 </div>

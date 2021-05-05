@@ -31,7 +31,7 @@ require 'spec_helper'
 describe 'Project templates', type: :feature, js: true do
   describe 'making project a template' do
     let(:project) { FactoryBot.create :project }
-    using_shared_fixtures :admin
+    shared_let(:admin) { FactoryBot.create :admin }
 
     before do
       login_as admin
@@ -57,18 +57,25 @@ describe 'Project templates', type: :feature, js: true do
   end
 
   describe 'instantiating templates' do
-    let!(:template) {
+    let!(:template) do
       FactoryBot.create(:template_project, name: 'My template', enabled_module_names: %w[wiki work_package_tracking])
-    }
+    end
     let!(:template_status) { FactoryBot.create(:project_status, project: template, explanation: 'source') }
     let!(:other_project) { FactoryBot.create(:project, name: 'Some other project') }
     let!(:work_package) { FactoryBot.create :work_package, project: template }
     let!(:wiki_page) { FactoryBot.create(:wiki_page_with_content, wiki: template.wiki) }
 
-    let!(:role) { FactoryBot.create(:role, permissions: %i[view_project view_work_packages copy_projects add_subprojects add_project]) }
+    let!(:role) do
+      FactoryBot.create(:role, permissions: %i[view_project view_work_packages copy_projects add_subprojects add_project])
+    end
     let!(:current_user) { FactoryBot.create(:user, member_in_projects: [template, other_project], member_through_role: role) }
     let(:status_field_selector) { 'ckeditor-augmented-textarea[textarea-selector="#project_status_explanation"]' }
     let(:status_description) { ::Components::WysiwygEditor.new status_field_selector }
+
+    let(:name_field) { ::FormFields::InputFormField.new :name }
+    let(:template_field) { ::FormFields::SelectFormField.new :use_template }
+    let(:status_field) { ::FormFields::SelectFormField.new :status }
+    let(:parent_field) { ::FormFields::SelectFormField.new :parent }
 
     before do
       login_as current_user
@@ -77,45 +84,28 @@ describe 'Project templates', type: :feature, js: true do
     it 'can instantiate the project with the copy permission' do
       visit new_project_path
 
-      fill_in 'project[name]', with: 'Foo bar'
+      name_field.set_value 'Foo bar'
 
-      # Choosing template reloads the page and sets advanced settings
-      select 'My template', from: 'project-select-template'
+      template_field.select_option 'My template'
 
-      # It reloads the page without any warning dialog and keeps the name
-      expect(page).to have_field 'Name', with: 'Foo bar'
-      expect(page).to have_select 'project-select-template', selected: 'My template'
+      sleep 1
+
+      # It keeps the name
+      name_field.expect_value 'Foo bar'
+      template_field.expect_selected 'My template'
 
       # Updates the identifier in advanced settings
-      page.find('#advanced-settings').click
-      expect(page).to have_field 'project_identifier', with: 'foo-bar'
-      expect(page).to have_select 'project_status_code', selected: 'On track'
-
-      # Changing the template now causes a dialog
-      select '(none)', from: 'project-select-template'
-      page.driver.browser.switch_to.alert.accept
-
-      # Choosing template reloads the page and sets advanced settings
-      select 'My template', from: 'project-select-template'
-
-      # It reloads the page without any warning dialog and keeps the name
-      expect(page).to have_field 'Name', with: 'Foo bar'
-      expect(page).to have_select 'project-select-template', selected: 'My template'
-
-      # Expend advanced settings
-      page.find('#advanced-settings').click
-      expect(page).to have_field 'project_identifier', with: 'foo-bar'
-      expect(page).to have_select 'project_status_code', selected: 'On track'
+      page.find('.form--fieldset-legend', text: 'ADVANCED SETTINGS').click
+      status_field.expect_selected 'On track'
 
       # Update status to off track
-      select 'Off track', from: 'project_status_code'
-      select other_project.name, from: 'project_parent_id'
+      status_field.select_option 'Off track'
+      parent_field.select_option other_project.name
 
-      click_on 'Create'
+      page.find('button:not([disabled])', text: 'Save').click
 
-      expect(page).to have_content I18n.t('project.template.copying')
+      expect(page).to have_content I18n.t(:label_copy_project)
       expect(page).to have_content I18n.t('js.job_status.generic_messages.in_queue')
-      expect(page).to have_current_path /\/job_statuses\/[\w-]+/
 
       # Email notification should be sent
       perform_enqueued_jobs
@@ -126,7 +116,7 @@ describe 'Project templates', type: :feature, js: true do
 
       expect(mail).not_to be_nil
 
-      expect(page).to have_current_path '/projects/foo-bar/', wait: 20
+      expect(page).to have_current_path /\/projects\/foo-bar\/?/, wait: 20
 
       project = Project.find_by identifier: 'foo-bar'
       expect(project.name).to eq 'Foo bar'
@@ -145,4 +135,3 @@ describe 'Project templates', type: :feature, js: true do
     end
   end
 end
-

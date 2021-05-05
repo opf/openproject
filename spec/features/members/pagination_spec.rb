@@ -29,62 +29,83 @@
 require 'spec_helper'
 
 feature 'members pagination', type: :feature, js: true do
-  using_shared_fixtures :admin
-  let!(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1' }
+  shared_let(:admin) { FactoryBot.create :admin }
+  let(:project) do
+    FactoryBot.create :project,
+                      name: 'Project 1',
+                      identifier: 'project1',
+                      members: project_members
+  end
+  let(:project_members) {
+    {
+      bob => manager,
+      alice => developer
+    }
+  }
 
   let!(:peter) { FactoryBot.create :user, firstname: 'Peter', lastname: 'Pan' }
-  let!(:bob)   { FactoryBot.create :user, firstname: 'Bob', lastname: 'Bobbit' }
-  let!(:alice) { FactoryBot.create :user, firstname: 'Alice', lastname: 'Alison' }
+  let(:bob)   { FactoryBot.create :user, firstname: 'Bob', lastname: 'Bobbit' }
+  let(:alice) { FactoryBot.create :user, firstname: 'Alice', lastname: 'Alison' }
 
-  let!(:manager)   { FactoryBot.create :role, name: 'Manager' }
-  let!(:developer) { FactoryBot.create :role, name: 'Developer' }
+  let(:manager)   { FactoryBot.create :role, name: 'Manager' }
+  let(:developer) { FactoryBot.create :role, name: 'Developer' }
 
   let(:members_page) { Pages::Members.new project.identifier }
 
-  before do
-    allow(User).to receive(:current).and_return admin
+  current_user { admin }
 
-    project.add_member! bob, [manager]
-    project.add_member! alice, [developer]
+  context 'when adding a member' do
+    it 'paginates' do
+      members_page.set_items_per_page! 2
+
+      members_page.visit!
+      SeleniumHubWaiter.wait
+      expect(members_page).to have_user 'Alice Alison' # members are sorted by last name desc
+      members_page.add_user! 'Peter Pan', as: 'Manager'
+
+      SeleniumHubWaiter.wait
+      members_page.go_to_page! 2
+      expect(members_page).to have_user 'Peter Pan'
+    end
   end
 
-  scenario 'paginating after adding a member' do
-    members_page.set_items_per_page! 2
+  context 'when removing a member' do
+    let(:project_members) {
+      {
+        bob => manager,
+        alice => developer,
+        peter => manager
+      }
+    }
 
-    members_page.visit!
-    SeleniumHubWaiter.wait
-    members_page.add_user! 'Peter Pan', as: 'Manager'
+    it 'paginates' do
+      members_page.set_items_per_page! 1
 
-    SeleniumHubWaiter.wait
-    members_page.go_to_page! 2
-    expect(members_page).to have_user 'Alice Alison' # members are sorted by last name desc
+      members_page.visit!
+      SeleniumHubWaiter.wait
+      members_page.remove_user! 'Alice Alison'
+      expect(members_page).to have_user 'Bob Bobbit'
+
+      SeleniumHubWaiter.wait
+      members_page.go_to_page! 2
+      expect(members_page).to have_user 'Peter Pan'
+    end
   end
 
-  scenario 'Paginating after removing a member' do
-    project.add_member! peter, [manager]
-    members_page.set_items_per_page! 1
+  context 'when updating a member' do
+    it 'paginates' do
+      members_page.set_items_per_page! 1
 
-    members_page.visit!
-    SeleniumHubWaiter.wait
-    members_page.remove_user! 'Peter Pan'
-    expect(members_page).to have_user 'Bob Bobbit'
+      members_page.visit!
+      SeleniumHubWaiter.wait
+      members_page.go_to_page! 2
+      members_page.edit_user! 'Bob Bobbit', add_roles: ['Developer']
+      expect(page).to have_text 'Successful update'
+      expect(members_page).to have_user 'Bob Bobbit', roles: ['Developer', 'Manager']
 
-    SeleniumHubWaiter.wait
-    members_page.go_to_page! 2
-    expect(members_page).to have_user 'Alice Alison'
-  end
-
-  scenario 'Paginating after updating a member' do
-    members_page.set_items_per_page! 1
-
-    members_page.visit!
-    SeleniumHubWaiter.wait
-    members_page.edit_user! 'Bob Bobbit', add_roles: ['Developer']
-    expect(page).to have_text 'Successful update'
-    expect(members_page).to have_user 'Bob Bobbit', roles: ['Developer', 'Manager']
-
-    SeleniumHubWaiter.wait
-    members_page.go_to_page! 2
-    expect(members_page).to have_user 'Alice Alison'
+      SeleniumHubWaiter.wait
+      members_page.go_to_page! 1
+      expect(members_page).to have_user 'Alice Alison'
+    end
   end
 end

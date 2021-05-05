@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 export const globalSearchWorkPackagesSelectorEntry = 'global-search-work-packages-entry';
 

@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ApplicationRef, ComponentFactoryResolver, ComponentRef, Injectable, Injector} from "@angular/core";
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import { ApplicationRef, ComponentFactoryResolver, ComponentRef, Injectable, Injector } from "@angular/core";
+import { DynamicBootstrapper } from "core-app/globals/dynamic-bootstrapper";
 
 @Injectable()
 export class CKEditorPreviewService {
@@ -47,22 +47,22 @@ export class CKEditorPreviewService {
    */
   public render(hostElement:HTMLElement, preview:string):() => void {
     hostElement.innerHTML = preview;
-    let refs:ComponentRef<any>[] = [];
+    const refs:ComponentRef<any>[] = [];
 
     DynamicBootstrapper
       .getEmbeddable()
       .forEach((entry) => {
-      const matchedElements = hostElement.querySelectorAll(entry.selector);
+        const matchedElements = hostElement.querySelectorAll(entry.selector);
 
-      for (let i = 0, l = matchedElements.length; i < l; i++) {
-        const factory = this.componentFactoryResolver.resolveComponentFactory(entry.cls);
-        const componentRef = factory.create(this.injector, [], matchedElements[i]);
+        for (let i = 0, l = matchedElements.length; i < l; i++) {
+          const factory = this.componentFactoryResolver.resolveComponentFactory(entry.cls);
+          const componentRef = factory.create(this.injector, [], matchedElements[i]);
 
-        refs.push(componentRef);
-        this.appRef.attachView(componentRef.hostView);
-        componentRef.changeDetectorRef.detectChanges();
-      }
-    });
+          refs.push(componentRef);
+          this.appRef.attachView(componentRef.hostView);
+          componentRef.changeDetectorRef.detectChanges();
+        }
+      });
 
     return () => {
       refs.forEach(ref => {

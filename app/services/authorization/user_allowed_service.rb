@@ -113,7 +113,7 @@ class Authorization::UserAllowedService
   # Only users that are not locked may be granted actions
   # with the exception of a temporary-granted system user
   def authorizable_user?
-    user.active_or_registered? || user.is_a?(SystemUser)
+    !user.locked? || user.is_a?(SystemUser)
   end
 
   def has_authorized_role?(action, project = nil)

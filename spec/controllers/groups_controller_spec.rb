@@ -30,14 +30,15 @@
 require 'spec_helper'
 
 describe GroupsController, type: :controller do
-  let(:group) { FactoryBot.create :group }
+  let(:group) { FactoryBot.create :group, members: group_members }
+  let(:group_members) { [] }
 
   before do
     login_as current_user
   end
 
   context 'as admin' do
-    using_shared_fixtures :admin
+    shared_let(:admin) { FactoryBot.create :admin }
     let(:current_user) { admin }
 
     it 'should index' do
@@ -81,7 +82,10 @@ describe GroupsController, type: :controller do
     end
 
     it 'should destroy' do
-      delete :destroy, params: { id: group.id }
+      perform_enqueued_jobs do
+        delete :destroy, params: { id: group.id }
+      end
+
       expect { group.reload }.to raise_error ActiveRecord::RecordNotFound
 
       expect(response).to redirect_to groups_path
@@ -100,10 +104,9 @@ describe GroupsController, type: :controller do
     context 'with a group member' do
       let(:user1) { FactoryBot.create :user }
       let(:user2) { FactoryBot.create :user }
+      let(:group_members) { [user1] }
 
       it 'should add users' do
-        group.add_members! user1
-
         post :add_users, params: { id: group.id, user_ids: [user2.id] }
         expect(group.reload.users.count).to eq 2
       end
@@ -177,9 +180,9 @@ describe GroupsController, type: :controller do
     end
 
     it 'should forbid create' do
-      expect {
+      expect do
         post :create, params: { group: { lastname: 'New group' } }
-      }.not_to change { Group.count }
+      end.not_to change { Group.count }
 
       expect(response).not_to be_successful
       expect(response.status).to eq 403

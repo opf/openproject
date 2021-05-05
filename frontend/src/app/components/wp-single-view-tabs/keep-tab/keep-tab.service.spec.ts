@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {KeepTabService} from './keep-tab.service';
+import { KeepTabService } from './keep-tab.service';
 
 describe('keepTab service', () => {
   let callback:(transition:any) => void;
-  let includes = (path:string) => false;
+  const includes = (path:string) => false;
   let $state:any;
   let $transitions:any;
   let keepTab:KeepTabService;
@@ -95,7 +95,7 @@ describe('keepTab service', () => {
         active: 'relations',
         show: 'work-packages.show.relations',
         details: 'work-packages.partitioned.list.details.relations'
-      }
+      };
 
       keepTab.observable.subscribe(cb);
       expect(cb).toHaveBeenCalledWith(expected);

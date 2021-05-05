@@ -55,6 +55,15 @@ describe WorkPackages::BaseContract do
   end
   let(:project) { FactoryBot.build_stubbed(:project) }
   let(:current_user) { member }
+  let!(:assignable_assignees_scope) do
+    scope = double 'assignable assignees scope'
+
+    allow(Principal)
+      .to receive(:possible_assignee)
+      .and_return scope
+
+    scope
+  end
   let(:permissions) do
     %i(
       view_work_packages

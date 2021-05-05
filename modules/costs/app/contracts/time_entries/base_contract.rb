@@ -65,7 +65,7 @@ module TimeEntries
       if !model.project
         TimeEntryActivity.none
       else
-        TimeEntryActivity::Scopes::ActiveInProject.fetch(model.project)
+        TimeEntryActivity.active_in_project(model.project)
       end
     end
 

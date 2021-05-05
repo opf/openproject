@@ -110,9 +110,9 @@ describe MyController, type: :controller do
     end
 
     context 'when the user is invited' do
-      let!(:user) {
-        FactoryBot.create :user, login: login, status: Principal::STATUSES[:invited], auth_source_id: auth_source.id
-      }
+      let!(:user) do
+        FactoryBot.create :user, login: login, status: Principal.statuses[:invited], auth_source_id: auth_source.id
+      end
 
       it "should log in given user and activate it" do
         expect(response.body.squish).to have_content("Username   h.wurst")

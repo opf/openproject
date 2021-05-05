@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -34,7 +35,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.build(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }
@@ -290,7 +291,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
   end
 
   describe '#post' do
-    let(:permissions) { [:add_work_packages, :view_project] }
+    let(:permissions) { %i[add_work_packages view_project] }
     let(:status) { FactoryBot.build(:status, is_default: true) }
     let(:priority) { FactoryBot.build(:priority, is_default: true) }
     let(:parameters) do
@@ -314,17 +315,17 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
     end
 
     context 'notifications' do
-      let(:permissions) { [:add_work_packages, :view_project, :view_work_packages] }
+      let(:permissions) { %i[add_work_packages view_project view_work_packages] }
 
       it 'sends a mail by default' do
-        expect(DeliverWorkPackageNotificationJob).to have_been_enqueued
+        expect(Mails::WorkPackageJob).to have_been_enqueued
       end
 
       context 'without notifications' do
         let(:path) { "#{api_v3_paths.work_packages_by_project(project.id)}?notify=false" }
 
         it 'should not send a mail' do
-          expect(DeliverWorkPackageNotificationJob).not_to have_been_enqueued
+          expect(Mails::WorkPackageJob).not_to have_been_enqueued
         end
       end
 
@@ -332,7 +333,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
         let(:path) { "#{api_v3_paths.work_packages_by_project(project.id)}?notify=true" }
 
         it 'should send a mail' do
-          expect(DeliverWorkPackageNotificationJob).to have_been_enqueued
+          expect(Mails::WorkPackageJob).to have_been_enqueued
         end
       end
     end

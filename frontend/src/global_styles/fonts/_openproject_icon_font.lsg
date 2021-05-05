@@ -57,6 +57,7 @@
 <li><span class="icon icon-columns"></span>columns</li>
 <li><span class="icon icon-compare2"></span>compare2</li>
 <li><span class="icon icon-concept"></span>concept</li>
+<li><span class="icon icon-console-light"></span>console-light</li>
 <li><span class="icon icon-console"></span>console</li>
 <li><span class="icon icon-contacts"></span>contacts</li>
 <li><span class="icon icon-copy"></span>copy</li>
@@ -138,6 +139,7 @@
 <li><span class="icon icon-maintenance-support"></span>maintenance-support</li>
 <li><span class="icon icon-meetings"></span>meetings</li>
 <li><span class="icon icon-menu"></span>menu</li>
+<li><span class="icon icon-merge-branch"></span>merge-branch</li>
 <li><span class="icon icon-microphone"></span>microphone</li>
 <li><span class="icon icon-milestone"></span>milestone</li>
 <li><span class="icon icon-minus1"></span>minus1</li>

@@ -64,15 +64,16 @@ class Redmine::Diff::ArrayStringDiff
     (astart..afinish).each do |aindex|
       aelem = a[aindex]
       next unless bmatches.has_key? aelem
+
       k = nil
-      bmatches[aelem].reverse_each { |bindex|
+      bmatches[aelem].reverse_each do |bindex|
         if k && (thresh[k] > bindex) && (thresh[k - 1] < bindex)
           thresh[k] = bindex
         else
           k = thresh.replacenextlarger(bindex, k)
         end
-        links[k] = [(k == 0) ? nil : links[k - 1], aindex, bindex] if k
-      }
+        links[k] = [k == 0 ? nil : links[k - 1], aindex, bindex] if k
+      end
     end
 
     if !thresh.empty?
@@ -128,7 +129,7 @@ class Redmine::Diff::ArrayStringDiff
         i += 1
         while df[i] && df[i][0] == whot && df[i][1] == last + 1
           s << df[i][2]
-          last  = df[i][1]
+          last = df[i][1]
           i += 1
         end
         curdiff.push [whot, p, s]
