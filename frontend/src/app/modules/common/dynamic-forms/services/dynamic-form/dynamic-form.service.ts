@@ -50,7 +50,6 @@ export class DynamicFormService {
     const dynamicForm = {
       fields: this._dynamicFieldsService.getConfig(formSchema, formPayload),
       model: this._dynamicFieldsService.getModel(formPayload),
-      form: new FormGroup({}),
     };
 
     return dynamicForm;

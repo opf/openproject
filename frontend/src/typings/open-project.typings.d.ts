@@ -57,9 +57,9 @@ declare namespace api {
     }
 
     interface Formattable {
-      format:string;
+      format?:string;
       raw:string;
-      html:string;
+      html?:string;
     }
   }
 }

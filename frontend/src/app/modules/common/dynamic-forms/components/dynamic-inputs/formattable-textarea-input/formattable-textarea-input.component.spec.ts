@@ -1,4 +1,4 @@
-import { fakeAsync, flush, tick } from '@angular/core/testing';
+import { discardPeriodicTasks, fakeAsync, flush, tick } from '@angular/core/testing';
 import {
   createDynamicInputFixture,
 } from "core-app/modules/common/dynamic-forms/spec/helpers";
@@ -6,7 +6,7 @@ import { By } from "@angular/platform-browser";
 // @ts-ignore
 import(/* webpackChunkName: "ckeditor" */ 'core-vendor/ckeditor/ckeditor.js');
 
-fdescribe('FormattableTextareaInputComponent', () => {
+describe('FormattableTextareaInputComponent', () => {
   it('should load the field', fakeAsync(() => {
     const fieldsConfig = [
       {
@@ -47,6 +47,13 @@ fdescribe('FormattableTextareaInputComponent', () => {
     expect(dynamicElement.classList.contains('ng-untouched')).toBeTrue();
     expect(dynamicElement.classList.contains('ng-valid')).toBeTrue();
     expect(dynamicElement.classList.contains('ng-pristine')).toBeTrue();
+
+    fixture.detectChanges();
+    tick(1000);
+    flush();
+
+    // Discard any editor intervals
+    discardPeriodicTasks();
   }));
 });
 

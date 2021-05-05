@@ -34,18 +34,18 @@ lt:
       remove: "Pašalinti %{name}"
       active: "Aktyvus %{label} %{name}"
     backup:
-      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      attachments_disabled: Prisegti failai negalėjo būti įtraukti, nes jie viršija maksimalių bendrą leidžiamą dydį. Jūs galite tai pakeisti konfigūracijoje (reikia perstartuoti serverį).
       info: >
-        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+        Jūs čia galite pradėti atsarginės kopijos darymą. Šis procesas gali užtrukti šiek tiek laiko priklausomai nuo jūsų turimų duomenų kiekio (ypač priedų). Kai jis bus baigtas, gausite el. pašto laišką.
       note: >
-        A new backup will override any previous one. Only a limited number of backups per day can be requested.
-      last_backup: Last backup
-      last_backup_from: Last backup from
-      title: Backup OpenProject
+        Nauja atsarginė kopija perrašys senąją. Per dieną galima prašyti tik riboto kiekio atsarginių kopijų.
+      last_backup: 'Paskutinė atsarginė kopija:'
+      last_backup_from: Paskutinė atsarginė kopija nuo
+      title: OpenProject atsarginė kopija
       options: Nustatymai
-      include_attachments: Include attachments
-      download_backup: Download backup
-      request_backup: Request backup
+      include_attachments: Įtraukti priedus
+      download_backup: Atsiųsti atsarginę kopiją
+      request_backup: Prašyti atsarginės kppijos
     close_popup_title: "Užverti iškylantį langą"
     close_filter_title: "Užverti filtrą"
     close_form_title: "Užverti formą"
@@ -521,6 +521,9 @@ lt:
       work_package_belongs_to: 'Šis darbų paketas priklauso projektui %{projectname}.'
       click_to_switch_context: 'Atidaryti darbų paketą tame projekte.'
       confirm_template_load: 'Šablono pakeitimas perkraus puslapį ir jūs prarasite visą šioje formoje įvesta informaciją. Tęsti?'
+      use_template: "Naudoti šabloną"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Projekto autoužpildymas'
     text_are_you_sure: "Ar esate įsitikinę?"
@@ -1044,6 +1047,9 @@ lt:
           group: 'Grupė jau tapo %{project} dalimi. Tuo pačiu, jūs jau galite planuoti darbus su šia grupe ir pavyzdžiui priskirti jai darbo užduotis.'
         next_button: 'Tęsti'
     forms:
-      submit_success_message: 'The form was successfully submitted'
-      load_error_message: 'There was an error loading the form'
-      validation_error_message: 'Please fix the errors present in the form'
+      submit_success_message: 'Forma buvo sėkmingai nusiųsta'
+      load_error_message: 'Įkeliant formą įvyko klaida'
+      validation_error_message: 'Prašome ištaisyti klaidas formoje'
+      advanced_settings: 'Išplėstiniai nustatymai'
+
+

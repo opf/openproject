@@ -9,12 +9,12 @@ import { of } from "rxjs";
 import { FormsService } from "core-app/core/services/forms/forms.service";
 
 describe('DynamicFormService', () => {
-  let httpClient: HttpClient;
-  let httpTestingController: HttpTestingController;
+  let httpClient:HttpClient;
+  let httpTestingController:HttpTestingController;
   let dynamicFormService:DynamicFormService;
   let formsService:jasmine.SpyObj<FormsService>;
   const testFormUrl = 'http://op.com/form';
-  const formSchema:IOPFormSettings = {
+  const formSchema = {
     "_type": "Form",
     "_embedded": {
       "payload": {
@@ -70,7 +70,7 @@ describe('DynamicFormService', () => {
       }
     }
   };
-  const dynamicFormConfig:IOPDynamicFormSettings = {
+  const dynamicFormConfig = {
     "fields": [
       {
         "type": "textInput",
@@ -114,7 +114,8 @@ describe('DynamicFormService', () => {
           "title": "Parent project",
           "name": "Parent project"
         }
-      }
+      },
+      "_meta": undefined
     },
     "form": new FormGroup({}),
   };
@@ -129,7 +130,7 @@ describe('DynamicFormService', () => {
       providers: [
         DynamicFormService,
         DynamicFieldsService,
-        {provide: FormsService, useValue: formServiceSpy}
+        { provide: FormsService, useValue: formServiceSpy }
       ]
     });
     httpClient = TestBed.inject(HttpClient);
@@ -150,9 +151,8 @@ describe('DynamicFormService', () => {
         expect(
           dynamicFormConfigResponse.fields.every((field, index) => field.type === dynamicFormConfig.fields[index].type)
         )
-        .toBe(true, 'should return the dynamic fields in the schema order');
+          .toBe(true, 'should return the dynamic fields in the schema order');
         expect(dynamicFormConfigResponse.model).toEqual(dynamicFormConfig.model, 'should return the form model formatted');
-        expect(dynamicFormConfigResponse.form).toBeTruthy('should setup a FormGroup');
       });
 
     const req = httpTestingController.expectOne(testFormUrl);
@@ -171,6 +171,6 @@ describe('DynamicFormService', () => {
       .submit$(dynamicForm, testFormUrl)
       .subscribe();
 
-    expect(formsService.submit$).toHaveBeenCalledWith(dynamicForm, testFormUrl, undefined);
+    expect(formsService.submit$).toHaveBeenCalledWith(dynamicForm, testFormUrl, undefined, undefined);
   });
 });

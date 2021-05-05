@@ -934,6 +934,7 @@ pl:
     text_update_consent_time: Zaznacz to pole, aby zmusić użytkowników do ponownego wyrażenia zgody. Włącz, gdy zmieniłeś aspekt prawny powyższych informacji o udzieleniu zgody.
     update_consent_last_time: "Ostatnia aktualizacja: zgody: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Rozpoczęto kopiowanie projektu \"%{source_project_name}\" do \"%{target_project_name}\". Poinformujemy Cię przez e-mail tak szybko jak \"%{target_project_name}\" będzie dostępny."
     failed: "Nie można skopiować projektu %{source_project_name}"
     failed_internal: "Kopiowanie nie powiodło się z powodu błędu wewnętrznego."
@@ -1113,7 +1114,7 @@ pl:
   default_role_anonymous: "Anonimowy"
   default_role_developer: "Deweloper"
   default_role_project_admin: "Administrator projektu"
-  default_role_project_creator: "Twórca projektu"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "nie jest członkiem"
   default_role_reader: "Czytnik"
   default_role_member: "Członek"

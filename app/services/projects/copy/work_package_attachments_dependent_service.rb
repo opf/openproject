@@ -47,7 +47,7 @@ module Projects::Copy
       return unless state.work_package_id_lookup
 
       state.work_package_id_lookup.each do |old_wp_id, new_wp_id|
-        copy_attachments(old_wp_id, new_wp_id)
+        copy_attachments('WorkPackage', from_id: old_wp_id, to_id: new_wp_id)
       end
     end
   end

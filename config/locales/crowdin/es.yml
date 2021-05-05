@@ -926,6 +926,7 @@ es:
     text_update_consent_time: Marque esta casilla para estimular a los usuarios a dar, nuevamente, su consentimiento. Habilite cuando haya cambiado el aspecto legal de la información relativa al mencionado consentimiento.
     update_consent_last_time: "Última actualización de consentimiento: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Comenzó la copia del proyecto '%{source_project_name}' a \"%{target_project_name}\". Se le informará por correo tan pronto como esté disponible el proyecto \"%{target_project_name}\"."
     failed: "No se puede copiar proyecto %{source_project_name}"
     failed_internal: "Copia fallida debido a un error interno."
@@ -1081,7 +1082,7 @@ es:
   default_role_anonymous: "Anónimo"
   default_role_developer: "Desarrollador"
   default_role_project_admin: "Administrador de proyecto"
-  default_role_project_creator: "Creador del proyecto"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "No miembro"
   default_role_reader: "Lector"
   default_role_member: "Miembro"

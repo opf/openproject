@@ -113,7 +113,7 @@ describe ProjectsController, type: :controller do
     end
 
     context 'as user' do
-      let(:user) { FactoryBot.build(:user, member_in_project: project_b) }
+      let(:user) { FactoryBot.create(:user, member_in_project: project_b) }
 
       it_behaves_like 'successful index'
 
@@ -255,8 +255,8 @@ describe ProjectsController, type: :controller do
 
         it 'sets flash[:error]' do
           expect(flash[:error]).to include(
-            "You cannot update the project's available custom fields. The project is invalid:"
-          )
+                                     "You cannot update the project's available custom fields. The project is invalid:"
+                                   )
         end
       end
     end
@@ -325,6 +325,29 @@ describe ProjectsController, type: :controller do
 
       expect(project.reload).to be_active
       expect(project).not_to be_archived
+    end
+  end
+
+  describe '#copy' do
+    let(:project) { FactoryBot.create :project, identifier: 'blog' }
+
+    it "renders 'copy'" do
+      get 'copy', params: { id: project.id }
+      expect(response).to be_successful
+      expect(response).to render_template 'copy'
+    end
+
+    context 'as non authorized user' do
+      let(:user) { FactoryBot.build_stubbed :user }
+
+      before do
+        login_as user
+      end
+
+      it "shows an error" do
+        get 'copy', params: { id: project.id }
+        expect(response.status).to eq 403
+      end
     end
   end
 end

@@ -929,6 +929,7 @@ fi:
     text_update_consent_time: Valitse tämä ruutu pakottaaksesi käyttäjät hyväksymään suostumus uudelleen. Ota käyttöön kun olet muuttanut yllä olevia ehtoja.
     update_consent_last_time: "Suostumuksen viimeisin päivitys: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Projektin \"%{source_project_name}\" kopiointi uudeksi projektiksi \"%{target_project_name}\" alkoi. Sinulle ilmoitetaan sähköpostitse, kun \"%{target_project_name}\" on saatavilla."
     failed: "Ei voi kopioida projektia %{source_project_name}"
     failed_internal: "Copying failed due to an internal error."
@@ -1084,7 +1085,7 @@ fi:
   default_role_anonymous: "Anonyymi"
   default_role_developer: "Kehittäjä"
   default_role_project_admin: "Projektin ylläpitäjä"
-  default_role_project_creator: "Projektin luoja"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Ei jäsen"
   default_role_reader: "Lukuoikeus"
   default_role_member: "Jäsen"

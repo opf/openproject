@@ -937,6 +937,7 @@ cs:
     text_update_consent_time: Zaškrtněte toto políčko k vynucení nového souhlasu uživatele. Povolte v případě, že jste změnili právní aspekt souhlasu uvedeného výše.
     update_consent_last_time: "Poslední aktualizace souhlasu: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Začalo kopírovat projekt \"%{source_project_name}\" do \"%{target_project_name}\". Budete informováni e-mailem, jakmile bude k dispozici \"%{target_project_name}\"."
     failed: "Nebylo možné zkopírovat projekt \"%{source_project_name}\""
     failed_internal: "Kopírování se nezdařilo kvůli interní chybě."
@@ -1116,7 +1117,7 @@ cs:
   default_role_anonymous: "Anonymní"
   default_role_developer: "Vývojář"
   default_role_project_admin: "Projekt admin"
-  default_role_project_creator: "Tvůrce projektu"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Není člen"
   default_role_reader: "Čtenář"
   default_role_member: "Člen"

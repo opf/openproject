@@ -53,6 +53,7 @@ describe('DynamicFieldsService', () => {
         "name": "Subproject of",
         "required": false,
         "hasDefault": false,
+        "location": "_links",
         "writable": true,
         "_links": {
           "allowedValues": {
@@ -116,6 +117,7 @@ describe('DynamicFieldsService', () => {
         "required": false,
         "hasDefault": false,
         "writable": true,
+        "location": "_links",
         "_links": {
           "allowedValues": {
             "href": "/api/v3/projects/available_parent_projects?of=25"
@@ -138,7 +140,7 @@ describe('DynamicFieldsService', () => {
     };
 
     // @ts-ignore
-    const formModel = service.getModel(formSchema, formPayload);
+    const formModel = service.getModel(formPayload);
     const titleName = formModel.title;
     const parentProjectName = !Array.isArray(formModel._links!.parent) && formModel._links!.parent!.name;
     const childrenProjectsNames = Array.isArray(formModel._links!.children) && formModel._links!.children!.map((childProject: IOPFieldModel) => childProject.name);
@@ -209,7 +211,7 @@ describe('DynamicFieldsService', () => {
 
     expect(formGroup).toBeTruthy();
     expect(formGroup.wrappers![0]).toEqual('op-dynamic-field-group-wrapper', 'should add the form field group wrapper');
-    expect(formGroup.fieldGroupClassName).toEqual('op-form--field-group', 'should add the CSS class to the field group wrapper');
+    expect(formGroup.fieldGroupClassName).toEqual('op-form-group', 'should add the CSS class to the field group wrapper');
     expect(formGroup.templateOptions!.label).toEqual('People', 'should add the correct label to the field group wrapper');
     expect(formGroup.fieldGroup![0].key).toEqual('name', 'should add the correct key to the field group wrapper');
   });

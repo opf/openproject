@@ -34,6 +34,9 @@ interface IOPFormModel {
   _links?: {
     [key: string]: IOPFieldModel | IOPFieldModel[] | null;
   };
+  _meta?:{
+    [key:string]:string|number|Object|HalLinkSource|null|undefined;
+  }
 }
 
 interface IOPFieldSchema {
@@ -46,7 +49,7 @@ interface IOPFieldSchema {
   minLength?: number,
   maxLength?: number,
   attributeGroup?: string;
-  location?: '_links' | string;
+  location?: '_meta'|'_links'|undefined;
   options: {
     [key: string]: any;
   };

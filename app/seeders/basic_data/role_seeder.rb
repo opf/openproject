@@ -187,9 +187,13 @@ module BasicData
 
     def project_creator
       {
-        name: I18n.t(:default_role_project_creator),
+        name: I18n.t(:default_role_project_creator_and_staff_manager),
         position: 6,
-        permissions: [:add_project]
+        permissions: %i[
+          add_project
+          manage_user
+          manage_placeholder_user
+        ]
       }
     end
   end

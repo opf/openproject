@@ -4,7 +4,7 @@
 >
   <op-modal-header (close)="close.emit()">{{ text.title() }}</op-modal-header>
 
-  <div class="op-modal--body">
+  <div class="op-modal--body op-form">
     <op-form-field
       [label]="text.label[type]"
       required
@@ -48,6 +48,14 @@
         {{ text.required[type] }}
       </div>
     </op-form-field>
+
+    <op-dynamic-form
+      *ngIf="isNewPrincipal && type === PrincipalType.User && userDynamicFieldConfig.schema"
+      [dynamicFormGroup]="dynamicFieldsControl"
+      [settings]="userDynamicFieldConfig"
+      [resourcePath]="pathHelper.usersPath()"
+      [handleSubmit]="false"
+    ></op-dynamic-form>
   </div>
 
   <div class="op-modal--footer">

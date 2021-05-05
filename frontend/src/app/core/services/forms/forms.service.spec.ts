@@ -5,9 +5,9 @@ import { HttpClient } from "@angular/common/http";
 import { FormBuilder } from "@angular/forms";
 
 describe('FormsService', () => {
-  let service: FormsService;
-  let httpClient: HttpClient;
-  let httpTestingController: HttpTestingController;
+  let service:FormsService;
+  let httpClient:HttpClient;
+  let httpTestingController:HttpTestingController;
   const testFormUrl = 'http://op.com/form';
   const formModel = {
     "name": "Project 1",
@@ -93,11 +93,12 @@ describe('FormsService', () => {
   });
 
   it('should set the backend errors in the FormGroup', () => {
-    const form = formBuilder.group({
+    const form= formBuilder.group({
       ...formModel,
       _links: formBuilder.group(formModel._links),
     });
-    const backEndErrorResponse = { error: {
+    const backEndErrorResponse = {
+      error: {
         "_type": "Error",
         "errorIdentifier": "urn:openproject-org:api:v3:errors:MultipleErrors",
         "message": "Multiple field constraints have been violated.",
@@ -125,9 +126,11 @@ describe('FormsService', () => {
             },
           ]
         }
-      }, status: 422 }
+      }, status: 422
+    };
+
     // @ts-ignore
-    service._handleFormErrors(backEndErrorResponse, form);
+    service._handleBackendFormValidationErrors(backEndErrorResponse, form);
 
     expect(form.get('name')!.invalid).toBe(true);
     expect(form.get('_links')!.get('parent')!.invalid).toBe(true);

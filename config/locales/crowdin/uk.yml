@@ -937,6 +937,7 @@ uk:
     text_update_consent_time: Установіть цей прапорець, щоб примусити користувачів знову погодитися. Увімкнути, коли ви змінили юридичний аспект інформації про згоду вище.
     update_consent_last_time: "Останнє оновлення згоди: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Почалось копіювання проекту \"%{source_project_name}\" у \"%{target_project_name}\". Вас буде проінформовано за допомогою електронної пошти як тільки \"%{target_project_name}\" буде доступний."
     failed: "Неможливо скопіювати проект %{source_project_name}"
     failed_internal: "Copying failed due to an internal error."
@@ -1116,7 +1117,7 @@ uk:
   default_role_anonymous: "Анонімний режим"
   default_role_developer: "Розробник"
   default_role_project_admin: "Адміністратор проекту"
-  default_role_project_creator: "Творець проекту"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Не учасник"
   default_role_reader: "Читач"
   default_role_member: "Учасник"

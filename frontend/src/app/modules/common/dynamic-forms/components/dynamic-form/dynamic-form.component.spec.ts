@@ -1,7 +1,7 @@
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
 import { Component, forwardRef, ViewChild } from "@angular/core";
-import { ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { By } from "@angular/platform-browser";
 import { defer, of } from "rxjs";
 import { FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from "@angular/forms";
@@ -22,9 +22,11 @@ import { DateInputComponent } from "core-app/modules/common/dynamic-forms/compon
 import { FormattableTextareaInputComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/formattable-textarea-input.component";
 import { DynamicFieldGroupWrapperComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-field-group-wrapper/dynamic-field-group-wrapper.component";
 import { OpFormFieldComponent } from "core-app/modules/common/forms/form-field/form-field.component";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 @Component({
-  template: `<op-dynamic-form [formControl]="control"></op-dynamic-form>`,
+  template: `
+    <op-dynamic-form [formControl]="control"></op-dynamic-form>`,
   providers: []
 })
 class DynamicFormsTestingComponent {
@@ -34,9 +36,9 @@ class DynamicFormsTestingComponent {
 }
 
 describe('DynamicFormComponent', () => {
-  let component: DynamicFormComponent;
-  let fixture: ComponentFixture<DynamicFormComponent>;
-  const formSchema:IOPFormSettings = {
+  let component:DynamicFormComponent;
+  let fixture:ComponentFixture<DynamicFormComponent>;
+  const formSchema:any = {
     "_type": "Form",
     "_embedded": {
       "payload": {
@@ -92,7 +94,7 @@ describe('DynamicFormComponent', () => {
       }
     }
   };
-  const dynamicFormSettings = {
+  const dynamicFormSettings:any = {
     fields: [
       {
         "type": "textInput",
@@ -267,14 +269,14 @@ describe('DynamicFormComponent', () => {
       }
     },
     form: new FormGroup({}),
-  }
+  };
   const I18nServiceStub = {
     t: function(key:string) {
       return 'test translation';
     }
-  }
+  };
   const apiV3Base = 'http://www.openproject.com/api/v3/';
-  const IPathHelperServiceStub = { api:{ v3: { apiV3Base }}};
+  const IPathHelperServiceStub = { api: { v3: { apiV3Base } } };
   let notificationsService:jasmine.SpyObj<NotificationsService>;
   let dynamicFormService:jasmine.SpyObj<DynamicFormService>;
 
@@ -286,6 +288,7 @@ describe('DynamicFormComponent', () => {
       .configureTestingModule({
         imports: [
           CommonModule,
+          HttpClientTestingModule,
           ReactiveFormsModule,
           FormlyModule.forRoot({
             types: [
@@ -355,21 +358,21 @@ describe('DynamicFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get the form schema from the backend when no @Input settings', fakeAsync(() => {
+  it('sould get the form schema from the backend when no @Input settings', fakeAsync(() => {
     // @ts-ignore
     dynamicFormService.getSettingsFromBackend$.and.returnValue(defer(() => Promise.resolve(dynamicFormSettings)));
 
-    component.ngOnChanges();
+    component.resourcePath = '/api/v3/projects/1234/form';
+    component.ngOnChanges({});
 
     expect(dynamicFormService.getSettingsFromBackend$).toHaveBeenCalled();
 
+    fixture.detectChanges();
     flush();
 
-    fixture.detectChanges();
-
-    expect(fixture.debugElement.query(By.css('[data-qa="op-form--container"]'))).toBeTruthy()
+    expect(fixture.debugElement.query(By.css('[data-qa="op-form--container"]'))).toBeTruthy();
     expect(fixture.debugElement.queryAll(By.css('formly-form')).length).toEqual(1);
-    expect(fixture.debugElement.queryAll(By.css('op-form-field')).length).toEqual(10);
+    expect(fixture.debugElement.queryAll(By.css('formly-field')).length).toEqual(11);
     expect(fixture.debugElement.queryAll(By.css('op-text-input')).length).toEqual(2);
     expect(fixture.debugElement.queryAll(By.css('op-formattable-textarea-input')).length).toEqual(2);
     expect(fixture.debugElement.queryAll(By.css('op-select-input')).length).toEqual(2);
@@ -383,27 +386,28 @@ describe('DynamicFormComponent', () => {
     // @ts-ignore
     dynamicFormService.getSettings.and.returnValue(dynamicFormSettings);
 
+    component.resourcePath = '/api/v3/projects/1234/form';
     component.settings = {
       payload: formSchema._embedded.payload,
       schema: formSchema._embedded.schema,
     };
 
-    component.ngOnChanges();
+    component.ngOnChanges({ settings: { currentValue: component.settings } } as any);
 
     expect(dynamicFormService.getSettings).toHaveBeenCalled();
 
     fixture.detectChanges();
 
-    expect(fixture.debugElement.query(By.css('.op-form--container'))).toBeTruthy()
+    expect(fixture.debugElement.query(By.css('[data-qa="op-form--container"]'))).toBeTruthy();
     expect(fixture.debugElement.queryAll(By.css('formly-form')).length).toEqual(1);
-    expect(fixture.debugElement.queryAll(By.css('op-form-field')).length).toEqual(10);
+    expect(fixture.debugElement.queryAll(By.css('formly-field')).length).toEqual(11);
     expect(fixture.debugElement.queryAll(By.css('op-text-input')).length).toEqual(2);
     expect(fixture.debugElement.queryAll(By.css('op-formattable-textarea-input')).length).toEqual(2);
     expect(fixture.debugElement.queryAll(By.css('op-select-input')).length).toEqual(2);
     expect(fixture.debugElement.queryAll(By.css('op-date-input')).length).toEqual(1);
     expect(fixture.debugElement.queryAll(By.css('op-boolean-input')).length).toEqual(2);
     expect(fixture.debugElement.queryAll(By.css('op-integer-input')).length).toEqual(1);
-    expect(fixture.debugElement.query(By.css('button[type=submit]'))).toBeFalsy();
+    expect(fixture.debugElement.query(By.css('button[type=submit]'))).toBeTruthy();
   }));
 
   it('should submit the form and notify the user', fakeAsync(() => {
@@ -415,7 +419,8 @@ describe('DynamicFormComponent', () => {
     // Should not show notifications when showNotifications === false
     component.showNotifications = false;
 
-    component.ngOnChanges();
+    component.resourcePath = '/api/v3/projects/1234/form';
+    component.ngOnChanges({});
     flush();
     fixture.detectChanges();
     submitButton = fixture.debugElement.query(By.css('button[type=submit]'));
@@ -439,7 +444,9 @@ describe('DynamicFormComponent', () => {
     expect(dynamicFormService.submit$).toHaveBeenCalled();
     expect(notificationsService.addSuccess).toHaveBeenCalled();
 
-    dynamicFormService.submit$.and.returnValue(defer(() => { throw 'Error' }));
+    dynamicFormService.submit$.and.returnValue(defer(() => {
+      throw 'Error'
+    }));
 
     submitButton.nativeElement.click();
 
@@ -448,60 +455,6 @@ describe('DynamicFormComponent', () => {
     expect(notificationsService.addError).toHaveBeenCalled();
 
     dynamicFormService.submit$.and.returnValue(defer(() => Promise.resolve('ok')));
-  }));
-
-  it('should be able to be used as a FormControl', fakeAsync(() => {
-    const testingHostComponentFixture = TestBed.createComponent(DynamicFormsTestingComponent);
-    const testingHostComponent = testingHostComponentFixture.componentInstance;
-    const testModel = { name: 'testValue' };
-    const testModel2 = { name: 'testValue2' };
-    const testModel3 = { name: 'testValue3' };
-    const formSettings = {
-      fields: [
-        {
-          "type": "textInput",
-          "className": "op-form--field inline-edit--field",
-          "key": "name",
-          "templateOptions": {
-            "required": true,
-            "label": "Name",
-            "type": "text",
-            "placeholder": "",
-            "disabled": false
-          },
-        },
-      ],
-      model: testModel,
-      form: new FormGroup({}),
-    }
-    // @ts-ignore
-    dynamicFormService.getSettingsFromBackend$.and.returnValue(defer(() => Promise.resolve(formSettings)));
-
-    // Get @ViewChild(DynamicFormComponent) dynamicFormControl:DynamicFormComponent;
-    testingHostComponentFixture.detectChanges();
-    // Bootstrap DynamicFormComponent
-    testingHostComponent.dynamicFormControl.ngOnChanges();
-    flush();
-    // Render DynamicFormComponent
-    testingHostComponentFixture.detectChanges();
-
-    expect(testingHostComponentFixture.debugElement.query(By.css('op-dynamic-form.ng-untouched.ng-pristine.ng-valid'))).toBeTruthy('should set the default Angular form classes in the element')
-    expect(testingHostComponent.dynamicFormControl.form.value).toEqual(testModel, 'should set the initial model in the form control');
-
-    testingHostComponent.control.setValue(testModel2);
-    testingHostComponentFixture.detectChanges();
-
-    expect(testingHostComponent.dynamicFormControl.form.value).toEqual(testModel2, 'should set the model in the dynamic form group programmatically');
-
-    const dynamicFormControlInput = testingHostComponentFixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
-    dynamicFormControlInput.value = testModel3.name;
-    dynamicFormControlInput.dispatchEvent(new Event('input'));
-
-    testingHostComponentFixture.detectChanges();
-
-    expect(testingHostComponent.control.value).toEqual(testModel3, 'should update the model in the form control when a value is inputted');
-    expect(testingHostComponent.dynamicFormControl.form.value).toEqual(testModel3, 'should update the model in the dynamic form group when a value is inputted');
-    expect(testingHostComponentFixture.debugElement.query(By.css('op-dynamic-form.ng-touched.ng-dirty.ng-valid'))).toBeTruthy('should set the correct Angular form classes in the element');
   }));
 });
 

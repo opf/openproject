@@ -924,6 +924,7 @@ id:
     text_update_consent_time: Check this box to force users to consent again. Enable when you have changed the legal aspect of the consent information above.
     update_consent_last_time: "Last update of consent: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Started to copy project \"%{source_project_name}\" to \"%{target_project_name}\". You will be informed by mail as soon as \"%{target_project_name}\" is available."
     failed: "Tidak dapat meng-copy Project %{source_project_name}"
     failed_internal: "Copying failed due to an internal error."
@@ -1067,7 +1068,7 @@ id:
   default_role_anonymous: "Anonimus"
   default_role_developer: "Pengembang"
   default_role_project_admin: "Project admin"
-  default_role_project_creator: "Pencipta proyek"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Non member"
   default_role_reader: "Pembaca"
   default_role_member: "Member"

@@ -933,6 +933,7 @@ hr:
     text_update_consent_time: Potvrdite ovaj okvir da biste prisiliti korisnike da ponovno prihvate. Omogući kada promijenite pravni aspekt obavijesti pristanka iznad.
     update_consent_last_time: "Posljednja obnova odobrenja: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Started to copy project \"%{source_project_name}\" to \"%{target_project_name}\". You will be informed by mail as soon as \"%{target_project_name}\" is available."
     failed: "Nije moguće kopirati projekt %{source_project_name}"
     failed_internal: "Copying failed due to an internal error."
@@ -1100,7 +1101,7 @@ hr:
   default_role_anonymous: "Anonimno"
   default_role_developer: "Razvojni programer"
   default_role_project_admin: "Projekt administrator"
-  default_role_project_creator: "Project creator"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Nije član"
   default_role_reader: "Lektor"
   default_role_member: "Član"
