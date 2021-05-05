@@ -1,43 +1,44 @@
-<div class='pull-request'>
-  <span>
-    <div class='title'
-         [textContent]="pullRequest.title"
-         *ngIf="state !== 'partial'">
-    </div>
-
-    <div class='title' *ngIf="state === 'partial'">
-      Pull request comment
-    </div>
-
-    <span *ngIf="pullRequest.githubUser">
-      <img alt='PR author avatar' class='avatar' [src]="pullRequest.githubUser.avatarUrl" />
-      <span class='user'>
-        <a [href]="pullRequest.githubUser.htmlUrl" [textContent]="pullRequest.githubUser.login"></a>
-      </span>
-    </span>
-
-    <span class='date'>
-      Updated on:
-      <op-date-time [dateTimeValue]="pullRequest.githubUpdatedAt"></op-date-time>
-    </span>
-  </span>
-
-  <div class='details'>
-   <span class='state' [ngClass]="'state-' + state">{{state}}</span><br />
-    <a [href]="pullRequest.htmlUrl" [textContent]="pullRequest.repository + '#' + pullRequest.number"></a>
+<div class='op-pr-pull-request'>
+  <div class='op-pr-title'
+       [textContent]="pullRequest.title"
+       *ngIf="state !== 'partial'">
+  </div>
+  <div class='op-pr-title' *ngIf="state === 'partial'">
+    Pull request comment
   </div>
 
-  <div class='check-runs' *ngIf="pullRequest.checkRuns.length > 0">
+  <img alt='PR author avatar'
+       class='op-avatar'
+       [src]="pullRequest.githubUser.avatarUrl"
+       *ngIf="pullRequest.githubUser"
+  />
+  <span class='op-pr-user'>
+    <a [href]="pullRequest.githubUser.htmlUrl"
+       [textContent]="pullRequest.githubUser.login"
+       *ngIf="pullRequest.githubUser"
+    >
+    </a>
+  </span>
+
+  <span class='op-pr-date'>
+    Updated on:
+    <op-date-time [dateTimeValue]="pullRequest.githubUpdatedAt"></op-date-time>
+  </span>
+
+  <span class='op-pr-state' [ngClass]="'op-pr-state_' + state">{{state}}</span>
+  <a class='op-pr-link' [href]="pullRequest.htmlUrl" [textContent]="pullRequest.repository + '#' + pullRequest.number"></a>
+
+  <div class='op-pr-checks' *ngIf="pullRequest.checkRuns.length > 0">
     Checks
     <ul>
-      <li class='check-run' *ngFor="let checkRun of pullRequest.checkRuns">
-        <span class='check-run--avatar'><img alt='app owner avatar' [src]="checkRun.appOwnerAvatarUrl" /></span>
+      <li class='op-pr-check' *ngFor="let checkRun of pullRequest.checkRuns">
+        <span class='op-pr-check-avatar'><img alt='app owner avatar' [src]="checkRun.appOwnerAvatarUrl" /></span>
 
-        <span class='check-run--name' [textContent]="checkRun.name"></span>
+        <span class='op-pr-check-name' [textContent]="checkRun.name"></span>
 
-        <span class='check-run--status' [textContent]="checkRunState(checkRun)"></span>
+        <span class='op-pr-check-state' [textContent]="checkRunState(checkRun)"></span>
 
-        <div class='check-run--details'><a [href]="checkRun.detailsUrl">Details</a></div>
+        <div class='op-pr-check-details'><a [href]="checkRun.detailsUrl">Details</a></div>
       </li>
     </ul>
   </div>

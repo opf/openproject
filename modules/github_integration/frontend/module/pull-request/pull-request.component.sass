@@ -1,0 +1,103 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+
+@import "helpers"
+
+.op-pr-pull-request
+  display: grid
+  grid-template-columns: auto 1fr auto auto
+  grid-template-areas: "title title title state" "avatar user link link" "avatar date link link" "avatar checks checks checks"
+  margin-bottom: 24px
+
+.op-pr-title
+  @include text-shortener
+  font-weight: bold
+  grid-area: title
+  // have the same line height as the status "button" next to it
+  line-height: 34px
+
+.op-avatar
+  grid-area: avatar
+
+.op-pr-user
+  display: block
+  font-weight: bold
+  line-height: 16px
+  margin-bottom: 3px
+  grid-area: user
+
+.op-pr-date
+  display: block
+  font-size: 0.8rem
+  color: var(--gray-dark)
+  grid-area: date
+
+.op-pr-link
+  grid-area: link
+  margin-top: 6px
+
+.op-pr-state
+  grid-area: state
+  display: inline-block
+  padding: 8px
+  border-radius: 6px
+  border: 1px solid #fff
+  color: #fff
+.op-pr-state_partial, .op-pr-state_draft
+  background-color: #6a737d
+.op-pr-state_open
+  background-color: #28a745
+.op-pr-state_merged
+  background-color: #6f42c1
+.op-pr-state_closed
+  background-color: #d73a49
+
+.op-pr-checks
+  margin-top: 12px
+  grid-area: checks
+
+.op-pr-check
+  list-style-type: none
+  padding-top: 8px
+
+.op-pr-check-avatar img
+  width: 1.4em
+  height: 1.4em
+  margin-right: 5px
+  border-radius: var(--user-avatar-border-radius)
+
+.op-pr-check-state
+  margin-left: 1em
+  color: var(--gray-dark)
+  font-style: italic
+
+.op-pr-check-details
+  float: right
+  top: 10px
+  line-height: 16px
+  text-align: right

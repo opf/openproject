@@ -35,9 +35,7 @@ import { GithubCheckRunResource } from '../hal/resources/github-check-run-resour
 @Component({
   selector: 'github-pull-request',
   templateUrl: './pull-request.template.html',
-  styleUrls: [
-    './styles/pull-request.sass'
-  ]
+  styleUrls: ['./pull-request.component.sass']
 })
 export class PullRequestComponent {
   @Input() public pullRequest:HalResource;
