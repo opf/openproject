@@ -23,8 +23,15 @@ export class UiStateLinkBuilder {
 
   private build(workPackageId:string, state:string, title:string, content:string) {
     const a = document.createElement('a');
+    const selectedTabIdentifier = this.$state.params?.tabIdentifier;
 
-    a.href = this.$state.href((this.keepTab as any)[state], { workPackageId: workPackageId });
+    a.href = this.$state.href(
+      (this.keepTab as any)[state],
+      {
+        workPackageId: workPackageId,
+        ...selectedTabIdentifier && {tabIdentifier: selectedTabIdentifier},
+      }
+    );
     a.classList.add(uiStateLinkClass);
     a.dataset['workPackageId'] = workPackageId;
     a.dataset['wpState'] = state;
