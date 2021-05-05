@@ -272,7 +272,6 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   }
 
   private _setupDynamicForm({ fields, model }:IOPDynamicFormSettings) {
-    this.fields = this.fieldsSettingsPipe ? this.fieldsSettingsPipe(fields) : fields;
     this.fields = fields.map(field => ({
       ...field,
       templateOptions: {
@@ -280,6 +279,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
         helpTextAttributeScope: 'Project',
       },
     }));
+    this.fields = this.fieldsSettingsPipe ? this.fieldsSettingsPipe(fields) : fields;
     this.innerModel = model;
 
     this._changeDetectorRef.detectChanges();
