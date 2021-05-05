@@ -10,6 +10,7 @@ import { OpenProjectHeaderInterceptor } from "core-app/modules/hal/http/openproj
 import { TextInputComponent } from './components/dynamic-inputs/text-input/text-input.component';
 import { IntegerInputComponent } from './components/dynamic-inputs/integer-input/integer-input.component';
 import { SelectInputComponent } from './components/dynamic-inputs/select-input/select-input.component';
+import { SelectProjectStatusInputComponent } from "./components/dynamic-inputs/select-project-status-input/select-project-status-input.component";
 import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
 import { BooleanInputComponent } from './components/dynamic-inputs/boolean-input/boolean-input.component';
 import { DateInputComponent } from './components/dynamic-inputs/date-input/date-input.component';
@@ -33,6 +34,7 @@ import { DynamicFieldWrapperComponent } from './components/dynamic-field-wrapper
         { name: 'textInput', component: TextInputComponent },
         { name: 'dateInput', component: DateInputComponent },
         { name: 'selectInput', component: SelectInputComponent },
+        { name: 'selectProjectStatusInput', component: SelectProjectStatusInputComponent },
         { name: 'formattableInput', component: FormattableTextareaInputComponent },
       ],
       wrappers: [
@@ -66,6 +68,7 @@ import { DynamicFieldWrapperComponent } from './components/dynamic-field-wrapper
     DateInputComponent,
     DatePickerAdapterComponent,
     SelectInputComponent,
+    SelectProjectStatusInputComponent,
     FormattableTextareaInputComponent,
     FormattableControlComponent,
     DynamicFieldWrapperComponent,

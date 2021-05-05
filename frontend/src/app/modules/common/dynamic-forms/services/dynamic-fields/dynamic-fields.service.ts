@@ -94,7 +94,25 @@ export class DynamicFieldsService {
       },
       useForFields: [
         'Priority', 'Status', 'Type', 'User', 'Version', 'TimeEntriesActivity',
-        'Category', 'CustomOption', 'Project', 'ProjectStatus'
+        'Category', 'CustomOption', 'Project'
+      ]
+    },
+    {
+      config: {
+        type: 'selectProjectStatusInput',
+        className: `inline-edit--field`,
+        templateOptions: {
+          type: 'number',
+          locale: I18n.locale,
+          bindLabel: 'name',
+          searchable: true,
+        },
+        expressionProperties: {
+          'templateOptions.clearable': (model:any, formState:any, field:FormlyFieldConfig) => !field.templateOptions?.required,
+        },
+      },
+      useForFields: [
+        'ProjectStatus'
       ]
     },
   ];
