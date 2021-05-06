@@ -97,7 +97,7 @@ class BaseMailer < ActionMailer::Base
 
     def default_url_options
       options = super.merge host: host, protocol: protocol
-      unless OpenProject::Configuration.rails_relative_url_root.blank?
+      if OpenProject::Configuration.rails_relative_url_root.present?
         options[:script_name] = OpenProject::Configuration.rails_relative_url_root
       end
 

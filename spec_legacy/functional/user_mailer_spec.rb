@@ -143,41 +143,6 @@ describe UserMailer, type: :mailer do
     assert mail.encoded.include?('href')
   end
 
-  it 'should not send email without recipient' do
-    user  = FactoryBot.create(:user)
-    news  = FactoryBot.create(:news)
-
-    # notify him
-    user.pref[:no_self_notified] = false
-    user.pref.save
-    ActionMailer::Base.deliveries.clear
-    UserMailer.news_added(user, news, user).deliver_now
-    assert_equal 1, last_email.to.size
-
-    # nobody to notify
-    user.pref[:no_self_notified] = true
-    user.pref.save
-    ActionMailer::Base.deliveries.clear
-    UserMailer.news_added(user, news, user).deliver_now
-    assert ActionMailer::Base.deliveries.empty?
-  end
-
-  it 'should reply posted message id' do
-    user = FactoryBot.create(:user, preferences: { no_self_notified: false })
-    parent  = FactoryBot.create(:message)
-    message = FactoryBot.create(:message, parent: parent)
-    UserMailer.message_posted(user, message, user).deliver_now
-    mail = ActionMailer::Base.deliveries.last
-    refute_nil mail
-    assert_equal UserMailer.generate_message_id(message, user), mail.message_id
-    assert_match mail.references, UserMailer.generate_message_id(parent, user)
-    assert_select_email do
-      # link to the reply
-      assert_select 'a[href=?]',
-                    "#{Setting.protocol}://#{Setting.host_name}/topics/#{message.root.id}?r=#{message.id}#message-#{message.id}", text: message.subject
-    end
-  end
-
   context '#issue_add',
           with_settings: { available_languages: ['en', 'de'], default_language: 'de' } do
     it 'should change mail language depending on recipient language' do
@@ -210,48 +175,6 @@ describe UserMailer, type: :mailer do
       assert mail.body.encoded.include?('erstellt')
       assert_equal :de, I18n.locale
     end
-  end
-
-  it 'should news added' do
-    user = FactoryBot.create(:user)
-    news = FactoryBot.create(:news)
-    assert UserMailer.news_added(user, news, user).deliver_now
-  end
-
-  it 'should news comment added' do
-    user    = FactoryBot.create(:user)
-    news    = FactoryBot.create(:news)
-    comment = FactoryBot.create(:comment, commented: news)
-    assert UserMailer.news_comment_added(user, comment, user).deliver_now
-  end
-
-  it 'should message posted' do
-    user    = FactoryBot.create(:user)
-    message = FactoryBot.create(:message)
-    assert UserMailer.message_posted(user, message, user).deliver_now
-  end
-
-  it 'should account information' do
-    user = FactoryBot.create(:user)
-    assert UserMailer.account_information(user, 'pAsswORd').deliver_now
-  end
-
-  it 'should lost password' do
-    user  = FactoryBot.create(:user)
-    token = FactoryBot.create(:recovery_token, user: user)
-    assert UserMailer.password_lost(token).deliver_now
-  end
-
-  it 'should register' do
-    user  = FactoryBot.create(:user)
-    token = FactoryBot.create(:invitation_token, user: user)
-    Setting.host_name = 'redmine.foo'
-    Setting.protocol = 'https'
-
-    mail = UserMailer.user_signed_up(token)
-    assert mail.deliver_now
-    assert mail.body.parts[0].body.include?("https://redmine.foo/account/activate?token=#{token.value}")
-    assert mail.body.parts[1].body.include?("https://redmine.foo/account/activate?token=#{token.value}")
   end
 
   context 'with locale settings',

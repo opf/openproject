@@ -63,6 +63,8 @@ describe UserMailer, type: :mailer do
 
   shared_examples_for 'mail is sent' do
     let(:letters_sent_count) { 1 }
+    let(:mail) { deliveries.first }
+    let(:html_body) { mail.body.parts.detect { |p| p.content_type.include? 'text/html' }.body.encoded }
 
     it 'actually sends a mail' do
       expect(deliveries.size).to eql(letters_sent_count)
@@ -257,9 +259,98 @@ describe UserMailer, type: :mailer do
       end
 
       it 'includes a link to the message' do
-        expect(deliveries.first.body.encoded)
+        expect(html_body)
           .to have_link(message.subject,
                         href: topic_url(message, host: Setting.host_name, r: message.id, anchor: "message-#{message.id}"))
+      end
+    end
+
+    it_behaves_like 'does only send mails to author if permitted'
+  end
+
+  describe '#account_information' do
+    let(:pwd) { "pAsswORd" }
+
+    before do
+      UserMailer.account_information(recipient, pwd).deliver_now
+    end
+
+    it_behaves_like 'mail is sent' do
+      it 'includes the password' do
+        expect(html_body)
+          .to have_content(pwd)
+      end
+    end
+
+    it_behaves_like 'does only send mails to author if permitted'
+  end
+
+  describe '#news_added' do
+    let(:news) { FactoryBot.build_stubbed(:news) }
+
+    before do
+      UserMailer.news_added(recipient, news, user).deliver_now
+    end
+
+    it_behaves_like 'mail is sent' do
+      it 'carries a message_id' do
+        expect(mail.message_id)
+          .to eql(UserMailer.generate_message_id(news, recipient))
+      end
+    end
+
+    it_behaves_like 'does only send mails to author if permitted'
+  end
+
+  describe '#news_comment_added' do
+    let(:news) { FactoryBot.build_stubbed(:news) }
+    let(:comment) { FactoryBot.build_stubbed(:comment, commented: news) }
+
+    before do
+      UserMailer.news_comment_added(recipient, comment, user).deliver_now
+    end
+
+    it_behaves_like 'mail is sent'
+
+    it_behaves_like 'does only send mails to author if permitted'
+  end
+
+  describe '#password_lost' do
+    let(:token) { FactoryBot.build_stubbed(:recovery_token) }
+    let(:recipient) { token.user }
+
+    before do
+      UserMailer.password_lost(token).deliver_now
+    end
+
+    it_behaves_like 'mail is sent' do
+      it 'includes a link to reset' do
+        url = account_lost_password_url(host: Setting.host_name, token: token.value)
+
+        expect(html_body)
+          .to have_link(url,
+                        href: url)
+      end
+    end
+
+    it_behaves_like 'does only send mails to author if permitted'
+  end
+
+  describe '#user_signed_up' do
+    let(:token) { FactoryBot.build_stubbed(:invitation_token) }
+    let(:recipient) { token.user }
+
+    before do
+      UserMailer.user_signed_up(token).deliver_now
+    end
+
+    it_behaves_like 'mail is sent' do
+      it 'includes a link to activate' do
+        url = account_activate_url(host: Setting.host_name, token: token.value)
+
+        expect(html_body)
+          .to have_link(url,
+                        href: url)
       end
     end
 
