@@ -22,13 +22,10 @@ export interface IOPFormlyTemplateOptions extends FormlyTemplateOptions {
   helpTextAttributeScope?:string;
 }
 
-type OPInputType = 'formattableInput'|'selectInput'|'textInput'|'integerInput'|
+type OPInputType = 'formattableInput'|'selectInput'|'textInput'|'integerInput'|'floatInput'|
   'booleanInput'| 'dateInput' | 'formly-group'|'selectProjectStatusInput';
 
 export interface IOPDynamicInputTypeSettings {
   config:IOPFormlyFieldSettings,
   useForFields:OPFieldType[];
 }
-
-
-

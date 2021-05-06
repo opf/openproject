@@ -104,7 +104,7 @@ interface IOPAllowedValue {
   };
 }
 
-type OPFieldType = 'String' | 'Integer' | 'Boolean' | 'Date' | 'DateTime' | 'Formattable' |
+type OPFieldType = 'String' | 'Integer' | 'Float' | 'Boolean' | 'Date' | 'DateTime' | 'Formattable' |
   'Priority' | 'Status' | 'Type' | 'User' | 'Version' | 'TimeEntriesActivity' | 'Category' |
   'CustomOption' | 'Project' | 'ProjectStatus' | 'Password';
 
