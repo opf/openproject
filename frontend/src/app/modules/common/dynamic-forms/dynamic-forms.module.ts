@@ -9,6 +9,7 @@ import { DynamicFormComponent } from "./components/dynamic-form/dynamic-form.com
 import { OpenProjectHeaderInterceptor } from "core-app/modules/hal/http/openproject-header-interceptor";
 import { TextInputComponent } from './components/dynamic-inputs/text-input/text-input.component';
 import { IntegerInputComponent } from './components/dynamic-inputs/integer-input/integer-input.component';
+import { FloatInputComponent } from './components/dynamic-inputs/float-input/float-input.component';
 import { SelectInputComponent } from './components/dynamic-inputs/select-input/select-input.component';
 import { SelectProjectStatusInputComponent } from "./components/dynamic-inputs/select-project-status-input/select-project-status-input.component";
 import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
@@ -31,6 +32,7 @@ import { DynamicFieldWrapperComponent } from './components/dynamic-field-wrapper
       types: [
         { name: 'booleanInput', component: BooleanInputComponent },
         { name: 'integerInput', component: IntegerInputComponent },
+        { name: 'floatInput', component: FloatInputComponent },
         { name: 'textInput', component: TextInputComponent },
         { name: 'dateInput', component: DateInputComponent },
         { name: 'selectInput', component: SelectInputComponent },
@@ -64,6 +66,7 @@ import { DynamicFieldWrapperComponent } from './components/dynamic-field-wrapper
     // Input Types
     BooleanInputComponent,
     IntegerInputComponent,
+    FloatInputComponent,
     TextInputComponent,
     DateInputComponent,
     DatePickerAdapterComponent,
