@@ -25,12 +25,6 @@ export class WpTabsComponent implements OnInit {
   public canViewWatchers = false;
 
   text = {
-    tabs: {
-      overview: this.I18n.t('js.work_packages.tabs.overview'),
-      activity: this.I18n.t('js.work_packages.tabs.activity'),
-      relations: this.I18n.t('js.work_packages.tabs.relations'),
-      watchers: this.I18n.t('js.work_packages.tabs.watchers')
-    },
     details: {
       close: this.I18n.t('js.button_close_details'),
       goToFullScreen: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen'),
