@@ -133,7 +133,7 @@ describe 'Watcher tab', js: true, selenium: true do
 
     it 'should show the number of watchers [#33685]' do
       wp_table.open_full_screen_by_doubleclick(work_package)
-      expect(page).to have_selector('.wp-tabs-count', text: 1)
+      expect(page).to have_selector('.op-tab-count', text: 1)
     end
   end
 
