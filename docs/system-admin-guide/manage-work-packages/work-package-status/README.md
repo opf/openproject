@@ -26,6 +26,7 @@ A new window will open, where you will be able to specify the following:
 
 1. Name the new work package status.
 2. Define if the new work package status closes a work package (e.g. relevant when filtering for closed for packages), e.g. a work package status "rejected" will set a work package technically on closed and it will not appear in the default work package list with Open Work packages.
+   *Note: If there is a field "Progress (%)" at this place, please have a look at [this information](#use-the-work-package-status-activated).*
 3. Define if this status is set as default value when creating new work packages.
 4. Check if this status sets a **work package in read-only mode**. This means no work package attributes can be changed except the status.
 5. Set a **color** for the work package status. The color appears in the status button of the work packages or in the work package table.
@@ -37,7 +38,7 @@ A new window will open, where you will be able to specify the following:
 
 ## Edit, re-order or remove a work package status
 
-1. To **edit** an existing work package status click on the status name. 
+1. To **edit** an existing work package status click on the status' name. 
 2. To **sort** the status, e.g. in the status drop-down list of the work packages, click on the arrows to move the status up or down in the list.
 3. To **delete** the work package status click on the delete icon.
 
@@ -53,11 +54,9 @@ If you chose to use the *work package status* for progress calculations in the [
 
 ![status-settings-with-progress](image-20210222173039642.png)
 
-In the status list the button "Update work package done ratios" is shown in the status list. Clicking it will ........................................................................................................................... ...................... ........
+In the status list, the button "Update work package done ratios" is shown top right. Clicking it will update all work packages' progress values depending on their respective status and its progress percentage. Be careful, **this can't be reverted**.
 
-
-
-Furthermore, an additional column "Progress" is shown in the list.
+Furthermore, an additional column named "Progress" is shown in the list.
 
 ![status-list-when-progress-calculation-by-status-activated](image-20210222173835834.png)
 
@@ -68,17 +67,11 @@ Furthermore, an additional column "Progress" is shown in the list.
 Changing to the progress calculation by status and back to "use work package field" in the [work package settings](../work-package-settings) will have these effects on the displayed progress ratio of a work package:
 
 - Changing *to* "Use the work package status"
-  - When a progress ratio is defined for the status the work package is in: The defined progress ratio will be set
-  - When no progress ratio is defined for the status the work package is in: The progress ratio won't be changed, the manually set value will be kept.
+  - If a progress ratio is defined for the status the work package is in: The defined progress ratio will be set
+  - If no progress ratio is defined for the status the work package is in: The progress ratio won't be changed, the manually set value will be kept.
 - Changing back to "Use the work package field"
   - When a progress ratio has been set manually earlier and the status has not been to changed to a status with defined progress ratio since: The manually set value will be restored
   - When no progress ratio has been set manually earlier and the status is "Closed" (or another type of status defined as closed): The value will stay "100%".
   - In all other cases: The current value will be kept until changed manually.
 
 It may be necessary to reload the work package's page before these effects become visible.
-
-
-
-
-
-[The effect of changing a child's progress will be added soon.]
