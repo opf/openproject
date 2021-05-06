@@ -879,7 +879,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     ssrf_filter (1.0.7)
-    stackprof (0.2.16)
+    stackprof (0.2.17)
     stringex (2.8.5)
     structured_warnings (0.4.0)
     svg-graph (2.2.1)
