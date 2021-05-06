@@ -33,7 +33,7 @@ import { Tab } from 'core-app/components/wp-tabs/components/wp-tab-wrapper/tab';
   providedIn: 'root'
 })
 export class HookService {
-  private hooks:{[hook:string]:Function[]} = {};
+  private hooks:{ [hook:string]:Function[] } = {};
 
   public register(id:string, callback:Function) {
     if (!callback) {
@@ -61,13 +61,5 @@ export class HookService {
     }
 
     return results;
-  }
-
-  public registerWorkPackageTab(tab:Tab) {
-    this.register('workPackageTabs', () => tab);
-  }
-
-  public getWorkPackageTabs():Tab[] {
-    return(this.call('workPackageTabs'));
   }
 }

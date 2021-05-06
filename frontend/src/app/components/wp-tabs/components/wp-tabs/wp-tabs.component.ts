@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, Input, OnInit } from '@angular/core';
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
-import { WpTabsService } from "core-components/wp-tabs/services/wp-tabs/wp-tabs.service";
-import { Tab } from "core-app/components/wp-tabs/components/wp-tab-wrapper/tab";
+import { WorkPackageTabsService } from "core-components/wp-tabs/services/wp-tabs/wp-tabs.service";
+import { Tab, TabInstance } from "core-app/components/wp-tabs/components/wp-tab-wrapper/tab";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { StateService } from "@uirouter/angular";
 import { KeepTabService } from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
 import { UIRouterGlobals } from "@uirouter/core";
+import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
 
 @Component({
   selector: 'op-wp-tabs',
@@ -17,7 +18,9 @@ export class WpTabsComponent implements OnInit {
   @Input() workPackage:WorkPackageResource;
   @Input() view:'full'|'split';
 
-  public tabs:Tab[];
+  trackByIdentifier = AngularTrackingHelpers.trackByProperty('identifier');
+
+  public tabs:TabInstance[];
   public uiSrefBase:string;
   public canViewWatchers = false;
 
@@ -35,8 +38,9 @@ export class WpTabsComponent implements OnInit {
   };
 
   constructor(
-    readonly wpTabsService:WpTabsService,
+    readonly wpTabsService:WorkPackageTabsService,
     readonly I18n:I18nService,
+    readonly injector:Injector,
     readonly $state:StateService,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly keepTab:KeepTabService,
@@ -50,7 +54,7 @@ export class WpTabsComponent implements OnInit {
   }
 
   public switchToFullscreen():void {
-    this.$state.go(this.keepTab.currentShowState, this.$state.params);
+    this.keepTab.goCurrentShowState();
   }
 
   public close():void {

@@ -97,7 +97,7 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
     }
   }
 
-  public openListView() {
+  public openListView():void {
     var params = {
       projectPath: this.projectIdentifier
     };
@@ -106,13 +106,12 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
     this.$state.go(this.listState, params);
   }
 
-  public openDetailsView() {
-    var params = {
+  public openDetailsView():void {
+    const params = {
       workPackageId: this.wpTableFocus.focusedWorkPackage,
       projectPath: this.projectIdentifier,
     };
 
-    _.extend(params, this.$state.params);
-    this.$state.go(this.keepTab.currentDetailsState, params);
+    this.keepTab.goCurrentDetailsState(params);
   }
 }

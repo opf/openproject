@@ -26,19 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Transition} from '@uirouter/core';
-import {Component, OnInit} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {APIV3Service} from 'core-app/modules/apiv3/api-v3.service';
-import {Tab} from './tab';
-import {WpTabsService} from "core-components/wp-tabs/services/wp-tabs/wp-tabs.service";
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import { Transition } from '@uirouter/core';
+import { Component, OnInit } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { APIV3Service } from 'core-app/modules/apiv3/api-v3.service';
+import { Tab } from './tab';
+import { WorkPackageTabsService } from "core-components/wp-tabs/services/wp-tabs/wp-tabs.service";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 @Component({
   templateUrl: './wp-tab-wrapper.html',
-  selector: 'wp-tab',
+  selector: 'op-wp-tab',
 })
 export class WpTabWrapperComponent implements OnInit {
   workPackage:WorkPackageResource;
@@ -54,7 +54,7 @@ export class WpTabWrapperComponent implements OnInit {
   constructor(readonly I18n:I18nService,
                readonly $transition:Transition,
                readonly apiV3Service:APIV3Service,
-               readonly wpTabsService:WpTabsService) {}
+               readonly wpTabsService:WorkPackageTabsService) {}
 
   ngOnInit() {
     this.ndcDynamicInputs$ = this

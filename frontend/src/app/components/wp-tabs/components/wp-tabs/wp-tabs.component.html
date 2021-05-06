@@ -1,38 +1,6 @@
 <ul class="op-work-package-tabs tabrow">
   <li
-      *ngIf="view === 'split'"
-      uiSref="{{ uiSrefBase }}.overview"
-      [uiParams]="{workPackageId: workPackage.id}"
-      uiSrefActive="selected"
-  >
-    <a href="" [textContent]="text.tabs.overview"></a>
-  </li>
-  <li
-      uiSref="{{ uiSrefBase }}.activity"
-      [uiParams]="{workPackageId: workPackage.id}"
-      uiSrefActive="selected"
-  >
-    <a href="" [textContent]="text.tabs.activity"></a>
-  </li>
-  <li
-      uiSref="{{ uiSrefBase }}.relations"
-      [uiParams]="{workPackageId: workPackage.id}"
-      uiSrefActive="selected"
-  >
-    <a href="" [textContent]="text.tabs.relations"></a>
-    <op-wp-relations-count [wpId]="workPackage.id"></op-wp-relations-count>
-  </li>
-  <li
-      *ngIf="canViewWatchers"
-      uiSref="{{ uiSrefBase }}.watchers"
-      [uiParams]="{workPackageId: workPackage.id}"
-      uiSrefActive="selected"
-  >
-    <a href="" [textContent]="text.tabs.watchers"></a>
-    <op-wp-watchers-count [wpId]="workPackage.id"></op-wp-watchers-count>
-  </li>
-  <li
-      *ngFor="let tab of tabs"
+      *ngFor="let tab of tabs; trackBy:trackByIdentifier"
       uiSref="{{ uiSrefBase }}.tabs"
       [uiParams]="{workPackageId: workPackage.id, tabIdentifier: tab.identifier}"
       uiSrefActive="selected"
@@ -40,8 +8,12 @@
     <a
         href=""
         role="button"
-        [textContent]="tab.displayName"
+        [textContent]="tab.name"
     ></a>
+    <op-tab-count
+      *ngIf="tab.counter"
+      [counter]="tab.counter"
+    ></op-tab-count>
   </li>
   <ng-container *ngIf="view === 'split'">
     <li class="tab-icon">

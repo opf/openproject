@@ -71,7 +71,10 @@ export function makeSplitViewRoutes(baseRoute:string,
     {
       name: routeName + '.details',
       url: '/details/{workPackageId:[0-9]+}',
-      redirectTo: routeName + '.details.overview',
+      redirectTo: {
+        state: routeName + '.details.tabs',
+        params: { tabIdentifier: 'details' }
+      },
       reloadOnSearch: false,
       data: {
         bodyClasses: 'router--work-packages-partitioned-split-view-details',
@@ -86,48 +89,8 @@ export function makeSplitViewRoutes(baseRoute:string,
       views,
     },
     {
-      name: routeName + '.details.overview',
-      url: '/overview',
-      component: WorkPackageOverviewTabComponent,
-      data: {
-        baseRoute: baseRoute,
-        menuItem: menuItemClass,
-        parent: routeName + '.details'
-      }
-    },
-    {
-      name: routeName + '.details.activity',
-      url: '/activity',
-      component: WorkPackageActivityTabComponent,
-      data: {
-        baseRoute: baseRoute,
-        menuItem: menuItemClass,
-        parent: routeName + '.details'
-      }
-    },
-    {
-      name: routeName + '.details.relations',
-      url: '/relations',
-      component: WorkPackageRelationsTabComponent,
-      data: {
-        baseRoute: baseRoute,
-        menuItem: menuItemClass,
-        parent: routeName + '.details'
-      }
-    },
-    {
-      name: routeName + '.details.watchers',
-      url: '/watchers',
-      component: WorkPackageWatchersTabComponent,
-      data: {
-        baseRoute: baseRoute,
-        menuItem: menuItemClass,
-        parent: routeName + '.details'
-      }
-    },
-    {
       name: routeName + '.details.tabs',
-      url: '/tabs/:tabIdentifier',
+      url: '/:tabIdentifier',
       component: WpTabWrapperComponent,
       data: {
         baseRoute: baseRoute,

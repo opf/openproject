@@ -142,13 +142,6 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       });
   }
 
-  public tabs():Tab[] {
-    return _.filter(
-      this.hooks.getWorkPackageTabs(),
-      (tab) => tab.displayable(this.workPackage)
-    );
-  }
-
   /**
    * Recompute the current tab focus label
    */
