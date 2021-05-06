@@ -1,5 +1,68 @@
-<li *ngFor="let tab of tabs" [uiSref]="uiSref"
-    [uiParams]="{workPackageId: workPackage.id, tabIdentifier: tab.identifier}"
-    uiSrefActive="selected">
-  <a href="" [textContent]="tab.displayName"></a>
-</li>
+<ul class="op-work-package-tabs tabrow">
+  <li
+      *ngIf="view === 'split'"
+      uiSref="{{ uiSrefBase }}.overview"
+      [uiParams]="{workPackageId: workPackage.id}"
+      uiSrefActive="selected"
+  >
+    <a href="" [textContent]="text.tabs.overview"></a>
+  </li>
+  <li
+      uiSref="{{ uiSrefBase }}.activity"
+      [uiParams]="{workPackageId: workPackage.id}"
+      uiSrefActive="selected"
+  >
+    <a href="" [textContent]="text.tabs.activity"></a>
+  </li>
+  <li
+      uiSref="{{ uiSrefBase }}.relations"
+      [uiParams]="{workPackageId: workPackage.id}"
+      uiSrefActive="selected"
+  >
+    <a href="" [textContent]="text.tabs.relations"></a>
+    <op-wp-relations-count [wpId]="workPackage.id"></op-wp-relations-count>
+  </li>
+  <li
+      *ngIf="canViewWatchers"
+      uiSref="{{ uiSrefBase }}.watchers"
+      [uiParams]="{workPackageId: workPackage.id}"
+      uiSrefActive="selected"
+  >
+    <a href="" [textContent]="text.tabs.watchers"></a>
+    <op-wp-watchers-count [wpId]="workPackage.id"></op-wp-watchers-count>
+  </li>
+  <li
+      *ngFor="let tab of tabs"
+      uiSref="{{ uiSrefBase }}.tabs"
+      [uiParams]="{workPackageId: workPackage.id, tabIdentifier: tab.identifier}"
+      uiSrefActive="selected"
+  >
+    <a
+        href=""
+        role="button"
+        [textContent]="tab.displayName"
+    ></a>
+  </li>
+  <ng-container *ngIf="view === 'split'">
+    <li class="tab-icon">
+      <accessible-by-keyboard
+          (execute)="switchToFullscreen()"
+          [linkAriaLabel]="text.details.goToFullScreen"
+          [linkTitle]="text.details.goToFullScreen"
+          linkClass="work-packages--details-fullscreen-icon"
+          spanClass="icon-context icon-to-fullscreen"
+      >
+      </accessible-by-keyboard>
+    </li>
+    <li class="tab-icon">
+      <accessible-by-keyboard
+          (execute)="close()"
+          [linkAriaLabel]="text.details.close"
+          [linkTitle]="text.details.close"
+          linkClass="work-packages--details-close-icon"
+          spanClass="icon-context icon-close"
+      >
+      </accessible-by-keyboard>
+    </li>
+  </ng-container>
+</ul>

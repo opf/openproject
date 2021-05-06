@@ -5,8 +5,8 @@ import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
-  templateUrl: './wp-relations-count.html',
-  selector: 'wp-watchers-count',
+  templateUrl: './tab-count.html',
+  selector: 'op-wp-watchers-count',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkPackageWatchersCountComponent extends UntilDestroyedMixin implements OnInit {

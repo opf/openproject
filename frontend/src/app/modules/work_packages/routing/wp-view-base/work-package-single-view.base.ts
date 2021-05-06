@@ -161,8 +161,4 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
     return this.focusAnchorLabel = tabLabel;
   }
-
-  public canViewWorkPackageWatchers() {
-    return !!(this.workPackage && this.workPackage.watchers);
-  }
 }
