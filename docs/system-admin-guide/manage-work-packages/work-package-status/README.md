@@ -46,17 +46,17 @@ A new window will open, where you will be able to specify the following:
 <div class="alert alert-info" role="alert">
 **Note**: A new status needs to be activated in the [work package workflows](../work-package-workflows) in order to appear in the status drop down of a work package.
 </div>
-<<<<<<< Updated upstream
-=======
-
 
 ## "Use the work package status" activated
 
-If you chose to use the work package status for progress calculations in the [work package settings (#4)](../work-package-settings) you will find **another option ("Progress (%)")** in a status' settings. Here you can define which progress ratio should be shown for a work package in this status.
+If you chose to use the *work package status* for progress calculations in the [work package settings (#4)](../work-package-settings) you will find **another option ("Progress (%)")** in a status' settings. Here you can define which progress ratio should be shown for a work package in this status.
 
 ![status-settings-with-progress](image-20210222173039642.png)
 
 In the status list the button "Update work package done ratios" is shown in the status list. Clicking it will ........................................................................................................................... ...................... ........
+
+
+
 Furthermore, an additional column "Progress" is shown in the list.
 
 ![status-list-when-progress-calculation-by-status-activated](image-20210222173835834.png)
@@ -79,5 +79,6 @@ It may be necessary to reload the work package's page before these effects becom
 
 
 
+
+
 [The effect of changing a child's progress will be added soon.]
->>>>>>> Stashed changes
