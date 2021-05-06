@@ -64,6 +64,13 @@ Settings::Definition.define do
       admin: true,
       writable: false
 
+  add :scm,
+      format: :hash,
+      value: {},
+      api: false,
+      admin: true,
+      writable: false
+
   # Configuration default values
   {
     'attachments_storage' => 'file',

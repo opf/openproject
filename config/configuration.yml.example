@@ -200,7 +200,7 @@ default:
 
   # Grace period until uploaded but unassigned (i.e. to a container like work packages,
   # wiki pages) attachments are deleted (in minutes)
-  # attachment_grace_period: 180
+  # attachments_grace_period: 180
 
   # Configuration of the autologin cookie.
   # autologin_cookie_name: the name of the cookie (default: autologin)
