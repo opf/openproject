@@ -31,12 +31,12 @@ require 'spec_helper'
 describe WorkPackage, type: :model do
   describe ActionMailer::Base do
     let(:user_1) do
-      FactoryBot.build(:user,
+      FactoryBot.create(:user,
                        mail: 'dlopper@somenet.foo',
                        member_in_project: project)
     end
     let(:user_2) do
-      FactoryBot.build(:user,
+      FactoryBot.create(:user,
                        mail: 'jsmith@somenet.foo',
                        member_in_project: project)
     end

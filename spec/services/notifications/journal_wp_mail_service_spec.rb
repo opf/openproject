@@ -33,7 +33,7 @@ describe Notifications::JournalWpMailService do
   let(:project) { FactoryBot.create(:project_with_types) }
   let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
   let(:author) do
-    FactoryBot.build(:user,
+    FactoryBot.create(:user,
                      mail_notification: 'none',
                      member_in_project: project,
                      member_through_role: role)

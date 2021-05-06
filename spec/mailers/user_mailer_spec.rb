@@ -155,6 +155,16 @@ describe UserMailer, type: :mailer do
         expect(deliveries.first['Auto-Submitted'].value)
           .to eql 'auto-generated'
       end
+
+      it 'carries a message_id' do
+        expect(deliveries.first.message_id)
+          .to eql(UserMailer.generate_message_id(journal, recipient))
+      end
+
+      it 'does not reference' do
+        expect(deliveries.first.references)
+          .to be_nil
+      end
     end
 
     it_behaves_like 'does only send mails to author if permitted'
@@ -165,7 +175,17 @@ describe UserMailer, type: :mailer do
       UserMailer.work_package_updated(recipient, journal, user).deliver_now
     end
 
-    it_behaves_like 'mail is sent'
+    it_behaves_like 'mail is sent' do
+      it 'carries a message_id' do
+        expect(deliveries.first.message_id)
+          .to eql(UserMailer.generate_message_id(journal, recipient))
+      end
+
+      it 'references the message_id' do
+        expect(deliveries.first.references)
+          .to eql UserMailer.generate_message_id(journal, recipient)
+      end
+    end
 
     it_behaves_like 'does only send mails to author if permitted'
   end
@@ -184,7 +204,7 @@ describe UserMailer, type: :mailer do
     end
   end
 
-  describe :wiki_content_added do
+  describe '#wiki_content_added' do
     let(:wiki_content) { FactoryBot.create(:wiki_content) }
 
     before do
@@ -207,6 +227,40 @@ describe UserMailer, type: :mailer do
 
     it 'should link to the latest version diff page' do
       expect(deliveries.first.body.encoded).to include 'diff/1'
+    end
+
+    it_behaves_like 'does only send mails to author if permitted'
+  end
+
+  describe '#message_posted' do
+    let(:message) do
+      FactoryBot.build_stubbed(:message).tap do |msg|
+        allow(msg)
+          .to receive(:project)
+                .and_return(msg.forum.project)
+      end
+    end
+
+    before do
+      UserMailer.message_posted(recipient, message, user).deliver_now
+    end
+
+    it_behaves_like 'mail is sent' do
+      it 'carries a message_id' do
+        expect(deliveries.first.message_id)
+          .to eql(UserMailer.generate_message_id(message, recipient))
+      end
+
+      it 'has no references' do
+        expect(deliveries.first.references)
+          .to be_nil
+      end
+
+      it 'includes a link to the message' do
+        expect(deliveries.first.body.encoded)
+          .to have_link(message.subject,
+                        href: topic_url(message, host: Setting.host_name, r: message.id, anchor: "message-#{message.id}"))
+      end
     end
 
     it_behaves_like 'does only send mails to author if permitted'

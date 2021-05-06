@@ -3,7 +3,7 @@ class Export < ApplicationRecord
     :job_status,
     -> { where(reference_type: "Export") },
     class_name: "JobStatus::Status",
-    foreign_key: :reference
+    foreign_key: :reference_id
   )
 
   def ready?

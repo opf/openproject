@@ -34,7 +34,7 @@ See docs/COPYRIGHT.rdoc for more details.
   %>
   <% if @waiting_period %>
     &nbsp;
-    <%= t(:mail_body_backup_waiting_period hours: @waiting_period.in_hours.to_i) %>
+    <%= t(:mail_body_backup_waiting_period, hours: @waiting_period.in_hours.to_i) %>
   <% end %>
 </p>
 

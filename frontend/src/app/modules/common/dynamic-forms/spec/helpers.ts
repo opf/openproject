@@ -5,6 +5,7 @@ import { CommonModule } from "@angular/common";
 import { TextInputComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/text-input/text-input.component";
 import { IntegerInputComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/integer-input/integer-input.component";
 import { SelectInputComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/select-input/select-input.component";
+import { SelectProjectStatusInputComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/select-project-status-input/select-project-status-input.component";
 import { BooleanInputComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/boolean-input/boolean-input.component";
 import { DateInputComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/date-input/date-input.component";
 import { FormattableTextareaInputComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/formattable-textarea-input.component";
@@ -64,6 +65,7 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
             { name: 'textInput', component: TextInputComponent },
             { name: 'integerInput', component: IntegerInputComponent },
             { name: 'selectInput', component: SelectInputComponent },
+            { name: 'selectProjectStatusInput', component: SelectProjectStatusInputComponent },
             { name: 'booleanInput', component: BooleanInputComponent },
             { name: 'dateInput', component: DateInputComponent },
             { name: 'formattableInput', component: FormattableTextareaInputComponent },
@@ -82,6 +84,7 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
         TextInputComponent,
         IntegerInputComponent,
         SelectInputComponent,
+        SelectProjectStatusInputComponent,
         BooleanInputComponent,
         OpFormFieldComponent,
         DateInputComponent,

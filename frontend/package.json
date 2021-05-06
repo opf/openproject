@@ -71,8 +71,8 @@
     "@uirouter/core": "^6.0.7",
     "@uirouter/rx": "^0.6.5",
     "@w11k/ngx-componentdestroyed": "^5.0.2",
-    "@xeokit/xeokit-bim-viewer": "^1.8.6",
-    "@xeokit/xeokit-sdk": "^1.3.91",
+    "@xeokit/xeokit-bim-viewer": "2.2.0-alpha.4",
+    "@xeokit/xeokit-sdk": "1.8.3-alpha.4",
     "autoprefixer": "^9.6.1",
     "browserslist": "^4.9.1",
     "cdk-drag-scroll": "^0.0.6",
@@ -125,6 +125,7 @@
     "serve-test": "node --max_old_space_size=8096 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --disable-host-check --public-host http://frontend-test:4200",
     "pretest": "./scripts/link_plugin_placeholder.js",
     "test": "ng test --watch=false",
+    "test-watch": "ng test --watch=true",
     "lint": "eslint -c .eslintrc.js --ext .ts src/app/",
     "generate-typings": "tsc -d -p src/tsconfig.app.json"
   }

@@ -162,41 +162,6 @@ describe UserMailer, type: :mailer do
     assert ActionMailer::Base.deliveries.empty?
   end
 
-  it 'should issue add message id' do
-    user  = FactoryBot.create(:user)
-    issue = FactoryBot.create(:work_package)
-    mail = UserMailer.work_package_added(user, issue.journals.first, user)
-    mail.deliver_now
-    refute_nil mail
-    assert_equal UserMailer.generate_message_id(issue, user), mail.message_id
-    assert_nil mail.references
-  end
-
-  it 'should work package updated message id' do
-    user  = FactoryBot.create(:user)
-    issue = FactoryBot.create(:work_package)
-    journal = issue.journals.first
-    UserMailer.work_package_updated(user, journal).deliver_now
-    mail = ActionMailer::Base.deliveries.last
-    refute_nil mail
-    assert_equal UserMailer.generate_message_id(journal, user), mail.message_id
-    assert_match mail.references, UserMailer.generate_message_id(journal.journable, user)
-  end
-
-  it 'should message posted message id' do
-    user = FactoryBot.create(:user, preferences: { no_self_notified: false })
-    message = FactoryBot.create(:message)
-    UserMailer.message_posted(user, message, user).deliver_now
-    mail = ActionMailer::Base.deliveries.last
-    refute_nil mail
-    assert_equal UserMailer.generate_message_id(message, user), mail.message_id
-    assert_nil mail.references
-    assert_select_email do
-      # link to the message
-      assert_select 'a[href*=?]', "#{Setting.protocol}://#{Setting.host_name}/topics/#{message.id}", text: message.subject
-    end
-  end
-
   it 'should reply posted message id' do
     user = FactoryBot.create(:user, preferences: { no_self_notified: false })
     parent  = FactoryBot.create(:message)

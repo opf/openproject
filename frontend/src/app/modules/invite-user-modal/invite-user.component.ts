@@ -11,7 +11,7 @@ import { OpModalLocalsMap } from 'core-app/modules/modal/modal.types';
 import { OpModalComponent } from 'core-app/modules/modal/modal.component';
 import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
-import { ApiV3FilterBuilder } from "core-components/api/api-v3/api-v3-filter-builder";
+import { PrincipalData } from "core-app/modules/principal/principal-types";
 import { RoleResource } from "core-app/modules/hal/resources/role-resource";
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
@@ -49,7 +49,10 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
 
   public type:PrincipalType|null = null;
   public project:ProjectResource|null = null;
-  public principal:HalResource|null = null;
+  public principalData:PrincipalData = {
+    principal: null,
+    customFields: {},
+  };
   public role:RoleResource|null = null;
   public message = '';
   public createdNewPrincipal = false;
@@ -90,8 +93,8 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
     this.goTo(Steps.Principal);
   }
 
-  onPrincipalSave({ principal, isAlreadyMember }:{ principal:any, isAlreadyMember:boolean }) {
-    this.principal = principal;
+  onPrincipalSave({ principalData, isAlreadyMember }:{ principalData:PrincipalData, isAlreadyMember:boolean }) {
+    this.principalData = principalData;
     if (isAlreadyMember) {
       return this.closeWithPrincipal();
     }
@@ -115,10 +118,10 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   }
 
   onSuccessfulSubmission($event:{ principal:HalResource }) {
-    if (this.principal !== $event.principal && this.type === PrincipalType.User) {
+    if (this.principalData.principal !== $event.principal && this.type === PrincipalType.User) {
       this.createdNewPrincipal = true;
     }
-    this.principal = $event.principal;
+    this.principalData.principal = $event.principal;
     this.goTo(Steps.Success);
   }
 
@@ -127,7 +130,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   }
 
   closeWithPrincipal() {
-    this.data = this.principal;
+    this.data = this.principalData.principal;
     this.closeMe();
   }
 }

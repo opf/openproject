@@ -3,3 +3,7 @@ import {PlaceholderUserResource} from "core-app/modules/hal/resources/placeholde
 import {GroupResource} from "core-app/modules/hal/resources/group-resource";
 
 export type PrincipalLike = UserResource|PlaceholderUserResource|GroupResource|{ id?:string, name:string, href?:string };
+export interface PrincipalData {
+  principal: PrincipalLike|null;
+  customFields: {[key:string]: any}, 
+}

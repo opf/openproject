@@ -33,7 +33,7 @@ describe ::API::V3::Budgets::BudgetRepresenter do
 
   let(:project) { FactoryBot.build(:project, id: 999) }
   let(:user) do
-    FactoryBot.build(:user,
+    FactoryBot.create(:user,
                      member_in_project: project,
                      created_at: 1.day.ago,
                      updated_at: Date.today)
