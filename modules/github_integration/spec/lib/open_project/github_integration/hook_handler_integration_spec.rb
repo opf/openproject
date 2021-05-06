@@ -159,10 +159,10 @@ describe OpenProject::GithubIntegration::HookHandler do
       expect(pull_request.work_packages).to eq [work_packages[0]]
 
       expect(github_user).to have_attributes(
-                               github_login: 'test_user',
-                               github_html_url: 'https://github.com/test_user',
-                               github_avatar_url: 'https://avatars.githubusercontent.com/u/206108?v=4'
-                             )
+        github_login: 'test_user',
+        github_html_url: 'https://github.com/test_user',
+        github_avatar_url: 'https://avatars.githubusercontent.com/u/206108?v=4'
+      )
     end
   end
 
@@ -537,11 +537,11 @@ describe OpenProject::GithubIntegration::HookHandler do
       it_behaves_like 'it does not create a pull request'
     end
 
-    context 'when an PR comment was edited' do
+    context 'when a PR comment was edited' do
       let(:payload) do
         webhook_payload(
           'issue_comment',
-          'create',
+          'edited',
           body: "A PR comment mentioning OP##{work_packages[0].id}"
         )
       end
