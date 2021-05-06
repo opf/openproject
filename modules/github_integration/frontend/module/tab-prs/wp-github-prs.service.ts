@@ -26,28 +26,26 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { Injectable } from '@angular/core';
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { WorkPackageLinkedResourceCache } from 'core-components/wp-single-view-tabs/wp-linked-resource-cache.service';
 
-@Component({
-  selector: 'tab-header',
-  templateUrl: './tab-header.template.html',
-  styleUrls: [
-    './styles/tab-header.sass'
-  ]
-})
-export class TabHeaderComponent {
-  @Input() public workPackage:WorkPackageResource;
+@Injectable()
+export class WorkPackagesGithubPrsService extends WorkPackageLinkedResourceCache<HalResource[]> {
 
-  public text = {
-    title: this.I18n.t('js.github_integration.tab_header.title'),
-    createPrButtonLabel: this.I18n.t('js.github_integration.tab_header.create_pr.label'),
-    createPrButtonDescription: this.I18n.t('js.github_integration.tab_header.create_pr.description'),
-    gitMenuLabel: this.I18n.t('js.github_integration.tab_header.copy_menu.label'),
-    gitMenuDescription: this.I18n.t('js.github_integration.tab_header.copy_menu.description'),
-  };
+  constructor(public ConfigurationService:ConfigurationService) {
+    super();
+  }
 
-  constructor(readonly I18n:I18nService) {
+  protected load(workPackage:WorkPackageResource):Promise<HalResource[]> {
+    return workPackage.github_pull_requests.$update().then((data:any) => {
+      return this.sortList(data.elements);
+    });
+  }
+
+  protected sortList(pullRequests:HalResource[], attr = 'createdAt'):HalResource[] {
+    return _.sortBy(_.flatten(pullRequests), attr);
   }
 }

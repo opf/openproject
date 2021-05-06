@@ -33,12 +33,19 @@ describe GithubPullRequest do
     it { is_expected.to validate_presence_of :number }
     it { is_expected.to validate_presence_of :repository }
     it { is_expected.to validate_presence_of :state }
+    it { is_expected.to validate_presence_of :title }
+    it { is_expected.to validate_presence_of :github_updated_at }
 
     context 'when it is not a partial pull request' do
-      subject { described_class.new(state: 'open') }
+      subject do
+        described_class.new(changed_files_count: 5,
+                            body: 'something',
+                            comments_count: 4,
+                            review_comments_count: 3,
+                            additions_count: 2,
+                            deletions_count: 1)
+      end
 
-      it { is_expected.to validate_presence_of :github_updated_at }
-      it { is_expected.to validate_presence_of :title }
       it { is_expected.to validate_presence_of :body }
       it { is_expected.to validate_presence_of :comments_count }
       it { is_expected.to validate_presence_of :review_comments_count }
@@ -54,20 +61,6 @@ describe GithubPullRequest do
       it { is_expected.not_to allow_value([{ 'name' => 'grey' }]).for(:labels) }
       it { is_expected.not_to allow_value([{}]).for(:labels) }
     end
-  end
-
-  describe '.complete' do
-    subject { described_class.complete }
-
-    let(:open) { FactoryBot.create(:github_pull_request, :open) }
-    let(:merged) { FactoryBot.create(:github_pull_request, :closed_merged) }
-    let(:closed) { FactoryBot.create(:github_pull_request, :closed_unmerged) }
-    let(:partial) { FactoryBot.create(:github_pull_request, :partial) }
-    let(:all_pull_requests) { [open, merged, closed, partial] }
-
-    before { all_pull_requests }
-
-    it { is_expected.to match_array [open, merged, closed] }
   end
 
   describe '.without_work_package' do
@@ -88,22 +81,68 @@ describe GithubPullRequest do
   end
 
   describe '#partial?' do
-    context 'when the state is partial' do
-      subject { described_class.new(state: 'partial').partial? }
+    context 'when the body is set' do
+      subject { described_class.new(body: 'something').partial? }
 
-      it { is_expected.to be true }
+      it { is_expected.to be_falsey }
     end
 
-    context 'when the state is open' do
-      subject { described_class.new(state: 'open').partial? }
+    context 'when the comments_count is set' do
+      subject { described_class.new(comments_count: 5).partial? }
 
-      it { is_expected.to be false }
+      it { is_expected.to be_falsey }
     end
 
-    context 'when the state is closed' do
-      subject { described_class.new(state: 'closed').partial? }
+    context 'when the review_comments_count is set' do
+      subject { described_class.new(review_comments_count: 5).partial? }
 
-      it { is_expected.to be false }
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when the additions_count is set' do
+      subject { described_class.new(additions_count: 5).partial? }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when the deletions_count is set' do
+      subject { described_class.new(deletions_count: 5).partial? }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when the changed_files_count is set' do
+      subject { described_class.new(changed_files_count: 5).partial? }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when the all of the above are nil set and the state is open' do
+      subject do
+        described_class.new(changed_files_count: nil,
+                            body: nil,
+                            comments_count: nil,
+                            review_comments_count: nil,
+                            additions_count: nil,
+                            deletions_count: nil,
+                            state: 'open').partial?
+      end
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'when the all of the above are nil set and the state is closed' do
+      subject do
+        described_class.new(changed_files_count: nil,
+                            body: nil,
+                            comments_count: nil,
+                            review_comments_count: nil,
+                            additions_count: nil,
+                            deletions_count: nil,
+                            state: 'closed').partial?
+      end
+
+      it { is_expected.to be_truthy }
     end
   end
 

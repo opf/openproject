@@ -53,6 +53,9 @@ export class APIV3WorkPackagePaths extends CachableAPIV3Resource<WorkPackageReso
   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/available_projects
   public readonly available_projects = this.subResource('available_projects');
 
+  // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/github_pull_requests
+  public readonly github_pull_requests = this.subResource('github_pull_requests');
+
   protected createCache():StateCacheService<WorkPackageResource> {
     return (this.parent as APIV3WorkPackagesPaths).cache;
   }

@@ -26,28 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 
-@Component({
-  selector: 'tab-header',
-  templateUrl: './tab-header.template.html',
-  styleUrls: [
-    './styles/tab-header.sass'
-  ]
-})
-export class TabHeaderComponent {
-  @Input() public workPackage:WorkPackageResource;
+export class GithubUserResource extends HalResource {
+  public get state() {
+    return this.states.projects.get(this.id!) as any;
+  }
 
-  public text = {
-    title: this.I18n.t('js.github_integration.tab_header.title'),
-    createPrButtonLabel: this.I18n.t('js.github_integration.tab_header.create_pr.label'),
-    createPrButtonDescription: this.I18n.t('js.github_integration.tab_header.create_pr.description'),
-    gitMenuLabel: this.I18n.t('js.github_integration.tab_header.copy_menu.label'),
-    gitMenuDescription: this.I18n.t('js.github_integration.tab_header.copy_menu.description'),
-  };
-
-  constructor(readonly I18n:I18nService) {
+  /**
+   * Exclude the schema _link from the linkable Resources.
+   */
+  public $linkableKeys():string[] {
+    return _.without(super.$linkableKeys(), 'schema');
   }
 }

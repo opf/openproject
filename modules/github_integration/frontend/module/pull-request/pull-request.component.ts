@@ -26,20 +26,42 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import { Component, Input } from '@angular/core';
 import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import { TabComponent } from 'core-app/components/wp-tabs/components/wp-tab-wrapper/tab';
+import { GithubCheckRunResource } from '../hal/resources/github-check-run-resource';
+import { IGithubPullRequestResource } from "../../../../../../../../modules/github_integration/frontend/module/typings";
 
 @Component({
-  selector: 'github-tab',
-  templateUrl: './github-tab.template.html'
+  selector: 'github-pull-request',
+  templateUrl: './pull-request.template.html',
+  styleUrls: ['./pull-request.component.sass']
 })
-export class GitHubTabComponent implements TabComponent {
-  @Input() public workPackage:WorkPackageResource;
+export class PullRequestComponent {
+  @Input() public pullRequest:IGithubPullRequestResource;
+
+  public text = {
+    label_updated_on: this.I18n.t('js.label_updated_on'),
+    label_details: this.I18n.t('js.label_details'),
+    label_actions: this.I18n.t('js.github_integration.github_actions'),
+  };
 
   constructor(readonly PathHelper:PathHelperService,
               readonly I18n:I18nService) {
+  }
+
+  get state() {
+    if (this.pullRequest.state === 'open') {
+      return (this.pullRequest.draft ? 'draft' : 'open');
+    } else {
+      return(this.pullRequest.merged ? 'merged' : 'closed');
+    }
+  }
+
+  public checkRunState(checkRun:GithubCheckRunResource) {
+    /* Github apps can *optionally* add an output object (and a title) which is the most relevant information to display.
+       If that is not present, we can display the conclusion (which is present only on finished runs).
+       If that is not present, we can always fall back to the status. */
+    return(checkRun.outputTitle || checkRun.conclusion || checkRun.status);
   }
 }

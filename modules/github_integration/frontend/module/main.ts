@@ -36,6 +36,8 @@ import {TabHeaderComponent} from './tab-header/tab-header.component';
 import {TabPrsComponent} from './tab-prs/tab-prs.component';
 import {GitActionsMenuDirective} from './git-actions-menu/git-actions-menu.directive';
 import {GitActionsMenuComponent} from './git-actions-menu/git-actions-menu.component';
+import { WorkPackagesGithubPrsService } from './tab-prs/wp-github-prs.service';
+import { PullRequestComponent } from './pull-request/pull-request.component';
 
 function displayable(work_package: WorkPackageResource): boolean {
   return(!!work_package.github);
@@ -59,6 +61,7 @@ export function initializeGithubIntegrationPlugin(injector:Injector) {
     OpenprojectCommonModule
   ],
   providers: [
+    WorkPackagesGithubPrsService
   ],
   declarations: [
     GitHubTabComponent,
@@ -66,6 +69,7 @@ export function initializeGithubIntegrationPlugin(injector:Injector) {
     TabPrsComponent,
     GitActionsMenuDirective,
     GitActionsMenuComponent,
+    PullRequestComponent
   ],
   exports: [
     GitHubTabComponent,

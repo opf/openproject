@@ -168,4 +168,7 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
   protected createCache():WorkPackageCache {
     return new WorkPackageCache(this.injector, this.states.workPackages);
   }
+
+  // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/available_projects
+  public readonly available_projects = this.subResource('available_projects');
 }

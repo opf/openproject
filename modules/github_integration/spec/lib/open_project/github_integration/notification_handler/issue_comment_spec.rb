@@ -67,21 +67,27 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
   let(:work_package) { FactoryBot.create :work_package }
 
   before do
-    allow(handler_instance).to receive(:comment_on_referenced_work_packages).and_return(nil)
-    allow(OpenProject::GithubIntegration::Services::UpsertPartialPullRequest).to receive(:new)
-                                                                              .and_return(upsert_partial_pull_request_service)
-    allow(upsert_partial_pull_request_service).to receive(:call).and_return(nil)
+    allow(handler_instance)
+      .to receive(:comment_on_referenced_work_packages)
+            .and_return(nil)
+    allow(OpenProject::GithubIntegration::Services::UpsertPartialPullRequest)
+      .to receive(:new)
+            .and_return(upsert_partial_pull_request_service)
+    allow(upsert_partial_pull_request_service)
+      .to receive(:call)
+            .and_return(nil)
   end
 
   shared_examples_for 'upserting a GithubPullRequest' do
     it 'calls the UpsertPartialPullRequest service' do
       process
-      expect(upsert_partial_pull_request_service).to have_received(:call).with(
-        github_html_url: pr_html_url,
-        number: pr_number,
-        repository: repo_full_name,
-        work_packages: [work_package]
-      )
+      expect(upsert_partial_pull_request_service)
+        .to have_received(:call) do |received_payload, work_packages:|
+        expect(received_payload.to_h)
+          .to eql payload
+        expect(work_packages)
+          .to match_array [work_package]
+      end
     end
   end
 
@@ -155,12 +161,13 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
 
       it 'calls the UpsertPartialPullRequest service without adding already known work_packages' do
         process
-        expect(upsert_partial_pull_request_service).to have_received(:call).with(
-          github_html_url: pr_html_url,
-          number: pr_number,
-          repository: repo_full_name,
-          work_packages: []
-        )
+        expect(upsert_partial_pull_request_service)
+          .to have_received(:call) do |received_payload, work_packages:|
+          expect(received_payload.to_h)
+            .to eql payload
+          expect(work_packages)
+            .to match_array []
+        end
       end
     end
   end
@@ -213,12 +220,13 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
 
       it 'calls the UpsertPartialPullRequest service without adding already known work_packages' do
         process
-        expect(upsert_partial_pull_request_service).to have_received(:call).with(
-          github_html_url: pr_html_url,
-          number: pr_number,
-          repository: repo_full_name,
-          work_packages: []
-        )
+        expect(upsert_partial_pull_request_service)
+          .to have_received(:call) do |received_payload, work_packages:|
+          expect(received_payload.to_h)
+            .to eql payload
+          expect(work_packages)
+            .to match_array []
+        end
       end
     end
   end
