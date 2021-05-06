@@ -39,7 +39,7 @@ class AdminUserSeeder < Seeder
   end
 
   def applicable?
-    User.admin.empty?
+    User.not_builtin.admin.empty?
   end
 
   def not_applicable_message
